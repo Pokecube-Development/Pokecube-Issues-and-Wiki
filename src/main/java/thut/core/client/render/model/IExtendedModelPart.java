@@ -21,19 +21,26 @@ public interface IExtendedModelPart extends IModelCustom
     {
         order.clear();
         order.addAll(parts.keySet());
-        order.sort((s1, s2) ->
-        {
+        order.sort((s1, s2) -> {
             final IExtendedModelPart o1 = parts.get(s1);
             final IExtendedModelPart o2 = parts.get(s2);
             boolean transp1 = false;
             boolean transp2 = false;
             for (final Material m : o1.getMaterials())
             {
+                if (m == null)
+                {
+                    continue;
+                }
                 transp1 = m.transluscent || m.alpha < 1;
                 if (transp1) break;
             }
             for (final Material m : o2.getMaterials())
             {
+                if (m == null)
+                {
+                    continue;
+                }
                 transp2 = m.transluscent || m.alpha < 1;
                 if (transp2) break;
             }
@@ -65,8 +72,7 @@ public interface IExtendedModelPart extends IModelCustom
 
     default void preProcess()
     {
-        for (final IExtendedModelPart o : this.getSubParts().values())
-            o.preProcess();
+        for (final IExtendedModelPart o : this.getSubParts().values()) o.preProcess();
     }
 
     default void sort(final List<String> order)
@@ -74,8 +80,8 @@ public interface IExtendedModelPart extends IModelCustom
         IExtendedModelPart.sort(order, this.getSubParts());
     }
 
-
     Vector3 minBound();
+
     Vector3 maxBound();
 
     Vector4 getDefaultRotations();

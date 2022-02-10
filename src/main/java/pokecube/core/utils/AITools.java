@@ -29,10 +29,14 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.IPokedamage;
+import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
 
 public class AITools
 {
+
+    public static final ResourceLocation AGRESSIVE = new ResourceLocation("pokecube", "aggressive");
+
     public static class AgroCheck implements Predicate<IPokemob>
     {
         @Override
@@ -44,9 +48,11 @@ public class AITools
                 wildAgress = wildAgress && ThutCore.newRandom().nextInt(PokecubeCore.getConfig().mobAgroRate) == 0;
             else wildAgress = false;
             // Check if the mob should always be agressive.
-            if (!tame && !wildAgress && input.getEntity().tickCount % 20 == 0)
-                wildAgress = input.getEntity().getPersistentData().getBoolean("alwaysAgress");
-            return wildAgress;
+            if (!tame && !wildAgress && input.getEntity().tickCount % 20 == 0
+                    && input.getEntity().getPersistentData().getBoolean("alwaysAgress"))
+                return true;
+            if (wildAgress) return ItemList.is(AGRESSIVE, input.getEntity());
+            return false;
         }
     }
 
