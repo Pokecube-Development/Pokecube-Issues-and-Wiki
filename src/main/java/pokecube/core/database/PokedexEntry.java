@@ -19,7 +19,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -51,6 +50,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.client.gui.watch.util.SpawnListEntry;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Action;
@@ -171,7 +171,6 @@ public class PokedexEntry
             if (this.rainOnly) comps.add(new TranslatableComponent("pokemob.description.evolve.rain"));
 
             // TODO add in info related to needed formes.
-
             if (this.randomFactor != 1)
             {
                 final String var = (int) (100 * this.randomFactor) + "%";
@@ -182,24 +181,7 @@ public class PokedexEntry
                         MovesUtils.getMoveName(this.move).getString()));
             if (this.matcher != null)
             {
-                this.matcher.reset();
-                this.matcher.parse();
-                final List<String> biomeNames = Lists.newArrayList();
-                for (final BiomeType t : this.matcher._validSubBiomes) biomeNames.add(I18n.get(t.readableName));
-                for (SpawnBiomeMatcher m2 : this.matcher._or_children)
-                    for (final BiomeType t : m2._validSubBiomes) biomeNames.add(I18n.get(t.readableName));
-                for (SpawnBiomeMatcher m2 : this.matcher._and_children)
-                    for (final BiomeType t : m2._validSubBiomes) biomeNames.add(I18n.get(t.readableName));
-                for (final ResourceLocation test : SpawnBiomeMatcher.getAllBiomeKeys())
-                {
-                    final boolean valid = this.matcher.checkBiome(test);
-                    if (valid)
-                    {
-                        final String key = String.format("biome.%s.%s", test.getNamespace(), test.getPath());
-                        biomeNames.add(I18n.get(key));
-                    }
-                }
-                comps.add(new TranslatableComponent("pokemob.description.evolve.locations", biomeNames));
+                comps.addAll(SpawnListEntry.makeDescription(null, matcher, null, 100));
             }
             return comps;
         }
@@ -1148,7 +1130,7 @@ public class PokedexEntry
         else new NullPointerException("Trying to add another " + name + " " + Database.getEntry(name))
                 .printStackTrace();
     }
-    
+
     public void postTagsReloaded()
     {
         this.formeItems.clear();

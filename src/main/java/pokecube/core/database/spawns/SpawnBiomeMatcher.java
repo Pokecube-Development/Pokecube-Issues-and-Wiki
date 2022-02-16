@@ -13,6 +13,8 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
@@ -173,6 +175,33 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         // This ensures that the list is populated correctly.
         SpawnBiomeMatcher.getAllBiomeKeys();
         return SpawnBiomeMatcher.allBiomes;
+    }
+
+    public static void addForMatcher(List<ResourceLocation> biomes, List<String> types, SpawnBiomeMatcher matcher)
+    {
+        if (!matcher._and_children.isEmpty())
+        {
+            List<ResourceLocation> all_biomes = Lists.newArrayList(SpawnBiomeMatcher.getAllBiomeKeys());
+
+            for (SpawnBiomeMatcher b : matcher._and_children)
+            {
+                List<ResourceLocation> valid = Lists.newArrayList();
+                addForMatcher(valid, types, b);
+                List<ResourceLocation> remove = Lists.newArrayList();
+                for (ResourceLocation l : all_biomes)
+                {
+                    if (!valid.contains(l)) remove.add(l);
+                }
+                all_biomes.removeAll(remove);
+            }
+            biomes.addAll(all_biomes);
+        }
+        if (!matcher._or_children.isEmpty())
+        {
+            for (SpawnBiomeMatcher b : matcher._or_children) addForMatcher(biomes, types, b);
+        }
+        biomes.addAll(matcher.getValidBiomes());
+        for (BiomeType b : matcher._validSubBiomes) types.add(b.name);
     }
 
     // These are private so that they can force an update based on categories
@@ -758,6 +787,21 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                     PokecubeCore.LOGGER.error("No preset found for and_preset {} in {}", s, and_presets);
             }
         }
+    }
+
+    public MutableComponent getMatchDescription()
+    {
+        final List<String> biomeNames = Lists.newArrayList();
+        for (final ResourceLocation test : SpawnBiomeMatcher.getAllBiomeKeys())
+        {
+            final boolean valid = this.checkBiome(test);
+            if (valid)
+            {
+                final String key = String.format("biome.%s.%s", test.getNamespace(), test.getPath());
+                biomeNames.add(new TranslatableComponent(key).getString());
+            }
+        }
+        return new TranslatableComponent("pokemob.description.evolve.locations", biomeNames);
     }
 
     private boolean initRawLists()

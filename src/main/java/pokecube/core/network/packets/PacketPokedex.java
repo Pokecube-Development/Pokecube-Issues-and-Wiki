@@ -288,8 +288,8 @@ public class PacketPokedex extends NBTPacket
         switch (this.message)
         {
         case OPEN:
-            final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getLevel(),
-                    this.getTag().getInt("M"), true);
+            final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), this.getTag().getInt("M"),
+                    true);
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
             final boolean watch = this.getTag().getBoolean("W");
             if (watch) net.minecraft.client.Minecraft.getInstance()
@@ -357,36 +357,6 @@ public class PacketPokedex extends NBTPacket
         }
     }
 
-    private void addForMatcher(List<ResourceLocation> biomes, List<String> types, SpawnBiomeMatcher matcher)
-    {
-        if (!matcher._and_children.isEmpty())
-        {
-            List<ResourceLocation> all_biomes = Lists.newArrayList(SpawnBiomeMatcher.getAllBiomeKeys());
-
-            for (SpawnBiomeMatcher b : matcher._and_children)
-            {
-                List<ResourceLocation> valid = Lists.newArrayList();
-                addForMatcher(valid, types, b);
-                List<ResourceLocation> remove = Lists.newArrayList();
-                for (ResourceLocation l : all_biomes)
-                {
-                    if (!valid.contains(l)) remove.add(l);
-                }
-                all_biomes.removeAll(remove);
-            }
-            biomes.addAll(all_biomes);
-        }
-        else if (!matcher._or_children.isEmpty())
-        {
-            for (SpawnBiomeMatcher b : matcher._or_children) addForMatcher(biomes, types, b);
-        }
-        else
-        {
-            biomes.addAll(matcher.getValidBiomes());
-            for (BiomeType b : matcher._validSubBiomes) types.add(b.name);
-        }
-    }
-
     private String serialize(final SpawnBiomeMatcher matcher)
     {
         // First ensure the client side stuff is cleared.
@@ -398,7 +368,7 @@ public class PacketPokedex extends NBTPacket
         List<ResourceLocation> biomes = Lists.newArrayList();
         List<String> types = Lists.newArrayList();
 
-        addForMatcher(biomes, types, matcher);
+        SpawnBiomeMatcher.addForMatcher(biomes, types, matcher);
 
         matcher.clientBiomes.addAll(biomes);
         matcher.clientTypes.addAll(types);
@@ -434,8 +404,7 @@ public class PacketPokedex extends NBTPacket
         switch (this.message)
         {
         case INSPECTMOB:
-            mob = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), this.getTag().getInt("V"),
-                    true);
+            mob = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), this.getTag().getInt("V"), true);
             pokemob = CapabilityPokemob.getPokemobFor(mob);
             if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player)
                     .getData(PokecubePlayerStats.class).inspect(player, pokemob);

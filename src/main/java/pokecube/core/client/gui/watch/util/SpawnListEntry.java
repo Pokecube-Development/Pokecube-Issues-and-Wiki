@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.ClickEvent;
@@ -24,39 +25,45 @@ import pokecube.core.database.spawns.SpawnBiomeMatcher;
 
 public class SpawnListEntry
 {
-    final int width;
-    final int height;
-    final int yMin;
-    final SpawnBiomeMatcher value;
-    final WatchPage parent;
-    final Font fontRender;
-
-    public final List<MutableComponent> output = Lists.newArrayList();
-
-    public SpawnListEntry(final WatchPage parent, final Font fontRender, final SpawnBiomeMatcher value,
-            final PokedexEntry entry, final int width, final int height, final int yMin)
+    public static List<MutableComponent> makeDescription(Font fontRender, final SpawnBiomeMatcher matcher,
+            final PokedexEntry entry, final int width)
     {
-        this.width = width;
-        this.height = height;
-        this.yMin = yMin;
-        this.value = value;
-        this.parent = parent;
-        this.fontRender = fontRender;
+        final List<MutableComponent> output = Lists.newArrayList();
+        matcher.reset();
+        matcher.parse();
 
-        value.reset();
-        value.parse();
+        if (fontRender == null) fontRender = Minecraft.getInstance().font;
 
-        final List<Component> biomes = Lists.newArrayList();
-        for (final ResourceLocation b : value.clientBiomes)
-            biomes.add(new TranslatableComponent(String.format("biome.%s.%s", b.getNamespace(), b.getPath())));
+        if (matcher.clientBiomes.isEmpty() && matcher.clientTypes.isEmpty())
+        {
+            // First ensure the client side stuff is cleared.
+            matcher.clientBiomes.clear();
+            matcher.clientTypes.clear();
+            // Then populate it for serialisation
+            matcher.parse();
+
+            List<ResourceLocation> biomes = Lists.newArrayList();
+            List<String> types = Lists.newArrayList();
+
+            SpawnBiomeMatcher.addForMatcher(biomes, types, matcher);
+
+            matcher.clientBiomes.addAll(biomes);
+            matcher.clientTypes.addAll(types);
+        }
 
         if (entry != null)
         {
             final MutableComponent name = entry.getTranslatedName().copy().append(":");
             name.setStyle(name.getStyle().withClickEvent(new ClickEvent(Action.CHANGE_PAGE, entry.getTrimmedName()))
                     .withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN)));
-            this.output.add(name);
+            output.add(name);
         }
+
+        final List<Component> biomes = Lists.newArrayList();
+
+        for (final ResourceLocation b : matcher.clientBiomes)
+            biomes.add(new TranslatableComponent(String.format("biome.%s.%s", b.getNamespace(), b.getPath())));
+
         final String ind = entry != null ? "  " : "";
         if (!biomes.isEmpty())
         {
@@ -65,32 +72,35 @@ public class SpawnListEntry
             biomeString = biomeString.substring(0, biomeString.length() - 2) + ".";
             for (final MutableComponent line : ListHelper.splitText(new TextComponent(biomeString),
                     width - fontRender.width(ind), fontRender, true))
-                this.output.add(new TextComponent(ind + line.getString()));
+                output.add(new TextComponent(ind + line.getString()));
         }
 
         final List<String> types = Lists.newArrayList();
-        if (value.clientTypes != null)
-            for (final String s : value.clientTypes) types.add(I18n.get("thutcore.biometype." + s));
+        if (matcher.clientTypes.size() > 1)
+        {
+            matcher.clientTypes.remove("all");
+        }
+        for (final String s : matcher.clientTypes) types.add(I18n.get("thutcore.biometype." + s));
         if (!types.isEmpty())
         {
             String typeString = I18n.get("pokewatch.spawns.types") + " ";
             for (final String s : types) typeString = typeString + s + ", ";
             for (final MutableComponent line : ListHelper.splitText(new TextComponent(typeString),
                     width - fontRender.width(ind), fontRender, false))
-                this.output.add(new TextComponent(ind + line.getString()));
+                output.add(new TextComponent(ind + line.getString()));
         }
-        final boolean day = value.day;
-        final boolean night = value.night;
-        final boolean dusk = value.dusk;
-        final boolean dawn = value.dawn;
-        final boolean water = value.water;
-        final boolean air = value.air;
+        final boolean day = matcher.day;
+        final boolean night = matcher.night;
+        final boolean dusk = matcher.dusk;
+        final boolean dawn = matcher.dawn;
+        final boolean water = matcher.water;
+        final boolean air = matcher.air;
         if (water) if (air) for (final MutableComponent line : ListHelper.splitText(
                 new TextComponent(ind + I18n.get("pokewatch.spawns.water_optional")), width, fontRender, false))
-            this.output.add(line);
+            output.add(line);
         else for (final MutableComponent line : ListHelper
                 .splitText(new TextComponent(ind + I18n.get("pokewatch.spawns.water_only")), width, fontRender, false))
-            this.output.add(line);
+            output.add(line);
         String times = I18n.get("pokewatch.spawns.times");
         if (day) times = times + " " + I18n.get("pokewatch.spawns.day");
         if (night)
@@ -110,14 +120,14 @@ public class SpawnListEntry
         }
         for (final MutableComponent line : ListHelper.splitText(new TextComponent(times), width - fontRender.width(ind),
                 fontRender, false))
-            this.output.add(new TextComponent(ind + line.getString()));
+            output.add(new TextComponent(ind + line.getString()));
         String rate = "";
-        if (value.spawnRule.values.containsKey("Local_Rate"))
+        if (matcher.spawnRule.values.containsKey("Local_Rate"))
         {
             float val = 0;
             try
             {
-                val = Float.parseFloat(value.spawnRule.values.get("Local_Rate"));
+                val = Float.parseFloat(matcher.spawnRule.values.get("Local_Rate"));
             }
             catch (final Exception e)
             {
@@ -144,7 +154,7 @@ public class SpawnListEntry
             float val = 0;
             try
             {
-                val = Float.parseFloat(value.spawnRule.values.get("rate"));
+                val = Float.parseFloat(matcher.spawnRule.values.get("rate"));
             }
             catch (final Exception e)
             {
@@ -153,11 +163,37 @@ public class SpawnListEntry
             if (val > 10e-4) val = (int) (val * 1000) / 10f;
             else val = (int) (val * 10000) / 100f;
 
-            final String var = val + "%";
-            rate = ind + I18n.get("pokewatch.spawns.rate_single", var);
+            if (val == 0) rate = "";
+            else
+            {
+                final String var = val + "%";
+                rate = ind + I18n.get("pokewatch.spawns.rate_single", var);
+            }
         }
-        if (!rate.isEmpty()) this.output.add(new TextComponent(ind + rate));
-        this.output.add(new TextComponent(""));
+        if (!rate.isEmpty()) output.add(new TextComponent(ind + rate));
+        output.add(new TextComponent(""));
+        return output;
+    }
+
+    final int width;
+    final int height;
+    final int yMin;
+    final SpawnBiomeMatcher value;
+    final WatchPage parent;
+    final Font fontRender;
+
+    public final List<MutableComponent> output = Lists.newArrayList();
+
+    public SpawnListEntry(final WatchPage parent, final Font fontRender, final SpawnBiomeMatcher value,
+            final PokedexEntry entry, final int width, final int height, final int yMin)
+    {
+        this.width = width;
+        this.height = height;
+        this.yMin = yMin;
+        this.value = value;
+        this.parent = parent;
+        this.fontRender = fontRender;
+        output.addAll(makeDescription(fontRender, value, entry, width));
     }
 
     public List<LineEntry> getLines(final ScrollGui<LineEntry> parent, final IClickListener listener)
