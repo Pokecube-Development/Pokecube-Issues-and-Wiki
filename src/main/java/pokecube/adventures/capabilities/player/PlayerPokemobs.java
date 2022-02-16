@@ -106,10 +106,12 @@ public class PlayerPokemobs extends DefaultPokemobs
     @Override
     public ItemStack getNextPokemob()
     {
-        if (hasBelt) return super.getNextPokemob();
-        for (int i = 0; i < this.getMaxPokemobCount(); i++)
+        ItemStack next = ItemStack.EMPTY;
+        if (hasBelt) next = super.getNextPokemob();
+        if (!next.isEmpty()) return next;
+        for (int i = 0; i < this.player.getInventory().getContainerSize(); i++)
         {
-            final ItemStack stack = this.getPokemob(i);
+            final ItemStack stack = this.player.getInventory().getItem(i);
             if (!stack.isEmpty())
             {
                 final CompoundTag pokeTag = stack.getTag().getCompound(TagNames.POKEMOB);
