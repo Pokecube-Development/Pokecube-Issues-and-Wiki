@@ -14,19 +14,10 @@ import pokecube.legends.blocks.FlowerBase;
 
 public class InvertedOrchidBlock extends FlowerBase
 {
-   private final MobEffect suspiciousStewEffect;
-   private final int effectDuration;
     
    public InvertedOrchidBlock(final MobEffect effects, int seconds, final BlockBehaviour.Properties properties)
    {
       super(effects, seconds, properties);
-      this.suspiciousStewEffect = effects;
-      if (effects.isInstantenous())
-      {
-         this.effectDuration = seconds;
-      } else {
-         this.effectDuration = seconds * 20;
-      }
    }
 
    @Override
@@ -46,11 +37,5 @@ public class InvertedOrchidBlock extends FlowerBase
    public boolean mayPlaceOn(BlockState state, BlockGetter block, BlockPos pos)
    {
       return state.is(BlockTags.SAND) || state.is(Blocks.RED_SAND) || state.is(BlockTags.TERRACOTTA) || state.is(BlockTags.DIRT);
-   }
-
-   @Override
-   public MobEffect getSuspiciousStewEffect()
-   {
-      return this.suspiciousStewEffect;
    }
 }

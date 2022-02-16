@@ -17,19 +17,10 @@ public class AzureColeusBlock extends FlowerBase
 {
    protected static final float AABB_OFFSET = 6.0F;
    protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
-   private final MobEffect suspiciousStewEffect;
-   private final int effectDuration;
     
    public AzureColeusBlock(final MobEffect effects, int seconds, final BlockBehaviour.Properties properties)
    {
       super(effects, seconds, properties);
-      this.suspiciousStewEffect = effects;
-      if (effects.isInstantenous())
-      {
-         this.effectDuration = seconds;
-      } else {
-         this.effectDuration = seconds * 20;
-      }
    }
 
    @Override
@@ -49,11 +40,5 @@ public class AzureColeusBlock extends FlowerBase
    public boolean mayPlaceOn(BlockState state, BlockGetter block, BlockPos pos)
    {
       return state.is(BlockTags.SAND) || state.is(Blocks.RED_SAND) || state.is(BlockTags.TERRACOTTA) || state.is(BlockTags.DIRT);
-   }
-
-   @Override
-   public MobEffect getSuspiciousStewEffect()
-   {
-      return this.suspiciousStewEffect;
    }
 }
