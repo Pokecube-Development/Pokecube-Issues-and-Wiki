@@ -112,7 +112,7 @@ public class PlayerPokemobs extends DefaultPokemobs
         for (int i = 0; i < this.player.getInventory().getContainerSize(); i++)
         {
             final ItemStack stack = this.player.getInventory().getItem(i);
-            if (!stack.isEmpty())
+            if (!stack.isEmpty() && stack.hasTag())
             {
                 final CompoundTag pokeTag = stack.getTag().getCompound(TagNames.POKEMOB);
                 final float health = pokeTag.getFloat("Health");
