@@ -8,6 +8,7 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector4f;
 
 import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientRenderer;
@@ -49,8 +50,7 @@ public class Pokemob implements IIngredientType<PokedexEntry>
         public Pokemob getMatch(final Iterable<Pokemob> ingredients, final Pokemob ingredientToMatch,
                 final UidContext context)
         {
-            for (final Pokemob mob : ingredients)
-                if (ingredientToMatch.entry == mob.entry) return mob;
+            for (final Pokemob mob : ingredients) if (ingredientToMatch.entry == mob.entry) return mob;
             return null;
         }
 
@@ -86,18 +86,22 @@ public class Pokemob implements IIngredientType<PokedexEntry>
         @Override
         public List<Component> getTooltip(final Pokemob pokemob, final TooltipFlag flag)
         {
-            final List<Component> list = Lists.newArrayList(new TranslatableComponent(pokemob.entry
-                    .getUnlocalizedName()));
+            final List<Component> list = Lists
+                    .newArrayList(new TranslatableComponent(pokemob.entry.getUnlocalizedName()));
             if (pokemob.holder != null) list.add(new TextComponent(pokemob.holder.name));
             return list;
         }
 
         @Override
-        public void render(final PoseStack stack, final int x, final int y, final Pokemob pokemob)
+        public void render(final PoseStack poseStack, int x, int y, final Pokemob pokemob)
         {
             if (pokemob != null)
             {
                 final byte gender = pokemob.gender;
+                Vector4f test = new Vector4f(1, 1, 1, 1);
+                test.transform(poseStack.last().pose());
+                x = (int) test.x();
+                y = (int) test.y();
                 EventsHandlerClient.renderIcon(pokemob.entry, pokemob.holder, gender == IPokemob.MALE, x, y, 16, 16,
                         false);
             }
@@ -108,15 +112,15 @@ public class Pokemob implements IIngredientType<PokedexEntry>
     public static final IIngredientType<Pokemob> TYPE = () -> Pokemob.class;
 
     public static final IngredientRenderer RENDER = new IngredientRenderer();
-    public static final IngredientHelper   HELPER = new IngredientHelper();
+    public static final IngredientHelper HELPER = new IngredientHelper();
 
     private static final List<Pokemob> ALL = Lists.newArrayList();
 
-    public static final Map<PokedexEntry, Pokemob> ALLMAP  = Maps.newHashMap();
-    public static final Map<FormeHolder, Pokemob>  FORMMAP = Maps.newHashMap();
+    public static final Map<PokedexEntry, Pokemob> ALLMAP = Maps.newHashMap();
+    public static final Map<FormeHolder, Pokemob> FORMMAP = Maps.newHashMap();
 
     public final PokedexEntry entry;
-    public final FormeHolder  holder;
+    public final FormeHolder holder;
 
     public final byte gender;
 
@@ -137,22 +141,21 @@ public class Pokemob implements IIngredientType<PokedexEntry>
     {
         final List<Pokemob> toAdd = Pokemob.ALL;
         if (!toAdd.isEmpty()) return toAdd;
-        for (final PokedexEntry entry : Database.getSortedFormes())
-            if (entry != Database.missingno && entry.stock)
+        for (final PokedexEntry entry : Database.getSortedFormes()) if (entry != Database.missingno && entry.stock)
+        {
+            final List<FormeHolder> formes = Database.customModels.getOrDefault(entry, Collections.emptyList());
+            byte gender = entry.isFemaleForme ? IPokemob.FEMALE : IPokemob.MALE;
+            Pokemob add = new Pokemob(entry, null, gender);
+            Pokemob.ALLMAP.put(entry, add);
+            toAdd.add(add);
+            for (final FormeHolder holder : formes)
             {
-                final List<FormeHolder> formes = Database.customModels.getOrDefault(entry, Collections.emptyList());
-                byte gender = entry.isFemaleForme ? IPokemob.FEMALE : IPokemob.MALE;
-                Pokemob add = new Pokemob(entry, null, gender);
-                Pokemob.ALLMAP.put(entry, add);
+                gender = holder == entry.female_holder ? IPokemob.FEMALE : IPokemob.MALE;
+                add = new Pokemob(entry, holder, gender);
+                Pokemob.FORMMAP.put(holder, add);
                 toAdd.add(add);
-                for (final FormeHolder holder : formes)
-                {
-                    gender = holder == entry.female_holder ? IPokemob.FEMALE : IPokemob.MALE;
-                    add = new Pokemob(entry, holder, gender);
-                    Pokemob.FORMMAP.put(holder, add);
-                    toAdd.add(add);
-                }
             }
+        }
         return toAdd;
     }
 

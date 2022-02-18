@@ -105,14 +105,14 @@ public class Category implements IRecipeCategory<InteractRecipe>
     {
         final int out = 24;
         final IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
-        recipeLayout.getIngredientsGroup(Pokemob.TYPE).init(0, false, Pokemob.RENDER, 81, 15, out, out, 4, 4);
-        recipeLayout.getIngredientsGroup(VanillaTypes.ITEM).init(0, false, 84, 18);
+        recipeLayout.getIngredientsGroup(Pokemob.TYPE).init(0, false, Pokemob.RENDER, 84, 18, out, out, 4, 4);
+        recipeLayout.getIngredientsGroup(VanillaTypes.ITEM).init(1, false, 84, 18);
         int x = 50;
         int y = 0;
         guiItemStacks.init(1, true, x, y);
         x = 14;
         y = 15;
-        recipeLayout.getIngredientsGroup(Pokemob.TYPE).init(1, true, Pokemob.RENDER, x, y, out, out, 4, 4);
+        recipeLayout.getIngredientsGroup(Pokemob.TYPE).init(2, true, Pokemob.RENDER, x, y, out, out, 4, 4);
         guiItemStacks.set(ingredients);
         recipeLayout.getIngredientsGroup(Pokemob.TYPE).set(ingredients);
     }
