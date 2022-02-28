@@ -14,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
+import thut.api.util.JsonUtil;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -389,6 +390,11 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             this.matcache.remove(m);
             this.materials.remove(m);
             break;
+        }
+        if (material == null)
+        {
+            ThutCore.LOGGER.error("Error loading a material, trying to set it to null: {}", JsonUtil.gson.toJson(mat));
+            ThutCore.LOGGER.error(new IllegalAccessException());
         }
         this.matcache.add(material);
         this.materials.add(material);

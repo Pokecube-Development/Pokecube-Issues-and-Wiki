@@ -102,7 +102,7 @@ public class Category implements IRecipeCategory<Evolution>
         recipeLayout.getIngredientsGroup(Pokemob.TYPE).init(0, false, Pokemob.RENDER, 81, 15, out, out, 4, 4);
         int x = 50;
         int y = 0;
-        guiItemStacks.init(1, true, x, y);
+        guiItemStacks.init(0, true, x, y);
         x = 14;
         y = 15;
         recipeLayout.getIngredientsGroup(Pokemob.TYPE).init(1, true, Pokemob.RENDER, x, y, out, out, 4, 4);
