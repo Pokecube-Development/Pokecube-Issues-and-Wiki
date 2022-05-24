@@ -2223,7 +2223,7 @@
           },
 		  {
             "name": "Typhlosion Hisui",
-            "level": 36,
+            "level": 35,
 			"location": {
               "values": {
                 "preset": "spooky_areas"
@@ -5955,7 +5955,7 @@
           },
 		  {
             "name": "Samurott Hisui",
-            "level": 36,
+            "level": 35,
 			"location": {
               "values": {
                 "preset": "beach_ground"
@@ -8492,7 +8492,7 @@
           },
 		  {
             "name": "Decidueye Hisui",
-            "level": 36,
+            "level": 33,
 			"location": {
               "values": {
                 "preset": "savanna"
