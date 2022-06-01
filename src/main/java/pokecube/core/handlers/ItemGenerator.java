@@ -50,6 +50,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryCrop;
 import pokecube.core.blocks.berries.BerryFruit;
 import pokecube.core.blocks.berries.BerryLeaf;
+import pokecube.core.blocks.bookshelves.GenericBookshelf;
 import pokecube.core.database.Database;
 import pokecube.core.events.onload.RegisterMiscItems;
 import pokecube.core.interfaces.IPokemob;
@@ -89,6 +90,7 @@ public class ItemGenerator
     public static Map<String, Block> woods           = Maps.newHashMap();
     public static Map<String, Block> stripped_logs   = Maps.newHashMap();
     public static Map<String, Block> stripped_woods  = Maps.newHashMap();
+    public static Map<String, Block> bookshelves = Maps.newHashMap();
     public static Map<String, Block> planks          = Maps.newHashMap();
     public static Map<String, Block> stairs          = Maps.newHashMap();
     public static Map<String, Block> slabs           = Maps.newHashMap();
@@ -188,6 +190,13 @@ public class ItemGenerator
             block = Blocks.log(ItemGenerator.berryWoods.get(name), ItemGenerator.berryWoods.get(name));
             block.setRegistryName(PokecubeCore.MODID, "stripped_" + name + "_wood");
             ItemGenerator.stripped_woods.put(name, block);
+            registry.register(block);
+
+            // Bookshelves
+            block = new GenericBookshelf(BlockBehaviour.Properties.of(
+                    Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD).noOcclusion());
+            block.setRegistryName(PokecubeCore.MODID, name + "_bookshelf");
+            ItemGenerator.bookshelves.put(name, block);
             registry.register(block);
 
             // Planks
@@ -344,6 +353,8 @@ public class ItemGenerator
             registry.register(new BlockItem(ItemGenerator.stripped_woods.get(name), new Item.Properties().tab(
                     PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.stripped_woods.get(name)
                             .getRegistryName()));
+            registry.register(new BlockItem(ItemGenerator.bookshelves.get(name), new Item.Properties().tab(
+                    PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.bookshelves.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.planks.get(name), new Item.Properties().tab(
                     PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.planks.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.stairs.get(name), new Item.Properties().tab(
@@ -355,11 +366,11 @@ public class ItemGenerator
             registry.register(new BlockItem(ItemGenerator.fence_gates.get(name), new Item.Properties().tab(
                     PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.fence_gates.get(name)
                             .getRegistryName()));
+            registry.register(new BlockItem(ItemGenerator.buttons.get(name), new Item.Properties().tab(
+                    PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.buttons.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.pressure_plates.get(name), new Item.Properties().tab(
                     PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.pressure_plates.get(name)
                             .getRegistryName()));
-            registry.register(new BlockItem(ItemGenerator.buttons.get(name), new Item.Properties().tab(
-                    PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.buttons.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.trapdoors.get(name), new Item.Properties().tab(
                     PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.trapdoors.get(name)
                             .getRegistryName()));
@@ -515,6 +526,7 @@ public class ItemGenerator
                 ItemGenerator.flammableBlocks(ItemGenerator.stairs.get(name), 5, 20);
                 ItemGenerator.flammableBlocks(ItemGenerator.fences.get(name), 5, 20);
                 ItemGenerator.flammableBlocks(ItemGenerator.fence_gates.get(name), 5, 20);
+                ItemGenerator.flammableBlocks(ItemGenerator.bookshelves.get(name), 5, 20);
             }
         });
     }
