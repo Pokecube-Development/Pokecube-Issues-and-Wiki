@@ -351,6 +351,7 @@
     "block.pc.option.bind": "Bind",
     "block.pc.option.release": "Release",
     "block.pc.option.confirm": "Confirm",
+
     "msg.pokecube.pc_top.fail": "§cPC Base required below",
     "msg.pokecube.pc_base.fail": "§cPC Top required above",
 
@@ -384,8 +385,6 @@
     "block.pokecube.oran_barrel": "Oran Barrel",
     "block.pokecube.pecha_barrel": "Pecha Barrel",
     "block.pokecube.sitrus_barrel": "Sitrus Barrel",
-    "container.pokecube.generic_barrel": "Barrel",
-    "container.pokecube.generic_bookshelf": "Bookshelf",
 
     "block.pokecube.enigma_bookshelf": "Enigma Bookshelf",
     "block.pokecube.leppa_bookshelf": "Leppa Bookshelf",
@@ -456,6 +455,9 @@
     "block.pokecube.oran_door": "Oran Door",
     "block.pokecube.pecha_door": "Pecha Door",
     "block.pokecube.sitrus_door": "Sitrus Door",
+
+    "container.pokecube.generic_barrel": "Barrel",
+    "container.pokecube.generic_bookshelf": "Bookshelf",
     
     "_comment": "Items",
     "item.pokecube.pokedex": "Pokédex",

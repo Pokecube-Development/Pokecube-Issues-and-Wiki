@@ -1,0 +1,21 @@
+{
+  "group": "pokecube",
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "pokecube:leppa_bookshelf_empty"
+    },
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "item": "minecraft:book"
+    }
+  ],
+  "result": {
+    "item": "pokecube:leppa_bookshelf"
+  }
+}

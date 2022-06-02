@@ -1,0 +1,20 @@
+{
+  "group": "pokecube",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ASA",
+    "A A",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "pokecube:leppa_planks"
+    },
+    "S": {
+      "item": "pokecube:leppa_slab"
+    }
+  },
+  "result": {
+    "item": "pokecube:leppa_barrel"
+  }
+}
