@@ -1,0 +1,20 @@
+{
+  "group": "pokecube",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "000",
+    "AAA",
+    "000"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube:plank_nanab"
+    },
+    "A": {
+      "item": "pokecube:nanab_slab"
+    }
+  },
+  "result": {
+    "item": "pokecube:nanab_bookshelf_empty"
+  }
+}

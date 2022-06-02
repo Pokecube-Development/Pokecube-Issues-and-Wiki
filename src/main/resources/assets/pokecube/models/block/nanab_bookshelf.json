@@ -1,0 +1,7 @@
+{
+  "parent": "pokecube:block/generic_bookshelf",
+    "textures": {
+        "end": "pokecube:block/nanab_planks",
+        "side": "pokecube:block/nanab_bookshelf"
+    }
+}

@@ -1,0 +1,20 @@
+{
+  "group": "pokecube",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ASA",
+    "A A",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "pokecube:plank_nanab"
+    },
+    "S": {
+      "item": "pokecube:nanab_slab"
+    }
+  },
+  "result": {
+    "item": "pokecube:nanab_barrel"
+  }
+}
