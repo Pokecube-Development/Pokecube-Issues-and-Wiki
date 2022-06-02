@@ -1,0 +1,24 @@
+{
+	"parent": "block/cube_column",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"particle": "pokecube:block/enigma_bookshelf",
+		"books": "pokecube:block/enigma_bookshelf",
+		"bottom": "pokecube:block/enigma_bookshelf_bottom",
+		"top": "pokecube:block/enigma_bookshelf_top"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#books"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#books"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#books"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#books"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#top"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#bottom"}
+			}
+		}
+	]
+}
