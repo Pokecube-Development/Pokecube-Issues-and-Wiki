@@ -50,9 +50,12 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.blocks.barrels.GenericBarrel;
+import pokecube.core.blocks.barrels.GenericBarrelTile;
 import pokecube.core.blocks.bases.BaseBlock;
 import pokecube.core.blocks.bases.BaseTile;
 import pokecube.core.blocks.bookshelves.GenericBookshelf;
+import pokecube.core.blocks.bookshelves.GenericBookshelfEmpty;
+import pokecube.core.blocks.bookshelves.GenericBookshelfEmptyTile;
 import pokecube.core.blocks.healer.HealerBlock;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.blocks.maxspot.MaxBlock;
@@ -260,27 +263,27 @@ public class PokecubeItems extends ItemList
         SITRUS_BARREL = PokecubeItems.BERRIES_TAB.register("sitrus_barrel", () -> new GenericBarrel(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_YELLOW).strength(2.5F).sound(SoundType.WOOD)));
 
-        ENIGMA_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("enigma_bookshelf_empty", () -> new GenericBookshelf(
+        ENIGMA_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("enigma_bookshelf_empty", () -> new GenericBookshelfEmpty(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BLACK).strength(2.5F).sound(SoundType.WOOD)));
-        LEPPA_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("leppa_bookshelf_empty", () -> new GenericBookshelf(
+        LEPPA_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("leppa_bookshelf_empty", () -> new GenericBookshelfEmpty(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_RED).strength(2.5F).sound(SoundType.WOOD)));
-        NANAB_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("nanab_bookshelf_empty", () -> new GenericBookshelf(
+        NANAB_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("nanab_bookshelf_empty", () -> new GenericBookshelfEmpty(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).strength(2.5F).sound(SoundType.WOOD)));
-        ORAN_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("oran_bookshelf_empty", () -> new GenericBookshelf(
+        ORAN_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("oran_bookshelf_empty", () -> new GenericBookshelfEmpty(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_LIGHT_BLUE).strength(2.5F).sound(SoundType.WOOD)));
-        PECHA_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("pecha_bookshelf_empty", () -> new GenericBookshelf(
+        PECHA_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("pecha_bookshelf_empty", () -> new GenericBookshelfEmpty(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_PINK).strength(2.5F).sound(SoundType.WOOD)));
-        SITRUS_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("sitrus_bookshelf_empty", () -> new GenericBookshelf(
+        SITRUS_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("sitrus_bookshelf_empty", () -> new GenericBookshelfEmpty(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_YELLOW).strength(2.5F).sound(SoundType.WOOD)));
 
         // Tile Entity Types
         BARREL_TYPE = PokecubeItems.TILES.register("generic_barrel",
-                () -> BlockEntityType.Builder.of(BaseTile::new, PokecubeItems.ENIGMA_BARREL.get(), PokecubeItems.LEPPA_BARREL.get(), PokecubeItems.NANAB_BARREL.get(),
+                () -> BlockEntityType.Builder.of(GenericBarrelTile::new, PokecubeItems.ENIGMA_BARREL.get(), PokecubeItems.LEPPA_BARREL.get(), PokecubeItems.NANAB_BARREL.get(),
                         PokecubeItems.ORAN_BARREL.get(), PokecubeItems.PECHA_BARREL.get(), PokecubeItems.SITRUS_BARREL.get()).build(null));
         BASE_TYPE = PokecubeItems.TILES.register("secret_base",
                 () -> BlockEntityType.Builder.of(BaseTile::new, PokecubeItems.SECRET_BASE.get()).build(null));
         BOOKSHELF_EMPTY_TYPE = PokecubeItems.TILES.register("generic_bookshelf_empty",
-                () -> BlockEntityType.Builder.of(BaseTile::new, PokecubeItems.ENIGMA_BOOKSHELF_EMPTY.get(), PokecubeItems.LEPPA_BOOKSHELF_EMPTY.get(), PokecubeItems.NANAB_BOOKSHELF_EMPTY.get(),
+                () -> BlockEntityType.Builder.of(GenericBookshelfEmptyTile::new, PokecubeItems.ENIGMA_BOOKSHELF_EMPTY.get(), PokecubeItems.LEPPA_BOOKSHELF_EMPTY.get(), PokecubeItems.NANAB_BOOKSHELF_EMPTY.get(),
                         PokecubeItems.ORAN_BOOKSHELF_EMPTY.get(), PokecubeItems.PECHA_BOOKSHELF_EMPTY.get(), PokecubeItems.SITRUS_BOOKSHELF_EMPTY.get()).build(null));
         MAX_TYPE = PokecubeItems.TILES.register("dynamax",
                 () -> BlockEntityType.Builder.of(MaxTile::new, PokecubeItems.DYNAMAX.get()).build(null));
