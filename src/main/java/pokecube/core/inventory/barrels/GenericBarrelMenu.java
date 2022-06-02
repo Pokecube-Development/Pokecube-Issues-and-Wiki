@@ -1,4 +1,4 @@
-package pokecube.legends.tileentity;
+package pokecube.core.inventory.barrels;
 
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -11,22 +11,23 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class CustomBarrelContainer extends AbstractContainerMenu {
+public class GenericBarrelMenu extends AbstractContainerMenu
+{
 	private final Container container;
 	private final int containerRows;
 
-	private CustomBarrelContainer(MenuType<?> containerType, int windowId, Inventory playerInventory, int slot) {
+	private GenericBarrelMenu(MenuType<?> containerType, int windowId, Inventory playerInventory, int slot) {
 	    this(containerType, windowId, playerInventory, new SimpleContainer(9 * slot), slot);
 	}
 
-	public static CustomBarrelContainer threeRows(int slots, Inventory playerInventory) {
-		return new CustomBarrelContainer(MenuType.GENERIC_9x3, slots, playerInventory, 3);
+	public static GenericBarrelMenu threeRows(int slots, Inventory playerInventory) {
+		return new GenericBarrelMenu(MenuType.GENERIC_9x3, slots, playerInventory, 3);
 	}
 
-	public static CustomBarrelContainer threeRows(int slots, Inventory playerInventory, Container inventory) {
-		return new CustomBarrelContainer(MenuType.GENERIC_9x3, slots, playerInventory, inventory, 3);
+	public static GenericBarrelMenu threeRows(int slots, Inventory playerInventory, Container inventory) {
+		return new GenericBarrelMenu(MenuType.GENERIC_9x3, slots, playerInventory, inventory, 3);
 	}
-	public CustomBarrelContainer(MenuType<?> containerType, int windowId, Inventory playerInventory, Container inventory, int slot) {
+	public GenericBarrelMenu(MenuType<?> containerType, int windowId, Inventory playerInventory, Container inventory, int slot) {
 	      super(containerType, windowId);
 	      checkContainerSize(inventory, slot * 9);
 	      this.container = inventory;

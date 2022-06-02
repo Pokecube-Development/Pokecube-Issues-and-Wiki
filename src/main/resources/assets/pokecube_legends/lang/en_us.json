@@ -340,6 +340,7 @@
     "block.pokecube_legends.concrete_dense_barrel": "Dense Concrete Barrel",
 
     "container.pokecube_legends.generic_barrel": "Barrel",
+    "container.pokecube_legends.generic_bookshelf": "Bookshelf",
 
     "_comment16": "Bookshelves",
     "block.pokecube_legends.bookshelf_empty": "Bookshelf",

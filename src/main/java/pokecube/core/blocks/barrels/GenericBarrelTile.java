@@ -24,7 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.inventory.barrels.CustomBarrelContainer;
+import pokecube.core.inventory.barrels.GenericBarrelMenu;
 
 public class GenericBarrelTile extends RandomizableContainerBlockEntity
 {
@@ -63,7 +63,7 @@ public class GenericBarrelTile extends RandomizableContainerBlockEntity
     @Override
     protected AbstractContainerMenu createMenu(final int index, final Inventory playerInventory)
     {
-        return CustomBarrelContainer.threeRows(index, playerInventory, this);
+        return GenericBarrelMenu.threeRows(index, playerInventory, this);
     }
 
     @Override
@@ -176,9 +176,9 @@ public class GenericBarrelTile extends RandomizableContainerBlockEntity
         int i = 0;
         for (final Player player : world.getEntitiesOfClass(Player.class,
                 new AABB(j - 5.0F, k - 5.0F, l - 5.0F, j + 1 + 5.0F, k + 1 + 5.0F, l + 1 + 5.0F)))
-            if (player.containerMenu instanceof CustomBarrelContainer)
+            if (player.containerMenu instanceof GenericBarrelMenu)
         {
-            final Container iinventory = ((CustomBarrelContainer) player.containerMenu).getContainer();
+            final Container iinventory = ((GenericBarrelMenu) player.containerMenu).getContainer();
             if (iinventory == lockableTileEntity || iinventory instanceof CompoundContainer
                     && ((CompoundContainer) iinventory).contains(lockableTileEntity))
                 ++i;

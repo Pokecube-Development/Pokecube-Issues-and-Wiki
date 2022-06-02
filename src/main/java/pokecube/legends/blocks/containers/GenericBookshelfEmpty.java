@@ -12,6 +12,7 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -195,13 +196,19 @@ public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWate
     }
 
     @Override
-    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player entity,
+    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player player,
             final InteractionHand hand, final BlockHitResult hit)
     {
         final BlockEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof GenericBookshelfEmptyTile)
-            return ((GenericBookshelfEmptyTile) tile).interact(entity, hand, world);
-        return InteractionResult.PASS;
+        if (tile instanceof GenericBookshelfEmptyTile && !player.isShiftKeyDown())
+            return ((GenericBookshelfEmptyTile) tile).interact(player, hand, world);
+        if (world.isClientSide) return InteractionResult.SUCCESS;
+        else if (tile instanceof GenericBookshelfEmptyTile && player.isShiftKeyDown())
+        {
+            player.openMenu((GenericBookshelfEmptyTile) tile);
+            PiglinAi.angerNearbyPiglins(player, true);
+        }
+        return InteractionResult.CONSUME;
     }
 
     @Override

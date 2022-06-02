@@ -396,7 +396,7 @@ public class PokecubeCore
         PokecubeItems.BLOCKS.register(bus);
         PokecubeItems.BERRIES_TAB.register(bus);
         PokecubeItems.TILES.register(bus);
-        PokecubeItems.CONTAINER.register(bus);
+        PokecubeItems.MENU.register(bus);
 
         bus.addListener(this::loadComplete);
         bus.addGenericListener(Motive.class, PaintingsHandler::registerPaintings);

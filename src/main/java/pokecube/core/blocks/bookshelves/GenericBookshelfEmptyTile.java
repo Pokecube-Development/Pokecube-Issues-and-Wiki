@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
@@ -23,22 +24,23 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.ModTags;
+import pokecube.core.inventory.bookshelves.GenericBookshelfMenu;
 
 import javax.annotation.Nullable;
 
 public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity implements WorldlyContainer
 {
-    public NonNullList<ItemStack> itemStacks = NonNullList.withSize(9, ItemStack.EMPTY);
+    public NonNullList<ItemStack> items = NonNullList.withSize(9, ItemStack.EMPTY);
     private Component name;
-    public int bookCount;
 
     private GenericBookshelfEmptyTile(final BlockEntityType<?> tileEntityType, final BlockPos pos,
                                       final BlockState state)
     {
         super(tileEntityType, pos, state);
-        this.itemStacks = NonNullList.withSize(9, ItemStack.EMPTY);
+        this.items = NonNullList.withSize(9, ItemStack.EMPTY);
     }
 
     public GenericBookshelfEmptyTile(final BlockPos pos, final BlockState state)
@@ -50,7 +52,7 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
     public void saveAdditional(final CompoundTag saveCompoundNBT)
     {
         super.saveAdditional(saveCompoundNBT);
-        if (!this.trySaveLootTable(saveCompoundNBT)) ContainerHelper.saveAllItems(saveCompoundNBT, this.itemStacks);
+        if (!this.trySaveLootTable(saveCompoundNBT)) ContainerHelper.saveAllItems(saveCompoundNBT, this.items);
         if (this.name != null) saveCompoundNBT.putString("CustomName", Component.Serializer.toJson(this.name));
     }
 
@@ -58,8 +60,8 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
     public void load(final CompoundTag loadCompoundNBT)
     {
         super.load(loadCompoundNBT);
-        this.itemStacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        if (!this.tryLoadLootTable(loadCompoundNBT)) ContainerHelper.loadAllItems(loadCompoundNBT, this.itemStacks);
+        this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+        if (!this.tryLoadLootTable(loadCompoundNBT)) ContainerHelper.loadAllItems(loadCompoundNBT, this.items);
         if (loadCompoundNBT.contains("CustomName", 8))
             this.name = Component.Serializer.fromJson(loadCompoundNBT.getString("CustomName"));
     }
@@ -67,7 +69,7 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
     @Override
     protected Component getDefaultName()
     {
-        return null;
+        return new TranslatableComponent("container." + PokecubeCore.MODID + ".generic_bookshelf");
     }
 
     @Override
@@ -76,22 +78,35 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
         return 9;
     }
 
-    @Override
-    protected AbstractContainerMenu createMenu(final int i, final Inventory playerInventory)
+    public int addItem(ItemStack stack)
     {
-        return null;
+        for(int i = 0; i < this.items.size(); ++i)
+        {
+            if (this.items.get(i).isEmpty())
+            {
+                this.setItem(i, stack);
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    protected AbstractContainerMenu createMenu(final int i, Inventory playerInventory)
+    {
+        return new GenericBookshelfMenu(i, playerInventory, this);
     }
 
     @Override
     public NonNullList<ItemStack> getItems()
     {
-        return this.itemStacks;
+        return this.items;
     }
 
     @Override
     protected void setItems(final NonNullList<ItemStack> items)
     {
-        this.itemStacks = items;
+        this.items = items;
     }
 
     @Override
