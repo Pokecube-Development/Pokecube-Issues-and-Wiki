@@ -1,12 +1,17 @@
 package pokecube.core.inventory.bookshelves;
 
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.BookItem;
+import net.minecraft.world.item.EnchantedBookItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import pokecube.core.handlers.ModTags;
 
 public class GenericBookshelfMenu extends AbstractContainerMenu
 {
@@ -23,7 +28,16 @@ public class GenericBookshelfMenu extends AbstractContainerMenu
 		{
 			for(int j = 0; j < 3; ++j)
 			{
-				this.addSlot(new Slot(inventory, j + i * 3, 62 + j * 18, 17 + i * 18));
+				this.addSlot(new Slot(inventory, j + i * 3, 62 + j * 18, 17 + i * 18) {
+					public boolean mayPlace(ItemStack stack) {
+						final Item book = stack.getItem();
+						return book instanceof BookItem || book instanceof EnchantedBookItem || stack.is(ItemTags.LECTERN_BOOKS)
+								|| stack.is(ModTags.BOOKS) || stack.is(ModTags.BOOKSHELF_ITEMS);
+					}
+					public int getMaxStackSize() {
+						return 1;
+					}
+				});
 			}
 		}
 

@@ -1,0 +1,20 @@
+{
+  "group": "pokecube",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ASA",
+    "A A",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "pokecube:enigma_planks"
+    },
+    "S": {
+      "item": "pokecube:enigma_slab"
+    }
+  },
+  "result": {
+    "item": "pokecube:enigma_barrel"
+  }
+}

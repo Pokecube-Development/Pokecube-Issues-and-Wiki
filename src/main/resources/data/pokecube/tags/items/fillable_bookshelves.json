@@ -1,6 +1,12 @@
 {
   "replace": false,
   "values": [
+    "pokecube:enigma_bookshelf_empty",
+    "pokecube:leppa_bookshelf_empty",
+    "pokecube:nanab_bookshelf_empty",
+    "pokecube:oran_bookshelf_empty",
+    "pokecube:pecha_bookshelf_empty",
+    "pokecube:sitrus_bookshelf_empty",
     "pokecube_legends:aged_bookshelf_empty",
     "pokecube_legends:bookshelf_empty",
     "pokecube_legends:concrete_bookshelf_empty",

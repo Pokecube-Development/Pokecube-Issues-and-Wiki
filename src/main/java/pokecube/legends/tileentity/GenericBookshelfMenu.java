@@ -24,12 +24,20 @@ public class GenericBookshelfMenu extends AbstractContainerMenu
 		this.container = inventory;
 		inventory.startOpen(playerInventory.player);
 
-		if(canPlaceItem(playerHand))
 		for(int i = 0; i < 3; ++i)
 		{
 			for(int j = 0; j < 3; ++j)
 			{
-				this.addSlot(new Slot(inventory, j + i * 3, 62 + j * 18, 17 + i * 18));
+				this.addSlot(new Slot(inventory, j + i * 3, 62 + j * 18, 17 + i * 18) {
+					public boolean mayPlace(ItemStack stack) {
+						final Item book = stack.getItem();
+						return book instanceof BookItem || book instanceof EnchantedBookItem || stack.is(ItemTags.LECTERN_BOOKS)
+								|| stack.is(ModTags.BOOKS) || stack.is(ModTags.BOOKSHELF_ITEMS);
+					}
+					public int getMaxStackSize() {
+						return 1;
+					}
+				});
 			}
 		}
 
