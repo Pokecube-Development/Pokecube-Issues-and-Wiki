@@ -1,0 +1,53 @@
+{
+  "variants": {
+	"facing=east,books=0":  { "model": "pokecube:block/pecha_bookshelf_empty", "y":90 },
+    "facing=west,books=0":  { "model": "pokecube:block/pecha_bookshelf_empty", "y":270 },
+    "facing=north,books=0": { "model": "pokecube:block/pecha_bookshelf_empty", "y":0},
+    "facing=south,books=0": { "model": "pokecube:block/pecha_bookshelf_empty", "y":180 },
+
+    "facing=east,books=1":  { "model": "pokecube:block/pecha_bookshelf_1", "y":90 },
+    "facing=west,books=1":  { "model": "pokecube:block/pecha_bookshelf_1", "y":270 },
+    "facing=north,books=1": { "model": "pokecube:block/pecha_bookshelf_1", "y":0},
+    "facing=south,books=1": { "model": "pokecube:block/pecha_bookshelf_1", "y":180 },
+
+    "facing=east,books=2":  { "model": "pokecube:block/pecha_bookshelf_2", "y":90 },
+    "facing=west,books=2":  { "model": "pokecube:block/pecha_bookshelf_2", "y":270 },
+    "facing=north,books=2": { "model": "pokecube:block/pecha_bookshelf_2", "y":0},
+    "facing=south,books=2": { "model": "pokecube:block/pecha_bookshelf_2", "y":180 },
+
+    "facing=east,books=3":  { "model": "pokecube:block/pecha_bookshelf_3", "y":90 },
+    "facing=west,books=3":  { "model": "pokecube:block/pecha_bookshelf_3", "y":270 },
+    "facing=north,books=3": { "model": "pokecube:block/pecha_bookshelf_3", "y":0},
+    "facing=south,books=3": { "model": "pokecube:block/pecha_bookshelf_3", "y":180 },
+
+    "facing=east,books=4":  { "model": "pokecube:block/pecha_bookshelf_4", "y":90 },
+    "facing=west,books=4":  { "model": "pokecube:block/pecha_bookshelf_4", "y":270 },
+    "facing=north,books=4": { "model": "pokecube:block/pecha_bookshelf_4", "y":0},
+    "facing=south,books=4": { "model": "pokecube:block/pecha_bookshelf_4", "y":180 },
+
+    "facing=east,books=5":  { "model": "pokecube:block/pecha_bookshelf_5", "y":90 },
+    "facing=west,books=5":  { "model": "pokecube:block/pecha_bookshelf_5", "y":270 },
+    "facing=north,books=5": { "model": "pokecube:block/pecha_bookshelf_5", "y":0},
+    "facing=south,books=5": { "model": "pokecube:block/pecha_bookshelf_5", "y":180 },
+
+    "facing=east,books=6":  { "model": "pokecube:block/pecha_bookshelf_6", "y":90 },
+    "facing=west,books=6":  { "model": "pokecube:block/pecha_bookshelf_6", "y":270 },
+    "facing=north,books=6": { "model": "pokecube:block/pecha_bookshelf_6", "y":0},
+    "facing=south,books=6": { "model": "pokecube:block/pecha_bookshelf_6", "y":180 },
+
+    "facing=east,books=7":  { "model": "pokecube:block/pecha_bookshelf_7", "y":90 },
+    "facing=west,books=7":  { "model": "pokecube:block/pecha_bookshelf_7", "y":270 },
+    "facing=north,books=7": { "model": "pokecube:block/pecha_bookshelf_7", "y":0},
+    "facing=south,books=7": { "model": "pokecube:block/pecha_bookshelf_7", "y":180 },
+
+    "facing=east,books=8":  { "model": "pokecube:block/pecha_bookshelf_8", "y":90 },
+    "facing=west,books=8":  { "model": "pokecube:block/pecha_bookshelf_8", "y":270 },
+    "facing=north,books=8": { "model": "pokecube:block/pecha_bookshelf_8", "y":0},
+    "facing=south,books=8": { "model": "pokecube:block/pecha_bookshelf_8", "y":180 },
+
+    "facing=east,books=9":  { "model": "pokecube:block/pecha_bookshelf_9", "y":90 },
+    "facing=west,books=9":  { "model": "pokecube:block/pecha_bookshelf_9", "y":270 },
+    "facing=north,books=9": { "model": "pokecube:block/pecha_bookshelf_9", "y":0},
+    "facing=south,books=9": { "model": "pokecube:block/pecha_bookshelf_9", "y":180 }
+  }
+}
