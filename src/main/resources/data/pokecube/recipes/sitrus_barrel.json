@@ -1,0 +1,20 @@
+{
+  "group": "pokecube",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ASA",
+    "A A",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "pokecube:plank_sitrus"
+    },
+    "S": {
+      "item": "pokecube:sitrus_slab"
+    }
+  },
+  "result": {
+    "item": "pokecube:sitrus_barrel"
+  }
+}

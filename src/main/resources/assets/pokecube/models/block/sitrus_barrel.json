@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "pokecube:block/sitrus_barrel_top",
+    "bottom": "pokecube:block/sitrus_barrel_bottom",
+    "side": "pokecube:block/sitrus_barrel_side"
+  }
+}
