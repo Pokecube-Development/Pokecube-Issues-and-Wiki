@@ -211,7 +211,6 @@ public class PokecubeCore
         {
             // register a new container here
             PokecubeCore.LOGGER.debug("Registering Pokecube Containers");
-
             event.getRegistry().register(ContainerPokemob.TYPE.setRegistryName(PokecubeCore.MODID, "pokemob"));
             event.getRegistry().register(HealerContainer.TYPE.setRegistryName(PokecubeCore.MODID, "healer"));
             event.getRegistry().register(PCContainer.TYPE.setRegistryName(PokecubeCore.MODID, "pc"));
@@ -395,7 +394,9 @@ public class PokecubeCore
 
         PokecubeItems.ITEMS.register(bus);
         PokecubeItems.BLOCKS.register(bus);
+        PokecubeItems.BERRIES_TAB.register(bus);
         PokecubeItems.TILES.register(bus);
+        PokecubeItems.MENU.register(bus);
 
         bus.addListener(this::loadComplete);
         bus.addGenericListener(Motive.class, PaintingsHandler::registerPaintings);

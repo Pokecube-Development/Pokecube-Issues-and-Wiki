@@ -108,7 +108,7 @@ public class PokecubeLegends
 
     // Barrels Inventory/Container
     public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Reference.ID);
-    public static final DeferredRegister<MenuType<?>> CONTAINER = DeferredRegister.create(ForgeRegistries.CONTAINERS, Reference.ID);
+    public static final DeferredRegister<MenuType<?>> MENU = DeferredRegister.create(ForgeRegistries.CONTAINERS, Reference.ID);
 
     // Recipes
     public static final DeferredRegister<RecipeSerializer<?>> LEGENDS_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Reference.ID);
@@ -216,7 +216,7 @@ public class PokecubeLegends
 
         EventsHandler.register();
 
-        PokecubeLegends.CONTAINER.register(modEventBus);
+        PokecubeLegends.MENU.register(modEventBus);
         PokecubeLegends.ENTITIES.register(modEventBus);
         PokecubeLegends.FLUIDS.register(modEventBus);
         PokecubeLegends.ITEMS.register(modEventBus);

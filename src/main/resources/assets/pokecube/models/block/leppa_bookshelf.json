@@ -1,0 +1,7 @@
+{
+  "parent": "pokecube:block/generic_bookshelf",
+    "textures": {
+        "end": "pokecube:block/leppa_planks",
+        "side": "pokecube:block/leppa_bookshelf"
+    }
+}

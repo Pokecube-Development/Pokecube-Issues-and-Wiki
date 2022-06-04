@@ -351,6 +351,7 @@
     "block.pc.option.bind": "Bind",
     "block.pc.option.release": "Release",
     "block.pc.option.confirm": "Confirm",
+
     "msg.pokecube.pc_top.fail": "§cPC Base required below",
     "msg.pokecube.pc_base.fail": "§cPC Top required above",
 
@@ -377,6 +378,27 @@
     "block.pokecube.stripped_oran_wood": "Stripped Oran Wood",
     "block.pokecube.stripped_pecha_wood": "Stripped Pecha Wood",
     "block.pokecube.stripped_sitrus_wood": "Stripped Sitrus Wood",
+
+    "block.pokecube.enigma_barrel": "Enigma Barrel",
+    "block.pokecube.leppa_barrel": "Leppa Barrel",
+    "block.pokecube.nanab_barrel": "Nanab Barrel",
+    "block.pokecube.oran_barrel": "Oran Barrel",
+    "block.pokecube.pecha_barrel": "Pecha Barrel",
+    "block.pokecube.sitrus_barrel": "Sitrus Barrel",
+
+    "block.pokecube.enigma_bookshelf": "Enigma Bookshelf",
+    "block.pokecube.leppa_bookshelf": "Leppa Bookshelf",
+    "block.pokecube.nanab_bookshelf": "Nanab Bookshelf",
+    "block.pokecube.oran_bookshelf": "Oran Bookshelf",
+    "block.pokecube.pecha_bookshelf": "Pecha Bookshelf",
+    "block.pokecube.sitrus_bookshelf": "Sitrus Bookshelf",
+
+    "block.pokecube.enigma_bookshelf_empty": "Enigma Bookshelf",
+    "block.pokecube.leppa_bookshelf_empty": "Leppa Bookshelf",
+    "block.pokecube.nanab_bookshelf_empty": "Nanab Bookshelf",
+    "block.pokecube.oran_bookshelf_empty": "Oran Bookshelf",
+    "block.pokecube.pecha_bookshelf_empty": "Pecha Bookshelf",
+    "block.pokecube.sitrus_bookshelf_empty": "Sitrus Bookshelf",
 
     "block.pokecube.enigma_slab": "Enigma Slab",
     "block.pokecube.leppa_slab": "Leppa Slab",
@@ -433,6 +455,9 @@
     "block.pokecube.oran_door": "Oran Door",
     "block.pokecube.pecha_door": "Pecha Door",
     "block.pokecube.sitrus_door": "Sitrus Door",
+
+    "container.pokecube.generic_barrel": "Barrel",
+    "container.pokecube.generic_bookshelf": "Bookshelf",
     
     "_comment": "Items",
     "item.pokecube.pokedex": "Pokédex",

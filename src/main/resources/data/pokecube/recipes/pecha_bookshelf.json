@@ -1,0 +1,20 @@
+{
+  "group": "pokecube",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "000",
+    "AAA",
+    "000"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube:plank_pecha"
+    },
+    "A": {
+      "item": "minecraft:book"
+    }
+  },
+  "result": {
+    "item": "pokecube:pecha_bookshelf"
+  }
+}

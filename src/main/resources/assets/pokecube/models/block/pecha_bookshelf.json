@@ -1,0 +1,7 @@
+{
+  "parent": "pokecube:block/generic_bookshelf",
+    "textures": {
+        "end": "pokecube:block/pecha_planks",
+        "side": "pokecube:block/pecha_bookshelf"
+    }
+}

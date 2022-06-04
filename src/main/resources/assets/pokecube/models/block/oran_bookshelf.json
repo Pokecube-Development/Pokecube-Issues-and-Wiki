@@ -1,0 +1,7 @@
+{
+  "parent": "pokecube:block/generic_bookshelf",
+    "textures": {
+        "end": "pokecube:block/oran_planks",
+        "side": "pokecube:block/oran_bookshelf"
+    }
+}

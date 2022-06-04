@@ -28,6 +28,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -48,8 +49,12 @@ import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import pokecube.core.blocks.barrels.GenericBarrel;
+import pokecube.core.blocks.barrels.GenericBarrelTile;
 import pokecube.core.blocks.bases.BaseBlock;
 import pokecube.core.blocks.bases.BaseTile;
+import pokecube.core.blocks.bookshelves.GenericBookshelfEmpty;
+import pokecube.core.blocks.bookshelves.GenericBookshelfEmptyTile;
 import pokecube.core.blocks.healer.HealerBlock;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.blocks.maxspot.MaxBlock;
@@ -70,6 +75,8 @@ import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.inventory.barrels.GenericBarrelMenu;
+import pokecube.core.inventory.bookshelves.GenericBookshelfMenu;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.berries.BerryManager;
@@ -84,13 +91,11 @@ import thut.api.util.JsonUtil;
 
 public class PokecubeItems extends ItemList
 {
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
-            PokecubeCore.MODID);
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS,
-            PokecubeCore.MODID);
-
-    public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister
-            .create(ForgeRegistries.BLOCK_ENTITIES, PokecubeCore.MODID);
+    public static final DeferredRegister<Block> BERRIES_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, PokecubeCore.MODID);
+    public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, PokecubeCore.MODID);
+    public static final DeferredRegister<MenuType<?>> MENU = DeferredRegister.create(ForgeRegistries.CONTAINERS, PokecubeCore.MODID);
 
     public static ItemStack POKECUBE_ITEMS = ItemStack.EMPTY;
     public static ItemStack POKECUBE_BLOCKS = ItemStack.EMPTY;
@@ -157,8 +162,24 @@ public class PokecubeItems extends ItemList
     public static final RegistryObject<Block> TM_MACHINE;
     public static final RegistryObject<Block> TRADER;
 
+    public static final RegistryObject<Block> ENIGMA_BARREL;
+    public static final RegistryObject<Block> LEPPA_BARREL;
+    public static final RegistryObject<Block> NANAB_BARREL;
+    public static final RegistryObject<Block> ORAN_BARREL;
+    public static final RegistryObject<Block> PECHA_BARREL;
+    public static final RegistryObject<Block> SITRUS_BARREL;
+
+    public static final RegistryObject<Block> ENIGMA_BOOKSHELF_EMPTY;
+    public static final RegistryObject<Block> LEPPA_BOOKSHELF_EMPTY;
+    public static final RegistryObject<Block> NANAB_BOOKSHELF_EMPTY;
+    public static final RegistryObject<Block> ORAN_BOOKSHELF_EMPTY;
+    public static final RegistryObject<Block> PECHA_BOOKSHELF_EMPTY;
+    public static final RegistryObject<Block> SITRUS_BOOKSHELF_EMPTY;
+
     // Tile Entities
+    public static final RegistryObject<BlockEntityType<?>> BARREL_TYPE;
     public static final RegistryObject<BlockEntityType<?>> BASE_TYPE;
+    public static final RegistryObject<BlockEntityType<?>> BOOKSHELF_EMPTY_TYPE;
     public static final RegistryObject<BlockEntityType<?>> HEALER_TYPE;
     public static final RegistryObject<BlockEntityType<?>> MAX_TYPE;
     public static final RegistryObject<BlockEntityType<?>> NEST_TYPE;
@@ -166,6 +187,9 @@ public class PokecubeItems extends ItemList
     public static final RegistryObject<BlockEntityType<?>> REPEL_TYPE;
     public static final RegistryObject<BlockEntityType<?>> TM_TYPE;
     public static final RegistryObject<BlockEntityType<?>> TRADE_TYPE;
+
+    // Containers
+    public static final RegistryObject<MenuType<GenericBarrelMenu>> BARREL_MENU;
 
     public static boolean resetTimeTags = false;
     public static Vector<Long> times = new Vector<>();
@@ -226,24 +250,60 @@ public class PokecubeItems extends ItemList
         DYNAMAX = PokecubeItems.BLOCKS.register("dynamax", () -> new MaxBlock(BlockBehaviour.Properties.of(Material.STONE,
                 MaterialColor.COLOR_MAGENTA).sound(SoundType.GLASS).sound(SoundType.AMETHYST_CLUSTER).strength(0.8F).requiresCorrectToolForDrops()));
 
+        ENIGMA_BARREL = PokecubeItems.BERRIES_TAB.register("enigma_barrel", () -> new GenericBarrel(
+                BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BLACK).strength(2.5F).sound(SoundType.WOOD)));
+        LEPPA_BARREL = PokecubeItems.BERRIES_TAB.register("leppa_barrel", () -> new GenericBarrel(
+                BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_RED).strength(2.5F).sound(SoundType.WOOD)));
+        NANAB_BARREL = PokecubeItems.BERRIES_TAB.register("nanab_barrel", () -> new GenericBarrel(
+                BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).strength(2.5F).sound(SoundType.WOOD)));
+        ORAN_BARREL = PokecubeItems.BERRIES_TAB.register("oran_barrel", () -> new GenericBarrel(
+                BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_LIGHT_BLUE).strength(2.5F).sound(SoundType.WOOD)));
+        PECHA_BARREL = PokecubeItems.BERRIES_TAB.register("pecha_barrel", () -> new GenericBarrel(
+                BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_PINK).strength(2.5F).sound(SoundType.WOOD)));
+        SITRUS_BARREL = PokecubeItems.BERRIES_TAB.register("sitrus_barrel", () -> new GenericBarrel(
+                BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_YELLOW).strength(2.5F).sound(SoundType.WOOD)));
+
+        ENIGMA_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("enigma_bookshelf_empty", () -> new GenericBookshelfEmpty(
+                BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BLACK).strength(2.5F).sound(SoundType.WOOD)));
+        LEPPA_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("leppa_bookshelf_empty", () -> new GenericBookshelfEmpty(
+                BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_RED).strength(2.5F).sound(SoundType.WOOD)));
+        NANAB_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("nanab_bookshelf_empty", () -> new GenericBookshelfEmpty(
+                BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).strength(2.5F).sound(SoundType.WOOD)));
+        ORAN_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("oran_bookshelf_empty", () -> new GenericBookshelfEmpty(
+                BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_LIGHT_BLUE).strength(2.5F).sound(SoundType.WOOD)));
+        PECHA_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("pecha_bookshelf_empty", () -> new GenericBookshelfEmpty(
+                BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_PINK).strength(2.5F).sound(SoundType.WOOD)));
+        SITRUS_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("sitrus_bookshelf_empty", () -> new GenericBookshelfEmpty(
+                BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_YELLOW).strength(2.5F).sound(SoundType.WOOD)));
+
         // Tile Entity Types
-        NEST_TYPE = PokecubeItems.TILES.register("nest", 
+        BARREL_TYPE = PokecubeItems.TILES.register("generic_barrel",
+                () -> BlockEntityType.Builder.of(GenericBarrelTile::new, PokecubeItems.ENIGMA_BARREL.get(), PokecubeItems.LEPPA_BARREL.get(), PokecubeItems.NANAB_BARREL.get(),
+                        PokecubeItems.ORAN_BARREL.get(), PokecubeItems.PECHA_BARREL.get(), PokecubeItems.SITRUS_BARREL.get()).build(null));
+        BASE_TYPE = PokecubeItems.TILES.register("secret_base",
+                () -> BlockEntityType.Builder.of(BaseTile::new, PokecubeItems.SECRET_BASE.get()).build(null));
+        BOOKSHELF_EMPTY_TYPE = PokecubeItems.TILES.register("generic_bookshelf_empty",
+                () -> BlockEntityType.Builder.of(GenericBookshelfEmptyTile::new, PokecubeItems.ENIGMA_BOOKSHELF_EMPTY.get(), PokecubeItems.LEPPA_BOOKSHELF_EMPTY.get(), PokecubeItems.NANAB_BOOKSHELF_EMPTY.get(),
+                        PokecubeItems.ORAN_BOOKSHELF_EMPTY.get(), PokecubeItems.PECHA_BOOKSHELF_EMPTY.get(), PokecubeItems.SITRUS_BOOKSHELF_EMPTY.get()).build(null));
+        MAX_TYPE = PokecubeItems.TILES.register("dynamax",
+                () -> BlockEntityType.Builder.of(MaxTile::new, PokecubeItems.DYNAMAX.get()).build(null));
+        NEST_TYPE = PokecubeItems.TILES.register("nest",
                 () -> BlockEntityType.Builder.of(NestTile::new, PokecubeItems.NEST.get()).build(null));
         REPEL_TYPE = PokecubeItems.TILES.register("repel",
                 () -> BlockEntityType.Builder.of(RepelTile::new, PokecubeItems.REPEL.get()).build(null));
-        MAX_TYPE = PokecubeItems.TILES.register("dynamax",
-                () -> BlockEntityType.Builder.of(MaxTile::new, PokecubeItems.DYNAMAX.get()).build(null));
-        BASE_TYPE = PokecubeItems.TILES.register("secret_base",
-                () -> BlockEntityType.Builder.of(BaseTile::new, PokecubeItems.SECRET_BASE.get()).build(null));
 
-        TRADE_TYPE = PokecubeItems.TILES.register("trade_machine",
-                () -> BlockEntityType.Builder.of(TraderTile::new, PokecubeItems.TRADER.get()).build(null));
-        TM_TYPE = PokecubeItems.TILES.register("tm_machine",
-                () -> BlockEntityType.Builder.of(TMTile::new, PokecubeItems.TM_MACHINE.get()).build(null));
         HEALER_TYPE = PokecubeItems.TILES.register("pokecenter",
                 () -> BlockEntityType.Builder.of(HealerTile::new, PokecubeItems.HEALER.get()).build(null));
         PC_TYPE = PokecubeItems.TILES.register("pc",
                 () -> BlockEntityType.Builder.of(PCTile::new, PokecubeItems.PC_TOP.get(), PokecubeItems.PC_BASE.get()).build(null));
+        TM_TYPE = PokecubeItems.TILES.register("tm_machine",
+                () -> BlockEntityType.Builder.of(TMTile::new, PokecubeItems.TM_MACHINE.get()).build(null));
+        TRADE_TYPE = PokecubeItems.TILES.register("trade_machine",
+                () -> BlockEntityType.Builder.of(TraderTile::new, PokecubeItems.TRADER.get()).build(null));
+
+        // Menus
+        BARREL_MENU = PokecubeItems.MENU.register("barrel_menu",
+                () -> new MenuType<>(GenericBarrelMenu::threeRows));
     }
 
     public static void init()
@@ -251,6 +311,12 @@ public class PokecubeItems extends ItemList
         for (final RegistryObject<Block> reg : PokecubeItems.BLOCKS.getEntries())
             PokecubeItems.ITEMS.register(reg.getId().getPath(),
                     () -> new BlockItem(reg.get(), new Item.Properties().tab(PokecubeItems.TAB_BLOCKS)));
+
+        for (final RegistryObject<Block> reg : PokecubeItems.BERRIES_TAB.getEntries())
+        {
+                PokecubeItems.ITEMS.register(reg.getId().getPath(),
+                    () -> new BlockItem(reg.get(), new Item.Properties().tab(PokecubeItems.TAB_BERRIES)));
+        }
     }
 
     /**

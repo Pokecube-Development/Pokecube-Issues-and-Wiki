@@ -47,7 +47,7 @@ import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.handlers.ItemGenerator.GenericStairs;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.BlockBase;
-import pokecube.legends.blocks.BookshelfBase;
+import pokecube.legends.blocks.GenericBookshelf;
 import pokecube.legends.blocks.FaceBlockBase;
 import pokecube.legends.blocks.FallingBlockBase;
 import pokecube.legends.blocks.FallingSandBlockBase;
@@ -1229,7 +1229,7 @@ public class BlockInit
 
         AGED_BARREL = PokecubeLegends.DIMENSIONS_TAB.register("aged_barrel", () -> new GenericBarrel(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).strength(2.5F).sound(SoundType.WOOD)));
-        AGED_BOOKSHELF = PokecubeLegends.DIMENSIONS_TAB.register("aged_bookshelf", () -> new BookshelfBase(
+        AGED_BOOKSHELF = PokecubeLegends.DIMENSIONS_TAB.register("aged_bookshelf", () -> new GenericBookshelf(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).strength(2f, 4f).sound(SoundType.WOOD)));
         AGED_BOOKSHELF_EMPTY = PokecubeLegends.DIMENSIONS_TAB.register("aged_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).strength(2f, 4f)
@@ -1293,7 +1293,7 @@ public class BlockInit
 
         CORRUPTED_BARREL = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_barrel", () -> new GenericBarrel(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.5F).sound(SoundType.WOOD)));
-        CORRUPTED_BOOKSHELF = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_bookshelf", () -> new BookshelfBase(
+        CORRUPTED_BOOKSHELF = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_bookshelf", () -> new GenericBookshelf(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2f, 4f).sound(SoundType.WOOD)));
         CORRUPTED_BOOKSHELF_EMPTY = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_bookshelf_empty", () -> new GenericBookshelfEmpty(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2f, 4f).sound(SoundType.WOOD).dynamicShape()));
@@ -1341,7 +1341,7 @@ public class BlockInit
 
         DISTORTIC_BARREL = PokecubeLegends.DIMENSIONS_TAB.register("distortic_barrel", () -> new GenericBarrel(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BLUE).strength(2.5F).sound(SoundType.WOOD)));
-        DISTORTIC_BOOKSHELF = PokecubeLegends.DIMENSIONS_TAB.register("distortic_bookshelf", () -> new BookshelfBase(
+        DISTORTIC_BOOKSHELF = PokecubeLegends.DIMENSIONS_TAB.register("distortic_bookshelf", () -> new GenericBookshelf(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BLUE).strength(2f, 4f).sound(SoundType.WOOD)));
         DISTORTIC_BOOKSHELF_EMPTY = PokecubeLegends.DIMENSIONS_TAB.register("distortic_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BLUE).strength(2f, 4f)
@@ -1392,7 +1392,7 @@ public class BlockInit
 
         INVERTED_BARREL = PokecubeLegends.DIMENSIONS_TAB.register("inverted_barrel", () -> new GenericBarrel(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(2.5F).sound(SoundType.WOOD)));
-        INVERTED_BOOKSHELF = PokecubeLegends.DIMENSIONS_TAB.register("inverted_bookshelf", () -> new BookshelfBase(
+        INVERTED_BOOKSHELF = PokecubeLegends.DIMENSIONS_TAB.register("inverted_bookshelf", () -> new GenericBookshelf(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(2f, 4f).sound(SoundType.WOOD)));
         INVERTED_BOOKSHELF_EMPTY = PokecubeLegends.DIMENSIONS_TAB.register("inverted_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_LIGHT_BLUE)
@@ -1446,7 +1446,7 @@ public class BlockInit
 
         MIRAGE_BARREL = PokecubeLegends.DIMENSIONS_TAB.register("mirage_barrel", () -> new GenericBarrel(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.SAND).strength(2.5F).sound(SoundType.WOOD)));
-        MIRAGE_BOOKSHELF = PokecubeLegends.DIMENSIONS_TAB.register("mirage_bookshelf", () -> new BookshelfBase(
+        MIRAGE_BOOKSHELF = PokecubeLegends.DIMENSIONS_TAB.register("mirage_bookshelf", () -> new GenericBookshelf(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.SAND).strength(2f, 4f).sound(SoundType.WOOD)));
         MIRAGE_BOOKSHELF_EMPTY = PokecubeLegends.DIMENSIONS_TAB.register("mirage_bookshelf_empty", () -> new GenericBookshelfEmpty(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.SAND).strength(2f, 4f).sound(SoundType.WOOD).dynamicShape()));
@@ -1498,7 +1498,7 @@ public class BlockInit
 
         TEMPORAL_BARREL = PokecubeLegends.DIMENSIONS_TAB.register("temporal_barrel", () -> new GenericBarrel(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WARPED_NYLIUM).strength(2.5F).sound(SoundType.WOOD)));
-        TEMPORAL_BOOKSHELF = PokecubeLegends.DIMENSIONS_TAB.register("temporal_bookshelf", () -> new BookshelfBase(
+        TEMPORAL_BOOKSHELF = PokecubeLegends.DIMENSIONS_TAB.register("temporal_bookshelf", () -> new GenericBookshelf(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WARPED_NYLIUM).strength(2f, 4f).sound(SoundType.WOOD)));
         TEMPORAL_BOOKSHELF_EMPTY = PokecubeLegends.DIMENSIONS_TAB.register("temporal_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WARPED_NYLIUM).strength(2f, 4f)
@@ -1677,7 +1677,7 @@ public class BlockInit
 
         CONCRETE_BARREL = PokecubeLegends.DECORATION_TAB.register("concrete_barrel", () -> new GenericBarrel(BlockBehaviour.Properties
                 .of(Material.STONE, MaterialColor.SNOW).strength(4.5F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
-        CONCRETE_BOOKSHELF = PokecubeLegends.DECORATION_TAB.register("concrete_bookshelf", () -> new BookshelfBase(BlockBehaviour.Properties
+        CONCRETE_BOOKSHELF = PokecubeLegends.DECORATION_TAB.register("concrete_bookshelf", () -> new GenericBookshelf(BlockBehaviour.Properties
                 .of(Material.STONE, MaterialColor.SNOW).strength(10.0f, 500.0f).sound(SoundType.WOOD).requiresCorrectToolForDrops()));
         CONCRETE_BOOKSHELF_EMPTY = PokecubeLegends.DECORATION_TAB.register("concrete_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW).strength(10.0f, 500.0f)
@@ -1715,7 +1715,7 @@ public class BlockInit
                 () -> new GenericBarrel(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW).strength(20.0F, 1200.0f)
                         .sound(SoundType.STONE).requiresCorrectToolForDrops()));
         CONCRETE_DENSE_BOOKSHELF = PokecubeLegends.DECORATION_TAB.register("concrete_dense_bookshelf",
-                () -> new BookshelfBase(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW).strength(20.0f, 1200.0f)
+                () -> new GenericBookshelf(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW).strength(20.0f, 1200.0f)
                         .sound(SoundType.STONE).requiresCorrectToolForDrops()));
         CONCRETE_DENSE_BOOKSHELF_EMPTY = PokecubeLegends.DECORATION_TAB.register("concrete_dense_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW).strength(20.0f, 1200.0f)

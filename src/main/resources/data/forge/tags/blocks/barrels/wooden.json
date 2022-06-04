@@ -1,6 +1,12 @@
 {
   "replace": false,
   "values": [
+    "pokecube:enigma_barrel",
+    "pokecube:leppa_barrel",
+    "pokecube:nanab_barrel",
+    "pokecube:oran_barrel",
+    "pokecube:pecha_barrel",
+    "pokecube:sitrus_barrel",
     "pokecube_legends:concrete_barrel",
     "pokecube_legends:aged_barrel",
     "pokecube_legends:inverted_barrel",
