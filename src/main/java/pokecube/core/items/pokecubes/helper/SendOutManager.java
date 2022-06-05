@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -259,7 +260,7 @@ public class SendOutManager
                 w.getChunk(vec.getPos());
                 final Entity original = world.getEntity(id);
                 // The mob already exists in the world, remove it
-                if (original != null) world.removeEntity(original, false);
+                if (original != null) original.remove(RemovalReason.DISCARDED);
                 PokemobTracker.removePokemob(pokemob);
                 mob.setUUID(id);
                 PokemobTracker.addPokemob(pokemob);

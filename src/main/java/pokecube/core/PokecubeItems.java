@@ -76,7 +76,6 @@ import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.inventory.barrels.GenericBarrelMenu;
-import pokecube.core.inventory.bookshelves.GenericBookshelfMenu;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.berries.BerryManager;

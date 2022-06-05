@@ -60,7 +60,6 @@ import pokecube.core.items.ItemTM;
 import pokecube.core.items.ItemTyped;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.berries.ItemBerry;
-import pokecube.core.items.berries.ItemBerry.BerryType;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.utils.PokeType;
 
@@ -551,7 +550,7 @@ public class ItemGenerator
     public static void registerBlocks(final IForgeRegistry<Block> registry)
     {
         // Initialize the nullberry
-        new BerryType("null", null, 0, 0, 0, 0, 0, 0);
+        ItemBerry.registerBerryType("null", null, 0, 0, 0, 0, 0, 0);
         // Fire event so that others can initialize their berries.
         PokecubeCore.POKEMOB_BUS.post(new RegisterMiscItems());
 

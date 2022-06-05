@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -287,7 +288,7 @@ public class PCEventsHandler
                         final IPokemob poke = CapabilityPokemob.getPokemobFor(out);
                         if (poke != null) poke.onRecall();
                     }
-                    world.removeEntity(mob, false);
+                    mob.setRemoved(RemovalReason.DISCARDED);
                 }
             }
             return true;

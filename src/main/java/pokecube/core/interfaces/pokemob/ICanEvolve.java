@@ -15,6 +15,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -94,7 +95,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 if (old != null) old.setOwner((UUID) null);
                 this.thisEntity.getPersistentData().putBoolean(TagNames.REMOVED, true);
                 // Remove old mob
-                world.removeEntity(this.thisEntity);
+                this.thisEntity.remove(RemovalReason.DISCARDED);
                 // Add new mob
                 if (!this.evolution.isAlive()) this.evolution.revive();
                 this.evolution.getPersistentData().remove(TagNames.REMOVED);

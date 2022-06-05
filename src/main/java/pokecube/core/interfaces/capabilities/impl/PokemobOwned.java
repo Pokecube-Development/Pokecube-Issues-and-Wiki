@@ -15,6 +15,7 @@ import net.minecraft.world.ContainerListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -269,7 +270,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             EventsHandler.Schedule(world, w -> {
                 final ServerLevel srld = (ServerLevel) w;
                 final Entity original = srld.getEntity(id);
-                if (original == mob) srld.removeEntity(original, false);
+                if (original == mob) original.setRemoved(RemovalReason.DISCARDED);
                 return true;
             });
             return;
@@ -355,7 +356,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         EventsHandler.Schedule(world, w -> {
             final ServerLevel srld = (ServerLevel) w;
             final Entity original = srld.getEntity(id);
-            if (original == mob) srld.removeEntity(original, false);
+            if (original == mob) original.setRemoved(RemovalReason.DISCARDED);
             return true;
         });
     }

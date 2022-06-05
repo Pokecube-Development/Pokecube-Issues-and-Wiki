@@ -37,6 +37,7 @@ import net.minecraft.world.entity.SpawnPlacements.Type;
 import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -303,8 +304,8 @@ public final class SpawnHandler
 
             }
         };
-        if (ForgeEventFactory.doSpecialSpawn(MobEntity, world, (float) posX, (float) posY, (float) posZ, spawner,
-                MobSpawnType.NATURAL))
+        if (ForgeEventFactory.doSpecialSpawn(MobEntity, (LevelAccessor) world, (float) posX, (float) posY, (float) posZ,
+                spawner, MobSpawnType.NATURAL))
             return null;
         IPokemob pokemob = CapabilityPokemob.getPokemobFor(MobEntity);
         if (pokemob != null)
@@ -389,8 +390,7 @@ public final class SpawnHandler
     public static Vector3 getRandomPointNear(final Entity player, final int range)
     {
         if (player == null || !(player.getLevel() instanceof ServerLevel)) return null;
-        return SpawnHandler.getRandomPointNear((ServerLevel) player.getLevel(),
-                new Vector3().set(player), range);
+        return SpawnHandler.getRandomPointNear((ServerLevel) player.getLevel(), new Vector3().set(player), range);
     }
 
     public static SpawnContext getSpawnForLoc(SpawnContext context)

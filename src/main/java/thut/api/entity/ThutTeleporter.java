@@ -16,6 +16,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkStatus;
@@ -388,7 +389,7 @@ public class ThutTeleporter
 
     private static void removeMob(final ServerLevel world, final Entity entity, final boolean keepData)
     {
-        world.removeEntity(entity, keepData);
+        entity.setRemoved(RemovalReason.CHANGED_DIMENSION);
     }
 
     private static void moveMob(final Entity entity, TeleDest dest)
