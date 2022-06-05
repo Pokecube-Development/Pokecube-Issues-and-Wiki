@@ -9,6 +9,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.resources.ResourceLocation;
 import thut.api.ModelHolder;
+import thut.core.client.render.json.JsonModel;
 import thut.core.client.render.mca.McaModel;
 import thut.core.client.render.model.IModel.IModelCallback;
 import thut.core.client.render.obj.ObjModel;
@@ -23,11 +24,12 @@ public class ModelFactory
     }
 
     private static final Map<String, IFactory<?>> modelFactories = Maps.newHashMap();
-    public static final List<String>              knownExtension = Lists.newArrayList();
+    public static final List<String> knownExtension = Lists.newArrayList();
 
     static
     {
         ModelFactory.registerIModel("x3d", X3dModel::new);
+        ModelFactory.registerIModel("json", JsonModel::new);
         ModelFactory.registerIModel("mca", McaModel::new);
         ModelFactory.registerIModel("obj", ObjModel::new);
     }
@@ -78,9 +80,7 @@ public class ModelFactory
 
     public static IModel create(final ModelHolder model)
     {
-        return ModelFactory.create(model, m ->
-        {
-        });
+        return ModelFactory.create(model, m -> {});
     }
 
     public static Set<String> getValidExtensions()

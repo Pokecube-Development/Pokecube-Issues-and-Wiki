@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
@@ -90,11 +91,16 @@ public class Material
 
     public void makeVertexBuilder(final ResourceLocation texture, final MultiBufferSource buffer)
     {
-        this.makeRenderType(texture);
+        makeVertexBuilder(texture, buffer, Mode.TRIANGLES);
+    }
+
+    public void makeVertexBuilder(final ResourceLocation texture, final MultiBufferSource buffer, Mode mode)
+    {
+        this.makeRenderType(texture, mode);
         if (buffer instanceof BufferSource) Material.lastImpl = (BufferSource) buffer;
     }
 
-    private RenderType makeRenderType(final ResourceLocation tex)
+    private RenderType makeRenderType(final ResourceLocation tex, Mode mode)
     {
         this.tex = tex;
         if (this.types.containsKey(tex)) return this.types.get(tex);
@@ -134,8 +140,7 @@ public class Material
         else builder.setCullState(RenderStateShard.NO_CULL);
 
         final RenderType.CompositeState rendertype$state = builder.createCompositeState(true);
-        type = RenderType.create(id, DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLES, 256, true, false,
-                rendertype$state);
+        type = RenderType.create(id, DefaultVertexFormat.NEW_ENTITY, mode, 256, true, false, rendertype$state);
 
         this.types.put(tex, type);
         return type;
@@ -143,8 +148,13 @@ public class Material
 
     public VertexConsumer preRender(final PoseStack mat, final VertexConsumer buffer)
     {
+        return preRender(mat, buffer, Mode.TRIANGLES);
+    }
+
+    public VertexConsumer preRender(final PoseStack mat, final VertexConsumer buffer, Mode mode)
+    {
         if (this.tex == null || Material.lastImpl == null) return buffer;
-        final RenderType type = this.makeRenderType(this.tex);
+        final RenderType type = this.makeRenderType(this.tex, mode);
         VertexConsumer newBuffer = Material.lastImpl.getBuffer(type);
         return newBuffer;
     }

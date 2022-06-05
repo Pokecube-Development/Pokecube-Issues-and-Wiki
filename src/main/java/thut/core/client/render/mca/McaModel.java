@@ -1,7 +1,6 @@
 package thut.core.client.render.mca;
 
 import java.io.FileNotFoundException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,7 +23,6 @@ import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.x3d.X3dMesh;
 import thut.core.client.render.x3d.X3dModel;
 import thut.core.client.render.x3d.X3dPart;
-import thut.core.client.render.x3d.X3dXML;
 import thut.core.common.ThutCore;
 
 public class McaModel extends X3dModel
@@ -66,7 +64,7 @@ public class McaModel extends X3dModel
                 this.valid = false;
                 return;
             }
-            final X3dXML xml = new X3dXML(res.getInputStream());
+            final McaXML xml = new McaXML(res.getInputStream());
             res.close();
             this.makeObjects(xml);
         }
@@ -77,7 +75,7 @@ public class McaModel extends X3dModel
         }
     }
 
-    HashMap<String, IExtendedModelPart> makeObjects(final McaXML xml) throws Exception
+    void makeObjects(final McaXML xml) throws Exception
     {
         final Set<Children> scenes = Sets.newHashSet();
         this.addChildren(scenes, xml.model.node.children);
@@ -117,6 +115,5 @@ public class McaModel extends X3dModel
                     if (this.parts.get(s) != null && this.parts.get(s) != part) part.addChild(this.parts.get(s));
             }
         }
-        return this.parts;
     }
 }

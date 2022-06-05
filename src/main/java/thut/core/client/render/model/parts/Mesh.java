@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector4f;
@@ -29,12 +30,16 @@ public abstract class Mesh
     final Vertex[] normalList;
     Vector4f centre = new Vector4f();
 
+    private boolean same_mat = false;
+
+    public final Mode vertexMode;
+
     final int iter;
 
     static double sum;
     static long n;
     static Vector4f METRIC = new Vector4f(1, 1, 1, 0);
-    
+
     public static double CULLTHRESHOLD = 4 * 4;
 
     public Mesh(final Integer[] order, final Vertex[] vert, final Vertex[] norm, final TextureCoordinate[] tex,
@@ -50,6 +55,9 @@ public abstract class Mesh
         Vertex vertex;
         Vertex normal;
         this.iter = GL_FORMAT == GL11.GL_TRIANGLES ? 3 : 4;
+
+        vertexMode = GL_FORMAT == GL11.GL_TRIANGLES ? Mode.TRIANGLES : Mode.QUADS;
+
         // Calculate the normals for each triangle.
         for (int i = 0; i < this.order.length; i += iter)
         {
@@ -84,6 +92,8 @@ public abstract class Mesh
             this.normalList[i + 2] = normal;
             if (iter == 4) this.normalList[i + 3] = normal;
         }
+
+        if (this.normals == null) this.normals = this.normalList;
 
         centre.mul(1.0f / order.length);
 
@@ -203,14 +213,13 @@ public abstract class Mesh
         // Apply Texturing.
         if (texturer != null)
         {
-            final boolean sameName = this.name.equals(this.material.name);
             texturer.shiftUVs(this.material.name, this.uvShift);
             if (texturer.isHidden(this.material.name)) return;
-            if (!sameName && texturer.isHidden(this.name)) return;
+            if (!same_mat && texturer.isHidden(this.name)) return;
             texturer.modifiyRGBA(this.material.name, this.rgbabro);
-            if (!sameName) texturer.modifiyRGBA(this.name, this.rgbabro);
+            if (!same_mat) texturer.modifiyRGBA(this.name, this.rgbabro);
         }
-        buffer = this.material.preRender(mat, buffer);
+        buffer = this.material.preRender(mat, buffer, this.vertexMode);
         if (this.material.emissiveMagnitude > 0)
         {
             final int j = (int) (this.material.emissiveMagnitude * 15);
@@ -223,5 +232,6 @@ public abstract class Mesh
     {
         this.material = material;
         this.name = material.name;
+        same_mat = true;
     }
 }

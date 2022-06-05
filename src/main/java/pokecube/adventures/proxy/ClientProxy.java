@@ -13,6 +13,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import pokecube.adventures.PokecubeAdv;
 import thut.bling.client.render.Back;
+import thut.core.client.render.model.IModel;
 import thut.core.client.render.x3d.X3dModel;
 import thut.wearables.EnumWearable;
 
@@ -31,7 +32,7 @@ public class ClientProxy extends CommonProxy
 
     protected static class RenderWearable extends Wearable
     { // One model for each layer.
-        X3dModel bag;
+        IModel bag;
 
         // One Texture for each layer.
         private final ResourceLocation BAG_1 = new ResourceLocation(PokecubeAdv.MODID, "textures/worn/bag_1.png");
