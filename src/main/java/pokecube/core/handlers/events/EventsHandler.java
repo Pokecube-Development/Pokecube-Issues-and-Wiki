@@ -551,7 +551,7 @@ public class EventsHandler
             IGuardAICapability.addCapability(event);
 
             // If it is a bee, we will add this to it.
-            if (EntityTypeTags.BEEHIVE_INHABITORS.contains(mob.getType()))
+            if (mob.getType().is(EntityTypeTags.BEEHIVE_INHABITORS))
                 event.addCapability(EventsHandler.BEECAP, new InhabitorProvider(new BeeInhabitor(mob)));
             if (ItemList.is(IMoveConstants.ANTS, mob))
                 event.addCapability(EventsHandler.ANTCAP, new InhabitorProvider(new AntInhabitor(mob)));

@@ -21,7 +21,8 @@ public class TerrainUpdate extends NBTPacket
     public static void sendTerrainToClient(final ChunkPos pos, final ServerPlayer player)
     {
         final ServerLevel world = (ServerLevel) player.level;
-        if (!world.isPositionEntityTicking(pos)) return;
+        // TODO replace this later maybe?
+        if (!world.isNaturalSpawningAllowed(pos)) return;
         final ITerrainProvider provider = world.getChunk(pos.x, pos.z).getCapability(ThutCaps.TERRAIN_PROVIDER, null).orElse(
                 null);
         final CompoundTag terrainData = provider.serializeNBT();

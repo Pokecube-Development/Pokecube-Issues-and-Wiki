@@ -61,8 +61,8 @@ public class BaseTile extends InteractableTile
                 return InteractionResult.FAIL;
             }
             if (this.last_base == null) this.last_base = exit_here;
-            if (exit_here.pos().distSqr(this.last_base.pos().getX(), this.last_base.pos().getY(),
-                    this.last_base.pos().getZ(), false) > 0.0)
+            if (exit_here.pos().distToLowCornerSqr(this.last_base.pos().getX(), this.last_base.pos().getY(),
+                    this.last_base.pos().getZ()) > 0.0)
             {
                 // We need to remove the location.
                 this.level.setBlockAndUpdate(pos, this.original);

@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -106,9 +107,10 @@ public class ClientInit
         if (Screen.hasAltDown())
         {
             event.getLeft().add("");
-            final Biome b = v.getBiome(Minecraft.getInstance().level);
-            final ResourceKey<Biome> key = BiomeDatabase.getKey(b);
-            event.getLeft().add(key.location() + ": " + BiomeDictionary.getTypes(key) + ", " + b.getBiomeCategory());
+            Holder<Biome> holder = Minecraft.getInstance().level.getBiome(v.getPos());
+            final ResourceKey<Biome> key = BiomeDatabase.getKey(holder.value());
+            event.getLeft()
+                    .add(key.location() + ": " + BiomeDictionary.getTypes(key) + ", " + Biome.getBiomeCategory(holder));
         }
     }
 

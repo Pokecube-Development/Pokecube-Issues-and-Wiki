@@ -23,6 +23,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -121,7 +122,7 @@ import thut.core.common.network.EntityUpdate;
 
 public class PokemobEventsHandler
 {
-    private static Map<DyeColor, Tag<Item>> DYETAGS = Maps.newHashMap();
+    private static Map<DyeColor, TagKey<Item>> DYETAGS = Maps.newHashMap();
 
     public static void register()
     {
@@ -671,7 +672,7 @@ public class PokemobEventsHandler
         }
     }
 
-    private static Map<DyeColor, Tag<Item>> getDyeTagMap()
+    private static Map<DyeColor, TagKey<Item>> getDyeTagMap()
     {
         if (PokemobEventsHandler.DYETAGS.isEmpty()) for (final DyeColor colour : DyeColor.values())
         {
@@ -869,11 +870,11 @@ public class PokemobEventsHandler
         // is Dyeable
         if (!held.isEmpty() && entry.dyeable)
         {
-            final IOptionalNamedTag<Item> dyeTag = Tags.Items.DYES;
+            final TagKey<Item> dyeTag = Tags.Items.DYES;
             DyeColor dye = null;
             if (held.is(dyeTag))
             {
-                final Map<DyeColor, Tag<Item>> tags = PokemobEventsHandler.getDyeTagMap();
+                final Map<DyeColor, TagKey<Item>> tags = PokemobEventsHandler.getDyeTagMap();
                 for (final DyeColor colour : DyeColor.values()) if (held.is(tags.get(colour)))
                 {
                     dye = colour;

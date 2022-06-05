@@ -21,7 +21,7 @@ public interface IMoveConstants extends IMoveNames
     static final Predicate<IPokemob> isBee = pokemob ->
     {
         final Mob entity = pokemob.getEntity();
-        final boolean isBee = EntityTypeTags.BEEHIVE_INHABITORS.contains(entity.getType());
+        final boolean isBee = entity.getType().is(EntityTypeTags.BEEHIVE_INHABITORS);
         // Only care about bees
         if (!isBee) return false;
         // Only process stock pokemobs

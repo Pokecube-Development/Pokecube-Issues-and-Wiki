@@ -24,7 +24,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -398,7 +398,7 @@ public class EntityPokemob extends PokemobRidable
     {}
 
     @Override
-    protected void jumpInLiquid(final Tag<Fluid> fluidTag)
+    protected void jumpInLiquid(final TagKey<Fluid> fluidTag)
     {
         this.setDeltaMovement(this.getDeltaMovement().add(0.0D,
                 0.04F * this.getAttribute(net.minecraftforge.common.ForgeMod.SWIM_SPEED.get()).getValue(), 0.0D));
