@@ -6,9 +6,7 @@ import java.util.function.Supplier;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.inventory.CraftingContainer;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.Recipe;
@@ -18,6 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import thut.api.item.ItemList;
 
 public class GemRecipe extends CustomRecipe
 {
@@ -38,12 +37,6 @@ public class GemRecipe extends CustomRecipe
         return () -> new SimpleRecipeSerializer<>(create);
     }
 
-    public static boolean is(final ResourceLocation tag, final Item item)
-    {
-        final boolean tagged = ItemTags.getAllTags().getTagOrEmpty(tag).contains(item);
-        return tagged;
-    }
-
     public GemRecipe(final ResourceLocation idIn)
     {
         super(idIn);
@@ -61,8 +54,8 @@ public class GemRecipe extends CustomRecipe
             if (!stack.isEmpty())
             {
                 n++;
-                if (GemRecipe.is(GemRecipe.BLINGTAG, stack.getItem())) bling = stack;
-                if (GemRecipe.is(GemRecipe.GEMTAG, stack.getItem())) gem = stack;
+                if (ItemList.is(GemRecipe.BLINGTAG, stack.getItem())) bling = stack;
+                if (ItemList.is(GemRecipe.GEMTAG, stack.getItem())) gem = stack;
             }
         }
         if (n > 2) return false;
@@ -86,8 +79,8 @@ public class GemRecipe extends CustomRecipe
             if (!stack.isEmpty())
             {
                 n++;
-                if (GemRecipe.is(GemRecipe.BLINGTAG, stack.getItem())) bling = stack;
-                if (GemRecipe.is(GemRecipe.GEMTAG, stack.getItem())) gem = stack;
+                if (ItemList.is(GemRecipe.BLINGTAG, stack.getItem())) bling = stack;
+                if (ItemList.is(GemRecipe.GEMTAG, stack.getItem())) gem = stack;
             }
         }
         final ItemStack newBling = bling.copy();
@@ -120,12 +113,12 @@ public class GemRecipe extends CustomRecipe
             final ItemStack stack = inv.getItem(i);
             if (!stack.isEmpty())
             {
-                if (GemRecipe.is(GemRecipe.BLINGTAG, stack.getItem()))
+                if (ItemList.is(GemRecipe.BLINGTAG, stack.getItem()))
                 {
                     bling = stack;
                     blingIndex = i;
                 }
-                if (GemRecipe.is(GemRecipe.GEMTAG, stack.getItem())) gem = stack;
+                if (ItemList.is(GemRecipe.GEMTAG, stack.getItem())) gem = stack;
             }
         }
         for (int i = 0; i < nonnulllist.size(); ++i)

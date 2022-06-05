@@ -6,8 +6,10 @@ import java.util.Map;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mojang.math.Quaternion;
 
 import net.minecraft.core.Direction;
+import thut.api.maths.Vector4;
 import thut.core.client.render.json.JsonTemplate.JsonBlock;
 import thut.core.client.render.json.JsonTemplate.JsonFace;
 import thut.core.client.render.model.Vertex;
@@ -17,33 +19,72 @@ import thut.core.client.render.texturing.TextureCoordinate;
 
 public class JsonPart extends Part
 {
+
     public static List<JsonPart> makeParts(JsonBlock b, int index)
     {
         final List<JsonPart> parts = new ArrayList<>();
-        List<Mesh> shapes = makeShapes(b);
+        float[] offsets;
 
-        System.out.println(b.name);
+        if (b.rotation == null) offsets = new float[]
+        { 0, 0, 0 };
+        else offsets = b.rotation.origin.clone();
 
-        JsonPart root = new JsonPart(b.name);
-        root.index = index;
-        root.addShape(shapes.get(0));
+        List<Mesh> shapes = makeShapes(b, offsets);
+        JsonPart root = make(shapes.get(0), b.name, b, index);
         parts.add(root);
-
         if (shapes.size() > 1)
         {
             int i = 0;
             for (Mesh s : shapes)
             {
-                JsonPart part = new JsonPart(b.name + "_" + i++);
-                part.index = index;
-                part.addShape(s);
+                JsonPart part = make(s, b.name + "_" + i++, b, index);
                 parts.add(part);
             }
         }
         return parts;
     }
 
-    private static void addFace(Map<String, List<List<Object>>> materials, JsonBlock b, JsonFace face, Direction dir)
+    private static JsonPart make(Mesh mesh, String name, JsonBlock b, int index)
+    {
+        JsonPart part = new JsonPart(name);
+        part.index = index;
+        part.addShape(mesh);
+        float[] offsets = b.from.clone();
+        offsets = new float[]{0,0,0};
+        if (b.rotation != null)
+        {
+            offsets[0] += b.rotation.origin[0];
+            offsets[1] += b.rotation.origin[1];
+            offsets[2] += b.rotation.origin[2];
+            
+            float x = 0;
+            float y = 0;
+            float z = 0;
+            if (b.rotation.axis.equals("x"))
+            {
+                x = b.rotation.angle;
+            }
+            if (b.rotation.axis.equals("y"))
+            {
+                y = b.rotation.angle;
+            }
+            if (b.rotation.axis.equals("z"))
+            {
+                z = b.rotation.angle;
+            }
+            Quaternion quat = new Quaternion(x, y, z, true);
+            final Vector4 rotations = new Vector4(quat);
+            part.rotations.set(rotations.x, rotations.y, rotations.z, rotations.w);
+        }
+        offsets[0]/=16;
+        offsets[1]/=16;
+        offsets[2]/=16;
+        part.offset.set(offsets);
+        return part;
+    }
+
+    private static void addFace(Map<String, List<List<Object>>> materials, JsonBlock b, JsonFace face, Direction dir,
+            float[] offsets)
     {
         List<Object> order = Lists.newArrayList();
         List<Object> verts = Lists.newArrayList();
@@ -61,8 +102,22 @@ public class JsonPart extends Part
             materials.put(material, Lists.newArrayList(order, verts, tex));
         }
 
-        float[] from = b.from;
-        float[] to = b.to;
+        float[] from =
+        { 0, 0, 0 };
+        float[] to =
+        { b.to[0] - b.from[0], b.to[1] - b.from[1], b.to[2] - b.from[2] };
+
+        from = b.from.clone();
+        to = b.to.clone();
+
+
+        from[0] -= offsets[0];
+        from[1] -= offsets[1];
+        from[2] -= offsets[2];
+
+        to[0] -= offsets[0];
+        to[1] -= offsets[1];
+        to[2] -= offsets[2];
 
         int[][] tex_order =
         {
@@ -214,7 +269,7 @@ public class JsonPart extends Part
         }
     }
 
-    private static List<Mesh> makeShapes(JsonBlock b)
+    private static List<Mesh> makeShapes(JsonBlock b, float[] offsets)
     {
         List<Mesh> shapes = new ArrayList<>();
 
@@ -229,12 +284,12 @@ public class JsonPart extends Part
         // The texture coordinates from from the faces,
         // if they have different coordinates, it makes a new mesh for that face
 
-        addFace(materials, b, b.faces.north, Direction.NORTH);
-        addFace(materials, b, b.faces.east, Direction.EAST);
-        addFace(materials, b, b.faces.south, Direction.SOUTH);
-        addFace(materials, b, b.faces.west, Direction.WEST);
-        addFace(materials, b, b.faces.up, Direction.UP);
-        addFace(materials, b, b.faces.down, Direction.DOWN);
+        addFace(materials, b, b.faces.north, Direction.NORTH, offsets);
+        addFace(materials, b, b.faces.east, Direction.EAST, offsets);
+        addFace(materials, b, b.faces.south, Direction.SOUTH, offsets);
+        addFace(materials, b, b.faces.west, Direction.WEST, offsets);
+        addFace(materials, b, b.faces.up, Direction.UP, offsets);
+        addFace(materials, b, b.faces.down, Direction.DOWN, offsets);
 
         materials.forEach((key, lists) -> {
             List<Object> order = lists.get(0);

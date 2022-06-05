@@ -41,7 +41,7 @@ public class JsonTemplate
     
     public static class JsonRotation
     {
-        public double angle;
+        public float angle;
         public String axis;
         public float[] origin;
     }
