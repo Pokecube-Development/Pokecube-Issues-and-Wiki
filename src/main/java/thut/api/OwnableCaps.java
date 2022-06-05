@@ -12,7 +12,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -37,6 +36,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import thut.api.block.IOwnableTE;
+import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -92,8 +92,7 @@ public class OwnableCaps
         public LivingEntity getOwner()
         {
             if (this.getOwnerId() == null) this.owner = null;
-            if (this.getOwnerId() != null && this.owner == null
-                    && this.wrapped.getLevel() instanceof ServerLevel)
+            if (this.getOwnerId() != null && this.owner == null && this.wrapped.getLevel() instanceof ServerLevel)
                 return this.owner = this.getOwner((ServerLevel) this.wrapped.getLevel(), this.owner);
             return this.owner;
         }
@@ -333,9 +332,8 @@ public class OwnableCaps
         if (tile != null && tile.getLevel() instanceof ServerLevel level)
         {
             final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
-            if (ownable instanceof IOwnableTE
-                    && ((IOwnableTE) ownable).canEdit(event.getEntityLiving()) && ItemTags.getAllTags()
-                            .getTagOrEmpty(OwnableCaps.STICKTAG).contains(event.getItemStack().getItem())
+            if (ownable instanceof IOwnableTE && ((IOwnableTE) ownable).canEdit(event.getEntityLiving())
+                    && ItemList.is(OwnableCaps.STICKTAG, event.getItemStack())
                     && ((IOwnableTE) ownable).getOwnerId() != null)
             {
                 BlockState state = level.getBlockState(event.getPos());
