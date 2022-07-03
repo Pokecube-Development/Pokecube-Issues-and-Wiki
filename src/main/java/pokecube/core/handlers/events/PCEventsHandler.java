@@ -257,9 +257,9 @@ public class PCEventsHandler
             // Apply the same code that StatsHandler does, as it does not
             // get the cancelled event.
             final ResourceLocation cube_id = PokecubeItems.getCubeId(evt.getFilledCube());
-            if (IPokecube.BEHAVIORS.containsKey(cube_id))
+            if (IPokecube.PokecubeBehavior.BEHAVIORS.get().containsKey(cube_id))
             {
-                final PokecubeBehavior cube = IPokecube.BEHAVIORS.getValue(cube_id);
+                final PokecubeBehavior cube = IPokecube.PokecubeBehavior.BEHAVIORS.get().getValue(cube_id);
                 cube.onPostCapture(evt);
             }
             StatsCollector.addCapture(evt.getCaught());

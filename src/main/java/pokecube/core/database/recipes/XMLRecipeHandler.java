@@ -10,9 +10,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.crafting.CraftingHelper;
@@ -114,7 +114,7 @@ public class XMLRecipeHandler
                 if (value.id.startsWith("#"))
                 {
                     final ResourceLocation id = new ResourceLocation(value.id.replaceFirst("#", ""));
-                    final Tag<Item> tag = ItemTags.getAllTags().getTagOrEmpty(id);
+                    final TagKey<Item> tag = TagKey.create(Registry.ITEM_REGISTRY, id);
                     recipeItemsIn.add(Ingredient.of(tag));
                 }
                 else recipeItemsIn.add(Ingredient.of(Tools.getStack(value.getValues())));

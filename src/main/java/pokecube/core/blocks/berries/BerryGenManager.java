@@ -21,11 +21,13 @@ import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
@@ -101,7 +103,7 @@ public class BerryGenManager
     public static final ResourceLocation REPLACETAG = new ResourceLocation("pokecube:berry_tree_replace");
 
     public static final ProcessorRule REPLACEABLEONLY = new ProcessorRule(AlwaysTrueTest.INSTANCE,
-            new TagMatchTest(BlockTags.getAllTags().getTagOrEmpty(BerryGenManager.REPLACETAG)),
+            new TagMatchTest(TagKey.create(Registry.BLOCK_REGISTRY, BerryGenManager.REPLACETAG)),
             Blocks.STRUCTURE_VOID.defaultBlockState());
 
     public static final NotRuleProcessor NOREPLACE = new NotRuleProcessor(

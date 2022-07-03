@@ -8,10 +8,11 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Mob;
@@ -23,6 +24,7 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.interfaces.PokecubeMod;
 import thut.api.maths.Vector3;
 
@@ -42,7 +44,9 @@ public class DispenseBehaviourInteract implements DispenseItemBehavior
 
     public static void registerBehavior(final ResourceLocation tag)
     {
-        for (final Item item : ItemTags.getAllTags().getTagOrEmpty(tag).getValues())
+        TagKey<Item> itemtag = TagKey.create(Registry.ITEM_REGISTRY, tag);
+        List<Item> items = ForgeRegistries.ITEMS.tags().getTag(itemtag).stream().toList();
+        for (final Item item : items)
             DispenseBehaviourInteract.registerBehavior(new ItemStack(item));
     }
 

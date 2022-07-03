@@ -205,7 +205,8 @@ public class Pokecube extends Item implements IPokecube
     @Override
     public double getCaptureModifier(final IPokemob mob, final ResourceLocation id)
     {
-        if (IPokecube.BEHAVIORS.containsKey(id)) return IPokecube.BEHAVIORS.getValue(id).getCaptureModifier(mob);
+        if (IPokecube.PokecubeBehavior.BEHAVIORS.get().containsKey(id))
+            return IPokecube.PokecubeBehavior.BEHAVIORS.get().getValue(id).getCaptureModifier(mob);
         return 0;
     }
 
@@ -380,7 +381,7 @@ public class Pokecube extends Item implements IPokecube
     {
         EntityPokecube entity = null;
         final ResourceLocation id = PokecubeItems.getCubeId(cube);
-        if (id == null || !IPokecube.BEHAVIORS.containsKey(id)) return null;
+        if (id == null || !IPokecube.PokecubeBehavior.BEHAVIORS.get().containsKey(id)) return null;
         final ItemStack stack = cube.copy();
         final boolean hasMob = PokecubeManager.isFilled(stack);
         final Config config = PokecubeCore.getConfig();
@@ -445,7 +446,7 @@ public class Pokecube extends Item implements IPokecube
     {
         EntityPokecube entity = null;
         final ResourceLocation id = PokecubeItems.getCubeId(cube);
-        if (id == null || !IPokecube.BEHAVIORS.containsKey(id)) return null;
+        if (id == null || !IPokecube.PokecubeBehavior.BEHAVIORS.get().containsKey(id)) return null;
         final ItemStack stack = cube.copy();
         stack.setCount(1);
         entity = new EntityPokecube(EntityPokecube.TYPE, world);

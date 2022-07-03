@@ -53,7 +53,7 @@ public class GuardAICapability implements IGuardAICapability
         public void continueTask(final Mob entity)
         {
             final Vec3 newPos = entity.position();
-            if (this.getPos().closerThan(newPos, this.getRoamDistance())) return;
+            if (this.getPos().closerToCenterThan(newPos, this.getRoamDistance())) return;
 
             // Ensure we are not stuck riding something when trying to path
             entity.unRide();

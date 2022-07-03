@@ -273,7 +273,7 @@ public class CommandGenStuff
             CommandGenStuff.generateItemJson(name, "berry_", dir, "pokecube");
         }
 
-        if (cubes) for (final ResourceLocation l : IPokecube.BEHAVIORS.getKeys())
+        if (cubes) for (final ResourceLocation l : IPokecube.PokecubeBehavior.BEHAVIORS.get().getKeys())
         {
             final String cube = l.getPath();
             final JsonObject blockJson = new JsonObject();

@@ -77,7 +77,7 @@ public class BeeTasks
 
     private static void addTasks(final IPokemob pokemob, final List<IAIRunnable> list)
     {
-        if (!EntityTypeTags.BEEHIVE_INHABITORS.contains(pokemob.getEntity().getType())) return;
+        if (!pokemob.getEntity().getType().is(EntityTypeTags.BEEHIVE_INHABITORS)) return;
         // Gather Nectar from found flower
         list.add(new GatherNectar(pokemob));
         // Return to hive with the Nectar from the flower

@@ -23,6 +23,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
@@ -123,7 +124,14 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         }
     }
 
-    protected boolean checkValid(Object item_or_block)
+    protected boolean checkValid(ItemStack item_or_block)
+    {
+        checkHeldItem();
+        for (ResourceLocation l : keys) if (ItemList.is(l, item_or_block)) return true;
+        return keys.isEmpty();
+    }
+
+    protected boolean checkValid(BlockState item_or_block)
     {
         checkHeldItem();
         for (ResourceLocation l : keys) if (ItemList.is(l, item_or_block)) return true;

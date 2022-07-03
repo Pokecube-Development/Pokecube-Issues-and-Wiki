@@ -39,6 +39,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep.Carving;
+import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.StructureSettings;
@@ -249,7 +250,7 @@ public class SecretBaseDimension
         @Override
         public Sampler climateSampler()
         {
-            return (p_188507_, p_188508_, p_188509_) -> {
+            return (temperature, humidity, continentalness, erosion, depth, weirdness, spawnTarget) -> {
                 return Climate.target(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
             };
         }
@@ -318,6 +319,13 @@ public class SecretBaseDimension
         public int getMinY()
         {
             return 0;
+        }
+
+        @Override
+        public void addDebugScreenInfo(List<String> p_208054_, BlockPos p_208055_)
+        {
+            // TODO Auto-generated method stub
+            
         }
 
     }

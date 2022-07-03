@@ -370,7 +370,7 @@ public class LogicMiscUpdate extends LogicBase
 
             final ItemStack pokecube = this.pokemob.getPokecube();
             final ResourceLocation id = PokecubeItems.getCubeId(pokecube);
-            final PokecubeBehavior behaviour = IPokecube.BEHAVIORS.getValue(id);
+            final PokecubeBehavior behaviour = IPokecube.PokecubeBehavior.BEHAVIORS.get().getValue(id);
             if (behaviour != null) behaviour.onUpdate(this.pokemob);
         }
 

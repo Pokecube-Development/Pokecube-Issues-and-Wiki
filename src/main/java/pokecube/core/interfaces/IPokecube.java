@@ -1,5 +1,7 @@
 package pokecube.core.interfaces;
 
+import java.util.function.Supplier;
+
 import javax.annotation.Nullable;
 
 import net.minecraft.resources.ResourceLocation;
@@ -9,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryBuilder;
 import pokecube.core.events.pokemob.CaptureEvent;
 import pokecube.core.events.pokemob.CaptureEvent.Post;
 import pokecube.core.events.pokemob.CaptureEvent.Pre;
@@ -28,13 +29,11 @@ public interface IPokecube
 
         @Override
         public void onPostCapture(final Post evt)
-        {
-        }
+        {}
 
         @Override
         public void onPreCapture(final Pre evt)
-        {
-        }
+        {}
     }
 
     public static class NormalPokecubeBehavoir extends DefaultPokecubeBehavior
@@ -56,9 +55,11 @@ public interface IPokecube
 
     public static abstract class PokecubeBehavior extends ForgeRegistryEntry<PokecubeBehavior>
     {
+        public static Supplier<IForgeRegistry<PokecubeBehavior>> BEHAVIORS;
+        
         // Whoever registers the default pokecube should set this.
         public static ResourceLocation DEFAULTCUBE = null;
-        public static ResourceLocation POKESEAL    = null;
+        public static ResourceLocation POKESEAL = null;
 
         /**
          * Adds it to the list of behaviours to run when a pokecube is used.
@@ -68,7 +69,7 @@ public interface IPokecube
          */
         public static void addCubeBehavior(final PokecubeBehavior behavior)
         {
-            IPokecube.BEHAVIORS.register(behavior);
+            BEHAVIORS.get().register(behavior);
         }
 
         /**
@@ -114,10 +115,6 @@ public interface IPokecube
 
         }
     }
-
-    public static IForgeRegistry<PokecubeBehavior> BEHAVIORS = new RegistryBuilder<PokecubeBehavior>().setIDRange(0,
-            Short.MAX_VALUE).setType(PokecubeBehavior.class).setName(new ResourceLocation(PokecubeMod.ID, "pokecubes"))
-            .create();
 
     default boolean canCapture(final Entity e, final ItemStack cube)
     {

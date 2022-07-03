@@ -8,8 +8,12 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.NewRegistryEvent;
+import net.minecraftforge.registries.RegistryBuilder;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.healer.HealerTile;
+import pokecube.core.interfaces.IPokecube;
+import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 import pokecube.nbtedit.NBTEdit;
 import thut.core.common.Proxy;
 
@@ -25,6 +29,11 @@ public class CommonProxy implements Proxy
             {
                 PokecubeCore.proxy = new CommonProxy();
                 NBTEdit.proxy = new pokecube.nbtedit.forge.CommonProxy();
+
+                IPokecube.PokecubeBehavior.BEHAVIORS = event.create(new RegistryBuilder<PokecubeBehavior>()
+                        .setIDRange(0, Short.MAX_VALUE).setType(PokecubeBehavior.class)
+                        .setName(new ResourceLocation(PokecubeMod.ID, "pokecubes")));
+
             }
         }
     }

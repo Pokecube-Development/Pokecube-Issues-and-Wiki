@@ -11,12 +11,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -25,6 +26,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.blocks.nests.NestTile;
@@ -247,10 +249,12 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
             // sizes will fit.
             if (this.mobs.isEmpty() && this.eggs.isEmpty())
             {
-                final List<EntityType<?>> types = Lists
-                        .newArrayList(EntityTypeTags.bind(IMoveConstants.BURROWS.toString()).getValues());
+                TagKey<EntityType<?>> tagKey = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, IMoveConstants.BURROWS);
+
+                final List<EntityType<?>> types = ForgeRegistries.ENTITIES.tags().getTag(tagKey).stream().toList();
+
                 Collections.shuffle(types);
-                final Biome b = world.getBiome(this.burrow.getCenter());
+                final Biome b = world.getBiome(this.burrow.getCenter()).value();
                 selection:
                 for (final EntityType<?> t : types)
                 {

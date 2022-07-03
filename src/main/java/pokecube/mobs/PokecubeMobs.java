@@ -135,8 +135,7 @@ public class PokecubeMobs
             {
                 int gen1 = e.getGen();
                 if (this.genMap.containsKey(e)) gen1 = this.genMap.get(e);
-                for (final EvolutionData d : e.getEvolutions())
-                    if (d.evolution == entry && gen1 < gen) gen = gen1;
+                for (final EvolutionData d : e.getEvolutions()) if (d.evolution == entry && gen1 < gen) gen = gen1;
             }
             this.genMap.put(real, gen);
         }
@@ -238,8 +237,7 @@ public class PokecubeMobs
     public void makeShedinja(final EvolveEvent.Post evt)
     {
         Entity owner;
-        if ((owner = evt.mob.getOwner()) instanceof ServerPlayer) this.makeShedinja(evt.mob,
-                (Player) owner);
+        if ((owner = evt.mob.getOwner()) instanceof ServerPlayer) this.makeShedinja(evt.mob, (Player) owner);
     }
 
     void makeShedinja(final IPokemob evo, final Player player)
@@ -256,7 +254,8 @@ public class PokecubeMobs
                 final ItemStack item = inv.getItem(n);
                 if (item == ItemStack.EMPTY) hasSpace = true;
                 final ResourceLocation key = PokecubeItems.getCubeId(item);
-                if (!hasCube && key != null && IPokecube.BEHAVIORS.containsKey(key) && !PokecubeManager.isFilled(item))
+                if (!hasCube && key != null && IPokecube.PokecubeBehavior.BEHAVIORS.get().containsKey(key)
+                        && !PokecubeManager.isFilled(item))
                 {
                     hasCube = true;
                     cube = item;
@@ -267,8 +266,7 @@ public class PokecubeMobs
             }
             if (hasCube && hasSpace)
             {
-                final Entity pokemon = PokecubeCore.createPokemob(Database.getEntry("shedinja"), player
-                        .getLevel());
+                final Entity pokemon = PokecubeCore.createPokemob(Database.getEntry("shedinja"), player.getLevel());
                 if (pokemon != null)
                 {
                     final ItemStack mobCube = cube.copy();
@@ -640,13 +638,14 @@ public class PokecubeMobs
                 // The below processing is for pokemobs only
                 if (evt.getCaught() == null) return;
 
-                final boolean tameSnag = !evt.getCaught().isPlayerOwned() && evt.getCaught().getGeneralState(GeneralStates.TAMED);
+                final boolean tameSnag = !evt.getCaught().isPlayerOwned()
+                        && evt.getCaught().getGeneralState(GeneralStates.TAMED);
 
                 if (evt.getCaught().isShadow())
                 {
                     final EntityPokecube cube = (EntityPokecube) evt.pokecube;
-                    final IPokemob mob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(evt.getCaught()
-                            .getPokedexEntry(), cube.getLevel()));
+                    final IPokemob mob = CapabilityPokemob.getPokemobFor(
+                            PokecubeCore.createPokemob(evt.getCaught().getPokedexEntry(), cube.getLevel()));
                     cube.setTilt(Tools.computeCatchRate(mob, 1));
                     cube.setTime(cube.getTilt() * 20 + 5);
                     if (!tameSnag) evt.getCaught().setPokecube(evt.getFilledCube());
@@ -683,8 +682,8 @@ public class PokecubeMobs
 
                 final EntityPokecube cube = (EntityPokecube) evt.pokecube;
 
-                final IPokemob mob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(evt.getCaught()
-                        .getPokedexEntry(), cube.getLevel()));
+                final IPokemob mob = CapabilityPokemob
+                        .getPokemobFor(PokecubeCore.createPokemob(evt.getCaught().getPokedexEntry(), cube.getLevel()));
                 final Vector3 v = new Vector3();
                 final Entity thrower = cube.shootingEntity;
                 int has = CaptureStats.getTotalNumberOfPokemobCaughtBy(thrower.getUUID(), mob.getPokedexEntry());
