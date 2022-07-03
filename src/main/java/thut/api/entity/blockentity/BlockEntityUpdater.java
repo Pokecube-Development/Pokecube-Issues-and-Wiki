@@ -245,7 +245,7 @@ public class BlockEntityUpdater
             if (dy1 == 0 && !(dz1 == 0 && dx1 == 0))
             {
                 dy = inter.maxY - toUse.minY;
-                if (dy >= 0 && dy < entity.maxUpStep)
+                if (dy >= 0 && dy < entity.getStepHeight())
                 {
                     boolean valid = true;
                     // check if none of the other boxes disagree with the step

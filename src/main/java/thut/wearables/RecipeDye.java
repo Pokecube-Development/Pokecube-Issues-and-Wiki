@@ -7,10 +7,10 @@ import java.util.function.Supplier;
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -27,7 +27,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class RecipeDye extends CustomRecipe
 {
-    private static Map<DyeColor, Tag<Item>> DYETAGS = Maps.newHashMap();
+    private static Map<DyeColor, TagKey<Item>> DYETAGS = Maps.newHashMap();
 
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(
             ForgeRegistries.RECIPE_SERIALIZERS, ThutWearables.MODID);
@@ -41,12 +41,12 @@ public class RecipeDye extends CustomRecipe
         return () -> new SimpleRecipeSerializer<>(create);
     }
 
-    public static Map<DyeColor, Tag<Item>> getDyeTagMap()
+    public static Map<DyeColor, TagKey<Item>> getDyeTagMap()
     {
         if (RecipeDye.DYETAGS.isEmpty()) for (final DyeColor colour : DyeColor.values())
         {
             final ResourceLocation tag = new ResourceLocation("forge", "dyes/" + colour.getName());
-            RecipeDye.DYETAGS.put(colour, ItemTags.getAllTags().getTagOrEmpty(tag));
+            RecipeDye.DYETAGS.put(colour, TagKey.create(Registry.ITEM_REGISTRY, tag));
         }
         return RecipeDye.DYETAGS;
     }
@@ -78,7 +78,7 @@ public class RecipeDye extends CustomRecipe
                 wearable = stack;
                 continue;
             }
-            final Tag<Item> dyeTag = Tags.Items.DYES;
+            final TagKey<Item> dyeTag = Tags.Items.DYES;
             if (stack.is(dyeTag))
             {
                 dye = stack;
@@ -90,7 +90,7 @@ public class RecipeDye extends CustomRecipe
         if (!output.hasTag()) output.setTag(new CompoundTag());
         DyeColor dyeColour = null;
 
-        final Map<DyeColor, Tag<Item>> tags = RecipeDye.getDyeTagMap();
+        final Map<DyeColor, TagKey<Item>> tags = RecipeDye.getDyeTagMap();
         for (final DyeColor colour : DyeColor.values())
             if (dye.is(tags.get(colour)))
             {
@@ -137,7 +137,7 @@ public class RecipeDye extends CustomRecipe
                 wearable = true;
                 continue;
             }
-            final Tag<Item> dyeTag = Tags.Items.DYES;
+            final TagKey<Item> dyeTag = Tags.Items.DYES;
             if (stack.is(dyeTag))
             {
                 if (dye) return false;

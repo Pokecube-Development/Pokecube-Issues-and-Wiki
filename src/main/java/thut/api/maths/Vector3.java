@@ -14,6 +14,8 @@ import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction8;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Holder.Direct;
 import net.minecraft.core.QuartPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
@@ -605,7 +607,7 @@ public class Vector3
 
     public Biome getBiome(final LevelAccessor world)
     {
-        return world.getBiome(this.getPos());
+        return world.getBiome(this.getPos()).value();
     }
 
     public Block getBlock(final BlockGetter worldMap)
@@ -1090,13 +1092,14 @@ public class Vector3
         int j = chunk.getSectionIndex(QuartPos.toBlock(l));
 
         LevelChunkSection section = chunk.getSections()[j];
-        PalettedContainer<Biome> biomes = section.getBiomes();
+        PalettedContainer<Holder<Biome>> biomes = section.getBiomes();
 
-        Biome old = biomes.get(qx & 3, l & 3, qz & 3);
+        Biome old = biomes.get(qx & 3, l & 3, qz & 3).value();
         // No need to run this if we are already the same biome...
         if (old == biome) return;
 
-        biomes.set(qx & 3, l & 3, qz & 3, biome);
+        // TODO see if this works?
+        biomes.set(qx & 3, l & 3, qz & 3, new Direct<Biome>(biome));
 
         if (chunk instanceof LevelChunk lchunk)
         {

@@ -13,7 +13,7 @@ import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
@@ -26,18 +26,15 @@ public class StructureManager
     public static class StructureInfo
     {
         public String            name;
-        public StructureStart<?> start;
+        public StructureStart start;
 
         private int    hash = -1;
         private String key;
 
-        public StructureInfo()
-        {
-        }
 
-        public StructureInfo(final Entry<StructureFeature<?>, StructureStart<?>> entry)
+        public StructureInfo(final Entry<ConfiguredStructureFeature<?, ?>, StructureStart> entry)
         {
-            this.name = entry.getKey().getFeatureName();
+            this.name = entry.getKey().feature.getRegistryName().toString();
             this.start = entry.getValue();
             if (this.name == null)
             {
@@ -172,7 +169,7 @@ public class StructureManager
         if (!(evt.getWorld() instanceof Level) || evt.getWorld().isClientSide()) return;
         final Level w = (Level) evt.getWorld();
         final ResourceKey<Level> dim = w.dimension();
-        for (final Entry<StructureFeature<?>, StructureStart<?>> entry : evt.getChunk().getAllStarts().entrySet())
+        for (final Entry<ConfiguredStructureFeature<?, ?>, StructureStart> entry : evt.getChunk().getAllStarts().entrySet())
         {
             final StructureInfo info = new StructureInfo(entry);
             if (!info.start.isValid()) continue;

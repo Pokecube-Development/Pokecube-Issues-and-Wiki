@@ -84,7 +84,7 @@ public class TerrainChecker
 
     public static boolean isCutablePlant(final BlockState state)
     {
-        return ItemList.is(TerrainChecker.PLANTEATTAG, state) || ItemList.is(BlockTags.LEAVES.getName(), state)
+        return ItemList.is(TerrainChecker.PLANTEATTAG, state) || ItemList.is(BlockTags.LEAVES.location(), state)
                 || ThutCore.getConfig().autoPopulateLists && TerrainChecker.isPlant(state.getMaterial());
     }
 

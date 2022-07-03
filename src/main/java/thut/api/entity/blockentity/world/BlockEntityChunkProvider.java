@@ -121,12 +121,14 @@ public class BlockEntityChunkProvider extends ChunkSource
     }
 
     @Override
-    public void tick(final BooleanSupplier p_156184_)
-    {}
-
-    @Override
     public int getLoadedChunksCount()
     {
         return 0;
+    }
+
+    @Override
+    public void tick(BooleanSupplier p_202162_, boolean p_202163_)
+    {
+        
     }
 }

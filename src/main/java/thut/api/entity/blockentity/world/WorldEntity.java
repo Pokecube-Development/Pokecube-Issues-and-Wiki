@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.MinecraftServer;
@@ -125,19 +126,19 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public Biome getUncachedNoiseBiome(final int x, final int y, final int z)
+    public Holder<Biome> getUncachedNoiseBiome(final int x, final int y, final int z)
     {
         return this.world.getNoiseBiome(x, y, z);
     }
 
     @Override
-    public Biome getBiome(final BlockPos pos)
+    public Holder<Biome> getBiome(final BlockPos pos)
     {
         return this.world.getBiome(pos);
     }
 
     @Override
-    public Biome getNoiseBiome(final int x, final int y, final int z)
+    public Holder<Biome> getNoiseBiome(final int x, final int y, final int z)
     {
         return this.world.getNoiseBiome(x, y, z);
     }
