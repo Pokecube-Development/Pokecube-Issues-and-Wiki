@@ -224,7 +224,7 @@ public abstract class Move_Base
      */
     public float getPostDelayFactor(final IPokemob attacker)
     {
-        return this.move.delayAfter ? 4 : 1;
+        return this.move.cooldown_scale;
     }
 
     /**
