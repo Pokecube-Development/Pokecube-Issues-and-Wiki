@@ -5,9 +5,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.RegistryEvent.NewRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.adventures.PokecubeAdv;
 import thut.core.common.Proxy;
 import thut.wearables.EnumWearable;
@@ -20,7 +20,7 @@ public class CommonProxy implements Proxy
     public static class RegistryEvents
     {
         @SubscribeEvent
-        public static void onStart(final NewRegistry event)
+        public static void onStart(final NewRegistryEvent event)
         {
             if (PokecubeAdv.proxy == null) PokecubeAdv.proxy = new CommonProxy();
         }

@@ -161,7 +161,7 @@ public class ActionNaturePower implements IMoveAction
 
         final Predicate<BlockPos> _predicate_ = t -> {
 
-            final ResourceKey<Biome> here = BiomeDatabase.getKey(_level_.getBiome(t));
+            final ResourceKey<Biome> here = BiomeDatabase.getKey(_level_.getBiome(t).value());
             // Already the same biome, no apply!
             if (here.location().equals(_biome_)) return false;
 
@@ -344,7 +344,7 @@ public class ActionNaturePower implements IMoveAction
                 int qy = QuartPos.fromBlock(vec.intY());
                 int qz = QuartPos.fromBlock(vec.intZ());
                 final Biome natural = world.getChunkSource().getGenerator().getBiomeSource().getNoiseBiome(qx, qy, qz,
-                        sampler);
+                        sampler).value();
                 if (natural != here)
                 {
                     vec.setBiome(natural, world);

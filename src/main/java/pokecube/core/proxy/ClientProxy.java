@@ -22,9 +22,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.RegistryEvent.NewRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.client.PokecenterSound;
@@ -37,7 +37,7 @@ public class ClientProxy extends CommonProxy
     public static class RegistryEvents
     {
         @SubscribeEvent
-        public static void onStart(final NewRegistry event)
+        public static void onStart(final NewRegistryEvent event)
         {
             PokecubeCore.proxy = new ClientProxy();
             NBTEdit.proxy = new pokecube.nbtedit.forge.ClientProxy();

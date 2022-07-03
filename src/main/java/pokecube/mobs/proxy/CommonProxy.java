@@ -1,9 +1,9 @@
 package pokecube.mobs.proxy;
 
-import net.minecraftforge.event.RegistryEvent.NewRegistry;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.events.onload.RegisterMiscItems;
 import pokecube.core.items.megastuff.ItemMegawearable;
@@ -13,7 +13,7 @@ import pokecube.mobs.PokecubeMobs;
 public class CommonProxy
 {
     @SubscribeEvent
-    public static void onStart(final NewRegistry event)
+    public static void onStart(final NewRegistryEvent event)
     {
         PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOW, CommonProxy::initWearables);
     }

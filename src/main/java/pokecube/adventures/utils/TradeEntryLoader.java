@@ -15,9 +15,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades.ItemListing;
 import net.minecraft.world.item.Item;
@@ -196,8 +196,9 @@ public class TradeEntryLoader
         else if (flag.equals("tag_sell"))
         {
             final ResourceLocation tag = PokecubeItems.toPokecubeResource(custom);
-            final Tag<Item> itemtag = ItemTags.getAllTags().getTagOrEmpty(tag);
-            for (final Item i : itemtag.getValues())
+            TagKey<Item> itemtag = TagKey.create(Registry.ITEM_REGISTRY, tag);
+            List<Item> items = ForgeRegistries.ITEMS.tags().getTag(itemtag).stream().toList();
+            for (final Item i : items)
             {
                 final ItemStack stack = new ItemStack(i);
                 if (!stack.isEmpty())
@@ -229,8 +230,9 @@ public class TradeEntryLoader
         else if (flag.equals("tag_buy"))
         {
             final ResourceLocation tag = PokecubeItems.toPokecubeResource(custom);
-            final Tag<Item> itemtag = ItemTags.getAllTags().getTagOrEmpty(tag);
-            if (itemtag != null) for (final Item i : itemtag.getValues())
+            TagKey<Item> itemtag = TagKey.create(Registry.ITEM_REGISTRY, tag);
+            List<Item> items = ForgeRegistries.ITEMS.tags().getTag(itemtag).stream().toList();
+            for (final Item i : items)
             {
                 final ItemStack stack = new ItemStack(i);
                 if (!stack.isEmpty())

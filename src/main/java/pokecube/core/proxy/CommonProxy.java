@@ -5,9 +5,9 @@ import java.util.UUID;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.RegistryEvent.NewRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.nbtedit.NBTEdit;
@@ -19,7 +19,7 @@ public class CommonProxy implements Proxy
     public static class RegistryEvents
     {
         @SubscribeEvent
-        public static void onStart(final NewRegistry event)
+        public static void onStart(final NewRegistryEvent event)
         {
             if (PokecubeCore.proxy == null)
             {

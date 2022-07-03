@@ -15,10 +15,10 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.RegistryEvent.NewRegistry;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.events.onload.RegisterMiscItems;
 import pokecube.core.interfaces.PokecubeMod;
@@ -33,7 +33,7 @@ import thut.wearables.EnumWearable;
 public class ClientProxy
 {
     @SubscribeEvent
-    public static void onStart(final NewRegistry event)
+    public static void onStart(final NewRegistryEvent event)
     {
         PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, ClientProxy::initWearables);
     }

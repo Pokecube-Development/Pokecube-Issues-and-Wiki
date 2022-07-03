@@ -8,9 +8,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.RegistryEvent.NewRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.adventures.PokecubeAdv;
 import thut.bling.client.render.Back;
 import thut.core.client.render.model.IModel;
@@ -24,7 +24,7 @@ public class ClientProxy extends CommonProxy
     public static class RegistryEvents
     {
         @SubscribeEvent
-        public static void onStart(final NewRegistry event)
+        public static void onStart(final NewRegistryEvent event)
         {
             PokecubeAdv.proxy = new ClientProxy();
         }

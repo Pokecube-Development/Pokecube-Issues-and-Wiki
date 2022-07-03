@@ -8,10 +8,11 @@ import net.minecraft.core.Registry;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MapItem;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.saveddata.maps.MapDecoration;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
@@ -52,6 +53,9 @@ public class SellStructureMap implements TradePreset
 
         ResourceLocation loc = new ResourceLocation(trade.values.get(ID));
 
+        TagKey<ConfiguredStructureFeature<?, ?>> key = TagKey.create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY,
+                loc);
+
         boolean newOnly = Boolean.parseBoolean(trade.values.getOrDefault(NEW_ONLY, "false"));
 
         recipe.outputModifier = (entity, random) -> {
@@ -59,10 +63,8 @@ public class SellStructureMap implements TradePreset
             ItemStack output = ItemStack.EMPTY;
             try
             {
-                StructureFeature<?> feature = serverlevel.registryAccess()
-                        .registryOrThrow(Registry.STRUCTURE_FEATURE_REGISTRY).get(loc);
                 // Vanilla one uses 100 and true.
-                BlockPos blockpos = serverlevel.findNearestMapFeature(feature, entity.blockPosition(), 100, newOnly);
+                BlockPos blockpos = serverlevel.findNearestMapFeature(key, entity.blockPosition(), 100, newOnly);
                 if (blockpos != null)
                 {
                     ItemStack itemstack = MapItem.create(serverlevel, blockpos.getX(), blockpos.getZ(), (byte) 2, true,
@@ -70,7 +72,7 @@ public class SellStructureMap implements TradePreset
                     MapItem.renderBiomePreviewMap(serverlevel, itemstack);
                     MapItemSavedData.addTargetDecoration(itemstack, blockpos, "+", MapDecoration.Type.RED_X);
                     itemstack.setHoverName(new TranslatableComponent(
-                            "filled_map." + feature.getFeatureName().toLowerCase(Locale.ROOT)));
+                            "filled_map." + loc.getPath().toLowerCase(Locale.ROOT)));
                     return itemstack;
                 }
             }
