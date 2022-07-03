@@ -51,6 +51,7 @@ import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
+import thut.api.Tracker;
 import thut.api.entity.blockentity.BlockEntityUpdater;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
@@ -230,7 +231,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     if (dyna)
                     {
                         this.pokemob.setHealth(hp + this.pokemob.getMaxHealth() - maxHp);
-                        final Long time = evt.world.getServer().getLevel(Level.OVERWORLD).getGameTime();
+                        final Long time = Tracker.instance().getTick();
                         this.pokemob.getEntity().getPersistentData().putLong("pokecube:dynatime", time);
                         if (this.pokemob.getOwnerId() != null) PokecubePlayerDataHandler
                                 .getCustomDataTag(this.pokemob.getOwnerId()).putLong("pokecube:dynatime", time);

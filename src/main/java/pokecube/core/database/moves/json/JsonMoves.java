@@ -154,6 +154,8 @@ public class JsonMoves
         public boolean ohko            = false;
         public boolean protectionMoves = false;
         public int     extraInfo       = -1;
+        
+        public float cooldown_scale = 1.0f;
 
         public String customSize = null;
 

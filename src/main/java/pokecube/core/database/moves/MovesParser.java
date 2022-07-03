@@ -20,8 +20,8 @@ import pokecube.core.utils.PokeType;
 public class MovesParser
 {
     static final Pattern NUMBER = Pattern.compile("([0-9])+");
-    static final Pattern HALF   = Pattern.compile("half");
-    static final Pattern THIRD  = Pattern.compile("third");
+    static final Pattern HALF = Pattern.compile("half");
+    static final Pattern THIRD = Pattern.compile("third");
 
     static final Pattern PSNA = Pattern.compile("(induce).*(poison)");
     static final Pattern PSNB = Pattern.compile("(may).*(poison)");
@@ -104,6 +104,7 @@ public class MovesParser
         move.pp = pp;
         move.accuracy = accuracy;
         move.baseEntry = entry;
+        move.cooldown_scale = entry.cooldown_scale;
         final boolean contact = yes.equals(entry.contact);
         final boolean sound = yes.equals(entry.soundType);
         final boolean punch = yes.equals(entry.punchType);
@@ -180,7 +181,8 @@ public class MovesParser
                         entry.readableName);
                 return;
             }
-            move.customSize = new float[] { sh, sv, sh };
+            move.customSize = new float[]
+            { sh, sv, sh };
         }
     }
 
@@ -223,8 +225,8 @@ public class MovesParser
 
     private static void parseCrit(final String details, final MoveEntry move)
     {
-        final boolean crit = details != null && (details.contains("has an increased critical hit ratio") || details
-                .contains("has high critical hit ratio"));
+        final boolean crit = details != null && (details.contains("has an increased critical hit ratio")
+                || details.contains("has high critical hit ratio"));
         final boolean alwaysCrit = details != null && details.contains("always inflicts a critical hit");
 
         if (alwaysCrit)
@@ -311,9 +313,9 @@ public class MovesParser
 
     static void parseNoMove(final String secondaryEffect, final MoveEntry move)
     {
-        if (secondaryEffect.equals("User cannot Attack on the next turn."))
+        if (secondaryEffect.equals("User cannot Attack on the next turn.") && move.cooldown_scale == 1)
         {
-            move.delayAfter = true;
+            move.cooldown_scale = 4.0f;
             if (PokecubeMod.debug) PokecubeCore.LOGGER.info(move.name + " set as long cooldown move.");
         }
     }
@@ -327,16 +329,17 @@ public class MovesParser
     {
         MovesParser.parseNoMove(entry.secondaryEffect, move);
         MovesParser.parseCrit(entry.secondaryEffect.toLowerCase(Locale.ENGLISH), move);
-        if (entry.secondaryEffect.contains("Cannot miss.") || entry.battleEffect != null && entry.battleEffect.contains(
-                "never misses")) entry.interceptable = false;
+        if (entry.secondaryEffect.contains("Cannot miss.")
+                || entry.battleEffect != null && entry.battleEffect.contains("never misses"))
+            entry.interceptable = false;
     }
 
     private static void parseSelfDamage(final MoveJsonEntry entry, final MoveEntry move)
     {
         if (entry.secondaryEffect == null) return;
         final String var = entry.secondaryEffect.toLowerCase(Locale.ENGLISH).trim();
-        final boolean recoils = var.contains("user takes recoil damage equal to ") && var.contains(
-                " of the damage inflicted.");
+        final boolean recoils = var.contains("user takes recoil damage equal to ")
+                && var.contains(" of the damage inflicted.");
         if (recoils)
         {
             final Matcher number = MovesParser.NUMBER.matcher(var);
@@ -434,8 +437,8 @@ public class MovesParser
         final int rate = MovesParser.getRate(entry.effectRate);
         if (confuse || flinch) move.chanceChance = rate / 100f;
         move.statusChance = rate / 100f;
-        if (slp || burn || par || poison || frz || slp) if (PokecubeMod.debug) PokecubeCore.LOGGER.info(move.name
-                + " Has Status Effects: " + move.statusChange + " " + move.statusChance);
+        if (slp || burn || par || poison || frz || slp) if (PokecubeMod.debug)
+            PokecubeCore.LOGGER.info(move.name + " Has Status Effects: " + move.statusChange + " " + move.statusChance);
     }
 
     private static void parseTarget(final MoveJsonEntry entry, final MoveEntry move)
