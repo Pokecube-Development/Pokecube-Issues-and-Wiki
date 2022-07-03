@@ -2,6 +2,7 @@ package pokecube.core.world.dimension;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -18,7 +19,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.RegistryLookupCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -39,11 +39,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep.Carving;
-import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
-import net.minecraft.world.level.levelgen.StructureSettings;
 import net.minecraft.world.level.levelgen.blending.Blender;
+import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -202,17 +201,17 @@ public class SecretBaseDimension
 
     public static class SecretChunkGenerator extends ChunkGenerator
     {
-        public static final Codec<SecretChunkGenerator> CODEC = RegistryLookupCodec.create(Registry.BIOME_REGISTRY)
-                .xmap(SecretChunkGenerator::new, SecretChunkGenerator::getRegistry).stable().codec();
-
+//        public static final Codec<SecretChunkGenerator> CODEC = RegistryLookupCodec.create(Registry.BIOME_REGISTRY)
+//                .xmap(SecretChunkGenerator::new, SecretChunkGenerator::getRegistry).stable().codec();
+        
         private final Registry<Biome> registry;
 
         BlockState[] states = new BlockState[256];
 
-        public SecretChunkGenerator(final Registry<Biome> registry)
+        public SecretChunkGenerator(final Registry<StructureSet> structs, final Registry<Biome> registry)
         {
-            super(new FixedBiomeSource(registry.getOrThrow(SecretBaseDimension.BIOME_KEY)),
-                    new StructureSettings(false));
+            super(structs, Optional.empty(),
+                    new FixedBiomeSource(registry.getOrCreateHolder(SecretBaseDimension.BIOME_KEY)));
             this.registry = registry;
             Arrays.fill(this.states, Blocks.AIR.defaultBlockState());
         }
@@ -250,9 +249,7 @@ public class SecretBaseDimension
         @Override
         public Sampler climateSampler()
         {
-            return (temperature, humidity, continentalness, erosion, depth, weirdness, spawnTarget) -> {
-                return Climate.target(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-            };
+            return Climate.empty();
         }
 
         @Override
@@ -325,7 +322,7 @@ public class SecretBaseDimension
         public void addDebugScreenInfo(List<String> p_208054_, BlockPos p_208055_)
         {
             // TODO Auto-generated method stub
-            
+
         }
 
     }

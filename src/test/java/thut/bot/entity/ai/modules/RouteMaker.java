@@ -9,13 +9,15 @@ import java.util.regex.Pattern;
 import com.google.common.collect.Lists;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -186,21 +188,10 @@ public class RouteMaker extends AbstractBot
     private Node findNearestVillageNode(final BlockPos mid, final boolean skipKnownStructures)
     {
         final ResourceLocation location = target;
-        final IForgeRegistry<StructureFeature<?>> reg = ForgeRegistries.STRUCTURE_FEATURES;
-        final StructureFeature<?> structure = reg.getValue(location);
+        final TagKey<ConfiguredStructureFeature<?, ?>> structure = TagKey
+                .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, location);
         final ServerLevel world = (ServerLevel) this.player.level;
         BlockPos village = null;
-
-        if (!skipKnownStructures)
-        {
-            final Set<StructureInfo> nearby = StructureManager.getNear(world.dimension(), mid, 0);
-            infos:
-            for (final StructureInfo i : nearby) if (i.start.getFeature() == structure)
-            {
-                village = i.start.getFeature().getLocatePos(new ChunkPos(mid));
-                break infos;
-            }
-        }
         if (village == null) village = world.findNearestMapFeature(structure, mid, 50, skipKnownStructures);
         if (village != null && village.getY() < world.getSeaLevel())
         {
@@ -271,7 +262,7 @@ public class RouteMaker extends AbstractBot
         final IForgeRegistry<StructureFeature<?>> reg = ForgeRegistries.STRUCTURE_FEATURES;
         final StructureFeature<?> structure = reg.getValue(location);
         infos:
-        for (final StructureInfo i : near) if (i.start.getFeature() == structure)
+        for (final StructureInfo i : near) if (i.start.getFeature().feature == structure)
         {
             size = Math.max(i.start.getBoundingBox().getXSpan(), i.start.getBoundingBox().getZSpan());
             break infos;

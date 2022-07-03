@@ -21,6 +21,7 @@ import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.data.worldgen.Pools;
@@ -44,7 +45,6 @@ import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.structures.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
@@ -52,6 +52,7 @@ import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier.Context;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.templatesystem.AlwaysTrueTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.ProcessorRule;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
@@ -302,7 +303,7 @@ public class BerryGenManager
             ChunkPos pos = new ChunkPos(chunkX, chunkZ);
             JigsawConfig config = new JigsawConfig(jigsaw);
             LevelHeightAccessor heightAccessor = world;
-            Predicate<Biome> validBiome = b -> true;
+            Predicate<Holder<Biome>> validBiome = b -> true;
             StructureManager structureManager = world.getStructureManager();
             RegistryAccess registryAccess = world.registryAccess();
 
@@ -322,7 +323,7 @@ public class BerryGenManager
                 PieceGenerator.Context<JigsawConfig> newcontext = new PieceGenerator.Context<JigsawConfig>(config, gen,
                         structureManager, pos, heightAccessor, rand, seed);
                 gener.generatePieces(builder, newcontext);
-                StructureStart<?> start = new StructureStart<>(this, pos, cropPos.getY(), builder.build());
+                StructureStart start = new StructureStart(this, pos, cropPos.getY(), builder.build());
 
                 if (validTreePlacement(bounds, rand).apply(newcontext, start.getPieces()))
                 {

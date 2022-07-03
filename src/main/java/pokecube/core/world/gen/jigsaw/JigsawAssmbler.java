@@ -46,17 +46,17 @@ import net.minecraft.world.level.levelgen.StructureSettings;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.structures.EmptyPoolElement;
-import net.minecraft.world.level.levelgen.feature.structures.JigsawJunction;
-import net.minecraft.world.level.levelgen.feature.structures.JigsawPlacement;
-import net.minecraft.world.level.levelgen.feature.structures.StructurePoolElement;
-import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier.Context;
+import net.minecraft.world.level.levelgen.structure.pools.EmptyPoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.JigsawJunction;
+import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.phys.AABB;
@@ -79,9 +79,9 @@ public class JigsawAssmbler
     public static record StructureHolder(ResourceLocation id, BlockPos origin, BoundingBox box)
             implements Comparable<StructureHolder>
     {
-        public static StructureHolder start(StructureStart<?> s)
+        public static StructureHolder start(StructureStart s)
         {
-            return new StructureHolder(s.getFeature().getRegistryName(), s.getBoundingBox().getCenter(),
+            return new StructureHolder(s.getFeature().feature.getRegistryName(), s.getBoundingBox().getCenter(),
                     s.getBoundingBox());
         }
 
@@ -182,7 +182,7 @@ public class JigsawAssmbler
         public static void onChunkLoad(ChunkEvent.Load event)
         {
             if (!(event.getWorld() instanceof ServerLevel level)) return;
-            for (StructureStart<?> s : event.getChunk().getAllStarts().values())
+            for (StructureStart s : event.getChunk().getAllStarts().values())
             {
                 if (s.isValid())
                 {
@@ -548,7 +548,7 @@ public class JigsawAssmbler
                     if (structureseparationsettings == null) continue;
                     // This is the way to tell if an actual real structure
                     // would be at this location.
-                    final StructureStart<?> structurestart = sfmanager.getStartForFeature(SectionPos.bottomOf(ichunk),
+                    final StructureStart structurestart = sfmanager.getStartForFeature(SectionPos.bottomOf(ichunk),
                             s, ichunk);
                     // This means we do conflict, so no spawn here.
                     if (structurestart != null && structurestart.isValid())
