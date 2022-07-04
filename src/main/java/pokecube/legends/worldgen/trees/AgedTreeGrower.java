@@ -4,21 +4,21 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.level.block.grower.AbstractMegaTreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 
 public class AgedTreeGrower extends AbstractMegaTreeGrower 
 {
 	  @Override
-    protected ConfiguredFeature<TreeConfiguration, ?> getConfiguredFeature(final Random randomIn, final boolean b)
+    protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(final Random randomIn, final boolean b)
     {
-        return randomIn.nextBoolean() ? Trees.AGED_SPRUCE_TREE : Trees.AGED_PINE_TREE;
+        return randomIn.nextBoolean() ? Holder.direct(Trees.AGED_SPRUCE_TREE.get()) : Holder.direct(Trees.AGED_PINE_TREE.get());
     }
 
     @Nullable
-    protected ConfiguredFeature<TreeConfiguration, ?> getConfiguredMegaFeature(Random randomIn)
+    protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredMegaFeature(Random randomIn)
     {
-        return randomIn.nextBoolean() ? Trees.MEGA_AGED_SPRUCE_TREE : Trees.MEGA_AGED_PINE_TREE;
+        return randomIn.nextBoolean() ? Holder.direct(Trees.MEGA_AGED_SPRUCE_TREE.get()) : Holder.direct(Trees.MEGA_AGED_PINE_TREE.get());
     }
 }

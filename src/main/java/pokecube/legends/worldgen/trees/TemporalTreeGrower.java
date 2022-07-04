@@ -4,21 +4,21 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.level.block.grower.AbstractMegaTreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 
 public class TemporalTreeGrower extends AbstractMegaTreeGrower
 {
 	  @Override
-    protected ConfiguredFeature<TreeConfiguration, ?> getConfiguredFeature(final Random randomIn, final boolean b)
+    protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(final Random randomIn, final boolean b)
     {
-        return Trees.TEMPORAL_TREE;
+        return Holder.direct(Trees.TEMPORAL_TREE.get());
     }
 
     @Nullable
-    protected ConfiguredFeature<TreeConfiguration, ?> getConfiguredMegaFeature(Random randomIn)
+    protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredMegaFeature(Random randomIn)
     {
-        return Trees.MEGA_TEMPORAL_TREE;
+        return Holder.direct(Trees.MEGA_TEMPORAL_TREE.get());
     }
 }

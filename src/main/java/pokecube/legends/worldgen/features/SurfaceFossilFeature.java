@@ -66,13 +66,13 @@ public class SurfaceFossilFeature extends Feature<FossilFeatureConfiguration>
       } else
       {
          structurePlacement.clearProcessors();
-         fossilConfig.fossilProcessors.get().list().forEach((fossil) ->
+         fossilConfig.fossilProcessors.value().list().forEach((fossil) ->
          {
             structurePlacement.addProcessor(fossil);
          });
          structureTemplate.placeInWorld(world, posStructure, posStructure, structurePlacement, random, 4);
          structurePlacement.clearProcessors();
-         fossilConfig.overlayProcessors.get().list().forEach((fossil2) ->
+         fossilConfig.overlayProcessors.value().list().forEach((fossil2) ->
          {
             structurePlacement.addProcessor(fossil2);
          });

@@ -5,9 +5,10 @@ import java.util.Random;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -22,7 +23,11 @@ import pokecube.legends.init.BlockInit;
 
 public class MeteoriteSpikeFeature extends Feature<NoneFeatureConfiguration>
 {
-   public static final Tag.Named<Block> FEATURES_CANNOT_PLACE_ON = BlockTags.createOptional(new ResourceLocation(Reference.ID, "features_cannot_place_on"));
+   public static final TagKey<Block> FEATURES_CANNOT_PLACE_ON = TagKey.create(Registry.BLOCK_REGISTRY,new ResourceLocation(Reference.ID, "features_cannot_place_on"));
+   
+   private static boolean noPlacement(BlockState state) {
+       return state.is(FEATURES_CANNOT_PLACE_ON);
+   }
    
    public MeteoriteSpikeFeature(Codec<NoneFeatureConfiguration> config)
    {
@@ -41,7 +46,7 @@ public class MeteoriteSpikeFeature extends Feature<NoneFeatureConfiguration>
       
       BlockState state = world.getBlockState(pos);
 
-      if (world.getBlockState(pos).is(Blocks.AIR) || FEATURES_CANNOT_PLACE_ON.contains(state.getBlock()))
+      if (world.getBlockState(pos).is(Blocks.AIR) || noPlacement(state))
       {
          return false;
       } else
@@ -70,7 +75,7 @@ public class MeteoriteSpikeFeature extends Feature<NoneFeatureConfiguration>
                   {
                      BlockState stateOffset = world.getBlockState(pos.offset(i1, k, j1));
                      if (stateOffset.isAir() || isDirt(stateOffset) || isSand(stateOffset) || isSandstone(stateOffset) || isStone(stateOffset)
-                             || stateOffset.is(BlockInit.ASH_BLOCK.get()) || stateOffset.is(Blocks.ICE) && !FEATURES_CANNOT_PLACE_ON.contains(state.getBlock()))
+                             || stateOffset.is(BlockInit.ASH_BLOCK.get()) || stateOffset.is(Blocks.ICE) && !noPlacement(state))
                      {
                         this.setBlock(world, pos.offset(i1, k, j1), BlockInit.METEORITE_BLOCK.get().defaultBlockState());
                      }
@@ -79,7 +84,7 @@ public class MeteoriteSpikeFeature extends Feature<NoneFeatureConfiguration>
                      {
                         stateOffset = world.getBlockState(pos.offset(i1, -k, j1));
                         if (stateOffset.isAir() || isDirt(stateOffset) || isSand(stateOffset) || isSandstone(stateOffset) || isStone(stateOffset)
-                                || stateOffset.is(BlockInit.ASH_BLOCK.get()) || stateOffset.is(Blocks.ICE) && !FEATURES_CANNOT_PLACE_ON.contains(state.getBlock()))
+                                || stateOffset.is(BlockInit.ASH_BLOCK.get()) || stateOffset.is(Blocks.ICE) && !noPlacement(state))
                         {
                            this.setBlock(world, pos.offset(i1, -k, j1), BlockInit.METEORITE_BLOCK.get().defaultBlockState());
                         }

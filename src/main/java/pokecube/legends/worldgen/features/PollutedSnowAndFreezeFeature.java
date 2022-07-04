@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
@@ -40,14 +41,14 @@ public class PollutedSnowAndFreezeFeature extends Feature<NoneFeatureConfigurati
             int i1 = world.getHeight(Heightmap.Types.MOTION_BLOCKING, k, l);
             mutablePos.set(k, i1, l);
             mutablePosDown.set(mutablePos).move(Direction.DOWN, 1);
-            Biome biome = world.getBiome(mutablePos);
+            Holder<Biome> biome = world.getBiome(mutablePos);
             BlockState state = world.getBlockState(mutablePosDown);
-            if (biome.coldEnoughToSnow(mutablePosDown) && state.getBlock() == Blocks.ICE)
+            if (biome.value().coldEnoughToSnow(mutablePosDown) && state.getBlock() == Blocks.ICE)
             {
                world.setBlock(mutablePosDown, BlockInit.CORRUPTED_DIRT.get().defaultBlockState(), 2);
             }
 
-            if (biome.shouldSnow(world, mutablePos))
+            if (biome.value().shouldSnow(world, mutablePos))
             {
                world.setBlock(mutablePos, BlockInit.ASH.get().defaultBlockState().setValue(AshLayerBlock.LAYERS, 2), 2);
                if (state.hasProperty(SnowyDirtBlock.SNOWY))

@@ -4,7 +4,7 @@ import java.util.OptionalInt;
 
 import com.google.common.collect.ImmutableList;
 
-import net.minecraft.data.worldgen.features.FeatureUtils;
+import net.minecraft.core.Registry;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -33,8 +33,6 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.ForkingTrunkPlace
 import net.minecraft.world.level.levelgen.feature.trunkplacers.GiantTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.MegaJungleTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -52,25 +50,27 @@ public class Trees
 
     public static final DeferredRegister<TreeDecoratorType<?>> TREE_DECORATORS = DeferredRegister
             .create(ForgeRegistries.TREE_DECORATOR_TYPES, Reference.ID);
+    public static final DeferredRegister<ConfiguredFeature<?, ?>> TREE_FEATURES = DeferredRegister
+            .create(Registry.CONFIGURED_FEATURE_REGISTRY, Reference.ID);
 
-    public static final RegistryObject<TreeDecoratorType<?>> LEAVES_STRING_OF_PEARLS = TREE_DECORATORS.register(
-            "leaves_string_of_pearls", () -> new TreeDecoratorType<>(LeavesStringOfPearlsDecorator.CODEC));
-    public static final RegistryObject<TreeDecoratorType<?>> TRUNK_STRING_OF_PEARLS = TREE_DECORATORS.register(
-            "trunk_string_of_pearls", () -> new TreeDecoratorType<>(TrunkStringOfPearlsDecorator.CODEC));
-    
+    public static final RegistryObject<TreeDecoratorType<?>> LEAVES_STRING_OF_PEARLS = TREE_DECORATORS
+            .register("leaves_string_of_pearls", () -> new TreeDecoratorType<>(LeavesStringOfPearlsDecorator.CODEC));
+    public static final RegistryObject<TreeDecoratorType<?>> TRUNK_STRING_OF_PEARLS = TREE_DECORATORS
+            .register("trunk_string_of_pearls", () -> new TreeDecoratorType<>(TrunkStringOfPearlsDecorator.CODEC));
 
-    public static ConfiguredFeature<TreeConfiguration, ?> AGED_PINE_TREE;
-    public static ConfiguredFeature<TreeConfiguration, ?> AGED_SPRUCE_TREE;
-    public static ConfiguredFeature<TreeConfiguration, ?> MEGA_AGED_PINE_TREE;
-    public static ConfiguredFeature<TreeConfiguration, ?> MEGA_AGED_SPRUCE_TREE;
-    public static ConfiguredFeature<TreeConfiguration, ?> CORRUPTED_TREE;
-    public static ConfiguredFeature<TreeConfiguration, ?> DISTORTIC_TREE;
-    public static ConfiguredFeature<TreeConfiguration, ?> DYNA_TREE;
-    public static ConfiguredFeature<TreeConfiguration, ?> INVERTED_TREE;
-    public static ConfiguredFeature<TreeConfiguration, ?> INVERTED_TREE_FANCY;
-    public static ConfiguredFeature<TreeConfiguration, ?> MIRAGE_TREE;
-    public static ConfiguredFeature<TreeConfiguration, ?> TEMPORAL_TREE;
-    public static ConfiguredFeature<TreeConfiguration, ?> MEGA_TEMPORAL_TREE;
+    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> AGED_PINE_TREE;
+    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> AGED_SPRUCE_TREE;
+    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> MEGA_AGED_PINE_TREE;
+    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> MEGA_AGED_SPRUCE_TREE;
+    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> CORRUPTED_TREE;
+    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> DISTORTIC_TREE;
+    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> DYNA_TREE;
+    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> INVERTED_TREE;
+    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> INVERTED_TREE_FANCY;
+    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> MIRAGE_TREE;
+    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> TEMPORAL_TREE;
+    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> MEGA_TEMPORAL_TREE;
+     
 
     public static final class States
     {
@@ -81,9 +81,7 @@ public class Trees
     public static void init(final IEventBus bus)
     {
         TREE_DECORATORS.register(bus);
-        // Register this as a low priority, so that the tree decorator exists
-        // before we try to add it to the trees themselves.
-        bus.addGenericListener(Feature.class, EventPriority.LOWEST, Trees::registerConfigured);
+        TREE_FEATURES.register(bus);
     }
 
     public static TreeConfigurationBuilder getAgedPineTree()
@@ -231,38 +229,25 @@ public class Trees
                                 LeavesStringOfPearlsDecorator.INSTANCE, BEEHIVE_0002,
                                 new AlterGroundDecorator(BlockStateProvider.simple(States.JUNGLE_PODZOL))));
     }
+    
 
-    private static void registerConfigured(final RegistryEvent.Register<Feature<?>> event)
+    static 
     {
-        Trees.AGED_PINE_TREE = FeatureUtils.register("pokecube_legends:aged_pine_tree",
-                Feature.TREE.configured(Trees.getAgedPineTree().build()));
-        Trees.AGED_SPRUCE_TREE = FeatureUtils.register("pokecube_legends:aged_spruce_tree",
-                Feature.TREE.configured(Trees.getAgedSpruceTree().build()));
-        Trees.MEGA_AGED_PINE_TREE = FeatureUtils.register("pokecube_legends:mega_aged_pine_tree",
-                Feature.TREE.configured(Trees.getMegaAgedPineTree().build()));
-        Trees.MEGA_AGED_SPRUCE_TREE = FeatureUtils.register("pokecube_legends:mega_aged_spruce_tree",
-                Feature.TREE.configured(Trees.getMegaAgedSpruceTree().build()));
+        Trees.AGED_PINE_TREE = TREE_FEATURES.register("aged_pine_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getAgedPineTree().build()));
+        Trees.AGED_SPRUCE_TREE = TREE_FEATURES.register("aged_spruce_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getAgedSpruceTree().build()));
+        Trees.MEGA_AGED_PINE_TREE = TREE_FEATURES.register("mega_aged_pine_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getMegaAgedPineTree().build()));
+        Trees.MEGA_AGED_SPRUCE_TREE = TREE_FEATURES.register("mega_aged_spruce_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getMegaAgedSpruceTree().build()));
+        
+        Trees.CORRUPTED_TREE = TREE_FEATURES.register("corrupted_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getCorruptedTree().build()));
+        Trees.DISTORTIC_TREE = TREE_FEATURES.register("distortic_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getDistorticTree().build()));
+        Trees.DYNA_TREE = TREE_FEATURES.register("dyna_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getDynaTree().build()));
+        Trees.MIRAGE_TREE = TREE_FEATURES.register("mirage_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getMirageTree().build()));
 
-        Trees.CORRUPTED_TREE = FeatureUtils.register("pokecube_legends:corrupted_tree",
-                Feature.TREE.configured(Trees.getCorruptedTree().build()));
+        Trees.INVERTED_TREE = TREE_FEATURES.register("inverted_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getInvertedTree().build()));
+        Trees.INVERTED_TREE_FANCY = TREE_FEATURES.register("inverted_fancy_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getInvertedTreeFancy().build()));
 
-        Trees.DISTORTIC_TREE = FeatureUtils.register("pokecube_legends:distortic_tree",
-                Feature.TREE.configured(Trees.getDistorticTree().build()));
-
-        Trees.DYNA_TREE = FeatureUtils.register("pokecube_legends:dyna_tree",
-                Feature.TREE.configured(Trees.getDynaTree().build()));
-
-        Trees.INVERTED_TREE = FeatureUtils.register("pokecube_legends:inverted_tree",
-                Feature.TREE.configured(Trees.getInvertedTree().build()));
-        Trees.INVERTED_TREE_FANCY = FeatureUtils.register("pokecube_legends:inverted_fancy_tree",
-                Feature.TREE.configured(Trees.getInvertedTreeFancy().build()));
-
-        Trees.MIRAGE_TREE = FeatureUtils.register("pokecube_legends:mirage_tree",
-                Feature.TREE.configured(Trees.getMirageTree().build()));
-
-        Trees.TEMPORAL_TREE = FeatureUtils.register("pokecube_legends:temporal_tree",
-                Feature.TREE.configured(Trees.getTemporalTree().build()));
-        Trees.MEGA_TEMPORAL_TREE = FeatureUtils.register("pokecube_legends:mega_temporal_tree",
-                Feature.TREE.configured(Trees.getMegaTemporalTree().build()));
+        Trees.TEMPORAL_TREE = TREE_FEATURES.register("temporal_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getTemporalTree().build()));
+        Trees.MEGA_TEMPORAL_TREE = TREE_FEATURES.register("mega_temporal_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getMegaTemporalTree().build()));
+        
     }
 }
