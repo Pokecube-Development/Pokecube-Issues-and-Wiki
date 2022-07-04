@@ -2,9 +2,9 @@
   "type": "minecraft:village",
   "config": {
     "start_pool": "pokecube:village/plains/town_centers",
-    "size": 7
+    "size": 12
   },
-  "biomes": "#pokecube_world:has_structure/test_placement",
+  "biomes": "#pokecube_world:has_structure/village_plains",
   "adapt_noise": true,
   "spawn_overrides": {}
 }

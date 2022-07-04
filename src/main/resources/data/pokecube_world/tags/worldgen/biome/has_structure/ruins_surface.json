@@ -2,7 +2,6 @@
     "replace": false,
     "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
     "values": [
-      "minecraft:plains",
-      "minecraft:sunflower_plains"
+      "#pokecube_world:is_plains"
     ]
   }
