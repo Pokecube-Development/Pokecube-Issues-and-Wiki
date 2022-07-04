@@ -1,0 +1,133 @@
+
+{
+    "name": "pokecube:scattered/ruins/rock_piles",
+    "fallback": "minecraft:empty",
+    "elements": [
+      {
+        "weight": 6,
+        "element": {
+          "location": "pokecube:scattered/ruins_loose/rock_piles/rock_pile_01",
+          "projection": "terrain_matching",
+          "element_type": "minecraft:single_pool_element",
+          "processors": {
+              "processors": [
+                {
+                  "processor_type": "pokecube:ladders_to_ground"
+                },
+                {
+                  "processor_type": "pokecube:structures"
+                },
+                {
+                  "processor_type": "pokecube:marker_to_air"
+                }
+              ]
+            }
+        }
+      },
+      {
+        "weight": 6,
+        "element": {
+          "location": "pokecube:scattered/ruins_loose/rock_piles/rock_pile_02",
+          "projection": "terrain_matching",
+          "element_type": "minecraft:single_pool_element",
+          "processors": {
+              "processors": [
+                {
+                  "processor_type": "pokecube:ladders_to_ground"
+                },
+                {
+                  "processor_type": "pokecube:structures"
+                },
+                {
+                  "processor_type": "pokecube:marker_to_air"
+                }
+              ]
+            }
+        }
+      },
+      {
+        "weight": 6,
+        "element": {
+          "location": "pokecube:scattered/ruins_loose/rock_piles/rock_pile_03",
+          "projection": "terrain_matching",
+          "element_type": "minecraft:single_pool_element",
+          "processors": {
+              "processors": [
+                {
+                  "processor_type": "pokecube:ladders_to_ground"
+                },
+                {
+                  "processor_type": "pokecube:structures"
+                },
+                {
+                  "processor_type": "pokecube:marker_to_air"
+                }
+              ]
+            }
+        }
+      },
+      {
+        "weight": 6,
+        "element": {
+          "location": "pokecube:scattered/ruins_loose/rock_piles/rock_pile_04",
+          "projection": "terrain_matching",
+          "element_type": "minecraft:single_pool_element",
+          "processors": {
+              "processors": [
+                {
+                  "processor_type": "pokecube:ladders_to_ground"
+                },
+                {
+                  "processor_type": "pokecube:structures"
+                },
+                {
+                  "processor_type": "pokecube:marker_to_air"
+                }
+              ]
+            }
+        }
+      },
+      {
+        "weight": 6,
+        "element": {
+          "location": "pokecube:scattered/ruins_loose/rock_piles/rock_pile_05",
+          "projection": "terrain_matching",
+          "element_type": "minecraft:single_pool_element",
+          "processors": {
+              "processors": [
+                {
+                  "processor_type": "pokecube:ladders_to_ground"
+                },
+                {
+                  "processor_type": "pokecube:structures"
+                },
+                {
+                  "processor_type": "pokecube:marker_to_air"
+                }
+              ]
+            }
+        }
+      },
+      {
+        "weight": 6,
+        "element": {
+          "location": "pokecube:scattered/ruins_loose/rock_piles/rock_pile_06",
+          "projection": "terrain_matching",
+          "element_type": "minecraft:single_pool_element",
+          "processors": {
+              "processors": [
+                {
+                  "processor_type": "pokecube:ladders_to_ground"
+                },
+                {
+                  "processor_type": "pokecube:structures"
+                },
+                {
+                  "processor_type": "pokecube:marker_to_air"
+                }
+              ]
+            }
+        }
+      }
+    ]
+}

@@ -27,7 +27,6 @@ import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.ai.tasks.idle.IdleWalkTask;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
-import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.events.pokemob.SpawnEvent.FunctionVariance;
 import pokecube.core.handlers.events.EventsHandler;
@@ -39,6 +38,7 @@ import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import pokecube.world.gen_old.WorldgenHandler;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 

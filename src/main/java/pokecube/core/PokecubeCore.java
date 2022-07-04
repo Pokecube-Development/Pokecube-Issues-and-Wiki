@@ -30,10 +30,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.BusBuilder;
@@ -56,7 +52,6 @@ import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
-import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.entity.pokemobs.GenericPokemob;
@@ -76,7 +71,6 @@ import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import pokecube.core.handlers.playerdata.PokecubePlayerData;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
-import pokecube.core.init.FeaturesInit;
 import pokecube.core.interfaces.IEntityProvider;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.inventory.healer.HealerContainer;
@@ -91,8 +85,7 @@ import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.EntityProvider;
 import pokecube.core.proxy.CommonProxy;
 import pokecube.core.world.dimension.SecretBaseDimension;
-import pokecube.core.world.gen.WorldgenFeatures;
-import pokecube.core.world.gen.template.PokecubeStructureProcessors;
+import pokecube.world.PokecubeWorld;
 import thut.api.entity.CopyCaps;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
@@ -110,17 +103,8 @@ public class PokecubeCore
     {
         public static final DeferredRegister<RecipeType<?>> RECIPETYPE = DeferredRegister
                 .create(Registry.RECIPE_TYPE_REGISTRY, PokecubeCore.MODID);
-        public static final DeferredRegister<StructurePoolElementType<?>> POOLTYPE = DeferredRegister
-                .create(Registry.STRUCTURE_POOL_ELEMENT_REGISTRY, PokecubeCore.MODID);
-        public static final DeferredRegister<StructureProcessorType<?>> STRUCTPROCTYPE = DeferredRegister
-                .create(Registry.STRUCTURE_PROCESSOR_REGISTRY, PokecubeCore.MODID);
         public static final DeferredRegister<Codec<? extends ChunkGenerator>> CHUNKGENTYPE = DeferredRegister
                 .create(Registry.CHUNK_GENERATOR_REGISTRY, PokecubeCore.MODID);
-
-        public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister
-                .create(Registry.CONFIGURED_FEATURE_REGISTRY, PokecubeCore.MODID);
-        public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister
-                .create(Registry.PLACED_FEATURE_REGISTRY, PokecubeCore.MODID);
 
         @SubscribeEvent
         public static void registerRegistry(final NewRegistryEvent event)
@@ -366,24 +350,18 @@ public class PokecubeCore
         PokecubeItems.MENU.register(bus);
 
         RegistryEvents.CHUNKGENTYPE.register(bus);
-        RegistryEvents.POOLTYPE.register(bus);
         RegistryEvents.RECIPETYPE.register(bus);
-        RegistryEvents.STRUCTPROCTYPE.register(bus);
-        RegistryEvents.CONFIGURED_FEATURES.register(bus);
-        RegistryEvents.PLACED_FEATURES.register(bus);
+        
+        PokecubeWorld.init(bus);
 
         bus.addListener(this::loadComplete);
         bus.addGenericListener(Motive.class, PaintingsHandler::registerPaintings);
 
         RecipeHandler.init(bus);
         PointsOfInterest.REG.register(bus);
-
-        new WorldgenHandler(bus);
+        
         new BerryGenManager();
-        PokecubeStructureProcessors.init(bus);
-        WorldgenFeatures.init(bus);
         SecretBaseDimension.onConstruct(bus);
-        FeaturesInit.init(bus);
 
         // Register the player data we use with thutcore
         PlayerDataHandler.register(PokecubePlayerData.class);

@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "pokecube:ruins_loose",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube:ruins_rigid",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 1694767080,
+    "spacing": 12,
+    "separation": 4,
+    "type": "minecraft:random_spread"
+  }
+}

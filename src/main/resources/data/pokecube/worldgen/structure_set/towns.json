@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "pokecube:test_placement",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 1694767080,
+    "spacing": 48,
+    "separation": 12,
+    "type": "minecraft:random_spread"
+  }
+}

@@ -13,7 +13,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IInhabitable;
@@ -29,6 +28,7 @@ import pokecube.core.moves.zmoves.ZPower;
 import pokecube.core.network.PokecubePacketHandler;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import pokecube.nbtedit.NBTEdit;
+import pokecube.world.gen_old.WorldgenHandler;
 import thut.api.terrain.TerrainSegment;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)

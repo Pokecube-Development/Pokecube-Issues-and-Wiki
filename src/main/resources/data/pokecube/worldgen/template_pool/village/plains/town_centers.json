@@ -1,0 +1,91 @@
+
+{
+  "name": "pokecube:village/plains/start_pool",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube:village/plains/town_centers/center_1",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element",
+        "processors": {
+            "processors": [
+              {
+                "processor_type": "pokecube:ladders_to_ground"
+              },
+              {
+                "processor_type": "pokecube:structures"
+              },
+              {
+                "processor_type": "pokecube:marker_to_air"
+              }
+            ]
+          }
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube:village/plains/town_centers/center_2",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element",
+        "processors": {
+            "processors": [
+              {
+                "processor_type": "pokecube:ladders_to_ground"
+              },
+              {
+                "processor_type": "pokecube:structures"
+              },
+              {
+                "processor_type": "pokecube:marker_to_air"
+              }
+            ]
+          }
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube:village/plains/town_centers/center_3",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element",
+        "processors": {
+            "processors": [
+              {
+                "processor_type": "pokecube:ladders_to_ground"
+              },
+              {
+                "processor_type": "pokecube:structures"
+              },
+              {
+                "processor_type": "pokecube:marker_to_air"
+              }
+            ]
+          }
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube:village/plains/town_centers/center_4",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element",
+        "processors": {
+            "processors": [
+              {
+                "processor_type": "pokecube:ladders_to_ground"
+              },
+              {
+                "processor_type": "pokecube:structures"
+              },
+              {
+                "processor_type": "pokecube:marker_to_air"
+              }
+            ]
+          }
+      }
+    }
+  ]
+}

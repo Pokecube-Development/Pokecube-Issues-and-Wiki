@@ -15,8 +15,8 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureEntityInfo;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
-import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
-import pokecube.core.world.gen.jigsaw.JigsawAssmbler;
+import pokecube.world.gen_old.WorldgenHandler.JigSawConfig;
+import pokecube.world.gen_old.jigsaw.JigsawAssmbler;
 
 public class StructureEvent extends Event
 {

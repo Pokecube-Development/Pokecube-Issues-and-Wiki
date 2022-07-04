@@ -1,0 +1,10 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube:scattered/ruins/ruins_rigid",
+    "size": 2
+  },
+  "biomes": "#pokecube_world:has_structure/surface_ruins",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

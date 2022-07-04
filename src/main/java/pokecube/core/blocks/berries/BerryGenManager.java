@@ -19,9 +19,9 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.AlwaysTrueTes
 import net.minecraft.world.level.levelgen.structure.templatesystem.ProcessorRule;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
-import pokecube.core.database.worldgen.WorldgenHandler.JigSawPool;
-import pokecube.core.world.gen.template.NotRuleProcessor;
+import pokecube.world.gen.structures.processors.NotRuleProcessor;
+import pokecube.world.gen_old.WorldgenHandler.JigSawConfig;
+import pokecube.world.gen_old.WorldgenHandler.JigSawPool;
 
 public class BerryGenManager
 {

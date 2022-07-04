@@ -1,0 +1,133 @@
+
+{
+  "name": "pokecube:village/plains/start_pool",
+  "fallback": "minecraft:village/plains/houses",
+  "elements": [
+    {
+      "weight": 6,
+      "element": {
+        "location": "pokecube:village/plains/houses/house_small_1",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element",
+        "processors": {
+            "processors": [
+              {
+                "processor_type": "pokecube:ladders_to_ground"
+              },
+              {
+                "processor_type": "pokecube:structures"
+              },
+              {
+                "processor_type": "pokecube:marker_to_air"
+              }
+            ]
+          }
+      }
+    },
+    {
+      "weight": 6,
+      "element": {
+        "location": "pokecube:village/plains/houses/house_big_1",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element",
+        "processors": {
+            "processors": [
+              {
+                "processor_type": "pokecube:ladders_to_ground"
+              },
+              {
+                "processor_type": "pokecube:structures"
+              },
+              {
+                "processor_type": "pokecube:marker_to_air"
+              }
+            ]
+          }
+      }
+    },
+    {
+      "weight": 6,
+      "element": {
+        "location": "pokecube:village/plains/houses/house_medium_1",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element",
+        "processors": {
+            "processors": [
+              {
+                "processor_type": "pokecube:ladders_to_ground"
+              },
+              {
+                "processor_type": "pokecube:structures"
+              },
+              {
+                "processor_type": "pokecube:marker_to_air"
+              }
+            ]
+          }
+      }
+    },
+    {
+      "weight": 6,
+      "element": {
+        "location": "pokecube:village/plains/houses/house_medium_2",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element",
+        "processors": {
+            "processors": [
+              {
+                "processor_type": "pokecube:ladders_to_ground"
+              },
+              {
+                "processor_type": "pokecube:structures"
+              },
+              {
+                "processor_type": "pokecube:marker_to_air"
+              }
+            ]
+          }
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube:village/common/pokecenter/center_01",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element",
+        "processors": {
+            "processors": [
+              {
+                "processor_type": "pokecube:ladders_to_ground"
+              },
+              {
+                "processor_type": "pokecube:structures"
+              },
+              {
+                "processor_type": "pokecube:marker_to_air"
+              }
+            ]
+          }
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube:village/plains/gym/gym_01",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element",
+        "processors": {
+            "processors": [
+              {
+                "processor_type": "pokecube:ladders_to_ground"
+              },
+              {
+                "processor_type": "pokecube:structures"
+              },
+              {
+                "processor_type": "pokecube:marker_to_air"
+              }
+            ]
+          }
+      }
+    }
+  ]
+}
