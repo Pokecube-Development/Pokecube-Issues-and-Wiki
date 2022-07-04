@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:village",
+  "type": "pokecube:generic_surface_jigsaw",
   "config": {
     "start_pool": "pokecube:village/plains/town_centers",
     "size": 12
