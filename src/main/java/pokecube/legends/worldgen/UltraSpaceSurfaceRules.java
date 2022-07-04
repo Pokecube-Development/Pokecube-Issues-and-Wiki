@@ -8,25 +8,24 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 
-import net.minecraft.core.Registry;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.SurfaceRules.SurfaceRule;
 import net.minecraft.world.level.levelgen.SurfaceSystem;
+import net.minecraftforge.registries.RegistryObject;
+import pokecube.legends.PokecubeLegends;
 
 public class UltraSpaceSurfaceRules
 {
     public interface UltraSpaceRuleSource extends Function<SurfaceRules.Context, SurfaceRules.SurfaceRule>
     {
-        public static void init()
-        {
-            Registry.register(Registry.RULE, "pokecube_legends:azure_bandlands", UltraSpaceSurfaceRules.Bandlands.CODEC);
-        }
-
         Codec<? extends UltraSpaceSurfaceRules.UltraSpaceRuleSource> codec();
     }
+
+    public static final RegistryObject<Codec<Bandlands>> AZURE_BADLANDS = PokecubeLegends.SURFACE_RULES
+            .register("azure_bandlands", () -> UltraSpaceSurfaceRules.Bandlands.CODEC);
 
     private static Map<Block, Block> TERRACOTTA_MAP = Maps.newConcurrentMap();
 
@@ -43,7 +42,8 @@ public class UltraSpaceSurfaceRules
 
     private static BlockState replaceTerracotta(BlockState state)
     {
-        return TERRACOTTA_MAP.containsKey(state.getBlock()) ? TERRACOTTA_MAP.get(state.getBlock()).defaultBlockState() : state;
+        return TERRACOTTA_MAP.containsKey(state.getBlock()) ? TERRACOTTA_MAP.get(state.getBlock()).defaultBlockState()
+                : state;
     }
 
     public static class TerracottaReplaceRule implements SurfaceRule

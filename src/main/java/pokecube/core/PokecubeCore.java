@@ -31,7 +31,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
@@ -164,12 +163,6 @@ public class PokecubeCore
             final DataGenerator gen = event.getGenerator();
             gen.addProvider(new Recipes(gen));
             gen.addProvider(new Drops(gen));
-        }
-
-        @SubscribeEvent
-        public static void registerStructures(final RegistryEvent.Register<StructureFeature<?>> event)
-        {
-            new BerryGenManager().processStructures(event);
         }
 
         @SubscribeEvent
@@ -386,6 +379,7 @@ public class PokecubeCore
         PointsOfInterest.REG.register(bus);
 
         new WorldgenHandler(bus);
+        new BerryGenManager();
         PokecubeStructureProcessors.init(bus);
         WorldgenFeatures.init(bus);
         SecretBaseDimension.onConstruct(bus);

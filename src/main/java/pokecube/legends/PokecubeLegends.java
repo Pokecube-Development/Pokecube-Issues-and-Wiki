@@ -1,19 +1,16 @@
 package pokecube.legends;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.mojang.serialization.Codec;
+
 import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.data.worldgen.features.OreFeatures;
-import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,19 +20,13 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.VerticalAnchor;
+import net.minecraft.world.level.levelgen.SurfaceRules.RuleSource;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-import net.minecraft.world.level.levelgen.placement.BiomeFilter;
-import net.minecraft.world.level.levelgen.placement.CountPlacement;
-import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
-import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.BiomeDictionary;
@@ -57,11 +48,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.onload.RegisterPokecubes;
 import pokecube.core.interfaces.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
@@ -121,15 +110,18 @@ public class PokecubeLegends
             Reference.ID);
 
     // Features, etc
-
     public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister
             .create(Registry.CONFIGURED_FEATURE_REGISTRY, Reference.ID);
     public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister
             .create(Registry.PLACED_FEATURE_REGISTRY, Reference.ID);
+    public static final DeferredRegister<Codec<? extends RuleSource>> SURFACE_RULES = DeferredRegister
+            .create(Registry.RULE_REGISTRY, Reference.ID);
 
     // Recipes
-    public static final DeferredRegister<RecipeSerializer<?>> LEGENDS_SERIALIZERS = DeferredRegister
+    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZER = DeferredRegister
             .create(ForgeRegistries.RECIPE_SERIALIZERS, Reference.ID);
+    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPE = DeferredRegister
+            .create(Registry.RECIPE_TYPE_REGISTRY, Reference.ID);
 
     /** Packs Textures,Tags,etc... */
     public static ResourceLocation FUELTAG = new ResourceLocation(Reference.ID, "fuel");
@@ -193,7 +185,8 @@ public class PokecubeLegends
         PokecubeLegends.ENTITIES.register(modEventBus);
         PokecubeLegends.FLUIDS.register(modEventBus);
         PokecubeLegends.ITEMS.register(modEventBus);
-        PokecubeLegends.LEGENDS_SERIALIZERS.register(modEventBus);
+        PokecubeLegends.RECIPE_SERIALIZER.register(modEventBus);
+        PokecubeLegends.RECIPE_TYPE.register(modEventBus);
         PokecubeLegends.PARTICLES.register(modEventBus);
         PokecubeLegends.TILES.register(modEventBus);
 
@@ -204,6 +197,7 @@ public class PokecubeLegends
 
         PokecubeLegends.CONFIGURED_FEATURES.register(modEventBus);
         PokecubeLegends.PLACED_FEATURES.register(modEventBus);
+        PokecubeLegends.SURFACE_RULES.register(modEventBus);
 
         WorldgenFeatures.init(modEventBus);
         Trees.init(modEventBus);
@@ -221,7 +215,6 @@ public class PokecubeLegends
         LegendsDistorticRecipeManager.init();
         LegendsLootingRecipeManager.init();
 
-        UltraSpaceSurfaceRules.UltraSpaceRuleSource.init();
         UltraSpaceSurfaceRules.init();
 
         PokecubeAdv.TAB_DECORATIONS = TAB_DECORATIONS;

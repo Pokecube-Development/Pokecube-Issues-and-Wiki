@@ -6,9 +6,6 @@
   "refmap": "pokecube.refmap.json",
   "mixins": [
     "MixinBaseFireBlock",
-    "worldgen.MixinLakesFeature",
-    "worldgen.MixinStructure",
-    "worldgen.MixinBeardifier",
     "brain.MixinLivingEntityInit",
     "brain.MixinVilagerBrainUpdate",
     "brain.MixinMobEntity"

@@ -20,11 +20,15 @@ import pokecube.legends.recipes.LegendsDistorticRecipeSerializer.SerializerDisto
 
 public class LegendsDistorticRecipeManager
 {
-    private static final ResourceLocation                            ID_DISTORTIC                  = new ResourceLocation(
-            "pokecube_legends:legends_recipe");
-    public static final RecipeType<LegendsDistorticRecipeSerializer> LEGENDS_DISTORTIC_RECIPE_TYPE = RecipeType
-            .register(LegendsDistorticRecipeManager.ID_DISTORTIC.toString());
-    public static final RegistryObject<SerializerDistortic>          LEGENDS_DISTORTIC_RECIPE      = PokecubeLegends.LEGENDS_SERIALIZERS
+    public static final RegistryObject<RecipeType<?>> LEGENDS_DISTORTIC_RECIPE_TYPE = PokecubeLegends.RECIPE_TYPE
+            .register("legends_recipe", () -> new RecipeType<>()
+            {
+                public String toString()
+                {
+                    return "pokecube_legends:legends_recipe";
+                }
+            });
+    public static final RegistryObject<SerializerDistortic> LEGENDS_DISTORTIC_RECIPE = PokecubeLegends.RECIPE_SERIALIZER
             .register("legends_recipe", () -> new SerializerDistortic());
 
     public static void onPlayerClickBlock(final PlayerInteractEvent.RightClickBlock event)
@@ -37,25 +41,26 @@ public class LegendsDistorticRecipeManager
 
             final ItemStack heldItem = event.getPlayer().getItemInHand(event.getHand());
 
-            for (final Recipe<?> recipe : LegendsDistorticRecipeManager.getRecipes(
-                    LegendsDistorticRecipeManager.LEGENDS_DISTORTIC_RECIPE_TYPE, event.getWorld().getRecipeManager())
+            for (final Recipe<?> recipe : LegendsDistorticRecipeManager
+                    .getRecipes(LegendsDistorticRecipeManager.LEGENDS_DISTORTIC_RECIPE_TYPE.get(),
+                            event.getWorld().getRecipeManager())
                     .values())
                 if (recipe instanceof LegendsDistorticRecipeSerializer)
+            {
+
+                final LegendsDistorticRecipeSerializer blockRecipe = (LegendsDistorticRecipeSerializer) recipe;
+
+                if (blockRecipe.isValid(heldItem, event.getWorld().getBlockState(event.getPos()).getBlock())
+                        && dim == blockRecipe.dimId)
                 {
 
-                    final LegendsDistorticRecipeSerializer blockRecipe = (LegendsDistorticRecipeSerializer) recipe;
+                    heldItem.shrink(1);
 
-                    if (blockRecipe.isValid(heldItem, event.getWorld().getBlockState(event.getPos()).getBlock())
-                            && dim == blockRecipe.dimId)
-                    {
-
-                        heldItem.shrink(1);
-
-                        ItemHandlerHelper.giveItemToPlayer(event.getPlayer(), blockRecipe.getResultItem().copy());
-                        event.setCanceled(true);
-                        break;
-                    }
+                    ItemHandlerHelper.giveItemToPlayer(event.getPlayer(), blockRecipe.getResultItem().copy());
+                    event.setCanceled(true);
+                    break;
                 }
+            }
         }
     }
 

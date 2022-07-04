@@ -2,6 +2,7 @@ package pokecube.legends.init;
 
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.features.OreFeatures;
@@ -160,10 +161,10 @@ public class FeaturesInit
 
     public static final class Configs
     {
-        public static final WeightedStateProvider FORBIDDEN_VEGETATION_PROVIDER = new WeightedStateProvider(
+        public static final Supplier<WeightedStateProvider> FORBIDDEN_VEGETATION_PROVIDER = ()->new WeightedStateProvider(
                 SimpleWeightedRandomList.<BlockState>builder().add(PlantsInit.GOLDEN_GRASS.get().defaultBlockState(), 1)
                         .add(PlantsInit.GOLDEN_FERN.get().defaultBlockState(), 4));
-        public static final WeightedStateProvider CORRUPTED_VEGETATION_PROVIDER = new WeightedStateProvider(
+        public static final Supplier<WeightedStateProvider> CORRUPTED_VEGETATION_PROVIDER = ()->new WeightedStateProvider(
                 SimpleWeightedRandomList.<BlockState>builder()
                         .add(PlantsInit.CORRUPTED_GRASS.get().defaultBlockState(), 70)
                         .add(PlantsInit.TAINTED_ROOTS.get().defaultBlockState(), 45)
@@ -251,19 +252,19 @@ public class FeaturesInit
             // Vegetations
             FORBIDDEN_VEGETATION = PokecubeLegends.CONFIGURED_FEATURES.register("forbidden_vegetation",
                     () -> new ConfiguredFeature<>(WorldgenFeatures.ULTRASPACE_VEGETATION.get(),
-                            new NetherForestVegetationConfig(FORBIDDEN_VEGETATION_PROVIDER, 8, 4)));
+                            new NetherForestVegetationConfig(FORBIDDEN_VEGETATION_PROVIDER.get(), 8, 4)));
 
             FORBIDDEN_VEGETATION_BONEMEAL = PokecubeLegends.CONFIGURED_FEATURES.register(
                     "forbidden_vegetation_bonemeal",
                     () -> new ConfiguredFeature<>(WorldgenFeatures.ULTRASPACE_VEGETATION.get(),
-                            new NetherForestVegetationConfig(FORBIDDEN_VEGETATION_PROVIDER, 3, 1)));
+                            new NetherForestVegetationConfig(FORBIDDEN_VEGETATION_PROVIDER.get(), 3, 1)));
             TAINTED_VEGETATION = PokecubeLegends.CONFIGURED_FEATURES.register("tainted_barrens_vegetation",
                     () -> new ConfiguredFeature<>(WorldgenFeatures.ULTRASPACE_VEGETATION.get(),
-                            new NetherForestVegetationConfig(CORRUPTED_VEGETATION_PROVIDER, 8, 4)));
+                            new NetherForestVegetationConfig(CORRUPTED_VEGETATION_PROVIDER.get(), 8, 4)));
             TAINTED_VEGETATION_BONEMEAL = PokecubeLegends.CONFIGURED_FEATURES.register(
                     "tainted_barrens_vegetation_bonemeal",
                     () -> new ConfiguredFeature<>(WorldgenFeatures.ULTRASPACE_VEGETATION.get(),
-                            new NetherForestVegetationConfig(CORRUPTED_VEGETATION_PROVIDER, 3, 1)));
+                            new NetherForestVegetationConfig(CORRUPTED_VEGETATION_PROVIDER.get(), 3, 1)));
             SINGLE_PIECE_OF_DISTORTIC_GRASS = PokecubeLegends.CONFIGURED_FEATURES.register(
                     "single_piece_of_distortic_grass",
                     () -> new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
@@ -298,6 +299,8 @@ public class FeaturesInit
             }
         }
 
+        public static void init()
+        {}
     }
 
     private static final List<OreConfiguration.TargetBlockState> getRubyList()
@@ -321,6 +324,7 @@ public class FeaturesInit
     public static void init(IEventBus bus)
     {
         MinecraftForge.EVENT_BUS.addListener(Configs::onBiomeLoading);
+        Configs.init();
     }
 
     public class PlantPlacements
@@ -330,9 +334,9 @@ public class FeaturesInit
                 () -> new PlacedFeature(FeaturesInit.Configs.FORBIDDEN_VEGETATION_BONEMEAL.getHolder().get(),
                         List.of(PlacementUtils.isEmpty())));
 
-        public static final RegistryObject<PlacedFeature> PATCH_CORRUPTED_GRASS = PokecubeLegends.PLACED_FEATURES.register(
-                "tainted_barrens_bonemeal",
-                () -> new PlacedFeature(FeaturesInit.Configs.TAINTED_VEGETATION_BONEMEAL.getHolder().get(),
-                        List.of(PlacementUtils.isEmpty())));
+        public static final RegistryObject<PlacedFeature> PATCH_CORRUPTED_GRASS = PokecubeLegends.PLACED_FEATURES
+                .register("tainted_barrens_bonemeal",
+                        () -> new PlacedFeature(FeaturesInit.Configs.TAINTED_VEGETATION_BONEMEAL.getHolder().get(),
+                                List.of(PlacementUtils.isEmpty())));
     }
 }

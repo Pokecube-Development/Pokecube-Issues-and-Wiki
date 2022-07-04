@@ -1,69 +1,43 @@
 package pokecube.core.database.worldgen;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
-import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.levelgen.FlatLevelSource;
-import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
 import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
-import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.utils.PokecubeSerializer;
-import pokecube.core.world.gen.WorldgenFeatures;
 import pokecube.core.world.gen.jigsaw.CustomJigsawStructure;
-import pokecube.core.world.gen.jigsaw.JigsawConfig;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.util.JsonUtil;
-import thut.core.common.ThutCore;
 
 public class WorldgenHandler
 {
@@ -301,65 +275,7 @@ public class WorldgenHandler
 
     public final String MODID;
 
-    private static class BiomeFeature
-    {
-        public final GenerationStep.Decoration stage;
-        public Holder<PlacedFeature> feature;
-
-        public BiomeFeature(final Decoration stage, final Holder<PlacedFeature> feature)
-        {
-            this.stage = stage;
-            this.feature = feature;
-        }
-    }
-
-    private static class BiomeStructure
-    {
-        public Holder<ConfiguredStructureFeature<?, ?>> configured_feature;
-
-        public BiomeStructure(final Holder<ConfiguredStructureFeature<?, ?>> configured, final JigSawConfig config)
-        {
-            this.configured_feature = configured;
-        }
-    }
-
-    private class FMLReger
-    {
-        @SubscribeEvent
-        public void processStructures(final RegistryEvent.Register<StructureFeature<?>> event)
-        {
-            try
-            {
-                WorldgenHandler.this.loadStructures();
-            }
-            catch (final Exception e)
-            {
-                if (e instanceof FileNotFoundException)
-                    PokecubeMod.LOGGER.debug("No worldgen database found for " + WorldgenHandler.this.MODID);
-                else PokecubeMod.LOGGER.error(e);
-                return;
-            }
-
-            PokecubeCore.LOGGER.info("Loaded {} pools and {} jigsaws for {}",
-                    WorldgenHandler.this.defaults.pools.size(), WorldgenHandler.this.defaults.jigsaws.size(),
-                    WorldgenHandler.this.MODID);
-            final WorldgenHandler handler = WorldgenHandler.this;
-
-            // Register the pools.
-            for (final JigSawPool pool : handler.defaults.pools)
-                handler.patterns.put(pool.name, WorldgenFeatures.register(pool, WorldgenFeatures.GENERICLIST));
-
-            // Register the structrues
-            for (final JigSawConfig struct : handler.defaults.jigsaws) handler.register(struct, event);
-        }
-    }
-
     public static WorldgenHandler INSTANCE;
-
-    private final FMLReger reg = new FMLReger();
-
-    private final Map<BiomeFeature, Predicate<BiomeLoadingEvent>> features = Maps.newHashMap();
-    private final Map<BiomeStructure, Predicate<BiomeLoadingEvent>> structures = Maps.newHashMap();
 
     public final Map<String, Holder<StructureTemplatePool>> patterns = Maps.newHashMap();
 
@@ -380,7 +296,6 @@ public class WorldgenHandler
     private WorldgenHandler(final String modid, final IEventBus bus)
     {
         this.MODID = modid;
-        bus.register(this.reg);
         MinecraftForge.EVENT_BUS.register(this);
         WorldgenHandler.INSTANCE = this;
     }
@@ -388,39 +303,11 @@ public class WorldgenHandler
     public static void setupAll()
     {
         WorldgenHandler.INSTANCE.setup();
-        WorldgenHandler.INSTANCE.registerConfigured();
-
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, WorldgenHandler::removeStructures);
     }
 
-    private static void removeStructures(final WorldEvent.Load event)
-    {
-        if (event.getWorld().isClientSide()) return;
-
-        if (!(event.getWorld() instanceof ServerLevel)) return;
-// TODO figure out removing structures again?
-//        final ServerLevel serverWorld = (ServerLevel) event.getWorld();
-//
-//        StructureSettings worldStructureSettings = serverWorld.getChunkSource().getGenerator().getSettings();
-//
-//        final Map<StructureFeature<?>, StructureFeatureConfiguration> tempMap = new HashMap<>(
-//                worldStructureSettings.structureConfig());
-//        final List<String> removedStructures = PokecubeCore.getConfig().removedStructures;
-//        for (final StructureFeature<?> s : Sets.newHashSet(tempMap.keySet()))
-//            if (removedStructures.contains(s.getFeatureName())
-//                    || removedStructures.contains(s.getRegistryName().toString()))
-//                tempMap.remove(s);
-//        worldStructureSettings.structureConfig = tempMap;
-    }
 
     protected void setup()
     {
-        // We only want to run setup uniquely per structure itself, so we use
-        // this set to ensure that.
-//        final Set<CustomJigsawStructure> setup = Sets.newHashSet();
-//
-//        for (final JigSawConfig structure : this.toConfigure.keySet())
-//            if (setup.add(this.toConfigure.get(structure))) this.setup(this.toConfigure.get(structure), structure);
     }
 
     protected void setup(final CustomJigsawStructure structure, final JigSawConfig config)
@@ -457,235 +344,15 @@ public class WorldgenHandler
 
         if (event.getWorld() instanceof ServerLevel)
         {
-            if (ThutCore.proxy.getRegistries() == null)
-                throw new IllegalStateException("Loading world before registries????");
-
-            final ServerLevel serverWorld = (ServerLevel) event.getWorld();
-            final ResourceKey<Level> key = serverWorld.dimension();
-
-            // Prevent spawning our structure in Vanilla's superflat world as
-            // people seem to want their superflat worlds free of modded
-            // structures.
-            // Also that vanilla superflat is really tricky and buggy to work
-            // with in my experience.
-            if (serverWorld.getChunkSource().getGenerator() instanceof FlatLevelSource && key.equals(Level.OVERWORLD))
-                return;
-//
-//            CustomJigsawPiece.sent_events.clear();
-//
-//            StructureSettings worldStructureSettings = serverWorld.getChunkSource().getGenerator().getSettings();
-//
-//            // We only want to run setup uniquely per structure itself, so we
-//            // use
-//            // this set to ensure that.
-//            for (final Entry<CustomJigsawStructure, Set<JigSawConfig>> entry : this.variants.entrySet())
-//            {
-//                final Set<JigSawConfig> opts = entry.getValue();
-//                final CustomJigsawStructure structure = entry.getKey();
-//                boolean allowed = false;
-//                for (final JigSawConfig opt : opts) allowed = allowed || !opt.isBlackisted(key);
-//                // Actually register the structure to the chunk provider,
-//                // without this it won't generate!
-//                final Map<StructureFeature<?>, StructureFeatureConfiguration> tempMap = new HashMap<>(
-//                        worldStructureSettings.structureConfig());
-//                if (allowed) tempMap.put(structure, StructureSettings.DEFAULTS.get(structure));
-//                else tempMap.remove(structure);
-//                worldStructureSettings.structureConfig = tempMap;
-//            }
-//
-//            // The below code is based on the StructureSettings thing. for
-//            // registering the structure features
-//            HashMap<StructureFeature<?>, Builder<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>>> hashmap = new HashMap<>();
-//
-//            BiConsumer<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>> consumer = (structure, biome) -> {
-//                hashmap.computeIfAbsent(structure.feature, (feature) -> {
-//                    return ImmutableMultimap.builder();
-//                }).put(structure, biome);
-//            };
-//
-//            // This part mimics what is in StructureFeatures.registerStructures
-//            for (Entry<ConfiguredStructureFeature<?, ?>, Set<ResourceKey<Biome>>> entry : this.structure_biomes
-//                    .entrySet())
-//            {
-//                Set<ResourceKey<Biome>> biomes = entry.getValue();
-//                ConfiguredStructureFeature<?, ?> feature = entry.getKey();
-//                biomes.forEach(b -> consumer.accept(feature, b));
-//            }
-//
-//            // and here is back to what configuresStructures does.
-//            ImmutableMap<StructureFeature<?>, ImmutableMultimap<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>>> customFeatures = hashmap
-//                    .entrySet().stream().collect(ImmutableMap.toImmutableMap(Entry::getKey, (entry) ->
-//                    {
-//                        return entry.getValue().build();
-//                    }));
-//
-//            // Now we need to merge the immutable maps.
-//            Map<StructureFeature<?>, ImmutableMultimap<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>>> combined = Maps
-//                    .newHashMap();
-//
-//            combined.putAll(worldStructureSettings.configuredStructures);
-//            combined.putAll(customFeatures);
-//
-//            worldStructureSettings.configuredStructures = ImmutableMap.copyOf(combined);
-//
-//            // If we are the first one, we will check for a spawn location, just
-//            // to initialize things.
-//            if (this.MODID == PokecubeCore.MODID && PokecubeCore.getConfig().doSpawnBuilding
-//                    && !PokecubeSerializer.getInstance().hasPlacedSpawn() && key.equals(Level.OVERWORLD)
-//                    && !WorldgenHandler.SOFTBLACKLIST.contains(Level.OVERWORLD))
-//                serverWorld.getServer().execute(() ->
-//                {
-//                    final ResourceLocation location = new ResourceLocation("pokecube:village");
-//                    final TagKey<ConfiguredStructureFeature<?, ?>> structure = TagKey
-//                            .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, location);
-//                    serverWorld.findNearestMapFeature(structure, BlockPos.ZERO, 5, false);
-//                });
-
         }
     }
 
-    private ResourceKey<Biome> from(final BiomeLoadingEvent event)
-    {
-        return ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
-    }
-
-    protected void registerConfigured()
-    {
-//        for (final JigSawConfig struct : this.toConfigure.keySet())
-//        {
-//            final CustomJigsawStructure structure = this.toConfigure.get(struct);
-//            final JigsawConfig config = new JigsawConfig(struct);
-//            Holder<ConfiguredStructureFeature<?, ?>> configured = structure.configured(config);
-//            configured = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE, struct.name,
-//                    configured.value());
-//            final BiomeStructure value = new BiomeStructure(configured, struct);
-//            // Add the structures to the list, the predicate based on the spawn
-//            // rules it made.
-//            this.structures.put(value,
-//                    c -> struct.getMatcher() == null ? false : struct.getMatcher().checkLoadEvent(c));
-//        }
-    }
-
-    public void register(final Predicate<ResourceKey<Biome>> selector, final GenerationStep.Decoration stage,
-            final Holder<PlacedFeature> feature)
-    {
-//        final BiomeFeature toAdd = new BiomeFeature(stage, feature);
-//        this.features.put(toAdd, c -> selector.test(this.from(c)));
-    }
-
-    public void loadStructures() throws Exception
-    {
-//        final Collection<ResourceLocation> resources = PackFinder.getJsonResources("structures/");
-//
-//        this.defaults.jigsaws.clear();
-//        this.defaults.pools.clear();
-//
-//        PokecubeCore.LOGGER.info("Found Worldgen Databases: {}", resources);
-//
-//        for (final ResourceLocation file : resources) try
-//        {
-//            final InputStream res = PackFinder.getStream(file);
-//            final Reader reader = new InputStreamReader(res);
-//            final Structures extra = JsonUtil.gson.fromJson(reader, Structures.class);
-//
-//            PokecubeCore.LOGGER.info("Found {} jigsaws and {} pools in {}", extra.jigsaws.size(), extra.pools.size(),
-//                    file);
-//            this.defaults.jigsaws.addAll(extra.jigsaws);
-//            this.defaults.pools.addAll(extra.pools);
-//        }
-//        catch (JsonSyntaxException | JsonIOException | IOException e)
-//        {
-//            PokecubeCore.LOGGER.error("Error with pools for {}", file, e);
-//        }
-    }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public void regBiomes(final BiomeLoadingEvent event)
     {
-//        if (event.getName() == null)
-//        {
-//            PokecubeCore.LOGGER.error("Null biome name loading, cannot determine what should go here!");
-//            return;
-//        }
-//        for (final BiomeFeature feat : this.features.keySet())
-//            if (this.features.get(feat).test(event)) event.getGeneration().addFeature(feat.stage, feat.feature);
-//
-//        for (final BiomeStructure feat : this.structures.keySet())
-//        {
-//            Holder<ConfiguredStructureFeature<?, ?>> configured = feat.configured_feature;
-//            final JigsawConfig conf = (JigsawConfig) feat.configured_feature.value().config;
-//            if (conf.struct_config.getMatcher() == null) continue;
-//            boolean valid = conf.struct_config.getMatcher().checkLoadEvent(event);
-//
-//            if (valid && event.getName().toString().contains("forest") && conf.struct_config.name.contains("swamp"))
-//            {
-//                PokecubeCore.LOGGER.error("wat...");
-//            }
-//
-//            if (valid)
-//            {
-//                PokecubeCore.LOGGER.debug("Adding Structure {} to biome {}", conf.struct_config.name, event.getName());
-//                Set<ResourceKey<Biome>> keys = this.structure_biomes.getOrDefault(configured, Sets.newHashSet());
-//                keys.add(from(event));
-//                structure_biomes.put(configured, keys);
-//            }
-//        }
     }
 
-    public CustomJigsawStructure register(final JigSawConfig struct,
-            final RegistryEvent.Register<StructureFeature<?>> event)
-    {
-        final String structName = struct.type.isEmpty() ? struct.name : struct.type;
-
-        CustomJigsawStructure structure = WorldgenHandler.structs.get(structName);
-//        // already registered! (Need to do something about this?
-//        if (structure == null)
-//        {
-//            PokecubeCore.LOGGER.debug("Registering Structure: {} for mod {}", structName, this.MODID);
-//            structure = new CustomJigsawStructure(JigsawConfig.CODEC);
-//            ResourceLocation id = new ResourceLocation(structName);
-//            structure.priority = struct.priority;
-//            structure.spacing = struct.spacing;
-//            WorldgenHandler.structs.put(structName, structure);
-//            // Use this instead of event, as it will also populated proper maps.
-//
-//            // Here we do some stuff to supress the annoying forge warnings
-//            // about "dangerous alternative prefixes.
-//            String namespace = id.getNamespace();
-//            String prefix = ModLoadingContext.get().getActiveNamespace();
-//            ModContainer old = ModLoadingContext.get().getActiveContainer();
-//            if (!prefix.equals(namespace))
-//            {
-//                Optional<? extends ModContainer> swap = ModList.get().getModContainerById(namespace);
-//                if (swap.isPresent()) ModLoadingContext.get().setActiveContainer(swap.get());
-//            }
-//
-//            structure.setRegistryName(id);
-//            event.getRegistry().register(structure);
-//
-//            // Undo the suppression for the prefixes.
-//            if (old != ModLoadingContext.get().getActiveContainer())
-//            {
-//                ModLoadingContext.get().setActiveContainer(old);
-//            }
-//        }
-//        PokecubeCore.LOGGER.debug("Requesting pool of: {}", struct.root);
-//        if (!this.patterns.containsKey(struct.root))
-//        {
-//            PokecubeCore.LOGGER.error("No pool found for {}, are you sure it is registered?", struct.root);
-//            return structure;
-//        }
-//        PokecubeTerrainChecker.manualStructureSubbiomes.put(struct.name, struct.biomeType);
-//        // Add it to our list for configuration
-//        this.toConfigure.put(struct, structure);
-//        Set<JigSawConfig> types = this.variants.get(structure);
-//        if (types == null) this.variants.put(structure, types = Sets.newHashSet());
-//        types.add(struct);
-//
-//        if (struct.base_override) HAS_BASE_OVERRIDES.add(structure);
-
-        return structure;
-    }
 
     private static void forceVillageFeature(final StructureFeature<?> feature)
     {

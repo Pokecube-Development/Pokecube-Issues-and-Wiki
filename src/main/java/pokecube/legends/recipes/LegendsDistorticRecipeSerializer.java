@@ -71,7 +71,7 @@ public class LegendsDistorticRecipeSerializer implements Recipe<Container>
     public RecipeType<?> getType()
     {
 
-        return LegendsDistorticRecipeManager.LEGENDS_DISTORTIC_RECIPE_TYPE;
+        return LegendsDistorticRecipeManager.LEGENDS_DISTORTIC_RECIPE_TYPE.get();
     }
 
     public boolean isValid(final ItemStack input, final Block block)

@@ -16,7 +16,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -73,13 +72,6 @@ public class PokecubeMobs
             PokecubeCore.LOGGER.debug("Registering Pokemob Sounds");
             Database.initMobSounds(event.getRegistry());
         }
-
-        @SubscribeEvent
-        public static void registerFeatures(final RegistryEvent.Register<StructureFeature<?>> event)
-        {
-            PokecubeCore.LOGGER.debug("Registering Pokecube Mobs Features");
-            new BerryGenManager(PokecubeMobs.MODID).processStructures(event);
-        }
     }
 
     public static final String MODID = "pokecube_mobs";
@@ -93,6 +85,7 @@ public class PokecubeMobs
         // We override these so that they use ours instead of default ones.
         CombatTypeLoader.TYPES = new ResourceLocation(PokecubeMobs.MODID, "database/types.json");
 
+        new BerryGenManager(PokecubeMobs.MODID);
         MoveRegister.init();
         AbilityRegister.init();
     }
