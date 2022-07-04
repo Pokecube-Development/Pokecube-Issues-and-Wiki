@@ -8,20 +8,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/road_t_01",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
     {
@@ -29,20 +17,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/road_plus_01",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
     {
@@ -50,20 +26,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/road_01",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
 
@@ -72,20 +36,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/corner_01",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
     {
@@ -93,20 +45,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/corner_02",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
     {
@@ -114,20 +54,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/corner_03",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
 
@@ -136,20 +64,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/crossroad_01",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
     {
@@ -157,20 +73,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/crossroad_02",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
     {
@@ -178,20 +82,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/crossroad_03",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
     {
@@ -199,20 +91,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/crossroad_04",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
     {
@@ -220,20 +100,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/crossroad_05",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
     {
@@ -241,20 +109,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/crossroad_06",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
 
@@ -263,20 +119,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/straight_01",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
     {
@@ -284,20 +128,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/straight_02",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
     {
@@ -305,20 +137,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/straight_03",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
     {
@@ -326,20 +146,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/straight_04",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
     {
@@ -347,20 +155,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/straight_05",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
     {
@@ -368,20 +164,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/straight_06",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
 
@@ -390,20 +174,8 @@
       "element": {
         "location": "pokecube:village/plains/streets/turn_01",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     }
   ]

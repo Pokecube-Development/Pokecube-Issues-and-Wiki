@@ -8,20 +8,8 @@
         "element": {
           "location": "pokecube:village/plains/pokecenter/path",
           "projection": "terrain_matching",
-          "element_type": "minecraft:single_pool_element",
-          "processors": {
-              "processors": [
-                {
-                  "processor_type": "pokecube:ladders_to_ground"
-                },
-                {
-                  "processor_type": "pokecube:structures"
-                },
-                {
-                  "processor_type": "pokecube:marker_to_air"
-                }
-              ]
-            }
+          "element_type": "pokecube:expanded_pool_element",
+          "processors": "pokecube:street_plains"
         }
       }
     ]

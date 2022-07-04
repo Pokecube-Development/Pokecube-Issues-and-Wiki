@@ -1,15 +1,14 @@
-
 {
-    "name": "pokecube:village/plains/gym/path",
+    "name": "pokecube:village/common/trainers",
     "fallback": "minecraft:empty",
     "elements": [
       {
         "weight": 1,
         "element": {
-          "location": "pokecube:village/plains/gym/path",
+          "location": "pokecube:village/common/trainers/trainer_1",
           "projection": "terrain_matching",
           "element_type": "pokecube:expanded_pool_element",
-          "processors": "pokecube:street_plains"
+          "processors": "pokecube:generic"
         }
       }
     ]

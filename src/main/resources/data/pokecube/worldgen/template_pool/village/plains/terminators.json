@@ -8,20 +8,8 @@
       "element": {
         "location": "pokecube:village/plains/terminators/terminator_01",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
     {
@@ -29,20 +17,8 @@
       "element": {
         "location": "pokecube:village/plains/terminators/terminator_02",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
     {
@@ -50,20 +26,8 @@
       "element": {
         "location": "pokecube:village/plains/terminators/terminator_03",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     },
     {
@@ -71,20 +35,8 @@
       "element": {
         "location": "pokecube:village/plains/terminators/terminator_04",
         "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:street_plains"
       }
     }
   ]

@@ -8,7 +8,7 @@
       "element": {
         "location": "pokecube:village/plains/town_centers/center_small",
         "projection": "rigid",
-        "element_type": "minecraft:single_pool_element",
+        "element_type": "pokecube:expanded_pool_element",
         "processors": {
             "processors": [
               {

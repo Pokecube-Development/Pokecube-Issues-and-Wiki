@@ -49,11 +49,6 @@ import pokecube.core.events.StructureEvent;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.gen.structures.PokecubeStructures;
-import pokecube.world.gen.structures.processors.FillerProcessor;
-import pokecube.world.gen.structures.processors.MarkerToAirProcessor;
-import pokecube.world.gen_old.WorldgenFeatures;
-import pokecube.world.gen_old.WorldgenHandler.JigSawConfig;
-import pokecube.world.gen_old.WorldgenHandler.Options;
 import pokecube.world.gen_old.jigsaw.JigsawAssmbler;
 
 public class ExpandedJigsawPiece extends SinglePoolElement
@@ -62,20 +57,15 @@ public class ExpandedJigsawPiece extends SinglePoolElement
     {
         return RecordCodecBuilder.create((instance) -> {
             return instance.group(SinglePoolElement.templateCodec(), SinglePoolElement.processorsCodec(),
-                    StructurePoolElement.projectionCodec(), ExpandedJigsawPiece.options(), ExpandedJigsawPiece.config())
+                    StructurePoolElement.projectionCodec(),
+                    Codec.BOOL.fieldOf("ignore_air").orElse(false).forGetter(structure -> structure.ignore_air),
+                    Codec.BOOL.fieldOf("water_terrain_match").orElse(false)
+                            .forGetter(structure -> structure.water_terrain_match),
+                    Codec.BOOL.fieldOf("markers_to_air").orElse(true).forGetter(structure -> structure.markers_to_air),
+                    Codec.STRING.fieldOf("biome_type").orElse("none").forGetter(structure -> structure.biome_type),
+                    Codec.STRING.fieldOf("name").orElse("none").forGetter(structure -> structure.biome_type),
+                    Codec.STRING.fieldOf("flags").orElse("").forGetter(structure -> structure.flags))
                     .apply(instance, ExpandedJigsawPiece::new);
-        });
-    }
-    protected static <E extends ExpandedJigsawPiece> RecordCodecBuilder<E, Options> options()
-    {
-        return Options.CODEC.fieldOf("opts").forGetter((o) -> {
-            return o.opts;
-        });
-    }
-    protected static <E extends ExpandedJigsawPiece> RecordCodecBuilder<E, JigSawConfig> config()
-    {
-        return JigSawConfig.CODEC.fieldOf("config").forGetter((o) -> {
-            return o.config;
         });
     }
 
@@ -95,12 +85,14 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         poses.add(pos.immutable());
     }
 
-    public final Options opts;
-
-    // This gets re-set by the assembler
-    public JigSawConfig config;
-
     public Level world;
+
+    boolean ignore_air = false;
+    boolean water_terrain_match = false;
+    boolean markers_to_air = true;
+    String biome_type = "none";
+    String name = "none";
+    String flags = "";
 
     public boolean isSpawn;
     public String spawnReplace;
@@ -116,11 +108,16 @@ public class ExpandedJigsawPiece extends SinglePoolElement
 
     public ExpandedJigsawPiece(final Either<ResourceLocation, StructureTemplate> template,
             final Holder<StructureProcessorList> processors, final StructureTemplatePool.Projection behaviour,
-            final Options opts, final JigSawConfig config)
+            final boolean ignoreAir, final boolean water_terrain_match, final boolean markers_to_air,
+            final String biome_type, final String name, final String flags)
     {
         super(template, processors, behaviour);
-        this.opts = opts;
-        this.config = config;
+        this.ignore_air = ignoreAir;
+        this.water_terrain_match = water_terrain_match;
+        this.biome_type = biome_type;
+        this.name = name;
+        this.markers_to_air = markers_to_air;
+        this.flags = flags;
     }
 
     @Override
@@ -134,31 +131,16 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         placementsettings.setFinalizeEntities(true);
 
         if (!notJigsaw) placementsettings.addProcessor(JigsawReplacementProcessor.INSTANCE);
-        if (this.opts.extra.containsKey("markers_to_air"))
-            placementsettings.addProcessor(MarkerToAirProcessor.PROCESSOR);
-        if (this.opts.filler) placementsettings.addProcessor(FillerProcessor.PROCESSOR);
 
-        final boolean shouldIgnoreAire = this.opts.ignoreAir || !this.opts.rigid;
+        final boolean shouldIgnoreAire = this.ignore_air;
 
         if (shouldIgnoreAire) placementsettings.addProcessor(BlockIgnoreProcessor.STRUCTURE_AND_AIR);
         else placementsettings.addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
 
-        final boolean wasNull = this.overrideList == null;
-        if (wasNull && !this.opts.proc_list.isEmpty())
-            this.overrideList = WorldgenFeatures.getProcList(this.opts.proc_list).value();
+        this.processors.value().list().forEach(placementsettings::addProcessor);
 
-        if (this.overrideList == null) this.processors.value().list().forEach(placementsettings::addProcessor);
-        else
-        {
-            this.overrideList.list().forEach(placementsettings::addProcessor);
-            if (wasNull) this.overrideList = null;
-        }
-        final boolean water_terrain_match = !this.opts.rigid && this.opts.water;
         if (water_terrain_match) placementsettings.addProcessor(new GravityProcessor(Types.OCEAN_FLOOR_WG, -1));
         else this.getProjection().getProcessors().forEach(placementsettings::addProcessor);
-
-        if (!config.proc_list.isEmpty())
-            WorldgenFeatures.getProcList(config.proc_list).value().list().forEach(placementsettings::addProcessor);
 
         return this.toUse = placementsettings;
     }
@@ -182,7 +164,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error with part of structure: {}", this.config.serialize());
+            PokecubeCore.LOGGER.error("Error with part of structure: {}", this.name);
             PokecubeCore.LOGGER.error(e);
         }
 
@@ -190,19 +172,19 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         else
         {
             if (this.world == null) this.world = JigsawAssmbler.getForGen(chunkGenerator);
-            if (this.config.name != null)
+            if (!"none".equals(this.name))
             {
                 final BoundingBox realBox = this.getBoundingBox(templates, pos1, rotation);
                 final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(realBox, this.world,
-                        this.config.name, placementsettings);
-                event.setBiomeType(this.config.biomeType);
+                        this.name, placementsettings);
+                event.setBiomeType(this.biome_type);
                 MinecraftForge.EVENT_BUS.post(event);
             }
 
             // Check if we need to undo any waterlogging which may have
             // occurred, we also process data markers here as to not duplicate
             // loop later, as this operation is expensive enough anyway.
-            if (this.opts.extra.containsKey("markers_to_air"))
+            if (this.markers_to_air)
             {
                 final List<StructureTemplate.StructureBlockInfo> list = placementsettings
                         .getRandomPalette(template.palettes, pos1).blocks();

@@ -8,20 +8,8 @@
           "element": {
             "location": "pokecube:scattered/ruins_rigid/ancient_tomb",
             "projection": "rigid",
-            "element_type": "minecraft:single_pool_element",
-            "processors": {
-                "processors": [
-                  {
-                    "processor_type": "pokecube:ladders_to_ground"
-                  },
-                  {
-                    "processor_type": "pokecube:structures"
-                  },
-                  {
-                    "processor_type": "pokecube:marker_to_air"
-                  }
-                ]
-              }
+            "element_type": "pokecube:expanded_pool_element",
+            "processors": "pokecube:generic"
           }
         },
         {
@@ -29,20 +17,8 @@
           "element": {
             "location": "pokecube:scattered/ruins_rigid/ruin_1",
             "projection": "rigid",
-            "element_type": "minecraft:single_pool_element",
-            "processors": {
-                "processors": [
-                  {
-                    "processor_type": "pokecube:ladders_to_ground"
-                  },
-                  {
-                    "processor_type": "pokecube:structures"
-                  },
-                  {
-                    "processor_type": "pokecube:marker_to_air"
-                  }
-                ]
-              }
+            "element_type": "pokecube:expanded_pool_element",
+            "processors": "pokecube:generic"
           }
         },
         {
@@ -50,20 +26,8 @@
           "element": {
             "location": "pokecube:scattered/ruins_rigid/ruin_2",
             "projection": "rigid",
-            "element_type": "minecraft:single_pool_element",
-            "processors": {
-                "processors": [
-                  {
-                    "processor_type": "pokecube:ladders_to_ground"
-                  },
-                  {
-                    "processor_type": "pokecube:structures"
-                  },
-                  {
-                    "processor_type": "pokecube:marker_to_air"
-                  }
-                ]
-              }
+            "element_type": "pokecube:expanded_pool_element",
+            "processors": "pokecube:generic"
           }
         }
     ]
