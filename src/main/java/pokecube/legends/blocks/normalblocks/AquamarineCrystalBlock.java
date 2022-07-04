@@ -281,8 +281,7 @@ public class AquamarineCrystalBlock extends PointedDripstoneBlock implements Fal
 
     public static void spawnFallingStalactite(BlockState state, ServerLevel world, BlockPos pos)
     {
-       Vec3 vec3 = Vec3.atBottomCenterOf(pos);
-       FallingBlockEntity entity = new FallingBlockEntity(world, vec3.x, vec3.y, vec3.z, state);
+       FallingBlockEntity entity = FallingBlockEntity.fall(world, pos, state);
        if (isTip(state, true))
        {
           int i = getStalactiteSizeFromTip(world, pos, 6);

@@ -38,7 +38,7 @@ public class DynaLeavesBlock extends LeavesBlock implements IForgeShearable
     }
 
     public static int getDistanceAt(final BlockState state) {
-        if (BlockTags.LOGS.contains(state.getBlock())) return 0;
+        if (state.is(BlockTags.LOGS)) return 0;
         else return state.getBlock() instanceof LeavesBlock ? (Integer)state.getValue(DynaLeavesBlock.DISTANCE) : 7;
     }
 

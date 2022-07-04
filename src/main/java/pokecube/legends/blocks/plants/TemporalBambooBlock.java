@@ -6,9 +6,9 @@ import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -33,14 +33,14 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
     protected static final VoxelShape SMALL_SHAPE = Block.box(7, 0, 7, 9, 16, 9);
     protected static final VoxelShape LARGE_SHAPE = Block.box(6.5, 0, 6.5, 9.5, 16, 9.5);
     // Tags
-    public static Tag.Named<Block> TEMPORAL_BAMBOO_PLANTABLE_ON = BlockTags.createOptional(new ResourceLocation(
-            Reference.ID, "temporal_bamboo_plantable_on"));
+    public static TagKey<Block> TEMPORAL_BAMBOO_PLANTABLE_ON = TagKey.create(Registry.BLOCK_REGISTRY,
+            new ResourceLocation(Reference.ID, "temporal_bamboo_plantable_on"));
 
     public TemporalBambooBlock(final BlockBehaviour.Properties properties)
     {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(BambooBlock.AGE, Integer.valueOf(0)).setValue(
-                BambooBlock.LEAVES, BambooLeaves.NONE).setValue(BambooBlock.STAGE, Integer.valueOf(0)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(BambooBlock.AGE, Integer.valueOf(0))
+                .setValue(BambooBlock.LEAVES, BambooLeaves.NONE).setValue(BambooBlock.STAGE, Integer.valueOf(0)));
     }
 
     @Override
@@ -74,8 +74,8 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
             final BlockState state = context.getLevel().getBlockState(context.getClickedPos().below());
             if (state.is(TemporalBambooBlock.TEMPORAL_BAMBOO_PLANTABLE_ON) & !state.is(Blocks.BAMBOO_SAPLING))
             {
-                if (state.is(PlantsInit.TEMPORAL_BAMBOO_SHOOT.get())) return this.defaultBlockState().setValue(
-                        BambooBlock.AGE, Integer.valueOf(0));
+                if (state.is(PlantsInit.TEMPORAL_BAMBOO_SHOOT.get()))
+                    return this.defaultBlockState().setValue(BambooBlock.AGE, Integer.valueOf(0));
                 else if (state.is(PlantsInit.TEMPORAL_BAMBOO.get()))
                 {
                     final int i = state.getValue(BambooBlock.AGE) > 0 ? 1 : 0;
@@ -84,8 +84,8 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
                 else
                 {
                     final BlockState state1 = context.getLevel().getBlockState(context.getClickedPos().above());
-                    return state1.is(PlantsInit.TEMPORAL_BAMBOO.get()) ? this.defaultBlockState().setValue(
-                            BambooBlock.AGE, state1.getValue(BambooBlock.AGE))
+                    return state1.is(PlantsInit.TEMPORAL_BAMBOO.get())
+                            ? this.defaultBlockState().setValue(BambooBlock.AGE, state1.getValue(BambooBlock.AGE))
                             : PlantsInit.TEMPORAL_BAMBOO_SHOOT.get().defaultBlockState();
                 }
             }
@@ -105,9 +105,9 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
     {
         if (!state.canSurvive(world, pos)) world.scheduleTick(pos, this, 1);
 
-        if (direction == Direction.UP && state1.is(PlantsInit.TEMPORAL_BAMBOO.get()) && state1.getValue(
-                BambooBlock.AGE) > state.getValue(BambooBlock.AGE)) world.setBlock(pos, state.cycle(BambooBlock.AGE),
-                        2);
+        if (direction == Direction.UP && state1.is(PlantsInit.TEMPORAL_BAMBOO.get())
+                && state1.getValue(BambooBlock.AGE) > state.getValue(BambooBlock.AGE))
+            world.setBlock(pos, state.cycle(BambooBlock.AGE), 2);
 
         return super.updateShape(state, direction, state1, world, pos, pos1);
     }
@@ -120,8 +120,8 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
         final BlockPos pos1 = pos.below(2);
         final BlockState state2 = world.getBlockState(pos1);
         BambooLeaves leaves = BambooLeaves.NONE;
-        if (x >= 1) if (state1.is(PlantsInit.TEMPORAL_BAMBOO.get()) && state1.getValue(
-                BambooBlock.LEAVES) != BambooLeaves.NONE)
+        if (x >= 1)
+            if (state1.is(PlantsInit.TEMPORAL_BAMBOO.get()) && state1.getValue(BambooBlock.LEAVES) != BambooLeaves.NONE)
         {
             if (state1.is(PlantsInit.TEMPORAL_BAMBOO.get()) && state1.getValue(BambooBlock.LEAVES) != BambooLeaves.NONE)
             {
@@ -133,12 +133,12 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
                 }
             }
         }
-        else leaves = BambooLeaves.SMALL;
+            else leaves = BambooLeaves.SMALL;
 
         final int i = state.getValue(BambooBlock.AGE) != 1 && !state2.is(PlantsInit.TEMPORAL_BAMBOO.get()) ? 0 : 1;
         final int j = (x < 11 || !(random.nextFloat() < 0.25F)) && x != 15 ? 0 : 1;
-        world.setBlock(pos.above(), this.defaultBlockState().setValue(BambooBlock.AGE, Integer.valueOf(i)).setValue(
-                BambooBlock.LEAVES, leaves).setValue(BambooBlock.STAGE, Integer.valueOf(j)), 3);
+        world.setBlock(pos.above(), this.defaultBlockState().setValue(BambooBlock.AGE, Integer.valueOf(i))
+                .setValue(BambooBlock.LEAVES, leaves).setValue(BambooBlock.STAGE, Integer.valueOf(j)), 3);
     }
 
     @Override
@@ -146,8 +146,7 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
     {
         int i;
         for (i = 0; i < 16 && block.getBlockState(pos.above(i + 1)).is(PlantsInit.TEMPORAL_BAMBOO.get()); ++i)
-        {
-        }
+        {}
 
         return i;
     }
@@ -157,8 +156,7 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
     {
         int i;
         for (i = 0; i < 16 && block.getBlockState(pos.below(i + 1)).is(PlantsInit.TEMPORAL_BAMBOO.get()); ++i)
-        {
-        }
+        {}
         return i;
     }
 }

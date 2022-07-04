@@ -41,7 +41,7 @@ public class EventsHandler
     {
         if (event.side == LogicalSide.SERVER && event.player instanceof ServerPlayer player)
         {
-            final Biome biome = event.player.getLevel().getBiome(player.getOnPos());
+            final Biome biome = event.player.getLevel().getBiome(player.getOnPos()).value();
             MobEffectInstance effect = null;
 
             if (biome.getRegistryName().toString().equals("pokecube_legends:aquamarine_caves") && !player.isCreative()

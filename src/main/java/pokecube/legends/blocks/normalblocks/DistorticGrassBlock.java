@@ -5,6 +5,7 @@ import java.util.Random;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -184,21 +185,21 @@ public class DistorticGrassBlock extends DirectionalBlock implements Bonemealabl
 
                if (stateAbove.isAir())
                {
-                  PlacedFeature placedFeature;
+                  Holder<PlacedFeature> placedFeature;
                   if (random.nextInt(8) == 0)
                   {
-                     List<ConfiguredFeature<?, ?>> list = world.getBiome(posAbove1).getGenerationSettings().getFlowerFeatures();
+                     List<ConfiguredFeature<?, ?>> list = world.getBiome(posAbove1).value().getGenerationSettings().getFlowerFeatures();
                      if (list.isEmpty())
                      {
                         continue;
                      }
 
-                     placedFeature = ((RandomPatchConfiguration)list.get(0).config()).feature().get();
+                     placedFeature = ((RandomPatchConfiguration)list.get(0).config()).feature();
                   } else {
                      placedFeature = FeaturesInit.Configs.DISTORTIC_GRASS_BONEMEAL;
                   }
 
-                  placedFeature.place(world, world.getChunkSource().getGenerator(), random, posAbove1);
+                  placedFeature.value().place(world, world.getChunkSource().getGenerator(), random, posAbove1);
                }
             }
         }

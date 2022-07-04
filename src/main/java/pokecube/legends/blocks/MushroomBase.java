@@ -3,6 +3,7 @@ package pokecube.legends.blocks;
 import java.util.function.Supplier;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.MushroomBlock;
@@ -18,10 +19,11 @@ public class MushroomBase extends MushroomBlock
 {
     protected static final VoxelShape LARGE_SHAPE = Block.box(2, 0, 2, 14, 15, 14);
     protected static final VoxelShape SMALL_SHAPE = Block.box(4, 0, 4, 12, 9, 12);
-    public final Supplier<ConfiguredFeature<?, ?>> featureSupplier;
-    public boolean                                 validBonemealTarget = true;
+    public final Supplier<Holder<? extends ConfiguredFeature<?, ?>>> featureSupplier;
+    public boolean validBonemealTarget = true;
 
-    public MushroomBase(final BlockBehaviour.Properties properties, final Supplier<ConfiguredFeature<?, ?>> supplier)
+    public MushroomBase(final BlockBehaviour.Properties properties,
+            final Supplier<Holder<? extends ConfiguredFeature<?, ?>>> supplier)
     {
         super(properties, supplier);
         this.featureSupplier = supplier;
@@ -31,7 +33,8 @@ public class MushroomBase extends MushroomBlock
     public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
             final CollisionContext context)
     {
-        if (state.getBlock() == PlantsInit.COMPRECED_MUSHROOM.get() || state.getBlock() == PlantsInit.DISTORCED_MUSHROOM.get())
+        if (state.getBlock() == PlantsInit.COMPRECED_MUSHROOM.get()
+                || state.getBlock() == PlantsInit.DISTORCED_MUSHROOM.get())
         {
             return LARGE_SHAPE;
         }
