@@ -1,6 +1,7 @@
 package pokecube.core.database.spawns;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -39,7 +40,7 @@ public class SpawnCheck
             if (!outside) return NONE;
             if (globalRain)
             {
-                final Biome.Precipitation type = world.getBiome(position).getPrecipitation();
+                final Biome.Precipitation type = world.getBiome(position).value().getPrecipitation();
                 switch (type)
                 {
                 case NONE:
@@ -85,13 +86,14 @@ public class SpawnCheck
     public final ChunkAccess chunk;
     public final Vector3 location;
 
+    @SuppressWarnings("deprecation")
     public SpawnCheck(final Vector3 location, final LevelAccessor world)
     {
         this.world = world;
         this.location = location;
-        final Biome biome = location.getBiome(world);
-        this.biome = BiomeDatabase.getKey(biome);
-        this.cat = biome.getBiomeCategory();
+        final Holder<Biome> biome = location.getBiomeHolder(world);
+        this.biome = BiomeDatabase.getKey(biome.value());
+        this.cat = Biome.getBiomeCategory(biome);
         this.material = location.getBlockMaterial(world);
         this.chunk = ITerrainProvider.getChunk(((Level) world).dimension(), new ChunkPos(location.getPos()));
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);

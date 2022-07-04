@@ -10,6 +10,7 @@ import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;
 
+import net.minecraft.core.Holder;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.data.worldgen.ProcessorLists;
@@ -17,10 +18,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.carver.CanyonCarverConfiguration;
 import net.minecraft.world.level.levelgen.carver.CaveCarverConfiguration;
 import net.minecraft.world.level.levelgen.carver.WorldCarver;
-import net.minecraft.world.level.levelgen.feature.structures.EmptyPoolElement;
-import net.minecraft.world.level.levelgen.feature.structures.StructurePoolElement;
-import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePool;
-import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePool.Projection;
+import net.minecraft.world.level.levelgen.structure.pools.EmptyPoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool.Projection;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -52,12 +53,13 @@ public class WorldgenFeatures
             () -> new CaveCarver(CaveCarverConfiguration.CODEC));
 
     public static final List<StructureProcessor> BERRYRULES = ImmutableList.of(BerryGenManager.NOREPLACE);
-    public static final List<StructureProcessor> GENERICRULES = Lists.newArrayList(ProcessorLists.STREET_PLAINS.list());
+    public static final List<StructureProcessor> GENERICRULES = Lists
+            .newArrayList(ProcessorLists.STREET_PLAINS.value().list());
     public static final List<StructureProcessor> LADDERRULES = Lists.newArrayList();
 
     public static final StructureProcessorList BERRYLIST;
-    public static final StructureProcessorList GENERICLIST;
-    public static final StructureProcessorList LADDERFIX;
+    public static final Holder<StructureProcessorList> GENERICLIST;
+    public static final Holder<StructureProcessorList> LADDERFIX;
 
     private static final Map<ResourceLocation, StructureProcessorList> procLists = Maps.newHashMap();
 
@@ -78,23 +80,24 @@ public class WorldgenFeatures
         WorldgenFeatures.CARVERS.register(bus);
     }
 
-    public static StructureProcessorList getProcList(final String value)
+    public static Holder<StructureProcessorList> getProcList(final String value)
     {
         StructureProcessorList listToUse = null;
         final ResourceLocation key = new ResourceLocation(value);
         if (BuiltinRegistries.PROCESSOR_LIST.keySet().contains(key))
             listToUse = BuiltinRegistries.PROCESSOR_LIST.get(key);
         else listToUse = WorldgenFeatures.procLists.getOrDefault(key, null);
-        return listToUse;
+        return Holder.direct(listToUse);
     }
 
-    public static StructureTemplatePool register(final JigSawPool pool, final StructureProcessorList default_list)
+    public static Holder<StructureTemplatePool> register(final JigSawPool pool,
+            final Holder<StructureProcessorList> default_list)
     {
         final StructureTemplatePool.Projection placement = pool.rigid ? StructureTemplatePool.Projection.RIGID
                 : StructureTemplatePool.Projection.TERRAIN_MATCHING;
         final List<Pair<Function<Projection, ? extends StructurePoolElement>, Integer>> pairs = Lists.newArrayList();
         int size = 0;
-        final StructureProcessorList listToUse = default_list;
+        final Holder<StructureProcessorList> listToUse = default_list;
 
         if (pool.base_override) WorldgenHandler.BASE_OVERRIDES.add(pool);
 
@@ -148,7 +151,7 @@ public class WorldgenFeatures
         return Pools.register(pattern);
     }
 
-    public static StructureProcessorList register(final String name, final List<StructureProcessor> list)
+    public static Holder<StructureProcessorList> register(final String name, final List<StructureProcessor> list)
     {
         final ResourceLocation resourcelocation = new ResourceLocation("pokecube", name);
         final StructureProcessorList structureprocessorlist = new StructureProcessorList(list);
@@ -156,16 +159,14 @@ public class WorldgenFeatures
     }
 
     public static Function<StructureTemplatePool.Projection, StructurePoolElement> makePiece(final String name,
-            final StructureProcessorList list, final Options opts)
+            final Holder<StructureProcessorList> list, final Options opts)
     {
         final ResourceLocation resource = new ResourceLocation(name);
         if (resource.getPath().equals("empty")) return (placement) -> {
             return EmptyPoolElement.INSTANCE;
         };
         return (placement) -> {
-            return new CustomJigsawPiece(Either.left(resource), () -> {
-                return list;
-            }, placement, opts, new JigSawConfig());
+            return new CustomJigsawPiece(Either.left(resource), list, placement, opts, new JigSawConfig());
         };
     }
 }

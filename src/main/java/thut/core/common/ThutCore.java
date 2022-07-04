@@ -23,6 +23,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.phys.AABB;
@@ -35,6 +36,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -42,11 +44,11 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.registries.DeferredRegister;
 import thut.api.AnimatedCaps;
 import thut.api.LinkableCaps;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
-import thut.api.block.flowing.functions.LootLayerFunction;
 import thut.api.entity.BreedableCaps;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.IMultiplePassengerEntity;
@@ -171,6 +173,11 @@ public class ThutCore
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = ThutCore.MODID)
     public static class RegistryEvents
     {
+        public static final DeferredRegister<RecipeType<?>> RECIPETYPE = DeferredRegister
+                .create(Registry.RECIPE_TYPE_REGISTRY, ThutCore.MODID);
+        public static final DeferredRegister<LootItemFunctionType> LOOTTYPE = DeferredRegister
+                .create(Registry.LOOT_FUNCTION_REGISTRY, ThutCore.MODID);
+
         @SubscribeEvent
         public static void registerCapabilities(final RegisterCapabilitiesEvent event)
         {
@@ -187,18 +194,11 @@ public class ThutCore
             event.getRegistry().register(ThutParticles.STRING.setRegistryName(ThutCore.MODID, "string"));
             event.getRegistry().register(ThutParticles.POWDER.setRegistryName(ThutCore.MODID, "powder"));
         }
-        
+
         @SubscribeEvent
         public static void registerContainers(final RegistryEvent.Register<MenuType<?>> event)
         {
             event.getRegistry().register(NpcContainer.TYPE.setRegistryName(ThutCore.MODID, "npc"));
-        }
-
-        public static void registerLootFunction()
-        {
-            LootLayerFunction.TYPE = Registry.register(Registry.LOOT_FUNCTION_TYPE,
-                    new ResourceLocation("thutcore:flowing_layer_loot"),
-                    new LootItemFunctionType(new LootLayerFunction.Serializer()));
         }
     }
 
@@ -262,11 +262,16 @@ public class ThutCore
                 .setName(ThutCore.MODID).build();
         logger.addAppender(appender);
         appender.start();
+        
+        final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         // Register the setup method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        modEventBus.addListener(this::setup);
         // Register the doClientStuff method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+        modEventBus.addListener(this::doClientStuff);
+
+        RegistryEvents.LOOTTYPE.register(modEventBus);
+        RegistryEvents.RECIPETYPE.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested
         // in
@@ -277,8 +282,6 @@ public class ThutCore
         // Register Config stuff
         Config.setupConfigs(ThutCore.conf, ThutCore.MODID, ThutCore.MODID);
 
-        // Do the loot functions here, since that isn't a forge registry
-        RegistryEvents.registerLootFunction();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event)

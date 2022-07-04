@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-import java.util.function.Supplier;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -13,6 +12,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -44,6 +44,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.Event.Result;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.Options;
@@ -56,7 +57,8 @@ import pokecube.core.world.gen.template.MarkerToAirProcessor;
 
 public class CustomJigsawPiece extends SinglePoolElement
 {
-    public static StructurePoolElementType<CustomJigsawPiece> TYPE;
+    public static RegistryObject<StructurePoolElementType<CustomJigsawPiece>> TYPE = PokecubeCore.RegistryEvents.POOLTYPE
+            .register("custom_pool_element", () -> () -> CustomJigsawPiece.makeCodec());
 
     public static Codec<CustomJigsawPiece> makeCodec()
     {
@@ -117,7 +119,7 @@ public class CustomJigsawPiece extends SinglePoolElement
     boolean maskCheck;
 
     public CustomJigsawPiece(final Either<ResourceLocation, StructureTemplate> template,
-            final Supplier<StructureProcessorList> processors, final StructureTemplatePool.Projection behaviour,
+            final Holder<StructureProcessorList> processors, final StructureTemplatePool.Projection behaviour,
             final Options opts, final JigSawConfig config)
     {
         super(template, processors, behaviour);
@@ -147,9 +149,9 @@ public class CustomJigsawPiece extends SinglePoolElement
 
         final boolean wasNull = this.overrideList == null;
         if (wasNull && !this.opts.proc_list.isEmpty())
-            this.overrideList = WorldgenFeatures.getProcList(this.opts.proc_list);
+            this.overrideList = WorldgenFeatures.getProcList(this.opts.proc_list).value();
 
-        if (this.overrideList == null) this.processors.get().list().forEach(placementsettings::addProcessor);
+        if (this.overrideList == null) this.processors.value().list().forEach(placementsettings::addProcessor);
         else
         {
             this.overrideList.list().forEach(placementsettings::addProcessor);
@@ -160,7 +162,7 @@ public class CustomJigsawPiece extends SinglePoolElement
         else this.getProjection().getProcessors().forEach(placementsettings::addProcessor);
 
         if (!config.proc_list.isEmpty())
-            WorldgenFeatures.getProcList(config.proc_list).list().forEach(placementsettings::addProcessor);
+            WorldgenFeatures.getProcList(config.proc_list).value().list().forEach(placementsettings::addProcessor);
 
         return this.toUse = placementsettings;
     }
@@ -293,7 +295,7 @@ public class CustomJigsawPiece extends SinglePoolElement
     @Override
     public StructurePoolElementType<?> getType()
     {
-        return CustomJigsawPiece.TYPE;
+        return CustomJigsawPiece.TYPE.get();
     }
 
     @Override

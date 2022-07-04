@@ -42,10 +42,9 @@ import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
-import net.minecraft.world.level.levelgen.StructureSettings;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
@@ -186,7 +185,7 @@ public class JigsawAssmbler
             {
                 if (s.isValid())
                 {
-                    StructureHolder holder = new StructureHolder(s.getFeature().getRegistryName(),
+                    StructureHolder holder = new StructureHolder(s.getFeature().feature.getRegistryName(),
                             s.getBoundingBox().getCenter(), s.getBoundingBox());
                     addPossibleConflicts(holder, level.dimension());
                 }
@@ -528,7 +527,6 @@ public class JigsawAssmbler
                 // Here we check if there are any conflicting structures around.
                 final ServerLevel world = JigsawAssmbler.getForGen(chunkGenerator);
                 final StructureFeatureManager sfmanager = world.structureFeatureManager();
-                final StructureSettings settings = chunkGenerator.getSettings();
 
                 // We ask for EMPTY chunk, and allow it to be null, so that
                 // we don't cause issues if the chunk doesn't exist yet.
@@ -538,14 +536,11 @@ public class JigsawAssmbler
                 if (ichunk == null || !ichunk.getStatus().isOrAfter(ChunkStatus.STRUCTURE_STARTS)) continue;
                 if (!ichunk.hasAnyStructureReferences()) continue;
 
-                for (final StructureFeature<?> s : WorldgenHandler.getSortedList())
+                for (final ConfiguredStructureFeature<?, ?> s : WorldgenHandler.getSortedConfiguredList())
                 {
                     // We shouldn't be conflicting with ourself
-                    if (s.getRegistryName().equals(structName)) continue;
+                    if (s.feature.getRegistryName().equals(structName)) continue;
 
-                    final StructureFeatureConfiguration structureseparationsettings = settings.getConfig(s);
-                    // This means it doesn't spawn in this world, so we skip.
-                    if (structureseparationsettings == null) continue;
                     // This is the way to tell if an actual real structure
                     // would be at this location.
                     final StructureStart structurestart = sfmanager.getStartForFeature(SectionPos.bottomOf(ichunk),

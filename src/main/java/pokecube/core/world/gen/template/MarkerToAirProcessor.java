@@ -30,7 +30,7 @@ public class MarkerToAirProcessor extends StructureProcessor
     @Override
     protected StructureProcessorType<?> getType()
     {
-        return PokecubeStructureProcessors.MARKERAIR;
+        return PokecubeStructureProcessors.MARKERAIR.get();
     }
 
     static

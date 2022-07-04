@@ -9,6 +9,7 @@ import java.util.concurrent.Executor;
 
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -19,6 +20,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -53,6 +55,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.events.EventsHandler;
@@ -63,10 +66,11 @@ import thut.api.maths.Vector3;
 
 public class SecretBaseDimension
 {
+    public static RegistryObject<Codec<? extends ChunkGenerator>> SECRETBASECODEC = PokecubeCore.RegistryEvents.CHUNKGENTYPE
+            .register("secret_base", () -> SecretChunkGenerator.CODEC);
 
     public static void onConstruct(final IEventBus bus)
     {
-        Registry.register(Registry.CHUNK_GENERATOR, "pokecube:secret_base", SecretChunkGenerator.CODEC);
         MinecraftForge.EVENT_BUS.register(SecretBaseDimension.class);
     }
 
@@ -201,9 +205,12 @@ public class SecretBaseDimension
 
     public static class SecretChunkGenerator extends ChunkGenerator
     {
-//        public static final Codec<SecretChunkGenerator> CODEC = RegistryLookupCodec.create(Registry.BIOME_REGISTRY)
-//                .xmap(SecretChunkGenerator::new, SecretChunkGenerator::getRegistry).stable().codec();
-        
+        public static final Codec<SecretChunkGenerator> CODEC = RecordCodecBuilder.create((p_208215_) -> {
+            return commonCodec(p_208215_).and(RegistryOps.retrieveRegistry(Registry.BIOME_REGISTRY).forGetter((p_208210_) -> {
+               return p_208210_.registry;
+            })).apply(p_208215_, p_208215_.stable(SecretChunkGenerator::new));
+         });
+
         private final Registry<Biome> registry;
 
         BlockState[] states = new BlockState[256];

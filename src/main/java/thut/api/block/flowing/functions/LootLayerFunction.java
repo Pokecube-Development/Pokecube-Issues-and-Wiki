@@ -11,12 +11,15 @@ import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunct
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraftforge.registries.RegistryObject;
 import thut.api.block.flowing.IFlowingBlock;
+import thut.core.common.ThutCore;
 
 public class LootLayerFunction extends LootItemConditionalFunction
 {
 
-    public static LootItemFunctionType TYPE;
+    public static RegistryObject<LootItemFunctionType> TYPE = ThutCore.RegistryEvents.LOOTTYPE.register("flowing_layer_loot",
+            () -> new LootItemFunctionType(new LootLayerFunction.Serializer()));
 
     protected LootLayerFunction(LootItemCondition[] conds)
     {
@@ -26,7 +29,7 @@ public class LootLayerFunction extends LootItemConditionalFunction
     @Override
     public LootItemFunctionType getType()
     {
-        return TYPE;
+        return TYPE.get();
     }
 
     @Override

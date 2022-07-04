@@ -62,6 +62,7 @@ public class ThutCrafts
         @SubscribeEvent
         public static void registerItems(final RegistryEvent.Register<Item> event)
         {
+            ThutCrafts.CRAFTMAKER = new Item(new Item.Properties()).setRegistryName(Reference.MODID, "craftmaker");
             // register items
             event.getRegistry().register(ThutCrafts.CRAFTMAKER);
         }
@@ -69,6 +70,8 @@ public class ThutCrafts
         @SubscribeEvent
         public static void registerBlocks(final RegistryEvent.Register<Block> event)
         {
+            ThutCrafts.CRAFTBLOCK = TempBlock.make().setRegistryName(Reference.MODID, "craft");
+            BlockEntityBase.FAKEBLOCK = ThutCrafts.CRAFTBLOCK;
             // register blocks
             event.getRegistry().register(ThutCrafts.CRAFTBLOCK);
         }
@@ -76,6 +79,9 @@ public class ThutCrafts
         @SubscribeEvent
         public static void registerTileEntity(final RegistryEvent.Register<BlockEntityType<?>> event)
         {
+            ThutCrafts.CRAFTTE = BlockEntityType.Builder.of(TempTile::new, ThutCrafts.CRAFTBLOCK).build(null);
+            ThutCrafts.CRAFTTE.setRegistryName(Reference.MODID, "craft");
+            TempTile.TYPE = ThutCrafts.CRAFTTE;
             // register tile entities
             event.getRegistry().register(ThutCrafts.CRAFTTE);
         }
@@ -94,13 +100,6 @@ public class ThutCrafts
 
     public ThutCrafts()
     {
-        ThutCrafts.CRAFTMAKER = new Item(new Item.Properties()).setRegistryName(Reference.MODID, "craftmaker");
-        ThutCrafts.CRAFTBLOCK = TempBlock.make().setRegistryName(Reference.MODID, "craft");
-        ThutCrafts.CRAFTTE = BlockEntityType.Builder.of(TempTile::new, ThutCrafts.CRAFTBLOCK).build(null);
-        ThutCrafts.CRAFTTE.setRegistryName(Reference.MODID, "craft");
-        TempTile.TYPE = ThutCrafts.CRAFTTE;
-        BlockEntityBase.FAKEBLOCK = ThutCrafts.CRAFTBLOCK;
-
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 

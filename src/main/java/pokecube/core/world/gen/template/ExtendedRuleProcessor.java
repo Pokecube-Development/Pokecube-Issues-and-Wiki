@@ -49,7 +49,7 @@ public class ExtendedRuleProcessor extends RuleProcessor
     @Override
     protected StructureProcessorType<?> getType()
     {
-        return PokecubeStructureProcessors.EXTENDED;
+        return PokecubeStructureProcessors.EXTENDED.get();
     }
 
     static

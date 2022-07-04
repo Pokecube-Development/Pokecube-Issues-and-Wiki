@@ -50,7 +50,7 @@ public class PokecubeStructureProcessor extends StructureProcessor
     @Override
     protected StructureProcessorType<?> getType()
     {
-        return PokecubeStructureProcessors.STRUCTS;
+        return PokecubeStructureProcessors.STRUCTS.get();
     }
 
     static

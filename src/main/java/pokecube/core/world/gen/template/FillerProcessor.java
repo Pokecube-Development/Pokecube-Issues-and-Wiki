@@ -33,7 +33,7 @@ public class FillerProcessor extends StructureProcessor
     @Override
     protected StructureProcessorType<?> getType()
     {
-        return PokecubeStructureProcessors.FILLER;
+        return PokecubeStructureProcessors.FILLER.get();
     }
 
     static

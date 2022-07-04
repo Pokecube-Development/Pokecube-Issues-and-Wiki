@@ -56,6 +56,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.worldgen.WorldgenHandler;
@@ -246,6 +247,8 @@ public class PokecubeLegends
 
         UltraSpaceSurfaceRules.UltraSpaceRuleSource.init();
         UltraSpaceSurfaceRules.init();
+        
+        PokecubeAdv.TAB_DECORATIONS = TAB_DECORATIONS;
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event)

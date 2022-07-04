@@ -27,6 +27,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -44,6 +45,7 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
@@ -323,7 +325,9 @@ public class BerryGenManager
                 PieceGenerator.Context<JigsawConfig> newcontext = new PieceGenerator.Context<JigsawConfig>(config, gen,
                         structureManager, pos, heightAccessor, rand, seed);
                 gener.generatePieces(builder, newcontext);
-                StructureStart start = new StructureStart(this, pos, cropPos.getY(), builder.build());
+                // TODO decide on the tag here?
+                ConfiguredStructureFeature<?, ?> feature = this.configured(config, BiomeTags.IS_JUNGLE);
+                StructureStart start = new StructureStart(feature, pos, cropPos.getY(), builder.build());
 
                 if (validTreePlacement(bounds, rand).apply(newcontext, start.getPieces()))
                 {

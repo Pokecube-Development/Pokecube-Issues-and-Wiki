@@ -605,9 +605,14 @@ public class Vector3
         return new AABB(this.x, this.y, this.z, this.x, this.y, this.z);
     }
 
+    public Holder<Biome> getBiomeHolder(final LevelAccessor world)
+    {
+        return world.getBiome(this.getPos());
+    }
+
     public Biome getBiome(final LevelAccessor world)
     {
-        return world.getBiome(this.getPos()).value();
+        return this.getBiomeHolder(world).value();
     }
 
     public Block getBlock(final BlockGetter worldMap)

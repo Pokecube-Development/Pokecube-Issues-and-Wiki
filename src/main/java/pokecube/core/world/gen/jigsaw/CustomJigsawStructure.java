@@ -9,6 +9,7 @@ import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.biome.Biome;
@@ -19,7 +20,7 @@ import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
-import net.minecraft.world.level.levelgen.structure.NoiseAffectingStructureFeature;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
@@ -36,7 +37,7 @@ import pokecube.core.events.StructureEvent;
 import pokecube.core.events.StructureEvent.PickLocation;
 import pokecube.core.utils.PokecubeSerializer;
 
-public class CustomJigsawStructure extends NoiseAffectingStructureFeature<JigsawConfig>
+public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
 {
     private static class PostProcessor implements BiConsumer<PieceGenerator.Context<JigsawConfig>, List<StructurePiece>>
     {
@@ -135,7 +136,7 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
 
             final BlockPos pos = new BlockPos(x, y, z);
 
-            Set<Biome> biomes = context.biomeSource().getBiomesWithin(pos.getX(), pos.getY(), pos.getZ(), dist,
+            Set<Holder<Biome>> biomes = context.biomeSource().getBiomesWithin(pos.getX(), pos.getY(), pos.getZ(), dist,
                     chunkGenerator.climateSampler());
 
             Set<ResourceLocation> names = Sets.newHashSet();
@@ -144,10 +145,10 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
 
             if (!any) validContext = !biomes.isEmpty();
 
-            for (Biome b : biomes)
+            for (Holder<Biome> b : biomes)
             {
-                names.add(b.getRegistryName());
-                boolean here_valid = matcher.checkBiome(b.getRegistryName());
+                names.add(b.value().getRegistryName());
+                boolean here_valid = matcher.checkBiome(b.value().getRegistryName());
                 if (any) validContext = validContext || here_valid;
                 else validContext = validContext && here_valid;
             }
@@ -191,6 +192,6 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
     @Override
     public String toString()
     {
-        return this.getRegistryName() + " " + this.getFeatureName();
+        return this.getRegistryName().toString();
     }
 }

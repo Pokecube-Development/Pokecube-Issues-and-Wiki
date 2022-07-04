@@ -29,12 +29,10 @@ public class CommonProxy implements Proxy
             {
                 PokecubeCore.proxy = new CommonProxy();
                 NBTEdit.proxy = new pokecube.nbtedit.forge.CommonProxy();
-
-                IPokecube.PokecubeBehavior.BEHAVIORS = event.create(new RegistryBuilder<PokecubeBehavior>()
-                        .setIDRange(0, Short.MAX_VALUE).setType(PokecubeBehavior.class)
-                        .setName(new ResourceLocation(PokecubeMod.ID, "pokecubes")));
-
             }
+            IPokecube.PokecubeBehavior.BEHAVIORS = event.create(new RegistryBuilder<PokecubeBehavior>()
+                    .setIDRange(0, Short.MAX_VALUE).setType(PokecubeBehavior.class)
+                    .setName(new ResourceLocation(PokecubeMod.ID, "pokecubes")));
         }
     }
 

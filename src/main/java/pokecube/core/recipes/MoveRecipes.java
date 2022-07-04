@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryObject;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.recipes.PokemobMoveRecipeParser;
 import pokecube.core.database.recipes.PokemobMoveRecipeParser.MoveMatcher;
 import pokecube.core.database.recipes.PokemobMoveRecipeParser.RecipeMove;
@@ -41,7 +42,14 @@ public class MoveRecipes
 {
     private static final ResourceLocation ID = new ResourceLocation("pokecube:move_recipe");
 
-    public static final RecipeType<MoveRecipe> MOVE_TYPE = RecipeType.register(MoveRecipes.ID.toString());
+    public static final RegistryObject<RecipeType<?>> MOVE_TYPE = PokecubeCore.RegistryEvents.RECIPETYPE
+            .register("move_recipe", () -> new RecipeType<>()
+            {
+                public String toString()
+                {
+                    return "pokecube:move_recipe";
+                }
+            });
 
     public static final RegistryObject<Serializer> SERIALIZER = RecipeHandler.RECIPE_SERIALIZERS.register("move_recipe",
             () -> new Serializer());
@@ -52,7 +60,8 @@ public class MoveRecipes
     {
         final IPokemob pokemob;
 
-        public WorldCraftInventory(final AbstractContainerMenu container, final int x, final int y, final IPokemob pokemob)
+        public WorldCraftInventory(final AbstractContainerMenu container, final int x, final int y,
+                final IPokemob pokemob)
         {
             super(container, x, y);
             this.pokemob = pokemob;
@@ -135,7 +144,7 @@ public class MoveRecipes
         @Override
         public RecipeType<?> getType()
         {
-            return MoveRecipes.MOVE_TYPE;
+            return MoveRecipes.MOVE_TYPE.get();
         }
 
         public boolean applyEffect(final IPokemob user, final Vector3 location, final String name)
@@ -176,38 +185,34 @@ public class MoveRecipes
             for (final Ingredient i : this.getIngredients())
             {
                 boolean matched = false;
-                for (final ItemStack item : items)
-                    if (i.test(item))
-                    {
-                        matched = true;
-                        toUse.add(item);
-                        break;
-                    }
+                for (final ItemStack item : items) if (i.test(item))
+                {
+                    matched = true;
+                    toUse.add(item);
+                    break;
+                }
                 allMatch = matched;
                 if (!matched) break;
             }
             if (!allMatch) return depth;
             final WorldCraftInventory inven = new WorldCraftInventory(this.c, 1, toUse.size(), user);
-            for (int i = 0; i < toUse.size(); i++)
-                inven.setItem(i, toUse.get(i));
+            for (int i = 0; i < toUse.size(); i++) inven.setItem(i, toUse.get(i));
             if (!this.matches(inven, world)) return depth;
             final ItemStack stack = this.assemble(inven);
             if (stack.isEmpty()) return depth;
             final List<ItemStack> remains = this.getRemainingItems(inven);
-            toUse.forEach(e ->
-            {
+            toUse.forEach(e -> {
                 final ItemStack item = e;
                 item.shrink(1);
             });
             ItemEntity drop = new ItemEntity(world, location.x, location.y, location.z, stack);
             world.addFreshEntity(drop);
             depth++;
-            for (final ItemStack left : remains)
-                if (!left.isEmpty())
-                {
-                    drop = new ItemEntity(world, location.x, location.y, location.z, left);
-                    world.addFreshEntity(drop);
-                }
+            for (final ItemStack left : remains) if (!left.isEmpty())
+            {
+                drop = new ItemEntity(world, location.x, location.y, location.z, left);
+                world.addFreshEntity(drop);
+            }
             // Do this until we run out of craftable stuff.
             depth = this.tryCraft(toUse, location, world, depth, user);
             return depth;
@@ -226,8 +231,8 @@ public class MoveRecipes
         }
     }
 
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements
-            RecipeSerializer<MoveRecipe>
+    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>>
+            implements RecipeSerializer<MoveRecipe>
     {
 
         @Override
@@ -243,8 +248,7 @@ public class MoveRecipes
             {
                 final RecipeMove loaded = new RecipeMove(recipe);
                 if (!loaded.actions.isEmpty()) RecipeMove.CUSTOM.put(id, recipe);
-                for (final IMoveAction action : loaded.actions)
-                    PokemobMoveRecipeParser.addOrMergeActions(action);
+                for (final IMoveAction action : loaded.actions) PokemobMoveRecipeParser.addOrMergeActions(action);
             }
             return recipe;
         }
@@ -261,8 +265,7 @@ public class MoveRecipes
             {
                 final RecipeMove loaded = new RecipeMove(recipe);
                 if (!loaded.actions.isEmpty()) RecipeMove.CUSTOM.put(id, recipe);
-                for (final IMoveAction action : loaded.actions)
-                    PokemobMoveRecipeParser.addOrMergeActions(action);
+                for (final IMoveAction action : loaded.actions) PokemobMoveRecipeParser.addOrMergeActions(action);
             }
             return recipe;
         }

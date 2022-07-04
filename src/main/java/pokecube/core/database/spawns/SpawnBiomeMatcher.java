@@ -312,7 +312,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
             {
                 final ResourceLocation key = b.getRegistryName();
-                if (this._blackListCats.contains(b.getBiomeCategory())) this._blackListBiomes.add(key);
+                if (this._blackListCats.contains(b.biomeCategory)) this._blackListBiomes.add(key);
                 ResourceKey<Biome> bkey = ResourceKey.create(Registry.BIOME_REGISTRY, key);
                 for (final BiomeDictionary.Type type : this._invalidTypes) if (BiomeDictionary.hasType(bkey, type))
                 {
@@ -331,7 +331,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                 }
                 if (this._validCats.isEmpty() && this._validTypes.isEmpty()) continue;
 
-                boolean validCat = this._validCats.isEmpty() || this._validCats.contains(b.getBiomeCategory());
+                boolean validCat = this._validCats.isEmpty() || this._validCats.contains(b.biomeCategory);
 
                 if (!validCat && _validTypes.isEmpty()) continue;
                 boolean validType = true;

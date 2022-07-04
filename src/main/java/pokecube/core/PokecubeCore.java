@@ -1,8 +1,6 @@
 package pokecube.core;
 
-import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
@@ -10,12 +8,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.Maps;
+import com.mojang.serialization.Codec;
 
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.worldgen.features.OreFeatures;
-import net.minecraft.data.worldgen.placement.PlacementUtils;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
@@ -28,21 +25,15 @@ import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.entity.schedule.Schedule;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.VerticalAnchor;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-import net.minecraft.world.level.levelgen.placement.BiomeFilter;
-import net.minecraft.world.level.levelgen.placement.CountPlacement;
-import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
-import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.BusBuilder;
@@ -52,6 +43,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
@@ -103,7 +95,6 @@ import pokecube.core.world.gen.template.PokecubeStructureProcessors;
 import thut.api.entity.CopyCaps;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
-import thut.api.terrain.BiomeDatabase;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.PacketHandler;
 
@@ -116,6 +107,15 @@ public class PokecubeCore
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
     public static class RegistryEvents
     {
+        public static final DeferredRegister<RecipeType<?>> RECIPETYPE = DeferredRegister
+                .create(Registry.RECIPE_TYPE_REGISTRY, PokecubeCore.MODID);
+        public static final DeferredRegister<StructurePoolElementType<?>> POOLTYPE = DeferredRegister
+                .create(Registry.STRUCTURE_POOL_ELEMENT_REGISTRY, PokecubeCore.MODID);
+        public static final DeferredRegister<StructureProcessorType<?>> STRUCTPROCTYPE = DeferredRegister
+                .create(Registry.STRUCTURE_PROCESSOR_REGISTRY, PokecubeCore.MODID);
+        public static final DeferredRegister<Codec<? extends ChunkGenerator>> CHUNKGENTYPE = DeferredRegister
+                .create(Registry.CHUNK_GENERATOR_REGISTRY, PokecubeCore.MODID);
+
         @SubscribeEvent
         public static void registerRegistry(final NewRegistryEvent event)
         {
@@ -170,32 +170,32 @@ public class PokecubeCore
         {
             PokecubeCore.LOGGER.debug("Registering Pokecube Features");
 
-            // Register the fossil stone spawning.
-            final Predicate<ResourceKey<Biome>> check = k -> PokecubeCore.config.generateFossils
-                    && (BiomeDatabase.contains(k, "mesa") || BiomeDatabase.contains(k, "ocean")
-                            || BiomeDatabase.contains(k, "river") || BiomeDatabase.contains(k, "sandy"));
-
-            final List<OreConfiguration.TargetBlockState> ORE_FOSSIL_TARGET_LIST = List.of(
-                    OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, PokecubeItems.FOSSIL_ORE.get().defaultBlockState()),
-                    OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, PokecubeItems.DEEPSLATE_FOSSIL_ORE.get().defaultBlockState()));
-
-            final ConfiguredFeature<?, ?> ORE_FOSSIL_BURIED_FEATURE = Feature.ORE.configured(new OreConfiguration(ORE_FOSSIL_TARGET_LIST, 8, 1.0f));
-            final ConfiguredFeature<?, ?> ORE_FOSSIL_LARGE_FEATURE = Feature.ORE.configured(new OreConfiguration(ORE_FOSSIL_TARGET_LIST, 12, 0.7f));
-            final ConfiguredFeature<?, ?> ORE_FOSSIL_SMALL_FEATURE = Feature.ORE.configured(new OreConfiguration(ORE_FOSSIL_TARGET_LIST, 4, 0.5f));
-
-            final PlacedFeature ORE_FOSSIL_PLACEMENT = PlacementUtils.register("pokecube:fossil_ore",
-                    ORE_FOSSIL_SMALL_FEATURE.placed(List.of(CountPlacement.of(5), InSquarePlacement.spread(), HeightRangePlacement
-                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)), BiomeFilter.biome())));
-            final PlacedFeature ORE_FOSSIL_BURIED_PLACEMENT = PlacementUtils.register("pokecube:fossil_ore_buried",
-                    ORE_FOSSIL_BURIED_FEATURE.placed(List.of(CountPlacement.of(3), InSquarePlacement.spread(), HeightRangePlacement
-                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)), BiomeFilter.biome())));
-            final PlacedFeature ORE_FOSSIL_LARGE_PLACEMENT = PlacementUtils.register("pokecube:fossil_ore_large",
-                    ORE_FOSSIL_LARGE_FEATURE.placed(List.of(CountPlacement.of(8), InSquarePlacement.spread(), HeightRangePlacement
-                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)), BiomeFilter.biome())));
-
-            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_FOSSIL_PLACEMENT);
-            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_FOSSIL_BURIED_PLACEMENT);
-            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_FOSSIL_LARGE_PLACEMENT);
+//            // Register the fossil stone spawning.
+//            final Predicate<ResourceKey<Biome>> check = k -> PokecubeCore.config.generateFossils
+//                    && (BiomeDatabase.contains(k, "mesa") || BiomeDatabase.contains(k, "ocean")
+//                            || BiomeDatabase.contains(k, "river") || BiomeDatabase.contains(k, "sandy"));
+//
+//            final List<OreConfiguration.TargetBlockState> ORE_FOSSIL_TARGET_LIST = List.of(
+//                    OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, PokecubeItems.FOSSIL_ORE.get().defaultBlockState()),
+//                    OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, PokecubeItems.DEEPSLATE_FOSSIL_ORE.get().defaultBlockState()));
+//
+//            final ConfiguredFeature<?, ?> ORE_FOSSIL_BURIED_FEATURE = Feature.ORE.configured(new OreConfiguration(ORE_FOSSIL_TARGET_LIST, 8, 1.0f));
+//            final ConfiguredFeature<?, ?> ORE_FOSSIL_LARGE_FEATURE = Feature.ORE.configured(new OreConfiguration(ORE_FOSSIL_TARGET_LIST, 12, 0.7f));
+//            final ConfiguredFeature<?, ?> ORE_FOSSIL_SMALL_FEATURE = Feature.ORE.configured(new OreConfiguration(ORE_FOSSIL_TARGET_LIST, 4, 0.5f));
+//
+//            final PlacedFeature ORE_FOSSIL_PLACEMENT = PlacementUtils.register("pokecube:fossil_ore",
+//                    ORE_FOSSIL_SMALL_FEATURE.placed(List.of(CountPlacement.of(5), InSquarePlacement.spread(), HeightRangePlacement
+//                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)), BiomeFilter.biome())));
+//            final PlacedFeature ORE_FOSSIL_BURIED_PLACEMENT = PlacementUtils.register("pokecube:fossil_ore_buried",
+//                    ORE_FOSSIL_BURIED_FEATURE.placed(List.of(CountPlacement.of(3), InSquarePlacement.spread(), HeightRangePlacement
+//                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)), BiomeFilter.biome())));
+//            final PlacedFeature ORE_FOSSIL_LARGE_PLACEMENT = PlacementUtils.register("pokecube:fossil_ore_large",
+//                    ORE_FOSSIL_LARGE_FEATURE.placed(List.of(CountPlacement.of(8), InSquarePlacement.spread(), HeightRangePlacement
+//                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)), BiomeFilter.biome())));
+//
+//            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_FOSSIL_PLACEMENT);
+//            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_FOSSIL_BURIED_PLACEMENT);
+//            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_FOSSIL_LARGE_PLACEMENT);
         }
 
         @SubscribeEvent
@@ -397,6 +397,12 @@ public class PokecubeCore
         PokecubeItems.BERRIES_TAB.register(bus);
         PokecubeItems.TILES.register(bus);
         PokecubeItems.MENU.register(bus);
+        
+        RegistryEvents.CHUNKGENTYPE.register(bus);
+        RegistryEvents.POOLTYPE.register(bus);
+        RegistryEvents.RECIPETYPE.register(bus);
+        RegistryEvents.STRUCTPROCTYPE.register(bus);
+        
 
         bus.addListener(this::loadComplete);
         bus.addGenericListener(Motive.class, PaintingsHandler::registerPaintings);

@@ -40,7 +40,7 @@ public class LadderToGround extends StructureProcessor
     @Override
     protected StructureProcessorType<?> getType()
     {
-        return PokecubeStructureProcessors.LADDERS;
+        return PokecubeStructureProcessors.LADDERS.get();
     }
 
     static

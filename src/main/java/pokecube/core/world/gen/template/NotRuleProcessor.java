@@ -49,7 +49,7 @@ public class NotRuleProcessor extends RuleProcessor
     @Override
     protected StructureProcessorType<?> getType()
     {
-        return PokecubeStructureProcessors.NOTRULE;
+        return PokecubeStructureProcessors.NOTRULE.get();
     }
 
     static

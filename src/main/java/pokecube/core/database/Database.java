@@ -33,7 +33,6 @@ import net.minecraft.server.packs.repository.Pack.Position;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.SimpleReloadableResourceManager;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
@@ -223,7 +222,7 @@ public class Database
 
     static int lastCount = -1;
 
-    public static ReloadableResourceManager resourceManager = new SimpleReloadableResourceManager(PackType.SERVER_DATA);
+    public static ReloadableResourceManager resourceManager = new ReloadableResourceManager(PackType.SERVER_DATA);
 
     public static PokedexEntry[] starters = {};
 
@@ -947,7 +946,7 @@ public class Database
             if (applyToManager)
             {
                 PokecubeCore.LOGGER.debug("Loading Pack: " + info.getName());
-                ((SimpleReloadableResourceManager) Database.resourceManager).add(info);
+                PackListener.addPack(info, Database.resourceManager);
             }
             // Only add the zips or folders here, jars get properly added by
             // forge to the real resourcemanager later

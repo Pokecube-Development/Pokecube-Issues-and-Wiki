@@ -14,6 +14,7 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -79,7 +80,6 @@ import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.utils.PokeType;
-import pokecube.legends.PokecubeLegends;
 import thut.api.entity.CopyCaps;
 import thut.core.common.commands.CommandConfigs;
 import thut.core.common.network.PacketHandler;
@@ -199,6 +199,8 @@ public class PokecubeAdv
 
     public static final Map<PokeType, Item> BADGES = Maps.newHashMap();
     public static final Map<Item, PokeType> BADGEINV = Maps.newHashMap();
+    
+    public static CreativeModeTab TAB_DECORATIONS = PokecubeItems.TAB_ITEMS;
 
     static
     {
@@ -296,7 +298,7 @@ public class PokecubeAdv
 
         for (final RegistryObject<Block> reg : PokecubeAdv.DECORATIONS.getEntries())
             PokecubeAdv.ITEMS.register(reg.getId().getPath(),
-                    () -> new BlockItem(reg.get(), new Item.Properties().tab(PokecubeLegends.TAB_DECORATIONS)));
+                    () -> new BlockItem(reg.get(), new Item.Properties().tab(TAB_DECORATIONS)));
 
         // Initialize advancement triggers
         Triggers.init();
