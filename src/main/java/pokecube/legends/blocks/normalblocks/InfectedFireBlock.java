@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -29,7 +30,7 @@ import pokecube.legends.Reference;
 public class InfectedFireBlock extends BaseFireBlock
 {
    // Tags
-   public static Tag.Named<Block> INFECTED_FIRE_BASE_BLOCKS = BlockTags.createOptional(new ResourceLocation(Reference.ID, "infected_fire_base_blocks"));
+   public static TagKey<Block> INFECTED_FIRE_BASE_BLOCKS = BlockTags.create(new ResourceLocation(Reference.ID, "infected_fire_base_blocks"));
    private final float fireDamage;
 
    public InfectedFireBlock(BlockBehaviour.Properties properties, float damage)
@@ -47,12 +48,12 @@ public class InfectedFireBlock extends BaseFireBlock
    @Override
    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos)
    {
-      return canSurviveOnBlock(world.getBlockState(pos.below()).getBlock());
+      return canSurviveOnBlock(world.getBlockState(pos.below()));
    }
 
-   public static boolean canSurviveOnBlock(Block block)
+   public static boolean canSurviveOnBlock(BlockState state)
    {
-      return InfectedFireBlock.INFECTED_FIRE_BASE_BLOCKS.contains(block);
+      return state.is(INFECTED_FIRE_BASE_BLOCKS);
    }
 
    @Override

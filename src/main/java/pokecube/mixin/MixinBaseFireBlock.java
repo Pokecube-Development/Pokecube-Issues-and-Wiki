@@ -25,7 +25,7 @@ public abstract class MixinBaseFireBlock extends Block
     @Inject(method = "getState", at = @At("HEAD"), cancellable = true)
     private static void getInfectedFirePlacement(BlockGetter reader, BlockPos pos, CallbackInfoReturnable<BlockState> info)
     {
-        if (InfectedFireBlock.canSurviveOnBlock(reader.getBlockState(pos.below()).getBlock()))
+        if (InfectedFireBlock.canSurviveOnBlock(reader.getBlockState(pos.below())))
         {
             info.setReturnValue(BlockInit.INFECTED_FIRE.get().defaultBlockState());
         }
