@@ -1,13 +1,13 @@
 {
   "structures": [
     {
-      "structure": "pokecube:town_plains",
+      "structure": "pokecube:village_plains",
       "weight": 1
     }
   ],
   "placement": {
-    "salt": 1534767080,
-    "spacing": 48,
+    "salt": 1694867090,
+    "spacing": 24,
     "separation": 12,
     "type": "minecraft:random_spread"
   }
