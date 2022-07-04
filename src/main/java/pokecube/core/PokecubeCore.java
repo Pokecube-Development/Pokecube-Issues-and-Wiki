@@ -30,8 +30,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraftforge.common.BiomeDictionary;
@@ -76,6 +77,7 @@ import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import pokecube.core.handlers.playerdata.PokecubePlayerData;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
+import pokecube.core.init.FeaturesInit;
 import pokecube.core.interfaces.IEntityProvider;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.inventory.healer.HealerContainer;
@@ -115,6 +117,11 @@ public class PokecubeCore
                 .create(Registry.STRUCTURE_PROCESSOR_REGISTRY, PokecubeCore.MODID);
         public static final DeferredRegister<Codec<? extends ChunkGenerator>> CHUNKGENTYPE = DeferredRegister
                 .create(Registry.CHUNK_GENERATOR_REGISTRY, PokecubeCore.MODID);
+
+        public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister
+                .create(Registry.CONFIGURED_FEATURE_REGISTRY, PokecubeCore.MODID);
+        public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister
+                .create(Registry.PLACED_FEATURE_REGISTRY, PokecubeCore.MODID);
 
         @SubscribeEvent
         public static void registerRegistry(final NewRegistryEvent event)
@@ -163,39 +170,6 @@ public class PokecubeCore
         public static void registerStructures(final RegistryEvent.Register<StructureFeature<?>> event)
         {
             new BerryGenManager().processStructures(event);
-        }
-
-        @SubscribeEvent
-        public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
-        {
-            PokecubeCore.LOGGER.debug("Registering Pokecube Features");
-
-//            // Register the fossil stone spawning.
-//            final Predicate<ResourceKey<Biome>> check = k -> PokecubeCore.config.generateFossils
-//                    && (BiomeDatabase.contains(k, "mesa") || BiomeDatabase.contains(k, "ocean")
-//                            || BiomeDatabase.contains(k, "river") || BiomeDatabase.contains(k, "sandy"));
-//
-//            final List<OreConfiguration.TargetBlockState> ORE_FOSSIL_TARGET_LIST = List.of(
-//                    OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, PokecubeItems.FOSSIL_ORE.get().defaultBlockState()),
-//                    OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, PokecubeItems.DEEPSLATE_FOSSIL_ORE.get().defaultBlockState()));
-//
-//            final ConfiguredFeature<?, ?> ORE_FOSSIL_BURIED_FEATURE = Feature.ORE.configured(new OreConfiguration(ORE_FOSSIL_TARGET_LIST, 8, 1.0f));
-//            final ConfiguredFeature<?, ?> ORE_FOSSIL_LARGE_FEATURE = Feature.ORE.configured(new OreConfiguration(ORE_FOSSIL_TARGET_LIST, 12, 0.7f));
-//            final ConfiguredFeature<?, ?> ORE_FOSSIL_SMALL_FEATURE = Feature.ORE.configured(new OreConfiguration(ORE_FOSSIL_TARGET_LIST, 4, 0.5f));
-//
-//            final PlacedFeature ORE_FOSSIL_PLACEMENT = PlacementUtils.register("pokecube:fossil_ore",
-//                    ORE_FOSSIL_SMALL_FEATURE.placed(List.of(CountPlacement.of(5), InSquarePlacement.spread(), HeightRangePlacement
-//                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)), BiomeFilter.biome())));
-//            final PlacedFeature ORE_FOSSIL_BURIED_PLACEMENT = PlacementUtils.register("pokecube:fossil_ore_buried",
-//                    ORE_FOSSIL_BURIED_FEATURE.placed(List.of(CountPlacement.of(3), InSquarePlacement.spread(), HeightRangePlacement
-//                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)), BiomeFilter.biome())));
-//            final PlacedFeature ORE_FOSSIL_LARGE_PLACEMENT = PlacementUtils.register("pokecube:fossil_ore_large",
-//                    ORE_FOSSIL_LARGE_FEATURE.placed(List.of(CountPlacement.of(8), InSquarePlacement.spread(), HeightRangePlacement
-//                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)), BiomeFilter.biome())));
-//
-//            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_FOSSIL_PLACEMENT);
-//            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_FOSSIL_BURIED_PLACEMENT);
-//            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_FOSSIL_LARGE_PLACEMENT);
         }
 
         @SubscribeEvent
@@ -397,12 +371,13 @@ public class PokecubeCore
         PokecubeItems.BERRIES_TAB.register(bus);
         PokecubeItems.TILES.register(bus);
         PokecubeItems.MENU.register(bus);
-        
+
         RegistryEvents.CHUNKGENTYPE.register(bus);
         RegistryEvents.POOLTYPE.register(bus);
         RegistryEvents.RECIPETYPE.register(bus);
         RegistryEvents.STRUCTPROCTYPE.register(bus);
-        
+        RegistryEvents.CONFIGURED_FEATURES.register(bus);
+        RegistryEvents.PLACED_FEATURES.register(bus);
 
         bus.addListener(this::loadComplete);
         bus.addGenericListener(Motive.class, PaintingsHandler::registerPaintings);
@@ -414,6 +389,7 @@ public class PokecubeCore
         PokecubeStructureProcessors.init(bus);
         WorldgenFeatures.init(bus);
         SecretBaseDimension.onConstruct(bus);
+        FeaturesInit.init(bus);
 
         // Register the player data we use with thutcore
         PlayerDataHandler.register(PokecubePlayerData.class);

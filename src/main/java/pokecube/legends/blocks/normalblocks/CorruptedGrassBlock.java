@@ -147,7 +147,7 @@ public class CorruptedGrassBlock extends NyliumBlock implements BonemealableBloc
 
                  placedFeature = ((RandomPatchConfiguration)list.get(0).config()).feature();
               } else {
-                 placedFeature = FeaturesInit.PlantPlacements.PATCH_CORRUPTED_GRASS;
+                 placedFeature = FeaturesInit.PlantPlacements.PATCH_CORRUPTED_GRASS.getHolder().get();
               }
 
               placedFeature.value().place(world, world.getChunkSource().getGenerator(), random, posAbove1);
