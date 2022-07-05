@@ -28,7 +28,6 @@ import pokecube.core.moves.zmoves.ZPower;
 import pokecube.core.network.PokecubePacketHandler;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import pokecube.nbtedit.NBTEdit;
-import pokecube.world.gen_old.WorldgenHandler;
 import thut.api.terrain.TerrainSegment;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
@@ -66,10 +65,6 @@ public class SetupHandler
 
         // Forward this to PCEdit mod:
         NBTEdit.setup(event);
-
-        event.enqueueWork(() -> {
-            WorldgenHandler.setupAll();
-        });
     }
 
     @SubscribeEvent

@@ -22,6 +22,8 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.JigsawBlock;
@@ -47,10 +49,18 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
+import thut.core.common.ThutCore;
 
 public class ExpandedJigsawPacement
 {
     static final Logger LOGGER = LogUtils.getLogger();
+
+    public static ServerLevel getForGen(final ChunkGenerator chunkGen)
+    {
+        final MinecraftServer server = ThutCore.proxy.getServer();
+        for (final ServerLevel w : server.getAllLevels()) if (w.getChunkSource().getGenerator() == chunkGen) return w;
+        throw new IllegalStateException("Did not find a world for this chunk generator!");
+    }
 
     public static Optional<PieceGenerator<ExpandedJigsawConfiguration>> addPieces(
             PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration> context,

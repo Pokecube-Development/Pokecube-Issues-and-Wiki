@@ -49,7 +49,7 @@ import pokecube.core.events.StructureEvent;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.gen.structures.PokecubeStructures;
-import pokecube.world.gen_old.jigsaw.JigsawAssmbler;
+import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
 
 public class ExpandedJigsawPiece extends SinglePoolElement
 {
@@ -171,7 +171,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         if (!placed) return false;
         else
         {
-            if (this.world == null) this.world = JigsawAssmbler.getForGen(chunkGenerator);
+            if (this.world == null) this.world = ExpandedJigsawPacement.getForGen(chunkGenerator);
             if (!"none".equals(this.name))
             {
                 final BoundingBox realBox = this.getBoundingBox(templates, pos1, rotation);

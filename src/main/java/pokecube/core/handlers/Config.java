@@ -38,7 +38,6 @@ import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
-import pokecube.world.gen_old.WorldgenHandler;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 
@@ -804,11 +803,6 @@ public class Config extends ConfigData
         // TODO Init secret bases resizing
         // DimensionSecretBase.init(baseSizeFunction);
         PokecubeTerrainChecker.initStructMap();
-        WorldgenHandler.SOFTBLACKLIST.clear();
-        for (final String s : this.softWorldgenDimBlacklist)
-            WorldgenHandler.SOFTBLACKLIST.add(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(s)));
-        WorldgenHandler.SOFTBLACKLIST
-                .add(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation("pokecube:secret_base")));
 
         SpawnBiomeMatcher.SOFTBLACKLIST.clear();
         for (final String name : this.softSpawnBiomeBlacklist)
