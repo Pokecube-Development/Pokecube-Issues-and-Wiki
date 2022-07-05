@@ -15,8 +15,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureEntityInfo;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
-import pokecube.world.gen_old.WorldgenHandler.JigSawConfig;
-import pokecube.world.gen_old.jigsaw.JigsawAssmbler;
 
 public class StructureEvent extends Event
 {
@@ -24,25 +22,21 @@ public class StructureEvent extends Event
     public static class PickLocation extends StructureEvent
     {
         public final ChunkGenerator chunkGen;
-        public final Random         rand;
-        public final ChunkPos       pos;
-        public final JigSawConfig   struct;
+        public final Random rand;
+        public final ChunkPos pos;
 
         public final LevelHeightAccessor heightAccessor;
 
         private ResourceKey<Level> key;
 
         public PickLocation(final ChunkGenerator chunkGen, final Random rand, final ChunkPos pos,
-                final JigSawConfig struct, final LevelHeightAccessor heightAccessor)
+                final LevelHeightAccessor heightAccessor)
         {
             this.chunkGen = chunkGen;
             this.rand = rand;
             this.pos = pos;
-            this.struct = struct;
             this.heightAccessor = heightAccessor;
-            final Level world = JigsawAssmbler.getForGen(chunkGen);
-            if (world != null) this.key = world.dimension();
-            else this.key = Level.OVERWORLD;
+            this.key = Level.OVERWORLD;
         }
 
         public ResourceKey<Level> getDimensionKey()
@@ -53,11 +47,11 @@ public class StructureEvent extends Event
 
     public static class BuildStructure extends StructureEvent
     {
-        private final BoundingBox            bounds;
+        private final BoundingBox bounds;
         private final StructurePlaceSettings settings;
-        private final String                 structure;
-        private String                       structureOverride;
-        private final LevelAccessor          world;
+        private final String structure;
+        private String structureOverride;
+        private final LevelAccessor world;
 
         public BuildStructure(final BoundingBox bounds, final LevelAccessor world, final String name,
                 final StructurePlaceSettings settings)
@@ -127,12 +121,12 @@ public class StructureEvent extends Event
      */
     public static class ReadTag extends StructureEvent
     {
-        public String        function;
+        public String function;
         public LevelAccessor worldBlocks;
-        public ServerLevel   worldActual;
-        public BlockPos      pos;
-        public BoundingBox   sbb;
-        public Random        rand;
+        public ServerLevel worldActual;
+        public BlockPos pos;
+        public BoundingBox sbb;
+        public Random rand;
 
         public ReadTag(final String function, final BlockPos pos, final LevelAccessor worldIn, final ServerLevel world,
                 final Random rand, final BoundingBox sbb)

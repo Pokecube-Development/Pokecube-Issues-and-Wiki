@@ -1,10 +1,8 @@
 package pokecube.core.blocks.berries;
 
-import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
@@ -20,26 +18,9 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.ProcessorRule
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import pokecube.core.PokecubeCore;
 import pokecube.world.gen.structures.processors.NotRuleProcessor;
-import pokecube.world.gen_old.WorldgenHandler.JigSawConfig;
-import pokecube.world.gen_old.WorldgenHandler.JigSawPool;
 
 public class BerryGenManager
 {
-    static class Berries
-    {
-        public List<BerryPool> pools = Lists.newArrayList();
-        public List<BerryJigsaw> jigsaws = Lists.newArrayList();
-    }
-
-    static class BerryJigsaw extends JigSawConfig
-    {
-        List<String> trees = Lists.newArrayList();
-        boolean onGrow = false;
-    }
-
-    static class BerryPool extends JigSawPool
-    {}
-
     public static final String DATABASES = "database/berries/";
 
     public static final ResourceLocation REPLACETAG = new ResourceLocation("pokecube:berry_tree_replace");
@@ -55,7 +36,6 @@ public class BerryGenManager
 
     public String MODID = PokecubeCore.MODID;
     public ResourceLocation ROOT = new ResourceLocation(PokecubeCore.MODID, "structures/");
-    public Berries defaults;
 
     public BerryGenManager()
     {}
