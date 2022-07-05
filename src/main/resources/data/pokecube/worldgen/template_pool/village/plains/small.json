@@ -9,7 +9,7 @@
         "location": "pokecube:village/plains/town_centers/center_small",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_village_mossify_20_percent"
+        "processors": "pokecube:generic_mossify_20_percent"
       }
     }
   ]
