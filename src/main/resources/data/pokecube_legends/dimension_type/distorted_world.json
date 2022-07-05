@@ -1,6 +1,6 @@
 {
   "logical_height": 384,
-  "infiniburn": "pokecube_legends:infiniburn_distorted_world",
+  "infiniburn": "#pokecube_legends:infiniburn_distorted_world",
   "effects": "minecraft:the_end",
   "ambient_light": 1.0,
   "respawn_anchor_works": true,

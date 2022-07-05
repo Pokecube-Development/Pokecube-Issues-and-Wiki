@@ -67,10 +67,10 @@
       "name":"pokecube_legends:village/ultraspace",
       "root":"pokecube_legends:village/ultraspace/town_centers",
       "chance":1,
-      "distance":40,
+      "distance":48,
       "separation":16,
-      "size":7,
-      "priority":10,
+      "size":6,
+      "priority":8,
       "biomeType":"none",
       "needed_once":[
         "pokecenter",
@@ -84,6 +84,29 @@
         "pokecube_legends:ultraspace"
       ],
       "spawn":{
+        "values":{
+          "biomes":"pokecube_legends:fungal_flower_forest, pokecube_legends:fungal_forest, pokecube_legends:fungal_plains, pokecube_legends:fungal_sunflower_plains, pokecube_legends:snowy_fungal_plains, pokecube_legends:sparse_temporal_jungle, pokecube_legends:temporal_bamboo_jungle, pokecube_legends:temporal_jungle, pokecube_legends:windswept_temporal_jungle, pokecube_legends:mirage_desert, pokecube_legends:rocky_mirage_desert, pokecube_legends:blinding_deltas, pokecube_legends:dried_blinding_deltas, pokecube_legends:magmatic_blinding_deltas, pokecube_legends:shattered_blinding_deltas, pokecube_legends:volcanic_blinding_deltas, pokecube_legends:shattered_tainted_barrens, pokecube_legends:tainted_barrens, pokecube_legends:forbidden_grove, pokecube_legends:forbidden_meadow, pokecube_legends:forbidden_taiga, pokecube_legends:old_growth_forbidden_taiga, pokecube_legends:snowy_forbidden_taiga, pokecube_legends:windswept_forbidden_taiga"
+        }
+      }
+    },
+    {
+      "type":"pokecube_legends:village",
+      "name":"pokecube_legends:village/ultraspace_small",
+      "root":"pokecube_legends:village/ultraspace/small",
+      "chance": 1,
+      "distance": 28,
+      "separation": 12,
+      "size": 3,
+      "priority": 10,
+      "biomeType":"none",
+      "needed_once": [
+        "pokecenter"
+      ],
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "spawn": {
         "values":{
           "biomes":"pokecube_legends:fungal_flower_forest, pokecube_legends:fungal_forest, pokecube_legends:fungal_plains, pokecube_legends:fungal_sunflower_plains, pokecube_legends:snowy_fungal_plains, pokecube_legends:sparse_temporal_jungle, pokecube_legends:temporal_bamboo_jungle, pokecube_legends:temporal_jungle, pokecube_legends:windswept_temporal_jungle, pokecube_legends:mirage_desert, pokecube_legends:rocky_mirage_desert, pokecube_legends:blinding_deltas, pokecube_legends:dried_blinding_deltas, pokecube_legends:magmatic_blinding_deltas, pokecube_legends:shattered_blinding_deltas, pokecube_legends:volcanic_blinding_deltas, pokecube_legends:shattered_tainted_barrens, pokecube_legends:tainted_barrens, pokecube_legends:forbidden_grove, pokecube_legends:forbidden_meadow, pokecube_legends:forbidden_taiga, pokecube_legends:old_growth_forbidden_taiga, pokecube_legends:snowy_forbidden_taiga, pokecube_legends:windswept_forbidden_taiga"
         }
