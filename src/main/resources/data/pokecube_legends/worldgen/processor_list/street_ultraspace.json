@@ -80,19 +80,6 @@
             "predicate_type": "minecraft:block_match",
             "block": "minecraft:ice"
           }
-        },
-        {
-          "input_predicate": {
-            "predicate_type": "minecraft:block_match",
-            "block": "minecraft:snow"
-          },
-          "output_state": {
-            "Name": "minecraft:air"
-          },
-          "location_predicate": {
-            "predicate_type": "minecraft:block_match",
-            "block": "minecraft:magenta_concrete"
-          }
         }
       ]
     },
