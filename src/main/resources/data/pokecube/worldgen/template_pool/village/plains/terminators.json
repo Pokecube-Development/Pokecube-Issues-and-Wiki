@@ -8,6 +8,7 @@
       "element": {
         "location": "pokecube:village/plains/terminators/terminator_01",
         "projection": "terrain_matching",
+        "no_affect_noise": true,
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -17,6 +18,7 @@
       "element": {
         "location": "pokecube:village/plains/terminators/terminator_02",
         "projection": "terrain_matching",
+        "no_affect_noise": true,
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -26,6 +28,7 @@
       "element": {
         "location": "pokecube:village/plains/terminators/terminator_03",
         "projection": "terrain_matching",
+        "no_affect_noise": true,
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -35,6 +38,7 @@
       "element": {
         "location": "pokecube:village/plains/terminators/terminator_04",
         "projection": "terrain_matching",
+        "no_affect_noise": true,
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }

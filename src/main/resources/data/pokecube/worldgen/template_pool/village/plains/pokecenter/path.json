@@ -9,6 +9,8 @@
           "location": "pokecube:village/plains/pokecenter/path",
           "projection": "terrain_matching",
           "element_type": "pokecube:expanded_pool_element",
+          "flags": "pokecenter_path",
+          "no_affect_noise": true,
           "processors": "pokecube:street_plains"
         }
       }

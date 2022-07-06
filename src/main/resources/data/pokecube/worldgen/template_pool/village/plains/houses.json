@@ -1,7 +1,7 @@
 
 {
   "name": "pokecube:village/plains/start_pool",
-  "fallback": "minecraft:village/plains/houses",
+  "fallback": "pokecube:village/plains/terminators",
   "elements": [
     {
       "weight": 6,
@@ -9,6 +9,7 @@
         "location": "pokecube:village/plains/houses/house_small_1",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
+        "extra_pools": "minecraft:village/plains/houses",
         "processors": "pokecube:generic"
       }
     },
@@ -46,6 +47,7 @@
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
         "flags": "pokecenter",
+        "only_once": true,
         "processors": "pokecube:generic"
       }
     },
@@ -56,6 +58,7 @@
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
         "flags": "gym",
+        "only_once": true,
         "processors": "pokecube:generic"
       }
     }
