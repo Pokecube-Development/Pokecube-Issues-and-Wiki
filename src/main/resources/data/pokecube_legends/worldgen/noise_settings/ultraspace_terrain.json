@@ -3254,7 +3254,7 @@
                             "offset": 0,
                             "surface_type": "floor",
                             "add_surface_depth": true,
-                            "secondary_depth_range": 0
+                            "secondary_depth_range": 3
                           },
                           "then_run": {
                             "type": "minecraft:block",
@@ -4078,7 +4078,7 @@
                                       "offset": 0,
                                       "surface_type": "ceiling",
                                       "add_surface_depth": false,
-                                      "secondary_depth_range": 3
+                                      "secondary_depth_range": 5
                                     },
                                     "then_run": {
                                       "type": "minecraft:block",
@@ -4115,7 +4115,7 @@
                                       "offset": 0,
                                       "surface_type": "ceiling",
                                       "add_surface_depth": false,
-                                      "secondary_depth_range": 0
+                                      "secondary_depth_range": 3
                                     },
                                     "then_run": {
                                       "type": "minecraft:block",
@@ -5610,7 +5610,7 @@
                                       "offset": 0,
                                       "surface_type": "ceiling",
                                       "add_surface_depth": false,
-                                      "secondary_depth_range": 0
+                                      "secondary_depth_range": 3
                                     },
                                     "then_run": {
                                       "type": "minecraft:block",
@@ -6039,7 +6039,7 @@
                         "offset": 0,
                         "surface_type": "floor",
                         "add_surface_depth": true,
-                        "secondary_depth_range": 3
+                        "secondary_depth_range": 5
                       },
                       "then_run": {
                         "type": "minecraft:block",
@@ -6065,7 +6065,7 @@
                         "offset": 0,
                         "surface_type": "floor",
                         "add_surface_depth": true,
-                        "secondary_depth_range": 3
+                        "secondary_depth_range": 5
                       },
                       "then_run": {
                         "type": "minecraft:block",
@@ -6092,7 +6092,7 @@
                         "offset": 0,
                         "surface_type": "floor",
                         "add_surface_depth": true,
-                        "secondary_depth_range": 3
+                        "secondary_depth_range": 5
                       },
                       "then_run": {
                         "type": "minecraft:block",

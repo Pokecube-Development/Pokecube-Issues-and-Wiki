@@ -1,7 +1,7 @@
 
 {
   "name": "pokecube_legends:village/ultraspace/start_pool",
-  "fallback": "minecraft:village/ultraspace/houses",
+  "fallback": "pokecube_legends:village/ultraspace/houses",
   "elements": [
     {
       "weight": 10,
