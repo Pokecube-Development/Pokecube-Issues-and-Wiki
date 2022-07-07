@@ -1,8 +1,6 @@
 {
   "sea_level": -64,
   "disable_mob_generation": false,
-  "noise_caves_enabled": true,
-  "noodle_caves_enabled": true,
   "aquifers_enabled": true,
   "ore_veins_enabled": false,
   "legacy_random_source": false,
@@ -20,9 +18,6 @@
     "height": 128,
     "size_horizontal": 2,
     "size_vertical": 1,
-    "island_noise_override": true,
-    "amplified": false,
-    "large_biomes": false,
     "sampling": {
       "xz_scale": 2,
       "y_scale": 1,
@@ -44,6 +39,44 @@
       "factor": 0,
       "jaggedness": 0
     }
+  },
+  "noise_router": {
+    "barrier": 0,
+    "fluid_level_floodedness": 0,
+    "fluid_level_spread": 0,
+    "lava": 0,
+    "temperature": 0,
+    "vegetation": 0,
+    "continents": 0,
+    "erosion": 0,
+    "depth": 0,
+    "ridges": 0,
+    "initial_density_without_jaggedness": {
+      "type": "minecraft:cache_2d",
+      "argument": {
+        "type": "minecraft:end_islands"
+      }
+    },
+    "final_density": {
+      "type": "minecraft:squeeze",
+      "argument": {
+        "type": "minecraft:mul",
+        "argument1": 0.64,
+        "argument2": {
+          "type": "minecraft:interpolated",
+          "argument": {
+            "type": "minecraft:blend_density",
+            "argument": {
+              "type": "minecraft:slide",
+              "argument": "minecraft:end/sloped_cheese"
+            }
+          }
+        }
+      }
+    },
+    "vein_toggle": 0,
+    "vein_ridged": 0,
+    "vein_gap": 0
   },
   "surface_rule": {
     "type": "minecraft:sequence",
@@ -89,7 +122,7 @@
           "offset": 0,
           "surface_type": "floor",
           "add_surface_depth": false,
-          "add_surface_secondary_depth": false
+          "secondary_depth_range": 0
         },
         "then_run": {
           "type": "minecraft:block",
@@ -103,8 +136,5 @@
         }
       }
     ]
-  },
-  "structures": {
-    "structures": {}
   }
 }

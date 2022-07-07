@@ -1,0 +1,104 @@
+{
+  "processors": [
+    {
+      "processor_type": "minecraft:rule",
+      "rules": [
+        {
+          "input_predicate": {
+            "predicate_type": "minecraft:block_match",
+            "block": "minecraft:magenta_concrete"
+          },
+          "output_state": {
+            "Name": "minecraft:blue_concrete"
+          },
+          "location_predicate": {
+            "predicate_type": "minecraft:block_match",
+            "block": "minecraft:water"
+          }
+        },
+        {
+          "input_predicate": {
+            "predicate_type": "minecraft:block_match",
+            "block": "minecraft:smooth_quartz"
+          },
+          "output_state": {
+            "Name": "pokecube_adventures:laboratory_glass"
+          },
+          "location_predicate": {
+            "predicate_type": "minecraft:block_match",
+            "block": "minecraft:water"
+          }
+        },
+        {
+          "input_predicate": {
+            "predicate_type": "minecraft:block_match",
+            "block": "minecraft:shroomlight"
+          },
+          "output_state": {
+            "Name": "minecraft:sea_lantern"
+          },
+          "location_predicate": {
+            "predicate_type": "minecraft:block_match",
+            "block": "minecraft:water"
+          }
+        },
+        {
+          "input_predicate": {
+            "predicate_type": "minecraft:block_match",
+            "block": "minecraft:magenta_concrete"
+          },
+          "output_state": {
+            "Name": "minecraft:blue_concrete"
+          },
+          "location_predicate": {
+            "predicate_type": "minecraft:block_match",
+            "block": "minecraft:ice"
+          }
+        },
+        {
+          "input_predicate": {
+            "predicate_type": "minecraft:block_match",
+            "block": "minecraft:smooth_quartz"
+          },
+          "output_state": {
+            "Name": "pokecube_adventures:laboratory_glass"
+          },
+          "location_predicate": {
+            "predicate_type": "minecraft:block_match",
+            "block": "minecraft:ice"
+          }
+        },
+        {
+          "input_predicate": {
+            "predicate_type": "minecraft:block_match",
+            "block": "minecraft:shroomlight"
+          },
+          "output_state": {
+            "Name": "minecraft:sea_lantern"
+          },
+          "location_predicate": {
+            "predicate_type": "minecraft:block_match",
+            "block": "minecraft:ice"
+          }
+        }
+      ]
+    },
+    {
+      "processor_type": "minecraft:block_ignore",
+      "blocks": [
+        {
+          "Name": "minecraft:air"
+        }
+      ]
+    },
+    {
+      "processor_type": "pokecube:ladders_to_ground"
+    },
+    {
+      "processor_type": "pokecube:structures"
+    },
+    {
+      "processor_type": "pokecube:marker_to_air"
+    }
+  ]
+}

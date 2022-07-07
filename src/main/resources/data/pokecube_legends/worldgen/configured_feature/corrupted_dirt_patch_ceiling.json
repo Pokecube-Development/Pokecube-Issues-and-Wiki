@@ -23,7 +23,7 @@
         "max_inclusive": 2
       }
     },
-    "replaceable": "pokecube_legends:corrupted_dirt_replaceable",
+    "replaceable": "#pokecube_legends:corrupted_dirt_replaceable",
     "ground_state": {
       "state": {
         "Name": "pokecube_legends:corrupted_dirt"

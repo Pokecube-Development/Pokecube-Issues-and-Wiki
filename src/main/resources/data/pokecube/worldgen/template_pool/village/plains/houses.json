@@ -10,7 +10,7 @@
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
         "extra_pools": "minecraft:village/plains/houses",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic_mossify_20_percent"
       }
     },
     {
@@ -19,7 +19,7 @@
         "location": "pokecube:village/plains/houses/house_big_1",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic_mossify_20_percent"
       }
     },
     {
@@ -28,7 +28,7 @@
         "location": "pokecube:village/plains/houses/house_medium_1",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic_mossify_20_percent"
       }
     },
     {
@@ -37,7 +37,7 @@
         "location": "pokecube:village/plains/houses/house_medium_2",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic_mossify_20_percent"
       }
     },
     {
@@ -48,7 +48,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "flags": "pokecenter",
         "only_once": true,
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic_mossify_20_percent"
       }
     },
     {
@@ -59,7 +59,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "flags": "gym",
         "only_once": true,
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic_mossify_20_percent"
       }
     }
   ]
