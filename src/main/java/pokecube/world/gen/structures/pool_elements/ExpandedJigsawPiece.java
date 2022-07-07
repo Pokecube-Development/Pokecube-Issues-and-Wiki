@@ -1,5 +1,6 @@
 package pokecube.world.gen.structures.pool_elements;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -56,15 +57,23 @@ public class ExpandedJigsawPiece extends SinglePoolElement
     public static Codec<ExpandedJigsawPiece> makeCodec()
     {
         return RecordCodecBuilder.create((instance) -> {
-            return instance.group(SinglePoolElement.templateCodec(), SinglePoolElement.processorsCodec(),
-                    StructurePoolElement.projectionCodec(),
-                    Codec.BOOL.fieldOf("ignore_air").orElse(false).forGetter(structure -> structure.ignore_air),
-                    Codec.BOOL.fieldOf("water_terrain_match").orElse(false)
-                            .forGetter(structure -> structure.water_terrain_match),
-                    Codec.BOOL.fieldOf("markers_to_air").orElse(true).forGetter(structure -> structure.markers_to_air),
-                    Codec.STRING.fieldOf("biome_type").orElse("none").forGetter(structure -> structure.biome_type),
-                    Codec.STRING.fieldOf("name").orElse("none").forGetter(structure -> structure.biome_type),
-                    Codec.STRING.fieldOf("flags").orElse("").forGetter(structure -> structure.flags))
+            return instance
+                    .group(SinglePoolElement.templateCodec(), SinglePoolElement.processorsCodec(),
+                            StructurePoolElement.projectionCodec(),
+                            Codec.BOOL.fieldOf("ignore_air").orElse(false).forGetter(s -> s.ignore_air),
+                            Codec.BOOL.fieldOf("water_terrain_match").orElse(false)
+                                    .forGetter(structure -> structure.water_terrain_match),
+                            Codec.BOOL.fieldOf("markers_to_air").orElse(true).forGetter(s -> s.markers_to_air),
+                            Codec.STRING.fieldOf("biome_type").orElse("none").forGetter(s -> s.biome_type),
+                            Codec.STRING.fieldOf("name").orElse("none").forGetter(s -> s.biome_type),
+                            Codec.STRING.fieldOf("flags").orElse("").forGetter(s -> s.flags),
+                            ResourceLocation.CODEC.listOf().fieldOf("extra_pools").orElse(new ArrayList<>())
+                                    .forGetter(s -> s.extra_pools),
+                            Codec.BOOL.fieldOf("only_once").orElse(false).forGetter(s -> s.only_once),
+                            Codec.BOOL.fieldOf("bound_check").orElse(true).forGetter(s -> s.bound_check),
+                            Codec.BOOL.fieldOf("no_affect_noise").orElse(false).forGetter(s -> s.no_affect_noise),
+                            Codec.INT.fieldOf("y_offset").orElse(0).forGetter(s -> s.y_offset),
+                            Codec.INT.fieldOf("space_below").orElse(10).forGetter(s -> s.y_offset))
                     .apply(instance, ExpandedJigsawPiece::new);
         });
     }
@@ -87,12 +96,20 @@ public class ExpandedJigsawPiece extends SinglePoolElement
 
     public Level world;
 
-    boolean ignore_air = false;
-    boolean water_terrain_match = false;
-    boolean markers_to_air = true;
-    String biome_type = "none";
-    String name = "none";
-    String flags = "";
+    public final boolean ignore_air;
+    public final boolean water_terrain_match;
+    public final boolean markers_to_air;
+    public final String biome_type;
+    public final String name;
+    public final String flags;
+    public final List<ResourceLocation> extra_pools;
+    public final boolean only_once;
+    public final boolean bound_check;
+    public final boolean no_affect_noise;
+    public final int y_offset;
+    public final int space_below;
+
+    public final String[] _flags;
 
     public boolean isSpawn;
     public String spawnReplace;
@@ -100,16 +117,14 @@ public class ExpandedJigsawPiece extends SinglePoolElement
     public BlockPos profPos;
     public boolean placedSpawn = false;
 
-    public StructurePlaceSettings toUse;
-
-    public StructureProcessorList overrideList = null;
-
     boolean maskCheck;
 
     public ExpandedJigsawPiece(final Either<ResourceLocation, StructureTemplate> template,
             final Holder<StructureProcessorList> processors, final StructureTemplatePool.Projection behaviour,
             final boolean ignoreAir, final boolean water_terrain_match, final boolean markers_to_air,
-            final String biome_type, final String name, final String flags)
+            final String biome_type, final String name, final String flags, List<ResourceLocation> extra_pools,
+            final boolean only_once, final boolean bound_check, final boolean no_affect_noise, int y_offset,
+            int space_below)
     {
         super(template, processors, behaviour);
         this.ignore_air = ignoreAir;
@@ -118,6 +133,13 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         this.name = name;
         this.markers_to_air = markers_to_air;
         this.flags = flags;
+        this.extra_pools = extra_pools;
+        this._flags = flags.split(",");
+        this.only_once = only_once;
+        this.bound_check = bound_check;
+        this.no_affect_noise = no_affect_noise;
+        this.y_offset = y_offset;
+        this.space_below = space_below;
     }
 
     @Override
@@ -142,7 +164,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         if (water_terrain_match) placementsettings.addProcessor(new GravityProcessor(Types.OCEAN_FLOOR_WG, -1));
         else this.getProjection().getProcessors().forEach(placementsettings::addProcessor);
 
-        return this.toUse = placementsettings;
+        return placementsettings;
     }
 
     @Override
