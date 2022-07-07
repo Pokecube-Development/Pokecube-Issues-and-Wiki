@@ -148,9 +148,9 @@ public class ExpandedJigsawPacement
                         PostProcessor.POSTPROCESS.accept(config_context, list);
                         list.forEach(builder::addPiece);
 
-                        List<AABB> aabbs = ModifiedJigsawPacement$placer.rigid_bounds.getValue().toAabbs();
-                        System.out.println("rigids: " + aabbs.size());
-                        System.out.println(aabbs);
+//                        List<AABB> aabbs = ModifiedJigsawPacement$placer.rigid_bounds.getValue().toAabbs();
+//                        System.out.println("rigids: " + aabbs.size());
+//                        System.out.println(aabbs);
                     }
                 });
             }

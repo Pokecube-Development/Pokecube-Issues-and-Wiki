@@ -2,6 +2,13 @@
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
     "start_pool": "pokecube_legends:village/ultraspace/small",
+    "required_parts": ["pokecenter", "pokecenter_path"],
+    "avoid_range": 6,
+    "structures_to_avoid": [
+      "pokecube_legends:towns",
+      "minecraft:villages",
+      "minecraft:pillager_outposts"
+    ],
     "size": 3
   },
   "biomes": "#pokecube_world:has_structure/village_ultraspace",

@@ -1,0 +1,15 @@
+{
+  "name": "pokecube_legends:temples/celebi_temple",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:temples/surface/celebi_temple",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element",
+        "processors": "pokecube_legends:celebi_temple"
+      }
+    }
+  ]
+}

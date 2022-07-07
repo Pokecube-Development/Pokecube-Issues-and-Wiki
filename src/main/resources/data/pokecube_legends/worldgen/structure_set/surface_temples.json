@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "pokecube_legends:celebi_temple",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 1246286324,
+    "spacing": 84,
+    "separation": 32,
+    "type": "minecraft:random_spread"
+  }
+}

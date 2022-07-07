@@ -1,0 +1,10 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:temples/surface/celebi_temple",
+    "size": 2
+  },
+  "biomes": "#pokecube_world:has_structure/celebi_temple",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

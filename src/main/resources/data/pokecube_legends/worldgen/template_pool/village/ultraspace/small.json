@@ -1,4 +1,3 @@
-
 {
   "name": "pokecube_legends:village/ultraspace/start_pool",
   "fallback": "minecraft:empty",
@@ -10,18 +9,18 @@
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
         "processors": {
-            "processors": [
-              {
-                "processor_type": "pokecube:ladders_to_ground"
-              },
-              {
-                "processor_type": "pokecube:structures"
-              },
-              {
-                "processor_type": "pokecube:marker_to_air"
-              }
-            ]
-          }
+          "processors": [
+            {
+              "processor_type": "pokecube:ladders_to_ground"
+            },
+            {
+              "processor_type": "pokecube:structures"
+            },
+            {
+              "processor_type": "pokecube:marker_to_air"
+            }
+          ]
+        }
       }
     }
   ]
