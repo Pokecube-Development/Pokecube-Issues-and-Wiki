@@ -1,34 +1,33 @@
-
 {
-    "name": "pokecube:village/plains/decor",
-    "fallback": "minecraft:empty",
-    "elements": [
-        {
-          "weight": 10,
-          "element": {
-            "location": "pokecube:scattered/ruins_rigid/ancient_tomb",
-            "projection": "rigid",
-            "element_type": "pokecube:expanded_pool_element",
-            "processors": "pokecube:generic"
-          }
-        },
-        {
-          "weight": 9,
-          "element": {
-            "location": "pokecube:scattered/ruins_rigid/ruin_1",
-            "projection": "rigid",
-            "element_type": "pokecube:expanded_pool_element",
-            "processors": "pokecube:generic"
-          }
-        },
-        {
-          "weight": 3,
-          "element": {
-            "location": "pokecube:scattered/ruins_rigid/ruin_2",
-            "projection": "rigid",
-            "element_type": "pokecube:expanded_pool_element",
-            "processors": "pokecube:generic"
-          }
-        }
-    ]
-  }
+  "name": "pokecube:village/plains/decor",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 10,
+      "element": {
+        "location": "pokecube:scattered/ruins_rigid/ancient_tomb",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic"
+      }
+    },
+    {
+      "weight": 9,
+      "element": {
+        "location": "pokecube:scattered/ruins_rigid/ruin_1",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "location": "pokecube:scattered/ruins_rigid/ruin_2",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic"
+      }
+    }
+  ]
+}

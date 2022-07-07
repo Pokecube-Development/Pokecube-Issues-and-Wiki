@@ -1,16 +1,15 @@
-
 {
-    "name": "pokecube:scattered/ruins/ruins_loose",
-    "fallback": "minecraft:empty",
-    "elements": [
-        {
-          "weight": 1,
-          "element": {
-            "location": "pokecube:scattered/ruins_loose/stonehenge_ruins",
-            "projection": "terrain_matching",
-            "element_type": "pokecube:expanded_pool_element",
-            "processors": "pokecube:generic"
-          }
-        }
-    ]
+  "name": "pokecube:scattered/ruins/ruins_loose",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube:scattered/ruins_loose/stonehenge_ruins",
+        "projection": "terrain_matching",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic"
+      }
+    }
+  ]
 }

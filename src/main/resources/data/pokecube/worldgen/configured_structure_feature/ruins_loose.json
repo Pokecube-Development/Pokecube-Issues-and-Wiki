@@ -4,7 +4,7 @@
     "start_pool": "pokecube:scattered/ruins/ruins_loose",
     "size": 2
   },
-  "biomes": "#pokecube_world:has_structure/surface_ruins",
+  "biomes": "#pokecube_world:has_structure/ruins_surface",
   "adapt_noise": false,
   "spawn_overrides": {}
 }

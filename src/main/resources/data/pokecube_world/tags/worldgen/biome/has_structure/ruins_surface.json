@@ -1,7 +1,7 @@
 {
-    "replace": false,
-    "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
-    "values": [
-      "#forge:is_plains"
-    ]
-  }
+  "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
+  "replace": false,
+  "values": [
+    "#forge:is_plains"
+  ]
+}
