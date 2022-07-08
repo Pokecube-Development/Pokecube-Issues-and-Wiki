@@ -8,7 +8,7 @@
         "location": "pokecube:scattered/ruins_loose/stonehenge_ruins",
         "projection": "terrain_matching",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic_mossify_20_percent"
       }
     }
   ]

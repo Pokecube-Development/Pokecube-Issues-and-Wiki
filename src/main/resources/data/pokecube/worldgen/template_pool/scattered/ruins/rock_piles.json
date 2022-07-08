@@ -1,5 +1,5 @@
 {
-  "name": "pokecube:scattered/ruins/rock_piles",
+  "name": "pokecube:scattered/ruins_loose/rock_piles",
   "fallback": "minecraft:empty",
   "elements": [
     {
@@ -8,7 +8,7 @@
         "location": "pokecube:scattered/ruins_loose/rock_piles/rock_pile_01",
         "projection": "terrain_matching",
         "element_type": "minecraft:single_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:stone_ruins"
       }
     },
     {
@@ -17,7 +17,7 @@
         "location": "pokecube:scattered/ruins_loose/rock_piles/rock_pile_02",
         "projection": "terrain_matching",
         "element_type": "minecraft:single_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:stone_ruins"
       }
     },
     {
@@ -26,7 +26,7 @@
         "location": "pokecube:scattered/ruins_loose/rock_piles/rock_pile_03",
         "projection": "terrain_matching",
         "element_type": "minecraft:single_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:stone_ruins"
       }
     },
     {
@@ -35,7 +35,7 @@
         "location": "pokecube:scattered/ruins_loose/rock_piles/rock_pile_04",
         "projection": "terrain_matching",
         "element_type": "minecraft:single_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:stone_ruins"
       }
     },
     {
@@ -44,7 +44,7 @@
         "location": "pokecube:scattered/ruins_loose/rock_piles/rock_pile_05",
         "projection": "terrain_matching",
         "element_type": "minecraft:single_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:stone_ruins"
       }
     },
     {
@@ -53,7 +53,16 @@
         "location": "pokecube:scattered/ruins_loose/rock_piles/rock_pile_06",
         "projection": "terrain_matching",
         "element_type": "minecraft:single_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:stone_ruins"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "location": "minecraft:empty",
+        "projection": "terrain_matching",
+        "element_type": "minecraft:single_pool_element",
+        "processors": "pokecube:stone_ruins"
       }
     }
   ]

@@ -5,10 +5,10 @@
     {
       "weight": 10,
       "element": {
-        "location": "pokecube:scattered/ruins_rigid/ancient_tomb",
+        "location": "pokecube:scattered/ruins_rigid/ancient_tomb_1",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:stone_ruins"
       }
     },
     {
@@ -17,7 +17,7 @@
         "location": "pokecube:scattered/ruins_rigid/ruin_1",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic_mossify_20_percent"
       }
     },
     {
@@ -26,7 +26,7 @@
         "location": "pokecube:scattered/ruins_rigid/ruin_2",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic_mossify_20_percent"
       }
     }
   ]
