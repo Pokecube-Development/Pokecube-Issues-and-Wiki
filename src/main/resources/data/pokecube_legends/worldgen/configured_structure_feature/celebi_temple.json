@@ -4,6 +4,13 @@
     "start_pool": "pokecube_legends:temples/surface/celebi_temple",
     "spawn_preset": "all_overworld",
     "spawn_category_blacklist": "ocean,river,cold,snow",
+    "avoid_range": 6,
+    "structures_to_avoid": [
+      "pokecube:ruins",
+      "pokecube_legends:towns",
+      "minecraft:villages",
+      "minecraft:pillager_outposts"
+    ],
     "size": 2
   },
   "biomes": "#pokecube_world:has_structure/celebi_temple",
