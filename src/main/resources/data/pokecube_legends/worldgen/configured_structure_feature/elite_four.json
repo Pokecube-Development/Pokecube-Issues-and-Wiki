@@ -1,18 +1,19 @@
 {
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
-    "start_pool": "pokecube_legends:village/ultraspace/town_centers",
+    "start_pool": "pokecube_legends:temples/surface/elite_four",
     "spawn_preset": "all_overworld",
     "spawn_category_blacklist": "ocean,beach,river",
-    "required_parts": ["pokecenter", "gym", "pokecenter_path", "gym_path"],
     "avoid_range": 6,
     "structures_to_avoid": [
+      "pokecube:ruins",
+      "pokecube_legends:towns",
       "minecraft:villages",
       "minecraft:pillager_outposts"
     ],
-    "size": 7
+    "size": 2
   },
-  "biomes": "#pokecube_world:has_structure/village_ultraspace",
+  "biomes": "#pokecube_world:has_structure/elite_four",
   "adapt_noise": true,
   "spawn_overrides": {}
 }

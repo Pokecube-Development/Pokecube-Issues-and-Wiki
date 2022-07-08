@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "pokecube_legends:elite_four",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 1246286324,
+    "spacing": 128,
+    "separation": 32,
+    "type": "minecraft:random_spread"
+  }
+}

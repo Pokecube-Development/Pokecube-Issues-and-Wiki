@@ -1,0 +1,15 @@
+{
+  "name": "pokecube_legends:temples/surface_temples",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:temples/surface/elite_four",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:decay_10_percent"
+      }
+    }
+  ]
+}
