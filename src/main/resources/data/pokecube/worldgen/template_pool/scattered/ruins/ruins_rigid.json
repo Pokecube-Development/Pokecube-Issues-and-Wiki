@@ -1,5 +1,5 @@
 {
-  "name": "pokecube:village/plains/decor",
+  "name": "pokecube:scattered/ruins/ruins_rigid",
   "fallback": "minecraft:empty",
   "elements": [
     {

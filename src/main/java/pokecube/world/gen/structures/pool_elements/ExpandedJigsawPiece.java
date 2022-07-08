@@ -162,7 +162,6 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         else placementsettings.addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
 
         if (water_terrain_match) placementsettings.addProcessor(new GravityProcessor(Types.OCEAN_FLOOR_WG, -1));
-        else this.getProjection().getProcessors().forEach(placementsettings::addProcessor);
 
         return placementsettings;
     }
