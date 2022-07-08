@@ -154,12 +154,12 @@ public class ExpandedJigsawPiece extends SinglePoolElement
 
         if (!notJigsaw) placementsettings.addProcessor(JigsawReplacementProcessor.INSTANCE);
 
+        this.processors.value().list().forEach(placementsettings::addProcessor);
+
         final boolean shouldIgnoreAire = this.ignore_air;
 
         if (shouldIgnoreAire) placementsettings.addProcessor(BlockIgnoreProcessor.STRUCTURE_AND_AIR);
         else placementsettings.addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
-
-        this.processors.value().list().forEach(placementsettings::addProcessor);
 
         if (water_terrain_match) placementsettings.addProcessor(new GravityProcessor(Types.OCEAN_FLOOR_WG, -1));
         else this.getProjection().getProcessors().forEach(placementsettings::addProcessor);
