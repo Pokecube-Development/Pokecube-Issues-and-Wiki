@@ -17,7 +17,7 @@
           },
           "input_predicate": {
             "block": "minecraft:cobblestone",
-            "probability": 0.2,
+            "probability": 0.3,
             "predicate_type": "minecraft:random_block_match"
           },
           "location_predicate": {
@@ -30,7 +30,7 @@
           },
           "input_predicate": {
             "block": "minecraft:stone_bricks",
-            "probability": 0.2,
+            "probability": 0.3,
             "predicate_type": "minecraft:random_block_match"
           },
           "location_predicate": {
