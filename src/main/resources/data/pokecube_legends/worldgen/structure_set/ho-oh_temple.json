@@ -1,13 +1,13 @@
 {
   "structures": [
     {
-      "structure": "pokecube_legends:elite_four",
+      "structure": "pokecube_legends:ho-oh_temple",
       "weight": 1
     }
   ],
   "placement": {
-    "salt": 1234567890,
-    "spacing": 128,
+    "salt": 4569753246,
+    "spacing": 84,
     "separation": 32,
     "type": "minecraft:random_spread"
   }
