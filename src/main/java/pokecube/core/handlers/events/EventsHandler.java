@@ -343,7 +343,8 @@ public class EventsHandler
         // the disable<thing> configs. It also adds the creepers avoid psychic
         // types AI, and does some cleanup for shoulder mobs.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onMobJoinWorld);
-        // This handles one part of preventing natural spawns for the
+        // This handles one part of preventing natural spawns for the mobs
+        // disabled via configs
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onCheckSpawnCheck);
 
         // Here we handle bed healing if enabled in configs

@@ -1,14 +1,19 @@
 package pokecube.core.world.terrain;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.material.Material;
 import pokecube.core.PokecubeCore;
 import thut.api.maths.Vector3;
@@ -40,7 +45,27 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
             {
                 String name = info.name;
                 if (!name.contains(":")) name = "minecraft:" + name;
-                String subbiome = PokecubeTerrainChecker.structureSubbiomeMap.get(name);
+
+                String subbiome = null;
+                Registry<ConfiguredStructureFeature<?, ?>> registry = world.registryAccess()
+                        .registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
+                Optional<Holder<ConfiguredStructureFeature<?, ?>>> opt_holder = registry
+                        .getHolder(registry.getId(info.feature));
+                if (!opt_holder.isEmpty())
+                {
+                    Holder<ConfiguredStructureFeature<?, ?>> holder = opt_holder.get();
+                    for (var entry : TerrainChecker.struct_config_map.entrySet())
+                    {
+                        String key = entry.getKey();
+                        List<TagKey<ConfiguredStructureFeature<?, ?>>> list = entry.getValue();
+                        boolean matches = list.stream().anyMatch(holder::is);
+                        if (matches)
+                        {
+                            subbiome = key;
+                            break;
+                        }
+                    }
+                }
                 if (subbiome == null && PokecubeCore.getConfig().structs_default_ruins) subbiome = "ruin";
                 if (subbiome != null)
                 {
