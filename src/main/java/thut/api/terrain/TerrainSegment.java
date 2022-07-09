@@ -13,8 +13,12 @@ import com.google.common.collect.Sets;
 
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -53,15 +57,15 @@ public class TerrainSegment
                 for (int i = x1; i < x1 + TerrainSegment.GRIDSIZE; i++)
                     for (int j = y1; j < y1 + TerrainSegment.GRIDSIZE; j++)
                         for (int k = z1; k < z1 + TerrainSegment.GRIDSIZE; k++)
-                        {
-                            temp1.set(i, j, k);
-                            if (segment.isInTerrainSegment(temp1.x, temp1.y, temp1.z))
-                            {
-                                final double y = temp1.getMaxY(world);
-                                sky = y <= temp1.y;
-                            }
-                            if (sky) break outer;
-                        }
+                {
+                    temp1.set(i, j, k);
+                    if (segment.isInTerrainSegment(temp1.x, temp1.y, temp1.z))
+                    {
+                        final double y = temp1.getMaxY(world);
+                        sky = y <= temp1.y;
+                    }
+                    if (sky) break outer;
+                }
                 if (sky) return BiomeType.NONE;
 
                 // If not can see sky, if there is water, it is cave_water,
@@ -73,7 +77,7 @@ public class TerrainSegment
             {
                 BiomeType biome = BiomeType.NONE;
 
-                final Biome b = v.getBiome(world);
+                final Holder<Biome> b = v.getBiomeHolder(world);
 
                 // Do not define lakes on watery biomes.
                 final boolean notLake = this.isWatery(b);
@@ -104,6 +108,9 @@ public class TerrainSegment
 
     public static interface ISubBiomeChecker
     {
+        public static final TagKey<Biome> WATERY = TagKey.create(Registry.BIOME_REGISTRY,
+                new ResourceLocation("thutcore:is_watery"));
+
         /**
          * This should return -1 if it is not a relevant biome for this biome
          * checker.
@@ -117,15 +124,9 @@ public class TerrainSegment
          */
         BiomeType getSubBiome(LevelAccessor world, Vector3 v, TerrainSegment segment, boolean caveAdjusted);
 
-        default boolean isWatery(final Biome b)
+        default boolean isWatery(final Holder<Biome> b)
         {
-            //@formatter:off
-            return     BiomeDatabase.contains(b, "ocean")
-                    || BiomeDatabase.contains(b, "swamp")
-                    || BiomeDatabase.contains(b, "river")
-                    || BiomeDatabase.contains(b, "water")
-                    || BiomeDatabase.contains(b, "beach");
-            //@formatter:on
+            return b.is(WATERY);
         }
     }
 
@@ -134,12 +135,9 @@ public class TerrainSegment
         /**
          * Called when the terrain effect is assigned to the terrain segment
          *
-         * @param x
-         *            chunkX of terrainsegment
-         * @param y
-         *            chunkY of terrainsegment
-         * @param z
-         *            chunkZ of terrainsegement
+         * @param x chunkX of terrainsegment
+         * @param y chunkY of terrainsegment
+         * @param z chunkZ of terrainsegement
          */
         void bindToTerrain(int x, int y, int z);
 
@@ -158,10 +156,10 @@ public class TerrainSegment
 
     public static final int YSHIFT = TerrainSegment.GRIDSIZE;
     public static final int ZSHIFT = TerrainSegment.YSHIFT * TerrainSegment.GRIDSIZE;
-    public static final int TOTAL  = TerrainSegment.ZSHIFT * TerrainSegment.GRIDSIZE;
+    public static final int TOTAL = TerrainSegment.ZSHIFT * TerrainSegment.GRIDSIZE;
 
-    public static ISubBiomeChecker       defaultChecker = new DefaultChecker();
-    public static List<ISubBiomeChecker> biomeCheckers  = Lists.newArrayList();
+    public static ISubBiomeChecker defaultChecker = new DefaultChecker();
+    public static List<ISubBiomeChecker> biomeCheckers = Lists.newArrayList();
 
     public static Set<Class<? extends ITerrainEffect>> terrainEffectClasses = Sets.newHashSet();
 
@@ -177,23 +175,22 @@ public class TerrainSegment
         temp.set(v);
         int ret = 0;
         for (int i = -range; i <= range; i++)
-            for (int j = -range; j <= range; j++)
-                for (int k = -range; k <= range; k++)
-                {
+            for (int j = -range; j <= range; j++) for (int k = -range; k <= range; k++)
+        {
 
-                    boolean bool = true;
-                    final int i1 = Mth.floor(v.intX() + i) >> 4;
-                    final int k1 = Mth.floor(v.intZ() + i) >> 4;
+            boolean bool = true;
+            final int i1 = Mth.floor(v.intX() + i) >> 4;
+            final int k1 = Mth.floor(v.intZ() + i) >> 4;
 
-                    bool = i1 == v.intX() >> 4 && k1 == v.intZ() >> 4;
+            bool = i1 == v.intX() >> 4 && k1 == v.intZ() >> 4;
 
-                    if (bool)
-                    {
-                        temp.set(v).addTo(i, j, k);
-                        final BlockState state = world.getBlockState(temp.getPos());
-                        if (state.getBlock() == b || b == null && state.getBlock() == null) ret++;
-                    }
-                }
+            if (bool)
+            {
+                temp.set(v).addTo(i, j, k);
+                final BlockState state = world.getBlockState(temp.getPos());
+                if (state.getBlock() == b || b == null && state.getBlock() == null) ret++;
+            }
+        }
         return ret;
     }
 
@@ -237,14 +234,14 @@ public class TerrainSegment
         t.toSave = nbt.getBoolean("toSave");
         t.init = t.toSave;
         boolean replacements = false;
-        if (t.idReplacements != null) for (int i = 0; i < biomes.length; i++)
-            if (t.idReplacements.containsKey(biomes[i]))
-            {
-                biomes[i] = t.idReplacements.get(biomes[i]);
-                replacements = true;
-            }
-        if (replacements) ThutCore.LOGGER.info("Replacement subbiomes found for " + t.chunkX + " " + t.chunkY + " "
-                + t.chunkZ);
+        if (t.idReplacements != null)
+            for (int i = 0; i < biomes.length; i++) if (t.idReplacements.containsKey(biomes[i]))
+        {
+            biomes[i] = t.idReplacements.get(biomes[i]);
+            replacements = true;
+        }
+        if (replacements)
+            ThutCore.LOGGER.info("Replacement subbiomes found for " + t.chunkX + " " + t.chunkY + " " + t.chunkZ);
         t.setBiomes(biomes);
     }
 
@@ -279,11 +276,10 @@ public class TerrainSegment
     protected int[] biomes = new int[TerrainSegment.TOTAL];
 
     HashMap<String, ITerrainEffect> effects = new HashMap<>();
-    public final ITerrainEffect[]   effectArr;
+    public final ITerrainEffect[] effectArr;
 
     /**
-     * @param pos
-     *            in chunk coordinates, not block coordinates.
+     * @param pos in chunk coordinates, not block coordinates.
      */
     public TerrainSegment(final BlockPos pos)
     {
@@ -298,16 +294,15 @@ public class TerrainSegment
         this.pos = new BlockPos(x, y, z);
         Arrays.fill(this.biomes, -1);
         this.mid.set(this.chunkX * 16 + 8, this.chunkY * 16 + 8, this.chunkZ * 16 + 8);
-        for (final Class<? extends ITerrainEffect> clas : TerrainSegment.terrainEffectClasses)
-            try
-            {
-                final ITerrainEffect effect = clas.getConstructor().newInstance();
-                this.addEffect(effect, effect.getIdentifier());
-            }
-            catch (final Exception e)
-            {
-                e.printStackTrace();
-            }
+        for (final Class<? extends ITerrainEffect> clas : TerrainSegment.terrainEffectClasses) try
+        {
+            final ITerrainEffect effect = clas.getConstructor().newInstance();
+            this.addEffect(effect, effect.getIdentifier());
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+        }
         final List<ITerrainEffect> toSort = Lists.newArrayList(this.effects.values());
         toSort.sort(Comparator.comparing(ITerrainEffect::getIdentifier));
         this.effectArr = toSort.toArray(new ITerrainEffect[0]);
@@ -331,12 +326,11 @@ public class TerrainSegment
 
     void checkToSave()
     {
-        for (final int i : this.biomes)
-            if (TerrainSegment.saveChecker.test(BiomeType.getType(i)))
-            {
-                this.toSave = true;
-                return;
-            }
+        for (final int i : this.biomes) if (TerrainSegment.saveChecker.test(BiomeType.getType(i)))
+        {
+            this.toSave = true;
+            return;
+        }
         this.toSave = false;
     }
 
@@ -365,8 +359,8 @@ public class TerrainSegment
             dz = 0;
             for (int j = -range; j <= range; j++)
             {
-                if (TerrainSegment.isInTerrainColumn(point, this.temp.addTo(i, 0, j))) dy += Math.abs(point.getMaxY(
-                        world, point.intX() + i, point.intZ() + j) - prevY);
+                if (TerrainSegment.isInTerrainColumn(point, this.temp.addTo(i, 0, j)))
+                    dy += Math.abs(point.getMaxY(world, point.intX() + i, point.intZ() + j) - prevY);
                 dz++;
                 count++;
                 this.temp.set(point);
@@ -461,33 +455,32 @@ public class TerrainSegment
             return;
         }
         for (int x = 0; x < TerrainSegment.GRIDSIZE; x++)
-            for (int y = 0; y < TerrainSegment.GRIDSIZE; y++)
-                for (int z = 0; z < TerrainSegment.GRIDSIZE; z++)
-                {
-                    // This is the index in biomes of our current location.
-                    final int index = TerrainSegment.localToIndex(x, y, z);
-                    // Check if this segment is already a custom choice, if so,
-                    // then we don't want to overwrite it, unless we are not
-                    // allowed to load saved subbiomes.
-                    if (TerrainSegment.saveChecker.test(BiomeType.getType(this.biomes[index]))
-                            && !TerrainSegment.noLoad) continue;
+            for (int y = 0; y < TerrainSegment.GRIDSIZE; y++) for (int z = 0; z < TerrainSegment.GRIDSIZE; z++)
+        {
+            // This is the index in biomes of our current location.
+            final int index = TerrainSegment.localToIndex(x, y, z);
+            // Check if this segment is already a custom choice, if so,
+            // then we don't want to overwrite it, unless we are not
+            // allowed to load saved subbiomes.
+            if (TerrainSegment.saveChecker.test(BiomeType.getType(this.biomes[index])) && !TerrainSegment.noLoad)
+                continue;
 
-                    // Conver to block coordinates.
-                    this.temp.set(TerrainSegment.toGlobal(x, this.chunkX), TerrainSegment.toGlobal(y, this.chunkY),
-                            TerrainSegment.toGlobal(z, this.chunkZ));
+            // Conver to block coordinates.
+            this.temp.set(TerrainSegment.toGlobal(x, this.chunkX), TerrainSegment.toGlobal(y, this.chunkY),
+                    TerrainSegment.toGlobal(z, this.chunkZ));
 
-                    // Check to see what our various detectors pick for this
-                    // location.
-                    BiomeType biome = this.adjustedCaveBiome(world, this.temp);
-                    // Only check non-adjusted if adjusted fails.
-                    if (biome.isNone()) biome = this.adjustedNonCaveBiome(world, this.temp);
-                    // Both failed, skip.
-                    if (biome.isNone()) continue;
-                    // Flag if we are a not-trivial biome.
-                    if (TerrainSegment.saveChecker.test(biome)) this.toSave = true;
-                    // Put it in the array.
-                    this.biomes[index] = biome.getType();
-                }
+            // Check to see what our various detectors pick for this
+            // location.
+            BiomeType biome = this.adjustedCaveBiome(world, this.temp);
+            // Only check non-adjusted if adjusted fails.
+            if (biome.isNone()) biome = this.adjustedNonCaveBiome(world, this.temp);
+            // Both failed, skip.
+            if (biome.isNone()) continue;
+            // Flag if we are a not-trivial biome.
+            if (TerrainSegment.saveChecker.test(biome)) this.toSave = true;
+            // Put it in the array.
+            this.biomes[index] = biome.getType();
+        }
         final double dt = (System.nanoTime() - time) / 10e9;
         // Don't let us take too long!
         if (dt > 0.001) ThutCore.LOGGER.debug("subBiome refresh took " + dt);
@@ -533,21 +526,20 @@ public class TerrainSegment
     @Override
     public String toString()
     {
-        String ret = "Terrian Segment " + this.chunkX + "," + this.chunkY + "," + this.chunkZ + " Centre:" + this
-                .getCentre();
+        String ret = "Terrian Segment " + this.chunkX + "," + this.chunkY + "," + this.chunkZ + " Centre:"
+                + this.getCentre();
         final String eol = System.getProperty("line.separator");
-        for (int x = 0; x < 4; x++)
-            for (int y = 0; y < 4; y++)
+        for (int x = 0; x < 4; x++) for (int y = 0; y < 4; y++)
+        {
+            String line = "[";
+            for (int z = 0; z < 4; z++)
             {
-                String line = "[";
-                for (int z = 0; z < 4; z++)
-                {
-                    line = line + this.biomes[TerrainSegment.localToIndex(x, y, z)];
-                    if (z != 3) line = line + ", ";
-                }
-                line = line + "]";
-                ret = ret + eol + line;
+                line = line + this.biomes[TerrainSegment.localToIndex(x, y, z)];
+                if (z != 3) line = line + ", ";
             }
+            line = line + "]";
+            ret = ret + eol + line;
+        }
 
         return ret;
     }

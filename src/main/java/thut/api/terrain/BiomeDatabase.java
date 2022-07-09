@@ -6,30 +6,16 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
-import thut.core.common.ThutCore;
 
+@SuppressWarnings("deprecation")
 public class BiomeDatabase
 {
     private static Map<String, BiomeDictionary.Type> TYPES = Maps.newHashMap();
 
     private static Set<String> notTypes = Sets.newHashSet();
-
-    public static ResourceKey<Biome> getKey(final Biome b)
-    {
-        return ResourceKey.create(Registry.BIOME_REGISTRY, b.getRegistryName());
-    }
-
-    public static Biome getBiome(final ResourceKey<Biome> key)
-    {
-        final RegistryAccess REG = ThutCore.proxy.getRegistries();
-        final Registry<Biome> biomes = REG.registryOrThrow(Registry.BIOME_REGISTRY);
-        return biomes.get(key.location());
-    }
 
     public static boolean isAType(final String name)
     {
@@ -44,11 +30,6 @@ public class BiomeDatabase
         return false;
     }
 
-    public static boolean contains(final Biome b, final String type)
-    {
-        return BiomeDatabase.contains(BiomeDatabase.getKey(b), type);
-    }
-
     public static boolean contains(final ResourceKey<Biome> b, final String type)
     {
         if (!BiomeDatabase.isAType(type)) return false;
@@ -56,4 +37,8 @@ public class BiomeDatabase
         return BiomeDictionary.hasType(b, t);
     }
 
+    public static boolean isBiomeTag(final String name)
+    {
+        return name.startsWith("#");
+    }
 }

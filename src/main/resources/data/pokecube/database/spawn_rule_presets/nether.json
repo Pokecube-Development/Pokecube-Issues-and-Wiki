@@ -3,14 +3,14 @@
     {
       "values": {
         "preset": "nether_forests",
-        "types": "forest",
+        "types": "#minecraft:is_forest",
         "and_preset": "nether"
       }
     },
     {
       "values": {
         "preset": "nether",
-        "types": "nether"
+        "types": "#minecraft:is_nether"
       }
     }
   ]

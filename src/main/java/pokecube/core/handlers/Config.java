@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.GameRules.Category;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -807,7 +808,7 @@ public class Config extends ConfigData
         SpawnBiomeMatcher.SOFTBLACKLIST.clear();
         for (final String name : this.softSpawnBiomeBlacklist)
         {
-            SpawnBiomeMatcher.SOFTBLACKLIST.add(new ResourceLocation(name));
+            SpawnBiomeMatcher.SOFTBLACKLIST.add(TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(name)));
         }
 
         SpawnHandler.MAX_DENSITY = this.mobDensityMultiplier;

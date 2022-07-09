@@ -3,6 +3,7 @@ package pokecube.core.world.terrain;
 import java.util.Set;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -82,7 +83,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
             return PokecubeTerrainChecker.INSIDE;
         }
         BiomeType biome = BiomeType.NONE;
-        final Biome b = v.getBiome(world);
+        final Holder<Biome> b = v.getBiomeHolder(world);
         if (!PokecubeCore.getConfig().autoDetectSubbiomes) return biome;
         final boolean notLake = this.isWatery(b);
         int industrial = 0;

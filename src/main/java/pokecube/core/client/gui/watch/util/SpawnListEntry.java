@@ -14,8 +14,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
@@ -34,23 +32,6 @@ public class SpawnListEntry
 
         if (fontRender == null) fontRender = Minecraft.getInstance().font;
 
-        if (matcher.clientBiomes.isEmpty() && matcher.clientTypes.isEmpty())
-        {
-            // First ensure the client side stuff is cleared.
-            matcher.clientBiomes.clear();
-            matcher.clientTypes.clear();
-            // Then populate it for serialisation
-            matcher.parse();
-
-            List<ResourceLocation> biomes = Lists.newArrayList();
-            List<String> types = Lists.newArrayList();
-
-            SpawnBiomeMatcher.addForMatcher(biomes, types, matcher);
-
-            matcher.clientBiomes.addAll(biomes);
-            matcher.clientTypes.addAll(types);
-        }
-
         if (entry != null)
         {
             final MutableComponent name = entry.getTranslatedName().copy().append(":");
@@ -60,9 +41,9 @@ public class SpawnListEntry
         }
 
         final List<Component> biomes = Lists.newArrayList();
-
-        for (final ResourceLocation b : matcher.clientBiomes)
-            biomes.add(new TranslatableComponent(String.format("biome.%s.%s", b.getNamespace(), b.getPath())));
+// TODO biome entry in watch
+//        for (final ResourceLocation b : matcher.clientBiomes)
+//            biomes.add(new TranslatableComponent(String.format("biome.%s.%s", b.getNamespace(), b.getPath())));
 
         final String ind = entry != null ? "  " : "";
         if (!biomes.isEmpty())
@@ -76,11 +57,11 @@ public class SpawnListEntry
         }
 
         final List<String> types = Lists.newArrayList();
-        if (matcher.clientTypes.size() > 1)
-        {
-            matcher.clientTypes.remove("all");
-        }
-        for (final String s : matcher.clientTypes) types.add(I18n.get("thutcore.biometype." + s));
+//        if (matcher.clientTypes.size() > 1)
+//        {
+//            matcher.clientTypes.remove("all");
+//        }
+//        for (final String s : matcher.clientTypes) types.add(I18n.get("thutcore.biometype." + s));
         if (!types.isEmpty())
         {
             String typeString = I18n.get("pokewatch.spawns.types") + " ";

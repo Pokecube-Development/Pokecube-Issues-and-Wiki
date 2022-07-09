@@ -9,13 +9,13 @@
     {
       "values": {
         "preset": "all_nether",
-        "and_preset": "all,nether"
+        "and_preset": "all,#minecraft:is_nether"
       }
     },
     {
       "values": {
         "preset": "all_overworld",
-        "and_preset": "all,overworld"
+        "and_preset": "all,#forge:is_overworld"
       }
     },
     {

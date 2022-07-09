@@ -1,0 +1,11 @@
+{
+    "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
+    "replace": false,
+    "values": [
+        "#minecraft:is_river",
+        "#minecraft:is_ocean",
+        "#forge:is_beach",
+        "#forge:is_water",
+        "#forge:is_swamp"
+    ]
+  }

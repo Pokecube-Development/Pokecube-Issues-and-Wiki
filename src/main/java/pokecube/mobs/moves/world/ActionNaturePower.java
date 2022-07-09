@@ -39,7 +39,6 @@ import pokecube.core.interfaces.IPokemob;
 import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.api.terrain.BiomeDatabase;
 import thut.api.util.JsonUtil;
 
 public class ActionNaturePower implements IMoveAction
@@ -161,9 +160,9 @@ public class ActionNaturePower implements IMoveAction
 
         final Predicate<BlockPos> _predicate_ = t -> {
 
-            final ResourceKey<Biome> here = BiomeDatabase.getKey(_level_.getBiome(t).value());
+            final ResourceLocation here = _level_.getBiome(t).value().getRegistryName();
             // Already the same biome, no apply!
-            if (here.location().equals(_biome_)) return false;
+            if (here.equals(_biome_)) return false;
 
             for (Column c : columns)
             {
@@ -343,8 +342,8 @@ public class ActionNaturePower implements IMoveAction
                 int qx = QuartPos.fromBlock(vec.intX());
                 int qy = QuartPos.fromBlock(vec.intY());
                 int qz = QuartPos.fromBlock(vec.intZ());
-                final Biome natural = world.getChunkSource().getGenerator().getBiomeSource().getNoiseBiome(qx, qy, qz,
-                        sampler).value();
+                final Biome natural = world.getChunkSource().getGenerator().getBiomeSource()
+                        .getNoiseBiome(qx, qy, qz, sampler).value();
                 if (natural != here)
                 {
                     vec.setBiome(natural, world);
@@ -363,7 +362,7 @@ public class ActionNaturePower implements IMoveAction
         if (checker.blocks.size() > 1)
         {
             final Set<ChunkAccess> affected = Sets.newHashSet();
-            final Biome biome = BiomeDatabase.getBiome(key);
+            final Biome biome = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).get(key);
             final ServerLevel sWorld = (ServerLevel) world;
             sWorld.getServer().getPlayerList();
             // This needs to use the chunk manager and send the chunkto watching

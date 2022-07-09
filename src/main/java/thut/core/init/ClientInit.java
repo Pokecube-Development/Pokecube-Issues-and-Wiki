@@ -16,7 +16,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +30,6 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.world.WorldEvent.Load;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -41,7 +40,6 @@ import thut.api.entity.ICopyMob;
 import thut.api.inventory.npc.NpcContainer;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
-import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
@@ -108,9 +106,9 @@ public class ClientInit
         {
             event.getLeft().add("");
             Holder<Biome> holder = Minecraft.getInstance().level.getBiome(v.getPos());
-            final ResourceKey<Biome> key = BiomeDatabase.getKey(holder.value());
-            event.getLeft()
-                    .add(key.location() + ": " + BiomeDictionary.getTypes(key) + ", " + Biome.getBiomeCategory(holder));
+
+            final ResourceLocation key = holder.value().getRegistryName();
+            event.getLeft().add(key + ": " + holder.getTagKeys().toList());
         }
     }
 
