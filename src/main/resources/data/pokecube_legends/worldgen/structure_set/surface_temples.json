@@ -3,10 +3,18 @@
     {
       "structure": "pokecube_legends:celebi_temple",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:ho-oh_temple",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:elite_four",
+      "weight": 1
     }
   ],
   "placement": {
-    "salt": 1246286324,
+    "salt": 1234567890,
     "spacing": 84,
     "separation": 32,
     "type": "minecraft:random_spread"
