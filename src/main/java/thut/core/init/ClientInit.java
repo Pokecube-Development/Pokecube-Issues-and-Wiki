@@ -1,6 +1,9 @@
 package thut.core.init;
 
+import java.util.List;
 import java.util.Locale;
+
+import org.apache.commons.compress.utils.Lists;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -17,6 +20,7 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -106,9 +110,10 @@ public class ClientInit
         {
             event.getLeft().add("");
             Holder<Biome> holder = Minecraft.getInstance().level.getBiome(v.getPos());
-
-            final ResourceLocation key = holder.value().getRegistryName();
-            event.getLeft().add(key + ": " + holder.getTagKeys().toList());
+            List<TagKey<Biome>> tags = holder.getTagKeys().toList();
+            List<ResourceLocation> msgs = Lists.newArrayList();
+            for (var tag : tags) msgs.add(tag.location());
+            for (var tag : msgs) event.getLeft().add(tag + "");
         }
     }
 

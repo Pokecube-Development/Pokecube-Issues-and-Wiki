@@ -572,22 +572,19 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             final String[] args = validStructures.split(",");
             for (final String s : args) this._validStructures.add(s);
         }
-
-        boolean forgeTypes = false;
         if (typeString != null)
         {
             String[] args = typeString.split(",");
             for (String s : args)
             {
-                s = Database.trim(s);
                 if (BiomeDatabase.isBiomeTag(s))
                 {
-                    forgeTypes = true;
                     TagKey<Biome> tag = TagKey.create(Registry.BIOME_REGISTRY,
                             new ResourceLocation(s.replace("#", "")));
                     this._validBiomes.add(tag);
                     continue;
                 }
+                s = Database.trim(s);
                 final BiomeType subBiome = BiomeType.getBiome(s);
                 this._validSubBiomes.add(subBiome);
             }
@@ -597,7 +594,6 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             String[] args = typeBlacklistString.split(",");
             for (String s : args)
             {
-                s = Database.trim(s);
                 if (BiomeDatabase.isBiomeTag(s))
                 {
                     TagKey<Biome> tag = TagKey.create(Registry.BIOME_REGISTRY,
@@ -605,6 +601,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                     this._blackListBiomes.add(tag);
                     continue;
                 }
+                s = Database.trim(s);
                 BiomeType subBiome = null;
                 for (final BiomeType b : BiomeType.values()) if (Database.trim(b.name).equals(s))
                 {
@@ -630,7 +627,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             _validTerrain = valid;
         }
         this._validBiomes.removeAll(this._blackListBiomes);
-        return forgeTypes;
+        return !this._validBiomes.isEmpty() || !this._blackListBiomes.isEmpty();
     }
 
     /**
@@ -735,13 +732,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
         this.preParseSubBiomes(spawnRule);
         boolean hasBasicSettings = this.parseBasic(spawnRule);
-
-        boolean needsBiome = initRawLists();
-
-        // This refeshes the _validBiomes, and validates things.
-        this.getValidBiomes();
-
-        if (needsBiome && _validBiomes.isEmpty()) _valid = false;
+        initRawLists();
 
         //@formatter:off
         final boolean hasSomething = !(
@@ -850,7 +841,10 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             return ret;
         }
         if (!_or_children.isEmpty()) return ret;
-        ret += header + "biomes: " + this._validBiomes;
+        if (!_validBiomes.isEmpty()) ret += header + "biomes: " + this._validBiomes;
+        if (!_validSubBiomes.isEmpty()) ret += header + "subbiomes: " + this._validSubBiomes;
+        if (!_blackListBiomes.isEmpty()) ret += header + "not-biomes: " + this._blackListBiomes;
+        if (!_blackListSubBiomes.isEmpty()) ret += header + "not-subbiomes: " + this._blackListSubBiomes;
         return ret;
     }
 }
