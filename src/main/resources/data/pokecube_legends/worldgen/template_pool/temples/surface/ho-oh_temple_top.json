@@ -5,7 +5,7 @@
     {
       "weight": 1,
       "element": {
-        "location": "pokecube_legends:temples/surface/hooh_temple_base",
+        "location": "pokecube_legends:temples/surface/hooh_temple_top",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:decay_10_percent"

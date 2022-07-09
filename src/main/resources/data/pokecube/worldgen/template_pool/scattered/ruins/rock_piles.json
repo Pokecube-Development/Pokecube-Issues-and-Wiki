@@ -1,5 +1,5 @@
 {
-  "name": "pokecube:scattered/ruins_loose/rock_piles",
+  "name": "pokecube:scattered/ruins/rock_piles",
   "fallback": "minecraft:empty",
   "elements": [
     {
