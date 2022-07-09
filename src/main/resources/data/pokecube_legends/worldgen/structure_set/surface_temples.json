@@ -11,6 +11,10 @@
     {
       "structure": "pokecube_legends:elite_four",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:keldeo_place",
+      "weight": 1
     }
   ],
   "placement": {
