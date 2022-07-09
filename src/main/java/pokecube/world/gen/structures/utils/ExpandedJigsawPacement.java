@@ -118,36 +118,48 @@ public class ExpandedJigsawPacement
                 int l = boundingbox.minY() + poolelementstructurepiece.getGroundLevelDelta();
                 poolelementstructurepiece.move(0, k - l, 0);
                 return Optional.of((builder, config_context) -> {
-                    List<PoolElementStructurePiece> list = Lists.newArrayList();
-                    list.add(poolelementstructurepiece);
                     if (jigsawconfiguration.maxDepth() > 0)
                     {
                         int max_box_size = 80;
                         AABB aabb = new AABB((double) (i - max_box_size), (double) (k - max_box_size),
                                 (double) (j - max_box_size), (double) (i + max_box_size + 1),
                                 (double) (k + max_box_size + 1), (double) (j + max_box_size + 1));
-                        ExpandedJigsawPacement.Placer ModifiedJigsawPacement$placer = new ExpandedJigsawPacement.Placer(
-                                jigsawconfiguration, registry, jigsawconfiguration.maxDepth(), factory, chunkgenerator,
-                                structuremanager, list, worldgenrandom, needed_once);
-                        ModifiedJigsawPacement$placer.placing
-                                .addLast(
-                                        new ExpandedJigsawPacement.PieceState(poolelementstructurepiece,
-                                                new MutableObject<>(Shapes.join(Shapes.create(aabb),
-                                                        Shapes.create(AABB.of(boundingbox)), BooleanOp.ONLY_FIRST)),
-                                                0));
 
-                        while (!ModifiedJigsawPacement$placer.placing.isEmpty())
+                        List<PoolElementStructurePiece> list = Lists.newArrayList();
+
+                        tries:
+                        for (int n = 0; n < 100; n++)
                         {
-                            ExpandedJigsawPacement.PieceState ModifiedJigsawPacement$piecestate = ModifiedJigsawPacement$placer.placing
-                                    .removeFirst();
-                            ModifiedJigsawPacement$placer.tryPlacingChildren(ModifiedJigsawPacement$piecestate.piece,
-                                    ModifiedJigsawPacement$piecestate.free, ModifiedJigsawPacement$piecestate.depth,
-                                    bound_checks, levelheightaccessor);
+                            list.clear();
+                            list.add(poolelementstructurepiece);
+                            ExpandedJigsawPacement.Placer placer = new ExpandedJigsawPacement.Placer(
+                                    jigsawconfiguration, registry, jigsawconfiguration.maxDepth(), factory,
+                                    chunkgenerator, structuremanager, list, worldgenrandom, needed_once);
+                            placer.placing
+                                    .addLast(
+                                            new ExpandedJigsawPacement.PieceState(poolelementstructurepiece,
+                                                    new MutableObject<>(Shapes.join(Shapes.create(aabb),
+                                                            Shapes.create(AABB.of(boundingbox)), BooleanOp.ONLY_FIRST)),
+                                                    0));
+                            while (!placer.placing.isEmpty())
+                            {
+                                ExpandedJigsawPacement.PieceState ModifiedJigsawPacement$piecestate = placer.placing
+                                        .removeFirst();
+                                placer.tryPlacingChildren(ModifiedJigsawPacement$piecestate.piece,
+                                        ModifiedJigsawPacement$piecestate.free, ModifiedJigsawPacement$piecestate.depth,
+                                        bound_checks, levelheightaccessor);
+                            }
+                            if (placer.needed_once.isEmpty()) break;
+                            for (String s : placer.needed_once)
+                            {
+                                if (!placer.added_once.contains(s)) continue tries;
+                            }
+                            break;
                         }
-
                         PostProcessor.POSTPROCESS.accept(config_context, list);
                         list.forEach(builder::addPiece);
                     }
+
                 });
             }
         }
