@@ -23,6 +23,10 @@
     {
       "structure": "pokecube_legends:kubfu_dojo",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:kubfu_water",
+      "weight": 1
     }
   ],
   "placement": {
