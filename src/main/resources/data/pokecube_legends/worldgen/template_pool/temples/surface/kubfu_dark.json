@@ -1,14 +1,14 @@
 {
-  "name": "pokecube_legends:temples/surface_temples/celebi_temple",
+  "name": "pokecube_legends:temples/surface_temples/kubfu_dark",
   "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 1,
       "element": {
-        "location": "pokecube_legends:temples/surface/celebi_temple_2",
+        "location": "pokecube_legends:temples/surface/kubfu_dark",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube_legends:celebi_temple"
+        "processors": "pokecube:generic"
       }
     }
   ]

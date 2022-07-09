@@ -15,12 +15,16 @@
     {
       "structure": "pokecube_legends:keldeo_place",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:kubfu_dark",
+      "weight": 1
     }
   ],
   "placement": {
     "salt": 1234567890,
-    "spacing": 84,
-    "separation": 32,
+    "spacing": 24,
+    "separation": 12,
     "type": "minecraft:random_spread"
   }
 }
