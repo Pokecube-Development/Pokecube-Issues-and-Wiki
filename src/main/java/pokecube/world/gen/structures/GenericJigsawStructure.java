@@ -11,6 +11,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
@@ -64,6 +65,24 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
                 if (!context.validBiome().test(holder)) return false;
                 if (!config.isValid(holder)) return false;
             }
+        }
+
+        // Check the settings for max slope and other height bounds
+        int max_y = Integer.MIN_VALUE;
+        int min_y = Integer.MAX_VALUE;
+        for (int x = pos.x - config.y_check_radius; x <= pos.x + config.y_check_radius; x++)
+            for (int z = pos.z - config.y_check_radius; z <= pos.z + config.y_check_radius; z++)
+        {
+            int height = context.chunkGenerator().getBaseHeight((x << 4) + 7, (z << 4) + 7,
+                    Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
+            max_y = Math.max(max_y, height);
+            min_y = Math.min(min_y, height);
+            if (min_y < config.min_y) return false;
+            if (max_y > config.max_y) return false;
+        }
+        if (max_y - min_y > config.max_dy)
+        {
+            return false;
         }
         return true;
     }

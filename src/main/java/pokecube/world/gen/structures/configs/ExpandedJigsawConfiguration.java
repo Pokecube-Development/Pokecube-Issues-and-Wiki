@@ -40,6 +40,10 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
                                 .orElse(Heightmap.Types.WORLD_SURFACE_WG).forGetter(structure -> structure.height_type),
                         ResourceKey.codec(Registry.STRUCTURE_SET_REGISTRY).listOf().fieldOf("structures_to_avoid")
                                 .orElse(new ArrayList<>()).forGetter(config -> config.structures_to_avoid),
+                        Codec.INT.fieldOf("min_y").orElse(Integer.MIN_VALUE).forGetter(s -> s.min_y),
+                        Codec.INT.fieldOf("max_y").orElse(Integer.MAX_VALUE).forGetter(s -> s.max_y),
+                        Codec.INT.fieldOf("max_dy").orElse(Integer.MAX_VALUE).forGetter(s -> s.max_dy),
+                        Codec.INT.fieldOf("y_check_radius").orElse(0).forGetter(s -> s.max_dy),
                         Codec.INT.fieldOf("avoid_range").orElse(0).forGetter(s -> s.avoid_range),
                         Codec.INT.fieldOf("biome_room").orElse(0).forGetter(s -> s.biome_room))
                 .apply(instance, ExpandedJigsawConfiguration::new);
@@ -56,12 +60,18 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
 
     public final int biome_room;
 
+    public final int y_check_radius;
+    public final int min_y;
+    public final int max_y;
+    public final int max_dy;
+
     public List<SpawnBiomeMatcher> _needed = Lists.newArrayList();
     public List<SpawnBiomeMatcher> _banned = Lists.newArrayList();
 
     public ExpandedJigsawConfiguration(Holder<StructureTemplatePool> start_pool, int maxDepth, int vertical_offset,
             List<String> required_parts, String _spawn_preset, String _spawn_blacklist, Heightmap.Types height_type,
-            final List<ResourceKey<StructureSet>> structures_to_avoid, final int avoid_range, final int biome_room)
+            final List<ResourceKey<StructureSet>> structures_to_avoid, int min_y, int max_y, int max_dy,
+            int y_check_radius, final int avoid_range, final int biome_room)
     {
         super(start_pool, maxDepth);
         this.vertical_offset = vertical_offset;
@@ -72,6 +82,10 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
         this.biome_room = biome_room;
         this._spawn_preset = _spawn_preset;
         this._spawn_blacklist = _spawn_blacklist;
+        this.min_y = min_y;
+        this.max_y = max_y;
+        this.max_dy = max_dy;
+        this.y_check_radius = y_check_radius;
 
         if (!_spawn_blacklist.isBlank())
         {

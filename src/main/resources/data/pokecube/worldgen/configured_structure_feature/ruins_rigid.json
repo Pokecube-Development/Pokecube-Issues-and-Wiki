@@ -3,6 +3,14 @@
   "config": {
     "start_pool": "pokecube:scattered/ruins/ruins_rigid",
     "spawn_blacklist": "oceans,rivers,mushrooms",
+    "structures_to_avoid": [
+      "pokecube:towns",
+      "pokecube:villages",
+      "minecraft:villages",
+      "minecraft:pillager_outposts"
+    ],
+    "min_y": 64,
+    "max_dy": 5,
     "size": 2
   },
   "biomes": "#pokecube_world:has_structure/ruins_surface",
