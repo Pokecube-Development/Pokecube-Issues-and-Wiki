@@ -502,6 +502,12 @@ public class ExpandedJigsawPacement
                                         if (rigid_bounds.getValue() != null)
                                         {
                                             AABB test_box = AABB.of(next_pick_box_shifted_y).deflate(0.25D);
+
+//                                            if (!next_pick_rigid)
+//                                            {
+//                                                test_box = test_box.inflate(0, non_rigid_clearance, 0);
+//                                            }
+
                                             VoxelShape new_shape = Shapes.create(test_box);
                                             if (Shapes.joinIsNotEmpty(rigid_bounds.getValue(), new_shape,
                                                     BooleanOp.AND))
@@ -520,10 +526,12 @@ public class ExpandedJigsawPacement
 
                                         if (next_pick_rigid)
                                         {
+                                            int h_clearance = 2;
+                                            int v_clearance = 0;
                                             // If it was rigid, add it to the
                                             // rigid bounds
-                                            AABB next_box = AABB.of(next_pick_box_shifted_y).expandTowards(0,
-                                                    room_below, 0);
+                                            AABB next_box = AABB.of(next_pick_box_shifted_y).inflate(0, room_below, 0)
+                                                    .inflate(h_clearance, v_clearance, h_clearance);
                                             VoxelShape new_shape = Shapes.create(next_box);
                                             previous_bounding_boxes
                                                     .setValue(Shapes.joinUnoptimized(previous_bounding_boxes.getValue(),

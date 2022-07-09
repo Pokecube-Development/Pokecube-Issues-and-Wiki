@@ -26,6 +26,7 @@ public class PostProcessor
 {
     public static BiConsumer<PieceGenerator.Context<ExpandedJigsawConfiguration>, List<PoolElementStructurePiece>> POSTPROCESS = new PostProcessor();
 
+    @SuppressWarnings("deprecation")
     @Override
     public void accept(Context<ExpandedJigsawConfiguration> context, List<PoolElementStructurePiece> parts)
     {
@@ -38,6 +39,15 @@ public class PostProcessor
 
         for (final PoolElementStructurePiece part : parts)
         {
+            int h_extra = 2;
+            int v_extra = 2;
+            BlockPos min_corner = new BlockPos(part.getBoundingBox().minX() - h_extra, part.getBoundingBox().minY(),
+                    part.getBoundingBox().minZ() - h_extra);
+            BlockPos max_corner = new BlockPos(part.getBoundingBox().maxX() + h_extra,
+                    part.getBoundingBox().maxY() + v_extra, part.getBoundingBox().maxZ() + h_extra);
+            part.getBoundingBox().encapsulate(min_corner);
+            part.getBoundingBox().encapsulate(max_corner);
+
             if (part.getElement() instanceof final ExpandedJigsawPiece piece)
             {
                 final int dy = piece.y_offset;
