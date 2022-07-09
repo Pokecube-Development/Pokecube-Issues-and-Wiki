@@ -13,13 +13,13 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.structure.PostPlacementProcessor;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
 import pokecube.world.gen.structures.pieces.ExpandedPoolElementStructurePiece;
 import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
+import pokecube.world.gen.structures.utils.ExpandedPostPlacementProcessor;
 
 public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJigsawConfiguration>
 {
@@ -29,7 +29,7 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
     {
         // Create the pieces layout of the structure and give it to the game
         super(ExpandedJigsawConfiguration.CODEC, GenericJigsawStructure::createPiecesGenerator,
-                PostPlacementProcessor.NONE);
+                ExpandedPostPlacementProcessor.INSTANCE);
         this.step = step;
     }
 

@@ -30,6 +30,8 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
                         Codec.INT.fieldOf("vertical_offset").orElse(0).forGetter(s -> s.vertical_offset),
                         Codec.STRING.listOf().fieldOf("required_parts").orElse(new ArrayList<>())
                                 .forGetter(s -> s.required_parts),
+                        Codec.STRING.fieldOf("spawn_preset").orElse("").forGetter(s -> s._spawn_preset),
+                        Codec.STRING.fieldOf("spawn_blacklist").orElse("").forGetter(s -> s._spawn_blacklist),
                         StringRepresentable.fromEnum(HM, NM).fieldOf("height_type")
                                 .orElse(Heightmap.Types.WORLD_SURFACE_WG).forGetter(structure -> structure.height_type),
                         ResourceKey.codec(Registry.STRUCTURE_SET_REGISTRY).listOf().fieldOf("structures_to_avoid")
@@ -42,6 +44,8 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
     public final List<String> required_parts;
     public final int vertical_offset;
     public final Heightmap.Types height_type;
+    private final String _spawn_preset;
+    private final String _spawn_blacklist;
 
     public final List<ResourceKey<StructureSet>> structures_to_avoid;
     public final int avoid_range;
@@ -49,7 +53,7 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
     public final int biome_room;
 
     public ExpandedJigsawConfiguration(Holder<StructureTemplatePool> start_pool, int maxDepth, int vertical_offset,
-            List<String> required_parts, Heightmap.Types height_type,
+            List<String> required_parts, String _spawn_preset, String _spawn_blacklist, Heightmap.Types height_type,
             final List<ResourceKey<StructureSet>> structures_to_avoid, final int avoid_range, final int biome_room)
     {
         super(start_pool, maxDepth);
@@ -59,5 +63,7 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
         this.structures_to_avoid = structures_to_avoid;
         this.avoid_range = avoid_range;
         this.biome_room = biome_room;
+        this._spawn_preset = _spawn_preset;
+        this._spawn_blacklist = _spawn_blacklist;
     }
 }
