@@ -59,10 +59,7 @@
     {
       "weight": 3,
       "element": {
-        "location": "minecraft:empty",
-        "projection": "terrain_matching",
-        "element_type": "minecraft:single_pool_element",
-        "processors": "pokecube:stone_ruins"
+        "element_type": "minecraft:empty_pool_element"
       }
     }
   ]
