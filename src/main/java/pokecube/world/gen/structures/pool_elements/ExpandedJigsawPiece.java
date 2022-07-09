@@ -24,8 +24,6 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.StructureMode;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
@@ -162,6 +160,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         else placementsettings.addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
 
         if (water_terrain_match) placementsettings.addProcessor(new GravityProcessor(Types.OCEAN_FLOOR_WG, -1));
+        else this.getProjection().getProcessors().forEach(placementsettings::addProcessor);
 
         return placementsettings;
     }
@@ -172,7 +171,6 @@ public class ExpandedJigsawPiece extends SinglePoolElement
             final BlockPos pos2, final Rotation rotation, final BoundingBox box, final Random rng,
             final boolean notJigsaw)
     {
-
         final StructureTemplate template = this.getTemplate(templates);
         final StructurePlaceSettings placementsettings = this.getSettings(rotation, box, notJigsaw);
         final int placeFlags = 18;
@@ -218,15 +216,6 @@ public class ExpandedJigsawPiece extends SinglePoolElement
                         final BlockPos blockpos = StructureTemplate
                                 .calculateRelativePosition(placementsettings, info.pos).offset(pos1);
                         this.handleDataMarker(level, info, blockpos, rotation, rng, box);
-                    }
-                    else if (info.state.hasProperty(BlockStateProperties.WATERLOGGED))
-                    {
-                        final BlockPos blockpos = StructureTemplate
-                                .calculateRelativePosition(placementsettings, info.pos).offset(pos1);
-                        final BlockState blockstate = info.state.mirror(placementsettings.getMirror()).rotate(level,
-                                blockpos, placementsettings.getRotation());
-                        level.setBlock(blockpos, blockstate.setValue(BlockStateProperties.WATERLOGGED, false),
-                                placeFlags);
                     }
                 }
             }

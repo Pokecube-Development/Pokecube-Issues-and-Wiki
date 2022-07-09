@@ -127,8 +127,8 @@ public class ExpandedJigsawPacement
                                 (double) (j - max_box_size), (double) (i + max_box_size + 1),
                                 (double) (k + max_box_size + 1), (double) (j + max_box_size + 1));
                         ExpandedJigsawPacement.Placer ModifiedJigsawPacement$placer = new ExpandedJigsawPacement.Placer(
-                                registry, jigsawconfiguration.maxDepth(), factory, chunkgenerator, structuremanager,
-                                list, worldgenrandom, needed_once);
+                                jigsawconfiguration, registry, jigsawconfiguration.maxDepth(), factory, chunkgenerator,
+                                structuremanager, list, worldgenrandom, needed_once);
                         ModifiedJigsawPacement$placer.placing
                                 .addLast(
                                         new ExpandedJigsawPacement.PieceState(poolelementstructurepiece,
@@ -158,7 +158,7 @@ public class ExpandedJigsawPacement
             List<? super PoolElementStructurePiece> pieces, Random random, LevelHeightAccessor height_accessor)
     {
         Registry<StructureTemplatePool> registry = reg_access.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
-        ExpandedJigsawPacement.Placer ModifiedJigsawPacement$placer = new ExpandedJigsawPacement.Placer(registry,
+        ExpandedJigsawPacement.Placer ModifiedJigsawPacement$placer = new ExpandedJigsawPacement.Placer(null, registry,
                 max_depth, factory, chunk_gen, structure_manager, pieces, random, Sets.newHashSet());
         ModifiedJigsawPacement$placer.placing
                 .addLast(new ExpandedJigsawPacement.PieceState(root_piece, new MutableObject<>(Shapes.INFINITY), 0));
@@ -195,22 +195,24 @@ public class ExpandedJigsawPacement
 
     static final class Placer
     {
-        private final Registry<StructureTemplatePool> pools;
-        private final int maxDepth;
-        private final ExpandedJigsawPacement.PieceFactory factory;
-        private final ChunkGenerator chunkGenerator;
-        private final StructureManager structureManager;
-        private final List<? super PoolElementStructurePiece> pieces;
-        private final Random random;
-        private final Set<String> needed_once;
-        private final Set<String> added_once = Sets.newHashSet();
+        final Registry<StructureTemplatePool> pools;
+        final int maxDepth;
+        final ExpandedJigsawPacement.PieceFactory factory;
+        final ChunkGenerator chunkGenerator;
+        final StructureManager structureManager;
+        final List<? super PoolElementStructurePiece> pieces;
+        final Random random;
+        final Set<String> needed_once;
+        final Set<String> added_once = Sets.newHashSet();
+        final ExpandedJigsawConfiguration config;
         final Deque<ExpandedJigsawPacement.PieceState> placing = Queues.newArrayDeque();
         MutableObject<VoxelShape> rigid_bounds = new MutableObject<>();
         MutableObject<VoxelShape> non_rigid_bounds = new MutableObject<>();
 
-        Placer(Registry<StructureTemplatePool> pools, int max_depth, ExpandedJigsawPacement.PieceFactory factory,
-                ChunkGenerator chunkGenerator, StructureManager structureManager,
-                List<? super PoolElementStructurePiece> pieces, Random random, Set<String> needed_once)
+        Placer(ExpandedJigsawConfiguration jigsawconfiguration, Registry<StructureTemplatePool> pools, int max_depth,
+                ExpandedJigsawPacement.PieceFactory factory, ChunkGenerator chunkGenerator,
+                StructureManager structureManager, List<? super PoolElementStructurePiece> pieces, Random random,
+                Set<String> needed_once)
         {
             this.pools = pools;
             this.maxDepth = max_depth;
@@ -220,6 +222,7 @@ public class ExpandedJigsawPacement
             this.pieces = pieces;
             this.random = random;
             this.needed_once = needed_once;
+            this.config = jigsawconfiguration;
         }
 
         List<StructureTemplate.StructureBlockInfo> getShuffledJigsaws(StructurePoolElement structurepoolelement,
@@ -308,6 +311,30 @@ public class ExpandedJigsawPacement
             BoundingBox root_bounding_box = piece.getBoundingBox();
             int root_min_y = root_bounding_box.minY();
             boolean should_check_single_bounds;
+
+            Heightmap.Types _default;
+            Heightmap.Types heightmap$types;
+            boolean water = false;
+
+            if (root_element instanceof ExpandedJigsawPiece p)
+            {
+                water = p.water_terrain_match;
+                _default = water ? Heightmap.Types.OCEAN_FLOOR_WG : Heightmap.Types.WORLD_SURFACE_WG;
+            }
+            else
+            {
+                _default = Heightmap.Types.WORLD_SURFACE_WG;
+            }
+
+            if (heightmap instanceof ServerLevel)
+            {
+                heightmap$types = water ? Heightmap.Types.OCEAN_FLOOR : Heightmap.Types.WORLD_SURFACE;
+
+            }
+            else
+            {
+                heightmap$types = _default;
+            }
 
             if (root_element instanceof ExpandedJigsawPiece p)
             {
@@ -433,8 +460,7 @@ public class ExpandedJigsawPacement
                                             if (k == -1)
                                             {
                                                 k = this.chunkGenerator.getFirstFreeHeight(raw_jigsaw_pos.getX(),
-                                                        raw_jigsaw_pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG,
-                                                        heightmap);
+                                                        raw_jigsaw_pos.getZ(), heightmap$types, heightmap);
                                             }
                                             l1 = k - j1;
                                         }
@@ -545,8 +571,7 @@ public class ExpandedJigsawPacement
                                             if (k == -1)
                                             {
                                                 k = this.chunkGenerator.getFirstFreeHeight(raw_jigsaw_pos.getX(),
-                                                        raw_jigsaw_pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG,
-                                                        heightmap);
+                                                        raw_jigsaw_pos.getZ(), heightmap$types, heightmap);
                                             }
                                             l2 = k + k1 / 2;
                                         }
