@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.apache.commons.compress.utils.Lists;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -12,10 +14,12 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import pokecube.core.database.spawns.SpawnBiomeMatcher;
 
 public class ExpandedJigsawConfiguration extends JigsawConfiguration
 {
@@ -52,6 +56,9 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
 
     public final int biome_room;
 
+    public List<SpawnBiomeMatcher> _needed = Lists.newArrayList();
+    public List<SpawnBiomeMatcher> _banned = Lists.newArrayList();
+
     public ExpandedJigsawConfiguration(Holder<StructureTemplatePool> start_pool, int maxDepth, int vertical_offset,
             List<String> required_parts, String _spawn_preset, String _spawn_blacklist, Heightmap.Types height_type,
             final List<ResourceKey<StructureSet>> structures_to_avoid, final int avoid_range, final int biome_room)
@@ -65,5 +72,29 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
         this.biome_room = biome_room;
         this._spawn_preset = _spawn_preset;
         this._spawn_blacklist = _spawn_blacklist;
+
+        if (!_spawn_blacklist.isBlank())
+        {
+            String[] opts = _spawn_blacklist.split(",");
+            for (String s : opts) _banned.add(SpawnBiomeMatcher.get(s));
+        }
+        if (!_spawn_preset.isBlank())
+        {
+            String[] opts = _spawn_preset.split(",");
+            for (String s : opts) _needed.add(SpawnBiomeMatcher.get(s));
+        }
+
+    }
+
+    public boolean hasValidator()
+    {
+        return !_needed.isEmpty() || !_banned.isEmpty();
+    }
+
+    public boolean isValid(Holder<Biome> holder)
+    {
+        for (SpawnBiomeMatcher m : _needed) if (!m.checkBiome(holder)) return false;
+        for (SpawnBiomeMatcher m : _banned) if (m.checkBiome(holder)) return false;
+        return true;
     }
 }

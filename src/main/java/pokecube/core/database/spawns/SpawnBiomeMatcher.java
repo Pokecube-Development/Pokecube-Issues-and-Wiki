@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -107,8 +110,19 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
     private static final Map<String, SpawnRule> RULES = Maps.newHashMap();
     private static final Map<SpawnRule, SpawnBiomeMatcher> MATCHERS = Maps.newHashMap();
 
+    @Nonnull
     public static SpawnBiomeMatcher get(SpawnRule rule)
     {
+        final SpawnRule orig = rule;
+        rule = RULES.computeIfAbsent(rule.toString(), s -> orig.copy());
+        return MATCHERS.computeIfAbsent(rule, r -> new SpawnBiomeMatcher(r));
+    }
+
+    @Nullable
+    public static SpawnBiomeMatcher get(String preset)
+    {
+        SpawnRule rule = SpawnBiomeMatcher.PRESETS.get(preset);
+        if (rule == null) return null;
         final SpawnRule orig = rule;
         rule = RULES.computeIfAbsent(rule.toString(), s -> orig.copy());
         return MATCHERS.computeIfAbsent(rule, r -> new SpawnBiomeMatcher(r));

@@ -53,7 +53,7 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         }
 
         // Check if we have enough biome room around us.
-        if (config.biome_room > 0)
+        if (config.biome_room > 0 || config.hasValidator())
         {
             BlockPos p = pos.getMiddleBlockPosition(0);
             int y = generator.getBaseHeight(p.getX(), p.getZ(), Types.WORLD_SURFACE_WG, context.heightAccessor());
@@ -62,6 +62,7 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
             for (var holder : biome_set)
             {
                 if (!context.validBiome().test(holder)) return false;
+                if (!config.isValid(holder)) return false;
             }
         }
         return true;
