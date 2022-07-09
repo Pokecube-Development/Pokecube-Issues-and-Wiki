@@ -1,18 +1,17 @@
-
 {
-    "name": "pokecube:village/plains/gym/path",
-    "fallback": "minecraft:empty",
-    "elements": [
-      {
-        "weight": 1,
-        "element": {
-          "location": "pokecube:village/plains/gym/path",
-          "projection": "terrain_matching",
-          "element_type": "pokecube:expanded_pool_element",
-          "flags": "gym_path",
-          "no_affect_noise": true,
-          "processors": "pokecube:street_plains"
-        }
+  "name": "pokecube:village/plains/gym/path",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube:village/plains/gym/path",
+        "projection": "terrain_matching",
+        "element_type": "pokecube:expanded_pool_element",
+        "flags": "gym_path",
+        "no_affect_noise": true,
+        "processors": "pokecube:street_plains"
       }
-    ]
-  }
+    }
+  ]
+}

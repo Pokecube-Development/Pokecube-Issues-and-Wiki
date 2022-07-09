@@ -1,0 +1,19 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:temples/surface/kubfu_dojo",
+    "spawn_preset": "all_overworld",
+    "spawn_category_blacklist": "ocean,beach,river",
+    "avoid_range": 6,
+    "structures_to_avoid": [
+      "pokecube:ruins",
+      "pokecube_legends:towns",
+      "minecraft:villages",
+      "minecraft:pillager_outposts"
+    ],
+    "size": 2
+  },
+  "biomes": "#pokecube_world:has_structure/kubfu_dojo",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

@@ -59,7 +59,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "flags": "gym",
         "only_once": true,
-        "processors": "pokecube:generic_mossify_20_percent"
+        "processors": "pokecube:decay_10_percent"
       }
     }
   ]

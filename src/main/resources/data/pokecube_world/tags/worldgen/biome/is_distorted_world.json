@@ -1,8 +1,8 @@
 {
-    "replace": false,
-    "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
-    "values": [
-      "pokecube_legends:distorted_lands",
-      "pokecube_legends:small_distorted_islands"
-    ]
-  }
+  "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
+  "replace": false,
+  "values": [
+    "pokecube_legends:distorted_lands",
+    "pokecube_legends:small_distorted_islands"
+  ]
+}

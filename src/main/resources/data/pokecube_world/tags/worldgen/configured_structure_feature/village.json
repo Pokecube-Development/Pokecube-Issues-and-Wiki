@@ -1,6 +1,7 @@
 {
     "replace": false,
     "values": [
-      "pokecube:village_plains"
+      "pokecube:village_plains",
+      "pokecube_legends:village_ultraspace"
     ]
   }
