@@ -17,6 +17,7 @@ import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import pokecube.core.PokecubeCore;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
 import pokecube.world.gen.structures.pieces.ExpandedPoolElementStructurePiece;
 import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
@@ -50,7 +51,12 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         // Check if we need to avoid any structures.
         for (ResourceKey<StructureSet> key : config.structures_to_avoid)
         {
-            if (generator.hasFeatureChunkInRange(key, context.seed(), pos.x, pos.z, config.avoid_range)) return false;
+            if (generator.hasFeatureChunkInRange(key, context.seed(), pos.x, pos.z, config.avoid_range))
+            {
+                PokecubeCore.LOGGER.info("Skipping generation of {} due to conflict with {}",
+                        context.config().startPool().value().getName(), key);
+                return false;
+            }
         }
 
         // Check if we have enough biome room around us.

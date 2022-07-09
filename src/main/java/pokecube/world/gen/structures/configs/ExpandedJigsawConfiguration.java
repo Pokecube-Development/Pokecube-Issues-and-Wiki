@@ -44,8 +44,8 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
                         Codec.INT.fieldOf("max_y").orElse(Integer.MAX_VALUE).forGetter(s -> s.max_y),
                         Codec.INT.fieldOf("max_dy").orElse(Integer.MAX_VALUE).forGetter(s -> s.max_dy),
                         Codec.INT.fieldOf("y_check_radius").orElse(0).forGetter(s -> s.max_dy),
-                        Codec.INT.fieldOf("avoid_range").orElse(0).forGetter(s -> s.avoid_range),
-                        Codec.INT.fieldOf("biome_room").orElse(0).forGetter(s -> s.biome_room))
+                        Codec.INT.fieldOf("avoid_range").orElse(4).forGetter(s -> s.avoid_range),
+                        Codec.INT.fieldOf("biome_room").orElse(2).forGetter(s -> s.biome_room))
                 .apply(instance, ExpandedJigsawConfiguration::new);
     });
 
