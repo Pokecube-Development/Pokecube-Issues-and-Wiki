@@ -1,5 +1,5 @@
 {
-  "adapt_noise": true,
+  "adapt_noise": false,
   "biomes": "#pokecube_world:has_structure/village_sky",
   "config": {
     "avoid_range": 6,
@@ -8,6 +8,7 @@
     ],
     "size": 8,
     "start_pool": "pokecube:village/sky/town_centers",
+    "clearances":{"h_clearance": 0},
     "structures_to_avoid": [
       "minecraft:villages",
       "minecraft:pillager_outposts"
