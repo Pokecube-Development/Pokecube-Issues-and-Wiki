@@ -4,6 +4,7 @@
     "start_pool": "pokecube:village/plains/town_centers",
     "required_parts": ["pokecenter", "gym", "pokecenter_path", "gym_path"],
     "avoid_range": 6,
+    "biome_type": "village",
     "structures_to_avoid": [
       "minecraft:villages",
       "minecraft:pillager_outposts"

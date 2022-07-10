@@ -4,7 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/deep/streets/straight_1",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:cave_village",
         "projection": "rigid"
       },
       "weight": 2
@@ -13,7 +13,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/deep/streets/straight_2",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:cave_village",
         "projection": "rigid"
       },
       "weight": 4
@@ -22,7 +22,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/deep/streets/straight_3",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:cave_village",
         "projection": "rigid"
       },
       "weight": 4
@@ -31,7 +31,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/deep/streets/corner_01",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:cave_village",
         "projection": "rigid"
       },
       "weight": 4
@@ -40,7 +40,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/deep/streets/corner_02",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:cave_village",
         "projection": "rigid"
       },
       "weight": 4
@@ -49,7 +49,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/deep/streets/crossroad_01",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:cave_village",
         "projection": "rigid"
       },
       "weight": 5

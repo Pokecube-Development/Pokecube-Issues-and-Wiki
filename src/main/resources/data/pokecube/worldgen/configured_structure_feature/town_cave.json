@@ -3,11 +3,13 @@
   "biomes": "#pokecube_world:has_structure/village_cave",
   "config": {
     "avoid_range": 6,
+    "biome_type": "industrial",
     "required_parts": [
       "pokecenter"
     ],
     "size": 6,
     "start_pool": "pokecube:village/cave/town_centers",
+    "clearances":{"h_clearance": 0},
     "structures_to_avoid": [
       "minecraft:villages",
       "minecraft:pillager_outposts"

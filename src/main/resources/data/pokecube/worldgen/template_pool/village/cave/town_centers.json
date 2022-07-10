@@ -5,6 +5,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/town_centers/center_1",
         "processors": "pokecube:generic",
+        "space_below": 0,
         "projection": "rigid"
       },
       "weight": 1
@@ -14,6 +15,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/town_centers/center_2",
         "processors": "pokecube:generic",
+        "space_below": 0,
         "projection": "rigid"
       },
       "weight": 1
@@ -23,6 +25,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/town_centers/center_3",
         "processors": "pokecube:generic",
+        "space_below": 0,
         "projection": "rigid"
       },
       "weight": 1

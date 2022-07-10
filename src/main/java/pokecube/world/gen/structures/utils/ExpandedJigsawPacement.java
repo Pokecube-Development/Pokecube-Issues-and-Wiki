@@ -530,7 +530,8 @@ public class ExpandedJigsawPacement
                                         {
                                             // If it was rigid, add it to the
                                             // rigid bounds
-                                            AABB next_box = AABB.of(next_pick_box_shifted_y).inflate(0, room_below, 0)
+                                            AABB next_box = AABB.of(next_pick_box_shifted_y)
+                                                    .expandTowards(0, -room_below, 0)
                                                     .inflate(h_clearance, v_clearance, h_clearance);
                                             VoxelShape new_shape = Shapes.create(next_box);
                                             previous_bounding_boxes

@@ -3,6 +3,7 @@
   "biomes": "#pokecube_world:has_structure/village_sky",
   "config": {
     "avoid_range": 6,
+    "biome_type": "village",
     "required_parts": [
       "pokecenter"
     ],

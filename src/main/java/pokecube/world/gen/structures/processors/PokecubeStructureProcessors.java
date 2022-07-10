@@ -13,6 +13,7 @@ public class PokecubeStructureProcessors
     public static final RegistryObject<StructureProcessorType<?>> STRUCTS;
     public static final RegistryObject<StructureProcessorType<MarkerToAirProcessor>> MARKERAIR;
     public static final RegistryObject<StructureProcessorType<?>> LADDERS;
+    public static final RegistryObject<StructureProcessorType<NoWaterlogProcessor>> NOWATERLOG;
 
     static
     {
@@ -25,6 +26,8 @@ public class PokecubeStructureProcessors
                 () -> () -> MarkerToAirProcessor.CODEC);
         LADDERS = PokecubeWorld.STRUCTURE_PROCESSOR_TYPES.register("ladders_to_ground",
                 () -> () -> LadderToGround.CODEC);
+        NOWATERLOG = PokecubeWorld.STRUCTURE_PROCESSOR_TYPES.register("no_water_logging",
+                () -> () -> NoWaterlogProcessor.CODEC);
     }
 
     public static void init(final IEventBus bus)

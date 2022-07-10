@@ -50,7 +50,7 @@ public class PokecubeStructures
                     && key.equals(Level.OVERWORLD))
             {
                 serverWorld.getServer().execute(() -> {
-                    final ResourceLocation location = new ResourceLocation("pokecube_world:town");
+                    final ResourceLocation location = new ResourceLocation("pokecube_world:starting_town");
                     TagKey<ConfiguredStructureFeature<?, ?>> tagkey = TagKey
                             .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, location);
                     serverWorld.findNearestMapFeature(tagkey, BlockPos.ZERO, 5, false);
