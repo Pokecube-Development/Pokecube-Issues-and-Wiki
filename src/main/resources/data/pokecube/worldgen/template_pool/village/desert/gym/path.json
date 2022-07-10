@@ -4,7 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/desert/gym/path",
-        "processors": "pokecube:generic",
+        "no_affect_noise": true,"processors": "pokecube:street_desert",
         "projection": "terrain_matching"
       },
       "weight": 1
