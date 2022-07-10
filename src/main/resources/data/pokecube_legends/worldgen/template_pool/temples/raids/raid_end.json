@@ -1,0 +1,15 @@
+{
+  "name": "pokecube_legends:temples/raids/raid_end",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:temples/raids/raid_end",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic"
+      }
+    }
+  ]
+}

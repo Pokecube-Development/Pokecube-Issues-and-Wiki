@@ -1,9 +1,9 @@
 {
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
-    "start_pool": "pokecube_legends:temples/surface/lugia_tower",
+    "start_pool": "pokecube_legends:temples/raids/raid_spot",
     "spawn_preset": "all_overworld",
-    "spawn_blacklist": "oceans,rivers",
+    "spawn_blacklist": "beaches,deserts,end_surface,oceans,rivers",
     "avoid_range": 6,
     "structures_to_avoid": [
       "pokecube:ruins",
@@ -14,7 +14,7 @@
     ],
     "size": 2
   },
-  "biomes": "#pokecube_world:has_structure/lugia_tower",
+  "biomes": "#pokecube_world:has_structure/raid_spot",
   "adapt_noise": true,
   "spawn_overrides": {}
 }

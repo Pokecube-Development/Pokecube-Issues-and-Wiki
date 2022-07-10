@@ -1,0 +1,22 @@
+{
+  "structures": [
+    {
+      "structure": "pokecube_legends:raid_end",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:raid_sandy",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:raid_spot",
+      "weight": 5
+    }
+  ],
+  "placement": {
+    "salt": 1856246254,
+    "spacing": 48,
+    "separation": 12,
+    "type": "minecraft:random_spread"
+  }
+}
