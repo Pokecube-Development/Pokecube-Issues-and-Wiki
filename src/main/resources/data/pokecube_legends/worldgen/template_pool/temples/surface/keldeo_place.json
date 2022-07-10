@@ -8,7 +8,7 @@
         "location": "pokecube_legends:temples/surface/keldeo_place",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_mossify_30_percent"
+        "processors": "pokecube:mossify_30_percent"
       }
     }
   ]

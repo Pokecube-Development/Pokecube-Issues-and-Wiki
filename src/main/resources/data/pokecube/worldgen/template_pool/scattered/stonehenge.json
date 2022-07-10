@@ -4,7 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:scattered/ruins_loose/stonehenge_ruins",
-        "processors": "pokecube:generic_mossify_20_percent",
+        "processors": "pokecube:mossify_20_percent",
         "water_terrain_match": true,
         "projection": "terrain_matching"
       },
