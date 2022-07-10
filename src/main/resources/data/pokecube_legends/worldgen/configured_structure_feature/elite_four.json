@@ -6,7 +6,6 @@
     "spawn_blacklist": "oceans,beaches,rivers",
     "avoid_range": 6,
     "structures_to_avoid": [
-      "pokecube:ruins",
       "pokecube_legends:towns",
       "pokecube_legends:villages",
       "minecraft:villages",
