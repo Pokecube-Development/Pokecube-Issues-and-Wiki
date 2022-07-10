@@ -2,7 +2,7 @@
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
     "start_pool": "pokecube_legends:temples/surface/nature_place",
-    "spawn_preset": "all_overworld",
+    "spawn_preset": "all",
     "spawn_blacklist": "oceans,beaches",
     "avoid_range": 6,
     "clearances":{"h_clearance": 0},

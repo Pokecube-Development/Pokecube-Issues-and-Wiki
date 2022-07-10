@@ -3,7 +3,7 @@
   "replace": false,
   "values": [
     "#forge:is_overworld",
-    "#pokecube_world:is_ultraspace",
+    "#pokecube_world:is_ultraspace_not_water",
     "#pokecube_world:is_distorted_world"
   ]
 }

@@ -2,7 +2,7 @@
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
     "start_pool": "pokecube_legends:temples/surface/kubfu_water",
-    "spawn_preset": "all_overworld",
+    "spawn_preset": "all",
     "spawn_blacklist": "oceans,rivers",
     "avoid_range": 6,
     "structures_to_avoid": [
