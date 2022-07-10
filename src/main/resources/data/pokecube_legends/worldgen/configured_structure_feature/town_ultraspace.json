@@ -3,7 +3,7 @@
   "config": {
     "start_pool": "pokecube_legends:village/ultraspace/town_centers",
     "spawn_preset": "all_overworld",
-    "spawn_category_blacklist": "ocean,beach,river",
+    "spawn_blacklist": "oceans,beaches,rivers",
     "required_parts": ["pokecenter", "gym", "pokecenter_path", "gym_path"],
     "avoid_range": 6,
     "structures_to_avoid": [

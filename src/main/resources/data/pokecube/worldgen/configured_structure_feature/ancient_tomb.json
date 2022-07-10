@@ -1,7 +1,8 @@
 {
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
-    "start_pool": "pokecube:scattered/ruins_loose",
+    "start_pool": "pokecube:scattered/ancient_tomb",
+    "spawn_blacklist": "beaches,oceans,rivers,mushrooms",
     "avoid_range": 6,
     "structures_to_avoid": [
       "pokecube:towns",
@@ -9,10 +10,11 @@
       "minecraft:villages",
       "minecraft:pillager_outposts"
     ],
+    "min_y": 64,
     "max_dy": 5,
     "size": 2
   },
   "biomes": "#pokecube_world:has_structure/ruins_surface",
-  "adapt_noise": false,
+  "adapt_noise": true,
   "spawn_overrides": {}
 }
