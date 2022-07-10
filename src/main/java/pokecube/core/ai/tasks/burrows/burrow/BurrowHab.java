@@ -251,12 +251,8 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
             {
                 TagKey<EntityType<?>> tagKey = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, IMoveConstants.BURROWS);
 
-                final List<EntityType<?>> types = ForgeRegistries.ENTITIES.tags().getTag(tagKey).stream().toList();
-                if (types.isEmpty())
-                {
-                    PokecubeCore.LOGGER.error("No burrowers found!");
-                    return;
-                }
+                final List<EntityType<?>> types = Lists
+                        .newArrayList(ForgeRegistries.ENTITIES.tags().getTag(tagKey).stream().toList());
 
                 Collections.shuffle(types);
                 final Biome b = world.getBiome(this.burrow.getCenter()).value();
