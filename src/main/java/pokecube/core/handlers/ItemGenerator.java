@@ -4,22 +4,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -464,12 +460,6 @@ public class ItemGenerator
                 ItemGenerator.addStrippables(ItemGenerator.woods.get(name), ItemGenerator.stripped_woods.get(name));
             }
         });
-    }
-    
-    public static void addHoeables(final Block dirt, final Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> use)
-    {
-        HoeItem.TILLABLES = Maps.newHashMap(HoeItem.TILLABLES);
-        HoeItem.TILLABLES.put(dirt, use);
     }
 
     public static void compostableBlocks(final float chance, final ItemLike item)

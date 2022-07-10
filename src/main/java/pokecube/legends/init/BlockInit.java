@@ -2,8 +2,6 @@ package pokecube.legends.init;
 
 import java.util.function.ToIntFunction;
 
-import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -11,9 +9,7 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -47,10 +43,10 @@ import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.handlers.ItemGenerator.GenericStairs;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.BlockBase;
-import pokecube.legends.blocks.GenericBookshelf;
 import pokecube.legends.blocks.FaceBlockBase;
 import pokecube.legends.blocks.FallingBlockBase;
 import pokecube.legends.blocks.FallingSandBlockBase;
+import pokecube.legends.blocks.GenericBookshelf;
 import pokecube.legends.blocks.SaplingBase;
 import pokecube.legends.blocks.containers.GenericBarrel;
 import pokecube.legends.blocks.containers.GenericBookshelfEmpty;
@@ -2507,28 +2503,6 @@ public class BlockInit
             ItemGenerator.addStrippables(BlockInit.MIRAGE_WOOD.get(), BlockInit.STRIP_MIRAGE_WOOD.get());
             ItemGenerator.addStrippables(BlockInit.TEMPORAL_LOG.get(), BlockInit.STRIP_TEMPORAL_LOG.get());
             ItemGenerator.addStrippables(BlockInit.TEMPORAL_WOOD.get(), BlockInit.STRIP_TEMPORAL_WOOD.get());
-        });
-    }
-
-    public static void hoeableBlocks(final FMLLoadCompleteEvent event)
-    {
-        // Enqueue this so that it runs on main thread, to prevent concurrency issues.
-        event.enqueueWork(() ->
-        {
-            ItemGenerator.addHoeables(BlockInit.AGED_COARSE_DIRT.get(),
-                    Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(BlockInit.AGED_DIRT.get().defaultBlockState())));
-            ItemGenerator.addHoeables(BlockInit.AZURE_COARSE_DIRT.get(),
-                    Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(BlockInit.AZURE_DIRT.get().defaultBlockState())));
-            ItemGenerator.addHoeables(BlockInit.CORRUPTED_COARSE_DIRT.get(),
-                    Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(BlockInit.CORRUPTED_DIRT.get().defaultBlockState())));
-            ItemGenerator.addHoeables(BlockInit.JUNGLE_COARSE_DIRT.get(),
-                    Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(BlockInit.JUNGLE_DIRT.get().defaultBlockState())));
-            ItemGenerator.addHoeables(BlockInit.MUSHROOM_COARSE_DIRT.get(),
-                    Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(BlockInit.MUSHROOM_DIRT.get().defaultBlockState())));
-            ItemGenerator.addHoeables(BlockInit.ROOTED_CORRUPTED_DIRT.get(), Pair.of((item) -> { return true; }, 
-                    HoeItem.changeIntoStateAndDropItem(BlockInit.CORRUPTED_DIRT.get().defaultBlockState(), Items.HANGING_ROOTS)));
-            ItemGenerator.addHoeables(BlockInit.ROOTED_MUSHROOM_DIRT.get(), Pair.of((item) -> { return true; }, 
-                    HoeItem.changeIntoStateAndDropItem(BlockInit.MUSHROOM_DIRT.get().defaultBlockState(), Items.HANGING_ROOTS)));
         });
     }
 

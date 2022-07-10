@@ -22,7 +22,6 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -359,23 +358,24 @@ public class PacketPokedex extends NBTPacket
 
     private String serialize(final SpawnBiomeMatcher matcher)
     {
-        // First ensure the client side stuff is cleared.
-        matcher.clientBiomes.clear();
-        matcher.clientTypes.clear();
-        // Then populate it for serialisation
-        matcher.parse();
-
-        List<ResourceLocation> biomes = Lists.newArrayList();
-        List<String> types = Lists.newArrayList();
-
-        SpawnBiomeMatcher.addForMatcher(biomes, types, matcher);
-
-        matcher.clientBiomes.addAll(biomes);
-        matcher.clientTypes.addAll(types);
+        // TODO syncing matchers over.
+//        // First ensure the client side stuff is cleared.
+//        matcher.clientBiomes.clear();
+//        matcher.clientTypes.clear();
+//        // Then populate it for serialisation
+//        matcher.parse();
+//
+//        List<ResourceLocation> biomes = Lists.newArrayList();
+//        List<String> types = Lists.newArrayList();
+//
+//        SpawnBiomeMatcher.addForMatcher(biomes, types, matcher);
+//
+//        matcher.clientBiomes.addAll(biomes);
+//        matcher.clientTypes.addAll(types);
         final String ret = PacketPokedex.gson.toJson(matcher);
         // Then clear afterwards
-        matcher.clientBiomes.clear();
-        matcher.clientTypes.clear();
+//        matcher.clientBiomes.clear();
+//        matcher.clientTypes.clear();
         return ret;
     }
 
@@ -558,8 +558,9 @@ public class PacketPokedex extends NBTPacket
                         }
                         if (hasBiomes) break;
                     }
-                    if (hasBiomes) for (final ResourceLocation b : SpawnBiomeMatcher.getAllBiomeKeys())
-                        if (b != null) if (data.isValid(b)) biomes.add(b.toString());
+                    // TODO biome syncing
+//                    if (hasBiomes) for (final ResourceLocation b : SpawnBiomeMatcher.getAllBiomeKeys())
+//                        if (b != null) if (data.isValid(b)) biomes.add(b.toString());
                     for (final BiomeType b : BiomeType.values()) if (data.isValid(b)) biomes.add(b.readableName);
                     for (int i = 0; i < biomes.size(); i++) packet.getTag().putString("" + i, biomes.get(i));
                 }

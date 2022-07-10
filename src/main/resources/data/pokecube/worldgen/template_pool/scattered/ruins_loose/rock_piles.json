@@ -1,0 +1,72 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "minecraft:empty_pool_element"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:scattered/ruins_loose/rock_piles/rock_pile_01",
+        "processors": "pokecube:stone_ruins",
+        "water_terrain_match": true,
+        "projection": "terrain_matching"
+      },
+      "weight": 6
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:scattered/ruins_loose/rock_piles/rock_pile_02",
+        "processors": "pokecube:stone_ruins",
+        "water_terrain_match": true,
+        "projection": "terrain_matching"
+      },
+      "weight": 6
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:scattered/ruins_loose/rock_piles/rock_pile_03",
+        "processors": "pokecube:stone_ruins",
+        "water_terrain_match": true,
+        "projection": "terrain_matching"
+      },
+      "weight": 6
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:scattered/ruins_loose/rock_piles/rock_pile_04",
+        "processors": "pokecube:stone_ruins",
+        "water_terrain_match": true,
+        "projection": "terrain_matching"
+      },
+      "weight": 6
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:scattered/ruins_loose/rock_piles/rock_pile_05",
+        "processors": "pokecube:stone_ruins",
+        "water_terrain_match": true,
+        "projection": "terrain_matching"
+      },
+      "weight": 6
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:scattered/ruins_loose/rock_piles/rock_pile_06",
+        "processors": "pokecube:stone_ruins",
+        "water_terrain_match": true,
+        "projection": "terrain_matching"
+      },
+      "weight": 6
+    }
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube:scattered/ruins_loose/rock_piles"
+}

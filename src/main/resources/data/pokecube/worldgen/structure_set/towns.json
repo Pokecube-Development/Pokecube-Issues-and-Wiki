@@ -1,14 +1,74 @@
 {
+  "placement": {
+    "salt": 120840286,
+    "separation": 12,
+    "spacing": 48,
+    "type": "minecraft:random_spread"
+  },
   "structures": [
+    {
+      "structure": "pokecube:town_badlands",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube:town_beach",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube:town_cave",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube:town_dark_forest",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube:town_deep",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube:town_desert",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube:town_end",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube:town_high_sky",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube:town_hills",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube:town_jungle",
+      "weight": 1
+    },
     {
       "structure": "pokecube:town_plains",
       "weight": 1
+    },
+    {
+      "structure": "pokecube:town_savanna",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube:town_sky",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube:town_snowy",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube:town_swamp",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube:town_taiga",
+      "weight": 1
     }
-  ],
-  "placement": {
-    "salt": 1534767080,
-    "spacing": 48,
-    "separation": 12,
-    "type": "minecraft:random_spread"
-  }
+  ]
 }

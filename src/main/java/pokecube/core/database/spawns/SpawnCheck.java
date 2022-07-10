@@ -3,13 +3,11 @@ package pokecube.core.database.spawns;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biome.BiomeCategory;
 import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.biome.TerrainShaper;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -18,7 +16,6 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.Material;
 import pokecube.core.database.PokedexEntry;
 import thut.api.maths.Vector3;
-import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.ITerrainProvider;
 import thut.api.terrain.TerrainManager;
@@ -76,24 +73,21 @@ public class SpawnCheck
     public final boolean night;
     public final Material material;
     public final float light;
-    public final ResourceKey<Biome> biome;
+    public final Holder<Biome> biome;
     public final BiomeType type;
     public final Weather weather;
-    public final BiomeCategory cat;
     public final TerrainType terrain;
     public final boolean thundering;
     public final LevelAccessor world;
     public final ChunkAccess chunk;
     public final Vector3 location;
 
-    @SuppressWarnings("deprecation")
     public SpawnCheck(final Vector3 location, final LevelAccessor world)
     {
         this.world = world;
         this.location = location;
         final Holder<Biome> biome = location.getBiomeHolder(world);
-        this.biome = BiomeDatabase.getKey(biome.value());
-        this.cat = Biome.getBiomeCategory(biome);
+        this.biome = biome;
         this.material = location.getBlockMaterial(world);
         this.chunk = ITerrainProvider.getChunk(((Level) world).dimension(), new ChunkPos(location.getPos()));
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
@@ -123,23 +117,8 @@ public class SpawnCheck
         int j = QuartPos.fromBlock(pos.getY());
         int k = QuartPos.fromBlock(pos.getZ());
         Climate.TargetPoint climate$targetpoint = generator.climateSampler().sample(i, j, k);
-//        float f = Climate.unquantizeCoord(climate$targetpoint.continentalness());
-//        float f1 = Climate.unquantizeCoord(climate$targetpoint.erosion());
-//        float f2 = Climate.unquantizeCoord(climate$targetpoint.temperature());
-//        float f3 = Climate.unquantizeCoord(climate$targetpoint.humidity());
         float f4 = Climate.unquantizeCoord(climate$targetpoint.weirdness());
         double d0 = (double) TerrainShaper.peaksAndValleys(f4);
-
-//        System.out.println(" " + f + " " + f1 + " " + f2 + " " + f3 + " " + f4);
-//
-//        if (generator.climateSampler() instanceof NoiseSampler)
-//        {
-//            NoiseSampler noisesampler = (NoiseSampler) generator.climateSampler();
-//            TerrainInfo terraininfo = noisesampler.terrainInfo(pos.getX(), pos.getZ(), f, f4, f1, Blender.empty());
-//            System.out.println(" " + d0 + " " + terraininfo.offset() + " " + terraininfo.factor() + " "
-//                    + terraininfo.jaggedness());
-//        }
-
         return d0 > 0.5 ? TerrainType.HILLS : TerrainType.FLAT;
     }
 
@@ -148,7 +127,6 @@ public class SpawnCheck
     {
         String timeStr = day ? "day" : night ? "night" : dusk ? "dusk" : "dawn";
         return String.format(FMT, timeStr, (int) (light * 16), material.getColor().col + "", biome.toString(),
-                type.name, cat.toString(), weather.toString(), thundering, terrain.toString(),
-                location.getPos().toString());
+                type.name, weather.toString(), thundering, terrain.toString(), location.getPos().toString());
     }
 }

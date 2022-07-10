@@ -3,7 +3,7 @@
     {
       "values": {
         "preset": "river_water",
-        "types": "river",
+        "types": "#minecraft:is_river",
         "air": "false",
         "and_preset": "overworld"
       }
@@ -19,7 +19,7 @@
     {
       "values": {
         "preset": "beach_water",
-        "types": "beach",
+        "types": "#minecraft:is_beach",
         "air": "false",
         "and_preset": "overworld"
       }
@@ -27,7 +27,7 @@
     {
       "values": {
         "preset": "ocean_water",
-        "types": "ocean",
+        "types": "#minecraft:is_ocean",
         "air": "false",
         "and_preset": "overworld"
       }
@@ -43,7 +43,7 @@
     {
       "values": {
         "preset": "swamp_water",
-        "types": "swamp",
+        "types": "#forge:is_swamp",
         "air": "false",
         "and_preset": "overworld"
       }

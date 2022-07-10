@@ -1,12 +1,17 @@
 package thut.api.terrain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.material.Material;
 import thut.api.item.ItemList;
 import thut.api.util.JsonUtil;
@@ -36,18 +41,38 @@ public class TerrainChecker
     public static ResourceLocation LEAVES = new ResourceLocation("minecraft:leaves");
     public static ResourceLocation FLOWERS = new ResourceLocation("minecraft:small_flowers");
 
-    public static Map<String, String> structureSubbiomeMap = Maps.newHashMap();
-    public static Map<String, String> manualStructureSubbiomes = Maps.newHashMap();
+    public static List<String> manualStructureSubbiomes = new ArrayList<>();
+
+    public static Map<String, List<TagKey<ConfiguredStructureFeature<?, ?>>>> struct_config_map = Maps.newHashMap();
 
     public static void initStructMap()
     {
-        TerrainChecker.structureSubbiomeMap.clear();
+        TerrainChecker.struct_config_map.clear();
         for (final String s : ThutCore.getConfig().structure_subbiomes)
         {
             final StructInfo info = JsonUtil.gson.fromJson(s, StructInfo.class);
-            TerrainChecker.structureSubbiomeMap.put(info.struct, info.subbiome);
+            String key = info.struct.replace("#", "");
+            key = ThutCore.trim(key);
+            TagKey<ConfiguredStructureFeature<?, ?>> tagkey = TagKey
+                    .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, new ResourceLocation(key));
+            struct_config_map.compute(info.subbiome, (name, list) -> {
+                if (list == null) list = new ArrayList<>();
+                list.add(tagkey);
+                return list;
+            });
         }
-        TerrainChecker.structureSubbiomeMap.putAll(TerrainChecker.manualStructureSubbiomes);
+        for (final String s : manualStructureSubbiomes)
+        {
+            final StructInfo info = JsonUtil.gson.fromJson(s, StructInfo.class);
+            String key = info.struct.replace("#", "");
+            TagKey<ConfiguredStructureFeature<?, ?>> tagkey = TagKey
+                    .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, new ResourceLocation(key));
+            struct_config_map.compute(info.subbiome, (name, list) -> {
+                if (list == null) list = new ArrayList<>();
+                list.add(tagkey);
+                return list;
+            });
+        }
     }
 
     public static boolean isCave(final BlockState state)

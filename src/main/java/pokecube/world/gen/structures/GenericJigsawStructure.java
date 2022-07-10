@@ -11,11 +11,13 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import pokecube.core.PokecubeCore;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
 import pokecube.world.gen.structures.pieces.ExpandedPoolElementStructurePiece;
 import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
@@ -49,11 +51,16 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         // Check if we need to avoid any structures.
         for (ResourceKey<StructureSet> key : config.structures_to_avoid)
         {
-            if (generator.hasFeatureChunkInRange(key, context.seed(), pos.x, pos.z, config.avoid_range)) return false;
+            if (generator.hasFeatureChunkInRange(key, context.seed(), pos.x, pos.z, config.avoid_range))
+            {
+                PokecubeCore.LOGGER.debug("Skipping generation of {} due to conflict with {}",
+                        context.config().startPool().value().getName(), key);
+                return false;
+            }
         }
 
         // Check if we have enough biome room around us.
-        if (config.biome_room > 0)
+        if (config.biome_room > 0 || config.hasValidator())
         {
             BlockPos p = pos.getMiddleBlockPosition(0);
             int y = generator.getBaseHeight(p.getX(), p.getZ(), Types.WORLD_SURFACE_WG, context.heightAccessor());
@@ -62,7 +69,26 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
             for (var holder : biome_set)
             {
                 if (!context.validBiome().test(holder)) return false;
+                if (!config.isValid(holder)) return false;
             }
+        }
+
+        // Check the settings for max slope and other height bounds
+        int max_y = Integer.MIN_VALUE;
+        int min_y = Integer.MAX_VALUE;
+        for (int x = pos.x - config.y_check_radius; x <= pos.x + config.y_check_radius; x++)
+            for (int z = pos.z - config.y_check_radius; z <= pos.z + config.y_check_radius; z++)
+        {
+            int height = context.chunkGenerator().getBaseHeight((x << 4) + 7, (z << 4) + 7,
+                    Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
+            max_y = Math.max(max_y, height);
+            min_y = Math.min(min_y, height);
+            if (min_y < config.min_y) return false;
+            if (max_y > config.max_y) return false;
+        }
+        if (max_y - min_y > config.max_dy)
+        {
+            return false;
         }
         return true;
     }

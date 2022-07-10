@@ -113,6 +113,7 @@ import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.nbtedit.NBTEdit;
+import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import thut.api.Tracker;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ShearableCaps;
@@ -343,7 +344,8 @@ public class EventsHandler
         // the disable<thing> configs. It also adds the creepers avoid psychic
         // types AI, and does some cleanup for shoulder mobs.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onMobJoinWorld);
-        // This handles one part of preventing natural spawns for the
+        // This handles one part of preventing natural spawns for the mobs
+        // disabled via configs
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onCheckSpawnCheck);
 
         // Here we handle bed healing if enabled in configs
@@ -705,6 +707,7 @@ public class EventsHandler
         PokecubeCore.LOGGER.info("Server Starting");
         PokecubeItems.init(event.getServer());
         EventsHandler.RUNNING = true;
+        
     }
 
     private static void onServerStopped(final ServerStoppedEvent event)
@@ -712,6 +715,7 @@ public class EventsHandler
         // Reset this.
         PokecubeSerializer.clearInstance();
         EventsHandler.RUNNING = false;
+        ExpandedJigsawPiece.sent_events.clear();
         EventsHandler.scheduledTasks.clear();
     }
 

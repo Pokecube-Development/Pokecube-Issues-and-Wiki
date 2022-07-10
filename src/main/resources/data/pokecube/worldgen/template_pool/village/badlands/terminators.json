@@ -1,0 +1,24 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/badlands/terminators/terminator_01",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/badlands/terminators/terminator_02",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 2
+    }
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube:village/badlands/terminators"
+}

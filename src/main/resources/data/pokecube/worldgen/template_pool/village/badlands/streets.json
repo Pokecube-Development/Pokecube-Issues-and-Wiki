@@ -1,0 +1,42 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/badlands/streets/crossroad_01",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/badlands/streets/crossroad_02",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/badlands/streets/straight_1",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/badlands/streets/straight_2",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    }
+  ],
+  "fallback": "pokecube:village/badlands/terminators",
+  "name": "pokecube:village/badlands/streets"
+}

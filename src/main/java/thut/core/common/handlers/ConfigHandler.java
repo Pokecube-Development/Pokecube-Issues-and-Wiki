@@ -31,11 +31,10 @@ public class ConfigHandler extends ConfigData
     @Configure(category = WORLD, comment = "Structures listed here will have the relevant subbiome applied for if minecraft thinks that the block is inside the structure.")
     public List<String> structure_subbiomes = Lists.newArrayList(
     //@formatter:off
-            "{\"struct\":\"pokecube:village\",\"subbiome\":\"village\"}",
-            "{\"struct\":\"Village\",\"subbiome\":\"village\"}",
-            "{\"struct\":\"minecraft:village\",\"subbiome\":\"village\"}",
-            "{\"struct\":\"Monument\",\"subbiome\":\"monument\"}",
-            "{\"struct\":\"minecraft:monument\",\"subbiome\":\"monument\"}"
+            "{\"struct\":\"#pokecube_world:village\",\"subbiome\":\"village\"}",
+            "{\"struct\":\"#pokecube_world:town\",\"subbiome\":\"village\"}",
+            "{\"struct\":\"#minecraft:village\",\"subbiome\":\"village\"}",
+            "{\"struct\":\"#minecraft:on_ocean_explorer_maps\",\"subbiome\":\"monument\"}"
             );
     //@formatter:on
     @Configure(category = WORLD, comment = "Does a blanket \"plant material\" check for cuttable and edible plants, rather than relying entirely on the block tags. [Default: true]")

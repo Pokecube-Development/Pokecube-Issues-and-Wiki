@@ -1,0 +1,51 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/dark_forest/streets/crossroad_01",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/dark_forest/streets/crossroad_02",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/dark_forest/streets/straight_1",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/dark_forest/streets/straight_2",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/dark_forest/streets/straight_3",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    }
+  ],
+  "fallback": "pokecube:village/dark_forest/terminators",
+  "name": "pokecube:village/dark_forest/streets"
+}

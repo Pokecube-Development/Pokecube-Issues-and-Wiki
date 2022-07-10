@@ -25,16 +25,17 @@ public class StructureManager
 {
     public static class StructureInfo
     {
-        public String            name;
+        public String name;
+        public ConfiguredStructureFeature<?, ?> feature;
         public StructureStart start;
 
-        private int    hash = -1;
+        private int hash = -1;
         private String key;
-
 
         public StructureInfo(final Entry<ConfiguredStructureFeature<?, ?>, StructureStart> entry)
         {
-            this.name = entry.getKey().feature.getRegistryName().toString();
+            this.feature = entry.getKey();
+            this.name = feature.feature.getRegistryName().toString();
             this.start = entry.getValue();
             if (this.name == null)
             {
@@ -81,10 +82,10 @@ public class StructureManager
             for (int x = x1; x < x1 + TerrainSegment.GRIDSIZE; x++)
                 for (int y = y1; y < y1 + TerrainSegment.GRIDSIZE; y++)
                     for (int z = z1; z < z1 + TerrainSegment.GRIDSIZE; z++)
-                    {
-                        pos = new BlockPos(x, y, z);
-                        if (b.isInside(pos)) return true;
-                    }
+            {
+                pos = new BlockPos(x, y, z);
+                if (b.isInside(pos)) return true;
+            }
             return false;
         }
 
@@ -133,8 +134,7 @@ public class StructureManager
         final Set<StructureInfo> forPos = StructureManager.map_by_pos.getOrDefault(pos, Collections.emptySet());
         if (forPos.isEmpty()) return forPos;
         final Set<StructureInfo> matches = Sets.newHashSet();
-        for (final StructureInfo i : forPos)
-            if (i.isIn(loc)) matches.add(i);
+        for (final StructureInfo i : forPos) if (i.isIn(loc)) matches.add(i);
         return matches;
     }
 
@@ -145,8 +145,7 @@ public class StructureManager
         final Set<StructureInfo> forPos = StructureManager.map_by_pos.getOrDefault(gpos, Collections.emptySet());
         if (forPos.isEmpty()) return forPos;
         final Set<StructureInfo> matches = Sets.newHashSet();
-        for (final StructureInfo i : forPos)
-            if (i.isNear(loc, distance)) matches.add(i);
+        for (final StructureInfo i : forPos) if (i.isNear(loc, distance)) matches.add(i);
         return matches;
     }
 
@@ -156,9 +155,8 @@ public class StructureManager
         final ChunkPos origin = new ChunkPos(loc);
         int dr = SectionPos.blockToSectionCoord(distance);
         dr = Math.max(dr, 1);
-        for (int x = origin.x - dr; x <= origin.x + dr; x++)
-            for (int z = origin.z - dr; z <= origin.z + dr; z++)
-                matches.addAll(StructureManager.getNearInt(dim, loc, new ChunkPos(x, z), distance));
+        for (int x = origin.x - dr; x <= origin.x + dr; x++) for (int z = origin.z - dr; z <= origin.z + dr; z++)
+            matches.addAll(StructureManager.getNearInt(dim, loc, new ChunkPos(x, z), distance));
         return matches;
     }
 
@@ -169,7 +167,8 @@ public class StructureManager
         if (!(evt.getWorld() instanceof Level) || evt.getWorld().isClientSide()) return;
         final Level w = (Level) evt.getWorld();
         final ResourceKey<Level> dim = w.dimension();
-        for (final Entry<ConfiguredStructureFeature<?, ?>, StructureStart> entry : evt.getChunk().getAllStarts().entrySet())
+        for (final Entry<ConfiguredStructureFeature<?, ?>, StructureStart> entry : evt.getChunk().getAllStarts()
+                .entrySet())
         {
             final StructureInfo info = new StructureInfo(entry);
             if (!info.start.isValid()) continue;
@@ -181,14 +180,13 @@ public class StructureManager
                 continue;
             }
 
-            for (int x = b.minX >> 4; x <= b.maxX >> 4; x++)
-                for (int z = b.minZ >> 4; z <= b.maxZ >> 4; z++)
-                {
-                    final ChunkPos p = new ChunkPos(x, z);
-                    final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
-                    final Set<StructureInfo> set = StructureManager.getOrMake(pos);
-                    set.add(info);
-                }
+            for (int x = b.minX >> 4; x <= b.maxX >> 4; x++) for (int z = b.minZ >> 4; z <= b.maxZ >> 4; z++)
+            {
+                final ChunkPos p = new ChunkPos(x, z);
+                final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
+                final Set<StructureInfo> set = StructureManager.getOrMake(pos);
+                set.add(info);
+            }
         }
     }
 

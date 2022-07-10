@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.GameRules.Category;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -469,20 +470,6 @@ public class Config extends ConfigData
             );
     //@formatter:on
 
-    // @Configure(category = Config.world, comment = "")
-    // public String baseSizeFunction = "8 + c/10 + h/10 + k/20";
-    // @Configure(category = Config.world, comment = "")
-    // public int baseMaxSize = 1;
-    @Configure(category = Config.world, comment = "Structures listed here will have the relevant subbiome applied for if minecraft thinks that the block is inside the structure.")
-    public List<String> structure_subbiomes = Lists.newArrayList(
-    //@formatter:off
-            "{\"struct\":\"pokecube:village\",\"subbiome\":\"village\"}",
-            "{\"struct\":\"Village\",\"subbiome\":\"village\"}",
-            "{\"struct\":\"minecraft:village\",\"subbiome\":\"village\"}",
-            "{\"struct\":\"Monument\",\"subbiome\":\"monument\"}",
-            "{\"struct\":\"minecraft:monument\",\"subbiome\":\"monument\"}"
-            );
-    //@formatter:on
     @Configure(category = Config.world, comment = "Any structure not in structure_subbiomes will apply as ruins, unless something else sets it first (like the structure's spawn settings). [Default: true]")
     public boolean structs_default_ruins = true;
 
@@ -807,7 +794,7 @@ public class Config extends ConfigData
         SpawnBiomeMatcher.SOFTBLACKLIST.clear();
         for (final String name : this.softSpawnBiomeBlacklist)
         {
-            SpawnBiomeMatcher.SOFTBLACKLIST.add(new ResourceLocation(name));
+            SpawnBiomeMatcher.SOFTBLACKLIST.add(TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(name)));
         }
 
         SpawnHandler.MAX_DENSITY = this.mobDensityMultiplier;
