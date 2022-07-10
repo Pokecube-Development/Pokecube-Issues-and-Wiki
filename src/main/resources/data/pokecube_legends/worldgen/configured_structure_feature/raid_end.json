@@ -11,6 +11,7 @@
       "minecraft:pillager_outposts",
       "minecraft:villages"
     ],
+    "y_settings":{"min_y": 45},
     "size": 2
   },
   "biomes": "#pokecube_world:has_structure/raid_end",
