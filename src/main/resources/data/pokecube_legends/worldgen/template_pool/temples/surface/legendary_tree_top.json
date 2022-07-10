@@ -8,7 +8,8 @@
         "location": "pokecube_legends:temples/surface/legendary_tree_top",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic",
+        "space_below": 0
       }
     }
   ]

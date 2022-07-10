@@ -11,6 +11,7 @@
       "minecraft:villages",
       "minecraft:pillager_outposts"
     ],
+    "clearances":{"h_clearance": 0},
     "size": 2
   },
   "biomes": "#pokecube_world:has_structure/legendary_tree",
