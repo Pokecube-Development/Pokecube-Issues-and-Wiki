@@ -789,7 +789,6 @@ public class Config extends ConfigData
 
         // TODO Init secret bases resizing
         // DimensionSecretBase.init(baseSizeFunction);
-        PokecubeTerrainChecker.initStructMap();
 
         SpawnBiomeMatcher.SOFTBLACKLIST.clear();
         for (final String name : this.softSpawnBiomeBlacklist)
