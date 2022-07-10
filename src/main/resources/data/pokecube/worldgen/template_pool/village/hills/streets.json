@@ -1,0 +1,51 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/hills/streets/crossroad_01",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/hills/streets/straight_1",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/hills/streets/straight_2",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/hills/streets/straight_3",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/hills/streets/straight_4",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 5
+    }
+  ],
+  "fallback": "pokecube:village/hills/terminators",
+  "name": "pokecube:village/hills/streets"
+}

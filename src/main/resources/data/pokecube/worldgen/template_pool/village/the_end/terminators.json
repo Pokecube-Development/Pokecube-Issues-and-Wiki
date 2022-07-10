@@ -1,0 +1,15 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/the_end/terminators/terminator_01",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube:village/the_end/terminators"
+}

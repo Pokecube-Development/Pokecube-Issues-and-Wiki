@@ -1,0 +1,169 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/deep/houses/house_small_1",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/deep/houses/house_small_2",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/deep/houses/house_small_3",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/deep/houses/house_medium_1",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/deep/houses/house_medium_2",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/deep/houses/house_medium_3",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/deep/houses/house_large_1",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/deep/houses/house_large_2",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/deep/houses/house_large_3",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/deep/houses/fisher_house",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/deep/houses/farmer_house",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/deep/houses/library_house",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/deep/houses/mason_house",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/deep/houses/shepherds_house",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/deep/houses/temple_house",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/deep/houses/tool_armor_house",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/deep/houses/weapon_smith_house",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "flags": "pokecenter",
+        "location": "pokecube:village/deep/pokecenter/center_01",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ],
+  "fallback": "pokecube:village/deep/terminators",
+  "name": "pokecube:village/deep/houses"
+}

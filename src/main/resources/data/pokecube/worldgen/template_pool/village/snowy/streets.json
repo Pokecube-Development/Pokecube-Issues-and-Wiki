@@ -1,0 +1,159 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/streets/corner_01",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/streets/corner_02",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/streets/corner_03",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/streets/crossroad_01",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/streets/crossroad_02",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/streets/crossroad_03",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/streets/crossroad_04",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/streets/crossroad_05",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/streets/crossroad_06",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/streets/square_01",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/streets/straight_01",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/streets/straight_02",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/streets/straight_03",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/streets/straight_04",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/streets/straight_06",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/streets/straight_08",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/streets/turn_01",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 3
+    }
+  ],
+  "fallback": "pokecube:village/snowy/terminators",
+  "name": "pokecube:village/snowy/streets"
+}

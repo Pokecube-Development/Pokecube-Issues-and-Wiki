@@ -1,0 +1,152 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/swamp/houses/house_1",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/swamp/houses/house_2",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/swamp/houses/house_3",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/swamp/houses/house_4",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/swamp/houses/house_5",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/swamp/houses/house_6",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/swamp/houses/house_7",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/swamp/houses/fisher_house",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/swamp/houses/fletcher_house",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/swamp/houses/library_house",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/swamp/houses/masons_house",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/swamp/houses/shepherds_house",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/swamp/houses/temple_house",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/swamp/houses/tool_smith_house",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "flags": "pokecenter",
+        "location": "pokecube:village/swamp/pokecenter/center_01",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "flags": "gym",
+        "location": "pokecube:village/swamp/gym/gym_01",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ],
+  "fallback": "pokecube:village/swamp/terminators",
+  "name": "pokecube:village/swamp/houses"
+}

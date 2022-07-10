@@ -1,0 +1,53 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "minecraft:empty_pool_element"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "extra_pools": [
+          "minecraft:village/savanna/houses"
+        ],
+        "location": "pokecube:village/savanna/houses/trainer_medium_house",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/houses/trainer_small_house",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "flags": "pokecenter",
+        "location": "pokecube:village/savanna/pokecenter/center_01",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "flags": "gym",
+        "location": "pokecube:village/savanna/gym/gym_01",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ],
+  "fallback": "pokecube:village/savanna/terminators",
+  "name": "pokecube:village/savanna/houses"
+}

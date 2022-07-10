@@ -1,0 +1,42 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/the_end/streets/crossroad_01",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/the_end/streets/crossroad_02",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/the_end/streets/crossroad_03",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/the_end/streets/straight_1",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    }
+  ],
+  "fallback": "pokecube:village/the_end/terminators",
+  "name": "pokecube:village/the_end/streets"
+}

@@ -1,0 +1,16 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "flags": "pokecenter",
+        "location": "pokecube:village/badlands_small/pokecenter/center_small",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ],
+  "fallback": "pokecube:village/badlands/terminators",
+  "name": "pokecube:village/badlands_small/houses"
+}

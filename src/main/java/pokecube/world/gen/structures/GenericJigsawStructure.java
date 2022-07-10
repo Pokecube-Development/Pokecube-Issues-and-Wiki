@@ -53,7 +53,7 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         {
             if (generator.hasFeatureChunkInRange(key, context.seed(), pos.x, pos.z, config.avoid_range))
             {
-                PokecubeCore.LOGGER.info("Skipping generation of {} due to conflict with {}",
+                PokecubeCore.LOGGER.debug("Skipping generation of {} due to conflict with {}",
                         context.config().startPool().value().getName(), key);
                 return false;
             }

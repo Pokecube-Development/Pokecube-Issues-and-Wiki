@@ -1,8 +1,8 @@
 {
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
-    "start_pool": "pokecube:scattered/ruins/ruins_loose",
-    "avoid_range": 2,
+    "start_pool": "pokecube:scattered/ruins_loose",
+    "avoid_range": 6,
     "structures_to_avoid": [
       "pokecube:towns",
       "pokecube:villages",

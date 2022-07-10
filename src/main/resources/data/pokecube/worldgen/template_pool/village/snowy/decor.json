@@ -1,0 +1,27 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "extra_pools": [
+          "minecraft:village/snowy/decor"
+        ],
+        "location": "pokecube:village/snowy/decor/lamp_1",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/decor/banner_1",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 5
+    }
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube:village/snowy/decor"
+}

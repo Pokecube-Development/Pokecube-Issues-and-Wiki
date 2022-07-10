@@ -9,7 +9,7 @@
         "location": "pokecube:village/plains/houses/house_small_1",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "extra_pools": "minecraft:village/plains/houses",
+        "extra_pools": ["minecraft:village/plains/houses"],
         "processors": "pokecube:generic_mossify_20_percent"
       }
     },

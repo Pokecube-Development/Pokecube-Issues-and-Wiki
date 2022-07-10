@@ -1,0 +1,177 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/corner_01",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/corner_03",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/crossroad_02",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/crossroad_03",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/crossroad_04",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/crossroad_05",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/crossroad_06",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/crossroad_07",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/split_01",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/split_02",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/straight_02",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/straight_04",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/straight_05",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/straight_06",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/straight_08",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/straight_09",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/straight_10",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/straight_11",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/savanna/streets/turn_01",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching"
+      },
+      "weight": 3
+    }
+  ],
+  "fallback": "pokecube:village/savanna/terminators",
+  "name": "pokecube:village/savanna/streets"
+}
