@@ -52,7 +52,15 @@ public class TerrainChecker
         {
             final StructInfo info = JsonUtil.gson.fromJson(s, StructInfo.class);
             String key = info.struct.replace("#", "");
-            key = ThutCore.trim(key);
+            if (key.contains(":"))
+            {
+                String[] args = key.split(":");
+                key = ThutCore.trim(args[0]) + ThutCore.trim(args[1]);
+            }
+            else
+            {
+                key = ThutCore.trim(key);
+            }
             TagKey<ConfiguredStructureFeature<?, ?>> tagkey = TagKey
                     .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, new ResourceLocation(key));
             struct_config_map.compute(info.subbiome, (name, list) -> {

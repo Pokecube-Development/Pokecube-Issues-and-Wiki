@@ -46,6 +46,7 @@ import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -78,7 +79,6 @@ public class ExpandedJigsawPacement
         StructureManager structuremanager = context.structureManager();
         LevelHeightAccessor levelheightaccessor = context.heightAccessor();
         Predicate<Holder<Biome>> predicate = context.validBiome();
-        Set<String> needed_once = Sets.newHashSet(jigsawconfiguration.required_parts);
         StructureFeature.bootstrap();
         Registry<StructureTemplatePool> registry = registryaccess.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
         Rotation rotation = Rotation.getRandom(worldgenrandom);
@@ -134,7 +134,7 @@ public class ExpandedJigsawPacement
                             list.add(poolelementstructurepiece);
                             ExpandedJigsawPacement.Placer placer = new ExpandedJigsawPacement.Placer(
                                     jigsawconfiguration, registry, jigsawconfiguration.maxDepth(), factory,
-                                    chunkgenerator, structuremanager, list, worldgenrandom, needed_once);
+                                    chunkgenerator, structuremanager, list, worldgenrandom);
                             placer.placing
                                     .addLast(
                                             new ExpandedJigsawPacement.PieceState(poolelementstructurepiece,
@@ -171,7 +171,7 @@ public class ExpandedJigsawPacement
     {
         Registry<StructureTemplatePool> registry = reg_access.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
         ExpandedJigsawPacement.Placer ModifiedJigsawPacement$placer = new ExpandedJigsawPacement.Placer(null, registry,
-                max_depth, factory, chunk_gen, structure_manager, pieces, random, Sets.newHashSet());
+                max_depth, factory, chunk_gen, structure_manager, pieces, random);
         ModifiedJigsawPacement$placer.placing
                 .addLast(new ExpandedJigsawPacement.PieceState(root_piece, new MutableObject<>(Shapes.INFINITY), 0));
 
@@ -221,10 +221,9 @@ public class ExpandedJigsawPacement
         MutableObject<VoxelShape> rigid_bounds = new MutableObject<>();
         MutableObject<VoxelShape> non_rigid_bounds = new MutableObject<>();
 
-        Placer(ExpandedJigsawConfiguration jigsawconfiguration, Registry<StructureTemplatePool> pools, int max_depth,
+        Placer(ExpandedJigsawConfiguration config, Registry<StructureTemplatePool> pools, int max_depth,
                 ExpandedJigsawPacement.PieceFactory factory, ChunkGenerator chunkGenerator,
-                StructureManager structureManager, List<? super PoolElementStructurePiece> pieces, Random random,
-                Set<String> needed_once)
+                StructureManager structureManager, List<? super PoolElementStructurePiece> pieces, Random random)
         {
             this.pools = pools;
             this.maxDepth = max_depth;
@@ -233,8 +232,8 @@ public class ExpandedJigsawPacement
             this.structureManager = structureManager;
             this.pieces = pieces;
             this.random = random;
-            this.needed_once = needed_once;
-            this.config = jigsawconfiguration;
+            this.needed_once = Sets.newHashSet(config.required_parts);
+            this.config = config;
         }
 
         List<StructureTemplate.StructureBlockInfo> getShuffledJigsaws(StructurePoolElement structurepoolelement,
@@ -361,22 +360,21 @@ public class ExpandedJigsawPacement
                 non_rigid_bounds.setValue(Shapes.create(AABB.of(root_bounding_box).inflate(0, non_rigid_clearance, 0)));
             }
 
+            List<StructureBlockInfo> root_jigsaws = this.getShuffledJigsaws(root_element, blockpos, rotation);
             root_jigsaws:
-            for (StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : this
-                    .getShuffledJigsaws(root_element, blockpos, rotation))
+            for (StructureBlockInfo root_block_info : root_jigsaws)
             {
-                Direction direction = JigsawBlock.getFrontFacing(structuretemplate$structureblockinfo.state);
-                BlockPos raw_jigsaw_pos = structuretemplate$structureblockinfo.pos;
+                Direction direction = JigsawBlock.getFrontFacing(root_block_info.state);
+                BlockPos raw_jigsaw_pos = root_block_info.pos;
                 BlockPos connecting_jigsaw_pos = raw_jigsaw_pos.relative(direction);
                 int dy = raw_jigsaw_pos.getY() - root_min_y;
                 int k = -1;
-                ResourceLocation resourcelocation = new ResourceLocation(
-                        structuretemplate$structureblockinfo.nbt.getString("pool"));
-                Optional<StructureTemplatePool> target_pool = this.pools.getOptional(resourcelocation);
-                if (target_pool.isPresent()
-                        && (target_pool.get().size() != 0 || Objects.equals(resourcelocation, Pools.EMPTY.location())))
+                ResourceLocation resourcelocation = new ResourceLocation(root_block_info.nbt.getString("pool"));
+                Optional<StructureTemplatePool> next_pool = this.pools.getOptional(resourcelocation);
+                if (next_pool.isPresent()
+                        && (next_pool.get().size() != 0 || Objects.equals(resourcelocation, Pools.EMPTY.location())))
                 {
-                    ResourceLocation resourcelocation1 = target_pool.get().getFallback();
+                    ResourceLocation resourcelocation1 = next_pool.get().getFallback();
                     Optional<StructureTemplatePool> fallback_pool = this.pools.getOptional(resourcelocation1);
                     if (fallback_pool.isPresent() && (fallback_pool.get().size() != 0
                             || Objects.equals(resourcelocation1, Pools.EMPTY.location())))
@@ -402,21 +400,20 @@ public class ExpandedJigsawPacement
                             previous_bounding_boxes = free;
                         }
 
-                        for (StructurePoolElement next_picked_element : getShuffledParts(depth, target_pool,
+                        for (StructurePoolElement next_picked_element : getShuffledParts(depth, next_pool,
                                 fallback_pool))
                         {
                             if (next_picked_element == EmptyPoolElement.INSTANCE) break;
                             for (Rotation rotation1 : Rotation.getShuffled(this.random))
                             {
-                                List<StructureTemplate.StructureBlockInfo> list1 = next_picked_element
-                                        .getShuffledJigsawBlocks(this.structureManager, BlockPos.ZERO, rotation1,
-                                                this.random);
+                                List<StructureBlockInfo> next_jigsaws = next_picked_element.getShuffledJigsawBlocks(
+                                        this.structureManager, BlockPos.ZERO, rotation1, this.random);
                                 BoundingBox picked_box = next_picked_element.getBoundingBox(this.structureManager,
                                         BlockPos.ZERO, rotation1);
                                 int l;
                                 if (bound_check && picked_box.getYSpan() <= 16)
                                 {
-                                    l = list1.stream().mapToInt((structure_info) -> {
+                                    l = next_jigsaws.stream().mapToInt((structure_info) -> {
                                         if (!picked_box.isInside(structure_info.pos
                                                 .relative(JigsawBlock.getFrontFacing(structure_info.state))))
                                         {
@@ -424,20 +421,21 @@ public class ExpandedJigsawPacement
                                         }
                                         else
                                         {
-                                            ResourceLocation resourcelocation2 = new ResourceLocation(
+                                            ResourceLocation id = new ResourceLocation(
                                                     structure_info.nbt.getString("pool"));
-                                            Optional<StructureTemplatePool> optional2 = this.pools
-                                                    .getOptional(resourcelocation2);
-                                            Optional<StructureTemplatePool> optional3 = optional2.flatMap((pool) -> {
-                                                return this.pools.getOptional(pool.getFallback());
-                                            });
-                                            int j3 = optional2.map((pool) -> {
+                                            Optional<StructureTemplatePool> pool_entry = this.pools.getOptional(id);
+                                            Optional<StructureTemplatePool> pool_fallback = pool_entry
+                                                    .flatMap((pool) ->
+                                                    {
+                                                        return this.pools.getOptional(pool.getFallback());
+                                                    });
+                                            int y_1 = pool_entry.map((pool) -> {
                                                 return pool.getMaxSize(this.structureManager);
                                             }).orElse(0);
-                                            int k3 = optional3.map((pool) -> {
+                                            int y_2 = pool_fallback.map((pool) -> {
                                                 return pool.getMaxSize(this.structureManager);
                                             }).orElse(0);
-                                            return Math.max(j3, k3);
+                                            return Math.max(y_1, y_2);
                                         }
                                     }).max().orElse(0);
                                 }
@@ -446,22 +444,21 @@ public class ExpandedJigsawPacement
                                     l = 0;
                                 }
                                 next_pick:
-                                for (StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo1 : list1)
+                                for (StructureBlockInfo next_block_info : next_jigsaws)
                                 {
-                                    if (JigsawBlock.canAttach(structuretemplate$structureblockinfo,
-                                            structuretemplate$structureblockinfo1))
+                                    if (JigsawBlock.canAttach(root_block_info, next_block_info))
                                     {
-                                        BlockPos blockpos3 = structuretemplate$structureblockinfo1.pos;
-                                        BlockPos next_jigsaw_pos = connecting_jigsaw_pos.subtract(blockpos3);
+                                        BlockPos next_pos_raw = next_block_info.pos;
+                                        BlockPos next_jigsaw_pos = connecting_jigsaw_pos.subtract(next_pos_raw);
                                         BoundingBox next_pick_box = next_picked_element
                                                 .getBoundingBox(this.structureManager, next_jigsaw_pos, rotation1);
-                                        int i1 = next_pick_box.minY();
+                                        int next_min_y = next_pick_box.minY();
                                         StructureTemplatePool.Projection structuretemplatepool$projection1 = next_picked_element
                                                 .getProjection();
                                         boolean next_pick_rigid = structuretemplatepool$projection1 == StructureTemplatePool.Projection.RIGID;
-                                        int j1 = blockpos3.getY();
-                                        int k1 = dy - j1 + JigsawBlock
-                                                .getFrontFacing(structuretemplate$structureblockinfo.state).getStepY();
+                                        int raw_pos_y = next_pos_raw.getY();
+                                        int k1 = dy - raw_pos_y
+                                                + JigsawBlock.getFrontFacing(root_block_info.state).getStepY();
                                         int l1;
                                         if (root_rigid && next_pick_rigid)
                                         {
@@ -474,10 +471,10 @@ public class ExpandedJigsawPacement
                                                 k = this.chunkGenerator.getFirstFreeHeight(raw_jigsaw_pos.getX(),
                                                         raw_jigsaw_pos.getZ(), heightmap$types, heightmap);
                                             }
-                                            l1 = k - j1;
+                                            l1 = k - raw_pos_y;
                                         }
 
-                                        int i2 = l1 - i1;
+                                        int i2 = l1 - next_min_y;
                                         BoundingBox next_pick_box_shifted_y = next_pick_box.moved(0, i2, 0);
                                         BlockPos blockpos5 = next_jigsaw_pos.offset(0, i2, 0);
                                         if (l > 0)
@@ -504,12 +501,6 @@ public class ExpandedJigsawPacement
                                         if (rigid_bounds.getValue() != null)
                                         {
                                             AABB test_box = AABB.of(next_pick_box_shifted_y).deflate(0.25D);
-
-//                                            if (!next_pick_rigid)
-//                                            {
-//                                                test_box = test_box.inflate(0, non_rigid_clearance, 0);
-//                                            }
-
                                             VoxelShape new_shape = Shapes.create(test_box);
                                             if (Shapes.joinIsNotEmpty(rigid_bounds.getValue(), new_shape,
                                                     BooleanOp.AND))
@@ -517,7 +508,7 @@ public class ExpandedJigsawPacement
                                         }
                                         // And then don't let non-rigids overlap
                                         // each other
-                                        if (non_rigid_bounds.getValue() != null && !next_pick_rigid)
+                                        if (non_rigid_bounds.getValue() != null)// && !next_pick_rigid)
                                         {
                                             AABB test_box = AABB.of(next_pick_box_shifted_y).deflate(0.25D);
                                             VoxelShape new_shape = Shapes.create(test_box);
@@ -585,7 +576,7 @@ public class ExpandedJigsawPacement
                                         }
                                         else if (next_pick_rigid)
                                         {
-                                            l2 = l1 + j1;
+                                            l2 = l1 + raw_pos_y;
                                         }
                                         else
                                         {
@@ -599,8 +590,8 @@ public class ExpandedJigsawPacement
 
                                         piece.addJunction(new JigsawJunction(connecting_jigsaw_pos.getX(), l2 - dy + i3,
                                                 connecting_jigsaw_pos.getZ(), k1, structuretemplatepool$projection1));
-                                        poolelementstructurepiece
-                                                .addJunction(new JigsawJunction(raw_jigsaw_pos.getX(), l2 - j1 + k2,
+                                        poolelementstructurepiece.addJunction(
+                                                new JigsawJunction(raw_jigsaw_pos.getX(), l2 - raw_pos_y + k2,
                                                         raw_jigsaw_pos.getZ(), -k1, structuretemplatepool$projection));
 
                                         this.pieces.add(poolelementstructurepiece);

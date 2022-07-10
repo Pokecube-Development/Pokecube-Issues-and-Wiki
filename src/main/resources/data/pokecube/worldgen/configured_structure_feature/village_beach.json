@@ -1,10 +1,10 @@
 {
-  "adapt_noise": false,
+  "adapt_noise": true,
   "biomes": "#pokecube_world:has_structure/village_beach",
   "config": {
     "avoid_range": 6,
     "biome_type": "village",
-    "y_settings":{"vertical_offset": -2, "y_check_radius":3, "max_dy": 5},
+    "y_settings":{"vertical_offset": -2},
     "required_parts": [
       "pokecenter"
     ],

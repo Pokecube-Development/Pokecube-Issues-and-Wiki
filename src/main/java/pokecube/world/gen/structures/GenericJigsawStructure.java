@@ -5,6 +5,7 @@ import java.util.Set;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
@@ -109,9 +110,15 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         // Turns the chunk coordinates into actual coordinates we can use. (Gets
         // center of that chunk)
         BlockPos blockpos = context.chunkPos().getMiddleBlockPosition(0);
+        Pools.bootstrap();
+        
+        Optional<PieceGenerator<ExpandedJigsawConfiguration>> structurePiecesGenerator;
 
-        Optional<PieceGenerator<ExpandedJigsawConfiguration>> structurePiecesGenerator = ExpandedJigsawPacement
+        structurePiecesGenerator = ExpandedJigsawPacement
                 .addPieces(context, ExpandedPoolElementStructurePiece::new, blockpos, false, true);
+
+//        structurePiecesGenerator = ExpandedJigsawPacementVanillaLike.addPieces(context,
+//                ExpandedPoolElementStructurePiece::new, blockpos, false, true);
 
         // Return the pieces generator that is now set up so that the game runs
         // it when it needs to create the layout of structure pieces.
