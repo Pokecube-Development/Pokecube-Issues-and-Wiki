@@ -7,6 +7,7 @@
       "pokecenter"
     ],
     "size": 6,
+    "clearances":{"h_clearance": 0},
     "start_pool": "pokecube:village/cave/town_centers",
     "structures_to_avoid": [
       "minecraft:villages",

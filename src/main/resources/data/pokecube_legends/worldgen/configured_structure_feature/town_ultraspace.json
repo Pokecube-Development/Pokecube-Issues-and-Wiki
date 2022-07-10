@@ -8,7 +8,8 @@
     "avoid_range": 6,
     "structures_to_avoid": [
       "minecraft:villages",
-      "minecraft:pillager_outposts"
+      "minecraft:pillager_outposts",
+      "pokecube_legends:villages"
     ],
     "size": 7
   },
