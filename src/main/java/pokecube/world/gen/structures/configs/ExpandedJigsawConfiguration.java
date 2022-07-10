@@ -56,7 +56,7 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
         public static final Codec<YSettings> CODEC = RecordCodecBuilder.create((instance) -> {
             return instance
                     .group(Codec.INT.fieldOf("vertical_offset").orElse(0).forGetter(s -> s.vertical_offset),
-                            Codec.INT.fieldOf("y_check_radius").orElse(0).forGetter(s -> s.y_check_radius),
+                            Codec.INT.fieldOf("y_check_radius").orElse(1).forGetter(s -> s.y_check_radius),
                             Codec.INT.fieldOf("min_y").orElse(Integer.MIN_VALUE).forGetter(s -> s.min_y),
                             Codec.INT.fieldOf("max_y").orElse(Integer.MAX_VALUE).forGetter(s -> s.max_y),
                             Codec.INT.fieldOf("max_dy").orElse(Integer.MAX_VALUE).forGetter(s -> s.max_dy))
