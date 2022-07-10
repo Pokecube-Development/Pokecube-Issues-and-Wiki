@@ -11,6 +11,7 @@
       "minecraft:villages",
       "minecraft:pillager_outposts"
     ],
+    "y_settings":{"y_check_radius": 1,"max_dy": 5},
     "clearances":{"h_clearance": 0},
     "size": 2
   },
