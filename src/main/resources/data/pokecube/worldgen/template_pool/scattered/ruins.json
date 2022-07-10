@@ -20,5 +20,5 @@
     }
   ],
   "fallback": "minecraft:empty",
-  "name": "pokecube:scattered/ruins_rigid"
+  "name": "pokecube:scattered/ruins"
 }
