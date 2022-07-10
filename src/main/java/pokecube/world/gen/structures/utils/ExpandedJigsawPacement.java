@@ -492,6 +492,8 @@ public class ExpandedJigsawPacement
                                         // Some space below to prevent roads
                                         // going too close under buildings.
                                         int room_below = 5;
+                                        int h_clearance = config.clearances.h_clearance;
+                                        int v_clearance = config.clearances.v_clearance;
                                         if (next_picked_element instanceof ExpandedJigsawPiece p)
                                         {
                                             room_below = p.space_below;
@@ -526,8 +528,6 @@ public class ExpandedJigsawPacement
 
                                         if (next_pick_rigid)
                                         {
-                                            int h_clearance = 2;
-                                            int v_clearance = 0;
                                             // If it was rigid, add it to the
                                             // rigid bounds
                                             AABB next_box = AABB.of(next_pick_box_shifted_y).inflate(0, room_below, 0)
