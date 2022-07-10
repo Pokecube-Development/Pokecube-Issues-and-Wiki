@@ -76,17 +76,17 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         // Check the settings for max slope and other height bounds
         int max_y = Integer.MIN_VALUE;
         int min_y = Integer.MAX_VALUE;
-        for (int x = pos.x - config.y_check_radius; x <= pos.x + config.y_check_radius; x++)
-            for (int z = pos.z - config.y_check_radius; z <= pos.z + config.y_check_radius; z++)
+        for (int x = pos.x - config.y_settings.y_check_radius; x <= pos.x + config.y_settings.y_check_radius; x++)
+            for (int z = pos.z - config.y_settings.y_check_radius; z <= pos.z + config.y_settings.y_check_radius; z++)
         {
             int height = context.chunkGenerator().getBaseHeight((x << 4) + 7, (z << 4) + 7,
                     Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
             max_y = Math.max(max_y, height);
             min_y = Math.min(min_y, height);
-            if (min_y < config.min_y) return false;
-            if (max_y > config.max_y) return false;
+            if (min_y < config.y_settings.min_y) return false;
+            if (max_y > config.y_settings.max_y) return false;
         }
-        if (max_y - min_y > config.max_dy)
+        if (max_y - min_y > config.y_settings.max_dy)
         {
             return false;
         }

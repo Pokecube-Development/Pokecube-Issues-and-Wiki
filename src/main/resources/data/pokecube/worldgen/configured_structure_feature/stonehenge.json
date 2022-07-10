@@ -9,7 +9,7 @@
       "minecraft:villages",
       "minecraft:pillager_outposts"
     ],
-    "max_dy": 5,
+    "y_settings":{"max_dy": 5},
     "size": 2
   },
   "biomes": "#pokecube_world:has_structure/ruins_surface",

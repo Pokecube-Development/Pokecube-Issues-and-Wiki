@@ -284,7 +284,7 @@ public class SpawnEventsHandler
         }
     }
 
-    private static void queueForUpdate(final Stream<BlockPos> poses, final BiomeType subbiome, final Level level)
+    public static void queueForUpdate(final Stream<BlockPos> poses, final BiomeType subbiome, final Level level)
     {
         final Map<ChunkPos, Set<BlockPos>> byChunk = Maps.newHashMap();
         poses.forEach((p) -> {

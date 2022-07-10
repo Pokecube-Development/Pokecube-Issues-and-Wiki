@@ -2,6 +2,7 @@ package pokecube.world.gen.structures.utils;
 
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.stream.Stream;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -9,6 +10,7 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.StructureMode;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator.Context;
@@ -17,9 +19,11 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.Palette;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import pokecube.core.PokecubeCore;
+import pokecube.core.handlers.events.SpawnEventsHandler;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
+import thut.api.terrain.BiomeType;
 
 public class PostProcessor
         implements BiConsumer<PieceGenerator.Context<ExpandedJigsawConfiguration>, List<PoolElementStructurePiece>>
@@ -32,6 +36,7 @@ public class PostProcessor
     {
         ChunkGenerator chunkGenerator = context.chunkGenerator();
         ChunkPos pos = context.chunkPos();
+        ExpandedJigsawConfiguration config = context.config();
 
         final int x = pos.getBlockX(7);
         final int z = pos.getBlockZ(7);
@@ -48,6 +53,19 @@ public class PostProcessor
             part.getBoundingBox().encapsulate(min_corner);
             part.getBoundingBox().encapsulate(max_corner);
 
+            if (!"none".equals(config.biome_type))
+            {
+                final BiomeType subbiome = BiomeType.getBiome(config.biome_type, true);
+                final BoundingBox box = part.getBoundingBox();
+                final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box);
+                SpawnEventsHandler.queueForUpdate(poses, subbiome, ExpandedJigsawPacement.getForGen(chunkGenerator));
+            }
+
+            if (config.y_settings.vertical_offset != 0)
+            {
+                part.move(0, config.y_settings.vertical_offset, 0);
+                System.out.println("Shifting for " + part);
+            }
             if (part.getElement() instanceof final ExpandedJigsawPiece piece)
             {
                 final int dy = piece.y_offset;

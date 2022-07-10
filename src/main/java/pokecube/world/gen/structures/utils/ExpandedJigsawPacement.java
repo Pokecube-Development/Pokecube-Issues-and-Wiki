@@ -100,11 +100,11 @@ public class ExpandedJigsawPacement
             BoundingBox boundingbox = poolelementstructurepiece.getBoundingBox();
             int i = (boundingbox.maxX() + boundingbox.minX()) / 2;
             int j = (boundingbox.maxZ() + boundingbox.minZ()) / 2;
-            int dk = jigsawconfiguration.vertical_offset;
+            int dk = jigsawconfiguration.y_settings.vertical_offset;
             if (on_surface)
             {
                 dk = chunkgenerator.getFirstFreeHeight(i, j, jigsawconfiguration.height_type, levelheightaccessor)
-                        + jigsawconfiguration.vertical_offset;
+                        + jigsawconfiguration.y_settings.vertical_offset;
             }
             int k = centre.getY() + dk;
 
@@ -121,10 +121,10 @@ public class ExpandedJigsawPacement
                     if (jigsawconfiguration.maxDepth() > 0)
                     {
                         int max_box_size = 80;
-                        AABB aabb = new AABB((double) (i - max_box_size), (double) (k - max_box_size),
+                        int max_box_height = 512;
+                        AABB aabb = new AABB((double) (i - max_box_size), (double) (k - max_box_height),
                                 (double) (j - max_box_size), (double) (i + max_box_size + 1),
-                                (double) (k + max_box_size + 1), (double) (j + max_box_size + 1));
-
+                                (double) (k + max_box_height + 1), (double) (j + max_box_size + 1));
                         List<PoolElementStructurePiece> list = Lists.newArrayList();
 
                         tries:
@@ -368,7 +368,7 @@ public class ExpandedJigsawPacement
                 Direction direction = JigsawBlock.getFrontFacing(structuretemplate$structureblockinfo.state);
                 BlockPos raw_jigsaw_pos = structuretemplate$structureblockinfo.pos;
                 BlockPos connecting_jigsaw_pos = raw_jigsaw_pos.relative(direction);
-                int j = raw_jigsaw_pos.getY() - root_min_y;
+                int dy = raw_jigsaw_pos.getY() - root_min_y;
                 int k = -1;
                 ResourceLocation resourcelocation = new ResourceLocation(
                         structuretemplate$structureblockinfo.nbt.getString("pool"));
@@ -460,7 +460,7 @@ public class ExpandedJigsawPacement
                                                 .getProjection();
                                         boolean next_pick_rigid = structuretemplatepool$projection1 == StructureTemplatePool.Projection.RIGID;
                                         int j1 = blockpos3.getY();
-                                        int k1 = j - j1 + JigsawBlock
+                                        int k1 = dy - j1 + JigsawBlock
                                                 .getFrontFacing(structuretemplate$structureblockinfo.state).getStepY();
                                         int l1;
                                         if (root_rigid && next_pick_rigid)
@@ -492,6 +492,8 @@ public class ExpandedJigsawPacement
                                         // Some space below to prevent roads
                                         // going too close under buildings.
                                         int room_below = 5;
+                                        int h_clearance = config.clearances.h_clearance;
+                                        int v_clearance = config.clearances.v_clearance;
                                         if (next_picked_element instanceof ExpandedJigsawPiece p)
                                         {
                                             room_below = p.space_below;
@@ -526,8 +528,6 @@ public class ExpandedJigsawPacement
 
                                         if (next_pick_rigid)
                                         {
-                                            int h_clearance = 2;
-                                            int v_clearance = 0;
                                             // If it was rigid, add it to the
                                             // rigid bounds
                                             AABB next_box = AABB.of(next_pick_box_shifted_y).inflate(0, room_below, 0)
@@ -580,7 +580,7 @@ public class ExpandedJigsawPacement
                                         int l2;
                                         if (root_rigid)
                                         {
-                                            l2 = root_min_y + j;
+                                            l2 = root_min_y + dy;
                                         }
                                         else if (next_pick_rigid)
                                         {
@@ -596,7 +596,7 @@ public class ExpandedJigsawPacement
                                             l2 = k + k1 / 2;
                                         }
 
-                                        piece.addJunction(new JigsawJunction(connecting_jigsaw_pos.getX(), l2 - j + i3,
+                                        piece.addJunction(new JigsawJunction(connecting_jigsaw_pos.getX(), l2 - dy + i3,
                                                 connecting_jigsaw_pos.getZ(), k1, structuretemplatepool$projection1));
                                         poolelementstructurepiece
                                                 .addJunction(new JigsawJunction(raw_jigsaw_pos.getX(), l2 - j1 + k2,
