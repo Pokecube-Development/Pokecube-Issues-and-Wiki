@@ -35,6 +35,10 @@
     {
       "structure": "pokecube_legends:lugia_tower",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:nature_place",
+      "weight": 1
     }
   ],
   "placement": {
