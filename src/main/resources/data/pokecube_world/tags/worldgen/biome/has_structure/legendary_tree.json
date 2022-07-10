@@ -1,0 +1,10 @@
+{
+  "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
+  "replace": false,
+  "values": [
+    "#forge:is_plains",
+    "#minecraft:is_forest",
+    "#pokecube_world:is_ultraspace/is_forest",
+    "#pokecube_world:is_ultraspace/is_plains"
+  ]
+}

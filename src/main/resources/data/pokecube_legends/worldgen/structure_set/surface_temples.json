@@ -27,6 +27,10 @@
     {
       "structure": "pokecube_legends:kubfu_water",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:legendary_tree",
+      "weight": 1
     }
   ],
   "placement": {

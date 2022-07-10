@@ -1,14 +1,14 @@
 {
-  "name": "pokecube:village/plains/start_pool",
+  "name": "pokecube_legends:temples/surface_temples/legendary_tree_center",
   "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 1,
       "element": {
-        "location": "pokecube:village/plains/town_centers/center_small",
+        "location": "pokecube_legends:temples/surface/legendary_tree_center",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_mossify_20_percent"
+        "processors": "pokecube:generic"
       }
     }
   ]
