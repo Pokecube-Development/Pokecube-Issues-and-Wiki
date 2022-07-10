@@ -54,16 +54,10 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
                 if (!opt_holder.isEmpty())
                 {
                     Holder<ConfiguredStructureFeature<?, ?>> holder = opt_holder.get();
-//                    System.out.println(info.name);
                     for (var entry : TerrainChecker.struct_config_map.entrySet())
                     {
                         String key = entry.getKey();
                         List<TagKey<ConfiguredStructureFeature<?, ?>>> list = entry.getValue();
-
-//                        for (var element : list)
-//                        {
-//                            System.out.println(element.location());
-//                        }
                         boolean matches = list.stream().anyMatch(holder::is);
                         if (matches)
                         {
@@ -71,7 +65,6 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
                             break;
                         }
                     }
-//                    System.out.println(subbiome);
                 }
                 if (subbiome == null && PokecubeCore.getConfig().structs_default_ruins) subbiome = "ruin";
                 if (subbiome != null)
