@@ -1,8 +1,11 @@
 {
-  "adapt_noise": true,
+  "adapt_noise": false,
   "biomes": "#pokecube_world:has_structure/village_high_sky",
   "config": {
     "avoid_range": 6,
+    "biome_type": "industrial",
+    "y_settings":{"vertical_offset": 140},
+    "clearances":{"h_clearance": 0},
     "required_parts": [
       "pokecenter"
     ],

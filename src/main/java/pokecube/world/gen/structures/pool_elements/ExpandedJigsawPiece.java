@@ -191,7 +191,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         else
         {
             if (this.world == null) this.world = ExpandedJigsawPacement.getForGen(chunkGenerator);
-            if (!"none".equals(this.name))
+            if (!"none".equals(this.biome_type))
             {
                 final BoundingBox realBox = this.getBoundingBox(templates, pos1, rotation);
                 final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(realBox, this.world,

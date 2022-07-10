@@ -100,11 +100,11 @@ public class ExpandedJigsawPacement
             BoundingBox boundingbox = poolelementstructurepiece.getBoundingBox();
             int i = (boundingbox.maxX() + boundingbox.minX()) / 2;
             int j = (boundingbox.maxZ() + boundingbox.minZ()) / 2;
-            int dk = jigsawconfiguration.vertical_offset;
+            int dk = jigsawconfiguration.y_settings.vertical_offset;
             if (on_surface)
             {
                 dk = chunkgenerator.getFirstFreeHeight(i, j, jigsawconfiguration.height_type, levelheightaccessor)
-                        + jigsawconfiguration.vertical_offset;
+                        + jigsawconfiguration.y_settings.vertical_offset;
             }
             int k = centre.getY() + dk;
 

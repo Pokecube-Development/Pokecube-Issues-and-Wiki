@@ -31,27 +31,80 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
                 .group(StructureTemplatePool.CODEC.fieldOf("start_pool")
                         .forGetter(ExpandedJigsawConfiguration::startPool),
                         Codec.intRange(0, 30).fieldOf("size").forGetter(ExpandedJigsawConfiguration::maxDepth),
-                        Codec.INT.fieldOf("vertical_offset").orElse(0).forGetter(s -> s.vertical_offset),
+                        YSettings.CODEC.fieldOf("y_settings").orElse(YSettings.DEFAULT).forGetter(s -> s.y_settings),
+                        ClearanceSettings.CODEC.fieldOf("clearances").orElse(ClearanceSettings.DEFAULT)
+                                .forGetter(s -> s.clearances),
                         Codec.STRING.listOf().fieldOf("required_parts").orElse(new ArrayList<>())
                                 .forGetter(s -> s.required_parts),
                         Codec.STRING.fieldOf("spawn_preset").orElse("").forGetter(s -> s._spawn_preset),
                         Codec.STRING.fieldOf("spawn_blacklist").orElse("").forGetter(s -> s._spawn_blacklist),
+                        Codec.STRING.fieldOf("biome_type").orElse("none").forGetter(s -> s.biome_type),
                         StringRepresentable.fromEnum(HM, NM).fieldOf("height_type")
                                 .orElse(Heightmap.Types.WORLD_SURFACE_WG).forGetter(structure -> structure.height_type),
                         ResourceKey.codec(Registry.STRUCTURE_SET_REGISTRY).listOf().fieldOf("structures_to_avoid")
                                 .orElse(new ArrayList<>()).forGetter(config -> config.structures_to_avoid),
-                        Codec.INT.fieldOf("min_y").orElse(Integer.MIN_VALUE).forGetter(s -> s.min_y),
-                        Codec.INT.fieldOf("max_y").orElse(Integer.MAX_VALUE).forGetter(s -> s.max_y),
-                        Codec.INT.fieldOf("max_dy").orElse(Integer.MAX_VALUE).forGetter(s -> s.max_dy),
-                        Codec.INT.fieldOf("y_check_radius").orElse(0).forGetter(s -> s.max_dy),
                         Codec.INT.fieldOf("avoid_range").orElse(4).forGetter(s -> s.avoid_range),
                         Codec.INT.fieldOf("biome_room").orElse(2).forGetter(s -> s.biome_room))
                 .apply(instance, ExpandedJigsawConfiguration::new);
     });
 
+    public static class YSettings
+    {
+        public static final YSettings DEFAULT = new YSettings(0, 0, Integer.MIN_VALUE, Integer.MAX_VALUE,
+                Integer.MAX_VALUE);
+
+        public static final Codec<YSettings> CODEC = RecordCodecBuilder.create((instance) -> {
+            return instance
+                    .group(Codec.INT.fieldOf("vertical_offset").orElse(0).forGetter(s -> s.vertical_offset),
+                            Codec.INT.fieldOf("y_check_radius").orElse(0).forGetter(s -> s.y_check_radius),
+                            Codec.INT.fieldOf("min_y").orElse(Integer.MIN_VALUE).forGetter(s -> s.min_y),
+                            Codec.INT.fieldOf("max_y").orElse(Integer.MAX_VALUE).forGetter(s -> s.max_y),
+                            Codec.INT.fieldOf("max_dy").orElse(Integer.MAX_VALUE).forGetter(s -> s.max_dy))
+                    .apply(instance, YSettings::new);
+        });
+
+        public final int vertical_offset;
+        public final int y_check_radius;
+        public final int min_y;
+        public final int max_y;
+        public final int max_dy;
+
+        public YSettings(int vertical_offset, int y_check_radius, int min_y, int max_y, int max_dy)
+        {
+            this.vertical_offset = vertical_offset;
+            this.y_check_radius = y_check_radius;
+            this.min_y = min_y;
+            this.max_y = max_y;
+            this.max_dy = max_dy;
+        }
+    }
+
+    public static class ClearanceSettings
+    {
+        public static final ClearanceSettings DEFAULT = new ClearanceSettings(2, 0);
+
+        public static final Codec<ClearanceSettings> CODEC = RecordCodecBuilder.create((instance) -> {
+            return instance
+                    .group(Codec.INT.fieldOf("h_clearance").orElse(2).forGetter(s -> s.h_clearance),
+                            Codec.INT.fieldOf("v_clearance").orElse(0).forGetter(s -> s.v_clearance))
+                    .apply(instance, ClearanceSettings::new);
+        });
+
+        public int h_clearance;
+        public int v_clearance;
+
+        public ClearanceSettings(int h_clearance, int v_clearance)
+        {
+            this.h_clearance = h_clearance;
+            this.v_clearance = v_clearance;
+        }
+    }
+
     public final List<String> required_parts;
-    public final int vertical_offset;
     public final Heightmap.Types height_type;
+
+    public final String biome_type;
+
     private final String _spawn_preset;
     private final String _spawn_blacklist;
 
@@ -60,21 +113,20 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
 
     public final int biome_room;
 
-    public final int y_check_radius;
-    public final int min_y;
-    public final int max_y;
-    public final int max_dy;
+    public final YSettings y_settings;
+    public final ClearanceSettings clearances;
 
     public List<SpawnBiomeMatcher> _needed = Lists.newArrayList();
     public List<SpawnBiomeMatcher> _banned = Lists.newArrayList();
 
-    public ExpandedJigsawConfiguration(Holder<StructureTemplatePool> start_pool, int maxDepth, int vertical_offset,
-            List<String> required_parts, String _spawn_preset, String _spawn_blacklist, Heightmap.Types height_type,
-            final List<ResourceKey<StructureSet>> structures_to_avoid, int min_y, int max_y, int max_dy,
-            int y_check_radius, final int avoid_range, final int biome_room)
+    public ExpandedJigsawConfiguration(Holder<StructureTemplatePool> start_pool, int maxDepth, YSettings y_settings,
+            ClearanceSettings clearances, List<String> required_parts, String _spawn_preset, String _spawn_blacklist,
+            final String biome_type, Heightmap.Types height_type,
+            final List<ResourceKey<StructureSet>> structures_to_avoid, final int avoid_range, final int biome_room)
     {
         super(start_pool, maxDepth);
-        this.vertical_offset = vertical_offset;
+        this.y_settings = y_settings;
+        this.clearances = clearances;
         this.required_parts = required_parts;
         this.height_type = height_type;
         this.structures_to_avoid = structures_to_avoid;
@@ -82,10 +134,7 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
         this.biome_room = biome_room;
         this._spawn_preset = _spawn_preset;
         this._spawn_blacklist = _spawn_blacklist;
-        this.min_y = min_y;
-        this.max_y = max_y;
-        this.max_dy = max_dy;
-        this.y_check_radius = y_check_radius;
+        this.biome_type = biome_type;
 
         if (!_spawn_blacklist.isBlank())
         {
