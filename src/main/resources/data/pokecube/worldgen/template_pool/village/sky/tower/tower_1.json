@@ -5,6 +5,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/tower/tower_1",
         "processors": "pokecube:generic",
+        "space_below": 0,
         "projection": "rigid"
       },
       "weight": 1
