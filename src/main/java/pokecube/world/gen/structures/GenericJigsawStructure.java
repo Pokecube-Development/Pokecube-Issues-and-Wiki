@@ -111,11 +111,11 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         // center of that chunk)
         BlockPos blockpos = context.chunkPos().getMiddleBlockPosition(0);
         Pools.bootstrap();
-        
+
         Optional<PieceGenerator<ExpandedJigsawConfiguration>> structurePiecesGenerator;
 
-        structurePiecesGenerator = ExpandedJigsawPacement
-                .addPieces(context, ExpandedPoolElementStructurePiece::new, blockpos, false, true);
+        structurePiecesGenerator = ExpandedJigsawPacement.addPieces(context, ExpandedPoolElementStructurePiece::new,
+                blockpos, false, true);
 
 //        structurePiecesGenerator = ExpandedJigsawPacementVanillaLike.addPieces(context,
 //                ExpandedPoolElementStructurePiece::new, blockpos, false, true);

@@ -2,7 +2,8 @@
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
     "start_pool": "pokecube:village/plains/small",
-    "required_parts": ["pokecenter", "pokecenter_path"],
+    "required_parts": ["pokecenter"],
+    "spawn_blacklist": "snowy_areas",
     "avoid_range": 6,
     "biome_type": "village",
     "structures_to_avoid": [

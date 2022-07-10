@@ -4,6 +4,7 @@
   "config": {
     "avoid_range": 6,
     "biome_type": "village",
+    "spawn_blacklist": "mesas",
     "required_parts": [
       "pokecenter",
       "gym"
