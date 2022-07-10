@@ -11,8 +11,7 @@
       "pokecube:villages",
       "pokecube_legends:legendary_tree"
     ],
-    "min_y": 64,
-    "max_dy": 5,
+    "y_settings":{"min_y": 64,"max_dy": 5},
     "size": 2
   },
   "biomes": "#pokecube_world:has_structure/ruins_surface",
