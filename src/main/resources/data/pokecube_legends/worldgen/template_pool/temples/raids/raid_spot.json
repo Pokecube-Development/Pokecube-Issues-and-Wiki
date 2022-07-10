@@ -1,14 +1,14 @@
 {
-  "name": "pokecube_legends:temples/surface_temples/keldeo_place",
+  "name": "pokecube_legends:temples/raids/raid_spot",
   "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 1,
       "element": {
-        "location": "pokecube_legends:temples/surface/keldeo_place",
+        "location": "pokecube_legends:temples/raids/raid_spot",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:mossify_30_percent"
+        "processors": "pokecube:generic"
       }
     }
   ]
