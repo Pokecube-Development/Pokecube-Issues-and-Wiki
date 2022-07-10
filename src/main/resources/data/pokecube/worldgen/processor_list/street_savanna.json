@@ -13,7 +13,7 @@
               "predicate_type": "minecraft:block_match"
             },
             "output_state": {
-              "Name": "minecraft:oak_planks"
+              "Name": "minecraft:acacia_planks"
             }
           },
           {
@@ -67,9 +67,6 @@
         ]
       },
       {
-        "processor_type": "pokecube:marker_to_air"
-      },
-      {
         "processor_type": "minecraft:block_ignore",
         "blocks": [
           {
@@ -82,6 +79,9 @@
       },
       {
         "processor_type": "pokecube:structures"
+      },
+      {
+        "processor_type": "pokecube:marker_to_air"
       }
     ]
   }

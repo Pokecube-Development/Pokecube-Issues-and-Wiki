@@ -60,12 +60,6 @@ public class PostProcessor
                 final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box);
                 SpawnEventsHandler.queueForUpdate(poses, subbiome, ExpandedJigsawPacement.getForGen(chunkGenerator));
             }
-
-            if (config.y_settings.vertical_offset != 0)
-            {
-                part.move(0, config.y_settings.vertical_offset, 0);
-                System.out.println("Shifting for " + part);
-            }
             if (part.getElement() instanceof final ExpandedJigsawPiece piece)
             {
                 final int dy = piece.y_offset;

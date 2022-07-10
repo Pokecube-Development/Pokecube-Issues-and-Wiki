@@ -4,7 +4,8 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/town_centers/base_1",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:cave_village",
+        "space_below": 0,
         "projection": "rigid"
       },
       "weight": 1

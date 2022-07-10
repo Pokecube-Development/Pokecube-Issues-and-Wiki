@@ -4,6 +4,7 @@
   "config": {
     "avoid_range": 6,
     "size": 5,
+    "biome_type": "village",
     "start_pool": "pokecube:village/the_end/town_centers",
     "structures_to_avoid": [
       "minecraft:villages",

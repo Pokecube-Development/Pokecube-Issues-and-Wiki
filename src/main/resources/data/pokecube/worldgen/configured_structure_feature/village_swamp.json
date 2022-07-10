@@ -1,13 +1,16 @@
 {
-  "adapt_noise": true,
+  "adapt_noise": false,
   "biomes": "#pokecube_world:has_structure/village_swamp",
   "config": {
     "avoid_range": 6,
+    "biome_type": "village",
+    "y_settings":{"vertical_offset": -2, "y_check_radius":3, "max_dy": 5},
     "required_parts": [
       "pokecenter"
     ],
     "size": 3,
     "start_pool": "pokecube:village/swamp/small",
+    "clearances":{"h_clearance": 0},
     "structures_to_avoid": [
       "pokecube:towns",
       "minecraft:villages",

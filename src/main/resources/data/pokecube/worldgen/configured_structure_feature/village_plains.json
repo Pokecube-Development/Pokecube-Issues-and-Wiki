@@ -4,6 +4,7 @@
     "start_pool": "pokecube:village/plains/small",
     "required_parts": ["pokecenter", "pokecenter_path"],
     "avoid_range": 6,
+    "biome_type": "village",
     "structures_to_avoid": [
       "pokecube:towns",
       "minecraft:villages",

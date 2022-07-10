@@ -22,8 +22,10 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.StructureMode;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
@@ -40,6 +42,8 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -48,6 +52,8 @@ import pokecube.core.events.StructureEvent;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.gen.structures.PokecubeStructures;
+import pokecube.world.gen.structures.processors.MarkerToAirProcessor;
+import pokecube.world.gen.structures.processors.NoWaterlogProcessor;
 import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
 
 public class ExpandedJigsawPiece extends SinglePoolElement
@@ -150,19 +156,47 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         placementsettings.setIgnoreEntities(false);
         placementsettings.setFinalizeEntities(true);
 
+        // First do the jigsaw -> whatever it turns into
         if (!notJigsaw) placementsettings.addProcessor(JigsawReplacementProcessor.INSTANCE);
 
+        // Then add custom processors
         this.processors.value().list().forEach(placementsettings::addProcessor);
 
-        final boolean shouldIgnoreAire = this.ignore_air;
-
-        if (shouldIgnoreAire) placementsettings.addProcessor(BlockIgnoreProcessor.STRUCTURE_AND_AIR);
+        // Then add structure block handling
+        if (markers_to_air) placementsettings.addProcessor(MarkerToAirProcessor.PROCESSOR);
         else placementsettings.addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
 
+        // And finally add the terrain matching processors
         if (water_terrain_match) placementsettings.addProcessor(new GravityProcessor(Types.OCEAN_FLOOR_WG, -1));
         else this.getProjection().getProcessors().forEach(placementsettings::addProcessor);
 
         return placementsettings;
+    }
+
+    public void checkWaterlogging(final WorldGenLevel level, StructureTemplate template,
+            StructurePlaceSettings placementsettings, final BlockPos pos1, final BlockPos pos2, final Rotation rotation,
+            final BoundingBox box, final Random rng, Map<BlockPos, BlockState> unWaterlog)
+    {
+        List<StructureTemplate.StructureBlockInfo> list = placementsettings.getRandomPalette(template.palettes, pos1)
+                .blocks();
+
+        for (StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : StructureTemplate
+                .processBlockInfos(level, pos1, pos2, placementsettings, list, template))
+        {
+            BlockPos blockpos = structuretemplate$structureblockinfo.pos;
+            if (box == null || box.isInside(blockpos))
+            {
+                FluidState old = level.getFluidState(blockpos);
+                @SuppressWarnings("deprecation")
+                BlockState to_place = structuretemplate$structureblockinfo.state.mirror(placementsettings.getMirror())
+                        .rotate(placementsettings.getRotation());
+                if (old.is(Fluids.WATER) && to_place.getFluidState().isEmpty()
+                        && to_place.getBlock() instanceof LiquidBlockContainer)
+                {
+                    unWaterlog.put(blockpos, level.getBlockState(blockpos));
+                }
+            }
+        }
     }
 
     @Override
@@ -179,7 +213,23 @@ public class ExpandedJigsawPiece extends SinglePoolElement
 
         try
         {
+            Map<BlockPos, BlockState> unWaterlog = Maps.newHashMap();
+            if (this.processors.value().list().contains(NoWaterlogProcessor.PROCESSOR))
+            {
+                checkWaterlogging(level, template, placementsettings, pos1, pos2, rotation, box, rng, unWaterlog);
+            }
             placed = template.placeInWorld(level, pos1, pos2, placementsettings, rng, placeFlags);
+            if (placed)
+            {
+                unWaterlog.forEach((pos, state) -> {
+                    BlockState newState = level.getBlockState(pos);
+                    if (newState.getBlock() instanceof LiquidBlockContainer cont)
+                    {
+                        PokecubeCore.LOGGER.debug("Un Waterlogging {}", newState);
+                        cont.placeLiquid(level, pos, newState, Fluids.EMPTY.defaultFluidState());
+                    }
+                });
+            }
         }
         catch (final Exception e)
         {

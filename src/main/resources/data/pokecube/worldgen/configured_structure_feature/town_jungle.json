@@ -1,14 +1,17 @@
 {
-  "adapt_noise": true,
+  "adapt_noise": false,
   "biomes": "#pokecube_world:has_structure/village_jungle",
   "config": {
     "avoid_range": 6,
+    "biome_type": "village",
+    "y_settings":{"vertical_offset": -2, "y_check_radius":3, "max_dy": 5},
     "required_parts": [
       "pokecenter",
       "gym"
     ],
     "size": 5,
     "start_pool": "pokecube:village/jungle/town_centers",
+    "clearances":{"h_clearance": 0},
     "structures_to_avoid": [
       "minecraft:villages",
       "minecraft:pillager_outposts"

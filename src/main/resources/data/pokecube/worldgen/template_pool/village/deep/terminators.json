@@ -4,7 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/deep/terminators/terminator",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:cave_village",
         "projection": "rigid"
       },
       "weight": 1

@@ -4,7 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/streets/end_01",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:cave_village",
         "projection": "rigid"
       },
       "weight": 1
@@ -13,7 +13,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/streets/crossroad_01",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:cave_village",
         "projection": "rigid"
       },
       "weight": 4
@@ -22,7 +22,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/streets/crossroad_02",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:cave_village",
         "projection": "rigid"
       },
       "weight": 5
@@ -31,7 +31,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/streets/straight_1",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:cave_village",
         "projection": "rigid"
       },
       "weight": 8
@@ -40,7 +40,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/streets/straight_2",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:cave_village",
         "projection": "rigid"
       },
       "weight": 6
@@ -49,7 +49,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/streets/straight_3",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:cave_village",
         "projection": "rigid"
       },
       "weight": 6
@@ -58,7 +58,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/streets/straight_4",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:cave_village",
         "projection": "rigid"
       },
       "weight": 6
@@ -67,7 +67,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/streets/straight_chest",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:cave_village",
         "projection": "rigid"
       },
       "weight": 3

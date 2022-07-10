@@ -35,7 +35,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult.Type;
-import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
 import net.minecraftforge.client.event.InputEvent.RawMouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -101,10 +100,6 @@ public class EventsHandlerClient
         // This handles ridden input controls, auto-recalling of pokemobs, and
         // auto-selection of moves.
         MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onPlayerTick);
-
-        // Here we remove the fog from rendering if we are riding a pokemob that
-        // can dive, and we are under water.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onFogRender);
 
         // This one handles allowing the player to interact with mobs which are
         // larger than the vanilla hitboxes.
@@ -218,19 +213,6 @@ public class EventsHandlerClient
             }
         }
         EventsHandlerClient.lastSetTime = System.currentTimeMillis() + 500;
-    }
-
-    private static void onFogRender(final EntityViewRenderEvent.FogDensity evt)
-    {
-//        IPokemob mount;
-//
-//        if (evt.getCamera().getEntity() instanceof Player && evt.getCamera().getEntity().getVehicle() != null
-//                && (mount = CapabilityPokemob.getPokemobFor(evt.getCamera().getEntity().getVehicle())) != null) if (evt
-//                        .getCamera().getEntity().isInWater() && mount.canUseDive())
-//        {
-//            evt.setDensity(0.0f);
-//            evt.setCanceled(true);
-//        }
     }
 
     private static void onMouseInput(final RawMouseEvent evt)
