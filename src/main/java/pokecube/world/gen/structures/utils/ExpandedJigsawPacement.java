@@ -45,7 +45,6 @@ import net.minecraft.world.level.levelgen.structure.pools.JigsawJunction;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -186,7 +185,7 @@ public class ExpandedJigsawPacement
     static final class PieceState
     {
         final PoolElementStructurePiece piece;
-        final Set<StructureBlockInfo> used_jigsaws = Sets.newHashSet();
+        final Set<BlockPos> used_jigsaws = Sets.newHashSet();
         final MutableObject<VoxelShape> free;
         final int depth;
 
@@ -229,11 +228,11 @@ public class ExpandedJigsawPacement
             this.config = config;
         }
 
-        List<StructureTemplate.StructureBlockInfo> getShuffledJigsaws(StructurePoolElement structurepoolelement,
-                BlockPos blockpos, Rotation rotation)
+        List<StructureBlockInfo> getShuffledJigsaws(StructurePoolElement structurepoolelement, BlockPos blockpos,
+                Rotation rotation)
         {
-            List<StructureTemplate.StructureBlockInfo> shuffled = structurepoolelement
-                    .getShuffledJigsawBlocks(this.structureManager, blockpos, rotation, this.random);
+            List<StructureBlockInfo> shuffled = structurepoolelement.getShuffledJigsawBlocks(this.structureManager,
+                    blockpos, rotation, this.random);
             return shuffled;
         }
 
@@ -341,17 +340,32 @@ public class ExpandedJigsawPacement
                 heightmap$types = _default;
             }
 
+            // If the root part is rigid, add it first so child parts do not
+            // conflict.
+            if (root_rigid)
+            {
+                // If it was rigid, add it to the
+                // rigid bounds, but ignoring clearances, as we need sub-parts
+                // to attach
+                AABB next_box = AABB.of(root_bounding_box);
+                VoxelShape new_shape = Shapes.create(next_box);
+                if (rigid_bounds.getValue() != null)
+                {
+                    rigid_bounds.setValue(Shapes.or(rigid_bounds.getValue(), new_shape));
+                }
+                else
+                {
+                    rigid_bounds.setValue(new_shape);
+                }
+            }
+
             List<StructureBlockInfo> root_jigsaws = this.getShuffledJigsaws(root_element, blockpos, rotation);
             root_jigsaws:
             for (StructureBlockInfo root_block_info : root_jigsaws)
             {
-                if (root_state.used_jigsaws.contains(root_block_info))
-                {
-                    PokecubeCore.LOGGER.debug("Skipping used part!");
-                    continue root_jigsaws;
-                }
-                Direction direction = JigsawBlock.getFrontFacing(root_block_info.state);
                 BlockPos raw_jigsaw_pos = root_block_info.pos;
+                if (root_state.used_jigsaws.contains(raw_jigsaw_pos)) continue root_jigsaws;
+                Direction direction = JigsawBlock.getFrontFacing(root_block_info.state);
                 BlockPos connecting_jigsaw_pos = raw_jigsaw_pos.relative(direction);
                 boolean next_pick_inside = root_bounding_box.isInside(connecting_jigsaw_pos);
 
@@ -378,12 +392,12 @@ public class ExpandedJigsawPacement
                                 fallback_pool))
                         {
                             if (next_picked_element == EmptyPoolElement.INSTANCE) break;
-                            for (Rotation rotation1 : Rotation.getShuffled(this.random))
+                            for (Rotation random_direction : Rotation.getShuffled(this.random))
                             {
-                                List<StructureBlockInfo> next_jigsaws = next_picked_element.getShuffledJigsawBlocks(
-                                        this.structureManager, BlockPos.ZERO, rotation1, this.random);
+                                List<StructureBlockInfo> next_jigsaws = this.getShuffledJigsaws(next_picked_element,
+                                        BlockPos.ZERO, random_direction);
                                 BoundingBox picked_box = next_picked_element.getBoundingBox(this.structureManager,
-                                        BlockPos.ZERO, rotation1);
+                                        BlockPos.ZERO, random_direction);
                                 int l;
                                 if (bound_check && picked_box.getYSpan() <= 16)
                                 {
@@ -423,9 +437,10 @@ public class ExpandedJigsawPacement
                                     if (JigsawBlock.canAttach(root_block_info, next_block_info))
                                     {
                                         BlockPos next_pos_raw = next_block_info.pos;
+                                        if (root_state.used_jigsaws.contains(next_pos_raw)) continue pick_jigsaws;
                                         BlockPos next_jigsaw_pos = connecting_jigsaw_pos.subtract(next_pos_raw);
-                                        BoundingBox next_pick_box = next_picked_element
-                                                .getBoundingBox(this.structureManager, next_jigsaw_pos, rotation1);
+                                        BoundingBox next_pick_box = next_picked_element.getBoundingBox(
+                                                this.structureManager, next_jigsaw_pos, random_direction);
                                         int next_min_y = next_pick_box.minY();
                                         StructureTemplatePool.Projection next_projection = next_picked_element
                                                 .getProjection();
@@ -462,6 +477,14 @@ public class ExpandedJigsawPacement
 
                                         AABB test_box = AABB.of(next_pick_box_shifted_y).deflate(0.25D);
 
+                                        // Unless we are actually inside, do not
+                                        // allow intersections with the root
+                                        // box.
+                                        if (!next_pick_inside)
+                                        {
+                                            if (test_box.intersects(root_box)) continue pick_jigsaws;
+                                        }
+
                                         // Never allow intersection of rigid
                                         // objects.
                                         if (rigid_bounds.getValue() != null)
@@ -480,14 +503,6 @@ public class ExpandedJigsawPacement
                                             if (Shapes.joinIsNotEmpty(non_rigid_bounds.getValue(), new_shape,
                                                     BooleanOp.AND))
                                                 continue pick_jigsaws;
-                                        }
-
-                                        // Unless we are actually inside, do not
-                                        // allow intersections with the root
-                                        // box.
-                                        if (!next_pick_inside)
-                                        {
-                                            if (test_box.intersects(root_box)) continue pick_jigsaws;
                                         }
 
                                         // If we are rigid, add the boundary
@@ -535,7 +550,7 @@ public class ExpandedJigsawPacement
 
                                         PoolElementStructurePiece next_piece = this.factory.create(
                                                 this.structureManager, next_picked_element, blockpos5, next_y_offset,
-                                                rotation1, next_pick_box_shifted_y);
+                                                random_direction, next_pick_box_shifted_y);
 
                                         int root_junction_y_offset;
                                         if (root_rigid)
@@ -578,7 +593,12 @@ public class ExpandedJigsawPacement
                                         if (depth + 1 <= this.maxDepth)
                                         {
                                             PieceState next_piece_state = new PieceState(next_piece, free, depth + 1);
-                                            next_piece_state.used_jigsaws.add(next_block_info);
+                                            next_piece_state.used_jigsaws.add(raw_jigsaw_pos);
+                                            next_piece_state.used_jigsaws.add(next_pos_raw);
+
+                                            root_state.used_jigsaws.add(raw_jigsaw_pos);
+                                            root_state.used_jigsaws.add(next_pos_raw);
+
                                             this.placing.addLast(next_piece_state);
                                         }
                                         continue root_jigsaws;

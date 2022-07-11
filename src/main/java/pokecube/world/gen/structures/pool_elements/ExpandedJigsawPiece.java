@@ -145,10 +145,12 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         this.y_offset = y_offset;
         this.space_below = space_below;
     }
-    
+
     @Override
     public int getGroundLevelDelta()
     {
+        // Negative y_offset, as this is the shift of the ground, not the shift
+        // of the structure!
         return -this.y_offset;
     }
 
