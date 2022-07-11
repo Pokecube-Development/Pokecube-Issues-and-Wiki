@@ -16,7 +16,7 @@
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
-      "weight": 6
+      "weight": 2
     },
     {
       "element": {
