@@ -12,7 +12,7 @@
       "minecraft:pillager_outposts"
     ],
     "y_settings":{"max_dy": 5},
-    "clearances":{"h_clearance": 0},
+    "clearances":{"h_clearance": 0, "y_check_radius": 2},
     "size": 2
   },
   "biomes": "#pokecube_world:has_structure/legendary_tree",
