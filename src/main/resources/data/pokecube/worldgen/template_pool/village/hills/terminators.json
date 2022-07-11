@@ -4,7 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/hills/terminators/terminator_01",
-        "processors": "pokecube:generic",
+        "no_affect_noise": true,"processors": "pokecube:street_hills",
         "projection": "terrain_matching"
       },
       "weight": 1

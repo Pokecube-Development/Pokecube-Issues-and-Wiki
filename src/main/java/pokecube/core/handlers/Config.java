@@ -38,7 +38,6 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokecubeSerializer;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 

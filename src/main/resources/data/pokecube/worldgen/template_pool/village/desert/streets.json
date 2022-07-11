@@ -4,7 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/desert/streets/road_t_01",
-        "processors": "pokecube:generic",
+        "no_affect_noise": true,"processors": "pokecube:street_desert",
         "projection": "terrain_matching"
       },
       "weight": 5
@@ -13,7 +13,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/desert/streets/road_plus_01",
-        "processors": "pokecube:generic",
+        "no_affect_noise": true,"processors": "pokecube:street_desert",
         "projection": "terrain_matching"
       },
       "weight": 3
@@ -22,7 +22,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/desert/streets/road_01",
-        "processors": "pokecube:generic",
+        "no_affect_noise": true,"processors": "pokecube:street_desert",
         "projection": "terrain_matching"
       },
       "weight": 6
@@ -31,7 +31,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/desert/streets/corner_01",
-        "processors": "pokecube:generic",
+        "no_affect_noise": true,"processors": "pokecube:street_desert",
         "projection": "terrain_matching"
       },
       "weight": 3
@@ -40,7 +40,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/desert/streets/corner_02",
-        "processors": "pokecube:generic",
+        "no_affect_noise": true,"processors": "pokecube:street_desert",
         "projection": "terrain_matching"
       },
       "weight": 3
@@ -49,7 +49,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/desert/streets/crossroad_01",
-        "processors": "pokecube:generic",
+        "no_affect_noise": true,"processors": "pokecube:street_desert",
         "projection": "terrain_matching"
       },
       "weight": 5
@@ -58,7 +58,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/desert/streets/crossroad_02",
-        "processors": "pokecube:generic",
+        "no_affect_noise": true,"processors": "pokecube:street_desert",
         "projection": "terrain_matching"
       },
       "weight": 5
@@ -67,7 +67,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/desert/streets/crossroad_03",
-        "processors": "pokecube:generic",
+        "no_affect_noise": true,"processors": "pokecube:street_desert",
         "projection": "terrain_matching"
       },
       "weight": 5
@@ -76,7 +76,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/desert/streets/square_01",
-        "processors": "pokecube:generic",
+        "no_affect_noise": true,"processors": "pokecube:street_desert",
         "projection": "terrain_matching"
       },
       "weight": 8
@@ -85,7 +85,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/desert/streets/square_02",
-        "processors": "pokecube:generic",
+        "no_affect_noise": true,"processors": "pokecube:street_desert",
         "projection": "terrain_matching"
       },
       "weight": 8
@@ -94,7 +94,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/desert/streets/straight_01",
-        "processors": "pokecube:generic",
+        "no_affect_noise": true,"processors": "pokecube:street_desert",
         "projection": "terrain_matching"
       },
       "weight": 8
@@ -103,7 +103,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/desert/streets/straight_02",
-        "processors": "pokecube:generic",
+        "no_affect_noise": true,"processors": "pokecube:street_desert",
         "projection": "terrain_matching"
       },
       "weight": 8
@@ -112,7 +112,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/desert/streets/straight_03",
-        "processors": "pokecube:generic",
+        "no_affect_noise": true,"processors": "pokecube:street_desert",
         "projection": "terrain_matching"
       },
       "weight": 8
@@ -121,7 +121,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/desert/streets/turn_01",
-        "processors": "pokecube:generic",
+        "no_affect_noise": true,"processors": "pokecube:street_desert",
         "projection": "terrain_matching"
       },
       "weight": 3

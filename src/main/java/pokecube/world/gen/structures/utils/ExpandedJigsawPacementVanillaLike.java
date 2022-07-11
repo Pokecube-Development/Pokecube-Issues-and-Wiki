@@ -272,6 +272,7 @@ public class ExpandedJigsawPacementVanillaLike
             return list;
         }
 
+        @SuppressWarnings("deprecation")
         void tryPlacingChildren(PoolElementStructurePiece root_pool, MutableObject<VoxelShape> bounds_holder, int depth,
                 boolean bound_check, LevelHeightAccessor level)
         {
@@ -285,8 +286,6 @@ public class ExpandedJigsawPacementVanillaLike
             int i = boundingbox.minY();
 
             root_jigsaws:
-//            for (StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : structurepoolelement
-//                    .getShuffledJigsawBlocks(this.structureManager, blockpos, rotation, this.random))
             for (StructureTemplate.StructureBlockInfo root_block_info : this.getShuffledJigsaws(root_element, blockpos,
                     rotation))
             {
@@ -321,15 +320,6 @@ public class ExpandedJigsawPacementVanillaLike
                         }
 
                         List<StructurePoolElement> list = Lists.newArrayList();
-
-                        // Replace existing with our version that can also
-                        // include sub pools
-//                        if (depth != this.maxDepth)
-//                        {
-//                            list.addAll(optional.get().getShuffledTemplates(this.random));
-//                        }
-//
-//                        list.addAll(optional1.get().getShuffledTemplates(this.random));
 
                         list = this.getShuffledParts(depth, next_pool, fallback_pool);
 
