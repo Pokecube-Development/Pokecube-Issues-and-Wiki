@@ -62,9 +62,6 @@ public class PostProcessor
             }
             if (part.getElement() instanceof final ExpandedJigsawPiece piece)
             {
-                final int dy = piece.y_offset;
-                // Check if the part needs a shift.
-                part.move(0, -dy, 0);
 
                 if (PokecubeSerializer.getInstance().hasPlacedSpawn() || !PokecubeCore.getConfig().doSpawnBuilding)
                     return;
