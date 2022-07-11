@@ -11,8 +11,8 @@
       "minecraft:villages",
       "minecraft:pillager_outposts"
     ],
-    "y_settings":{"max_dy": 5},
-    "clearances":{"h_clearance": 0, "y_check_radius": 2},
+    "y_settings":{"max_dy": 5, "y_check_radius": 2},
+    "clearances":{"h_clearance": 0},
     "size": 4
   },
   "biomes": "#pokecube_world:has_structure/legendary_tree",

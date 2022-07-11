@@ -1,6 +1,7 @@
 {
-    "replace": false,
-    "values": [
-      "pokecube_legends:regice_temple"
-    ]
-  }
+  "replace": false,
+  "values": [
+    "pokecube_legends:regice_temple",
+    "pokecube_legends:regidrago_temple"
+  ]
+}

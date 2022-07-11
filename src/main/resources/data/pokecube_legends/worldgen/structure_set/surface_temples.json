@@ -43,6 +43,10 @@
     {
       "structure": "pokecube_legends:regice_temple",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:regidrago_temple",
+      "weight": 1
     }
   ],
   "placement": {
