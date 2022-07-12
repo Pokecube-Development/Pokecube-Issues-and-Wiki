@@ -39,26 +39,6 @@
     {
       "structure": "pokecube_legends:nature_place",
       "weight": 1
-    },
-    {
-      "structure": "pokecube_legends:regice_temple",
-      "weight": 1
-    },
-    {
-      "structure": "pokecube_legends:regidrago_temple",
-      "weight": 1
-    },
-    {
-      "structure": "pokecube_legends:regieleki_temple",
-      "weight": 1
-    },
-    {
-      "structure": "pokecube_legends:regigigas_temple",
-      "weight": 1
-    },
-    {
-      "structure": "pokecube_legends:regirock_temple",
-      "weight": 1
     }
   ],
   "placement": {

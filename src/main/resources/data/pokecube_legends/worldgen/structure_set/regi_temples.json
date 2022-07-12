@@ -1,0 +1,34 @@
+{
+  "structures": [
+    {
+      "structure": "pokecube_legends:regice_temple",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:regidrago_temple",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:regieleki_temple",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:regigigas_temple",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:regirock_temple",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:registeel_temple",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 1234567890,
+    "spacing": 24,
+    "separation": 12,
+    "type": "minecraft:random_spread"
+  }
+}
