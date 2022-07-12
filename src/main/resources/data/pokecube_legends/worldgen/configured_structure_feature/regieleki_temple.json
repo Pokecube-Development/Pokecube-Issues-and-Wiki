@@ -11,7 +11,7 @@
       "minecraft:pillager_outposts",
       "minecraft:villages"
     ],
-    "y_settings":{"max_dy": 5, "y_check_radius": 2},
+    "y_settings":{"max_dy": 5, "y_check_radius": 1},
     "size": 2
   },
   "biomes": "#pokecube_world:has_structure/regieleki_temple",
