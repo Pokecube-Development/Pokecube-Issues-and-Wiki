@@ -51,6 +51,14 @@
     {
       "structure": "pokecube_legends:regieleki_temple",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:regigigas_temple",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:regirock_temple",
+      "weight": 1
     }
   ],
   "placement": {

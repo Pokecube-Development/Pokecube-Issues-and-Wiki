@@ -151,7 +151,7 @@
       ],
       "spawn": {
         "values": {
-          "preset": "mesas"
+          "preset": "badlands"
         }
       }
     },
@@ -174,7 +174,7 @@
       ],
       "spawn": {
         "values": {
-          "preset": "mesas"
+          "preset": "badlands"
         }
       }
     }
