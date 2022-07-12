@@ -76,7 +76,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
                             Codec.BOOL.fieldOf("only_once").orElse(false).forGetter(s -> s.only_once),
                             Codec.BOOL.fieldOf("bound_check").orElse(true).forGetter(s -> s.bound_check),
                             Codec.BOOL.fieldOf("no_affect_noise").orElse(false).forGetter(s -> s.no_affect_noise),
-                            Codec.INT.fieldOf("y_offset").orElse(0).forGetter(s -> s.y_offset),
+                            Codec.INT.fieldOf("y_offset").orElse(-1).forGetter(s -> s.y_offset),
                             Codec.INT.fieldOf("space_below").orElse(10).forGetter(s -> s.y_offset))
                     .apply(instance, ExpandedJigsawPiece::new);
         });
@@ -144,6 +144,14 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         this.no_affect_noise = no_affect_noise;
         this.y_offset = y_offset;
         this.space_below = space_below;
+    }
+
+    @Override
+    public int getGroundLevelDelta()
+    {
+        // Negative y_offset, as this is the shift of the ground, not the shift
+        // of the structure!
+        return -this.y_offset;
     }
 
     @Override

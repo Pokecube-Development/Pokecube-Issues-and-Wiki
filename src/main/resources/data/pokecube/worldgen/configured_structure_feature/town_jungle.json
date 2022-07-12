@@ -4,14 +4,14 @@
   "config": {
     "avoid_range": 6,
     "biome_type": "village",
-    "y_settings":{"vertical_offset": -2, "y_check_radius":3, "max_dy": 5},
+    "y_settings":{"vertical_offset": -2, "y_check_radius":2, "max_dy": 5},
+    "clearances":{"h_clearance": 0},
     "required_parts": [
       "pokecenter",
       "gym"
     ],
-    "size": 5,
+    "size": 4,
     "start_pool": "pokecube:village/jungle/town_centers",
-    "clearances":{"h_clearance": 0},
     "structures_to_avoid": [
       "minecraft:villages",
       "minecraft:pillager_outposts"

@@ -5,6 +5,7 @@
     "avoid_range": 6,
     "biome_type": "village",
     "y_settings":{"vertical_offset": -2},
+    "clearances":{"h_clearance": 0},
     "required_parts": [
       "pokecenter"
     ],

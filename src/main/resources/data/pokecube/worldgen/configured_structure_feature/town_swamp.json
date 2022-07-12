@@ -4,6 +4,7 @@
   "config": {
     "avoid_range": 6,
     "y_settings":{"vertical_offset": -2, "y_check_radius":3, "max_dy": 5},
+    "clearances":{"h_clearance": 0},
     "biome_type": "village",
     "required_parts": [
       "pokecenter",
@@ -11,7 +12,6 @@
     ],
     "size": 6,
     "start_pool": "pokecube:village/swamp/town_centers",
-    "clearances":{"h_clearance": 0},
     "structures_to_avoid": [
       "minecraft:villages",
       "minecraft:pillager_outposts"
