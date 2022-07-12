@@ -6,7 +6,6 @@
     "spawn_blacklist": "oceans,beaches",
     "avoid_range": 6,
     "clearances":{"h_clearance": 0},
-    "y_settings":{"vertical_offset": -4},
     "size": 2
   },
   "biomes": "#pokecube_world:has_structure/nature_place",
