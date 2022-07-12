@@ -969,7 +969,7 @@ public class BlockInit
 
         // Meteor Blocks
         METEORITE_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("meteorite_block",
-                () -> new Block(BlockBehaviour.Properties.of(Material.VEGETABLE, MaterialColor.TERRACOTTA_BLUE)
+                () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLUE)
                         .strength(2.5f).sound(SoundType.DRIPSTONE_BLOCK).requiresCorrectToolForDrops()));
         METEORITE_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("meteorite_stairs",
                 () -> new ItemGenerator.GenericStairs(METEORITE_BLOCK.get().defaultBlockState(),
