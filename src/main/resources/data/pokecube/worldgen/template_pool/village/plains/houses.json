@@ -60,6 +60,17 @@
         "only_once": true,
         "processors": "pokecube:decay_10_percent"
       }
+    },
+    {
+      "weight": 10,
+      "element": {
+        "location": "pokecube:village/plains/houses/team_rocket_plains_house",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic_ladders",
+        "projection": "rigid",
+        "only_once": true,
+        "space_below": 0
+      }
     }
   ]
 }
