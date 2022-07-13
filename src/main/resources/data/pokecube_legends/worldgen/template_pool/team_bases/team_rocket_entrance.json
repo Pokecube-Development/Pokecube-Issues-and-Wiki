@@ -9,6 +9,7 @@
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders",
+        "flags": "team_rocket",
         "space_below": 0
       }
     },

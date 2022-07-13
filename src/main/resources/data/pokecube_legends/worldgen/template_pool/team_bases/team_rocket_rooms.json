@@ -43,6 +43,16 @@
       }
     },
     {
+      "weight": 3,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_5",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic_ladders",
+        "projection": "rigid",
+        "space_below": 0
+      }
+    },
+    {
       "weight": 5,
       "element": {
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_hallway_1",

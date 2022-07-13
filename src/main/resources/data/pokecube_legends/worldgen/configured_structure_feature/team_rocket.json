@@ -2,6 +2,7 @@
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
     "start_pool": "pokecube_legends:team_bases/team_rocket",
+    "required_parts": ["entrance"],
     "spawn_preset": "all",
     "spawn_blacklist": "oceans,beaches,rivers",
     "avoid_range": 6,
