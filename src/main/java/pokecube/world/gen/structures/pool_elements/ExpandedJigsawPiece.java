@@ -77,6 +77,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
                             Codec.BOOL.fieldOf("bound_check").orElse(true).forGetter(s -> s.bound_check),
                             Codec.BOOL.fieldOf("no_affect_noise").orElse(false).forGetter(s -> s.no_affect_noise),
                             Codec.INT.fieldOf("y_offset").orElse(-1).forGetter(s -> s.y_offset),
+                            Codec.INT.fieldOf("extra_child_depth").orElse(0).forGetter(s -> s.extra_child_depth),
                             Codec.INT.fieldOf("space_below").orElse(10).forGetter(s -> s.y_offset))
                     .apply(instance, ExpandedJigsawPiece::new);
         });
@@ -112,6 +113,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
     public final boolean no_affect_noise;
     public final int y_offset;
     public final int space_below;
+    public final int extra_child_depth;
 
     public final String[] _flags;
 
@@ -128,7 +130,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
             final boolean ignoreAir, final boolean water_terrain_match, final boolean markers_to_air,
             final String biome_type, final String name, final String flags, List<ResourceLocation> extra_pools,
             final boolean only_once, final boolean bound_check, final boolean no_affect_noise, int y_offset,
-            int space_below)
+            int extra_child_depth, int space_below)
     {
         super(template, processors, behaviour);
         this.ignore_air = ignoreAir;
@@ -144,6 +146,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         this.no_affect_noise = no_affect_noise;
         this.y_offset = y_offset;
         this.space_below = space_below;
+        this.extra_child_depth = extra_child_depth;
     }
 
     @Override
