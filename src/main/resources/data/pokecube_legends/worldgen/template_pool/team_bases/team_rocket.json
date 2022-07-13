@@ -5,37 +5,37 @@
     {
       "weight": 1,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_top_1",
+        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_house_1",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_ladders"
+        "processors": "pokecube:generic_ladders_no_waterlog"
       }
     },
     {
       "weight": 1,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_top_2",
+        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_house_2",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_ladders"
+        "processors": "pokecube:generic_ladders_no_waterlog"
       }
     },
     {
       "weight": 1,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_top_3",
+        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_house_3",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_ladders"
+        "processors": "pokecube:generic_ladders_no_waterlog"
       }
     },
     {
       "weight": 1,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_top_4",
+        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_house_4",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_ladders"
+        "processors": "pokecube:generic_ladders_no_waterlog"
       }
     }
   ]

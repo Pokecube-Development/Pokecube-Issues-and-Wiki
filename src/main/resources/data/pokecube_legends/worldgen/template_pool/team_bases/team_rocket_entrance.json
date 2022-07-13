@@ -8,7 +8,7 @@
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_entrance",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_ladders",
+        "processors": "pokecube:generic_ladders_no_waterlog",
         "flags": "team_rocket",
         "space_below": 0
       }
@@ -19,7 +19,7 @@
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_entrance_shaft",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_ladders",
+        "processors": "pokecube:generic_ladders_no_waterlog",
         "space_below": 0
       }
     }
