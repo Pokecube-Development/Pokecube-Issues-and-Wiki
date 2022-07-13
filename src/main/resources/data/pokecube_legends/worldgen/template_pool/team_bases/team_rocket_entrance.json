@@ -1,0 +1,26 @@
+{
+  "name": "pokecube_legends:team_bases/team_rocket_top_shaft",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_entrance",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic_ladders",
+        "space_below": 0
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_entrance_shaft",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic_ladders",
+        "space_below": 0
+      }
+    }
+  ]
+}
