@@ -571,28 +571,44 @@ public class ExpandedJigsawPacement
                                             root_junction_y_offset = k + jigsaw_block_dy / 2;
                                         }
 
-                                        JigsawJunction root_junction = new JigsawJunction(connecting_jigsaw_pos.getX(),
-                                                root_junction_y_offset - dy + root_y_offset,
-                                                connecting_jigsaw_pos.getZ(), jigsaw_block_dy, next_projection);
+                                        boolean addJunctions = true;
+                                        int depth_offset = 0;
 
-                                        JigsawJunction next_junction = new JigsawJunction(raw_jigsaw_pos.getX(),
-                                                root_junction_y_offset - raw_pos_y + next_y_offset,
-                                                raw_jigsaw_pos.getZ(), -jigsaw_block_dy, root_projection);
-
-                                        current_root.addJunction(root_junction);
-                                        next_piece.addJunction(next_junction);
-
-                                        this.pieces.add(next_piece);
                                         if (next_picked_element instanceof ExpandedJigsawPiece p)
                                         {
                                             if (p.only_once) for (String s : p._flags) added_once.add(s);
                                             // Mark it as added if we needed
                                             // this part.
                                             for (String s : p._flags) if (needed_once.contains(s)) added_once.add(s);
+                                            addJunctions = p.no_affect_noise;
+                                            depth_offset = -p.extra_child_depth;
                                         }
-                                        if (depth + 1 <= this.maxDepth)
+
+                                        // The junctions are used for little
+                                        // islands under the jigsaws, this
+                                        // should allow having entire sections
+                                        // without them.
+                                        if (addJunctions)
                                         {
-                                            PieceState next_piece_state = new PieceState(next_piece, free, depth + 1);
+                                            JigsawJunction root_junction = new JigsawJunction(
+                                                    connecting_jigsaw_pos.getX(),
+                                                    root_junction_y_offset - dy + root_y_offset,
+                                                    connecting_jigsaw_pos.getZ(), jigsaw_block_dy, next_projection);
+
+                                            JigsawJunction next_junction = new JigsawJunction(raw_jigsaw_pos.getX(),
+                                                    root_junction_y_offset - raw_pos_y + next_y_offset,
+                                                    raw_jigsaw_pos.getZ(), -jigsaw_block_dy, root_projection);
+
+                                            current_root.addJunction(root_junction);
+                                            next_piece.addJunction(next_junction);
+                                        }
+
+                                        int new_depth = depth + 1 - depth_offset;
+
+                                        this.pieces.add(next_piece);
+                                        if (new_depth <= this.maxDepth)
+                                        {
+                                            PieceState next_piece_state = new PieceState(next_piece, free, new_depth);
                                             next_piece_state.used_jigsaws.add(raw_jigsaw_pos);
                                             next_piece_state.used_jigsaws.add(next_pos_raw);
 
