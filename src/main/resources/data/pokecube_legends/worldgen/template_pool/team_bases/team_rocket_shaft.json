@@ -6,9 +6,10 @@
       "weight": 1,
       "element": {
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_shaft",
-        "projection": "rigid",
-        "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "no_affect_noise": true,
+        "projection": "rigid",
         "space_below": 0
       }
     }

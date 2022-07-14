@@ -8,6 +8,7 @@
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_1",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
+        "no_affect_noise": true,
         "projection": "rigid",
         "space_below": 0
       }
@@ -18,6 +19,7 @@
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_2",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
+        "no_affect_noise": true,
         "projection": "rigid",
         "space_below": 0
       }
@@ -28,6 +30,7 @@
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_3",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
+        "no_affect_noise": true,
         "projection": "rigid",
         "space_below": 0
       }
@@ -38,6 +41,7 @@
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_4",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
+        "no_affect_noise": true,
         "projection": "rigid",
         "space_below": 0
       }
@@ -48,6 +52,7 @@
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_5",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
+        "no_affect_noise": true,
         "projection": "rigid",
         "space_below": 0
       }
@@ -58,6 +63,7 @@
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_6",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
+        "no_affect_noise": true,
         "projection": "rigid",
         "space_below": 0
       }
@@ -68,6 +74,7 @@
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_7",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
+        "no_affect_noise": true,
         "projection": "rigid",
         "space_below": 0
       }
@@ -78,6 +85,7 @@
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_9",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
+        "no_affect_noise": true,
         "projection": "rigid",
         "space_below": 0
       }
@@ -88,6 +96,7 @@
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_10",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
+        "no_affect_noise": true,
         "projection": "rigid",
         "space_below": 0
       }
@@ -98,6 +107,7 @@
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_hallway_1",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
+        "no_affect_noise": true,
         "projection": "rigid",
         "space_below": 0
       }
@@ -108,6 +118,7 @@
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_hallway_2_rooms",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
+        "no_affect_noise": true,
         "projection": "rigid",
         "space_below": 0
       }
@@ -118,6 +129,7 @@
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_hallway_t",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
+        "no_affect_noise": true,
         "projection": "rigid",
         "space_below": 0
       }
@@ -128,6 +140,7 @@
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_hallway_z",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
+        "no_affect_noise": true,
         "projection": "rigid",
         "space_below": 0
       }
@@ -138,6 +151,7 @@
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_hallway_l",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
+        "no_affect_noise": true,
         "projection": "rigid",
         "space_below": 0
       }
@@ -148,6 +162,7 @@
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_corridor",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
+        "no_affect_noise": true,
         "projection": "rigid",
         "space_below": 0
       }
