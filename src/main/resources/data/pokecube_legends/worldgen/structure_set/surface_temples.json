@@ -39,6 +39,10 @@
     {
       "structure": "pokecube_legends:nature_place",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:sky_pillar",
+      "weight": 1
     }
   ],
   "placement": {
