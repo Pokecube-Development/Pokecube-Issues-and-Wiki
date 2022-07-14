@@ -52,7 +52,7 @@
       ]
     },
     {
-      "and_preset": "mesas",
+      "and_preset": "badlands",
       "entries": [
         {"key": "geodude","min": 2,"max": 4,"rate": 0.3},
         {"key": "roggenrola","min": 2,"max": 4,"rate": 0.3},
@@ -75,20 +75,20 @@
       ]
     },
     {
-      "and_preset": "mesas,night_time",
+      "and_preset": "badlands,night_time",
       "entries": [
         {"key": "sableye","min": 2,"max": 4,"rate": 0.25},
         {"key": "lunatone","min": 2,"max": 4,"rate": 0.01}
       ]
     },
     {
-      "and_preset": "mesas,day_time",
+      "and_preset": "badlands,day_time",
       "entries": [
         {"key": "solrock","min": 2,"max": 4,"rate": 0.01}
       ]
     },
     {
-      "and_preset": "mesas,hills",
+      "and_preset": "badlands,hills",
       "entries": [
         {"key": "baltoy","min": 2,"max": 4,"rate": 0.3}
       ]

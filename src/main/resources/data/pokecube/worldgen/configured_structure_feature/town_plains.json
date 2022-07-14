@@ -10,6 +10,7 @@
       "minecraft:villages",
       "minecraft:pillager_outposts"
     ],
+    "extra_child_depth": 7,
     "size": 7
   },
   "biomes": "#pokecube_world:has_structure/village_plains",

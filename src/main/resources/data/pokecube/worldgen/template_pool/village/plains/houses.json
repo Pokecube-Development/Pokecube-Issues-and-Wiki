@@ -1,4 +1,3 @@
-
 {
   "name": "pokecube:village/plains/start_pool",
   "fallback": "pokecube:village/plains/terminators",
@@ -60,6 +59,18 @@
         "flags": "gym",
         "only_once": true,
         "processors": "pokecube:decay_10_percent"
+      }
+    },
+    {
+      "weight": 10,
+      "element": {
+        "location": "pokecube:village/plains/houses/team_rocket_plains_house",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:ladders_mossify_20_percent",
+        "projection": "rigid",
+        "flags": "team_house",
+        "only_once": true,
+        "space_below": 0
       }
     }
   ]

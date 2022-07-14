@@ -4,7 +4,7 @@
   "config": {
     "avoid_range": 6,
     "biome_type": "village",
-    "spawn_blacklist": "mesas",
+    "spawn_blacklist": "badlands",
     "required_parts": [
       "pokecenter"
     ],

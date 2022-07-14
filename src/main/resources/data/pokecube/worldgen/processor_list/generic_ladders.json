@@ -1,0 +1,10 @@
+{
+  "processors": [
+    {
+      "processor_type": "pokecube:structures"
+    },
+    {
+      "processor_type": "pokecube:marker_to_air"
+    }
+  ]
+}

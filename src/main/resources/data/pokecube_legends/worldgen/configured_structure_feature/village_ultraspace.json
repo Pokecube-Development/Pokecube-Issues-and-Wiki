@@ -6,7 +6,6 @@
     "required_parts": ["pokecenter", "pokecenter_path"],
     "avoid_range": 6,
     "structures_to_avoid": [
-      "pokecube_legends:towns",
       "minecraft:villages",
       "minecraft:pillager_outposts"
     ],

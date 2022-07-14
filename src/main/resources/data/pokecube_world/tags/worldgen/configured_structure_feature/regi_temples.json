@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube_legends:regice_temple",
+    "pokecube_legends:regidrago_temple",
+    "pokecube_legends:regieleki_temple",
+    "pokecube_legends:regigigas_temple",
+    "pokecube_legends:regirock_temple",
+    "pokecube_legends:registeel_temple"
+  ]
+}

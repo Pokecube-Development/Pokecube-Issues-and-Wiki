@@ -44,7 +44,7 @@
     },
     {
       "values": {
-        "preset": "mesas",
+        "preset": "badlands",
         "types": "#minecraft:is_badlands",
         "and_preset": "overworld"
       }

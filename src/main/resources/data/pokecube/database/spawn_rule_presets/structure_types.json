@@ -1,0 +1,11 @@
+{
+  "rules": [
+    {
+      "values": {
+        "preset": "deep_oceans",
+        "types": "#minecraft:is_deep_ocean,#pokecube_world:is_ultraspace/is_deep_ocean",
+        "and_preset": "overworld"
+      }
+    }
+  ]
+}

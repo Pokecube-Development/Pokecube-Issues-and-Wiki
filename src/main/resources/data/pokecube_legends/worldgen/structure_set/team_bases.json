@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "pokecube_legends:team_rocket",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 1435646292,
+    "spacing": 64,
+    "separation": 32,
+    "type": "minecraft:random_spread"
+  }
+}

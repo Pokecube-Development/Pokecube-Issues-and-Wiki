@@ -1,0 +1,16 @@
+{
+  "name": "pokecube_legends:temples/surface_temples/regigigas_temple",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:temples/surface/regigigas_temple",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube_legends:regigigas_temple",
+        "y_offset": -6
+      }
+    }
+  ]
+}

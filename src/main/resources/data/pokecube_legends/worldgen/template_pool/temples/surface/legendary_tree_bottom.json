@@ -1,0 +1,16 @@
+{
+  "name": "pokecube_legends:temples/surface_temples/legendary_tree_bottom",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:temples/surface/legendary_tree_bottom",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic",
+        "space_below": 0
+      }
+    }
+  ]
+}

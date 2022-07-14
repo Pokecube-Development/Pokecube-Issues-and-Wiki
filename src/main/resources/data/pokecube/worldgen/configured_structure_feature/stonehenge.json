@@ -4,10 +4,11 @@
     "start_pool": "pokecube:scattered/stonehenge",
     "avoid_range": 6,
     "structures_to_avoid": [
+      "minecraft:pillager_outposts",
+      "minecraft:villages",
       "pokecube:towns",
       "pokecube:villages",
-      "minecraft:villages",
-      "minecraft:pillager_outposts"
+      "pokecube_legends:legendary_tree"
     ],
     "y_settings":{"max_dy": 5},
     "size": 2
