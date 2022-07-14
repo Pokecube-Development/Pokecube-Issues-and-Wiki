@@ -1,5 +1,5 @@
 {
-  "name": "pokecube_legends:team_bases/team_rocket_top_shaft",
+  "name": "pokecube_legends:team_bases/team_rocket_entrance",
   "fallback": "minecraft:empty",
   "elements": [
     {
@@ -14,7 +14,7 @@
       }
     },
     {
-      "weight": 1,
+      "weight": 2,
       "element": {
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_entrance_shaft",
         "projection": "rigid",
