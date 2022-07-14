@@ -8,7 +8,7 @@
         "location": "pokecube_legends:village/ultraspace/streets/road_01",
         "projection": "terrain_matching",
         "bound_check": false,
-        "no_affect_noise": true,
+        "bool_config": {"no_affect_noise":true},
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube_legends:street_ultraspace"
       }
@@ -20,7 +20,7 @@
         "location": "pokecube_legends:village/ultraspace/streets/crossroad_01",
         "projection": "terrain_matching",
         "bound_check": false,
-        "no_affect_noise": true,
+        "bool_config": {"no_affect_noise":true},
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube_legends:street_ultraspace"
       }
@@ -31,7 +31,7 @@
         "location": "pokecube_legends:village/ultraspace/streets/crossroad_02",
         "projection": "terrain_matching",
         "bound_check": false,
-        "no_affect_noise": true,
+        "bool_config": {"no_affect_noise":true},
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube_legends:street_ultraspace"
       }
@@ -42,7 +42,7 @@
         "location": "pokecube_legends:village/ultraspace/streets/crossroad_03",
         "projection": "terrain_matching",
         "bound_check": false,
-        "no_affect_noise": true,
+        "bool_config": {"no_affect_noise":true},
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube_legends:street_ultraspace"
       }

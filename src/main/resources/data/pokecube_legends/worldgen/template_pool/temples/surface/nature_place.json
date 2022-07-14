@@ -7,7 +7,7 @@
       "element": {
         "location": "pokecube_legends:temples/surface/nature_place",
         "projection": "rigid",
-        "y_offset": -3,
+        "int_config":{"y_offset": -3},
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:decay_30_percent"
       }

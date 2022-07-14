@@ -59,6 +59,7 @@ public class McaModel extends X3dModel
         try
         {
             final Resource res = Minecraft.getInstance().getResourceManager().getResource(model);
+            this.last_loaded = model;
             if (res == null)
             {
                 this.valid = false;

@@ -283,7 +283,7 @@ public class ExpandedJigsawPacement
                                 // flag!
                                 if (needed_once.contains(flag))
                                 {
-                                    need = true;
+                                    need = p.int_config.priority >= 0;
                                 }
                             }
                             if (need) needed.add(p);
@@ -320,15 +320,24 @@ public class ExpandedJigsawPacement
             Heightmap.Types _default;
             Heightmap.Types heightmap$types;
             boolean water = false;
+            int depth_offset = 0;
+            boolean parent_junctions = true;
 
             if (root_element instanceof ExpandedJigsawPiece p)
             {
-                water = p.water_terrain_match;
+                water = p.bool_config.water_terrain_match;
+                depth_offset = -p.int_config.extra_child_depth;
+                parent_junctions = !p.bool_config.no_affect_noise;
                 _default = water ? Heightmap.Types.OCEAN_FLOOR_WG : Heightmap.Types.WORLD_SURFACE_WG;
             }
             else
             {
                 _default = Heightmap.Types.WORLD_SURFACE_WG;
+            }
+
+            if (depth_offset < 0 || depth < 0)
+            {
+                System.out.println("test");
             }
 
             if (heightmap instanceof ServerLevel)
@@ -358,7 +367,6 @@ public class ExpandedJigsawPacement
                     rigid_bounds.setValue(new_shape);
                 }
             }
-
             List<StructureBlockInfo> root_jigsaws = this.getShuffledJigsaws(root_element, blockpos, rotation);
             root_jigsaws:
             for (StructureBlockInfo root_block_info : root_jigsaws)
@@ -502,8 +510,13 @@ public class ExpandedJigsawPacement
                                             VoxelShape new_shape = Shapes.create(test_box);
                                             if (Shapes.joinIsNotEmpty(non_rigid_bounds.getValue(), new_shape,
                                                     BooleanOp.AND))
-                                                continue pick_jigsaws;
+                                            {
+                                                if (depth_offset < 0) System.out.println("Skipping On Non Rigid Hit");
+                                                else continue pick_jigsaws;
+                                            }
                                         }
+
+                                        if (depth_offset < 0) System.out.println("Placing Sub Part!");
 
                                         // If we are rigid, add the boundary
                                         // now, so we don't conflict with future
@@ -517,7 +530,15 @@ public class ExpandedJigsawPacement
                                             int v_clearance = config.clearances.v_clearance;
                                             if (next_picked_element instanceof ExpandedJigsawPiece p)
                                             {
-                                                room_below = p.space_below;
+                                                room_below = p.int_config.space_below;
+                                                if (p.int_config.v_clearance >= 0)
+                                                {
+                                                    v_clearance = p.int_config.v_clearance;
+                                                }
+                                                if (p.int_config.h_clearance >= 0)
+                                                {
+                                                    v_clearance = p.int_config.h_clearance;
+                                                }
                                             }
                                             // If it was rigid, add it to the
                                             // rigid bounds
@@ -571,19 +592,16 @@ public class ExpandedJigsawPacement
                                             root_junction_y_offset = k + jigsaw_block_dy / 2;
                                         }
 
-                                        boolean addJunctions = true;
-                                        int depth_offset = 0;
+                                        boolean addJunctions = parent_junctions;
 
                                         if (next_picked_element instanceof ExpandedJigsawPiece p)
                                         {
-                                            if (p.only_once) for (String s : p._flags) added_once.add(s);
+                                            if (p.bool_config.only_once) for (String s : p._flags) added_once.add(s);
                                             // Mark it as added if we needed
                                             // this part.
                                             for (String s : p._flags) if (needed_once.contains(s)) added_once.add(s);
-                                            addJunctions = p.no_affect_noise;
-                                            depth_offset = -p.extra_child_depth;
+                                            addJunctions = parent_junctions || !p.bool_config.no_affect_noise;
                                         }
-
                                         // The junctions are used for little
                                         // islands under the jigsaws, this
                                         // should allow having entire sections
@@ -603,7 +621,7 @@ public class ExpandedJigsawPacement
                                             next_piece.addJunction(next_junction);
                                         }
 
-                                        int new_depth = depth + 1 - depth_offset;
+                                        int new_depth = depth + 1 + depth_offset;
 
                                         this.pieces.add(next_piece);
                                         if (new_depth <= this.maxDepth)

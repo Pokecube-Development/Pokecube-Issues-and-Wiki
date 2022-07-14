@@ -19,7 +19,7 @@ public class ExpandedPoolElementStructurePiece extends PoolElementStructurePiece
         super(manager, element, pos, y_offset, rotation, bounds);
         if (element instanceof ExpandedJigsawPiece p)
         {
-            effect = p.no_affect_noise ? NoiseEffect.NONE : NoiseEffect.BEARD;
+            effect = p.bool_config.no_affect_noise ? NoiseEffect.NONE : super.getNoiseEffect();
         }
         else
         {

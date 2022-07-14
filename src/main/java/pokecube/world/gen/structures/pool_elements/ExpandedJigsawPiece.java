@@ -61,24 +61,14 @@ public class ExpandedJigsawPiece extends SinglePoolElement
     public static Codec<ExpandedJigsawPiece> makeCodec()
     {
         return RecordCodecBuilder.create((instance) -> {
-            return instance
-                    .group(SinglePoolElement.templateCodec(), SinglePoolElement.processorsCodec(),
-                            StructurePoolElement.projectionCodec(),
-                            Codec.BOOL.fieldOf("ignore_air").orElse(false).forGetter(s -> s.ignore_air),
-                            Codec.BOOL.fieldOf("water_terrain_match").orElse(false)
-                                    .forGetter(structure -> structure.water_terrain_match),
-                            Codec.BOOL.fieldOf("markers_to_air").orElse(true).forGetter(s -> s.markers_to_air),
-                            Codec.STRING.fieldOf("biome_type").orElse("none").forGetter(s -> s.biome_type),
-                            Codec.STRING.fieldOf("name").orElse("none").forGetter(s -> s.biome_type),
-                            Codec.STRING.fieldOf("flags").orElse("").forGetter(s -> s.flags),
-                            ResourceLocation.CODEC.listOf().fieldOf("extra_pools").orElse(new ArrayList<>())
-                                    .forGetter(s -> s.extra_pools),
-                            Codec.BOOL.fieldOf("only_once").orElse(false).forGetter(s -> s.only_once),
-                            Codec.BOOL.fieldOf("bound_check").orElse(true).forGetter(s -> s.bound_check),
-                            Codec.BOOL.fieldOf("no_affect_noise").orElse(false).forGetter(s -> s.no_affect_noise),
-                            Codec.INT.fieldOf("y_offset").orElse(-1).forGetter(s -> s.y_offset),
-                            Codec.INT.fieldOf("extra_child_depth").orElse(0).forGetter(s -> s.extra_child_depth),
-                            Codec.INT.fieldOf("space_below").orElse(10).forGetter(s -> s.y_offset))
+            return instance.group(SinglePoolElement.templateCodec(), SinglePoolElement.processorsCodec(),
+                    StructurePoolElement.projectionCodec(),
+                    Ints.CODEC.fieldOf("int_config").orElse(Ints.DEFAULT).forGetter(s -> s.int_config),
+                    Bools.CODEC.fieldOf("bool_config").orElse(Bools.DEFAULT).forGetter(s -> s.bool_config),
+                    Codec.STRING.fieldOf("biome_type").orElse("none").forGetter(s -> s.biome_type),
+                    Codec.STRING.fieldOf("name").orElse("none").forGetter(s -> s.biome_type),
+                    Codec.STRING.fieldOf("flags").orElse("").forGetter(s -> s.flags), ResourceLocation.CODEC.listOf()
+                            .fieldOf("extra_pools").orElse(new ArrayList<>()).forGetter(s -> s.extra_pools))
                     .apply(instance, ExpandedJigsawPiece::new);
         });
     }
@@ -99,21 +89,80 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         poses.add(pos.immutable());
     }
 
+    public static class Ints
+    {
+        public static final Ints DEFAULT = new Ints(-1, 10, 0, -1, -1, 100);
+
+        public static final Codec<Ints> CODEC = RecordCodecBuilder.create((instance) -> {
+            return instance
+                    .group(Codec.INT.fieldOf("y_offset").orElse(-1).forGetter(s -> s.y_offset),
+                            Codec.INT.fieldOf("space_below").orElse(10).forGetter(s -> s.space_below),
+                            Codec.INT.fieldOf("extra_child_depth").orElse(0).forGetter(s -> s.extra_child_depth),
+                            Codec.INT.fieldOf("h_clearance").orElse(-1).forGetter(s -> s.h_clearance),
+                            Codec.INT.fieldOf("v_clearance").orElse(-1).forGetter(s -> s.v_clearance),
+                            Codec.INT.fieldOf("priority").orElse(100).forGetter(s -> s.priority))
+                    .apply(instance, Ints::new);
+        });
+
+        public final int y_offset;
+        public final int space_below;
+        public final int extra_child_depth;
+        public final int h_clearance;
+        public final int v_clearance;
+        public final int priority;
+
+        public Ints(int y_offset, int space_below, int extra_child_depth, int h_clearance, int v_clearance,
+                int priority)
+        {
+            this.h_clearance = h_clearance;
+            this.v_clearance = v_clearance;
+            this.y_offset = y_offset;
+            this.space_below = space_below;
+            this.extra_child_depth = extra_child_depth;
+            this.priority = priority;
+        }
+    }
+
+    public static class Bools
+    {
+        public static final Bools DEFAULT = new Bools(false, false, true, false, false);
+
+        public static final Codec<Bools> CODEC = RecordCodecBuilder.create((instance) -> {
+            return instance
+                    .group(Codec.BOOL.fieldOf("ignore_air").orElse(false).forGetter(s -> s.ignore_air),
+                            Codec.BOOL.fieldOf("water_terrain_match").orElse(false)
+                                    .forGetter(s -> s.water_terrain_match),
+                            Codec.BOOL.fieldOf("markers_to_air").orElse(true).forGetter(s -> s.markers_to_air),
+                            Codec.BOOL.fieldOf("only_once").orElse(false).forGetter(s -> s.only_once),
+                            Codec.BOOL.fieldOf("no_affect_noise").orElse(false).forGetter(s -> s.no_affect_noise))
+                    .apply(instance, Bools::new);
+        });
+
+        public final boolean ignore_air;
+        public final boolean water_terrain_match;
+        public final boolean markers_to_air;
+        public final boolean only_once;
+        public final boolean no_affect_noise;
+
+        public Bools(boolean ignore_air, boolean water_terrain_match, boolean markers_to_air, boolean only_once,
+                boolean no_affect_noise)
+        {
+            this.ignore_air = ignore_air;
+            this.water_terrain_match = water_terrain_match;
+            this.markers_to_air = markers_to_air;
+            this.only_once = only_once;
+            this.no_affect_noise = no_affect_noise;
+        }
+    }
+
     public Level world;
 
-    public final boolean ignore_air;
-    public final boolean water_terrain_match;
-    public final boolean markers_to_air;
     public final String biome_type;
     public final String name;
     public final String flags;
     public final List<ResourceLocation> extra_pools;
-    public final boolean only_once;
-    public final boolean bound_check;
-    public final boolean no_affect_noise;
-    public final int y_offset;
-    public final int space_below;
-    public final int extra_child_depth;
+    public final Ints int_config;
+    public final Bools bool_config;
 
     public final String[] _flags;
 
@@ -127,26 +176,17 @@ public class ExpandedJigsawPiece extends SinglePoolElement
 
     public ExpandedJigsawPiece(final Either<ResourceLocation, StructureTemplate> template,
             final Holder<StructureProcessorList> processors, final StructureTemplatePool.Projection behaviour,
-            final boolean ignoreAir, final boolean water_terrain_match, final boolean markers_to_air,
-            final String biome_type, final String name, final String flags, List<ResourceLocation> extra_pools,
-            final boolean only_once, final boolean bound_check, final boolean no_affect_noise, int y_offset,
-            int extra_child_depth, int space_below)
+            final Ints int_config, final Bools bool_config, final String biome_type, final String name,
+            final String flags, List<ResourceLocation> extra_pools)
     {
         super(template, processors, behaviour);
-        this.ignore_air = ignoreAir;
-        this.water_terrain_match = water_terrain_match;
         this.biome_type = biome_type;
         this.name = name;
-        this.markers_to_air = markers_to_air;
         this.flags = flags;
         this.extra_pools = extra_pools;
         this._flags = flags.split(",");
-        this.only_once = only_once;
-        this.bound_check = bound_check;
-        this.no_affect_noise = no_affect_noise;
-        this.y_offset = y_offset;
-        this.space_below = space_below;
-        this.extra_child_depth = extra_child_depth;
+        this.int_config = int_config;
+        this.bool_config = bool_config;
     }
 
     @Override
@@ -154,7 +194,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
     {
         // Negative y_offset, as this is the shift of the ground, not the shift
         // of the structure!
-        return -this.y_offset;
+        return -this.int_config.y_offset;
     }
 
     @Override
@@ -174,11 +214,12 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         this.processors.value().list().forEach(placementsettings::addProcessor);
 
         // Then add structure block handling
-        if (markers_to_air) placementsettings.addProcessor(MarkerToAirProcessor.PROCESSOR);
+        if (bool_config.markers_to_air) placementsettings.addProcessor(MarkerToAirProcessor.PROCESSOR);
         else placementsettings.addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
 
         // And finally add the terrain matching processors
-        if (water_terrain_match) placementsettings.addProcessor(new GravityProcessor(Types.OCEAN_FLOOR_WG, -1));
+        if (bool_config.water_terrain_match)
+            placementsettings.addProcessor(new GravityProcessor(Types.OCEAN_FLOOR_WG, -1));
         else this.getProjection().getProcessors().forEach(placementsettings::addProcessor);
 
         return placementsettings;
@@ -264,7 +305,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
             // Check if we need to undo any waterlogging which may have
             // occurred, we also process data markers here as to not duplicate
             // loop later, as this operation is expensive enough anyway.
-            if (this.markers_to_air)
+            if (bool_config.markers_to_air)
             {
                 final List<StructureTemplate.StructureBlockInfo> list = placementsettings
                         .getRandomPalette(template.palettes, pos1).blocks();

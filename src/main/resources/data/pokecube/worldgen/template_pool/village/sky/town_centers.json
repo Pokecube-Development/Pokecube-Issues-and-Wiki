@@ -4,8 +4,8 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/town_centers/center_1",
-        "processors": "pokecube:generic",
-        "space_below": 0,
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
+        "int_config":{"space_below":0},
         "projection": "rigid"
       },
       "weight": 1

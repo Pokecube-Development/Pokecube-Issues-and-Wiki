@@ -1,5 +1,5 @@
 {
-  "adapt_noise": false,
+  "adapt_noise": true,
   "biomes": "#pokecube_world:has_structure/village_sky",
   "config": {
     "avoid_range": 6,
