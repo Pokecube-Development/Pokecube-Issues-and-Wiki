@@ -48,7 +48,10 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             this.toLoad.loadModel(this.res);
             // Flag as loaded before running the callback
             this.toLoad.loaded = true;
-            if (this.toLoad.callback != null) this.toLoad.callback.run(this.toLoad);
+            synchronized (this.toLoad)
+            {
+                if (this.toLoad.callback != null) this.toLoad.callback.run(this.toLoad);
+            }
             this.toLoad.callback = null;
         }
     }

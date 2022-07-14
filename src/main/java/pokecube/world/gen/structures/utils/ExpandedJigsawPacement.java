@@ -125,9 +125,11 @@ public class ExpandedJigsawPacement
                                 (double) (j - max_box_size), (double) (i + max_box_size + 1),
                                 (double) (k + max_box_height + 1), (double) (j + max_box_size + 1));
                         List<PoolElementStructurePiece> list = Lists.newArrayList();
+                        PokecubeCore.LOGGER.debug("Building: {}", root_pool.getName());
                         tries:
                         for (int n = 0; n < 100; n++)
                         {
+                            PokecubeCore.LOGGER.debug("Try: {}", n);
                             list.clear();
                             list.add(root_piece);
                             Placer placer = new Placer(config, registry, config.maxDepth(), factory, chunkgenerator,
@@ -145,6 +147,7 @@ public class ExpandedJigsawPacement
                                 placer.tryPlacingChildren(next_state, bound_checks, levelheightaccessor);
                             }
 
+                            PokecubeCore.LOGGER.debug("Ended Try: {}", n);
                             if (placer.needed_once.isEmpty()) break;
                             for (String s : placer.needed_once)
                             {
@@ -152,6 +155,7 @@ public class ExpandedJigsawPacement
                             }
                             break;
                         }
+                        PokecubeCore.LOGGER.debug("Finshed: {}", root_pool.getName());
                         PostProcessor.POSTPROCESS.accept(config_context, list);
                         list.forEach(builder::addPiece);
                     }
@@ -308,6 +312,8 @@ public class ExpandedJigsawPacement
             MutableObject<VoxelShape> free = root_state.free;
             int depth = root_state.depth;
 
+            boolean debug_log = false;
+
             StructurePoolElement root_element = current_root.getElement();
             BlockPos blockpos = current_root.getPosition();
             Rotation rotation = current_root.getRotation();
@@ -337,7 +343,7 @@ public class ExpandedJigsawPacement
 
             if (depth_offset < 0 || depth < 0)
             {
-                System.out.println("test");
+                PokecubeCore.LOGGER.debug("test");
             }
 
             if (heightmap instanceof ServerLevel)
@@ -349,24 +355,6 @@ public class ExpandedJigsawPacement
                 heightmap$types = _default;
             }
 
-            // If the root part is rigid, add it first so child parts do not
-            // conflict.
-            if (root_rigid)
-            {
-                // If it was rigid, add it to the
-                // rigid bounds, but ignoring clearances, as we need sub-parts
-                // to attach
-                AABB next_box = AABB.of(root_bounding_box);
-                VoxelShape new_shape = Shapes.create(next_box);
-                if (rigid_bounds.getValue() != null)
-                {
-                    rigid_bounds.setValue(Shapes.or(rigid_bounds.getValue(), new_shape));
-                }
-                else
-                {
-                    rigid_bounds.setValue(new_shape);
-                }
-            }
             List<StructureBlockInfo> root_jigsaws = this.getShuffledJigsaws(root_element, blockpos, rotation);
             root_jigsaws:
             for (StructureBlockInfo root_block_info : root_jigsaws)
@@ -400,6 +388,13 @@ public class ExpandedJigsawPacement
                                 fallback_pool))
                         {
                             if (next_picked_element == EmptyPoolElement.INSTANCE) break;
+
+                            int rigid_fails = 0;
+                            int bounds_fails = 0;
+                            int non_rigid_fails = 0;
+                            int duplicated_fails = 0;
+                            int wrong_attach = 0;
+
                             for (Rotation random_direction : Rotation.getShuffled(this.random))
                             {
                                 List<StructureBlockInfo> next_jigsaws = this.getShuffledJigsaws(next_picked_element,
@@ -445,7 +440,6 @@ public class ExpandedJigsawPacement
                                     if (JigsawBlock.canAttach(root_block_info, next_block_info))
                                     {
                                         BlockPos next_pos_raw = next_block_info.pos;
-                                        if (root_state.used_jigsaws.contains(next_pos_raw)) continue pick_jigsaws;
                                         BlockPos next_jigsaw_pos = connecting_jigsaw_pos.subtract(next_pos_raw);
                                         BoundingBox next_pick_box = next_picked_element.getBoundingBox(
                                                 this.structureManager, next_jigsaw_pos, random_direction);
@@ -490,7 +484,11 @@ public class ExpandedJigsawPacement
                                         // box.
                                         if (!next_pick_inside)
                                         {
-                                            if (test_box.intersects(root_box)) continue pick_jigsaws;
+                                            if (test_box.intersects(root_box))
+                                            {
+                                                bounds_fails++;
+                                                continue pick_jigsaws;
+                                            }
                                         }
 
                                         // Never allow intersection of rigid
@@ -500,7 +498,10 @@ public class ExpandedJigsawPacement
                                             VoxelShape new_shape = Shapes.create(test_box);
                                             if (Shapes.joinIsNotEmpty(rigid_bounds.getValue(), new_shape,
                                                     BooleanOp.AND))
+                                            {
+                                                rigid_fails++;
                                                 continue pick_jigsaws;
+                                            }
                                         }
 
                                         // And then don't let non-rigids overlap
@@ -511,12 +512,13 @@ public class ExpandedJigsawPacement
                                             if (Shapes.joinIsNotEmpty(non_rigid_bounds.getValue(), new_shape,
                                                     BooleanOp.AND))
                                             {
-                                                if (depth_offset < 0) System.out.println("Skipping On Non Rigid Hit");
-                                                else continue pick_jigsaws;
+                                                non_rigid_fails++;
+                                                continue pick_jigsaws;
                                             }
                                         }
 
-                                        if (depth_offset < 0) System.out.println("Placing Sub Part!");
+                                        if (debug_log)
+                                            PokecubeCore.LOGGER.debug("Placing Sub Part! {}", next_picked_element);
 
                                         // If we are rigid, add the boundary
                                         // now, so we don't conflict with future
@@ -637,8 +639,13 @@ public class ExpandedJigsawPacement
                                         }
                                         continue root_jigsaws;
                                     }
+                                    else wrong_attach++;
                                 }
                             }
+                            if (debug_log)
+                                PokecubeCore.LOGGER.debug("Skipping {} as did not fit r:{} nr:{} bb:{} d:{} na:{}",
+                                        next_picked_element, rigid_fails, non_rigid_fails, bounds_fails,
+                                        duplicated_fails, wrong_attach);
                         }
                     }
                     else
@@ -666,6 +673,22 @@ public class ExpandedJigsawPacement
                 else
                 {
                     non_rigid_bounds.setValue(new_shape);
+                }
+            }
+            if (root_rigid)
+            {
+                // If it was rigid, add it to the
+                // rigid bounds, but ignoring clearances, as we need sub-parts
+                // to attach
+                AABB next_box = AABB.of(root_bounding_box);
+                VoxelShape new_shape = Shapes.create(next_box);
+                if (rigid_bounds.getValue() != null)
+                {
+                    rigid_bounds.setValue(Shapes.or(rigid_bounds.getValue(), new_shape));
+                }
+                else
+                {
+                    rigid_bounds.setValue(new_shape);
                 }
             }
         }
