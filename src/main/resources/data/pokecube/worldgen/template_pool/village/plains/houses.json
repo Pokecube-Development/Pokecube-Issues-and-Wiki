@@ -68,7 +68,7 @@
         "extra_child_depth": 7,
         "projection": "rigid",
         "flags": "team_house",
-        "int_config":{"extra_child_depth":7,"space_below":0,"v_clearance":0,"h_clearance":0,"priority":-1}
+        "int_config":{"extra_child_depth":7,"space_below":0,"priority":-1}
       }
     }
   ]
