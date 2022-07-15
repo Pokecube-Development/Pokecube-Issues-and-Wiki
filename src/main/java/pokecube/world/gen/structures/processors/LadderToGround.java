@@ -7,6 +7,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
@@ -34,7 +35,8 @@ public class LadderToGround extends StructureProcessor
         boolean isLadder = ItemList.is(LADDER, blockInfo.state);
         if (!isLadder) return blockInfo;
         BlockPos p1 = old.pos.offset(structure);
-        return level.isEmptyBlock(p1) ? blockInfo : null;
+        boolean air_or_water = level.isEmptyBlock(p1) || level.getBlockState(p1).getBlock() == Blocks.WATER;
+        return air_or_water ? blockInfo : null;
     }
 
     @Override

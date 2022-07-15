@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.StructureMode;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
@@ -266,19 +267,24 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         try
         {
             Map<BlockPos, BlockState> unWaterlog = Maps.newHashMap();
-            if (this.processors.value().list().contains(NoWaterlogProcessor.PROCESSOR))
+            boolean checkWaterlog = this.processors.value().list().contains(NoWaterlogProcessor.PROCESSOR);
+            if (checkWaterlog)
             {
                 checkWaterlogging(level, template, placementsettings, pos1, pos2, rotation, box, rng, unWaterlog);
             }
             placed = template.placeInWorld(level, pos1, pos2, placementsettings, rng, placeFlags);
-            if (placed)
+            if (checkWaterlog && placed)
             {
                 unWaterlog.forEach((pos, state) -> {
                     BlockState newState = level.getBlockState(pos);
                     if (newState.getBlock() instanceof LiquidBlockContainer cont)
                     {
-                        PokecubeCore.LOGGER.debug("Un Waterlogging {}", newState);
-                        cont.placeLiquid(level, pos, newState, Fluids.EMPTY.defaultFluidState());
+                        boolean worked = cont.placeLiquid(level, pos, newState, Fluids.EMPTY.defaultFluidState());
+                        if (!worked && newState.hasProperty(BlockStateProperties.WATERLOGGED))
+                        {
+                            worked = level.setBlock(pos, newState.setValue(BlockStateProperties.WATERLOGGED, false),
+                                    placeFlags & -2 | 16);
+                        }
                     }
                 });
             }
