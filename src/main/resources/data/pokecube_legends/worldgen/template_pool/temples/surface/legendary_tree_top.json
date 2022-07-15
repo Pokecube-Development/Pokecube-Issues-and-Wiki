@@ -9,7 +9,7 @@
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic",
-        "space_below": 0
+        "int_config":{"space_below":0},
       }
     }
   ]
