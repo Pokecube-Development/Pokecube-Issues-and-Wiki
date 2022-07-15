@@ -69,8 +69,10 @@ public class ExpandedJigsawPiece extends SinglePoolElement
                     Bools.CODEC.fieldOf("bool_config").orElse(Bools.DEFAULT).forGetter(s -> s.bool_config),
                     Codec.STRING.fieldOf("biome_type").orElse("none").forGetter(s -> s.biome_type),
                     Codec.STRING.fieldOf("name").orElse("none").forGetter(s -> s.biome_type),
-                    Codec.STRING.fieldOf("flags").orElse("").forGetter(s -> s.flags), ResourceLocation.CODEC.listOf()
-                            .fieldOf("extra_pools").orElse(new ArrayList<>()).forGetter(s -> s.extra_pools))
+                    Codec.STRING.fieldOf("flags").orElse("").forGetter(s -> s.flags),
+                    Codec.STRING.fieldOf("needed_flags").orElse("").forGetter(s -> s.needed_flags),
+                    ResourceLocation.CODEC.listOf().fieldOf("extra_pools").orElse(new ArrayList<>())
+                            .forGetter(s -> s.extra_pools))
                     .apply(instance, ExpandedJigsawPiece::new);
         });
     }
@@ -165,11 +167,13 @@ public class ExpandedJigsawPiece extends SinglePoolElement
     public final String biome_type;
     public final String name;
     public final String flags;
+    public final String needed_flags;
     public final List<ResourceLocation> extra_pools;
     public final Ints int_config;
     public final Bools bool_config;
 
     public final String[] _flags;
+    public final String[] _needed_flags;
 
     public boolean isSpawn;
     public String spawnReplace;
@@ -183,25 +187,21 @@ public class ExpandedJigsawPiece extends SinglePoolElement
     public ExpandedJigsawPiece(final Either<ResourceLocation, StructureTemplate> template,
             final Holder<StructureProcessorList> processors, StructureTemplatePool.Projection behaviour,
             final Ints int_config, final Bools bool_config, final String biome_type, final String name,
-            final String flags, List<ResourceLocation> extra_pools)
+            final String flags, final String needed_flags, List<ResourceLocation> extra_pools)
     {
         super(template, processors, behaviour);
         this.biome_type = biome_type;
         this.name = name;
         this.flags = flags;
+        this.needed_flags = needed_flags;
         this.extra_pools = extra_pools;
         this._flags = flags.split(",");
+        this._needed_flags = needed_flags.split(",");
         this.int_config = int_config;
         this.bool_config = bool_config;
         this._projection = bool_config.rigid_override ? Projection.RIGID : behaviour;
         if (bool_config.no_affect_noise) this.setProjection(Projection.TERRAIN_MATCHING);
         if (_projection != this.getProjection()) bool_config.rigid_override = true;
-    }
-
-    @Override
-    public Projection getProjection()
-    {
-        return super.getProjection();
     }
 
     @Override
@@ -257,8 +257,11 @@ public class ExpandedJigsawPiece extends SinglePoolElement
                 @SuppressWarnings("deprecation")
                 BlockState to_place = structuretemplate$structureblockinfo.state.mirror(placementsettings.getMirror())
                         .rotate(placementsettings.getRotation());
-                if (old.is(Fluids.WATER) && to_place.getFluidState().isEmpty()
-                        && to_place.getBlock() instanceof LiquidBlockContainer)
+                boolean water_loggable = to_place.hasProperty(BlockStateProperties.WATERLOGGED);
+                LiquidBlockContainer cont = to_place.getBlock() instanceof LiquidBlockContainer
+                        ? (LiquidBlockContainer) to_place.getBlock()
+                        : null;
+                if (old.is(Fluids.WATER) && to_place.getFluidState().isEmpty() && (water_loggable || cont != null))
                 {
                     unWaterlog.put(blockpos, level.getBlockState(blockpos));
                 }
@@ -291,9 +294,14 @@ public class ExpandedJigsawPiece extends SinglePoolElement
             {
                 unWaterlog.forEach((pos, state) -> {
                     BlockState newState = level.getBlockState(pos);
-                    if (newState.getBlock() instanceof LiquidBlockContainer cont)
+                    boolean water_loggable = newState.hasProperty(BlockStateProperties.WATERLOGGED);
+                    LiquidBlockContainer cont = newState.getBlock() instanceof LiquidBlockContainer
+                            ? (LiquidBlockContainer) newState.getBlock()
+                            : null;
+                    if (cont != null || water_loggable)
                     {
-                        boolean worked = cont.placeLiquid(level, pos, newState, Fluids.EMPTY.defaultFluidState());
+                        boolean worked = cont != null
+                                && cont.placeLiquid(level, pos, newState, Fluids.EMPTY.defaultFluidState());
                         if (!worked && newState.hasProperty(BlockStateProperties.WATERLOGGED))
                         {
                             worked = level.setBlock(pos, newState.setValue(BlockStateProperties.WATERLOGGED, false),

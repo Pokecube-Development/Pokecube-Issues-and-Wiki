@@ -67,7 +67,8 @@
         "processors": "pokecube:ladders_mossify_20_percent",
         "projection": "rigid",
         "flags": "team_house",
-        "int_config":{"extra_child_depth":7,"space_below":0,"v_clearance":0,"h_clearance":0,"priority":-1}
+        "needed_flags": "team_rocket",
+        "int_config":{"extra_child_depth":7,"space_below":0,"priority":-1}
       }
     }
   ]

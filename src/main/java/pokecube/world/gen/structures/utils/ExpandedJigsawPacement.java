@@ -129,7 +129,7 @@ public class ExpandedJigsawPacement
                         tries:
                         for (int n = 0; n < 100; n++)
                         {
-                            PokecubeCore.LOGGER.debug("Try: {}", n);
+                            PokecubeCore.LOGGER.debug("Starting Try: {}", n);
                             list.clear();
                             list.add(root_piece);
                             Placer placer = new Placer(config, registry, config.maxDepth(), factory, chunkgenerator,
@@ -146,12 +146,16 @@ public class ExpandedJigsawPacement
                                 next_state = placer.placing.removeFirst();
                                 placer.tryPlacingChildren(next_state, bound_checks, levelheightaccessor);
                             }
-
+                            
                             PokecubeCore.LOGGER.debug("Ended Try: {}", n);
                             if (placer.needed_once.isEmpty()) break;
                             for (String s : placer.needed_once)
                             {
-                                if (!placer.added_once.contains(s)) continue tries;
+                                if (!placer.added_once.contains(s))
+                                {
+                                    PokecubeCore.LOGGER.debug("Try: {} has failed. Missing {}", n, s);
+                                    continue tries;
+                                }
                             }
                             break;
                         }
@@ -312,7 +316,9 @@ public class ExpandedJigsawPacement
             MutableObject<VoxelShape> free = root_state.free;
             int depth = root_state.depth;
 
-            boolean debug_log = false;
+            Predicate<StructurePoolElement> log_data = e -> {
+                return e.toString().contains("team_") && false;
+            };
 
             StructurePoolElement root_element = current_root.getElement();
             BlockPos blockpos = current_root.getPosition();
@@ -335,6 +341,11 @@ public class ExpandedJigsawPacement
                 parent_junctions = !p.bool_config.no_affect_noise;
                 _default = water ? Heightmap.Types.OCEAN_FLOOR_WG : Heightmap.Types.WORLD_SURFACE_WG;
                 root_projection = p._projection;
+                if (p.bool_config.only_once) for (String s : p._flags) added_once.add(s);
+                for (String s : p._needed_flags) if (!s.isBlank()) needed_once.add(s);
+                // Mark it as added if we needed
+                // this part.
+                for (String s : p._flags) if (needed_once.contains(s)) added_once.add(s);
             }
             else
             {
@@ -342,11 +353,6 @@ public class ExpandedJigsawPacement
             }
 
             boolean root_rigid = root_projection == StructureTemplatePool.Projection.RIGID;
-
-            if (depth_offset < 0 || depth < 0)
-            {
-                PokecubeCore.LOGGER.debug("test");
-            }
 
             if (heightmap instanceof ServerLevel)
             {
@@ -469,7 +475,7 @@ public class ExpandedJigsawPacement
                                         }
 
                                         boolean next_pick_rigid = next_projection == StructureTemplatePool.Projection.RIGID;
-                                        
+
                                         int raw_pos_y = next_pos_raw.getY();
                                         int jigsaw_block_dy = dy - raw_pos_y
                                                 + JigsawBlock.getFrontFacing(root_block_info.state).getStepY();
@@ -540,7 +546,7 @@ public class ExpandedJigsawPacement
                                             }
                                         }
 
-                                        if (debug_log)
+                                        if (log_data.test(next_picked_element))
                                             PokecubeCore.LOGGER.debug("Placing Sub Part! {}", next_picked_element);
 
                                         // If we are rigid, add the boundary
@@ -605,6 +611,7 @@ public class ExpandedJigsawPacement
                                         if (next_picked_element instanceof ExpandedJigsawPiece p)
                                         {
                                             if (p.bool_config.only_once) for (String s : p._flags) added_once.add(s);
+                                            for (String s : p._needed_flags) if (!s.isBlank()) needed_once.add(s);
                                             // Mark it as added if we needed
                                             // this part.
                                             for (String s : p._flags) if (needed_once.contains(s)) added_once.add(s);
@@ -648,10 +655,10 @@ public class ExpandedJigsawPacement
                                     else wrong_attach++;
                                 }
                             }
-                            if (debug_log)
-                                PokecubeCore.LOGGER.debug("Skipping {} as did not fit r:{} nr:{} bb:{} d:{} na:{}",
-                                        next_picked_element, rigid_fails, non_rigid_fails, bounds_fails,
-                                        duplicated_fails, wrong_attach);
+                            if (log_data.test(next_picked_element)) PokecubeCore.LOGGER.debug(
+                                    "Skipping {} as did not fit: rigid_conflict:{} non_rigid_conflict:{} root_conflict:{} duplicated:{} no_attachment:{}",
+                                    next_picked_element, rigid_fails, non_rigid_fails, bounds_fails, duplicated_fails,
+                                    wrong_attach);
                         }
                     }
                     else
@@ -667,7 +674,7 @@ public class ExpandedJigsawPacement
 
             // After adding in all the sub parts, then we actually update the
             // bounding boxes if it wasn't rigid.
-            int non_rigid_clearance = 10;
+            int non_rigid_clearance = 0;
             if (!root_rigid)
             {
                 AABB next_box = AABB.of(root_bounding_box).inflate(0, non_rigid_clearance, 0);
