@@ -43,6 +43,10 @@
     {
       "structure": "pokecube_legends:sky_pillar",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:unown_temple",
+      "weight": 1
     }
   ],
   "placement": {

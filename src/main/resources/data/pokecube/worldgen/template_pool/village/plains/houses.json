@@ -46,7 +46,6 @@
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
         "flags": "pokecenter",
-        "only_once": true,
         "processors": "pokecube:generic_mossify_20_percent_no_waterlog"
       }
     },
@@ -57,7 +56,6 @@
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
         "flags": "gym",
-        "only_once": true,
         "processors": "pokecube:decay_10_percent"
       }
     },
@@ -70,8 +68,7 @@
         "extra_child_depth": 7,
         "projection": "rigid",
         "flags": "team_house",
-        "only_once": true,
-        "space_below": 0
+        "int_config":{"extra_child_depth":7,"space_below":0,"v_clearance":0,"h_clearance":0,"priority":-1}
       }
     }
   ]

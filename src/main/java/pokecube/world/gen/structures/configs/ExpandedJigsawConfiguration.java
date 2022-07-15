@@ -81,11 +81,11 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
 
     public static class ClearanceSettings
     {
-        public static final ClearanceSettings DEFAULT = new ClearanceSettings(2, 0);
+        public static final ClearanceSettings DEFAULT = new ClearanceSettings(0, 0);
 
         public static final Codec<ClearanceSettings> CODEC = RecordCodecBuilder.create((instance) -> {
             return instance
-                    .group(Codec.INT.fieldOf("h_clearance").orElse(2).forGetter(s -> s.h_clearance),
+                    .group(Codec.INT.fieldOf("h_clearance").orElse(0).forGetter(s -> s.h_clearance),
                             Codec.INT.fieldOf("v_clearance").orElse(0).forGetter(s -> s.v_clearance))
                     .apply(instance, ClearanceSettings::new);
         });

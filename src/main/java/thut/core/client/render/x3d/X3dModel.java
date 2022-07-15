@@ -92,6 +92,7 @@ public class X3dModel extends BaseModel
         try
         {
             final Resource res = Minecraft.getInstance().getResourceManager().getResource(model);
+            this.last_loaded = model;
             if (res == null)
             {
                 this.valid = false;

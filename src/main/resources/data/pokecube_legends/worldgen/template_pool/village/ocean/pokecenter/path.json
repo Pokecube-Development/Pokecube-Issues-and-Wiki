@@ -1,0 +1,15 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:village/ocean/pokecenter/path",
+        "processors": "pokecube:generic_no_waterlog",
+        "int_config": {"space_below":0},"projection": "rigid"
+      },
+      "weight": 1
+    }
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube_legends:village/ocean/pokecenter/path"
+}

@@ -3,6 +3,10 @@
     {
       "structure": "pokecube_legends:town_ultraspace",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:town_ocean",
+      "weight": 1
     }
   ],
   "placement": {

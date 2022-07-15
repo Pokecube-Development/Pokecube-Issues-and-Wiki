@@ -6,10 +6,10 @@
       "weight": 1,
       "element": {
         "location": "pokecube_legends:village/ultraspace/gym/path",
-        "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube_legends:street_ultraspace",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
         "projection": "terrain_matching",
-        "no_affect_noise": true,
         "flags": "gym_path"
       }
     }

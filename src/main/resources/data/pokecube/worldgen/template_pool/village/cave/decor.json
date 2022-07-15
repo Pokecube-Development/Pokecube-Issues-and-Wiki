@@ -5,7 +5,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/decor/rock_1",
         "processors": "pokecube:cave_village",
-        "projection": "rigid"
+        "int_config":{"space_below":0},"projection": "rigid"
       },
       "weight": 4
     },
@@ -14,7 +14,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/decor/rock_2",
         "processors": "pokecube:cave_village",
-        "projection": "rigid"
+        "int_config":{"space_below":0},"projection": "rigid"
       },
       "weight": 4
     },
@@ -23,7 +23,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/decor/rock_3",
         "processors": "pokecube:cave_village",
-        "projection": "rigid"
+        "int_config":{"space_below":0},"projection": "rigid"
       },
       "weight": 2
     },
@@ -32,7 +32,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/decor/rock_4",
         "processors": "pokecube:cave_village",
-        "projection": "rigid"
+        "int_config":{"space_below":0},"projection": "rigid"
       },
       "weight": 4
     },
@@ -41,7 +41,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/decor/rock_5",
         "processors": "pokecube:cave_village",
-        "projection": "rigid"
+        "int_config":{"space_below":0},"projection": "rigid"
       },
       "weight": 4
     },
@@ -50,7 +50,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/decor/crate_1",
         "processors": "pokecube:cave_village",
-        "projection": "rigid"
+        "int_config":{"space_below":0},"projection": "rigid"
       },
       "weight": 4
     },
@@ -59,7 +59,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/decor/crate_2",
         "processors": "pokecube:cave_village",
-        "projection": "rigid"
+        "int_config":{"space_below":0},"projection": "rigid"
       },
       "weight": 4
     },
@@ -68,7 +68,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/decor/log_1",
         "processors": "pokecube:cave_village",
-        "projection": "rigid"
+        "int_config":{"space_below":0},"projection": "rigid"
       },
       "weight": 4
     },
@@ -77,7 +77,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/decor/log_2",
         "processors": "pokecube:cave_village",
-        "projection": "rigid"
+        "int_config":{"space_below":0},"projection": "rigid"
       },
       "weight": 4
     },
@@ -86,7 +86,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/decor/log_3",
         "processors": "pokecube:cave_village",
-        "projection": "rigid"
+        "int_config":{"space_below":0},"projection": "rigid"
       },
       "weight": 4
     },
@@ -95,7 +95,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/decor/log_4",
         "processors": "pokecube:cave_village",
-        "projection": "rigid"
+        "int_config":{"space_below":0},"projection": "rigid"
       },
       "weight": 4
     }

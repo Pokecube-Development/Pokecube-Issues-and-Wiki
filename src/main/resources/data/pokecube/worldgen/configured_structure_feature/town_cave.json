@@ -9,7 +9,6 @@
     ],
     "size": 6,
     "start_pool": "pokecube:village/cave/town_centers",
-    "clearances":{"h_clearance": 0},
     "structures_to_avoid": [
       "minecraft:villages",
       "minecraft:pillager_outposts"
