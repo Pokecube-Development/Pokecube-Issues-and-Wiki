@@ -35,6 +35,7 @@ import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool.Projection;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.GravityProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.JigsawReplacementProcessor;
@@ -126,7 +127,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
 
     public static class Bools
     {
-        public static final Bools DEFAULT = new Bools(false, false, true, false, false);
+        public static final Bools DEFAULT = new Bools(false, false, true, false, false, false);
 
         public static final Codec<Bools> CODEC = RecordCodecBuilder.create((instance) -> {
             return instance
@@ -135,7 +136,8 @@ public class ExpandedJigsawPiece extends SinglePoolElement
                                     .forGetter(s -> s.water_terrain_match),
                             Codec.BOOL.fieldOf("markers_to_air").orElse(true).forGetter(s -> s.markers_to_air),
                             Codec.BOOL.fieldOf("only_once").orElse(false).forGetter(s -> s.only_once),
-                            Codec.BOOL.fieldOf("no_affect_noise").orElse(false).forGetter(s -> s.no_affect_noise))
+                            Codec.BOOL.fieldOf("no_affect_noise").orElse(false).forGetter(s -> s.no_affect_noise),
+                            Codec.BOOL.fieldOf("rigid_override").orElse(false).forGetter(s -> s.rigid_override))
                     .apply(instance, Bools::new);
         });
 
@@ -144,14 +146,16 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         public final boolean markers_to_air;
         public final boolean only_once;
         public final boolean no_affect_noise;
+        public boolean rigid_override;
 
         public Bools(boolean ignore_air, boolean water_terrain_match, boolean markers_to_air, boolean only_once,
-                boolean no_affect_noise)
+                boolean no_affect_noise, boolean rigid_override)
         {
             this.ignore_air = ignore_air;
             this.water_terrain_match = water_terrain_match;
             this.markers_to_air = markers_to_air;
             this.only_once = only_once;
+            this.rigid_override = rigid_override;
             this.no_affect_noise = no_affect_noise;
         }
     }
@@ -172,11 +176,12 @@ public class ExpandedJigsawPiece extends SinglePoolElement
     public BlockPos spawnPos;
     public BlockPos profPos;
     public boolean placedSpawn = false;
+    public Projection _projection;
 
     boolean maskCheck;
 
     public ExpandedJigsawPiece(final Either<ResourceLocation, StructureTemplate> template,
-            final Holder<StructureProcessorList> processors, final StructureTemplatePool.Projection behaviour,
+            final Holder<StructureProcessorList> processors, StructureTemplatePool.Projection behaviour,
             final Ints int_config, final Bools bool_config, final String biome_type, final String name,
             final String flags, List<ResourceLocation> extra_pools)
     {
@@ -188,6 +193,15 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         this._flags = flags.split(",");
         this.int_config = int_config;
         this.bool_config = bool_config;
+        this._projection = bool_config.rigid_override ? Projection.RIGID : behaviour;
+        if (bool_config.no_affect_noise) this.setProjection(Projection.TERRAIN_MATCHING);
+        if (_projection != this.getProjection()) bool_config.rigid_override = true;
+    }
+
+    @Override
+    public Projection getProjection()
+    {
+        return super.getProjection();
     }
 
     @Override
@@ -221,7 +235,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         // And finally add the terrain matching processors
         if (bool_config.water_terrain_match)
             placementsettings.addProcessor(new GravityProcessor(Types.OCEAN_FLOOR_WG, -1));
-        else this.getProjection().getProcessors().forEach(placementsettings::addProcessor);
+        else this._projection.getProcessors().forEach(placementsettings::addProcessor);
 
         return placementsettings;
     }
