@@ -9,8 +9,8 @@
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "bool_config": {"no_affect_noise":true},
-        "projection": "rigid",
         "int_config":{"space_below":0},
+        "projection": "rigid"
       }
     },
     {
@@ -20,8 +20,8 @@
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "bool_config": {"no_affect_noise":true},
-        "projection": "rigid",
         "int_config":{"space_below":0},
+        "projection": "rigid"
       }
     },
     {
@@ -31,8 +31,8 @@
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "bool_config": {"no_affect_noise":true},
-        "projection": "rigid",
         "int_config":{"space_below":0},
+        "projection": "rigid"
       }
     },
     {
@@ -42,8 +42,8 @@
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders",
         "bool_config": {"no_affect_noise":true},
-        "projection": "rigid",
         "int_config":{"space_below":0},
+        "projection": "rigid"
       }
     },
     {
@@ -53,8 +53,8 @@
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "bool_config": {"no_affect_noise":true},
-        "projection": "rigid",
         "int_config":{"space_below":0},
+        "projection": "rigid"
       }
     },
     {
@@ -64,8 +64,8 @@
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "bool_config": {"no_affect_noise":true},
-        "projection": "rigid",
         "int_config":{"space_below":0},
+        "projection": "rigid"
       }
     },
     {
@@ -75,10 +75,10 @@
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
         "projection": "rigid",
         "only_once": true,
-        "flags": "boss",
-        "int_config":{"space_below":0},
+        "flags": "boss"
       }
     }
   ]
