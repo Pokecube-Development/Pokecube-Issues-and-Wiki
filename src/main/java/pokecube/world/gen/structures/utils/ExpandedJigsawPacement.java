@@ -318,7 +318,6 @@ public class ExpandedJigsawPacement
             BlockPos blockpos = current_root.getPosition();
             Rotation rotation = current_root.getRotation();
             StructureTemplatePool.Projection root_projection = root_element.getProjection();
-            boolean root_rigid = root_projection == StructureTemplatePool.Projection.RIGID;
             BoundingBox root_bounding_box = current_root.getBoundingBox();
             int root_min_y = root_bounding_box.minY();
             AABB root_box = AABB.of(root_bounding_box);
@@ -335,11 +334,14 @@ public class ExpandedJigsawPacement
                 depth_offset = -p.int_config.extra_child_depth;
                 parent_junctions = !p.bool_config.no_affect_noise;
                 _default = water ? Heightmap.Types.OCEAN_FLOOR_WG : Heightmap.Types.WORLD_SURFACE_WG;
+                root_projection = p._projection;
             }
             else
             {
                 _default = Heightmap.Types.WORLD_SURFACE_WG;
             }
+
+            boolean root_rigid = root_projection == StructureTemplatePool.Projection.RIGID;
 
             if (depth_offset < 0 || depth < 0)
             {
@@ -446,7 +448,28 @@ public class ExpandedJigsawPacement
                                         int next_min_y = next_pick_box.minY();
                                         StructureTemplatePool.Projection next_projection = next_picked_element
                                                 .getProjection();
+
+                                        // Some space below to prevent roads
+                                        // going too close under buildings.
+                                        int room_below = 5;
+                                        int h_clearance = config.clearances.h_clearance;
+                                        int v_clearance = config.clearances.v_clearance;
+                                        if (next_picked_element instanceof ExpandedJigsawPiece p)
+                                        {
+                                            room_below = p.int_config.space_below;
+                                            if (p.int_config.v_clearance >= 0)
+                                            {
+                                                v_clearance = p.int_config.v_clearance;
+                                            }
+                                            if (p.int_config.h_clearance >= 0)
+                                            {
+                                                v_clearance = p.int_config.h_clearance;
+                                            }
+                                            next_projection = p._projection;
+                                        }
+
                                         boolean next_pick_rigid = next_projection == StructureTemplatePool.Projection.RIGID;
+                                        
                                         int raw_pos_y = next_pos_raw.getY();
                                         int jigsaw_block_dy = dy - raw_pos_y
                                                 + JigsawBlock.getFrontFacing(root_block_info.state).getStepY();
@@ -525,23 +548,6 @@ public class ExpandedJigsawPacement
                                         // possible additions
                                         if (next_pick_rigid)
                                         {
-                                            // Some space below to prevent roads
-                                            // going too close under buildings.
-                                            int room_below = 5;
-                                            int h_clearance = config.clearances.h_clearance;
-                                            int v_clearance = config.clearances.v_clearance;
-                                            if (next_picked_element instanceof ExpandedJigsawPiece p)
-                                            {
-                                                room_below = p.int_config.space_below;
-                                                if (p.int_config.v_clearance >= 0)
-                                                {
-                                                    v_clearance = p.int_config.v_clearance;
-                                                }
-                                                if (p.int_config.h_clearance >= 0)
-                                                {
-                                                    v_clearance = p.int_config.h_clearance;
-                                                }
-                                            }
                                             // If it was rigid, add it to the
                                             // rigid bounds
                                             AABB next_box = AABB.of(next_pick_box_shifted_y)

@@ -6,7 +6,7 @@
       "weight": 1,
       "element": {
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_entrance",
-        "projection": "rigid",
+        "bool_config": {"no_affect_noise":true},"projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "flags": "team_rocket",
@@ -17,7 +17,7 @@
       "weight": 1,
       "element": {
         "location": "pokecube_legends:team_bases/team_rocket/team_rocket_entrance_shaft",
-        "projection": "rigid",
+        "bool_config": {"no_affect_noise":true},"projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "int_config":{"space_below":0,"v_clearance":0,"h_clearance":0}
