@@ -5,7 +5,7 @@
     {
       "weight": 5,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_1",
+        "location": "pokecube_legends:team_bases/team_rocket/rooms/room_1",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true},
@@ -16,9 +16,9 @@
     {
       "weight": 3,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_2",
+        "location": "pokecube_legends:team_bases/team_rocket/rooms/room_2",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_no_waterlog",
+        "processors": "pokecube:generic_ladders_no_waterlog",
         "bool_config": {"no_affect_noise":true},
         "int_config":{"space_below":0},
         "projection": "rigid"
@@ -27,9 +27,9 @@
     {
       "weight": 3,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_3",
+        "location": "pokecube_legends:team_bases/team_rocket/rooms/room_3",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_no_waterlog",
+        "processors": "pokecube:generic_ladders_no_waterlog",
         "bool_config": {"no_affect_noise":true},
         "int_config":{"space_below":0},
         "projection": "rigid"
@@ -38,9 +38,9 @@
     {
       "weight": 3,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_4",
+        "location": "pokecube_legends:team_bases/team_rocket/rooms/room_4",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_no_waterlog",
+        "processors": "pokecube:generic_ladders_no_waterlog",
         "bool_config": {"no_affect_noise":true},
         "int_config":{"space_below":0},
         "projection": "rigid"
@@ -49,18 +49,7 @@
     {
       "weight": 3,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_5",
-        "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_no_waterlog",
-        "bool_config": {"no_affect_noise":true},
-        "int_config":{"space_below":0},
-        "projection": "rigid"
-      }
-    },
-    {
-      "weight": 5,
-      "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_2",
+        "location": "pokecube_legends:team_bases/team_rocket/rooms/room_5",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "bool_config": {"no_affect_noise":true},
@@ -71,7 +60,7 @@
     {
       "weight": 5,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_3",
+        "location": "pokecube_legends:team_bases/team_rocket/rooms/room_6",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "bool_config": {"no_affect_noise":true},
@@ -82,7 +71,7 @@
     {
       "weight": 5,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_4",
+        "location": "pokecube_legends:team_bases/team_rocket/rooms/room_7",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "bool_config": {"no_affect_noise":true},
@@ -93,7 +82,7 @@
     {
       "weight": 5,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_5",
+        "location": "pokecube_legends:team_bases/team_rocket/rooms/room_9",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "bool_config": {"no_affect_noise":true},
@@ -104,40 +93,7 @@
     {
       "weight": 5,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_6",
-        "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_ladders_no_waterlog",
-        "bool_config": {"no_affect_noise":true},
-        "int_config":{"space_below":0},
-        "projection": "rigid"
-      }
-    },
-    {
-      "weight": 5,
-      "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_7",
-        "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_ladders_no_waterlog",
-        "bool_config": {"no_affect_noise":true},
-        "int_config":{"space_below":0},
-        "projection": "rigid"
-      }
-    },
-    {
-      "weight": 5,
-      "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_9",
-        "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_ladders_no_waterlog",
-        "bool_config": {"no_affect_noise":true},
-        "int_config":{"space_below":0},
-        "projection": "rigid"
-      }
-    },
-    {
-      "weight": 5,
-      "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_room_10",
+        "location": "pokecube_legends:team_bases/team_rocket/rooms/room_10",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "bool_config": {"no_affect_noise":true},
@@ -148,7 +104,7 @@
     {
       "weight": 10,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_hallway_1",
+        "location": "pokecube_legends:team_bases/team_rocket/rooms/hallway_1",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true},
@@ -159,7 +115,7 @@
     {
       "weight": 3,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_hallway_2_rooms",
+        "location": "pokecube_legends:team_bases/team_rocket/rooms/hallway_2_rooms",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true},
@@ -170,7 +126,7 @@
     {
       "weight": 7,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_hallway_t",
+        "location": "pokecube_legends:team_bases/team_rocket/rooms/hallway_t",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true},
@@ -181,7 +137,7 @@
     {
       "weight": 5,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_hallway_z",
+        "location": "pokecube_legends:team_bases/team_rocket/rooms/hallway_z",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true},
@@ -192,7 +148,7 @@
     {
       "weight": 7,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_hallway_l",
+        "location": "pokecube_legends:team_bases/team_rocket/rooms/hallway_l",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true},
@@ -203,7 +159,7 @@
     {
       "weight": 7,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_corridor",
+        "location": "pokecube_legends:team_bases/team_rocket/rooms/corridor",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true},
@@ -214,12 +170,24 @@
     {
       "weight": 2,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_stairs",
+        "location": "pokecube_legends:team_bases/team_rocket/rooms/stairs",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "bool_config": {"no_affect_noise":true},
         "int_config":{"space_below":0},
         "projection": "rigid"
+      }
+    },
+    {
+      "weight": 15,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_rocket/terminators/boss_room",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "bool_config": {"no_affect_noise":true, "only_once": true},
+        "int_config":{"space_below":0, "priority":-1},
+        "projection": "rigid",
+        "flags": "boss"
       }
     }
   ]

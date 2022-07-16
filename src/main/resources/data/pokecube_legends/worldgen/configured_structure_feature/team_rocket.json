@@ -3,7 +3,7 @@
   "config": {
     "start_pool": "pokecube_legends:team_bases/team_rocket",
     "spawn_blacklist": "oceans,beaches,rivers",
-    "required_parts": ["entrance"],
+    "required_parts": ["entrance", "boss"],
     "spawn_preset": "all",
     "structures_to_avoid": [
       "pokecube_legends:towns",
@@ -11,7 +11,6 @@
       "minecraft:villages",
       "minecraft:pillager_outposts"
     ],
-    "clearances":{"h_clearance": 0},
     "avoid_range": 6,
     "size": 12
   },

@@ -5,12 +5,14 @@
     {
       "weight": 1,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_shaft",
+        "location": "pokecube_legends:team_bases/team_rocket/main_shaft",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true},
         "int_config":{"space_below":0},
-        "projection": "rigid"
+        "needed_flags": "boss",
+        "projection": "rigid",
+        "flags": "shaft"
       }
     }
   ]

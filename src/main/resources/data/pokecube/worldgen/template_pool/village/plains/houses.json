@@ -43,30 +43,35 @@
       "weight": 1,
       "element": {
         "location": "pokecube:village/common/pokecenter/center_01",
-        "projection": "rigid",
+        "processors": "pokecube:mossify_20_percent_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
+        "int_config":{"extra_child_depth":7,"space_below":0, "priority":-1},
+        "bool_config": {"only_once": true},
         "flags": "pokecenter",
-        "processors": "pokecube:generic_mossify_20_percent_no_waterlog"
+        "projection": "rigid"
       }
     },
     {
       "weight": 1,
       "element": {
         "location": "pokecube:village/plains/gym/gym_01",
-        "projection": "rigid",
+        "processors": "pokecube:decay_10_percent",
         "element_type": "pokecube:expanded_pool_element",
-        "flags": "gym",
-        "processors": "pokecube:decay_10_percent"
+        "int_config":{"extra_child_depth":7,"space_below":0, "priority":-1},
+        "bool_config": {"only_once": true},
+        "projection": "rigid",
+        "flags": "gym"
       }
     },
     {
-      "weight": 10,
+      "weight": 2,
       "element": {
         "location": "pokecube:village/plains/houses/team_rocket_plains_house",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:ladders_mossify_20_percent",
-        "int_config":{"extra_child_depth":7,"space_below":0,"priority":-1},
-        "needed_flags": "team_rocket",
+        "int_config":{"extra_child_depth":7,"space_below":0},
+        "bool_config": {"only_once": true},
+        "needed_flags": "shaft",
         "projection": "rigid",
         "flags": "team_house"
       }
