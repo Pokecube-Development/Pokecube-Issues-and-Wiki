@@ -33,7 +33,8 @@ public class StatueBlock implements BlockEntityRenderer<StatueEntity>
                 combinedLightIn);
         CompoundTag tag = copied.getPersistentData();
         if (tag.contains("statue:over_tex")
-                && mc.getEntityRenderDispatcher().getRenderer(copied) instanceof LivingEntityRenderer<?, ?> renderer)
+                && mc.getEntityRenderDispatcher().getRenderer(copied) instanceof LivingEntityRenderer<?, ?> renderer
+                && renderer.getModel() instanceof ModelWrapper<?> wrap)
         {
             ResourceLocation inTag = new ResourceLocation(tag.getString("statue:over_tex"));
             boolean isBlock = ForgeRegistries.BLOCKS.containsKey(inTag);
@@ -51,7 +52,6 @@ public class StatueBlock implements BlockEntityRenderer<StatueEntity>
             StatusTexturer newTexer = new StatusTexturer(tex);
             newTexer.alpha = tag.contains("statue:over_tex_a") ? tag.getInt("statue:over_tex_a") : 200;
             newTexer.animated = false;
-            final ModelWrapper<?> wrap = (ModelWrapper<?>) renderer.getModel();
             final IPartTexturer texer = wrap.renderer.getTexturer();
             wrap.renderer.setTexturer(newTexer);
             if (newTexer != null)
