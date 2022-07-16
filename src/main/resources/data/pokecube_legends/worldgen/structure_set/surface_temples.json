@@ -45,6 +45,10 @@
       "weight": 1
     },
     {
+      "structure": "pokecube_legends:space_temple",
+      "weight": 1
+    },
+    {
       "structure": "pokecube_legends:unown_temple",
       "weight": 1
     }
