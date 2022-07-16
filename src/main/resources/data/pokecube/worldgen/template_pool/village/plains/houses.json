@@ -65,10 +65,9 @@
         "location": "pokecube:village/plains/houses/team_rocket_plains_house",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:ladders_mossify_20_percent",
-        "extra_child_depth": 7,
+        "int_config":{"extra_child_depth":7,"space_below":0,"priority":-1},
         "projection": "rigid",
-        "flags": "team_house",
-        "int_config":{"extra_child_depth":7,"space_below":0,"priority":-1}
+        "flags": "team_house"
       }
     }
   ]
