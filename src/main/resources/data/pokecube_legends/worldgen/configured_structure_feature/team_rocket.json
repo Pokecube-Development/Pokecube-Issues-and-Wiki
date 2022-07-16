@@ -2,18 +2,17 @@
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
     "start_pool": "pokecube_legends:team_bases/team_rocket",
-    "required_parts": ["team_rocket"],
-    "spawn_preset": "all",
     "spawn_blacklist": "oceans,beaches,rivers",
-    "avoid_range": 6,
+    "required_parts": ["entrance", "boss"],
+    "spawn_preset": "all",
     "structures_to_avoid": [
       "pokecube_legends:towns",
       "pokecube_legends:villages",
       "minecraft:villages",
       "minecraft:pillager_outposts"
     ],
-    "clearances":{"h_clearance": 0},
-    "size": 7
+    "avoid_range": 6,
+    "size": 12
   },
   "biomes": "#pokecube_world:has_structure/team_rocket",
   "adapt_noise": true,

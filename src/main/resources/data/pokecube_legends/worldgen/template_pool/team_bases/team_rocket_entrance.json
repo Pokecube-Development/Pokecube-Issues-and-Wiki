@@ -1,26 +1,28 @@
 {
-  "name": "pokecube_legends:team_bases/team_rocket_top_shaft",
+  "name": "pokecube_legends:team_bases/team_rocket_entrance",
   "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 1,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_entrance",
-        "bool_config": {"no_affect_noise":true},"projection": "rigid",
-        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:team_bases/team_rocket/entrance",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "flags": "team_rocket",
-        "int_config":{"space_below":0,"v_clearance":0,"h_clearance":0}
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid",
+        "flags": "entrance"
       }
     },
     {
-      "weight": 1,
+      "weight": 2,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/team_rocket_entrance_shaft",
-        "bool_config": {"no_affect_noise":true},"projection": "rigid",
-        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:team_bases/team_rocket/entrance_shaft",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "int_config":{"space_below":0,"v_clearance":0,"h_clearance":0}
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
       }
     }
   ]

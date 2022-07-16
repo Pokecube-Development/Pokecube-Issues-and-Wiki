@@ -1,0 +1,15 @@
+{
+  "name": "pokecube_legends:temples/surface_temples/sky_pillar_top",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:temples/surface/sky_pillar_top",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:decay_30_percent",
+        "projection": "rigid"
+      }
+    }
+  ]
+}

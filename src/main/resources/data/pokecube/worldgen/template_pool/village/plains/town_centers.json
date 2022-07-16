@@ -9,7 +9,8 @@
         "location": "pokecube:village/plains/town_centers/center_1",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:mossify_20_percent"
+        "processors": "pokecube:mossify_20_percent",
+        "needed_flags": "gym, pokecenter"
       }
     },
     {
@@ -18,7 +19,8 @@
         "location": "pokecube:village/plains/town_centers/center_2",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:mossify_20_percent"
+        "processors": "pokecube:mossify_20_percent",
+        "needed_flags": "gym, pokecenter"
       }
     },
     {
@@ -27,7 +29,8 @@
         "location": "pokecube:village/plains/town_centers/center_3",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:mossify_20_percent"
+        "processors": "pokecube:mossify_20_percent",
+        "needed_flags": "gym, pokecenter"
       }
     },
     {
@@ -36,7 +39,8 @@
         "location": "pokecube:village/plains/town_centers/center_4",
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:mossify_20_percent"
+        "processors": "pokecube:mossify_20_percent",
+        "needed_flags": "gym, pokecenter"
       }
     }
   ]
