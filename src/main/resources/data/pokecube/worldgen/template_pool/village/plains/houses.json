@@ -66,6 +66,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:ladders_mossify_20_percent",
         "int_config":{"extra_child_depth":7,"space_below":0,"priority":-1},
+        "needed_flags": "team_rocket",
         "projection": "rigid",
         "flags": "team_house"
       }

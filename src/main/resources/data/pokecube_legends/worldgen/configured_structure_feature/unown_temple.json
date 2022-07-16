@@ -4,7 +4,7 @@
   "config": {
     "avoid_range": 6,
     "y_settings":{"vertical_offset": -50},
-    "size": 12,
+    "size": 8,
     "start_pool": "pokecube_legends:temples/surface/unown_temple",
     "structures_to_avoid": [
       "pokecube:towns",
