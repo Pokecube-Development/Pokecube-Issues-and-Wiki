@@ -59,6 +59,10 @@
     {
       "structure": "pokecube_legends:xerneas_tree",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:yveltal_ruins",
+      "weight": 1
     }
   ],
   "placement": {
