@@ -45,7 +45,7 @@
         "location": "pokecube:village/common/pokecenter/center_01",
         "processors": "pokecube:mossify_20_percent_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
-        "int_config":{"extra_child_depth":7,"space_below":0, "priority":-1},
+        "int_config":{"space_below":0, "priority":-1},
         "bool_config": {"only_once": true},
         "flags": "pokecenter",
         "projection": "rigid"
@@ -57,7 +57,7 @@
         "location": "pokecube:village/plains/gym/gym_01",
         "processors": "pokecube:decay_10_percent",
         "element_type": "pokecube:expanded_pool_element",
-        "int_config":{"extra_child_depth":7,"space_below":0, "priority":-1},
+        "int_config":{"space_below":0, "priority":-1},
         "bool_config": {"only_once": true},
         "projection": "rigid",
         "flags": "gym"
