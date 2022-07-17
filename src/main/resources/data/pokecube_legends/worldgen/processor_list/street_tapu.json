@@ -11,7 +11,7 @@
     },
     {
       "processor_type": "minecraft:block_rot",
-      "integrity": 0.3
+      "integrity": 0.7
     },
     {
       "rules": [
