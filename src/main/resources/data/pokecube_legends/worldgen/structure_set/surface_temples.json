@@ -55,6 +55,10 @@
     {
       "structure": "pokecube_legends:unown_temple",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:xerneas_tree",
+      "weight": 1
     }
   ],
   "placement": {

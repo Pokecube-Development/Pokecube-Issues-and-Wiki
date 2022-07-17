@@ -1,0 +1,15 @@
+{
+  "name": "pokecube_legends:temples/surface/xerneas_tree",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "element": {
+        "location": "pokecube_legends:temples/surface/xerneas_tree",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube_legends:xerneas_tree",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ]
+}

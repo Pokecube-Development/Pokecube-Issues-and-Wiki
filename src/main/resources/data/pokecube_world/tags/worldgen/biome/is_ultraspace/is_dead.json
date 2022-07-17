@@ -1,0 +1,12 @@
+{
+  "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
+  "replace": false,
+  "values": [
+    "pokecube_legends:dead_ocean",
+    "pokecube_legends:dead_river",
+    "pokecube_legends:deep_dead_ocean",
+    "pokecube_legends:deep_frozen_dead_ocean",
+    "pokecube_legends:frozen_dead_ocean",
+    "pokecube_legends:frozen_dead_river"
+  ]
+}
