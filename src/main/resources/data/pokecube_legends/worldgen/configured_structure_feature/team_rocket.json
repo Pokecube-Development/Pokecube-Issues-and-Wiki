@@ -6,10 +6,12 @@
     "required_parts": ["entrance", "boss"],
     "spawn_preset": "all",
     "structures_to_avoid": [
-      "pokecube_legends:towns",
-      "pokecube_legends:villages",
+      "minecraft:pillager_outposts",
       "minecraft:villages",
-      "minecraft:pillager_outposts"
+      "pokecube:towns",
+      "pokecube:villages",
+      "pokecube_legends:towns",
+      "pokecube_legends:villages"
     ],
     "avoid_range": 6,
     "size": 12

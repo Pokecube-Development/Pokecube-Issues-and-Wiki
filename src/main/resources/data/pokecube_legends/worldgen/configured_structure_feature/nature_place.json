@@ -4,8 +4,15 @@
     "start_pool": "pokecube_legends:temples/surface/nature_place",
     "spawn_preset": "all",
     "spawn_blacklist": "oceans,beaches",
+    "structures_to_avoid": [
+      "minecraft:pillager_outposts",
+      "minecraft:villages",
+      "pokecube:towns",
+      "pokecube:villages",
+      "pokecube_legends:towns",
+      "pokecube_legends:villages"
+    ],
     "avoid_range": 6,
-    "clearances":{"h_clearance": 0},
     "size": 2
   },
   "biomes": "#pokecube_world:has_structure/nature_place",

@@ -6,10 +6,12 @@
     "spawn_blacklist": "oceans,beaches,rivers",
     "avoid_range": 6,
     "structures_to_avoid": [
-      "pokecube_legends:towns",
-      "pokecube_legends:villages",
+      "minecraft:pillager_outposts",
       "minecraft:villages",
-      "minecraft:pillager_outposts"
+      "pokecube:towns",
+      "pokecube:villages",
+      "pokecube_legends:towns",
+      "pokecube_legends:villages"
     ],
     "size": 2
   },
