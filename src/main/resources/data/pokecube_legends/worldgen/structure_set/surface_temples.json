@@ -49,6 +49,10 @@
       "weight": 1
     },
     {
+      "structure": "pokecube_legends:tapu_center",
+      "weight": 1
+    },
+    {
       "structure": "pokecube_legends:unown_temple",
       "weight": 1
     }

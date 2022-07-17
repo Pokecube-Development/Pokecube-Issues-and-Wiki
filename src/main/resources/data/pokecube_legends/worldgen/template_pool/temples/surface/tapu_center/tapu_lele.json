@@ -1,0 +1,16 @@
+{
+  "name": "pokecube_legends:temples/surface_temples/tapu_lele",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:temples/surface/tapu_center/tapu_lele",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:decay_30_percent",
+        "projection": "rigid",
+        "flags": "lele"
+      }
+    }
+  ]
+}
