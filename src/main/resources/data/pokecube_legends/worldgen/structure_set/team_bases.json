@@ -1,6 +1,10 @@
 {
   "structures": [
     {
+      "structure": "pokecube_legends:team_aqua",
+      "weight": 1
+    },
+    {
       "structure": "pokecube_legends:team_rocket",
       "weight": 1
     }

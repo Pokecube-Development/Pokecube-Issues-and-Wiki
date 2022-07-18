@@ -1,0 +1,50 @@
+{
+  "name": "pokecube_legends:team_bases/team_aqua_terminators",
+  "fallback": "pokecube_legends:team_bases/team_aqua_terminators",
+  "elements": [
+    {
+      "weight": 3,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_aqua/terminators/bedroom",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_aqua/terminators/fish_tank",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic_ladders",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_aqua/terminators/closet",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 10,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_aqua/terminators/end",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    }
+  ]
+}
