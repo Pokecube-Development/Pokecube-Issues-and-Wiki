@@ -25,7 +25,7 @@
       }
     },
     {
-      "weight": 5,
+      "weight": 2,
       "element": {
         "location": "pokecube_legends:team_bases/team_rocket/terminators/fish_tank",
         "element_type": "pokecube:expanded_pool_element",

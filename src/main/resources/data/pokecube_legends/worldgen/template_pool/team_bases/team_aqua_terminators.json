@@ -14,11 +14,11 @@
       }
     },
     {
-      "weight": 5,
+      "weight": 3,
       "element": {
-        "location": "pokecube_legends:team_bases/team_aqua/terminators/fish_tank",
+        "location": "pokecube_legends:team_bases/team_aqua/terminators/bushes",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic_ladders",
+        "processors": "pokecube:generic_ladders_no_waterlog",
         "bool_config": {"no_affect_noise":true},
         "int_config":{"space_below":0},
         "projection": "rigid"
@@ -36,11 +36,77 @@
       }
     },
     {
+      "weight": 3,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_aqua/terminators/decorations_1",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
       "weight": 10,
       "element": {
         "location": "pokecube_legends:team_bases/team_aqua/terminators/end",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_aqua/terminators/fish_tank",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic_ladders",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 10,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_aqua/terminators/downstairs_end",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic_ladders",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 10,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_aqua/terminators/upstairs_end",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic_ladders",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 10,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_aqua/terminators/spiral_downstairs_end",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic_ladders",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 10,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_aqua/terminators/spiral_upstairs_end",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic_ladders",
         "bool_config": {"no_affect_noise":true},
         "int_config":{"space_below":0},
         "projection": "rigid"

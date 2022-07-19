@@ -13,6 +13,7 @@
       "pokecube_legends:towns",
       "pokecube_legends:villages"
     ],
+    "y_settings":{"max_dy": 15, "y_check_radius": 3},
     "avoid_range": 6,
     "size": 12
   },
