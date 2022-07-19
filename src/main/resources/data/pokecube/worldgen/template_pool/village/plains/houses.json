@@ -64,7 +64,7 @@
       }
     },
     {
-      "weight": 10,
+      "weight": 3,
       "element": {
         "location": "pokecube:village/plains/houses/team_rocket_plains_house",
         "element_type": "pokecube:expanded_pool_element",
