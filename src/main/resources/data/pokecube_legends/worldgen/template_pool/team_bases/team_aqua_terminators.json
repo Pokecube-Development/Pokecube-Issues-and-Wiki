@@ -80,9 +80,20 @@
       }
     },
     {
-      "weight": 5,
+      "weight": 7,
       "element": {
         "location": "pokecube_legends:team_bases/team_aqua/terminators/fish_tank",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic_ladders",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_aqua/terminators/freezer",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders",
         "bool_config": {"no_affect_noise":true},

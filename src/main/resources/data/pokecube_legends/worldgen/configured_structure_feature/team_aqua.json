@@ -3,7 +3,7 @@
   "config": {
     "start_pool": "pokecube_legends:team_bases/team_aqua",
     "spawn_blacklist": "oceans,beaches,rivers",
-    "required_parts": ["entrance"],
+    "required_parts": ["boss", "entrance"],
     "spawn_preset": "all",
     "structures_to_avoid": [
       "minecraft:pillager_outposts",
