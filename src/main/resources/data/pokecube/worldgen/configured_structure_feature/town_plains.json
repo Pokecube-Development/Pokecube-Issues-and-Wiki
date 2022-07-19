@@ -2,7 +2,7 @@
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
     "start_pool": "pokecube:village/plains/town_centers",
-    "required_parts": ["boss", "gym", "gym_path", "pokecenter", "pokecenter_path"],
+    "required_parts": ["gym", "gym_path", "pokecenter", "pokecenter_path"],
     "spawn_blacklist": "snowy_areas",
     "biome_type": "village",
     "structures_to_avoid": [

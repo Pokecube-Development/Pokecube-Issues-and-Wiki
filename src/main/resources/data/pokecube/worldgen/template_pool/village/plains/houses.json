@@ -45,8 +45,8 @@
         "location": "pokecube:village/common/pokecenter/center_01",
         "processors": "pokecube:mossify_20_percent_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
-        "int_config":{"space_below":0},
         "bool_config": {"only_once": true},
+        "int_config":{"space_below":0},
         "flags": "pokecenter",
         "projection": "rigid"
       }
@@ -55,16 +55,16 @@
       "weight": 1,
       "element": {
         "location": "pokecube:village/plains/gym/gym_01",
-        "processors": "pokecube:decay_10_percent",
         "element_type": "pokecube:expanded_pool_element",
-        "int_config":{"space_below":0},
+        "processors": "pokecube:decay_10_percent",
         "bool_config": {"only_once": true},
+        "int_config":{"space_below":0},
         "projection": "rigid",
         "flags": "gym"
       }
     },
     {
-      "weight": 2,
+      "weight": 10,
       "element": {
         "location": "pokecube:village/plains/houses/team_rocket_plains_house",
         "element_type": "pokecube:expanded_pool_element",
