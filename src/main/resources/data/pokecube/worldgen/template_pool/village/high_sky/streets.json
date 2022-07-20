@@ -55,6 +55,6 @@
       "weight": 1
     }
   ],
-  "fallback": "pokecube:village/desert/terminators",
+  "fallback": "pokecube:village/high_sky/terminators",
   "name": "pokecube:village/high_sky/streets"
 }
