@@ -1,9 +1,9 @@
 {
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
-    "start_pool": "pokecube_legends:team_bases/team_aqua",
-    "spawn_blacklist": "oceans,rivers",
-    "required_parts": ["boss", "entrance"],
+    "start_pool": "pokecube_legends:team_bases/team_magma",
+    "spawn_blacklist": "oceans,beaches,rivers",
+    "required_parts": ["entrance"],
     "spawn_preset": "all",
     "structures_to_avoid": [
       "minecraft:pillager_outposts",
@@ -17,7 +17,7 @@
     "avoid_range": 6,
     "size": 12
   },
-  "biomes": "#pokecube_world:has_structure/team_aqua",
+  "biomes": "#pokecube_world:has_structure/team_magma",
   "adapt_noise": true,
   "spawn_overrides": {}
 }
