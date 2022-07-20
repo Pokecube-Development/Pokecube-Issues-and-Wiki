@@ -88,7 +88,8 @@
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true, "only_once": true},
         "int_config":{"space_below":0},
-        "projection": "rigid"
+        "projection": "rigid",
+        "flags": "room_8"
       }
     },
     {
