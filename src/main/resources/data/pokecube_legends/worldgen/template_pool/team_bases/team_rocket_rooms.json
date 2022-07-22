@@ -104,7 +104,7 @@
     {
       "weight": 10,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/rooms/hallway_1",
+        "location": "pokecube_legends:team_bases/team_rocket/hallways/hallway_1",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true},
@@ -115,7 +115,7 @@
     {
       "weight": 3,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/rooms/hallway_2_rooms",
+        "location": "pokecube_legends:team_bases/team_rocket/hallways/hallway_2_rooms",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true},
@@ -126,7 +126,7 @@
     {
       "weight": 7,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/rooms/hallway_t",
+        "location": "pokecube_legends:team_bases/team_rocket/hallways/hallway_t",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true},
@@ -137,7 +137,7 @@
     {
       "weight": 5,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/rooms/hallway_z",
+        "location": "pokecube_legends:team_bases/team_rocket/hallways/hallway_z",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true},
@@ -148,7 +148,7 @@
     {
       "weight": 7,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/rooms/hallway_l",
+        "location": "pokecube_legends:team_bases/team_rocket/hallways/hallway_l",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true},
@@ -159,7 +159,7 @@
     {
       "weight": 7,
       "element": {
-        "location": "pokecube_legends:team_bases/team_rocket/rooms/corridor",
+        "location": "pokecube_legends:team_bases/team_rocket/hallways/corridor",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true},
