@@ -12,8 +12,6 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
@@ -64,7 +62,7 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         if (config.biome_room > 0 || config.hasValidator())
         {
             BlockPos p = pos.getMiddleBlockPosition(0);
-            int y = generator.getBaseHeight(p.getX(), p.getZ(), Types.WORLD_SURFACE_WG, context.heightAccessor());
+            int y = generator.getBaseHeight(p.getX(), p.getZ(), config.height_type, context.heightAccessor());
             Set<Holder<Biome>> biome_set = biomes.getBiomesWithin(p.getX(), y, p.getZ(), config.biome_room,
                     generator.climateSampler());
             for (var holder : biome_set)
@@ -80,8 +78,8 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         for (int x = pos.x - config.y_settings.y_check_radius; x <= pos.x + config.y_settings.y_check_radius; x++)
             for (int z = pos.z - config.y_settings.y_check_radius; z <= pos.z + config.y_settings.y_check_radius; z++)
         {
-            int height = context.chunkGenerator().getBaseHeight((x << 4) + 7, (z << 4) + 7,
-                    Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
+            int height = context.chunkGenerator().getBaseHeight((x << 4) + 7, (z << 4) + 7, config.height_type,
+                    context.heightAccessor());
             max_y = Math.max(max_y, height);
             min_y = Math.min(min_y, height);
             if (min_y < config.y_settings.min_y) return false;
