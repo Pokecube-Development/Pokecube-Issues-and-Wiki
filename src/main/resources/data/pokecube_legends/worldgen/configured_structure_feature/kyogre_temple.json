@@ -2,6 +2,7 @@
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
     "start_pool": "pokecube_legends:temples/underwater/kyogre_temple",
+    "height_type": "OCEAN_FLOOR_WG",
     "spawn_blacklist": "beaches",
     "spawn_preset": "all",
     "structures_to_avoid": [
@@ -12,7 +13,7 @@
       "pokecube_legends:towns",
       "pokecube_legends:villages"
     ],
-    "y_settings":{"max_y": 68},
+    "y_settings":{"max_y": 68, "vertical_offset": 5},
     "biome_room": 10,
     "avoid_range": 6,
     "size": 2
