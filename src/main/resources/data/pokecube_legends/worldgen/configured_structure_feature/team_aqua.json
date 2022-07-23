@@ -2,8 +2,8 @@
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
     "start_pool": "pokecube_legends:team_bases/team_aqua",
-    "spawn_blacklist": "oceans,rivers",
     "required_parts": ["boss", "entrance"],
+    "spawn_blacklist": "oceans,rivers",
     "spawn_preset": "all",
     "structures_to_avoid": [
       "minecraft:pillager_outposts",

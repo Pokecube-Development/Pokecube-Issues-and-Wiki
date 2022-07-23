@@ -2,9 +2,8 @@
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
     "start_pool": "pokecube_legends:temples/surface/regieleki_temple",
-    "spawn_preset": "all",
     "spawn_blacklist": "oceans,rivers,beaches",
-    "avoid_range": 6,
+    "spawn_preset": "all",
     "structures_to_avoid": [
       "minecraft:pillager_outposts",
       "minecraft:villages",
@@ -14,6 +13,7 @@
       "pokecube_legends:villages"
     ],
     "y_settings":{"max_dy": 5, "y_check_radius": 1},
+    "avoid_range": 6,
     "size": 2
   },
   "biomes": "#pokecube_world:has_structure/regieleki_temple",

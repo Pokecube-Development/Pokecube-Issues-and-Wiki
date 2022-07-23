@@ -1,0 +1,78 @@
+{
+  "name": "pokecube_legends:meteorite",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:meteorites/meteorite_large",
+        "processors": "pokecube_legends:meteorite_cosmic_ore",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "water_terrain_match": true,
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:meteorites/meteorite_large_1",
+        "processors": "pokecube_legends:meteorite_cosmic_ore",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "water_terrain_match": true,
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "location": "pokecube_legends:meteorites/meteorite_medium",
+        "processors": "pokecube_legends:meteorite_cosmic_ore",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "water_terrain_match": true,
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "location": "pokecube_legends:meteorites/meteorite_medium_1",
+        "processors": "pokecube_legends:meteorite_cosmic_ore",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "water_terrain_match": true,
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "pokecube_legends:meteorites/meteorite_small",
+        "processors": "pokecube_legends:meteorite_cosmic_ore",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "water_terrain_match": true,
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "pokecube_legends:meteorites/meteorite_small_1",
+        "processors": "pokecube_legends:meteorite_cosmic_ore",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "water_terrain_match": true,
+        "projection": "rigid"
+      }
+    }
+  ]
+}

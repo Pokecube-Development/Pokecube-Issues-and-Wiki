@@ -2,8 +2,8 @@
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
     "start_pool": "pokecube_legends:temples/surface/nature_place",
-    "spawn_preset": "all",
     "spawn_blacklist": "oceans,beaches",
+    "spawn_preset": "all",
     "structures_to_avoid": [
       "minecraft:pillager_outposts",
       "minecraft:villages",

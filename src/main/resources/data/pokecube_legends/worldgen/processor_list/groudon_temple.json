@@ -17,8 +17,8 @@
           },
           "input_predicate": {
             "block": "minecraft:nether_bricks",
-            "probability": 0.2,
-            "predicate_type": "minecraft:random_block_match"
+            "predicate_type": "minecraft:random_block_match",
+            "probability": 0.2
           },
           "location_predicate": {
             "predicate_type": "minecraft:always_true"
@@ -30,8 +30,8 @@
           },
           "input_predicate": {
             "block": "minecraft:nether_bricks",
-            "probability": 0.1,
-            "predicate_type": "minecraft:random_block_match"
+            "predicate_type": "minecraft:random_block_match",
+            "probability": 0.1
           },
           "location_predicate": {
             "predicate_type": "minecraft:always_true"
