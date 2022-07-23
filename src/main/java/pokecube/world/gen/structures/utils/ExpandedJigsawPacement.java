@@ -31,8 +31,10 @@ import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.JigsawBlock;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.entity.JigsawBlockEntity.JointType;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
@@ -45,6 +47,7 @@ import net.minecraft.world.level.levelgen.structure.pools.JigsawJunction;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -124,16 +127,19 @@ public class ExpandedJigsawPacement
                         AABB aabb = new AABB((double) (i - max_box_size), (double) (k - max_box_height),
                                 (double) (j - max_box_size), (double) (i + max_box_size + 1),
                                 (double) (k + max_box_height + 1), (double) (j + max_box_size + 1));
-                        List<PoolElementStructurePiece> list = Lists.newArrayList();
+
+                        List<Placer> attempts = Lists.newArrayList();
+
                         PokecubeCore.LOGGER.debug("Building: {}", root_pool.getName());
                         tries:
-                        for (int n = 0; n < 100; n++)
+                        for (int n = 0; n < 10; n++)
                         {
                             PokecubeCore.LOGGER.debug("Starting Try: {}", n);
-                            list.clear();
+                            List<PoolElementStructurePiece> list = Lists.newArrayList();
                             list.add(root_piece);
                             Placer placer = new Placer(config, registry, config.maxDepth(), factory, chunkgenerator,
                                     structuremanager, list, worldgenrandom);
+                            attempts.add(placer);
 
                             MutableObject<VoxelShape> bounds = new MutableObject<>(Shapes.join(Shapes.create(aabb),
                                     Shapes.create(AABB.of(boundingbox)), BooleanOp.ONLY_FIRST));
@@ -146,7 +152,7 @@ public class ExpandedJigsawPacement
                                 next_state = placer.placing.removeFirst();
                                 placer.tryPlacingChildren(next_state, bound_checks, levelheightaccessor);
                             }
-                            
+
                             PokecubeCore.LOGGER.debug("Ended Try: {}", n);
                             if (placer.needed_once.isEmpty()) break;
                             for (String s : placer.needed_once)
@@ -159,6 +165,33 @@ public class ExpandedJigsawPacement
                             }
                             break;
                         }
+
+                        Placer most_complete = attempts.get(attempts.size() - 1);
+                        if (attempts.size() > 0)
+                        {
+                            int missing = 0;
+                            for (String s : most_complete.needed_once)
+                            {
+                                if (!most_complete.added_once.contains(s)) missing++;
+                            }
+
+                            for (Placer attempt : attempts)
+                            {
+                                int number = 0;
+                                for (String s : attempt.needed_once)
+                                {
+                                    if (!attempt.added_once.contains(s)) number++;
+                                }
+                                if (number < missing)
+                                {
+                                    missing = number;
+                                    most_complete = attempt;
+                                }
+                            }
+                        }
+                        @SuppressWarnings("unchecked")
+                        List<PoolElementStructurePiece> list = (List<PoolElementStructurePiece>) most_complete.pieces;
+
                         PokecubeCore.LOGGER.debug("Finshed: {}", root_pool.getName());
                         PostProcessor.POSTPROCESS.accept(config_context, list);
                         list.forEach(builder::addPiece);
@@ -220,6 +253,8 @@ public class ExpandedJigsawPacement
         final Deque<ExpandedJigsawPacement.PieceState> placing = Queues.newArrayDeque();
         MutableObject<VoxelShape> rigid_bounds = new MutableObject<>();
         MutableObject<VoxelShape> non_rigid_bounds = new MutableObject<>();
+
+        boolean logs = false;
 
         Placer(ExpandedJigsawConfiguration config, Registry<StructureTemplatePool> pools, int max_depth,
                 ExpandedJigsawPacement.PieceFactory factory, ChunkGenerator chunkGenerator,
@@ -309,6 +344,35 @@ public class ExpandedJigsawPacement
             return list;
         }
 
+        public boolean canAttach(StructureTemplate.StructureBlockInfo root, StructureTemplate.StructureBlockInfo next)
+        {
+            Direction root_front = JigsawBlock.getFrontFacing(root.state);
+            Direction next_front = JigsawBlock.getFrontFacing(next.state);
+
+            boolean correct_direction = root_front == next_front.getOpposite();
+
+            if (!correct_direction && logs) System.out.println("wrong direction");
+            if (!correct_direction) return false;
+
+            Direction root_top = JigsawBlock.getTopFacing(root.state);
+            Direction next_top = JigsawBlock.getTopFacing(next.state);
+            JointType jointtype = JointType.byName(root.nbt.getString("joint")).orElseGet(() -> {
+                return root_front.getAxis().isHorizontal() ? JointType.ALIGNED : JointType.ROLLABLE;
+            });
+
+            boolean correct_orientation = jointtype == JointType.ROLLABLE || root_top == next_top;
+            if (!correct_orientation && logs) System.out.println("wrong orientation");
+
+            if (!correct_orientation) return false;
+
+            boolean tag_match = root.nbt.getString("target").equals(next.nbt.getString("name"));
+
+            if (!tag_match && logs)
+                System.out.println(root.nbt.getString("target") + "!=" + next.nbt.getString("name"));
+
+            return tag_match;
+        }
+
         @SuppressWarnings("deprecation")
         void tryPlacingChildren(PieceState root_state, boolean bound_check, LevelHeightAccessor heightmap)
         {
@@ -317,7 +381,7 @@ public class ExpandedJigsawPacement
             int depth = root_state.depth;
 
             Predicate<StructurePoolElement> log_data = e -> {
-                return e.toString().contains("team_") && false;
+                return e.toString().contains("team_");
             };
 
             StructurePoolElement root_element = current_root.getElement();
@@ -330,13 +394,13 @@ public class ExpandedJigsawPacement
 
             Heightmap.Types _default;
             Heightmap.Types heightmap$types;
-            boolean water = false;
+            boolean water = config.height_type == Types.OCEAN_FLOOR_WG;
             int depth_offset = 0;
             boolean parent_junctions = true;
 
             if (root_element instanceof ExpandedJigsawPiece p)
             {
-                water = p.bool_config.water_terrain_match;
+                water = water || p.bool_config.water_terrain_match;
                 depth_offset = -p.int_config.extra_child_depth;
                 parent_junctions = !p.bool_config.no_affect_noise;
                 _default = water ? Heightmap.Types.OCEAN_FLOOR_WG : Heightmap.Types.WORLD_SURFACE_WG;
@@ -349,7 +413,7 @@ public class ExpandedJigsawPacement
             }
             else
             {
-                _default = Heightmap.Types.WORLD_SURFACE_WG;
+                _default = config.height_type;
             }
 
             boolean root_rigid = root_projection == StructureTemplatePool.Projection.RIGID;
@@ -396,6 +460,8 @@ public class ExpandedJigsawPacement
                                 fallback_pool))
                         {
                             if (next_picked_element == EmptyPoolElement.INSTANCE) break;
+
+                            this.logs = log_data.test(next_picked_element);
 
                             int rigid_fails = 0;
                             int bounds_fails = 0;
@@ -445,7 +511,7 @@ public class ExpandedJigsawPacement
                                 pick_jigsaws:
                                 for (StructureBlockInfo next_block_info : next_jigsaws)
                                 {
-                                    if (JigsawBlock.canAttach(root_block_info, next_block_info))
+                                    if (canAttach(root_block_info, next_block_info))
                                     {
                                         BlockPos next_pos_raw = next_block_info.pos;
                                         BlockPos next_jigsaw_pos = connecting_jigsaw_pos.subtract(next_pos_raw);
