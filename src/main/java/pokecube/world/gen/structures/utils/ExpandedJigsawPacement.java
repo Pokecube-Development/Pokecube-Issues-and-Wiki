@@ -102,13 +102,30 @@ public class ExpandedJigsawPacement
             BoundingBox boundingbox = root_piece.getBoundingBox();
             int i = (boundingbox.maxX() + boundingbox.minX()) / 2;
             int j = (boundingbox.maxZ() + boundingbox.minZ()) / 2;
-            int dk = config.y_settings.vertical_offset;
-            if (on_surface)
+
+            int root_dy = config.y_settings.vertical_offset;
+            int ground_y = 0;
+
+            if (config.air)
             {
-                dk = chunkgenerator.getFirstFreeHeight(i, j, config.height_type, levelheightaccessor)
-                        + config.y_settings.vertical_offset;
+                ground_y = chunkgenerator.getFirstFreeHeight(i, j, config.height_type, levelheightaccessor);
+                ground_y = Math.max(config.y_settings.min_y, ground_y);
+                if (config.y_settings.vertical_offset > 0)
+                    root_dy = config.y_settings.dy_offset + worldgenrandom.nextInt(config.y_settings.vertical_offset);
             }
-            int k = centre.getY() + dk;
+            else if (config.underground)
+            {
+                ground_y = chunkgenerator.getFirstFreeHeight(i, j, config.height_type, levelheightaccessor);
+                ground_y = Math.min(config.y_settings.max_y, ground_y);
+                if (config.y_settings.vertical_offset > 0)
+                    root_dy = -config.y_settings.dy_offset - worldgenrandom.nextInt(config.y_settings.vertical_offset);
+            }
+            else if (on_surface)
+            {
+                ground_y = chunkgenerator.getFirstFreeHeight(i, j, config.height_type, levelheightaccessor);
+                root_dy = config.y_settings.vertical_offset;
+            }
+            int k = centre.getY() + root_dy + ground_y;
 
             if (!predicate.test(
                     chunkgenerator.getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j))))

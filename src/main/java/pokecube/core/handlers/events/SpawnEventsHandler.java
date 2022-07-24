@@ -57,6 +57,7 @@ import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
+import thut.api.terrain.TerrainSegment;
 import thut.api.util.JsonUtil;
 
 public class SpawnEventsHandler
@@ -296,7 +297,9 @@ public class SpawnEventsHandler
         byChunk.forEach((pos, s) -> {
             EventsHandler.Schedule(level, world -> {
                 s.forEach((p) -> {
-                    TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome);
+                    TerrainSegment seg = TerrainManager.getInstance().getTerrain(world, p);
+                    if (seg != null) seg.setBiome(p, subbiome);
+                    else PokecubeCore.LOGGER.error("Error with terrain segment at " + p);
                 });
                 return true;
             }, false);
