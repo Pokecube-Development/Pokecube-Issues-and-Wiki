@@ -3,7 +3,8 @@
   "config": {
     "start_pool": "pokecube_legends:distorted/distorted_tree_island",
     "spawn_blacklist": "beaches,oceans,rivers",
-    "y_settings":{"min_y": 45, "vertical_offset": 50},
+    "y_settings":{"dy_offset": 45, "min_y": 45,
+      "surface_type": "air", "vertical_offset": 50},
     "spawn_preset": "all",
     "avoid_range": 6,
     "size": 1

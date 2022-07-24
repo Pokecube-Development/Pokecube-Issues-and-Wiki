@@ -15,7 +15,7 @@
       }
     },
     {
-      "weight": 2,
+      "weight": 1,
       "element": {
         "location": "pokecube_legends:team_bases/team_rocket/entrance_shaft",
         "processors": "pokecube:generic_ladders_no_waterlog",
