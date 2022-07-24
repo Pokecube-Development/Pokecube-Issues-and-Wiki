@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#pokecube_world:distorted_houses",
+    "#pokecube_world:distorted_islands",
+    "pokecube_legends:dead_distortic_tree",
+    "pokecube_legends:distorted_mirror"
+  ]
+}

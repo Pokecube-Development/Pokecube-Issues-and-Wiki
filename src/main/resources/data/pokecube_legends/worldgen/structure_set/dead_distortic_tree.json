@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "pokecube_legends:dead_distortic_tree",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 789987562,
+    "spacing": 20,
+    "separation": 10,
+    "type": "minecraft:random_spread"
+  }
+}
