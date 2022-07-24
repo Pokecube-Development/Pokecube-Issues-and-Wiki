@@ -1,7 +1,7 @@
 {
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
-    "start_pool": "pokecube_legends:ultraspace/temples/necrozma_tower",
+    "start_pool": "pokecube_legends:temples/ultraspace/necrozma_tower",
     "spawn_blacklist": "oceans,beaches,rivers",
     "spawn_preset": "all",
     "structures_to_avoid": [

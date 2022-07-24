@@ -1,0 +1,15 @@
+{
+  "name": "pokecube_legends:temples/ultraspace_temples/necrozma_tower",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:temples/ultraspace/necrozma_tower_bottom",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      }
+    }
+  ]
+}
