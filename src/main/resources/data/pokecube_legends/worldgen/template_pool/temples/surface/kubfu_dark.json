@@ -6,9 +6,9 @@
       "weight": 1,
       "element": {
         "location": "pokecube_legends:temples/surface/kubfu_dark",
-        "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic",
+        "projection": "rigid"
       }
     }
   ]

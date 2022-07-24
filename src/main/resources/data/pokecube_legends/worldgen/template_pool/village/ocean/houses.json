@@ -1,0 +1,80 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:village/ocean/houses/house_close",
+        "processors": "pokecube:generic_no_waterlog",
+        "int_config": {"space_below":0},"projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:village/ocean/houses/house_1",
+        "processors": "pokecube:generic_no_waterlog",
+        "int_config": {"space_below":0},"projection": "rigid"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:village/ocean/houses/house_2",
+        "processors": "pokecube:generic_no_waterlog",
+        "int_config": {"space_below":0},"projection": "rigid"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:village/ocean/houses/house_3",
+        "processors": "pokecube:generic_no_waterlog",
+        "int_config": {"space_below":0},"projection": "rigid"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:village/ocean/houses/house_4",
+        "processors": "pokecube:generic_no_waterlog",
+        "int_config": {"space_below":0},"projection": "rigid"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:village/ocean/houses/house_5",
+        "processors": "pokecube:generic_no_waterlog",
+        "int_config": {"space_below":0},"projection": "rigid"
+      },
+      "weight": 6
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "flags": "pokecenter",
+        "location": "pokecube_legends:village/ocean/pokecenter/center_01",
+        "processors": "pokecube:generic_no_waterlog",
+        "int_config": {"space_below":0},"projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "flags": "gym",
+        "location": "pokecube_legends:village/ocean/gym/aether_base",
+        "processors": "pokecube:generic_no_waterlog",
+        "int_config": {"space_below":0},"projection": "rigid"
+      },
+      "weight": 1
+    }
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube_legends:village/ocean/houses"
+}

@@ -1,0 +1,76 @@
+{
+  "name": "pokecube_legends:distorted/flipped_distorted_house",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:distorted/flipped_acacia_house",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:distorted/flipped_birch_house",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:distorted/flipped_dark_oak_house",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:distorted/flipped_distortic_house",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:distorted/flipped_jungle_house",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:distorted/flipped_oak_house",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:distorted/flipped_spruce_house",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      }
+    }
+  ]
+}

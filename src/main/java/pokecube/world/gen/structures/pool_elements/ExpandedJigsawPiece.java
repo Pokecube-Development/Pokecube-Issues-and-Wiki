@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.StructureMode;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
@@ -34,6 +35,7 @@ import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool.Projection;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.GravityProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.JigsawReplacementProcessor;
@@ -61,24 +63,16 @@ public class ExpandedJigsawPiece extends SinglePoolElement
     public static Codec<ExpandedJigsawPiece> makeCodec()
     {
         return RecordCodecBuilder.create((instance) -> {
-            return instance
-                    .group(SinglePoolElement.templateCodec(), SinglePoolElement.processorsCodec(),
-                            StructurePoolElement.projectionCodec(),
-                            Codec.BOOL.fieldOf("ignore_air").orElse(false).forGetter(s -> s.ignore_air),
-                            Codec.BOOL.fieldOf("water_terrain_match").orElse(false)
-                                    .forGetter(structure -> structure.water_terrain_match),
-                            Codec.BOOL.fieldOf("markers_to_air").orElse(true).forGetter(s -> s.markers_to_air),
-                            Codec.STRING.fieldOf("biome_type").orElse("none").forGetter(s -> s.biome_type),
-                            Codec.STRING.fieldOf("name").orElse("none").forGetter(s -> s.biome_type),
-                            Codec.STRING.fieldOf("flags").orElse("").forGetter(s -> s.flags),
-                            ResourceLocation.CODEC.listOf().fieldOf("extra_pools").orElse(new ArrayList<>())
-                                    .forGetter(s -> s.extra_pools),
-                            Codec.BOOL.fieldOf("only_once").orElse(false).forGetter(s -> s.only_once),
-                            Codec.BOOL.fieldOf("bound_check").orElse(true).forGetter(s -> s.bound_check),
-                            Codec.BOOL.fieldOf("no_affect_noise").orElse(false).forGetter(s -> s.no_affect_noise),
-                            Codec.INT.fieldOf("y_offset").orElse(-1).forGetter(s -> s.y_offset),
-                            Codec.INT.fieldOf("extra_child_depth").orElse(0).forGetter(s -> s.extra_child_depth),
-                            Codec.INT.fieldOf("space_below").orElse(10).forGetter(s -> s.y_offset))
+            return instance.group(SinglePoolElement.templateCodec(), SinglePoolElement.processorsCodec(),
+                    StructurePoolElement.projectionCodec(),
+                    Ints.CODEC.fieldOf("int_config").orElse(Ints.DEFAULT).forGetter(s -> s.int_config),
+                    Bools.CODEC.fieldOf("bool_config").orElse(Bools.DEFAULT).forGetter(s -> s.bool_config),
+                    Codec.STRING.fieldOf("biome_type").orElse("none").forGetter(s -> s.biome_type),
+                    Codec.STRING.fieldOf("name").orElse("none").forGetter(s -> s.biome_type),
+                    Codec.STRING.fieldOf("flags").orElse("").forGetter(s -> s.flags),
+                    Codec.STRING.fieldOf("needed_flags").orElse("").forGetter(s -> s.needed_flags),
+                    ResourceLocation.CODEC.listOf().fieldOf("extra_pools").orElse(new ArrayList<>())
+                            .forGetter(s -> s.extra_pools))
                     .apply(instance, ExpandedJigsawPiece::new);
         });
     }
@@ -99,54 +93,115 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         poses.add(pos.immutable());
     }
 
+    public static class Ints
+    {
+        public static final Ints DEFAULT = new Ints(-1, 10, 0, -1, -1, 100);
+
+        public static final Codec<Ints> CODEC = RecordCodecBuilder.create((instance) -> {
+            return instance
+                    .group(Codec.INT.fieldOf("y_offset").orElse(-1).forGetter(s -> s.y_offset),
+                            Codec.INT.fieldOf("space_below").orElse(10).forGetter(s -> s.space_below),
+                            Codec.INT.fieldOf("extra_child_depth").orElse(0).forGetter(s -> s.extra_child_depth),
+                            Codec.INT.fieldOf("h_clearance").orElse(-1).forGetter(s -> s.h_clearance),
+                            Codec.INT.fieldOf("v_clearance").orElse(-1).forGetter(s -> s.v_clearance),
+                            Codec.INT.fieldOf("priority").orElse(100).forGetter(s -> s.priority))
+                    .apply(instance, Ints::new);
+        });
+
+        public final int y_offset;
+        public final int space_below;
+        public final int extra_child_depth;
+        public final int h_clearance;
+        public final int v_clearance;
+        public final int priority;
+
+        public Ints(int y_offset, int space_below, int extra_child_depth, int h_clearance, int v_clearance,
+                int priority)
+        {
+            this.h_clearance = h_clearance;
+            this.v_clearance = v_clearance;
+            this.y_offset = y_offset;
+            this.space_below = space_below;
+            this.extra_child_depth = extra_child_depth;
+            this.priority = priority;
+        }
+    }
+
+    public static class Bools
+    {
+        public static final Bools DEFAULT = new Bools(false, false, true, false, false, false);
+
+        public static final Codec<Bools> CODEC = RecordCodecBuilder.create((instance) -> {
+            return instance
+                    .group(Codec.BOOL.fieldOf("ignore_air").orElse(false).forGetter(s -> s.ignore_air),
+                            Codec.BOOL.fieldOf("water_terrain_match").orElse(false)
+                                    .forGetter(s -> s.water_terrain_match),
+                            Codec.BOOL.fieldOf("markers_to_air").orElse(true).forGetter(s -> s.markers_to_air),
+                            Codec.BOOL.fieldOf("only_once").orElse(false).forGetter(s -> s.only_once),
+                            Codec.BOOL.fieldOf("no_affect_noise").orElse(false).forGetter(s -> s.no_affect_noise),
+                            Codec.BOOL.fieldOf("rigid_override").orElse(false).forGetter(s -> s.rigid_override))
+                    .apply(instance, Bools::new);
+        });
+
+        public final boolean ignore_air;
+        public final boolean water_terrain_match;
+        public final boolean markers_to_air;
+        public final boolean only_once;
+        public final boolean no_affect_noise;
+        public boolean rigid_override;
+
+        public Bools(boolean ignore_air, boolean water_terrain_match, boolean markers_to_air, boolean only_once,
+                boolean no_affect_noise, boolean rigid_override)
+        {
+            this.ignore_air = ignore_air;
+            this.water_terrain_match = water_terrain_match;
+            this.markers_to_air = markers_to_air;
+            this.only_once = only_once;
+            this.rigid_override = rigid_override;
+            this.no_affect_noise = no_affect_noise;
+        }
+    }
+
     public Level world;
 
-    public final boolean ignore_air;
-    public final boolean water_terrain_match;
-    public final boolean markers_to_air;
     public final String biome_type;
     public final String name;
     public final String flags;
+    public final String needed_flags;
     public final List<ResourceLocation> extra_pools;
-    public final boolean only_once;
-    public final boolean bound_check;
-    public final boolean no_affect_noise;
-    public final int y_offset;
-    public final int space_below;
-    public final int extra_child_depth;
+    public final Ints int_config;
+    public final Bools bool_config;
 
     public final String[] _flags;
+    public final String[] _needed_flags;
 
     public boolean isSpawn;
     public String spawnReplace;
     public BlockPos spawnPos;
     public BlockPos profPos;
     public boolean placedSpawn = false;
+    public Projection _projection;
 
     boolean maskCheck;
 
     public ExpandedJigsawPiece(final Either<ResourceLocation, StructureTemplate> template,
-            final Holder<StructureProcessorList> processors, final StructureTemplatePool.Projection behaviour,
-            final boolean ignoreAir, final boolean water_terrain_match, final boolean markers_to_air,
-            final String biome_type, final String name, final String flags, List<ResourceLocation> extra_pools,
-            final boolean only_once, final boolean bound_check, final boolean no_affect_noise, int y_offset,
-            int extra_child_depth, int space_below)
+            final Holder<StructureProcessorList> processors, StructureTemplatePool.Projection behaviour,
+            final Ints int_config, final Bools bool_config, final String biome_type, final String name,
+            final String flags, final String needed_flags, List<ResourceLocation> extra_pools)
     {
         super(template, processors, behaviour);
-        this.ignore_air = ignoreAir;
-        this.water_terrain_match = water_terrain_match;
         this.biome_type = biome_type;
         this.name = name;
-        this.markers_to_air = markers_to_air;
         this.flags = flags;
+        this.needed_flags = needed_flags;
         this.extra_pools = extra_pools;
         this._flags = flags.split(",");
-        this.only_once = only_once;
-        this.bound_check = bound_check;
-        this.no_affect_noise = no_affect_noise;
-        this.y_offset = y_offset;
-        this.space_below = space_below;
-        this.extra_child_depth = extra_child_depth;
+        this._needed_flags = needed_flags.split(",");
+        this.int_config = int_config;
+        this.bool_config = bool_config;
+        this._projection = bool_config.rigid_override ? Projection.RIGID : behaviour;
+        if (bool_config.no_affect_noise) this.setProjection(Projection.TERRAIN_MATCHING);
+        if (_projection != this.getProjection()) bool_config.rigid_override = true;
     }
 
     @Override
@@ -154,7 +209,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
     {
         // Negative y_offset, as this is the shift of the ground, not the shift
         // of the structure!
-        return -this.y_offset;
+        return -this.int_config.y_offset;
     }
 
     @Override
@@ -174,12 +229,13 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         this.processors.value().list().forEach(placementsettings::addProcessor);
 
         // Then add structure block handling
-        if (markers_to_air) placementsettings.addProcessor(MarkerToAirProcessor.PROCESSOR);
+        if (bool_config.markers_to_air) placementsettings.addProcessor(MarkerToAirProcessor.PROCESSOR);
         else placementsettings.addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
 
         // And finally add the terrain matching processors
-        if (water_terrain_match) placementsettings.addProcessor(new GravityProcessor(Types.OCEAN_FLOOR_WG, -1));
-        else this.getProjection().getProcessors().forEach(placementsettings::addProcessor);
+        if (bool_config.water_terrain_match)
+            placementsettings.addProcessor(new GravityProcessor(Types.OCEAN_FLOOR_WG, -1));
+        else this._projection.getProcessors().forEach(placementsettings::addProcessor);
 
         return placementsettings;
     }
@@ -201,8 +257,11 @@ public class ExpandedJigsawPiece extends SinglePoolElement
                 @SuppressWarnings("deprecation")
                 BlockState to_place = structuretemplate$structureblockinfo.state.mirror(placementsettings.getMirror())
                         .rotate(placementsettings.getRotation());
-                if (old.is(Fluids.WATER) && to_place.getFluidState().isEmpty()
-                        && to_place.getBlock() instanceof LiquidBlockContainer)
+                boolean water_loggable = to_place.hasProperty(BlockStateProperties.WATERLOGGED);
+                LiquidBlockContainer cont = to_place.getBlock() instanceof LiquidBlockContainer
+                        ? (LiquidBlockContainer) to_place.getBlock()
+                        : null;
+                if (old.is(Fluids.WATER) && to_place.getFluidState().isEmpty() && (water_loggable || cont != null))
                 {
                     unWaterlog.put(blockpos, level.getBlockState(blockpos));
                 }
@@ -225,19 +284,29 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         try
         {
             Map<BlockPos, BlockState> unWaterlog = Maps.newHashMap();
-            if (this.processors.value().list().contains(NoWaterlogProcessor.PROCESSOR))
+            boolean checkWaterlog = this.processors.value().list().contains(NoWaterlogProcessor.PROCESSOR);
+            if (checkWaterlog)
             {
                 checkWaterlogging(level, template, placementsettings, pos1, pos2, rotation, box, rng, unWaterlog);
             }
             placed = template.placeInWorld(level, pos1, pos2, placementsettings, rng, placeFlags);
-            if (placed)
+            if (checkWaterlog && placed)
             {
                 unWaterlog.forEach((pos, state) -> {
                     BlockState newState = level.getBlockState(pos);
-                    if (newState.getBlock() instanceof LiquidBlockContainer cont)
+                    boolean water_loggable = newState.hasProperty(BlockStateProperties.WATERLOGGED);
+                    LiquidBlockContainer cont = newState.getBlock() instanceof LiquidBlockContainer
+                            ? (LiquidBlockContainer) newState.getBlock()
+                            : null;
+                    if (cont != null || water_loggable)
                     {
-                        PokecubeCore.LOGGER.debug("Un Waterlogging {}", newState);
-                        cont.placeLiquid(level, pos, newState, Fluids.EMPTY.defaultFluidState());
+                        boolean worked = cont != null
+                                && cont.placeLiquid(level, pos, newState, Fluids.EMPTY.defaultFluidState());
+                        if (!worked && newState.hasProperty(BlockStateProperties.WATERLOGGED))
+                        {
+                            worked = level.setBlock(pos, newState.setValue(BlockStateProperties.WATERLOGGED, false),
+                                    placeFlags & -2 | 16);
+                        }
                     }
                 });
             }
@@ -264,7 +333,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
             // Check if we need to undo any waterlogging which may have
             // occurred, we also process data markers here as to not duplicate
             // loop later, as this operation is expensive enough anyway.
-            if (this.markers_to_air)
+            if (bool_config.markers_to_air)
             {
                 final List<StructureTemplate.StructureBlockInfo> list = placementsettings
                         .getRandomPalette(template.palettes, pos1).blocks();

@@ -1,0 +1,15 @@
+{
+  "name": "pokecube_legends:temples/surface/zamazenta_temple",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "element": {
+        "location": "pokecube_legends:temples/surface/zamazenta_temple",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:andesite_decay_30_percent",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ]
+}

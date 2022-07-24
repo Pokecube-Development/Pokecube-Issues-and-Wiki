@@ -5,10 +5,10 @@
     {
       "weight": 1,
       "element": {
-        "location": "pokecube_legends:temples/surface/celebi_temple_2",
-        "projection": "rigid",
+        "location": "pokecube_legends:temples/surface/celebi_temple",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube_legends:celebi_temple"
+        "processors": "pokecube_legends:celebi_temple",
+        "projection": "rigid"
       }
     }
   ]

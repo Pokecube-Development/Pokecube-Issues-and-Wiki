@@ -6,9 +6,9 @@
       "weight": 1,
       "element": {
         "location": "pokecube_legends:temples/surface/registeel_temple",
-        "projection": "rigid",
+        "processors": "pokecube_legends:registeel_temple",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube_legends:registeel_temple"
+        "projection": "rigid"
       }
     }
   ]

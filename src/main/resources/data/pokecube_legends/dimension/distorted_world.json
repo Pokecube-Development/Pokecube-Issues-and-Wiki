@@ -16,7 +16,7 @@
             ],
             "humidity": [
               -1,
-              1
+              -0.1
             ],
             "continentalness": [
               -1,
@@ -42,11 +42,11 @@
               1
             ],
             "humidity": [
-              -1,
+              -0.1,
               1
             ],
             "continentalness": [
-              0.2,
+              -1,
               1.5
             ],
             "erosion": [

@@ -39,6 +39,38 @@
     {
       "structure": "pokecube_legends:nature_place",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:sky_pillar",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:space_temple",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:tapu_center",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:unown_temple",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:xerneas_tree",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:yveltal_ruins",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:zacian_temple",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:zamazenta_temple",
+      "weight": 1
     }
   ],
   "placement": {

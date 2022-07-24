@@ -116,11 +116,12 @@
       "weight": 1,
       "element": {
         "location": "pokecube_legends:village/ultraspace/gym/gym_01",
-        "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "flags": "gym",
+        "processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},
+        "projection": "rigid",
         "only_once": true,
-        "processors": "pokecube:generic"
+        "flags": "gym"
       }
     }
   ]

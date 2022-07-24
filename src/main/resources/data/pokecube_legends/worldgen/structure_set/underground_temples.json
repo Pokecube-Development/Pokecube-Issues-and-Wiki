@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "pokecube_legends:groudon_temple",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 1254832552,
+    "spacing": 24,
+    "separation": 12,
+    "type": "minecraft:random_spread"
+  }
+}

@@ -1,0 +1,175 @@
+{
+  "name": "pokecube_legends:team_bases/team_magma_rooms",
+  "fallback": "pokecube_legends:team_bases/team_magma_terminators",
+  "elements": [
+    {
+      "weight": 5,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_magma/rooms/boss_entrance",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true, "only_once": true},
+        "int_config":{"space_below":0},
+        "projection": "rigid",
+        "flags": "boss_entrance"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_magma/rooms/redstone_room",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true, "only_once": true},
+        "int_config":{"space_below":0},
+        "projection": "rigid",
+        "flags": "redstone"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_magma/rooms/room_1",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_magma/rooms/room_2",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_magma/rooms/room_3",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_magma/rooms/room_4",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_magma/rooms/room_5",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_magma/rooms/room_6",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true, "only_once": true},
+        "int_config":{"space_below":0},
+        "projection": "rigid",
+        "flags": "loot_room"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_magma/rooms/room_6",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_magma/rooms/secret_room",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true, "only_once": true},
+        "int_config":{"space_below":0},
+        "projection": "rigid",
+        "flags": "secret"
+      }
+    },
+    {
+      "weight": 10,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_magma/hallways/hallway_1",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 7,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_magma/hallways/hallway_t",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_magma/hallways/hallway_z",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 7,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_magma/hallways/hallway_lava_tank",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_magma/hallways/hallway_lava_tank_t",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    }
+  ]
+}

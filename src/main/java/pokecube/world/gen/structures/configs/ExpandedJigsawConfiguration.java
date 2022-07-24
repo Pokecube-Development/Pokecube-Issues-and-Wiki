@@ -51,7 +51,7 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
     public static class YSettings
     {
         public static final YSettings DEFAULT = new YSettings(0, 0, Integer.MIN_VALUE, Integer.MAX_VALUE,
-                Integer.MAX_VALUE);
+                Integer.MAX_VALUE, 0, "surface");
 
         public static final Codec<YSettings> CODEC = RecordCodecBuilder.create((instance) -> {
             return instance
@@ -59,7 +59,9 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
                             Codec.INT.fieldOf("y_check_radius").orElse(1).forGetter(s -> s.y_check_radius),
                             Codec.INT.fieldOf("min_y").orElse(Integer.MIN_VALUE).forGetter(s -> s.min_y),
                             Codec.INT.fieldOf("max_y").orElse(Integer.MAX_VALUE).forGetter(s -> s.max_y),
-                            Codec.INT.fieldOf("max_dy").orElse(Integer.MAX_VALUE).forGetter(s -> s.max_dy))
+                            Codec.INT.fieldOf("max_dy").orElse(Integer.MAX_VALUE).forGetter(s -> s.max_dy),
+                            Codec.INT.fieldOf("dy_offset").orElse(Integer.MAX_VALUE).forGetter(s -> s.dy_offset),
+                            Codec.STRING.fieldOf("surface_type").orElse("surface").forGetter(s -> s.surface_type))
                     .apply(instance, YSettings::new);
         });
 
@@ -68,24 +70,28 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
         public final int min_y;
         public final int max_y;
         public final int max_dy;
+        public final int dy_offset;
+        public final String surface_type;
 
-        public YSettings(int vertical_offset, int y_check_radius, int min_y, int max_y, int max_dy)
+        public YSettings(int vertical_offset, int y_check_radius, int min_y, int max_y, int max_dy, int dy_offset, String surface_type)
         {
             this.vertical_offset = vertical_offset;
             this.y_check_radius = y_check_radius;
             this.min_y = min_y;
             this.max_y = max_y;
             this.max_dy = max_dy;
+            this.surface_type = surface_type;
+            this.dy_offset = dy_offset;
         }
     }
 
     public static class ClearanceSettings
     {
-        public static final ClearanceSettings DEFAULT = new ClearanceSettings(2, 0);
+        public static final ClearanceSettings DEFAULT = new ClearanceSettings(0, 0);
 
         public static final Codec<ClearanceSettings> CODEC = RecordCodecBuilder.create((instance) -> {
             return instance
-                    .group(Codec.INT.fieldOf("h_clearance").orElse(2).forGetter(s -> s.h_clearance),
+                    .group(Codec.INT.fieldOf("h_clearance").orElse(0).forGetter(s -> s.h_clearance),
                             Codec.INT.fieldOf("v_clearance").orElse(0).forGetter(s -> s.v_clearance))
                     .apply(instance, ClearanceSettings::new);
         });
@@ -115,6 +121,9 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
 
     public final YSettings y_settings;
     public final ClearanceSettings clearances;
+
+    public final boolean underground;
+    public final boolean air;
 
     public List<SpawnBiomeMatcher> _needed = Lists.newArrayList();
     public List<SpawnBiomeMatcher> _banned = Lists.newArrayList();
@@ -147,6 +156,8 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
             for (String s : opts) _needed.add(SpawnBiomeMatcher.get(s));
         }
 
+        this.underground = "underground".equals(y_settings.surface_type);
+        this.air = "air".equals(y_settings.surface_type);
     }
 
     public boolean hasValidator()

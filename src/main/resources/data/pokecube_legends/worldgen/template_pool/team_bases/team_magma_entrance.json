@@ -1,0 +1,29 @@
+{
+  "name": "pokecube_legends:team_bases/team_magma_entrance",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_magma/entrance",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "int_config":{"space_below":0, "priority":-1},
+        "bool_config": {"no_affect_noise":true},
+        "projection": "rigid",
+        "flags": "entrance"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_magma/entrance_shaft",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    }
+  ]
+}

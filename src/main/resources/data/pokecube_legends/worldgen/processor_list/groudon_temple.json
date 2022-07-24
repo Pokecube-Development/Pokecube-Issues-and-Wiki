@@ -1,0 +1,44 @@
+{
+  "processors": [
+    {
+      "processor_type": "pokecube:ladders_to_ground"
+    },
+    {
+      "processor_type": "pokecube:structures"
+    },
+    {
+      "processor_type": "pokecube:marker_to_air"
+    },
+    {
+      "rules": [
+        {
+          "output_state": {
+            "Name": "minecraft:cracked_nether_bricks"
+          },
+          "input_predicate": {
+            "block": "minecraft:nether_bricks",
+            "predicate_type": "minecraft:random_block_match",
+            "probability": 0.2
+          },
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          }
+        },
+        {
+          "output_state": {
+            "Name": "minecraft:red_nether_bricks"
+          },
+          "input_predicate": {
+            "block": "minecraft:nether_bricks",
+            "predicate_type": "minecraft:random_block_match",
+            "probability": 0.1
+          },
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          }
+        }
+      ],
+      "processor_type": "minecraft:rule"
+    }
+  ]
+}

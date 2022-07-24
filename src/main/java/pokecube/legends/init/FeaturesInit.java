@@ -1,17 +1,15 @@
 package pokecube.legends.init;
 
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
 import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -22,11 +20,9 @@ import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguratio
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
-import net.minecraft.world.level.levelgen.placement.BiomeFilter;
-import net.minecraft.world.level.levelgen.placement.CountPlacement;
-import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
-import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.placement.*;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -34,6 +30,10 @@ import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
 import pokecube.legends.worldgen.WorldgenFeatures;
+
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class FeaturesInit
 {
@@ -181,6 +181,9 @@ public class FeaturesInit
 
         public static final RegistryObject<PlacedFeature> DISTORTIC_GRASS_BONEMEAL;
 
+        private static final RegistryObject<ConfiguredFeature<?, ?>> BLOCK_METEORITE_FEATURE;
+        private static final RegistryObject<ConfiguredFeature<?, ?>> ORE_METEORITE_FEATURE;
+
         private static final RegistryObject<ConfiguredFeature<?, ?>> ORE_RUBY_BURIED_FEATURE;
         private static final RegistryObject<ConfiguredFeature<?, ?>> ORE_RUBY_LARGE_FEATURE;
         private static final RegistryObject<ConfiguredFeature<?, ?>> ORE_RUBY_SMALL_FEATURE;
@@ -188,6 +191,9 @@ public class FeaturesInit
         private static final RegistryObject<ConfiguredFeature<?, ?>> ORE_SAPPHIRE_BURIED_FEATURE;
         private static final RegistryObject<ConfiguredFeature<?, ?>> ORE_SAPPHIRE_LARGE_FEATURE;
         private static final RegistryObject<ConfiguredFeature<?, ?>> ORE_SAPPHIRE_SMALL_FEATURE;
+
+        private static final RegistryObject<PlacedFeature> BLOCK_METEORITE_PLACEMENT;
+        private static final RegistryObject<PlacedFeature> ORE_METEORITE_PLACEMENT;
 
         private static final RegistryObject<PlacedFeature> ORE_RUBY_PLACEMENT;
         private static final RegistryObject<PlacedFeature> ORE_RUBY_BURIED_PLACEMENT;
@@ -200,7 +206,6 @@ public class FeaturesInit
         static
         {
             // Ruby Ores
-
             ORE_RUBY_BURIED_FEATURE = PokecubeLegends.CONFIGURED_FEATURES.register("ruby_ore_buried",
                     () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(getRubyList(), 8, 1.0f)));
             ORE_RUBY_LARGE_FEATURE = PokecubeLegends.CONFIGURED_FEATURES.register("ruby_ore_large",
@@ -220,12 +225,11 @@ public class FeaturesInit
                                     BiomeFilter.biome())));
             ORE_RUBY_LARGE_PLACEMENT = PokecubeLegends.PLACED_FEATURES.register("ruby_ore_large",
                     () -> new PlacedFeature(ORE_RUBY_LARGE_FEATURE.getHolder().get(),
-                            List.of(CountPlacement.of(9), InSquarePlacement.spread(), HeightRangePlacement
+                            List.of(RarityFilter.onAverageOnceEvery(9), InSquarePlacement.spread(), HeightRangePlacement
                                     .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(100)),
                                     BiomeFilter.biome())));
 
             // Sapphire Ores
-
             ORE_SAPPHIRE_BURIED_FEATURE = PokecubeLegends.CONFIGURED_FEATURES.register("sapphire_ore_buried",
                     () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(getSapphireList(), 8, 1.0f)));
             ORE_SAPPHIRE_LARGE_FEATURE = PokecubeLegends.CONFIGURED_FEATURES.register("sapphire_ore_large",
@@ -245,8 +249,27 @@ public class FeaturesInit
                                     BiomeFilter.biome())));
             ORE_SAPPHIRE_LARGE_PLACEMENT = PokecubeLegends.PLACED_FEATURES.register("sapphire_ore_large",
                     () -> new PlacedFeature(ORE_SAPPHIRE_LARGE_FEATURE.getHolder().get(),
-                            List.of(CountPlacement.of(9), InSquarePlacement.spread(), HeightRangePlacement
+                            List.of(RarityFilter.onAverageOnceEvery(9), InSquarePlacement.spread(), HeightRangePlacement
                                     .triangle(VerticalAnchor.aboveBottom(-64), VerticalAnchor.aboveBottom(90)),
+                                    BiomeFilter.biome())));
+
+            //Meteorites
+            BLOCK_METEORITE_FEATURE = PokecubeLegends.CONFIGURED_FEATURES.register("meteorite_block",
+                    () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(getMeteoriteList(), 64, 0.5f)));
+
+            BLOCK_METEORITE_PLACEMENT = PokecubeLegends.PLACED_FEATURES.register("meteorite_block",
+                    () -> new PlacedFeature(BLOCK_METEORITE_FEATURE.getHolder().get(),
+                            List.of(RarityFilter.onAverageOnceEvery(20), InSquarePlacement.spread(), HeightRangePlacement
+                                            .uniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(-16)),
+                                    BiomeFilter.biome())));
+
+            ORE_METEORITE_FEATURE = PokecubeLegends.CONFIGURED_FEATURES.register("meteorite_ore",
+                    () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(getMeteoriteOreList(), 8, 0.0f)));
+
+            ORE_METEORITE_PLACEMENT = PokecubeLegends.PLACED_FEATURES.register("meteorite_ore",
+                    () -> new PlacedFeature(ORE_METEORITE_FEATURE.getHolder().get(),
+                            List.of(CountPlacement.of(128), InSquarePlacement.spread(), HeightRangePlacement
+                                    .uniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(-16)),
                                     BiomeFilter.biome())));
 
             // Vegetations
@@ -284,6 +307,11 @@ public class FeaturesInit
             if (make_ores_check.test(key))
             {
                 event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
+                        BLOCK_METEORITE_PLACEMENT.getHolder().get());
+                event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
+                        ORE_METEORITE_PLACEMENT.getHolder().get());
+
+                event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
                         ORE_RUBY_PLACEMENT.getHolder().get());
                 event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
                         ORE_RUBY_BURIED_PLACEMENT.getHolder().get());
@@ -301,6 +329,29 @@ public class FeaturesInit
 
         public static void init()
         {}
+    }
+
+    private static TagKey<Block> create(String name) {
+        return TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(Reference.ID, "meteorite_ore_replaceables"));
+    }
+
+    public static final TagKey<Block> METEORITE_ORE = create("meteorite_ore_replaceables");
+    public static final RuleTest METEORITE_ORE_REPLACEABLES = new TagMatchTest(METEORITE_ORE);
+
+    private static final List<OreConfiguration.TargetBlockState> getMeteoriteList()
+    {
+        return List.of(
+                OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES,
+                        BlockInit.METEORITE_BLOCK.get().defaultBlockState()),
+                OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES,
+                        BlockInit.METEORITE_BLOCK.get().defaultBlockState()));
+    }
+
+    private static final List<OreConfiguration.TargetBlockState> getMeteoriteOreList()
+    {
+        return List.of(
+                OreConfiguration.target(METEORITE_ORE_REPLACEABLES,
+                        BlockInit.METEORITE_COSMIC_ORE.get().defaultBlockState()));
     }
 
     private static final List<OreConfiguration.TargetBlockState> getRubyList()

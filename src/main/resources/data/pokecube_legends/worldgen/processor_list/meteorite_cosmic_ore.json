@@ -1,0 +1,26 @@
+{
+  "processors": [
+    {
+      "rules": [
+        {
+          "output_state": {
+            "Name": "pokecube_legends:meteorite_cosmic_ore"
+          },
+          "input_predicate": {
+            "block": "pokecube_legends:meteorite_block",
+            "predicate_type": "minecraft:random_block_match",
+            "probability": 0.1
+          },
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          }
+        }
+      ],
+      "processor_type": "minecraft:rule"
+    },
+    {
+      "processor_type": "minecraft:protected_blocks",
+      "value": "#minecraft:features_cannot_replace"
+    }
+  ]
+}

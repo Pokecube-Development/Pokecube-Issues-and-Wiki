@@ -1,0 +1,249 @@
+{
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/corridor_a",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 10
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/corridor_b",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 9
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/corridor_c",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 9
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/corridor_d",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 10
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/corridor_chest_a",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/corridor_chest_b",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/corridor_chest_c",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/corridor_chest_d",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/corridor_fake_a",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 7
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/corridor_fake_b",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 7
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/corridor_large_a",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 7
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/corridor_large_b",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 7
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/corridor_large_c",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 6
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/corridor_large_d",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 6
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/room_center_a",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 9
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/room_center_b",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 9
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/room_center_c",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/room_center_d",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/room_center_e",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/room_library_a",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/room_library_b",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/spiral_stairs_a",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 6
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/spiral_stairs_b",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 6
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/stairs_a",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/stairs_b",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 5
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/room_treasure_a",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/rooms/room_treasure_a",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    }
+  ],
+  "fallback": "minecraft:empty",
+  "name": "pokecube_legends:temples/surface/unown_temple/rooms"
+}

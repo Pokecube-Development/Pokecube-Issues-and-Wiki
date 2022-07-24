@@ -1,0 +1,24 @@
+{
+  "name": "pokecube_legends:distorted/dead_distortic_tree",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:distorted/dead_tree",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:distorted/dead_tree",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      }
+    }
+  ]
+}

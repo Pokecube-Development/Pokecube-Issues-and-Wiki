@@ -464,7 +464,7 @@ public class ExpandedJigsawPacementVanillaLike
                                             // flags
                                             if (next_picked_element instanceof ExpandedJigsawPiece p)
                                             {
-                                                if (p.only_once) for (String s : p._flags) added_once.add(s);
+                                                if (p.bool_config.only_once) for (String s : p._flags) added_once.add(s);
                                                 // Mark it as added if we needed
                                                 // this part.
                                                 for (String s : p._flags)

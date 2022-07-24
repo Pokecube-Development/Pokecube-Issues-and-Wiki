@@ -48,7 +48,10 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             this.toLoad.loadModel(this.res);
             // Flag as loaded before running the callback
             this.toLoad.loaded = true;
-            if (this.toLoad.callback != null) this.toLoad.callback.run(this.toLoad);
+            synchronized (this.toLoad)
+            {
+                if (this.toLoad.callback != null) this.toLoad.callback.run(this.toLoad);
+            }
             this.toLoad.callback = null;
         }
     }
@@ -62,6 +65,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     public String name;
     protected boolean valid = true;
     protected boolean loaded = false;
+    protected ResourceLocation last_loaded = null;
 
     protected IModelCallback callback = null;
 
@@ -69,7 +73,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     {
         this.valid = true;
     }
-    
+
     public BaseModel(final ResourceLocation l)
     {
         this();
@@ -77,6 +81,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         {
             // Check if the model even exists
             final Resource res = Minecraft.getInstance().getResourceManager().getResource(l);
+            this.last_loaded = l;
             if (res == null)
             {
                 this.valid = false;
@@ -97,7 +102,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         }
 
     }
-    
+
     protected abstract void loadModel(final ResourceLocation model);
 
     @Override
@@ -126,7 +131,15 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         {
             if (this.callback != null) this.callback.run(this);
             this.callback = null;
-            IExtendedModelPart.sort(this.order, this.getParts());
+            try
+            {
+                IExtendedModelPart.sort(this.order, this.getParts());
+            }
+            catch (Exception e)
+            {
+                ThutCore.LOGGER.error("Error sorting parts for {} {}", this.last_loaded, this.name);
+                ThutCore.LOGGER.error(e);
+            }
             for (final String s : this.order)
             {
                 final IExtendedModelPart o = this.parts.get(s);

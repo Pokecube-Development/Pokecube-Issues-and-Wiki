@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "pokecube_legends:kyogre_temple",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 456789123,
+    "separation": 12,
+    "spacing": 24,
+    "type": "minecraft:random_spread"
+  }
+}

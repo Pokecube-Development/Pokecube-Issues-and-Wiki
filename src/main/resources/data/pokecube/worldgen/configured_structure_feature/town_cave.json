@@ -8,8 +8,8 @@
       "pokecenter"
     ],
     "size": 6,
+    "y_settings":{"min_y": 64,"max_dy": 3},
     "start_pool": "pokecube:village/cave/town_centers",
-    "clearances":{"h_clearance": 0},
     "structures_to_avoid": [
       "minecraft:villages",
       "minecraft:pillager_outposts"

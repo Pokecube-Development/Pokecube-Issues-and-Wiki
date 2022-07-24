@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:castle_n",
     "pokecube_legends:celebi_temple",
     "pokecube_legends:elite_four",
     "pokecube_legends:ho-oh_temple",
@@ -16,6 +17,14 @@
     "pokecube_legends:regieleki_temple",
     "pokecube_legends:regigigas_temple",
     "pokecube_legends:regirock_temple",
-    "pokecube_legends:registeel_temple"
+    "pokecube_legends:registeel_temple",
+    "pokecube_legends:sky_pillar",
+    "pokecube_legends:space_temple",
+    "pokecube_legends:tapu_center",
+    "pokecube_legends:unown_temple",
+    "pokecube_legends:xerneas_tree",
+    "pokecube_legends:yveltal_ruins",
+    "pokecube_legends:zacian_temple",
+    "pokecube_legends:zamazenta_temple"
   ]
 }

@@ -1,0 +1,33 @@
+{
+  "name": "pokecube_legends:distorted/distorted_mirror",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 2,
+      "element": {
+        "location": "pokecube_legends:distorted/diagonal_mirror",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "location": "pokecube_legends:distorted/mirror",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:distorted/mirror_spike",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      }
+    }
+  ]
+}

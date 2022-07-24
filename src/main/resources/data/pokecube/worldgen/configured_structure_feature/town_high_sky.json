@@ -4,7 +4,7 @@
   "config": {
     "avoid_range": 6,
     "biome_type": "industrial",
-    "y_settings":{"vertical_offset": 140},
+    "y_settings":{"vertical_offset": 70, "dy_offset": 70, "surface_type":"air"},
     "clearances":{"h_clearance": 0},
     "required_parts": [
       "pokecenter"

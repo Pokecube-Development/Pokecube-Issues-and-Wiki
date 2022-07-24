@@ -1,0 +1,15 @@
+{
+  "fallback": "minecraft:empty",
+  "name": "pokecube_legends:temples/surface/unown_temple",
+  "elements": [
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube_legends:temples/surface/unown_temple/start",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ]
+}
