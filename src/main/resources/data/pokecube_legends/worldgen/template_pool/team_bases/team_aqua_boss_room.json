@@ -1,0 +1,18 @@
+{
+  "name": "pokecube_legends:team_bases/team_aqua_boss_room",
+  "fallback": "pokecube_legends:team_bases/team_aqua_boss_room",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_aqua/terminators/boss_room",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true, "only_once": true},
+        "int_config":{"space_below":0},
+        "projection": "rigid",
+        "flags": "boss"
+      }
+    }
+  ]
+}

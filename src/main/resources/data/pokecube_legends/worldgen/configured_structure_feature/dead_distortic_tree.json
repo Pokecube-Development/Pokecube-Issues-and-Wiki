@@ -1,0 +1,14 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:distorted/dead_distortic_tree",
+    "spawn_blacklist": "beaches,oceans,rivers",
+    "y_settings":{"min_y": 45},
+    "spawn_preset": "all",
+    "avoid_range": 6,
+    "size": 1
+  },
+  "biomes": "#pokecube_world:has_structure/dead_distortic_tree",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

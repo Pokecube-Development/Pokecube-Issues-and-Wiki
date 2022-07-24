@@ -1,0 +1,16 @@
+{
+  "name": "pokecube_legends:temples/surface_temples/tapu_totems",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:temples/surface/tapu_center/tapu_totems",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic",
+        "projection": "rigid",
+        "flags": "totems"
+      }
+    }
+  ]
+}

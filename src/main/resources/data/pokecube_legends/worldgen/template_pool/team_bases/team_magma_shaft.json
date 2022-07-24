@@ -1,0 +1,18 @@
+{
+  "name": "pokecube_legends:team_bases/team_magma_top_shaft",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:team_bases/team_magma/main_shaft",
+        "processors": "pokecube:generic_ladders_no_waterlog",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid",
+        "flags": "shaft"
+      }
+    }
+  ]
+}

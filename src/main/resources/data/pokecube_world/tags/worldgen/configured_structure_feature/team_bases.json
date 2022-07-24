@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:castle_n",
+    "pokecube_legends:team_aqua",
+    "pokecube_legends:team_magma",
     "pokecube_legends:team_rocket"
   ]
 }

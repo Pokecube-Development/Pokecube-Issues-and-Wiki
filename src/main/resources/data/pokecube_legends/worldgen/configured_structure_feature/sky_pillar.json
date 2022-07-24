@@ -2,17 +2,18 @@
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
     "start_pool": "pokecube_legends:temples/surface/sky_pillar",
-    "spawn_preset": "all",
     "spawn_blacklist": "oceans,rivers",
-    "avoid_range": 6,
+    "spawn_preset": "all",
     "structures_to_avoid": [
-      "pokecube_legends:towns",
-      "pokecube_legends:villages",
+      "minecraft:pillager_outposts",
       "minecraft:villages",
-      "minecraft:pillager_outposts"
+      "pokecube:towns",
+      "pokecube:villages",
+      "pokecube_legends:towns",
+      "pokecube_legends:villages"
     ],
     "y_settings":{"max_dy": 5, "y_check_radius": 2},
-    "clearances":{"h_clearance": 0},
+    "avoid_range": 6,
     "size": 4
   },
   "biomes": "#pokecube_world:has_structure/sky_pillar",

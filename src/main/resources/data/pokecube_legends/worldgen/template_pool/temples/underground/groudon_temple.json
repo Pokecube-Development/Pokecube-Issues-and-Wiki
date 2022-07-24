@@ -1,0 +1,17 @@
+{
+  "name": "pokecube_legends:temples/underground_temples/groudon_temple",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:temples/underground/groudon_temple",
+        "processors": "pokecube_legends:groudon_temple",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
+        "projection": "rigid"
+      }
+    }
+  ]
+}

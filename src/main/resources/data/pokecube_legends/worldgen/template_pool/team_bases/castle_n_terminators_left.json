@@ -1,0 +1,15 @@
+{
+  "name": "pokecube_legends:team_bases/castle_n_terminators_left",
+  "fallback": "pokecube_legends:team_bases/castle_n_terminators_left",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:team_bases/castle_n/towers_left/tower_end",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      }
+    }
+  ]
+}
