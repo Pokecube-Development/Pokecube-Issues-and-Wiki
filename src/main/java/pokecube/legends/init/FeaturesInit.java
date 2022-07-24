@@ -225,7 +225,7 @@ public class FeaturesInit
                                     BiomeFilter.biome())));
             ORE_RUBY_LARGE_PLACEMENT = PokecubeLegends.PLACED_FEATURES.register("ruby_ore_large",
                     () -> new PlacedFeature(ORE_RUBY_LARGE_FEATURE.getHolder().get(),
-                            List.of(CountPlacement.of(9), InSquarePlacement.spread(), HeightRangePlacement
+                            List.of(RarityFilter.onAverageOnceEvery(9), InSquarePlacement.spread(), HeightRangePlacement
                                     .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(100)),
                                     BiomeFilter.biome())));
 
@@ -249,17 +249,17 @@ public class FeaturesInit
                                     BiomeFilter.biome())));
             ORE_SAPPHIRE_LARGE_PLACEMENT = PokecubeLegends.PLACED_FEATURES.register("sapphire_ore_large",
                     () -> new PlacedFeature(ORE_SAPPHIRE_LARGE_FEATURE.getHolder().get(),
-                            List.of(CountPlacement.of(9), InSquarePlacement.spread(), HeightRangePlacement
+                            List.of(RarityFilter.onAverageOnceEvery(9), InSquarePlacement.spread(), HeightRangePlacement
                                     .triangle(VerticalAnchor.aboveBottom(-64), VerticalAnchor.aboveBottom(90)),
                                     BiomeFilter.biome())));
 
             //Meteorites
             BLOCK_METEORITE_FEATURE = PokecubeLegends.CONFIGURED_FEATURES.register("meteorite_block",
-                    () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(getMeteoriteList(), 32, 0.7f)));
+                    () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(getMeteoriteList(), 64, 0.5f)));
 
             BLOCK_METEORITE_PLACEMENT = PokecubeLegends.PLACED_FEATURES.register("meteorite_block",
                     () -> new PlacedFeature(BLOCK_METEORITE_FEATURE.getHolder().get(),
-                            List.of(CountPlacement.of(1), InSquarePlacement.spread(), HeightRangePlacement
+                            List.of(RarityFilter.onAverageOnceEvery(20), InSquarePlacement.spread(), HeightRangePlacement
                                             .uniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(-16)),
                                     BiomeFilter.biome())));
 

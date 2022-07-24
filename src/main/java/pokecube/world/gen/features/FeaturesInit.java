@@ -66,7 +66,7 @@ public class FeaturesInit
                                 BiomeFilter.biome())));
         PLACED_LARGE_FOSSIL = PokecubeWorld.PLACED_FEATURES.register("fossil_ore_large",
                 () -> new PlacedFeature(ORE_FOSSIL_LARGE_FEATURE.getHolder().get(),
-                        List.of(CountPlacement.of(8), InSquarePlacement.spread(), HeightRangePlacement
+                        List.of(RarityFilter.onAverageOnceEvery(8), InSquarePlacement.spread(), HeightRangePlacement
                                 .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)),
                                 BiomeFilter.biome())));
         PLACED_BURIED_FOSSIL = PokecubeWorld.PLACED_FEATURES.register("fossil_ore_buried",
