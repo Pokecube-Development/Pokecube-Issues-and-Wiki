@@ -13,7 +13,7 @@
       "pokecube_legends:towns",
       "pokecube_legends:villages"
     ],
-    "y_settings":{"max_y": 68, "vertical_offset": 5},
+    "y_settings":{"max_y": 42, "vertical_offset": 5},
     "biome_room": 10,
     "avoid_range": 6,
     "size": 2
