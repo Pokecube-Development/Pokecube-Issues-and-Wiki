@@ -4,15 +4,11 @@
       "berry": "cheri, leppa, grepa",
       "spawn": [
         {
-          "values": {
-            "types": "plains",
-            "typesBlackList": "savanna"
-          }
+          "and_preset": "plains",
+          "not_preset": "savannas"
         },
         {
-          "values": {
-            "types": "village"
-          }
+          "and_preset": "villages"
         }
       ]
     },
@@ -20,10 +16,8 @@
       "berry": "chesto, pecha, aspear",
       "spawn": [
         {
-          "values": {
-            "types": "forest",
-            "typesBlackList": "coniferous, jungle"
-          }
+          "and_preset": "forest",
+          "not_preset": "taigas,jungles"
         }
       ]
     },
@@ -31,14 +25,13 @@
       "berry": "rawst, jaboca, qualot",
       "spawn": [
         {
-          "values": {
-            "types": "mountain, hills"
-          }
+          "and_preset": "hills"
         },
         {
-          "values": {
-            "types": "nether"
-          }
+          "and_preset": "mountains"
+        },
+        {
+          "and_preset": "nether"
         }
       ]
     },
@@ -46,10 +39,7 @@
       "berry": "oran",
       "spawn": [
         {
-          "values": {
-            "types": "forest, hills",
-            "typesBlackList": "coniferous, jungle"
-          }
+          "and_preset": "forests,hills"
         },
         {
           "values": {
@@ -63,9 +53,7 @@
       "berry": "persim, cornn, kelpsy",
       "spawn": [
         {
-          "values": {
-            "types": "swamp"
-          }
+          "and_preset": "swamps"
         }
       ]
     },
@@ -73,10 +61,7 @@
       "berry": "lum, sitrus, nanab",
       "spawn": [
         {
-          "values": {
-            "types": "jungle",
-            "terrain": "hills"
-          }
+          "and_preset": "jungles,hills"
         }
       ]
     },
@@ -84,10 +69,8 @@
       "berry": "nanab, hondew",
       "spawn": [
         {
-          "values": {
-            "types": "beach",
-            "typesBlackList": "cold"
-          }
+          "and_preset": "beaches",
+          "not_preset": "cold"
         }
       ]
     },
@@ -95,9 +78,7 @@
       "berry": "nanab, pinap, tamato",
       "spawn": [
         {
-          "values": {
-            "types": "jungle"
-          }
+          "and_preset": "jungles"
         }
       ]
     },
@@ -105,19 +86,15 @@
       "berry": "enigma",
       "spawn": [
         {
-          "values": {
-            "types": "end"
-          }
+          "or_preset": "end_surface,end_caves"
         }
       ]
     },
     {
       "berry": "rowap, pomeg",
       "spawn": [
-        {
-          "values": {
-            "types": "forest, coniferous"
-          }
+        {          
+          "and_preset": "taigas"
         }
       ]
     }

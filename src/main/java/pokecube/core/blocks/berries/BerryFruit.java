@@ -156,7 +156,7 @@ public class BerryFruit extends BushBlock
         else if (this.ind == 26) return BerryFruit.TAMATO_BERRY.move(vec3d.x, vec3d.y, vec3d.z);
         else if (this.ind == 60) return BerryFruit.ENIGMA_BERRY.move(vec3d.x, vec3d.y, vec3d.z);
         else if (this.ind == 64) return BerryFruit.ROWAP_BERRY;
-        else return BerryGenManager.trees.containsKey(this.ind) ? BerryFruit.BERRY_UP : BerryFruit.BERRY_DOWN;
+        else return BerryGenManager.isTree(this.ind) ? BerryFruit.BERRY_UP : BerryFruit.BERRY_DOWN;
     }
 
     @Override

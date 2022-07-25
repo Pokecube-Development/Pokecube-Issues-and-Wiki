@@ -1,0 +1,16 @@
+{
+    "trees":[
+        {
+            "berry": "oran",
+            "tree": "minecraft:oak"
+        },
+        {
+            "berry": "leppa",
+            "tree": "minecraft:spruce"
+        },
+        {
+            "berry": "pecha",
+            "tree": "minecraft:birch"
+        }
+    ]
+}
