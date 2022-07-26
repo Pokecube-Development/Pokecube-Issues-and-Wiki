@@ -1,0 +1,13 @@
+{
+  "adapt_noise": true,
+  "biomes": "#pokecube_world:has_structure/village_nether",
+  "config": {
+    "avoid_range": 6,
+    "size": 10,
+    "start_pool": "pokecube:village/nether/nether",
+    "y_settings":{"vertical_offset": 64, "dy_offset": 16, "surface_type":"underground"},
+    "structures_to_avoid": []
+  },
+  "spawn_overrides": {},
+  "type": "pokecube:generic_surface_jigsaw"
+}
