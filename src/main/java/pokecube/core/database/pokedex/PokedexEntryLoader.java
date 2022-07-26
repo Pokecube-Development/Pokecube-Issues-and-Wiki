@@ -362,6 +362,9 @@ public class PokedexEntryLoader
 
     public static class SpawnRule
     {
+        public String and_preset = "";
+        public String not_preset = "";
+        public String or_preset = "";
         public Map<String, String> values = Maps.newHashMap();
 
         public DefaultFormeHolder model = null;
