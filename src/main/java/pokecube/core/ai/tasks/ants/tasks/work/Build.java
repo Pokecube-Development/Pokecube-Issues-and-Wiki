@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
@@ -76,8 +77,8 @@ public class Build extends AbstractConstructTask
 
             final double dh2 = dx * dx + dz * dz;
 
-            boolean valid = state.isSolidRender(world, pos) || state.getBlock() == Blocks.FARMLAND || state
-                    .getBlock() == Blocks.SHROOMLIGHT;
+            boolean valid = state.isSolidRender(world, pos) || state.getBlock() == Blocks.FARMLAND
+                    || state.getBlock() == Blocks.SHROOMLIGHT;
 
             switch (node.type)
             {
@@ -88,12 +89,11 @@ public class Build extends AbstractConstructTask
                 if (edge && !light)
                 {
                     edge = false;
-                    for (final Edge e : node.edges)
-                        if (e.isOnShell(pos))
-                        {
-                            edge = true;
-                            break;
-                        }
+                    for (final Edge e : node.edges) if (e.isOnShell(pos))
+                    {
+                        edge = true;
+                        break;
+                    }
                     if (!edge) valid = world.isEmptyBlock(pos);
                 }
                 break;
@@ -158,12 +158,11 @@ public class Build extends AbstractConstructTask
                 if (edge && !light)
                 {
                     edge = false;
-                    for (final Edge e : node.edges)
-                        if (e.isOnShell(pos))
-                        {
-                            edge = true;
-                            break;
-                        }
+                    for (final Edge e : node.edges) if (e.isOnShell(pos))
+                    {
+                        edge = true;
+                        break;
+                    }
                     if (!edge) state = Blocks.AIR.defaultBlockState();
                 }
                 break;
@@ -177,8 +176,8 @@ public class Build extends AbstractConstructTask
             default:
                 break;
             }
-            if (state.getBlock() == Blocks.AIR) return task == null ? world.destroyBlock(pos, true)
-                    : task.tryHarvest(pos, true);
+            if (state.getBlock() == Blocks.AIR)
+                return task == null ? world.destroyBlock(pos, true) : task.tryHarvest(pos, true);
             else return world.setBlockAndUpdate(pos, state);
         }
     }
@@ -213,8 +212,7 @@ public class Build extends AbstractConstructTask
         Predicate<BlockPos> isValid = pos -> tree.isOnShell(pos);
         // If it is inside, and not diggable, we notify the node of the
         // dug spot, finally we check if there is space nearby to stand.
-        isValid = isValid.and(pos ->
-        {
+        isValid = isValid.and(pos -> {
             // This checks last time the block was attempted to be placed, if it
             // was too recent, we terminate here.
             if (!tree.shouldCheckBuild(pos, time)) return false;
@@ -266,12 +264,11 @@ public class Build extends AbstractConstructTask
         {
             final Node node = (Node) old;
             Edge next = null;
-            for (final Edge e : node.edges)
-                if (e.shouldBuild(time))
-                {
-                    next = e;
-                    break;
-                }
+            for (final Edge e : node.edges) if (e.shouldBuild(time))
+            {
+                next = e;
+                break;
+            }
             if (next != null)
             {
                 this.n = null;
@@ -281,20 +278,18 @@ public class Build extends AbstractConstructTask
             }
         }
         // Try to find another open node or edge
-        for (final Node n : this.nest.hab.rooms.allRooms)
-            if (n.shouldBuild(time))
-            {
-                this.n = n;
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to a node 3 b " + this.n.type);
-                return true;
-            }
-        for (final Edge e : this.nest.hab.rooms.allEdges)
-            if (e.shouldBuild(time))
-            {
-                this.e = e;
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to an edge 2 b");
-                return true;
-            }
+        for (final Node n : this.nest.hab.rooms.allRooms) if (n.shouldBuild(time))
+        {
+            this.n = n;
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to a node 3 b " + this.n.type);
+            return true;
+        }
+        for (final Edge e : this.nest.hab.rooms.allEdges) if (e.shouldBuild(time))
+        {
+            this.e = e;
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to an edge 2 b");
+            return true;
+        }
         return false;
     }
 
@@ -326,11 +321,12 @@ public class Build extends AbstractConstructTask
                 final BlockPos pos = this.nest.nest.getBlockPos();
                 final var inv = this.storage.getInventory(this.world, pos, this.storage.storageFace);
                 if (pos.distSqr(this.entity.blockPosition()) > 9) this.setWalkTo(pos, 1, 1);
-                else
+                else if (inv != null && inv.getFirst() != null)
                 {
-                    for (int i = 0; i < inv.getFirst().getSlots(); i++)
+                    IItemHandlerModifiable cont = inv.getFirst();
+                    for (int i = 0; i < cont.getSlots(); i++)
                     {
-                        final ItemStack stack = inv.getFirst().getStackInSlot(i);
+                        final ItemStack stack = cont.getStackInSlot(i);
                         if (!stack.isEmpty() && stack.getItem() instanceof BlockItem)
                         {
                             final BlockItem item = (BlockItem) stack.getItem();

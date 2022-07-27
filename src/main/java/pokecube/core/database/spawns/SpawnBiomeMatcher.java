@@ -205,6 +205,10 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
     {
         this.spawnRule = rules;
 
+        if (!rules.and_preset.isBlank()) rules.values.put(ANDPRESET, rules.and_preset);
+        if (!rules.or_preset.isBlank()) rules.values.put(ORPRESET, rules.or_preset);
+        if (!rules.not_preset.isBlank()) rules.values.put(NOTPRESET, rules.not_preset);
+
         if (this.spawnRule.values.isEmpty())
             PokecubeCore.LOGGER.error("No rules found!", new IllegalArgumentException());
     }

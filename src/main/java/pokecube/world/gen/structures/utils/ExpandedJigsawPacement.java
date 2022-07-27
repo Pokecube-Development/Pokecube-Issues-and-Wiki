@@ -398,7 +398,7 @@ public class ExpandedJigsawPacement
             int depth = root_state.depth;
 
             Predicate<StructurePoolElement> log_data = e -> {
-                return e.toString().contains("team_");
+                return e.toString().contains("team_") && false;
             };
 
             StructurePoolElement root_element = current_root.getElement();

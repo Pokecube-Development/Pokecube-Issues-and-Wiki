@@ -38,10 +38,6 @@ public class PostProcessor
         ChunkPos pos = context.chunkPos();
         ExpandedJigsawConfiguration config = context.config();
 
-        final int x = pos.getBlockX(7);
-        final int z = pos.getBlockZ(7);
-        final BlockPos blockpos = new BlockPos(x, chunkGenerator.getSeaLevel(), z);
-
         for (final PoolElementStructurePiece part : parts)
         {
             int h_extra = 2;
@@ -90,7 +86,10 @@ public class PostProcessor
                     }
                     if (localTrader != null && localSpawn != null)
                     {
+                        final int x = pos.getBlockX(7);
+                        final int z = pos.getBlockZ(7);
                         final ServerLevel sworld = ExpandedJigsawPacement.getForGen(chunkGenerator);
+                        final BlockPos blockpos = new BlockPos(x, chunkGenerator.getSeaLevel(), z);
                         final BlockPos spos = StructureTemplate.calculateRelativePosition(settings, localSpawn)
                                 .offset(blockpos).offset(0, part.getBoundingBox().minY, 0);
                         PokecubeCore.LOGGER.info("Setting spawn to {} {}, professor at {}", spos, localSpawn,

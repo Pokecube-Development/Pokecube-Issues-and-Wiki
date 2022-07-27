@@ -69,6 +69,10 @@
     {
       "structure": "pokecube:town_taiga",
       "weight": 1
+    },
+    {
+      "structure": "pokecube:town_nether",
+      "weight": 1
     }
   ]
 }
