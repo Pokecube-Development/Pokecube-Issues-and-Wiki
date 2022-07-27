@@ -1,0 +1,22 @@
+{
+  "structures": [
+    {
+      "structure": "pokecube_legends:aquamarine_statue",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:berry_palm_tree",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:dark_tendril",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 321546981,
+    "separation": 5,
+    "spacing": 10
+  }
+}
