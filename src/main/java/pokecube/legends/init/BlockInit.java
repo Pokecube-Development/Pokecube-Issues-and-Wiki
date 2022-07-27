@@ -1003,9 +1003,8 @@ public class BlockInit
         CORRUPTED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_dirt", 
                 () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
                         .sound(SoundType.METAL).strength(0.9F).requiresCorrectToolForDrops()));
-        CORRUPTED_COARSE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_coarse_dirt", 
-                () -> new CorruptedDirtBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
-                        .sound(SoundType.METAL).strength(0.9F).requiresCorrectToolForDrops()));
+        CORRUPTED_COARSE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_coarse_dirt",
+                () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_PURPLE, 0.9F, 0.5F, SoundType.METAL, true));
         ROOTED_CORRUPTED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("rooted_corrupted_dirt", 
                 () -> new RootedDirtBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
                         .sound(SoundType.METAL).strength(0.9F).requiresCorrectToolForDrops()));
