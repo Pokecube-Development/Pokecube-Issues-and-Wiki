@@ -11,6 +11,18 @@
     {
       "structure": "pokecube_legends:dark_tendril",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:giant_aquamarine_statue",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:giant_brown_mushroom",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:giant_red_mushroom",
+      "weight": 1
     }
   ],
   "placement": {
