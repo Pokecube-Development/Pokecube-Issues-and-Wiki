@@ -1,13 +1,14 @@
 package pokecube.core.blocks.berries;
 
 import java.util.Random;
+import java.util.function.Supplier;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
-import pokecube.core.blocks.berries.BerryGenManager.TreeGrower;
 import pokecube.core.items.berries.BerryManager;
 
 public class BerryCrop extends CropBlock
@@ -41,9 +42,10 @@ public class BerryCrop extends CropBlock
         final int age = this.getAge(worldIn.getBlockState(pos));
         if (age == this.getMaxAge())
         {
-            final TreeGrower grower = BerryGenManager.trees.get(this.index);
+            final Supplier<AbstractTreeGrower> grower = BerryGenManager.getTree(worldIn, random, this.index);
             final BlockPos up = pos.above();
-            if (grower != null) grower.growTree(worldIn, pos, this.index);
+            if (grower != null)
+                grower.get().growTree(worldIn, worldIn.getChunkSource().getGenerator(), pos, state, random);
             else if (worldIn.isEmptyBlock(up))
                 worldIn.setBlockAndUpdate(up, BerryManager.berryFruits.get(this.index).defaultBlockState());
         }
@@ -57,9 +59,10 @@ public class BerryCrop extends CropBlock
         final int age = this.getAge(worldIn.getBlockState(pos));
         if (age == this.getMaxAge())
         {
-            final TreeGrower grower = BerryGenManager.trees.get(this.index);
+            final Supplier<AbstractTreeGrower> grower = BerryGenManager.getTree(worldIn, rand, this.index);
             final BlockPos up = pos.above();
-            if (grower != null) grower.growTree(worldIn, pos, this.index);
+            if (grower != null)
+                grower.get().growTree(worldIn, worldIn.getChunkSource().getGenerator(), pos, state, rand);
             else if (worldIn.isEmptyBlock(up))
                 worldIn.setBlockAndUpdate(up, BerryManager.berryFruits.get(this.index).defaultBlockState());
         }

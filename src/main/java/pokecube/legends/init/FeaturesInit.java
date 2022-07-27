@@ -25,6 +25,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.PokecubeLegends;
@@ -374,7 +375,7 @@ public class FeaturesInit
 
     public static void init(IEventBus bus)
     {
-        MinecraftForge.EVENT_BUS.addListener(Configs::onBiomeLoading);
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, Configs::onBiomeLoading);
         Configs.init();
     }
 

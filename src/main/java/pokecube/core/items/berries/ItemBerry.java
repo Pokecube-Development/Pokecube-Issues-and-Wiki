@@ -107,7 +107,7 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
         final String berryName = this.type.name;
         info = new TranslatableComponent("item.pokecube.berry_" + berryName + ".desc");
         tooltip.add(info);
-        if (BerryGenManager.trees.containsKey(this.type.index))
+        if (BerryGenManager.isTree(this.type.index))
         {
             info = new TranslatableComponent("item.berry.istree.desc");
             tooltip.add(info);

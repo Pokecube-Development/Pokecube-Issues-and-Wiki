@@ -20,6 +20,7 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.RarityFilter;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
@@ -31,7 +32,7 @@ public class FeaturesInit
 {
     public static void init(IEventBus bus)
     {
-        MinecraftForge.EVENT_BUS.addListener(FeaturesInit::onBiomeLoading);
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, FeaturesInit::onBiomeLoading);
     }
 
     final static List<OreConfiguration.TargetBlockState> getOres()

@@ -1,0 +1,52 @@
+{
+    "trees":[
+        {
+            "berry": "enigma",
+            "tree": "pokecube_world:enigma_tree"
+        },
+        {
+            "berry": "grepa",
+            "tree": "pokecube_world:grepa_tree"
+        },
+        {
+            "berry": "hondew",
+            "tree": "pokecube_world:hondew_tree"
+        },
+        {
+            "berry": "kelpsy",
+            "tree": "pokecube_world:kelpsy_tree"
+        },
+        {
+            "berry": "leppa",
+            "tree": "pokecube_world:leppa_tree"
+        },
+        {
+            "berry": "nanab",
+            "tree": "pokecube_world:nanab_tree"
+        },
+        {
+            "berry": "oran",
+            "tree": "pokecube_world:oran_tree"
+        },
+        {
+            "berry": "pecha",
+            "tree": "pokecube_world:pecha_tree"
+        },
+        {
+            "berry": "pomeg",
+            "tree": "pokecube_world:pomeg_tree"
+        },
+        {
+            "berry": "qualot",
+            "tree": "pokecube_world:qualot_tree"
+        },
+        {
+            "berry": "sitrus",
+            "tree": "pokecube_world:sitrus_tree"
+        },
+        {
+            "berry": "tomato",
+            "tree": "pokecube_world:tomato_tree"
+        }
+    ]
+}
