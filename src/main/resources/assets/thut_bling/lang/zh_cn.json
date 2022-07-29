@@ -1,0 +1,17 @@
+{
+    "item.thut_bling.bling_hat": "帽子",
+    "item.thut_bling.bling_eye": "眼睛",
+    "item.thut_bling.bling_neck": "项链",
+    "item.thut_bling.bling_wrist": "背带",
+    "item.thut_bling.bling_ring": "戒指",
+    "item.thut_bling.bling_ankle": "脚链",
+    "item.thut_bling.bling_ear": "耳环",
+    "item.thut_bling.bling_waist": "腰带",
+    "item.thut_bling.bling_bag": "背包",
+    "item.thut_bling.bling_bag_ender_large": "大号末影背包",
+    "item.thut_bling.bling_bag_ender_vanilla": "末影背包",
+
+    "gui.bag.next": "下一页",
+    "gui.bag.previous": "上一页",
+    "gui.bag.rename": "改名"
+}
