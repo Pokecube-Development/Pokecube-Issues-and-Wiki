@@ -2,6 +2,8 @@
   "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
   "replace": false,
   "values": [
-    "#pokecube_world:is_ultraspace/is_crystallized"
+    "pokecube_legends:aquamarine_caves",
+    "pokecube_legends:corrupted_caves",
+    "pokecube_legends:dripstone_caves"
   ]
 }

@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "#pokecube_world:meteorites",
+    "#pokecube_world:ultraspace_decor",
+    "#pokecube_world:ultraspace_temples",
+    "pokecube_legends:raid_sandy",
+    "pokecube_legends:raid_spot",
+    "pokecube_legends:town_ultraspace",
+    "pokecube_legends:village_ultraspace"
+  ]
+}
