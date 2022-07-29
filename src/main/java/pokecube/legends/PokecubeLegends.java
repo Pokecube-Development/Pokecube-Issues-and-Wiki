@@ -2,6 +2,7 @@ package pokecube.legends;
 
 import java.util.Optional;
 
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -56,6 +57,7 @@ import pokecube.core.interfaces.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
+import pokecube.legends.blocks.properties.Tillables;
 import pokecube.legends.entity.WormholeEntity;
 import pokecube.legends.handlers.EventsHandler;
 import pokecube.legends.handlers.ForgeEventHandlers;
@@ -177,6 +179,7 @@ public class PokecubeLegends
 
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        modEventBus.addListener(this::loadCommon);
         modEventBus.addListener(this::loadComplete);
 
         EventsHandler.register();
@@ -218,6 +221,11 @@ public class PokecubeLegends
         UltraSpaceSurfaceRules.init();
 
         PokecubeAdv.TAB_DECORATIONS = TAB_DECORATIONS;
+    }
+
+    private void loadCommon(final FMLCommonSetupEvent event)
+    {
+        Tillables.tillables(event);
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event)
