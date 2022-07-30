@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 
-public class StoneLogBase extends RotatedPillarBlock
+public class StoneLogBase
 {
     public static RotatedPillarBlock concreteLog(final MaterialColor color1, final MaterialColor color2, final Material material,
                                                  final float hardness, final float resistance, final SoundType sound)
