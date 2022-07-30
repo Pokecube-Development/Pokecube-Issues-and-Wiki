@@ -1615,13 +1615,13 @@ public class BlockInit
 
         // Concrete Blocks
         CONCRETE_LOG = PokecubeLegends.DECORATION_TAB.register("concrete_log",
-                () -> StoneLogBase.concreteLog(MaterialColor.SNOW, MaterialColor.COLOR_GRAY, Material.STONE, 10.0f, 500.0f, SoundType.STONE, true));
+                () -> StoneLogBase.concreteLog(MaterialColor.SNOW, MaterialColor.COLOR_GRAY, Material.STONE, 10.0f, 500.0f, SoundType.STONE));
         CONCRETE_WOOD = PokecubeLegends.DECORATION_TAB.register("concrete_wood",
-                () -> StoneLogBase.concreteLog(MaterialColor.COLOR_GRAY, MaterialColor.COLOR_GRAY, Material.STONE, 10.0f, 500.0f, SoundType.STONE, true));
+                () -> StoneLogBase.concreteLog(MaterialColor.COLOR_GRAY, MaterialColor.COLOR_GRAY, Material.STONE, 10.0f, 500.0f, SoundType.STONE));
         STRIP_CONCRETE_LOG = PokecubeLegends.DECORATION_TAB.register("stripped_concrete_log",
-                () -> StoneLogBase.concreteLog(MaterialColor.SNOW, MaterialColor.SNOW, Material.STONE, 10.0f, 500.0f, SoundType.STONE, true));
+                () -> StoneLogBase.concreteLog(MaterialColor.SNOW, MaterialColor.SNOW, Material.STONE, 10.0f, 500.0f, SoundType.STONE));
         STRIP_CONCRETE_WOOD = PokecubeLegends.DECORATION_TAB.register("stripped_concrete_wood",
-                () -> StoneLogBase.concreteLog(MaterialColor.SNOW, MaterialColor.SNOW, Material.STONE, 10.0f, 500.0f, SoundType.STONE, true));
+                () -> StoneLogBase.concreteLog(MaterialColor.SNOW, MaterialColor.SNOW, Material.STONE, 10.0f, 500.0f, SoundType.STONE));
 
         CONCRETE_BARREL = PokecubeLegends.DECORATION_TAB.register("concrete_barrel", () -> new GenericBarrel(BlockBehaviour.Properties
                 .of(Material.STONE, MaterialColor.SNOW).strength(4.5F).sound(SoundType.STONE).requiresCorrectToolForDrops()));

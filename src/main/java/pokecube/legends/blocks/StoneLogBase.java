@@ -9,17 +9,12 @@ import net.minecraft.world.level.material.MaterialColor;
 
 public class StoneLogBase extends RotatedPillarBlock
 {
-    public StoneLogBase(BlockBehaviour.Properties properties)
-    {
-        super(properties);
-    }
-
     public static RotatedPillarBlock concreteLog(final MaterialColor color1, final MaterialColor color2, final Material material,
-                                                 final float hardness, final float resistance, final SoundType sound, final boolean requiresCorrectToolForDrops)
+                                                 final float hardness, final float resistance, final SoundType sound)
     {
         return new RotatedPillarBlock(BlockBehaviour.Properties.of(material, (state) ->
         {
             return state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? color1 : color2;
-        }).strength(hardness, resistance).sound(sound));
+        }).strength(hardness, resistance).sound(sound).requiresCorrectToolForDrops());
     }
 }

@@ -28,7 +28,7 @@ public class BlockBase extends Block
     VoxelShape customShape = null;
     String infoname;
     boolean hasTextInfo = false;
-    boolean hasRequiresCorrectToolForDrops = false;
+    boolean hasRequiredCorrectToolForDrops = false;
 
     // ToolTip
     public BlockBase(final String name, final Material material, final MaterialColor color, final float hardness,
@@ -37,7 +37,7 @@ public class BlockBase extends Block
         super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound).requiresCorrectToolForDrops());
         this.infoname = name;
         this.hasTextInfo = true;
-        this.hasRequiresCorrectToolForDrops(requiresCorrectToolForDrops);
+        this.hasRequiredCorrectToolForDrops(requiresCorrectToolForDrops);
     }
 
     // No Tooltip
@@ -45,7 +45,7 @@ public class BlockBase extends Block
             final SoundType sound, final boolean requiresCorrectToolForDrops)
     {
         super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound));
-        this.hasRequiresCorrectToolForDrops(requiresCorrectToolForDrops);
+        this.hasRequiredCorrectToolForDrops(requiresCorrectToolForDrops);
     }
 
     // Vertex
@@ -99,10 +99,10 @@ public class BlockBase extends Block
     }
 
     // Drop Required
-    public BlockBase hasRequiresCorrectToolForDrops(final boolean hasDrop)
+    public BlockBase hasRequiredCorrectToolForDrops(final boolean hasDrop)
     {
-        this.hasRequiresCorrectToolForDrops = hasDrop;
-        if (this.hasRequiresCorrectToolForDrops == true)
+        this.hasRequiredCorrectToolForDrops = hasDrop;
+        if (this.hasRequiredCorrectToolForDrops == true)
             this.properties.requiresCorrectToolForDrops();
         return this;
     }
