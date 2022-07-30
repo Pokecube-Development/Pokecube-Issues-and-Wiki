@@ -1,7 +1,7 @@
 {
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
-    "start_pool": "pokecube_legends:ultraspace/aquamarine_statue",
+    "start_pool": "pokecube_legends:ultraspace/giant_crystal_flower",
     "spawn_preset": "all",
     "structures_to_avoid": [
       "minecraft:pillager_outposts",
@@ -15,7 +15,7 @@
     "biome_room": 5,
     "size": 1
   },
-  "biomes": "#pokecube_world:has_structure/aquamarine_statue",
+  "biomes": "#pokecube_world:has_structure/giant_crystal_flower",
   "adapt_noise": true,
   "spawn_overrides": {}
 }

@@ -4,15 +4,8 @@
     "start_pool": "pokecube_legends:ultraspace/berry_palm_tree",
     "spawn_blacklist": "oceans,rivers,snowy_areas",
     "spawn_preset": "all",
-    "structures_to_avoid": [
-      "minecraft:pillager_outposts",
-      "minecraft:villages",
-      "pokecube:towns",
-      "pokecube:villages",
-      "pokecube_legends:towns",
-      "pokecube_legends:villages"
-    ],
     "avoid_range": 6,
+    "biome_room": 5,
     "size": 1
   },
   "biomes": "#pokecube_world:has_structure/berry_palm_tree",

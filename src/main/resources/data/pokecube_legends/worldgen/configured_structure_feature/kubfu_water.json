@@ -14,6 +14,7 @@
     ],
     "y_settings":{"min_y": 64},
     "avoid_range": 6,
+    "biome_room": 5,
     "size": 2
   },
   "biomes": "#pokecube_world:has_structure/kubfu_water",
