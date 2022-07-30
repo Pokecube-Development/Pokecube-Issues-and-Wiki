@@ -1,0 +1,18 @@
+{
+
+    "_comment": "Curios Support",
+    "curios.identifier.ankle": "膝盖",
+    "curios.identifier.ear": "耳朵",
+    "curios.identifier.eyes": "眼睛",
+
+    "button.wearables.off": "关闭",
+    "button.wearables.on": "打开",
+
+    "wearables.command.fail.noperms": "你不能使用这个命令.",
+    "wearables.command.fail.targetted": "Failed to Open Wearables of Target.",
+    "wearables.other.fail": "Failed to Open Wearables of Target.",
+
+    "wearables.keyuse.left": "左侧按键: §6[§r%s§6]",
+    "wearables.keyuse.right": "右侧按键: §6[§r%s§6]",
+    "wearables.keyuse.single": "按键: §6[§r%s§6]"
+}
