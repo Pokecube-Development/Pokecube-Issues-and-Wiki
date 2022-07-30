@@ -54,6 +54,7 @@ import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
 import pokecube.legends.blocks.properties.Compostables;
 import pokecube.legends.blocks.properties.Flammables;
+import pokecube.legends.blocks.properties.Tillables;
 import pokecube.legends.entity.WormholeEntity;
 import pokecube.legends.handlers.EventsHandler;
 import pokecube.legends.handlers.ForgeEventHandlers;
@@ -224,6 +225,7 @@ public class PokecubeLegends
         event.enqueueWork(() -> {
             Compostables.compostables();
             Flammables.flammables();
+            Tillables.registerDefaults();
 
             // Biome Dictionary
             BiomeDictionary.addTypes(FeaturesInit.AQUAMARINE_CAVES, Type.RARE);
