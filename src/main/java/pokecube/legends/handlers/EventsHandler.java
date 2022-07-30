@@ -1,7 +1,6 @@
 package pokecube.legends.handlers;
 
 import com.google.common.collect.Lists;
-
 import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.server.level.ServerPlayer;
@@ -10,21 +9,16 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.LogicalSide;
+import pokecube.legends.blocks.properties.Strippables;
 import pokecube.legends.blocks.properties.Tillables;
-import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.ItemInit;
 
 import java.util.Map;
@@ -44,87 +38,12 @@ public class EventsHandler
 
     public static void hoeModificationEvent(final BlockEvent.BlockToolModificationEvent event)
     {
-        final ToolAction toolAction = event.getToolAction();
-        final BlockState state = event.getState();
-        if (!event.isSimulated() && toolAction == ToolActions.HOE_TILL)
-        {
-            if (state.is(BlockInit.AGED_COARSE_DIRT.get()))
-            {
-                event.setFinalState(BlockInit.AGED_DIRT.get().defaultBlockState());
-            } else if (state.is(BlockInit.AZURE_COARSE_DIRT.get()))
-            {
-                event.setFinalState(BlockInit.AZURE_DIRT.get().defaultBlockState());
-            } else if (state.is(BlockInit.CORRUPTED_COARSE_DIRT.get()))
-            {
-                event.setFinalState(BlockInit.CORRUPTED_DIRT.get().defaultBlockState());
-            } else if (state.is(BlockInit.JUNGLE_COARSE_DIRT.get()))
-            {
-                event.setFinalState(BlockInit.JUNGLE_DIRT.get().defaultBlockState());
-            } else if (state.is(BlockInit.MUSHROOM_COARSE_DIRT.get()))
-            {
-                event.setFinalState(BlockInit.MUSHROOM_DIRT.get().defaultBlockState());
-            } else if (state.is(BlockInit.ROOTED_CORRUPTED_DIRT.get()))
-            {
-                event.setFinalState(BlockInit.CORRUPTED_DIRT.get().defaultBlockState());
-            } else if (state.is(BlockInit.ROOTED_MUSHROOM_DIRT.get()))
-            {
-                event.setFinalState(BlockInit.MUSHROOM_DIRT.get().defaultBlockState());
-                Tillables.addTillables(BlockInit.ROOTED_MUSHROOM_DIRT.get(), Pair.of((item) -> { return true; },
-                        HoeItem.changeIntoStateAndDropItem(BlockInit.MUSHROOM_DIRT.get().defaultBlockState(), Items.HANGING_ROOTS)));
-            }
-        }
+        Tillables.tillables(event);
     }
 
     public static void axeModificationEvent(final BlockEvent.BlockToolModificationEvent event)
     {
-        final ToolAction toolAction = event.getToolAction();
-        final BlockState state = event.getState();
-        if (!event.isSimulated() && toolAction == ToolActions.AXE_STRIP)
-        {
-            if (state.is(BlockInit.AGED_LOG.get()))
-            {
-                event.setFinalState(BlockInit.STRIP_AGED_LOG.get().defaultBlockState());
-            } else if (state.is(BlockInit.AGED_WOOD.get()))
-            {
-                event.setFinalState(BlockInit.STRIP_AGED_WOOD.get().defaultBlockState());
-            } else if (state.is(BlockInit.CONCRETE_LOG.get()))
-            {
-                event.setFinalState(BlockInit.STRIP_CONCRETE_LOG.get().defaultBlockState());
-            } else if (state.is(BlockInit.CONCRETE_WOOD.get()))
-            {
-                event.setFinalState(BlockInit.STRIP_CONCRETE_WOOD.get().defaultBlockState());
-            } else if (state.is(BlockInit.CORRUPTED_LOG.get()))
-            {
-                event.setFinalState(BlockInit.STRIP_CORRUPTED_LOG.get().defaultBlockState());
-            } else if (state.is(BlockInit.CORRUPTED_WOOD.get()))
-            {
-                event.setFinalState(BlockInit.STRIP_CORRUPTED_WOOD.get().defaultBlockState());
-            } else if (state.is(BlockInit.DISTORTIC_LOG.get()))
-            {
-                event.setFinalState(BlockInit.STRIP_DISTORTIC_LOG.get().defaultBlockState());
-            } else if (state.is(BlockInit.DISTORTIC_WOOD.get()))
-            {
-                event.setFinalState(BlockInit.STRIP_DISTORTIC_WOOD.get().defaultBlockState());
-            } else if (state.is(BlockInit.INVERTED_LOG.get()))
-            {
-                event.setFinalState(BlockInit.STRIP_INVERTED_LOG.get().defaultBlockState());
-            } else if (state.is(BlockInit.INVERTED_WOOD.get()))
-            {
-                event.setFinalState(BlockInit.STRIP_INVERTED_WOOD.get().defaultBlockState());
-            } else if (state.is(BlockInit.MIRAGE_LOG.get()))
-            {
-                event.setFinalState(BlockInit.STRIP_MIRAGE_LOG.get().defaultBlockState());
-            } else if (state.is(BlockInit.MIRAGE_WOOD.get()))
-            {
-                event.setFinalState(BlockInit.STRIP_MIRAGE_WOOD.get().defaultBlockState());
-            } else if (state.is(BlockInit.TEMPORAL_LOG.get()))
-            {
-                event.setFinalState(BlockInit.STRIP_TEMPORAL_LOG.get().defaultBlockState());
-            } else if (state.is(BlockInit.TEMPORAL_WOOD.get()))
-            {
-                event.setFinalState(BlockInit.STRIP_TEMPORAL_WOOD.get().defaultBlockState());
-            }
-        }
+        Strippables.strippables(event);
     }
 
     public static boolean isWearingUltraArmour(LivingEntity player)

@@ -2483,28 +2483,6 @@ public class BlockInit
         }).strength(10.0f, 500.0f).sound(SoundType.STONE).requiresCorrectToolForDrops());
     }
 
-    public static void strippableBlocks(final FMLLoadCompleteEvent event)
-    {
-        // Enqueue this so that it runs on main thread, to prevent concurrency issues.
-        event.enqueueWork(() ->
-        {
-            ItemGenerator.addStrippables(BlockInit.AGED_LOG.get(), BlockInit.STRIP_AGED_LOG.get());
-            ItemGenerator.addStrippables(BlockInit.AGED_WOOD.get(), BlockInit.STRIP_AGED_WOOD.get());
-            ItemGenerator.addStrippables(BlockInit.CONCRETE_LOG.get(), BlockInit.STRIP_CONCRETE_LOG.get());
-            ItemGenerator.addStrippables(BlockInit.CONCRETE_WOOD.get(), BlockInit.STRIP_CONCRETE_WOOD.get());
-            ItemGenerator.addStrippables(BlockInit.CORRUPTED_LOG.get(), BlockInit.STRIP_CORRUPTED_LOG.get());
-            ItemGenerator.addStrippables(BlockInit.CORRUPTED_WOOD.get(), BlockInit.STRIP_CORRUPTED_WOOD.get());
-            ItemGenerator.addStrippables(BlockInit.DISTORTIC_LOG.get(), BlockInit.STRIP_DISTORTIC_LOG.get());
-            ItemGenerator.addStrippables(BlockInit.DISTORTIC_WOOD.get(), BlockInit.STRIP_DISTORTIC_WOOD.get());
-            ItemGenerator.addStrippables(BlockInit.INVERTED_LOG.get(), BlockInit.STRIP_INVERTED_LOG.get());
-            ItemGenerator.addStrippables(BlockInit.INVERTED_WOOD.get(), BlockInit.STRIP_INVERTED_WOOD.get());
-            ItemGenerator.addStrippables(BlockInit.MIRAGE_LOG.get(), BlockInit.STRIP_MIRAGE_LOG.get());
-            ItemGenerator.addStrippables(BlockInit.MIRAGE_WOOD.get(), BlockInit.STRIP_MIRAGE_WOOD.get());
-            ItemGenerator.addStrippables(BlockInit.TEMPORAL_LOG.get(), BlockInit.STRIP_TEMPORAL_LOG.get());
-            ItemGenerator.addStrippables(BlockInit.TEMPORAL_WOOD.get(), BlockInit.STRIP_TEMPORAL_WOOD.get());
-        });
-    }
-
     public static void compostableBlocks(final float chance, final RegistryObject<Block> item)
     {
         ComposterBlock.COMPOSTABLES.put(item.get().asItem(), chance);
