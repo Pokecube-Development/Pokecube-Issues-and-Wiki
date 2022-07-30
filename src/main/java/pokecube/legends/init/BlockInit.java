@@ -42,12 +42,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.handlers.ItemGenerator.GenericStairs;
 import pokecube.legends.PokecubeLegends;
-import pokecube.legends.blocks.BlockBase;
-import pokecube.legends.blocks.FaceBlockBase;
-import pokecube.legends.blocks.FallingBlockBase;
-import pokecube.legends.blocks.FallingSandBlockBase;
-import pokecube.legends.blocks.GenericBookshelf;
-import pokecube.legends.blocks.SaplingBase;
+import pokecube.legends.blocks.*;
 import pokecube.legends.blocks.containers.GenericBarrel;
 import pokecube.legends.blocks.containers.GenericBookshelfEmpty;
 import pokecube.legends.blocks.customblocks.CramomaticBlock;
@@ -1620,13 +1615,13 @@ public class BlockInit
 
         // Concrete Blocks
         CONCRETE_LOG = PokecubeLegends.DECORATION_TAB.register("concrete_log",
-                () -> BlockInit.concreteLog(MaterialColor.SNOW, MaterialColor.COLOR_GRAY));
+                () -> StoneLogBase.concreteLog(MaterialColor.SNOW, MaterialColor.COLOR_GRAY, Material.STONE, 10.0f, 500.0f, SoundType.STONE, true));
         CONCRETE_WOOD = PokecubeLegends.DECORATION_TAB.register("concrete_wood",
-                () -> BlockInit.concreteLog(MaterialColor.COLOR_GRAY, MaterialColor.COLOR_GRAY));
+                () -> StoneLogBase.concreteLog(MaterialColor.COLOR_GRAY, MaterialColor.COLOR_GRAY, Material.STONE, 10.0f, 500.0f, SoundType.STONE, true));
         STRIP_CONCRETE_LOG = PokecubeLegends.DECORATION_TAB.register("stripped_concrete_log",
-                () -> BlockInit.concreteLog(MaterialColor.SNOW, MaterialColor.SNOW));
+                () -> StoneLogBase.concreteLog(MaterialColor.SNOW, MaterialColor.SNOW, Material.STONE, 10.0f, 500.0f, SoundType.STONE, true));
         STRIP_CONCRETE_WOOD = PokecubeLegends.DECORATION_TAB.register("stripped_concrete_wood",
-                () -> BlockInit.concreteLog(MaterialColor.SNOW, MaterialColor.SNOW));
+                () -> StoneLogBase.concreteLog(MaterialColor.SNOW, MaterialColor.SNOW, Material.STONE, 10.0f, 500.0f, SoundType.STONE, true));
 
         CONCRETE_BARREL = PokecubeLegends.DECORATION_TAB.register("concrete_barrel", () -> new GenericBarrel(BlockBehaviour.Properties
                 .of(Material.STONE, MaterialColor.SNOW).strength(4.5F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
@@ -2284,6 +2279,7 @@ public class BlockInit
     public static void init()
     {
         PlantsInit.registry();
+        PottedPlantsInit.registry();
 
         for (final RegistryObject<Block> reg : PokecubeLegends.POKECUBE_BLOCKS_TAB.getEntries())
             PokecubeLegends.ITEMS.register(reg.getId().getPath(),
@@ -2308,13 +2304,5 @@ public class BlockInit
             PokecubeLegends.ITEMS.register(reg.getId().getPath(),
                     () -> new BlockItem(reg.get(), new Item.Properties().tab(PokecubeLegends.TAB_DECORATIONS)));
         }
-    }
-
-    public static RotatedPillarBlock concreteLog(final MaterialColor color1, final MaterialColor color2)
-    {
-        return new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.STONE, (state) ->
-        {
-            return state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? color1 : color2;
-        }).strength(10.0f, 500.0f).sound(SoundType.STONE).requiresCorrectToolForDrops());
     }
 }

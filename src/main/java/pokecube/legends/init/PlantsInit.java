@@ -206,6 +206,5 @@ public class PlantsInit
 
     public static void registry()
     {
-
     }
 }

@@ -200,17 +200,16 @@ public class PokecubeLegends
         PokecubeLegends.SURFACE_RULES.register(modEventBus);
 
         WorldgenFeatures.init(modEventBus);
-        Trees.init(modEventBus);
-        FeaturesInit.init(modEventBus);
         BlockInit.init();
+        ContainerInit.init();
+        EntityInit.init();
+        FeaturesInit.init(modEventBus);
+        FluidInit.init();
+        ItemHelperEffect.init();
         ItemInit.init();
         MoveRegister.init();
-        EntityInit.init();
-        ItemHelperEffect.init();
-        ContainerInit.init();
-        FluidInit.init();
-
         TileEntityInit.init();
+        Trees.init(modEventBus);
 
         LegendsDistorticRecipeManager.init();
         LegendsLootingRecipeManager.init();
