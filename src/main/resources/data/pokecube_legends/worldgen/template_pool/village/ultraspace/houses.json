@@ -118,7 +118,6 @@
         "location": "pokecube_legends:village/ultraspace/gym/gym_01",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic",
-        "bool_config": {"no_affect_noise":true},
         "projection": "rigid",
         "only_once": true,
         "flags": "gym"

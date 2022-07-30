@@ -1,0 +1,11 @@
+{
+  "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
+  "replace": false,
+  "values": [
+    "pokecube_legends:fungal_flower_forest",
+    "pokecube_legends:fungal_forest",
+    "pokecube_legends:fungal_plains",
+    "pokecube_legends:fungal_sunflower_plains",
+    "pokecube_legends:snowy_fungal_plains"
+  ]
+}

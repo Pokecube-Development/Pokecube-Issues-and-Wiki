@@ -42,12 +42,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.handlers.ItemGenerator.GenericStairs;
 import pokecube.legends.PokecubeLegends;
-import pokecube.legends.blocks.BlockBase;
-import pokecube.legends.blocks.FaceBlockBase;
-import pokecube.legends.blocks.FallingBlockBase;
-import pokecube.legends.blocks.FallingSandBlockBase;
-import pokecube.legends.blocks.GenericBookshelf;
-import pokecube.legends.blocks.SaplingBase;
+import pokecube.legends.blocks.*;
 import pokecube.legends.blocks.containers.GenericBarrel;
 import pokecube.legends.blocks.containers.GenericBookshelfEmpty;
 import pokecube.legends.blocks.customblocks.CramomaticBlock;
@@ -729,48 +724,6 @@ public class BlockInit
     public static final RegistryObject<Block> POLLUTING_BLOSSOM;
     public static final RegistryObject<Block> SMALL_CONTAMINATED_DRIPLEAF;
 
-    public static final RegistryObject<Block> POTTED_AGED_SAPLING;
-    public static final RegistryObject<Block> POTTED_CORRUPTED_SAPLING;
-    public static final RegistryObject<Block> POTTED_DISTORTIC_SAPLING;
-    public static final RegistryObject<Block> POTTED_INVERTED_SAPLING;
-    public static final RegistryObject<Block> POTTED_MIRAGE_SAPLING;
-    public static final RegistryObject<Block> POTTED_TEMPORAL_SAPLING;
-
-    public static final RegistryObject<Block> POTTED_AZURE_COLEUS;
-    public static final RegistryObject<Block> POTTED_COMPRECED_MUSHROOM;
-    public static final RegistryObject<Block> POTTED_CORRUPTED_GRASS;
-    public static final RegistryObject<Block> POTTED_CRYSTALLIZED_BUSH;
-    public static final RegistryObject<Block> POTTED_CRYSTALLIZED_CACTUS;
-    public static final RegistryObject<Block> POTTED_DISTORCED_MUSHROOM;
-    public static final RegistryObject<Block> POTTED_DISTORTIC_GRASS;
-    public static final RegistryObject<Block> POTTED_DISTORTIC_VINES;
-    public static final RegistryObject<Block> POTTED_DYNA_SHRUB;
-    public static final RegistryObject<Block> POTTED_GOLDEN_ALLIUM;
-    public static final RegistryObject<Block> POTTED_GOLDEN_AZURE_BLUET;
-    public static final RegistryObject<Block> POTTED_GOLDEN_CORNFLOWER;
-    public static final RegistryObject<Block> POTTED_GOLDEN_DANDELION;
-    public static final RegistryObject<Block> POTTED_GOLDEN_FERN;
-    public static final RegistryObject<Block> POTTED_GOLDEN_GRASS;
-    public static final RegistryObject<Block> POTTED_GOLDEN_LILY_VALLEY;
-    public static final RegistryObject<Block> POTTED_GOLDEN_ORCHID;
-    public static final RegistryObject<Block> POTTED_GOLDEN_OXEYE_DAISY;
-    public static final RegistryObject<Block> POTTED_GOLDEN_POPPY;
-    public static final RegistryObject<Block> POTTED_GOLDEN_SHROOM;
-    public static final RegistryObject<Block> POTTED_GOLDEN_SWEET_BERRY_BUSH;
-    public static final RegistryObject<Block> POTTED_GOLDEN_TULIP;
-    public static final RegistryObject<Block> POTTED_HANGING_TENDRILS;
-    public static final RegistryObject<Block> POTTED_INVERTED_ORCHID;
-    public static final RegistryObject<Block> POTTED_LARGE_GOLDEN_FERN;
-    public static final RegistryObject<Block> POTTED_PINK_LILY;
-    public static final RegistryObject<Block> POTTED_POLLUTING_BLOSSOM;
-    public static final RegistryObject<Block> POTTED_PURPLE_WISTERIA_VINES;
-    public static final RegistryObject<Block> POTTED_STRING_OF_PEARLS;
-    public static final RegistryObject<Block> POTTED_TAINTED_ROOTS;
-    public static final RegistryObject<Block> POTTED_TALL_CRYSTALLIZED_BUSH;
-    public static final RegistryObject<Block> POTTED_TALL_CORRUPTED_GRASS;
-    public static final RegistryObject<Block> POTTED_TALL_GOLDEN_GRASS;
-    public static final RegistryObject<Block> POTTED_TEMPORAL_BAMBOO;
-
     static
     {
         // Dimensions Creative Tab -
@@ -1003,9 +956,8 @@ public class BlockInit
         CORRUPTED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_dirt", 
                 () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
                         .sound(SoundType.METAL).strength(0.9F).requiresCorrectToolForDrops()));
-        CORRUPTED_COARSE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_coarse_dirt", 
-                () -> new CorruptedDirtBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
-                        .sound(SoundType.METAL).strength(0.9F).requiresCorrectToolForDrops()));
+        CORRUPTED_COARSE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_coarse_dirt",
+                () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_PURPLE, 0.9F, 0.5F, SoundType.METAL, true));
         ROOTED_CORRUPTED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("rooted_corrupted_dirt", 
                 () -> new RootedDirtBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
                         .sound(SoundType.METAL).strength(0.9F).requiresCorrectToolForDrops()));
@@ -1663,13 +1615,13 @@ public class BlockInit
 
         // Concrete Blocks
         CONCRETE_LOG = PokecubeLegends.DECORATION_TAB.register("concrete_log",
-                () -> BlockInit.concreteLog(MaterialColor.SNOW, MaterialColor.COLOR_GRAY));
+                () -> StoneLogBase.concreteLog(MaterialColor.SNOW, MaterialColor.COLOR_GRAY, Material.STONE, 10.0f, 500.0f, SoundType.STONE));
         CONCRETE_WOOD = PokecubeLegends.DECORATION_TAB.register("concrete_wood",
-                () -> BlockInit.concreteLog(MaterialColor.COLOR_GRAY, MaterialColor.COLOR_GRAY));
+                () -> StoneLogBase.concreteLog(MaterialColor.COLOR_GRAY, MaterialColor.COLOR_GRAY, Material.STONE, 10.0f, 500.0f, SoundType.STONE));
         STRIP_CONCRETE_LOG = PokecubeLegends.DECORATION_TAB.register("stripped_concrete_log",
-                () -> BlockInit.concreteLog(MaterialColor.SNOW, MaterialColor.SNOW));
+                () -> StoneLogBase.concreteLog(MaterialColor.SNOW, MaterialColor.SNOW, Material.STONE, 10.0f, 500.0f, SoundType.STONE));
         STRIP_CONCRETE_WOOD = PokecubeLegends.DECORATION_TAB.register("stripped_concrete_wood",
-                () -> BlockInit.concreteLog(MaterialColor.SNOW, MaterialColor.SNOW));
+                () -> StoneLogBase.concreteLog(MaterialColor.SNOW, MaterialColor.SNOW, Material.STONE, 10.0f, 500.0f, SoundType.STONE));
 
         CONCRETE_BARREL = PokecubeLegends.DECORATION_TAB.register("concrete_barrel", () -> new GenericBarrel(BlockBehaviour.Properties
                 .of(Material.STONE, MaterialColor.SNOW).strength(4.5F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
@@ -2304,129 +2256,6 @@ public class BlockInit
         INFECTED_LANTERN = PokecubeLegends.DECORATION_TAB.register("infected_lantern",
                 () -> new LanternBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.TERRACOTTA_PURPLE)
                         .requiresCorrectToolForDrops().strength(3.5F).sound(SoundType.LANTERN).lightLevel((i) -> { return 10; }).noOcclusion()));
-
-        // No Tab
-        POTTED_AGED_SAPLING = PokecubeLegends.NO_TAB.register("potted_aged_sapling",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.AGED_SAPLING.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_AZURE_COLEUS = PokecubeLegends.NO_TAB.register("potted_azure_coleus",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.AZURE_COLEUS.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_CORRUPTED_SAPLING = PokecubeLegends.NO_TAB.register("potted_corrupted_sapling",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.CORRUPTED_SAPLING.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_CORRUPTED_GRASS = PokecubeLegends.NO_TAB.register("potted_corrupted_grass",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.CORRUPTED_GRASS.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_DISTORTIC_SAPLING = PokecubeLegends.NO_TAB.register("potted_distortic_sapling",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.DISTORTIC_SAPLING.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_INVERTED_SAPLING = PokecubeLegends.NO_TAB.register("potted_inverted_sapling",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.INVERTED_SAPLING.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_MIRAGE_SAPLING = PokecubeLegends.NO_TAB.register("potted_mirage_sapling",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.MIRAGE_SAPLING.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_TEMPORAL_SAPLING = PokecubeLegends.NO_TAB.register("potted_temporal_sapling",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.TEMPORAL_SAPLING.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-
-        POTTED_COMPRECED_MUSHROOM = PokecubeLegends.NO_TAB.register("potted_compreced_mushroom",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.COMPRECED_MUSHROOM.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_CRYSTALLIZED_BUSH = PokecubeLegends.NO_TAB.register("potted_crystallized_bush",
-                () -> new PottedCrystallizedBush(BlockInit.CRYSTALLIZED_BUSH.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_CRYSTALLIZED_CACTUS = PokecubeLegends.NO_TAB.register("potted_crystallized_cactus",
-                () -> new PottedCrystallizedCactus(BlockInit.CRYSTALLIZED_CACTUS.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_DISTORCED_MUSHROOM = PokecubeLegends.NO_TAB.register("potted_distorced_mushroom",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.DISTORCED_MUSHROOM.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_DISTORTIC_GRASS = PokecubeLegends.NO_TAB.register("potted_distortic_grass",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.DISTORTIC_GRASS.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_DISTORTIC_VINES = PokecubeLegends.NO_TAB.register("potted_distortic_vines",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.DISTORTIC_VINES.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_DYNA_SHRUB = PokecubeLegends.NO_TAB.register("potted_dyna_shrub",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.DYNA_SHRUB.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_GOLDEN_ALLIUM = PokecubeLegends.NO_TAB.register("potted_golden_allium",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_ALLIUM.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_GOLDEN_AZURE_BLUET = PokecubeLegends.NO_TAB.register("potted_golden_azure_bluet",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_AZURE_BLUET.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_GOLDEN_CORNFLOWER = PokecubeLegends.NO_TAB.register("potted_golden_cornflower",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_CORNFLOWER.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_GOLDEN_DANDELION = PokecubeLegends.NO_TAB.register("potted_golden_dandelion",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_DANDELION.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_GOLDEN_LILY_VALLEY = PokecubeLegends.NO_TAB.register("potted_golden_lily_of_the_valley",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_LILY_VALLEY.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_GOLDEN_FERN = PokecubeLegends.NO_TAB.register("potted_golden_fern",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_FERN.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_GOLDEN_GRASS = PokecubeLegends.NO_TAB.register("potted_golden_grass",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_GRASS.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_GOLDEN_ORCHID = PokecubeLegends.NO_TAB.register("potted_golden_orchid",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_ORCHID.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_GOLDEN_OXEYE_DAISY = PokecubeLegends.NO_TAB.register("potted_golden_oxeye_daisy",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_OXEYE_DAISY.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_GOLDEN_POPPY = PokecubeLegends.NO_TAB.register("potted_golden_poppy",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_POPPY.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_GOLDEN_SHROOM = PokecubeLegends.NO_TAB.register("potted_golden_shroom",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_SHROOM_PLANT.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_GOLDEN_SWEET_BERRY_BUSH = PokecubeLegends.NO_TAB.register("potted_golden_sweet_berry_bush",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_SWEET_BERRY_BUSH.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_GOLDEN_TULIP = PokecubeLegends.NO_TAB.register("potted_golden_tulip",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_TULIP.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_INVERTED_ORCHID = PokecubeLegends.NO_TAB.register("potted_inverted_orchid",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.INVERTED_ORCHID.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_HANGING_TENDRILS = PokecubeLegends.NO_TAB.register("potted_hanging_tendrils",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.HANGING_TENDRILS.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_LARGE_GOLDEN_FERN = PokecubeLegends.NO_TAB.register("potted_large_golden_fern",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.LARGE_GOLDEN_FERN.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_PINK_LILY = PokecubeLegends.NO_TAB.register("potted_pink_blossom_lily",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.PINK_TAINTED_LILY_PAD.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_POLLUTING_BLOSSOM = PokecubeLegends.NO_TAB.register("potted_polluting_blossom",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.POLLUTING_BLOSSOM.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_PURPLE_WISTERIA_VINES = PokecubeLegends.NO_TAB.register("potted_purple_wisteria_vines",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.PURPLE_WISTERIA_VINES.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_STRING_OF_PEARLS = PokecubeLegends.NO_TAB.register("potted_string_of_pearls",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.STRING_OF_PEARLS.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_TAINTED_ROOTS = PokecubeLegends.NO_TAB.register("potted_tainted_roots",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.TAINTED_ROOTS.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_TALL_CRYSTALLIZED_BUSH = PokecubeLegends.NO_TAB.register("potted_tall_crystallized_bush",
-                () -> new PottedCrystallizedBush(BlockInit.TALL_CRYSTALLIZED_BUSH.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_TALL_CORRUPTED_GRASS = PokecubeLegends.NO_TAB.register("potted_tall_corrupted_grass",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.TALL_CORRUPTED_GRASS.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_TALL_GOLDEN_GRASS = PokecubeLegends.NO_TAB.register("potted_tall_golden_grass",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.TALL_GOLDEN_GRASS.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
-        POTTED_TEMPORAL_BAMBOO = PokecubeLegends.NO_TAB.register("potted_temporal_bamboo",
-                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.TEMPORAL_BAMBOO.get(),
-                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
     }
 
     private static ToIntFunction<BlockState> litBlockEmission(final int i)
@@ -2450,6 +2279,7 @@ public class BlockInit
     public static void init()
     {
         PlantsInit.registry();
+        PottedPlantsInit.registry();
 
         for (final RegistryObject<Block> reg : PokecubeLegends.POKECUBE_BLOCKS_TAB.getEntries())
             PokecubeLegends.ITEMS.register(reg.getId().getPath(),
@@ -2474,229 +2304,5 @@ public class BlockInit
             PokecubeLegends.ITEMS.register(reg.getId().getPath(),
                     () -> new BlockItem(reg.get(), new Item.Properties().tab(PokecubeLegends.TAB_DECORATIONS)));
         }
-    }
-
-    public static RotatedPillarBlock concreteLog(final MaterialColor color1, final MaterialColor color2)
-    {
-        return new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.STONE, (state) ->
-        {
-            return state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? color1 : color2;
-        }).strength(10.0f, 500.0f).sound(SoundType.STONE).requiresCorrectToolForDrops());
-    }
-
-    public static void strippableBlocks(final FMLLoadCompleteEvent event)
-    {
-        // Enqueue this so that it runs on main thread, to prevent concurrency issues.
-        event.enqueueWork(() ->
-        {
-            ItemGenerator.addStrippables(BlockInit.AGED_LOG.get(), BlockInit.STRIP_AGED_LOG.get());
-            ItemGenerator.addStrippables(BlockInit.AGED_WOOD.get(), BlockInit.STRIP_AGED_WOOD.get());
-            ItemGenerator.addStrippables(BlockInit.CONCRETE_LOG.get(), BlockInit.STRIP_CONCRETE_LOG.get());
-            ItemGenerator.addStrippables(BlockInit.CONCRETE_WOOD.get(), BlockInit.STRIP_CONCRETE_WOOD.get());
-            ItemGenerator.addStrippables(BlockInit.CORRUPTED_LOG.get(), BlockInit.STRIP_CORRUPTED_LOG.get());
-            ItemGenerator.addStrippables(BlockInit.CORRUPTED_WOOD.get(), BlockInit.STRIP_CORRUPTED_WOOD.get());
-            ItemGenerator.addStrippables(BlockInit.DISTORTIC_LOG.get(), BlockInit.STRIP_DISTORTIC_LOG.get());
-            ItemGenerator.addStrippables(BlockInit.DISTORTIC_WOOD.get(), BlockInit.STRIP_DISTORTIC_WOOD.get());
-            ItemGenerator.addStrippables(BlockInit.INVERTED_LOG.get(), BlockInit.STRIP_INVERTED_LOG.get());
-            ItemGenerator.addStrippables(BlockInit.INVERTED_WOOD.get(), BlockInit.STRIP_INVERTED_WOOD.get());
-            ItemGenerator.addStrippables(BlockInit.MIRAGE_LOG.get(), BlockInit.STRIP_MIRAGE_LOG.get());
-            ItemGenerator.addStrippables(BlockInit.MIRAGE_WOOD.get(), BlockInit.STRIP_MIRAGE_WOOD.get());
-            ItemGenerator.addStrippables(BlockInit.TEMPORAL_LOG.get(), BlockInit.STRIP_TEMPORAL_LOG.get());
-            ItemGenerator.addStrippables(BlockInit.TEMPORAL_WOOD.get(), BlockInit.STRIP_TEMPORAL_WOOD.get());
-        });
-    }
-
-    public static void compostableBlocks(final float chance, final RegistryObject<Block> item)
-    {
-        ComposterBlock.COMPOSTABLES.put(item.get().asItem(), chance);
-    }
-
-    public static void compostables()
-    {
-        BlockInit.compostableBlocks(0.3f, BlockInit.AGED_LEAVES);
-        BlockInit.compostableBlocks(0.3f, BlockInit.AGED_SAPLING);
-        BlockInit.compostableBlocks(0.3f, BlockInit.CORRUPTED_LEAVES);
-        BlockInit.compostableBlocks(0.3f, BlockInit.CORRUPTED_SAPLING);
-        BlockInit.compostableBlocks(0.3f, BlockInit.DISTORTIC_LEAVES);
-        BlockInit.compostableBlocks(0.3f, BlockInit.DISTORTIC_SAPLING);
-        BlockInit.compostableBlocks(0.3f, BlockInit.DYNA_LEAVES_PINK);
-        BlockInit.compostableBlocks(0.3f, BlockInit.DYNA_LEAVES_RED);
-        BlockInit.compostableBlocks(0.3f, BlockInit.INVERTED_LEAVES);
-        BlockInit.compostableBlocks(0.3f, BlockInit.INVERTED_SAPLING);
-        BlockInit.compostableBlocks(0.3f, BlockInit.MIRAGE_LEAVES);
-        BlockInit.compostableBlocks(0.3f, BlockInit.MIRAGE_SAPLING);
-        BlockInit.compostableBlocks(0.3f, BlockInit.SMALL_CONTAMINATED_DRIPLEAF);
-        BlockInit.compostableBlocks(0.3f, BlockInit.TEMPORAL_SAPLING);
-        BlockInit.compostableBlocks(0.3f, PlantsInit.CORRUPTED_GRASS);
-        BlockInit.compostableBlocks(0.3f, PlantsInit.DISTORTIC_GRASS);
-        BlockInit.compostableBlocks(0.3f, PlantsInit.GOLDEN_GRASS);
-        BlockInit.compostableBlocks(0.3f, PlantsInit.GOLDEN_SWEET_BERRY_BUSH);
-        BlockInit.compostableBlocks(0.3f, PlantsInit.HANGING_TENDRILS);
-        BlockInit.compostableBlocks(0.3f, PlantsInit.PURPLE_WISTERIA_VINES);
-        BlockInit.compostableBlocks(0.3f, PlantsInit.TAINTED_KELP);
-        BlockInit.compostableBlocks(0.3f, PlantsInit.TAINTED_SEAGRASS);
-
-        BlockInit.compostableBlocks(0.5f, BlockInit.STRING_OF_PEARLS);
-        BlockInit.compostableBlocks(0.5f, PlantsInit.TALL_CORRUPTED_GRASS);
-        BlockInit.compostableBlocks(0.5f, PlantsInit.TALL_GOLDEN_GRASS);
-
-        BlockInit.compostableBlocks(0.65f, BlockInit.BIG_CONTAMINATED_DRIPLEAF);
-        BlockInit.compostableBlocks(0.65f, BlockInit.DYNA_SHRUB);
-        BlockInit.compostableBlocks(0.65f, BlockInit.POLLUTING_BLOSSOM);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.AZURE_COLEUS);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.COMPRECED_MUSHROOM);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.DISTORCED_MUSHROOM);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_ALLIUM);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_AZURE_BLUET);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_CORNFLOWER);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_DANDELION);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_FERN);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_LILY_VALLEY);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_ORCHID);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_OXEYE_DAISY);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_POPPY);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_SHROOM_PLANT);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_TULIP);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.INVERTED_ORCHID);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.LARGE_GOLDEN_FERN);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.PINK_TAINTED_LILY_PAD);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.TAINTED_LILY_PAD);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.TAINTED_ROOTS);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.TALL_TAINTED_SEAGRASS);
-        BlockInit.compostableBlocks(0.65f, PlantsInit.TEMPORAL_BAMBOO);
-
-        BlockInit.compostableBlocks(0.75f, BlockInit.CRYSTALLIZED_CACTUS);
-    }
-
-    public static void flammableBlocks(final Block block, final int speed, final int flammability)
-    {
-        final FireBlock fire = (FireBlock) Blocks.FIRE;
-        fire.setFlammable(block, speed, flammability);
-    }
-
-    public static void flammables()
-    {
-        // Logs
-        BlockInit.flammableBlocks(BlockInit.AGED_LOG.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.AGED_WOOD.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.CORRUPTED_LOG.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.CORRUPTED_WOOD.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.DISTORTIC_LOG.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.DISTORTIC_WOOD.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.INVERTED_LOG.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.INVERTED_WOOD.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.MIRAGE_LOG.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.MIRAGE_WOOD.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.TEMPORAL_LOG.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.TEMPORAL_WOOD.get(), 5, 5);
-
-        // Stripped Logs
-        BlockInit.flammableBlocks(BlockInit.STRIP_AGED_LOG.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.STRIP_AGED_WOOD.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.STRIP_CORRUPTED_LOG.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.STRIP_CORRUPTED_WOOD.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.STRIP_DISTORTIC_LOG.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.STRIP_DISTORTIC_WOOD.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.STRIP_INVERTED_LOG.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.STRIP_INVERTED_WOOD.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.STRIP_MIRAGE_LOG.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.STRIP_MIRAGE_WOOD.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.STRIP_TEMPORAL_LOG.get(), 5, 5);
-        BlockInit.flammableBlocks(BlockInit.STRIP_TEMPORAL_WOOD.get(), 5, 5);
-
-        // Leaves
-        BlockInit.flammableBlocks(BlockInit.AGED_LEAVES.get(), 30, 60);
-        BlockInit.flammableBlocks(BlockInit.CORRUPTED_LEAVES.get(), 30, 60);
-        BlockInit.flammableBlocks(BlockInit.DISTORTIC_LEAVES.get(), 30, 60);
-        BlockInit.flammableBlocks(BlockInit.DYNA_LEAVES_PINK.get(), 30, 60);
-        BlockInit.flammableBlocks(BlockInit.DYNA_LEAVES_RED.get(), 30, 60);
-        BlockInit.flammableBlocks(BlockInit.INVERTED_LEAVES.get(), 30, 60);
-        BlockInit.flammableBlocks(BlockInit.MIRAGE_LEAVES.get(), 30, 60);
-        BlockInit.flammableBlocks(BlockInit.TEMPORAL_LEAVES.get(), 30, 60);
-
-        // Planks
-        BlockInit.flammableBlocks(BlockInit.AGED_PLANKS.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.CORRUPTED_PLANKS.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.DISTORTIC_PLANKS.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.INVERTED_PLANKS.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.MIRAGE_PLANKS.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.TEMPORAL_PLANKS.get(), 5, 20);
-
-        // Slabs
-        BlockInit.flammableBlocks(BlockInit.AGED_SLAB.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.CORRUPTED_SLAB.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.DISTORTIC_SLAB.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.INVERTED_SLAB.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.MIRAGE_SLAB.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.TEMPORAL_SLAB.get(), 5, 20);
-
-        // Stairs
-        BlockInit.flammableBlocks(BlockInit.AGED_STAIRS.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.CORRUPTED_STAIRS.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.DISTORTIC_STAIRS.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.INVERTED_STAIRS.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.MIRAGE_STAIRS.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.TEMPORAL_STAIRS.get(), 5, 20);
-
-        // Fences
-        BlockInit.flammableBlocks(BlockInit.AGED_FENCE.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.CORRUPTED_FENCE.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.DISTORTIC_FENCE.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.INVERTED_FENCE.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.MIRAGE_FENCE.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.TEMPORAL_FENCE.get(), 5, 20);
-
-        // Fence Gates
-        BlockInit.flammableBlocks(BlockInit.AGED_FENCE_GATE.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.CORRUPTED_FENCE_GATE.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.DISTORTIC_FENCE_GATE.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.INVERTED_FENCE_GATE.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.MIRAGE_FENCE_GATE.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.TEMPORAL_FENCE_GATE.get(), 5, 20);
-
-        // Plants
-        BlockInit.flammableBlocks(BlockInit.STRING_OF_PEARLS.get(), 15, 100);
-        BlockInit.flammableBlocks(BlockInit.DYNA_SHRUB.get(), 30, 60);
-        BlockInit.flammableBlocks(BlockInit.BIG_CONTAMINATED_DRIPLEAF.get(), 60, 100);
-        BlockInit.flammableBlocks(BlockInit.BIG_CONTAMINATED_DRIPLEAF_STEM.get(), 60, 100);
-        BlockInit.flammableBlocks(BlockInit.POLLUTING_BLOSSOM.get(), 60, 100);
-        BlockInit.flammableBlocks(BlockInit.SMALL_CONTAMINATED_DRIPLEAF.get(), 60, 100);
-        
-        BlockInit.flammableBlocks(PlantsInit.AZURE_COLEUS.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.COMPRECED_MUSHROOM.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.CORRUPTED_GRASS.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.DISTORCED_MUSHROOM.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.DISTORTIC_GRASS.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.GOLDEN_ALLIUM.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.GOLDEN_AZURE_BLUET.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.GOLDEN_CORNFLOWER.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.GOLDEN_DANDELION.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.GOLDEN_FERN.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.GOLDEN_GRASS.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.GOLDEN_LILY_VALLEY.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.GOLDEN_ORCHID.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.GOLDEN_OXEYE_DAISY.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.GOLDEN_POPPY.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.GOLDEN_SHROOM_PLANT.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.GOLDEN_SWEET_BERRY_BUSH.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.GOLDEN_TULIP.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.INVERTED_ORCHID.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.HANGING_TENDRILS.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.HANGING_TENDRILS_PLANT.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.LARGE_GOLDEN_FERN.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.PURPLE_WISTERIA_VINES.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.PURPLE_WISTERIA_VINES_PLANT.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.TAINTED_ROOTS.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.TALL_CORRUPTED_GRASS.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.TALL_GOLDEN_GRASS.get(), 60, 100);
-        BlockInit.flammableBlocks(PlantsInit.TEMPORAL_BAMBOO.get(), 60, 60);
-
-        // Bookshelves
-        BlockInit.flammableBlocks(BlockInit.AGED_BOOKSHELF.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.CORRUPTED_BOOKSHELF.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.DISTORTIC_BOOKSHELF.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.INVERTED_BOOKSHELF.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.MIRAGE_BOOKSHELF.get(), 5, 20);
-        BlockInit.flammableBlocks(BlockInit.TEMPORAL_BOOKSHELF.get(), 5, 20);
     }
 }

@@ -1,7 +1,8 @@
 package pokecube.legends.handlers;
 
 import com.google.common.collect.Lists;
-
+import com.google.common.collect.Maps;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -9,17 +10,40 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.LogicalSide;
+import pokecube.legends.blocks.properties.Strippables;
+import pokecube.legends.blocks.properties.Tillables;
 import pokecube.legends.init.ItemInit;
+
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class EventsHandler
 {
+    public static Map<Block, Pair<Predicate<UseOnContext>, Consumer<UseOnContext>>> TILLABLES = Maps.newHashMap();
+
     public static void register()
     {
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onPlayerTick);
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::hoeModificationEvent);
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::axeModificationEvent);
+    }
+
+    public static void hoeModificationEvent(final BlockEvent.BlockToolModificationEvent event)
+    {
+        Tillables.tillables(event);
+    }
+
+    public static void axeModificationEvent(final BlockEvent.BlockToolModificationEvent event)
+    {
+        Strippables.strippables(event);
     }
 
     public static boolean isWearingUltraArmour(LivingEntity player)

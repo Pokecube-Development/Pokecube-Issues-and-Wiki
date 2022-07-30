@@ -1,0 +1,15 @@
+{
+  "name": "pokecube_legends:ultraspace/giant_red_mushroom",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:ultraspace/giant_red_mushroom",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      }
+    }
+  ]
+}

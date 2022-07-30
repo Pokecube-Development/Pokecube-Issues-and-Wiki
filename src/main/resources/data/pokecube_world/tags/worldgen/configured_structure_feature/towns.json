@@ -1,0 +1,24 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:town_badlands",
+    "pokecube:town_beach",
+    "pokecube:town_cave",
+    "pokecube:town_dark_forest",
+    "pokecube:town_deep",
+    "pokecube:town_desert",
+    "pokecube:town_end",
+    "pokecube:town_high_sky",
+    "pokecube:town_hills",
+    "pokecube:town_jungle",
+    "pokecube:town_nether",
+    "pokecube:town_plains",
+    "pokecube:town_savanna",
+    "pokecube:town_sky",
+    "pokecube:town_snowy",
+    "pokecube:town_swamp",
+    "pokecube:town_taiga",
+    "pokecube_legends:town_ultraspace",
+    "pokecube_legends:town_ocean"
+  ]
+}

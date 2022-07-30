@@ -8,7 +8,6 @@
         "location": "pokecube_legends:village/ultraspace/gym/path",
         "processors": "pokecube_legends:street_ultraspace",
         "element_type": "pokecube:expanded_pool_element",
-        "bool_config": {"no_affect_noise":true},
         "projection": "terrain_matching",
         "flags": "gym_path"
       }

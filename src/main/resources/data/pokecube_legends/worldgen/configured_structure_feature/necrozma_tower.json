@@ -1,0 +1,21 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:temples/ultraspace/necrozma_tower",
+    "spawn_blacklist": "oceans,beaches,rivers",
+    "spawn_preset": "all",
+    "structures_to_avoid": [
+      "minecraft:pillager_outposts",
+      "minecraft:villages",
+      "pokecube:towns",
+      "pokecube:villages",
+      "pokecube_legends:towns",
+      "pokecube_legends:villages"
+    ],
+    "avoid_range": 6,
+    "size": 6
+  },
+  "biomes": "#pokecube_world:has_structure/necrozma_tower",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}
