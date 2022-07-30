@@ -9,7 +9,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
@@ -36,14 +35,13 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
     public BiomeType getSubBiome(final LevelAccessor world, final Vector3 v, final TerrainSegment segment,
             final boolean caveAdjusted)
     {
-        if (!(world instanceof Level)) return BiomeType.NONE;
-        final Level rworld = (Level) world;
+        if (!(world instanceof ServerLevel rworld)) return BiomeType.NONE;
         if (caveAdjusted)
         {
             final Set<StructureInfo> set = StructureManager.getFor(rworld.dimension(), v.getPos());
             for (final StructureInfo info : set)
             {
-                String name = info.name;
+                String name = info.getName();
                 if (!name.contains(":")) name = "minecraft:" + name;
 
                 String subbiome = null;

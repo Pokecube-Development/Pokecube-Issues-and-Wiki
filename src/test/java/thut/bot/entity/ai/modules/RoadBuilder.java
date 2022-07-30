@@ -509,7 +509,7 @@ public class RoadBuilder extends AbstractBot
                 pos = new BlockPos(vec);
 
                 // If too close to a structure, skip point
-                final Set<StructureInfo> inside = StructureManager.getNear(level.dimension(), pos, 3);
+                final Set<StructureInfo> inside = StructureManager.getNear(level.dimension(), pos, 5);
                 if (!inside.isEmpty()) continue;
 
                 // check if we need this edge at all

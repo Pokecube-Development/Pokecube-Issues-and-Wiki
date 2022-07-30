@@ -112,7 +112,7 @@ public class ItemPokedex extends Item
             {
                 final Set<StructureInfo> infos = StructureManager.getFor(worldIn.dimension(), pos);
                 for (final StructureInfo i : infos)
-                    playerIn.sendMessage(new TextComponent(i.name), Util.NIL_UUID);
+                    playerIn.sendMessage(new TextComponent(i.getName()), Util.NIL_UUID);
             }
         }
         if (block instanceof HealerBlock)
