@@ -58,7 +58,7 @@ public class ForgeEventHandlers
         final Set<StructureInfo> set = StructureManager.getFor(world.dimension(), pos);
         for (final StructureInfo info : set)
         {
-            String name = info.name;
+            String name = info.getName();
             if (!name.contains(":")) name = "minecraft:" + name;
             if (PokecubeLegends.config.PROTECTED_STRUCTURES.contains(name))
             {

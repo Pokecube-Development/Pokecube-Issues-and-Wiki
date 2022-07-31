@@ -194,6 +194,12 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             this.pokemob.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
 
             MinecraftForge.EVENT_BUS.register(this);
+
+            if (dynamaxing)
+            {
+                PokecubeCore.LOGGER.debug("Dynamaxing: {}", this.mob);
+            }
+
         }
 
         @SubscribeEvent

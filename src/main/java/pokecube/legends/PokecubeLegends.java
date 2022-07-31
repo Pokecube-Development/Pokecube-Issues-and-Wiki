@@ -1,12 +1,6 @@
 package pokecube.legends;
 
-import java.util.Optional;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.mojang.serialization.Codec;
-
 import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
@@ -48,6 +42,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -56,6 +52,9 @@ import pokecube.core.interfaces.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
+import pokecube.legends.blocks.properties.Compostables;
+import pokecube.legends.blocks.properties.Flammables;
+import pokecube.legends.blocks.properties.Tillables;
 import pokecube.legends.entity.WormholeEntity;
 import pokecube.legends.handlers.EventsHandler;
 import pokecube.legends.handlers.ForgeEventHandlers;
@@ -82,6 +81,8 @@ import pokecube.legends.worldgen.UltraSpaceSurfaceRules;
 import pokecube.legends.worldgen.WorldgenFeatures;
 import pokecube.legends.worldgen.trees.Trees;
 import thut.core.common.ThutCore;
+
+import java.util.Optional;
 
 @Mod(value = Reference.ID)
 public class PokecubeLegends
@@ -200,17 +201,16 @@ public class PokecubeLegends
         PokecubeLegends.SURFACE_RULES.register(modEventBus);
 
         WorldgenFeatures.init(modEventBus);
-        Trees.init(modEventBus);
-        FeaturesInit.init(modEventBus);
         BlockInit.init();
+        ContainerInit.init();
+        EntityInit.init();
+        FeaturesInit.init(modEventBus);
+        FluidInit.init();
+        ItemHelperEffect.init();
         ItemInit.init();
         MoveRegister.init();
-        EntityInit.init();
-        ItemHelperEffect.init();
-        ContainerInit.init();
-        FluidInit.init();
-
         TileEntityInit.init();
+        Trees.init(modEventBus);
 
         LegendsDistorticRecipeManager.init();
         LegendsLootingRecipeManager.init();
@@ -222,11 +222,10 @@ public class PokecubeLegends
 
     private void loadComplete(final FMLLoadCompleteEvent event)
     {
-        BlockInit.strippableBlocks(event);
-
         event.enqueueWork(() -> {
-            BlockInit.compostables();
-            BlockInit.flammables();
+            Compostables.compostables();
+            Flammables.flammables();
+            Tillables.registerDefaults();
 
             // Biome Dictionary
             BiomeDictionary.addTypes(FeaturesInit.AQUAMARINE_CAVES, Type.RARE);

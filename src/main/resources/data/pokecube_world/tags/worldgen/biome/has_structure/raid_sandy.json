@@ -4,6 +4,9 @@
   "values": [
     "#forge:is_beach",
     "#forge:is_sandy",
-    "#minecraft:is_badlands"
+    "#minecraft:is_badlands",
+    "#pokecube_world:is_ultraspace/is_badlands",
+    "#pokecube_world:is_ultraspace/is_sandy",
+    "#pokecube_world:is_ultraspace/is_sandy_beach"
   ]
 }

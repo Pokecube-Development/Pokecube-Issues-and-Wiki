@@ -1,0 +1,17 @@
+{
+  "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
+  "replace": false,
+  "values": [
+    "pokecube_legends:aquamarine_caves",
+    "pokecube_legends:dripstone_caves",
+    "pokecube_legends:eroded_azure_badlands",
+    "pokecube_legends:frozen_peaks",
+    "pokecube_legends:jagged_peaks",
+    "pokecube_legends:mirage_desert",
+    "pokecube_legends:rocky_mirage_desert",
+    "pokecube_legends:snowy_slopes",
+    "pokecube_legends:windswept_forbidden_taiga",
+    "pokecube_legends:windswept_temporal_jungle",
+    "pokecube_legends:wooded_azure_badlands"
+  ]
+}

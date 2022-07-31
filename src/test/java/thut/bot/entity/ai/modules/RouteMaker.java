@@ -368,6 +368,16 @@ public class RouteMaker extends AbstractBot
             return;
         }
 
+        if (traverse.index == 0)
+        {
+            int next_index = 1;
+            if (getTag().contains("next_index")) next_index = getTag().getInt("next_index");
+            traverse.index = next_index;
+            getTag().putInt("next_index", next_index + 1);
+        }
+
+        road_maker.subbiome = "route_" + traverse.index;
+
         if (this.player.tickCount % 200 == 0)
             player.chat("Bot Builds Roads. " + player.tickCount + " " + this.player.getOnPos());
 

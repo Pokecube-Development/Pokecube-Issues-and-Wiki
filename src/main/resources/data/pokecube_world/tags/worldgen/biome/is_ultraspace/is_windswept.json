@@ -1,0 +1,9 @@
+{
+  "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
+  "replace": false,
+  "values": [
+    "pokecube_legends:shattered_tainted_barrens",
+    "pokecube_legends:windswept_forbidden_taiga",
+    "pokecube_legends:windswept_temporal_jungle"
+  ]
+}

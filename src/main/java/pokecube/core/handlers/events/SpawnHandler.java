@@ -860,6 +860,7 @@ public final class SpawnHandler
         Collections.shuffle(players);
         for (final ServerPlayer player : players)
         {
+            if (player.isSpectator()) continue;
             if (player.level.dimension() != world.dimension()) continue;
             this.doSpawn(player, world, PokecubeCore.getConfig().minSpawnRadius,
                     PokecubeCore.getConfig().maxSpawnRadius);

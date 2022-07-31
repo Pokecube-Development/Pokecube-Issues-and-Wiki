@@ -17,7 +17,7 @@ public class VillageRouteMaker extends RouteMaker
     public VillageRouteMaker(final BotPlayer player)
     {
         super(player);
-        this.target = new ResourceLocation("pokecube:town");
+        this.target = new ResourceLocation("pokecube_world:starting_town");
     }
 
     @Override

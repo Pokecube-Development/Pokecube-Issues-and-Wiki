@@ -11,6 +11,17 @@
     "pokecube:town_savanna",
     "pokecube:town_snowy",
     "pokecube:town_swamp",
-    "pokecube:town_taiga"
+    "pokecube:town_taiga",
+    "pokecube:village_badlands",
+    "pokecube:village_beach",
+    "pokecube:village_dark_forest",
+    "pokecube:village_desert",
+    "pokecube:village_hills",
+    "pokecube:village_jungle",
+    "pokecube:village_plains",
+    "pokecube:village_savanna",
+    "pokecube:village_snowy",
+    "pokecube:village_swamp",
+    "pokecube:village_taiga"
   ]
 }

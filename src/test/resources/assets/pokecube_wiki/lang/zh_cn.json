@@ -1,0 +1,20 @@
+{
+    "_comment": "Pokemobs List",
+    "list.pokemobs.title": "Pokecube 模组中目前包含的宝可梦",
+
+    "_comment": "Pokemob Pages",
+    "list.pokemobs.link": "宝可梦列表",
+    "home.link": "主页",
+
+    "pokemob.type": "类型: %1$s",
+    "pokemob.number": "编号: %1$s",
+
+    "pokemob.description.header": "简介",
+
+    "pokemob.movelist.title": "自带招式列表",
+    "pokemob.movelist.header": "| 等级 | 招式 |",
+    "pokemob.tmlist.title": "秘传/生蛋招式列表",
+    "pokemob.breedinglist.title": "适以繁殖",
+    "pokemob.biomeslist.title": "在生物群系发现",
+    "pokemob.alternateformes.title": "替代表格"
+}

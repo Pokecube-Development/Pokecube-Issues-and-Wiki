@@ -64,7 +64,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                 final Set<StructureInfo> set = StructureManager.getFor(((Level) checker.world).dimension(),
                         checker.location.getPos());
                 for (final StructureInfo i : set)
-                    if (matcher._validStructures.contains(i.name)) return MatchResult.SUCCEED;
+                    if (matcher._validStructures.contains(i.getName())) return MatchResult.SUCCEED;
                 return MatchResult.FAIL;
             }
             return MatchResult.PASS;

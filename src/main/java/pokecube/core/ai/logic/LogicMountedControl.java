@@ -2,6 +2,7 @@ package pokecube.core.ai.logic;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -12,9 +13,13 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
@@ -33,6 +38,9 @@ import pokecube.core.utils.Permissions;
  */
 public class LogicMountedControl extends LogicBase
 {
+    private static final UUID UID = UUID.fromString("4454b0d8-75ef-4689-8fce-daab61a7e1b0");
+    private AttributeModifier riddenStep = null;
+
     public static Set<ResourceKey<Level>> BLACKLISTED = Sets.newHashSet();
 
     public boolean leftInputDown = false;
@@ -66,6 +74,7 @@ public class LogicMountedControl extends LogicBase
         super(pokemob_);
         if (this.entity.getPersistentData().contains("pokecube:mob_throttle"))
             this.throttle = this.entity.getPersistentData().getDouble("pokecube:mob_throttle");
+        this.riddenStep = new AttributeModifier(UID, "pokecube:ridden_step", 0.75, Operation.ADDITION);
     }
 
     public boolean blocksPathing()
@@ -110,8 +119,7 @@ public class LogicMountedControl extends LogicBase
                     && !PermNodes.getBooleanPerm(player, Permissions.DIVESPECIFIC.get(entry)))
                 this.canDive = false;
         }
-        if (this.canFly)
-            this.canFly = !LogicMountedControl.BLACKLISTED.contains(rider.getLevel().dimension());
+        if (this.canFly) this.canFly = !LogicMountedControl.BLACKLISTED.contains(rider.getLevel().dimension());
     }
 
     public boolean hasInput()
@@ -119,31 +127,32 @@ public class LogicMountedControl extends LogicBase
         return this.input;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void tick(final Level world)
     {
         super.tick(world);
         final Entity rider = this.entity.getControllingPassenger();
-        this.entity.maxUpStep = 1.1f;
-
-        if (entity.getParts() != null)
-        {
-            for (PartEntity<?> e : entity.getParts())
-            {
-                e.maxUpStep = 1.1f;
-            }
-        }
-
         moveUp = moveSide = moveFwd = 0;
         this.pokemob.setGeneralState(GeneralStates.CONTROLLED, rider != null);
+        AttributeInstance stepHeightAttribute = this.entity.getAttribute(ForgeMod.STEP_HEIGHT_ADDITION.get());
         if (rider == null)
         {
+            stepHeightAttribute.removeModifier(UID);
             if (this.wasRiding && this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE))
             {
                 this.entity.setNoGravity(false);
                 this.wasRiding = false;
             }
             return;
+        }
+        if (!stepHeightAttribute.hasModifier(riddenStep)) stepHeightAttribute.addTransientModifier(riddenStep);
+        if (entity.getParts() != null)
+        {
+            for (PartEntity<?> e : entity.getParts())
+            {
+                e.maxUpStep = this.entity.getStepHeight();
+            }
         }
 
         this.wasRiding = true;

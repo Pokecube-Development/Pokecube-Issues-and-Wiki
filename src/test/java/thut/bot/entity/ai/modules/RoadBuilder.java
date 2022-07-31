@@ -14,21 +14,28 @@ import com.mojang.math.Vector3f;
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.SectionPos;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import thut.api.terrain.BiomeType;
 import thut.api.terrain.StructureManager;
 import thut.api.terrain.StructureManager.StructureInfo;
+import thut.api.terrain.TerrainManager;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.BotAI;
+import thut.core.common.ThutCore;
 
 @BotAI(key = "thutbot:road")
 public class RoadBuilder extends AbstractBot
@@ -46,7 +53,7 @@ public class RoadBuilder extends AbstractBot
             final FluidState fluid = level.getFluidState(p);
             final BlockState b = level.getBlockState(p);
             // Over sea level water, we place planks
-            if (fluid.is(FluidTags.WATER)) return Blocks.OAK_PLANKS.defaultBlockState();
+            if (fluid.is(FluidTags.WATER) || b.is(BlockTags.ICE)) return Blocks.OAK_PLANKS.defaultBlockState();
             // Lave is replaced with cobble
             else if (fluid.is(FluidTags.LAVA)) return Blocks.COBBLESTONE.defaultBlockState();
             // air with planks
@@ -82,7 +89,12 @@ public class RoadBuilder extends AbstractBot
     Vec3 next = null;
     Vec3 end = null;
 
+    public String subbiome = "none";
+
     private PathStateProvider pathProvider = new PathStateProvider();
+
+    int path_index = 0;
+    List<BlockPos> path_nodes = Lists.newArrayList();
 
     List<Block> pathB = Lists.newArrayList();
     List<Block> slabB = Lists.newArrayList();
@@ -158,6 +170,7 @@ public class RoadBuilder extends AbstractBot
 
             this.end = new Vec3(end.getX(), end.getY(), end.getZ());
             this.next = new Vec3(next.getX(), next.getY(), next.getZ());
+            initPath();
         }
         if (end.distanceToSqr(next) < 4)
         {
@@ -213,6 +226,7 @@ public class RoadBuilder extends AbstractBot
             z = Integer.parseInt(match.group(11));
             y = player.level.getHeight(Types.WORLD_SURFACE, x, z);
             end = new Vec3(x, y, z);
+            initPath();
 
             this.tpTicks = Integer.parseInt(match.group(13));
 
@@ -230,6 +244,7 @@ public class RoadBuilder extends AbstractBot
             z = Integer.parseInt(match.group(11));
             y = player.level.getHeight(Types.WORLD_SURFACE, x, z);
             end = new Vec3(x, y, z);
+            initPath();
 
             return true;
         }
@@ -246,6 +261,149 @@ public class RoadBuilder extends AbstractBot
     public boolean isCompleted()
     {
         return done;
+    }
+
+    private void initPath()
+    {
+        this.path_index = 0;
+        this.path_nodes.clear();
+
+        double dr = this.next.distanceTo(this.end);
+
+        if (dr == 0)
+        {
+            this.done = true;
+            return;
+        }
+
+        int num_segs = (int) Math.ceil(dr / expectedLength);
+        int length = (int) Math.ceil(dr / num_segs);
+
+        Vec3 dir = this.end.subtract(this.next).normalize();
+
+        Vec3 next = this.next;
+        List<BlockPos> path_opts = Lists.newArrayList();
+        BlockPos next_pos = new BlockPos(next).atY(0);
+        path_opts.add(next_pos);
+        BlockPos end_pos = new BlockPos(end).atY(0);
+        boolean done = false;
+        int n = 0;
+
+        // Find a random set of points to decide to use for the road.
+        while (!done && n++ < 1e5)
+        {
+            final double dx = (this.player.getRandom().nextDouble() - 0.5) * lengthVariation;
+            final double dz = (this.player.getRandom().nextDouble() - 0.5) * lengthVariation;
+            Vec3 next_next = next.add(dir.x * length + dx, 0, dir.z * length + dz);
+            BlockPos next_next_pos = new BlockPos(next_next).atY(0);
+            path_opts.add(next_next_pos);
+            next = next_next;
+            next_pos = next_next_pos;
+            dir = this.end.subtract(next).normalize();
+            if (Math.sqrt(next_pos.distSqr(end_pos)) < expectedLength)
+            {
+                path_opts.add(end_pos);
+                done = true;
+                break;
+            }
+        }
+
+        // Now ensure they are a reasonable y distance apart. The ends must be
+        // fixed.
+        int[] ys = new int[path_opts.size()];
+        int i = 0;
+        for (var v : path_opts)
+        {
+            int y = this.player.level.getMinBuildHeight();
+            int cx = SectionPos.blockToSectionCoord(v.getX());
+            int cz = SectionPos.blockToSectionCoord(v.getZ());
+            if (!this.player.level.hasChunk(cx, cz))
+            {
+                ChunkAccess chunk = this.player.level.getChunk(cx, cz, ChunkStatus.SURFACE);
+                y = chunk.getHeight(Types.OCEAN_FLOOR_WG, v.getX(), v.getZ());
+            }
+            else
+            {
+                y = this.player.level.getHeightmapPos(Types.OCEAN_FLOOR_WG, v).getY();
+            }
+            if (y < this.player.level.getSeaLevel() - 2) y = this.player.level.getSeaLevel() + 2;
+            y = Math.max(y, this.player.level.getSeaLevel());
+            ys[i++] = y;
+        }
+
+        n = 0;
+        int m = 0;
+        int dy = 1;
+        while (dy > 0 && n++ < 1e5)
+        {
+            dy = 0;
+            // Repeatedly relax the system untill all slopes are "acceptable"
+            for (i = 1; i < ys.length - 1; i++)
+            {
+                BlockPos p0 = path_opts.get(i).atY(ys[i]);
+                BlockPos pb = path_opts.get(i - 1).atY(ys[i - 1]);
+                BlockPos pa = path_opts.get(i + 1).atY(ys[i + 1]);
+
+                double dx = (pa.getX() - p0.getX());
+                double dz = (pa.getZ() - p0.getZ());
+
+                double dh_a = Math.sqrt(dx * dx + dz * dz);
+                double dy_a = Math.abs(p0.getY() - pa.getY());
+
+                if (dy_a / dh_a > 0.35)
+                {
+                    int new_y0 = (p0.getY() + pa.getY()) / 2;
+                    dy += Math.abs(new_y0 - ys[i]);
+                    ys[i] = new_y0;
+                    p0 = p0.atY(new_y0);
+                    m++;
+                }
+
+                dx = (pb.getX() - p0.getX());
+                dz = (pb.getZ() - p0.getZ());
+
+                double dh_b = Math.sqrt(dx * dx + dz * dz);
+                double dy_b = Math.abs(p0.getY() - pb.getY());
+
+                if (dy_b / dh_b > 0.35)
+                {
+                    int new_y0 = (p0.getY() + pb.getY()) / 2;
+                    dy += Math.abs(new_y0 - ys[i]);
+                    ys[i] = new_y0;
+                    m++;
+                }
+            }
+        }
+
+        int max_dr = 0;
+        int max_dy = 0;
+        for (i = 0; i < ys.length - 1; i++)
+        {
+            dy = Math.abs(ys[i] - ys[i + 1]);
+            max_dy = Math.max(max_dy, dy);
+            BlockPos p0 = path_opts.get(i);
+            BlockPos pa = path_opts.get(i + 1);
+            double dr_2 = Math.sqrt(p0.distSqr(pa));
+            max_dr = (int) Math.max(max_dr, dr_2);
+        }
+        System.out.println("took " + n + " relaxation steps (" + m + ")");
+        System.out.println("max dy: " + max_dy + " max_dr: " + max_dr);
+        System.out.println("size: " + ys.length);
+
+        if (max_dr > 60 || max_dy > 30)
+        {
+            this.path_index = 0;
+            this.path_nodes.clear();
+            System.out.println("Reset");
+            initPath();
+            return;
+        }
+
+        // Update the positions accordingly.
+        for (i = 0; i < ys.length; i++)
+        {
+            path_nodes.add(path_opts.get(i).atY(ys[i]));
+        }
     }
 
     private void validatePath(Vec3 targ, final double rr)
@@ -271,9 +429,7 @@ public class RoadBuilder extends AbstractBot
     private void updateNext()
     {
         double dist = next.distanceTo(end);
-
         double r = expectedLength + (this.player.getRandom().nextDouble()) * lengthVariation;
-
         Vec3 dir = end.subtract(next).normalize();
         if (dist < r)
         {
@@ -282,46 +438,30 @@ public class RoadBuilder extends AbstractBot
             this.done = true;
             return;
         }
-
-        final double dx = (this.player.getRandom().nextDouble() - 0.5) * lengthVariation;
-        final double dz = (this.player.getRandom().nextDouble() - 0.5) * lengthVariation;
-
-        Vec3 randNear = next.add(dir.scale(r)).add(dx, 0, dz);
-        BlockPos end = new BlockPos(randNear);
-
-        end = this.player.level.getHeightmapPos(Types.WORLD_SURFACE, end);
-        if (end.getY() < this.player.level.getSeaLevel())
+        if (this.path_nodes.isEmpty()) this.initPath();
+        System.out.println((path_index + 1) + "/" + this.path_nodes.size());
+        int next_index = path_index;
+        if (path_index >= path_nodes.size())
         {
-            end = new BlockPos(end.getX(), this.player.level.getSeaLevel(), end.getZ());
+            path_index = 0;
+            path_nodes.clear();
+            done = true;
         }
-        FluidState fluid = player.level.getFluidState(end.below());
-        if (!fluid.isEmpty())
+        else if (next_index < this.path_nodes.size())
         {
-            end = new BlockPos(end.getX(), end.getY() + 3, end.getZ());
+            Vec3 prev = next;
+            BlockPos next_pos = path_nodes.get(next_index);
+            next = new Vec3(next_pos.getX(), next_pos.getY(), next_pos.getZ());
+            dir = next.subtract(prev);
+            dist = dir.length();
+            dir = dir.normalize();
+            BlockPos npos = new BlockPos(next);
+            BlockPos epos = new BlockPos(end);
+            getTag().put("next", NbtUtils.writeBlockPos(npos));
+            getTag().put("end", NbtUtils.writeBlockPos(epos));
+            buildRoute(prev, dir, dist);
+            this.path_index++;
         }
-
-        dir = randNear.subtract(next);
-        double dr = dir.length();
-
-        if (Math.abs(dir.y) > dr * 0.3)
-        {
-            if (randNear.y > next.y) randNear = new Vec3(end.getX(), next.y + 0.3 * dr, end.getZ());
-            else randNear = new Vec3(end.getX(), next.y - 0.3 * dr, end.getZ());
-            end = new BlockPos(randNear);
-        }
-
-        Vec3 prev = next;
-        next = new Vec3(end.getX(), end.getY(), end.getZ());
-        dir = next.subtract(prev);
-        dist = dir.length();
-        dir = dir.normalize();
-
-        BlockPos npos = new BlockPos(next);
-        BlockPos epos = new BlockPos(end);
-        getTag().put("next", NbtUtils.writeBlockPos(npos));
-        getTag().put("end", NbtUtils.writeBlockPos(epos));
-
-        buildRoute(prev, dir, dist);
     }
 
     /**
@@ -333,6 +473,12 @@ public class RoadBuilder extends AbstractBot
      */
     private void buildRoute(final Vec3 start, final Vec3 dir, final double dist)
     {
+        if (dist > 100)
+        {
+            ThutCore.LOGGER.error("Road segment too long! " + start + " " + dir + " " + dist + "" + this.path_index);
+            return;
+        }
+
         final ServerLevel level = (ServerLevel) this.player.level;
 
         BlockPos pos;
@@ -368,13 +514,13 @@ public class RoadBuilder extends AbstractBot
                 pos = new BlockPos(vec);
 
                 // If too close to a structure, skip point
-                final Set<StructureInfo> inside = StructureManager.getNear(level.dimension(), pos, 3);
+                final Set<StructureInfo> inside = StructureManager.getNear(level.dimension(), pos, 5);
                 if (!inside.isEmpty()) continue;
 
                 // check if we need this edge at all
                 if (Math.abs(h) == 3)
                 {
-                    boolean doEdge = level.getHeight(Types.OCEAN_FLOOR, pos.getX(), pos.getZ()) < pos.getY() - 1;
+                    boolean doEdge = level.getHeight(Types.OCEAN_FLOOR_WG, pos.getX(), pos.getZ()) < pos.getY() - 1;
                     if (doEdge) railings.add(pos.above());
                     else continue h_loop;
                 }
@@ -446,7 +592,7 @@ public class RoadBuilder extends AbstractBot
                 if (y >= 0 && (remove || editable)) level.removeBlock(here, false);
                 else if ((y < 0 && editable && replacement != null))
                 {
-                    level.setBlock(here, replacement, 2);
+                    this.setBlock(level, here, replacement, 2);
                 }
             }
         }
@@ -455,21 +601,28 @@ public class RoadBuilder extends AbstractBot
         for (BlockPos p : toFix.keySet())
         {
             List<BlockState> list = toFix.get(p);
-            level.setBlock(p.below(), list.get(player.getRandom().nextInt(list.size())), 2);
+            this.setBlock(level, p.below(), list.get(player.getRandom().nextInt(list.size())), 2);
         }
 
         // Next build cobblestone railings if needed
         for (BlockPos p : railings)
         {
-            level.setBlock(p.below(), Blocks.COBBLESTONE_WALL.defaultBlockState(), 3);
+            this.setBlock(level, p.below(), Blocks.COBBLESTONE_WALL.defaultBlockState(), 3);
         }
 
         // Then place the torches
         for (BlockPos p : torches)
         {
-            level.setBlock(p.below(2), Blocks.COBBLESTONE.defaultBlockState(), 2);
-            level.setBlock(p.below(), Blocks.COBBLESTONE_WALL.defaultBlockState(), 2);
-            level.setBlock(p, Blocks.TORCH.defaultBlockState(), 2);
+            this.setBlock(level, p.below(2), Blocks.COBBLESTONE.defaultBlockState(), 2);
+            this.setBlock(level, p.below(), Blocks.COBBLESTONE_WALL.defaultBlockState(), 2);
+            this.setBlock(level, p, Blocks.TORCH.defaultBlockState(), 2);
         }
     }
+
+    private void setBlock(ServerLevel level, BlockPos p, BlockState state, int flags)
+    {
+        level.setBlock(p, state, flags);
+        TerrainManager.getInstance().getTerrain(level, p).setBiome(p, BiomeType.getBiome(subbiome));
+    }
+
 }

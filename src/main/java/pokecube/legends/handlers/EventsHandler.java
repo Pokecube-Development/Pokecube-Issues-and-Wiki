@@ -12,14 +12,25 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.LogicalSide;
+import pokecube.legends.blocks.properties.Strippables;
+import pokecube.legends.blocks.properties.Tillables;
 import pokecube.legends.init.ItemInit;
 
 public class EventsHandler
 {
+
     public static void register()
     {
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onPlayerTick);
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::toolModificationEvent);
+    }
+
+    public static void toolModificationEvent(final BlockEvent.BlockToolModificationEvent event)
+    {
+        Tillables.tillables(event);
+        Strippables.strippables(event);
     }
 
     public static boolean isWearingUltraArmour(LivingEntity player)

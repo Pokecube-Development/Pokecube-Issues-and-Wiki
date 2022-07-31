@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#pokecube_world:distorted_decor",
+    "#pokecube_world:distorted_houses",
+    "#pokecube_world:distorted_islands"
+  ]
+}

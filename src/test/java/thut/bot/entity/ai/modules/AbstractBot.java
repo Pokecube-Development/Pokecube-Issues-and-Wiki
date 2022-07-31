@@ -60,6 +60,7 @@ public abstract class AbstractBot implements IBotAI
         this.key = key;
     }
 
+    @SuppressWarnings("deprecation")
     protected void preBotTick(final ServerLevel world)
     {
         this.player.setGameMode(GameType.CREATIVE);

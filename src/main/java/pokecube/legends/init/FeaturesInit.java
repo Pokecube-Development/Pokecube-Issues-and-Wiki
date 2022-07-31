@@ -376,6 +376,7 @@ public class FeaturesInit
     public static void init(IEventBus bus)
     {
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, Configs::onBiomeLoading);
+        PlantPlacements.init();
         Configs.init();
     }
 
@@ -390,5 +391,8 @@ public class FeaturesInit
                 .register("tainted_barrens_bonemeal",
                         () -> new PlacedFeature(FeaturesInit.Configs.TAINTED_VEGETATION_BONEMEAL.getHolder().get(),
                                 List.of(PlacementUtils.isEmpty())));
+
+        public static void init()
+        {}
     }
 }
