@@ -14,7 +14,7 @@ public class Flammables
         fire.setFlammable(block, speed, flammability);
     }
 
-    public static void flammables()
+    public static void registerDefaults()
     {
         // Logs
         flammableBlocks(BlockInit.AGED_LOG.get(), 5, 5);

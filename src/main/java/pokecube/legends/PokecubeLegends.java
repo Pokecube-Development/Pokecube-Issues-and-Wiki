@@ -224,8 +224,8 @@ public class PokecubeLegends
     private void loadComplete(final FMLLoadCompleteEvent event)
     {
         event.enqueueWork(() -> {
-            Compostables.compostables();
-            Flammables.flammables();
+            Compostables.registerDefaults();
+            Flammables.registerDefaults();
             Strippables.registerDefaults();
             Tillables.registerDefaults();
 
