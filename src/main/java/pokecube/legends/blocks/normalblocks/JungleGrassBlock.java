@@ -29,6 +29,7 @@ public class JungleGrassBlock extends GrassBlock implements BonemealableBlock
         this.registerDefaultState(this.stateDefinition.any().setValue(SnowyDirtBlock.SNOWY, false));
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos, final Random random)
     {

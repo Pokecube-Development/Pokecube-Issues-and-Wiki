@@ -20,7 +20,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -63,8 +64,10 @@ public class ClientProxy
             ClientProxy.UP.setKeyConflictContext(inGame);
             ClientProxy.DOWN.setKeyConflictContext(inGame);
 
-            ClientProxy.ROTATERIGHT = new KeyMapping("crafts.key.left", InputConstants.UNKNOWN.getValue(), "keys.crafts");
-            ClientProxy.ROTATELEFT = new KeyMapping("crafts.key.right", InputConstants.UNKNOWN.getValue(), "keys.crafts");
+            ClientProxy.ROTATERIGHT = new KeyMapping("crafts.key.left", InputConstants.UNKNOWN.getValue(),
+                    "keys.crafts");
+            ClientProxy.ROTATELEFT = new KeyMapping("crafts.key.right", InputConstants.UNKNOWN.getValue(),
+                    "keys.crafts");
             ClientProxy.ROTATELEFT.setKeyConflictContext(inGame);
             ClientProxy.ROTATERIGHT.setKeyConflictContext(inGame);
 
@@ -106,8 +109,9 @@ public class ClientProxy
     }
 
     @SubscribeEvent
-    public static void RenderBounds(final RenderLevelLastEvent event)
+    public static void RenderBounds(final RenderLevelStageEvent event)
     {
+        if (event.getStage() != Stage.AFTER_TRANSLUCENT_BLOCKS) return;
         ItemStack held;
         final Player player = Minecraft.getInstance().player;
         if (!(held = player.getMainHandItem()).isEmpty() || !(held = player.getOffhandItem()).isEmpty())
@@ -117,13 +121,13 @@ public class ClientProxy
             {
                 final Minecraft mc = Minecraft.getInstance();
                 final Vec3 projectedView = mc.gameRenderer.getMainCamera().getPosition();
-                Vec3 pointed = new Vec3(projectedView.x, projectedView.y, projectedView.z).add(mc.player.getViewVector(
-                        event.getPartialTick()));
+                Vec3 pointed = new Vec3(projectedView.x, projectedView.y, projectedView.z)
+                        .add(mc.player.getViewVector(event.getPartialTick()));
                 if (mc.hitResult != null && mc.hitResult.getType() == Type.BLOCK)
                 {
                     final BlockHitResult result = (BlockHitResult) mc.hitResult;
-                    pointed = new Vec3(result.getBlockPos().getX(), result.getBlockPos().getY(), result.getBlockPos()
-                            .getZ());
+                    pointed = new Vec3(result.getBlockPos().getX(), result.getBlockPos().getY(),
+                            result.getBlockPos().getZ());
                     //
                 }
                 final Vector3 v = Vector3.readFromNBT(held.getTag().getCompound("min"), "");

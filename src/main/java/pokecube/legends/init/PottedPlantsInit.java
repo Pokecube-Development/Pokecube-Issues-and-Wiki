@@ -9,7 +9,6 @@ import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.plants.PottedCrystallizedBush;
 import pokecube.legends.blocks.plants.PottedCrystallizedCactus;
 
-@SuppressWarnings("deprecation")
 public class PottedPlantsInit
 {
     public static final RegistryObject<Block> POTTED_AGED_SAPLING;

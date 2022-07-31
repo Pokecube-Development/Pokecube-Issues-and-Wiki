@@ -7,6 +7,7 @@ import net.minecraft.Util;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
@@ -48,16 +49,18 @@ public class CommandTools
         {
             final String[] args2 = formatting.split(":");
             final String colour = args2[0].toUpperCase(java.util.Locale.ROOT);
-            translated.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.getByName(colour)));
+            Style style = translated.getStyle();
+            style = style.withColor(TextColor.fromLegacyFormat(ChatFormatting.getByName(colour)));
             if (args2.length > 1) for (int i1 = 1; i1 < args2.length; i1++)
             {
                 final String arg = args2[i1];
-                if (arg.equalsIgnoreCase("italic")) translated.getStyle().withItalic(true);
-                if (arg.equalsIgnoreCase("bold")) translated.getStyle().withBold(true);
-                if (arg.equalsIgnoreCase("underlined")) translated.getStyle().setUnderlined(true);
-                if (arg.equalsIgnoreCase("strikethrough")) translated.getStyle().setStrikethrough(true);
-                if (arg.equalsIgnoreCase("obfuscated")) translated.getStyle().setObfuscated(true);
+                if (arg.equalsIgnoreCase("italic")) style = style.withItalic(true);
+                if (arg.equalsIgnoreCase("bold")) style = style.withBold(true);
+                if (arg.equalsIgnoreCase("underlined")) style = style.withUnderlined(true);
+                if (arg.equalsIgnoreCase("strikethrough")) style = style.withStrikethrough(true);
+                if (arg.equalsIgnoreCase("obfuscated")) style = style.withObfuscated(true);
             }
+            translated.setStyle(style);
         }
         return translated;
     }
