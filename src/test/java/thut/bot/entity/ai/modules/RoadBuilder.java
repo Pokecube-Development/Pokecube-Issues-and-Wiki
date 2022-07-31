@@ -77,8 +77,8 @@ public class RoadBuilder extends AbstractBot
 
     protected boolean done = false;
 
-    int expectedLength = 32;
-    int lengthVariation = 16;
+    int expectedLength = 16;
+    int lengthVariation = 8;
 
     // Counters for when to give up, etc
     int stuckTicks = 0;

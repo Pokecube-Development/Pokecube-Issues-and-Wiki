@@ -21,7 +21,7 @@ while True:
             x = random.randint(-radius, radius)
             z = random.randint(-radius, radius)
             s.connect((HOST, PORT))
-            msg = '/tp @r {} 200 {}'.format(x, z)
+            msg = f'/tp Dev {x} 200 {z}'
             print(msg)
             s.sendall(msg.encode('utf-8'))
             data = s.recv(1024)
