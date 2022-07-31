@@ -19,14 +19,15 @@ public class Edge extends Part
 
     public int digInd = 0;
 
+    public int index = 0;
+
     boolean areSame(final Edge other)
     {
         final BlockPos here1 = this.node1.getCenter().atY(0);
         final BlockPos here2 = this.node2.getCenter().atY(0);
         final BlockPos there1 = other.node1.getCenter().atY(0);
         final BlockPos there2 = other.node2.getCenter().atY(0);
-        return (here1.equals(there1) && here2.equals(there2)) ||
-               (here1.equals(there2) && here2.equals(there1));
+        return (here1.equals(there1) && here2.equals(there2)) || (here1.equals(there2) && here2.equals(there1));
     }
 
     public boolean withinDistance(final BlockPos pos, final double size)
@@ -75,6 +76,7 @@ public class Edge extends Part
         edgeNbt.putUUID("n2", this.node2.id);
         edgeNbt.put("e2", NbtUtils.writeBlockPos(this.getEnd2()));
         edgeNbt.putInt("d", this.digInd);
+        edgeNbt.putInt("i", this.index);
         return edgeNbt;
     }
 
@@ -86,6 +88,7 @@ public class Edge extends Part
         final UUID p1 = (nbt.getUUID("n1"));
         final UUID p2 = (nbt.getUUID("n2"));
         this.digInd = nbt.getInt("d");
+        this.index = nbt.getInt("i");
 
         if (this.getTree() != null)
         {

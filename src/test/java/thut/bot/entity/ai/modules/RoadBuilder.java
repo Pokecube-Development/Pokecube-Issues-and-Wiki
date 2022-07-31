@@ -29,8 +29,10 @@ import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import thut.api.terrain.BiomeType;
 import thut.api.terrain.StructureManager;
 import thut.api.terrain.StructureManager.StructureInfo;
+import thut.api.terrain.TerrainManager;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.BotAI;
 import thut.core.common.ThutCore;
@@ -86,6 +88,8 @@ public class RoadBuilder extends AbstractBot
 
     Vec3 next = null;
     Vec3 end = null;
+
+    public String subbiome = "none";
 
     private PathStateProvider pathProvider = new PathStateProvider();
 
@@ -316,12 +320,13 @@ public class RoadBuilder extends AbstractBot
             if (!this.player.level.hasChunk(cx, cz))
             {
                 ChunkAccess chunk = this.player.level.getChunk(cx, cz, ChunkStatus.SURFACE);
-                y = chunk.getHeight(Types.WORLD_SURFACE_WG, v.getX(), v.getZ());
+                y = chunk.getHeight(Types.OCEAN_FLOOR_WG, v.getX(), v.getZ());
             }
             else
             {
-                y = this.player.level.getHeightmapPos(Types.WORLD_SURFACE, v).getY();
+                y = this.player.level.getHeightmapPos(Types.OCEAN_FLOOR_WG, v).getY();
             }
+            if (y < this.player.level.getSeaLevel() - 2) y = this.player.level.getSeaLevel() + 2;
             y = Math.max(y, this.player.level.getSeaLevel());
             ys[i++] = y;
         }
@@ -345,7 +350,7 @@ public class RoadBuilder extends AbstractBot
                 double dh_a = Math.sqrt(dx * dx + dz * dz);
                 double dy_a = Math.abs(p0.getY() - pa.getY());
 
-                if (dy_a / dh_a > 0.3)
+                if (dy_a / dh_a > 0.35)
                 {
                     int new_y0 = (p0.getY() + pa.getY()) / 2;
                     dy += Math.abs(new_y0 - ys[i]);
@@ -360,7 +365,7 @@ public class RoadBuilder extends AbstractBot
                 double dh_b = Math.sqrt(dx * dx + dz * dz);
                 double dy_b = Math.abs(p0.getY() - pb.getY());
 
-                if (dy_b / dh_b > 0.3)
+                if (dy_b / dh_b > 0.35)
                 {
                     int new_y0 = (p0.getY() + pb.getY()) / 2;
                     dy += Math.abs(new_y0 - ys[i]);
@@ -515,7 +520,7 @@ public class RoadBuilder extends AbstractBot
                 // check if we need this edge at all
                 if (Math.abs(h) == 3)
                 {
-                    boolean doEdge = level.getHeight(Types.OCEAN_FLOOR, pos.getX(), pos.getZ()) < pos.getY() - 1;
+                    boolean doEdge = level.getHeight(Types.OCEAN_FLOOR_WG, pos.getX(), pos.getZ()) < pos.getY() - 1;
                     if (doEdge) railings.add(pos.above());
                     else continue h_loop;
                 }
@@ -587,7 +592,7 @@ public class RoadBuilder extends AbstractBot
                 if (y >= 0 && (remove || editable)) level.removeBlock(here, false);
                 else if ((y < 0 && editable && replacement != null))
                 {
-                    level.setBlock(here, replacement, 2);
+                    this.setBlock(level, here, replacement, 2);
                 }
             }
         }
@@ -596,21 +601,28 @@ public class RoadBuilder extends AbstractBot
         for (BlockPos p : toFix.keySet())
         {
             List<BlockState> list = toFix.get(p);
-            level.setBlock(p.below(), list.get(player.getRandom().nextInt(list.size())), 2);
+            this.setBlock(level, p.below(), list.get(player.getRandom().nextInt(list.size())), 2);
         }
 
         // Next build cobblestone railings if needed
         for (BlockPos p : railings)
         {
-            level.setBlock(p.below(), Blocks.COBBLESTONE_WALL.defaultBlockState(), 3);
+            this.setBlock(level, p.below(), Blocks.COBBLESTONE_WALL.defaultBlockState(), 3);
         }
 
         // Then place the torches
         for (BlockPos p : torches)
         {
-            level.setBlock(p.below(2), Blocks.COBBLESTONE.defaultBlockState(), 2);
-            level.setBlock(p.below(), Blocks.COBBLESTONE_WALL.defaultBlockState(), 2);
-            level.setBlock(p, Blocks.TORCH.defaultBlockState(), 2);
+            this.setBlock(level, p.below(2), Blocks.COBBLESTONE.defaultBlockState(), 2);
+            this.setBlock(level, p.below(), Blocks.COBBLESTONE_WALL.defaultBlockState(), 2);
+            this.setBlock(level, p, Blocks.TORCH.defaultBlockState(), 2);
         }
     }
+
+    private void setBlock(ServerLevel level, BlockPos p, BlockState state, int flags)
+    {
+        level.setBlock(p, state, flags);
+        TerrainManager.getInstance().getTerrain(level, p).setBiome(p, BiomeType.getBiome(subbiome));
+    }
+
 }

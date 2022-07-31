@@ -130,11 +130,10 @@ public class LogicMiscUpdate extends LogicBase
     {
         final boolean angry = this.pokemob.inCombat();
 
-        boolean gigant = pokemob.getCombatState(CombatStates.GIGANTAMAX);
         boolean isDyna = pokemob.getCombatState(CombatStates.DYNAMAX);
 
         // check dynamax timer for cooldown.
-        if (gigant || isDyna)
+        if (isDyna)
         {
             final long time = Tracker.instance().getTick();
             if (this.dynatime == -1)
@@ -144,15 +143,17 @@ public class LogicMiscUpdate extends LogicBase
                 Component mess = new TranslatableComponent("pokemob.dynamax.timeout.revert",
                         this.pokemob.getDisplayName());
                 this.pokemob.displayMessageToOwner(mess);
-                
+
                 final PokedexEntry newEntry = this.pokemob.getMegaBase();
                 if (newEntry != this.pokemob.getPokedexEntry())
                     ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry, mess, true);
-                
+
                 pokemob.setCombatState(CombatStates.MEGAFORME, false);
                 mess = new TranslatableComponent("pokemob.dynamax.revert", this.pokemob.getDisplayName());
                 ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry, mess, true);
-                
+
+                PokecubeCore.LOGGER.debug("Reverting Dynamax");
+
                 this.de_dyna = true;
             }
         }
