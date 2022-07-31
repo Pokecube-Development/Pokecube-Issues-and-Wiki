@@ -1,6 +1,5 @@
 package pokecube.compat.jei.categories.cloner;
 
-import java.util.Collection;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -18,7 +17,7 @@ public class Wrapper
         this.wrapped = toWrap;
     }
 
-    public static Collection<Wrapper> getWrapped()
+    public static List<Wrapper> getWrapped()
     {
         final List<Wrapper> wrapped = Lists.newArrayList();
         RecipeClone.MATCHERS.forEach(c ->

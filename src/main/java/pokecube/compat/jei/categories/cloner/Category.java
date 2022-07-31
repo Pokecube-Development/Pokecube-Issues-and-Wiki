@@ -5,11 +5,13 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
@@ -17,6 +19,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.compat.jei.ingredients.Pokemob;
 
@@ -24,22 +27,19 @@ public class Category implements IRecipeCategory<Wrapper>
 {
     public static final ResourceLocation GUI = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/cloner.png");
 
-    private static final int craftOutputSlot = 0;
-    private static final int craftInputSlot1 = 1;
-
-    public static final int width  = 116;
+    public static final int width = 116;
     public static final int height = 54;
 
     private final IDrawable background;
     private final IDrawable icon;
-    private final String    localizedName;
-    final IGuiHelper        guiHelper;
+    private final String localizedName;
+    final IGuiHelper guiHelper;
 
     public Category(final IGuiHelper guiHelper)
     {
         this.guiHelper = guiHelper;
         this.background = guiHelper.createDrawable(Category.GUI, 29, 16, Category.width, Category.height);
-        this.icon = guiHelper.createDrawableIngredient(new ItemStack(PokecubeAdv.CLONER.get()));
+        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(PokecubeAdv.CLONER.get()));
         this.localizedName = I18n.get("block.pokecube_adventures.cloner");
     }
 
@@ -84,27 +84,21 @@ public class Category implements IRecipeCategory<Wrapper>
     }
 
     @Override
-    public void setIngredients(final Wrapper recipe, final IIngredients ingredients)
+    public void setRecipe(IRecipeLayoutBuilder builder, Wrapper recipe, IFocusGroup focuses)
     {
-        ingredients.setOutput(Pokemob.TYPE, Pokemob.ALLMAP.get(recipe.wrapped.getDefault()));
-        ingredients.setInputIngredients(recipe.wrapped.getInputs());
-    }
+        IRecipeSlotBuilder outputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 94, 18);
+        outputSlot.addIngredient(Pokemob.TYPE, Pokemob.ALLMAP.get(recipe.wrapped.getDefault()));
 
-    @Override
-    public void setRecipe(final IRecipeLayout recipeLayout, final Wrapper recipeWrapper, final IIngredients ingredients)
-    {
-        final IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
-        recipeLayout.getIngredientsGroup(Pokemob.TYPE).init(Category.craftOutputSlot, false, Pokemob.RENDER, 94, 18, 16,
-                16, 0, 0);
-        for (int y = 0; y < 3; ++y)
-            for (int x = 0; x < 3; ++x)
-            {
-                final int index = Category.craftInputSlot1 + x + y * 3;
-                final int dy = x == 1 ? 0 : 9;
-                guiItemStacks.init(index, true, x * 18 + 2, y * 18 + dy);
-            }
-        guiItemStacks.set(ingredients);
-        recipeLayout.getIngredientsGroup(Pokemob.TYPE).set(ingredients);
+        List<Ingredient> ingredients = recipe.wrapped.getInputs();
+        outer:
+        for (int y = 0; y < 3; ++y) for (int x = 0; x < 3; ++x)
+        {
+            final int index = x + y * 3;
+            if (index >= ingredients.size()) break outer;
+            final int dy = x == 1 ? 0 : 9;
+            IRecipeSlotBuilder inputSlot = builder.addSlot(RecipeIngredientRole.INPUT, x * 18 + 2, y * 18 + dy);
+            inputSlot.addIngredients(ingredients.get(index));
+        }
     }
 
 }
