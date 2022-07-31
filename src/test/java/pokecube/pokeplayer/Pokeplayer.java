@@ -79,6 +79,7 @@ public class Pokeplayer
         event.getDispatcher().register(command);
     }
 
+    @SuppressWarnings("deprecation")
     private static void onPlayerTick(final PlayerTickEvent event)
     {
         final ICopyMob copy = CopyCaps.get(event.player);
