@@ -18,6 +18,7 @@ import thut.api.entity.multipart.GenericPartEntity.BodyPart;
 import thut.api.maths.vecmath.Mat3f;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
+import thut.core.common.network.PartSync;
 
 public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
 {
@@ -136,20 +137,26 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         this.initParts();
         // check if effective_pose needs updating
         final IAnimated animHolder = AnimatedCaps.getAnimated(self());
+        anims:
         if (animHolder != null)
         {
             final List<String> anims = animHolder.getChoices();
+            String old_pose = getHolder().holder.effective_pose;
             getHolder().holder().effective_pose = "idle";
+
             for (final String s : anims) if (getHolder().partMap().containsKey(s))
             {
                 getHolder().holder().effective_pose = s;
                 break;
             }
+            if (old_pose.equals(getHolder().holder().effective_pose)) break anims;
             // Update the partmap if we know about this pose.
             if (getHolder().partMap().containsKey(getHolder().holder().effective_pose))
+            {
                 getHolder().setParts(getHolder().partMap().get(getHolder().holder().effective_pose));
+                PartSync.sendUpdate(self());
+            }
         }
-
         if (getHolder().holder().parts.length == 0 && getHolder().allParts().isEmpty()) return;
 
         Mat3f rot = getHolder().holder().rot;

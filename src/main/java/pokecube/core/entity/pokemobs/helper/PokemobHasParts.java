@@ -25,6 +25,7 @@ import thut.api.entity.multipart.GenericPartEntity;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.entity.multipart.GenericPartEntity.Factory;
 import thut.api.entity.multipart.IMultpart;
+import thut.core.common.network.PartSync;
 
 public abstract class PokemobHasParts extends PokemobCombat implements IMultpart<PokemobPart, PokemobHasParts>
 {
@@ -83,8 +84,10 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         // final List<PokemobPart> allParts = this.allParts;
         // We need to here send a packet to sync the IDs of the new parts vs the
         // old parts.
-        // if (!this.getEntityWorld().isRemote) allParts =
-        // Lists.newArrayList(allParts);
+        for (var part : getHolder().allParts())
+        {
+            part.remove(RemovalReason.DISCARDED);
+        }
 
         getHolder().allParts().clear();
 
@@ -169,6 +172,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         this.firstTick = true;
         this.refreshDimensions();
         this.firstTick = first;
+        PartSync.sendUpdate(self());
     }
 
     @Override

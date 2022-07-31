@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -87,7 +86,6 @@ public class WearableWrapper
             final int br = this.brightness;
             final int ol = this.overlay;
             mat.pushPose();
-            mat.mulPose(Vector3f.XP.rotationDegrees(-90));
             this.angle.glRotate(mat);
             mat.translate(this.translate.x, this.translate.y, this.translate.z);
             this.wrapped.renderWearable(mat, buff, this.slot, this.subIndex, this.wearer, this.stack, pt, br, ol);

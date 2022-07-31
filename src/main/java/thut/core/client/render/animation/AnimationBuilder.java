@@ -31,7 +31,8 @@ public class AnimationBuilder
         else animation.sets.put(part, parts);
     }
 
-    /** Constructs a new Animation, and assigns components based on the
+    /**
+     * Constructs a new Animation, and assigns components based on the
      * definitions in the XML node.
      *
      * @param node
@@ -48,8 +49,8 @@ public class AnimationBuilder
         ret = new Animation();
         ret.name = animName;
         ret.loops = true;
-        if (AnimationBuilder.get(node, "loops") != null) ret.loops = Boolean.parseBoolean(AnimationBuilder.get(node,
-                "loops"));
+        if (AnimationBuilder.get(node, "loops") != null)
+            ret.loops = Boolean.parseBoolean(AnimationBuilder.get(node, "loops"));
 
         for (final Part part : node.parts)
         {
@@ -58,15 +59,15 @@ public class AnimationBuilder
             if (regex)
             {
                 final String key = part.name.substring(1).toLowerCase(Locale.ROOT).replace(" ", "_");
-                for (final String s : valid_names)
-                    if (s.matches(key)) partNames.add(s);
+                for (final String s : valid_names) if (s.matches(key)) partNames.add(s);
             }
             else
             {
                 String partName = ThutCore.trim(part.name);
                 if (renamer != null)
                 {
-                    final String[] names = { partName };
+                    final String[] names =
+                    { partName };
                     renamer.convertToIdents(names);
                     partName = names[0];
                 }
@@ -142,8 +143,7 @@ public class AnimationBuilder
     private static int length(final List<AnimationComponent> comps)
     {
         int length = 0;
-        for (final AnimationComponent comp : comps)
-            length = Math.max(length, comp.startKey + comp.length);
+        for (final AnimationComponent comp : comps) length = Math.max(length, comp.startKey + comp.length);
         return length;
     }
 
@@ -155,9 +155,8 @@ public class AnimationBuilder
         newAnim.identifier = list.get(0).identifier;
         newAnim.loops = list.get(0).loops;
         newAnim.priority = list.get(0).priority;
-        for (final Animation anim : list)
-            for (final String part : anim.sets.keySet())
-                AnimationBuilder.addTo(newAnim, anim.priority, part, anim.sets.get(part));
+        for (final Animation anim : list) for (final String part : anim.sets.keySet())
+            AnimationBuilder.addTo(newAnim, anim.priority, part, anim.sets.get(part));
         return newAnim;
     }
 
@@ -165,15 +164,17 @@ public class AnimationBuilder
     {
         final List<Animation> oldList = Lists.newArrayList(list);
         final Map<Integer, List<Animation>> splitAnims = Maps.newHashMap();
-        for (final Animation anim : oldList)
-            AnimationBuilder.splitAnimation(anim, splitAnims);
+        for (final Animation anim : oldList) AnimationBuilder.splitAnimation(anim, splitAnims);
         list.clear();
-        for (final List<Animation> split : splitAnims.values())
-            list.add(AnimationBuilder.mergeAnimations(split));
+        for (final List<Animation> split : splitAnims.values()) list.add(AnimationBuilder.mergeAnimations(split));
     }
 
     private static void splitAnimation(final Animation animIn, final Map<Integer, List<Animation>> fill)
     {
+        if (animIn == null)
+        {
+            return;
+        }
         for (final Entry<String, ArrayList<AnimationComponent>> entry : animIn.sets.entrySet())
         {
             final String key = entry.getKey();

@@ -66,6 +66,7 @@ import thut.core.common.network.EntityUpdate;
 import thut.core.common.network.GeneralUpdate;
 import thut.core.common.network.PacketHandler;
 import thut.core.common.network.PacketPartInteract;
+import thut.core.common.network.PartSync;
 import thut.core.common.network.TerrainUpdate;
 import thut.core.common.network.TileUpdate;
 import thut.core.common.terrain.CapabilityTerrainAffected;
@@ -312,6 +313,7 @@ public class ThutCore
         ThutCore.packets.registerMessage(GeneralUpdate.class, GeneralUpdate::new);
         ThutCore.packets.registerMessage(CapabilitySync.class, CapabilitySync::new);
         ThutCore.packets.registerMessage(PacketPartInteract.class, PacketPartInteract::new);
+        ThutCore.packets.registerMessage(PartSync.class, PartSync::new);
 
         GeneralUpdate.init();
         CapabilitySync.init();
