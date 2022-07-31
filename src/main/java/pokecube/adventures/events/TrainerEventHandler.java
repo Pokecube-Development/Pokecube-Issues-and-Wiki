@@ -493,25 +493,36 @@ public class TrainerEventHandler
             return;
         }
 
+        boolean filled_cube = PokecubeManager.isFilled(evt.getItemStack());
+
         if (messages != null)
         {
             MessageState state = MessageState.INTERACT;
-            final AllowedBattle test = pokemobs.canBattle(evt.getPlayer(), true);
-            switch (test)
+            
+//            if(target instanceof NpcMob npc) {
+//                npc.resetTrades();
+//            }
+            
+            
+            
+            if (filled_cube)
             {
-            case NO:
-                state = MessageState.INTERACT;
-                break;
-            case NOTNOW:
-                state = MessageState.INTERACT_NOBATTLE;
-                break;
-            case YES:
-                state = MessageState.INTERACT_YESBATTLE;
-                break;
-            default:
-                break;
+                final AllowedBattle test = pokemobs.canBattle(evt.getPlayer(), true);
+                switch (test)
+                {
+                case NO:
+                    state = MessageState.INTERACT;
+                    break;
+                case NOTNOW:
+                    state = MessageState.INTERACT_NOBATTLE;
+                    break;
+                case YES:
+                    state = MessageState.INTERACT_YESBATTLE;
+                    break;
+                default:
+                    break;
+                }
             }
-
             // Check if a trade would have been possible, if so, and it is
             // no_battle, set it to interact instead. This prevents duplicated
             // "not want to battle right now" messages

@@ -448,11 +448,11 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
             if (this.getNpcType().getProfession() != VillagerProfession.NITWIT) super.updateTrades();
             // Next try custom ones
             VillagerData villagerdata = this.getVillagerData();;
-            VillagerTrades.ItemListing[] avillagertrades$itemlisting = type.getTrades(villagerdata.getLevel());
-            if (avillagertrades$itemlisting != null)
+            VillagerTrades.ItemListing[] itemListings = type.getTrades(villagerdata.getLevel());
+            if (itemListings != null)
             {
-                MerchantOffers merchantoffers = this.offers;
-                this.addOffersFromItemListings(merchantoffers, avillagertrades$itemlisting, 2);
+                this.addOffersFromItemListings(this.offers, itemListings, 2);
+                for (var listing : itemListings) System.out.println(listing.getOffer(this, this.random));
             }
         }
         // Now add the defaults

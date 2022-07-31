@@ -248,6 +248,8 @@ public class TypeTrainer extends NpcType
 
         public ResultModifier outputModifier;
 
+        public String debug_string = "";
+
         public TrainerTrade(ItemStack input_a, ItemStack input_b, ItemStack output, int uses, int maxUses, int exp,
                 float multiplier, int demand)
         {
@@ -293,7 +295,11 @@ public class TypeTrainer extends NpcType
         {
             TrainerTrade newTrade = new TrainerTrade(this._input_a, this._input_b, outputModifier.apply(user, random),
                     this._uses, this._maxUses, this._exp, this._multiplier, this._demand);
-            if (newTrade._output.isEmpty() || (newTrade._input_a.isEmpty() && newTrade._input_b.isEmpty())) return null;
+            if (newTrade._output.isEmpty() || (newTrade._input_a.isEmpty() && newTrade._input_b.isEmpty()))
+            {
+                PokecubeCore.LOGGER.error("Warning, invalid trade! " + debug_string);
+                return null;
+            }
             return newTrade.randomise(random);
         }
     }
