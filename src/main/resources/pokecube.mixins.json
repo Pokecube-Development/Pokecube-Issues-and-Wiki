@@ -8,7 +8,13 @@
     "MixinBaseFireBlock",
     "brain.MixinLivingEntityInit",
     "brain.MixinVilagerBrainUpdate",
-    "brain.MixinMobEntity"
+    "brain.MixinMobEntity",
+    "features.LessJungleBushInStructuresMixin",
+    "features.NoBasaltColumnsInStructuresMixin",
+    "features.NoDeltasInStructuresMixin",
+    "features.NoLakesInStructuresMixin",
+    "features.NoLavaFallsInStructuresMixin",
+    "features.WorldGenRegionAccessor"
   ],
   "client": [
   ],
