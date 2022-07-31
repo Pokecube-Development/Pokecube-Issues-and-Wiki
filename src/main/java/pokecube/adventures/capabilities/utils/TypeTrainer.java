@@ -157,6 +157,7 @@ public class TypeTrainer extends NpcType
                 return true;
             };
             final Predicate<LivingEntity> noRunWhileRest = e -> {
+                if (npc instanceof LeaderNpc) return true;
                 if (e instanceof Villager)
                 {
                     final Villager villager = (Villager) e;
@@ -165,6 +166,7 @@ public class TypeTrainer extends NpcType
                 return noRunIfCrowded.test(e);
             };
             final Predicate<LivingEntity> noRunWhileMeet = e -> {
+                if (npc instanceof LeaderNpc) return true;
                 if (e instanceof Villager)
                 {
                     final Villager villager = (Villager) e;
@@ -182,6 +184,7 @@ public class TypeTrainer extends NpcType
                 return other.getOutID() != null;
             };
             final Predicate<LivingEntity> notNearHealer = e -> {
+                if (npc instanceof LeaderNpc) return true;
                 if (!PokecubeAdv.config.no_battle_near_pokecenter) return true;
                 final ServerLevel world = (ServerLevel) npc.getLevel();
                 final BlockPos blockpos = e.blockPosition();
