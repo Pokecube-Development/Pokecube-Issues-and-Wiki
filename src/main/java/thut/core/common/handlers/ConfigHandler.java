@@ -65,7 +65,7 @@ public class ConfigHandler extends ConfigData
     @Configure(category = ConfigHandler.BLOCKENTITY)
     public boolean autoBlacklistErroredTEs = true;
     @Configure(category = ConfigHandler.MISC)
-    public boolean debug = true;
+    public boolean debug = false;
     @Configure(category = ConfigHandler.MISC)
     public boolean supress_warns = false;
 

@@ -18,12 +18,14 @@ import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import pokecube.core.PokecubeCore;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration.AvoidanceSettings.AvoidanceEntry;
 import pokecube.world.gen.structures.pieces.ExpandedPoolElementStructurePiece;
 import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
 import pokecube.world.gen.structures.utils.ExpandedPostPlacementProcessor;
+import thut.core.common.ThutCore;
 
 public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJigsawConfiguration>
 {
@@ -43,7 +45,7 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         return step;
     }
 
-    private static boolean tooClose(PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration> context)
+    public static boolean tooClose(PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration> context)
     {
         ExpandedJigsawConfiguration config = context.config();
         ChunkGenerator generator = context.chunkGenerator();
@@ -55,21 +57,25 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         {
             if (avoid.distance > 0 && !avoid.name.isBlank()) if (!PokecubeSerializer.getInstance()
                     .shouldPlace(avoid.name, bpos, level.dimension(), avoid.distance * 16))
-                return false;
+            {
+                if (ThutCore.conf.debug)
+                    PokecubeCore.LOGGER.debug(config.avoidances.flags + " Conflicts with " + avoid.name);
+                return true;
+            }
         }
         return false;
     }
 
-    private static void markPlaced(PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration> context)
+    public static void markPlaced(PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration> context)
     {
         ExpandedJigsawConfiguration config = context.config();
-
         List<String> flags = config.avoidances.flags;
         if (flags.isEmpty()) return;
         ChunkGenerator generator = context.chunkGenerator();
         ChunkPos pos = context.chunkPos();
         Level level = ExpandedJigsawPacement.getForGen(generator);
         BlockPos bpos = pos.getMiddleBlockPosition(0);
+        if (ThutCore.conf.debug) PokecubeCore.LOGGER.debug(config.avoidances.flags + " " + level.dimension());
         for (String flag : flags) PokecubeSerializer.getInstance().place(flag.strip(), bpos, level.dimension());
     }
 
@@ -87,8 +93,8 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         {
             if (generator.hasFeatureChunkInRange(key, context.seed(), pos.x, pos.z, config.avoid_range))
             {
-//                PokecubeCore.LOGGER.debug("Skipping generation of {} due to conflict with {}",
-//                        context.config().startPool().value().getName(), key);
+                if (ThutCore.conf.debug) PokecubeCore.LOGGER.debug("Skipping generation of {} due to conflict with {}",
+                        context.config().startPool().value().getName(), key);
                 return false;
             }
         }
@@ -149,11 +155,6 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
 
         structurePiecesGenerator = ExpandedJigsawPacement.addPieces(context, ExpandedPoolElementStructurePiece::new,
                 blockpos, false, true);
-
-        if (structurePiecesGenerator.isPresent())
-        {
-            markPlaced(context);
-        }
 
         // Return the pieces generator that is now set up so that the game runs
         // it when it needs to create the layout of structure pieces.

@@ -457,7 +457,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         if (holder.wrapper == null || !holder.wrapper.isLoaded())
         {
             holder.init();
-            PokecubeMod.LOGGER.debug("Reloaded model for " + pokemob.getPokedexEntry());
+            if (ThutCore.conf.debug) PokecubeMod.LOGGER.debug("Reloaded model for " + pokemob.getPokedexEntry());
         }
         if (holder.wrapper != null && !holder.wrapper.isLoaded())
         {
