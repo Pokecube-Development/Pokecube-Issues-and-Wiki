@@ -31,12 +31,20 @@
     {
       "structure": "pokecube_legends:giant_red_mushroom",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:giant_tree_stump",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:old_temporal_tree",
+      "weight": 1
     }
   ],
   "placement": {
     "type": "minecraft:random_spread",
     "salt": 321546981,
-    "separation": 5,
+    "separation": 3,
     "spacing": 5
   }
 }
