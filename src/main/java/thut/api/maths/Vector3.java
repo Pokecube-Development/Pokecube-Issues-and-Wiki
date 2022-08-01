@@ -559,7 +559,7 @@ public class Vector3
         for (final Entity entity1 : mobs) if ((parts = entity1.getParts()) != null && parts.length > 0) partcheck:
         for (final PartEntity<?> part : parts)
         {
-            final AABB axisalignedbb = part.getBoundingBox().inflate(0.3F);
+            final AABB axisalignedbb = part.getBoundingBox().inflate(0.01F);
             final Optional<Vec3> optional = axisalignedbb.clip(vec3, vec32);
             if (optional.isPresent())
             {
@@ -574,7 +574,7 @@ public class Vector3
         }
         else
         {
-            final AABB axisalignedbb = entity1.getBoundingBox().inflate(0.3F);
+            final AABB axisalignedbb = entity1.getBoundingBox().inflate(0.01F);
             final Optional<Vec3> optional = axisalignedbb.clip(vec3, vec32);
             if (optional.isPresent())
             {

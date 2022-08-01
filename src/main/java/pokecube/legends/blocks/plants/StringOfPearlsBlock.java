@@ -86,6 +86,7 @@ public class StringOfPearlsBlock extends VineBlock implements BonemealableBlock,
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos, final Random random)
     {

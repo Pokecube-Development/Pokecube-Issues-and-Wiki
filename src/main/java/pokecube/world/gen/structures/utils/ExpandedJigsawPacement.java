@@ -213,7 +213,6 @@ public class ExpandedJigsawPacement
                         PostProcessor.POSTPROCESS.accept(config_context, list);
                         list.forEach(builder::addPiece);
                     }
-
                 });
             }
         }

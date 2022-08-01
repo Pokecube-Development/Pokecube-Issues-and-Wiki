@@ -10,7 +10,8 @@ import net.minecraft.client.ParticleStatus;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
 import net.minecraftforge.event.world.WorldEvent.Unload;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.maths.Vector3;
@@ -19,7 +20,7 @@ public class ParticleHandler
 {
     private static class ParticlePacket
     {
-        final Vector3   location;
+        final Vector3 location;
         final IParticle particle;
 
         public ParticlePacket(final Vector3 v, final IParticle p)
@@ -38,8 +39,8 @@ public class ParticleHandler
 
     public static void addParticle(final Vector3 location, final IParticle particle)
     {
-        if (particle == null || location == null || Minecraft
-                .getInstance().options.particles == ParticleStatus.MINIMAL) return;
+        if (particle == null || location == null || Minecraft.getInstance().options.particles == ParticleStatus.MINIMAL)
+            return;
         synchronized (ParticleHandler.particles)
         {
             ParticleHandler.particles.add(new ParticlePacket(location.copy(), particle));
@@ -53,8 +54,9 @@ public class ParticleHandler
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public static void onRenderWorldPost(final RenderLevelLastEvent event)
+    public static void onRenderWorldPost(final RenderLevelStageEvent event)
     {
+        if (event.getStage() != Stage.AFTER_PARTICLES) return;
         try
         {
             synchronized (ParticleHandler.particles)
@@ -74,8 +76,7 @@ public class ParticleHandler
                         continue;
                     }
                     final Player player = Minecraft.getInstance().player;
-                    final Vector3 source = new Vector3().set(player.xOld, player.yOld,
-                            player.zOld);
+                    final Vector3 source = new Vector3().set(player.xOld, player.yOld, player.zOld);
                     mat.pushPose();
                     source.set(target.subtract(source));
                     mat.translate(source.x, source.y, source.z);
@@ -98,8 +99,7 @@ public class ParticleHandler
                     }
                 }
                 mat.popPose();
-                for (int i = 0; i < list.size(); i++)
-                    ParticleHandler.particles.remove(list.get(i));
+                for (int i = 0; i < list.size(); i++) ParticleHandler.particles.remove(list.get(i));
             }
         }
         catch (final Throwable e)

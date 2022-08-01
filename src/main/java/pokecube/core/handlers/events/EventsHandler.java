@@ -120,6 +120,9 @@ import thut.api.entity.ShearableCaps;
 import thut.api.inventory.InvHelper.ItemCap;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
+import thut.api.terrain.BiomeType;
+import thut.api.terrain.TerrainManager;
+import thut.api.terrain.TerrainSegment;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
 import thut.core.common.commands.CommandConfigs;
@@ -458,8 +461,9 @@ public class EventsHandler
 
     private static void onItemRightClick(final PlayerInteractEvent.RightClickItem evt)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayer)) return;
-        final ServerPlayer player = (ServerPlayer) evt.getPlayer();
+        if (!(evt.getPlayer() instanceof ServerPlayer player)
+                || !(evt.getPlayer().getLevel() instanceof ServerLevel level))
+            return;
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
         if (time == Tracker.instance().getTick())
@@ -469,25 +473,19 @@ public class EventsHandler
         }
 
         boolean isSpawnPresetDebug = evt.getItemStack().getDisplayName().getString().contains("spawn_preset_debug");
+        boolean isSubbiomeDebug = evt.getItemStack().getDisplayName().getString().contains("subbiome_debug");
 
+        Vector3 v = new Vector3().set(player);
         if (isSpawnPresetDebug)
         {
-            Vector3 v = new Vector3().set(player);
-            Level level = player.level;
             SpawnCheck check = new SpawnCheck(v, level);
-
             List<String> valid = Lists.newArrayList();
 
             for (Entry<String, SpawnRule> entry : SpawnBiomeMatcher.PRESETS.entrySet())
             {
                 SpawnBiomeMatcher m = SpawnBiomeMatcher.get(entry.getValue());
                 m.reset();
-                if (m.matches(check))
-                {
-                    valid.add(entry.getKey());
-//                    System.out.println("-------------------\n" + entry.getKey() + "\n" + m.debugPrint(0));
-//                    System.out.println(m.debugPrint(0));
-                }
+                if (m.matches(check)) valid.add(entry.getKey());
             }
             if (!valid.isEmpty())
             {
@@ -495,6 +493,12 @@ public class EventsHandler
                 for (String s : valid) player.sendMessage(new TextComponent(s), player.getUUID());
             }
             else player.sendMessage(new TextComponent("No matching presets for this location"), player.getUUID());
+        }
+        if (isSubbiomeDebug)
+        {
+            TerrainSegment seg = TerrainManager.getInstance().getTerrainForEntity(player);
+            BiomeType type = seg.getBiome(v);
+            player.sendMessage(new TextComponent("SubBiome Type: " + type.name), player.getUUID());
         }
     }
 
@@ -707,7 +711,7 @@ public class EventsHandler
         PokecubeCore.LOGGER.info("Server Starting");
         PokecubeItems.init(event.getServer());
         EventsHandler.RUNNING = true;
-        
+
     }
 
     private static void onServerStopped(final ServerStoppedEvent event)

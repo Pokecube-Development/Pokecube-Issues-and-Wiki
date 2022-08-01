@@ -90,7 +90,7 @@ public class MakeNest extends BaseIdleTask
 
         final Brain<?> brain = this.entity.getBrain();
         // partially Reset this if we failed
-        brain.setMemory(AntTasks.NO_HIVE_TIMER, 200);
+        brain.setMemory(AntTasks.NO_HIVE_TIMER, 0);
 
     }
 

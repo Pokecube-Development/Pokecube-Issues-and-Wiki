@@ -49,5 +49,7 @@ public class PokecubeWorld
         FeaturesInit.init(bus);
         PokecubeCarvers.init(bus);
         PokecubeStructures.init(bus);
+        
+        WorldgenTags.initTags();
     }
 }
