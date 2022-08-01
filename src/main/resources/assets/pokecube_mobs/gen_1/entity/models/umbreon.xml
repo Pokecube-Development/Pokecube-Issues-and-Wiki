@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" scale="0.35"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-70,70" headCap1="-60,60" headDir="-1"/>
+  <phase name="global" scale="0.32"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
   <customTex default="umbreon">
-   <part name="Head" tex="umbreonhead"/>
+   <part name="Head" tex="umbreoneye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <part name="Mouth" tex="umbreonmouth"/>
+   <animation diffs="0,0.5" part="Mouth" trigger="random:0.005:1"/>
   </customTex>
+  <material name="Glow" light="1" transluscent="false" shader="eye_shader"/>
   <phase type="sitting">
    <part name="body">
     <component length="1" name="1" posOffset="0,20,0" rotOffset="-40,0,0" startKey="0"/>
