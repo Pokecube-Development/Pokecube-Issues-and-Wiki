@@ -1,13 +1,13 @@
 {
   "type": "pokecube:generic_surface_jigsaw",
   "config": {
-    "start_pool": "pokecube_legends:ultraspace/giant_brown_mushroom",
+    "start_pool": "pokecube_legends:ultraspace/giant_white_mushroom",
     "spawn_blacklist": "beaches,oceans,rivers",
     "spawn_preset": "all",
     "avoid_range": 6,
     "size": 1
   },
-  "biomes": "#pokecube_world:has_structure/giant_brown_mushroom",
+  "biomes": "#pokecube_world:has_structure/giant_white_mushroom",
   "adapt_noise": true,
   "spawn_overrides": {}
 }

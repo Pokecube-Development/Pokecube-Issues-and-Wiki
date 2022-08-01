@@ -37,6 +37,14 @@
       "weight": 1
     },
     {
+      "structure": "pokecube_legends:giant_white_mushroom",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:mirage_pyramid",
+      "weight": 1
+    },
+    {
       "structure": "pokecube_legends:old_temporal_tree",
       "weight": 1
     }
@@ -44,7 +52,7 @@
   "placement": {
     "type": "minecraft:random_spread",
     "salt": 321546981,
-    "separation": 3,
-    "spacing": 5
+    "separation": 5,
+    "spacing": 6
   }
 }
