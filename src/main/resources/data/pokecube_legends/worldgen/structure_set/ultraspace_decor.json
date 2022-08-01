@@ -2,55 +2,55 @@
   "structures": [
     {
       "structure": "pokecube_legends:aquamarine_statue",
-      "weight": 1
+      "weight": 4
     },
     {
       "structure": "pokecube_legends:berry_palm_tree",
-      "weight": 1
+      "weight": 5
     },
     {
       "structure": "pokecube_legends:dark_tendril",
-      "weight": 1
+      "weight": 5
     },
     {
       "structure": "pokecube_legends:giant_aquamarine_statue",
-      "weight": 1
+      "weight": 3
     },
     {
       "structure": "pokecube_legends:giant_brown_mushroom",
-      "weight": 1
+      "weight": 5
     },
     {
       "structure": "pokecube_legends:giant_chimney",
-      "weight": 1
+      "weight": 3
     },
     {
       "structure": "pokecube_legends:giant_crystal_flower",
-      "weight": 1
+      "weight": 3
     },
     {
       "structure": "pokecube_legends:giant_red_mushroom",
-      "weight": 1
+      "weight": 5
     },
     {
       "structure": "pokecube_legends:giant_tree_stump",
-      "weight": 1
+      "weight": 5
     },
     {
       "structure": "pokecube_legends:giant_white_mushroom",
-      "weight": 1
+      "weight": 3
     },
     {
       "structure": "pokecube_legends:mirage_pyramid",
-      "weight": 1
+      "weight": 2
     },
     {
       "structure": "pokecube_legends:old_temporal_tree",
-      "weight": 1
+      "weight": 4
     },
     {
       "structure": "pokecube_legends:old_enigma_tree",
-      "weight": 1
+      "weight": 4
     },
     {
       "structure": "pokecube_legends:qualot_tree_island",
@@ -58,15 +58,15 @@
     },
     {
       "structure": "pokecube_legends:red_plane",
-      "weight": 1
+      "weight": 3
     },
     {
       "structure": "pokecube_legends:short_mirage_hut",
-      "weight": 1
+      "weight": 3
     },
     {
       "structure": "pokecube_legends:tall_mirage_hut",
-      "weight": 1
+      "weight": 3
     }
   ],
   "placement": {
