@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:unown_temple_overworld",
+    "pokecube_legends:unown_temple_ultraspace",
+    "pokecube_legends:unown_temple_distortic",
     "pokecube_legends:groudon_temple"
   ]
 }
