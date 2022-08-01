@@ -54,6 +54,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.core.PokecubeCore;
+import pokecube.world.gen.structures.GenericJigsawStructure;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import thut.core.common.ThutCore;
@@ -212,6 +213,8 @@ public class ExpandedJigsawPacement
                         PokecubeCore.LOGGER.debug("Finshed: {}", root_pool.getName());
                         PostProcessor.POSTPROCESS.accept(config_context, list);
                         list.forEach(builder::addPiece);
+
+                        GenericJigsawStructure.markPlaced(context);
                     }
                 });
             }
