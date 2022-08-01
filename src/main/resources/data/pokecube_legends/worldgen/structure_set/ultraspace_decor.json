@@ -47,6 +47,14 @@
     {
       "structure": "pokecube_legends:old_temporal_tree",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:old_enigma_tree",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:qualot_tree_island",
+      "weight": 1
     }
   ],
   "placement": {
