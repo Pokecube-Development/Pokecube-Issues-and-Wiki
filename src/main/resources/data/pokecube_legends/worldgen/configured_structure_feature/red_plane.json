@@ -1,0 +1,11 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:ultraspace/red_plane",
+    "spawn_preset": "all",
+    "size": 1
+  },
+  "biomes": "#pokecube_world:has_structure/red_plane",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

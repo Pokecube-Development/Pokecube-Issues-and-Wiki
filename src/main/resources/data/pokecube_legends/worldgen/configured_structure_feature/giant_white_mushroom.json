@@ -4,6 +4,14 @@
     "start_pool": "pokecube_legends:ultraspace/giant_white_mushroom",
     "spawn_blacklist": "beaches,oceans,rivers",
     "spawn_preset": "all",
+    "structures_to_avoid": [
+      "minecraft:pillager_outposts",
+      "minecraft:villages",
+      "pokecube:towns",
+      "pokecube:villages",
+      "pokecube_legends:towns",
+      "pokecube_legends:villages"
+    ],
     "avoid_range": 6,
     "size": 1
   },

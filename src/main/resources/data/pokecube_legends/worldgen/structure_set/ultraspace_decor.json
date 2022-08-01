@@ -55,6 +55,10 @@
     {
       "structure": "pokecube_legends:qualot_tree_island",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:red_plane",
+      "weight": 1
     }
   ],
   "placement": {
