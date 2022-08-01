@@ -56,6 +56,7 @@ import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
 import pokecube.legends.blocks.properties.Compostables;
 import pokecube.legends.blocks.properties.Flammables;
+import pokecube.legends.blocks.properties.Strippables;
 import pokecube.legends.blocks.properties.Tillables;
 import pokecube.legends.entity.WormholeEntity;
 import pokecube.legends.handlers.EventsHandler;
@@ -485,8 +486,9 @@ public class PokecubeLegends
     private void loadComplete(final FMLLoadCompleteEvent event)
     {
         event.enqueueWork(() -> {
-            Compostables.compostables();
-            Flammables.flammables();
+            Compostables.registerDefaults();
+            Flammables.registerDefaults();
+            Strippables.registerDefaults();
             Tillables.registerDefaults();
             initBiomeDicts();
         });

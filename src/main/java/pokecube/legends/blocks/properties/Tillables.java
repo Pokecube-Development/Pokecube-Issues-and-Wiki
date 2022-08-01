@@ -4,6 +4,9 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraftforge.eventbus.api.Event;
 import org.jetbrains.annotations.NotNull;
 
 import com.google.common.collect.Maps;
@@ -25,26 +28,23 @@ public class Tillables
 
     public static void registerDefaults()
     {
-        Tillables.addHoeables(BlockInit.AGED_COARSE_DIRT.get(), Pair.of(HoeItem::onlyIfAirAbove,
+        Tillables.addTillables(BlockInit.AGED_COARSE_DIRT.get(), Pair.of(a -> true,
                 HoeItem.changeIntoState(BlockInit.AGED_DIRT.get().defaultBlockState())));
-        Tillables.addHoeables(BlockInit.AZURE_COARSE_DIRT.get(), Pair.of(HoeItem::onlyIfAirAbove,
+        Tillables.addTillables(BlockInit.AZURE_COARSE_DIRT.get(), Pair.of(a -> true,
                 HoeItem.changeIntoState(BlockInit.AZURE_DIRT.get().defaultBlockState())));
-        Tillables.addHoeables(BlockInit.CORRUPTED_COARSE_DIRT.get(), Pair.of(HoeItem::onlyIfAirAbove,
+        Tillables.addTillables(BlockInit.CORRUPTED_COARSE_DIRT.get(), Pair.of(a -> true,
                 HoeItem.changeIntoState(BlockInit.CORRUPTED_DIRT.get().defaultBlockState())));
-        Tillables.addHoeables(BlockInit.JUNGLE_COARSE_DIRT.get(), Pair.of(HoeItem::onlyIfAirAbove,
+        Tillables.addTillables(BlockInit.JUNGLE_COARSE_DIRT.get(), Pair.of(a -> true,
                 HoeItem.changeIntoState(BlockInit.JUNGLE_DIRT.get().defaultBlockState())));
-        Tillables.addHoeables(BlockInit.MUSHROOM_COARSE_DIRT.get(), Pair.of(HoeItem::onlyIfAirAbove,
+        Tillables.addTillables(BlockInit.MUSHROOM_COARSE_DIRT.get(), Pair.of(a -> true,
                 HoeItem.changeIntoState(BlockInit.MUSHROOM_DIRT.get().defaultBlockState())));
-        Tillables.addHoeables(BlockInit.ROOTED_CORRUPTED_DIRT.get(), Pair.of((item) -> {
-            return true;
-        }, HoeItem.changeIntoStateAndDropItem(BlockInit.CORRUPTED_DIRT.get().defaultBlockState(),
-                Items.HANGING_ROOTS)));
-        Tillables.addHoeables(BlockInit.ROOTED_MUSHROOM_DIRT.get(), Pair.of((item) -> {
-            return true;
-        }, HoeItem.changeIntoStateAndDropItem(BlockInit.MUSHROOM_DIRT.get().defaultBlockState(), Items.HANGING_ROOTS)));
+        Tillables.addTillables(BlockInit.ROOTED_CORRUPTED_DIRT.get(), Pair.of((item) -> { return true; },
+                HoeItem.changeIntoStateAndDropItem(BlockInit.CORRUPTED_DIRT.get().defaultBlockState(), Items.HANGING_ROOTS)));
+        Tillables.addTillables(BlockInit.ROOTED_MUSHROOM_DIRT.get(), Pair.of((item) -> { return true; },
+                HoeItem.changeIntoStateAndDropItem(BlockInit.MUSHROOM_DIRT.get().defaultBlockState(), Items.HANGING_ROOTS)));
     }
 
-    public static void addHoeables(@NotNull Block block, Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> of)
+    public static void addTillables(@NotNull Block block, Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> of)
     {
         synchronized (TILLABLES)
         {
@@ -62,6 +62,9 @@ public class Tillables
             if (pair != null && pair.getFirst().test(event.getContext()))
             {
                 pair.getSecond().accept(event.getContext());
+                event.getWorld().playSound(event.getPlayer(), event.getPos(), SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+                event.setResult(Event.Result.ALLOW);
+                event.getPlayer().swing(event.getContext().getHand());
             }
         }
     }

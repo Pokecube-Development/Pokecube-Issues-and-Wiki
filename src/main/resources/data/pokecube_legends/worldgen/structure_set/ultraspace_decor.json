@@ -2,41 +2,77 @@
   "structures": [
     {
       "structure": "pokecube_legends:aquamarine_statue",
-      "weight": 1
+      "weight": 4
     },
     {
       "structure": "pokecube_legends:berry_palm_tree",
-      "weight": 1
+      "weight": 5
     },
     {
       "structure": "pokecube_legends:dark_tendril",
-      "weight": 1
+      "weight": 5
     },
     {
       "structure": "pokecube_legends:giant_aquamarine_statue",
-      "weight": 1
+      "weight": 3
     },
     {
       "structure": "pokecube_legends:giant_brown_mushroom",
-      "weight": 1
+      "weight": 5
     },
     {
       "structure": "pokecube_legends:giant_chimney",
-      "weight": 1
+      "weight": 3
     },
     {
       "structure": "pokecube_legends:giant_crystal_flower",
-      "weight": 1
+      "weight": 3
     },
     {
       "structure": "pokecube_legends:giant_red_mushroom",
+      "weight": 5
+    },
+    {
+      "structure": "pokecube_legends:giant_tree_stump",
+      "weight": 5
+    },
+    {
+      "structure": "pokecube_legends:giant_white_mushroom",
+      "weight": 3
+    },
+    {
+      "structure": "pokecube_legends:mirage_pyramid",
+      "weight": 2
+    },
+    {
+      "structure": "pokecube_legends:old_temporal_tree",
+      "weight": 4
+    },
+    {
+      "structure": "pokecube_legends:old_enigma_tree",
+      "weight": 4
+    },
+    {
+      "structure": "pokecube_legends:qualot_tree_island",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:red_plane",
+      "weight": 3
+    },
+    {
+      "structure": "pokecube_legends:short_mirage_hut",
+      "weight": 3
+    },
+    {
+      "structure": "pokecube_legends:tall_mirage_hut",
+      "weight": 3
     }
   ],
   "placement": {
     "type": "minecraft:random_spread",
     "salt": 321546981,
     "separation": 5,
-    "spacing": 10
+    "spacing": 6
   }
 }

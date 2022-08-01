@@ -232,7 +232,7 @@ public class PokecubeItems extends ItemList
         // Blocks
         FOSSIL_ORE = PokecubeItems.BLOCKS.register("fossil_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE)
-                        .strength(3.0f, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops(),
+                        .strength(3.0f, 3.0f).sound(SoundType.BONE_BLOCK).requiresCorrectToolForDrops(),
                         UniformInt.of(0, 3)));
         DEEPSLATE_FOSSIL_ORE = PokecubeItems.BLOCKS.register("deepslate_fossil_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE)

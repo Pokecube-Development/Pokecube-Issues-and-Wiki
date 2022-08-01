@@ -14,7 +14,7 @@ public class Compostables
         ComposterBlock.COMPOSTABLES.put(item.get().asItem(), chance);
     }
 
-    public static void compostables()
+    public static void registerDefaults()
     {
         compostableBlocks(0.3f, BlockInit.AGED_LEAVES);
         compostableBlocks(0.3f, BlockInit.AGED_SAPLING);
