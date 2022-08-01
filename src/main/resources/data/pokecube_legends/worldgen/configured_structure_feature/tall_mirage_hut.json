@@ -1,0 +1,20 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:ultraspace/tall_mirage_hut",
+    "spawn_preset": "all",
+    "structures_to_avoid": [
+      "minecraft:pillager_outposts",
+      "minecraft:villages",
+      "pokecube:towns",
+      "pokecube:villages",
+      "pokecube_legends:towns",
+      "pokecube_legends:villages"
+    ],
+    "avoid_range": 6,
+    "size": 1
+  },
+  "biomes": "#pokecube_world:has_structure/tall_mirage_hut",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

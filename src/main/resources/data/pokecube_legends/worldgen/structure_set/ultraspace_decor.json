@@ -59,6 +59,14 @@
     {
       "structure": "pokecube_legends:red_plane",
       "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:short_mirage_hut",
+      "weight": 1
+    },
+    {
+      "structure": "pokecube_legends:tall_mirage_hut",
+      "weight": 1
     }
   ],
   "placement": {
