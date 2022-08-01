@@ -5,12 +5,12 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
@@ -24,16 +24,16 @@ import pokecube.core.database.PokedexEntry.EvolutionData;
 
 public class Category implements IRecipeCategory<Evolution>
 {
-    public static final ResourceLocation GUI  = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/evorecipe.png");
+    public static final ResourceLocation GUI = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/evorecipe.png");
     public static final ResourceLocation TABS = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/jeitabs.png");
     public static final ResourceLocation GUID = new ResourceLocation(PokecubeAdv.MODID, "pokemob_evolution");
 
-    public static final int width  = 116;
+    public static final int width = 116;
     public static final int height = 54;
 
     private final IDrawable background;
     private final IDrawable icon;
-    private final String    localizedName;
+    private final String localizedName;
 
     public Category(final IGuiHelper guiHelper)
     {
@@ -85,29 +85,21 @@ public class Category implements IRecipeCategory<Evolution>
     }
 
     @Override
-    public void setIngredients(final Evolution evolution, final IIngredients ingredients)
+    public void setRecipe(IRecipeLayoutBuilder builder, Evolution recipe, IFocusGroup focuses)
     {
-        ingredients.setInput(Pokemob.TYPE, evolution.from);
-        ItemStack needed = evolution.data.item;
-        if (needed.isEmpty() && evolution.data.preset != null) needed = PokecubeItems.getStack(evolution.data.preset);
-        if (!needed.isEmpty()) ingredients.setInput(VanillaTypes.ITEM, needed);
-        ingredients.setOutput(Pokemob.TYPE, evolution.to);
-    }
+        IRecipeSlotBuilder outputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 84, 18);
+        outputSlot.addIngredient(Pokemob.TYPE, recipe.to);
 
-    @Override
-    public void setRecipe(final IRecipeLayout recipeLayout, final Evolution evolution, final IIngredients ingredients)
-    {
-        final int out = 24;
-        final IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
-        recipeLayout.getIngredientsGroup(Pokemob.TYPE).init(0, false, Pokemob.RENDER, 81, 15, out, out, 4, 4);
-        int x = 50;
-        int y = 0;
-        guiItemStacks.init(0, true, x, y);
-        x = 14;
-        y = 15;
-        recipeLayout.getIngredientsGroup(Pokemob.TYPE).init(1, true, Pokemob.RENDER, x, y, out, out, 4, 4);
-        guiItemStacks.set(ingredients);
-        recipeLayout.getIngredientsGroup(Pokemob.TYPE).set(ingredients);
+        IRecipeSlotBuilder inputMob = builder.addSlot(RecipeIngredientRole.INPUT, 18, 18);
+        inputMob.addIngredient(Pokemob.TYPE, recipe.from);
+
+        ItemStack needed = recipe.data.item;
+        if (needed.isEmpty() && recipe.data.preset != null) needed = PokecubeItems.getStack(recipe.data.preset);
+        if (!needed.isEmpty())
+        {
+            IRecipeSlotBuilder inputStack = builder.addSlot(RecipeIngredientRole.INPUT, 51, 1);
+            inputStack.addItemStack(needed);
+        }
     }
 
 }

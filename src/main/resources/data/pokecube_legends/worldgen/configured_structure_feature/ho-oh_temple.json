@@ -13,7 +13,11 @@
       "pokecube_legends:villages"
     ],
     "avoid_range": 6,
-    "size": 2
+    "size": 2,
+    "avoidances":{
+      "flags": ["temple", "ho-oh_temple"],
+      "avoidances": [{"name":"temple","distance":8}, {"name":"ho-oh_temple","distance":80}]
+    }
   },
   "biomes": "#pokecube_world:has_structure/ho-oh_temple",
   "adapt_noise": true,

@@ -1,0 +1,17 @@
+{
+  "name": "pokecube_legends:ultraspace/red_plane",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:ultraspace/red_plane",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic",
+        "projection": "terrain_matching",
+        "int_config":{"space_below":0},
+        "bool_config": {"no_affect_noise":true,"water_terrain_match": true}
+      }
+    }
+  ]
+}

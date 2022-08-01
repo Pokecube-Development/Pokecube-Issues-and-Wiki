@@ -1,0 +1,15 @@
+{
+  "name": "pokecube_legends:ultraspace/giant_tree_stump",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:ultraspace/giant_tree_stump",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      }
+    }
+  ]
+}

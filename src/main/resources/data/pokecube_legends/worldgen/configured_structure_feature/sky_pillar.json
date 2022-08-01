@@ -14,7 +14,11 @@
     "y_settings":{"max_dy": 5, "y_check_radius": 2},
     "avoid_range": 6,
     "biome_room": 5,
-    "size": 4
+    "size": 4,
+    "avoidances":{
+      "flags": ["temple", "sky_pillar"],
+      "avoidances": [{"name":"temple","distance":8}, {"name":"sky_pillar","distance":80}]
+    }
   },
   "biomes": "#pokecube_world:has_structure/sky_pillar",
   "adapt_noise": true,

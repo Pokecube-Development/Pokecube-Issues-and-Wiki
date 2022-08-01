@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "pokecube_legends:ruined_city",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 123789654,
+    "separation": 12,
+    "spacing": 24
+  }
+}

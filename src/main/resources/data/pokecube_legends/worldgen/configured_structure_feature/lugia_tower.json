@@ -14,7 +14,11 @@
     "y_settings":{"min_y": 63},
     "avoid_range": 6,
     "biome_room": 5,
-    "size": 2
+    "size": 2,
+    "avoidances":{
+      "flags": ["temple", "lugia_tower"],
+      "avoidances": [{"name":"temple","distance":8}, {"name":"lugia_tower","distance":80}]
+    }
   },
   "biomes": "#pokecube_world:has_structure/lugia_tower",
   "adapt_noise": true,

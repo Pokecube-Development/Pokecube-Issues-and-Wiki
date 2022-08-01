@@ -157,6 +157,7 @@ public class TypeTrainer extends NpcType
                 return true;
             };
             final Predicate<LivingEntity> noRunWhileRest = e -> {
+                if (npc instanceof LeaderNpc) return true;
                 if (e instanceof Villager)
                 {
                     final Villager villager = (Villager) e;
@@ -165,6 +166,7 @@ public class TypeTrainer extends NpcType
                 return noRunIfCrowded.test(e);
             };
             final Predicate<LivingEntity> noRunWhileMeet = e -> {
+                if (npc instanceof LeaderNpc) return true;
                 if (e instanceof Villager)
                 {
                     final Villager villager = (Villager) e;
@@ -182,6 +184,7 @@ public class TypeTrainer extends NpcType
                 return other.getOutID() != null;
             };
             final Predicate<LivingEntity> notNearHealer = e -> {
+                if (npc instanceof LeaderNpc) return true;
                 if (!PokecubeAdv.config.no_battle_near_pokecenter) return true;
                 final ServerLevel world = (ServerLevel) npc.getLevel();
                 final BlockPos blockpos = e.blockPosition();
@@ -248,6 +251,8 @@ public class TypeTrainer extends NpcType
 
         public ResultModifier outputModifier;
 
+        public String debug_string = "";
+
         public TrainerTrade(ItemStack input_a, ItemStack input_b, ItemStack output, int uses, int maxUses, int exp,
                 float multiplier, int demand)
         {
@@ -293,7 +298,11 @@ public class TypeTrainer extends NpcType
         {
             TrainerTrade newTrade = new TrainerTrade(this._input_a, this._input_b, outputModifier.apply(user, random),
                     this._uses, this._maxUses, this._exp, this._multiplier, this._demand);
-            if (newTrade._output.isEmpty() || (newTrade._input_a.isEmpty() && newTrade._input_b.isEmpty())) return null;
+            if (newTrade._output.isEmpty() || (newTrade._input_a.isEmpty() && newTrade._input_b.isEmpty()))
+            {
+                PokecubeCore.LOGGER.error("Warning, invalid trade! " + debug_string);
+                return null;
+            }
             return newTrade.randomise(random);
         }
     }

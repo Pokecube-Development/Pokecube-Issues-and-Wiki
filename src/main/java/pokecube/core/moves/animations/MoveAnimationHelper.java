@@ -16,7 +16,8 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.world.ChunkEvent;
@@ -39,11 +40,10 @@ public class MoveAnimationHelper
 
     static Map<String, Class<? extends MoveAnimationBase>> presets = Maps.newHashMap();
 
-    private static final BiFunction<ModFile, String, Boolean> validClass = (file, name) ->
-    {
-        for (final AnnotationData a : file.getScanResult().getAnnotations())
-            if (name.equals(a.clazz().getClassName()) && a.annotationType().equals(
-                    MoveAnimationHelper.PRESETANNOTATION)) return true;
+    private static final BiFunction<ModFile, String, Boolean> validClass = (file, name) -> {
+        for (final AnnotationData a : file.getScanResult().getAnnotations()) if (name.equals(a.clazz().getClassName())
+                && a.annotationType().equals(MoveAnimationHelper.PRESETANNOTATION))
+            return true;
         return false;
     };
 
@@ -105,7 +105,7 @@ public class MoveAnimationHelper
 
     final Vector3 source = new Vector3();
     final Vector3 target = new Vector3();
-    final int     index;
+    final int index;
 
     private int effects = 0;
 
@@ -115,12 +115,11 @@ public class MoveAnimationHelper
     {
         final TerrainSegment dummy = new TerrainSegment(0, 0, 0);
         int found = -1;
-        for (int i = 0; i < dummy.effectArr.length; i++)
-            if (dummy.effectArr[i] instanceof PokemobTerrainEffects)
-            {
-                found = i;
-                break;
-            }
+        for (int i = 0; i < dummy.effectArr.length; i++) if (dummy.effectArr[i] instanceof PokemobTerrainEffects)
+        {
+            found = i;
+            break;
+        }
         this.index = found;
     }
 
@@ -164,9 +163,9 @@ public class MoveAnimationHelper
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void onRenderWorldPost(final RenderLevelLastEvent event)
+    public void onRenderWorldPost(final RenderLevelStageEvent event)
     {
-        if (this.effects == 0) return;
+        if (this.effects == 0 || event.getStage() != Stage.AFTER_SOLID_BLOCKS) return;
         int num = 0;
         try
         {
@@ -187,21 +186,20 @@ public class MoveAnimationHelper
             final int z = player.getBlockZ() >> 4;
 
             for (int i = -range; i <= range; i++)
-                for (int j = -range; j <= range; j++)
-                    for (int k = -range; k <= range; k++)
-                    {
-                        pos.set(x + i, y + j, z + k);
-                        final TerrainSegment segment = this.terrainMap.get(pos.immutable());
-                        if (segment == null) continue;
-                        final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.effectArr[this.index];
-                        if (teffect == null || !teffect.hasEffects()) continue;
-                        this.target.set(segment.getCentre());
-                        this.target.add(-8, -8, -8);
-                        mat.pushPose();
-                        teffect.renderTerrainEffects(event, this.target);
-                        mat.popPose();
-                        num++;
-                    }
+                for (int j = -range; j <= range; j++) for (int k = -range; k <= range; k++)
+            {
+                pos.set(x + i, y + j, z + k);
+                final TerrainSegment segment = this.terrainMap.get(pos.immutable());
+                if (segment == null) continue;
+                final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.effectArr[this.index];
+                if (teffect == null || !teffect.hasEffects()) continue;
+                this.target.set(segment.getCentre());
+                this.target.add(-8, -8, -8);
+                mat.pushPose();
+                teffect.renderTerrainEffects(event, this.target);
+                mat.popPose();
+                num++;
+            }
             mat.popPose();
         }
         catch (final Throwable e)

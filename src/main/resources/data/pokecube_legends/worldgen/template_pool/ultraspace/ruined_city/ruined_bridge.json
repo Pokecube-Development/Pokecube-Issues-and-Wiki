@@ -1,0 +1,17 @@
+{
+  "name": "pokecube_legends:ultraspace/ruined_city/ruined_bridges",
+  "fallback": "pokecube_legends:ultraspace/ruined_city/bridge_terminator",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:ultraspace/ruined_city/ruined_bridge",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube_legends:bridge_ruined",
+        "projection": "terrain_matching",
+        "int_config":{"space_below":0},
+        "bool_config": {"no_affect_noise":true,"water_terrain_match": true}
+      }
+    }
+  ]
+}

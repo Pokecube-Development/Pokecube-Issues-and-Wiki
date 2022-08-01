@@ -13,7 +13,11 @@
       "pokecube_legends:villages"
     ],
     "avoid_range": 6,
-    "size": 2
+    "size": 2,
+    "avoidances":{
+      "flags": ["temple", "kubfu_dark"],
+      "avoidances": [{"name":"temple","distance":8}, {"name":"kubfu_dark","distance":80}]
+    }
   },
   "biomes": "#pokecube_world:has_structure/kubfu_dark",
   "adapt_noise": true,

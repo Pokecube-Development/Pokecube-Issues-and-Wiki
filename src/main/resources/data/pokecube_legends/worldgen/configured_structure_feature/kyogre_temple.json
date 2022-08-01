@@ -16,7 +16,11 @@
     "y_settings":{"max_y": 42, "vertical_offset": 5},
     "biome_room": 10,
     "avoid_range": 6,
-    "size": 2
+    "size": 2,
+    "avoidances":{
+      "flags": ["temple", "kyogre_temple"],
+      "avoidances": [{"name":"temple","distance":8}, {"name":"kyogre_temple","distance":80}]
+    }
   },
   "biomes": "#pokecube_world:has_structure/kyogre_temple",
   "adapt_noise": true,

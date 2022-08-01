@@ -5,37 +5,36 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.Ingredient;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.recipes.MoveRecipes.MoveRecipe;
 
 public class Category implements IRecipeCategory<MoveRecipe>
 {
-    public static final ResourceLocation GUI  = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/cloner.png");
+    public static final ResourceLocation GUI = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/move_recipe.png");
     public static final ResourceLocation TABS = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/jeitabs.png");
     public static final ResourceLocation GUID = new ResourceLocation(PokecubeAdv.MODID, "pokemob_move");
 
-    private static final int craftOutputSlot = 0;
-    private static final int craftInputSlot1 = 1;
-
-    public static final int width  = 116;
+    public static final int width = 116;
     public static final int height = 54;
 
     private final IDrawable background;
     private final IDrawable icon;
-    private final String    localizedName;
-    final IGuiHelper        guiHelper;
+    private final String localizedName;
+    final IGuiHelper guiHelper;
 
     public Category(final IGuiHelper guiHelper)
     {
@@ -91,31 +90,26 @@ public class Category implements IRecipeCategory<MoveRecipe>
                 tooltips.add(MovesUtils.getMoveName(name));
             }
         }
-        else for (final String name : recipe.matchedMoves)
-            tooltips.add(MovesUtils.getMoveName(name));
+        else for (final String name : recipe.matchedMoves) tooltips.add(MovesUtils.getMoveName(name));
         return tooltips;
     }
 
     @Override
-    public void setIngredients(final MoveRecipe recipe, final IIngredients ingredients)
+    public void setRecipe(IRecipeLayoutBuilder builder, MoveRecipe recipe, IFocusGroup focuses)
     {
-        ingredients.setOutput(VanillaTypes.ITEM, recipe.getResultItem());
-        ingredients.setInputIngredients(recipe.getIngredients());
-    }
+        IRecipeSlotBuilder outputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 94, 18);
+        outputSlot.addItemStack(recipe.getResultItem());
 
-    @Override
-    public void setRecipe(final IRecipeLayout recipeLayout, final MoveRecipe recipe, final IIngredients ingredients)
-    {
-        final IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
-        recipeLayout.getIngredientsGroup(VanillaTypes.ITEM).init(Category.craftOutputSlot, false, 94, 18);
-        for (int y = 0; y < 3; ++y)
-            for (int x = 0; x < 3; ++x)
-            {
-                final int index = Category.craftInputSlot1 + x + y * 3;
-                final int dy = x == 1 ? 0 : 9;
-                guiItemStacks.init(index, true, x * 18 + 2, y * 18 + dy);
-            }
-        guiItemStacks.set(ingredients);
+        NonNullList<Ingredient> ingredients = recipe.getIngredients();
+
+        outer:
+        for (int y = 0; y < 3; ++y) for (int x = 0; x < 3; ++x)
+        {
+            final int index = x + y * 3;
+            if (index >= ingredients.size()) break outer;
+            IRecipeSlotBuilder inputSlot = builder.addSlot(RecipeIngredientRole.INPUT, x * 18, y * 18);
+            inputSlot.addIngredients(ingredients.get(index));
+        }
     }
 
 }

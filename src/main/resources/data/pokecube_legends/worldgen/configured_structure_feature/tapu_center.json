@@ -15,7 +15,11 @@
     ],
     "y_settings":{"min_y": 64},
     "avoid_range": 6,
-    "size": 7
+    "size": 7,
+    "avoidances":{
+      "flags": ["temple", "tapu_center"],
+      "avoidances": [{"name":"temple","distance":8}, {"name":"tapu_center","distance":80}]
+    }
   },
   "biomes": "#pokecube_world:has_structure/tapu_center",
   "adapt_noise": true,

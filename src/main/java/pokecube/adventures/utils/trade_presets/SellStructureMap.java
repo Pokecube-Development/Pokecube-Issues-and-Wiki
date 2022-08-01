@@ -22,6 +22,7 @@ import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
 import pokecube.core.PokecubeCore;
 import pokecube.core.utils.Tools;
+import thut.api.util.JsonUtil;
 
 @TradePresetAn(key = "sellExplorationMap")
 public class SellStructureMap implements TradePreset
@@ -71,8 +72,8 @@ public class SellStructureMap implements TradePreset
                             true);
                     MapItem.renderBiomePreviewMap(serverlevel, itemstack);
                     MapItemSavedData.addTargetDecoration(itemstack, blockpos, "+", MapDecoration.Type.RED_X);
-                    itemstack.setHoverName(new TranslatableComponent(
-                            "filled_map." + loc.getPath().toLowerCase(Locale.ROOT)));
+                    itemstack.setHoverName(
+                            new TranslatableComponent("filled_map." + loc.getPath().toLowerCase(Locale.ROOT)));
                     return itemstack;
                 }
             }
@@ -85,6 +86,8 @@ public class SellStructureMap implements TradePreset
 
             return output;
         };
+
+        recipe.debug_string = JsonUtil.gson.toJson(trade);
 
         trades.tradesList.add(recipe);
     }

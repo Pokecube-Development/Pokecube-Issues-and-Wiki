@@ -36,7 +36,7 @@
             {
               "custom": "sellExplorationMap",
               "exp": 5,
-              "values": {"id": "pokecube:town"},
+              "values": {"id": "pokecube_world:town"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "4"}}
               ]
@@ -44,7 +44,7 @@
             {
               "custom": "sellExplorationMap",
               "exp": 5,
-              "values": {"id": "pokecube:village"},
+              "values": {"id": "pokecube_world:village"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "4"}}
               ]
@@ -209,7 +209,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:elite_four"},
+              "values": {"id": "pokecube_world:maps/elite_four"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -341,7 +341,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:village/ocean"},
+              "values": {"id": "pokecube_world:maps/ocean_town"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -355,7 +355,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:lugia_tower"},
+              "values": {"id": "pokecube_world:maps/lugia_tower"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -369,7 +369,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:kyogre_temple"},
+              "values": {"id": "pokecube_world:maps/kyogre_temple"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -383,7 +383,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:tapus_temple"},
+              "values": {"id": "pokecube_world:maps/tapus_temple"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -397,7 +397,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:sky_pillar"},
+              "values": {"id": "pokecube_world:maps/sky_pillar"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -406,7 +406,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:kubfu_water"},
+              "values": {"id": "pokecube_world:maps/kubfu_water"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -475,7 +475,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:nature_place"},
+              "values": {"id": "pokecube_world:maps/nature_place"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -489,7 +489,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:zacian_temple"},
+              "values": {"id": "pokecube_world:maps/zacian_temple"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -498,7 +498,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:zamazenta_temple"},
+              "values": {"id": "pokecube_world:maps/zamazenta_temple"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -573,7 +573,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:keldeo_place"},
+              "values": {"id": "pokecube_world:maps/keldeo_place"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -582,7 +582,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:kubfu_dark"},
+              "values": {"id": "pokecube_world:maps/kubfu_dark"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -644,7 +644,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:castle_n"},
+              "values": {"id": "pokecube_world:maps/castle_n"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -658,7 +658,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:team_rocket"},
+              "values": {"id": "pokecube_world:maps/team_rocket"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -667,7 +667,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:team_magma"},
+              "values": {"id": "pokecube_world:maps/team_magma"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -676,7 +676,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:team_aqua"},
+              "values": {"id": "pokecube_world:maps/team_aqua"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -750,7 +750,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:celebi_temple"},
+              "values": {"id": "pokecube_world:maps/celebi_temple"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -759,7 +759,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:xerneas_place"},
+              "values": {"id": "pokecube_world:maps/xerneas_place"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -834,7 +834,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:legendy_tree"},
+              "values": {"id": "pokecube_world:maps/legendary_tree"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -843,7 +843,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:hooh_tower"},
+              "values": {"id": "pokecube_world:maps/hooh_tower"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -852,7 +852,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:yveltal_place"},
+              "values": {"id": "pokecube_world:maps/yveltal_place"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -943,7 +943,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:kubfu_dojo"},
+              "values": {"id": "pokecube_world:maps/kubfu_dojo"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -957,7 +957,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:kubfu_dark"},
+              "values": {"id": "pokecube_world:maps/kubfu_dark"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -966,7 +966,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:kubfu_water"},
+              "values": {"id": "pokecube_world:maps/kubfu_water"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -1017,7 +1017,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:unown_temple_overworld"},
+              "values": {"id": "pokecube_world:maps/unown_temple_overworld"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -1026,7 +1026,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:unown_temple_distortic"},
+              "values": {"id": "pokecube_world:maps/unown_temple_distortic"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -1035,7 +1035,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:unown_temple_ultraspace"},
+              "values": {"id": "pokecube_world:maps/unown_temple_ultraspace"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -1049,7 +1049,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:regice_temple"},
+              "values": {"id": "pokecube_world:maps/regice_temple"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -1058,7 +1058,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:regirock_temple"},
+              "values": {"id": "pokecube_world:maps/regirock_temple"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -1067,7 +1067,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:registeel_temple"},
+              "values": {"id": "pokecube_world:maps/registeel_temple"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -1076,7 +1076,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:regidrago_temple"},
+              "values": {"id": "pokecube_world:maps/regidrago_temple"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -1085,7 +1085,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:regieleki_temple"},
+              "values": {"id": "pokecube_world:maps/regieleki_temple"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]
@@ -1099,7 +1099,7 @@
               "custom": "sellExplorationMap",
               "exp": 10,
               "count": 1,
-              "values": {"id": "pokecube_legends:regigigas_temple"},
+              "values": {"id": "pokecube_world:maps/regigigas_temple"},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "16"}}
               ]

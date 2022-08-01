@@ -100,13 +100,13 @@ public class MakeHive extends BaseIdleTask
         final List<NearBlock> logs = Lists.newArrayList();
         // Otherwise on the ground
         final List<NearBlock> surfaces = Lists.newArrayList();
-        blocks.forEach(b ->
-        {
+        blocks.forEach(b -> {
             if (PokecubeTerrainChecker.isLeaves(b.getState()) && this.canPlaceHive(b, Direction.DOWN)) leaves.add(b);
-            if (PokecubeTerrainChecker.isWood(b.getState()) && this.canPlaceHive(b, Direction.Plane.HORIZONTAL
-                    .stream())) logs.add(b);
-            if (PokecubeTerrainChecker.isTerrain(b.getState()) && this.canPlaceHive(b, Direction.values())) surfaces
-                    .add(b);
+            if (PokecubeTerrainChecker.isWood(b.getState())
+                    && this.canPlaceHive(b, Direction.Plane.HORIZONTAL.stream()))
+                logs.add(b);
+            if (PokecubeTerrainChecker.isTerrain(b.getState()) && this.canPlaceHive(b, Direction.values()))
+                surfaces.add(b);
         });
 
         // First check the leaves
@@ -124,8 +124,7 @@ public class MakeHive extends BaseIdleTask
             final Stream<Direction> dirs = Direction.Plane.HORIZONTAL.stream();
             final List<Direction> tmp = Lists.newArrayList(dirs.iterator());
             Collections.shuffle(tmp);
-            for (final Direction dir : tmp)
-                if (this.placeHive(validLeaf, dir)) return;
+            for (final Direction dir : tmp) if (this.placeHive(validLeaf, dir)) return;
             return;
         }
 
@@ -135,14 +134,13 @@ public class MakeHive extends BaseIdleTask
             final NearBlock validLeaf = surfaces.get(0);
             final List<Direction> tmp = Lists.newArrayList(Direction.values());
             Collections.shuffle(tmp);
-            for (final Direction dir : tmp)
-                if (this.placeHive(validLeaf, dir)) return;
+            for (final Direction dir : tmp) if (this.placeHive(validLeaf, dir)) return;
             return;
         }
 
         final Brain<?> brain = this.entity.getBrain();
         // partially Reset this if we failed
-        brain.setMemory(BeeTasks.NO_HIVE_TIMER, 200);
+        brain.setMemory(BeeTasks.NO_HIVE_TIMER, 0);
 
     }
 
@@ -153,13 +151,15 @@ public class MakeHive extends BaseIdleTask
         // runtime.
         if (!BeeTasks.isValid(this.entity)) return false;
 
-        final boolean tameCheck = this.pokemob.getOwnerId() == null || this.pokemob.getGeneralState(
-                GeneralStates.STAYING);
+        final boolean tameCheck = this.pokemob.getOwnerId() == null
+                || this.pokemob.getGeneralState(GeneralStates.STAYING);
         if (!tameCheck) return false;
         final Brain<?> brain = this.entity.getBrain();
         int timer = 0;
         if (brain.hasMemoryValue(BeeTasks.NO_HIVE_TIMER)) timer = brain.getMemory(BeeTasks.NO_HIVE_TIMER).get();
-        return timer > 600;
+        // This timer is in ticks of the HiveSensor, which is only once per
+        // second or so!
+        return timer > 60;
     }
 
 }

@@ -6,11 +6,12 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
@@ -20,21 +21,20 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.compat.jei.ingredients.Pokemob;
-import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 
 public class Category implements IRecipeCategory<InteractRecipe>
 {
-    public static final ResourceLocation GUI  = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/evorecipe.png");
+    public static final ResourceLocation GUI = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/evorecipe.png");
     public static final ResourceLocation TABS = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/jeitabs.png");
     public static final ResourceLocation GUID = new ResourceLocation(PokecubeAdv.MODID, "pokemob_interaction");
 
-    public static final int width  = 116;
+    public static final int width = 116;
     public static final int height = 54;
 
     private final IDrawable background;
     private final IDrawable icon;
-    private final String    localizedName;
+    private final String localizedName;
 
     public Category(final IGuiHelper guiHelper)
     {
@@ -87,34 +87,24 @@ public class Category implements IRecipeCategory<InteractRecipe>
     }
 
     @Override
-    public void setIngredients(final InteractRecipe interaction, final IIngredients ingredients)
+    public void setRecipe(IRecipeLayoutBuilder builder, InteractRecipe recipe, IFocusGroup focuses)
     {
-        ingredients.setInput(Pokemob.TYPE, interaction.from);
-        ItemStack needed = interaction.key;
-        if (needed.isEmpty() && interaction.tag != null) needed = PokecubeItems.getStack(interaction.tag);
-        if (!needed.isEmpty()) ingredients.setInput(VanillaTypes.ITEM, needed);
-        if (!interaction.interaction.stacks.isEmpty()) ingredients.setOutputs(VanillaTypes.ITEM,
-                interaction.interaction.stacks);
-        else if (interaction.interaction.lootTable != null) PokecubeCore.LOGGER.debug("me no know what to do here...");
-        if (interaction.to != null) ingredients.setOutput(Pokemob.TYPE, interaction.to);
-    }
+        IRecipeSlotBuilder outputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 84, 18);
+        if (recipe.to != null) outputSlot.addIngredient(Pokemob.TYPE, recipe.to);
+        else if (!recipe.interaction.stacks.isEmpty())
+        {
+            outputSlot.addIngredients(VanillaTypes.ITEM, recipe.interaction.stacks);
+        }
 
-    @Override
-    public void setRecipe(final IRecipeLayout recipeLayout, final InteractRecipe evolution,
-            final IIngredients ingredients)
-    {
-        final int out = 24;
-        final IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
-        recipeLayout.getIngredientsGroup(Pokemob.TYPE).init(0, false, Pokemob.RENDER, 84, 18, out, out, 4, 4);
-        recipeLayout.getIngredientsGroup(VanillaTypes.ITEM).init(1, false, 84, 18);
-        int x = 50;
-        int y = 0;
-        guiItemStacks.init(1, true, x, y);
-        x = 14;
-        y = 15;
-        recipeLayout.getIngredientsGroup(Pokemob.TYPE).init(2, true, Pokemob.RENDER, x, y, out, out, 4, 4);
-        guiItemStacks.set(ingredients);
-        recipeLayout.getIngredientsGroup(Pokemob.TYPE).set(ingredients);
-    }
+        IRecipeSlotBuilder inputMob = builder.addSlot(RecipeIngredientRole.INPUT, 18, 18);
+        inputMob.addIngredient(Pokemob.TYPE, recipe.from);
 
+        ItemStack needed = recipe.key;
+        if (needed.isEmpty() && recipe.tag != null) needed = PokecubeItems.getStack(recipe.tag);
+        if (!needed.isEmpty())
+        {
+            IRecipeSlotBuilder inputStack = builder.addSlot(RecipeIngredientRole.INPUT, 51, 1);
+            inputStack.addItemStack(needed);
+        }
+    }
 }

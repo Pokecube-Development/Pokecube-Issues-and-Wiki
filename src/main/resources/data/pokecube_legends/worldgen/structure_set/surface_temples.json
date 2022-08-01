@@ -57,10 +57,6 @@
       "weight": 1
     },
     {
-      "structure": "pokecube_legends:unown_temple",
-      "weight": 1
-    },
-    {
       "structure": "pokecube_legends:xerneas_tree",
       "weight": 1
     },
@@ -79,8 +75,8 @@
   ],
   "placement": {
     "salt": 1234567890,
-    "spacing": 24,
-    "separation": 12,
+    "spacing": 12,
+    "separation": 4,
     "type": "minecraft:random_spread"
   }
 }

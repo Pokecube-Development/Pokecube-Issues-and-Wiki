@@ -44,7 +44,8 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
                         ResourceKey.codec(Registry.STRUCTURE_SET_REGISTRY).listOf().fieldOf("structures_to_avoid")
                                 .orElse(new ArrayList<>()).forGetter(config -> config.structures_to_avoid),
                         Codec.INT.fieldOf("avoid_range").orElse(4).forGetter(s -> s.avoid_range),
-                        Codec.INT.fieldOf("biome_room").orElse(2).forGetter(s -> s.biome_room))
+                        Codec.INT.fieldOf("biome_room").orElse(2).forGetter(s -> s.biome_room), AvoidanceSettings.CODEC
+                                .fieldOf("avoidances").orElse(AvoidanceSettings.DEFAULT).forGetter(s -> s.avoidances))
                 .apply(instance, ExpandedJigsawConfiguration::new);
     });
 
@@ -73,7 +74,8 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
         public final int dy_offset;
         public final String surface_type;
 
-        public YSettings(int vertical_offset, int y_check_radius, int min_y, int max_y, int max_dy, int dy_offset, String surface_type)
+        public YSettings(int vertical_offset, int y_check_radius, int min_y, int max_y, int max_dy, int dy_offset,
+                String surface_type)
         {
             this.vertical_offset = vertical_offset;
             this.y_check_radius = y_check_radius;
@@ -106,6 +108,48 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
         }
     }
 
+    public static class AvoidanceSettings
+    {
+        public static class AvoidanceEntry
+        {
+            public static final Codec<AvoidanceEntry> CODEC = RecordCodecBuilder.create((instance) -> {
+                return instance
+                        .group(Codec.INT.fieldOf("distance").orElse(0).forGetter(s -> s.distance),
+                                Codec.STRING.fieldOf("name").orElse("").forGetter(s -> s.name))
+                        .apply(instance, AvoidanceEntry::new);
+            });
+
+            public int distance;
+            public String name;
+
+            public AvoidanceEntry(int distance, String name)
+            {
+                this.distance = distance;
+                this.name = name;
+            }
+        }
+
+        public static final AvoidanceSettings DEFAULT = new AvoidanceSettings(Lists.newArrayList(),
+                Lists.newArrayList());
+
+        public static final Codec<AvoidanceSettings> CODEC = RecordCodecBuilder.create((instance) -> {
+            return instance.group(
+                    Codec.list(AvoidanceEntry.CODEC).fieldOf("values").orElse(Lists.newArrayList())
+                            .forGetter(s -> s.avoidances),
+                    Codec.list(Codec.STRING).fieldOf("names").orElse(Lists.newArrayList()).forGetter(s -> s.flags))
+                    .apply(instance, AvoidanceSettings::new);
+        });
+
+        public List<AvoidanceEntry> avoidances;
+        public List<String> flags;
+
+        public AvoidanceSettings(List<AvoidanceEntry> avoidances, List<String> flags)
+        {
+            this.avoidances = avoidances;
+            this.flags = flags;
+        }
+    }
+
     public final List<String> required_parts;
     public final Heightmap.Types height_type;
 
@@ -125,13 +169,18 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
     public final boolean underground;
     public final boolean air;
 
+    public final String name;
+
+    public final AvoidanceSettings avoidances;
+
     public List<SpawnBiomeMatcher> _needed = Lists.newArrayList();
     public List<SpawnBiomeMatcher> _banned = Lists.newArrayList();
 
     public ExpandedJigsawConfiguration(Holder<StructureTemplatePool> start_pool, int maxDepth, YSettings y_settings,
             ClearanceSettings clearances, List<String> required_parts, String _spawn_preset, String _spawn_blacklist,
             final String biome_type, Heightmap.Types height_type,
-            final List<ResourceKey<StructureSet>> structures_to_avoid, final int avoid_range, final int biome_room)
+            final List<ResourceKey<StructureSet>> structures_to_avoid, final int avoid_range, final int biome_room,
+            AvoidanceSettings avoidances)
     {
         super(start_pool, maxDepth);
         this.y_settings = y_settings;
@@ -144,6 +193,8 @@ public class ExpandedJigsawConfiguration extends JigsawConfiguration
         this._spawn_preset = _spawn_preset;
         this._spawn_blacklist = _spawn_blacklist;
         this.biome_type = biome_type;
+        this.name = start_pool.value().getName().toString();
+        this.avoidances = avoidances;
 
         if (!_spawn_blacklist.isBlank())
         {
