@@ -1,5 +1,6 @@
 package pokecube.world.gen.structures;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -8,6 +9,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -16,7 +18,9 @@ import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
+import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration.AvoidanceSettings.AvoidanceEntry;
 import pokecube.world.gen.structures.pieces.ExpandedPoolElementStructurePiece;
 import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
 import pokecube.world.gen.structures.utils.ExpandedPostPlacementProcessor;
@@ -39,12 +43,44 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         return step;
     }
 
+    private static boolean tooClose(PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration> context)
+    {
+        ExpandedJigsawConfiguration config = context.config();
+        ChunkGenerator generator = context.chunkGenerator();
+        ChunkPos pos = context.chunkPos();
+        Level level = ExpandedJigsawPacement.getForGen(generator);
+        List<AvoidanceEntry> avoidances = config.avoidances.avoidances;
+        BlockPos bpos = pos.getMiddleBlockPosition(0);
+        for (var avoid : avoidances)
+        {
+            if (avoid.distance > 0 && !avoid.name.isBlank()) if (!PokecubeSerializer.getInstance()
+                    .shouldPlace(avoid.name, bpos, level.dimension(), avoid.distance * 16))
+                return false;
+        }
+        return false;
+    }
+
+    private static void markPlaced(PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration> context)
+    {
+        ExpandedJigsawConfiguration config = context.config();
+
+        List<String> flags = config.avoidances.flags;
+        if (flags.isEmpty()) return;
+        ChunkGenerator generator = context.chunkGenerator();
+        ChunkPos pos = context.chunkPos();
+        Level level = ExpandedJigsawPacement.getForGen(generator);
+        BlockPos bpos = pos.getMiddleBlockPosition(0);
+        for (String flag : flags) PokecubeSerializer.getInstance().place(flag.strip(), bpos, level.dimension());
+    }
+
     private static boolean isFeatureChunk(PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration> context)
     {
         ExpandedJigsawConfiguration config = context.config();
         ChunkGenerator generator = context.chunkGenerator();
         BiomeSource biomes = context.biomeSource();
         ChunkPos pos = context.chunkPos();
+
+        if (tooClose(context)) return false;
 
         // Check if we need to avoid any structures.
         for (ResourceKey<StructureSet> key : config.structures_to_avoid)
@@ -91,7 +127,7 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         return true;
     }
 
-    public static Optional<PieceGenerator<ExpandedJigsawConfiguration>> createPiecesGenerator(
+    private static Optional<PieceGenerator<ExpandedJigsawConfiguration>> createPiecesGenerator(
             PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration> context)
     {
 
@@ -114,8 +150,10 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         structurePiecesGenerator = ExpandedJigsawPacement.addPieces(context, ExpandedPoolElementStructurePiece::new,
                 blockpos, false, true);
 
-//        structurePiecesGenerator = ExpandedJigsawPacementVanillaLike.addPieces(context,
-//                ExpandedPoolElementStructurePiece::new, blockpos, false, true);
+        if (structurePiecesGenerator.isPresent())
+        {
+            markPlaced(context);
+        }
 
         // Return the pieces generator that is now set up so that the game runs
         // it when it needs to create the layout of structure pieces.

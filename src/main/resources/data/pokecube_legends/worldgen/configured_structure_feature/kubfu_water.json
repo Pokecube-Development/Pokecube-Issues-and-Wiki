@@ -15,7 +15,11 @@
     "y_settings":{"min_y": 63},
     "avoid_range": 6,
     "biome_room": 5,
-    "size": 2
+    "size": 2,
+    "avoidances":{
+      "flags": ["temple", "kubfu_water"],
+      "avoidances": [{"name":"temple","distance":8}, {"name":"kubfu_water","distance":80}]
+    }
   },
   "biomes": "#pokecube_world:has_structure/kubfu_water",
   "adapt_noise": true,

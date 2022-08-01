@@ -13,7 +13,11 @@
       "pokecube_legends:villages"
     ],
     "avoid_range": 6,
-    "size": 2
+    "size": 2,
+    "avoidances":{
+      "flags": ["temple", "nature_place"],
+      "avoidances": [{"name":"temple","distance":8}, {"name":"nature_place","distance":80}]
+    }
   },
   "biomes": "#pokecube_world:has_structure/nature_place",
   "adapt_noise": true,
