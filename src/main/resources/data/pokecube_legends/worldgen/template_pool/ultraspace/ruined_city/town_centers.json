@@ -1,0 +1,17 @@
+{
+  "name": "pokecube_legends:ultraspace/ruined_city",
+  "fallback": "pokecube_legends:ultraspace/ruined_city/road_terminator",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:ultraspace/ruined_city/ruined_crossroads",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube_legends:street_ruined",
+        "projection": "terrain_matching",
+        "int_config":{"space_below":0},
+        "bool_config": {"no_affect_noise":true,"water_terrain_match": true}
+      }
+    }
+  ]
+}
