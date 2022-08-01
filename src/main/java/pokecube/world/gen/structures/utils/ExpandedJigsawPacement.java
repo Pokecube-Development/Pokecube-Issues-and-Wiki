@@ -692,7 +692,11 @@ public class ExpandedJigsawPacement
 
                                         if (next_picked_element instanceof ExpandedJigsawPiece p)
                                         {
-                                            if (p.bool_config.only_once) for (String s : p._flags) added_once.add(s);
+                                            if (p.bool_config.only_once) for (String s : p._flags)
+                                            {
+                                                added_once.add(s);
+                                                needed_once.add(s);
+                                            }
                                             for (String s : p._needed_flags) if (!s.isBlank()) needed_once.add(s);
                                             // Mark it as added if we needed
                                             // this part.
