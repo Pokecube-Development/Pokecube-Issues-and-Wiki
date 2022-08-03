@@ -12,6 +12,10 @@
       "pokecube_legends:towns",
       "pokecube_legends:villages"
     ],
+    "avoidances":{
+      "avoidances": [{"name":"old_enigma_tree","distance":80}],
+      "flags": ["old_enigma_tree"]
+    },
     "avoid_range": 6,
     "size": 1
   },
