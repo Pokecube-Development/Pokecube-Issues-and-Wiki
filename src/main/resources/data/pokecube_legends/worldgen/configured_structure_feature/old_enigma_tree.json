@@ -16,6 +16,7 @@
       "avoidances": [{"name":"old_enigma_tree","distance":80}],
       "flags": ["old_enigma_tree"]
     },
+    "y_settings":{"min_y": 45},
     "avoid_range": 6,
     "size": 1
   },
