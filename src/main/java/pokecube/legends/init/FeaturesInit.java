@@ -282,13 +282,16 @@ public class FeaturesInit
                     "forbidden_vegetation_bonemeal",
                     () -> new ConfiguredFeature<>(WorldgenFeatures.ULTRASPACE_VEGETATION.get(),
                             new NetherForestVegetationConfig(FORBIDDEN_VEGETATION_PROVIDER.get(), 3, 1)));
+
             TAINTED_VEGETATION = PokecubeLegends.CONFIGURED_FEATURES.register("tainted_barrens_vegetation",
                     () -> new ConfiguredFeature<>(WorldgenFeatures.ULTRASPACE_VEGETATION.get(),
                             new NetherForestVegetationConfig(CORRUPTED_VEGETATION_PROVIDER.get(), 8, 4)));
+
             TAINTED_VEGETATION_BONEMEAL = PokecubeLegends.CONFIGURED_FEATURES.register(
                     "tainted_barrens_vegetation_bonemeal",
                     () -> new ConfiguredFeature<>(WorldgenFeatures.ULTRASPACE_VEGETATION.get(),
                             new NetherForestVegetationConfig(CORRUPTED_VEGETATION_PROVIDER.get(), 3, 1)));
+
             SINGLE_PIECE_OF_DISTORTIC_GRASS = PokecubeLegends.CONFIGURED_FEATURES.register(
                     "single_piece_of_distortic_grass",
                     () -> new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
