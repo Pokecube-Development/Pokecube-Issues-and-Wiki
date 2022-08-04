@@ -65,6 +65,11 @@ public class FeaturesInit
         return treePlacementBase(modifier).add(BlockPredicateFilter.forPredicate(BerryTree.BERRY_TREE_PREDICATE)).build();
     }
 
+    public static List<PlacementModifier> beachTreePlacement(PlacementModifier modifier) {
+        PokecubeCore.LOGGER.info("Generating Berry Trees Placement");
+        return treePlacementBase(modifier).add(BlockPredicateFilter.forPredicate(BerryTree.BEACH_BERRY_TREE_PREDICATE)).build();
+    }
+
     private static ImmutableList.Builder<PlacementModifier> treePlacementBase(PlacementModifier modifier) {
         return ImmutableList.<PlacementModifier>builder().add(modifier).add(InSquarePlacement.spread()).add(VegetationPlacements.TREE_THRESHOLD)
                 .add(PlacementUtils.HEIGHTMAP_OCEAN_FLOOR).add(BiomeFilter.biome());
@@ -105,7 +110,7 @@ public class FeaturesInit
                 () -> new ConfiguredFeature<>(Feature.TREE, BerryTree.getNanabTree().build()));
         PLACED_TREE_NANAB = PokecubeWorld.PLACED_FEATURES.register("nanab_tree",
                 () -> new PlacedFeature(TREE_NANAB_FEATURE.getHolder().get(),
-                        treePlacement(PlacementUtils.countExtra(0, 0.1F, 1))));
+                        beachTreePlacement(PlacementUtils.countExtra(0, 0.1F, 1))));
     }
 
     private static final Predicate<ResourceKey<Biome>> ores_biome_check = k ->
@@ -118,7 +123,7 @@ public class FeaturesInit
                     && Biomes.FLOWER_FOREST.equals(k);
     private static final Predicate<ResourceKey<Biome>> nanab_trees_biome_check = k ->
             PokecubeCore.getConfig().generateBerryTrees && PokecubeCore.getConfig().generateNanabBerryTrees
-                    && BiomeTags.IS_BEACH.equals(k);
+                    && BiomeDatabase.contains(k, "beach");
 
     private static void onBiomeLoading(BiomeLoadingEvent event)
     {
