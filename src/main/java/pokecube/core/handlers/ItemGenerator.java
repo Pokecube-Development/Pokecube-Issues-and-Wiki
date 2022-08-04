@@ -167,6 +167,7 @@ public class ItemGenerator
             block = Blocks.log(ItemGenerator.berryWoods.get(name), ItemGenerator.berryWoods.get(name));
             block.setRegistryName(PokecubeCore.MODID, "log_" + name);
             ItemGenerator.logs.put(name, block);
+            BerryManager.berryLogs.put(index, block);
             registry.register(block);
 
             // Woods

@@ -6,6 +6,7 @@ import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.*;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -33,7 +35,7 @@ public class FeaturesInit
 {
     public static void init(IEventBus bus)
     {
-        bus.addListener(EventPriority.HIGH, FeaturesInit::onBiomeLoading);
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, FeaturesInit::onBiomeLoading);
     }
 
     final static List<OreConfiguration.TargetBlockState> getOres()
@@ -55,6 +57,8 @@ public class FeaturesInit
 
     public static RegistryObject<ConfiguredFeature<?, ?>> TREE_LEPPA_FEATURE;
     public static final RegistryObject<PlacedFeature> PLACED_TREE_LEPPA;
+    public static RegistryObject<ConfiguredFeature<?, ?>> TREE_NANAB_FEATURE;
+    public static final RegistryObject<PlacedFeature> PLACED_TREE_NANAB;
 
     public static List<PlacementModifier> treePlacement(PlacementModifier modifier) {
         PokecubeCore.LOGGER.info("Generating Berry Trees Placement");
@@ -93,9 +97,15 @@ public class FeaturesInit
 
         TREE_LEPPA_FEATURE = TREE_FEATURES.register("leppa_tree",
                 () -> new ConfiguredFeature<>(Feature.TREE, BerryTree.getLeppaTree().build()));
-        PLACED_TREE_LEPPA = PokecubeWorld.PLACED_FEATURES.register("tree_leppa",
+        PLACED_TREE_LEPPA = PokecubeWorld.PLACED_FEATURES.register("leppa_tree",
                 () -> new PlacedFeature(TREE_LEPPA_FEATURE.getHolder().get(),
-                        treePlacement(PlacementUtils.countExtra(1, 0.1F, 1))));
+                        treePlacement(PlacementUtils.countExtra(0, 0.1F, 1))));
+
+        TREE_NANAB_FEATURE = TREE_FEATURES.register("nanab_tree",
+                () -> new ConfiguredFeature<>(Feature.TREE, BerryTree.getNanabTree().build()));
+        PLACED_TREE_NANAB = PokecubeWorld.PLACED_FEATURES.register("nanab_tree",
+                () -> new PlacedFeature(TREE_NANAB_FEATURE.getHolder().get(),
+                        treePlacement(PlacementUtils.countExtra(0, 0.1F, 1))));
     }
 
     private static final Predicate<ResourceKey<Biome>> ores_biome_check = k ->
@@ -105,7 +115,10 @@ public class FeaturesInit
 
     private static final Predicate<ResourceKey<Biome>> leppa_trees_biome_check = k ->
             PokecubeCore.getConfig().generateBerryTrees && PokecubeCore.getConfig().generateLeppaBerryTrees
-            && (Biomes.FLOWER_FOREST.equals(k));
+                    && Biomes.FLOWER_FOREST.equals(k);
+    private static final Predicate<ResourceKey<Biome>> nanab_trees_biome_check = k ->
+            PokecubeCore.getConfig().generateBerryTrees && PokecubeCore.getConfig().generateNanabBerryTrees
+                    && BiomeTags.IS_BEACH.equals(k);
 
     private static void onBiomeLoading(BiomeLoadingEvent event)
     {
@@ -124,6 +137,11 @@ public class FeaturesInit
         {
             event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
                     PLACED_TREE_LEPPA.getHolder().get());
+        }
+        if (nanab_trees_biome_check.test(key))
+        {
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
+                    PLACED_TREE_NANAB.getHolder().get());
         }
     }
 

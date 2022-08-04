@@ -442,6 +442,8 @@ public class Config extends ConfigData
     public boolean generateBerryTrees = true;
     @Configure(category = Config.world, comment = "Leppa Berry Trees will will generate in certain biomes. [Default: true]")
     public boolean generateLeppaBerryTrees = true;
+    @Configure(category = Config.world, comment = "Nanab Berry Trees will will generate in certain biomes. [Default: true]")
+    public boolean generateNanabBerryTrees = true;
 
     @Configure(category = Config.world, comment = "Pokecube structures will not spawn in these dimensions, unless specifically stated in the structure's spawn rules.")
     public List<String> softWorldgenDimBlacklist = Lists.newArrayList(

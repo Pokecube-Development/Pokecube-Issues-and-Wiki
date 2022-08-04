@@ -27,6 +27,8 @@ public class BerryManager
     public static Int2ObjectArrayMap<ItemBerry> berryItems  = new Int2ObjectArrayMap<>();
     /** Map of berry id -> fruit leaves */
     public static Int2ObjectArrayMap<Block>     berryLeaves = new Int2ObjectArrayMap<>();
+    /** Map of berry id -> fruit logs */
+    public static Int2ObjectArrayMap<Block>     berryLogs = new Int2ObjectArrayMap<>();
     /** Map of berry id -> name of berry */
     public static Int2ObjectArrayMap<String>    berryNames  = new Int2ObjectArrayMap<>();
     /** Map of berry id -> name of berry */
