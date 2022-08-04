@@ -42,7 +42,7 @@ public class BerryTree {
         return new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(BerryManager.berryLogs.get(18).defaultBlockState()),
                 new BendingTrunkPlacer(4, 2, 0, 6, UniformInt.of(1, 2)),
                 BlockStateProvider.simple(BerryManager.berryLeaves.get(18).defaultBlockState()),
-                new PalmFoilagePlacer(ConstantInt.of(2), ConstantInt.of(1), 2), new TwoLayersFeatureSize(1, 0, 1))
+                new PalmFoilagePlacer(ConstantInt.of(2), ConstantInt.of(1), 4), new TwoLayersFeatureSize(1, 0, 1))
                 .ignoreVines().decorators(ImmutableList.of(BEEHIVE_0002));
     }
 }

@@ -29,9 +29,9 @@ public class PalmFoilagePlacer extends FoliagePlacer {
 
     protected static <P extends PalmFoilagePlacer> P3<Mu<P>, IntProvider, IntProvider, Integer> palmParts(RecordCodecBuilder.Instance<P> instance)
     {
-        return foliagePlacerParts(instance).and(Codec.intRange(0, 16).fieldOf("height").forGetter((p_68412_) ->
+        return foliagePlacerParts(instance).and(Codec.intRange(0, 16).fieldOf("height").forGetter((get) ->
         {
-            return p_68412_.height;
+            return get.height;
         }));
     }
 
@@ -47,43 +47,48 @@ public class PalmFoilagePlacer extends FoliagePlacer {
 
     @Override
     protected void createFoliage(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter, Random random,
-                                 TreeConfiguration treeConfig, int treeHeight, FoliagePlacer.FoliageAttachment foliageAttachment, int radius, int offset, int height)
+                                 TreeConfiguration treeConfig, int maxFreeTreeHeight, FoliagePlacer.FoliageAttachment foliageAttachment, int height, int radius, int offset)
     {
-        for(int i = height; i >= height - radius; --i)
+        for(int i = offset; i >= offset - height; --i)
         {
-            int j = Math.max(offset + foliageAttachment.radiusOffset() - 1 - i / 2, 0);
+            int j = Math.max(radius + foliageAttachment.radiusOffset() - 1 - i / 2, 0);
             placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), j, i, foliageAttachment.doubleTrunk());
         }
     }
 
+    @Override
     protected void placeLeavesRow(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter, Random random,
                                   TreeConfiguration treeConfig, BlockPos pos, int range, int yOffset, boolean large)
     {
         int i = large ? 1 : 0;
+        int minRadius = 1;
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 
         for(int j = -range; j <= range + i; ++j)
         {
-            for(int k = -range; k <= range + i; ++k)
+            if (j < Math.abs(minRadius)) continue;
+            if (!this.shouldSkipLocationSigned(random, j, yOffset, 0, range, large))
             {
-                if (!this.shouldSkipLocationSigned(random, j, yOffset, k, range, large))
-                {
-                    mutablePos.setWithOffset(pos, j, yOffset, k);
-                    tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
-                }
+                mutablePos.setWithOffset(pos, j, yOffset, 0);
+                tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
+            }
+            if (!this.shouldSkipLocationSigned(random, 0, yOffset, j, range, large))
+            {
+                mutablePos.setWithOffset(pos, 0, yOffset, j);
+                tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
             }
         }
     }
 
     @Override
-    public int foliageHeight(Random random, int i, TreeConfiguration treeConfig)
+    public int foliageHeight(Random random, int height, TreeConfiguration treeConfig)
     {
         return this.height;
     }
 
     @Override
-    protected boolean shouldSkipLocation(Random random, int p_68417_, int p_68418_, int p_68419_, int p_68420_, boolean p_68421_)
+    protected boolean shouldSkipLocation(Random random, int localX, int localY, int localZ, int range, boolean large)
     {
-        return p_68417_ == p_68420_ && p_68419_ == p_68420_ && (random.nextInt(4) == 0 || p_68418_ == 0);
+        return localX == range && localZ == range && (random.nextInt(4) == 0 || localY == 0);
     }
 }
