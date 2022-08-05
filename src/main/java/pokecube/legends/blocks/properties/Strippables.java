@@ -1,29 +1,25 @@
 package pokecube.legends.blocks.properties;
 
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.core.BlockPos;
+
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.item.AxeItem;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
-import org.jetbrains.annotations.NotNull;
 import pokecube.legends.init.BlockInit;
-import thut.core.client.render.mca.McaXML;
-
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 public class Strippables
 {

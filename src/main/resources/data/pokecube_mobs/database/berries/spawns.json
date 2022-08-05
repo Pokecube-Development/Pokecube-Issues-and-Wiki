@@ -97,6 +97,14 @@
           "and_preset": "taigas"
         }
       ]
+    },
+    {
+      "placement": "pokecube_world:trees_flower_forest_berries",
+      "spawn": [
+        {          
+          "values":{"biomes": "minecraft:flower_forest"}
+        }
+      ]
     }
   ]
 }
