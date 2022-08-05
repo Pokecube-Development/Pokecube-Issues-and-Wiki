@@ -70,11 +70,11 @@ public class BerryGenManager
             if (event.getName() != null)
             {
                 ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
-                String specific_biomes = spawn.values.get(SpawnBiomeMatcher.BIOMES);
-                if (specific_biomes != null)
+                String no_specific_biomes = spawn.values.get("no_biomes");
+                if (no_specific_biomes != null)
                 {
-                    String[] ts = specific_biomes.split(",");
-                    for (String s : ts) if (s.equals(event.getName().toString())) return true;
+                    String[] ts = no_specific_biomes.split(",");
+                    for (String s : ts) if (s.equals(event.getName().toString())) return false;
                 }
                 String no_biome_types = spawn.values.get("no_biome_types");
                 if (no_biome_types != null)
@@ -82,19 +82,25 @@ public class BerryGenManager
                     String[] ts = no_biome_types.split(",");
                     for (String s : ts) if (BiomeDatabase.contains(key, s)) return false;
                 }
-                String biome_types = spawn.values.get("biome_types");
-                if (biome_types != null)
-                {
-                    String[] ts = biome_types.split(",");
-                    for (String s : ts) if (!BiomeDatabase.contains(key, s)) return false;
-                    return true;
-                }
                 String catName = event.getCategory().getName();
                 String no_biome_cats = spawn.values.get("no_biome_category");
                 if (no_biome_cats != null)
                 {
                     String[] ts = no_biome_cats.split(",");
                     for (String s : ts) if (catName.equals(s)) return false;
+                }
+                String specific_biomes = spawn.values.get("biomes");
+                if (specific_biomes != null)
+                {
+                    String[] ts = specific_biomes.split(",");
+                    for (String s : ts) if (s.equals(event.getName().toString())) return true;
+                }
+                String biome_types = spawn.values.get("biome_types");
+                if (biome_types != null)
+                {
+                    String[] ts = biome_types.split(",");
+                    for (String s : ts) if (!BiomeDatabase.contains(key, s)) return false;
+                    return true;
                 }
                 String biome_cats = spawn.values.get("biome_category");
                 if (biome_cats != null)

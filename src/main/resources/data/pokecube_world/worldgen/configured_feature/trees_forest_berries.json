@@ -1,0 +1,41 @@
+{
+    "type": "minecraft:random_selector",
+    "config": {
+      "features": [
+        {
+          "chance": 0.5,
+          "feature": "pokecube_world:grepa_tree"
+        },
+        {
+          "chance": 0.5,
+          "feature": "pokecube_world:kelpsy_tree"
+        },
+        {
+          "chance": 0.5,
+          "feature": "pokecube_world:leppa_tree"
+        },
+        {
+          "chance": 0.5,
+          "feature": "pokecube_world:oran_tree"
+        },
+        {
+          "chance": 0.5,
+          "feature": "pokecube_world:pecha_tree"
+        },
+        {
+          "chance": 0.5,
+          "feature": "pokecube_world:pomeg_tree"
+        },
+        {
+          "chance": 0.5,
+          "feature": "pokecube_world:qualot_tree"
+        },
+        {
+          "chance": 0.1,
+          "feature": "pokecube_world:sitrus_tree"
+        }
+      ],
+      "default": "pokecube_world:oran_tree"
+    }
+  }
+  
