@@ -81,6 +81,7 @@ import pokecube.core.network.EntityProvider;
 import pokecube.core.proxy.CommonProxy;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.world.PokecubeWorld;
+import pokecube.world.foliageplacers.FoliagePlacerTypes;
 import thut.api.entity.CopyCaps;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;

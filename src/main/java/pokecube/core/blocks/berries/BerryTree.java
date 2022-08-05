@@ -15,7 +15,7 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.BendingTrunkPlace
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.items.berries.BerryManager;
-import pokecube.core.world.foliageplacers.PalmFoilagePlacer;
+import pokecube.world.foliageplacers.PalmFoilagePlacer;
 
 public class BerryTree {
 
