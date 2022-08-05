@@ -7,6 +7,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -26,6 +27,7 @@ import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.world.PokecubeWorld;
+import pokecube.world.gen.features.register.DummyPlacementHolder;
 import thut.api.terrain.BiomeDatabase;
 
 public class FeaturesInit
@@ -44,9 +46,12 @@ public class FeaturesInit
                         PokecubeItems.DEEPSLATE_FOSSIL_ORE.get().defaultBlockState()));
     };
 
-    private static final RegistryObject<ConfiguredFeature<?, ?>> ORE_FOSSIL_SMALL_FEATURE;
-    private static final RegistryObject<ConfiguredFeature<?, ?>> ORE_FOSSIL_LARGE_FEATURE;
-    private static final RegistryObject<ConfiguredFeature<?, ?>> ORE_FOSSIL_BURIED_FEATURE;
+    static final String[] berries =
+    { "trees_forest_berries" };
+
+    public static final RegistryObject<ConfiguredFeature<?, ?>> ORE_FOSSIL_SMALL_FEATURE;
+    public static final RegistryObject<ConfiguredFeature<?, ?>> ORE_FOSSIL_LARGE_FEATURE;
+    public static final RegistryObject<ConfiguredFeature<?, ?>> ORE_FOSSIL_BURIED_FEATURE;
 
     public static final RegistryObject<PlacedFeature> PLACED_SMALL_FOSSIL;
     public static final RegistryObject<PlacedFeature> PLACED_LARGE_FOSSIL;
@@ -82,6 +87,8 @@ public class FeaturesInit
             && (BiomeDatabase.contains(k, "mesa") || BiomeDatabase.contains(k, "ocean")
                     || BiomeDatabase.contains(k, "river") || BiomeDatabase.contains(k, "sandy"));
 
+    private static final Predicate<ResourceKey<Biome>> berry_trees_biome_check = k -> Biomes.FLOWER_FOREST.equals(k);
+
     private static void onBiomeLoading(BiomeLoadingEvent event)
     {
         ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
@@ -93,6 +100,11 @@ public class FeaturesInit
                     PLACED_LARGE_FOSSIL.getHolder().get());
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
                     PLACED_BURIED_FOSSIL.getHolder().get());
+        }
+        if (berry_trees_biome_check.test(key))
+        {
+            for (int i = 0; i < berries.length; i++) event.getGeneration()
+                    .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, new DummyPlacementHolder(berries[i]));
         }
     }
 
