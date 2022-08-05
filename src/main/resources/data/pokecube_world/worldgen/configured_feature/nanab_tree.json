@@ -64,6 +64,11 @@
       "offset": 1,
       "height": 3
     },
-    "decorators": []
+    "decorators": [
+      {
+        "probability": 0.002,
+        "type": "minecraft:beehive"
+      }
+    ]
   }
 }
