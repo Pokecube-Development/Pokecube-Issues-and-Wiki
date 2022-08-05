@@ -46,9 +46,6 @@ public class FeaturesInit
                         PokecubeItems.DEEPSLATE_FOSSIL_ORE.get().defaultBlockState()));
     };
 
-    static final String[] berries =
-    { "trees_forest_berries" };
-
     public static final RegistryObject<ConfiguredFeature<?, ?>> ORE_FOSSIL_SMALL_FEATURE;
     public static final RegistryObject<ConfiguredFeature<?, ?>> ORE_FOSSIL_LARGE_FEATURE;
     public static final RegistryObject<ConfiguredFeature<?, ?>> ORE_FOSSIL_BURIED_FEATURE;
@@ -87,7 +84,7 @@ public class FeaturesInit
             && (BiomeDatabase.contains(k, "mesa") || BiomeDatabase.contains(k, "ocean")
                     || BiomeDatabase.contains(k, "river") || BiomeDatabase.contains(k, "sandy"));
 
-    private static final Predicate<ResourceKey<Biome>> berry_trees_biome_check = k -> Biomes.FLOWER_FOREST.equals(k);
+    private static final Predicate<ResourceKey<Biome>> flower_forest = k -> Biomes.FLOWER_FOREST.equals(k);
 
     private static void onBiomeLoading(BiomeLoadingEvent event)
     {
@@ -101,10 +98,10 @@ public class FeaturesInit
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
                     PLACED_BURIED_FOSSIL.getHolder().get());
         }
-        if (berry_trees_biome_check.test(key))
+        if (flower_forest.test(key))
         {
-            for (int i = 0; i < berries.length; i++) event.getGeneration()
-                    .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, new DummyPlacementHolder(berries[i]));
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
+                    new DummyPlacementHolder("trees_forest_berries"));
         }
     }
 
