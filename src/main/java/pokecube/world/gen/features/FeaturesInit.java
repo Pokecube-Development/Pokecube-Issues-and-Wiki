@@ -24,6 +24,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryTree;
 import pokecube.world.PokecubeWorld;
+import pokecube.world.gen.features.register.PlacedFeatureHolder;
 import thut.api.terrain.BiomeDatabase;
 
 import java.util.List;
@@ -47,9 +48,9 @@ public class FeaturesInit
                         PokecubeItems.DEEPSLATE_FOSSIL_ORE.get().defaultBlockState()));
     };
 
-    private static final RegistryObject<ConfiguredFeature<?, ?>> ORE_FOSSIL_SMALL_FEATURE;
-    private static final RegistryObject<ConfiguredFeature<?, ?>> ORE_FOSSIL_LARGE_FEATURE;
-    private static final RegistryObject<ConfiguredFeature<?, ?>> ORE_FOSSIL_BURIED_FEATURE;
+    public static final RegistryObject<ConfiguredFeature<?, ?>> ORE_FOSSIL_SMALL_FEATURE;
+    public static final RegistryObject<ConfiguredFeature<?, ?>> ORE_FOSSIL_LARGE_FEATURE;
+    public static final RegistryObject<ConfiguredFeature<?, ?>> ORE_FOSSIL_BURIED_FEATURE;
 
     public static final RegistryObject<PlacedFeature> PLACED_SMALL_FOSSIL;
     public static final RegistryObject<PlacedFeature> PLACED_LARGE_FOSSIL;
@@ -118,12 +119,7 @@ public class FeaturesInit
             && (BiomeDatabase.contains(k, "mesa") || BiomeDatabase.contains(k, "ocean")
                     || BiomeDatabase.contains(k, "river") || BiomeDatabase.contains(k, "sandy"));
 
-    private static final Predicate<ResourceKey<Biome>> leppa_trees_biome_check = k ->
-            PokecubeCore.getConfig().generateBerryTrees && PokecubeCore.getConfig().generateLeppaBerryTrees
-                    && Biomes.FLOWER_FOREST.equals(k);
-    private static final Predicate<ResourceKey<Biome>> nanab_trees_biome_check = k ->
-            PokecubeCore.getConfig().generateBerryTrees && PokecubeCore.getConfig().generateNanabBerryTrees
-                    && BiomeDatabase.contains(k, "beach");
+    private static final Predicate<ResourceKey<Biome>> flower_forest = k -> Biomes.FLOWER_FOREST.equals(k);
 
     private static void onBiomeLoading(BiomeLoadingEvent event)
     {
@@ -138,15 +134,10 @@ public class FeaturesInit
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
                     PLACED_BURIED_FOSSIL.getHolder().get());
         }
-        if (leppa_trees_biome_check.test(key))
+        if (flower_forest.test(key))
         {
             event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                    PLACED_TREE_LEPPA.getHolder().get());
-        }
-        if (nanab_trees_biome_check.test(key))
-        {
-            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                    PLACED_TREE_NANAB.getHolder().get());
+                    new PlacedFeatureHolder("trees_forest_berries"));
         }
     }
 
