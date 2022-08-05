@@ -1,12 +1,8 @@
 package pokecube.world.gen.features;
 
-import com.google.common.collect.ImmutableList;
 import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.features.OreFeatures;
-import net.minecraft.data.worldgen.placement.PlacementUtils;
-import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -22,15 +18,12 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.blocks.berries.BerryTree;
 import pokecube.world.PokecubeWorld;
 import pokecube.world.gen.features.register.PlacedFeatureHolder;
 import thut.api.terrain.BiomeDatabase;
 
 import java.util.List;
 import java.util.function.Predicate;
-
-import static pokecube.legends.worldgen.trees.Trees.TREE_FEATURES;
 
 public class FeaturesInit
 {
@@ -56,26 +49,6 @@ public class FeaturesInit
     public static final RegistryObject<PlacedFeature> PLACED_LARGE_FOSSIL;
     public static final RegistryObject<PlacedFeature> PLACED_BURIED_FOSSIL;
 
-    public static RegistryObject<ConfiguredFeature<?, ?>> TREE_LEPPA_FEATURE;
-    public static final RegistryObject<PlacedFeature> PLACED_TREE_LEPPA;
-    public static RegistryObject<ConfiguredFeature<?, ?>> TREE_NANAB_FEATURE;
-    public static final RegistryObject<PlacedFeature> PLACED_TREE_NANAB;
-
-    public static List<PlacementModifier> treePlacement(PlacementModifier modifier) {
-        PokecubeCore.LOGGER.info("Generating Berry Trees Placement");
-        return treePlacementBase(modifier).add(BlockPredicateFilter.forPredicate(BerryTree.BERRY_TREE_PREDICATE)).build();
-    }
-
-    public static List<PlacementModifier> beachTreePlacement(PlacementModifier modifier) {
-        PokecubeCore.LOGGER.info("Generating Berry Trees Placement");
-        return treePlacementBase(modifier).add(BlockPredicateFilter.forPredicate(BerryTree.BEACH_BERRY_TREE_PREDICATE)).build();
-    }
-
-    private static ImmutableList.Builder<PlacementModifier> treePlacementBase(PlacementModifier modifier) {
-        return ImmutableList.<PlacementModifier>builder().add(modifier).add(InSquarePlacement.spread()).add(VegetationPlacements.TREE_THRESHOLD)
-                .add(PlacementUtils.HEIGHTMAP_OCEAN_FLOOR).add(BiomeFilter.biome());
-    }
-
     static
     {
         ORE_FOSSIL_SMALL_FEATURE = PokecubeWorld.CONFIGURED_FEATURES.register("fossil_ore",
@@ -100,18 +73,6 @@ public class FeaturesInit
                         List.of(CountPlacement.of(3), InSquarePlacement.spread(), HeightRangePlacement
                                 .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)),
                                 BiomeFilter.biome())));
-
-        TREE_LEPPA_FEATURE = TREE_FEATURES.register("leppa_tree",
-                () -> new ConfiguredFeature<>(Feature.TREE, BerryTree.getLeppaTree().build()));
-        PLACED_TREE_LEPPA = PokecubeWorld.PLACED_FEATURES.register("leppa_tree",
-                () -> new PlacedFeature(TREE_LEPPA_FEATURE.getHolder().get(),
-                        treePlacement(PlacementUtils.countExtra(0, 0.1F, 1))));
-
-        TREE_NANAB_FEATURE = TREE_FEATURES.register("nanab_tree",
-                () -> new ConfiguredFeature<>(Feature.TREE, BerryTree.getNanabTree().build()));
-        PLACED_TREE_NANAB = PokecubeWorld.PLACED_FEATURES.register("nanab_tree",
-                () -> new PlacedFeature(TREE_NANAB_FEATURE.getHolder().get(),
-                        beachTreePlacement(PlacementUtils.countExtra(0, 0.1F, 1))));
     }
 
     private static final Predicate<ResourceKey<Biome>> ores_biome_check = k ->
