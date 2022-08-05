@@ -46,7 +46,7 @@
       },
       "base_height": 4,
       "height_rand_a": 2,
-      "type": "minecraft:bending_trunk_placer"
+      "type": "pokecube:palm_trunk_placer"
     },
     "foliage_placer": {
       "type": "pokecube:palm_foliage_placer",
