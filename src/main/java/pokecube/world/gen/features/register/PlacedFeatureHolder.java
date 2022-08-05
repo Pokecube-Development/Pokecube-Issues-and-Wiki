@@ -17,14 +17,14 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import pokecube.core.PokecubeCore;
 import pokecube.world.gen.features.FeaturesInit;
 
-public class DummyPlacementHolder implements Holder<PlacedFeature>
+public class PlacedFeatureHolder implements Holder<PlacedFeature>
 {
     Holder<PlacedFeature> when_loaded;
     String name;
     MinecraftServer server = null;
     Supplier<PlacedFeature> dummy_getter = FeaturesInit.PLACED_SMALL_FOSSIL;
 
-    public DummyPlacementHolder(String name)
+    public PlacedFeatureHolder(String name)
     {
         this.name = name;
     }

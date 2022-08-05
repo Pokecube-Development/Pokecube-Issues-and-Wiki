@@ -17,14 +17,14 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import pokecube.core.PokecubeCore;
 import pokecube.world.gen.features.FeaturesInit;
 
-public class DummyFeatureHolder implements Holder<ConfiguredFeature<?, ?>>
+public class ConfiguredFeatureHolder implements Holder<ConfiguredFeature<?, ?>>
 {
     Holder<ConfiguredFeature<?, ?>> when_loaded;
     String name;
     MinecraftServer server = null;
     Supplier<ConfiguredFeature<?, ?>> dummy_getter = FeaturesInit.ORE_FOSSIL_SMALL_FEATURE;
 
-    public DummyFeatureHolder(String name)
+    public ConfiguredFeatureHolder(String name)
     {
         this.name = name;
     }

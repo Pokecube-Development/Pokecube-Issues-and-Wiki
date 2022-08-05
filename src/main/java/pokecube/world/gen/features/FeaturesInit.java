@@ -27,7 +27,7 @@ import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.world.PokecubeWorld;
-import pokecube.world.gen.features.register.DummyPlacementHolder;
+import pokecube.world.gen.features.register.PlacedFeatureHolder;
 import thut.api.terrain.BiomeDatabase;
 
 public class FeaturesInit
@@ -101,7 +101,7 @@ public class FeaturesInit
         if (flower_forest.test(key))
         {
             event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                    new DummyPlacementHolder("trees_forest_berries"));
+                    new PlacedFeatureHolder("trees_forest_berries"));
         }
     }
 
