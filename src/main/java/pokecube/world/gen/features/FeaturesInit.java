@@ -80,7 +80,9 @@ public class FeaturesInit
             && (BiomeDatabase.contains(k, "mesa") || BiomeDatabase.contains(k, "ocean")
                     || BiomeDatabase.contains(k, "river") || BiomeDatabase.contains(k, "sandy"));
 
-    private static final Predicate<ResourceKey<Biome>> flower_forest = k -> Biomes.FLOWER_FOREST.equals(k);
+    private static final Predicate<ResourceKey<Biome>> flower_forest = k -> PokecubeCore.getConfig().generateBerryTrees && Biomes.FLOWER_FOREST.equals(k);
+
+    private static final Predicate<ResourceKey<Biome>> beach = k -> PokecubeCore.getConfig().generateBerryTrees && BiomeDatabase.contains(k, "beach");
 
     private static void onBiomeLoading(BiomeLoadingEvent event)
     {
@@ -99,6 +101,11 @@ public class FeaturesInit
         {
             event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
                     new PlacedFeatureHolder("trees_forest_berries"));
+        }
+        if (beach.test(key))
+        {
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
+                    new PlacedFeatureHolder("trees_beach"));
         }
     }
 

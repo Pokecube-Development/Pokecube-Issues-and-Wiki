@@ -2,7 +2,7 @@
   "type": "minecraft:tree",
   "config": {
     "ignore_vines": true,
-    "force_dirt": false,
+    "force_dirt": true,
     "minimum_size": {
       "type": "minecraft:two_layers_feature_size",
       "limit": 1,
@@ -45,7 +45,7 @@
         }
       },
       "trunk_placer": {
-        "height_rand_b": 0,
+        "height_rand_b": 2,
         "min_height_for_leaves": 6,
         "bend_length": {
           "type": "minecraft:uniform",
@@ -54,13 +54,13 @@
             "max_inclusive": 2
           }
         },
-      "base_height": 4,
+      "base_height": 6,
       "height_rand_a": 2,
       "type": "minecraft:bending_trunk_placer"
     },
     "foliage_placer": {
       "type": "pokecube:palm_foliage_placer",
-      "radius": 3,
+      "radius": 2,
       "offset": 1,
       "height": 3
     },

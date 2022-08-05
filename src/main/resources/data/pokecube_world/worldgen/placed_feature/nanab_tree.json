@@ -1,5 +1,5 @@
 {
-  "feature": "pokecube_world:pomeg_tree",
+  "feature": "pokecube_world:nanab_tree",
   "placement": [
     {
       "type": "minecraft:block_predicate_filter",
@@ -10,7 +10,7 @@
           -1,
           0
         ],
-        "tag": "minecraft:dirt"
+        "tag": "minecraft:sand"
       }
     }
   ]
