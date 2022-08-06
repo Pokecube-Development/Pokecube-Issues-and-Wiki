@@ -7,7 +7,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -26,6 +25,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.world.PokecubeWorld;
 import pokecube.world.gen.features.register.PlacedFeatureHolder;
 import thut.api.terrain.BiomeDatabase;
@@ -84,13 +84,12 @@ public class FeaturesInit
             && (BiomeDatabase.contains(k, "mesa") || BiomeDatabase.contains(k, "ocean")
                     || BiomeDatabase.contains(k, "river") || BiomeDatabase.contains(k, "sandy"));
 
-    private static final Predicate<ResourceKey<Biome>> flower_forest = k -> Biomes.FLOWER_FOREST.equals(k);
-
     private static void onBiomeLoading(BiomeLoadingEvent event)
     {
         ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
         if (make_ores_check.test(key))
         {
+            PokecubeCore.LOGGER.info("Adding Fossils to " + event.getName());
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
                     PLACED_SMALL_FOSSIL.getHolder().get());
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
@@ -98,11 +97,14 @@ public class FeaturesInit
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
                     PLACED_BURIED_FOSSIL.getHolder().get());
         }
-        if (flower_forest.test(key))
-        {
-            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                    new PlacedFeatureHolder("trees_forest_berries"));
-        }
+        if (PokecubeCore.getConfig().generateBerries) BerryGenManager.list.locations.forEach(config -> {
+            if (config.matches(event))
+            {
+                PokecubeCore.LOGGER.info("Adding " + config.placement + " to " + event.getName());
+                event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
+                        new PlacedFeatureHolder(config.placement));
+            }
+        });
     }
 
 }

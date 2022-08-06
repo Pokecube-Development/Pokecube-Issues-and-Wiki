@@ -33,6 +33,10 @@
         {
           "chance": 0.1,
           "feature": "pokecube_world:sitrus_tree"
+        },
+        {
+          "chance": 0.5,
+          "feature": "pokecube_world:tomato_tree"
         }
       ],
       "default": "pokecube_world:oran_tree"

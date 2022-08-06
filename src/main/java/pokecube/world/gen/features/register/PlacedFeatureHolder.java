@@ -20,13 +20,14 @@ import pokecube.world.gen.features.FeaturesInit;
 public class PlacedFeatureHolder implements Holder<PlacedFeature>
 {
     Holder<PlacedFeature> when_loaded;
-    String name;
+    ResourceLocation name;
     MinecraftServer server = null;
     Supplier<PlacedFeature> dummy_getter = FeaturesInit.PLACED_SMALL_FOSSIL;
 
     public PlacedFeatureHolder(String name)
     {
-        this.name = name;
+        if (!name.contains(":")) this.name = new ResourceLocation("pokecube_world", name);
+        else this.name = new ResourceLocation(name);
     }
 
     private boolean init()
@@ -37,7 +38,7 @@ public class PlacedFeatureHolder implements Holder<PlacedFeature>
             if (server != null)
             {
                 Registry<PlacedFeature> reg = server.registryAccess().registryOrThrow(Registry.PLACED_FEATURE_REGISTRY);
-                when_loaded = Holder.direct(reg.get(new ResourceLocation("pokecube_world", name)));
+                when_loaded = Holder.direct(reg.get(name));
             }
         }
         return when_loaded != null;
