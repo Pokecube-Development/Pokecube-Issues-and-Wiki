@@ -57,11 +57,7 @@ import pokecube.core.entity.pokemobs.GenericPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.onload.RegisterPokemobsEvent;
-import pokecube.core.handlers.Config;
-import pokecube.core.handlers.ItemGenerator;
-import pokecube.core.handlers.ItemHandler;
-import pokecube.core.handlers.PaintingsHandler;
-import pokecube.core.handlers.RecipeHandler;
+import pokecube.core.handlers.*;
 import pokecube.core.handlers.data.Drops;
 import pokecube.core.handlers.data.Recipes;
 import pokecube.core.handlers.events.SpawnHandler;
@@ -350,7 +346,7 @@ public class PokecubeCore
 
         RegistryEvents.CHUNKGENTYPE.register(bus);
         RegistryEvents.RECIPETYPE.register(bus);
-        
+
         PokecubeWorld.init(bus);
 
         bus.addListener(this::loadComplete);

@@ -41,12 +41,23 @@
         "height_rand_b": 0
       },
       "foliage_placer": {
-        "type": "minecraft:blob_foliage_placer",
-        "radius": 2,
-        "offset": 0,
-        "height": 3
+        "radius": 3,
+        "offset": 1,
+        "height": {
+          "type": "minecraft:uniform",
+          "value": {
+            "min_inclusive": 2,
+            "max_inclusive": 3
+          }
+        },
+        "type": "minecraft:pine_foliage_placer"
       },
-      "decorators": []
+      "decorators": [
+        {
+          "probability": 0.05,
+          "type": "minecraft:beehive"
+        }
+      ]
     }
   }
   

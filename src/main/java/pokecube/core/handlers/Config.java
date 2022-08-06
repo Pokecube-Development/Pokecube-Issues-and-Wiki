@@ -438,9 +438,9 @@ public class Config extends ConfigData
     public int leafBerryTicks = 75;
     @Configure(category = Config.world, comment = "If false, subbiomes will not auto-detect, meaning they need to be placed manually, useful for adventure maps, etc. [Default: true]")
     public boolean autoDetectSubbiomes = true;
-    @Configure(category = Config.world, comment = "Fossil ores will be added to certain biomes. [Default: true]")
+    @Configure(category = Config.world, comment = "Fossil ores will generate in certain biomes. [Default: true]")
     public boolean generateFossils = true;
-    @Configure(category = Config.world, comment = "berry trees/crops will be added to certain biomes, based on datapack settings. [Default: true]")
+    @Configure(category = Config.world, comment = "Berry trees/crops will be added to certain biomes, based on datapack settings. [Default: true]")
     public boolean generateBerries = true;
 
     @Configure(category = Config.world, comment = "Pokecube structures will not spawn in these dimensions, unless specifically stated in the structure's spawn rules.")

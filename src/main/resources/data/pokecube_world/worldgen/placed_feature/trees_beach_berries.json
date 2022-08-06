@@ -1,5 +1,5 @@
 {
-  "feature": "pokecube_world:trees_forest_berries",
+  "feature": "pokecube_world:trees_beach_berries",
   "placement": [
     {
       "type": "minecraft:count",
@@ -7,7 +7,7 @@
         "type": "minecraft:weighted_list",
         "distribution": [
           {
-            "weight": 9,
+            "weight": 19,
             "data": 0
           },
           {
