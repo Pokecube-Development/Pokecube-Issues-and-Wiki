@@ -13,6 +13,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
@@ -82,6 +83,7 @@ import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager.GeneticsProvider;
 import pokecube.core.events.CustomInteractEvent;
+import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
@@ -682,9 +684,22 @@ public class EventsHandler
 
     private static void onPlayerLogin(final PlayerLoggedInEvent evt)
     {
-        final Player player = evt.getPlayer();
-        if (!player.isEffectiveAi()) return;
-        EventsHandler.sendInitInfo((ServerPlayer) player);
+        if (!(evt.getPlayer() instanceof ServerPlayer player)) return;
+        EventsHandler.sendInitInfo(player);
+
+        if (PokecubeCore.getConfig().spawnInBuilding)
+        {
+            boolean ready = PokecubeSerializer.getInstance().hasPlacedSpawn();
+            ready = ready && !PokecubePlayerDataHandler.getCustomDataTag(player).contains("_spawned_");
+            if (ready)
+            {
+                final ServerLevel world = player.getServer().getLevel(Level.OVERWORLD);
+                BlockPos worldSpawn = world.getSharedSpawnPos();
+                player.teleportTo(worldSpawn.getX(), worldSpawn.getY(), worldSpawn.getZ());
+                PokecubePlayerDataHandler.getCustomDataTag(player).putBoolean("_spawned_", true);
+                PokecubePlayerDataHandler.saveCustomData(player);
+            }
+        }
     }
 
     private static void onStartTracking(final StartTracking event)
