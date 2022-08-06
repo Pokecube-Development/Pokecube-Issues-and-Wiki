@@ -18,18 +18,21 @@ import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.structure.templatesystem.AlwaysTrueTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.ProcessorRule;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.resources.PackFinder;
@@ -39,20 +42,76 @@ import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.berries.ItemBerry;
 import pokecube.world.gen.structures.processors.NotRuleProcessor;
 import thut.api.maths.Vector3;
+import thut.api.terrain.BiomeDatabase;
 import thut.api.util.JsonUtil;
 
 public class BerryGenManager
 {
-    private static class BerryConfig
+    public static class BerryConfig
     {
-        List<SpawnConfig> locations = Lists.newArrayList();
-        List<TreeConfig> trees = Lists.newArrayList();
+        public List<SpawnConfig> locations = Lists.newArrayList();
+        public List<TreeConfig> trees = Lists.newArrayList();
     }
 
-    private static class SpawnConfig
+    public static class SpawnConfig
     {
         public List<SpawnRule> spawn;
         public String berry;
+        public String placement;
+
+        public boolean matches(BiomeLoadingEvent event)
+        {
+            if (this.placement == null || this.placement.isBlank()) return false;
+            return spawn.stream().anyMatch(rule -> this.matches(rule, event));
+        }
+
+        public boolean matches(SpawnRule spawn, BiomeLoadingEvent event)
+        {
+            if (event.getName() != null)
+            {
+                ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
+                String no_specific_biomes = spawn.values.get("no_biomes");
+                if (no_specific_biomes != null)
+                {
+                    String[] ts = no_specific_biomes.split(",");
+                    for (String s : ts) if (s.equals(event.getName().toString())) return false;
+                }
+                String no_biome_types = spawn.values.get("no_biome_types");
+                if (no_biome_types != null)
+                {
+                    String[] ts = no_biome_types.split(",");
+                    for (String s : ts) if (BiomeDatabase.contains(key, s)) return false;
+                }
+                String catName = event.getCategory().getName();
+                String no_biome_cats = spawn.values.get("no_biome_category");
+                if (no_biome_cats != null)
+                {
+                    String[] ts = no_biome_cats.split(",");
+                    for (String s : ts) if (catName.equals(s)) return false;
+                }
+                String specific_biomes = spawn.values.get("biomes");
+                if (specific_biomes != null)
+                {
+                    String[] ts = specific_biomes.split(",");
+                    for (String s : ts) if (s.equals(event.getName().toString())) return true;
+                }
+                String biome_types = spawn.values.get("biome_types");
+                if (biome_types != null)
+                {
+                    String[] ts = biome_types.split(",");
+                    for (String s : ts) if (!BiomeDatabase.contains(key, s)) return false;
+                    return true;
+                }
+                String biome_cats = spawn.values.get("biome_category");
+                if (biome_cats != null)
+                {
+                    String[] ts = biome_cats.split(",");
+                    for (String s : ts) if (!catName.equals(s)) return false;
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     private static class TreeConfig
@@ -104,7 +163,7 @@ public class BerryGenManager
 
     private static List<SpawnBiomeMatcher> matchers = Lists.newArrayList();
 
-    private static BerryConfig list = new BerryConfig();
+    public static BerryConfig list = new BerryConfig();
 
     private static final String prior = "priority";
 
@@ -140,7 +199,7 @@ public class BerryGenManager
         {
             final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(spawn);
             final List<ItemStack> berries = Lists.newArrayList();
-            for (final String s : rule.berry.split(","))
+            if (rule.berry != null) for (final String s : rule.berry.split(","))
             {
                 final Item berry = BerryManager.getBerryItem(s.trim());
                 if (berry != null) berries.add(new ItemStack(berry));

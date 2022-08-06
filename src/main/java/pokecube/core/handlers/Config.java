@@ -438,8 +438,8 @@ public class Config extends ConfigData
     public boolean autoDetectSubbiomes = true;
     @Configure(category = Config.world, comment = "Fossil ores will generate in certain biomes. [Default: true]")
     public boolean generateFossils = true;
-    @Configure(category = Config.world, comment = "Berry Trees will generate in certain biomes. [Default: true]")
-    public boolean generateBerryTrees = true;
+    @Configure(category = Config.world, comment = "Berry trees/crops will be added to certain biomes, based on datapack settings. [Default: true]")
+    public boolean generateBerries = true;
 
     @Configure(category = Config.world, comment = "Pokecube structures will not spawn in these dimensions, unless specifically stated in the structure's spawn rules.")
     public List<String> softWorldgenDimBlacklist = Lists.newArrayList(

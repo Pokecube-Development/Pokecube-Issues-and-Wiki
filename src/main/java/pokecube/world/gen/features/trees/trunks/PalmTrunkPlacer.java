@@ -1,6 +1,5 @@
 package pokecube.world.gen.features.trees.trunks;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -43,46 +42,50 @@ public class PalmTrunkPlacer extends TrunkPlacer
         this.bendLength = bendLength;
     }
 
-    protected TrunkPlacerType<?> type() {
+    @Override
+    protected TrunkPlacerType<?> type()
+    {
         return TrunkPlacerTypes.PALM_TRUNK_PLACER.get();
     }
 
-    public List<FoliagePlacer.FoliageAttachment> placeTrunk(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter, Random random,
-                                                            int freeTreeHeight, BlockPos pos, TreeConfiguration treeConfig)
+    @Override
+    public List<FoliagePlacer.FoliageAttachment> placeTrunk(LevelSimulatedReader level,
+            BiConsumer<BlockPos, BlockState> blockSetter, Random random, int freeTreeHeight, BlockPos pos,
+            TreeConfiguration config)
     {
         Direction direction = Direction.Plane.HORIZONTAL.getRandomDirection(random);
         int i = freeTreeHeight - 1;
-        BlockPos.MutableBlockPos mutablePos = pos.mutable();
-        BlockPos posBelow = mutablePos.below();
-        setDirtAt(level, blockSetter, random, posBelow, treeConfig);
+        BlockPos.MutableBlockPos blockpos$mutableblockpos = pos.mutable();
+        BlockPos blockpos = blockpos$mutableblockpos.below();
+        setDirtAt(level, blockSetter, random, blockpos, config);
         List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
 
-        for(int j = 0; j <= i; ++j)
+        for (int j = 0; j <= i; ++j)
         {
-            if (j + 1 >= i + random.nextInt(2))
+            if (j + 2 >= i + random.nextInt(2))
             {
-                mutablePos.move(direction);
+                blockpos$mutableblockpos.move(direction);
             }
 
-            if (TreeFeature.validTreePos(level, mutablePos))
+            if (TreeFeature.validTreePos(level, blockpos$mutableblockpos))
             {
-                placeLog(level, blockSetter, random, mutablePos, treeConfig);
+                placeLog(level, blockSetter, random, blockpos$mutableblockpos, config);
             }
 
-            mutablePos.move(Direction.UP);
+            blockpos$mutableblockpos.move(Direction.UP);
         }
 
         int l = this.bendLength.sample(random);
-
-        for(int k = 0; k <= l; ++k)
+        for (int k = 0; k <= l; ++k)
         {
-            if (TreeFeature.validTreePos(level, mutablePos))
+            if (TreeFeature.validTreePos(level, blockpos$mutableblockpos))
             {
-                placeLog(level, blockSetter, random, mutablePos, treeConfig);
+                placeLog(level, blockSetter, random, blockpos$mutableblockpos, config);
             }
-            mutablePos.move(direction);
+            blockpos$mutableblockpos.move(direction);
         }
-
-        return ImmutableList.of(new FoliagePlacer.FoliageAttachment(pos.below().above(freeTreeHeight), 0, false));
+        blockpos$mutableblockpos.move(direction.getOpposite());
+        list.add(new FoliagePlacer.FoliageAttachment(blockpos$mutableblockpos.immutable(), 0, false));
+        return list;
     }
 }
