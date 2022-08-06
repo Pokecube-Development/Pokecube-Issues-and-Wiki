@@ -1,0 +1,82 @@
+{
+  "locations": [
+    {
+      "placement": "pokecube_world:trees_flower_forest_berries",
+      "spawn": [
+        {          
+          "values":{"biomes": "minecraft:flower_forest"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:trees_forest_berries",
+      "spawn": [
+        {          
+          "values":{"biome_category": "forest","no_biome_types": "cold,spooky,snowy,sparse,dry", "no_biomes":"minecraft:flower_forest"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:crops_taigas",
+      "spawn": [
+        {          
+          "values":{"biome_types": "coniferous"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:crops_forests",
+      "spawn": [
+        {          
+          "values":{"biome_category": "forest","no_biome_types": "cold,spooky,snowy,sparse,dry"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:crops_plains",
+      "spawn": [
+        {          
+          "values":{"biome_category": "plains","no_biome_types": "savanna,cold,spooky,snowy,sparse,dry"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:crops_mountains",
+      "spawn": [
+        {          
+          "values":{"biome_category": "extreme_hills"}
+        },
+        {          
+          "values":{"biome_category": "mountain"}
+        },
+        {          
+          "values":{"biome_category": "nether"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:crops_swamps",
+      "spawn": [
+        {          
+          "values":{"biome_category": "swamp"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:crops_swamps",
+      "spawn": [
+        {          
+          "values":{"biome_category": "swamp"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:crops_jungles",
+      "spawn": [
+        {          
+          "values":{"biome_category": "jungle"}
+        }
+      ]
+    }
+  ]
+}
