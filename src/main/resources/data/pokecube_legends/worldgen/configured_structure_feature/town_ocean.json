@@ -4,6 +4,7 @@
   "config": {
     "start_pool": "pokecube_legends:village/ocean/town_centers",
     "structures_to_avoid": [],
+    "spawn_blacklist": "snowy_areas,cold_areas",
     "required_parts": [
       "pokecenter",
       "gym"
