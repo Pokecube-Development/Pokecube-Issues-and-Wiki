@@ -1,13 +1,9 @@
 package pokecube.world.gen.features.trees.foliage;
 
-import java.util.Random;
-import java.util.function.BiConsumer;
-
 import com.mojang.datafixers.Products.P3;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Mu;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.LevelSimulatedReader;
@@ -16,23 +12,26 @@ import net.minecraft.world.level.levelgen.feature.configurations.TreeConfigurati
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 
-public class PalmFoliagePlacer extends FoliagePlacer
-{
-    protected final IntProvider height;
+import java.util.Random;
+import java.util.function.BiConsumer;
 
-    public static final Codec<PalmFoliagePlacer> CODEC = RecordCodecBuilder.create((type) -> {
-        return palmParts(type).apply(type, PalmFoliagePlacer::new);
+public class PyramidFoliagePlacer extends FoliagePlacer
+{
+    protected final int height;
+
+    public static final Codec<PyramidFoliagePlacer> CODEC = RecordCodecBuilder.create((type) -> {
+        return palmParts(type).apply(type, PyramidFoliagePlacer::new);
     });
 
-    protected static <P extends PalmFoliagePlacer> P3<Mu<P>, IntProvider, IntProvider, IntProvider> palmParts(
+    protected static <P extends PyramidFoliagePlacer> P3<Mu<P>, IntProvider, IntProvider, Integer> palmParts(
             RecordCodecBuilder.Instance<P> instance)
     {
-        return foliagePlacerParts(instance).and(IntProvider.codec(0, 16).fieldOf("height").forGetter((get) -> {
+        return foliagePlacerParts(instance).and(Codec.intRange(0, 16).fieldOf("height").forGetter((get) -> {
             return get.height;
         }));
     }
 
-    public PalmFoliagePlacer(IntProvider radius, IntProvider offset, IntProvider height)
+    public PyramidFoliagePlacer(IntProvider radius, IntProvider offset, int height)
     {
         super(radius, offset);
         this.height = height;
@@ -41,13 +40,13 @@ public class PalmFoliagePlacer extends FoliagePlacer
     @Override
     protected FoliagePlacerType<?> type()
     {
-        return FoliagePlacerTypes.PALM_FOLIAGE_PLACER.get();
+        return FoliagePlacerTypes.PYRAMID_FOLIAGE_PLACER.get();
     }
 
     @Override
     protected void createFoliage(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
             Random random, TreeConfiguration treeConfig, int maxFreeTreeHeight,
-            FoliagePlacer.FoliageAttachment foliageAttachment, int height, int radius, int offset)
+            FoliageAttachment foliageAttachment, int height, int radius, int offset)
     {
         for (int yOffset = offset; yOffset >= offset - height; --yOffset)
         {
@@ -61,21 +60,25 @@ public class PalmFoliagePlacer extends FoliagePlacer
             Random random, TreeConfiguration treeConfig, BlockPos pos, int offset, int range, int yOffset,
             boolean large)
     {
-        int minRadius = range - yOffset - 2 + (1 + yOffset % 2);
+        int i = large ? 1 : 0;
+        int minRadius = range + 1 - yOffset - 2 + (yOffset % 1);
         if (yOffset == offset) minRadius = 0;
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
-        for (int j = -range; j <= range; ++j)
+        for (int j = -range; j <= range + i; ++j)
         {
-            if (minRadius > Math.abs(j)) continue;
-            if (!this.shouldSkipLocationSigned(random, j, yOffset, 0, range, large))
+            for(int k = -range; k <= range + i; ++k)
             {
-                mutablePos.setWithOffset(pos, j, yOffset, 0);
-                tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
-            }
-            if (!this.shouldSkipLocationSigned(random, 0, yOffset, j, range, large))
-            {
-                mutablePos.setWithOffset(pos, 0, yOffset, j);
-                tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
+                if (minRadius > Math.abs(j)) continue;
+                if (!this.shouldSkipLocationSigned(random, j, yOffset, k, range, large))
+                {
+                    mutablePos.setWithOffset(pos, j, yOffset, k);
+                    tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
+                }
+                if (!this.shouldSkipLocationSigned(random, k, yOffset, j, range, large))
+                {
+                    mutablePos.setWithOffset(pos, k, yOffset, j);
+                    tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
+                }
             }
         }
     }
@@ -83,7 +86,7 @@ public class PalmFoliagePlacer extends FoliagePlacer
     @Override
     public int foliageHeight(Random random, int height, TreeConfiguration treeConfig)
     {
-        return this.height.sample(random);
+        return this.height;
     }
 
     @Override
