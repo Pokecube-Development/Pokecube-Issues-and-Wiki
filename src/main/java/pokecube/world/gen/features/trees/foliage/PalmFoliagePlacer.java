@@ -61,8 +61,9 @@ public class PalmFoliagePlacer extends FoliagePlacer
             Random random, TreeConfiguration treeConfig, BlockPos pos, int offset, int range, int yOffset,
             boolean large)
     {
-        int minRadius = range - yOffset - 2 + (1+yOffset % 2);
+        int minRadius = range - yOffset - 2 + (1 + yOffset % 2);
         if (yOffset == offset) minRadius = 0;
+        int sideLeafRadius = 1;
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
         for (int j = -range; j <= range; ++j)
         {
@@ -76,6 +77,17 @@ public class PalmFoliagePlacer extends FoliagePlacer
             {
                 mutablePos.setWithOffset(pos, 0, yOffset, j);
                 tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
+            }
+            if (minRadius <= sideLeafRadius && Math.abs(j) <= sideLeafRadius)
+            {
+                for (int k = -sideLeafRadius; k <= sideLeafRadius; ++k)
+                {
+                    if (!this.shouldSkipLocationSigned(random, j, yOffset, k, range, large))
+                    {
+                        mutablePos.setWithOffset(pos, j, yOffset, k);
+                        tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
+                    }
+                }
             }
         }
     }
