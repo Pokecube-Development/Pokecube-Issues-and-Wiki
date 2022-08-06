@@ -148,11 +148,11 @@ public class ExpandedJigsawPacement
 
                         List<Placer> attempts = Lists.newArrayList();
 
-                        PokecubeCore.LOGGER.debug("Building: {}", root_pool.getName());
+                        if (ThutCore.conf.debug) PokecubeCore.LOGGER.debug("Building: {}", root_pool.getName());
                         tries:
                         for (int n = 0; n < 10; n++)
                         {
-                            PokecubeCore.LOGGER.debug("Starting Try: {}", n);
+                            if (ThutCore.conf.debug) PokecubeCore.LOGGER.debug("Starting Try: {}", n);
                             List<PoolElementStructurePiece> list = Lists.newArrayList();
                             list.add(root_piece);
                             Placer placer = new Placer(config, registry, config.maxDepth(), factory, chunkgenerator,
@@ -171,13 +171,14 @@ public class ExpandedJigsawPacement
                                 placer.tryPlacingChildren(next_state, bound_checks, levelheightaccessor);
                             }
 
-                            PokecubeCore.LOGGER.debug("Ended Try: {}", n);
+                            if (ThutCore.conf.debug) PokecubeCore.LOGGER.debug("Ended Try: {}", n);
                             if (placer.needed_once.isEmpty()) break;
                             for (String s : placer.needed_once)
                             {
                                 if (!placer.added_once.contains(s))
                                 {
-                                    PokecubeCore.LOGGER.debug("Try: {} has failed. Missing {}", n, s);
+                                    if (ThutCore.conf.debug)
+                                        PokecubeCore.LOGGER.debug("Try: {} has failed. Missing {}", n, s);
                                     continue tries;
                                 }
                             }
@@ -210,7 +211,7 @@ public class ExpandedJigsawPacement
                         @SuppressWarnings("unchecked")
                         List<PoolElementStructurePiece> list = (List<PoolElementStructurePiece>) most_complete.pieces;
 
-                        PokecubeCore.LOGGER.debug("Finshed: {}", root_pool.getName());
+                        if (ThutCore.conf.debug) PokecubeCore.LOGGER.debug("Finshed: {}", root_pool.getName());
                         PostProcessor.POSTPROCESS.accept(config_context, list);
                         list.forEach(builder::addPiece);
 

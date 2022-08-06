@@ -11,9 +11,13 @@ import java.util.function.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
@@ -39,6 +43,7 @@ import net.minecraft.world.item.trading.Merchant;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.entity.EntityTypeTest;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -476,6 +481,8 @@ public class EventsHandler
 
         boolean isSpawnPresetDebug = evt.getItemStack().getDisplayName().getString().contains("spawn_preset_debug");
         boolean isSubbiomeDebug = evt.getItemStack().getDisplayName().getString().contains("subbiome_debug");
+        boolean isStructureDebug = player.isCreative()
+                && evt.getItemStack().getDisplayName().getString().contains("structure_debug");
 
         Vector3 v = new Vector3().set(player);
         if (isSpawnPresetDebug)
@@ -501,6 +508,53 @@ public class EventsHandler
             TerrainSegment seg = TerrainManager.getInstance().getTerrainForEntity(player);
             BiomeType type = seg.getBiome(v);
             player.sendMessage(new TextComponent("SubBiome Type: " + type.name), player.getUUID());
+        }
+        if (isStructureDebug)
+        {
+            var registry = level.registryAccess().registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
+            var list = registry.stream().toList();
+            List<ResourceLocation> found = Lists.newArrayList();
+            List<ResourceLocation> not_found = Lists.newArrayList();
+            Map<ResourceLocation, Pair<Integer, BlockPos>> found_map = Maps.newHashMap();
+            player.sendMessage(new TextComponent("Searching for Structures!"), player.getUUID());
+            for (var feature : list)
+            {
+                var name = registry.getKey(feature);
+                if (name.toString().startsWith("pokecube"))
+                {
+                    player.sendMessage(new TextComponent("Checking " + name), player.getUUID());
+                    final ResourceKey<ConfiguredStructureFeature<?, ?>> structure = ResourceKey
+                            .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, name);
+                    var holder = registry.getHolderOrThrow(structure);
+                    HolderSet<ConfiguredStructureFeature<?, ?>> holderset = HolderSet.direct(holder);
+                    Pair<BlockPos, Holder<ConfiguredStructureFeature<?, ?>>> thing = level.getChunkSource()
+                            .getGenerator().findNearestMapFeature(level, holderset, v.getPos(), 100, false);
+                    if (thing != null)
+                    {
+                        found.add(name);
+                        found_map.put(name,
+                                Pair.of((int) Math.sqrt(thing.getFirst().distSqr(v.getPos())), thing.getFirst()));
+                    }
+                    else
+                    {
+                        not_found.add(name);
+                    }
+                }
+            }
+            player.sendMessage(new TextComponent("Search Complete"), player.getUUID());
+            found.sort(null);
+            not_found.sort(null);
+            PokecubeCore.LOGGER.info("Structures Found:");
+            for (var name : found)
+            {
+                PokecubeCore.LOGGER.info("{}\t{}\t{}", found_map.get(name).getFirst(), found_map.get(name).getSecond(),
+                        name);
+            }
+            PokecubeCore.LOGGER.info("Structures Missing:");
+            for (var name : not_found)
+            {
+                PokecubeCore.LOGGER.info(name);
+            }
         }
     }
 

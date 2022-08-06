@@ -18,7 +18,6 @@ public class VillageRouteMaker extends RouteMaker
     {
         super(player);
         this.target = new ResourceLocation("pokecube_world:starting_town");
-        this.target = new ResourceLocation("pokecube_world:surface_temples");
     }
 
     @Override
