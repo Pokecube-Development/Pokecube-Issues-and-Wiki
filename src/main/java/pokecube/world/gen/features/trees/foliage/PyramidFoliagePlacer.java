@@ -61,7 +61,7 @@ public class PyramidFoliagePlacer extends FoliagePlacer
             boolean large)
     {
         int i = large ? 1 : 0;
-        int minRadius = range + 1 - yOffset - 2 + (yOffset % 1);
+        int minRadius = range - yOffset - 2 + (yOffset % 1);
         if (yOffset == offset) minRadius = 0;
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
         for (int j = -range; j <= range + i; ++j)
