@@ -49,6 +49,7 @@ import thut.api.AnimatedCaps;
 import thut.api.LinkableCaps;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
+import thut.api.block.flowing.functions.LootLayerFunction;
 import thut.api.entity.BreedableCaps;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.IMultiplePassengerEntity;
@@ -263,7 +264,7 @@ public class ThutCore
                 .setName(ThutCore.MODID).build();
         logger.addAppender(appender);
         appender.start();
-        
+
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         // Register the setup method for modloading
@@ -279,6 +280,7 @@ public class ThutCore
         MinecraftForge.EVENT_BUS.register(this);
 
         Tracker.init();
+        LootLayerFunction.init();
 
         // Register Config stuff
         Config.setupConfigs(ThutCore.conf, ThutCore.MODID, ThutCore.MODID);
