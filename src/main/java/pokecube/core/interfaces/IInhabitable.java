@@ -17,6 +17,14 @@ public interface IInhabitable
     boolean canEnterHabitat(Mob mob);
 
     /**
+     * Called when an egg hatches and resident is added to the nest.
+     * 
+     * @param mob
+     */
+    default void addResident(Mob mob)
+    {}
+
+    /**
      * Called when the habitat is broken due to the block being removed
      */
     default void onBroken(final ServerLevel world)

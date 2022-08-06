@@ -16,6 +16,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -41,6 +42,7 @@ import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor.AntNest;
 import pokecube.core.blocks.nests.NestTile;
+import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.events.SpawnHandler;
@@ -111,7 +113,6 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     @Override
     public void onTickEnd(final ServerLevel world)
     {
-
         // Checks of if the tile entity is here, if not anger all ants
         // Possibly update a set of paths between nodes, so that we can speed up
         // path finding in the nest.
@@ -355,6 +356,28 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         });
 
         if (!playerNear) return;
+
+        boolean revive_nest = this.eggs.isEmpty() && world.getRandom().nextDouble() < 0.01;
+
+        if (revive_nest)
+        {
+            Optional<BlockPos> room = this.getFreeEggRoom();
+            if (this.here != null)
+            {
+                if (!room.isPresent()) room = Optional.of(this.here);
+                final PokedexEntry entry = Database.getEntry("durant");
+                if (world.isEmptyBlock(room.get().above()))
+                {
+                    final EntityPokemobEgg egg = NestTile.spawnEgg(entry, room.get().above(), world, false);
+                    if (egg != null)
+                    {
+                        final CompoundTag nest = NbtUtils.writeBlockPos(this.here);
+                        egg.getMainHandItem().getTag().put("nestLoc", nest);
+                        this.eggs.add(egg.getUUID());
+                    }
+                }
+            }
+        }
 
         this.world = world;
         // Here we need to release ants every so often as needed
@@ -645,6 +668,13 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     }
 
     @Override
+    public void addResident(Mob mob)
+    {
+        if (!this.canEnterHabitat(mob)) return;
+        this.ants.add(mob.getUUID());
+    }
+
+    @Override
     public boolean onEnterHabitat(final Mob mob)
     {
         if (!this.canEnterHabitat(mob)) return false;
@@ -666,7 +696,12 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 if (world.isEmptyBlock(room.get().above()))
                 {
                     final EntityPokemobEgg egg = NestTile.spawnEgg(entry, room.get().above(), world, false);
-                    if (egg != null) this.eggs.add(egg.getUUID());
+                    if (egg != null)
+                    {
+                        final CompoundTag nest = NbtUtils.writeBlockPos(this.here);
+                        egg.getMainHandItem().getTag().put("nestLoc", nest);
+                        this.eggs.add(egg.getUUID());
+                    }
                 }
             }
         }
