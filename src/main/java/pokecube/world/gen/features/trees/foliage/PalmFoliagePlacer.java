@@ -61,10 +61,11 @@ public class PalmFoliagePlacer extends FoliagePlacer
     protected void placeLeavesRow(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
             Random random, TreeConfiguration treeConfig, BlockPos pos, int range, int yOffset, boolean large)
     {
-        int minRadius = range - yOffset - 1 + (yOffset % 2);
+        int i = large ? 1 : 0;
+        int minRadius = range + 1 - yOffset - 2 + (yOffset % 2);
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 
-        for (int j = -range; j <= range; ++j)
+        for (int j = -range; j <= range + i; ++j)
         {
             if (minRadius > Math.abs(j)) continue;
             if (!this.shouldSkipLocationSigned(random, j, yOffset, 0, range, large))
