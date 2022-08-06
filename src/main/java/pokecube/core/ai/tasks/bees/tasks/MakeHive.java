@@ -13,9 +13,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.ai.village.poi.PoiManager;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
@@ -70,6 +73,12 @@ public class MakeHive extends BaseIdleTask
     {
         if (!this.canPlaceHive(b, dir)) return false;
         final BlockPos pos = b.getPos();
+
+        final PoiManager pois = this.world.getPoiManager();
+        final long num = pois.getCountInRange(p -> p == PoiType.BEE_NEST || p == PoiType.BEEHIVE, pos,
+                PokecubeCore.getConfig().nestSpacing, PoiManager.Occupancy.ANY);
+        if (num > 0) return false;
+
         final Brain<?> brain = this.entity.getBrain();
         this.world.setBlockAndUpdate(pos.relative(dir), Blocks.BEE_NEST.defaultBlockState());
         brain.eraseMemory(BeeTasks.NO_HIVE_TIMER);

@@ -10,11 +10,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
+import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.nest.AntHabitat;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
@@ -44,6 +47,10 @@ public class MakeNest extends BaseIdleTask
     private boolean placeNest(final NearBlock b)
     {
         final BlockPos pos = b.getPos();
+        final PoiManager pois = this.world.getPoiManager();
+        final long num = pois.getCountInRange(p -> p == PointsOfInterest.NEST.get(), pos,
+                PokecubeCore.getConfig().nestSpacing, PoiManager.Occupancy.ANY);
+        if (num > 0) return false;
         final Brain<?> brain = this.entity.getBrain();
         this.world.setBlockAndUpdate(pos, PokecubeItems.NEST.get().defaultBlockState());
         final BlockEntity tile = this.world.getBlockEntity(pos);
@@ -76,8 +83,7 @@ public class MakeNest extends BaseIdleTask
 
         // Otherwise on the ground
         final List<NearBlock> surfaces = Lists.newArrayList();
-        blocks.forEach(b ->
-        {
+        blocks.forEach(b -> {
             if (b == null) return;
             if (PokecubeTerrainChecker.isTerrain(b.getState())) surfaces.add(b);
         });
@@ -97,8 +103,8 @@ public class MakeNest extends BaseIdleTask
     @Override
     public boolean shouldRun()
     {
-        final boolean tameCheck = this.pokemob.getOwnerId() == null || this.pokemob.getGeneralState(
-                GeneralStates.STAYING);
+        final boolean tameCheck = this.pokemob.getOwnerId() == null
+                || this.pokemob.getGeneralState(GeneralStates.STAYING);
         // Could be disabled by owner at runtime
         if (!AntTasks.isValid(this.entity)) return false;
         if (!tameCheck) return false;
