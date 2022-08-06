@@ -63,14 +63,6 @@
       ]
     },
     {
-      "placement": "pokecube_world:crops_swamps",
-      "spawn": [
-        {          
-          "values":{"biome_category": "swamp"}
-        }
-      ]
-    },
-    {
       "placement": "pokecube_world:crops_jungles",
       "spawn": [
         {          
