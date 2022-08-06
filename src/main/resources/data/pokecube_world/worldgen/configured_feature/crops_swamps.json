@@ -14,13 +14,19 @@
               {
                 "weight": 1,
                 "data": {
-                  "Name": "pokecube:crop_persim"
+                  "Name": "pokecube:crop_persim",
+                  "Properties": {
+                    "age": "6"
+                  }
                 }
               },
               {
                 "weight": 1,
                 "data": {
-                  "Name": "pokecube:crop_cornn"
+                  "Name": "pokecube:crop_cornn",
+                  "Properties": {
+                    "age": "6"
+                  }
                 }
               }
             ]

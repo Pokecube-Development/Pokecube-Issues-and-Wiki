@@ -14,13 +14,19 @@
               {
                 "weight": 1,
                 "data": {
-                  "Name": "pokecube:crop_lum"
+                  "Name": "pokecube:crop_lum",
+                  "Properties": {
+                    "age": "6"
+                  }
                 }
               },
               {
                 "weight": 8,
                 "data": {
-                  "Name": "pokecube:crop_pinap"
+                  "Name": "pokecube:crop_pinap",
+                  "Properties": {
+                    "age": "6"
+                  }
                 }
               }
             ]
