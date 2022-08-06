@@ -13,7 +13,7 @@
       ]
     },
     {
-      "berry": "chesto, pecha, aspear",
+      "berry": "chesto, aspear",
       "spawn": [
         {
           "and_preset": "forest",
@@ -58,7 +58,7 @@
       ]
     },
     {
-      "berry": "lum, sitrus, nanab",
+      "berry": "lum, sitrus, nanab, pecha",
       "spawn": [
         {
           "and_preset": "jungles,hills"
@@ -99,9 +99,18 @@
       ]
     },
     {
+      "placement": "pokecube_world:trees_beach_berries",
+      "spawn": [
+        {
+          "and_preset": "beaches",
+          "not_preset": "cold"
+        }
+      ]
+    },
+    {
       "placement": "pokecube_world:trees_flower_forest_berries",
       "spawn": [
-        {          
+        {
           "values":{"biomes": "minecraft:flower_forest"}
         }
       ]
