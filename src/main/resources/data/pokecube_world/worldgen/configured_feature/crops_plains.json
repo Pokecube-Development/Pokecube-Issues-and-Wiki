@@ -12,7 +12,7 @@
             "type": "minecraft:weighted_state_provider",
             "entries": [
               {
-                "weight": 1,
+                "weight": 8,
                 "data": {
                   "Name": "pokecube:crop_cheri"
                 }
