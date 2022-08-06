@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" scale=".2"/>
-  <phase armAngle="50" duration="10" leftArm="Left_arm" leftLeg="Left_leg" legAngle="45" name="biWalk" rightArm="Right_arm" rightLeg="Right_leg"/>
+  <phase name="global" scale="0.35"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-70,70" headCap1="-60,60" headDir="-1"/>
+  <phase duration="10" leftArm="topLeftArm" leftLeg="topLeftLeg" legAngle="30" name="biWalk" rightArm="topRightArm" rightLeg="topRightLeg"/>
+   <customTex default="treecko">
+   <part name="treecko_eye" tex="treecko_eye"/>
+   <animation diffs="0,0.5" part="treecko_eye" trigger="random:0.005:3"/>
+  </customTex>
+  <phase type="idle">
+   <part name="Body">
+    <component length="10" name="1" rotChange="1,0,0" rotOffset="0,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-1,0,0" startKey="10"/>
+   </part>
+   <part name="LeftTail">
+    <component length="9" name="1" rotChange="-2,0,0" rotOffset="20,0,0" startKey="0"/>
+    <component length="9" name="2" rotChange="2,0,0" startKey="10"/>
+   </part>
+      <part name="RightTail">
+    <component length="9" name="1" rotChange="-2,0,0" rotOffset="20,0,0" startKey="0"/>
+    <component length="9" name="2" rotChange="2,0,0" startKey="10"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>
