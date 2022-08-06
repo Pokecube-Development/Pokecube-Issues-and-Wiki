@@ -45,8 +45,8 @@ public class PyramidFoliagePlacer extends FoliagePlacer
 
     @Override
     protected void createFoliage(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
-            Random random, TreeConfiguration treeConfig, int maxFreeTreeHeight,
-            FoliageAttachment foliageAttachment, int height, int radius, int offset)
+            Random random, TreeConfiguration treeConfig, int maxFreeTreeHeight, FoliageAttachment foliageAttachment,
+            int height, int radius, int offset)
     {
         for (int yOffset = offset; yOffset >= offset - height; --yOffset)
         {
@@ -66,17 +66,12 @@ public class PyramidFoliagePlacer extends FoliagePlacer
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
         for (int j = -range; j <= range + i; ++j)
         {
-            for(int k = -range; k <= range + i; ++k)
+            for (int k = -range; k <= range + i; ++k)
             {
                 if (minRadius > Math.abs(j)) continue;
                 if (!this.shouldSkipLocationSigned(random, j, yOffset, k, range, large))
                 {
                     mutablePos.setWithOffset(pos, j, yOffset, k);
-                    tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
-                }
-                if (!this.shouldSkipLocationSigned(random, k, yOffset, j, range, large))
-                {
-                    mutablePos.setWithOffset(pos, k, yOffset, j);
                     tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
                 }
             }
