@@ -109,7 +109,8 @@ public class MakeHive extends BaseIdleTask
         final List<NearBlock> logs = Lists.newArrayList();
         // Otherwise on the ground
         final List<NearBlock> surfaces = Lists.newArrayList();
-        blocks.forEach(b -> {
+
+        if (blocks != null) blocks.forEach(b -> {
             if (PokecubeTerrainChecker.isLeaves(b.getState()) && this.canPlaceHive(b, Direction.DOWN)) leaves.add(b);
             if (PokecubeTerrainChecker.isWood(b.getState())
                     && this.canPlaceHive(b, Direction.Plane.HORIZONTAL.stream()))
