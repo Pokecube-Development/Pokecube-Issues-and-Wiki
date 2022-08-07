@@ -164,7 +164,7 @@ public class Trees
                 BlockStateProvider.simple(BlockInit.DISTORTIC_LOG.get().defaultBlockState()),
                 new StraightTrunkPlacer(14, 2, 10),
                 BlockStateProvider.simple(BlockInit.DISTORTIC_LEAVES.get().defaultBlockState()),
-                new RoundFoliagePlacer(UniformInt.of(2, 3), ConstantInt.of(0), UniformInt.of(4, 6)), new TwoLayersFeatureSize(1, 0, 1))
+                new RoundFoliagePlacer(UniformInt.of(2, 3), ConstantInt.of(0), UniformInt.of(2, 3)), new TwoLayersFeatureSize(1, 0, 1))
                         .ignoreVines();
     }
 
