@@ -100,10 +100,10 @@ public class HungerTask extends BaseIdleTask
     public static int TICKRATE = 20;
 
     public static float EATTHRESHOLD  = 0.75f;
-    public static float HUNTTHRESHOLD = 0.6f;
-    public static float BERRYGEN      = 0.55f;
-    public static float MATERESET     = 0.5f;
-    public static float DAMAGE        = 0.3f;
+    public static float HUNTTHRESHOLD = 0.60f;
+    public static float MATERESET     = 0.50f;
+    public static float BERRYGEN      = 0.30f;
+    public static float DAMAGE        = 0.25f;
     public static float DEATH         = 0.0f;
 
     int lastMessageTick1 = -1;

@@ -22,7 +22,7 @@ public class PlacedFeatureHolder implements Holder<PlacedFeature>
     Holder<PlacedFeature> when_loaded;
     ResourceLocation name;
     MinecraftServer server = null;
-    Supplier<PlacedFeature> dummy_getter = FeaturesInit.PLACED_SMALL_FOSSIL;
+    Supplier<PlacedFeature> dummy_getter = FeaturesInit.DUMMY_PF;
 
     public PlacedFeatureHolder(String name)
     {

@@ -54,6 +54,9 @@ public class FeaturesInit
     public static final RegistryObject<PlacedFeature> PLACED_LARGE_FOSSIL;
     public static final RegistryObject<PlacedFeature> PLACED_BURIED_FOSSIL;
 
+    public static final RegistryObject<ConfiguredFeature<?, ?>> DUMMY_CONFF;
+    public static final RegistryObject<PlacedFeature> DUMMY_PF;
+
     static
     {
         ORE_FOSSIL_SMALL_FEATURE = PokecubeWorld.CONFIGURED_FEATURES.register("fossil_ore",
@@ -77,6 +80,14 @@ public class FeaturesInit
                 () -> new PlacedFeature(ORE_FOSSIL_BURIED_FEATURE.getHolder().get(),
                         List.of(CountPlacement.of(3), InSquarePlacement.spread(), HeightRangePlacement
                                         .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)),
+                                BiomeFilter.biome())));
+
+        DUMMY_CONFF = PokecubeWorld.CONFIGURED_FEATURES.register("__dummy__",
+                () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(getOres(), 8, 1.0f)));
+        DUMMY_PF = PokecubeWorld.PLACED_FEATURES.register("__dummy__",
+                () -> new PlacedFeature(DUMMY_CONFF.getHolder().get(),
+                        List.of(CountPlacement.of(3), InSquarePlacement.spread(), HeightRangePlacement
+                                .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)),
                                 BiomeFilter.biome())));
     }
 
