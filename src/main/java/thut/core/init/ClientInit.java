@@ -113,16 +113,18 @@ public class ClientInit
         event.getLeft().add("");
         Level level = Minecraft.getInstance().level;
 
-        var regi = level.registryAccess().registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
+        var regi = level.registryAccess().registry(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
         Set<StructureInfo> structures = StructureManager.getNear(level.dimension(), v.getPos(), 5);
-        for (var info : structures)
+        if (regi.isPresent())
         {
-            var tags = regi.getHolderOrThrow(regi.getResourceKey(info.feature).get()).tags().toList();
-            List<ResourceLocation> keys = Lists.newArrayList();
-            for (var tag : tags) keys.add(tag.location());
-            event.getLeft().add(info.getName() + " " + keys);
+            for (var info : structures)
+            {
+                var tags = regi.get().getHolderOrThrow(regi.get().getResourceKey(info.feature).get()).tags().toList();
+                List<ResourceLocation> keys = Lists.newArrayList();
+                for (var tag : tags) if (!tag.toString().contains(":mixin_")) keys.add(tag.location());
+                event.getLeft().add(info.getName() + " " + keys);
+            }
         }
-
         if (Screen.hasAltDown())
         {
             event.getLeft().add("");
