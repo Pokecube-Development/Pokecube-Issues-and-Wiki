@@ -13,9 +13,13 @@
       "pokecube_legends:towns",
       "pokecube_legends:villages"
     ],
-    "y_settings":{"max_dy": 14, "y_check_radius": 4},
+    "y_settings":{"max_dy": 14, "y_check_radius": 3},
     "avoid_range": 6,
-    "size": 12
+    "size": 12,
+    "avoidances":{
+      "flags": ["team_bases", "team_rocket"],
+      "avoidances": [{"name":"team_bases","distance":12}, {"name":"team_rocket","distance":80}]
+    }
   },
   "biomes": "#pokecube_world:has_structure/team_rocket",
   "adapt_noise": true,
