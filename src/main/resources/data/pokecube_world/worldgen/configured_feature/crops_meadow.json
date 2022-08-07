@@ -1,13 +1,13 @@
 {
   "config": {
-    "tries": 96,
+    "tries": 48,
     "xz_spread": 6,
     "y_spread": 2,
     "feature": {
       "feature": {
         "config": {
           "to_place": {
-            "seed": 2345,
+            "seed": 5678,
             "noise": {
               "firstOctave": -9,
               "amplitudes": [

@@ -20,10 +20,10 @@ public class RoundFoliagePlacer extends FoliagePlacer
     protected final IntProvider height;
 
     public static final Codec<RoundFoliagePlacer> CODEC = RecordCodecBuilder.create((type) -> {
-        return palmParts(type).apply(type, RoundFoliagePlacer::new);
+        return roundParts(type).apply(type, RoundFoliagePlacer::new);
     });
 
-    protected static <P extends RoundFoliagePlacer> P3<Mu<P>, IntProvider, IntProvider, IntProvider> palmParts(
+    protected static <P extends RoundFoliagePlacer> P3<Mu<P>, IntProvider, IntProvider, IntProvider> roundParts(
             RecordCodecBuilder.Instance<P> instance)
     {
         return foliagePlacerParts(instance).and(IntProvider.codec(0, 16).fieldOf("height").forGetter((get) -> {
@@ -63,6 +63,6 @@ public class RoundFoliagePlacer extends FoliagePlacer
     @Override
     protected boolean shouldSkipLocation(Random random, int localX, int localY, int localZ, int range, boolean large)
     {
-        return localX == range && localZ == range && (random.nextInt(4) == 0 || localY == 0);
+        return localX == range && localZ == range && (random.nextInt(8) == 0 || localY == 0);
     }
 }
