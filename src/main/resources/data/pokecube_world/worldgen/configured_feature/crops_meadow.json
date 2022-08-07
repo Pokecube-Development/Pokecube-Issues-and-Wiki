@@ -9,9 +9,12 @@
           "to_place": {
             "seed": 2345,
             "noise": {
-              "firstOctave": -3,
+              "firstOctave": -9,
               "amplitudes": [
-                1.0
+                1.0,
+                1.0,
+                1.0,
+                5.0
               ]
             },
             "scale": 1.0,
@@ -19,61 +22,61 @@
               {
                 "Name": "pokecube:crop_aspear",
                 "Properties": {
-                  "age": 5
+                  "age": "5"
                 }
               },
               {
                 "Name": "pokecube:crop_cheri",
                 "Properties": {
-                  "age": 5
+                  "age": "5"
                 }
               },
               {
                 "Name": "pokecube:crop_cornn",
                 "Properties": {
-                  "age": 5
+                  "age": "5"
                 }
               },
               {
                 "Name": "pokecube:crop_jaboca",
                 "Properties": {
-                  "age": 5
+                  "age": "5"
                 }
               },
               {
                 "Name": "pokecube:crop_lum",
                 "Properties": {
-                  "age": 5
+                  "age": "5"
                 }
               },
               {
                 "Name": "pokecube:crop_persim",
                 "Properties": {
-                  "age": 5
+                  "age": "5"
                 }
               },
               {
                 "Name": "pokecube:crop_pinap",
                 "Properties": {
-                  "age": 5
+                  "age": "5"
                 }
               },
               {
                 "Name": "pokecube:crop_pomeg",
                 "Properties": {
-                  "age": 5
+                  "age": "5"
                 }
               },
               {
                 "Name": "pokecube:crop_rawst",
                 "Properties": {
-                  "age": 5
+                  "age": "5"
                 }
               },
               {
                 "Name": "pokecube:crop_rowap",
                 "Properties": {
-                  "age": 5
+                  "age": "5"
                 }
               }
             ],
@@ -84,10 +87,10 @@
             "slow_noise": {
               "firstOctave": -9,
               "amplitudes": [
-                1,
-                1,
-                1,
-                1
+                1.0,
+                1.0,
+                1.0,
+                5.0
               ]
             },
             "slow_scale": 1.0,
