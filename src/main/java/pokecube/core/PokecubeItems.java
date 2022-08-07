@@ -1,7 +1,7 @@
 package pokecube.core;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -600,11 +600,11 @@ public class PokecubeItems extends ItemList
         File folder = new File(".", "generated/entity_types");
         folder.mkdirs();
         File file = new File(folder, "pokemob.json");
-        FileWriter writer;
+        FileOutputStream writer;
         try
         {
-            writer = new FileWriter(file);
-            writer.write(JsonUtil.gson.toJson(json));
+            writer = new FileOutputStream(file);
+            writer.write(JsonUtil.gson.toJson(json).getBytes());
             writer.close();
         }
         catch (final IOException e)
@@ -624,8 +624,8 @@ public class PokecubeItems extends ItemList
         file = new File(folder, "pokemob_fossils.json");
         try
         {
-            writer = new FileWriter(file);
-            writer.write(JsonUtil.gson.toJson(json));
+            writer = new FileOutputStream(file);
+            writer.write(JsonUtil.gson.toJson(json).getBytes());
             writer.close();
         }
         catch (final IOException e)
@@ -643,8 +643,8 @@ public class PokecubeItems extends ItemList
         file = new File(folder, "pokecubes.json");
         try
         {
-            writer = new FileWriter(file);
-            writer.write(JsonUtil.gson.toJson(json));
+            writer = new FileOutputStream(file);
+            writer.write(JsonUtil.gson.toJson(json).getBytes());
             writer.close();
         }
         catch (final IOException e)
@@ -662,8 +662,8 @@ public class PokecubeItems extends ItemList
         file = new File(folder, "berries.json");
         try
         {
-            writer = new FileWriter(file);
-            writer.write(JsonUtil.gson.toJson(json));
+            writer = new FileOutputStream(file);
+            writer.write(JsonUtil.gson.toJson(json).getBytes());
             writer.close();
         }
         catch (final IOException e)
@@ -685,8 +685,8 @@ public class PokecubeItems extends ItemList
             file = new File(folder, name.getPath() + ".json");
             try
             {
-                writer = new FileWriter(file);
-                writer.write(fileConts);
+                writer = new FileOutputStream(file);
+                writer.write(fileConts.getBytes());
                 writer.close();
             }
             catch (final IOException e)

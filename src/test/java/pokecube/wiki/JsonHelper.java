@@ -3,7 +3,6 @@ package pokecube.wiki;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
@@ -128,11 +127,11 @@ public class JsonHelper
         final File dir = new File("./mods/" + path + "/");
         if (!dir.exists()) dir.mkdirs();
         final File file = new File(dir, key.getPath() + ".json");
-        FileWriter write;
+        FileOutputStream write;
         try
         {
-            write = new FileWriter(file);
-            write.write(json);
+            write = new FileOutputStream(file);
+            write.write(json.getBytes());
             write.close();
         }
         catch (final IOException e)
@@ -158,11 +157,11 @@ public class JsonHelper
         final File dir = new File("./mods/" + path + "/");
         if (!dir.exists()) dir.mkdirs();
         final File file = new File(dir, key.getPath() + ".json");
-        FileWriter write;
+        FileOutputStream write;
         try
         {
-            write = new FileWriter(file);
-            write.write(loot_table);
+            write = new FileOutputStream(file);
+            write.write(loot_table.getBytes());
             write.close();
         }
         catch (final IOException e)
@@ -178,11 +177,11 @@ public class JsonHelper
         final File dir = new File("./mods/" + path + "/");
         if (!dir.exists()) dir.mkdirs();
         final File file = new File(dir, key.getPath() + ".json");
-        FileWriter write;
+        FileOutputStream write;
         try
         {
-            write = new FileWriter(file);
-            write.write(json);
+            write = new FileOutputStream(file);
+            write.write(json.getBytes());
             write.close();
         }
         catch (final IOException e)
