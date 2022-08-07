@@ -108,13 +108,17 @@ public class FeaturesInit
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
                     PLACED_BURIED_FOSSIL.getHolder().get());
         }
-        if (PokecubeCore.getConfig().generateBerries) BerryGenManager.list.locations.forEach(config -> {
-            if (config.matches(event))
-            {
-                PokecubeCore.LOGGER.info("Adding " + config.placement + " to " + event.getName());
-                event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                        new PlacedFeatureHolder(config.placement));
-            }
-        });
+        if (PokecubeCore.getConfig().generateBerries)
+        {
+            if (BerryGenManager.list.locations.isEmpty()) BerryGenManager.parseConfig();
+            BerryGenManager.list.locations.forEach(config -> {
+                if (config.matches(event))
+                {
+                    PokecubeCore.LOGGER.info("Adding " + config.placement + " to " + event.getName());
+                    event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
+                            new PlacedFeatureHolder(config.placement));
+                }
+            });
+        }
     }
 }
