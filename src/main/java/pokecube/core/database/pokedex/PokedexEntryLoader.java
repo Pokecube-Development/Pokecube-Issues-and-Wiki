@@ -4,7 +4,7 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
@@ -1372,8 +1372,8 @@ public class PokedexEntryLoader
             database.__map__ = null;
             final String json = JsonUtil.gson.toJson(database);
             database.__map__ = back;
-            final FileWriter writer = new FileWriter(new File(FMLPaths.CONFIGDIR.get().toFile(), "pokemobs.json"));
-            writer.append(json);
+            final FileOutputStream writer = new FileOutputStream(new File(FMLPaths.CONFIGDIR.get().toFile(), "pokemobs.json"));
+            writer.write(json.getBytes());
             writer.close();
         }
         catch (final Exception e)

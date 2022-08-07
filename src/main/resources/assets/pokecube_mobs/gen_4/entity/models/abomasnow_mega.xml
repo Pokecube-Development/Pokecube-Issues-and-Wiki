@@ -3,7 +3,7 @@
  <model>
   <phase name="global" scale="1.2"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1"/>
-  <customTex default="abomasnowmega">
+  <customTex default="abomasnow_mega">
    <part name="Head" tex="abomasnowmegahead"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:2"/>
   </customTex>

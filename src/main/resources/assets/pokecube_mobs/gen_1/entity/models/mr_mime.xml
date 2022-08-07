@@ -4,10 +4,10 @@
   <phase name="global" scale="0.4"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
   <phase armAngle="20" duration="10" leftArm="" leftLeg="leg1:leg1_1" legAngle="15" name="biWalk" rightArm="" rightLeg="leg2:leg2_1"/>
-  <customTex default="mrmime">
-   <part name="Head" tex="mrmimehead"/>
+  <customTex default="mr_mime">
+   <part name="Head" tex="mr_mime_head"/>
    <animation diffs="0.5,0" part="Head" trigger="random:0.005:20"/>
-   <part name="Mouth" tex="mrmimemouth"/>
+   <part name="Mouth" tex="mr_mime_mouth"/>
    <animation diffs="0.5,0" part="Mouth" trigger="random:0.005:20"/>
   </customTex>
   <phase type="sitting">

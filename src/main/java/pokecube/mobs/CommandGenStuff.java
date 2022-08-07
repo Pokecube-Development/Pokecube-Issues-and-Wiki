@@ -2,7 +2,6 @@ package pokecube.mobs;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
@@ -292,8 +291,8 @@ public class CommandGenStuff
             String json = AdvancementGenerator.GSON.toJson(blockJson);
             try
             {
-                final FileWriter write = new FileWriter(file);
-                write.write(json);
+                final FileOutputStream write = new FileOutputStream(file);
+                write.write(json.getBytes());
                 write.close();
             }
             catch (final IOException e)
@@ -333,8 +332,8 @@ public class CommandGenStuff
             json = AdvancementGenerator.GSON.toJson(itemJson);
             try
             {
-                final FileWriter write = new FileWriter(file);
-                write.write(json);
+                final FileOutputStream write = new FileOutputStream(file);
+                write.write(json.getBytes());
                 write.close();
             }
             catch (final IOException e)
@@ -365,11 +364,11 @@ public class CommandGenStuff
                         + "\",\"count\":4}}";
                 final JsonObject obj = AdvancementGenerator.GSON.fromJson(loottable, JsonObject.class);
                 loottable = AdvancementGenerator.GSON.toJson(obj);
-                FileWriter write;
+                FileOutputStream write;
                 try
                 {
-                    write = new FileWriter(out);
-                    write.write(loottable);
+                    write = new FileOutputStream(out);
+                    write.write(loottable.getBytes());
                     write.close();
                 }
                 catch (final IOException e)
@@ -393,11 +392,11 @@ public class CommandGenStuff
                 + "\"}],\"conditions\":[{\"condition\": \"minecraft:survives_explosion\"}]}]}";
         final JsonObject obj = AdvancementGenerator.GSON.fromJson(loottable, JsonObject.class);
         loottable = AdvancementGenerator.GSON.toJson(obj);
-        FileWriter write;
+        FileOutputStream write;
         try
         {
-            write = new FileWriter(out);
-            write.write(loottable);
+            write = new FileOutputStream(out);
+            write.write(loottable.getBytes());
             write.close();
         }
         catch (final IOException e)
@@ -473,8 +472,8 @@ public class CommandGenStuff
         final String json = AdvancementGenerator.GSON.toJson(blockJson);
         try
         {
-            final FileWriter write = new FileWriter(file);
-            write.write(json);
+            final FileOutputStream write = new FileOutputStream(file);
+            write.write(json.getBytes());
             write.close();
         }
         catch (final IOException e)
@@ -490,11 +489,11 @@ public class CommandGenStuff
         final File dir = new File("./mods/pokecube/data/pokecube_mobs/advancements/" + path + "/");
         if (!dir.exists()) dir.mkdirs();
         final File file = new File(dir, key.getPath() + ".json");
-        FileWriter write;
+        FileOutputStream write;
         try
         {
-            write = new FileWriter(file);
-            write.write(json);
+            write = new FileOutputStream(file);
+            write.write(json.getBytes());
             write.close();
         }
         catch (final IOException e)
@@ -527,8 +526,8 @@ public class CommandGenStuff
                 json = AdvancementGenerator.GSON.toJson(rootObj);
                 try
                 {
-                    write = new FileWriter(first);
-                    write.write(json);
+                    write = new FileOutputStream(first);
+                    write.write(json.getBytes());
                     write.close();
                 }
                 catch (final IOException e)
@@ -564,8 +563,8 @@ public class CommandGenStuff
             json = AdvancementGenerator.GSON.toJson(rootObj);
             try
             {
-                write = new FileWriter(root);
-                write.write(json);
+                write = new FileOutputStream(root);
+                write.write(json.getBytes());
                 write.close();
             }
             catch (final IOException e)

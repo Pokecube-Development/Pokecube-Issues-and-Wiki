@@ -8,7 +8,7 @@
   <phase axis="0" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4"/>
   <phase axis="0" name="snakeIdle" parts="tail_1:tail_2:tail_3"/>
   <phase axis="1" name="snakeWalk" parts="tail_1:tail_2:tail_3"/>
-  <customTex default="kangaskhanmega">
+  <customTex default="kangaskhan_mega">
    <part name="Head" tex="kangaskhaneye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:6"/>
    <part name="Head1" tex="megakangaskhanbabyeye"/>

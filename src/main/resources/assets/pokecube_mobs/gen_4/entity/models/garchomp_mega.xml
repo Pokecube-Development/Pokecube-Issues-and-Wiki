@@ -6,7 +6,7 @@
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
   <phase axis="1" name="snakeWalk" parts="tail:tail1:tail2:tail3"/>
   <phase axis="0" name="snakeFly" parts="tail1:tail2:tail3:tail4"/>
-  <customTex default="garchompmega">
+  <customTex default="garchomp_mega">
    <part name="Head" tex="garchompmegaeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:6"/>
   </customTex>

@@ -6,7 +6,7 @@
   <phase duration="10" leftArm="" leftLeg="leg2" legAngle="20" name="biWalk" rightArm="" rightLeg="leg1"/>
   <phase axis="0" length="20" name="snakeIdle" parts="tail:tail1:tail2:tail3"/>
   <phase axis="1" length="20" name="snakeWalk" parts="tail:tail1:tail2:tail3"/>
-  <customTex default="slowbrogalar">
+  <customTex default="slowbro_galar">
    <part name="Head" tex="slowbrogalarhead"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
    <part name="Shell" tex="slowbrogalarshell"/>

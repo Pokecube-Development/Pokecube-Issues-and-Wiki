@@ -14,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -47,8 +48,8 @@ public class WorldTest
                 {
                     last_n = 0;
                     this.distances.add((int) Math.sqrt(thing.getFirst().distSqr(pos)));
-                    ThutCore.LOGGER.info("dt: {} ms", dt);
                 }
+                ThutCore.LOGGER.info("dt: {} ms", dt);
                 if (!this.distances.isEmpty()) return true;
                 return last_n++ < 5;
             }
@@ -133,7 +134,7 @@ public class WorldTest
     @SubscribeEvent
     public static void onServerTick(final WorldTickEvent event)
     {
-        if (LOG != null && event.world instanceof ServerLevel level)
+        if (LOG != null && event.world instanceof ServerLevel level && event.phase == Phase.END)
         {
             boolean done = LOG.tick(level);
             if (done)

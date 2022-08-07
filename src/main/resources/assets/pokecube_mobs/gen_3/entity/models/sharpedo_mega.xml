@@ -3,7 +3,7 @@
  <model>
   <phase name="global" scale="1.0"/>
   <metadata head="" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
-  <customTex default="sharpedomega">
+  <customTex default="sharpedo_mega">
    <part name="Head" tex="sharpedomegahead"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:25"/>
   </customTex>

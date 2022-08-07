@@ -25,7 +25,7 @@
   <phase axis="0" length="30" name="snakeWalk" parts="p2:p2_1:p2_2:p2_3"/>
   <phase axis="0" length="45" name="snakeWalk" parts="p3:p3_1:p3_2"/>
   <phase axis="0" length="55" name="snakeWalk" parts="p4:p4_1:p4_2"/>
-  <customTex default="lucariomega">
+  <customTex default="lucario_mega">
    <part name="Head" tex="lucariomegahead"/>
    <animation diffs="0,0.35" part="Head" trigger="random:0.005:3"/>
    <part name="Mark" tex="lucariomegamark"/>

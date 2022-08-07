@@ -16,7 +16,7 @@
       "berry": "chesto, aspear",
       "spawn": [
         {
-          "and_preset": "forest",
+          "and_preset": "forests",
           "not_preset": "taigas,jungles"
         }
       ]
@@ -70,7 +70,7 @@
       "spawn": [
         {
           "and_preset": "beaches",
-          "not_preset": "cold"
+          "not_preset": "cold_areas"
         }
       ]
     },

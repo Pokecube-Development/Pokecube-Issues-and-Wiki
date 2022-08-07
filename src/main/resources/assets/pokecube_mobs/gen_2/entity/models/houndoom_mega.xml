@@ -10,7 +10,7 @@
   <worn angles="-90,0,0" id="__NECK__" offset="0,0.5,0.2" parent="neck" scale="1.5"/>
   <phase axis="0" name="snakeIdle" parts="tail:tail1:tail2:tail3:tail4"/>
   <phase axis="0" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4"/>
-  <customTex default="houndoommega">
+  <customTex default="houndoom_mega">
    <part name="Head" tex="houndoommegahead"/>
    <animation diffs="0,0.4" part="Head" trigger="random:0.005:4"/>
   </customTex>

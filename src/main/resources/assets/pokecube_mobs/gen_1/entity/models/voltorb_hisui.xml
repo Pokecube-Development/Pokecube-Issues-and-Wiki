@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.2"/>
-  <customTex default="voltorb_red">
+  <customTex default="voltorb_hisui">
    <part name="Plank" tex="voltorb_plank"/>
   </customTex>
   <phase type="idle">

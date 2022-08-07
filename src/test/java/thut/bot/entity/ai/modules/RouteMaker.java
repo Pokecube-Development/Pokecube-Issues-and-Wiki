@@ -404,9 +404,13 @@ public class RouteMaker extends AbstractBot
                 BlockPos next = e1.distManhattan(player.getOnPos()) < e2.distManhattan(player.getOnPos()) ? e1 : e2;
                 BlockPos end = next == e1 ? e2 : e1;
 
+                Vec3 dir = new Vec3(end.getX() - next.getX(), 0, end.getZ() - next.getZ());
+                dir = dir.normalize();
+                double padding = 32;
+
                 road_maker.done = false;
-                road_maker.end = new Vec3(end.getX(), end.getY(), end.getZ());
-                road_maker.next = new Vec3(next.getX(), next.getY(), next.getZ());
+                road_maker.end = new Vec3(end.getX() - padding * dir.x, end.getY(), end.getZ() - padding * dir.z);
+                road_maker.next = new Vec3(next.getX() + padding * dir.x, next.getY(), next.getZ() + padding * dir.z);
             }
             else
             {

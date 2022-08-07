@@ -29,9 +29,9 @@ public class CmdListener
 
         public List<ICmdHandler> handlers = Lists.newArrayList();
 
-        private ServerSocket   serverSocket;
-        private Socket         clientSocket;
-        private PrintWriter    out;
+        private ServerSocket serverSocket;
+        private Socket clientSocket;
+        private PrintWriter out;
         private BufferedReader in;
 
         public CmdListenServer()
@@ -46,7 +46,7 @@ public class CmdListener
         {
             // Seems we had already started, but not stopped, lets make sure
             // this is stopped.
-            if (this.out != null) this.stop();
+            if (this.serverSocket != null && serverSocket.isBound()) return;
             this.serverSocket = new ServerSocket(port);
             this.clientSocket = this.serverSocket.accept();
             this.out = new PrintWriter(this.clientSocket.getOutputStream(), true);
@@ -56,25 +56,22 @@ public class CmdListener
         public boolean read() throws IOException
         {
             if (this.in == null) return false;
-            while (!this.in.ready())
-                try
-                {
-                    Thread.sleep(0, 1000);
-                }
-                catch (final InterruptedException e)
-                {
-                    return false;
-                }
+            while (!this.in.ready()) try
+            {
+                Thread.sleep(0, 1000);
+            }
+            catch (final InterruptedException e)
+            {
+                return false;
+            }
             final AtomicBoolean did = new AtomicBoolean(false);
             final AtomicBoolean done = new AtomicBoolean(true);
             final StringBuilder textBuilder = new StringBuilder();
             int c = 0;
-            while ((c = this.in.read()) != -1 && this.in.ready())
-                textBuilder.append((char) c);
+            while ((c = this.in.read()) != -1 && this.in.ready()) textBuilder.append((char) c);
             final String msg = textBuilder.toString().trim();
             done.set(msg.length() == 0);
-            this.server.execute(() ->
-            {
+            this.server.execute(() -> {
                 for (final ICmdHandler handler : this.handlers)
                 {
                     String ret;
@@ -96,15 +93,14 @@ public class CmdListener
                 done.set(true);
             });
 
-            while (!done.get())
-                try
-                {
-                    Thread.sleep(0, 100);
-                }
-                catch (final InterruptedException e)
-                {
-                    return false;
-                }
+            while (!done.get()) try
+            {
+                Thread.sleep(0, 100);
+            }
+            catch (final InterruptedException e)
+            {
+                return false;
+            }
             return did.get();
         }
 
@@ -141,32 +137,45 @@ public class CmdListener
 
     static Thread makeListener()
     {
-        return new Thread(() ->
-        {
+        return new Thread(() -> {
             while (CmdListener.server.server != null)
+            {
                 try
+                {
+                    CmdListener.server.start(CmdListener.port);
+                }
+                catch (final IOException e)
+                {
+
+                }
+                catch (final Exception e)
+                {
+                    System.err.println("Error with port listener, quitting here.");
+                    e.printStackTrace();
+                    return;
+                }
+                try
+                {
+                    CmdListener.server.read();
+                }
+                catch (final Exception e)
                 {
                     try
                     {
                         CmdListener.server.start(CmdListener.port);
                     }
-                    catch (final IOException e)
+                    catch (final IOException e1)
                     {
 
                     }
-                    catch (final Exception e)
+                    catch (final Exception e1)
                     {
                         System.err.println("Error with port listener, quitting here.");
                         e.printStackTrace();
                         return;
                     }
-                    CmdListener.server.read();
-                    CmdListener.server.stop();
                 }
-                catch (final IOException e)
-                {
-                    e.printStackTrace();
-                }
+            }
         });
     }
 
@@ -193,7 +202,6 @@ public class CmdListener
             CmdListener.server.stop();
         }
         catch (final IOException e)
-        {
-        }
+        {}
     }
 }

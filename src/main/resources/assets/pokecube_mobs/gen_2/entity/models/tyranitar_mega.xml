@@ -4,7 +4,7 @@
   <phase name="global" scale="0.26"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-15,15" headCap1="-15,15" headDir="-1"/>
   <phase duration="10" leftArm="leg2_1" leftLeg="leg2" legAngle="20" name="biWalk" rightArm="leg1_1" rightLeg="leg1"/>
-  <customTex default="tyranitarmega">
+  <customTex default="tyranitar_mega">
    <part name="Head" tex="tyranitarmeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>

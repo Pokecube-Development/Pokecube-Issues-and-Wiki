@@ -3,7 +3,7 @@
  <model>
   <phase name="global" scale="0.40"/>
   <metadata head="Head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1" headDir2="1"/>
-  <customTex default="raichualola">
+  <customTex default="raichu_alola">
    <part name="Head" tex="raichualolahead"/>
    <animation diffs="0,0.34" part="Head" trigger="random:0.001:20"/>
    <animation diffs="0.0,0.67" part="Head" trigger="random:0.005:20"/>

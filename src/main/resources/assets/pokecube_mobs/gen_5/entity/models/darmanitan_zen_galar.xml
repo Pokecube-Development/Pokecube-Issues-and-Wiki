@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.75"/>
-  <customTex default="darmanitanzm">
+  <customTex default="darmanitan_zen_galar">
     <part name="Head" tex="darmanitanzmeye"/>
 	<part name="Mouth" tex="darmanitanzmmouth"/>
 	<animation diffs="0,0.5" part="Mouth" trigger="random:0.005:5"/>

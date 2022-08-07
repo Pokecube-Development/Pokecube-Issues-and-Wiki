@@ -3,7 +3,7 @@
  <model>
   <phase name="global" scale="0.35"/>
   <metadata head="neck:head" headAxis="2" headAxis2="0" headCap="-30,30" headDir="-1"/>
-  <customTex default="lycanrocdusk">
+  <customTex default="lycanroc_dusk">
    <part name="Head" tex="lycanrocduskeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
   </customTex>

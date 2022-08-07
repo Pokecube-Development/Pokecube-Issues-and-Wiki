@@ -3,7 +3,7 @@
  <model name="">
   <phase name="global" scale="0.75"/>
   <metadata head="neck1:head" headAxis="2" headAxis2="0" headCap="-5,10" headCap1="-20,20" headDir="-1" headDir1="-1"/>
-  <customTex default="zaciancrowned">
+  <customTex default="zacian_crowned">
    <part name="Head" tex="zacianeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>

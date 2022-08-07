@@ -2,7 +2,6 @@ package pokecube.wiki;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
@@ -17,7 +16,7 @@ import pokecube.core.database.PokedexEntry;
 public class PokemobPageWriter
 {
     public static PrintWriter out;
-    public static FileWriter  fwriter;
+    public static FileOutputStream  fwriter;
 
     public static String        pokemobDir = "https://github.com/Pokecube-Development/Pokecube-Issues-and-Wiki/wiki/";
     public static String        gifDir     = "https://raw.githubusercontent.com/wiki/Pokecube-Development/Pokecube-Issues-and-Wiki/pokemobs/img/";
