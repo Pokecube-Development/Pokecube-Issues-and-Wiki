@@ -1,12 +1,13 @@
 package pokecube.world.gen.features.trees.foliage;
 
+import java.util.List;
 import java.util.Random;
 import java.util.function.BiConsumer;
 
-import com.mojang.datafixers.Products.P3;
+import org.apache.commons.compress.utils.Lists;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.mojang.serialization.codecs.RecordCodecBuilder.Mu;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.valueproviders.IntProvider;
@@ -16,32 +17,48 @@ import net.minecraft.world.level.levelgen.feature.configurations.TreeConfigurati
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 
-public class PalmFoliagePlacer extends FoliagePlacer
+public class CustomShapeFoliagePlacer extends FoliagePlacer
 {
-    protected final IntProvider height;
 
-    public static final Codec<PalmFoliagePlacer> CODEC = RecordCodecBuilder.create((type) -> {
-        return palmParts(type).apply(type, PalmFoliagePlacer::new);
-    });
-
-    protected static <P extends PalmFoliagePlacer> P3<Mu<P>, IntProvider, IntProvider, IntProvider> palmParts(
-            RecordCodecBuilder.Instance<P> instance)
+    public static class LeafPos
     {
-        return foliagePlacerParts(instance).and(IntProvider.codec(0, 16).fieldOf("height").forGetter((get) -> {
-            return get.height;
-        }));
+        public static final Codec<LeafPos> CODEC = RecordCodecBuilder.create((instance) -> {
+            return instance.group(Codec.INT.fieldOf("x").orElse(0).forGetter(s -> s.x),
+                    Codec.INT.fieldOf("y").orElse(0).forGetter(s -> s.y),
+                    Codec.INT.fieldOf("z").orElse(0).forGetter(s -> s.z)).apply(instance, LeafPos::new);
+        });
+
+        final int x;
+        final int y;
+        final int z;
+
+        public LeafPos(int x, int y, int z)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
     }
 
-    public PalmFoliagePlacer(IntProvider radius, IntProvider offset, IntProvider height)
+    public static final Codec<CustomShapeFoliagePlacer> CODEC = RecordCodecBuilder.create((type) -> {
+        return foliagePlacerParts(type).and(IntProvider.codec(0, 16).fieldOf("height").forGetter(l -> l.height))
+                .and(Codec.list(LeafPos.CODEC).fieldOf("leaves").orElse(Lists.newArrayList()).forGetter(l -> l.leaves))
+                .apply(type, CustomShapeFoliagePlacer::new);
+    });
+    protected final IntProvider height;
+    protected final List<LeafPos> leaves;
+
+    public CustomShapeFoliagePlacer(IntProvider radius, IntProvider offset, IntProvider height, List<LeafPos> leaves)
     {
         super(radius, offset);
         this.height = height;
+        this.leaves = leaves;
     }
 
     @Override
     protected FoliagePlacerType<?> type()
     {
-        return FoliagePlacerTypes.PALM_FOLIAGE_PLACER.get();
+        return FoliagePlacerTypes.CUSTOM_SHAPE_FOLIAGE_PLACER.get();
     }
 
     @Override
@@ -51,7 +68,7 @@ public class PalmFoliagePlacer extends FoliagePlacer
     {
         for (int yOffset = offset; yOffset >= offset - height; --yOffset)
         {
-            int range = Math.max(radius + foliageAttachment.radiusOffset() - 2 - yOffset, 0);
+            int range = Math.max(radius + foliageAttachment.radiusOffset() - 1 - yOffset, 0);
             placeLeafSegment(level, blockSetter, random, treeConfig, foliageAttachment.pos(), offset, range, yOffset,
                     foliageAttachment.doubleTrunk());
         }
@@ -61,35 +78,14 @@ public class PalmFoliagePlacer extends FoliagePlacer
             Random random, TreeConfiguration treeConfig, BlockPos pos, int offset, int range, int yOffset,
             boolean large)
     {
-        int minRadius = range - yOffset - 2 + ((1 + yOffset) % 2);
-        if (yOffset == offset) minRadius = 0;
-        int sideLeafRadius = 1;
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
-        for (int j = -range; j <= range; ++j)
-        {
-            if (minRadius > Math.abs(j)) continue;
-            if (!this.shouldSkipLocationSigned(random, j, yOffset, 0, range, large))
+        this.leaves.forEach(leaf -> {
+            if (!this.shouldSkipLocationSigned(random, leaf.x, leaf.y, leaf.z, range, large))
             {
-                mutablePos.setWithOffset(pos, j, yOffset, 0);
+                mutablePos.setWithOffset(pos, leaf.x, leaf.y, leaf.z);
                 tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
             }
-            if (!this.shouldSkipLocationSigned(random, 0, yOffset, j, range, large))
-            {
-                mutablePos.setWithOffset(pos, 0, yOffset, j);
-                tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
-            }
-            if (minRadius <= sideLeafRadius && Math.abs(j) <= sideLeafRadius)
-            {
-                for (int k = -sideLeafRadius; k <= sideLeafRadius; ++k)
-                {
-                    if (!this.shouldSkipLocationSigned(random, j, yOffset, k, range, large))
-                    {
-                        mutablePos.setWithOffset(pos, j, yOffset, k);
-                        tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
-                    }
-                }
-            }
-        }
+        });
     }
 
     @Override
