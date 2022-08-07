@@ -49,12 +49,12 @@
           "max_inclusive": 3
         }
       },
-      "offset": 1,
+      "offset": 0,
       "height": {
         "type": "minecraft:uniform",
         "value": {
-          "min_inclusive": 3,
-          "max_inclusive": 5
+          "min_inclusive": 2,
+          "max_inclusive": 3
         }
       }
     },

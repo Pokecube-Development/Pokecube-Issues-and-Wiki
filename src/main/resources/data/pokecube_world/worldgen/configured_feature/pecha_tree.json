@@ -42,7 +42,7 @@
     },
     "foliage_placer": {
       "type": "pokecube:palm_foliage_placer",
-      "radius": 3,
+      "radius": 4,
       "offset": 0,
       "height": 5
     },

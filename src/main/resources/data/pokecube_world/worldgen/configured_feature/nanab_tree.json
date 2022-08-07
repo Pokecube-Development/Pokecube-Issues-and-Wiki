@@ -46,7 +46,7 @@
     },
     "trunk_placer": {
       "height_rand_b": 1,
-      "min_height_for_leaves": 6,
+      "min_height_for_leaves": 4,
       "bend_length": {
         "type": "minecraft:uniform",
         "value": {

@@ -1,0 +1,129 @@
+{
+  "config": {
+    "tries": 96,
+    "xz_spread": 6,
+    "y_spread": 2,
+    "feature": {
+      "feature": {
+        "config": {
+          "to_place": {
+            "seed": 2345,
+            "noise": {
+              "firstOctave": -3,
+              "amplitudes": [
+                1.0
+              ]
+            },
+            "scale": 1.0,
+            "states": [
+              {
+                "Name": "pokecube:crop_aspear",
+                "Properties": {
+                  "age": 5
+                }
+              },
+              {
+                "Name": "pokecube:crop_cheri",
+                "Properties": {
+                  "age": 5
+                }
+              },
+              {
+                "Name": "pokecube:crop_cornn",
+                "Properties": {
+                  "age": 5
+                }
+              },
+              {
+                "Name": "pokecube:crop_jaboca",
+                "Properties": {
+                  "age": 5
+                }
+              },
+              {
+                "Name": "pokecube:crop_lum",
+                "Properties": {
+                  "age": 5
+                }
+              },
+              {
+                "Name": "pokecube:crop_persim",
+                "Properties": {
+                  "age": 5
+                }
+              },
+              {
+                "Name": "pokecube:crop_pinap",
+                "Properties": {
+                  "age": 5
+                }
+              },
+              {
+                "Name": "pokecube:crop_pomeg",
+                "Properties": {
+                  "age": 5
+                }
+              },
+              {
+                "Name": "pokecube:crop_rawst",
+                "Properties": {
+                  "age": 5
+                }
+              },
+              {
+                "Name": "pokecube:crop_rowap",
+                "Properties": {
+                  "age": 5
+                }
+              }
+            ],
+            "variety": [
+              1,
+              3
+            ],
+            "slow_noise": {
+              "firstOctave": -9,
+              "amplitudes": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            "slow_scale": 1.0,
+            "type": "minecraft:dual_noise_provider"
+          }
+        },
+        "type": "minecraft:simple_block"
+      },
+      "placement": [
+        {
+          "predicate": {
+            "predicates": [
+              {
+                "blocks": [
+                  "minecraft:air"
+                ],
+                "type": "minecraft:matching_blocks"
+              },
+              {
+                "offset": [
+                  0,
+                  -1,
+                  0
+                ],
+                "blocks": [
+                  "minecraft:grass_block"
+                ],
+                "type": "minecraft:matching_blocks"
+              }
+            ],
+            "type": "minecraft:all_of"
+          },
+          "type": "minecraft:block_predicate_filter"
+        }
+      ]
+    }
+  },
+  "type": "minecraft:flower"
+}

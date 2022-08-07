@@ -40,7 +40,7 @@ public class RoundFoliagePlacer extends FoliagePlacer
     @Override
     protected FoliagePlacerType<?> type()
     {
-        return FoliagePlacerTypes.PALM_FOLIAGE_PLACER.get();
+        return FoliagePlacerTypes.ROUND_FOLIAGE_PLACER.get();
     }
 
     @Override
