@@ -51,7 +51,7 @@ public class PalmFoliagePlacer extends FoliagePlacer
     {
         for (int yOffset = offset; yOffset >= offset - height; --yOffset)
         {
-            int range = Math.max(radius + foliageAttachment.radiusOffset() - 1 - yOffset, 0);
+            int range = radius;
             placeLeafSegment(level, blockSetter, random, treeConfig, foliageAttachment.pos(), offset, range, yOffset,
                     foliageAttachment.doubleTrunk());
         }
@@ -61,7 +61,7 @@ public class PalmFoliagePlacer extends FoliagePlacer
             Random random, TreeConfiguration treeConfig, BlockPos pos, int offset, int range, int yOffset,
             boolean large)
     {
-        int minRadius = range - yOffset - 2 + (1 + yOffset % 2);
+        int minRadius = range - 2 * yOffset - 2 + (1 + yOffset % 2);
         if (yOffset == offset) minRadius = 0;
         int sideLeafRadius = 1;
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
