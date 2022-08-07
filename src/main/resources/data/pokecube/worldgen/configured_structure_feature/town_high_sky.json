@@ -4,7 +4,7 @@
   "config": {
     "avoid_range": 6,
     "biome_type": "industrial",
-    "y_settings":{"vertical_offset": 70, "dy_offset": 70, "surface_type":"air"},
+    "y_settings":{"vertical_offset": 70, "max_y": 100, "dy_offset": 120, "surface_type":"air"},
     "clearances":{"h_clearance": 0},
     "required_parts": [
       "pokecenter"
@@ -14,7 +14,11 @@
     "structures_to_avoid": [
       "minecraft:villages",
       "minecraft:pillager_outposts"
-    ]
+    ],
+    "avoidances":{
+      "flags": ["village_high_sky"],
+      "avoidances": [{"name":"village_high_sky","distance":80}]
+    }
   },
   "spawn_overrides": {},
   "type": "pokecube:generic_surface_jigsaw"

@@ -9,7 +9,11 @@
     ],
     "y_settings":{"vertical_offset": -50},
     "avoid_range": 6,
-    "size": 8
+    "size": 8,
+    "avoidances":{
+      "flags": ["unown_temple"],
+      "avoidances": [{"name":"unown_temple","distance":80}]
+    }
   },
   "spawn_overrides": {},
   "type": "pokecube:generic_surface_jigsaw"

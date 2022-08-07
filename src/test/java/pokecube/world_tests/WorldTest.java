@@ -29,7 +29,7 @@ public class WorldTest
         {
             public ResourceLocation name;
             public int last_n = 0;
-            public List<Integer> pos = new ArrayList<>();
+            public List<Integer> distances = new ArrayList<>();
 
             public boolean locate(ServerLevel level, BlockPos pos, Registry<ConfiguredStructureFeature<?, ?>> registry)
             {
@@ -38,14 +38,18 @@ public class WorldTest
                         .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, name);
                 var holder = registry.getHolderOrThrow(structure);
                 HolderSet<ConfiguredStructureFeature<?, ?>> holderset = HolderSet.direct(holder);
+                long time = System.currentTimeMillis();
                 Pair<BlockPos, Holder<ConfiguredStructureFeature<?, ?>>> thing = level.getChunkSource().getGenerator()
-                        .findNearestMapFeature(level, holderset, pos, 50, false);
+                        .findNearestMapFeature(level, holderset, pos, 100, false);
+                long dt = System.currentTimeMillis() - time;
+                if (thing == null && dt < 5) last_n += 10;
                 if (thing != null)
                 {
                     last_n = 0;
-                    this.pos.add((int) Math.sqrt(thing.getFirst().distSqr(pos)));
+                    this.distances.add((int) Math.sqrt(thing.getFirst().distSqr(pos)));
+                    ThutCore.LOGGER.info("dt: {} ms", dt);
                 }
-                if (!this.pos.isEmpty()) return true;
+                if (!this.distances.isEmpty()) return true;
                 return last_n++ < 5;
             }
 
@@ -88,6 +92,9 @@ public class WorldTest
                 this.entries.sort(null);
             }
             int min_found = Integer.MAX_VALUE;
+            int max_found = Integer.MIN_VALUE;
+            ResourceLocation min = null;
+            ResourceLocation max = null;
             pos = new BlockPos(x * r, 0, z * r);
             x++;
             if (x > 50)
@@ -96,13 +103,19 @@ public class WorldTest
                 z++;
             }
             ThutCore.LOGGER.info("\n\nChecking Structures\n");
+            long time = System.currentTimeMillis();
             this.entries.removeIf(e -> !e.locate(level, pos, registry));
+            long dt = System.currentTimeMillis() - time;
             for (var entry : this.entries)
             {
-                min_found = Math.min(min_found, entry.pos.size());
+                if (entry.distances.size() < min_found) min = entry.name;
+                if (entry.distances.size() > max_found) max = entry.name;
+                min_found = Math.min(min_found, entry.distances.size());
+                max_found = Math.max(max_found, entry.distances.size());
             }
-            ThutCore.LOGGER.info("\nMin Found: {}\n", min_found);
-            return min_found > 10;
+            ThutCore.LOGGER.info("\nMin Found: {} ({}), Max Found: {} ({}), took: {} s\n", min_found, min, max_found,
+                    max, dt / 1000);
+            return min_found >= 10;
         }
     }
 
@@ -129,8 +142,8 @@ public class WorldTest
                 for (var entry : LOG.entries)
                 {
                     var name = entry.name;
-                    PokecubeCore.LOGGER.info("{}\t{}\t{}\t{}", name, average(entry.pos), stdev(entry.pos),
-                            entry.pos.size());
+                    PokecubeCore.LOGGER.info("{}\t{}\t{}\t{}", name, average(entry.distances), stdev(entry.distances),
+                            entry.distances.size());
                     LOG.all_Checked.remove(name);
                 }
                 PokecubeCore.LOGGER.info("Structures Missing:");
