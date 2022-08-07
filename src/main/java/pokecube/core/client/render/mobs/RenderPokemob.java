@@ -308,7 +308,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
                 {
                     // No animation here, lets try to use the base one.
                 }
-
                 AnimationLoader.parse(this, model, this);
             });
         }

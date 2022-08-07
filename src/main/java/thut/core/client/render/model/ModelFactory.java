@@ -51,7 +51,10 @@ public class ModelFactory
                 if (ret != null && ret.isValid()) break;
             }
             if (ret == null) ret = new X3dModel();
-            if (!ret.isValid()) ThutCore.LOGGER.error("No Model found for " + location);
+            if (!ret.isValid())
+            {
+                if (ThutCore.conf.debug) ThutCore.LOGGER.error("No Model found for " + location);
+            }
             else
             {
                 if (ThutCore.conf.debug) ThutCore.LOGGER.debug("Successfully loaded model for " + location);

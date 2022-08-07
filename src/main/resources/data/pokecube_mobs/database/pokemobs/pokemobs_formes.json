@@ -927,6 +927,7 @@
     },
     {
       "name": "vivillon",
+      "hasShiny": false,
       "models": [
         {
           "key": "vivillon",

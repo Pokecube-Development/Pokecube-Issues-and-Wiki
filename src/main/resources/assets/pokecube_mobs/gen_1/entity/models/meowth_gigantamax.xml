@@ -6,7 +6,7 @@
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
   <phase axis="0" name="snakeIdle" parts="tail:tail1:tail2:tail3:tail4:tail5"/>
   <phase axis="0" name="snakeWalk" parts="tail1:tail2:tail3:tail4"/>
-  <customTex default="meowthgigantamax">
+  <customTex default="meowth_gigantamax">
    <part name="Head" tex="meowthgeye"/>
    <part name="Coin" tex="meowthgcoin"/>
   </customTex>

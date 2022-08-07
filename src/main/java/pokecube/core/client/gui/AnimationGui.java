@@ -2,7 +2,7 @@ package pokecube.core.client.gui;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Collections;
@@ -139,9 +139,9 @@ public class AnimationGui extends Screen
             entries.forEach(e -> main.add(e, new JsonPrimitive(sizeMap.get(e))));
             final String json = JsonUtil.gson.toJson(main);
             final File dir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("sizes.json").toFile();
-            final FileWriter out = new FileWriter(dir);
-            out.write(json);
-            out.close();
+            FileOutputStream outS = new FileOutputStream(dir);
+            outS.write(json.getBytes());
+            outS.close();
         }
         catch (final IOException e1)
         {
@@ -257,7 +257,7 @@ public class AnimationGui extends Screen
         this.renderHolder = RenderPokemob.holders.get(AnimationGui.entry);
         if (this.holder != null)
             this.renderHolder = RenderPokemob.customs.getOrDefault(this.holder.key, this.renderHolder);
-        this.renderHolder.init();
+
         PacketPokedex.updateWatchEntry(AnimationGui.entry);
 
         this.forme.moveCursorToStart();

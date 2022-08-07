@@ -27,6 +27,7 @@ src/generated/*
 logs/*
 /git/
 processing_scripts/icon_generator/icons/*
+processing_scripts/icon_generator/img/*
 processing_scripts/database_update/caches/*
 processing_scripts/json_cleanup/inputs/*
 processing_scripts/json_cleanup/outputs/*

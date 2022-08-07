@@ -125,8 +125,7 @@ public class Factory<T>
     private void processNode(final Node node, final Object obj, final int depth)
     {
         String tabbing = "";
-        for (int i = 0; i < depth; i++)
-            tabbing = tabbing + "   ";
+        for (int i = 0; i < depth; i++) tabbing = tabbing + "   ";
 
         String name = node.getNodeName();
         final NodeList children = node.getChildNodes();
@@ -170,7 +169,8 @@ public class Factory<T>
                 if (value == null) continue;
                 if (ThutCore.trim(value).isEmpty()) continue;
                 // Else we try to set the corresponding object as this.
-                ThutCore.LOGGER.error("We do not handle this properly yet!");
+                if (ThutCore.conf.debug)
+                    ThutCore.LOGGER.error("We do not handle this properly yet! {}: {}", name, value);
                 continue;
             }
             if (elems.containsKey(name)) this.apply(n, obj, depth, elems.get(name), tabbing);
