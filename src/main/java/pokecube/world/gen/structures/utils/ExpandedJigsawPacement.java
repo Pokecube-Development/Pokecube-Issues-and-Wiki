@@ -649,7 +649,7 @@ public class ExpandedJigsawPacement
 
                                             if (rigid_bounds.getValue() != null)
                                             {
-                                                rigid_bounds.setValue(Shapes.or(rigid_bounds.getValue(), new_shape));
+                                                rigid_bounds.setValue(Shapes.joinUnoptimized(rigid_bounds.getValue(), new_shape, BooleanOp.OR));
                                             }
                                             else
                                             {
@@ -771,7 +771,7 @@ public class ExpandedJigsawPacement
                 VoxelShape new_shape = Shapes.create(next_box);
                 if (non_rigid_bounds.getValue() != null)
                 {
-                    non_rigid_bounds.setValue(Shapes.or(non_rigid_bounds.getValue(), new_shape));
+                    non_rigid_bounds.setValue(Shapes.joinUnoptimized(non_rigid_bounds.getValue(), new_shape, BooleanOp.OR));
                 }
                 else
                 {
@@ -787,7 +787,7 @@ public class ExpandedJigsawPacement
                 VoxelShape new_shape = Shapes.create(next_box);
                 if (rigid_bounds.getValue() != null)
                 {
-                    rigid_bounds.setValue(Shapes.or(rigid_bounds.getValue(), new_shape));
+                    rigid_bounds.setValue(Shapes.joinUnoptimized(rigid_bounds.getValue(), new_shape, BooleanOp.OR));
                 }
                 else
                 {
