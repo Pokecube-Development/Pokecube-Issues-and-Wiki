@@ -47,8 +47,8 @@ public class WorldTest
                 {
                     last_n = 0;
                     this.distances.add((int) Math.sqrt(thing.getFirst().distSqr(pos)));
-                    ThutCore.LOGGER.info("dt: {} ms", dt);
                 }
+                ThutCore.LOGGER.info("dt: {} ms", dt);
                 if (!this.distances.isEmpty()) return true;
                 return last_n++ < 5;
             }

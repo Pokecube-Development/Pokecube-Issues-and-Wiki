@@ -1588,7 +1588,7 @@ public class PokedexEntry
         if (this.getBaseForme() != null) return this.getBaseForme().getEvolutionMode();
         if (this.evolutionMode < 0)
         {
-            PokecubeCore.LOGGER.error("Undefined evo mode for {}, setting to \"2\"");
+            PokecubeCore.LOGGER.error("Undefined evo mode for {}, setting to \"2\"", this);
             this.evolutionMode = 2;
         }
         return this.evolutionMode;
