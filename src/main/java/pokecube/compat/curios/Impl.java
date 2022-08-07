@@ -18,6 +18,12 @@ import thut.wearables.IWearableChecker;
 import thut.wearables.ThutWearables;
 import thut.wearables.events.WearablesLoadedEvent;
 import thut.wearables.inventory.PlayerWearables;
+import top.theillusivec4.curios.api.CuriosCapability;
+import top.theillusivec4.curios.api.SlotTypeMessage;
+import top.theillusivec4.curios.api.event.CurioChangeEvent;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
+import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
 public class Impl
 {
