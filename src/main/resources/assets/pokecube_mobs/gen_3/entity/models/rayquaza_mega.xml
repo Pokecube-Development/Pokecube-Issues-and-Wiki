@@ -34,7 +34,7 @@
   <phase axis="1" name="snakeWalk" parts="t2:t2_1:t2_2:t2_3:t2_4:t2_5"/>
   <phase axis="0" name="snakeFly" parts="t2:t2_1:t2_2:t2_3:t2_4:t2_5"/>
   
-  <customTex default="rayquazamega">
+  <customTex default="rayquaza_mega">
    <part name="Eye" tex="rayquazamegahead"/>
    <animation diffs="0,0.5" part="Eye" trigger="random:0.005:25"/>
    <part name="Part" tex="mark"/>

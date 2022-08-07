@@ -4,7 +4,7 @@
   <phase name="global" scale="0.3"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-50,50" headCap1="-50,50" headDir="-1"/>
   <phase duration="10" leftArm="" leftLeg="leg2" legAngle="25" name="biWalk" rightArm="" rightLeg="leg1"/>
-  <customTex default="sneaselhisui">
+  <customTex default="sneasel_hisui">
    <part name="Mark" tex="sneaselhisuimask"/>
    <part name="Head" tex="sneaselhisuieye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>

@@ -6,7 +6,7 @@
   <phase duration="10" leftArm="leg1_1" leftLeg="leg1" legAngle="20" name="biWalk" rightArm="leg2_1" rightLeg="leg2"/>
   <phase axis="1" name="snakeWalk" parts="l1:l2:l3:l4:l5:l6"/>
   <phase axis="0" name="snakeSwim" parts="l2:l3:l4:l5:l6"/>
-  <customTex default="greninjaash">
+  <customTex default="greninja_ash">
    <part name="Head" tex="greninjaasheye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:6"/>
    <part name="Water" tex="greninjawater"/>

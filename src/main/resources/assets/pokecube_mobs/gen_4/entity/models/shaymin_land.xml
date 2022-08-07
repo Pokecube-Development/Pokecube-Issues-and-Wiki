@@ -4,7 +4,7 @@
   <phase name="global" scale="0.15"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1"/>
   <phase duration="10" leftFront="leg4" leftHind="leg1" name="quadWalk" rightFront="leg3" rightHind="leg2"/>
-  <customTex default="shayminland">
+  <customTex default="shaymin_land">
    <part name="Head" tex="shayminlandhead"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>
