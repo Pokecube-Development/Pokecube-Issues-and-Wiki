@@ -1,6 +1,6 @@
 {
   "config": {
-    "tries": 48,
+    "tries": 72,
     "xz_spread": 6,
     "y_spread": 2,
     "feature": {
