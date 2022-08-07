@@ -121,7 +121,7 @@ public class Config extends ConfigData
                 POKEMOBS_DESPAWN = GameRules.register("pokecube:pokemobs_despawn", Category.SPAWNING,
                         GameRules.BooleanValue.create(true));
                 POKEMOBS_CULL = GameRules.register("pokecube:pokemobs_cull", Category.SPAWNING,
-                        GameRules.BooleanValue.create(true));
+                        GameRules.BooleanValue.create(false));
 
                 POKEMOB_CULL_DISTANCE = GameRules.register("pokecube:pokemob_cull_distance", Category.SPAWNING,
                         GameRules.IntegerValue.create(96));

@@ -5,7 +5,7 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1"/>
   <phase axis="0" name="snakeIdle" parts="tail:tail1:tail2:tail3:tail4"/>
   <phase axis="0" name="snakeWalk" parts="tail1:tail2:tail3:tail4"/>
-  <customTex default="raticatealola">
+  <customTex default="raticate_alola">
    <part name="Head" tex="raticatealolaeye"/>
    <part name="M" tex="raticatealolae"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:6"/>

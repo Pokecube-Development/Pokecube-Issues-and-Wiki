@@ -29,6 +29,7 @@ import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.world.PokecubeWorld;
 import pokecube.world.gen.features.register.PlacedFeatureHolder;
 import thut.api.terrain.BiomeDatabase;
+import thut.core.common.ThutCore;
 
 public class FeaturesInit
 {
@@ -100,7 +101,7 @@ public class FeaturesInit
         ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
         if (make_ores_check.test(key))
         {
-            PokecubeCore.LOGGER.info("Adding Fossils to " + event.getName());
+            if (ThutCore.conf.debug) PokecubeCore.LOGGER.info("Adding Fossils to " + event.getName());
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
                     PLACED_SMALL_FOSSIL.getHolder().get());
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
@@ -114,7 +115,8 @@ public class FeaturesInit
             BerryGenManager.list.locations.forEach(config -> {
                 if (config.matches(event))
                 {
-                    PokecubeCore.LOGGER.info("Adding " + config.placement + " to " + event.getName());
+                    if (ThutCore.conf.debug)
+                        PokecubeCore.LOGGER.info("Adding " + config.placement + " to " + event.getName());
                     event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
                             new PlacedFeatureHolder(config.placement));
                 }

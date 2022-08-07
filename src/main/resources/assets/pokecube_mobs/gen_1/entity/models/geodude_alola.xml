@@ -8,7 +8,7 @@
  <worn angles="-90,0,0" id="__EYE__" offset="0,0.25,0.1" parent="head" scale="0.8"/>
   <worn angles="-10,180,0" id="__NECK__" offset="0,-0.175,-0.325" parent="body1" scale=".5"/>
   <worn angles="-10,0,0" id="__BACK__" offset="0,0.17,0.22" parent="body1" scale="0.65,0.65,0.65"/>
-  <customTex default="geodudealola">
+  <customTex default="geodude_alola">
    <part name="Head" tex="geodudealolahead"/>
    <animation diffs="0.5,0" part="Head" trigger="random:0.005:1"/>
   </customTex>

@@ -3,7 +3,7 @@
  <model name="">
   <phase name="global" scale="0.1"/>
   <metadata head="Head" headCap="-180,180" headDir="1" headAxis="2" headCap1="-1,1"/>
-  <customTex default="diglettalola">
+  <customTex default="diglett_alola">
    <part name="Head" tex="diglettalolahead"/>
    <animation diffs="0,0.33" part="Head" trigger="random:0.005:20"/>
    <animation diffs="0,0.67" part="Head" trigger="random:0.005:20"/>

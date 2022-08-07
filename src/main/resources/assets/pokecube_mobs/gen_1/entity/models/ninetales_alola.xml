@@ -4,7 +4,7 @@
   <phase name="global" scale="0.63"/>
   <metadata head="neck" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1"/>
   <phase duration="10" leftFront="leg1" leftHind="leg4" name="quadWalk" rightFront="leg2" rightHind="leg3"/>
-  <customTex default="ninetalesalola">
+  <customTex default="ninetales_alola">
    <part name="Head" tex="ninetalesalolaeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>

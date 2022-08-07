@@ -4,7 +4,7 @@
   <phase name="global" scale="0.4"/>
   <metadata head="body" headAxis="2" headAxis2="0" headCap="-5,5" headCap1="-5,5" headDir="-1" headDir1="-1"/>
   <worn angles="-90,0,0" id="__EYE__" offset="0,0.6,0.8" parent="body" scale="2.8,2,2"/>
-  <customTex default="weezinggalarian">
+  <customTex default="weezing_galar">
    <part name="Head" tex="weezinggalarhead"/>
    <animation diffs="0,0.3" part="Head" trigger="random:0.005:20"/>
    <part name="Head1" tex="weezinggalarhead1"/>
