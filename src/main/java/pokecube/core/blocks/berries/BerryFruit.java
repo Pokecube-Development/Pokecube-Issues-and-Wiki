@@ -185,8 +185,8 @@ public class BerryFruit extends BushBlock
         final BlockState state2 = BerryManager.berryCrops.get(this.ind).defaultBlockState();
         if (!world.isClientSide)
         {
-            if (world.getBlockState(pos.below()).is(BerryManager.berryCrops.get(this.ind))) world.setBlockAndUpdate(pos
-                    .below(), state2.setValue(CropBlock.AGE, Integer.valueOf(5)));
+            if (world.getBlockState(pos.below()).is(BerryManager.berryCrops.get(this.ind)))
+                world.setBlockAndUpdate(pos.below(), state2.setValue(CropBlock.AGE, Integer.valueOf(5)));
             world.destroyBlock(pos, true);
         }
         return InteractionResult.SUCCESS;
@@ -197,7 +197,8 @@ public class BerryFruit extends BushBlock
     {
         final BlockState state2 = BerryManager.berryCrops.get(this.ind).defaultBlockState();
 
-        world.setBlockAndUpdate(pos.below(), state2.setValue(CropBlock.AGE, Integer.valueOf(5)));
+        if (world.getBlockState(pos.below()).is(BerryManager.berryCrops.get(this.ind)))
+            world.setBlockAndUpdate(pos.below(), state2.setValue(CropBlock.AGE, Integer.valueOf(5)));
 
         if (state.is(BlockTags.GUARDED_BY_PIGLINS)) {
             PiglinAi.angerNearbyPiglins(player, false);
