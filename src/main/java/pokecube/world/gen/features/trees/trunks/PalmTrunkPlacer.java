@@ -86,7 +86,7 @@ public class PalmTrunkPlacer extends TrunkPlacer
             blockpos$mutableblockpos.move(direction);
         }
         blockpos$mutableblockpos.move(direction.getOpposite());
-        list.add(new FoliagePlacer.FoliageAttachment(blockpos$mutableblockpos.immutable(), 0, false));
+        list.add(new FoliagePlacer.FoliageAttachment(blockpos$mutableblockpos.immutable().above(), 0, false));
         return list;
     }
 }
