@@ -29,7 +29,6 @@ import thut.core.common.ThutCore;
 
 public abstract class BaseModel implements IModelCustom, IModel, IRetexturableModel
 {
-
     public static class Loader implements Runnable
     {
         final BaseModel toLoad;
@@ -53,6 +52,15 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 if (this.toLoad.callback != null) this.toLoad.callback.run(this.toLoad);
             }
             this.toLoad.callback = null;
+        }
+
+        public void start()
+        {
+            String key = "ThutCore: Model Load: " + res;
+            final Thread loader = new Thread(this);
+            loader.setName(key);
+            if (ThutCore.conf.asyncModelLoads) loader.start();
+            else loader.run();
         }
     }
 
@@ -89,10 +97,8 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             }
             res.close();
             // If it did exist, then lets schedule load on another thread
-            final Thread loader = new Thread(new Loader(this, l));
-            loader.setName("ThutCore: Model Load: " + l);
-            if (ThutCore.conf.asyncModelLoads) loader.start();
-            else loader.run();
+            Loader loader = new Loader(this, l);
+            loader.start();
         }
         catch (final Exception e)
         {

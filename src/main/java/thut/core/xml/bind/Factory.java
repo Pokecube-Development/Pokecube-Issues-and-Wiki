@@ -41,14 +41,27 @@ public class Factory<T>
 
     private static Map<Class<?>, Field> knownAnyAtrMappins = Maps.newHashMap();
 
+    private static XMLReader XMLREADER;
+
+    static
+    {
+        try
+        {
+            SAXParserFactory spf = SAXParserFactory.newInstance();
+            spf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            XMLREADER = spf.newSAXParser().getXMLReader();
+            XMLREADER.setEntityResolver((publicId, systemId) -> new InputSource(new StringReader("")));
+        }
+        catch (ParserConfigurationException | SAXException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     public static <T> T make(final InputStream stream, final Class<T> clazz) throws Exception
     {
-        final SAXParserFactory spf = SAXParserFactory.newInstance();
-        spf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-        final XMLReader xmlReader = spf.newSAXParser().getXMLReader();
-        xmlReader.setEntityResolver((publicId, systemId) -> new InputSource(new StringReader("")));
         final InputSource inputSource = new InputSource(new InputStreamReader(stream));
-        final SAXSource source = new SAXSource(xmlReader, inputSource);
+        final SAXSource source = new SAXSource(XMLREADER, inputSource);
         return Factory.makeForClass(clazz).make(source);
     }
 
