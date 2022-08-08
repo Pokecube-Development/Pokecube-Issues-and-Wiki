@@ -41,22 +41,10 @@
       "type": "minecraft:simple_state_provider"
     },
     "foliage_placer": {
-      "type": "pokecube:round_foliage_placer",
-      "radius": {
-        "type": "minecraft:uniform",
-        "value": {
-          "min_inclusive": 1,
-          "max_inclusive": 2
-        }
-      },
+      "radius": 4,
       "offset": 0,
-      "height": {
-        "type": "minecraft:uniform",
-        "value": {
-          "min_inclusive": 2,
-          "max_inclusive": 6
-        }
-      }
+      "height": 6,
+      "type": "minecraft:fancy_foliage_placer"
     }
   },
   "type": "minecraft:tree"
