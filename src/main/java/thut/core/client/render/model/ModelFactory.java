@@ -76,7 +76,7 @@ public class ModelFactory
         if (!made.isValid()) for (final ResourceLocation loc : model.backupModels)
         {
             made = ModelFactory.create(loc, model, callback);
-            if (!made.isValid()) return made;
+            if (made.isValid()) return made;
         }
         return made;
     }
