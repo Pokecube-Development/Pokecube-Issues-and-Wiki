@@ -45,16 +45,16 @@
         "radius": {
           "type": "minecraft:uniform",
           "value": {
-            "min_inclusive": 1,
-            "max_inclusive": 2
+            "min_inclusive": 2,
+            "max_inclusive": 3
           }
         },
-        "offset": 0,
+        "offset": 2,
         "height": {
           "type": "minecraft:uniform",
           "value": {
-            "min_inclusive": 2,
-            "max_inclusive": 3
+            "min_inclusive": 4,
+            "max_inclusive": 5
           }
         }
       },

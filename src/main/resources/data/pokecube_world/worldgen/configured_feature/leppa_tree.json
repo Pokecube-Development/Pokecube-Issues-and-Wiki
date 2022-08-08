@@ -36,7 +36,7 @@
     },
     "trunk_placer": {
       "type": "minecraft:straight_trunk_placer",
-      "base_height": 5,
+      "base_height": 6,
       "height_rand_a": 2,
       "height_rand_b": 1
     },
@@ -46,15 +46,15 @@
         "type": "minecraft:uniform",
         "value": {
           "min_inclusive": 1,
-          "max_inclusive": 2
+          "max_inclusive": 3
         }
       },
       "offset": 0,
       "height": {
         "type": "minecraft:uniform",
         "value": {
-          "min_inclusive": 2,
-          "max_inclusive": 3
+          "min_inclusive": 3,
+          "max_inclusive": 5
         }
       }
     },

@@ -36,25 +36,25 @@
       },
       "trunk_placer": {
         "type": "minecraft:straight_trunk_placer",
-        "base_height": 4,
-        "height_rand_a": 2,
-        "height_rand_b": 0
+        "base_height": 6,
+        "height_rand_a": 4,
+        "height_rand_b": 2
       },
       "foliage_placer": {
         "type": "pokecube:round_foliage_placer",
         "radius": {
           "type": "minecraft:uniform",
           "value": {
-            "min_inclusive": 1,
-            "max_inclusive": 2
+            "min_inclusive": 2,
+            "max_inclusive": 4
           }
         },
-        "offset": 0,
+        "offset": 1,
         "height": {
           "type": "minecraft:uniform",
           "value": {
-            "min_inclusive": 2,
-            "max_inclusive": 3
+            "min_inclusive": 3,
+            "max_inclusive": 5
           }
         }
       },

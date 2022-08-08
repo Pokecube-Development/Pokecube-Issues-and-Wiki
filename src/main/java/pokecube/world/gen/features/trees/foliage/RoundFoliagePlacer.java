@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
+import pokecube.core.PokecubeCore;
 
 import java.util.Random;
 import java.util.function.BiConsumer;
@@ -51,6 +52,28 @@ public class RoundFoliagePlacer extends FoliagePlacer
         for(int i = offset; i >= offset - height; --i) {
             int j = radius + (i != offset && i != offset - height ? 1 : 0);
             this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), j, i, foliageAttachment.doubleTrunk());
+        }
+    }
+
+    protected void placeLeavesRow(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
+                                  Random random, TreeConfiguration treeConfig, BlockPos pos, int range, int yOffset, boolean large)
+    {
+        int i = large ? 1 : 0;
+        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+
+        for(int j = -range; j <= range + i; ++j)
+        {
+            for(int k = -range; k <= range + i; ++k)
+            {
+                if(j * j + k * k <= range * range)
+                {
+                    if (!this.shouldSkipLocationSigned(random, j, yOffset, k, range, large))
+                    {
+                        mutablePos.setWithOffset(pos, j, yOffset, k);
+                        tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
+                    }
+                }
+            }
         }
     }
 
