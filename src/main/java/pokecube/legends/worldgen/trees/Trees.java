@@ -41,7 +41,6 @@ import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.worldgen.trees.treedecorators.LeavesStringOfPearlsDecorator;
 import pokecube.legends.worldgen.trees.treedecorators.TrunkStringOfPearlsDecorator;
-import pokecube.world.gen.features.trees.foliage.RoundFoliagePlacer;
 
 public class Trees
 {
@@ -164,7 +163,7 @@ public class Trees
                 BlockStateProvider.simple(BlockInit.DISTORTIC_LOG.get().defaultBlockState()),
                 new StraightTrunkPlacer(14, 2, 10),
                 BlockStateProvider.simple(BlockInit.DISTORTIC_LEAVES.get().defaultBlockState()),
-                new RoundFoliagePlacer(UniformInt.of(1, 2), ConstantInt.of(0), UniformInt.of(2, 6)), new TwoLayersFeatureSize(1, 0, 1))
+                new FancyFoliagePlacer(ConstantInt.of(4), ConstantInt.of(0), 6), new TwoLayersFeatureSize(1, 0, 1))
                         .ignoreVines();
     }
 
