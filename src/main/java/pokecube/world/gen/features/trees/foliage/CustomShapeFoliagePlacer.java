@@ -4,8 +4,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.BiConsumer;
 
-import org.apache.commons.compress.utils.Lists;
-
+import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
