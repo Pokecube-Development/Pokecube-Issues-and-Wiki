@@ -98,7 +98,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
             if (GuiPokemobBase.autoScale)
             {
                 final Float value = GuiPokemobBase.sizeMap.get(pokemob.getPokedexEntry());
-                if (value != null) mobScale = value * 2.0f;
+                if (value != null) mobScale = value * 8.0f;
                 else
                 {
                     final boolean stock = pokemob.getPokedexEntry().stock;
