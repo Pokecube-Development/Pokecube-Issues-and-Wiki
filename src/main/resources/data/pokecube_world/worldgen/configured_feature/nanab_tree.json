@@ -60,21 +60,9 @@
     },
     "foliage_placer": {
       "type": "pokecube:palm_foliage_placer",
-      "radius": {
-        "type": "minecraft:uniform",
-        "value": {
-          "min_inclusive": 3,
-          "max_inclusive": 5
-        }
-      },
-      "offset": 1,
-      "height": {
-        "type": "minecraft:uniform",
-        "value": {
-          "min_inclusive": 3,
-          "max_inclusive": 5
-        }
-      }
+      "radius": 3,
+      "offset": 0,
+      "height": 5
     },
     "decorators": [
       {
