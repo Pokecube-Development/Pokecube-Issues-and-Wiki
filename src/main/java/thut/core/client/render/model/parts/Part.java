@@ -325,6 +325,12 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
+    public boolean isHidden()
+    {
+        return this.hidden;
+    }
+
+    @Override
     public void setParent(final IExtendedModelPart parent)
     {
         this.parent = parent;

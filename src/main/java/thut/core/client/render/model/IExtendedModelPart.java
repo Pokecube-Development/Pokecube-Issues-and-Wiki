@@ -120,6 +120,11 @@ public interface IExtendedModelPart extends IModelCustom
 
     }
 
+    default boolean isHidden()
+    {
+        return false;
+    }
+
     default void updateMaterial(final Mat mat, final Material material)
     {
 

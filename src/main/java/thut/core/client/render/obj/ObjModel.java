@@ -4,16 +4,16 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
@@ -41,8 +41,9 @@ import thut.core.common.ThutCore;
 public class ObjModel implements IModelCustom, IModel, IRetexturableModel
 {
     public HashMap<String, IExtendedModelPart> parts = new HashMap<>();
-    Map<String, Material> mats = Maps.newHashMap();
-    Set<String> heads = Sets.newHashSet();
+    Map<String, Material> mats = new HashMap<>();
+    Set<String> heads = new HashSet<>();
+    List<String> order = new ArrayList<>();
     public String name;
     private boolean valid = true;
 
@@ -192,7 +193,7 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
                 faces.add(facepairs);
             }
         }
-
+        this.order.addAll(this.parts.keySet());
         return this.parts;
     }
 
@@ -340,5 +341,11 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
             this.updateSubParts(entity, renderer, currentPhase, partialTick, part, headYaw, headPitch, limbSwing,
                     brightnessIn);
         }
+    }
+
+    @Override
+    public List<String> getRenderOrder()
+    {
+        return order;
     }
 }

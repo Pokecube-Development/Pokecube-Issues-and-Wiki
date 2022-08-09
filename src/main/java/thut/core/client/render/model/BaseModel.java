@@ -132,7 +132,8 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         return this.heads;
     }
 
-    public List<String> getOrder()
+    @Override
+    public List<String> getRenderOrder()
     {
         if (this.order.isEmpty() && this.loaded)
         {
@@ -176,7 +177,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     @Override
     public void renderAll(final PoseStack mat, final VertexConsumer buffer)
     {
-        for (final String s : this.getOrder())
+        for (final String s : this.getRenderOrder())
         {
             final IExtendedModelPart o = this.parts.get(s);
             o.render(mat, buffer);
@@ -187,11 +188,9 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     public void renderAllExcept(final PoseStack mat, final VertexConsumer buffer,
             final Collection<String> excludedGroupNames)
     {
-        outer:
-        for (final String s : this.getOrder())
+        for (final String s : this.getRenderOrder())
         {
             final IExtendedModelPart o = this.parts.get(s);
-            for (String s2 : o.getParentNames()) if (excludedGroupNames.contains(s2)) continue outer;
             if (!excludedGroupNames.contains(s)) o.render(mat, buffer);
         }
     }
@@ -199,7 +198,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     @Override
     public void renderOnly(final PoseStack mat, final VertexConsumer buffer, final Collection<String> groupNames)
     {
-        for (final String s : this.getOrder())
+        for (final String s : this.getRenderOrder())
         {
             final IExtendedModelPart o = this.parts.get(s);
             o.renderOnly(mat, buffer, groupNames);
@@ -209,7 +208,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     @Override
     public void renderPart(final PoseStack mat, final VertexConsumer buffer, final String partName)
     {
-        for (final String s : this.getOrder())
+        for (final String s : this.getRenderOrder())
         {
             final IExtendedModelPart o = this.parts.get(s);
             if (o.getParent() == null) o.renderPart(mat, buffer, partName);
@@ -220,7 +219,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer, final float partialTicks,
             final float limbSwing)
     {
-        if (this.getOrder().isEmpty()) return;
+        if (this.getRenderOrder().isEmpty()) return;
         final IAnimationHolder holder = renderer.getAnimationHolder();
         this.updateAnimation(entity, renderer, renderer.getAnimation(entity), partialTicks,
                 holder.getHeadInfo().headYaw, holder.getHeadInfo().headYaw, limbSwing);
@@ -229,7 +228,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     @Override
     public void setAnimationChanger(final IAnimationChanger changer)
     {
-        if (this.getOrder().isEmpty()) return;
+        if (this.getRenderOrder().isEmpty()) return;
         for (final IExtendedModelPart part : this.parts.values())
             if (part instanceof IRetexturableModel tex) tex.setAnimationChanger(changer);
     }
@@ -237,7 +236,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     @Override
     public void setTexturer(final IPartTexturer texturer)
     {
-        if (this.getOrder().isEmpty()) return;
+        if (this.getRenderOrder().isEmpty()) return;
         for (final IExtendedModelPart part : this.parts.values())
             if (part instanceof IRetexturableModel tex) tex.setTexturer(texturer);
     }
@@ -245,7 +244,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     protected void updateAnimation(final Entity entity, final IModelRenderer<?> renderer, final String currentPhase,
             final float partialTicks, final float headYaw, final float headPitch, final float limbSwing)
     {
-        if (this.getOrder().isEmpty()) return;
+        if (this.getRenderOrder().isEmpty()) return;
         for (final String partName : this.getParts().keySet())
         {
             final IExtendedModelPart part = this.getParts().get(partName);
@@ -257,7 +256,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             final float partialTick, final IExtendedModelPart parent, final float headYaw, final float headPitch,
             final float limbSwing)
     {
-        if (this.getOrder().isEmpty()) return;
+        if (this.getRenderOrder().isEmpty()) return;
         if (parent == null) return;
 
         parent.resetToInit();
