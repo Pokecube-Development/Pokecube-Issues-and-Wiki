@@ -117,7 +117,6 @@ public abstract class Mesh
         final float alpha = this.material.alpha * this.rgbabro[3] / 255f;
         final int lightmapUV = this.rgbabro[4];
         final int overlayUV = this.rgbabro[5];
-        int n = 0;
         final PoseStack.Pose matrixstack$entry = mat.last();
         final Matrix4f pos = matrixstack$entry.pose();
         final Matrix3f norms = matrixstack$entry.normal();
@@ -129,9 +128,6 @@ public abstract class Mesh
         com.mojang.math.Vector3f camera_view = com.mojang.math.Vector3f.ZP;
 
         boolean cull = material.cull && alpha >= 1;
-//        cull = false;
-
-//        long start = System.nanoTime();
 
         if (cull)
         {
@@ -146,44 +142,51 @@ public abstract class Mesh
 
         // Loop over this rather than the array directly, so that we can skip by
         // more than 1 if culling.
-        for (int i0 = 0; i0 < this.order.length; i0++, n++)
+        for (int i0 = 0; i0 < this.order.length; i0++)
         {
             Integer i = this.order[i0];
 
+            if (flat) normal = this.normalList[i0];
+            else normal = this.normals[i];
+
+            // Normals first, as they define culling.
+            nx = normal.x;
+            ny = normal.y;
+            nz = normal.z;
+
+            dn.set(nx, ny, nz);
+            dn.transform(norms);
+
+            // flat vs smooth have slightly different cull criteria.
+            // Smooth must only cull on the first normal, otherwise we add a
+            // messed up thing to the render. I guess later we can check the
+            // other normals instead, but for now only checking first, and then
+            // a -0.2 for the threshold works.
+            final boolean tryCull = cull
+                    && (flat && dn.dot(camera_view) < 0.0 || i0 % iter == 0 && dn.dot(camera_view) < -0.2);
+
+            if (tryCull)
+            {
+                // Manually iterate a few to skip the entire face.
+                i0 += iter - 1;
+                continue;
+            }
+
+            // Next we can pull out the coordinates if not culled.
             if (this.hasTextures) textureCoordinate = this.textureCoordinates[i];
             vertex = this.vertices[i];
-
-            if (flat) normal = this.normalList[n];
-            else normal = this.normals[i];
 
             x = vertex.x;
             y = vertex.y;
             z = vertex.z;
 
-            nx = normal.x;
-            ny = normal.y;
-            nz = normal.z;
+            dp.set(x, y, z, 1);
+            dp.transform(pos);
 
             u = textureCoordinate.u + (float) this.uvShift[0];
             v = textureCoordinate.v + (float) this.uvShift[1];
 
-            dp.set(x, y, z, 1);
-            dp.transform(pos);
-            dn.set(nx, ny, nz);
-            dn.transform(norms);
-
-            if (cull && dn.dot(camera_view) < 0.0)// && metric.dot(dp) > 0)
-            {
-                if (flat)
-                {
-                    // These gets incremented also by the loop
-                    i0 += iter - 1;
-                    n += iter - 1;
-//                    System.out.println(this.name+" "+dp);
-                }
-                continue;
-            }
-            // We use the default Item format, since that is what mobs use.
+            // We use the default mob format, since that is what mobs use.
             // This means we need these in this order!
             buffer.vertex(
             //@formatter:off
@@ -194,18 +197,6 @@ public abstract class Mesh
                 dn.x(), dn.y(), dn.z());
             //@formatter:on
         }
-//        long end = System.nanoTime();
-//        double dt = (end - start) / 1000d;
-//
-//        Mesh.n++;
-//        Mesh.sum += dt;
-//
-//        if (Mesh.n % 100000 == 0)
-//        {
-//            System.out.println("Average time for 100000 samples: " + (Mesh.sum / Mesh.n));
-//            Mesh.n = 0;
-//            Mesh.sum = 0;
-//        }
     }
 
     public void renderShape(final PoseStack mat, VertexConsumer buffer, final IPartTexturer texturer)

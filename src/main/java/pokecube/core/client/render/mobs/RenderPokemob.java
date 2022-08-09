@@ -287,7 +287,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
         public void init()
         {
-            if (this.wrapper != null && this.wrapper.lastInit < Tracker.instance().getTick()) return;
+            if (this.wrapper != null && this.wrapper.lastInit > Tracker.instance().getTick()) return;
             RenderPokemob.holders.put(this.entry, this);
             this.toRun.clear();
             this.toRunNames.clear();
