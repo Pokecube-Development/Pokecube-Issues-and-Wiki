@@ -1,6 +1,7 @@
 package thut.core.client.render.model;
 
 import java.io.FileNotFoundException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -178,27 +179,30 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         for (final String s : this.getOrder())
         {
             final IExtendedModelPart o = this.parts.get(s);
-            if (o.getParent() == null) o.renderAll(mat, buffer);
+            o.render(mat, buffer);
         }
     }
 
     @Override
-    public void renderAllExcept(final PoseStack mat, final VertexConsumer buffer, final String... excludedGroupNames)
+    public void renderAllExcept(final PoseStack mat, final VertexConsumer buffer,
+            final Collection<String> excludedGroupNames)
     {
+        outer:
         for (final String s : this.getOrder())
         {
             final IExtendedModelPart o = this.parts.get(s);
-            if (o.getParent() == null) o.renderAllExcept(mat, buffer, excludedGroupNames);
+            for (String s2 : o.getParentNames()) if (excludedGroupNames.contains(s2)) continue outer;
+            if (!excludedGroupNames.contains(s)) o.render(mat, buffer);
         }
     }
 
     @Override
-    public void renderOnly(final PoseStack mat, final VertexConsumer buffer, final String... groupNames)
+    public void renderOnly(final PoseStack mat, final VertexConsumer buffer, final Collection<String> groupNames)
     {
         for (final String s : this.getOrder())
         {
             final IExtendedModelPart o = this.parts.get(s);
-            if (o.getParent() == null) o.renderOnly(mat, buffer, groupNames);
+            o.renderOnly(mat, buffer, groupNames);
         }
     }
 
@@ -227,7 +231,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     {
         if (this.getOrder().isEmpty()) return;
         for (final IExtendedModelPart part : this.parts.values())
-            if (part instanceof IRetexturableModel) ((IRetexturableModel) part).setAnimationChanger(changer);
+            if (part instanceof IRetexturableModel tex) tex.setAnimationChanger(changer);
     }
 
     @Override
@@ -235,7 +239,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     {
         if (this.getOrder().isEmpty()) return;
         for (final IExtendedModelPart part : this.parts.values())
-            if (part instanceof IRetexturableModel) ((IRetexturableModel) part).setTexturer(texturer);
+            if (part instanceof IRetexturableModel tex) tex.setTexturer(texturer);
     }
 
     protected void updateAnimation(final Entity entity, final IModelRenderer<?> renderer, final String currentPhase,

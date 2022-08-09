@@ -198,13 +198,12 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         {
             final IExtendedModelPart part = this.imodel.getParts().get(partName);
             if (part == null) continue;
-            if (part instanceof IRetexturableModel)
-                ((IRetexturableModel) part).setTexturer(this.renderer.getTexturer());
+            if (part instanceof IRetexturableModel tex) tex.setTexturer(this.renderer.getTexturer());
             if (part.getParent() == null)
             {
                 mat.pushPose();
                 this.initColours(part, this.entityIn, packedLightIn, packedOverlayIn);
-                part.renderAllExcept(mat, buffer, this.renderer, excluded.toArray(new String[excluded.size()]));
+                part.renderAllExcept(mat, buffer, this.renderer, excluded);
                 mat.popPose();
             }
         }
