@@ -11,8 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.appender.FileAppender;
 
-import com.google.common.collect.Maps;
-
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -231,12 +230,16 @@ public class ThutCore
         }
     };
 
-    private static Map<String, String> trimmed = Maps.newConcurrentMap();
+    private static Map<String, String> trimmed = new Object2ObjectOpenHashMap<String, String>();
 
     public static String trim(final String name)
     {
         if (name == null) return null;
-        if (ThutCore.trimmed.containsKey(name)) return ThutCore.trimmed.get(name);
+        return trimmed.computeIfAbsent(name, ThutCore::_trim);
+    }
+
+    private static String _trim(String name)
+    {
         String trim = name;
         // ROOT locale to prevent issues with turkish letters.
         trim = trim.toLowerCase(Locale.ROOT).trim();
@@ -244,7 +247,6 @@ public class ThutCore
         trim = trim.replaceAll("([^a-zA-Z0-9 _-])", "");
         // Replace these too.
         trim = trim.replaceAll(" ", "_");
-        ThutCore.trimmed.put(name, trim);
         return trim;
     }
 

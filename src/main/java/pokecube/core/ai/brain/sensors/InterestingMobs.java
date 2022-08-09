@@ -38,11 +38,11 @@ public class InterestingMobs extends Sensor<LivingEntity>
 
     public static boolean canPokemobMate(final IPokemob pokemob)
     {
+        if (!pokemob.canBreed()) return false;
         if (!pokemob.getPokedexEntry().breeds) return false;
         if (pokemob.getPokedexEntry().isMega()) return false;
         if (pokemob.getPokedexEntry().isGMax()) return false;
         if (!pokemob.isRoutineEnabled(AIRoutine.MATE)) return false;
-        if (!pokemob.canBreed()) return false;
         if (pokemob.getCombatState(CombatStates.ANGRY) || BrainUtils.hasAttackTarget(pokemob.getEntity())) return false;
         return true;
     }
@@ -85,7 +85,7 @@ public class InterestingMobs extends Sensor<LivingEntity>
         final AABB mateBox = entityIn.getBoundingBox().inflate(dh, dv, dh);
         final AABB checkBox = entityIn.getBoundingBox().inflate(s, s, s);
         final List<Entity> list = worldIn.getEntitiesOfClass(Entity.class, checkBox, (hit) -> {
-            return hit != entityIn && hit.isAlive() && (hit instanceof LivingEntity || hit instanceof ItemEntity);
+            return hit != entityIn && (hit instanceof LivingEntity || hit instanceof ItemEntity) && hit.isAlive();
         });
         list.sort(Comparator.comparingDouble(entityIn::distanceToSqr));
         final Brain<?> brain = entityIn.getBrain();
@@ -94,20 +94,19 @@ public class InterestingMobs extends Sensor<LivingEntity>
         for (final Entity e : list) if (e instanceof LivingEntity)
         {
             final LivingEntity living = (LivingEntity) e;
-            final boolean canSee = InterestingMobs.VISIBLE.test(entityIn, living);
             mobs.add(living);
-            if (canSee)
+            if (living instanceof EntityPokemobEgg newEgg && entityIn.getUUID().equals(newEgg.getMotherId()))
+            {
+                if (egg == null) egg = newEgg;
+                else if (egg.distanceToSqr(entityIn) > newEgg.distanceToSqr(entityIn)) egg = newEgg;
+            }
+            else if (InterestingMobs.VISIBLE.test(entityIn, living))
             {
                 visible.add(living);
                 final boolean validMate = canMate && e instanceof AgeableMob
                         && mateBox.intersects(living.getBoundingBox())
                         && this.isValid((AgeableMob) entityIn, (AgeableMob) living);
                 if (validMate) mates.add((AgeableMob) living);
-            }
-            if (living instanceof EntityPokemobEgg newEgg && entityIn.getUUID().equals(newEgg.getMotherId()))
-            {
-                if (egg == null) egg = newEgg;
-                else if (egg.distanceToSqr(entityIn) > newEgg.distanceToSqr(entityIn)) egg = newEgg;
             }
         }
         else if (e instanceof ItemEntity) items.add((ItemEntity) e);
