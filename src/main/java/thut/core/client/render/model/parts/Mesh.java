@@ -38,8 +38,8 @@ public abstract class Mesh
 
     static double sum;
     static long n;
-    static Vector4f METRIC = new Vector4f(1, 1, 1, 0);
 
+    public static Vector4f METRIC = new Vector4f(1, 1, 1, 0);
     public static double CULLTHRESHOLD = 4 * 4;
 
     public Mesh(final Integer[] order, final Vertex[] vert, final Vertex[] norm, final TextureCoordinate[] tex,
