@@ -19,7 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.world.dimension.SecretBaseDimension;
@@ -57,7 +57,7 @@ public class BaseTile extends InteractableTile
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.error(e);
+                PokecubeAPI.LOGGER.error(e);
                 return InteractionResult.FAIL;
             }
             if (this.last_base == null) this.last_base = exit_here;

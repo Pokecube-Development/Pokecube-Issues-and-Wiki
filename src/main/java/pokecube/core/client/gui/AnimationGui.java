@@ -39,6 +39,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import net.minecraftforge.fml.loading.FMLPaths;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -114,7 +115,7 @@ public class AnimationGui extends Screen
                     }
                     catch (final Exception e)
                     {
-                        PokecubeCore.LOGGER
+                        PokecubeAPI.LOGGER
                                 .error("Error with syncing tag for " + realMob.getEntity().getType().getRegistryName());
                         e.printStackTrace();
                     }
@@ -408,7 +409,7 @@ public class AnimationGui extends Screen
         dy = maxY - minY;
 
         boolean scaled = false;
-        if (dx <= 0 || dy <= 0) PokecubeCore.LOGGER.error("Error with " + AnimationGui.entry);
+        if (dx <= 0 || dy <= 0) PokecubeAPI.LOGGER.error("Error with " + AnimationGui.entry);
         else
         {
             final float target = ow / 3f;
@@ -566,12 +567,12 @@ public class AnimationGui extends Screen
                         dims.z = dims.y;
                         dims.x = dims.y;
                     }
-                    PokecubeCore.LOGGER.error("borked: {}", AnimationGui.entry);
+                    PokecubeAPI.LOGGER.error("borked: {}", AnimationGui.entry);
                     AnimationGui.tries++;
                     if (AnimationGui.tries > 20)
                     {
                         this.took = true;
-                        PokecubeCore.LOGGER.error("Skipping image for {}", AnimationGui.entry);
+                        PokecubeAPI.LOGGER.error("Skipping image for {}", AnimationGui.entry);
                     }
                 }
                 this.transitTime = System.currentTimeMillis() + (this.took ? 0 : 10);
@@ -799,7 +800,7 @@ public class AnimationGui extends Screen
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error cycling forme holder!");
+                    PokecubeAPI.LOGGER.error("Error cycling forme holder!");
                     this.forme_alt.setValue("");
                 }
                 else this.forme_alt.setValue("");
@@ -824,7 +825,7 @@ public class AnimationGui extends Screen
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error cycling forme holder!");
+                    PokecubeAPI.LOGGER.error("Error cycling forme holder!");
                     this.forme_alt.setValue("");
                 }
                 else this.forme_alt.setValue("");

@@ -2,9 +2,9 @@ package pokecube.mobs.abilities.f;
 
 import net.minecraft.world.entity.Entity;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.database.Database;
-import pokecube.core.database.abilities.Ability;
 import pokecube.core.moves.PokemobTerrainEffects;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;

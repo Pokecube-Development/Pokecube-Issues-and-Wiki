@@ -23,7 +23,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
@@ -226,7 +226,7 @@ public class XMLRewardsHandler
                         }
                         catch (final Exception e)
                         {
-                            PokecubeCore.LOGGER.error("Error with book for " + this.tagKey + " " + json, e);
+                            PokecubeAPI.LOGGER.error("Error with book for " + this.tagKey + " " + json, e);
                         }
                     }
                     stream.close();
@@ -234,12 +234,12 @@ public class XMLRewardsHandler
                 catch (final FileNotFoundException e)
                 {
                     if (lang.equals(FreeBookParser.default_lang))
-                        PokecubeCore.LOGGER.error("Error with book for " + this.tagKey, e);
+                        PokecubeAPI.LOGGER.error("Error with book for " + this.tagKey, e);
                     else this.initLangBook(FreeBookParser.default_lang, lang);
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error with book for " + this.tagKey, e);
+                    PokecubeAPI.LOGGER.error("Error with book for " + this.tagKey, e);
                 }
 
             }
@@ -328,7 +328,7 @@ public class XMLRewardsHandler
         }
         catch (final NullPointerException e)
         {
-            PokecubeCore.LOGGER.error("Error with a recipe, Error for: " + recipe, e);
+            PokecubeAPI.LOGGER.error("Error with a recipe, Error for: " + recipe, e);
         }
     }
 }

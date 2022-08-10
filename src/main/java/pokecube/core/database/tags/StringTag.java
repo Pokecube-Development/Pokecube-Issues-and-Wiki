@@ -23,7 +23,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraftforge.fml.loading.FMLEnvironment;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.IResourceData;
@@ -68,13 +68,13 @@ public class StringTag implements IResourceData
                 final String tag = s.replace("#", "");
                 if (checked.contains(tag))
                 {
-                    PokecubeCore.LOGGER.warn("Warning, Recursive tags list! {}", checked);
+                    PokecubeAPI.LOGGER.warn("Warning, Recursive tags list! {}", checked);
                     continue;
                 }
                 final TagHolder incl = parent.tagsMap.get(tag);
                 if (incl == null)
                 {
-                    PokecubeCore.LOGGER.warn("Warning, Tag not found for {}", s);
+                    PokecubeAPI.LOGGER.warn("Warning, Tag not found for {}", s);
                     continue;
                 }
                 this._includes.add(incl);
@@ -116,7 +116,7 @@ public class StringTag implements IResourceData
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error reloading tags for {}", this.tagPath);
+            PokecubeAPI.LOGGER.error("Error reloading tags for {}", this.tagPath);
             e.printStackTrace();
         }
         if (this.validLoad) valid.set(true);
@@ -220,11 +220,11 @@ public class StringTag implements IResourceData
         }
         catch (final FileNotFoundException e)
         {
-            PokecubeCore.LOGGER.debug("No Tag: {}", tagLoc);
+            PokecubeAPI.LOGGER.debug("No Tag: {}", tagLoc);
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error reading tag " + tagLoc, e);
+            PokecubeAPI.LOGGER.error("Error reading tag " + tagLoc, e);
         }
         return false;
     }

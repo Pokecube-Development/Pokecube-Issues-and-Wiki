@@ -144,7 +144,7 @@ public class Compat
             catch (final Exception e)
             {
                 // Something went wrong, so log and exit early
-                PokecubeCore.LOGGER.warn("Error making pokedex entry for {}", event.getObject().getType()
+                PokecubeAPI.LOGGER.warn("Error making pokedex entry for {}", event.getObject().getType()
                         .getRegistryName());
                 e.printStackTrace();
                 return;

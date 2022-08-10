@@ -42,6 +42,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -54,7 +55,6 @@ import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.IMoveNames;
 import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.ItemGenerator;
@@ -718,7 +718,7 @@ public class MoveEventsHandler
         {
             if (!PermNodes.getBooleanPerm(player, Permissions.MOVEWORLDACTION.get(move.name)))
             {
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Denied use of " + move.name + " for " + player);
+                if (PokecubeMod.debug) PokecubeAPI.LOGGER.info("Denied use of " + move.name + " for " + player);
                 return;
             }
         }

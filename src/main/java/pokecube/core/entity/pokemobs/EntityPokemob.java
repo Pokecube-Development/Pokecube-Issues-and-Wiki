@@ -53,6 +53,8 @@ import net.minecraftforge.network.NetworkHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.SpawnData;
+import pokecube.api.data.spawns.SpawnBiomeMatcher;
+import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -64,8 +66,6 @@ import pokecube.api.events.core.pokemob.SpawnEvent.Variance;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
-import pokecube.core.database.spawns.SpawnBiomeMatcher;
-import pokecube.core.database.spawns.SpawnCheck;
 import pokecube.core.entity.pokemobs.helper.PokemobRidable;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.events.SpawnHandler;
@@ -350,7 +350,7 @@ public class EntityPokemob extends PokemobRidable
             if (PokecubeMod.debug && dt > 100)
             {
                 final String toLog = "location: %1$s took: %2$s\u00B5s to spawn Init for %3$s";
-                PokecubeCore.LOGGER.info(String.format(toLog, loc.getPos(), dt, pokemob.getDisplayName().getString()));
+                PokecubeAPI.LOGGER.info(String.format(toLog, loc.getPos(), dt, pokemob.getDisplayName().getString()));
             }
         }
         return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
@@ -375,7 +375,7 @@ public class EntityPokemob extends PokemobRidable
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error reading synced data value", e);
+                    PokecubeAPI.LOGGER.error("Error reading synced data value", e);
                 }
             }
             this.pokemobCap.dataSync().update(data_list);
@@ -604,7 +604,7 @@ public class EntityPokemob extends PokemobRidable
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error recovering old owner!");
+            PokecubeAPI.LOGGER.error("Error recovering old owner!");
         }
     }
 
@@ -684,7 +684,7 @@ public class EntityPokemob extends PokemobRidable
     {
         if (this.isInvulnerable())
         {
-            PokecubeCore.LOGGER.info("Not deleting {} from /kill, as is marked as invulnerable!", this);
+            PokecubeAPI.LOGGER.info("Not deleting {} from /kill, as is marked as invulnerable!", this);
             return;
         }
         super.kill();

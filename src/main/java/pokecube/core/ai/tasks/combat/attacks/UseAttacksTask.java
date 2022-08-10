@@ -12,6 +12,7 @@ import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.ai.behavior.EntityTracker;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.FakePlayer;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -133,7 +134,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.log(Level.WARN, "Error with message for " + this.entityTarget, e);
+                    PokecubeAPI.LOGGER.log(Level.WARN, "Error with message for " + this.entityTarget, e);
                 }
                 this.pokemob.setAttackCooldown(PokecubeCore.getConfig().pokemobagressticks);
             }

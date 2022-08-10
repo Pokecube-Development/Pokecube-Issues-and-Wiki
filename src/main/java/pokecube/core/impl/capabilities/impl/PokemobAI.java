@@ -296,11 +296,11 @@ public abstract class PokemobAI extends PokemobEvolves
         this.guardCap = entity.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         this.genes = entity.getCapability(ThutCaps.GENETICS_CAP).orElse(null);
         if (this.getOwnerHolder() == null)
-            PokecubeCore.LOGGER.warn("Pokemob without ownable cap, this is a bug! " + this.getPokedexEntry());
+            PokecubeAPI.LOGGER.warn("Pokemob without ownable cap, this is a bug! " + this.getPokedexEntry());
         if (this.guardCap == null)
-            PokecubeCore.LOGGER.warn("Pokemob without guard cap, this is a bug! " + this.getPokedexEntry());
+            PokecubeAPI.LOGGER.warn("Pokemob without guard cap, this is a bug! " + this.getPokedexEntry());
         if (this.genes == null)
-            PokecubeCore.LOGGER.warn("Pokemob without genetics cap, this is a bug! " + this.getPokedexEntry());
+            PokecubeAPI.LOGGER.warn("Pokemob without genetics cap, this is a bug! " + this.getPokedexEntry());
 
         this.getTickLogic().clear();
 
@@ -389,7 +389,7 @@ public abstract class PokemobAI extends PokemobEvolves
         if (entity == null)
         {
             if (forced && this.targetFinder != null) this.targetFinder.clear();
-            if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Null Target Set for " + this.getEntity());
+            if (PokecubeCore.getConfig().debug) PokecubeAPI.LOGGER.debug("Null Target Set for " + this.getEntity());
             this.setTargetID(-1);
             this.getEntity().getPersistentData().putString("lastMoveHitBy", "");
         }
@@ -398,7 +398,7 @@ public abstract class PokemobAI extends PokemobEvolves
             final IOwnable target = OwnableCaps.getOwnable(entity);
             final boolean mateFight = this.getCombatState(CombatStates.MATEFIGHT);
             if (PokecubeCore.getConfig().debug)
-                PokecubeCore.LOGGER.debug("Target Set: {} -> {} ", this.getEntity(), entity);
+                PokecubeAPI.LOGGER.debug("Target Set: {} -> {} ", this.getEntity(), entity);
             /**
              * Ensure that the target being set is actually a valid target.
              */

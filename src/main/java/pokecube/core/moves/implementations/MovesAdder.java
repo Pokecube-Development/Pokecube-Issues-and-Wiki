@@ -9,11 +9,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import pokecube.api.PokecubeAPI;
 import pokecube.api.moves.IMoveAction;
 import pokecube.api.moves.IMoveAnimation;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.Move_Base;
-import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.handlers.events.MoveEventsHandler;
@@ -55,7 +55,7 @@ public class MovesAdder implements IMoveConstants
             if (move.move.baseEntry != null && move.move.baseEntry.animations != null && !move.move.baseEntry.animations
                     .isEmpty())
             {
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.info(move.move.name + ": animations: "
+                if (PokecubeMod.debug) PokecubeAPI.LOGGER.info(move.move.name + ": animations: "
                         + move.move.baseEntry.animations);
                 move.setAnimation(new AnimationMultiAnimations(move.move));
                 continue;
@@ -65,7 +65,7 @@ public class MovesAdder implements IMoveConstants
             if (!move.move.animDefault.endsWith(":~" + move.name)) move.move.animDefault = move.move.animDefault + ":~"
                     + move.name;
             anim = move.move.animDefault;
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info(move.move.name + ": preset animation: "
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.info(move.move.name + ": preset animation: "
                     + move.move.animDefault);
             final IMoveAnimation animation = MoveAnimationHelper.getAnimationPreset(anim);
             if (animation != null) move.setAnimation(animation);
@@ -91,7 +91,7 @@ public class MovesAdder implements IMoveConstants
         }
 
         // Register moves.
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Autodecting Moves...");
+        if (PokecubeMod.debug) PokecubeAPI.LOGGER.info("Autodecting Moves...");
         try
         {
             int num = 0;
@@ -101,7 +101,7 @@ public class MovesAdder implements IMoveConstants
                     final Move_Basic move = (Move_Basic) candidateClass.getConstructor().newInstance();
                     if (MovesUtils.isMoveImplemented(move.name))
                     {
-                        PokecubeCore.LOGGER.info("Error, Double registration of " + move.name
+                        PokecubeAPI.LOGGER.info("Error, Double registration of " + move.name
                                 + " Replacing old entry with new one.");
                         num--;
                     }
@@ -110,9 +110,9 @@ public class MovesAdder implements IMoveConstants
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Skipping Move Class {}", candidateClass, e);
+                    PokecubeAPI.LOGGER.error("Skipping Move Class {}", candidateClass, e);
                 }
-            PokecubeCore.LOGGER.debug("Registered " + num + " Custom Moves");
+            PokecubeAPI.LOGGER.debug("Registered " + num + " Custom Moves");
         }
         catch (final Exception e)
         {
@@ -197,6 +197,6 @@ public class MovesAdder implements IMoveConstants
                     }
                 }
             }
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Registered " + num + " Database Moves");
+        if (PokecubeMod.debug) PokecubeAPI.LOGGER.info("Registered " + num + " Database Moves");
     }
 }

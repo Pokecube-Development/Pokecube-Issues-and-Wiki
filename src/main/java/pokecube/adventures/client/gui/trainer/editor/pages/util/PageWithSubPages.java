@@ -8,7 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 
 public abstract class PageWithSubPages<T extends Page> extends Page
 {
@@ -47,7 +47,7 @@ public abstract class PageWithSubPages<T extends Page> extends Page
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
+            PokecubeAPI.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
         }
         super.onPageClosed();
     }
@@ -70,7 +70,7 @@ public abstract class PageWithSubPages<T extends Page> extends Page
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
+            PokecubeAPI.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
         }
         @SuppressWarnings("unchecked")
         final List<GuiEventListener> list = (List<GuiEventListener>) this.children();

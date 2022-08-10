@@ -66,6 +66,7 @@ import pokecube.adventures.inventory.trainer.ContainerTrainer;
 import pokecube.adventures.items.Linker;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -89,7 +90,6 @@ import pokecube.api.events.core.pokemob.CaptureEvent;
 import pokecube.api.events.core.pokemob.RecallEvent;
 import pokecube.api.events.core.pokemob.SpawnEvent.SendOut;
 import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
-import pokecube.core.PokecubeCore;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
@@ -208,7 +208,7 @@ public class TrainerEventHandler
         }
         catch (final CommandRuntimeException e)
         {
-            PokecubeCore.LOGGER.warn("Error with default trainer rewards " + Config.instance.trainer_defeat_reward, e);
+            PokecubeAPI.LOGGER.warn("Error with default trainer rewards " + Config.instance.trainer_defeat_reward, e);
         }
         if (!stack.isEmpty()) rewards.getRewards().add(new Reward(stack));
         final DefaultAIStates aiStates = new DefaultAIStates();
@@ -233,7 +233,7 @@ public class TrainerEventHandler
         for (int i = 0; i < 6; i++) mobs.holder.POKEMOBS[i] = data.register(new Data_ItemStack(), ItemStack.EMPTY);
 
         if (PokecubeMod.debug)
-            PokecubeCore.LOGGER.debug("Initializing caps " + event.getObject() + " " + event.getObject().isAlive());
+            PokecubeAPI.LOGGER.debug("Initializing caps " + event.getObject() + " " + event.getObject().isAlive());
     }
 
     public static void onAttachMobCaps(final AttachCapabilitiesEvent<Entity> event)
@@ -255,8 +255,8 @@ public class TrainerEventHandler
         }
         catch (final JsonSyntaxException e)
         {
-            PokecubeCore.LOGGER.error("Error loading drops from string {} for mob {}", arg, sender);
-            PokecubeCore.LOGGER.error(e);
+            PokecubeAPI.LOGGER.error("Error loading drops from string {} for mob {}", arg, sender);
+            PokecubeAPI.LOGGER.error(e);
             return ItemStack.EMPTY;
         }
     }
@@ -402,7 +402,7 @@ public class TrainerEventHandler
             if (npc instanceof Mob && npc.getLevel() instanceof ServerLevel)
             {
                 TypeTrainer.addAI((Mob) npc);
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Added Tasks: " + npc);
+                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Added Tasks: " + npc);
             }
         }
     }

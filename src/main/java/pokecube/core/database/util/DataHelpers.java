@@ -7,7 +7,7 @@ import com.google.common.collect.Sets;
 import com.google.common.hash.Hashing;
 
 import net.minecraft.resources.ResourceLocation;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import thut.api.util.JsonUtil;
 
 public class DataHelpers
@@ -43,7 +43,7 @@ public class DataHelpers
             String ret = JsonUtil.gson.toJson(obj);
             if (!md5s.add(Hashing.goodFastHash(64).hashUnencodedChars(ret).padToLong() + ""))
             {
-                PokecubeCore.LOGGER.warn("Warning, tried loading identical file for {}, skipping the copy.", l);
+                PokecubeAPI.LOGGER.warn("Warning, tried loading identical file for {}, skipping the copy.", l);
                 return false;
             }
             return true;
@@ -65,7 +65,7 @@ public class DataHelpers
             long time = System.nanoTime();
             t.reload(valid);
             double dt = (System.nanoTime() - time) / 1e6;
-            PokecubeCore.LOGGER.debug("Loaded: {} in {} ms", t.getKey(), dt);
+            PokecubeAPI.LOGGER.debug("Loaded: {} in {} ms", t.getKey(), dt);
         });
         if (valid.get())
         {
@@ -73,9 +73,9 @@ public class DataHelpers
                 long time = System.nanoTime();
                 t.postReload();
                 double dt = (System.nanoTime() - time) / 1e6;
-                PokecubeCore.LOGGER.debug("Processed: {} in {} ms", t.getKey(), dt);
+                PokecubeAPI.LOGGER.debug("Processed: {} in {} ms", t.getKey(), dt);
             });
-            PokecubeCore.LOGGER.debug("Reloaded Custom Tags");
+            PokecubeAPI.LOGGER.debug("Reloaded Custom Tags");
         }
     }
 

@@ -1,9 +1,9 @@
 package pokecube.mobs.abilities.d;
 
+import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.moves.IMoveConstants;
-import pokecube.core.database.abilities.Ability;
 import pokecube.core.moves.MovesUtils;
 
 public class Defiant extends Ability

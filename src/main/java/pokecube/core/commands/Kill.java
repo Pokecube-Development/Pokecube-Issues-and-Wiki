@@ -16,7 +16,6 @@ import net.minecraftforge.eventbus.api.Cancelable;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.Config;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
@@ -60,7 +59,7 @@ public class Kill
                 }
                 catch (Exception e1)
                 {
-                    PokecubeCore.LOGGER.error("Error in kill command!", e1);
+                    PokecubeAPI.LOGGER.error("Error in kill command!", e1);
                 }
             }
         }

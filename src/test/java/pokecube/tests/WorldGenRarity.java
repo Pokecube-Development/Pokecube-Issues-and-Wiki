@@ -24,7 +24,7 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import thut.api.maths.Cruncher.SquareLoopCruncher;
 import thut.core.common.ThutCore;
 
@@ -210,7 +210,7 @@ public class WorldGenRarity
         }
         if (chat.getMessage().startsWith("Status:Debug_Structures") && LOG != null)
         {
-            PokecubeCore.LOGGER.info("Structures Found within {}:", LOG.searcher._radius);
+            PokecubeAPI.LOGGER.info("Structures Found within {}:", LOG.searcher._radius);
             Set<ResourceLocation> found = Sets.newHashSet();
             for (var entry : LOG.entries)
             {
@@ -220,13 +220,13 @@ public class WorldGenRarity
                     continue;
                 }
                 int[] vars = entry.computeDistances();
-                PokecubeCore.LOGGER.info("{}\t{}\t{}\t{}", name, vars[0], vars[1], entry.points.size());
+                PokecubeAPI.LOGGER.info("{}\t{}\t{}\t{}", name, vars[0], vars[1], entry.points.size());
                 found.add(name);
             }
-            PokecubeCore.LOGGER.info("Structures Missing:");
+            PokecubeAPI.LOGGER.info("Structures Missing:");
             for (var name : LOG.all_Checked)
             {
-                if (!found.contains(name)) PokecubeCore.LOGGER.info(name);
+                if (!found.contains(name)) PokecubeAPI.LOGGER.info(name);
             }
         }
     }
@@ -239,7 +239,7 @@ public class WorldGenRarity
             boolean done = LOG.tick(level);
             if (done)
             {
-                PokecubeCore.LOGGER.info("Structures Found within {}:", LOG.searcher._radius);
+                PokecubeAPI.LOGGER.info("Structures Found within {}:", LOG.searcher._radius);
                 for (var entry : LOG.entries)
                 {
                     var name = entry.name;
@@ -248,13 +248,13 @@ public class WorldGenRarity
                         continue;
                     }
                     int[] vars = entry.computeDistances();
-                    PokecubeCore.LOGGER.info("{}\t{}\t{}\t{}", name, vars[0], vars[1], entry.points.size());
+                    PokecubeAPI.LOGGER.info("{}\t{}\t{}\t{}", name, vars[0], vars[1], entry.points.size());
                     LOG.all_Checked.remove(name);
                 }
-                PokecubeCore.LOGGER.info("Structures Missing:");
+                PokecubeAPI.LOGGER.info("Structures Missing:");
                 for (var name : LOG.all_Checked)
                 {
-                    PokecubeCore.LOGGER.info(name);
+                    PokecubeAPI.LOGGER.info(name);
                 }
                 LOG = null;
             }

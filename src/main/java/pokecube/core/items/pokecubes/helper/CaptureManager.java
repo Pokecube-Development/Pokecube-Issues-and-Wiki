@@ -17,6 +17,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -30,7 +31,6 @@ import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
@@ -184,7 +184,7 @@ public class CaptureManager
         final IOwnable ownable = OwnableCaps.getOwnable(mob);
         if (mob == null || cube.shooter == null)
         {
-            if (mob == null) PokecubeCore.LOGGER.error("Error with mob capture: {}", mob);
+            if (mob == null) PokecubeAPI.LOGGER.error("Error with mob capture: {}", mob);
             else cube.playSound(EntityPokecubeBase.POKECUBESOUND, (float) PokecubeCore.getConfig().captureVolume, 1);
             return false;
         }

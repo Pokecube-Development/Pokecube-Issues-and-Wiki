@@ -17,9 +17,9 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
-import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.nest.Edge;
@@ -101,7 +101,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
 
     protected final void endTask()
     {
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Need New Work Site " + this.progressTimer);
+        if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Need New Work Site " + this.progressTimer);
         if (this.progressTimer > 700) this.entity.getBrain().setMemory(AntTasks.GOING_HOME, true);
         this.reset();
     }
@@ -127,14 +127,14 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
 
         if (edge && this.e.getTree() == null)
         {
-            PokecubeCore.LOGGER.error("No Edge Tree! " + this.job + " " + this.e);
+            PokecubeAPI.LOGGER.error("No Edge Tree! " + this.job + " " + this.e);
             this.reset();
             return false;
         }
 
         if (node && this.n.getTree() == null)
         {
-            PokecubeCore.LOGGER.error("No Node Tree!" + this.job + " " + this.n);
+            PokecubeAPI.LOGGER.error("No Node Tree!" + this.job + " " + this.n);
             this.reset();
             return false;
         }
@@ -153,7 +153,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
                 {
                     tag.remove("type");
                     tag.remove("data");
-                    PokecubeCore.LOGGER.error("Corrupted Dig Edge Info!");
+                    PokecubeAPI.LOGGER.error("Corrupted Dig Edge Info!");
                     this.reset();
                     return false;
                 }
@@ -164,7 +164,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
                 {
                     tag.remove("type");
                     tag.remove("data");
-                    PokecubeCore.LOGGER.error("No Edge Tree!");
+                    PokecubeAPI.LOGGER.error("No Edge Tree!");
                     this.reset();
                     return false;
                 }
@@ -180,7 +180,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
                     {
                         tag.remove("type");
                         tag.remove("data");
-                        PokecubeCore.LOGGER.error("No Node Tree!");
+                        PokecubeAPI.LOGGER.error("No Node Tree!");
                         this.reset();
                         return false;
                     }
@@ -190,7 +190,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
                     e1.printStackTrace();
                     tag.remove("type");
                     tag.remove("data");
-                    PokecubeCore.LOGGER.error("Corrupted Dig Node Info!");
+                    PokecubeAPI.LOGGER.error("Corrupted Dig Node Info!");
                     this.reset();
                     return false;
                 }
@@ -198,7 +198,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         }
         if (!(edge || node))
         {
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Invalid Dig Info!");
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Invalid Dig Info!");
             this.reset();
             return false;
         }
@@ -267,7 +267,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         {
             this.progressTimer = -10;
             this.doWork();
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Work Done! " + this.job + " " + this.n + " " + this.e);
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Work Done! " + this.job + " " + this.n + " " + this.e);
             if (PokecubeMod.debug) this.pokemob.setPokemonNickname(this.job + " IDLE");
             this.work_pos = null;
             this.progressDistance = 0;

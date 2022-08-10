@@ -252,7 +252,7 @@ public class SendOutManager
         if (test == null) SendOutManager.make(world, mob, vec, pokemob, summon);
         else
         {
-            PokecubeCore.LOGGER.warn("Replacing errored UUID mob! {}", mob);
+            PokecubeAPI.LOGGER.warn("Replacing errored UUID mob! {}", mob);
             mob.getPersistentData().putUUID("old_uuid", id);
             mob.setUUID(UUID.randomUUID());
             SendOutManager.make(world, mob, vec, pokemob, summon);

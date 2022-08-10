@@ -12,10 +12,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.core.PokecubeCore;
 import pokecube.core.moves.animations.EntityMoveUse;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
@@ -39,7 +39,7 @@ public class MoveQueue
             final MoveQueue queue = MoveQueuer.queues.get(world.dimension());
             if (queue == null)
             {
-                PokecubeCore.LOGGER.error("Critical Error with world for dimension " + world.dimension()
+                PokecubeAPI.LOGGER.error("Critical Error with world for dimension " + world.dimension()
                         + " It is somehow ticking when not loaded, this should not happen.", new Exception());
                 return;
             }
@@ -47,7 +47,7 @@ public class MoveQueue
             final int num = queue.moves.size();
             queue.executeMoves();
             final double dt = (System.nanoTime() - time) / 1000d;
-            if (dt > 1000) PokecubeCore.LOGGER.debug("move queue took {}  for world {} for {} moves.", dt, world
+            if (dt > 1000) PokecubeAPI.LOGGER.debug("move queue took {}  for world {} for {} moves.", dt, world
                     .dimension(), num);
         }
 

@@ -15,12 +15,12 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.adventures.capabilities.utils.BattleAction;
 import pokecube.adventures.capabilities.utils.GuiOpenAction;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.trainers.IHasMessages;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.entity.trainers.actions.Action;
 import pokecube.api.entity.trainers.actions.ActionContext;
 import pokecube.api.entity.trainers.actions.MessageState;
-import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
 
 public class CapabilityNPCMessages
@@ -91,7 +91,7 @@ public class CapabilityNPCMessages
             if (target instanceof FakePlayer || this.messages.get(state) == null || this.messages.get(state).trim()
                     .isEmpty()) return false;
             target.sendMessage(new TranslatableComponent(this.messages.get(state), args), Util.NIL_UUID);
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug(state + ": " + this.messages.get(state));
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug(state + ": " + this.messages.get(state));
             return true;
         }
 

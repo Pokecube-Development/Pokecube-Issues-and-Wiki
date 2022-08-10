@@ -2,10 +2,10 @@ package pokecube.mobs.abilities.r;
 
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
+import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.moves.IMoveConstants;
-import pokecube.core.database.abilities.Ability;
 
 public class RoughSkin extends Ability
 {

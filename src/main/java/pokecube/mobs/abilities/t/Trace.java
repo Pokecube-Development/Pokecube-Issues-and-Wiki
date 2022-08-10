@@ -1,12 +1,12 @@
 package pokecube.mobs.abilities.t;
 
 import net.minecraft.world.entity.LivingEntity;
+import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.database.abilities.Ability;
-import pokecube.core.database.abilities.AbilityManager;
 
 public class Trace extends Ability
 {

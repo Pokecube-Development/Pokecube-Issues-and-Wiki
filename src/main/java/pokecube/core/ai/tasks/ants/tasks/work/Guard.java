@@ -11,6 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.ants.AntTasks;
@@ -97,7 +98,7 @@ public class Guard extends AbstractWorkTask
         if (newtarget != null)
         {
             this.initiateBattle(newtarget);
-            if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Selecting Guard Target.");
+            if (PokecubeCore.getConfig().debug) PokecubeAPI.LOGGER.debug("Selecting Guard Target.");
             return true;
         }
         return false;

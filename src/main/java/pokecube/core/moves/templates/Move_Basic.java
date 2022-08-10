@@ -21,6 +21,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -33,7 +34,6 @@ import pokecube.api.events.core.pokemob.combat.MoveUse.MoveWorldAction;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
@@ -401,9 +401,9 @@ public class Move_Basic extends Move_Base implements IMoveConstants
                 attacked.hurt(source2, d2);
                 if (PokecubeMod.debug)
                 {
-                    PokecubeCore.LOGGER.info("Attack Used: " + attack);
-                    PokecubeCore.LOGGER.info("Normal Component: " + d1);
-                    PokecubeCore.LOGGER.info("Magic Component: " + d2);
+                    PokecubeAPI.LOGGER.info("Attack Used: " + attack);
+                    PokecubeAPI.LOGGER.info("Normal Component: " + d1);
+                    PokecubeAPI.LOGGER.info("Magic Component: " + d2);
                 }
             }
             // Apply attack damage to a pokemob
@@ -415,8 +415,8 @@ public class Move_Basic extends Move_Base implements IMoveConstants
                 source.bypassArmor();
                 if (PokecubeMod.debug)
                 {
-                    PokecubeCore.LOGGER.info("Attack Used: " + attack);
-                    PokecubeCore.LOGGER.info("Attack Damage: " + finalAttackStrength);
+                    PokecubeAPI.LOGGER.info("Attack Used: " + attack);
+                    PokecubeAPI.LOGGER.info("Attack Damage: " + finalAttackStrength);
                 }
                 attacked.hurt(source, finalAttackStrength);
             }
@@ -428,9 +428,9 @@ public class Move_Basic extends Move_Base implements IMoveConstants
                 final boolean damaged = attacked.hurt(source, finalAttackStrength);
                 if (PokecubeMod.debug)
                 {
-                    PokecubeCore.LOGGER.info("Attack Used: {}, expected damage: {}, Did apply? {} ", attack,
+                    PokecubeAPI.LOGGER.info("Attack Used: {}, expected damage: {}, Did apply? {} ", attack,
                             finalAttackStrength, damaged);
-                    PokecubeCore.LOGGER.info("Attack Target: " + attacked);
+                    PokecubeAPI.LOGGER.info("Attack Target: " + attacked);
                 }
             }
 

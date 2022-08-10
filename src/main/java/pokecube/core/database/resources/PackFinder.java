@@ -24,6 +24,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.resource.PathResourcePack;
 import net.minecraftforge.resource.ResourcePackLoader;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 
@@ -86,11 +87,11 @@ public class PackFinder implements RepositorySource
     {
         File folder = FMLPaths.GAMEDIR.get().resolve("resourcepacks").toFile();
         folder.mkdirs();
-        PokecubeCore.LOGGER.debug("Adding data folder: {}", folder);
+        PokecubeAPI.LOGGER.debug("Adding data folder: {}", folder);
         this.folderFinder_old = new FolderRepositorySource(folder, PackFinder.DECORATOR);
         folder = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks").toFile();
         folder.mkdirs();
-        PokecubeCore.LOGGER.debug("Adding data folder: {}", folder);
+        PokecubeAPI.LOGGER.debug("Adding data folder: {}", folder);
         this.folderFinder_new = new FolderRepositorySource(folder, PackFinder.DECORATOR);
         this.init(packInfoFactoryIn);
     }
@@ -115,7 +116,7 @@ public class PackFinder implements RepositorySource
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.fatal("Error checking resourcepacks for data!", e);
+            PokecubeAPI.LOGGER.fatal("Error checking resourcepacks for data!", e);
         }
         try
         {
@@ -123,7 +124,7 @@ public class PackFinder implements RepositorySource
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.fatal("Error checking config/pokecube/datapacks for data!", e);
+            PokecubeAPI.LOGGER.fatal("Error checking config/pokecube/datapacks for data!", e);
         }
         for (final Pack info : map.values())
         {
@@ -133,7 +134,7 @@ public class PackFinder implements RepositorySource
                 this.allPacks.add(pack);
                 this.folderPacks.add(pack);
             }
-            else PokecubeCore.LOGGER.error("No Pack found for " + info);
+            else PokecubeAPI.LOGGER.error("No Pack found for " + info);
         }
     }
 

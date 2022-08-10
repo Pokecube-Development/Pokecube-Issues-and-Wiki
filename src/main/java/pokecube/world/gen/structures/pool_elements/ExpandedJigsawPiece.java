@@ -49,6 +49,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.Event.Result;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.events.core.StructureEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.EventsHandler;
@@ -313,8 +314,8 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error with part of structure: {}", this.name);
-            PokecubeCore.LOGGER.error(e);
+            PokecubeAPI.LOGGER.error("Error with part of structure: {}", this.name);
+            PokecubeAPI.LOGGER.error(e);
         }
 
         if (!placed) return false;
@@ -375,13 +376,13 @@ public class ExpandedJigsawPiece extends SinglePoolElement
 
         if (toPlaceProf && info.pos.equals(this.profPos))
         {
-            PokecubeCore.LOGGER.info("Overriding an entry as a professor at " + pos);
+            PokecubeAPI.LOGGER.info("Overriding an entry as a professor at " + pos);
             function = PokecubeCore.getConfig().professor_override;
             PokecubeSerializer.getInstance().setPlacedProf();
         }
         if (toPlaceSpawn && info.pos.equals(this.spawnPos))
         {
-            PokecubeCore.LOGGER.info("Overriding world spawn to " + pos);
+            PokecubeAPI.LOGGER.info("Overriding world spawn to " + pos);
             EventsHandler.Schedule(this.world, w -> {
                 ((ServerLevel) w).setDefaultSpawnPos(pos, 0);
                 return true;

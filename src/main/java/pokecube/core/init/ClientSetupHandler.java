@@ -26,6 +26,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -95,13 +96,13 @@ public class ClientSetupHandler
     @SubscribeEvent
     public static void setupClient(final FMLClientSetupEvent event)
     {
-        PokecubeCore.LOGGER.debug("Pokecube Client Setup");
+        PokecubeAPI.LOGGER.debug("Pokecube Client Setup");
 
         // Register event handlers
         EventsHandlerClient.register();
 
         // Register keybinds
-        PokecubeCore.LOGGER.debug("Init Keybinds");
+        PokecubeAPI.LOGGER.debug("Init Keybinds");
         ClientRegistry.registerKeyBinding(
                 ClientSetupHandler.nextMob = new KeyMapping("key.pokemob.next", GLFW.GLFW_KEY_RIGHT, "Pokecube"));
         ClientRegistry.registerKeyBinding(
@@ -156,7 +157,7 @@ public class ClientSetupHandler
         NBTEdit.setupClient(event);
 
         // Register the gui side of the screens.
-        PokecubeCore.LOGGER.debug("Init Screen Factories");
+        PokecubeAPI.LOGGER.debug("Init Screen Factories");
 
         final MenuScreens.ScreenConstructor<ContainerPokemob, GuiPokemobBase> factory = (c, i, t) -> {
             switch (c.mode)
@@ -178,7 +179,7 @@ public class ClientSetupHandler
         MenuScreens.register(TMContainer.TYPE, TMs<TMContainer>::new);
 
         // Register mob rendering
-        PokecubeCore.LOGGER.debug("Init Mob Renderers");
+        PokecubeAPI.LOGGER.debug("Init Mob Renderers");
 
         // Register the render layers
         for (final Block crop : BerryManager.berryCrops.values())
@@ -251,7 +252,7 @@ public class ClientSetupHandler
     public static void textureStitch(final TextureStitchEvent.Pre event)
     {
         if (!event.getAtlas().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
-        PokecubeCore.LOGGER.debug("Registering Pokecube Slot Textures");
+        PokecubeAPI.LOGGER.debug("Registering Pokecube Slot Textures");
         event.addSprite(new ResourceLocation(PokecubeCore.MODID, "gui/slot_cube"));
         event.addSprite(new ResourceLocation(PokecubeCore.MODID, "gui/slot_tm"));
     }

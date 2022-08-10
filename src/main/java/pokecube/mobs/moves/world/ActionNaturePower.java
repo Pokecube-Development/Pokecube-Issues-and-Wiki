@@ -29,9 +29,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.IMoveAction;
-import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.ResourceData;
@@ -73,7 +73,7 @@ public class ActionNaturePower implements IMoveAction
             CHANGERS.sort(Comparator.comparingInt(c -> c.priority));
             if (this.validLoad)
             {
-                PokecubeCore.LOGGER.debug("Loaded Nature Power effects.");
+                PokecubeAPI.LOGGER.debug("Loaded Nature Power effects.");
                 valid.set(true);
             }
         }
@@ -102,8 +102,8 @@ public class ActionNaturePower implements IMoveAction
             catch (final Exception e)
             {
                 // Might not be valid, so log and skip in that case.
-                PokecubeCore.LOGGER.error("Error with resources in {}", l);
-                PokecubeCore.LOGGER.error(e);
+                PokecubeAPI.LOGGER.error("Error with resources in {}", l);
+                PokecubeAPI.LOGGER.error(e);
             }
         }
     }

@@ -11,7 +11,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.google.common.collect.Lists;
 
 import net.minecraft.resources.ResourceLocation;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
@@ -56,7 +57,7 @@ public class SpawnPresets extends ResourceData
         resources.forEach(l -> this.loadFile(l));
         if (this.validLoad)
         {
-            PokecubeCore.LOGGER.debug("Loaded Spawn Rule presets.");
+            PokecubeAPI.LOGGER.debug("Loaded Spawn Rule presets.");
             valid.set(true);
         }
     }
@@ -87,8 +88,8 @@ public class SpawnPresets extends ResourceData
             catch (final Exception e)
             {
                 // Might not be valid, so log and skip in that case.
-                PokecubeCore.LOGGER.error("Malformed Json for Mutations in {}", l);
-                PokecubeCore.LOGGER.error(e);
+                PokecubeAPI.LOGGER.error("Malformed Json for Mutations in {}", l);
+                PokecubeAPI.LOGGER.error(e);
             }
             reader.close();
 
@@ -100,7 +101,7 @@ public class SpawnPresets extends ResourceData
                     String preset = rule.values.get(SpawnBiomeMatcher.PRESET);
                     if (preset == null)
                     {
-                        PokecubeCore.LOGGER.error("Missing preset tag for {}, skipping it.", rule.values);
+                        PokecubeAPI.LOGGER.error("Missing preset tag for {}, skipping it.", rule.values);
                         continue;
                     }
                     PRESETS.put(preset, rule);
@@ -110,8 +111,8 @@ public class SpawnPresets extends ResourceData
         catch (final Exception e)
         {
             // Might not be valid, so log and skip in that case.
-            PokecubeCore.LOGGER.error("Error with resources in {}", l);
-            PokecubeCore.LOGGER.error(e);
+            PokecubeAPI.LOGGER.error("Error with resources in {}", l);
+            PokecubeAPI.LOGGER.error(e);
         }
     }
 }

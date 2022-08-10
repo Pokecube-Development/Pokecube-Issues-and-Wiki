@@ -21,6 +21,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -34,8 +36,6 @@ import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
-import pokecube.core.database.abilities.Ability;
-import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.stats.StatsCollector;
 import pokecube.core.entity.pokemobs.AnimalChest;
@@ -61,7 +61,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         // Ensure this is actually client side before sending this.
         if (owner instanceof ServerPlayer && this.getEntity().isAlive())
         {
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info(message.getString());
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.info(message.getString());
             final MoveMessageEvent event = new MoveMessageEvent(this, message);
             PokecubeAPI.MOVE_BUS.post(event);
             PacketPokemobMessage.sendMessage((Player) owner, event.message);
@@ -277,7 +277,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             return;
         }
 
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Recalling " + this.getEntity());
+        if (PokecubeMod.debug) PokecubeAPI.LOGGER.info("Recalling " + this.getEntity());
         // Clear the pokemob's motion on recall
         this.getEntity().setDeltaMovement(0, 0, 0);
 
@@ -349,7 +349,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             if (targetMob != null)
             {
                 BrainUtils.initiateCombat(targetMob.getEntity(), this.getOwner());
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Swapping agro to cowardly owner!");
+                if (PokecubeMod.debug) PokecubeAPI.LOGGER.info("Swapping agro to cowardly owner!");
             }
             else targ.setLastHurtByMob(this.getOwner());
         }
@@ -404,7 +404,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         // Then lets just log the error
         if (this.guardCap == null || this.guardCap.getPrimaryTask() == null)
         {
-            PokecubeCore.LOGGER.error("Error with setting home! {}", this.guardCap);
+            PokecubeAPI.LOGGER.error("Error with setting home! {}", this.guardCap);
             return;
         }
         this.guardCap.getPrimaryTask().setPos(new BlockPos(x, y, z));

@@ -10,10 +10,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.Move_Base;
-import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.PokeType;
@@ -55,7 +55,7 @@ public class ItemTM extends Item
         final Move_Base attack = MovesUtils.getMoveFromName(move.trim());
         if (attack == null)
         {
-            PokecubeCore.LOGGER.error("Attempting to make TM for un-registered move: " + move);
+            PokecubeAPI.LOGGER.error("Attempting to make TM for un-registered move: " + move);
             return stack;
         }
         stack = new ItemStack(ItemTM.tms.get(attack.move.type));

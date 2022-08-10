@@ -22,6 +22,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -35,7 +37,6 @@ import pokecube.api.events.core.StructureEvent;
 import pokecube.api.events.core.StructureEvent.ReadTag;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.handlers.events.SpawnEventsHandler.GuardInfo;
@@ -210,7 +211,7 @@ public class PacketTrainer extends NBTPacket
                 return;
             }
 
-            PokecubeCore.LOGGER.debug("Recieved Trainer Spawn Packet");
+            PokecubeAPI.LOGGER.debug("Recieved Trainer Spawn Packet");
 
             final int level = this.getTag().getInt("L");
             final Vector3 vec = new Vector3().set(player);
@@ -306,7 +307,7 @@ public class PacketTrainer extends NBTPacket
             if (this.getTag().contains("__messages__"))
             {
                 final IHasMessages messages = TrainerCaps.getMessages(mob);
-                PokecubeCore.LOGGER.debug("Editing Messages");
+                PokecubeAPI.LOGGER.debug("Editing Messages");
                 try
                 {
                     messages.deserializeNBT((CompoundTag) this.getTag().get("__messages__"));

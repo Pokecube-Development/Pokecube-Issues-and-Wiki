@@ -114,7 +114,7 @@ public class PacketCommand extends Packet
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error handling a command to a pokemob", e);
+            PokecubeAPI.LOGGER.error("Error handling a command to a pokemob", e);
             this.handler = new DefaultHandler();
         }
     }

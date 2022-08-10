@@ -10,8 +10,8 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.ModList;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader.XMLPokedexEntry;
 import pokecube.core.database.resources.PackFinder;
@@ -51,13 +51,13 @@ public class PokemobsDatabases
                                 allHere = allHere || ModList.get().isLoaded(s);
                             if (!allHere) return;
                         }
-                        PokecubeCore.LOGGER.debug("Loaded Database File: {}, entries: {}", l, database.pokemon.size());
+                        PokecubeAPI.LOGGER.debug("Loaded Database File: {}, entries: {}", l, database.pokemon.size());
                         allFound.add(database);
                     }
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error with database file {}", l, e);
+                    PokecubeAPI.LOGGER.error("Error with database file {}", l, e);
                 }
             });
         }
@@ -77,7 +77,7 @@ public class PokemobsDatabases
                     // entries, any higher are adding extra things to the entry.
                     if (json.priority > 10 && !json.register)
                     {
-                        PokecubeCore.LOGGER.info("Adding entry again? {} {}, skipping entry!", e.name, json._file);
+                        PokecubeAPI.LOGGER.info("Adding entry again? {} {}, skipping entry!", e.name, json._file);
                         continue;
                     }
                     PokemobsDatabases.compound.addEntry(e);

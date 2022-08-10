@@ -1,9 +1,9 @@
 package pokecube.mobs.abilities.s;
 
 import net.minecraft.world.entity.LivingEntity;
+import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.IMoveConstants;
-import pokecube.core.database.abilities.Ability;
 
 public class ShedSkin extends Ability
 {

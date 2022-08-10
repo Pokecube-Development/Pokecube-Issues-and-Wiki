@@ -101,7 +101,7 @@ public class StatsHandler
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.error("Error checking capture for " + entry, e);
+                PokecubeAPI.LOGGER.error("Error checking capture for " + entry, e);
             }
 
             if (deny)

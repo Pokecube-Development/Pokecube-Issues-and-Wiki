@@ -5,12 +5,12 @@ import java.util.Random;
 import org.apache.logging.log4j.Level;
 
 import net.minecraft.world.entity.Entity;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.Move_Base;
-import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.impl.PokecubeMod;
@@ -91,7 +91,7 @@ public class SelectMoveTask extends CombatTask implements IAICombat
         // Update index if it changed.
         if (index != this.pokemob.getMoveIndex())
         {
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.log(Level.TRACE, "Move Swap to Highest Damage, " + this.pokemob
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.log(Level.TRACE, "Move Swap to Highest Damage, " + this.pokemob
                     .getEntity() + " g:" + this.pokemob.getCombatState(CombatStates.GUARDING) + " h:" + this.pokemob
                             .getCombatState(CombatStates.HUNTING));
             this.pokemob.setMoveIndex(index);
@@ -122,7 +122,7 @@ public class SelectMoveTask extends CombatTask implements IAICombat
             this.moveIndexCounter = 0;
             if (index != this.pokemob.getMoveIndex())
             {
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.log(Level.TRACE, "Move Swap to Random Move, " + this.pokemob
+                if (PokecubeMod.debug) PokecubeAPI.LOGGER.log(Level.TRACE, "Move Swap to Random Move, " + this.pokemob
                         .getEntity() + " g:" + this.pokemob.getCombatState(CombatStates.GUARDING) + " h:" + this.pokemob
                                 .getCombatState(CombatStates.HUNTING));
                 this.pokemob.setMoveIndex(index);

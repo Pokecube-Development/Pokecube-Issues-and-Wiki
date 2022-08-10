@@ -21,7 +21,7 @@ import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.gui.GuiEditNBTTree;
 import pokecube.nbtedit.nbt.SaveStates;
@@ -102,7 +102,7 @@ public class ClientProxy extends CommonProxy
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.catching(e);
+            PokecubeAPI.LOGGER.catching(e);
         }
         ClientProxy.NBTEditKey = new KeyMapping("NBTEdit Shortcut", InputConstants.UNKNOWN.getValue(),
                 "key.categories.misc");

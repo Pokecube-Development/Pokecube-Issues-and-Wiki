@@ -1,6 +1,6 @@
 package pokecube.mobs.abilities.q;
 
-import pokecube.core.database.abilities.Ability;
+import pokecube.api.data.abilities.Ability;
 
 public class QuickFeet extends Ability
 {

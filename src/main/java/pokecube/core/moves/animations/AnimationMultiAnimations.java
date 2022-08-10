@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.moves.IMoveAnimation;
 import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
@@ -58,7 +59,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
             final IMoveAnimation animation = MoveAnimationHelper.getAnimationPreset(anim.preset);
             if (animation == null)
             {
-                PokecubeCore.LOGGER.warn("Warning, unknown animation for preset: {}", anim.preset);
+                PokecubeAPI.LOGGER.warn("Warning, unknown animation for preset: {}", anim.preset);
                 continue;
             }
             final int start = Integer.parseInt(anim.starttick);
@@ -133,7 +134,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
                     toRun.soundEvent = ForgeRegistries.SOUND_EVENTS.getValue(toRun.sound);
                     if (toRun.soundEvent == null)
                     {
-                        PokecubeCore.LOGGER.error("No Registered Sound for " + toRun.sound);
+                        PokecubeAPI.LOGGER.error("No Registered Sound for " + toRun.sound);
                         toRun.sound = null;
                         break sound;
                     }

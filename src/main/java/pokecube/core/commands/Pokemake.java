@@ -25,7 +25,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.entity.pokemob.Nature;
@@ -34,7 +36,6 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
-import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.utils.PermNodes;
@@ -88,7 +89,7 @@ public class Pokemake
         final String[] moves = new String[4];
         int mindex = 0;
         boolean asWild = false;
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Making by Arguments: " + index + " " + Arrays.toString(args));
+        if (PokecubeMod.debug) PokecubeAPI.LOGGER.info("Making by Arguments: " + index + " " + Arrays.toString(args));
         ItemStack itemstack = ItemStack.EMPTY;
 
         if (index < args.length) for (int j = index; j < args.length; j++)
@@ -113,13 +114,13 @@ public class Pokemake
                 }
                 catch (final Throwable e)
                 {
-                    PokecubeCore.LOGGER.error("Error with item for " + val, e);
+                    PokecubeAPI.LOGGER.error("Error with item for " + val, e);
                 }
                 /**
                  * Use this instead of isEmpty() to allow specifically setting
                  * an air itemstack for clearing held items.
                  */
-                if (itemstack.isEmpty()) PokecubeCore.LOGGER.error("No Item found for " + val);
+                if (itemstack.isEmpty()) PokecubeAPI.LOGGER.error("No Item found for " + val);
                 else mob.setHeldItem(itemstack);
             }
             else if (arg.equalsIgnoreCase("l"))
@@ -135,7 +136,7 @@ public class Pokemake
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.error("Error parsing forme tag: " + val);
+                PokecubeAPI.LOGGER.error("Error parsing forme tag: " + val);
             }
             else if (arg.equalsIgnoreCase("x"))
             {
@@ -249,7 +250,7 @@ public class Pokemake
         {
             final LivingEntity owner = (LivingEntity) args.remove(0);
             pokemob.setOwner(owner.getUUID());
-            PokecubeCore.LOGGER.debug("Creating " + pokemob.getPokedexEntry() + " for " + owner.getName());
+            PokecubeAPI.LOGGER.debug("Creating " + pokemob.getPokedexEntry() + " for " + owner.getName());
             pokemob.setGeneralState(GeneralStates.TAMED, true);
         }
 

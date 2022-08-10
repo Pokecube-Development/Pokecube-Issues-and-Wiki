@@ -40,6 +40,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.events.core.StructureEvent;
 import pokecube.api.events.core.npc.NpcSpawn;
 import pokecube.api.events.core.pokemob.SpawnEvent;
@@ -47,7 +48,6 @@ import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
-import pokecube.core.database.spawns.SpawnCheck;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
@@ -186,7 +186,7 @@ public class SpawnEventsHandler
         }
         catch (final JsonSyntaxException e)
         {
-            PokecubeCore.LOGGER.error("Error parsing " + function, e);
+            PokecubeAPI.LOGGER.error("Error parsing " + function, e);
         }
         if (!(thing.has("trainerType") || thing.has("type")))
             thing.add("type", new JsonPrimitive(nurse ? "healer" : trader ? "trader" : "professor"));
@@ -239,7 +239,7 @@ public class SpawnEventsHandler
 
             if (entity instanceof NpcMob) SpawnEventsHandler.spawnNpc(event, (NpcMob) entity, thing);
             else if (entity instanceof Mob) SpawnEventsHandler.spawnMob(event, (Mob) entity, thing);
-            else PokecubeCore.LOGGER.warn("Unsupported Entity for spawning! {}", function);
+            else PokecubeAPI.LOGGER.warn("Unsupported Entity for spawning! {}", function);
         }
     }
 
@@ -255,11 +255,11 @@ public class SpawnEventsHandler
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.warn("Error processing for {}", function, e);
+                PokecubeAPI.LOGGER.warn("Error processing for {}", function, e);
             }
             else if (SpawnEventsHandler.oldSpawns(event, function))
-                PokecubeCore.LOGGER.info("Handled spawn for {}, {}", function, event.pos);
-            else PokecubeCore.LOGGER.warn("Warning, no preset found for {}", function);
+                PokecubeAPI.LOGGER.info("Handled spawn for {}, {}", function, event.pos);
+            else PokecubeAPI.LOGGER.warn("Warning, no preset found for {}", function);
         }
     }
 
@@ -275,7 +275,7 @@ public class SpawnEventsHandler
         }
         else
         {
-            PokecubeCore.LOGGER.warn("Warning, world is not server world, things may break!");
+            PokecubeAPI.LOGGER.warn("Warning, world is not server world, things may break!");
             final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
             final BoundingBox box = event.getBoundingBox();
             final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box);
@@ -300,7 +300,7 @@ public class SpawnEventsHandler
                 s.forEach((p) -> {
                     TerrainSegment seg = TerrainManager.getInstance().getTerrain(world, p);
                     if (seg != null) seg.setBiome(p, subbiome);
-                    else PokecubeCore.LOGGER.error("Error with terrain segment at " + p);
+                    else PokecubeAPI.LOGGER.error("Error with terrain segment at " + p);
                 });
                 return true;
             }, false);
@@ -375,7 +375,7 @@ public class SpawnEventsHandler
         }
         catch (final JsonSyntaxException e)
         {
-            PokecubeCore.LOGGER.error("Error parsing " + thing.get("guard"), e);
+            PokecubeAPI.LOGGER.error("Error parsing " + thing.get("guard"), e);
             info = new GuardInfo();
         }
         if (info == null) return;

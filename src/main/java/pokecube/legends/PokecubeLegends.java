@@ -141,7 +141,7 @@ public class PokecubeLegends
         @SubscribeEvent
         public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
         {
-            PokecubeCore.LOGGER.debug("Registering Pokecube Legends Features");
+            PokecubeAPI.LOGGER.debug("Registering Pokecube Legends Features");
 
             // Register the ruby and sapphire ores
         }

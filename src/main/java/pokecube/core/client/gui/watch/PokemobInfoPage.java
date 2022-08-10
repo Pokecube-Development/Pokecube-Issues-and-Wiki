@@ -20,11 +20,11 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
@@ -70,7 +70,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error with making a page for watch", e);
+            PokecubeAPI.LOGGER.error("Error with making a page for watch", e);
             return null;
         }
     }

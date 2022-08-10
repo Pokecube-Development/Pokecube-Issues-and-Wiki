@@ -16,9 +16,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.handlers.TeamManager;
 import pokecube.core.utils.AITools;
@@ -93,8 +93,8 @@ public class Battle
     {
         if (!(mob.getLevel() instanceof ServerLevel))
         {
-            PokecubeCore.LOGGER.error("Error checking for a battle on wrong side!");
-            PokecubeCore.LOGGER.error(new IllegalAccessError());
+            PokecubeAPI.LOGGER.error("Error checking for a battle on wrong side!");
+            PokecubeAPI.LOGGER.error(new IllegalAccessError());
             return null;
         }
         final ServerLevel world = (ServerLevel) mob.getLevel();

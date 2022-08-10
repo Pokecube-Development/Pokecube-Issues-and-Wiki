@@ -18,7 +18,7 @@ import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration.AvoidanceSettings.AvoidanceEntry;
@@ -59,7 +59,7 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
                     .shouldPlace(avoid.name, bpos, level.dimension(), avoid.distance * 16))
             {
                 if (ThutCore.conf.debug)
-                    PokecubeCore.LOGGER.debug(config.avoidances.flags + " Conflicts with " + avoid.name);
+                    PokecubeAPI.LOGGER.debug(config.avoidances.flags + " Conflicts with " + avoid.name);
                 return true;
             }
         }
@@ -75,7 +75,7 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         ChunkPos pos = context.chunkPos();
         Level level = ExpandedJigsawPacement.getForGen(generator);
         BlockPos bpos = pos.getMiddleBlockPosition(0);
-        if (ThutCore.conf.debug) PokecubeCore.LOGGER.debug(config.avoidances.flags + " " + level.dimension());
+        if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug(config.avoidances.flags + " " + level.dimension());
         for (String flag : flags) PokecubeSerializer.getInstance().place(flag.strip(), bpos, level.dimension());
     }
 
@@ -93,7 +93,7 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         {
             if (generator.hasFeatureChunkInRange(key, context.seed(), pos.x, pos.z, config.avoid_range))
             {
-                if (ThutCore.conf.debug) PokecubeCore.LOGGER.debug("Skipping generation of {} due to conflict with {}",
+                if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Skipping generation of {} due to conflict with {}",
                         context.config().startPool().value().getName(), key);
                 return false;
             }

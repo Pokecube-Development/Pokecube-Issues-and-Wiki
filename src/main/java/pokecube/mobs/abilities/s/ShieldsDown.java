@@ -3,9 +3,9 @@ package pokecube.mobs.abilities.s;
 import java.util.Random;
 
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.database.Database;
-import pokecube.core.database.abilities.Ability;
 
 public class ShieldsDown extends Ability
 {

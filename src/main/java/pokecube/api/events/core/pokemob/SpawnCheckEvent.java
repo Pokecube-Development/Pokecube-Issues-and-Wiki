@@ -2,8 +2,8 @@ package pokecube.api.events.core.pokemob;
 
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
-import pokecube.core.database.spawns.SpawnBiomeMatcher;
-import pokecube.core.database.spawns.SpawnCheck;
+import pokecube.api.data.spawns.SpawnBiomeMatcher;
+import pokecube.api.data.spawns.SpawnCheck;
 
 /** Fired on the MinecraftForge.EVENT_BUS */
 public class SpawnCheckEvent extends Event

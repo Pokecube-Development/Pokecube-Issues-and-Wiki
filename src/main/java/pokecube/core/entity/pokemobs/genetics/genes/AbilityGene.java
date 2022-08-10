@@ -2,7 +2,7 @@ package pokecube.core.entity.pokemobs.genetics.genes;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import pokecube.core.database.abilities.Ability;
+import pokecube.api.data.abilities.Ability;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.AbilityGene.AbilityObject;
 import thut.api.entity.genetics.Gene;

@@ -23,6 +23,7 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.RegistryObject;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryGenManager;
@@ -101,7 +102,7 @@ public class FeaturesInit
         ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
         if (make_ores_check.test(key))
         {
-            if (ThutCore.conf.debug) PokecubeCore.LOGGER.info("Adding Fossils to " + event.getName());
+            if (ThutCore.conf.debug) PokecubeAPI.LOGGER.info("Adding Fossils to " + event.getName());
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
                     PLACED_SMALL_FOSSIL.getHolder().get());
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
@@ -116,7 +117,7 @@ public class FeaturesInit
                 if (config.matches(event))
                 {
                     if (ThutCore.conf.debug)
-                        PokecubeCore.LOGGER.info("Adding " + config.placement + " to " + event.getName());
+                        PokecubeAPI.LOGGER.info("Adding " + config.placement + " to " + event.getName());
                     event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
                             new PlacedFeatureHolder(config.placement));
                 }

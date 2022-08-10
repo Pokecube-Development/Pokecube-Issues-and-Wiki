@@ -25,11 +25,11 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.utils.TagNames;
-import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.PermNodes;
@@ -126,7 +126,7 @@ public class Restore
         final Map<Integer, ItemStack> cache = pokemobCache.cache;
         final ItemStack stack = cache.getOrDefault(id, ItemStack.EMPTY);
         Tools.giveItem(user, stack.copy());
-        PokecubeCore.LOGGER.info("{} Restored {}", user.getDisplayName().getString(), stack.getHoverName()
+        PokecubeAPI.LOGGER.info("{} Restored {}", user.getDisplayName().getString(), stack.getHoverName()
                 .getString());
         return 0;
     }

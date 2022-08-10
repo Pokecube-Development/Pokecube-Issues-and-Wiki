@@ -52,6 +52,8 @@ import net.minecraftforge.event.ForgeEventFactory;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.SpawnData;
+import pokecube.api.data.spawns.SpawnBiomeMatcher;
+import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.core.MeteorEvent;
@@ -62,8 +64,6 @@ import pokecube.api.events.core.pokemob.SpawnEvent.Variance;
 import pokecube.core.PokecubeCore;
 import pokecube.core.commands.Pokemake;
 import pokecube.core.database.Database;
-import pokecube.core.database.spawns.SpawnBiomeMatcher;
-import pokecube.core.database.spawns.SpawnCheck;
 import pokecube.core.handlers.Config;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.utils.ChunkCoordinate;
@@ -525,7 +525,7 @@ public final class SpawnHandler
             };
 
             final String message = "Meteor at " + location + " with energy of " + power;
-            PokecubeCore.LOGGER.debug(message);
+            PokecubeAPI.LOGGER.debug(message);
 
             boom.doKineticImpactor(world, new Vector3().set(0, -1, 0), location, null, 0.1f, power);
 
@@ -720,7 +720,7 @@ public final class SpawnHandler
         {
             final Vector3 debug = new Vector3().set(v.getPos());
             final String toLog = "location: %1$s took: %2$s\u00B5s to find a valid spawn and location";
-            PokecubeCore.LOGGER.info(String.format(toLog, debug.getPos(), dt));
+            PokecubeAPI.LOGGER.info(String.format(toLog, debug.getPos(), dt));
         }
         time = System.nanoTime();
         ret += num = this.doSpawnForType(context, this.parser, t);
@@ -729,7 +729,7 @@ public final class SpawnHandler
         {
             final Vector3 debug = new Vector3().set(v.getPos());
             final String toLog = "location: %1$s took: %2$s\u00B5s to find a valid spawn for %3$s %4$s";
-            PokecubeCore.LOGGER.info(String.format(toLog, debug.getPos(), dt, num, context.entry()));
+            PokecubeAPI.LOGGER.info(String.format(toLog, debug.getPos(), dt, num, context.entry()));
         }
         return ret;
     }
@@ -749,7 +749,7 @@ public final class SpawnHandler
         if (num >= SpawnHandler.MAX_DENSITY * SpawnHandler.MAXNUM) return null;
         final Vector3 v1 = SpawnHandler.getRandomPointNear(level, v, maxRadius);
         double dt = (System.nanoTime() - time) / 1e3D;
-        if (PokecubeMod.debug && dt > 100) PokecubeCore.LOGGER.debug("Location Find took " + dt);
+        if (PokecubeMod.debug && dt > 100) PokecubeAPI.LOGGER.debug("Location Find took " + dt);
         if (v1 == null) return null;
         if (v.distanceTo(v1) < minRadius) return null;
         return new SpawnContext(base, v1);
@@ -847,7 +847,7 @@ public final class SpawnHandler
             catch (final Throwable e)
             {
                 if (entity != null) entity.discard();
-                PokecubeCore.LOGGER.error("Wrong Id while spawn: " + dbe.getName(), e);
+                PokecubeAPI.LOGGER.error("Wrong Id while spawn: " + dbe.getName(), e);
                 return totalSpawnCount;
             }
         }
@@ -880,7 +880,7 @@ public final class SpawnHandler
                 final long time = System.nanoTime();
                 this.spawn(world);
                 final double dt = (System.nanoTime() - time) / 1000d;
-                if (PokecubeMod.debug && dt > 100) PokecubeCore.LOGGER.info("SpawnTick took " + dt);
+                if (PokecubeMod.debug && dt > 100) PokecubeAPI.LOGGER.info("SpawnTick took " + dt);
             }
             this.doMeteor(world);
         }

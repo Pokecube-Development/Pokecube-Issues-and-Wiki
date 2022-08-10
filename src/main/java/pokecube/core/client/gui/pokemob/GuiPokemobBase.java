@@ -28,6 +28,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -65,7 +66,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error loading size for {}", key);
+                    PokecubeAPI.LOGGER.error("Error loading size for {}", key);
                 }
             }
             res.close();
@@ -147,7 +148,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
     {
         if (pokemobIn == null)
         {
-            PokecubeCore.LOGGER.error("Error syncing pokemob", new IllegalArgumentException());
+            PokecubeAPI.LOGGER.error("Error syncing pokemob", new IllegalArgumentException());
             return;
         }
     }

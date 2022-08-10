@@ -12,11 +12,11 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraftforge.common.MinecraftForge;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.events.core.SetAttackTargetEvent;
-import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.utils.AITools;
@@ -223,8 +223,8 @@ public class BrainUtils extends BrainUtil
     {
         if (mob == null) return;
         final IPokemob aggressor = PokemobCaps.getPokemobFor(mob);
-        if (PokecubeMod.debug) if (mutual) PokecubeCore.LOGGER.error(mob + " " + mutual, new Exception());
-        else PokecubeCore.LOGGER.error(mob + " " + mutual);
+        if (PokecubeMod.debug) if (mutual) PokecubeAPI.LOGGER.error(mob + " " + mutual, new Exception());
+        else PokecubeAPI.LOGGER.error(mob + " " + mutual);
         if (aggressor != null)
         {
             aggressor.getTargetFinder().clear();

@@ -53,7 +53,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.world.gen.structures.GenericJigsawStructure;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
@@ -148,11 +148,11 @@ public class ExpandedJigsawPacement
 
                         List<Placer> attempts = Lists.newArrayList();
 
-                        if (ThutCore.conf.debug) PokecubeCore.LOGGER.debug("Building: {}", root_pool.getName());
+                        if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Building: {}", root_pool.getName());
                         tries:
                         for (int n = 0; n < 10; n++)
                         {
-                            if (ThutCore.conf.debug) PokecubeCore.LOGGER.debug("Starting Try: {}", n);
+                            if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Starting Try: {}", n);
                             List<PoolElementStructurePiece> list = Lists.newArrayList();
                             list.add(root_piece);
                             Placer placer = new Placer(config, registry, config.maxDepth(), factory, chunkgenerator,
@@ -171,14 +171,14 @@ public class ExpandedJigsawPacement
                                 placer.tryPlacingChildren(next_state, bound_checks, levelheightaccessor);
                             }
 
-                            if (ThutCore.conf.debug) PokecubeCore.LOGGER.debug("Ended Try: {}", n);
+                            if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Ended Try: {}", n);
                             if (placer.needed_once.isEmpty()) break;
                             for (String s : placer.needed_once)
                             {
                                 if (!placer.added_once.contains(s))
                                 {
                                     if (ThutCore.conf.debug)
-                                        PokecubeCore.LOGGER.debug("Try: {} has failed. Missing {}", n, s);
+                                        PokecubeAPI.LOGGER.debug("Try: {} has failed. Missing {}", n, s);
                                     continue tries;
                                 }
                             }
@@ -211,7 +211,7 @@ public class ExpandedJigsawPacement
                         @SuppressWarnings("unchecked")
                         List<PoolElementStructurePiece> list = (List<PoolElementStructurePiece>) most_complete.pieces;
 
-                        if (ThutCore.conf.debug) PokecubeCore.LOGGER.debug("Finshed: {}", root_pool.getName());
+                        if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Finshed: {}", root_pool.getName());
                         PostProcessor.POSTPROCESS.accept(config_context, list);
                         list.forEach(builder::addPiece);
 
@@ -633,7 +633,7 @@ public class ExpandedJigsawPacement
                                         }
 
                                         if (log_data.test(next_picked_element))
-                                            PokecubeCore.LOGGER.debug("Placing Sub Part! {}", next_picked_element);
+                                            PokecubeAPI.LOGGER.debug("Placing Sub Part! {}", next_picked_element);
 
                                         // If we are rigid, add the boundary
                                         // now, so we don't conflict with future
@@ -745,7 +745,7 @@ public class ExpandedJigsawPacement
                                     else wrong_attach++;
                                 }
                             }
-                            if (log_data.test(next_picked_element)) PokecubeCore.LOGGER.debug(
+                            if (log_data.test(next_picked_element)) PokecubeAPI.LOGGER.debug(
                                     "Skipping {} as did not fit: rigid_conflict:{} non_rigid_conflict:{} root_conflict:{} duplicated:{} no_attachment:{}",
                                     next_picked_element, rigid_fails, non_rigid_fails, bounds_fails, duplicated_fails,
                                     wrong_attach);
@@ -753,12 +753,12 @@ public class ExpandedJigsawPacement
                     }
                     else
                     {
-                        PokecubeCore.LOGGER.warn("Empty or non-existent fallback pool: {}", (Object) resourcelocation1);
+                        PokecubeAPI.LOGGER.warn("Empty or non-existent fallback pool: {}", (Object) resourcelocation1);
                     }
                 }
                 else
                 {
-                    PokecubeCore.LOGGER.warn("Empty or non-existent pool: {}", (Object) resourcelocation);
+                    PokecubeAPI.LOGGER.warn("Empty or non-existent pool: {}", (Object) resourcelocation);
                 }
             }
 

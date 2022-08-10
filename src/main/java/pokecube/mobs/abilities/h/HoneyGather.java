@@ -15,9 +15,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.tasks.bees.BeeTasks;
-import pokecube.core.database.abilities.Ability;
 import pokecube.core.impl.PokecubeMod;
 import thut.api.maths.Vector3;
 

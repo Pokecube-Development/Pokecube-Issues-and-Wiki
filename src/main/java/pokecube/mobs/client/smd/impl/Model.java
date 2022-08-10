@@ -12,7 +12,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.resources.ResourceLocation;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import thut.core.common.ThutCore;
 
 /**
@@ -96,11 +96,11 @@ public class Model
                 catch (final FileNotFoundException | NullPointerException e1)
                 {
                     // Ignore these, we don't really care about them
-                    if (ThutCore.conf.debug)PokecubeCore.LOGGER.debug("No animation of {} for {}", s, resloc);
+                    if (ThutCore.conf.debug)PokecubeAPI.LOGGER.debug("No animation of {} for {}", s, resloc);
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error with animation " + s, e);
+                    PokecubeAPI.LOGGER.error("Error with animation " + s, e);
                 }
             }
         }

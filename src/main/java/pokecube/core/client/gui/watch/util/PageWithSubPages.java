@@ -8,7 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 
 public abstract class PageWithSubPages<T extends WatchPage> extends WatchPage
@@ -67,7 +67,7 @@ public abstract class PageWithSubPages<T extends WatchPage> extends WatchPage
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
+            PokecubeAPI.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
         }
         @SuppressWarnings("unchecked")
         final List<GuiEventListener> list = (List<GuiEventListener>) this.children();

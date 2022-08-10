@@ -1,4 +1,4 @@
-package pokecube.core.database.abilities;
+package pokecube.api.data.abilities;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,8 +8,8 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.core.PokecubeCore;
 import thut.core.common.ThutCore;
 import thut.lib.CompatParser.ClassFinder;
 
@@ -17,15 +17,20 @@ import thut.lib.CompatParser.ClassFinder;
 public class AbilityManager
 {
 
-    private static HashMap<String, Class<? extends Ability>>  nameMap  = Maps.newHashMap();
-    private static HashMap<Class<? extends Ability>, String>  nameMap2 = Maps.newHashMap();
-    private static HashMap<Class<? extends Ability>, Integer> idMap    = Maps.newHashMap();
-    private static HashMap<Integer, Class<? extends Ability>> idMap2   = Maps.newHashMap();
-    public static Set<Package>                                packages = Sets.newHashSet();
+    private static HashMap<String, Class<? extends Ability>> nameMap = Maps.newHashMap();
+    private static HashMap<Class<? extends Ability>, String> nameMap2 = Maps.newHashMap();
+    private static HashMap<Class<? extends Ability>, Integer> idMap = Maps.newHashMap();
+    private static HashMap<Integer, Class<? extends Ability>> idMap2 = Maps.newHashMap();
+    private static Set<Package> packages = Sets.newHashSet();
+
+    public static void registerAbilityPackage(Package pack)
+    {
+        packages.add(pack);
+    }
 
     static
     {
-        AbilityManager.packages.add(AbilityManager.class.getPackage());
+        registerAbilityPackage(AbilityManager.class.getPackage());
     }
 
     static int nextID = 0;
@@ -100,15 +105,14 @@ public class AbilityManager
             {
                 if (pack == null) continue;
                 foundClasses = ClassFinder.find(pack.getName());
-                for (final Class<?> candidateClass : foundClasses)
-                    if (Ability.class.isAssignableFrom(candidateClass) && !candidateClass.getName().equals(Ability.class
-                            .getName()))
-                    {
-                        num++;
-                        AbilityManager.addAbility((Class<? extends Ability>) candidateClass);
-                    }
+                for (final Class<?> candidateClass : foundClasses) if (Ability.class.isAssignableFrom(candidateClass)
+                        && !candidateClass.getName().equals(Ability.class.getName()))
+                {
+                    num++;
+                    AbilityManager.addAbility((Class<? extends Ability>) candidateClass);
+                }
             }
-            PokecubeCore.LOGGER.debug("Registered " + num + " Abilities");
+            PokecubeAPI.LOGGER.debug("Registered " + num + " Abilities");
         }
         catch (final Exception e)
         {

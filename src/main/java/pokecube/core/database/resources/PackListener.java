@@ -11,7 +11,7 @@ import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.database.Database;
 
 public class PackListener implements PreparableReloadListener
@@ -47,7 +47,7 @@ public class PackListener implements PreparableReloadListener
 
         for (final PackResources pack : Database.customPacks)
         {
-            PokecubeCore.LOGGER.debug("Reloading Pack: " + pack.getName());
+            PokecubeAPI.LOGGER.debug("Reloading Pack: " + pack.getName());
             PackListener.addPack(pack, manager);
         }
         this.loaded = true;

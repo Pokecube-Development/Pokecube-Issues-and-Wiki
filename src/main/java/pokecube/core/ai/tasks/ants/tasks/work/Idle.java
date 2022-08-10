@@ -47,7 +47,7 @@ public class Idle extends AbstractAntTask
         final int index = ThutCore.newRandom().nextInt(num);
         final Node room = this.nest.hab.rooms.allRooms.get(index);
         if (!room.started) return;
-        // PokecubeCore.LOGGER.debug("wander to {} ({})", room.center,
+        // PokecubeAPI.LOGGER.debug("wander to {} ({})", room.center,
         // room.type);
         this.setWalkTo(room.getCenter(), 1, 1);
     }

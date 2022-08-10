@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.ITargetFinder;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -133,7 +134,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             // target, this prevents player's mobs fighting each other.
             if (!BrainUtils.hasAttackTarget(hurt) && AITools.shouldBeAbleToAgro(hurt, user))
             {
-                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Selecting Retaliation Target.");
+                if (PokecubeCore.getConfig().debug) PokecubeAPI.LOGGER.debug("Selecting Retaliation Target.");
                 Battle.createOrAddToBattle(hurt, (LivingEntity) user);
             }
         }
@@ -196,7 +197,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (newtarget != null)
         {
             this.initiateBattle(newtarget);
-            if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Selecting Guard Target.");
+            if (PokecubeCore.getConfig().debug) PokecubeAPI.LOGGER.debug("Selecting Guard Target.");
             return true;
         }
         return false;
@@ -238,7 +239,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             if (entity instanceof Mob && targ != null && targ.equals(owner) && this.validGuardTarget.test(entity))
             {
                 this.initiateBattle(entity);
-                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Selecting target who hit owner.");
+                if (PokecubeCore.getConfig().debug) PokecubeAPI.LOGGER.debug("Selecting target who hit owner.");
                 return true;
             }
         }
@@ -257,13 +258,13 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     protected void checkSwitchedMob()
     {
         final boolean switched = this.target != null && !this.target.isAlive();
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Checking for swapped pokemob? {} {}", this.target,
+        if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Checking for swapped pokemob? {} {}", this.target,
                 this.targetOwner);
         if (!switched) return;
         // This means it either fainted, or died.
         if (this.targetOwner != null)
         {
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Checking for swapped pokemob! {}",
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Checking for swapped pokemob! {}",
                     this.switchTargetTimer);
             // Give some time to look for a new pokemob
             if (this.switchTargetTimer++ < 2 * FindTargetsTask.DEAGROTIMER)
@@ -335,7 +336,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             if (BrainUtils.canSee(this.entity, target))
             {
                 this.initiateBattle(target);
-                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Selecting Target who hit us.");
+                if (PokecubeCore.getConfig().debug) PokecubeAPI.LOGGER.debug("Selecting Target who hit us.");
                 return;
             }
         }
@@ -363,7 +364,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             if (player != null && AITools.validTargets.test(player))
             {
                 this.initiateBattle(player);
-                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug(
+                if (PokecubeCore.getConfig().debug) PokecubeAPI.LOGGER.debug(
                         "Found player to be angry with, agressing.");
             }
         }
@@ -393,7 +394,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
                 this.target = target;
                 this.targetOwner = OwnableCaps.getOwner(target);
                 this.targetId = this.target.getUUID();
-                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Found Target {} {}", this.target,
+                if (PokecubeCore.getConfig().debug) PokecubeAPI.LOGGER.debug("Found Target {} {}", this.target,
                         this.targetOwner);
             }
             this.checkSwitchedMob();

@@ -16,9 +16,9 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
@@ -79,7 +79,7 @@ public class GuiPokeWatch extends Screen
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error with making a page for watch", e);
+            PokecubeAPI.LOGGER.error("Error with making a page for watch", e);
             return null;
         }
     }
@@ -159,10 +159,10 @@ public class GuiPokeWatch extends Screen
 
     private void handleError(final Exception e)
     {
-        if (this.current_page != null) PokecubeCore.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
+        if (this.current_page != null) PokecubeAPI.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
         else
         {
-            PokecubeCore.LOGGER.warn("Error with null page", e);
+            PokecubeAPI.LOGGER.warn("Error with null page", e);
             return;
         }
         this.current_page.onPageClosed();

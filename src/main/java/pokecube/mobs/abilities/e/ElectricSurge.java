@@ -1,6 +1,6 @@
 package pokecube.mobs.abilities.e;
 
-import pokecube.core.database.abilities.Ability;
+import pokecube.api.data.abilities.Ability;
 
 public class ElectricSurge extends Ability
 {

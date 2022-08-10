@@ -18,6 +18,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.Palette;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.SpawnEventsHandler;
 import pokecube.core.utils.PokecubeSerializer;
@@ -92,7 +93,7 @@ public class PostProcessor
                         final BlockPos blockpos = new BlockPos(x, chunkGenerator.getSeaLevel(), z);
                         final BlockPos spos = StructureTemplate.calculateRelativePosition(settings, localSpawn)
                                 .offset(blockpos).offset(0, part.getBoundingBox().minY, 0);
-                        PokecubeCore.LOGGER.info("Setting spawn to {} {}, professor at {}", spos, localSpawn,
+                        PokecubeAPI.LOGGER.info("Setting spawn to {} {}, professor at {}", spos, localSpawn,
                                 localTrader);
                         PokecubeSerializer.getInstance().setPlacedSpawn();
                         sworld.getServer().execute(() -> {

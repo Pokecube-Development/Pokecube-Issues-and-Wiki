@@ -157,7 +157,7 @@ public class LogicMiscUpdate extends LogicBase
                 mess = new TranslatableComponent("pokemob.dynamax.revert", this.pokemob.getDisplayName());
                 ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry, mess, true);
 
-                PokecubeCore.LOGGER.debug("Reverting Dynamax");
+                PokecubeAPI.LOGGER.debug("Reverting Dynamax");
 
                 this.de_dyna = true;
             }

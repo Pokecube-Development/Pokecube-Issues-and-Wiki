@@ -14,6 +14,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
@@ -63,7 +64,7 @@ public abstract class PokemobMoves extends PokemobStats
         // If the move is somehow null, report it and return early.
         if (move == null || move.move == null)
         {
-            PokecubeCore.LOGGER
+            PokecubeAPI.LOGGER
                     .error(this.getDisplayName().getString() + " Has Used Unregistered Move: " + attack + " " + index);
             return;
         }
