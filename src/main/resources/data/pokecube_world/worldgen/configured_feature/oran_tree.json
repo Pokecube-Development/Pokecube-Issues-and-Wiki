@@ -41,16 +41,22 @@
       "height_rand_b": 0
     },
     "foliage_placer": {
-      "radius": 3,
+      "type": "pokecube:rain_drop_foliage_placer",
+      "radius": {
+        "type": "minecraft:uniform",
+        "value": {
+          "min_inclusive": 3,
+          "max_inclusive": 5
+        }
+      },
       "offset": 1,
       "height": {
         "type": "minecraft:uniform",
         "value": {
           "min_inclusive": 3,
-          "max_inclusive": 4
+          "max_inclusive": 5
         }
-      },
-      "type": "minecraft:pine_foliage_placer"
+      }
     },
     "decorators": [
       {
