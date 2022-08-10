@@ -1,13 +1,8 @@
 package pokecube.world.gen.features.trees.trunks;
 
-import java.util.List;
-import java.util.Random;
-import java.util.function.BiConsumer;
-
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.ExtraCodecs;
@@ -19,6 +14,10 @@ import net.minecraft.world.level.levelgen.feature.configurations.TreeConfigurati
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
+
+import java.util.List;
+import java.util.Random;
+import java.util.function.BiConsumer;
 
 public class PalmTrunkPlacer extends TrunkPlacer
 {
@@ -57,7 +56,7 @@ public class PalmTrunkPlacer extends TrunkPlacer
         int i = freeTreeHeight - 1;
         BlockPos.MutableBlockPos blockpos$mutableblockpos = pos.mutable();
         BlockPos blockpos = blockpos$mutableblockpos.below();
-        setDirtAt(level, blockSetter, random, blockpos, config);
+        TrunkPlacerTypes.setDirtAt(level, blockSetter, random, blockpos, config);
         List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
 
         for (int j = 0; j <= i; ++j)
@@ -86,7 +85,7 @@ public class PalmTrunkPlacer extends TrunkPlacer
             blockpos$mutableblockpos.move(direction);
         }
         blockpos$mutableblockpos.move(direction.getOpposite());
-        list.add(new FoliagePlacer.FoliageAttachment(blockpos$mutableblockpos.immutable(), 0, false));
+        list.add(new FoliagePlacer.FoliageAttachment(blockpos$mutableblockpos.immutable().above(), 0, false));
         return list;
     }
 }

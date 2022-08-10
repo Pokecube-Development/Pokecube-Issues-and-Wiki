@@ -2,7 +2,7 @@
   "type": "minecraft:tree",
   "config": {
     "ignore_vines": true,
-    "force_dirt": true,
+    "force_dirt": false,
     "minimum_size": {
       "type": "minecraft:two_layers_feature_size",
       "limit": 1,
@@ -45,36 +45,16 @@
       }
     },
     "trunk_placer": {
-      "height_rand_b": 1,
-      "min_height_for_leaves": 6,
-      "bend_length": {
-        "type": "minecraft:uniform",
-        "value": {
-          "min_inclusive": 1,
-          "max_inclusive": 1
-        }
-      },
+      "type": "pokecube:straight_trunk_placer_no_dirt",
       "base_height": 5,
-      "height_rand_a": 2,
-      "type": "pokecube:palm_trunk_placer"
+      "height_rand_a": 4,
+      "height_rand_b": 2
     },
     "foliage_placer": {
       "type": "pokecube:palm_foliage_placer",
-      "radius": {
-        "type": "minecraft:uniform",
-        "value": {
-          "min_inclusive": 3,
-          "max_inclusive": 5
-        }
-      },
-      "offset": 1,
-      "height": {
-        "type": "minecraft:uniform",
-        "value": {
-          "min_inclusive": 3,
-          "max_inclusive": 5
-        }
-      }
+      "radius": 3,
+      "offset": 0,
+      "height": 5
     },
     "decorators": [
       {

@@ -1,8 +1,10 @@
 package pokecube.core.blocks.berries;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -12,6 +14,7 @@ import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -182,10 +185,26 @@ public class BerryFruit extends BushBlock
         final BlockState state2 = BerryManager.berryCrops.get(this.ind).defaultBlockState();
         if (!world.isClientSide)
         {
-            if (world.getBlockState(pos.below()).is(BerryManager.berryCrops.get(this.ind))) world.setBlockAndUpdate(pos
-                    .below(), state2.setValue(CropBlock.AGE, Integer.valueOf(5)));
+            if (world.getBlockState(pos.below()).is(BerryManager.berryCrops.get(this.ind)))
+                world.setBlockAndUpdate(pos.below(), state2.setValue(CropBlock.AGE, Integer.valueOf(5)));
             world.destroyBlock(pos, true);
         }
         return InteractionResult.SUCCESS;
+    }
+
+    @Override
+    public void playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player)
+    {
+        final BlockState state2 = BerryManager.berryCrops.get(this.ind).defaultBlockState();
+
+        if (world.getBlockState(pos.below()).is(BerryManager.berryCrops.get(this.ind)))
+            world.setBlockAndUpdate(pos.below(), state2.setValue(CropBlock.AGE, Integer.valueOf(5)));
+
+        if (state.is(BlockTags.GUARDED_BY_PIGLINS)) {
+            PiglinAi.angerNearbyPiglins(player, false);
+        }
+
+        this.spawnDestroyParticles(world, player, pos, state);
+        world.gameEvent(player, GameEvent.BLOCK_DESTROY, pos);
     }
 }

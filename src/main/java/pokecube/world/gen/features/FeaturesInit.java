@@ -70,17 +70,17 @@ public class FeaturesInit
         PLACED_SMALL_FOSSIL = PokecubeWorld.PLACED_FEATURES.register("fossil_ore",
                 () -> new PlacedFeature(ORE_FOSSIL_SMALL_FEATURE.getHolder().get(),
                         List.of(CountPlacement.of(5), InSquarePlacement.spread(), HeightRangePlacement
-                                .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)),
+                                        .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)),
                                 BiomeFilter.biome())));
         PLACED_LARGE_FOSSIL = PokecubeWorld.PLACED_FEATURES.register("fossil_ore_large",
                 () -> new PlacedFeature(ORE_FOSSIL_LARGE_FEATURE.getHolder().get(),
                         List.of(RarityFilter.onAverageOnceEvery(8), InSquarePlacement.spread(), HeightRangePlacement
-                                .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)),
+                                        .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)),
                                 BiomeFilter.biome())));
         PLACED_BURIED_FOSSIL = PokecubeWorld.PLACED_FEATURES.register("fossil_ore_buried",
                 () -> new PlacedFeature(ORE_FOSSIL_BURIED_FEATURE.getHolder().get(),
                         List.of(CountPlacement.of(3), InSquarePlacement.spread(), HeightRangePlacement
-                                .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)),
+                                        .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)),
                                 BiomeFilter.biome())));
 
         DUMMY_CONFF = PokecubeWorld.CONFIGURED_FEATURES.register("__dummy__",
@@ -94,7 +94,7 @@ public class FeaturesInit
 
     private static final Predicate<ResourceKey<Biome>> make_ores_check = k -> PokecubeCore.getConfig().generateFossils
             && (BiomeDatabase.contains(k, "mesa") || BiomeDatabase.contains(k, "ocean")
-                    || BiomeDatabase.contains(k, "river") || BiomeDatabase.contains(k, "sandy"));
+            || BiomeDatabase.contains(k, "river") || BiomeDatabase.contains(k, "sandy"));
 
     private static void onBiomeLoading(BiomeLoadingEvent event)
     {

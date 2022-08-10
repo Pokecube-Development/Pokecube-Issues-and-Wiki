@@ -41,6 +41,7 @@ import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.worldgen.trees.treedecorators.LeavesStringOfPearlsDecorator;
 import pokecube.legends.worldgen.trees.treedecorators.TrunkStringOfPearlsDecorator;
+import pokecube.world.gen.features.trees.trunks.StraightTrunkPlacerNoDirt;
 
 public class Trees
 {
@@ -152,7 +153,7 @@ public class Trees
                 BlockStateProvider.simple(BlockInit.CORRUPTED_LOG.get().defaultBlockState()),
                 new ForkingTrunkPlacer(6, 2, 3),
                 BlockStateProvider.simple(BlockInit.CORRUPTED_LEAVES.get().defaultBlockState()),
-                new AcaciaFoliagePlacer(ConstantInt.of(3), ConstantInt.of(1)), new TwoLayersFeatureSize(1, 0, 2))
+                new AcaciaFoliagePlacer(ConstantInt.of(2), ConstantInt.of(1)), new TwoLayersFeatureSize(1, 0, 2))
                         .ignoreVines().dirt(BlockStateProvider.simple(BlockInit.ROOTED_CORRUPTED_DIRT.get()))
                         .forceDirt();
     }
@@ -202,7 +203,7 @@ public class Trees
     public static TreeConfigurationBuilder getMirageTree()
     {
         return new TreeConfigurationBuilder(BlockStateProvider.simple(BlockInit.MIRAGE_LOG.get().defaultBlockState()),
-                new StraightTrunkPlacer(10, 5, 15),
+                new StraightTrunkPlacerNoDirt(10, 5, 15),
                 BlockStateProvider.simple(BlockInit.MIRAGE_LEAVES.get().defaultBlockState()),
                 new MegaJungleFoliagePlacer(ConstantInt.of(3), ConstantInt.of(0), 3), new TwoLayersFeatureSize(1, 1, 2))
                         .ignoreVines();

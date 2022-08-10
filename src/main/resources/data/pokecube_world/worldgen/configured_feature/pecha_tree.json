@@ -2,7 +2,7 @@
   "type": "minecraft:tree",
   "config": {
     "ignore_vines": true,
-    "force_dirt": true,
+    "force_dirt": false,
     "minimum_size": {
       "type": "minecraft:two_layers_feature_size",
       "limit": 1,
@@ -35,8 +35,8 @@
       }
     },
     "trunk_placer": {
-      "type": "minecraft:straight_trunk_placer",
-      "base_height": 6,
+      "type": "pokecube:straight_trunk_placer_no_dirt",
+      "base_height": 3,
       "height_rand_a": 2,
       "height_rand_b": 2
     },
