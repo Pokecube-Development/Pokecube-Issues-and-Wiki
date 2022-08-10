@@ -1,4 +1,4 @@
-package pokecube.world_tests;
+package pokecube.tests;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,7 +29,7 @@ import thut.api.maths.Cruncher.SquareLoopCruncher;
 import thut.core.common.ThutCore;
 
 @Mod.EventBusSubscriber
-public class WorldTest
+public class WorldGenRarity
 {
     public static int average(List<Integer> pos)
     {

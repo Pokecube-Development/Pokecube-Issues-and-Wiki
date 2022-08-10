@@ -199,7 +199,7 @@ public class RouteMaker extends AbstractBot
 
         BlockPos testPoint = searcher.getNext(mid, dr);
 
-        if (this.searcher._radius > 20000)
+        if (this.searcher._radius > 20000 / 256)
         {
             ThutCore.LOGGER.error("Too Far!");
         }
