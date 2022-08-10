@@ -11,6 +11,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
@@ -21,8 +22,7 @@ import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 
 public class Description extends ListPage<LineEntry>

@@ -12,8 +12,6 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.tasks.Tasks;
 import pokecube.adventures.blocks.BlockEventHandler;
 import pokecube.adventures.capabilities.CapabilityHasTrades;
-import pokecube.adventures.capabilities.TrainerCaps;
-import pokecube.adventures.events.CompatEvent;
 import pokecube.adventures.events.TrainerEventHandler;
 import pokecube.adventures.events.TrainerSpawnHandler;
 import pokecube.adventures.items.Linker;
@@ -25,8 +23,10 @@ import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.EnergyHandler;
 import pokecube.adventures.utils.InventoryHandler;
 import pokecube.adventures.utils.TrainerTracker;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.trainers.TrainerCaps;
+import pokecube.api.events.adventures.CompatEvent;
 import pokecube.compat.Compat;
-import pokecube.core.PokecubeCore;
 import thut.api.OwnableCaps;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeAdv.MODID)
@@ -62,20 +62,20 @@ public class SetupHandler
         // This initializes the mob's brain for use.
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onBrainInit);
         // Loads the trainer databases for types.
-        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, TrainerEventHandler::onPostDatabaseLoad);
+        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.LOWEST, TrainerEventHandler::onPostDatabaseLoad);
         // Loads the trades for the trainers.
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, TrainerEventHandler::onPostServerStart);
         // Prevent trainer's pokemobs going to the PC
-        PokecubeCore.POKEMOB_BUS.addListener(TrainerEventHandler::onSentToPC);
+        PokecubeAPI.POKEMOB_BUS.addListener(TrainerEventHandler::onSentToPC);
         // Prevents normal processing for recalling pokemobs, this re-adds it to
         // the trainer's inventory.
-        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.NORMAL, false, TrainerEventHandler::onRecalledPokemob);
+        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.NORMAL, false, TrainerEventHandler::onRecalledPokemob);
         // Ensures the trainer is linked to its pokemob when it is sent out.
-        PokecubeCore.POKEMOB_BUS.addListener(TrainerEventHandler::onPostSendOut);
+        PokecubeAPI.POKEMOB_BUS.addListener(TrainerEventHandler::onPostSendOut);
         // Used to make un-battleable trainers invisible if configured to do so.
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onWatchTrainer);
         // Prevent capturing trainers in snag cubes
-        PokecubeCore.POKEMOB_BUS.addListener(TrainerEventHandler::captureAttempt);
+        PokecubeAPI.POKEMOB_BUS.addListener(TrainerEventHandler::captureAttempt);
 
         MinecraftForge.EVENT_BUS.register(TrainerSpawnHandler.class);
         MinecraftForge.EVENT_BUS.register(BagItem.class);

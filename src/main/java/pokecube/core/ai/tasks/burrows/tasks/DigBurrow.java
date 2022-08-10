@@ -16,6 +16,7 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.TaskBase;
@@ -23,8 +24,7 @@ import pokecube.core.ai.tasks.burrows.AbstractBurrowTask;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.ai.tasks.burrows.burrow.Part;
 import pokecube.core.ai.tasks.utility.UtilTask;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import thut.api.Tracker;
 
 public class DigBurrow extends AbstractBurrowTask

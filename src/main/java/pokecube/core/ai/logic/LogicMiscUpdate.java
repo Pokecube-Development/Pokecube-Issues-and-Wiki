@@ -24,26 +24,27 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.ICanEvolve;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.HappinessType;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.entity.pokemob.ai.LogicStates;
+import pokecube.api.entity.pokemob.stats.IStatsModifiers;
+import pokecube.api.entity.pokemob.stats.StatModifiers;
+import pokecube.api.items.IPokecube;
+import pokecube.api.items.IPokecube.PokecubeBehavior;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.blocks.nests.NestTile;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IPokecube;
-import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.HappinessType;
-import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.pokemob.ICanEvolve;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.interfaces.pokemob.ai.LogicStates;
-import pokecube.core.interfaces.pokemob.stats.IStatsModifiers;
-import pokecube.core.interfaces.pokemob.stats.StatModifiers;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.utils.PokemobTracker;
@@ -417,7 +418,7 @@ public class LogicMiscUpdate extends LogicBase
         // Everything below here is client side only!
 
         if (id >= 0 && targ == null)
-            this.entity.setTarget((LivingEntity) PokecubeCore.getEntityProvider().getEntity(world, id, false));
+            this.entity.setTarget((LivingEntity) PokecubeAPI.getEntityProvider().getEntity(world, id, false));
         if (id < 0 && targ != null) this.entity.setTarget(null);
         if (targ != null && !targ.isAlive()) this.entity.setTarget(null);
 

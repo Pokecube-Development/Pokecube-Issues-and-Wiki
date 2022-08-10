@@ -1,5 +1,7 @@
 package pokecube.core.blocks.bookshelves;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -28,8 +30,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.ModTags;
 import pokecube.core.inventory.bookshelves.GenericBookshelfMenu;
-
-import javax.annotation.Nullable;
 
 public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity implements WorldlyContainer
 {

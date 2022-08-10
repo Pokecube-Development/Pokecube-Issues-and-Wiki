@@ -6,9 +6,10 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.core.common.network.Packet;
 
 public class PacketNickname extends Packet
@@ -39,7 +40,7 @@ public class PacketNickname extends Packet
     public void handleServer(final ServerPlayer player)
     {
 
-        final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), this.entityId, true);
+        final Entity mob = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), this.entityId, true);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (pokemob == null) return;
         final String name = SharedConstants.filterText(new String(this.name));

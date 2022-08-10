@@ -1,9 +1,9 @@
 package pokecube.core.ai.tasks.ants.tasks.work;
 
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.tasks.AbstractWorkTask;
 import pokecube.core.ai.tasks.utility.GatherTask;
-import pokecube.core.interfaces.IPokemob;
 import thut.api.entity.ai.IAIRunnable;
 import thut.core.common.ThutCore;
 

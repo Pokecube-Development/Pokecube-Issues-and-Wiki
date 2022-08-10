@@ -23,7 +23,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.models.ModelRing;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import thut.bling.client.render.Hat;
 import thut.bling.client.render.Util;
 import thut.core.client.render.x3d.X3dModel;

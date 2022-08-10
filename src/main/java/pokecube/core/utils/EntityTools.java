@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
-import pokecube.core.interfaces.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob;
 import thut.api.entity.ICopyMob;
 
 public class EntityTools

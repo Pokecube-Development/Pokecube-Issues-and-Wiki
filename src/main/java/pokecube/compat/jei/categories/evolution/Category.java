@@ -18,9 +18,9 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.compat.jei.ingredients.Pokemob;
 import pokecube.core.PokecubeItems;
-import pokecube.core.database.PokedexEntry.EvolutionData;
 
 public class Category implements IRecipeCategory<Evolution>
 {

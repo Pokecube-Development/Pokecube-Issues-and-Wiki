@@ -11,10 +11,10 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
-import pokecube.core.interfaces.IPokemob;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 
 /** Player capture/hatch/kill stats */

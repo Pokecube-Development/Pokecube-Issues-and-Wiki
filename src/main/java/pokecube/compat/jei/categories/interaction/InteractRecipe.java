@@ -2,11 +2,11 @@ package pokecube.compat.jei.categories.interaction;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.PokedexEntry.InteractionLogic.Interaction;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.compat.jei.ingredients.Pokemob;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntry.InteractionLogic.Interaction;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.FormeHolder;
 
 public class InteractRecipe
 {

@@ -13,13 +13,13 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.ai.tasks.utility.UtilTask;
 import pokecube.core.handlers.events.MoveEventsHandler;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IPokemob;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.maths.Vector3;
 

@@ -4,8 +4,8 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 

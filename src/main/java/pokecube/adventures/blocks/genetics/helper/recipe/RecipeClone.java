@@ -25,15 +25,16 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.adventures.blocks.genetics.cloner.ClonerTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
-import pokecube.adventures.events.CloneEvent;
 import pokecube.adventures.utils.RecipePokeAdv;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.events.adventures.CloneEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.IMobGenetics;
@@ -71,7 +72,7 @@ public class RecipeClone extends PoweredRecipe
                 if (tile.getUser() != null && tame) pokemob.setOwner(tile.getUser().getUUID());
 
                 final CloneEvent.Spawn event = new CloneEvent.Spawn((ClonerTile) tile, pokemob);
-                if (PokecubeCore.POKEMOB_BUS.post(event)) return false;
+                if (PokecubeAPI.POKEMOB_BUS.post(event)) return false;
 
                 pokemob = event.getPokemob();
                 entity = pokemob.getEntity();
@@ -164,7 +165,7 @@ public class RecipeClone extends PoweredRecipe
         final ClonerTile cloner = (ClonerTile) tile;
         PokedexEntry entry = matcher.getEntry(tile.getCraftMatrix(), cloner.getLevel());
         final CloneEvent.Pick pick = new CloneEvent.Pick(cloner, entry);
-        if (PokecubeCore.POKEMOB_BUS.post(pick)) entry = Database.missingno;
+        if (PokecubeAPI.POKEMOB_BUS.post(pick)) entry = Database.missingno;
         entry = pick.getEntry();
         return entry;
     }

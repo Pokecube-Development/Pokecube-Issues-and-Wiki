@@ -9,13 +9,13 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.render.mobs.overlays.Evolution;
 import pokecube.core.client.render.mobs.overlays.ExitCube;
 import pokecube.core.client.render.mobs.overlays.Health;
 import pokecube.core.client.render.mobs.overlays.Status;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.core.client.render.wrappers.ModelWrapper;
 
 public class RenderMobOverlays

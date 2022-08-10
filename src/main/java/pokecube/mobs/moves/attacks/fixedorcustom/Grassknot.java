@@ -1,8 +1,8 @@
 package pokecube.mobs.moves.attacks.fixedorcustom;
 
 import net.minecraft.world.entity.Entity;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.templates.Move_Basic;
 
 public class Grassknot extends Move_Basic

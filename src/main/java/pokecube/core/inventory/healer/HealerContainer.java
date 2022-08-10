@@ -10,7 +10,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import pokecube.core.interfaces.IHealer;
+import pokecube.api.blocks.IHealer;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.inventory.BaseContainer;
 

@@ -1,9 +1,9 @@
 package pokecube.core.database.abilities;
 
 import net.minecraft.world.entity.LivingEntity;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
 
 public abstract class Ability
 {

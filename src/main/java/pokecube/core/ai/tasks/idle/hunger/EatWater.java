@@ -7,9 +7,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.WaterFluid;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
-import pokecube.core.interfaces.IPokemob;
 
 public class EatWater extends EatBlockBase
 {

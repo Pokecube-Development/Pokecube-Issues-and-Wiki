@@ -8,9 +8,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader.XMLPokedexEntry;
 import thut.core.common.ThutCore;
 

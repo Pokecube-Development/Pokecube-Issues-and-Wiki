@@ -21,13 +21,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.entity.PartEntity;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.entity.pokemob.ai.LogicStates;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.Config;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 

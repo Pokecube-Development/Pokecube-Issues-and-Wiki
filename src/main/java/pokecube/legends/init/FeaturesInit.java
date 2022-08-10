@@ -1,5 +1,9 @@
 package pokecube.legends.init;
 
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+
 import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
@@ -20,7 +24,12 @@ import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguratio
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
-import net.minecraft.world.level.levelgen.placement.*;
+import net.minecraft.world.level.levelgen.placement.BiomeFilter;
+import net.minecraft.world.level.levelgen.placement.CountPlacement;
+import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
+import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.placement.RarityFilter;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.minecraftforge.common.MinecraftForge;
@@ -31,10 +40,6 @@ import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
 import pokecube.legends.worldgen.WorldgenFeatures;
-
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 public class FeaturesInit
 {

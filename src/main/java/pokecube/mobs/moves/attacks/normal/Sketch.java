@@ -5,8 +5,8 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import net.minecraft.network.chat.TranslatableComponent;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.templates.Move_Basic;
 

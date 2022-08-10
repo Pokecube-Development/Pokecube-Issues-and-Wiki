@@ -10,9 +10,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.google.common.collect.Lists;
 
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;

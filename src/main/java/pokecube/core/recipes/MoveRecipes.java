@@ -27,14 +27,14 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryObject;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.IMoveAction;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.recipes.PokemobMoveRecipeParser;
 import pokecube.core.database.recipes.PokemobMoveRecipeParser.MoveMatcher;
 import pokecube.core.database.recipes.PokemobMoveRecipeParser.RecipeMove;
 import pokecube.core.handlers.RecipeHandler;
 import pokecube.core.handlers.events.MoveEventsHandler;
-import pokecube.core.interfaces.IMoveAction;
-import pokecube.core.interfaces.IPokemob;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 

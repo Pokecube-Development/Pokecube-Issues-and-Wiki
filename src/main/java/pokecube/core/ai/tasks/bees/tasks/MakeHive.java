@@ -18,14 +18,14 @@ import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 
 public class MakeHive extends BaseIdleTask

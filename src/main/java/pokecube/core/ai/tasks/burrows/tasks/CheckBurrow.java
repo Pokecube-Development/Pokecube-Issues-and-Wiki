@@ -13,6 +13,8 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
@@ -26,8 +28,6 @@ import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor.Burrow;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.blocks.nests.NestTile;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.entity.ai.IAIRunnable;
 

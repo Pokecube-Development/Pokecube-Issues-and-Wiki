@@ -29,28 +29,29 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.PokedexEntry.SpawnData;
+import pokecube.api.data.PokedexEntry.SpawnData.SpawnEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
+import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.GuiPokedex;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntry.SpawnData;
-import pokecube.core.database.PokedexEntry.SpawnData.SpawnEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.spawns.SpawnCheck;
 import pokecube.core.database.stats.ISpecialCaptureCondition;
-import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.events.SpawnHandler.ForbidReason;
 import pokecube.core.handlers.events.SpawnHandler.ForbiddenEntry;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import thut.api.entity.ThutTeleporter.TeleDest;
@@ -287,7 +288,7 @@ public class PacketPokedex extends NBTPacket
         switch (this.message)
         {
         case OPEN:
-            final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), this.getTag().getInt("M"),
+            final Entity mob = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), this.getTag().getInt("M"),
                     true);
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
             final boolean watch = this.getTag().getBoolean("W");
@@ -404,7 +405,7 @@ public class PacketPokedex extends NBTPacket
         switch (this.message)
         {
         case INSPECTMOB:
-            mob = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), this.getTag().getInt("V"), true);
+            mob = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), this.getTag().getInt("V"), true);
             pokemob = CapabilityPokemob.getPokemobFor(mob);
             if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player)
                     .getData(PokecubePlayerStats.class).inspect(player, pokemob);

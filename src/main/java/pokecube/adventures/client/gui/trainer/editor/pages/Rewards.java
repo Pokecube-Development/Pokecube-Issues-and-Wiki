@@ -15,12 +15,12 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
-import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
-import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.Rewards.RewardOption;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.ListPage;
 import pokecube.adventures.network.PacketTrainer;
+import pokecube.api.entity.trainers.IHasRewards;
+import pokecube.api.entity.trainers.IHasRewards.Reward;
 import pokecube.core.client.gui.helper.INotifiedEntry;
 import pokecube.core.client.gui.helper.ScrollGui;
 

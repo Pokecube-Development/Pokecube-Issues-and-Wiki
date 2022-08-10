@@ -11,8 +11,8 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import pokecube.api.items.IPokecube;
 import pokecube.core.blocks.trade.TraderTile;
-import pokecube.core.interfaces.IPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.inventory.InvHelper;
 

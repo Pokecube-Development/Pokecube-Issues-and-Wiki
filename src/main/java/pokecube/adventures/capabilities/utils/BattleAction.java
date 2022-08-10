@@ -1,8 +1,10 @@
 package pokecube.adventures.capabilities.utils;
 
 import net.minecraft.world.entity.LivingEntity;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
-import pokecube.adventures.capabilities.TrainerCaps;
+import pokecube.api.entity.trainers.IHasPokemobs;
+import pokecube.api.entity.trainers.TrainerCaps;
+import pokecube.api.entity.trainers.actions.Action;
+import pokecube.api.entity.trainers.actions.ActionContext;
 
 public class BattleAction extends Action
 {

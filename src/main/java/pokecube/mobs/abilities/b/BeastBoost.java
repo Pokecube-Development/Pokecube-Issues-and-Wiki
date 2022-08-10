@@ -1,12 +1,12 @@
 package pokecube.mobs.abilities.b;
 
 import net.minecraft.world.entity.LivingEntity;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.IMoveConstants;
 import pokecube.core.database.abilities.Ability;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.EntityTools;
 

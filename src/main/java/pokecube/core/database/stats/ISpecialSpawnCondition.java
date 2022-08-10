@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 import com.google.common.collect.Maps;
 
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
-import pokecube.core.interfaces.IPokemob;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
 
 public interface ISpecialSpawnCondition
 {

@@ -1,8 +1,8 @@
 package pokecube.mobs.abilities.l;
 
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.core.database.abilities.Ability;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.utils.PokeType;
 
 public class Levitate extends Ability

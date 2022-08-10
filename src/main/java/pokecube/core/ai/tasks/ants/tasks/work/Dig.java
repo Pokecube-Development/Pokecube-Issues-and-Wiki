@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.behavior.BlockPosTracker;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
@@ -13,8 +14,7 @@ import pokecube.core.ai.tasks.ants.nest.Node;
 import pokecube.core.ai.tasks.ants.nest.Part;
 import pokecube.core.ai.tasks.ants.tasks.AbstractConstructTask;
 import pokecube.core.ai.tasks.utility.UtilTask;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import thut.api.Tracker;
 
 public class Dig extends AbstractConstructTask

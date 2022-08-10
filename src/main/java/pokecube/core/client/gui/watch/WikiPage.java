@@ -35,7 +35,7 @@ import pokecube.core.database.rewards.XMLRewardsHandler.FreeBookParser.PagesFile
 import pokecube.core.database.rewards.XMLRewardsHandler.FreeBookParser.PagesFile.Page;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.PokedexInspector.IInspectReward;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 
 public class WikiPage extends ListPage<LineEntry>
 {

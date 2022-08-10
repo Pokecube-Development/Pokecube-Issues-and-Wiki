@@ -1,8 +1,8 @@
 package pokecube.core.ai.tasks.idle;
 
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
-import pokecube.core.interfaces.IPokemob;
 
 public class ForgetHuntedByTask extends TaskBase
 {

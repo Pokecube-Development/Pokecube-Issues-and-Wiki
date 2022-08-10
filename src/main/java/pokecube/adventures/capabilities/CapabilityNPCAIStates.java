@@ -4,9 +4,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.api.entity.trainers.IHasNPCAIStates;
+import pokecube.api.entity.trainers.TrainerCaps;
 
 public class CapabilityNPCAIStates
 {
@@ -20,7 +21,7 @@ public class CapabilityNPCAIStates
         public DefaultAIStates()
         {
             for (final AIState state : AIState.values())
-                this.setAIState(state, state._default);
+                this.setAIState(state, state.getDefault());
         }
 
         @Override
@@ -38,7 +39,7 @@ public class CapabilityNPCAIStates
             if (state == AIState.TRADES_ITEMS && !PokecubeAdv.config.trainersTradeItems) return false;
             if (state == AIState.TRADES_MOBS && !PokecubeAdv.config.trainersTradeMobs) return false;
 
-            return (this.state & state.mask) > 0;
+            return (this.state & state.getMask()) > 0;
         }
 
         @Override
@@ -71,8 +72,8 @@ public class CapabilityNPCAIStates
         @Override
         public void setAIState(final AIState state, final boolean flag)
         {
-            if (flag) this.state = Integer.valueOf(this.state | state.mask);
-            else this.state = Integer.valueOf(this.state & -state.mask - 1);
+            if (flag) this.state = Integer.valueOf(this.state | state.getMask());
+            else this.state = Integer.valueOf(this.state & -state.getMask() - 1);
         }
 
         @Override
@@ -87,64 +88,5 @@ public class CapabilityNPCAIStates
             this.state = state;
         }
 
-    }
-
-    public static interface IHasNPCAIStates extends INBTSerializable<CompoundTag>
-    {
-        public static enum AIState
-        {
-            STATIONARY(1 << 0), INBATTLE(1 << 1, true), THROWING(1 << 2, true), PERMFRIENDLY(1 << 3), FIXEDDIRECTION(
-                    1 << 4), MATES(1 << 5, false, true), INVULNERABLE(1 << 6), TRADES_ITEMS(1 << 7, false,
-                            true), TRADES_MOBS(1 << 8, false, true);
-
-            private final int mask;
-
-            private final boolean temporary;
-            private final boolean _default;
-
-            private AIState(final int mask)
-            {
-                this(mask, false, false);
-            }
-
-            private AIState(final int mask, final boolean temporary)
-            {
-                this(mask, temporary, false);
-            }
-
-            private AIState(final int mask, final boolean temporary, final boolean _default)
-            {
-                this.mask = mask;
-                this.temporary = temporary;
-                this._default = _default;
-            }
-
-            public int getMask()
-            {
-                return this.mask;
-            }
-
-            public boolean isTemporary()
-            {
-                return this.temporary;
-            }
-        }
-
-        boolean getAIState(AIState state);
-
-        /** @return Direction to face if FIXEDDIRECTION */
-        public float getDirection();
-
-        int getTotalState();
-
-        void setAIState(AIState state, boolean flag);
-
-        /**
-         * @param direction
-         *            Direction to face if FIXEDDIRECTION
-         */
-        public void setDirection(float direction);
-
-        void setTotalState(int state);
     }
 }

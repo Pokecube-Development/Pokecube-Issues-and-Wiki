@@ -18,6 +18,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.util.LineEntry;
@@ -26,8 +27,7 @@ import pokecube.core.client.gui.watch.util.ListPage;
 import pokecube.core.client.gui.watch.util.SpawnListEntry;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 
 public class SpawnsPage extends ListPage<LineEntry>

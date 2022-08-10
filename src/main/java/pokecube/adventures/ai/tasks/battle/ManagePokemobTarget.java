@@ -7,12 +7,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.EntityTracker;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
-import pokecube.adventures.capabilities.TrainerCaps;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.trainers.IHasPokemobs;
+import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PokemobTracker;
 
 public class ManagePokemobTarget extends BaseBattleTask

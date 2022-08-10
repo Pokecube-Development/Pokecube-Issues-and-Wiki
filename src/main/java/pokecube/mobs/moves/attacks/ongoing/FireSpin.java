@@ -3,10 +3,10 @@ package pokecube.mobs.moves.attacks.ongoing;
 import java.util.Random;
 
 import net.minecraft.world.entity.LivingEntity;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.entity.IOngoingAffected;
-import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
+import pokecube.api.entity.IOngoingAffected;
+import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.templates.Move_Ongoing;
 import pokecube.core.utils.PokeType;
 import thut.core.common.ThutCore;

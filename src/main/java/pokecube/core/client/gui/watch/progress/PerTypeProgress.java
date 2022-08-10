@@ -17,6 +17,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
@@ -24,8 +25,7 @@ import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.database.stats.EggStats;
 import pokecube.core.database.stats.KillStats;
 import pokecube.core.database.stats.SpecialCaseRegister;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PokeType;
 import thut.core.common.ThutCore;
 

@@ -8,20 +8,21 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.events.core.EggEvent;
+import pokecube.api.events.core.pokemob.CaptureEvent;
+import pokecube.api.events.core.pokemob.EvolveEvent;
+import pokecube.api.events.core.pokemob.TradeEvent;
+import pokecube.api.events.core.pokemob.combat.KillEvent;
+import pokecube.api.items.IPokecube;
+import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.ISpecialCaptureCondition;
 import pokecube.core.database.stats.StatsCollector;
-import pokecube.core.events.EggEvent;
-import pokecube.core.events.pokemob.CaptureEvent;
-import pokecube.core.events.pokemob.EvolveEvent;
-import pokecube.core.events.pokemob.TradeEvent;
-import pokecube.core.events.pokemob.combat.KillEvent;
 import pokecube.core.handlers.Config;
-import pokecube.core.interfaces.IPokecube;
-import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
@@ -36,17 +37,17 @@ public class StatsHandler
         // otherwise. It checks things such as: if the pokecube can capture it,
         // if the player is allowed to capture it, and if the pokemob is already
         // tamed, etc.
-        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.HIGHEST, StatsHandler::canCapture);
+        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.HIGHEST, StatsHandler::canCapture);
 
         // From here down, they are lowest, false to allow addons to override
         // the behaviour.
         // These just record the given event for use in things like pokedex
         // stats, etc
-        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, StatsHandler::recordCapture);
-        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, StatsHandler::recordEvolve);
-        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, StatsHandler::recordHatch);
-        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, StatsHandler::recordKill);
-        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, StatsHandler::recordTrade);
+        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, StatsHandler::recordCapture);
+        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, StatsHandler::recordEvolve);
+        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, StatsHandler::recordHatch);
+        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, StatsHandler::recordKill);
+        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, StatsHandler::recordTrade);
 
     }
 

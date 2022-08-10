@@ -13,14 +13,14 @@ import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.InterestingMobs;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.api.entity.IBreedingMob;
 import thut.api.entity.ai.PosWrapWrap;
 

@@ -14,11 +14,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
 
 public class SpawnListEntry

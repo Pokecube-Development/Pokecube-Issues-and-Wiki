@@ -12,9 +12,9 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 
 public class ItemFossil extends Item
 {

@@ -30,10 +30,10 @@ import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.ai.tasks.idle.HungerTask;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import thut.api.item.ItemList;
 import thut.lib.ItemStackTools;
 

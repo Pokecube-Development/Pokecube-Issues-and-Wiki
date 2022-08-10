@@ -38,9 +38,14 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.IForgeRegistry;
+import pokecube.api.data.Pokedex;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.PokedexEntry.EvolutionData;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
+import pokecube.api.events.core.onload.InitDatabase;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.berries.BerryGenManager;
-import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.moves.MovesDatabases;
 import pokecube.core.database.moves.json.JsonMoves;
@@ -66,11 +71,8 @@ import pokecube.core.database.tags.Tags;
 import pokecube.core.database.types.CombatTypeLoader;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
-import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.handlers.PokedexInspector;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.FormeHolder;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.utils.PokeType;
 import thut.api.util.JsonUtil;
@@ -175,7 +177,7 @@ public class Database
     public static List<ItemStack> starterPack = Lists.newArrayList();
     public static Int2ObjectOpenHashMap<PokedexEntry> data = new Int2ObjectOpenHashMap<>();
     public static HashMap<String, PokedexEntry> data2 = new HashMap<>();
-    static HashSet<PokedexEntry> allFormes = new HashSet<>();
+    public static HashSet<PokedexEntry> allFormes = new HashSet<>();
     private static List<PokedexEntry> sortedFormes = Lists.newArrayList();
     private static List<String> sortedFormNames = Lists.newArrayList();
     public static HashMap<Integer, PokedexEntry> baseFormes = new HashMap<>();
@@ -568,16 +570,16 @@ public class Database
         toProcess.sort(Database.COMPARATOR);
         for (final PokedexEntry e : toProcess)
         {
-            if (e.getModId() == null || e.event != null) continue;
+            if (e.getModId() == null || e.soundEvent != null) continue;
             if (e.sound == null) if (e.customSound != null) e.setSound("mobs." + Database.trim(e.customSound));
             else if (e.base) e.setSound("mobs." + e.getTrimmedName());
             else e.setSound("mobs." + e.getBaseForme().getTrimmedName());
             PokecubeCore.LOGGER.debug(e + " has Sound: " + e.sound);
-            e.event = new SoundEvent(e.sound);
-            e.event.setRegistryName(e.sound);
+            e.soundEvent = new SoundEvent(e.sound);
+            e.soundEvent.setRegistryName(e.sound);
             // Loader.instance().setActiveModContainer(mc);
             if (registry.containsKey(e.sound)) continue;
-            registry.register(e.event);
+            registry.register(e.soundEvent);
         }
     }
 

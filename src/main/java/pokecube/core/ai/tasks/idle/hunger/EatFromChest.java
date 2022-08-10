@@ -8,9 +8,9 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.idle.HungerTask;
-import pokecube.core.interfaces.IPokemob;
 import thut.api.item.ItemList;
 
 public class EatFromChest extends EatBlockBase

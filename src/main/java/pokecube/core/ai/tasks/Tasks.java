@@ -17,6 +17,12 @@ import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.behavior.InteractWithDoor;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.SensorType;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.events.core.pokemob.InitAIEvent.Init;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
@@ -47,11 +53,6 @@ import pokecube.core.ai.tasks.misc.WalkToTask;
 import pokecube.core.ai.tasks.utility.GatherTask;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.ai.tasks.utility.UseMoveTask;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.events.pokemob.InitAIEvent.Init;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.CapHolders;
 import thut.api.entity.IBreedingMob;
 import thut.api.entity.ai.BrainUtil;
@@ -147,7 +148,7 @@ public class Tasks
         if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoor()));
 
         // Send the event to let anyone edit the tasks if needed.
-        PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.IDLE, aiList));
+        PokecubeAPI.POKEMOB_BUS.post(new Init(pokemob, Init.Type.IDLE, aiList));
 
         pokemob.getTasks().addAll(aiList);
         for (final IAIRunnable run : aiList)
@@ -205,7 +206,7 @@ public class Tasks
         }
         if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoor()));
         // Send the event to let anyone edit the tasks if needed.
-        PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.COMBAT, aiList));
+        PokecubeAPI.POKEMOB_BUS.post(new Init(pokemob, Init.Type.COMBAT, aiList));
 
         pokemob.getTasks().addAll(aiList);
         for (final IAIRunnable run : aiList)
@@ -262,7 +263,7 @@ public class Tasks
         list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
         if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoor()));
         // Send the event to let anyone edit the tasks if needed.
-        PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.UTILITY, aiList));
+        PokecubeAPI.POKEMOB_BUS.post(new Init(pokemob, Init.Type.UTILITY, aiList));
 
         pokemob.getTasks().addAll(aiList);
         for (final IAIRunnable run : aiList)

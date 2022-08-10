@@ -6,10 +6,10 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
-import pokecube.core.interfaces.IMoveAnimation;
-import pokecube.core.interfaces.IMoveAnimation.MovePacketInfo;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.api.moves.IMoveAnimation;
+import pokecube.api.moves.IMoveAnimation.MovePacketInfo;
+import pokecube.api.moves.Move_Base;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.animations.EntityMoveUse;
 
 public class RenderMoves extends EntityRenderer<EntityMoveUse>

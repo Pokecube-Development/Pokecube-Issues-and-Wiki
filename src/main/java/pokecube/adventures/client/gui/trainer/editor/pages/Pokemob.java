@@ -20,14 +20,14 @@ import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.Nature;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.abilities.AbilityManager;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Nature;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
 

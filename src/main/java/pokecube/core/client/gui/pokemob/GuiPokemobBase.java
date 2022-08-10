@@ -28,15 +28,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.api.util.JsonUtil;
 
 public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>

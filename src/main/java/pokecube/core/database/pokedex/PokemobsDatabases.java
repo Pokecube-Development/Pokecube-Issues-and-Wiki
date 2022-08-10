@@ -10,9 +10,9 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.ModList;
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader.XMLPokedexEntry;
 import pokecube.core.database.resources.PackFinder;
 import thut.api.util.JsonUtil;

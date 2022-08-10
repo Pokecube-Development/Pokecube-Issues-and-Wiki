@@ -1,7 +1,7 @@
 package pokecube.mobs.moves.attacks.special;
 
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.core.moves.templates.Move_Basic;
 
 public class FocusEnergy extends Move_Basic

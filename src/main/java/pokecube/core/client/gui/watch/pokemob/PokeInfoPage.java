@@ -11,6 +11,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.data.Pokedex;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
@@ -18,9 +21,6 @@ import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.database.Database;
-import pokecube.core.database.Pokedex;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.network.packets.PacketPokedex;
 
 public abstract class PokeInfoPage extends WatchPage

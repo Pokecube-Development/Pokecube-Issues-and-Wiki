@@ -15,10 +15,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.items.ItemTM;
 

@@ -18,7 +18,7 @@ import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.database.stats.EggStats;
 import pokecube.core.database.stats.KillStats;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.network.packets.PacketPokedex;
 
 public class GlobalProgress extends Progress

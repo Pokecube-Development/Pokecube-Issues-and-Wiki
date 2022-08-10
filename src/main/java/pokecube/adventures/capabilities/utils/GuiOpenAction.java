@@ -6,9 +6,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.network.NetworkHooks;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
-import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.inventory.trainer.ContainerTrainer;
+import pokecube.api.entity.trainers.IHasPokemobs;
+import pokecube.api.entity.trainers.TrainerCaps;
+import pokecube.api.entity.trainers.actions.Action;
+import pokecube.api.entity.trainers.actions.ActionContext;
 
 public class GuiOpenAction extends Action
 {

@@ -17,8 +17,8 @@ import net.minecraft.advancements.critereon.EntityPredicate.Composite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayer;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.PokeType;
 

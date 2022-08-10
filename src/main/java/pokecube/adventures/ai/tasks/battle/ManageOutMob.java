@@ -9,14 +9,14 @@ import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.Config;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
-import pokecube.adventures.capabilities.utils.ActionContext;
-import pokecube.adventures.capabilities.utils.MessageState;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
+import pokecube.api.entity.trainers.actions.ActionContext;
+import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.events.PCEventsHandler;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 
 public class ManageOutMob extends BaseBattleTask

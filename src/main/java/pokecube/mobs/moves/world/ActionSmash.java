@@ -11,12 +11,13 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.events.core.pokemob.combat.MoveUse;
+import pokecube.api.moves.IMoveAction;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
-import pokecube.core.events.pokemob.combat.MoveUse;
 import pokecube.core.handlers.events.MoveEventsHandler;
-import pokecube.core.interfaces.IMoveAction;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Move_Base;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.templates.Move_Basic;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
@@ -53,7 +54,7 @@ public class ActionSmash implements IMoveAction
             if (!items.isEmpty())
             {
                 final Move_Base move = MovesUtils.getMoveFromName(this.getMoveName());
-                return PokecubeCore.MOVE_BUS.post(new MoveUse.MoveWorldAction.AffectItem(move, user, location, items));
+                return PokecubeAPI.MOVE_BUS.post(new MoveUse.MoveWorldAction.AffectItem(move, user, location, items));
             }
         }
         return used;

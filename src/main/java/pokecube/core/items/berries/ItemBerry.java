@@ -26,13 +26,13 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.Nature;
+import pokecube.api.moves.IMoveConstants;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Nature;
 import pokecube.core.items.UsableItemEffects.BerryUsable.BerryEffect;
 
 /**

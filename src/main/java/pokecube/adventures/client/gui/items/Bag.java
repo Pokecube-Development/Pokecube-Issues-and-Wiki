@@ -17,7 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.items.bag.BagContainer;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import thut.core.common.ThutCore;
 
 public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>

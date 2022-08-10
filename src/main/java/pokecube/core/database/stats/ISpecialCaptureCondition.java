@@ -5,8 +5,8 @@ import java.util.HashMap;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.Entity;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.IPokemob;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
 
 public interface ISpecialCaptureCondition
 {

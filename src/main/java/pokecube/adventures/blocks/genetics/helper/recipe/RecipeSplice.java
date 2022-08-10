@@ -18,7 +18,7 @@ import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.ItemBase
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.SelectorValue;
 import pokecube.adventures.blocks.genetics.splicer.SplicerTile;
 import pokecube.adventures.utils.RecipePokeAdv;
-import pokecube.core.database.PokedexEntry;
+import pokecube.api.data.PokedexEntry;
 
 public class RecipeSplice extends PoweredRecipe
 {

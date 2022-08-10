@@ -5,7 +5,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import pokecube.core.interfaces.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob;
 
 public class TerrainDamageSource extends DamageSource implements IPokedamage
 {

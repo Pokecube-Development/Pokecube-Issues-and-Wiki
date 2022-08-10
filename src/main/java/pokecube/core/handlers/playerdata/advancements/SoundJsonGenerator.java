@@ -7,8 +7,8 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 
 public class SoundJsonGenerator
 {

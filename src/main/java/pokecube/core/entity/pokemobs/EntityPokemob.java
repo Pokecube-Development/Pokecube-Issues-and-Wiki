@@ -50,25 +50,26 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.network.NetworkHooks;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.PokedexEntry.SpawnData;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.events.core.pokemob.FaintEvent;
+import pokecube.api.events.core.pokemob.SpawnEvent;
+import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
+import pokecube.api.events.core.pokemob.SpawnEvent.Variance;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.spawns.SpawnCheck;
 import pokecube.core.entity.pokemobs.helper.PokemobRidable;
-import pokecube.core.events.pokemob.FaintEvent;
-import pokecube.core.events.pokemob.SpawnEvent;
-import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
-import pokecube.core.events.pokemob.SpawnEvent.Variance;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.impl.PokecubeMod;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.PokeType;
@@ -169,7 +170,7 @@ public class EntityPokemob extends PokemobRidable
         if (this.deathTime >= PokecubeCore.getConfig().deadDespawnTimer)
         {
             final FaintEvent event = new FaintEvent(this.pokemobCap);
-            PokecubeCore.POKEMOB_BUS.post(event);
+            PokecubeAPI.POKEMOB_BUS.post(event);
             final Result res = event.getResult();
             despawn = res == Result.DEFAULT ? despawn : res == Result.ALLOW;
             if (despawn && !noPoof) this.pokemobCap.onRecall(true);
@@ -340,7 +341,7 @@ public class EntityPokemob extends PokemobRidable
             else
             {
                 final SpawnEvent.PickLevel event = new SpawnEvent.PickLevel(context, overrideLevel, variance);
-                PokecubeCore.POKEMOB_BUS.post(event);
+                PokecubeAPI.POKEMOB_BUS.post(event);
                 level = event.getLevel();
             }
             maxXP = Tools.levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), level);

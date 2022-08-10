@@ -1,10 +1,10 @@
 package pokecube.mobs.abilities.p;
 
 import net.minecraft.world.entity.LivingEntity;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.core.database.abilities.Ability;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.EntityTools;
 
 public class PowerSpot extends Ability

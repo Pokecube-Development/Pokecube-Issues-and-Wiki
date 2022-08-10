@@ -21,8 +21,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.world.WorldEvent.Load;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.IPokemob;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import thut.api.maths.Vector3;
 

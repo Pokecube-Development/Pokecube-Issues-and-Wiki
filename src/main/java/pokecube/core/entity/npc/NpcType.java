@@ -33,7 +33,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.spawns.SpawnCheck;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.network.packets.PacketChoose;
 import pokecube.core.utils.PokecubeSerializer;

@@ -19,18 +19,19 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import pokecube.adventures.Config;
-import pokecube.adventures.events.CompatEvent;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.events.adventures.CompatEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.tasks.bees.BeeTasks.BeeHabitat;
 import pokecube.core.commands.Kill.KillCommandEvent;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager.GeneticsProvider;
 import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.interfaces.capabilities.CapabilityInhabitable.HabitatProvider;
+import pokecube.core.impl.capabilities.CapabilityInhabitable.HabitatProvider;
 import pokecube.core.utils.PokeType;
 import thut.api.OwnableCaps;
 import thut.api.item.ItemList;
@@ -91,7 +92,7 @@ public class Compat
         // Here will will register the vanilla bee hives as habitable
         MinecraftForge.EVENT_BUS.addGenericListener(BlockEntity.class, Compat::onTileEntityCaps);
         // Here we disable the pokecube kill command for vanilla mobs for #753
-        PokecubeCore.POKEMOB_BUS.addListener(Compat::onKillCommand);
+        PokecubeAPI.POKEMOB_BUS.addListener(Compat::onKillCommand);
     }
 
     private static void onKillCommand(final KillCommandEvent event)

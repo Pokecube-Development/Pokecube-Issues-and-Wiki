@@ -5,9 +5,9 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.HappinessType;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.HappinessType;
+import pokecube.api.moves.IMoveConstants;
 import pokecube.core.items.UsableItemEffects.BerryUsable.BerryEffect;
 import pokecube.core.items.berries.ItemBerry;
 

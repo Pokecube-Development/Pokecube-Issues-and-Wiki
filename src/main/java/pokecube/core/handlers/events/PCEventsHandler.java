@@ -10,8 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Entity.RemovalReason;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -25,14 +25,15 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.events.core.pokemob.CaptureEvent;
+import pokecube.api.items.IPokecube;
+import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.stats.StatsCollector;
-import pokecube.core.events.pokemob.CaptureEvent;
-import pokecube.core.interfaces.IPokecube;
-import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.pc.PCInventory;
 import pokecube.core.items.pokecubes.EntityPokecube;
@@ -49,10 +50,10 @@ public class PCEventsHandler
     {
         // This actually adds the cube to PC when sent, it can be prevented by
         // cancelling the event first, hence the lowest priority.
-        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, PCEventsHandler::onSendToPC);
+        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, PCEventsHandler::onSendToPC);
         // This sends the pokecube to PC if the player captures on without
         // enough free inventory space. Otherwise it adds it to their inventory.
-        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, PCEventsHandler::onCapturePost);
+        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, PCEventsHandler::onCapturePost);
 
         // This handler deals with changing the name of the PC from "Someone's
         // PC" to "Thutmose's PC" when the owner logs in. This is in reference
@@ -79,7 +80,7 @@ public class PCEventsHandler
      *
      * @param evt
      */
-    private static void onSendToPC(final pokecube.core.events.PCEvent evt)
+    private static void onSendToPC(final pokecube.api.events.core.PCEvent evt)
     {
         if (evt.owner == null) return;
         if (PokecubeManager.isFilled(evt.toPC))

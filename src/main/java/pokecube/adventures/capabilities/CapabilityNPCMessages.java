@@ -12,15 +12,16 @@ import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import pokecube.adventures.capabilities.utils.Action;
-import pokecube.adventures.capabilities.utils.ActionContext;
 import pokecube.adventures.capabilities.utils.BattleAction;
 import pokecube.adventures.capabilities.utils.GuiOpenAction;
-import pokecube.adventures.capabilities.utils.MessageState;
+import pokecube.api.entity.trainers.IHasMessages;
+import pokecube.api.entity.trainers.TrainerCaps;
+import pokecube.api.entity.trainers.actions.Action;
+import pokecube.api.entity.trainers.actions.ActionContext;
+import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 
 public class CapabilityNPCMessages
 {
@@ -125,20 +126,5 @@ public class CapabilityNPCMessages
             this.messages.put(state, message);
         }
 
-    }
-
-    public static interface IHasMessages extends INBTSerializable<CompoundTag>
-    {
-        boolean doAction(MessageState state, ActionContext context);
-
-        Action getAction(MessageState state);
-
-        String getMessage(MessageState state);
-
-        boolean sendMessage(MessageState state, Entity target, Object... args);
-
-        void setAction(MessageState state, Action action);
-
-        void setMessage(MessageState state, String message);
     }
 }

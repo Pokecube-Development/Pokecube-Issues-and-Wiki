@@ -1,12 +1,12 @@
 package pokecube.mobs.abilities.i;
 
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.moves.MoveEntry.Category;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.moves.PokemobTerrainEffects;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;

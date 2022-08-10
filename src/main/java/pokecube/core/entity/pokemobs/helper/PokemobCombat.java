@@ -9,8 +9,8 @@ import net.minecraft.world.entity.animal.ShoulderRidingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IPokemob.Stats;
 import pokecube.core.moves.damage.PokemobDamageSource;
 
 public abstract class PokemobCombat extends PokemobBase

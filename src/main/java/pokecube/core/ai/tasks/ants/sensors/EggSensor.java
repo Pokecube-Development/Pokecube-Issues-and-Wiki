@@ -15,13 +15,13 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.Sensor;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
 import pokecube.core.ai.tasks.ants.nest.AntHabitat;
 import pokecube.core.ai.tasks.ants.nest.Node;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor.AntNest;
 import pokecube.core.blocks.nests.NestTile;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.Tracker;
 

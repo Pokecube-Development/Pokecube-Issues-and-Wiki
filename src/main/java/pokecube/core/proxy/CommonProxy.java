@@ -9,11 +9,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
+import pokecube.api.items.IPokecube;
+import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.healer.HealerTile;
-import pokecube.core.interfaces.IPokecube;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.nbtedit.NBTEdit;
 import thut.core.common.Proxy;
 

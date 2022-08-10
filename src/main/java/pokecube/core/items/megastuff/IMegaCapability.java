@@ -1,8 +1,8 @@
 package pokecube.core.items.megastuff;
 
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 
 public interface IMegaCapability
 {

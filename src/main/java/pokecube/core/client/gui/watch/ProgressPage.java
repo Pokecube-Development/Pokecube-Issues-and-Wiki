@@ -20,7 +20,7 @@ import pokecube.core.client.gui.watch.progress.PerMobProgress;
 import pokecube.core.client.gui.watch.progress.PerTypeProgress;
 import pokecube.core.client.gui.watch.progress.Progress;
 import pokecube.core.client.gui.watch.util.PageWithSubPages;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 
 public class ProgressPage extends PageWithSubPages<Progress>

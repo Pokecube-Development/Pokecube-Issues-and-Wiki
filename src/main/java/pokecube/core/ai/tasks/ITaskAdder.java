@@ -2,7 +2,7 @@ package pokecube.core.ai.tasks;
 
 import java.util.List;
 
-import pokecube.core.interfaces.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob;
 import thut.api.entity.ai.IAIRunnable;
 
 public interface ITaskAdder

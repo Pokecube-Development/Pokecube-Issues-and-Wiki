@@ -2,8 +2,8 @@ package pokecube.core.ai.logic;
 
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.level.Level;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.moves.damage.TerrainDamageSource;
 import pokecube.core.moves.damage.TerrainDamageSource.TerrainType;
 import thut.api.maths.Vector3;

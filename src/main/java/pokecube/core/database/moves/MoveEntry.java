@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import pokecube.api.moves.IMoveConstants;
 import pokecube.core.database.moves.json.JsonMoves;
 import pokecube.core.database.moves.json.JsonMoves.MoveJsonEntry;
-import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.utils.PokeType;
 
 public class MoveEntry implements IMoveConstants

@@ -16,14 +16,14 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.PokecubeMod;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.network.packets.PacketPokedex;
 
 public class GuiPokeWatch extends Screen

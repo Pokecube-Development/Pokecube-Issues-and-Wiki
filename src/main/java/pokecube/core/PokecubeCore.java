@@ -4,7 +4,6 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.Maps;
@@ -31,7 +30,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.BusBuilder;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -40,6 +38,11 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.NewRegistryEvent;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.Pokedex;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.events.core.onload.InitDatabase;
+import pokecube.api.events.core.onload.RegisterPokemobsEvent;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.npc.Activities;
@@ -48,15 +51,11 @@ import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.database.Database;
-import pokecube.core.database.Pokedex;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.entity.pokemobs.GenericPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
-import pokecube.core.events.onload.InitDatabase;
-import pokecube.core.events.onload.RegisterPokemobsEvent;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.handlers.ItemHandler;
@@ -70,8 +69,7 @@ import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import pokecube.core.handlers.playerdata.PokecubePlayerData;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
-import pokecube.core.interfaces.IEntityProvider;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.tms.TMContainer;
@@ -81,7 +79,6 @@ import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.Battle;
 import pokecube.core.moves.animations.EntityMoveUse;
-import pokecube.core.network.EntityProvider;
 import pokecube.core.proxy.CommonProxy;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.world.PokecubeWorld;
@@ -111,7 +108,7 @@ public class PokecubeCore
             // Register these before items and blocks, as some items might need
             // them
             final InitDatabase.Pre pre = new InitDatabase.Pre();
-            PokecubeCore.POKEMOB_BUS.post(pre);
+            PokecubeAPI.POKEMOB_BUS.post(pre);
             pre.modIDs.add(PokecubeCore.MODID);
             Database.preInit();
         }
@@ -180,8 +177,8 @@ public class PokecubeCore
             event.getRegistry().register(NpcMob.TYPE.setRegistryName(PokecubeCore.MODID, "npc"));
             event.getRegistry().register(EntityMoveUse.TYPE.setRegistryName(PokecubeCore.MODID, "move_use"));
             Database.init();
-            PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Pre());
-            PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Register());
+            PokecubeAPI.POKEMOB_BUS.post(new RegisterPokemobsEvent.Pre());
+            PokecubeAPI.POKEMOB_BUS.post(new RegisterPokemobsEvent.Register());
             PokedexEntryLoader.postInit();
             for (final PokedexEntry entry : Database.getSortedFormes())
             {
@@ -201,9 +198,9 @@ public class PokecubeCore
                     throw new RuntimeException(e);
                 }
             }
-            PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Post());
+            PokecubeAPI.POKEMOB_BUS.post(new RegisterPokemobsEvent.Post());
             Database.postInit();
-            PokecubeCore.POKEMOB_BUS.post(new InitDatabase.Post());
+            PokecubeAPI.POKEMOB_BUS.post(new InitDatabase.Post());
 
             CopyCaps.register(NpcMob.TYPE);
             CopyCaps.register(EntityType.ARMOR_STAND);
@@ -243,18 +240,13 @@ public class PokecubeCore
     }
 
     // Directly reference a log4j logger.
-    public static final Logger LOGGER = LogManager.getLogger(PokecubeCore.MODID);
-    public static final String MODID = "pokecube";
+    public static final Logger LOGGER = PokecubeAPI.LOGGER;
+    public static final String MODID = PokecubeAPI.MODID;
 
     private static final String NETVERSION = "1.0.2";
     // Handler for network stuff.
     public static final PacketHandler packets = new PacketHandler(new ResourceLocation(PokecubeCore.MODID, "comms"),
             PokecubeCore.NETVERSION);
-    // Bus for move events
-    public static final IEventBus MOVE_BUS = BusBuilder.builder().build();
-
-    // Bus for Pokemob Events
-    public static final IEventBus POKEMOB_BUS = BusBuilder.builder().build();
 
     // Holder for our config options
     private static final Config config = new Config();
@@ -267,9 +259,6 @@ public class PokecubeCore
 
     // Map to store the registered mobs in.
     public static Map<EntityType<? extends Mob>, PokedexEntry> typeMap = Maps.newHashMap();
-
-    // Provider for entities.
-    public static IEntityProvider provider = new EntityProvider(null);
 
     /**
      * Generates the mobEntity for the given pokedex entry.
@@ -296,17 +285,6 @@ public class PokecubeCore
     public static Config getConfig()
     {
         return PokecubeCore.config;
-    }
-
-    /**
-     * Allows for dealing with cases like pokeplayer, where the entity that the
-     * world stores is not necessarily the one wanted for pokemob interaction.
-     *
-     * @return
-     */
-    public static IEntityProvider getEntityProvider()
-    {
-        return PokecubeCore.provider;
     }
 
     /**
@@ -358,7 +336,7 @@ public class PokecubeCore
 
         RecipeHandler.init(bus);
         PointsOfInterest.REG.register(bus);
-        
+
         new BerryGenManager();
         SecretBaseDimension.onConstruct(bus);
 

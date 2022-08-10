@@ -2,9 +2,9 @@ package pokecube.core.moves.templates;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.moves.PokemobTerrainEffects.EffectType;
 import pokecube.core.network.packets.PacketSyncTerrain;

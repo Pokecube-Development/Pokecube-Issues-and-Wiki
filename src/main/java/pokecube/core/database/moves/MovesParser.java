@@ -7,14 +7,14 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 
+import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.moves.IMoveConstants;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.moves.MoveEntry.Category;
 import pokecube.core.database.moves.json.JsonMoves.MoveJsonEntry;
 import pokecube.core.database.moves.json.JsonMoves.MovesJson;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.utils.PokeType;
 
 public class MovesParser

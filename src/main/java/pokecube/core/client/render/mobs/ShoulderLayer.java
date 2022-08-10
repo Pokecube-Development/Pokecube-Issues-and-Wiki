@@ -23,9 +23,9 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.EntityTools;
 
 public class ShoulderLayer<T extends Player> extends RenderLayer<T, PlayerModel<T>>

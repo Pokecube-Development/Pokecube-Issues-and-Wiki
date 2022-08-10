@@ -17,7 +17,7 @@ import net.minecraft.advancements.critereon.EntityPredicate.Composite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayer;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 
 public class FirstPokemobTrigger implements CriterionTrigger<FirstPokemobTrigger.Instance>
 {

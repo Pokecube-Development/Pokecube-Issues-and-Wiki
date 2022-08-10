@@ -6,13 +6,13 @@ import java.util.Locale;
 // import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.entity.pokemob.Nature;
 // import net.minecraft.util.text.ITextComponent;
 // import net.minecraft.util.text.TranslationTextComponent;
 // import net.minecraft.world.World;
 // import net.minecraftforge.api.distmarker.Dist;
 // import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeItems;
-import pokecube.core.interfaces.Nature;
 import pokecube.legends.Reference;
 
 public class ItemNature extends Item

@@ -3,11 +3,12 @@ package pokecube.core.network.pokemobs;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.stats.IStatsModifiers;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.stats.IStatsModifiers;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.core.common.network.Packet;
 
 public class PacketSyncModifier extends Packet
@@ -48,7 +49,7 @@ public class PacketSyncModifier extends Packet
         final int id = this.entityId;
         final int modifier = this.modifier;
         final float[] values = this.values;
-        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), id, true);
+        final Entity e = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), id, true);
         final IPokemob mob = CapabilityPokemob.getPokemobFor(e);
         if (mob != null)
         {

@@ -19,14 +19,14 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.zmoves.GZMoveManager;
 

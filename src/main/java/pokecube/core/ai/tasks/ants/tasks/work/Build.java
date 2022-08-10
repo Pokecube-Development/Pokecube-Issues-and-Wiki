@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
@@ -26,8 +27,7 @@ import pokecube.core.ai.tasks.ants.nest.Tree;
 import pokecube.core.ai.tasks.ants.tasks.AbstractConstructTask;
 import pokecube.core.ai.tasks.ants.tasks.AbstractWorkTask;
 import pokecube.core.ai.tasks.utility.UtilTask;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.Tracker;
 

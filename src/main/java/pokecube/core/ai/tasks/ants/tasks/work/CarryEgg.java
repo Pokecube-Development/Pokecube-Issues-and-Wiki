@@ -10,10 +10,10 @@ import net.minecraft.core.GlobalPos;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.tasks.AbstractWorkTask;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.Tracker;
 

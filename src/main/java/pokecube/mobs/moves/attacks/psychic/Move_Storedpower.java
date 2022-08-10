@@ -1,9 +1,9 @@
 package pokecube.mobs.moves.attacks.psychic;
 
 import net.minecraft.world.entity.Entity;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.interfaces.pokemob.stats.DefaultModifiers;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.stats.DefaultModifiers;
 import pokecube.core.moves.templates.Move_Basic;
 
 public class Move_Storedpower extends Move_Basic

@@ -12,7 +12,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.util.INBTSerializable;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 
 public abstract class Part implements INBTSerializable<CompoundTag>
 {

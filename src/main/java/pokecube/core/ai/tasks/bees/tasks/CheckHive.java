@@ -5,10 +5,10 @@ import java.util.Optional;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.level.Level;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.tasks.bees.AbstractBeeTask;
 import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.ai.tasks.bees.sensors.HiveSensor;
-import pokecube.core.interfaces.IPokemob;
 
 public class CheckHive extends AbstractBeeTask
 {

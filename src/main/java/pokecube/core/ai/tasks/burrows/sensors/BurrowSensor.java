@@ -17,11 +17,11 @@ import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.ai.village.poi.PoiManager.Occupancy;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import pokecube.api.blocks.IInhabitable;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.ai.tasks.burrows.burrow.BurrowHab;
 import pokecube.core.blocks.nests.NestTile;
-import pokecube.core.interfaces.IInhabitable;
 import thut.core.common.ThutCore;
 
 public class BurrowSensor extends Sensor<Mob>

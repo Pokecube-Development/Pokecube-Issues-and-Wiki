@@ -6,14 +6,14 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor.AntNest;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import thut.api.entity.ai.RootTask;
 
 public abstract class AbstractAntTask extends BaseIdleTask

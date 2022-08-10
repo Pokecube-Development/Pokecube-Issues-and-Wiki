@@ -3,7 +3,7 @@ package pokecube.core.ai.logic;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import pokecube.core.interfaces.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob;
 
 public abstract class LogicBase implements Logic
 {

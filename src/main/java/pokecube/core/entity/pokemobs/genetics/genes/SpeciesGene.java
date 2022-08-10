@@ -10,15 +10,15 @@ import javax.annotation.Nullable;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.genes.Mutations.Mutation;
 import pokecube.core.database.genes.Mutations.MutationHolder;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.FormeHolder;
 import thut.api.entity.genetics.Gene;
 import thut.core.common.ThutCore;
 

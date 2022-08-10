@@ -23,8 +23,8 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.FakePlayer;
-import pokecube.core.PokecubeCore;
-import pokecube.core.events.pokemob.CaptureEvent;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.events.core.pokemob.CaptureEvent;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.network.packets.PacketPokecube;
@@ -275,7 +275,7 @@ public class EntityPokecube extends EntityPokecubeBase
                     if (filled)
                     {
                         final CaptureEvent.Post event = new CaptureEvent.Post(this);
-                        gave = PokecubeCore.POKEMOB_BUS.post(event);
+                        gave = PokecubeAPI.POKEMOB_BUS.post(event);
                     }
                     else if (this.shootingEntity instanceof ServerPlayer
                             && !(this.shootingEntity instanceof FakePlayer))

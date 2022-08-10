@@ -5,15 +5,15 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
+import pokecube.api.events.core.TeleportEvent;
+import pokecube.api.moves.IMoveAction;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.events.TeleportEvent;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
-import pokecube.core.interfaces.IMoveAction;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
 import thut.api.maths.Vector3;
 
 public class ActionTeleport implements IMoveAction

@@ -10,10 +10,10 @@ import net.minecraft.network.chat.BaseComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.entity.pokemob.Nature;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
-import pokecube.core.interfaces.Nature;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 
 public class Bonus extends PokeInfoPage
 {

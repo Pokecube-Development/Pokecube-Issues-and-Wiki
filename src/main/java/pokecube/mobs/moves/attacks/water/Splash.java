@@ -1,6 +1,6 @@
 package pokecube.mobs.moves.attacks.water;
 
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.templates.Move_Basic;
 

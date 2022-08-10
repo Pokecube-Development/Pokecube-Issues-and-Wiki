@@ -14,7 +14,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.handlers.events.MoveEventsHandler.UseContext;
 import pokecube.core.handlers.events.SpawnHandler;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.init.BlockInit;
 import thut.api.maths.Vector3;

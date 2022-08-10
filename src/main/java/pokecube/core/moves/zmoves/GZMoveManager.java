@@ -6,12 +6,12 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.json.JsonMoves.MoveJsonEntry;
 import pokecube.core.database.moves.json.JsonMoves.MovesJson;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.PokeType;
 import thut.core.common.ThutCore;

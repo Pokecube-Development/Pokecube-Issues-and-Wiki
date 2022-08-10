@@ -1,8 +1,8 @@
 package pokecube.mobs.abilities.b;
 
-import pokecube.core.database.PokedexEntry;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.database.abilities.Ability;
-import pokecube.core.interfaces.IPokemob;
 
 public class BattleBond extends Ability
 {

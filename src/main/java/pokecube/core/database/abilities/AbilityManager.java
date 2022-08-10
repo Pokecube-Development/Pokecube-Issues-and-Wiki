@@ -8,8 +8,8 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IPokemob;
 import thut.core.common.ThutCore;
 import thut.lib.CompatParser.ClassFinder;
 

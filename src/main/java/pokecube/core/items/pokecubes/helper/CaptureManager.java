@@ -16,19 +16,20 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.eventbus.api.Event.Result;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.HappinessType;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.entity.pokemob.ai.LogicStates;
+import pokecube.api.events.core.pokemob.CaptureEvent;
+import pokecube.api.events.core.pokemob.CaptureEvent.Pre;
+import pokecube.api.items.IPokecube;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.database.abilities.AbilityManager;
-import pokecube.core.events.pokemob.CaptureEvent;
-import pokecube.core.events.pokemob.CaptureEvent.Pre;
-import pokecube.core.interfaces.IPokecube;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.HappinessType;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.interfaces.pokemob.ai.LogicStates;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.TagNames;
@@ -73,7 +74,7 @@ public class CaptureManager
 
         boolean removeMob = false;
         final CaptureEvent.Pre capturePre = new Pre(hitten, cube, mob);
-        PokecubeCore.POKEMOB_BUS.post(capturePre);
+        PokecubeAPI.POKEMOB_BUS.post(capturePre);
 
         if (hitten != null)
         {

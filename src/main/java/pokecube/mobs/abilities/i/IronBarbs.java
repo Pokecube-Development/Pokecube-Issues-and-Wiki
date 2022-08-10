@@ -2,10 +2,10 @@ package pokecube.mobs.abilities.i;
 
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.IMoveConstants;
 import pokecube.core.database.abilities.Ability;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
 public class IronBarbs extends Ability
 {

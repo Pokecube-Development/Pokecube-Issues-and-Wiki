@@ -18,7 +18,7 @@ import net.minecraft.world.phys.Vec3;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.tasks.BaseTask;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs.ITargetWatcher;
+import pokecube.api.entity.trainers.IHasPokemobs.ITargetWatcher;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 

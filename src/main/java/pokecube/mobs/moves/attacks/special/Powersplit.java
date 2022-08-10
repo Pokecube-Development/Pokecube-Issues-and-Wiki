@@ -1,11 +1,11 @@
 package pokecube.mobs.moves.attacks.special;
 
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
-import pokecube.core.interfaces.pokemob.stats.IStatsModifiers;
-import pokecube.core.interfaces.pokemob.stats.StatModifiers;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.entity.pokemob.stats.IStatsModifiers;
+import pokecube.api.entity.pokemob.stats.StatModifiers;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.templates.Move_Basic;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 

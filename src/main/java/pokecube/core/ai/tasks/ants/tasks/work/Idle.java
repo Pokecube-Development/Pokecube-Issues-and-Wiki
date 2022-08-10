@@ -6,11 +6,11 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.nest.Node;
 import pokecube.core.ai.tasks.ants.tasks.AbstractAntTask;
-import pokecube.core.interfaces.IPokemob;
 import thut.core.common.ThutCore;
 
 public class Idle extends AbstractAntTask

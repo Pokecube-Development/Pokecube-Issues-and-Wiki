@@ -9,11 +9,11 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.IMoveAction;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.handlers.events.MoveEventsHandler;
-import pokecube.core.interfaces.IMoveAction;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Move_Base;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.recipes.MoveRecipes;
 import pokecube.core.recipes.MoveRecipes.MoveRecipe;

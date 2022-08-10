@@ -6,13 +6,13 @@ import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.level.pathfinder.Path;
+import pokecube.api.blocks.IInhabitable;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
 import pokecube.core.ai.tasks.ants.nest.Node;
 import pokecube.core.ai.tasks.ants.tasks.AbstractAntTask;
-import pokecube.core.interfaces.IInhabitable;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import thut.api.maths.Vector3;
 
 public class EnterNest extends AbstractAntTask

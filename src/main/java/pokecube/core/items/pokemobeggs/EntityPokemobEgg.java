@@ -21,11 +21,11 @@ import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.events.core.EggEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.events.EggEvent;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.api.maths.Vector3;
 
 /** @author Manchou */

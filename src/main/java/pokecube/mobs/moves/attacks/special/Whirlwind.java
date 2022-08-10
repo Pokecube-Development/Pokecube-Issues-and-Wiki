@@ -1,11 +1,11 @@
 package pokecube.mobs.moves.attacks.special;
 
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.templates.Move_Basic;
 
 public class Whirlwind extends Move_Basic

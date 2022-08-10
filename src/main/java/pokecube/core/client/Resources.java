@@ -4,7 +4,7 @@
 package pokecube.core.client;
 
 import net.minecraft.resources.ResourceLocation;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 
 /**
  * @author Manchou

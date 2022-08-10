@@ -25,7 +25,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.registries.ForgeRegistries;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import thut.api.maths.Vector3;
 
 public class DispenseBehaviourInteract implements DispenseItemBehavior

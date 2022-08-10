@@ -27,7 +27,7 @@ import net.minecraft.resources.ResourceLocation;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import thut.api.maths.Vector3;
 
 public class SecretBaseRadarPage extends WatchPage

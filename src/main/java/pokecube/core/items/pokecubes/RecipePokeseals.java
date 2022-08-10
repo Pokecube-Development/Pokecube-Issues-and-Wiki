@@ -11,9 +11,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.RecipeHandler;
-import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 import pokecube.core.utils.TagNames;
 import thut.api.item.ItemList;
 

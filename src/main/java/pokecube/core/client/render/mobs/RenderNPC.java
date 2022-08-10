@@ -23,8 +23,8 @@ import net.minecraft.client.renderer.entity.layers.SpinAttackEffectLayer;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.npc.NpcMob;
-import pokecube.core.interfaces.capabilities.TextureableCaps;
-import pokecube.core.interfaces.capabilities.TextureableCaps.NPCCap;
+import pokecube.core.impl.capabilities.TextureableCaps;
+import pokecube.core.impl.capabilities.TextureableCaps.NPCCap;
 import thut.api.entity.IMobTexturable;
 
 public class RenderNPC<T extends NpcMob> extends LivingEntityRenderer<T, PlayerModel<T>>

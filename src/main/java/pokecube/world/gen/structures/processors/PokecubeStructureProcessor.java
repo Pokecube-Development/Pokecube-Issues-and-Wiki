@@ -13,7 +13,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureEntityInfo;
 import net.minecraftforge.common.MinecraftForge;
-import pokecube.core.events.StructureEvent;
+import pokecube.api.events.core.StructureEvent;
 
 public class PokecubeStructureProcessor extends StructureProcessor
 {

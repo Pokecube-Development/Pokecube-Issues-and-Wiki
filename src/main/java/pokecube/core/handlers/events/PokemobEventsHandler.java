@@ -66,31 +66,32 @@ import net.minecraftforge.event.entity.player.PlayerEvent.StopTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.ai.IInhabitor;
+import pokecube.api.blocks.IInhabitable;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.PokedexEntry.EvolutionData;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.Nature;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.entity.pokemob.ai.LogicStates;
+import pokecube.api.events.core.BrainInitEvent;
+import pokecube.api.events.core.CustomInteractEvent;
+import pokecube.api.events.core.pokemob.InteractEvent;
+import pokecube.api.events.core.pokemob.combat.KillEvent;
+import pokecube.api.items.IPokemobUseable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.Logic;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.entity.pokemobs.EntityPokemob;
-import pokecube.core.events.BrainInitEvent;
-import pokecube.core.events.CustomInteractEvent;
-import pokecube.core.events.pokemob.InteractEvent;
-import pokecube.core.events.pokemob.combat.KillEvent;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
-import pokecube.core.interfaces.IInhabitable;
-import pokecube.core.interfaces.IInhabitor;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemobUseable;
-import pokecube.core.interfaces.Nature;
-import pokecube.core.interfaces.capabilities.CapabilityInhabitable;
-import pokecube.core.interfaces.capabilities.CapabilityInhabitor;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.capabilities.DefaultPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.interfaces.pokemob.ai.LogicStates;
+import pokecube.core.impl.capabilities.CapabilityInhabitable;
+import pokecube.core.impl.capabilities.CapabilityInhabitor;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.moves.damage.IPokedamage;
@@ -125,7 +126,7 @@ public class PokemobEventsHandler
     public static void register()
     {
         // This handles exp yield from lucky eggs and exp_shares.
-        PokecubeCore.POKEMOB_BUS.addListener(PokemobEventsHandler::onKillEvent);
+        PokecubeAPI.POKEMOB_BUS.addListener(PokemobEventsHandler::onKillEvent);
 
         // Highest to prevent other things from trying to do things with our
         // drops if we cancel them, and to allow us to add things properly to
@@ -712,7 +713,7 @@ public class PokemobEventsHandler
             if (attackedMob.getGeneralState(GeneralStates.TAMED) && !PokecubeCore.getConfig().trainerExp)
                 giveExp = false;
             final KillEvent event = new KillEvent(attacker, attackedMob, giveExp);
-            PokecubeCore.POKEMOB_BUS.post(event);
+            PokecubeAPI.POKEMOB_BUS.post(event);
             giveExp = event.giveExp;
             if (event.isCanceled())
             {

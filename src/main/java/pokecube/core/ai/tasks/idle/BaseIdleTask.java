@@ -6,9 +6,9 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
-import pokecube.core.interfaces.IPokemob;
 import thut.api.entity.ai.RootTask;
 
 public abstract class BaseIdleTask extends TaskBase

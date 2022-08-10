@@ -10,14 +10,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
-import pokecube.adventures.capabilities.utils.Action;
 import pokecube.adventures.capabilities.utils.BattleAction;
-import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.Messages.MessageOption;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.ListPage;
 import pokecube.adventures.network.PacketTrainer;
+import pokecube.api.entity.trainers.IHasMessages;
+import pokecube.api.entity.trainers.actions.Action;
+import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.core.client.gui.helper.INotifiedEntry;
 import pokecube.core.client.gui.helper.ScrollGui;
 

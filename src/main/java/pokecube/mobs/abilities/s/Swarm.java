@@ -1,11 +1,11 @@
 package pokecube.mobs.abilities.s;
 
 import net.minecraft.server.level.ServerLevel;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.abilities.Ability;
-import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.utils.PokeType;
 
 public class Swarm extends Ability

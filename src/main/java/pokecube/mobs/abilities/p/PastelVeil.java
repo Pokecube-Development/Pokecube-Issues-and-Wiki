@@ -1,8 +1,8 @@
 package pokecube.mobs.abilities.p;
 
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.IMoveConstants;
 import pokecube.core.database.abilities.Ability;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
 
 public class PastelVeil extends Ability
 {

@@ -7,12 +7,12 @@ import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.entity.animal.ShoulderRidingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMiscUpdate;
-import pokecube.core.interfaces.capabilities.DefaultPokemob;
-import pokecube.core.interfaces.capabilities.PokemobCaps;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.impl.capabilities.DefaultPokemob;
 import thut.api.entity.IMobColourable;
 
 public abstract class PokemobBase extends ShoulderRidingEntity implements IEntityAdditionalSpawnData, FlyingAnimal,

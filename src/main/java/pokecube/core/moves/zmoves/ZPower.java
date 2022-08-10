@@ -1,6 +1,6 @@
 package pokecube.core.moves.zmoves;
 
-import pokecube.core.interfaces.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob;
 
 public interface ZPower
 {

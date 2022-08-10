@@ -3,10 +3,10 @@ package pokecube.adventures.ai.tasks.battle;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.PokeType;
 

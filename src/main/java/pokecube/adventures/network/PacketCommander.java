@@ -13,8 +13,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.commander.CommanderTile;
 import pokecube.adventures.client.gui.blocks.Commander;
+import pokecube.api.entity.pokemob.IHasCommands.Command;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.pokemob.IHasCommands.Command;
 import thut.core.common.network.Packet;
 import thut.core.common.network.TileUpdate;
 

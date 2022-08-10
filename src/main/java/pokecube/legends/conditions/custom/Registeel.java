@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
-import pokecube.core.interfaces.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
 import pokecube.legends.conditions.AbstractCondition;
 import pokecube.legends.conditions.AbstractRegiCondition;
 import pokecube.legends.init.BlockInit;

@@ -20,21 +20,22 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.IOngoingAffected;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.events.core.pokemob.combat.MoveUse;
+import pokecube.api.events.core.pokemob.combat.MoveUse.MoveWorldAction;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.moves.MoveEntry;
-import pokecube.core.events.pokemob.combat.MoveUse;
-import pokecube.core.events.pokemob.combat.MoveUse.MoveWorldAction;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.capabilities.CapabilityAffected;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.entity.IOngoingAffected;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.core.impl.PokecubeMod;
+import pokecube.core.impl.capabilities.CapabilityAffected;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.animations.AnimationMultiAnimations;
 import pokecube.core.moves.damage.PokemobDamageSource;
@@ -153,12 +154,12 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         final Vector3 direction = location.subtract(origin).norm().scalarMultBy(0.5);
         location = location.add(direction);
         final MoveWorldAction.PreAction preEvent = new MoveWorldAction.PreAction(this, attacker, location);
-        if (!PokecubeCore.MOVE_BUS.post(preEvent))
+        if (!PokecubeAPI.MOVE_BUS.post(preEvent))
         {
             final MoveWorldAction.OnAction onEvent = new MoveWorldAction.OnAction(this, attacker, location);
-            PokecubeCore.MOVE_BUS.post(onEvent);
+            PokecubeAPI.MOVE_BUS.post(onEvent);
             final MoveWorldAction.PostAction postEvent = new MoveWorldAction.PostAction(this, attacker, location);
-            PokecubeCore.MOVE_BUS.post(postEvent);
+            PokecubeAPI.MOVE_BUS.post(postEvent);
         }
     }
 
@@ -518,13 +519,13 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         attacker.onMoveUse(packet);
         final IPokemob attacked = CapabilityPokemob.getPokemobFor(packet.attacked);
         if (attacked != null) attacked.onMoveUse(packet);
-        PokecubeCore.MOVE_BUS.post(new MoveUse.ActualMoveUse.Post(packet.attacker, this, packet.attacked));
+        PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Post(packet.attacker, this, packet.attacked));
     }
 
     @Override
     public void preAttack(final MovePacket packet)
     {
-        PokecubeCore.MOVE_BUS.post(new MoveUse.ActualMoveUse.Pre(packet.attacker, this, packet.attacked));
+        PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Pre(packet.attacker, this, packet.attacked));
         final IPokemob attacker = packet.attacker;
         attacker.onMoveUse(packet);
         final IPokemob attacked = CapabilityPokemob.getPokemobFor(packet.attacked);

@@ -6,10 +6,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
-import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
-import pokecube.adventures.capabilities.TrainerCaps;
+import pokecube.api.entity.trainers.IHasMessages;
+import pokecube.api.entity.trainers.IHasNPCAIStates;
+import pokecube.api.entity.trainers.IHasPokemobs;
+import pokecube.api.entity.trainers.TrainerCaps;
 import thut.api.entity.ai.RootTask;
 
 public abstract class BaseTask extends RootTask<LivingEntity>

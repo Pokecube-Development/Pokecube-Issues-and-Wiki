@@ -41,29 +41,30 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.IOngoingAffected;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.events.core.pokemob.combat.MoveUse;
+import pokecube.api.events.core.pokemob.combat.MoveUse.MoveWorldAction;
+import pokecube.api.items.IPokemobUseable;
+import pokecube.api.moves.IMoveAction;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.IMoveNames;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.moves.MoveEntry;
-import pokecube.core.events.pokemob.combat.MoveUse;
-import pokecube.core.events.pokemob.combat.MoveUse.MoveWorldAction;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.handlers.events.SpawnHandler.ForbidReason;
-import pokecube.core.interfaces.IMoveAction;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IMoveNames;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemobUseable;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.entity.IOngoingAffected;
-import pokecube.core.interfaces.entity.impl.NonPersistantStatusEffect;
-import pokecube.core.interfaces.entity.impl.NonPersistantStatusEffect.Effect;
-import pokecube.core.interfaces.entity.impl.OngoingMoveEffect;
-import pokecube.core.interfaces.entity.impl.PersistantStatusEffect;
-import pokecube.core.interfaces.entity.impl.PersistantStatusEffect.Status;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.core.impl.PokecubeMod;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
+import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
+import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;
+import pokecube.core.impl.entity.impl.OngoingMoveEffect;
+import pokecube.core.impl.entity.impl.PersistantStatusEffect;
+import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
@@ -556,13 +557,13 @@ public class MoveEventsHandler
 
         // This handles after effects on the moves, like consuming held items,
         // and ability application for effects after move use.
-        PokecubeCore.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::onDuringUsePost);
+        PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::onDuringUsePost);
         // This handles mob processing for the move, before damage/effects are
         // applied. It processes things like, Item Use, Abilities, 1HKOs,
         // Protection moves, Substitute, etc
-        PokecubeCore.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::onDuringUsePre);
+        PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::onDuringUsePre);
         // This handles application of world actions for the moves.
-        PokecubeCore.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::onWorldAction);
+        PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::onWorldAction);
     }
 
     private static void onDuringUsePost(final MoveUse.DuringUse.Post evt)

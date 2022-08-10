@@ -18,7 +18,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.capabilities.TrainerCaps;
+import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.PermNodes;

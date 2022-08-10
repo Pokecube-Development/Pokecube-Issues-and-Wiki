@@ -11,6 +11,7 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.tasks.ants.AntTasks;
@@ -20,7 +21,6 @@ import pokecube.core.ai.tasks.ants.sensors.NestSensor.AntNest;
 import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.blocks.nests.NestTile;
-import pokecube.core.interfaces.IPokemob;
 
 public class CheckNest extends BaseIdleTask
 {

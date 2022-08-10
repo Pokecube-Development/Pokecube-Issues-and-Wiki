@@ -1,7 +1,7 @@
 package pokecube.mobs.moves.attacks.ground;
 
 import net.minecraft.world.entity.Entity;
-import pokecube.core.interfaces.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.moves.templates.Move_AOE;
 import thut.core.common.ThutCore;
 

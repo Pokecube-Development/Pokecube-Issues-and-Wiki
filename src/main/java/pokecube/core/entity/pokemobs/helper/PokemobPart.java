@@ -1,6 +1,6 @@
 package pokecube.core.entity.pokemobs.helper;
 
-import pokecube.core.interfaces.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob;
 import thut.api.entity.multipart.GenericPartEntity;
 
 public class PokemobPart extends GenericPartEntity<PokemobHasParts>

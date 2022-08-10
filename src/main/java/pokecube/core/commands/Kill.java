@@ -13,10 +13,11 @@ import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.Config;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.Tools;
@@ -25,7 +26,7 @@ public class Kill
 {
     @Cancelable
     /**
-     * This is fired on the PokecubeCore.POKEMOB_BUS. If cancelled, the kill
+     * This is fired on the PokecubeAPI.POKEMOB_BUS. If cancelled, the kill
      * command will not apply to the requested pokemob!
      */
     public static class KillCommandEvent extends LivingEvent
@@ -53,7 +54,7 @@ public class Kill
                         continue;
                     if (!tame && e.getOwnerId() != null) continue;
                     final KillCommandEvent event = new KillCommandEvent(e.getEntity());
-                    if (PokecubeCore.POKEMOB_BUS.post(event)) continue;
+                    if (PokecubeAPI.POKEMOB_BUS.post(event)) continue;
                     e.onRecall();
                     count1++;
                 }

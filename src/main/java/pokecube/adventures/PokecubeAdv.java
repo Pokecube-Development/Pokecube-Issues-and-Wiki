@@ -77,6 +77,7 @@ import pokecube.adventures.items.bag.BagContainer;
 import pokecube.adventures.items.bag.BagItem;
 import pokecube.adventures.proxy.CommonProxy;
 import pokecube.adventures.utils.RecipePokeAdv;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.utils.PokeType;
@@ -346,7 +347,7 @@ public class PokecubeAdv
         SetupHandler.registerListeners();
 
         MinecraftForge.EVENT_BUS.register(this);
-        PokecubeCore.POKEMOB_BUS.register(this);
+        PokecubeAPI.POKEMOB_BUS.register(this);
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event)

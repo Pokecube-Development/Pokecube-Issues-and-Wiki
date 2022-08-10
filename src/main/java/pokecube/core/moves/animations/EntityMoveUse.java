@@ -32,12 +32,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.network.NetworkHooks;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.IMoveAnimation.MovePacketInfo;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IMoveAnimation.MovePacketInfo;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.EntityTools;
 import thut.api.maths.Vector3;
@@ -322,7 +323,7 @@ public class EntityMoveUse extends ThrowableProjectile
     public Entity getUser()
     {
         if (this.user != null) return this.user;
-        return this.user = PokecubeCore.getEntityProvider().getEntity(this.level, this.getEntityData().get(
+        return this.user = PokecubeAPI.getEntityProvider().getEntity(this.level, this.getEntityData().get(
                 EntityMoveUse.USER), true);
     }
 

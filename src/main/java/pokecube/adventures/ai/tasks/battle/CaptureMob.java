@@ -3,11 +3,11 @@ package pokecube.adventures.ai.tasks.battle;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.items.IPokecube;
+import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.core.PokecubeItems;
-import pokecube.core.interfaces.IPokecube;
-import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 
 public class CaptureMob extends BaseBattleTask
 {

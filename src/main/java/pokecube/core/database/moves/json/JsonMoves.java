@@ -15,11 +15,11 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MovesParser;
 import pokecube.core.database.resources.PackFinder;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.moves.zmoves.GZMoveManager;

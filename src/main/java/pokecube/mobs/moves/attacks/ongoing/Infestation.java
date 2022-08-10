@@ -1,8 +1,8 @@
 package pokecube.mobs.moves.attacks.ongoing;
 
 import net.minecraft.world.entity.LivingEntity;
-import pokecube.core.interfaces.entity.IOngoingAffected;
-import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
+import pokecube.api.entity.IOngoingAffected;
+import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.core.moves.templates.Move_Ongoing;
 
 public class Infestation extends Move_Ongoing

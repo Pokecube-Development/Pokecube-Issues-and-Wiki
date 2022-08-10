@@ -47,11 +47,12 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.events.core.onload.RegisterPokecubes;
+import pokecube.api.items.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.events.onload.RegisterPokecubes;
-import pokecube.core.interfaces.IPokecube.DefaultPokecubeBehavior;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
 import pokecube.legends.blocks.properties.Compostables;
@@ -170,12 +171,12 @@ public class PokecubeLegends
 
         thut.core.common.config.Config.setupConfigs(PokecubeLegends.config, PokecubeCore.MODID, Reference.ID);
         MinecraftForge.EVENT_BUS.register(this);
-        PokecubeCore.POKEMOB_BUS.register(this);
+        PokecubeAPI.POKEMOB_BUS.register(this);
 
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
 
-        PokecubeCore.POKEMOB_BUS.addListener(RaidCapture::CatchPokemobRaid);
-        PokecubeCore.POKEMOB_BUS.addListener(RaidCapture::PostCatchPokemobRaid);
+        PokecubeAPI.POKEMOB_BUS.addListener(RaidCapture::CatchPokemobRaid);
+        PokecubeAPI.POKEMOB_BUS.addListener(RaidCapture::PostCatchPokemobRaid);
 
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 

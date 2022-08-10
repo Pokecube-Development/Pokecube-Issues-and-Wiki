@@ -11,11 +11,11 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.api.moves.IMoveAnimation;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.database.moves.json.JsonMoves.AnimationJson;
-import pokecube.core.interfaces.IMoveAnimation;
-import pokecube.core.interfaces.Move_Base;
 import pokecube.core.moves.animations.presets.Thunder;
 import thut.api.maths.Vector3;
 

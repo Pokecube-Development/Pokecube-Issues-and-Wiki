@@ -10,11 +10,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
+import pokecube.api.entity.trainers.IHasRewards.Reward;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.utils.PokeType;
 import thut.core.common.ThutCore;
 

@@ -35,11 +35,11 @@ import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import pokecube.adventures.blocks.siphon.SiphonTickEvent;
 import pokecube.adventures.blocks.siphon.SiphonTile;
 import pokecube.adventures.blocks.warp_pad.WarpPadTile;
-import pokecube.core.database.PokedexEntry;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.interfaces.capabilities.PokemobCaps;
 import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
 

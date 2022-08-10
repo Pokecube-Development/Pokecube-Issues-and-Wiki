@@ -11,14 +11,14 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor;
 import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor.Burrow;
 import pokecube.core.ai.tasks.utility.UtilTask;
 import pokecube.core.handlers.events.MoveEventsHandler;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import thut.api.entity.ai.RootTask;
 import thut.api.maths.Vector3;
 

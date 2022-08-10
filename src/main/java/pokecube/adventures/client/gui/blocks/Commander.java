@@ -17,8 +17,8 @@ import net.minecraft.network.chat.TranslatableComponent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.commander.CommanderTile;
 import pokecube.adventures.network.PacketCommander;
+import pokecube.api.entity.pokemob.IHasCommands.Command;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.pokemob.IHasCommands.Command;
 
 public class Commander extends Screen
 {

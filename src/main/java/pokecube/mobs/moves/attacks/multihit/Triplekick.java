@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.world.entity.Entity;
-import pokecube.core.interfaces.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.moves.templates.Move_MultiHit;
 
 public class Triplekick extends Move_MultiHit

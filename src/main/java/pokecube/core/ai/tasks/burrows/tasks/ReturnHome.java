@@ -3,9 +3,9 @@ package pokecube.core.ai.tasks.burrows.tasks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.level.pathfinder.Path;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.tasks.burrows.AbstractBurrowTask;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
-import pokecube.core.interfaces.IPokemob;
 import thut.api.maths.Vector3;
 
 public class ReturnHome extends AbstractBurrowTask

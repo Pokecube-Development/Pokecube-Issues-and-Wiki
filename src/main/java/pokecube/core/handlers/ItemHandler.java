@@ -7,12 +7,12 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.IForgeRegistry;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.events.core.onload.RegisterPokecubes;
+import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
-import pokecube.core.events.onload.RegisterPokecubes;
-import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.Pokecube;
 import pokecube.core.items.vitamins.ItemVitamin;
 import thut.api.OwnableCaps;
@@ -43,7 +43,7 @@ public class ItemHandler
     private static void addPokecubes(final IForgeRegistry<Item> registry)
     {
         final RegisterPokecubes event = new RegisterPokecubes();
-        PokecubeCore.POKEMOB_BUS.post(event);
+        PokecubeAPI.POKEMOB_BUS.post(event);
 
         // Register any cube behaviours and cubes from event.
         for (final PokecubeBehavior i : event.behaviors)

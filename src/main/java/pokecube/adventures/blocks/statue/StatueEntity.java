@@ -18,13 +18,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
+import pokecube.api.events.core.pokemob.SpawnEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.events.pokemob.SpawnEvent;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.FormeHolder;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PokeType;
 import thut.api.ThutCaps;
 import thut.api.entity.CopyCaps;
@@ -127,7 +128,7 @@ public class StatueEntity extends BlockEntity
         super.onLoad();
         if (!level.isClientSide)
         {
-            PokecubeCore.POKEMOB_BUS.register(this);
+            PokecubeAPI.POKEMOB_BUS.register(this);
         }
     }
 
@@ -137,7 +138,7 @@ public class StatueEntity extends BlockEntity
         super.onChunkUnloaded();
         if (!level.isClientSide)
         {
-            PokecubeCore.POKEMOB_BUS.unregister(this);
+            PokecubeAPI.POKEMOB_BUS.unregister(this);
         }
     }
 
@@ -148,7 +149,7 @@ public class StatueEntity extends BlockEntity
 
         if (copy == null || !(this.level instanceof ServerLevel slevel))
         {
-            PokecubeCore.POKEMOB_BUS.unregister(this);
+            PokecubeAPI.POKEMOB_BUS.unregister(this);
             return;
         }
 

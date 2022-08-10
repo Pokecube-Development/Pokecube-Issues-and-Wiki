@@ -38,18 +38,19 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.events.core.StructureEvent;
+import pokecube.api.events.core.npc.NpcSpawn;
+import pokecube.api.events.core.pokemob.SpawnEvent;
+import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.spawns.SpawnCheck;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
-import pokecube.core.events.StructureEvent;
-import pokecube.core.events.npc.NpcSpawn;
-import pokecube.core.events.pokemob.SpawnEvent;
-import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.TimePeriod;
 import thut.api.entity.CopyCaps;
@@ -66,13 +67,13 @@ public class SpawnEventsHandler
     {
         // This caps the level chosen based on the configs, it is highest to
         // then allow addons to override it later.
-        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.HIGHEST, SpawnEventsHandler::CapLevel);
+        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.HIGHEST, SpawnEventsHandler::CapLevel);
         // This cancels the event if this world is blacklisted for pokemob
         // spawning.
-        PokecubeCore.POKEMOB_BUS.addListener(SpawnEventsHandler::onSpawnCheck);
+        PokecubeAPI.POKEMOB_BUS.addListener(SpawnEventsHandler::onSpawnCheck);
         // This determines which pokemob should be slated for spawn, It is
         // highest so addons can override the picked mob later.
-        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.HIGHEST, SpawnEventsHandler::PickSpawn);
+        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.HIGHEST, SpawnEventsHandler::PickSpawn);
 
         // This handles spawning in the NPCs, etc from the structure blocks with
         // appropriate data markers.

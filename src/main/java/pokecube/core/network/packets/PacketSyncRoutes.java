@@ -10,6 +10,7 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkHooks;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.GuardAICapability.GuardTask;
 import pokecube.core.ai.routes.IGuardAICapability;
@@ -85,7 +86,7 @@ public class PacketSyncRoutes extends Packet
         final Player player = PokecubeCore.proxy.getPlayer();
         final int id = this.entityId;
         final CompoundTag data = this.data;
-        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), id, true);
+        final Entity e = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), id, true);
         if (e == null) return;
         final IGuardAICapability guard = e.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
         guard.loadTasks((ListTag) data.get("R"));
@@ -97,7 +98,7 @@ public class PacketSyncRoutes extends Packet
     {
         final int id = this.entityId;
         final CompoundTag data = this.data;
-        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), id, true);
+        final Entity e = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), id, true);
         if (e == null) return;
         final IGuardAICapability guard = e.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
 

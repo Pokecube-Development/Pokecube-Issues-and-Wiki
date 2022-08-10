@@ -2,8 +2,8 @@ package pokecube.legends.conditions.custom;
 
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.utils.PokeType;
 import pokecube.legends.conditions.AbstractCondition;
 

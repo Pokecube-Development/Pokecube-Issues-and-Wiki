@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.blocks.InteractableHorizontalBlock;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 
 public class CommanderBlock extends InteractableHorizontalBlock implements EntityBlock
 {

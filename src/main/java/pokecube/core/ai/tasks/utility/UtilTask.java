@@ -8,10 +8,10 @@ import com.google.common.collect.Maps;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.level.block.state.BlockState;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.entity.ai.RootTask;
 

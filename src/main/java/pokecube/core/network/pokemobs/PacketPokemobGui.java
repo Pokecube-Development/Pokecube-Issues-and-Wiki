@@ -8,11 +8,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.network.packets.PacketSyncRoutes;
 import thut.api.entity.ai.IAIRunnable;
 import thut.core.common.network.Packet;
@@ -67,7 +68,7 @@ public class PacketPokemobGui extends Packet
     @Override
     public void handleServer(final ServerPlayer player)
     {
-        final Entity entity = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), this.id, true);
+        final Entity entity = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), this.id, true);
         final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
         buffer.writeInt(entity.getId());
         buffer.writeByte(this.message);

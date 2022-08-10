@@ -8,14 +8,14 @@ import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.pathing.ClimbPathNavi;
 import pokecube.core.ai.pathing.FlyPathNavi;
 import pokecube.core.ai.pathing.SwimPathNavi;
 import pokecube.core.ai.pathing.WalkPathNavi;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import thut.api.maths.Vector3;
 
 /**

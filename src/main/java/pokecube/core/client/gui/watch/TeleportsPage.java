@@ -13,11 +13,11 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.TeleportsPage.TeleOption;
 import pokecube.core.client.gui.watch.util.ListPage;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.api.entity.ThutTeleporter.TeleDest;
 

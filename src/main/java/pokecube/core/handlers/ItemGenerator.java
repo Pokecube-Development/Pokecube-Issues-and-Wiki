@@ -41,6 +41,10 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.registries.IForgeRegistry;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.events.core.onload.RegisterMiscItems;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryCrop;
@@ -48,9 +52,6 @@ import pokecube.core.blocks.berries.BerryFruit;
 import pokecube.core.blocks.berries.BerryLeaf;
 import pokecube.core.blocks.bookshelves.GenericBookshelf;
 import pokecube.core.database.Database;
-import pokecube.core.events.onload.RegisterMiscItems;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.items.ItemFossil;
 import pokecube.core.items.ItemTM;
 import pokecube.core.items.ItemTyped;
@@ -543,7 +544,7 @@ public class ItemGenerator
         // Initialize the nullberry
         ItemBerry.registerBerryType("null", null, 0, 0, 0, 0, 0, 0);
         // Fire event so that others can initialize their berries.
-        PokecubeCore.POKEMOB_BUS.post(new RegisterMiscItems());
+        PokecubeAPI.POKEMOB_BUS.post(new RegisterMiscItems());
 
         ItemGenerator.makeBerryBlocks(registry);
     }

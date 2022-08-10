@@ -19,11 +19,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.IItemRenderProperties;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.statue.StatueEntity;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.database.Database;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 

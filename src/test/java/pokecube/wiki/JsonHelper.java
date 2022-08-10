@@ -23,14 +23,14 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.loading.FMLPaths;
+import pokecube.api.data.Pokedex;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.database.Database;
-import pokecube.core.database.Pokedex;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.XMLPokedexEntry;
 import pokecube.core.database.pokedex.PokemobsDatabases;
 import pokecube.core.database.pokedex.PokemobsJson;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.moves.MovesUtils;
 import thut.core.common.ThutCore;
 

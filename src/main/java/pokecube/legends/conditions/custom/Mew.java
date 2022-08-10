@@ -3,10 +3,10 @@ package pokecube.legends.conditions.custom;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.CaptureStats;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.conditions.AbstractCondition;
 import pokecube.mobs.moves.world.ActionTeleport;
 

@@ -1,11 +1,11 @@
 package pokecube.mobs.abilities.s;
 
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.abilities.Ability;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
 public class StanceChange extends Ability
 {

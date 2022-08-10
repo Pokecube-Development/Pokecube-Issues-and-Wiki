@@ -7,9 +7,10 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.TagNames;
 import thut.core.common.network.Packet;
 
@@ -52,7 +53,7 @@ public class PacketSyncNewMoves extends Packet
         final Player player = PokecubeCore.proxy.getPlayer();
         final int id = this.entityId;
         final CompoundTag data = this.data;
-        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), id, true);
+        final Entity e = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), id, true);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
         if (pokemob != null)
         {

@@ -37,20 +37,21 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.events.core.EggEvent;
+import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
-import pokecube.core.events.EggEvent;
 import pokecube.core.handlers.Config;
-import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.TagNames;
@@ -286,7 +287,7 @@ public class ItemPokemobEgg extends Item
                     entity.getX(), entity.getY(), entity.getZ(), entity.getRandom().nextInt(7) + 1));
         }
         final EggEvent.Hatch evt = new EggEvent.Hatch(egg);
-        PokecubeCore.POKEMOB_BUS.post(evt);
+        PokecubeAPI.POKEMOB_BUS.post(evt);
         if (nbt.contains("nestLoc"))
         {
             final BlockPos pos = NbtUtils.readBlockPos(nbt.getCompound("nestLoc"));

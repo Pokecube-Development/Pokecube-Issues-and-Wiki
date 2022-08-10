@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.inventory.pc.PCInventory;
 
 public class PCTile extends InteractableTile

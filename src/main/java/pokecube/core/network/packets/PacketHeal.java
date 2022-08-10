@@ -3,7 +3,7 @@ package pokecube.core.network.packets;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import pokecube.core.interfaces.IHealer;
+import pokecube.api.blocks.IHealer;
 import thut.core.common.network.Packet;
 
 public class PacketHeal extends Packet

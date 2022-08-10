@@ -18,11 +18,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.TooltipFlag;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.FormeHolder;
 
 public class Pokemob implements IIngredientType<PokedexEntry>
 {

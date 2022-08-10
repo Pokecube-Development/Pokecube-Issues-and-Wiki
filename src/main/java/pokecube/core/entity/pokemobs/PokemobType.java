@@ -9,7 +9,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PlayMessages.SpawnEntity;
-import pokecube.core.database.PokedexEntry;
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.utils.PokeType;
 
 public class PokemobType<T extends TamableAnimal> extends EntityType<T>

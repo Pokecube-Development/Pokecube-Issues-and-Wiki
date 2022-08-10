@@ -3,7 +3,7 @@ package pokecube.core.database.stats;
 import java.util.Map;
 import java.util.UUID;
 
-import pokecube.core.database.PokedexEntry;
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.utils.PokeType;
 
 public class EggStats

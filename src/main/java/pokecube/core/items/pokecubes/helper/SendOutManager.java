@@ -8,8 +8,8 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Entity.RemovalReason;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,15 +17,16 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.entity.PartEntity;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.events.core.pokemob.SpawnEvent.SendOut;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.IRunnable;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.events.pokemob.SpawnEvent.SendOut;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.PermNodes;
@@ -173,7 +174,7 @@ public class SendOutManager
             }
 
             final SendOut evt = new SendOut.Pre(pokemob);
-            if (PokecubeCore.POKEMOB_BUS.post(evt))
+            if (PokecubeAPI.POKEMOB_BUS.post(evt))
             {
                 if (isPlayers)
                 {
@@ -238,7 +239,7 @@ public class SendOutManager
                 pokemob.getEntity().getPersistentData().remove(TagNames.NOPOOF);
             }
             final SendOut evt = new SendOut.Post(pokemob);
-            PokecubeCore.POKEMOB_BUS.post(evt);
+            PokecubeAPI.POKEMOB_BUS.post(evt);
         }
     }
 

@@ -4,10 +4,10 @@ import java.util.Random;
 
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.entity.IOngoingAffected;
-import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
-import pokecube.core.interfaces.entity.impl.OngoingMoveEffect;
+import pokecube.api.entity.IOngoingAffected;
+import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
+import pokecube.core.impl.capabilities.CapabilityPokemob;
+import pokecube.core.impl.entity.impl.OngoingMoveEffect;
 import pokecube.core.moves.damage.GenericDamageSource;
 import thut.core.common.ThutCore;
 

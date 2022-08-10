@@ -1,8 +1,8 @@
 package pokecube.mobs.moves.attacks.normal;
 
-import pokecube.core.interfaces.IMoveAnimation;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.IMoveAnimation;
 import pokecube.core.moves.templates.Move_Basic;
 
 public class SecretPower extends Move_Basic
