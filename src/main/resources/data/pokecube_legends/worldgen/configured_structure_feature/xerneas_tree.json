@@ -16,7 +16,7 @@
     "size": 7,
     "avoidances":{
       "flags": ["temple", "xerneas_tree"],
-      "avoidances": [{"name":"temple","distance":8}, {"name":"xerneas_tree","distance":80}]
+      "avoidances": [{"name":"temple","distance":8}, {"name":"xerneas_tree","distance":256}]
     }
   },
   "biomes": "#pokecube_world:has_structure/xerneas_tree",

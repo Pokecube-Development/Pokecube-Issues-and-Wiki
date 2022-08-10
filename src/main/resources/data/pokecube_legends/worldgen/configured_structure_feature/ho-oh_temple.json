@@ -16,7 +16,7 @@
     "size": 2,
     "avoidances":{
       "flags": ["temple", "ho-oh_temple"],
-      "avoidances": [{"name":"temple","distance":8}, {"name":"ho-oh_temple","distance":80}]
+      "avoidances": [{"name":"temple","distance":8}, {"name":"ho-oh_temple","distance":256}]
     }
   },
   "biomes": "#pokecube_world:has_structure/ho-oh_temple",
