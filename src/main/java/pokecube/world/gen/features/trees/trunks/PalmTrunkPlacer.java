@@ -10,15 +10,19 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.LevelSimulatedReader;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.TreeFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
+import net.minecraftforge.common.Tags;
 
 public class PalmTrunkPlacer extends TrunkPlacer
 {
@@ -57,7 +61,7 @@ public class PalmTrunkPlacer extends TrunkPlacer
         int i = freeTreeHeight - 1;
         BlockPos.MutableBlockPos blockpos$mutableblockpos = pos.mutable();
         BlockPos blockpos = blockpos$mutableblockpos.below();
-        setDirtAt(level, blockSetter, random, blockpos, config);
+        TrunkPlacerTypes.setDirtAt(level, blockSetter, random, blockpos, config);
         List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
 
         for (int j = 0; j <= i; ++j)
