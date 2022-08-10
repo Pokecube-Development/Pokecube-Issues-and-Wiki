@@ -79,9 +79,9 @@ public class CustomShapeFoliagePlacer extends FoliagePlacer
     {
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
         this.leaves.forEach(leaf -> {
-            if (!this.shouldSkipLocationSigned(random, leaf.x, leaf.y, leaf.z, range, large))
+            if (!this.shouldSkipLocationSigned(random, leaf.x, leaf.y + yOffset, leaf.z, range, large))
             {
-                mutablePos.setWithOffset(pos, leaf.x, leaf.y, leaf.z);
+                mutablePos.setWithOffset(pos, leaf.x, leaf.y + yOffset, leaf.z);
                 tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
             }
         });
