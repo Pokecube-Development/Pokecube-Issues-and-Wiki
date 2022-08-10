@@ -19,6 +19,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
@@ -27,7 +28,6 @@ import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.handlers.TeamManager;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.Battle;
 import thut.api.entity.ai.RootTask;
 
@@ -322,7 +322,7 @@ public class ForgetTargetTask extends CombatTask
             this.battleTime = 0;
             this.ticksSinceSeen = 0;
             this.entityTarget = target;
-            this.pokemobTarget = CapabilityPokemob.getPokemobFor(this.entityTarget);
+            this.pokemobTarget = PokemobCaps.getPokemobFor(this.entityTarget);
         }
 
         if (this.entityTarget == null && this.entity.getBrain().hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY))

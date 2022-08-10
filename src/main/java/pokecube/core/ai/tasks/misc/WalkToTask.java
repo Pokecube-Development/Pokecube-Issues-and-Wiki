@@ -22,8 +22,8 @@ import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.ai.tasks.TaskBase;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.api.entity.ai.PosWrapWrap;
 import thut.api.entity.ai.RootTask;
 import thut.api.world.IPathHelper;
@@ -64,7 +64,7 @@ public class WalkToTask extends RootTask<Mob>
         final Brain<?> brain = owner.getBrain();
         final WalkTarget walktarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get();
 
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(owner);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(owner);
         if (pokemob != null && !TaskBase.canMove(pokemob)) return false;
 
         if (RootTask.doLoadThrottling)
@@ -96,7 +96,7 @@ public class WalkToTask extends RootTask<Mob>
         {
             final Optional<WalkTarget> optional = entityIn.getBrain().getMemory(MemoryModuleType.WALK_TARGET);
             final PathNavigation pathnavigator = entityIn.getNavigation();
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityIn);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(entityIn);
             if (pokemob != null && !TaskBase.canMove(pokemob)) return false;
             return !pathnavigator.isDone() && optional.isPresent() && !this.hasReachedTarget(entityIn, optional.get());
         }

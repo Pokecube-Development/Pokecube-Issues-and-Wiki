@@ -17,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
@@ -31,7 +32,6 @@ import pokecube.core.ai.tasks.idle.hunger.EatRock;
 import pokecube.core.ai.tasks.idle.hunger.EatWater;
 import pokecube.core.ai.tasks.idle.hunger.IBlockEatTask;
 import pokecube.core.blocks.berries.BerryGenManager;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.TimePeriod;
 import thut.api.Tracker;
 import thut.api.item.ItemList;
@@ -178,7 +178,7 @@ public class HungerTask extends BaseIdleTask
                     MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(e -> true);
             for (final LivingEntity mob : targets)
             {
-                final IPokemob other = CapabilityPokemob.getPokemobFor(mob);
+                final IPokemob other = PokemobCaps.getPokemobFor(mob);
                 if (other != null && this.pokemob.getPokedexEntry().isFood(other.getPokedexEntry()))
                 {
                     final boolean isValid = other.getLevel() - this.pokemob.getLevel() < 5;

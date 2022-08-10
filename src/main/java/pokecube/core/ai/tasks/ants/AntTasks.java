@@ -16,13 +16,15 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.api.ai.IInhabitor;
+import pokecube.api.ai.TaskAdders;
+import pokecube.api.entity.CapabilityInhabitable;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.core.pokemob.InitAIEvent.Init.Type;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
-import pokecube.core.ai.tasks.Tasks;
 import pokecube.core.ai.tasks.ants.nest.AntHabitat;
 import pokecube.core.ai.tasks.ants.sensors.EggSensor;
 import pokecube.core.ai.tasks.ants.sensors.GatherSensor;
@@ -37,8 +39,6 @@ import pokecube.core.ai.tasks.ants.tasks.work.Dig;
 import pokecube.core.ai.tasks.ants.tasks.work.Gather;
 import pokecube.core.ai.tasks.ants.tasks.work.Guard;
 import pokecube.core.ai.tasks.ants.tasks.work.Idle;
-import pokecube.core.impl.capabilities.CapabilityInhabitable;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.IAIRunnable;
@@ -86,7 +86,7 @@ public class AntTasks
 
     public static void registerMems(final Register<MemoryModuleType<?>> event)
     {
-        Tasks.register(Type.IDLE, AntTasks::addTasks);
+        TaskAdders.register(Type.IDLE, AntTasks::addTasks);
         CapabilityInhabitable.Register(AntTasks.NESTLOC, () -> new AntHabitat());
     }
 
@@ -118,7 +118,7 @@ public class AntTasks
 
     public static boolean isValid(final Entity entity)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return false;
         return pokemob.isRoutineEnabled(AIRoutine.ANTAI);
     }

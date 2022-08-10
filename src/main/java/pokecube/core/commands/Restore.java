@@ -27,13 +27,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
-import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
@@ -178,7 +178,7 @@ public class Restore
             {
                 final Entity mob = PokecubeManager.itemToMob(stack, user.getLevel());
                 if (mob == null) continue;
-                final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+                final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
                 if (pokemob != null)
                 {
                     final PokedexEntry pentry = pokemob.getPokedexEntry();

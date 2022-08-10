@@ -24,6 +24,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.ExplosionEvent;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.moves.IMoveAnimation;
@@ -32,7 +33,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.events.MoveEventsHandler;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.Tools;
 import thut.api.boom.ExplosionCustom;
@@ -197,7 +197,7 @@ public class Move_Explode extends Move_Basic
     {
         final Entity attacked = packet.attacked;
         final IPokemob pokemob = packet.attacker;
-        final IPokemob target = CapabilityPokemob.getPokemobFor(attacked);
+        final IPokemob target = PokemobCaps.getPokemobFor(attacked);
 
         final boolean explodeDamage = attacked.getLevel() instanceof ServerLevel level && Config.Rules.doBoom(level);
 

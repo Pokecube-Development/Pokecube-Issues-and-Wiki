@@ -9,11 +9,11 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.items.IPokecube.PokecubeBehavior;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.RecipeHandler;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.utils.TagNames;
 import thut.api.item.ItemList;
 
 public class RecipeRevive extends CustomRecipe

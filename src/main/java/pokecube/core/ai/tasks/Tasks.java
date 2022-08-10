@@ -1,11 +1,9 @@
 package pokecube.core.ai.tasks;
 
 import java.util.List;
-import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.world.entity.EntityType;
@@ -72,23 +70,6 @@ public class Tasks
     public static void initBrain(final Brain<?> brain)
     {
         BrainUtil.addToBrain(brain, Tasks.MEMORY_TYPES, Tasks.SENSOR_TYPES);
-    }
-
-    private static Map<Init.Type, List<ITaskAdder>> taskAdders = Maps.newConcurrentMap();
-
-    static
-    {
-        for (final Init.Type type : Init.Type.values()) Tasks.taskAdders.put(type, Lists.newArrayList());
-    }
-
-    public static void register(final Init.Type type, final ITaskAdder adder)
-    {
-        Tasks.taskAdders.get(type).add(adder);
-    }
-
-    public static List<ITaskAdder> getAdders(final Init.Type type)
-    {
-        return Tasks.taskAdders.get(type);
     }
 
     @SuppressWarnings("unchecked")

@@ -68,8 +68,13 @@ import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.CapabilityAffected;
+import pokecube.api.entity.CapabilityAffected.DefaultAffected;
+import pokecube.api.entity.CapabilityInhabitable.SaveableHabitatProvider;
+import pokecube.api.entity.CapabilityInhabitor.InhabitorProvider;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.events.core.CustomInteractEvent;
@@ -95,11 +100,6 @@ import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager.GeneticsProvider;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityAffected;
-import pokecube.core.impl.capabilities.CapabilityAffected.DefaultAffected;
-import pokecube.core.impl.capabilities.CapabilityInhabitable.SaveableHabitatProvider;
-import pokecube.core.impl.capabilities.CapabilityInhabitor.InhabitorProvider;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.impl.capabilities.TextureableCaps;
 import pokecube.core.impl.capabilities.TextureableCaps.NPCCap;
@@ -253,7 +253,7 @@ public class EventsHandler
         // npc, or a pokemob
         EventsHandler.NOTVANILLAANIMALORMOB = e -> {
             boolean canSpawn = false;
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(e);
             // This includes players, armour stands, effects, etc
             final boolean noSpawnBlock = !(e instanceof Mob);
             // We don't want to block something if we have made it a pokemob
@@ -574,7 +574,7 @@ public class EventsHandler
     private static void onBreakSpeedCheck(final PlayerEvent.BreakSpeed evt)
     {
         final Entity ridden = evt.getEntity().getVehicle();
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(ridden);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(ridden);
         if (pokemob != null)
         {
             boolean aqua = evt.getEntity().isInWater();
@@ -685,7 +685,7 @@ public class EventsHandler
         {
             final Creeper creeper = (Creeper) evt.getEntity();
             final AvoidEntityGoal<?> avoidAI = new AvoidEntityGoal<>(creeper, EntityPokemob.class, 6.0F, 1.0D, 1.2D,
-                    e -> CapabilityPokemob.getPokemobFor(e).isType(PokeType.getType("psychic")));
+                    e -> PokemobCaps.getPokemobFor(e).isType(PokeType.getType("psychic")));
             creeper.goalSelector.addGoal(3, avoidAI);
         }
     }
@@ -715,7 +715,7 @@ public class EventsHandler
 
     private static void onLivingUpdate(final LivingUpdateEvent evt)
     {
-        final IPokemob poke = CapabilityPokemob.getPokemobFor(evt.getEntity());
+        final IPokemob poke = PokemobCaps.getPokemobFor(evt.getEntity());
         if (poke != null)
         {
             if (PokecubeCore.getConfig().pokemobsAreAllFrozen)
@@ -819,7 +819,7 @@ public class EventsHandler
         if (event.side == LogicalSide.SERVER && event.player instanceof ServerPlayer)
         {
             final ServerPlayer player = (ServerPlayer) event.player;
-            final IPokemob ridden = CapabilityPokemob.getPokemobFor(player.getVehicle());
+            final IPokemob ridden = PokemobCaps.getPokemobFor(player.getVehicle());
             if (ridden != null && (ridden.floats() || ridden.flys()))
             {
                 player.connection.aboveGroundTickCount = 0;
@@ -892,7 +892,7 @@ public class EventsHandler
     {
         if (!toRecall.isAlive()) return false;
         if (!toRecall.isAddedToWorld()) return false;
-        final IPokemob mob = CapabilityPokemob.getPokemobFor(toRecall);
+        final IPokemob mob = PokemobCaps.getPokemobFor(toRecall);
         if (mob == null)
         {
             if (toRecall instanceof EntityPokecube)
@@ -922,7 +922,7 @@ public class EventsHandler
     {
         if (!toRecall.isAlive()) return false;
         if (!toRecall.isAddedToWorld()) return false;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(toRecall);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(toRecall);
         if (pokemob != null)
         {
             if (pokemob != excluded && pokemob.getOwner() == player

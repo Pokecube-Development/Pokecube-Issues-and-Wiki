@@ -29,6 +29,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.entity.pokemob.Nature;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -36,7 +37,6 @@ import pokecube.core.database.Database;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.Tools;
@@ -243,7 +243,7 @@ public class Pokemake
             CommandTools.sendError(source, "pokecube.command.makeinvalid");
             return 1;
         }
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
 
         if (!args.isEmpty() && args.get(0) instanceof LivingEntity)
         {

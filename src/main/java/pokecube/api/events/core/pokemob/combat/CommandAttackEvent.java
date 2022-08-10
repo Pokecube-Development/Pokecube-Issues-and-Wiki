@@ -7,7 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 
 /**
  * This event is called before the pokemob receives orders to execute an
@@ -27,7 +27,7 @@ public class CommandAttackEvent extends EntityEvent
 
     public IPokemob getPokemob()
     {
-        return CapabilityPokemob.getPokemobFor(this.getEntity());
+        return PokemobCaps.getPokemobFor(this.getEntity());
     }
 
     /**

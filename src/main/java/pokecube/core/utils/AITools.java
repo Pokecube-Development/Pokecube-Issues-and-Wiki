@@ -22,11 +22,11 @@ import net.minecraft.world.entity.ai.memory.ExpirableValue;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.TeamManager;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.IPokedamage;
 import thut.api.item.ItemList;
@@ -157,7 +157,7 @@ public class AITools
         if (!AITools.validTargets.test(target)) return false;
         // Only target living entities
         if (!(target instanceof LivingEntity)) return false;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         // Some pokemob specific checks
         if (pokemob != null)
         {

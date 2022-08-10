@@ -54,12 +54,14 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.SpawnData;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.events.core.pokemob.FaintEvent;
 import pokecube.api.events.core.pokemob.SpawnEvent;
 import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
 import pokecube.api.events.core.pokemob.SpawnEvent.Variance;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
@@ -69,12 +71,10 @@ import pokecube.core.handlers.Config;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokemobTracker;
-import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.IMobGenetics;
@@ -120,7 +120,7 @@ public class EntityPokemob extends PokemobRidable
     @Override
     public AgeableMob getBreedOffspring(final ServerLevel p_241840_1_, final AgeableMob ageable)
     {
-        final IPokemob other = CapabilityPokemob.getPokemobFor(ageable);
+        final IPokemob other = PokemobCaps.getPokemobFor(ageable);
         if (other == null) return null;
         final EntityPokemobEgg egg = EntityPokemobEgg.TYPE.create(this.getLevel());
         egg.setStackByParents(this, other);
@@ -314,7 +314,7 @@ public class EntityPokemob extends PokemobRidable
     public SpawnGroupData finalizeSpawn(final ServerLevelAccessor worldIn, final DifficultyInstance difficultyIn,
             final MobSpawnType reason, final SpawnGroupData spawnDataIn, final CompoundTag dataTag)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(this);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(this);
         if (pokemob == null || !(worldIn instanceof Level))
             return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
         final PokedexEntry pokeEntry = pokemob.getPokedexEntry();

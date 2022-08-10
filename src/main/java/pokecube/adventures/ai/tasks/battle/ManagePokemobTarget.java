@@ -8,11 +8,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.EntityTracker;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.trainers.IHasPokemobs;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PokemobTracker;
 
 public class ManagePokemobTarget extends BaseBattleTask
@@ -33,13 +33,13 @@ public class ManagePokemobTarget extends BaseBattleTask
         if (mob == null || this.target == null) return;
         final LivingEntity mobTarget = BrainUtils.getAttackTarget(mob.getEntity());
         LivingEntity newTarget = this.target;
-        final IPokemob target = CapabilityPokemob.getPokemobFor(mobTarget);
+        final IPokemob target = PokemobCaps.getPokemobFor(mobTarget);
         // Try to send our mob after the target's nearest mob instead.
         if (target == null)
         {
             newTarget = this.target;
             final List<Entity> alternates = PokemobTracker.getMobs(this.target, e -> e.distanceToSqr(this.entity) < 64
-                    && CapabilityPokemob.getPokemobFor(e) != null);
+                    && PokemobCaps.getPokemobFor(e) != null);
             if (!alternates.isEmpty()) newTarget = (LivingEntity) alternates.get(0);
         }
 

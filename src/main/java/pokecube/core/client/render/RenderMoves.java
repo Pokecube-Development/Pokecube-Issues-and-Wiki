@@ -6,10 +6,10 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.IMoveAnimation;
 import pokecube.api.moves.IMoveAnimation.MovePacketInfo;
 import pokecube.api.moves.Move_Base;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.animations.EntityMoveUse;
 
 public class RenderMoves extends EntityRenderer<EntityMoveUse>
@@ -28,7 +28,7 @@ public class RenderMoves extends EntityRenderer<EntityMoveUse>
         if (entity.getStartTick() > 0) return;
         final Move_Base move = entity.getMove();
         IMoveAnimation animation;
-        if (move != null && (animation = move.getAnimation(CapabilityPokemob.getPokemobFor(entity.getUser()))) != null
+        if (move != null && (animation = move.getAnimation(PokemobCaps.getPokemobFor(entity.getUser()))) != null
                 && entity.getUser() != null)
         {
             mat.pushPose();

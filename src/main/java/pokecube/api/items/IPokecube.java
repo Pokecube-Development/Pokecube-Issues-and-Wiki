@@ -12,10 +12,10 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.core.pokemob.CaptureEvent;
 import pokecube.api.events.core.pokemob.CaptureEvent.Post;
 import pokecube.api.events.core.pokemob.CaptureEvent.Pre;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import thut.api.maths.Vector3;
 
@@ -119,7 +119,7 @@ public interface IPokecube
 
     default boolean canCapture(final Entity e, final ItemStack cube)
     {
-        return CapabilityPokemob.getPokemobFor(e) != null;
+        return PokemobCaps.getPokemobFor(e) != null;
     }
 
     /**
@@ -134,7 +134,7 @@ public interface IPokecube
 
     default double getCaptureModifier(final Entity mob, final ResourceLocation pokecubeId)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         return pokemob != null ? this.getCaptureModifier(pokemob, pokecubeId) : 0;
     }
 

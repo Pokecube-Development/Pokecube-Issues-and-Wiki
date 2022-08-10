@@ -25,6 +25,7 @@ import pokecube.adventures.client.gui.trainer.editor.pages.Spawn;
 import pokecube.adventures.client.gui.trainer.editor.pages.Trainer;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.trainers.IHasMessages;
 import pokecube.api.entity.trainers.IHasNPCAIStates;
 import pokecube.api.entity.trainers.IHasPokemobs;
@@ -32,7 +33,6 @@ import pokecube.api.entity.trainers.IHasRewards;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.CapHolders;
 
 public class EditorGui extends Screen
@@ -107,7 +107,7 @@ public class EditorGui extends Screen
         this.rewards = TrainerCaps.getHasRewards(mob);
         this.messages = TrainerCaps.getMessages(mob);
         this.aiStates = TrainerCaps.getNPCAIStates(mob);
-        this.pokemob = CapabilityPokemob.getPokemobFor(mob);
+        this.pokemob = PokemobCaps.getPokemobFor(mob);
         if (this.entity != null) this.guard = this.entity.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
         else this.guard = null;
     }

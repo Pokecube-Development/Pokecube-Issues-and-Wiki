@@ -30,13 +30,13 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
 import pokecube.core.database.stats.StatsCollector;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.Tools;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
@@ -119,7 +119,7 @@ public class Health
 
         LivingEntity entity = passedEntity;
 
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null || !entity.isAddedToWorld() || !pokemob.getPokedexEntry().stock) return;
         if (entity.distanceTo(viewPoint) > PokecubeCore.getConfig().maxDistance) return;
         final Config config = PokecubeCore.getConfig();

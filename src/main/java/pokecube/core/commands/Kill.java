@@ -15,9 +15,9 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.Config;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.Tools;
@@ -45,7 +45,7 @@ public class Kill
         int count1 = 0;
         for (final Object o : mobs.getAll())
         {
-            final IPokemob e = CapabilityPokemob.getPokemobFor((ICapabilityProvider) o);
+            final IPokemob e = PokemobCaps.getPokemobFor((ICapabilityProvider) o);
             if (e != null && !e.getEntity().isInvulnerable())
             {
                 try

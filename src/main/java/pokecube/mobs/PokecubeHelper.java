@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
@@ -19,7 +20,6 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.spawns.SpawnCheck;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PokeType;
 import thut.api.entity.IBreedingMob;
 import thut.api.maths.Vector3;
@@ -76,7 +76,7 @@ public class PokecubeHelper
         final int level = mob.getLevel();
         int otherLevel = 0;
         final LivingEntity target = BrainUtils.getAttackTarget(entity);
-        final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
         if (targetMob == null || (otherLevel = targetMob.getLevel()) <= level) return 1;
         if (otherLevel <= 2 * level) return 2;
         if (otherLevel <= 4 * level) return 4;
@@ -87,7 +87,7 @@ public class PokecubeHelper
     {
         final Mob entity = mob.getEntity();
         final LivingEntity target = BrainUtils.getAttackTarget(entity);
-        final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
         if (targetMob == null || !(target instanceof Animal) || !(mob instanceof IBreedingMob)) return 1;
         if (((IBreedingMob) mob).canMate((Animal) target)) return 8;
         return 1;

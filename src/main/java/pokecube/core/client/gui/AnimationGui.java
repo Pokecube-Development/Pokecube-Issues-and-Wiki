@@ -43,6 +43,7 @@ import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
@@ -52,7 +53,6 @@ import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.client.render.mobs.RenderPokemob.Holder;
 import pokecube.core.database.Database;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.EntityTools;
@@ -75,7 +75,7 @@ public class AnimationGui extends Screen
         if (ret == null)
         {
             final Mob mob = PokecubeCore.createPokemob(entry, PokecubeCore.proxy.getWorld());
-            ret = CapabilityPokemob.getPokemobFor(mob);
+            ret = PokemobCaps.getPokemobFor(mob);
             AnimationGui.renderMobs.put(entry, ret);
         }
         return ret;

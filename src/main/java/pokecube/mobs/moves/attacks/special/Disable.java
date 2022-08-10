@@ -1,9 +1,9 @@
 package pokecube.mobs.moves.attacks.special;
 
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.core.PokecubeCore;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.templates.Move_Basic;
 
 public class Disable extends Move_Basic
@@ -20,7 +20,7 @@ public class Disable extends Move_Basic
         super.onAttack(packet);
         if (!(packet.canceled || packet.failed || packet.denied))
         {
-            final IPokemob target = CapabilityPokemob.getPokemobFor(packet.attacked);
+            final IPokemob target = PokemobCaps.getPokemobFor(packet.attacked);
             if (target != null)
             {
                 final int index = packet.attacker.getEntity().getRandom().nextInt(4);

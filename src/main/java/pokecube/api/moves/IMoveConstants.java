@@ -8,17 +8,17 @@ import java.util.function.Predicate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.Mob;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.core.impl.PokecubeMod;
 import thut.api.item.ItemList;
 
 /** @author Manchou */
 public interface IMoveConstants extends IMoveNames
 {
-    static ResourceLocation ANTS = new ResourceLocation(PokecubeMod.ID, "ants");
+    static ResourceLocation ANTS = new ResourceLocation(PokecubeAPI.MODID, "ants");
 
-    static ResourceLocation BURROWS = new ResourceLocation(PokecubeMod.ID, "burrowers");
+    static ResourceLocation BURROWS = new ResourceLocation(PokecubeAPI.MODID, "burrowers");
 
     static final Predicate<IPokemob> isBee = pokemob ->
     {

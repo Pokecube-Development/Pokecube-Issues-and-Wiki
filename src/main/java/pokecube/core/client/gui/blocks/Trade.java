@@ -15,10 +15,10 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.network.packets.PacketTrade;
@@ -107,7 +107,7 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
 
         final float size = 0.5f;
 
-        final IPokemob poke = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob poke = PokemobCaps.getPokemobFor(mob);
         switch (index)
         {
         case 0:

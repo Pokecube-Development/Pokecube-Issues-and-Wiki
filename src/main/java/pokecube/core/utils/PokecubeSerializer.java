@@ -31,11 +31,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelResource;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.playerdata.PokecubePlayerData;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
@@ -349,7 +349,7 @@ public class PokecubeSerializer
     public ItemStack starter(final PokedexEntry entry, final Player owner)
     {
         final Level worldObj = owner.getLevel();
-        final IPokemob entity = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, worldObj));
+        final IPokemob entity = PokemobCaps.getPokemobFor(PokecubeCore.createPokemob(entry, worldObj));
 
         if (entity != null)
         {

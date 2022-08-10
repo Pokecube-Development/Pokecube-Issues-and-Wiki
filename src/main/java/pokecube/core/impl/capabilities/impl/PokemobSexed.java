@@ -12,6 +12,7 @@ import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.events.core.EggEvent;
 import pokecube.api.moves.IMoveNames;
@@ -20,7 +21,6 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.entity.IBreedingMob;
@@ -41,7 +41,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
         // Too injured, no mate!
         if (otherAnimal.getHealth() < otherAnimal.getMaxHealth() / 2) return false;
 
-        final IPokemob otherMob = CapabilityPokemob.getPokemobFor(otherAnimal);
+        final IPokemob otherMob = PokemobCaps.getPokemobFor(otherAnimal);
         if (otherMob != null)
         {
             // Don't let tame and wild breed, prevents exploits with dittos

@@ -40,9 +40,11 @@ import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.events.core.EggEvent;
 import pokecube.api.items.IPokecube.PokecubeBehavior;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.nests.NestTile;
@@ -51,10 +53,8 @@ import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.handlers.Config;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
-import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
@@ -124,7 +124,7 @@ public class ItemPokemobEgg extends Item
         IPokemob pokemob = ItemPokemobEgg.fakeMobs.get(entry);
         if (pokemob == null)
         {
-            pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, world));
+            pokemob = PokemobCaps.getPokemobFor(PokecubeCore.createPokemob(entry, world));
             if (pokemob == null) return null;
             ItemPokemobEgg.fakeMobs.put(entry, pokemob);
         }
@@ -159,7 +159,7 @@ public class ItemPokemobEgg extends Item
     {
         final PokedexEntry entry = ItemPokemobEgg.getEntry(stack);
         if (entry == null) return null;
-        final IPokemob ret = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, world));
+        final IPokemob ret = PokemobCaps.getPokemobFor(PokecubeCore.createPokemob(entry, world));
         return ret;
     }
 
@@ -198,7 +198,7 @@ public class ItemPokemobEgg extends Item
             }
             owner = t;
         }
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(owner);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(owner);
         final IOwnable ownable = OwnableCaps.getOwnable(owner);
         if (owner == null || pokemob != null || ownable != null)
         {
@@ -247,7 +247,7 @@ public class ItemPokemobEgg extends Item
     public static void initStack(final Entity mother, final IPokemob father, final ItemStack stack)
     {
         if (!stack.hasTag()) stack.setTag(new CompoundTag());
-        final IPokemob mob = CapabilityPokemob.getPokemobFor(mother);
+        final IPokemob mob = PokemobCaps.getPokemobFor(mother);
         if (mob != null && father != null) ItemPokemobEgg.getGenetics(mob, father, stack.getTag());
     }
 
@@ -257,7 +257,7 @@ public class ItemPokemobEgg extends Item
         final Mob entity = PokecubeCore.createPokemob(entry, world);
         if (entity != null)
         {
-            final IPokemob mob = CapabilityPokemob.getPokemobFor(entity);
+            final IPokemob mob = PokemobCaps.getPokemobFor(entity);
             mob.setGeneralState(GeneralStates.EXITINGCUBE, true);
             mob.setHealth(mob.getMaxHealth());
             int exp = Tools.levelToXp(mob.getExperienceMode(), 1);
@@ -270,7 +270,7 @@ public class ItemPokemobEgg extends Item
             if (stack.hasTag()) ItemPokemobEgg.initPokemobGenetics(mob, stack.getTag(), !hasNest);
             mob.spawnInit();
         }
-        return CapabilityPokemob.getPokemobFor(entity);
+        return PokemobCaps.getPokemobFor(entity);
     }
 
     public static void spawn(final IPokemob mob, final ItemStack stack, final Level world, final EntityPokemobEgg egg)

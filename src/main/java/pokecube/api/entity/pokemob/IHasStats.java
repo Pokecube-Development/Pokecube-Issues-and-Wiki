@@ -6,7 +6,6 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.core.database.abilities.Ability;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
 
@@ -301,7 +300,7 @@ public interface IHasStats extends IHasEntry
     default void setToHiddenAbility()
     {
         this.setAbilityIndex(2);
-        this.setAbilityRaw(this.getPokedexEntry().getHiddenAbility(CapabilityPokemob.getPokemobFor(this.getEntity())));
+        this.setAbilityRaw(this.getPokedexEntry().getHiddenAbility(PokemobCaps.getPokemobFor(this.getEntity())));
     }
 
     /**

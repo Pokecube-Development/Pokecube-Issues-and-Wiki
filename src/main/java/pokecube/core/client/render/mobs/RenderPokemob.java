@@ -27,12 +27,12 @@ import net.minecraft.world.entity.Mob;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader.DefaultFormeHolder.TexColours;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.impl.capabilities.TextureableCaps.PokemobCap;
 import thut.api.AnimatedCaps;
 import thut.api.ModelHolder;
@@ -197,7 +197,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             final IAnimationHolder holder = this.getAnimationHolder();
             if (holder != null && holder.isFixed()) return holder.getAnimation(entityIn);
             if (this.overrideAnim) return this.anim;
-            final String phase = this.getPhase((Mob) entityIn, CapabilityPokemob.getPokemobFor(entityIn));
+            final String phase = this.getPhase((Mob) entityIn, PokemobCaps.getPokemobFor(entityIn));
             return phase;
         }
 
@@ -316,7 +316,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         @Override
         public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
         {
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             float s = 1;
             if (pokemob != null) s = pokemob.getEntity().getScale();
             float sx = (float) this.getScale().x;
@@ -435,7 +435,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     public void render(final Mob entity, final float entityYaw, final float partialTicks, final PoseStack matrixStackIn,
             final MultiBufferSource bufferIn, final int packedLightIn)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return;
         Holder holder = RenderPokemob.holders.getOrDefault(pokemob.getPokedexEntry(), this.holder);
         if (pokemob.getCustomHolder() != null)
@@ -506,7 +506,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     {
         ResourceLocation texture = Database.missingno.texture;
         Holder holder = this.holder;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return texture;
         holder = RenderPokemob.holders.getOrDefault(pokemob.getPokedexEntry(), this.holder);
         if (pokemob.getCustomHolder() != null)

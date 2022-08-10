@@ -1,4 +1,4 @@
-package pokecube.core.ai.tasks;
+package pokecube.api.ai;
 
 import java.util.List;
 

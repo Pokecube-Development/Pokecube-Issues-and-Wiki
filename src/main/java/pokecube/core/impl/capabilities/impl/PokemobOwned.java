@@ -22,6 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.events.core.PCEvent;
@@ -29,6 +30,7 @@ import pokecube.api.events.core.pokemob.RecallEvent;
 import pokecube.api.events.core.pokemob.SpawnEvent;
 import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
 import pokecube.api.events.core.pokemob.combat.MoveMessageEvent;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
@@ -42,13 +44,11 @@ import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.CapHolders;
-import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 
 public abstract class PokemobOwned extends PokemobAI implements ContainerListener
@@ -345,7 +345,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         if (this.getCombatState(CombatStates.ANGRY) && targ != null && this.getHealth() > 0)
             if (owner instanceof LivingEntity)
         {
-            final IPokemob targetMob = CapabilityPokemob.getPokemobFor(targ);
+            final IPokemob targetMob = PokemobCaps.getPokemobFor(targ);
             if (targetMob != null)
             {
                 BrainUtils.initiateCombat(targetMob.getEntity(), this.getOwner());

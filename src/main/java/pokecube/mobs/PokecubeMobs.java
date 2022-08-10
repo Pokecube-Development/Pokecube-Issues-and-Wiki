@@ -29,6 +29,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.events.core.onload.InitDatabase;
 import pokecube.api.events.core.onload.RegisterMiscItems;
@@ -51,7 +52,6 @@ import pokecube.core.database.stats.StatsCollector;
 import pokecube.core.database.types.CombatTypeLoader;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -189,7 +189,7 @@ public class PokecubeMobs
     @SubscribeEvent
     public void livingUpdate(final LivingUpdateEvent evt)
     {
-        final IPokemob shuckle = CapabilityPokemob.getPokemobFor(evt.getEntity());
+        final IPokemob shuckle = PokemobCaps.getPokemobFor(evt.getEntity());
         if (shuckle != null && shuckle.getPokedexNb() == 213)
         {
             if (evt.getEntity().level.isClientSide) return;
@@ -265,7 +265,7 @@ public class PokecubeMobs
                 {
                     final ItemStack mobCube = cube.copy();
                     mobCube.setCount(1);
-                    final IPokemob poke = CapabilityPokemob.getPokemobFor(pokemon);
+                    final IPokemob poke = PokemobCaps.getPokemobFor(pokemon);
                     poke.setPokecube(mobCube);
                     poke.setOwner(player);
                     poke.setExp(Tools.levelToXp(poke.getExperienceMode(), 20), true);
@@ -638,7 +638,7 @@ public class PokecubeMobs
                 if (evt.getCaught().isShadow())
                 {
                     final EntityPokecube cube = (EntityPokecube) evt.pokecube;
-                    final IPokemob mob = CapabilityPokemob.getPokemobFor(
+                    final IPokemob mob = PokemobCaps.getPokemobFor(
                             PokecubeCore.createPokemob(evt.getCaught().getPokedexEntry(), cube.getLevel()));
                     cube.setTilt(Tools.computeCatchRate(mob, 1));
                     cube.setTime(cube.getTilt() * 20 + 5);
@@ -676,7 +676,7 @@ public class PokecubeMobs
 
                 final EntityPokecube cube = (EntityPokecube) evt.pokecube;
 
-                final IPokemob mob = CapabilityPokemob
+                final IPokemob mob = PokemobCaps
                         .getPokemobFor(PokecubeCore.createPokemob(evt.getCaught().getPokedexEntry(), cube.getLevel()));
                 final Vector3 v = new Vector3();
                 final Entity thrower = cube.shootingEntity;

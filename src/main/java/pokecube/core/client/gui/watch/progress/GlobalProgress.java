@@ -10,6 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.TexButton;
@@ -18,7 +19,6 @@ import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.database.stats.EggStats;
 import pokecube.core.database.stats.KillStats;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.network.packets.PacketPokedex;
 
 public class GlobalProgress extends Progress
@@ -57,7 +57,7 @@ public class GlobalProgress extends Progress
         final AABB bb = centre.inflate(PokecubeCore.getConfig().maxSpawnRadius, 5, PokecubeCore
                 .getConfig().maxSpawnRadius);
         final List<Entity> otherMobs = this.watch.player.getLevel().getEntities(this.watch.player,
-                bb, input -> input instanceof Animal && CapabilityPokemob.getPokemobFor(input) != null);
+                bb, input -> input instanceof Animal && PokemobCaps.getPokemobFor(input) != null);
         final TranslatableComponent nearbyLine = new TranslatableComponent("pokewatch.progress.global.nearby",
                 otherMobs.size());
 

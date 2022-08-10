@@ -17,6 +17,7 @@ import net.minecraft.world.phys.AABB;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
@@ -25,7 +26,6 @@ import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.database.stats.EggStats;
 import pokecube.core.database.stats.KillStats;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.core.common.ThutCore;
 
@@ -128,7 +128,7 @@ public class PerMobProgress extends Progress
                 bb, input ->
                 {
                     IPokemob pokemob;
-                    if (!(input instanceof Animal && (pokemob = CapabilityPokemob.getPokemobFor(input)) != null))
+                    if (!(input instanceof Animal && (pokemob = PokemobCaps.getPokemobFor(input)) != null))
                         return false;
                     return pokemob.getPokedexEntry() == PerMobProgress.this.entry;
                 });

@@ -8,8 +8,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.api.entity.ai.IAIRunnable;
 import thut.core.common.network.Packet;
 
@@ -47,7 +47,7 @@ public class PacketUpdateAI extends Packet
         final int id = this.entityId;
         final CompoundTag data = this.data;
         final Entity e = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), id, true);
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(e);
         if (pokemob != null) for (final IAIRunnable runnable : pokemob.getTasks())
             if (runnable instanceof INBTSerializable && data.contains(runnable.getIdentifier()))
             {

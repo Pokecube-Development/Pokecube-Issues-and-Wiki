@@ -15,8 +15,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
 import pokecube.api.moves.IMoveConstants;
@@ -24,8 +26,6 @@ import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.database.moves.MoveEntry;
-import pokecube.core.impl.capabilities.CapabilityAffected;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.moves.MovesUtils;
@@ -89,7 +89,7 @@ public abstract class PokemobMoves extends PokemobStats
             }
         }
         final int statusChange = this.getChanges();
-        final IPokemob targetMob = CapabilityPokemob.getPokemobFor(BrainUtils.getAttackTarget(this.getEntity()));
+        final IPokemob targetMob = PokemobCaps.getPokemobFor(BrainUtils.getAttackTarget(this.getEntity()));
         if ((statusChange & IMoveConstants.CHANGE_FLINCH) != 0)
         {
             Component mess = CommandTools.makeTranslatedMessage("pokemob.status.flinch", "red", this.getDisplayName());
@@ -188,7 +188,7 @@ public abstract class PokemobMoves extends PokemobStats
     @Override
     public String[] getMoves()
     {
-        final IPokemob transformed = CapabilityPokemob.getPokemobFor(this.getTransformedTo());
+        final IPokemob transformed = PokemobCaps.getPokemobFor(this.getTransformedTo());
         if (transformed != null && transformed.getTransformedTo() == null)
         {
             final IPokemob to = transformed;
@@ -366,7 +366,7 @@ public abstract class PokemobMoves extends PokemobStats
         PokedexEntry newEntry = this.getPokedexEntry();
         if (id != -1)
         {
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(to);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(to);
             if (pokemob != null) newEntry = pokemob.getPokedexEntry();
         }
         this.getMoveStats().transformedTo = to;

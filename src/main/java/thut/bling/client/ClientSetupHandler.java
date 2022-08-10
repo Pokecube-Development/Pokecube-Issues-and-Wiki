@@ -11,13 +11,13 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import pokecube.core.PokecubeCore;
+import thut.bling.ThutBling;
 import thut.bling.bag.large.LargeContainer;
 import thut.bling.bag.small.SmallContainer;
 import thut.bling.client.gui.Bag;
 import thut.wearables.EnumWearable;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = ThutBling.MODID, value = Dist.CLIENT)
 public class ClientSetupHandler
 {
     @SubscribeEvent

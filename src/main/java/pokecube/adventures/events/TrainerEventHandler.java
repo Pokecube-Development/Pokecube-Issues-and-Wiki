@@ -67,6 +67,7 @@ import pokecube.adventures.items.Linker;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.trainers.IHasMessages;
 import pokecube.api.entity.trainers.IHasNPCAIStates;
@@ -97,7 +98,6 @@ import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.moves.damage.TerrainDamageSource;
@@ -320,7 +320,7 @@ public class TrainerEventHandler
     public static Function<LivingEntity, Integer> goodKill = (e) -> {
         // The VillagerEntity.sawMurder handles this case just fine.
         if (e instanceof Villager) return 0;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(e);
         if (pokemob != null)
             return pokemob.getGeneralState(GeneralStates.TAMED) ? PokecubeAdv.config.trainer_tame_kill_rep
                     : PokecubeAdv.config.trainer_wild_kill_rep;

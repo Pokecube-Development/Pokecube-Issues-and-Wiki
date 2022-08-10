@@ -32,6 +32,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.data.PokedexEntry.SpawnData;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
@@ -42,7 +43,6 @@ import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.events.SpawnHandler.AABBRegion;
 import pokecube.core.handlers.events.SpawnHandler.ForbidRegion;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.Tracker;
 import thut.api.world.IWorldTickListener;
@@ -185,7 +185,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
             final Entity mob = world.getEntity(uuid);
             if (mob == null || !(mob instanceof Mob)) return true;
             if (!this.canEnterHabitat((Mob) mob)) return true;
-            pokemobs.add(CapabilityPokemob.getPokemobFor(mob));
+            pokemobs.add(PokemobCaps.getPokemobFor(mob));
             return false;
         });
         return pokemobs;
@@ -259,7 +259,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
                 selection:
                 for (final EntityType<?> t : types)
                 {
-                    final IPokemob pokemob = CapabilityPokemob.getPokemobFor(t.create(world));
+                    final IPokemob pokemob = PokemobCaps.getPokemobFor(t.create(world));
                     if (pokemob != null)
                     {
                         final PokedexEntry entry = pokemob.getPokedexEntry();
@@ -364,7 +364,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
     @Override
     public boolean canEnterHabitat(final Mob mob)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob == null) return false;
         return this.valid.test(pokemob.getPokedexEntry());
     }

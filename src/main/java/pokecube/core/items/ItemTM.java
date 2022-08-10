@@ -11,10 +11,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.PokeType;
 import thut.core.common.ThutCore;
@@ -32,7 +32,7 @@ public class ItemTM extends Item
 
     public static boolean feedToPokemob(final ItemStack stack, final Entity entity)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob != null) return ItemTM.teachToPokemob(stack, pokemob);
         return false;
     }

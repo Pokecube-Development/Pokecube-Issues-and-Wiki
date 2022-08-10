@@ -8,10 +8,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.handlers.TeamManager;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 
 public class CallForHelpTask extends CombatTask
 {
@@ -56,7 +56,7 @@ public class CallForHelpTask extends CombatTask
         // (including null) or is on the team.
         final Predicate<LivingEntity> relationCheck = input ->
         {
-            final IPokemob other = CapabilityPokemob.getPokemobFor(input);
+            final IPokemob other = PokemobCaps.getPokemobFor(input);
             // No pokemob, no helps.
             if (other == null) return false;
             // Not related, no helps.

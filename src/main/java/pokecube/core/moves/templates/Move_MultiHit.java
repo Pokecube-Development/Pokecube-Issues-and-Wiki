@@ -6,8 +6,8 @@ import javax.annotation.Nullable;
 import net.minecraft.world.entity.Entity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.core.pokemob.combat.MoveUse;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.moves.animations.EntityMoveUse;
 import thut.api.maths.Vector3;
@@ -24,7 +24,7 @@ public class Move_MultiHit extends Move_Basic
     public void ActualMoveUse(@Nonnull final Entity user, @Nullable final Entity target, @Nonnull final Vector3 start,
             @Nonnull final Vector3 end)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(user);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(user);
         if (pokemob == null) return;
         final int count = this.getCount(pokemob, target);
         int duration = 5;

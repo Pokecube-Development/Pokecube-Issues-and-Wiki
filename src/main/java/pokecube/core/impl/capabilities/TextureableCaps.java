@@ -14,6 +14,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
@@ -100,7 +101,7 @@ public class TextureableCaps
         {
             this();
             this.mob = mob;
-            this.pokemob = CapabilityPokemob.getPokemobFor(mob);
+            this.pokemob = PokemobCaps.getPokemobFor(mob);
         }
 
         @Override
@@ -112,14 +113,14 @@ public class TextureableCaps
         @Override
         public LivingEntity getEntity()
         {
-            if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
+            if (this.pokemob == null) this.pokemob = PokemobCaps.getPokemobFor(this.mob);
             return this.mob;
         }
 
         @Override
         public int getRandomSeed()
         {
-            if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
+            if (this.pokemob == null) this.pokemob = PokemobCaps.getPokemobFor(this.mob);
             if (this.mob.isAddedToWorld()) return (int) System.nanoTime();
             return this.pokemob.getRNGValue();
         }
@@ -127,14 +128,14 @@ public class TextureableCaps
         @Override
         public String getModId()
         {
-            if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
+            if (this.pokemob == null) this.pokemob = PokemobCaps.getPokemobFor(this.mob);
             return this.pokemob.getPokedexEntry().getModId();
         }
 
         @Override
         public ResourceLocation getTexture(final String part)
         {
-            if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
+            if (this.pokemob == null) this.pokemob = PokemobCaps.getPokemobFor(this.mob);
             return this.pokemob.getTexture();
         }
 
@@ -157,7 +158,7 @@ public class TextureableCaps
         @Override
         public ResourceLocation preApply(final ResourceLocation in)
         {
-            if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
+            if (this.pokemob == null) this.pokemob = PokemobCaps.getPokemobFor(this.mob);
             return this.pokemob.modifyTexture(in);
         }
 
@@ -168,7 +169,7 @@ public class TextureableCaps
         {
             if (this.forme == null || this.pokemob == null || this.pokemob.getPokedexEntry() != this.lastEntry)
             {
-                if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
+                if (this.pokemob == null) this.pokemob = PokemobCaps.getPokemobFor(this.mob);
                 this.lastEntry = this.pokemob.getPokedexEntry();
                 this.forme = this.pokemob.getPokedexEntry().getTrimmedName();
             }

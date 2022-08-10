@@ -20,19 +20,19 @@ import net.minecraftforge.entity.PartEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.events.core.pokemob.SpawnEvent.SendOut;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.IRunnable;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
-import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
@@ -95,7 +95,7 @@ public class SendOutManager
 
         if (mob == null) return null;
 
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         final Config config = PokecubeCore.getConfig();
 
         // Next check some conditions for whether the sendout can occur.

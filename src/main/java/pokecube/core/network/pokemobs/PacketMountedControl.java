@@ -5,9 +5,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.core.common.network.Packet;
 
 public class PacketMountedControl extends Packet
@@ -87,7 +87,7 @@ public class PacketMountedControl extends Packet
     public void handleClient()
     {
         final Entity mob = PokecubeCore.proxy.getWorld().getEntity(this.entityId);
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (mob != null && mob.getControllingPassenger() != PokecubeCore.proxy.getPlayer()) switch (this.message)
         {
         case 0:
@@ -112,7 +112,7 @@ public class PacketMountedControl extends Packet
     public void handleServer(final ServerPlayer player)
     {
         final Entity mob = player.getLevel().getEntity(this.entityId);
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob != null && pokemob.getController() != null)
         {
             final Entity entity = pokemob.getEntity().getControllingPassenger();

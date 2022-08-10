@@ -22,10 +22,10 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.core.EggEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.api.maths.Vector3;
 
 /** @author Manchou */
@@ -210,7 +210,7 @@ public class EntityPokemobEgg extends AgeableMob
 
     public EntityPokemobEgg setStackByParents(final Entity placer, final IPokemob father)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(placer);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(placer);
         final ItemStack itemstack = ItemPokemobEgg.getEggStack(pokemob);
         ItemPokemobEgg.initStack(placer, father, itemstack);
         this.setItemInHand(InteractionHand.MAIN_HAND, itemstack);

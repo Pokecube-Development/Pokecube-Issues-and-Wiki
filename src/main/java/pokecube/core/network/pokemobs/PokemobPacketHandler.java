@@ -8,7 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import thut.core.common.network.Packet;
 
 /**
@@ -62,7 +62,7 @@ public class PokemobPacketHandler
             final int id = this.buffer.readInt();
             final ServerLevel world = player.getLevel();
             final Entity entity = PokecubeAPI.getEntityProvider().getEntity(world, id, true);
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             if (pokemob == null || !player.getUUID().equals(pokemob.getOwnerId())) return;
             if (channel == MessageServer.RETURN) pokemob.onRecall();
             else if (channel == MessageServer.CANCELEVOLVE) pokemob.cancelEvolve();

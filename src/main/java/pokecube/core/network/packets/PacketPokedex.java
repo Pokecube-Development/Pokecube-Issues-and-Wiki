@@ -34,6 +34,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.SpawnData;
 import pokecube.api.data.PokedexEntry.SpawnData.SpawnEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.PokecubeCore;
@@ -51,7 +52,6 @@ import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.events.SpawnHandler.ForbidReason;
 import pokecube.core.handlers.events.SpawnHandler.ForbiddenEntry;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import thut.api.entity.ThutTeleporter.TeleDest;
@@ -290,7 +290,7 @@ public class PacketPokedex extends NBTPacket
         case OPEN:
             final Entity mob = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), this.getTag().getInt("M"),
                     true);
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
             final boolean watch = this.getTag().getBoolean("W");
             if (watch) net.minecraft.client.Minecraft.getInstance()
                     .setScreen(new GuiPokeWatch(player, mob instanceof LivingEntity ? (LivingEntity) mob : null));
@@ -406,7 +406,7 @@ public class PacketPokedex extends NBTPacket
         {
         case INSPECTMOB:
             mob = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), this.getTag().getInt("V"), true);
-            pokemob = CapabilityPokemob.getPokemobFor(mob);
+            pokemob = PokemobCaps.getPokemobFor(mob);
             if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player)
                     .getData(PokecubePlayerStats.class).inspect(player, pokemob);
             return;

@@ -24,8 +24,8 @@ import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.entity.pokemobs.PokemobType;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.EntityTools;
 
 public class ShoulderLayer<T extends Player> extends RenderLayer<T, PlayerModel<T>>
@@ -69,7 +69,7 @@ public class ShoulderLayer<T extends Player> extends RenderLayer<T, PlayerModel<
                 final int uid = tag.getInt("pokemob:uid");
                 if (this.left != null) if (this.left.getPokemonUID() == uid) return;
                 final Optional<Entity> mob = EntityType.create(tag, this.player.getLevel());
-                if (mob.isPresent()) this.left = CapabilityPokemob.getPokemobFor(mob.get());
+                if (mob.isPresent()) this.left = PokemobCaps.getPokemobFor(mob.get());
             });
             return this.left;
         }
@@ -86,7 +86,7 @@ public class ShoulderLayer<T extends Player> extends RenderLayer<T, PlayerModel<
                 final int uid = tag.getInt("pokemob:uid");
                 if (this.right != null) if (this.right.getPokemonUID() == uid) return;
                 final Optional<Entity> mob = EntityType.create(tag, this.player.getLevel());
-                if (mob.isPresent()) this.right = CapabilityPokemob.getPokemobFor(mob.get());
+                if (mob.isPresent()) this.right = PokemobCaps.getPokemobFor(mob.get());
             });
             return this.right;
         }

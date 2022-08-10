@@ -23,8 +23,8 @@ import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.api.blocks.IInhabitable;
+import pokecube.api.entity.CapabilityInhabitable;
 import pokecube.core.ai.tasks.bees.BeeTasks;
-import pokecube.core.impl.capabilities.CapabilityInhabitable;
 
 public class HiveSensor extends Sensor<Mob>
 {

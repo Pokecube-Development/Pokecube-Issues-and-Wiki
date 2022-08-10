@@ -21,6 +21,8 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeItems;
 import pokecube.core.entity.pokemobs.genetics.epigenes.EVsGene;
 import pokecube.core.entity.pokemobs.genetics.epigenes.MovesGene;
@@ -33,7 +35,6 @@ import pokecube.core.entity.pokemobs.genetics.genes.ShinyGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SizeGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
@@ -44,8 +45,8 @@ public class GeneticsManager
 {
     public static class GeneticsProvider implements ICapabilityProvider, INBTSerializable<CompoundTag>
     {
-        public final IMobGenetics                wrapped = new DefaultGenetics();
-        private final LazyOptional<IMobGenetics> holder  = LazyOptional.of(() -> this.wrapped);
+        public final IMobGenetics wrapped = new DefaultGenetics();
+        private final LazyOptional<IMobGenetics> holder = LazyOptional.of(() -> this.wrapped);
 
         @Override
         public void deserializeNBT(final CompoundTag tag)
@@ -72,19 +73,19 @@ public class GeneticsManager
 
     public static String epigeneticFunction = "rand()*(((2*v + 256) * 31) / 512)";
 
-    public static JEP                    epigeneticParser = new JEP();
-    public static final ResourceLocation POKECUBEGENETICS = new ResourceLocation(PokecubeMod.ID, "genetics");
+    public static JEP epigeneticParser = new JEP();
+    public static final ResourceLocation POKECUBEGENETICS = new ResourceLocation(TagNames.GENESCAP);
 
-    public static final String           GENES       = "Genes";
+    public static final String GENES = "Genes";
     public static final ResourceLocation ABILITYGENE = new ResourceLocation(PokecubeMod.ID, "ability");
-    public static final ResourceLocation COLOURGENE  = new ResourceLocation(PokecubeMod.ID, "colour");
-    public static final ResourceLocation SIZEGENE    = new ResourceLocation(PokecubeMod.ID, "size");
-    public static final ResourceLocation NATUREGENE  = new ResourceLocation(PokecubeMod.ID, "nature");
-    public static final ResourceLocation SHINYGENE   = new ResourceLocation(PokecubeMod.ID, "shiny");
-    public static final ResourceLocation MOVESGENE   = new ResourceLocation(PokecubeMod.ID, "moves");
-    public static final ResourceLocation IVSGENE     = new ResourceLocation(PokecubeMod.ID, "ivs");
-    public static final ResourceLocation EVSGENE     = new ResourceLocation(PokecubeMod.ID, "evs");
-    public static final ResourceLocation GMAXGENE    = new ResourceLocation(PokecubeMod.ID, "gmax");
+    public static final ResourceLocation COLOURGENE = new ResourceLocation(PokecubeMod.ID, "colour");
+    public static final ResourceLocation SIZEGENE = new ResourceLocation(PokecubeMod.ID, "size");
+    public static final ResourceLocation NATUREGENE = new ResourceLocation(PokecubeMod.ID, "nature");
+    public static final ResourceLocation SHINYGENE = new ResourceLocation(PokecubeMod.ID, "shiny");
+    public static final ResourceLocation MOVESGENE = new ResourceLocation(PokecubeMod.ID, "moves");
+    public static final ResourceLocation IVSGENE = new ResourceLocation(PokecubeMod.ID, "ivs");
+    public static final ResourceLocation EVSGENE = new ResourceLocation(PokecubeMod.ID, "evs");
+    public static final ResourceLocation GMAXGENE = new ResourceLocation(PokecubeMod.ID, "gmax");
 
     public static final ResourceLocation SPECIESGENE = new ResourceLocation(PokecubeMod.ID, "species");
 
@@ -108,9 +109,9 @@ public class GeneticsManager
 
     public static void registerCapabilities(final AttachCapabilitiesEvent<ItemStack> event)
     {
-        if (ItemList.is(PokecubeItems.POKEMOBEGG, event.getObject()) && !event.getCapabilities().containsKey(
-                GeneticsManager.POKECUBEGENETICS)) event.addCapability(GeneticsManager.POKECUBEGENETICS,
-                        new GeneticsProvider());
+        if (ItemList.is(PokecubeItems.POKEMOBEGG, event.getObject())
+                && !event.getCapabilities().containsKey(GeneticsManager.POKECUBEGENETICS))
+            event.addCapability(GeneticsManager.POKECUBEGENETICS, new GeneticsProvider());
     }
 
     public static List<String> getMutationConfig()
@@ -181,7 +182,7 @@ public class GeneticsManager
 
     public static void initMob(final Entity mob)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         pokemob.onGenesChanged();
     }
 }

@@ -6,6 +6,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.eventbus.api.Event;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.pokemob.IHasCommands.Command;
@@ -16,8 +17,6 @@ import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
 import pokecube.api.events.core.pokemob.combat.MoveUse;
 import pokecube.api.moves.IMoveConstants;
-import pokecube.core.impl.capabilities.CapabilityAffected;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;
 import pokecube.core.moves.MovesUtils;
@@ -154,7 +153,7 @@ public interface IHasMoves extends IHasStats
      */
     default String getMove(final int index)
     {
-        final IPokemob to = CapabilityPokemob.getPokemobFor(this.getTransformedTo());
+        final IPokemob to = PokemobCaps.getPokemobFor(this.getTransformedTo());
         if (to != null && this.getTransformedTo() == null) return to.getMove(index);
 
         final String[] moves = this.getMoves();
@@ -236,7 +235,7 @@ public interface IHasMoves extends IHasStats
         if (!MovesUtils.isMoveImplemented(moveName)) return;
         final String[] moves = this.getMoves();
         final LivingEntity thisEntity = this.getEntity();
-        final IPokemob thisMob = CapabilityPokemob.getPokemobFor(thisEntity);
+        final IPokemob thisMob = PokemobCaps.getPokemobFor(thisEntity);
         // check it's not already known or forgotten
         for (final String move : moves)
             if (moveName.equals(move)) return;

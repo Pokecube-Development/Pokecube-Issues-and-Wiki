@@ -29,12 +29,12 @@ import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.adventures.CloneEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.IMobGenetics;
@@ -59,7 +59,7 @@ public class RecipeClone extends PoweredRecipe
             {
                 ItemStack dnaSource = tile.getItem(0);
                 if (!dnaSource.isEmpty()) dnaSource = dnaSource.copy();
-                IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+                IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
                 entity.setHealth(entity.getMaxHealth());
                 // to avoid the death on spawn
                 final int exp = Tools.levelToXp(entry.getEvolutionMode(), AnyMatcher.level);

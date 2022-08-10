@@ -22,6 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.items.IPokecube;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -29,7 +30,6 @@ import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.Resources;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.database.Database;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.network.packets.PacketChoose;
 import pokecube.core.utils.PokeType;
 import thut.api.entity.IMobColourable;
@@ -278,7 +278,7 @@ public class GuiChooseFirstPokemob extends Screen
         {
             final Mob entity = this.getEntityToDisplay();
 
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             pokemob.setShiny(false);
             pokemob.setSize(1);
 

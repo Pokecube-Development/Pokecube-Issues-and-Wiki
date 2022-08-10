@@ -20,12 +20,12 @@ import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.Selector
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.events.adventures.GeneEditEvent;
 import pokecube.api.events.adventures.GeneEditEvent.EditType;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.utils.TagNames;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.GeneRegistry;

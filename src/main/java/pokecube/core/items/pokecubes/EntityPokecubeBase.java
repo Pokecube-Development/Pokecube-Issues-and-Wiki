@@ -44,16 +44,16 @@ import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.PokemobTracker;
-import pokecube.core.utils.TagNames;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
@@ -157,7 +157,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
         {
             if (PokecubeManager.isFilled(this.getItem()))
             {
-                final IPokemob mob = CapabilityPokemob.getPokemobFor(SendOutManager.sendOut(this, true));
+                final IPokemob mob = PokemobCaps.getPokemobFor(SendOutManager.sendOut(this, true));
                 if (mob != null) mob.onRecall();
             }
             this.discard();
@@ -168,7 +168,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
     @Override
     protected void outOfWorld()
     {
-        final IPokemob mob = CapabilityPokemob.getPokemobFor(SendOutManager.sendOut(this, true, false));
+        final IPokemob mob = PokemobCaps.getPokemobFor(SendOutManager.sendOut(this, true, false));
         if (mob != null && mob.getOwnerId() != null) mob.onRecall();
     }
 
@@ -200,7 +200,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
         case ENTITY:
             final EntityHitResult hit = (EntityHitResult) result;
             final Entity hitEntity = EntityTools.getCoreEntity(hit.getEntity());
-            final IPokemob hitMob = CapabilityPokemob.getPokemobFor(hitEntity);
+            final IPokemob hitMob = PokemobCaps.getPokemobFor(hitEntity);
 
             final boolean invalidStick = hitEntity instanceof Player || !capturing || hitMob == null || hitMob
                     .getOwnerId() != null;
@@ -557,7 +557,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
         this.isCapturing = true;
         this.canBePickedUp = false;
 
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob != null && pokemob.getBossInfo() != null)
         {
             pokemob.getBossInfo().removeAllPlayers();

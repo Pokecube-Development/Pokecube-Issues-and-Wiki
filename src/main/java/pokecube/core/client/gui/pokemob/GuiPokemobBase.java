@@ -30,13 +30,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.api.util.JsonUtil;
 
 public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
@@ -86,7 +86,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
     public static void renderMob(final PoseStack mat, final LivingEntity entity, final int dx, final int dy,
             final float pitch, final float yaw, final float headPitch, final float headYaw, float scale)
     {
-        IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         LivingEntity renderMob = entity;
         final int j = dx;
         final int k = dy;

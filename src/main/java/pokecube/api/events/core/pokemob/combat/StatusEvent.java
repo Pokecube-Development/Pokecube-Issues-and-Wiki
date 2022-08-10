@@ -4,7 +4,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
 
 /**
@@ -24,7 +24,7 @@ public class StatusEvent extends EntityEvent
     {
         super(entity);
         this.status = status;
-        this.pokemob = CapabilityPokemob.getPokemobFor(entity);
+        this.pokemob = PokemobCaps.getPokemobFor(entity);
     }
 
     public IPokemob getPokemob()

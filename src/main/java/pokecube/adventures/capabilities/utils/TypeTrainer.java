@@ -49,6 +49,7 @@ import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.adventures.utils.TrainerTracker;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.trainers.IHasPokemobs;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.events.core.pokemob.SpawnEvent.Variance;
@@ -62,7 +63,6 @@ import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
@@ -210,7 +210,7 @@ public class TypeTrainer extends NpcType
             // 5% chance of battling a random nearby pokemob if they see it.
             if (Config.instance.trainersBattlePokemobs)
             {
-                task = new AgroTargets(npc, 0.005f, 1200, z -> CapabilityPokemob.getPokemobFor(z) != null)
+                task = new AgroTargets(npc, 0.005f, 1200, z -> PokemobCaps.getPokemobFor(z) != null)
                         .setRunCondition(noRunWhileRest);
                 list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
                 task = new CaptureMob(npc, 1);
@@ -406,7 +406,7 @@ public class TypeTrainer extends NpcType
     public static ItemStack makeStack(final PokedexEntry entry, final LivingEntity trainer, final LevelAccessor world,
             final int level)
     {
-        IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getLevel()));
+        IPokemob pokemob = PokemobCaps.getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getLevel()));
         if (pokemob != null)
         {
             final double x = trainer.getX();

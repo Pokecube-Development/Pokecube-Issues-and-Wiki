@@ -11,13 +11,13 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.events.core.pokemob.combat.MoveUse;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.database.moves.MoveEntry.Category;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.animations.EntityMoveUse;
@@ -105,7 +105,7 @@ public abstract class Move_Base
     public void ActualMoveUse(@Nonnull final Entity user, @Nullable final Entity target, @Nonnull final Vector3 start,
             @Nonnull final Vector3 end)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(user);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(user);
         if (pokemob == null) return;
         // TODO add an error message here?
         if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, this, target))) return;

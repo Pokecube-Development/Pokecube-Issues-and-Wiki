@@ -27,10 +27,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.damage.TerrainDamageSource;
 import pokecube.core.moves.damage.TerrainDamageSource.TerrainType;
 import pokecube.core.network.packets.PacketSyncTerrain;
@@ -203,7 +203,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
                 .getConfig().attackCooldown) != 0) return;
         if (!AITools.validTargets.test(entity) || !(entity.getLevel() instanceof ServerLevel)) return;
 
-        final IPokemob mob = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob mob = PokemobCaps.getPokemobFor(entity);
         boolean immune = false;
         final float thisMaxHP = entity.getMaxHealth();
         float damage = 0;
@@ -259,7 +259,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
     public void doEntryEffect(final LivingEntity entity)
     {
-        final IPokemob mob = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob mob = PokemobCaps.getPokemobFor(entity);
         if (mob != null && entity.getLevel() instanceof ServerLevel)
         {
             if (this.effects.containsKey(EntryEffectType.POISON.getIndex()) && !mob.isType(PokeType.getType("poison"))

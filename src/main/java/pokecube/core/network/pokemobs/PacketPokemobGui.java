@@ -10,10 +10,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.network.packets.PacketSyncRoutes;
 import thut.api.entity.ai.IAIRunnable;
 import thut.core.common.network.Packet;
@@ -74,7 +74,7 @@ public class PacketPokemobGui extends Packet
         buffer.writeByte(this.message);
         final byte mode = this.message;
         SimpleMenuProvider provider;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return;
 
         switch (this.message)

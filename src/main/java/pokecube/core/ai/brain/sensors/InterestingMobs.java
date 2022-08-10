@@ -21,11 +21,11 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.phys.AABB;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.entity.BreedableCaps;
 import thut.api.entity.IBreedingMob;
@@ -53,7 +53,7 @@ public class InterestingMobs extends Sensor<LivingEntity>
     {
         final IBreedingMob us = BreedableCaps.getBreedable(entityIn);
         if (entityIn == otherAnimal) return false;
-        final IPokemob other = CapabilityPokemob.getPokemobFor(otherAnimal);
+        final IPokemob other = PokemobCaps.getPokemobFor(otherAnimal);
         if (other != null && !InterestingMobs.canPokemobMate(other)) return false;
         final IBreedingMob them = BreedableCaps.getBreedable(otherAnimal);
         // Make the breeding check take either direction. This allows checking
@@ -89,7 +89,7 @@ public class InterestingMobs extends Sensor<LivingEntity>
         });
         list.sort(Comparator.comparingDouble(entityIn::distanceToSqr));
         final Brain<?> brain = entityIn.getBrain();
-        final IPokemob us = CapabilityPokemob.getPokemobFor(entityIn);
+        final IPokemob us = PokemobCaps.getPokemobFor(entityIn);
         final boolean canMate = entityIn instanceof AgeableMob && (us == null || InterestingMobs.canPokemobMate(us));
         for (final Entity e : list) if (e instanceof LivingEntity)
         {

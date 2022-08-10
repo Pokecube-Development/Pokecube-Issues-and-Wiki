@@ -1,4 +1,4 @@
-package pokecube.core.impl.capabilities;
+package pokecube.api.entity;
 
 import java.util.Map;
 import java.util.function.Supplier;
@@ -20,7 +20,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.api.blocks.IInhabitable;
-import pokecube.core.utils.TagNames;
+import pokecube.api.utils.TagNames;
 
 public class CapabilityInhabitable
 {

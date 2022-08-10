@@ -71,8 +71,11 @@ import pokecube.api.ai.IInhabitor;
 import pokecube.api.blocks.IInhabitable;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
+import pokecube.api.entity.CapabilityInhabitable;
+import pokecube.api.entity.CapabilityInhabitor;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
@@ -81,6 +84,7 @@ import pokecube.api.events.core.CustomInteractEvent;
 import pokecube.api.events.core.pokemob.InteractEvent;
 import pokecube.api.events.core.pokemob.combat.KillEvent;
 import pokecube.api.items.IPokemobUseable;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
@@ -88,9 +92,6 @@ import pokecube.core.ai.logic.Logic;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
-import pokecube.core.impl.capabilities.CapabilityInhabitable;
-import pokecube.core.impl.capabilities.CapabilityInhabitor;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
@@ -103,7 +104,6 @@ import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
-import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
@@ -273,7 +273,7 @@ public class PokemobEventsHandler
         }
 
         // Handles the mobs dropping their inventory.
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
         if (pokemob != null)
         {
             if (pokemob.getOwnerId() != null)
@@ -318,7 +318,7 @@ public class PokemobEventsHandler
             evt.setCanceled(true);
             return;
         }
-        IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
+        IPokemob pokemob = PokemobCaps.getPokemobFor(evt.getEntity());
         // check if configs say this damage can't happen
         if (pokemob != null && !AITools.validToHitPokemob.test(evt.getSource()))
         {
@@ -336,7 +336,7 @@ public class PokemobEventsHandler
 
             // Check if a player riding something, if so, compute a larger
             // hitbox and try to push out of the wall
-            pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity().getVehicle());
+            pokemob = PokemobCaps.getPokemobFor(evt.getEntity().getVehicle());
             final boolean playerRiding = evt.getEntity() instanceof Player && pokemob != null;
             if (playerRiding) toPush = pokemob.getEntity();
 
@@ -406,7 +406,7 @@ public class PokemobEventsHandler
                 pokemobs.removeIf(e -> !e.isAlive());
                 for (final Entity mob : pokemobs)
                 {
-                    final IPokemob poke = CapabilityPokemob.getPokemobFor(mob);
+                    final IPokemob poke = PokemobCaps.getPokemobFor(mob);
                     if (poke != null && poke.getEntity().getHealth() > 0
                             && ItemList.is(new ResourceLocation("pokecube", "exp_share"), poke.getHeldItem())
                             && !poke.getLogicState(LogicStates.SITTING))
@@ -422,7 +422,7 @@ public class PokemobEventsHandler
 
     private static void onLivingAttacked(final LivingAttackEvent event)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getSource().getDirectEntity());
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getSource().getDirectEntity());
         if (pokemob != null) pokemob.setCombatState(CombatStates.NOITEMUSE, false);
 
         if (event.getSource().getDirectEntity() != null
@@ -435,7 +435,7 @@ public class PokemobEventsHandler
     private static void onLivingDeath(final LivingDeathEvent evt)
     {
         // If the thing that died was a pokemob, ensure no boss bar left
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(evt.getEntity());
         if (pokemob != null && pokemob.getBossInfo() != null)
         {
             pokemob.getBossInfo().removeAllPlayers();
@@ -450,7 +450,7 @@ public class PokemobEventsHandler
                     (LivingEntity) evt.getEntity());
 
         // Handle exp gain for the mob.
-        final IPokemob attacker = CapabilityPokemob.getPokemobFor(damageSource.getDirectEntity());
+        final IPokemob attacker = PokemobCaps.getPokemobFor(damageSource.getDirectEntity());
         if (attacker != null && damageSource.getDirectEntity() instanceof Mob) PokemobEventsHandler
                 .handleExp((Mob) damageSource.getDirectEntity(), attacker, (LivingEntity) evt.getEntity());
     }
@@ -468,7 +468,7 @@ public class PokemobEventsHandler
     {
         final Entity mob = event.getEntity();
         final Level world = mob.level;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob == null) return;
         pokemob.setEntity((Mob) mob);
         final IPokemob modified = pokemob.onAddedInit();
@@ -485,7 +485,7 @@ public class PokemobEventsHandler
     private static void onBrainInit(final BrainInitEvent event)
     {
         final Entity mob = event.getEntity();
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob == null) return;
         pokemob.preInitAI();
     }
@@ -493,7 +493,7 @@ public class PokemobEventsHandler
     private static void onStartTracking(final StartTracking event)
     {
         // Sync genes over to players when they start tracking a pokemob
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getTarget());
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getTarget());
         if (pokemob == null) return;
         if (!(event.getEntity() instanceof ServerPlayer)) return;
         final PokedexEntry entry = pokemob.getPokedexEntry();
@@ -514,7 +514,7 @@ public class PokemobEventsHandler
     private static void onStopTracking(final StopTracking event)
     {
         // Sync genes over to players when they start tracking a pokemob
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getTarget());
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getTarget());
         if (pokemob == null) return;
         if (!(event.getEntity() instanceof ServerPlayer)) return;
         if (pokemob.getBossInfo() != null) pokemob.getBossInfo().removePlayer((ServerPlayer) event.getEntity());
@@ -523,7 +523,7 @@ public class PokemobEventsHandler
     private static void onWorldTick(final WorldTickEvent evt)
     {
         for (final Player player : evt.world.players()) if (player.getVehicle() instanceof LivingEntity
-                && CapabilityPokemob.getPokemobFor(player.getVehicle()) != null)
+                && PokemobCaps.getPokemobFor(player.getVehicle()) != null)
         {
             final LivingEntity ridden = (LivingEntity) player.getVehicle();
             EntityTools.copyRotations(ridden, player);
@@ -562,7 +562,7 @@ public class PokemobEventsHandler
         if (tick == Tracker.instance().getTick()) return;
         living.getPersistentData().putLong("__i__", Tracker.instance().getTick());
 
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(living);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(living);
         if (pokemob != null)
         {
             // Reset death time if we are not dead.
@@ -579,7 +579,7 @@ public class PokemobEventsHandler
     private static void onBreakSpeed(final PlayerEvent.BreakSpeed evt)
     {
         Entity mount = evt.getPlayer().getVehicle();
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mount);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mount);
         if (pokemob == null) return;
 
         boolean inWater = evt.getPlayer().isEyeInFluid(FluidTags.WATER)
@@ -615,7 +615,7 @@ public class PokemobEventsHandler
                 PokecubeCore.getConfig().movementPauseThreshold + dist);
         if (tooFast) living.setDeltaMovement(0, living.getDeltaMovement().y, 0);
 
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(living);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(living);
         if (pokemob instanceof DefaultPokemob && living instanceof EntityPokemob && dim instanceof ServerLevel level)
         {
             final DefaultPokemob pokemobCap = (DefaultPokemob) pokemob;
@@ -683,7 +683,7 @@ public class PokemobEventsHandler
 
     private static void handleExp(final Mob pokemob, final IPokemob attacker, final LivingEntity attacked)
     {
-        final IPokemob attackedMob = CapabilityPokemob.getPokemobFor(attacked);
+        final IPokemob attackedMob = PokemobCaps.getPokemobFor(attacked);
         if (PokecubeCore.getConfig().nonPokemobExp && attackedMob == null)
         {
             final JEP parser = new JEP();
@@ -783,7 +783,7 @@ public class PokemobEventsHandler
     private static void processInteract(final PlayerInteractEvent evt, final Entity target)
     {
         if (!(evt.getPlayer() instanceof ServerPlayer)) return;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(target);
         if (pokemob == null) return;
 
         final ServerPlayer player = (ServerPlayer) evt.getPlayer();

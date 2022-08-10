@@ -12,12 +12,12 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.items.IPokecube.PokecubeBehavior;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.RecipePokeseals;
-import pokecube.core.utils.TagNames;
 import thut.core.common.network.Packet;
 
 public class PacketTrade extends Packet

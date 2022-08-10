@@ -13,6 +13,7 @@ import net.minecraft.world.entity.ai.behavior.EntityTracker;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.FakePlayer;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.moves.IMoveConstants;
@@ -20,7 +21,6 @@ import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.combat.CombatTask;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.moves.MovesUtils;
 import thut.api.Tracker;
@@ -259,7 +259,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         if (!target.isAlive() || target.getHealth() <= 0 || this.pokemob.getHealth() <= 0 || !this.entity.isAlive())
             return false;
 
-        if (target != this.entityTarget) this.pokemobTarget = CapabilityPokemob.getPokemobFor(target);
+        if (target != this.entityTarget) this.pokemobTarget = PokemobCaps.getPokemobFor(target);
         this.entityTarget = target;
 
         return true;

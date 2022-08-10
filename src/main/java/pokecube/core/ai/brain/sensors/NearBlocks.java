@@ -22,12 +22,12 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
@@ -78,7 +78,7 @@ public class NearBlocks extends Sensor<LivingEntity>
         }
         this.tick++;
         if (this.tick % PokecubeCore.getConfig().nearBlockUpdateRate != 0) return;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityIn);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entityIn);
         final boolean gathering = pokemob != null && pokemob.isPlayerOwned() && pokemob.isRoutineEnabled(
                 AIRoutine.GATHER) && this.tameCheck(pokemob);
         final int size = gathering ? 15 : 8;

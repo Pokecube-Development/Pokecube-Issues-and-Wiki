@@ -10,7 +10,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
-import pokecube.core.utils.TagNames;
+import pokecube.api.utils.TagNames;
 import thut.api.entity.ai.IAIRunnable;
 
 public abstract class PokemobSaves extends PokemobOwned implements TagNames

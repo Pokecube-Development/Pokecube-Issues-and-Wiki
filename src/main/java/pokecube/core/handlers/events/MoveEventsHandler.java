@@ -44,6 +44,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.events.core.pokemob.combat.MoveUse;
 import pokecube.api.events.core.pokemob.combat.MoveUse.MoveWorldAction;
@@ -59,7 +60,6 @@ import pokecube.core.handlers.Config;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.handlers.events.SpawnHandler.ForbidReason;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;
 import pokecube.core.impl.entity.impl.OngoingMoveEffect;
@@ -571,7 +571,7 @@ public class MoveEventsHandler
         final MovePacket move = evt.getPacket();
         IPokemob attacker = move.attacker;
         final Entity attacked = move.attacked;
-        final IPokemob target = CapabilityPokemob.getPokemobFor(attacked);
+        final IPokemob target = PokemobCaps.getPokemobFor(attacked);
 
         final IPokemobUseable attackerheld = IPokemobUseable.getUsableFor(attacker.getHeldItem());
         if (attackerheld != null)
@@ -611,7 +611,7 @@ public class MoveEventsHandler
         final boolean user = evt.isFromUser();
         IPokemob attacker = move.attacker;
         final Entity attacked = move.attacked;
-        final IPokemob target = CapabilityPokemob.getPokemobFor(attacked);
+        final IPokemob target = PokemobCaps.getPokemobFor(attacked);
         IPokemob applied = user ? attacker : target;
         IPokemob other = user ? target : attacker;
 

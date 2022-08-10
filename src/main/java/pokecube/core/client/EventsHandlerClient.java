@@ -51,10 +51,12 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IHasCommands.Command;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
@@ -69,7 +71,6 @@ import pokecube.core.client.render.mobs.ShoulderLayer;
 import pokecube.core.client.render.mobs.ShoulderLayer.ShoulderHolder;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.init.ClientSetupHandler;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
@@ -79,7 +80,6 @@ import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketMountedControl;
 import pokecube.core.proxy.ClientProxy;
 import pokecube.core.utils.PokemobTracker;
-import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 
 public class EventsHandlerClient
@@ -154,7 +154,7 @@ public class EventsHandlerClient
 
         for (final Entity e : PokemobTracker.getMobs(owner, e -> !(e instanceof EntityPokecubeBase)))
         {
-            final IPokemob mob = CapabilityPokemob.getPokemobFor(e);
+            final IPokemob mob = PokemobCaps.getPokemobFor(e);
             if (mob != null) ret.add(mob);
         }
         return ret;
@@ -180,7 +180,7 @@ public class EventsHandlerClient
         if (event.player.isPassenger() && Minecraft.getInstance().screen == null)
         {
             final Entity e = event.player.getVehicle();
-            pokemob = CapabilityPokemob.getPokemobFor(e);
+            pokemob = PokemobCaps.getPokemobFor(e);
             if (pokemob != null && e.getControllingPassenger() == event.player)
             {
                 final LogicMountedControl controller = pokemob.getController();
@@ -251,7 +251,7 @@ public class EventsHandlerClient
         }
         else if (player.getVehicle() != null && Minecraft.getInstance().screen != null)
         {
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(player.getVehicle());
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(player.getVehicle());
             if (pokemob != null) PokedexEntryLoader.updateEntry(pokemob.getPokedexEntry());
         }
         if (ClientSetupHandler.animateGui.consumeClick() && Minecraft.getInstance().screen == null) Minecraft
@@ -408,7 +408,7 @@ public class EventsHandlerClient
         if (pokemob != null) pokemob = pokemob.setPokedexEntry(entry);
         if (pokemob == null || pokemob != EventsHandlerClient.renderMobs.get(entry))
         {
-            if (pokemob == null) pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, world));
+            if (pokemob == null) pokemob = PokemobCaps.getPokemobFor(PokecubeCore.createPokemob(entry, world));
             if (pokemob == null) return null;
             pokemob.spawnInit();
             EventsHandlerClient.renderMobs.put(entry, pokemob);

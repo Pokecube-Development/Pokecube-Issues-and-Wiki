@@ -1,9 +1,9 @@
 package pokecube.mobs.abilities.r;
 
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.core.database.abilities.Ability;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 
 public class Rivalry extends Ability
 {
@@ -12,7 +12,7 @@ public class Rivalry extends Ability
     {
 
         if (!move.pre) return;
-        final IPokemob target = CapabilityPokemob.getPokemobFor(move.attacked);
+        final IPokemob target = PokemobCaps.getPokemobFor(move.attacked);
         if (mob == move.attacker && target != null)
         {
             final byte mobGender = mob.getSexe();

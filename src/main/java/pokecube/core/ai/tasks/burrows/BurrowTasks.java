@@ -12,21 +12,21 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraftforge.event.RegistryEvent.Register;
+import pokecube.api.ai.TaskAdders;
+import pokecube.api.entity.CapabilityInhabitable;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.core.pokemob.InitAIEvent.Init.Type;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
-import pokecube.core.ai.tasks.Tasks;
 import pokecube.core.ai.tasks.burrows.burrow.BurrowHab;
 import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor;
 import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor.Burrow;
 import pokecube.core.ai.tasks.burrows.tasks.CheckBurrow;
 import pokecube.core.ai.tasks.burrows.tasks.DigBurrow;
 import pokecube.core.ai.tasks.burrows.tasks.ReturnHome;
-import pokecube.core.impl.capabilities.CapabilityInhabitable;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.IAIRunnable;
 
@@ -50,7 +50,7 @@ public class BurrowTasks
 
     public static void registerMems(final Register<MemoryModuleType<?>> event)
     {
-        Tasks.register(Type.IDLE, BurrowTasks::addTasks);
+        TaskAdders.register(Type.IDLE, BurrowTasks::addTasks);
         CapabilityInhabitable.Register(BurrowTasks.BURROWLOC, () -> new BurrowHab());
     }
 
@@ -73,7 +73,7 @@ public class BurrowTasks
 
     public static boolean isValid(final Entity entity)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return false;
         return pokemob.isRoutineEnabled(AIRoutine.BURROWS);
     }

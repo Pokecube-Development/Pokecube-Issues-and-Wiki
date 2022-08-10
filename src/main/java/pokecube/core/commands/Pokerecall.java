@@ -19,11 +19,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.PCEventsHandler;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
@@ -42,7 +42,7 @@ public class Pokerecall
                 true));
         for (final Entity e : mobs)
         {
-            final IPokemob poke = CapabilityPokemob.getPokemobFor(e);
+            final IPokemob poke = PokemobCaps.getPokemobFor(e);
             if (poke != null) opts.add(e.getDisplayName().getString());
             else if (e instanceof EntityPokecubeBase)
             {
@@ -61,7 +61,7 @@ public class Pokerecall
         for (final Entity e : PCEventsHandler.getOutMobs(player, true))
             if (e.getDisplayName().getString().equals(pokemob))
             {
-                final IPokemob poke = CapabilityPokemob.getPokemobFor(e);
+                final IPokemob poke = PokemobCaps.getPokemobFor(e);
                 if (poke != null)
                 {
                     poke.onRecall();
@@ -76,7 +76,7 @@ public class Pokerecall
                 {
                     final LivingEntity sent = SendOutManager.sendOut(cube, true, false);
                     IPokemob poke;
-                    if (sent != null && (poke = CapabilityPokemob.getPokemobFor(sent)) != null)
+                    if (sent != null && (poke = PokemobCaps.getPokemobFor(sent)) != null)
                     {
                         poke.onRecall();
                         num++;
@@ -94,7 +94,7 @@ public class Pokerecall
         int num = 0;
         for (final Entity e : PCEventsHandler.getOutMobs(player, true))
         {
-            IPokemob poke = CapabilityPokemob.getPokemobFor(e);
+            IPokemob poke = PokemobCaps.getPokemobFor(e);
             if (poke != null) if (all || sitting && poke.getLogicState(LogicStates.SITTING) || staying && poke
                     .getGeneralState(GeneralStates.STAYING))
             {
@@ -105,7 +105,7 @@ public class Pokerecall
             {
                 final EntityPokecubeBase cube = (EntityPokecubeBase) e;
                 final LivingEntity sent = SendOutManager.sendOut(cube, true);
-                if (sent != null && (poke = CapabilityPokemob.getPokemobFor(e)) != null)
+                if (sent != null && (poke = PokemobCaps.getPokemobFor(e)) != null)
                 {
                     poke.onRecall();
                     num++;

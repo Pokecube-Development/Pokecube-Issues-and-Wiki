@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import pokecube.api.data.Pokedex;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.healer.HealerBlock;
@@ -34,7 +35,6 @@ import pokecube.core.database.Database;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.network.packets.PacketDataSync;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.Tools;
@@ -66,7 +66,7 @@ public class ItemPokedex extends Item
         if (playerIn instanceof ServerPlayer)
         {
             final Entity entityHit = target;
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityHit);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(entityHit);
 
             // Not a pokemob, or not a stock pokemob, only the watch will do
             // anything on right click, pokedex is for accessing the mob.
@@ -90,7 +90,7 @@ public class ItemPokedex extends Item
         {
             new JsonModel(new ResourceLocation("thut_bling", "models/worn/bag.json"));
             final Entity entityHit = Tools.getPointedEntity(player, 16);
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityHit);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(entityHit);
             this.showGui(player, entityHit, pokemob);
             return new InteractionResultHolder<>(InteractionResult.SUCCESS, itemstack);
         }
@@ -143,7 +143,7 @@ public class ItemPokedex extends Item
         if (!playerIn.isCrouching())
         {
             final Entity entityHit = Tools.getPointedEntity(playerIn, 16);
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityHit);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(entityHit);
             this.showGui(playerIn, entityHit, pokemob);
         }
         return InteractionResult.FAIL;

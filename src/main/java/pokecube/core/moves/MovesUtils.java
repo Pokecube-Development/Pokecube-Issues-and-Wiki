@@ -25,10 +25,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.entity.pokemob.stats.DefaultModifiers;
@@ -38,8 +40,6 @@ import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.database.moves.MoveEntry.Category;
-import pokecube.core.impl.capabilities.CapabilityAffected;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect;
@@ -77,7 +77,7 @@ public class MovesUtils implements IMoveConstants
     public static void sendPairedMessages(final Entity target, final IPokemob attacker, final String baseKey)
     {
         String key = baseKey + ".user";
-        final IPokemob attacked = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob attacked = PokemobCaps.getPokemobFor(target);
         final Component targName = target != null ? target.getDisplayName()
                 : attacker != null ? attacker.getDisplayName() : new TextComponent("ERR PLS REPORT");
         if (attacker != null) attacker.displayMessageToOwner(new TranslatableComponent(key, targName));
@@ -94,7 +94,7 @@ public class MovesUtils implements IMoveConstants
             final Object otherArg)
     {
         String key = baseKey + ".user";
-        final IPokemob attacked = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob attacked = PokemobCaps.getPokemobFor(target);
         final Component targName = attacker != null ? attacker.getDisplayName() : target.getDisplayName();
         if (attacker != null) attacker.displayMessageToOwner(new TranslatableComponent(key, targName, otherArg));
         key = baseKey + ".target";
@@ -109,7 +109,7 @@ public class MovesUtils implements IMoveConstants
 
     public static void addChange(final Entity target, final IPokemob attacker, final byte change)
     {
-        final IPokemob attacked = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob attacked = PokemobCaps.getPokemobFor(target);
         final boolean effect = CapabilityAffected.addEffect(target,
                 new NonPersistantStatusEffect(Effect.getStatus(change)));
         if (attacked != null) if (change == IMoveConstants.CHANGE_CONFUSED) if (effect)
@@ -274,7 +274,7 @@ public class MovesUtils implements IMoveConstants
         if (baseKey != null)
         {
             String key = baseKey + ".user";
-            final IPokemob attacked = CapabilityPokemob.getPokemobFor(target);
+            final IPokemob attacked = PokemobCaps.getPokemobFor(target);
             final Component targName = target.getDisplayName();
             if (attacked != null) attacked.displayMessageToOwner(new TranslatableComponent(key, targName));
             key = baseKey + ".target";
@@ -447,7 +447,7 @@ public class MovesUtils implements IMoveConstants
             final boolean attacked)
     {
         final int[] stats = attacked ? atk.attackedStatModification : atk.attackerStatModification;
-        final IPokemob affected = attacked ? CapabilityPokemob.getPokemobFor(target) : attacker;
+        final IPokemob affected = attacked ? PokemobCaps.getPokemobFor(target) : attacker;
         float[] mods;
         float[] old;
         if (affected != null)
@@ -554,7 +554,7 @@ public class MovesUtils implements IMoveConstants
     {
         final ExplosionCustom var11 = new ExplosionCustom((ServerLevel) entity.getLevel(), entity, x, y, z, power)
                 .setMaxRadius(PokecubeCore.getConfig().blastRadius);
-        final IPokemob poke = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob poke = PokemobCaps.getPokemobFor(entity);
         if (poke != null) if (poke.getOwner() instanceof Player) var11.owner = (Player) poke.getOwner();
         else var11.owner = null;
         return var11;
@@ -572,7 +572,7 @@ public class MovesUtils implements IMoveConstants
 
     public static boolean setStatus(final Entity attacked, byte status)
     {
-        final IPokemob attackedPokemob = CapabilityPokemob.getPokemobFor(attacked);
+        final IPokemob attackedPokemob = PokemobCaps.getPokemobFor(attacked);
 
         boolean applied = false;
         final boolean[] statuses = new boolean[Status.values().length];
@@ -606,7 +606,7 @@ public class MovesUtils implements IMoveConstants
 
     public static Predicate<Entity> targetMatcher(final Entity attacker)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(attacker);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(attacker);
         return e -> {
             if (pokemob == null || e == attacker) return false;
             if (!(e instanceof LivingEntity)) return false;

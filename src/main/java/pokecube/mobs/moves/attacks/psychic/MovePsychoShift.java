@@ -1,9 +1,9 @@
 package pokecube.mobs.moves.attacks.psychic;
 
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.moves.IMoveConstants;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.templates.Move_Basic;
 
 public class MovePsychoShift extends Move_Basic
@@ -25,7 +25,7 @@ public class MovePsychoShift extends Move_Basic
                                                                           // failed
                                                                           // message.
                 return;
-            final IPokemob hit = CapabilityPokemob.getPokemobFor(packet.attacked);
+            final IPokemob hit = PokemobCaps.getPokemobFor(packet.attacked);
             if (hit != null)
             {
                 if (hit.getStatus() != IMoveConstants.STATUS_NON) // TODO send

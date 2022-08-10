@@ -17,10 +17,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.handlers.TeamManager;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.AITools;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
@@ -175,7 +175,7 @@ public class Battle
         // an existing battle!
         if (this.valid)
         {
-            final IPokemob poke = CapabilityPokemob.getPokemobFor(mob);
+            final IPokemob poke = PokemobCaps.getPokemobFor(mob);
             if (!(mob instanceof Mob)) return;
             BrainUtils.initiateCombat((Mob) mob, target);
             if (poke != null && poke.getAbility() != null) poke.getAbility().startCombat(poke);
@@ -255,13 +255,13 @@ public class Battle
         if (this.side1.containsKey(id))
         {
             this.side1.remove(id);
-            final IPokemob poke = CapabilityPokemob.getPokemobFor(mob);
+            final IPokemob poke = PokemobCaps.getPokemobFor(mob);
             if (poke != null && poke.getAbility() != null) poke.getAbility().endCombat(poke);
         }
         if (this.side2.containsKey(id))
         {
             this.side2.remove(id);
-            final IPokemob poke = CapabilityPokemob.getPokemobFor(mob);
+            final IPokemob poke = PokemobCaps.getPokemobFor(mob);
             if (poke != null && poke.getAbility() != null) poke.getAbility().endCombat(poke);
         }
         if (this.side1.isEmpty() || this.side2.isEmpty()) this.end();
@@ -322,14 +322,14 @@ public class Battle
 
         for (final LivingEntity mob1 : this.side1.values())
         {
-            final IPokemob poke = CapabilityPokemob.getPokemobFor(mob1);
+            final IPokemob poke = PokemobCaps.getPokemobFor(mob1);
             if (!(mob1 instanceof Mob)) continue;
             BrainUtils.initiateCombat((Mob) mob1, main2);
             if (poke != null && poke.getAbility() != null) poke.getAbility().startCombat(poke);
         }
         for (final LivingEntity mob2 : this.side2.values())
         {
-            final IPokemob poke = CapabilityPokemob.getPokemobFor(mob2);
+            final IPokemob poke = PokemobCaps.getPokemobFor(mob2);
             // This was already handled
             if (mob2 == main2) continue;
             if (!(mob2 instanceof Mob)) continue;
@@ -343,13 +343,13 @@ public class Battle
         this.ended = true;
         for (final LivingEntity mob1 : this.side1.values())
         {
-            final IPokemob poke = CapabilityPokemob.getPokemobFor(mob1);
+            final IPokemob poke = PokemobCaps.getPokemobFor(mob1);
             if (poke != null && poke.getAbility() != null) poke.getAbility().endCombat(poke);
             BrainUtils.deagro(mob1);
         }
         for (final LivingEntity mob2 : this.side2.values())
         {
-            final IPokemob poke = CapabilityPokemob.getPokemobFor(mob2);
+            final IPokemob poke = PokemobCaps.getPokemobFor(mob2);
             if (poke != null && poke.getAbility() != null) poke.getAbility().endCombat(poke);
             BrainUtils.deagro(mob2);
         }

@@ -1,5 +1,8 @@
 package pokecube.world.gen.features.trees.trunks;
 
+import java.util.Random;
+import java.util.function.BiConsumer;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.LevelSimulatedReader;
@@ -11,9 +14,6 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.world.PokecubeWorld;
-
-import java.util.Random;
-import java.util.function.BiConsumer;
 
 public class TrunkPlacerTypes
 {

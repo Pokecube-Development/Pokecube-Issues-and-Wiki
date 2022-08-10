@@ -47,9 +47,9 @@ import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.network.NetworkHooks;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.EntityTools;
 import pokecube.legends.init.EntityInit;
 import pokecube.legends.spawns.WormholeSpawns;
@@ -182,7 +182,7 @@ public class WormholeEntity extends LivingEntity
 
         // If it is a pokemob, check if holding a location linker, if so, use
         // that for destination of the wormhole!
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
         if (pokemob != null)
         {
             ILinkStorage link = null;

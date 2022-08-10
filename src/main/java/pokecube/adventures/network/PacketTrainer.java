@@ -24,6 +24,7 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.trainers.IHasMessages;
 import pokecube.api.entity.trainers.IHasNPCAIStates;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
@@ -38,7 +39,6 @@ import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.handlers.events.SpawnEventsHandler.GuardInfo;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.PermNodes;
@@ -386,7 +386,7 @@ public class PacketTrainer extends NBTPacket
             }
             else if (this.getTag().contains("__pokemob__"))
             {
-                final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+                final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
                 if (pokemob != null)
                 {
                     final CompoundTag mobtag = this.getTag().getCompound("__pokemob__");

@@ -12,8 +12,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.network.IContainerFactory;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeItems;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.EntityTools;
 import thut.api.inventory.BaseContainer;
 import thut.core.common.ThutCore;
@@ -38,7 +38,7 @@ public class ContainerPokemob extends BaseContainer
         Entity mob = entity.getLevel().getEntity(num);
         mob = EntityTools.getCoreEntity(mob);
         if (mob instanceof LivingEntity) entity = (LivingEntity) mob;
-        this.pokemob = CapabilityPokemob.getPokemobFor(entity);
+        this.pokemob = PokemobCaps.getPokemobFor(entity);
         this.pokemobInv = this.pokemob.getInventory();
         this.mode = data.readByte();
         this.data = data;

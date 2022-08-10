@@ -23,11 +23,11 @@ import pokecube.adventures.network.PacketTrainer;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.database.Database;
 import pokecube.core.database.abilities.AbilityManager;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
 
@@ -316,7 +316,7 @@ public class Pokemob extends Page
             else
             {
                 final Entity mob = PokecubeCore.createPokemob(entry, Minecraft.getInstance().level);
-                this.pokemob = CapabilityPokemob.getPokemobFor(mob);
+                this.pokemob = PokemobCaps.getPokemobFor(mob);
                 newMob = true;
                 if (this.pokemob == null)
                 {

@@ -13,12 +13,12 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.events.core.SetAttackTargetEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.AITools;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.VectorPosWrapper;
@@ -144,7 +144,7 @@ public class BrainUtils extends BrainUtil
         if (!brain.checkMemory(MemoryModules.LEAP_TARGET, MemoryStatus.REGISTERED)) return;
         if (target == null) brain.eraseMemory(MemoryModules.LEAP_TARGET);
         else brain.setMemory(MemoryModules.LEAP_TARGET, target);
-        final IPokemob mob = CapabilityPokemob.getPokemobFor(mobIn);
+        final IPokemob mob = PokemobCaps.getPokemobFor(mobIn);
         if (mob != null) mob.setCombatState(CombatStates.LEAPING, target != null);
     }
 
@@ -192,8 +192,8 @@ public class BrainUtils extends BrainUtil
         // No target already had target
         if (target == BrainUtils.getAttackTarget(mob)) return;
 
-        final IPokemob aggressor = CapabilityPokemob.getPokemobFor(mob);
-        final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob aggressor = PokemobCaps.getPokemobFor(mob);
+        final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
 
         // No target an invalid target!
         if (aggressor != null && !AITools.validTargets.test(target)) return;
@@ -222,7 +222,7 @@ public class BrainUtils extends BrainUtil
     public static void deagro(final LivingEntity mob, final boolean mutual)
     {
         if (mob == null) return;
-        final IPokemob aggressor = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob aggressor = PokemobCaps.getPokemobFor(mob);
         if (PokecubeMod.debug) if (mutual) PokecubeCore.LOGGER.error(mob + " " + mutual, new Exception());
         else PokecubeCore.LOGGER.error(mob + " " + mutual);
         if (aggressor != null)

@@ -10,12 +10,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.render.mobs.overlays.Evolution;
 import pokecube.core.client.render.mobs.overlays.ExitCube;
 import pokecube.core.client.render.mobs.overlays.Health;
 import pokecube.core.client.render.mobs.overlays.Status;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.core.client.render.wrappers.ModelWrapper;
 
 public class RenderMobOverlays
@@ -29,7 +29,7 @@ public class RenderMobOverlays
         final Entity cameraEntity = mc.getCameraEntity();
         final float partialTicks = event.getPartialTick();
         if (cameraEntity == null || !event.getEntity().isAlive()) return;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
         if (pokemob != null && event.getEntity().canUpdate())
         {
             final PoseStack mat = event.getPoseStack();

@@ -23,8 +23,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.Tools;
@@ -45,7 +45,7 @@ public class Count
         final Set<UUID> found = Sets.newHashSet();
         for (final Object o : mobs.getAll())
         {
-            final IPokemob e = CapabilityPokemob.getPokemobFor((ICapabilityProvider) o);
+            final IPokemob e = PokemobCaps.getPokemobFor((ICapabilityProvider) o);
             if (e != null)
             {
                 if (!found.add(e.getEntity().getUUID())) continue;

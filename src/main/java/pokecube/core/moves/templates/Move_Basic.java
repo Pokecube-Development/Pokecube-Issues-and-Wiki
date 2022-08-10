@@ -21,9 +21,11 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.events.core.pokemob.combat.MoveUse;
@@ -34,8 +36,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityAffected;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.animations.AnimationMultiAnimations;
 import pokecube.core.moves.damage.PokemobDamageSource;
@@ -98,7 +98,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
     @Override
     public void attack(final IPokemob attacker, final Entity attacked)
     {
-        final IPokemob attackedMob = CapabilityPokemob.getPokemobFor(attacked);
+        final IPokemob attackedMob = PokemobCaps.getPokemobFor(attacked);
         if ((attacker.getStatus() & IMoveConstants.STATUS_SLP) > 0)
         {
             if (attackedMob != null) MovesUtils.displayStatusMessages(attackedMob, attacker.getEntity(),
@@ -194,7 +194,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
 
         final LivingEntity attackedHp = EntityTools.getCoreLiving(attacked);
 
-        final IPokemob targetPokemob = CapabilityPokemob.getPokemobFor(attacked);
+        final IPokemob targetPokemob = PokemobCaps.getPokemobFor(attacked);
         final Random rand = ThutCore.newRandom();
         final String attack = packet.attack;
         final PokeType type = packet.attackType;
@@ -517,7 +517,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
     {
         final IPokemob attacker = packet.attacker;
         attacker.onMoveUse(packet);
-        final IPokemob attacked = CapabilityPokemob.getPokemobFor(packet.attacked);
+        final IPokemob attacked = PokemobCaps.getPokemobFor(packet.attacked);
         if (attacked != null) attacked.onMoveUse(packet);
         PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Post(packet.attacker, this, packet.attacked));
     }
@@ -528,7 +528,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Pre(packet.attacker, this, packet.attacked));
         final IPokemob attacker = packet.attacker;
         attacker.onMoveUse(packet);
-        final IPokemob attacked = CapabilityPokemob.getPokemobFor(packet.attacked);
+        final IPokemob attacked = PokemobCaps.getPokemobFor(packet.attacked);
         if (attacked != null) attacked.onMoveUse(packet);
     }
 }

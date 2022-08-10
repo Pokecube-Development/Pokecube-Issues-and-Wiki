@@ -1,4 +1,4 @@
-package pokecube.core.impl.capabilities;
+package pokecube.api.entity;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,7 +19,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect.AddType;
 import pokecube.api.entity.pokemob.PokemobCaps;

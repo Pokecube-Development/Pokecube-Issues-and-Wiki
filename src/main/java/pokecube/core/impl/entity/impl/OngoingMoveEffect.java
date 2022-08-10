@@ -5,8 +5,8 @@ import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.templates.Move_Ongoing;
 
 public class OngoingMoveEffect extends BaseEffect
@@ -26,7 +26,7 @@ public class OngoingMoveEffect extends BaseEffect
     public void affectTarget(final IOngoingAffected target)
     {
         if (this.move != null) this.move.doOngoingEffect(this.user, target, this);
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(target.getEntity());
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(target.getEntity());
         final boolean toRemove = pokemob != null ? false : Math.random() > 0.8;
         if (toRemove) this.setDuration(0);
     }

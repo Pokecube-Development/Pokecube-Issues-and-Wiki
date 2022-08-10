@@ -19,6 +19,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.ITargetFinder;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.events.core.SetAttackTargetEvent;
@@ -27,7 +28,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.Battle;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.utils.AITools;
@@ -61,14 +61,14 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     private static void onBrainSetTarget(final SetAttackTargetEvent event)
     {
         if (!FindTargetsTask.handleDamagedTargets) return;
-        List<Entity> mobs = PokemobTracker.getMobs(event.originalTarget, e -> CapabilityPokemob.getPokemobFor(e) != null
+        List<Entity> mobs = PokemobTracker.getMobs(event.originalTarget, e -> PokemobCaps.getPokemobFor(e) != null
                 && e.distanceToSqr(event.originalTarget) < 4096);
 
         // Remove any "non agressive" mobs, as they won't be actively drawing
         // agro from the player.
         mobs.removeIf(c ->
         {
-            final IPokemob poke = CapabilityPokemob.getPokemobFor(c);
+            final IPokemob poke = PokemobCaps.getPokemobFor(c);
             if (poke == null) return true;
             return !poke.isRoutineEnabled(AIRoutine.AGRESSIVE);
         });
@@ -91,14 +91,14 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         // Don't manage this.
         if (event.getTarget() == null) return;
 
-        List<Entity> mobs = PokemobTracker.getMobs(event.getTarget(), e -> CapabilityPokemob.getPokemobFor(e) != null
+        List<Entity> mobs = PokemobTracker.getMobs(event.getTarget(), e -> PokemobCaps.getPokemobFor(e) != null
                 && e.distanceToSqr(event.getTarget()) < 4096);
 
         // Remove any "non agressive" mobs, as they won't be actively drawing
         // agro from the player.
         mobs.removeIf(c ->
         {
-            final IPokemob poke = CapabilityPokemob.getPokemobFor(c);
+            final IPokemob poke = PokemobCaps.getPokemobFor(c);
             if (poke == null) return true;
             return !poke.isRoutineEnabled(AIRoutine.AGRESSIVE);
         });

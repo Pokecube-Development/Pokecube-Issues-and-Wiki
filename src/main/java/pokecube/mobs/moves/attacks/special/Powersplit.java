@@ -2,10 +2,10 @@ package pokecube.mobs.moves.attacks.special;
 
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.entity.pokemob.stats.IStatsModifiers;
 import pokecube.api.entity.pokemob.stats.StatModifiers;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.templates.Move_Basic;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 
@@ -72,7 +72,7 @@ public class Powersplit extends Move_Basic
     {
         super.postAttack(packet);
         if (packet.canceled || packet.failed) return;
-        final IPokemob attacked = CapabilityPokemob.getPokemobFor(packet.attacked);
+        final IPokemob attacked = PokemobCaps.getPokemobFor(packet.attacked);
         if (attacked != null)
         {
             final int spatk = packet.attacker.getStat(Stats.SPATTACK, true);

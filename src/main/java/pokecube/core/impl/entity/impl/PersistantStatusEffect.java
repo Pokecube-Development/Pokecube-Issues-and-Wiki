@@ -20,11 +20,11 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.core.pokemob.combat.StatusEvent;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.damage.StatusEffectDamageSource;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
@@ -46,7 +46,7 @@ public class PersistantStatusEffect extends BaseEffect
         public void affectTarget(final IOngoingAffected target, final IOngoingEffect effect)
         {
             final LivingEntity entity = target.getEntity();
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             if (pokemob != null && this.status != Status.BADPOISON) pokemob.getMoveStats().TOXIC_COUNTER = 0;
 
             boolean toRemove = pokemob != null ? false : Math.random() > 0.8;
@@ -58,7 +58,7 @@ public class PersistantStatusEffect extends BaseEffect
             if (targetM == null) targetM = entity.getLastHurtMob();
             if (targetM == null) targetM = entity;
             float scale = 1;
-            final IPokemob user = CapabilityPokemob.getPokemobFor(targetM);
+            final IPokemob user = PokemobCaps.getPokemobFor(targetM);
             final DamageSource source = new StatusEffectDamageSource(targetM);
             if (pokemob != null)
             {
@@ -231,7 +231,7 @@ public class PersistantStatusEffect extends BaseEffect
     {
         if (this.status == null)
         {
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(target.getEntity());
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(target.getEntity());
             if (pokemob == null || pokemob.getStatus() == IMoveConstants.STATUS_NON) this.setDuration(0);
             else if (pokemob != null) this.status = Status.getStatus(pokemob.getStatus());
         }

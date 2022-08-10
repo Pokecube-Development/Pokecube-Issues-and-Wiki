@@ -5,9 +5,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.core.common.network.Packet;
 
 public class PacketAIRoutine extends Packet
@@ -43,7 +43,7 @@ public class PacketAIRoutine extends Packet
     public void handleServer(final ServerPlayer player)
     {
         final Entity user = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), this.entityId, true);
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(user);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(user);
         if (pokemob == null) return;
         pokemob.setRoutineState(this.routine, this.state);
     }

@@ -20,10 +20,10 @@ import net.minecraftforge.client.IItemRenderProperties;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.statue.StatueEntity;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.database.Database;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 
@@ -151,7 +151,7 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItem
             stack.getOrCreateTagElement("__id_cache__").putUUID("id", uuid);
         }
 
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (initMob && pokemob != null)
         {
             float mobScale = 1;

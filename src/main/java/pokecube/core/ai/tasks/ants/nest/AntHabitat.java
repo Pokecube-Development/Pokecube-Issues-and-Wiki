@@ -36,6 +36,7 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.api.blocks.IInhabitable;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
@@ -51,7 +52,6 @@ import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.events.SpawnHandler.AABBRegion;
 import pokecube.core.handlers.events.SpawnHandler.ForbidRegion;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
@@ -649,7 +649,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         mob.restrictTo(this.here, 64);
         if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Ant Left Nest, with Job {}", job);
 
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob != null)
         {
             pokemob.healStatus();
@@ -686,7 +686,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
 
         if (this.eggs.size() < Math.max(10, ants / 2))
         {
-            final IPokemob poke = CapabilityPokemob.getPokemobFor(mob);
+            final IPokemob poke = PokemobCaps.getPokemobFor(mob);
             Optional<BlockPos> room = this.getFreeEggRoom();
             if (poke != null && this.here != null)
             {
@@ -720,7 +720,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             mob.ejectPassengers();
             final CompoundTag tag = new CompoundTag();
 
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
             final Optional<AntNest> nest = NestSensor.getNest(mob);
             drop:
             if (pokemob != null && nest.isPresent())

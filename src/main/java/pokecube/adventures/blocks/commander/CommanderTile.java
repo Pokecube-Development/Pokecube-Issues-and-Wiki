@@ -21,9 +21,9 @@ import pokecube.api.entity.pokemob.IHasCommands;
 import pokecube.api.entity.pokemob.IHasCommands.Command;
 import pokecube.api.entity.pokemob.IHasCommands.IMobCommandHandler;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
@@ -190,7 +190,7 @@ public class CommanderTile extends InteractableTile
         if (this.handler == null) throw new Exception("No CommandHandler has been set");
         if (this.pokeID == null) throw new Exception("No Pokemob Set, please set a UUID first.");
         final ServerLevel world = (ServerLevel) w;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(world.getEntity(this.pokeID));
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(world.getEntity(this.pokeID));
         if (pokemob == null) throw new Exception("Pokemob for given ID is not found.");
         try
         {

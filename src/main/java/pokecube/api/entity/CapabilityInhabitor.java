@@ -1,4 +1,4 @@
-package pokecube.core.impl.capabilities;
+package pokecube.api.entity;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;

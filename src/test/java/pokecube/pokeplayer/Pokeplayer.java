@@ -21,8 +21,8 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.database.Database;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PokeType;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
@@ -133,7 +133,7 @@ public class Pokeplayer
         if (event.getEntity().getBbHeight() < 1 && pose == Pose.SWIMMING && !event.realEntity.isInWaterOrBubble())
             event.realEntity.setPose(Pose.STANDING);
 
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
         if (pokemob != null)
         {
             Pokeplayer.setFlying(player, pokemob);

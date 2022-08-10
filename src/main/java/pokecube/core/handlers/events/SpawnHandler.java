@@ -53,6 +53,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.SpawnData;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.core.MeteorEvent;
 import pokecube.api.events.core.pokemob.SpawnEvent;
 import pokecube.api.events.core.pokemob.SpawnEvent.Function;
@@ -65,7 +66,6 @@ import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.spawns.SpawnCheck;
 import pokecube.core.handlers.Config;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.ChunkCoordinate;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
@@ -308,7 +308,7 @@ public final class SpawnHandler
         if (ForgeEventFactory.doSpecialSpawn(MobEntity, (LevelAccessor) world, (float) posX, (float) posY, (float) posZ,
                 spawner, MobSpawnType.NATURAL))
             return null;
-        IPokemob pokemob = CapabilityPokemob.getPokemobFor(MobEntity);
+        IPokemob pokemob = PokemobCaps.getPokemobFor(MobEntity);
         if (pokemob != null)
         {
             pokemob = pokemob.spawnInit(matcher.spawnRule);
@@ -821,7 +821,7 @@ public final class SpawnHandler
                     if ((entity = SpawnHandler.creatureSpecificInit(entity, level, x, y, z, v3.set(entity), entry,
                             matcher)) != null)
                     {
-                        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+                        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
                         if (!event.getSpawnArgs().isEmpty())
                         {
                             final String[] args = event.getSpawnArgs().split(" ");

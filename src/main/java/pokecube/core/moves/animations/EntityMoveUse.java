@@ -34,11 +34,11 @@ import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.network.NetworkHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.IMoveAnimation.MovePacketInfo;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.EntityTools;
 import thut.api.maths.Vector3;
@@ -253,7 +253,7 @@ public class EntityMoveUse extends ThrowableProjectile
         if (targId != null && !attack.move.canHitNonTarget() && !targId.equals(targetID)) return;
         if (!this.level.isClientSide)
         {
-            final IPokemob userMob = CapabilityPokemob.getPokemobFor(user);
+            final IPokemob userMob = PokemobCaps.getPokemobFor(user);
             MovesUtils.doAttack(attack.name, userMob, target);
             this.applied = true;
         }
@@ -289,7 +289,7 @@ public class EntityMoveUse extends ThrowableProjectile
     {
         final MovePacketInfo info = new MovePacketInfo(this.getMove(), this.getUser(), this.getTarget(), this
                 .getStart(), this.getEnd());
-        final IPokemob userMob = CapabilityPokemob.getPokemobFor(info.attacker);
+        final IPokemob userMob = PokemobCaps.getPokemobFor(info.attacker);
         info.currentTick = info.move.getAnimation(userMob).getDuration() - this.getDuration();
         return info;
     }
@@ -393,7 +393,7 @@ public class EntityMoveUse extends ThrowableProjectile
         String name = "";
         if (move != null) name = move.name;
         this.getEntityData().set(EntityMoveUse.MOVENAME, name);
-        final IPokemob user = CapabilityPokemob.getPokemobFor(this.getUser());
+        final IPokemob user = PokemobCaps.getPokemobFor(this.getUser());
         if (move.getAnimation(user) != null)
         {
             this.setDuration(move.getAnimation(user).getDuration() + 1);
@@ -452,7 +452,7 @@ public class EntityMoveUse extends ThrowableProjectile
         this.setDuration(age);
 
         final Entity user = this.getUser();
-        final IPokemob userMob = CapabilityPokemob.getPokemobFor(user);
+        final IPokemob userMob = PokemobCaps.getPokemobFor(user);
         // Finished, or is invalid
         if (this.getMove() == null || user == null || age < 0 || !this.isAlive() || !user.isAlive())
         {

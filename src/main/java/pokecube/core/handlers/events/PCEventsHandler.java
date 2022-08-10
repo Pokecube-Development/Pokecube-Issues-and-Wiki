@@ -27,13 +27,13 @@ import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.core.pokemob.CaptureEvent;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.stats.StatsCollector;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.pc.PCInventory;
 import pokecube.core.items.pokecubes.EntityPokecube;
@@ -276,7 +276,7 @@ public class PCEventsHandler
         {
             for (final Entity o : mobs)
             {
-                final IPokemob pokemob = CapabilityPokemob.getPokemobFor(o);
+                final IPokemob pokemob = PokemobCaps.getPokemobFor(o);
                 if (!o.isAddedToWorld()) continue;
                 if (pokemob != null) pokemob.onRecall();
                 else if (o instanceof EntityPokecube)
@@ -286,7 +286,7 @@ public class PCEventsHandler
                     else
                     {
                         final LivingEntity out = SendOutManager.sendOut(mob, true);
-                        final IPokemob poke = CapabilityPokemob.getPokemobFor(out);
+                        final IPokemob poke = PokemobCaps.getPokemobFor(out);
                         if (poke != null) poke.onRecall();
                     }
                     mob.setRemoved(RemovalReason.DISCARDED);

@@ -5,8 +5,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.core.common.network.Packet;
 
 public class PacketSyncExp extends Packet
@@ -40,7 +40,7 @@ public class PacketSyncExp extends Packet
         final int id = this.entityId;
         final int exp = this.exp;
         final Entity e = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), id, true);
-        final IPokemob mob = CapabilityPokemob.getPokemobFor(e);
+        final IPokemob mob = PokemobCaps.getPokemobFor(e);
         if (mob != null) mob.getMoveStats().exp = exp;
     }
 

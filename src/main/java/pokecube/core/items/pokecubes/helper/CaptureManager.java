@@ -19,20 +19,20 @@ import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.events.core.pokemob.CaptureEvent;
 import pokecube.api.events.core.pokemob.CaptureEvent.Pre;
 import pokecube.api.items.IPokecube;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.database.abilities.AbilityManager;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
@@ -59,7 +59,7 @@ public class CaptureManager
         final LivingEntity mob = (LivingEntity) e;
         if (mob.deathTime > 0) return;
 
-        final IPokemob hitten = CapabilityPokemob.getPokemobFor(e);
+        final IPokemob hitten = PokemobCaps.getPokemobFor(e);
         final ResourceLocation cubeId = PokecubeItems.getCubeId(cube.getItem());
         final IPokecube cubeItem = (IPokecube) cube.getItem().getItem();
         final double modifier = cubeItem.getCaptureModifier(mob, cubeId);
@@ -152,7 +152,7 @@ public class CaptureManager
     public static void captureFailed(final EntityPokecubeBase cube)
     {
         final LivingEntity mob = SendOutManager.sendOut(cube, true);
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         cube.setNotCapturing();
 
         if (mob != null) mob.moveTo(cube.capturePos.x, cube.capturePos.y, cube.capturePos.z, cube.yRot, 0.0F);
@@ -180,7 +180,7 @@ public class CaptureManager
         cube.setNoCollisionRelease();
         PokecubeManager.setTilt(cube.getItem(), -2);
         final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getLevel());
-        IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         final IOwnable ownable = OwnableCaps.getOwnable(mob);
         if (mob == null || cube.shooter == null)
         {

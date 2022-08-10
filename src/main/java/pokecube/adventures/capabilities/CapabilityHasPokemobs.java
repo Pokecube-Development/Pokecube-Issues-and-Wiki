@@ -34,6 +34,7 @@ import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.trainers.IHasMessages;
 import pokecube.api.entity.trainers.IHasNPCAIStates;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
@@ -50,7 +51,6 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.Tracker;
@@ -350,7 +350,7 @@ public class CapabilityHasPokemobs
         {
             if (this.outID != null && this.outMob == null && this.user.level instanceof ServerLevel)
             {
-                this.outMob = CapabilityPokemob.getPokemobFor(((ServerLevel) this.user.level).getEntity(this.outID));
+                this.outMob = PokemobCaps.getPokemobFor(((ServerLevel) this.user.level).getEntity(this.outID));
                 if (this.outMob == null) this.outID = null;
             }
             if (this.outMob != null
@@ -774,7 +774,7 @@ public class CapabilityHasPokemobs
 
                 // Evolve the pokemob if needed, ie we spawned with it, but not
                 // checked yet.
-                IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+                IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
                 if (pokemob != null && mob.getPersistentData().getBoolean("__need_init_evos__"))
                 {
                     mob.getPersistentData().remove("__need_init_evos__");
@@ -783,7 +783,7 @@ public class CapabilityHasPokemobs
                         for (final EvolutionData evo : pokemob.getPokedexEntry().getEvolutions())
                             if (evo.shouldEvolve(pokemob))
                     {
-                        final IPokemob temp = CapabilityPokemob.getPokemobFor(evo.getEvolution(user.level));
+                        final IPokemob temp = PokemobCaps.getPokemobFor(evo.getEvolution(user.level));
                         if (temp != null)
                         {
                             pokemob = temp;

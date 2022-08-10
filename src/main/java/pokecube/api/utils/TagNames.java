@@ -1,8 +1,7 @@
-package pokecube.core.utils;
+package pokecube.api.utils;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 
 public interface TagNames
 {
@@ -10,7 +9,7 @@ public interface TagNames
 
     public static final String POKEMOBCAP = "pokecube:pokemob";
 
-    public static final String GENESCAP = GeneticsManager.POKECUBEGENETICS.toString();
+    public static final String GENESCAP = "pokecube:genetics";
 
     /** The NBTTag name for the root of info */
     public static final String POKEMOBTAG = "pokemob_tag";

@@ -1,11 +1,11 @@
 package pokecube.mobs.moves.attacks.special;
 
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.templates.Move_Basic;
 
 public class Whirlwind extends Move_Basic
@@ -26,7 +26,7 @@ public class Whirlwind extends Move_Basic
     {
         super.postAttack(packet);
         if (packet.canceled || packet.failed) return;
-        final IPokemob attacked = CapabilityPokemob.getPokemobFor(packet.attacked);
+        final IPokemob attacked = PokemobCaps.getPokemobFor(packet.attacked);
         if (attacked != null)
         {
             if (attacked.getLevel() > packet.attacker.getLevel()) // TODO

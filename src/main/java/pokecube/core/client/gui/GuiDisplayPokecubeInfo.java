@@ -31,6 +31,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.entity.pokemob.IHasCommands.Command;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.entity.pokemob.commandhandlers.AttackEntityHandler;
@@ -51,7 +52,6 @@ import pokecube.core.client.GuiEvent;
 import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.MovesUtils.AbleStatus;
 import pokecube.core.network.pokemobs.PacketAIRoutine;
@@ -412,7 +412,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             this.blit(evt.getMat(), x, y, 0, 85, width, 5);
 
             // Render Status
-            pokemob = CapabilityPokemob.getPokemobFor(entity);
+            pokemob = PokemobCaps.getPokemobFor(entity);
             if (pokemob != null)
             {
                 final byte status = pokemob.getStatus();
@@ -548,7 +548,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
         final Player player = this.minecraft.player;
         final Predicate<Entity> selector = input ->
         {
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(input);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(input);
             if (!AITools.validTargets.test(input)) return false;
             if (pokemob == null) return true;
             return pokemob.getOwner() != GuiDisplayPokecubeInfo.this.getCurrentPokemob().getOwner();
@@ -559,7 +559,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
                 .getInstance().crosshairPickEntity)) target = Minecraft.getInstance().crosshairPickEntity;
         final Vector3 targetLocation = Tools.getPointedLocation(player, 32);
         boolean sameOwner = false;
-        final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
         if (targetMob != null) sameOwner = targetMob.getOwner() == player;
         final IPokemob pokemob = this.getCurrentPokemob();
         if (pokemob != null)
@@ -604,7 +604,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
         {
             final Player player = this.minecraft.player;
             final Entity target = Tools.getPointedEntity(player, 32);
-            final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+            final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
             if (targetMob != null && player.getUUID().equals(targetMob.getOwnerId())) targetMob.onRecall();
         }
 
@@ -638,7 +638,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
         {
             final Player player = this.minecraft.player;
             final Entity target = Tools.getPointedEntity(player, 32);
-            final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+            final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
             if (targetMob != null && targetMob.getOwner() == player) PacketCommand.sendCommand(targetMob,
                     Command.STANCE, new StanceHandler(!targetMob.getLogicState(LogicStates.SITTING), StanceHandler.SIT)
                             .setFromOwner(true));

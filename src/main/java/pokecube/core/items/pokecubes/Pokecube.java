@@ -35,19 +35,19 @@ import net.minecraftforge.common.util.FakePlayer;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.items.IPokecube;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
-import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
@@ -106,7 +106,7 @@ public class Pokecube extends Item implements IPokecube
                 list.add(new TranslatableComponent("pokecube.filled.error"));
                 return;
             }
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
             if (pokemob == null) return;
             list.add(pokemob.getDisplayName());
 
@@ -315,7 +315,7 @@ public class Pokecube extends Item implements IPokecube
         {
             final Player player = (Player) MobEntity;
             final Predicate<Entity> selector = input -> {
-                final IPokemob pokemob = CapabilityPokemob.getPokemobFor(input);
+                final IPokemob pokemob = PokemobCaps.getPokemobFor(input);
                 if (!AITools.validTargets.test(input)) return false;
                 if (pokemob == null) return true;
                 return pokemob.getOwner() != player;
@@ -324,7 +324,7 @@ public class Pokecube extends Item implements IPokecube
             final Vector3 direction = new Vector3().set(player.getViewVector(0));
             final Vector3 targetLocation = Tools.getPointedLocation(player, 32);
             if (target instanceof EntityPokecube) target = null;
-            final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+            final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
             if (targetMob != null) if (targetMob.getOwner() == MobEntity) target = null;
             final int dt = this.getUseDuration(stack) - timeLeft;
             final boolean filled = PokecubeManager.isFilled(stack);

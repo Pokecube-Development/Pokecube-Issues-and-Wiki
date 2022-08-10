@@ -30,6 +30,7 @@ import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.Selector
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.adventures.CloneEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
@@ -40,7 +41,6 @@ import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.handlers.ItemGenerator;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.ItemFossil;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.Alleles;
@@ -114,7 +114,7 @@ public class RecipeHandlers
 
                     ItemStack dnaSource = tile.getItem(0);
                     if (!dnaSource.isEmpty()) dnaSource = dnaSource.copy();
-                    IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+                    IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
                     entity.setHealth(entity.getMaxHealth());
                     // to avoid the death on spawn
                     final int exp = Tools.levelToXp(entry.getEvolutionMode(), this.level);

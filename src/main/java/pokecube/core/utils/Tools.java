@@ -29,13 +29,13 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.items.IPokecube;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
 import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
@@ -287,7 +287,7 @@ public class Tools
         final Move_Base attack = MovesUtils.getMoveFromName(move);
         if (attack == null) return 0;
         int pwr = attack.getPWR(user, target);
-        final IPokemob mob = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob mob = PokemobCaps.getPokemobFor(target);
         if (mob != null)
         {
             pwr *= PokeType.getAttackEfficiency(attack.getType(user), mob.getType1(), mob.getType2());

@@ -23,21 +23,21 @@ import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.api.ai.IInhabitor;
+import pokecube.api.ai.TaskAdders;
 import pokecube.api.blocks.IInhabitable;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.core.pokemob.InitAIEvent.Init.Type;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
-import pokecube.core.ai.tasks.Tasks;
 import pokecube.core.ai.tasks.bees.sensors.FlowerSensor;
 import pokecube.core.ai.tasks.bees.sensors.HiveSensor;
 import pokecube.core.ai.tasks.bees.tasks.CheckHive;
 import pokecube.core.ai.tasks.bees.tasks.EnterHive;
 import pokecube.core.ai.tasks.bees.tasks.GatherNectar;
 import pokecube.core.ai.tasks.bees.tasks.MakeHive;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.IAIRunnable;
 
@@ -66,7 +66,7 @@ public class BeeTasks
     {
         event.getRegistry().register(BeeTasks.HAS_NECTAR.setRegistryName(PokecubeCore.MODID, "bee_has_nectar"));
         BeeEventsHandler.init();
-        Tasks.register(Type.IDLE, BeeTasks::addTasks);
+        TaskAdders.register(Type.IDLE, BeeTasks::addTasks);
     }
 
     public static void registerSensors(final Register<SensorType<?>> event)
@@ -93,7 +93,7 @@ public class BeeTasks
 
     public static boolean isValid(final Entity entity)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return false;
         return pokemob.isRoutineEnabled(AIRoutine.BEEAI);
     }
@@ -122,7 +122,7 @@ public class BeeTasks
             if (!brain.hasMemoryValue(BeeTasks.HAS_NECTAR)) return;
             final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR);
             final boolean nectar = hasNectar.isPresent() && hasNectar.get();
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(this.bee);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(this.bee);
             if (pokemob != null && nectar) pokemob.eat(ItemStack.EMPTY);
             brain.eraseMemory(BeeTasks.HAS_NECTAR);
         }

@@ -35,6 +35,7 @@ import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.events.core.pokemob.EvolveEvent;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.abilities.Ability;
@@ -42,7 +43,6 @@ import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.animations.EntityMoveUse;
@@ -50,7 +50,6 @@ import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.PokemobTracker;
-import pokecube.core.utils.TagNames;
 import thut.api.Tracker;
 import thut.api.entity.blockentity.BlockEntityUpdater;
 import thut.api.item.ItemList;
@@ -83,7 +82,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             if (this.done) return;
             this.done = true;
             final ServerLevel world = (ServerLevel) this.thisEntity.getLevel();
-            final IPokemob old = CapabilityPokemob.getPokemobFor(this.thisEntity);
+            final IPokemob old = PokemobCaps.getPokemobFor(this.thisEntity);
 
             if (this.thisEntity != this.evolution)
             {
@@ -298,7 +297,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         this.setEvolutionTicks(-1);
         this.setGeneralState(GeneralStates.EVOLVING, false);
         this.displayMessageToOwner(new TranslatableComponent("pokemob.evolution.cancel",
-                CapabilityPokemob.getPokemobFor(entity).getDisplayName()));
+                PokemobCaps.getPokemobFor(entity).getDisplayName()));
     }
 
     /**
@@ -325,7 +324,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     default IPokemob evolve(final boolean delayed, final boolean init)
     {
         final LivingEntity thisEntity = this.getEntity();
-        final IPokemob thisMob = CapabilityPokemob.getPokemobFor(thisEntity);
+        final IPokemob thisMob = PokemobCaps.getPokemobFor(thisEntity);
         return this.evolve(delayed, init, thisMob.getHeldItem());
     }
 
@@ -341,7 +340,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     default IPokemob evolve(final boolean delayed, final boolean init, final ItemStack stack)
     {
         final LivingEntity thisEntity = this.getEntity();
-        final IPokemob thisMob = CapabilityPokemob.getPokemobFor(thisEntity);
+        final IPokemob thisMob = PokemobCaps.getPokemobFor(thisEntity);
         // If Init, then don't bother about getting ready for animations and
         // such, just evolve directly.
         if (init)
@@ -478,7 +477,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     default IPokemob levelUp(final int level)
     {
         final LivingEntity theEntity = this.getEntity();
-        final IPokemob theMob = CapabilityPokemob.getPokemobFor(theEntity);
+        final IPokemob theMob = PokemobCaps.getPokemobFor(theEntity);
         final List<String> moves = Database.getLevelUpMoves(theMob.getPokedexEntry(), level,
                 theMob.getMoveStats().oldLevel);
         Collections.shuffle(moves);
@@ -581,7 +580,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             }
             final int id = evolution.getId();
             final UUID uuid = evolution.getUUID();
-            evoMob = CapabilityPokemob.getPokemobFor(evolution);
+            evoMob = PokemobCaps.getPokemobFor(evolution);
             // Reset nickname if needed.
             if (this.getPokemonNickname().equals(oldEntry.getName())) this.setPokemonNickname("");
 

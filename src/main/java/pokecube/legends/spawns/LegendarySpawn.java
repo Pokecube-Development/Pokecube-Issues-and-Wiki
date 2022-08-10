@@ -22,15 +22,15 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.stats.ISpecialCaptureCondition;
 import pokecube.core.database.stats.ISpecialSpawnCondition;
 import pokecube.core.database.stats.ISpecialSpawnCondition.CanSpawn;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
-import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.conditions.AbstractCondition;
@@ -88,7 +88,7 @@ public class LegendarySpawn
             if (test.test())
             {
                 Mob entity = PokecubeCore.createPokemob(entry, worldIn);
-                final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+                final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
                 if (captureCondition != null && !captureCondition.canCapture(playerIn, pokemob))
                 {
                     if (message && captureCondition instanceof AbstractCondition)

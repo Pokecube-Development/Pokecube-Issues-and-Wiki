@@ -9,6 +9,7 @@ import pokecube.api.entity.pokemob.IHasCommands;
 import pokecube.api.entity.pokemob.IHasCommands.Command;
 import pokecube.api.entity.pokemob.IHasCommands.IMobCommandHandler;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.commandhandlers.AttackEntityHandler;
 import pokecube.api.entity.pokemob.commandhandlers.AttackLocationHandler;
 import pokecube.api.entity.pokemob.commandhandlers.AttackNothingHandler;
@@ -19,7 +20,6 @@ import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
 import pokecube.api.entity.pokemob.commandhandlers.SwapMovesHandler;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.PokecubeCore;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.core.common.network.Packet;
 
 public class PacketCommand extends Packet
@@ -124,7 +124,7 @@ public class PacketCommand extends Packet
     {
         final Entity user = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), this.entityId,
                 true);
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(user);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(user);
         if (pokemob == null) return;
         pokemob.handleCommand(this.command, this.handler);
     }

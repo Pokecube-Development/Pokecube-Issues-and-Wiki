@@ -10,12 +10,12 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import pokecube.adventures.Config;
 import pokecube.adventures.ai.tasks.battle.BaseBattleTask;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.trainers.IHasPokemobs;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.handlers.events.PCEventsHandler;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 
 public class DeAgro extends BaseBattleTask
 {
@@ -82,7 +82,7 @@ public class DeAgro extends BaseBattleTask
                     for (final Entity mob : mobs)
                         if (mob.isAddedToWorld() && mob.distanceToSqr(this.target) < 32 * 32)
                         {
-                            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+                            final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
                             if (pokemob != null && !found)
                             {
                                 other.setOutMob(pokemob);

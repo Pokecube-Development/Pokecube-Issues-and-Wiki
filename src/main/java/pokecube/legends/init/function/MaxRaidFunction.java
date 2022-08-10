@@ -19,12 +19,12 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
 import pokecube.core.database.Database;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.Tools;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.BlockInit;
@@ -67,7 +67,7 @@ public class MaxRaidFunction
         {
             final Mob entity = PokecubeCore.createPokemob(entry, world);
             final Vector3 v = new Vector3().set(pos);
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             final LivingEntity poke = pokemob.getEntity();
 
             final LootTable loottable = pokemob.getEntity().getLevel().getServer().getLootTables()

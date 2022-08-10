@@ -22,13 +22,13 @@ import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.api.moves.IMoveConstants;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
-import pokecube.core.utils.TagNames;
 import thut.api.item.ItemList;
 import thut.core.common.network.EntityUpdate;
 
@@ -137,7 +137,7 @@ public class PokecubeManager
 
     public static CompoundTag getSealTag(final Entity pokemob)
     {
-        final IPokemob poke = CapabilityPokemob.getPokemobFor(pokemob);
+        final IPokemob poke = PokemobCaps.getPokemobFor(pokemob);
         ItemStack cube;
         if ((cube = poke.getPokecube()).isEmpty()) return null;
         return cube.getTagElement(TagNames.POKESEAL);
@@ -187,7 +187,7 @@ public class PokecubeManager
 
     public static void heal(final LivingEntity mob)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         float maxHP = mob.getMaxHealth();
         if (pokemob != null)
         {
@@ -264,7 +264,7 @@ public class PokecubeManager
     {
         final Entity mob = PokecubeManager.itemToMob(itemStack, world);
         if (mob == null) return null;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob == null) return null;
         ItemStack cubeStack = pokemob.getPokecube();
         if (cubeStack.isEmpty())

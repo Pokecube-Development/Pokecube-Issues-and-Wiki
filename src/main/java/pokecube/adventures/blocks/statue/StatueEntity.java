@@ -22,10 +22,10 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.core.pokemob.SpawnEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PokeType;
 import thut.api.ThutCaps;
 import thut.api.entity.CopyCaps;
@@ -167,7 +167,7 @@ public class StatueEntity extends BlockEntity
 
         if (copy.getCopiedMob() != null)
         {
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(copy.getCopiedMob());
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(copy.getCopiedMob());
 
             boolean powered = level.hasNeighborSignal(getBlockPos());
             double d = PokecubeCore.getConfig().maxSpawnRadius;
@@ -232,7 +232,7 @@ public class StatueEntity extends BlockEntity
             copy.setCopiedMob(null);
         }
         initMob.run();
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(copy.getCopiedMob());
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(copy.getCopiedMob());
         if (tex != null && pokemob != null)
         {
             final ResourceLocation texRes = new ResourceLocation(tex);

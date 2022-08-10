@@ -13,8 +13,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 
@@ -42,7 +42,7 @@ public class StatusEffectDamageSource extends DamageSource implements IPokedamag
     {
         super("mob");
         this.sourceMob = mob;
-        this.user = CapabilityPokemob.getPokemobFor(mob);
+        this.user = PokemobCaps.getPokemobFor(mob);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class StatusEffectDamageSource extends DamageSource implements IPokedamag
         if (!localObject.isEmpty() && localObject.hasCustomHoverName()) return new TranslatableComponent("death.attack."
                 + this.msgId, new Object[] { died.getDisplayName(), this.sourceMob
                         .getDisplayName(), localObject.getDisplayName() });
-        final IPokemob sourceMob = CapabilityPokemob.getPokemobFor(this.sourceMob);
+        final IPokemob sourceMob = PokemobCaps.getPokemobFor(this.sourceMob);
         if (sourceMob != null && sourceMob.getOwner() != null)
         {
             final TranslatableComponent message = new TranslatableComponent("pokemob.killed.tame",
@@ -81,7 +81,7 @@ public class StatusEffectDamageSource extends DamageSource implements IPokedamag
     @Override
     public Entity getEntity()
     {
-        final IPokemob sourceMob = CapabilityPokemob.getPokemobFor(this.sourceMob);
+        final IPokemob sourceMob = PokemobCaps.getPokemobFor(this.sourceMob);
         if (sourceMob != null && sourceMob.getOwner() != null) return sourceMob.getOwner();
         final IOwnable ownable = OwnableCaps.getOwnable(this.sourceMob);
         if (ownable != null)

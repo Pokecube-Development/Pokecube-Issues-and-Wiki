@@ -6,9 +6,9 @@ import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import thut.core.common.network.Packet;
 
 public class PacketChangeForme extends Packet
@@ -40,7 +40,7 @@ public class PacketChangeForme extends Packet
     {
         final Player player = PokecubeCore.proxy.getPlayer();
         final Entity mob = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), this.entityId, true);
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob == null) return;
         pokemob.setPokedexEntry(this.forme);
     }

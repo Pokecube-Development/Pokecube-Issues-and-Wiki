@@ -6,12 +6,12 @@ package pokecube.mobs.moves.attacks.special;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.moves.IMoveAnimation;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.IMoveNames;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.impl.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.templates.Move_Basic;
 
@@ -61,7 +61,7 @@ public class Transform extends Move_Basic
     @Override
     public void attack(final IPokemob attacker, final Entity attacked)
     {
-        final IPokemob attackedMob = CapabilityPokemob.getPokemobFor(attacked);
+        final IPokemob attackedMob = PokemobCaps.getPokemobFor(attacked);
         if (attacked instanceof LivingEntity)
         {
             BrainUtils.initiateCombat(attacker.getEntity(), (LivingEntity) attacked);
