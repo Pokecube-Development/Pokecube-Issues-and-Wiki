@@ -15,15 +15,15 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerTy
 import java.util.Random;
 import java.util.function.BiConsumer;
 
-public class PeanutFoliagePlacer extends FoliagePlacer
+public class RainDropFoliagePlacer extends FoliagePlacer
 {
     protected final IntProvider height;
 
-    public static final Codec<PeanutFoliagePlacer> CODEC = RecordCodecBuilder.create((type) -> {
-        return roundParts(type).apply(type, PeanutFoliagePlacer::new);
+    public static final Codec<RainDropFoliagePlacer> CODEC = RecordCodecBuilder.create((type) -> {
+        return roundParts(type).apply(type, RainDropFoliagePlacer::new);
     });
 
-    protected static <P extends PeanutFoliagePlacer> P3<Mu<P>, IntProvider, IntProvider, IntProvider> roundParts(
+    protected static <P extends RainDropFoliagePlacer> P3<Mu<P>, IntProvider, IntProvider, IntProvider> roundParts(
             RecordCodecBuilder.Instance<P> instance)
     {
         return foliagePlacerParts(instance).and(IntProvider.codec(0, 16).fieldOf("height").forGetter((get) -> {
@@ -31,7 +31,7 @@ public class PeanutFoliagePlacer extends FoliagePlacer
         }));
     }
 
-    public PeanutFoliagePlacer(IntProvider radius, IntProvider offset, IntProvider height)
+    public RainDropFoliagePlacer(IntProvider radius, IntProvider offset, IntProvider height)
     {
         super(radius, offset);
         this.height = height;
@@ -40,7 +40,7 @@ public class PeanutFoliagePlacer extends FoliagePlacer
     @Override
     protected FoliagePlacerType<?> type()
     {
-        return FoliagePlacerTypes.ROUND_FOLIAGE_PLACER.get();
+        return FoliagePlacerTypes.RAIN_DROP_FOLIAGE_PLACER.get();
     }
 
     @Override
@@ -53,8 +53,8 @@ public class PeanutFoliagePlacer extends FoliagePlacer
         for(int i = 0; i >= -height; --i)
         {
             int range = (int) ((Math.sqrt(ch - Math.abs(-i - ch)) + 1) * scale + 1);
-            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), range - 1, offset + i, foliageAttachment.doubleTrunk());
-            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), range - 1, offset + i - (range - 1), foliageAttachment.doubleTrunk());
+            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), range - 2, offset + i, foliageAttachment.doubleTrunk());
+            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), range - 1, offset + i - 3, foliageAttachment.doubleTrunk());
         }
     }
 

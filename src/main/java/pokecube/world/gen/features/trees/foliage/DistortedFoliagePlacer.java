@@ -41,7 +41,7 @@ public class DistortedFoliagePlacer extends FoliagePlacer
     @Override
     protected FoliagePlacerType<?> type()
     {
-        return FoliagePlacerTypes.ROUND_FOLIAGE_PLACER.get();
+        return FoliagePlacerTypes.DISTORTED_FOLIAGE_PLACER.get();
     }
 
     @Override
@@ -49,14 +49,6 @@ public class DistortedFoliagePlacer extends FoliagePlacer
                                  Random random, TreeConfiguration treeConfig, int maxFreeTreeHeight,
                                  FoliageAttachment foliageAttachment, int height, int radius, int offset)
     {
-
-//        double ch = height / 2.0;
-//        double scale = Math.sqrt(3);
-//        for(int i = 0; i >= -height; --i)
-//        {
-//            int range = (int) ((Math.sqrt(ch - Math.abs(-i - ch)) + 1) * scale + 1);
-//            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), range - 1, offset + i, foliageAttachment.doubleTrunk());
-//        }
         for(int i = offset; i >= offset - height; --i) {
             int j = radius + (i != offset && i != offset - height ? 1 : 0);
             this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), j, i, foliageAttachment.doubleTrunk());
