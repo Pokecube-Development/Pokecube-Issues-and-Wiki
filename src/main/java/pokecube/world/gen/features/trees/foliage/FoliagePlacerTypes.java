@@ -9,6 +9,7 @@ public class FoliagePlacerTypes
     public static final RegistryObject<FoliagePlacerType<CustomShapeFoliagePlacer>> CUSTOM_SHAPE_FOLIAGE_PLACER;
     public static final RegistryObject<FoliagePlacerType<DistortedFoliagePlacer>> DISTORTED_FOLIAGE_PLACER;
     public static final RegistryObject<FoliagePlacerType<PalmFoliagePlacer>> PALM_FOLIAGE_PLACER;
+    public static final RegistryObject<FoliagePlacerType<PeanutFoliagePlacer>> PEANUT_FOLIAGE_PLACER;
     public static final RegistryObject<FoliagePlacerType<RoundFoliagePlacer>> ROUND_FOLIAGE_PLACER;
 
     static
@@ -19,6 +20,8 @@ public class FoliagePlacerTypes
                 () -> new FoliagePlacerType<>(DistortedFoliagePlacer.CODEC));
         PALM_FOLIAGE_PLACER = PokecubeWorld.FOLIAGE_PLACERS.register("palm_foliage_placer",
                 () -> new FoliagePlacerType<>(PalmFoliagePlacer.CODEC));
+        PEANUT_FOLIAGE_PLACER = PokecubeWorld.FOLIAGE_PLACERS.register("peanut_foliage_placer",
+                () -> new FoliagePlacerType<>(PeanutFoliagePlacer.CODEC));
         ROUND_FOLIAGE_PLACER = PokecubeWorld.FOLIAGE_PLACERS.register("round_foliage_placer",
                 () -> new FoliagePlacerType<>(RoundFoliagePlacer.CODEC));
     }
