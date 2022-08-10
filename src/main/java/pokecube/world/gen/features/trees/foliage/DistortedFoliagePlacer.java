@@ -49,18 +49,18 @@ public class DistortedFoliagePlacer extends FoliagePlacer
                                  Random random, TreeConfiguration treeConfig, int maxFreeTreeHeight,
                                  FoliageAttachment foliageAttachment, int height, int radius, int offset)
     {
-//        double ch = height / 2.0;
-//        double scale = Math.sqrt(3);
-//        for(int i = 0; i >= -height; --i)
-//        {
-//            int range = (int) ((Math.sqrt(ch - Math.abs(i - ch)) + 1) * scale);
-//            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), range, offset + i, foliageAttachment.doubleTrunk());
-//            this.placeLeavesDot(level, blockSetter, random, treeConfig, foliageAttachment.pos(), range - 3, offset + i - 4, foliageAttachment.doubleTrunk());
-//        }
+
+        double ch = height / 2.0;
+        double scale = Math.sqrt(3);
+        for(int i = 0; i >= -height; --i)
+        {
+            int range = (int) ((Math.sqrt(ch - Math.abs(-i - ch)) + 1) * scale + 1);
+            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), range - 1, offset + i, foliageAttachment.doubleTrunk());
+        }
         for(int i = offset; i >= offset - height; --i) {
             int j = radius + (i != offset && i != offset - height ? 1 : 0);
-            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), j, i, foliageAttachment.doubleTrunk());
-            this.placeLeavesDot(level, blockSetter, random, treeConfig, foliageAttachment.pos(), j - 2, i - 4, foliageAttachment.doubleTrunk());
+//            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), j, i, foliageAttachment.doubleTrunk());
+            this.placeLeavesDot(level, blockSetter, random, treeConfig, foliageAttachment.pos(), j - 1, i - 4, foliageAttachment.doubleTrunk());
         }
     }
 
@@ -96,7 +96,7 @@ public class DistortedFoliagePlacer extends FoliagePlacer
         {
             for(int k = -range; k <= range + i; ++k)
             {
-                if(j * j + k * k <= (range * range) + 1)
+                if(j * j + k * k <= (range * range) + (range / 8))
                 {
                     if (!this.shouldSkipLocationSigned(random, j, yOffset, k, range, large))
                     {

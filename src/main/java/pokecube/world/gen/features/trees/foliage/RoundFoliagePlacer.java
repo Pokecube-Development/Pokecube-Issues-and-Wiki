@@ -49,9 +49,14 @@ public class RoundFoliagePlacer extends FoliagePlacer
                                  Random random, TreeConfiguration treeConfig, int maxFreeTreeHeight,
                                  FoliagePlacer.FoliageAttachment foliageAttachment, int height, int radius, int offset)
     {
-        for(int i = offset; i >= offset - height; --i) {
-            int j = radius + (i != offset && i != offset - height ? 1 : 0);
-            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), j, i, foliageAttachment.doubleTrunk());
+        double ch = height / 2.0;
+        double scale = Math.sqrt(2);
+        for(int i = 0; i >= -height; --i)
+        {
+            int range = (int) ((Math.sqrt(ch - Math.abs(-i - ch)) + 1) * scale + 1);
+            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), range, offset + i, foliageAttachment.doubleTrunk());
+            PokecubeCore.LOGGER.info("Range = {}, i = {}, ch = {}", range, i, ch);
+            PokecubeCore.LOGGER.info("Formula = {}", (Math.sqrt(ch - Math.abs(-i - ch)) + 1));
         }
     }
 
