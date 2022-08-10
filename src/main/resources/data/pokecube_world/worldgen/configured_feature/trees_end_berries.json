@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:random_selector",
+    "config": {
+      "features": [
+        {
+          "chance": 0.5,
+          "feature": "pokecube_world:enigma_tree"
+        }
+      ],
+      "default": "pokecube_world:enigma_tree"
+    }
+  }
+  

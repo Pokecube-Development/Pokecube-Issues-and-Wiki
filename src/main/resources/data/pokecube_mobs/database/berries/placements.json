@@ -1,6 +1,22 @@
 {
   "locations": [
     {
+      "placement": "pokecube_world:trees_beach_berries",
+      "spawn": [
+        {
+          "values":{"biome_category": "beach","no_biome_types": "cold,snowy", "no_biomes":"minecraft:flower_forest,minecraft:meadow"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:trees_end_berries",
+      "spawn": [
+        {
+          "values":{"biome_category": "the_end"}
+        }
+      ]
+    },
+    {
       "placement": "pokecube_world:trees_flower_forest_berries",
       "spawn": [
         {
@@ -13,14 +29,6 @@
       "spawn": [
         {          
           "values":{"biome_category": "forest","no_biome_types": "cold,spooky,snowy,sparse,dry", "no_biomes":"minecraft:flower_forest"}
-        }
-      ]
-    },
-    {
-      "placement": "pokecube_world:trees_beach_berries",
-      "spawn": [
-        {
-          "values":{"biome_category": "beach","no_biome_types": "cold,snowy", "no_biomes":"minecraft:flower_forest,minecraft:meadow"}
         }
       ]
     },
