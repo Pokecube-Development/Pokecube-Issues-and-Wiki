@@ -17,6 +17,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -62,6 +63,21 @@ public class WorldTest
                 final ResourceKey<ConfiguredStructureFeature<?, ?>> structure = ResourceKey
                         .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, name);
                 var holder = registry.getHolderOrThrow(structure);
+
+                if (points.isEmpty())
+                {
+                    Set<Holder<Biome>> level_biomes = level.getChunkSource().getGenerator().getBiomeSource()
+                            .possibleBiomes();
+                    HolderSet<Biome> struct_biomes = holder.value().biomes;
+                    boolean valid = false;
+                    for (var b : level_biomes)
+                    {
+                        valid |= struct_biomes.contains(b);
+                        if (valid) break;
+                    }
+                    if (!valid) return false;
+                }
+                
                 HolderSet<ConfiguredStructureFeature<?, ?>> holderset = HolderSet.direct(holder);
                 long time = System.nanoTime();
                 Pair<BlockPos, Holder<ConfiguredStructureFeature<?, ?>>> thing = level.getChunkSource().getGenerator()
@@ -163,21 +179,23 @@ public class WorldTest
             long dt = System.nanoTime() - time;
 
             boolean any_found = false;
+            int num_found = 0;
 
             for (var entry : this.entries)
             {
                 if (entry.points.isEmpty()) continue;
                 any_found = true;
+                num_found++;
                 if (entry.points.size() < min_found) min = entry.name;
                 if (entry.points.size() > max_found) max = entry.name;
                 min_found = Math.min(min_found, entry.points.size());
                 max_found = Math.max(max_found, entry.points.size());
             }
             if (n % 10 == 0) ThutCore.LOGGER.info(
-                    "\nMin Found: {} ({}), Max Found: {} ({}), took: {} ms, checking {}, iter {}, r {}\n", min_found,
-                    min, max_found, max, dt / 1e6, entries.size(), n, searcher._radius * step);
+                    "\nMin N: {} ({}), Max N: {} ({}), Num: {}, took: {} ms, checking {}, iter {}, r {}\n", min_found,
+                    min, max_found, max, num_found, dt / 1e6, entries.size(), n, searcher._radius * step);
             n++;
-            return (any_found && min_found >= 100) || step * searcher._radius > 100000;
+            return (any_found && min_found >= 5) || step * searcher._radius > 100000;
         }
     }
 
@@ -190,9 +208,9 @@ public class WorldTest
         {
             LOG = new Logger();
         }
-        if (chat.getMessage().startsWith("Status:Debug_Structures"))
+        if (chat.getMessage().startsWith("Status:Debug_Structures") && LOG != null)
         {
-            PokecubeCore.LOGGER.info("Structures Found:");
+            PokecubeCore.LOGGER.info("Structures Found within {}:", LOG.searcher._radius);
             Set<ResourceLocation> found = Sets.newHashSet();
             for (var entry : LOG.entries)
             {
@@ -221,7 +239,7 @@ public class WorldTest
             boolean done = LOG.tick(level);
             if (done)
             {
-                PokecubeCore.LOGGER.info("Structures Found:");
+                PokecubeCore.LOGGER.info("Structures Found within {}:", LOG.searcher._radius);
                 for (var entry : LOG.entries)
                 {
                     var name = entry.name;

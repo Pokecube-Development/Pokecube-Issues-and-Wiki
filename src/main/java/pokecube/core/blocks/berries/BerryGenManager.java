@@ -118,6 +118,7 @@ public class BerryGenManager
     {
         public String berry;
         public String tree;
+        public int weight = 1;
     }
 
     private static class TreeProvider extends AbstractTreeGrower implements Supplier<AbstractTreeGrower>
@@ -236,7 +237,7 @@ public class BerryGenManager
                         return t;
                     });
                     ResourceLocation loc = new ResourceLocation(conf.tree);
-                    if (!prov.trees.contains(loc)) prov.trees.add(loc);
+                    if (!prov.trees.contains(loc)) for (int i = 0; i < conf.weight; i++) prov.trees.add(loc);
                 }
             });
         }

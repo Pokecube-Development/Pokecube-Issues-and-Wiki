@@ -16,7 +16,7 @@
     ],
     "avoidances":{
       "flags": ["village_deep"],
-      "avoidances": [{"name":"village_deep","distance":80}]
+      "avoidances": [{"name":"village_deep","distance":128}]
     }
   },
   "spawn_overrides": {},

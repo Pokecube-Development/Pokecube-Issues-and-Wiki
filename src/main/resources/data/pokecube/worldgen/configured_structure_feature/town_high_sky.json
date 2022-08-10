@@ -17,7 +17,7 @@
     ],
     "avoidances":{
       "flags": ["village_high_sky"],
-      "avoidances": [{"name":"village_high_sky","distance":80}]
+      "avoidances": [{"name":"village_high_sky","distance":196}]
     }
   },
   "spawn_overrides": {},
