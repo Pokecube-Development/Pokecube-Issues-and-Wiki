@@ -19,6 +19,8 @@ public class TrunkPlacerTypes
 {
     public static final RegistryObject<TrunkPlacerType<PalmTrunkPlacer>> PALM_TRUNK_PLACER = PokecubeWorld.TRUNK_PLACERS
             .register("palm_trunk_placer", () -> new TrunkPlacerType<>(PalmTrunkPlacer.CODEC));
+    public static final RegistryObject<TrunkPlacerType<StraightTrunkPlacerNoDirt>> STRAIGHT_TRUNK_PLACER_NO_DIRT = PokecubeWorld.TRUNK_PLACERS
+            .register("straight_trunk_placer_no_dirt", () -> new TrunkPlacerType<>(StraightTrunkPlacerNoDirt.CODEC));
 
     public static void init()
     {};
@@ -35,6 +37,14 @@ public class TrunkPlacerTypes
                                  BlockPos pos, TreeConfiguration treeConfig)
     {
         if (treeConfig.forceDirt || !isDirtOrSand(level, pos)) {
+            blockSetter.accept(pos, treeConfig.dirtProvider.getState(random, pos));
+        }
+    }
+
+    public static void requireForceDirtAt(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter, Random random,
+                                 BlockPos pos, TreeConfiguration treeConfig)
+    {
+        if (treeConfig.forceDirt && !isDirtOrSand(level, pos)) {
             blockSetter.accept(pos, treeConfig.dirtProvider.getState(random, pos));
         }
     }

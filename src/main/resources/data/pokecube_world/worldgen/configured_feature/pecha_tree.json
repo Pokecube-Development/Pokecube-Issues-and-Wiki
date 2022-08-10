@@ -35,7 +35,7 @@
       }
     },
     "trunk_placer": {
-      "type": "minecraft:straight_trunk_placer",
+      "type": "pokecube:straight_trunk_placer_no_dirt",
       "base_height": 3,
       "height_rand_a": 2,
       "height_rand_b": 2

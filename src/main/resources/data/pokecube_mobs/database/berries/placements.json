@@ -12,7 +12,7 @@
       "placement": "pokecube_world:trees_end_berries",
       "spawn": [
         {
-          "values":{"biome_category": "the_end"}
+          "values":{"biomes": "minecraft:end_highlands"}
         }
       ]
     },
