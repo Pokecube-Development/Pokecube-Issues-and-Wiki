@@ -54,9 +54,7 @@ public class RoundFoliagePlacer extends FoliagePlacer
         for(int i = 0; i >= -height; --i)
         {
             int range = (int) ((Math.sqrt(ch - Math.abs(-i - ch)) + 1) * scale + 1);
-            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), range, offset + i, foliageAttachment.doubleTrunk());
-            PokecubeCore.LOGGER.info("Range = {}, i = {}, ch = {}", range, i, ch);
-            PokecubeCore.LOGGER.info("Formula = {}", (Math.sqrt(ch - Math.abs(-i - ch)) + 1));
+            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), range - 1, offset + i, foliageAttachment.doubleTrunk());
         }
     }
 

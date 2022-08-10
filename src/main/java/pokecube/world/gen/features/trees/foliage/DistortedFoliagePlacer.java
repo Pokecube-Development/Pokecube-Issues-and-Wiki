@@ -50,16 +50,16 @@ public class DistortedFoliagePlacer extends FoliagePlacer
                                  FoliageAttachment foliageAttachment, int height, int radius, int offset)
     {
 
-        double ch = height / 2.0;
-        double scale = Math.sqrt(3);
-        for(int i = 0; i >= -height; --i)
-        {
-            int range = (int) ((Math.sqrt(ch - Math.abs(-i - ch)) + 1) * scale + 1);
-            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), range - 1, offset + i, foliageAttachment.doubleTrunk());
-        }
+//        double ch = height / 2.0;
+//        double scale = Math.sqrt(3);
+//        for(int i = 0; i >= -height; --i)
+//        {
+//            int range = (int) ((Math.sqrt(ch - Math.abs(-i - ch)) + 1) * scale + 1);
+//            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), range - 1, offset + i, foliageAttachment.doubleTrunk());
+//        }
         for(int i = offset; i >= offset - height; --i) {
             int j = radius + (i != offset && i != offset - height ? 1 : 0);
-//            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), j, i, foliageAttachment.doubleTrunk());
+            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), j, i, foliageAttachment.doubleTrunk());
             this.placeLeavesDot(level, blockSetter, random, treeConfig, foliageAttachment.pos(), j - 1, i - 4, foliageAttachment.doubleTrunk());
         }
     }
