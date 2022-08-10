@@ -152,7 +152,7 @@ public class Trees
                 BlockStateProvider.simple(BlockInit.CORRUPTED_LOG.get().defaultBlockState()),
                 new ForkingTrunkPlacer(6, 2, 3),
                 BlockStateProvider.simple(BlockInit.CORRUPTED_LEAVES.get().defaultBlockState()),
-                new AcaciaFoliagePlacer(ConstantInt.of(3), ConstantInt.of(1)), new TwoLayersFeatureSize(1, 0, 2))
+                new AcaciaFoliagePlacer(ConstantInt.of(2), ConstantInt.of(1)), new TwoLayersFeatureSize(1, 0, 2))
                         .ignoreVines().dirt(BlockStateProvider.simple(BlockInit.ROOTED_CORRUPTED_DIRT.get()))
                         .forceDirt();
     }
