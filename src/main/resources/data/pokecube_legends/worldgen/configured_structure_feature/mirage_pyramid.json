@@ -12,7 +12,7 @@
       "pokecube_legends:villages"
     ],
     "avoidances":{
-      "avoidances": [{"name":"mirage_pyramid","distance":80}],
+      "avoidances": [{"name":"mirage_pyramid","distance":256}],
       "flags": ["mirage_pyramid"]
     },
     "avoid_range": 6,

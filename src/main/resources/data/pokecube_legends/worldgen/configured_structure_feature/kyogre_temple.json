@@ -19,7 +19,7 @@
     "size": 2,
     "avoidances":{
       "flags": ["temple", "kyogre_temple"],
-      "avoidances": [{"name":"temple","distance":8}, {"name":"kyogre_temple","distance":80}]
+      "avoidances": [{"name":"temple","distance":8}, {"name":"kyogre_temple","distance":256}]
     }
   },
   "biomes": "#pokecube_world:has_structure/kyogre_temple",

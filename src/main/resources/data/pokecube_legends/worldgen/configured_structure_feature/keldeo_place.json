@@ -16,7 +16,7 @@
     "size": 2,
     "avoidances":{
       "flags": ["temple", "keldeo_place"],
-      "avoidances": [{"name":"temple","distance":8}, {"name":"keldeo_place","distance":80}]
+      "avoidances": [{"name":"temple","distance":8}, {"name":"keldeo_place","distance":256}]
     }
   },
   "biomes": "#pokecube_world:has_structure/keldeo_place",

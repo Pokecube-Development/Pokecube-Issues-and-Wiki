@@ -17,7 +17,7 @@
     "size": 2,
     "avoidances":{
       "flags": ["regi_temple", "regidrago_temple"],
-      "avoidances": [{"name":"regi_temple","distance":8}, {"name":"temple","distance":4}, {"name":"regidrago_temple","distance":80}]
+      "avoidances": [{"name":"regi_temple","distance":8}, {"name":"temple","distance":4}, {"name":"regidrago_temple","distance":256}]
     }
   },
   "biomes": "#pokecube_world:has_structure/regidrago_temple",

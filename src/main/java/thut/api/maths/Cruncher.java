@@ -2,6 +2,7 @@ package thut.api.maths;
 
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 
 public class Cruncher
@@ -49,8 +50,9 @@ public class Cruncher
             {
                 final float h_k = -1 + 2 * (k - 1) / (N - 1);
                 final float sin_theta = (float) Math.sqrt(1 - h_k * h_k);
-                final float phi_k = (float) (k > 1 && k < N ? (phi_k_1 + C / Math.sqrt(N * (1 - h_k * h_k))) % (2
-                        * Math.PI) : 0);
+                final float phi_k = (float) (k > 1 && k < N
+                        ? (phi_k_1 + C / Math.sqrt(N * (1 - h_k * h_k))) % (2 * Math.PI)
+                        : 0);
                 phi_k_1 = phi_k;
                 final double x = sin_theta * Mth.cos(phi_k) * radius;
                 final double y = h_k * radius;
@@ -206,5 +208,97 @@ public class Cruncher
     {
         if (cube || !Cruncher.useCache || index >= Cruncher.SPHERECACHE.length) Cruncher.indexToVals(index, toFill);
         else if (index < Cruncher.SPHERECACHE.length) toFill.set(Cruncher.SPHERECACHE[index]);
+    }
+
+    public static class SquareLoopCruncher
+    {
+        public int _radius = 0;
+        int _side = 0;
+        int _q = 0;
+        boolean started = false;
+
+        private void initNext(int radius)
+        {
+            // This came from forge's Generate command
+            _side = _side % 4;
+            switch (_side)
+            {
+            case (0):
+                _radius = radius;
+                _q = -_radius + 1;
+                break;
+            case (1):
+                _radius = radius;
+                _q = _radius - 1;
+                break;
+            case (2):
+                _radius = radius;
+                _q = _radius - 1;
+                break;
+            case (3):
+                _radius = radius;
+                _q = -_radius + 1;
+                break;
+            }
+        }
+
+        public void reset()
+        {
+            _radius = 0;
+            _side = 0;
+            _q = 0;
+            started = false;
+        }
+
+        public BlockPos getNext(BlockPos mid, int dr)
+        {
+            if (!started)
+            {
+                started = true;
+                return mid;
+            }
+            // This came from forge's Generate command
+            switch (_side)
+            {
+            case (0):
+                mid = mid.offset(_radius * dr, 0, _q * dr);
+                _q++;
+                if (_q > _radius)
+                {
+                    _side++;
+                    initNext(_radius);
+                }
+                break;
+            case (1):
+                mid = mid.offset(_q * dr, 0, _radius * dr);
+                _q--;
+                if (_q < -_radius)
+                {
+                    _side++;
+                    initNext(_radius);
+                }
+                break;
+            case (2):
+                mid = mid.offset(-_radius * dr, 0, _q * dr);
+                _q--;
+                if (_q < -_radius)
+                {
+                    _side++;
+                    initNext(_radius);
+                }
+                break;
+            case (3):
+                mid = mid.offset(_q * dr, 0, -_radius * dr);
+                _q++;
+                if (_q > _radius)
+                {
+                    _side++;
+                    _radius++;
+                    initNext(_radius);
+                }
+                break;
+            }
+            return mid;
+        }
     }
 }

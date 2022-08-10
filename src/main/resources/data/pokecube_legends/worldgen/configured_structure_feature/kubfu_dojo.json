@@ -16,7 +16,7 @@
     "size": 2,
     "avoidances":{
       "flags": ["temple", "kubfu_dojo"],
-      "avoidances": [{"name":"temple","distance":8}, {"name":"kubfu_dojo","distance":80}]
+      "avoidances": [{"name":"temple","distance":8}, {"name":"kubfu_dojo","distance":256}]
     }
   },
   "biomes": "#pokecube_world:has_structure/kubfu_dojo",

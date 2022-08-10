@@ -1,5 +1,6 @@
 package thut.bot.entity.ai.modules;
 
+import java.util.BitSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -16,12 +17,16 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.SectionPos;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkStatus;
@@ -84,7 +89,7 @@ public class RoadBuilder extends AbstractBot
     int stuckTicks = 0;
     int pathTicks = 0;
 
-    int tpTicks = 50;
+    int tpTicks = 5;
 
     Vec3 next = null;
     Vec3 end = null;
@@ -177,7 +182,7 @@ public class RoadBuilder extends AbstractBot
             this.done = true;
             return;
         }
-        if (player.position().distanceToSqr(next) < 64)
+        if (player.position().distanceToSqr(next) < 256)
         {
             teleBot(new BlockPos(next));
             this.mob.getNavigation().stop();
@@ -312,6 +317,10 @@ public class RoadBuilder extends AbstractBot
         // fixed.
         int[] ys = new int[path_opts.size()];
         int i = 0;
+        BitSet fixedPoints = new BitSet();
+        fixedPoints.flip(0);
+        fixedPoints.flip(ys.length - 1);
+
         for (var v : path_opts)
         {
             int y = this.player.level.getMinBuildHeight();
@@ -328,6 +337,11 @@ public class RoadBuilder extends AbstractBot
             }
             if (y < this.player.level.getSeaLevel() - 2) y = this.player.level.getSeaLevel() + 2;
             y = Math.max(y, this.player.level.getSeaLevel());
+            BlockPos pos = v.atY(y);
+            if (!StructureManager.getNear(player.level.dimension(), pos, 5).isEmpty())
+            {
+                fixedPoints.set(i);
+            }
             ys[i++] = y;
         }
 
@@ -340,6 +354,9 @@ public class RoadBuilder extends AbstractBot
             // Repeatedly relax the system untill all slopes are "acceptable"
             for (i = 1; i < ys.length - 1; i++)
             {
+                // fixed points do not get relaxed, so skip them for the check.
+                if (fixedPoints.get(i)) continue;
+
                 BlockPos p0 = path_opts.get(i).atY(ys[i]);
                 BlockPos pb = path_opts.get(i - 1).atY(ys[i - 1]);
                 BlockPos pa = path_opts.get(i + 1).atY(ys[i + 1]);
@@ -350,7 +367,7 @@ public class RoadBuilder extends AbstractBot
                 double dh_a = Math.sqrt(dx * dx + dz * dz);
                 double dy_a = Math.abs(p0.getY() - pa.getY());
 
-                if (dy_a / dh_a > 0.35)
+                if (dy_a / dh_a > 0.4)
                 {
                     int new_y0 = (p0.getY() + pa.getY()) / 2;
                     dy += Math.abs(new_y0 - ys[i]);
@@ -365,7 +382,7 @@ public class RoadBuilder extends AbstractBot
                 double dh_b = Math.sqrt(dx * dx + dz * dz);
                 double dy_b = Math.abs(p0.getY() - pb.getY());
 
-                if (dy_b / dh_b > 0.35)
+                if (dy_b / dh_b > 0.4)
                 {
                     int new_y0 = (p0.getY() + pb.getY()) / 2;
                     dy += Math.abs(new_y0 - ys[i]);
@@ -394,7 +411,6 @@ public class RoadBuilder extends AbstractBot
         {
             this.path_index = 0;
             this.path_nodes.clear();
-            System.out.println("Reset");
             initPath();
             return;
         }
@@ -495,6 +511,7 @@ public class RoadBuilder extends AbstractBot
 
         List<BlockPos> torches = Lists.newArrayList();
         List<BlockPos> railings = Lists.newArrayList();
+        List<BlockPos> signs = Lists.newArrayList();
 
         List<List<BlockPos>> layers = Lists.newArrayList();
 
@@ -502,23 +519,25 @@ public class RoadBuilder extends AbstractBot
 
         for (int i = 0; i < 7; i++) layers.add(Lists.newArrayList());
 
-        for (double i = 0; i < dist; i += 0.25)
+        boolean makeSign = this.player.getRandom().nextDouble() < 0.5;
+
+        for (double i = -1; i <= dist + 1; i += 0.25)
         {
             // Make torches every 5 blocks or so.
             boolean makeTorch = ((int) i) % 10 == 0 && (i - ((int) i)) < 0.25;
 
             h_loop:
-            for (int h = -3; h <= 3; h++)
+            for (int dh = -3; dh <= 3; dh++)
             {
-                vec = start.add(dir.scale(i).add(dir_h.scale(h)));
+                vec = start.add(dir.scale(i).add(dir_h.scale(dh)));
                 pos = new BlockPos(vec);
 
                 // If too close to a structure, skip point
-                final Set<StructureInfo> inside = StructureManager.getNear(level.dimension(), pos, 5);
+                final Set<StructureInfo> inside = StructureManager.getNear(level.dimension(), pos, 2);
                 if (!inside.isEmpty()) continue;
 
                 // check if we need this edge at all
-                if (Math.abs(h) == 3)
+                if (Math.abs(dh) == 3)
                 {
                     boolean doEdge = level.getHeight(Types.OCEAN_FLOOR_WG, pos.getX(), pos.getZ()) < pos.getY() - 1;
                     if (doEdge) railings.add(pos.above());
@@ -526,14 +545,18 @@ public class RoadBuilder extends AbstractBot
                 }
                 for (int y = -1; y <= 4; y++)
                 {
-                    vec = start.add(dir.scale(i).add(dir_h.scale(h))).add(0, y, 0);
+                    vec = start.add(dir.scale(i).add(dir_h.scale(dh))).add(0, y, 0);
                     pos = new BlockPos(vec);
 
-                    if (makeTorch && Math.abs(h) == 2 && y == 1)
+                    if (makeTorch && Math.abs(dh) == 2 && y == 1)
                     {
                         torches.add(pos);
                     }
-
+                    else if (dh == 1 && ((int) i == 1) && y == 0 && makeSign)
+                    {
+                        signs.add(pos);
+                        makeSign = false;
+                    }
                     if (!toAffect.contains(pos))
                     {
                         toAffect.add(pos);
@@ -574,7 +597,6 @@ public class RoadBuilder extends AbstractBot
                 if (y == 0) for (Direction d : nextDir)
                 {
                     BlockPos p = here.offset(d.getStepX(), d.getStepY(), d.getStepZ());
-
                     if (!y_cache.containsKey(p))
                     {
                         continue;
@@ -616,6 +638,19 @@ public class RoadBuilder extends AbstractBot
             this.setBlock(level, p.below(2), Blocks.COBBLESTONE.defaultBlockState(), 2);
             this.setBlock(level, p.below(), Blocks.COBBLESTONE_WALL.defaultBlockState(), 2);
             this.setBlock(level, p, Blocks.TORCH.defaultBlockState(), 2);
+        }
+
+        // Last place signs
+        for (BlockPos p : signs)
+        {
+            double facing = -Math.atan2(dir.x, dir.z) * 180 / Math.PI;
+            int rot = Mth.floor((double) ((90.0F + facing) * 16.0F / 360.0F) + 0.5D) & 15;
+            this.setBlock(level, p, Blocks.OAK_SIGN.defaultBlockState().setValue(StandingSignBlock.ROTATION, rot), 2);
+            var opt = level.getBlockEntity(p, BlockEntityType.SIGN);
+            if (opt.isPresent())
+            {
+                opt.get().setMessage(0, new TranslatableComponent(this.subbiome));
+            }
         }
     }
 

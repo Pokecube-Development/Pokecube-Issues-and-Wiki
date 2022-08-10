@@ -78,29 +78,29 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     private final HashMap<String, IExtendedModelPart> nullPartsMap = Maps.newHashMap();
-    private final HashMap<String, IExtendedModelPart> subPartsMap  = Maps.newHashMap();
+    private final HashMap<String, IExtendedModelPart> subPartsMap = Maps.newHashMap();
 
     private final List<String> order = Lists.newArrayList();
 
-    private final Set<String>    nullHeadSet = Sets.newHashSet();
-    private final Set<String>    animations  = Sets.newHashSet();
-    private final List<Material> mats        = Lists.newArrayList();
+    private final Set<String> nullHeadSet = Sets.newHashSet();
+    private final Set<String> animations = Sets.newHashSet();
+    private final List<Material> mats = Lists.newArrayList();
 
-    protected boolean valid  = true;
+    protected boolean valid = true;
     protected boolean loaded = false;
 
     Vector3 min = new Vector3();
     Vector3 max = new Vector3();
 
-    Model             wrapped;
-    IPartTexturer     texturer;
+    Model wrapped;
+    IPartTexturer texturer;
     IAnimationChanger changer;
 
     public int red = 255, green = 255, blue = 255, alpha = 255;
 
-    public int          brightness = 15728640;
-    public int          overlay    = 655360;
-    private final int[] rgbabro    = new int[6];
+    public int brightness = 15728640;
+    public int overlay = 655360;
+    private final int[] rgbabro = new int[6];
 
     IAnimationHolder currentHolder = null;
 
@@ -240,7 +240,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
 
     @Override
     public void renderAllExcept(final PoseStack mat, final VertexConsumer buffer, final IModelRenderer<?> renderer,
-            final String... excludedGroupNames)
+            final Collection<String> excludedGroupNames)
     {
         // SMD Renders whole thing at once, so no part rendering.
         this.render(mat, buffer, renderer);
@@ -262,8 +262,8 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
 
             // only increment frame if a tick has passed.
             if (this.wrapped.body.currentAnim != null && this.wrapped.body.currentAnim.frameCount() > 0)
-                this.wrapped.body.currentAnim.setCurrentFrame(info.currentTick % this.wrapped.body.currentAnim
-                        .frameCount());
+                this.wrapped.body.currentAnim
+                        .setCurrentFrame(info.currentTick % this.wrapped.body.currentAnim.frameCount());
             // Check head parts for rendering rotations of them.
             for (final String s : this.getHeadParts())
             {

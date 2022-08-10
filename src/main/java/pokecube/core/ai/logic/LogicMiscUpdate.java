@@ -120,13 +120,17 @@ public class LogicMiscUpdate extends LogicBase
 
     UUID prevID = null;
 
+    final IAnimated animationHolder;
+
     public LogicMiscUpdate(final IPokemob pokemob)
     {
         super(pokemob);
         this.lastCache = this.entity.blockPosition();
+
+        animationHolder = AnimatedCaps.getAnimated(this.entity);
     }
 
-    private void checkAIStates()
+    private void checkAIStates(UUID ownerID)
     {
         final boolean angry = this.pokemob.inCombat();
 
@@ -199,28 +203,28 @@ public class LogicMiscUpdate extends LogicBase
         /**
          * Angry pokemobs shouldn't decide that walking is better than flying.
          */
-        if (angry)
+        else
         {
             this.pokemob.setRoutineState(AIRoutine.AIRBORNE, true);
             // Much longer cooldown if actually, really in combat
             this.combatTimer = 50;
         }
 
-        boolean noMotion = this.pokemob.getLogicState(LogicStates.SLEEPING);
-        boolean sitting = this.pokemob.getLogicState(LogicStates.SITTING);
-        noMotion |= sitting;
-
         this.inCombat = angry;
         this.pokemob.tickBreedDelay(PokecubeCore.getConfig().mateMultiplier);
 
         // Reset tamed state for things with no owner.
-        if (this.pokemob.getGeneralState(GeneralStates.TAMED) && this.pokemob.getOwnerId() == null)
+        if (ownerID == null && this.pokemob.getGeneralState(GeneralStates.TAMED))
             this.pokemob.setGeneralState(GeneralStates.TAMED, false);
 
         // Check exit cube state.
         if (this.entity.tickCount > LogicMiscUpdate.EXITCUBEDURATION
                 && this.pokemob.getGeneralState(GeneralStates.EXITINGCUBE))
             this.pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
+
+        boolean noMotion = this.pokemob.getLogicState(LogicStates.SLEEPING);
+        boolean sitting = this.pokemob.getLogicState(LogicStates.SITTING);
+        noMotion |= sitting;
 
         // Ensure sitting things don't have a path.
         if (sitting && !this.entity.getNavigation().isDone())
@@ -243,9 +247,9 @@ public class LogicMiscUpdate extends LogicBase
         if (ownedSleepCheck) this.pokemob.setLogicState(LogicStates.SLEEPING, false);
 
         // Ensure sitting status is synced for TameableEntities
-        if (this.entity instanceof TamableAnimal)
+        if (this.entity instanceof TamableAnimal animal)
         {
-            final boolean tameSitting = ((TamableAnimal) this.entity).isOrderedToSit();
+            final boolean tameSitting = animal.isOrderedToSit();
             this.pokemob.setLogicState(LogicStates.SITTING, tameSitting);
         }
     }
@@ -263,8 +267,8 @@ public class LogicMiscUpdate extends LogicBase
             }
             this.pokemob.setTraded(false);
         }
-        final int num = this.pokemob.getEvolutionTicks();
-        if (num > 0) this.pokemob.setEvolutionTicks(this.pokemob.getEvolutionTicks() - 1);
+        final int evo_ticks = this.pokemob.getEvolutionTicks();
+        if (evo_ticks > 0) this.pokemob.setEvolutionTicks(evo_ticks - 1);
         if (!this.checkedEvol && this.pokemob.traded())
         {
             this.pokemob.evolve(true, false, this.pokemob.getHeldItem());
@@ -273,12 +277,12 @@ public class LogicMiscUpdate extends LogicBase
         }
         if (evolving)
         {
-            if (num <= 0)
+            if (evo_ticks <= 0)
             {
                 this.pokemob.setGeneralState(GeneralStates.EVOLVING, false);
                 this.pokemob.setEvolutionTicks(-1);
             }
-            if (num <= 50)
+            if (evo_ticks <= 50)
             {
                 this.pokemob.evolve(false, false, this.pokemob.getEvolutionStack());
                 this.pokemob.setGeneralState(GeneralStates.EVOLVING, false);
@@ -347,7 +351,7 @@ public class LogicMiscUpdate extends LogicBase
         if (!world.isClientSide)
         {
             // Check that AI states are correct
-            this.checkAIStates();
+            this.checkAIStates(ownerID);
             // Check evolution
             this.checkEvolution();
             // Check and tick inventory
@@ -385,9 +389,8 @@ public class LogicMiscUpdate extends LogicBase
             if (this.pokemob.getHome() != null)
             {
                 final BlockEntity te = world.getBlockEntity(this.pokemob.getHome());
-                if (te != null && te instanceof NestTile)
+                if (te instanceof NestTile nest)
                 {
-                    final NestTile nest = (NestTile) te;
                     nest.addResident(this.pokemob);
                 }
             }
@@ -555,9 +558,8 @@ public class LogicMiscUpdate extends LogicBase
 
     private void checkAnimationStates()
     {
-        final IAnimated holder = AnimatedCaps.getAnimated(this.entity);
-        if (holder == null) return;
-        final List<String> anims = holder.getChoices();
+        if (animationHolder == null) return;
+        final List<String> anims = animationHolder.getChoices();
         anims.clear();
         final Vec3 velocity = this.entity.getDeltaMovement();
         final float dStep = this.entity.animationSpeed - this.entity.animationSpeedOld;

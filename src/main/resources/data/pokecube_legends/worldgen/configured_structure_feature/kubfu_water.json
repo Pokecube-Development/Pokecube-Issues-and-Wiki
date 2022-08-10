@@ -18,7 +18,7 @@
     "size": 2,
     "avoidances":{
       "flags": ["temple", "kubfu_water"],
-      "avoidances": [{"name":"temple","distance":8}, {"name":"kubfu_water","distance":80}]
+      "avoidances": [{"name":"temple","distance":8}, {"name":"kubfu_water","distance":256}]
     }
   },
   "biomes": "#pokecube_world:has_structure/kubfu_water",

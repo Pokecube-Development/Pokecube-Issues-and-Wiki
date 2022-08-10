@@ -15,10 +15,10 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeHooks;
 import pokecube.core.utils.EntityTools;
 import thut.api.entity.ICopyMob;
-import thut.bot.ThutBot;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.IBotAI;
 import thut.bot.entity.ai.helper.PathMob;
+import thut.core.common.ThutCore;
 
 public abstract class AbstractBot implements IBotAI
 {
@@ -148,7 +148,7 @@ public abstract class AbstractBot implements IBotAI
         // Move us to the nearest village to the target.
         this.player.teleportTo(tpTo.getX(), tpTo.getY(), tpTo.getZ());
 
-        ThutBot.LOGGER.info("Teleprted bot to " + tpTo);
+        if (ThutCore.conf.debug) ThutCore.LOGGER.info("Teleprted bot to " + tpTo);
 
         // Re-add the specators
         for (final ServerPlayer player : readd) player.setCamera(this.player);

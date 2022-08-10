@@ -158,7 +158,7 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItem
             if (transform == TransformType.GUI)
             {
                 final Float value = GuiPokemobBase.sizeMap.get(pokemob.getPokedexEntry());
-                if (value != null) mobScale = value * 2.0f;
+                if (value != null) mobScale = value * 8.0f;
                 else
                 {
                     final boolean stock = pokemob.getPokedexEntry().stock;

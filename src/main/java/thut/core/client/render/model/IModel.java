@@ -1,6 +1,7 @@
 package thut.core.client.render.model;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -36,6 +37,8 @@ public interface IModel
     Set<String> getHeadParts();
 
     Map<String, IExtendedModelPart> getParts();
+    
+    List<String> getRenderOrder();
 
     default void setAnimationHolder(final IAnimationHolder holder)
     {

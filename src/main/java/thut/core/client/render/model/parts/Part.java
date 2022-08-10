@@ -1,5 +1,7 @@
 package thut.core.client.render.model.parts;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -62,6 +64,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     private final List<Material> materials = Lists.newArrayList();
     private final Set<Material> matcache = Sets.newHashSet();
+
+    private Set<String> parentNames = Sets.newHashSet();
 
     public Part(final String name)
     {
@@ -142,6 +146,11 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         subPart.setParent(this);
     }
 
+    public Set<String> getParentNames()
+    {
+        return parentNames;
+    }
+
     @Override
     public List<Material> getMaterials()
     {
@@ -190,17 +199,24 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         return this.parts;
     }
 
-    private void postRender(final PoseStack mat)
+    @Override
+    public void postRender(final PoseStack mat)
     {
         // Pop ours first.
         mat.popPose();
 
         // Then pop all the parent's
-        if (this.parent != null) this.parent.unRotateForChild(mat);
+        if (this.parent != null)
+        {
+            this.parent.postRender(mat);
+        }
     }
 
-    private void preRender(final PoseStack mat)
+    @Override
+    public void preRender(final PoseStack mat)
     {
+        if (this.parent != null) parent.preRender(mat);
+
         mat.pushPose();
 
         mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
@@ -218,67 +234,68 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     public void render(final PoseStack mat, final VertexConsumer buffer)
     {
-        if (this.hidden) return;
-        for (final Mesh s : this.shapes)
+        this.preRender(mat);
+        if (!this.hidden) for (final Mesh s : this.shapes)
         {
             // Fill the int array in here, as the rendering can adjust it.
             s.rgbabro = this.getRGBABrO();
             // Render each Shape
             s.renderShape(mat, buffer, this.texturer);
         }
+        this.postRender(mat);
     }
 
     @Override
     public void renderAll(final PoseStack mat, final VertexConsumer buffer)
     {
-        this.renderAllExcept(mat, buffer, "");
+        this.renderAllExcept(mat, buffer, Collections.emptySet());
     }
 
     @Override
-    public void renderAllExcept(final PoseStack mat, final VertexConsumer buffer, final String... excludedGroupNames)
+    public void renderAllExcept(final PoseStack mat, final VertexConsumer buffer,
+            final Collection<String> excludedGroupNames)
     {
         boolean skip = this.hidden;
-        for (final String s1 : excludedGroupNames) if (skip = s1.equalsIgnoreCase(this.name)) break;
+        if (skip || excludedGroupNames.contains(this.name)) return;
         if (!skip)
         {
-            this.preRender(mat);
             for (final String s : this.order)
             {
                 final IExtendedModelPart o = this.parts.get(s);
                 o.renderAllExcept(mat, buffer, excludedGroupNames);
             }
             this.render(mat, buffer);
-            this.postRender(mat);
         }
     }
 
     @Override
-    public void renderOnly(final PoseStack mat, final VertexConsumer buffer, final String... groupNames)
+    public void renderOnly(final PoseStack mat, final VertexConsumer buffer, final Collection<String> groupNames)
     {
-        boolean rendered = false;
-        for (final String s1 : groupNames) if (rendered = s1.equalsIgnoreCase(this.name))
+        if (groupNames.contains(this.name))
         {
-            this.preRender(mat);
             this.render(mat, buffer);
-            this.postRender(mat);
-            break;
+            return;
         }
-        if (!rendered)
+        for (final String s : this.order)
         {
-            this.preRender(mat);
-            for (final String s : this.order)
-            {
-                final IExtendedModelPart o = this.parts.get(s);
-                o.renderOnly(mat, buffer, groupNames);
-            }
-            this.postRender(mat);
+            final IExtendedModelPart o = this.parts.get(s);
+            o.renderOnly(mat, buffer, groupNames);
         }
     }
 
     @Override
     public void renderPart(final PoseStack mat, final VertexConsumer buffer, final String partName)
     {
-        this.renderOnly(mat, buffer, partName);
+        if (partName.equalsIgnoreCase(this.name))
+        {
+            this.render(mat, buffer);
+            return;
+        }
+        for (final String s : this.order)
+        {
+            final IExtendedModelPart o = this.parts.get(s);
+            if (s.equalsIgnoreCase(partName)) o.render(mat, buffer);
+        }
     }
 
     @Override
@@ -294,18 +311,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void rotateForChild(final PoseStack mat)
-    {
-        if (this.parent != null) this.parent.rotateForChild(mat);
-    }
-
-    @Override
-    public void unRotateForChild(final PoseStack mat)
-    {
-        if (this.parent != null) this.parent.unRotateForChild(mat);
-    }
-
-    @Override
     public void setAnimationChanger(final IAnimationChanger changer)
     {
         this.changer = changer;
@@ -317,6 +322,12 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void setHidden(final boolean hidden)
     {
         this.hidden = hidden;
+    }
+
+    @Override
+    public boolean isHidden()
+    {
+        return this.hidden;
     }
 
     @Override

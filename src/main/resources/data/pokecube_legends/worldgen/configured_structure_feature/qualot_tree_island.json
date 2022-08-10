@@ -5,7 +5,7 @@
     "y_settings":{"vertical_offset": 50, "dy_offset": 50, "surface_type":"air"},
     "spawn_preset": "all",
     "avoidances":{
-      "avoidances": [{"name":"qualot_tree_island","distance":80}],
+      "avoidances": [{"name":"qualot_tree_island","distance":256}],
       "flags": ["qualot_tree_island"]
     },
     "avoid_range": 6,

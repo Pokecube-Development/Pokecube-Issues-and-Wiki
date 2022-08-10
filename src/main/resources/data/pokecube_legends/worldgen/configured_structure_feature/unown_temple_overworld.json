@@ -12,7 +12,7 @@
     "size": 8,
     "avoidances":{
       "flags": ["unown_temple"],
-      "avoidances": [{"name":"unown_temple","distance":80}]
+      "avoidances": [{"name":"unown_temple","distance":256}]
     }
   },
   "spawn_overrides": {},
