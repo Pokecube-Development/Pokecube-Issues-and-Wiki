@@ -38,7 +38,7 @@
       "type": "minecraft:straight_trunk_placer",
       "base_height": 6,
       "height_rand_a": 2,
-      "height_rand_b": 1
+      "height_rand_b": 3
     },
     "foliage_placer": {
       "type": "pokecube:round_foliage_placer",
@@ -49,12 +49,12 @@
           "max_inclusive": 3
         }
       },
-      "offset": 0,
+      "offset": 1,
       "height": {
         "type": "minecraft:uniform",
         "value": {
-          "min_inclusive": 3,
-          "max_inclusive": 5
+          "min_inclusive": 1,
+          "max_inclusive": 6
         }
       }
     },
