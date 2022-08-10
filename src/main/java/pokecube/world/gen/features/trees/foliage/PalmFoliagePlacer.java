@@ -1,5 +1,8 @@
 package pokecube.world.gen.features.trees.foliage;
 
+import java.util.Random;
+import java.util.function.BiConsumer;
+
 import com.mojang.datafixers.Products.P3;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -11,9 +14,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
-
-import java.util.Random;
-import java.util.function.BiConsumer;
 
 public class PalmFoliagePlacer extends FoliagePlacer
 {
