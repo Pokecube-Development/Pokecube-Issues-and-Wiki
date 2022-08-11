@@ -40,7 +40,7 @@
       }
     },
     {
-      "weight": 25,
+      "weight": 1,
       "element": {
         "location": "pokecube:village/plains/town_centers/center_grepa_tree",
         "projection": "rigid",
@@ -49,7 +49,7 @@
       }
     },
     {
-      "weight": 25,
+      "weight": 1,
       "element": {
         "location": "pokecube:village/plains/town_centers/center_leppa_tree",
         "projection": "rigid",

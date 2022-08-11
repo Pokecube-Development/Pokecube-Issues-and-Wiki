@@ -43,7 +43,7 @@
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
-      "weight": 25
+      "weight": 1
     },
     {
       "element": {
@@ -52,7 +52,7 @@
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
-      "weight": 25
+      "weight": 1
     }
   ],
   "fallback": "minecraft:empty",
