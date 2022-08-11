@@ -38,6 +38,24 @@
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:mossify_20_percent"
       }
+    },
+    {
+      "weight": 25,
+      "element": {
+        "location": "pokecube:village/plains/town_centers/center_grepa_tree",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:mossify_20_percent"
+      }
+    },
+    {
+      "weight": 25,
+      "element": {
+        "location": "pokecube:village/plains/town_centers/center_leppa_tree",
+        "projection": "rigid",
+        "element_type": "pokecube:expanded_pool_element",
+        "processors": "pokecube:mossify_20_percent"
+      }
     }
   ]
 }
