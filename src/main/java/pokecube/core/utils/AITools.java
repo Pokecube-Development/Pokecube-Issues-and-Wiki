@@ -21,6 +21,7 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.ExpirableValue;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -193,12 +194,12 @@ public class AITools
                             .orElseGet(() -> DataResult.error("Error loading Memory??"))
                             .flatMap(codec -> codec.parse(d));
                     final ExpirableValue<?> memory = (ExpirableValue<?>) res.getOrThrow(true,
-                            s1 -> PokecubeCore.LOGGER.error(s1));
+                            s1 -> PokecubeAPI.LOGGER.error(s1));
                     brain.setMemory(mem, memory.getValue());
                 }
                 catch (final Throwable e)
                 {
-                    PokecubeCore.LOGGER.error(e);
+                    PokecubeAPI.LOGGER.error(e);
                 }
             }
         }

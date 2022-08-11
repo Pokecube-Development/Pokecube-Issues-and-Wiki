@@ -24,6 +24,7 @@ import pokecube.adventures.client.gui.trainer.editor.pages.Rewards;
 import pokecube.adventures.client.gui.trainer.editor.pages.Spawn;
 import pokecube.adventures.client.gui.trainer.editor.pages.Trainer;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.trainers.IHasMessages;
@@ -31,7 +32,6 @@ import pokecube.api.entity.trainers.IHasNPCAIStates;
 import pokecube.api.entity.trainers.IHasPokemobs;
 import pokecube.api.entity.trainers.IHasRewards;
 import pokecube.api.entity.trainers.TrainerCaps;
-import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.utils.CapHolders;
 
@@ -82,7 +82,7 @@ public class EditorGui extends Screen
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error with making a page for watch", e);
+            PokecubeAPI.LOGGER.error("Error with making a page for watch", e);
             return null;
         }
     }
@@ -142,7 +142,7 @@ public class EditorGui extends Screen
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.warn("Error with page " + this.current_page, e);
+            PokecubeAPI.LOGGER.warn("Error with page " + this.current_page, e);
         }
     }
 

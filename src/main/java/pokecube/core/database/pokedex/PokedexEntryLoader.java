@@ -35,21 +35,21 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.loading.FMLPaths;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.data.PokedexEntry.MegaRule;
 import pokecube.api.data.PokedexEntry.MovementType;
 import pokecube.api.data.PokedexEntry.SpawnData;
 import pokecube.api.data.PokedexEntry.SpawnData.SpawnEntry;
+import pokecube.api.data.abilities.AbilityManager;
+import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.events.core.pokemob.SpawnEvent.FunctionVariance;
-import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
-import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.spawns.PokemobSpawns;
-import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
@@ -173,7 +173,7 @@ public class PokedexEntryLoader
                     final FormeHolder parent = Database.formeHolders.get(pkey);
                     if (parent == null || parent.loaded_from == null)
                     {
-                        PokecubeCore.LOGGER.error(
+                        PokecubeAPI.LOGGER.error(
                                 "Error loading parent {} for {}, it needs to be registered earlier in the file!",
                                 this.parent, this.key);
                         break parent_check;
@@ -736,7 +736,7 @@ public class PokedexEntryLoader
                 final String keyName = key.getKey();
                 if (key.getValue().isJsonObject())
                 {
-                    PokecubeCore.LOGGER.error("Error with value: {} {} for {}", keyName, key.getValue(), entry);
+                    PokecubeAPI.LOGGER.error("Error with value: {} {} for {}", keyName, key.getValue(), entry);
                     continue;
                 }
                 final String[] values = key.getValue().getAsString().split(",");
@@ -763,7 +763,7 @@ public class PokedexEntryLoader
         for (final DefaultFormeHolder holder : list)
         {
             holder.getForme(entry);
-            PokecubeCore.LOGGER.debug("Loaded Forme: " + holder.key + " " + holder.model + " " + holder.tex);
+            PokecubeAPI.LOGGER.debug("Loaded Forme: " + holder.key + " " + holder.model + " " + holder.tex);
         }
     }
 
@@ -928,7 +928,7 @@ public class PokedexEntryLoader
                     value.name = entry.getTrimmedName();
                     return false;
                 }
-                PokecubeCore.LOGGER.error(
+                PokecubeAPI.LOGGER.error(
                         "Error with entry for {}, it is missing a Number for sorting! removing on make", value.name);
                 return true;
             }
@@ -1039,14 +1039,14 @@ public class PokedexEntryLoader
     {
         if (xmlStats.evolutions != null && !xmlStats.evolutions.isEmpty())
         {
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Proccessing Evos for " + entry.getName());
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Proccessing Evos for " + entry.getName());
             for (final Evolution evol : xmlStats.evolutions)
             {
                 final String name = evol.name;
                 final PokedexEntry evolEntry = Database.getEntry(name);
                 if (evolEntry == null)
                 {
-                    PokecubeCore.LOGGER.error("Entry {} not found for evolution of {}, skipping", name, entry.name);
+                    PokecubeAPI.LOGGER.error("Entry {} not found for evolution of {}, skipping", name, entry.name);
                     continue;
                 }
                 EvolutionData data = null;
@@ -1058,7 +1058,7 @@ public class PokedexEntryLoader
                     if (clear)
                     {
                         entry.evolutions.remove(d);
-                        PokecubeCore.LOGGER.info("Replacing evolution for " + entry + " -> " + evolEntry);
+                        PokecubeAPI.LOGGER.info("Replacing evolution for " + entry + " -> " + evolEntry);
                     }
                     break;
                 }
@@ -1096,7 +1096,7 @@ public class PokedexEntryLoader
             if (holder != null) Database.registerFormeHolder(entry, holder);
             final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(rule);
             PokedexEntryLoader.handleAddSpawn(entry, matcher);
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Handling Spawns for {}", entry);
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.info("Handling Spawns for {}", entry);
         }
     }
 
@@ -1122,7 +1122,7 @@ public class PokedexEntryLoader
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error with expmode" + entry, e);
+            PokecubeAPI.LOGGER.error("Error with expmode" + entry, e);
         }
         if (xmlStats.shadowReplacements != null)
         {
@@ -1165,7 +1165,7 @@ public class PokedexEntryLoader
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error with postinit of loading pokedex entries", e);
+            PokecubeAPI.LOGGER.error("Error with postinit of loading pokedex entries", e);
         }
     }
 
@@ -1184,7 +1184,7 @@ public class PokedexEntryLoader
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error with " + xmlEntry + " entry? " + entry, e);
+            PokecubeAPI.LOGGER.error("Error with " + xmlEntry + " entry? " + entry, e);
         }
     }
 
@@ -1223,7 +1223,7 @@ public class PokedexEntryLoader
         if (!init && xmlEntry.baseForm != null && !xmlEntry.baseForm.isEmpty())
         {
             final PokedexEntry base = Database.getEntry(xmlEntry.baseForm);
-            if (base == null) PokecubeCore.LOGGER.error("Error with base form {} for {}", xmlEntry.baseForm, entry);
+            if (base == null) PokecubeAPI.LOGGER.error("Error with base form {} for {}", xmlEntry.baseForm, entry);
             else entry.setBaseForme(base);
         }
 
@@ -1254,7 +1254,7 @@ public class PokedexEntryLoader
                         { 0, Float.parseFloat(vec[0]), 0 });
                         else if (vec.length == 3) offsets.add(new double[]
                         { Float.parseFloat(vec[0]), Float.parseFloat(vec[1]), Float.parseFloat(vec[2]) });
-                        else PokecubeCore.LOGGER.warn(
+                        else PokecubeAPI.LOGGER.warn(
                                 "Wrong number of numbers for offset, must be 1 or 3: " + entry + " got: " + vec.length);
                     }
                     if (!offsets.isEmpty())
@@ -1306,7 +1306,7 @@ public class PokedexEntryLoader
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error with stats for " + entry, e);
+                    PokecubeAPI.LOGGER.error("Error with stats for " + entry, e);
                 }
                 try
                 {
@@ -1314,7 +1314,7 @@ public class PokedexEntryLoader
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error with spawns for " + entry, e);
+                    PokecubeAPI.LOGGER.error("Error with spawns for " + entry, e);
                 }
                 try
                 {
@@ -1322,13 +1322,13 @@ public class PokedexEntryLoader
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error with evols for " + entry, e);
+                    PokecubeAPI.LOGGER.error("Error with evols for " + entry, e);
                 }
             }
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error with " + xmlEntry + " init? " + init, e);
+            PokecubeAPI.LOGGER.error("Error with " + xmlEntry + " init? " + init, e);
         }
         if (moves != null) PokedexEntryLoader.initMoves(entry, moves);
     }
@@ -1350,7 +1350,7 @@ public class PokedexEntryLoader
                         value.name = entry.getTrimmedName();
                         return false;
                     }
-                    PokecubeCore.LOGGER.error(
+                    PokecubeAPI.LOGGER.error(
                             "Error with entry for {}, it is missing a Number for sorting! removing on write",
                             value.name);
                     return true;
@@ -1378,7 +1378,7 @@ public class PokedexEntryLoader
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error outputing compound database", e);
+            PokecubeAPI.LOGGER.error("Error outputing compound database", e);
         }
     }
 }

@@ -49,6 +49,7 @@ import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehavior;
@@ -446,7 +447,7 @@ public class PokecubeItems extends ItemList
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("No Cubes Registered!", e);
+            PokecubeAPI.LOGGER.error("No Cubes Registered!", e);
             return Items.STONE_HOE;
         }
 
@@ -510,8 +511,8 @@ public class PokecubeItems extends ItemList
         if (item != null) return new ItemStack(item);
         if (stacktrace && PokecubeItems.errored.add(loc))
         {
-            PokecubeCore.LOGGER.error(loc + " Not found in list of items.");
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.error("stacktrace: ", new NullPointerException());
+            PokecubeAPI.LOGGER.error(loc + " Not found in list of items.");
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.error("stacktrace: ", new NullPointerException());
         }
         return ItemStack.EMPTY;
     }
@@ -760,7 +761,7 @@ public class PokecubeItems extends ItemList
         int num = 0;
         if (nbt == null || i == null)
         {
-            PokecubeCore.LOGGER.error("No Data to save for Item Validations.");
+            PokecubeAPI.LOGGER.error("No Data to save for Item Validations.");
             return;
         }
         for (final Long l : i) if (l != null)

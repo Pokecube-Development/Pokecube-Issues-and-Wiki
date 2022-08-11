@@ -32,6 +32,7 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.network.PacketTrainer;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -46,7 +47,6 @@ import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.api.events.adventures.TrainerInteractEvent;
 import pokecube.api.events.adventures.TrainerInteractEvent.CanInteract;
 import pokecube.api.items.IPokecube;
-import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.npc.Activities;
@@ -322,7 +322,7 @@ public class CapabilityHasPokemobs
                 // We only log this error if it was supposed to be a trainer,
                 // other things can deal with their types however they feel
                 // like.
-                if (this.user instanceof TrainerBase) PokecubeCore.LOGGER.error("Checking gender with no type!",
+                if (this.user instanceof TrainerBase) PokecubeAPI.LOGGER.error("Checking gender with no type!",
                         new IllegalStateException(new NullPointerException()));
                 return 0;
             }

@@ -16,12 +16,12 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry.InteractionLogic.Interaction;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.utils.TagNames;
-import pokecube.core.PokecubeCore;
 import pokecube.core.impl.capabilities.impl.PokemobSaves;
 import thut.api.Tracker;
 import thut.api.item.ItemList;
@@ -51,7 +51,7 @@ public class VanillaPokemob extends PokemobSaves implements ICapabilitySerializa
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error Loading Pokemob", e);
+            PokecubeAPI.LOGGER.error("Error Loading Pokemob", e);
         }
     }
 
@@ -78,7 +78,7 @@ public class VanillaPokemob extends PokemobSaves implements ICapabilitySerializa
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error Saving Pokemob", e);
+            PokecubeAPI.LOGGER.error("Error Saving Pokemob", e);
             tag = new CompoundTag();
         }
         return tag;

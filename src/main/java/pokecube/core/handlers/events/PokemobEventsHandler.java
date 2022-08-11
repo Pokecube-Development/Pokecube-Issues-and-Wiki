@@ -240,7 +240,7 @@ public class PokemobEventsHandler
             catch (final ClassNotFoundException e)
             {
                 // NOOP, why would this happen anyway?
-                PokecubeCore.LOGGER.error("Error with class for {}??", element.getClassName());
+                PokecubeAPI.LOGGER.error("Error with class for {}??", element.getClassName());
             }
             if (fromHive || n++ > 100) break;
         }

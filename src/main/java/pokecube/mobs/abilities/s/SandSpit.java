@@ -2,9 +2,9 @@ package pokecube.mobs.abilities.s;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
+import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.core.database.abilities.Ability;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.network.packets.PacketSyncTerrain;
 import thut.api.Tracker;

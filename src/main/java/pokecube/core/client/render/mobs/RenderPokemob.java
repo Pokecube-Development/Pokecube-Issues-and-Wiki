@@ -24,6 +24,7 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
@@ -389,7 +390,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
     public static void register()
     {
-        PokecubeCore.LOGGER.info("Registering Models to the renderer.");
+        PokecubeAPI.LOGGER.info("Registering Models to the renderer.");
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
             if (!entry.stock) continue;

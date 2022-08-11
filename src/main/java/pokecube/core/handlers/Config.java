@@ -22,13 +22,14 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.server.ServerLifecycleHooks;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.events.core.pokemob.SpawnEvent.FunctionVariance;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.ai.tasks.idle.IdleWalkTask;
-import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
@@ -895,7 +896,7 @@ public class Config extends ConfigData
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.error("Error with mutation rate for " + s, e);
+                PokecubeAPI.LOGGER.error("Error with mutation rate for " + s, e);
             }
         }
 
@@ -939,7 +940,7 @@ public class Config extends ConfigData
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("No Sound for " + s, e);
+                    PokecubeAPI.LOGGER.error("No Sound for " + s, e);
                     failed = true;
                     break;
                 }
@@ -964,7 +965,7 @@ public class Config extends ConfigData
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.info("No Sound for " + s);
+                    PokecubeAPI.LOGGER.info("No Sound for " + s);
                     failed = true;
                     break;
                 }

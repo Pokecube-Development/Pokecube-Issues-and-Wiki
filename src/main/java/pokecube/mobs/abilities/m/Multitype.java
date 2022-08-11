@@ -3,9 +3,9 @@ package pokecube.mobs.abilities.m;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.database.Database;
-import pokecube.core.database.abilities.Ability;
 import pokecube.core.utils.PokeType;
 
 public class Multitype extends Ability

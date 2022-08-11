@@ -1,8 +1,8 @@
 package pokecube.mobs.abilities.m;
 
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.core.database.abilities.Ability;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.utils.PokeType;
 import thut.api.terrain.TerrainManager;

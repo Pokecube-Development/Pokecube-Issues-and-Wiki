@@ -70,7 +70,7 @@ public class PokecubeMobs
         @SubscribeEvent
         public static void registerSounds(final RegistryEvent.Register<SoundEvent> event)
         {
-            PokecubeCore.LOGGER.debug("Registering Pokemob Sounds");
+            PokecubeAPI.LOGGER.debug("Registering Pokemob Sounds");
             Database.initMobSounds(event.getRegistry());
         }
     }

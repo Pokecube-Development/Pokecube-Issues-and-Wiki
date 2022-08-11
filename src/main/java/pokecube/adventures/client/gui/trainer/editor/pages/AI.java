@@ -19,8 +19,8 @@ import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
-import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.helper.GuardEntry;
 import pokecube.core.client.gui.helper.RouteEditHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
@@ -180,7 +180,7 @@ public class AI extends Page
         }
         catch (NumberFormatException e)
         {
-            PokecubeCore.LOGGER.error(e);
+            PokecubeAPI.LOGGER.error(e);
         }
         PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
         message.getTag().putInt("I", this.parent.entity.getId());
@@ -197,7 +197,7 @@ public class AI extends Page
             }
             catch (NumberFormatException e)
             {
-                PokecubeCore.LOGGER.error(e);
+                PokecubeAPI.LOGGER.error(e);
             }
             tag = trainer.serializeNBT();
             message.getTag().put("__T__", tag);

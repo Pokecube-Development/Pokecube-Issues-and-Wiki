@@ -15,8 +15,8 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.moves.Move_Base;
-import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MovesParser;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.impl.PokecubeMod;
@@ -235,11 +235,11 @@ public class JsonMoves
         }
         catch (final FileNotFoundException e)
         {
-            PokecubeCore.LOGGER.debug("No Moves File: {}", file);
+            PokecubeAPI.LOGGER.debug("No Moves File: {}", file);
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error reading moves file " + file, e);
+            PokecubeAPI.LOGGER.error("Error reading moves file " + file, e);
         }
     }
 
@@ -285,10 +285,10 @@ public class JsonMoves
             {
                 final MoveJsonEntry entry = entryMap.get(move.name);
                 if (entry != null) move.move.baseEntry = entry;
-                else if (!move.name.startsWith("pokemob.status")) PokecubeCore.LOGGER.error("No Entry for "
+                else if (!move.name.startsWith("pokemob.status")) PokecubeAPI.LOGGER.error("No Entry for "
                         + move.name);
             }
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Processed " + moves.size() + " Moves.");
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.info("Processed " + moves.size() + " Moves.");
             MovesAdder.postInitMoves();
 
             final MovesJson cleaned = new MovesJson();
@@ -309,11 +309,11 @@ public class JsonMoves
         }
         catch (final FileNotFoundException e)
         {
-            PokecubeCore.LOGGER.debug("No animation File: {}", animationFile);
+            PokecubeAPI.LOGGER.debug("No animation File: {}", animationFile);
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error reading moves animation file " + animationFile, e);
+            PokecubeAPI.LOGGER.error("Error reading moves animation file " + animationFile, e);
         }
     }
 }

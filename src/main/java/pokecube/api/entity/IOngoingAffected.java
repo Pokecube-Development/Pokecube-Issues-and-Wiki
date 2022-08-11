@@ -11,7 +11,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.util.INBTSerializable;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 
 public interface IOngoingAffected extends INBTSerializable<ListTag>
 {
@@ -121,7 +121,7 @@ public interface IOngoingAffected extends INBTSerializable<ListTag>
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.error("Error loading effect: " + key + " " + value, e);
+                PokecubeAPI.LOGGER.error("Error loading effect: " + key + " " + value, e);
             }
         }
     }

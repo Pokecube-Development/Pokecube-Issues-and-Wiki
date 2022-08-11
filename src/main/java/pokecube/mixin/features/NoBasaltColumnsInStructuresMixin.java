@@ -15,7 +15,7 @@ import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.levelgen.feature.BasaltColumnsFeature;
 import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.world.WorldgenTags;
 
 @Mixin(BasaltColumnsFeature.class)
@@ -35,7 +35,7 @@ public class NoBasaltColumnsInStructuresMixin
         if (!levelAccessor.getChunk(sectionPos.x(), sectionPos.z()).getStatus()
                 .isOrAfter(ChunkStatus.STRUCTURE_REFERENCES))
         {
-            PokecubeCore.LOGGER.warn(
+            PokecubeAPI.LOGGER.warn(
                     "Repurposed Structures: Detected a mod with a broken basalt columns configuredfeature that is trying to place blocks outside the 3x3 safe chunk area for features. Find the broken mod and report to them to fix the placement of their basalt columns feature.");
             return;
         }

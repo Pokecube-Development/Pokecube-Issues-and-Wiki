@@ -1,10 +1,10 @@
 package pokecube.mobs.abilities.l;
 
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.moves.Move_Base;
-import pokecube.core.database.abilities.Ability;
 
 public class Libero extends Ability
 {

@@ -9,7 +9,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
@@ -25,7 +25,7 @@ public class Reset
         EventsHandler.sendInitInfo(target);
         source.sendSuccess(new TranslatableComponent("pokecube.command.reset", target.getDisplayName()), true);
         target.sendMessage(new TranslatableComponent("pokecube.command.canchoose"), Util.NIL_UUID);
-        PokecubeCore.LOGGER.info("Reset Starter for {}", target.getGameProfile());
+        PokecubeAPI.LOGGER.info("Reset Starter for {}", target.getGameProfile());
         return 0;
     }
 

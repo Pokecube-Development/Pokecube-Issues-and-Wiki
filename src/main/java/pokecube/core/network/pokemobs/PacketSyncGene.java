@@ -84,7 +84,7 @@ public class PacketSyncGene extends Packet
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error syncing a gene! {}", this.genes, e);
+            PokecubeAPI.LOGGER.error("Error syncing a gene! {}", this.genes, e);
         }
         buffer.writeNbt(tag);
     }

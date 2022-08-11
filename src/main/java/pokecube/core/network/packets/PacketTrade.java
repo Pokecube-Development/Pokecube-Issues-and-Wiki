@@ -10,6 +10,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.api.utils.TagNames;
@@ -44,7 +45,7 @@ public class PacketTrade extends Packet
         {
             container.tile.confirmed[0] = false;
             container.tile.confirmed[1] = false;
-            PokecubeCore.LOGGER.debug("Resetting trade status, users: " + container.tile.users);
+            PokecubeAPI.LOGGER.debug("Resetting trade status, users: " + container.tile.users);
             return;
         }
         if (this.data.contains("0"))

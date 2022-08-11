@@ -12,6 +12,7 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent.RenderMoveMessages;
 import pokecube.core.client.gui.helper.ListHelper;
@@ -28,7 +29,7 @@ public class GuiInfoMessages
     {
         if (message == null)
         {
-            PokecubeCore.LOGGER.warn("Null message was sent!", new NullPointerException());
+            PokecubeAPI.LOGGER.warn("Null message was sent!", new NullPointerException());
             return;
         }
         if (PokecubeCore.getConfig().battleLogInChat)

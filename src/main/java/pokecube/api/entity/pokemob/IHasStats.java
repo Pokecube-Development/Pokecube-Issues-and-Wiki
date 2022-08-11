@@ -1,11 +1,11 @@
 package pokecube.api.entity.pokemob;
 
+import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.api.moves.IMoveConstants;
-import pokecube.core.database.abilities.Ability;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
 

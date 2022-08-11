@@ -28,6 +28,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.moves.MovePacket;
@@ -378,7 +379,7 @@ public class Tools
 
         if (item == null && stack.isEmpty())
         {
-            PokecubeCore.LOGGER.error(id + " not found!");
+            PokecubeAPI.LOGGER.error(id + " not found!");
             return ItemStack.EMPTY;
         }
         if (stack.isEmpty()) stack = new ItemStack(item, 1);
@@ -389,7 +390,7 @@ public class Tools
         }
         catch (final CommandSyntaxException e)
         {
-            PokecubeCore.LOGGER.error("Error parsing items for " + values, e);
+            PokecubeAPI.LOGGER.error("Error parsing items for " + values, e);
         }
         return stack;
     }
@@ -421,7 +422,7 @@ public class Tools
          * slow-then-very-fast - 0 6 - fast-then-very-slow - 5 5 3 2 4 1 6 { 52,
          * 21, 27, 57, 33, 13, 3 },
          */
-        PokecubeCore.LOGGER.error(new IllegalArgumentException("Error parsing EXP Type for " + name));
+        PokecubeAPI.LOGGER.error(new IllegalArgumentException("Error parsing EXP Type for " + name));
         return 0;
     }
 

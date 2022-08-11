@@ -47,7 +47,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.init.function.PortalActiveFunction;
 import pokecube.legends.tileentity.RingTile;
@@ -579,7 +579,7 @@ public class PortalWarp extends Rotates implements SimpleWaterloggedBlock, Entit
         if (s == null)
         {
             s = Shapes.empty();
-            PokecubeCore.LOGGER.error("Error with hitbox for {}, {}, {}", part, dir, active);
+            PokecubeAPI.LOGGER.error("Error with hitbox for {}, {}, {}", part, dir, active);
         }
 
         return s;

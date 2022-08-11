@@ -4,6 +4,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.PositionTracker;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -65,7 +66,7 @@ public class DodgeTask extends CombatTask implements IAICombat
         if (this.pokemob.getCombatState(CombatStates.DODGING)) return;
         // set the dodge flag so other mobs know about this for missing
         this.pokemob.setCombatState(CombatStates.DODGING, true);
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Dodge: " + this.entity);
+        if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Dodge: " + this.entity);
         /*
          * Compute a random perpendicular direction.
          */

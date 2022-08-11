@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.database.resources.PackFinder;
 
 public class DBLoader
@@ -65,7 +65,7 @@ public class DBLoader
     public static void load()
     {
         if (DBLoader.loaded) return;
-        PokecubeCore.LOGGER.debug("Loading Trainer Databases");
+        PokecubeAPI.LOGGER.debug("Loading Trainer Databases");
         DBLoader.loaded = true;
         TrainerEntryLoader.makeEntries();
         DBLoader.loadNames();

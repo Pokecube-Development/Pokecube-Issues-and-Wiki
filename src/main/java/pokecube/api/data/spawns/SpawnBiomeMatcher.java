@@ -1,4 +1,4 @@
-package pokecube.core.database.spawns;
+package pokecube.api.data.spawns;
 
 import java.util.List;
 import java.util.Map;
@@ -23,13 +23,13 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.spawns.SpawnCheck.MatchResult;
+import pokecube.api.data.spawns.SpawnCheck.TerrainType;
+import pokecube.api.data.spawns.SpawnCheck.Weather;
 import pokecube.api.events.core.pokemob.SpawnCheckEvent;
-import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
-import pokecube.core.database.spawns.SpawnCheck.MatchResult;
-import pokecube.core.database.spawns.SpawnCheck.TerrainType;
-import pokecube.core.database.spawns.SpawnCheck.Weather;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
@@ -210,7 +210,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         if (!rules.not_preset.isBlank()) rules.values.put(NOTPRESET, rules.not_preset);
 
         if (this.spawnRule.values.isEmpty())
-            PokecubeCore.LOGGER.error("No rules found!", new IllegalArgumentException());
+            PokecubeAPI.LOGGER.error("No rules found!", new IllegalArgumentException());
     }
 
     public SpawnBiomeMatcher setClient()
@@ -479,7 +479,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             }
             else
             {
-                PokecubeCore.LOGGER.error("No preset found for {}", key);
+                PokecubeAPI.LOGGER.error("No preset found for {}", key);
             }
         }
 
@@ -512,7 +512,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                     this._or_children.add(child);
                 }
                 else if (!__client__)
-                    PokecubeCore.LOGGER.error("No preset found for or_preset {} in {}", s, or_presets);
+                    PokecubeAPI.LOGGER.error("No preset found for or_preset {} in {}", s, or_presets);
             }
         }
         if (and_presets != null)
@@ -540,7 +540,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                     this._and_children.add(child);
                 }
                 else if (!__client__)
-                    PokecubeCore.LOGGER.error("No preset found for and_preset {} in {}", s, and_presets);
+                    PokecubeAPI.LOGGER.error("No preset found for and_preset {} in {}", s, and_presets);
             }
         }
         if (not_presets != null)
@@ -557,7 +557,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                     this._not_children.add(child);
                 }
                 else if (!__client__)
-                    PokecubeCore.LOGGER.error("No preset found for and_preset {} in {}", s, and_presets);
+                    PokecubeAPI.LOGGER.error("No preset found for and_preset {} in {}", s, and_presets);
             }
         }
     }
@@ -658,7 +658,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         if (this._parsed || __client__) return;
 
         if (this.spawnRule.values.isEmpty())
-            PokecubeCore.LOGGER.error("No rules found!", new IllegalArgumentException());
+            PokecubeAPI.LOGGER.error("No rules found!", new IllegalArgumentException());
 
         SpawnRule spawnRule = this.spawnRule.copy();
         if (spawnRule.values.containsKey(PRESET))
@@ -711,7 +711,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
             if (!this._valid && SpawnBiomeMatcher.loadedIn && !__client__)
             {
-                PokecubeCore.LOGGER.debug("Invalid Matcher: {}", PacketPokedex.gson.toJson(spawnRule));
+                PokecubeAPI.LOGGER.debug("Invalid Matcher: {}", PacketPokedex.gson.toJson(spawnRule));
             }
             return;
         }
@@ -763,7 +763,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         //@formatter:on
         if (!hasSomething && !hasBasicSettings) this._valid = false;
 
-        if (!this._valid && SpawnBiomeMatcher.loadedIn) PokecubeCore.LOGGER.debug("Invalid Matcher: {} ({})",
+        if (!this._valid && SpawnBiomeMatcher.loadedIn) PokecubeAPI.LOGGER.debug("Invalid Matcher: {} ({})",
                 PacketPokedex.gson.toJson(spawnRule), PacketPokedex.gson.toJson(this.spawnRule));
     }
 

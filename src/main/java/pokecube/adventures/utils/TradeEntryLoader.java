@@ -31,7 +31,7 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.utils.trade_presets.TradePresetAn;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.resources.PackFinder;
@@ -282,7 +282,7 @@ public class TradeEntryLoader
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.error("Error with database file {}", file, e);
+                PokecubeAPI.LOGGER.error("Error with database file {}", file, e);
             }
         }
         return full;
@@ -344,7 +344,7 @@ public class TradeEntryLoader
                 }
                 if (sell.isEmpty())
                 {
-                    PokecubeCore.LOGGER.error("No Sell:" + trade.sell + " " + trade.buys);
+                    PokecubeAPI.LOGGER.error("No Sell:" + trade.sell + " " + trade.buys);
                     continue;
                 }
 
@@ -360,7 +360,7 @@ public class TradeEntryLoader
             }
             catch (Throwable t)
             {
-                PokecubeCore.LOGGER.error("Error with trade: {}", JsonUtil.gson.toJson(trade), t);
+                PokecubeAPI.LOGGER.error("Error with trade: {}", JsonUtil.gson.toJson(trade), t);
             }
 
         }

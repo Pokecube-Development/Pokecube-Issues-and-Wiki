@@ -4,8 +4,6 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import org.apache.logging.log4j.Logger;
-
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 
@@ -149,7 +147,7 @@ public class PokecubeCore
         public static void registerBlocks(final RegistryEvent.Register<Block> event)
         {
             // register a new block here
-            PokecubeCore.LOGGER.debug("Registering Blocks");
+            PokecubeAPI.LOGGER.debug("Registering Blocks");
             ItemHandler.registerBlocks(event.getRegistry());
         }
 
@@ -157,7 +155,7 @@ public class PokecubeCore
         public static void registerContainers(final RegistryEvent.Register<MenuType<?>> event)
         {
             // register a new container here
-            PokecubeCore.LOGGER.debug("Registering Pokecube Containers");
+            PokecubeAPI.LOGGER.debug("Registering Pokecube Containers");
             event.getRegistry().register(ContainerPokemob.TYPE.setRegistryName(PokecubeCore.MODID, "pokemob"));
             event.getRegistry().register(HealerContainer.TYPE.setRegistryName(PokecubeCore.MODID, "healer"));
             event.getRegistry().register(PCContainer.TYPE.setRegistryName(PokecubeCore.MODID, "pc"));
@@ -169,7 +167,7 @@ public class PokecubeCore
         public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event)
         {
             // register a new mob here
-            PokecubeCore.LOGGER.debug("Registering Pokecube Mobs");
+            PokecubeAPI.LOGGER.debug("Registering Pokecube Mobs");
 
             // Register the non-pokemobs first
             event.getRegistry().register(EntityPokecube.TYPE.setRegistryName(PokecubeCore.MODID, "pokecube"));
@@ -210,7 +208,7 @@ public class PokecubeCore
         public static void registerItems(final RegistryEvent.Register<Item> event)
         {
             // register a new item here
-            PokecubeCore.LOGGER.debug("Registering Pokecube Items");
+            PokecubeAPI.LOGGER.debug("Registering Pokecube Items");
             ItemHandler.registerItems(event.getRegistry());
         }
 
@@ -218,7 +216,7 @@ public class PokecubeCore
         public static void registerSounds(final RegistryEvent.Register<SoundEvent> event)
         {
             // register a new mob here
-            PokecubeCore.LOGGER.debug("Registering Pokecube Sounds");
+            PokecubeAPI.LOGGER.debug("Registering Pokecube Sounds");
             Database.initSounds(event.getRegistry());
 
             ResourceLocation sound = new ResourceLocation(PokecubeCore.MODID + ":pokecube_caught");
@@ -234,13 +232,11 @@ public class PokecubeCore
         public static void registerTileEntities(final RegistryEvent.Register<BlockEntityType<?>> event)
         {
             // register a new TE here
-            PokecubeCore.LOGGER.debug("Registering Pokecube TEs");
+            PokecubeAPI.LOGGER.debug("Registering Pokecube TEs");
             ItemHandler.registerTiles(event.getRegistry());
         }
     }
 
-    // Directly reference a log4j logger.
-    public static final Logger LOGGER = PokecubeAPI.LOGGER;
     public static final String MODID = PokecubeAPI.MODID;
 
     private static final String NETVERSION = "1.0.2";
@@ -310,7 +306,7 @@ public class PokecubeCore
 
     public PokecubeCore()
     {
-        PokecubeMod.setLogger(PokecubeCore.LOGGER);
+        PokecubeMod.setLogger(PokecubeAPI.LOGGER);
 
         // Initialize the items and blocks.
         PokecubeItems.init();

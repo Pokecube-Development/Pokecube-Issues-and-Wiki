@@ -6,9 +6,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.eventbus.api.Event.Result;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.core.pokemob.CaptureEvent;
-import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
@@ -28,7 +28,7 @@ public class RaidCapture
         // Catch Raids
         if (raidMob) if (dynamaxCube)
         {
-            PokecubeCore.LOGGER.debug("Life: " + event.mob.getHealth() + "Max Life: " + event.mob.getMaxHealth());
+            PokecubeAPI.LOGGER.debug("Life: " + event.mob.getHealth() + "Max Life: " + event.mob.getMaxHealth());
             if (event.mob.getHealth() > event.mob.getMaxHealth() / 2)
             {
                 if (catcher instanceof Player) ((Player) catcher).sendMessage(new TranslatableComponent(

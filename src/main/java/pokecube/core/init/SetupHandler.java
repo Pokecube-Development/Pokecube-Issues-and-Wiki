@@ -9,6 +9,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.ai.IInhabitor;
 import pokecube.api.blocks.IInhabitable;
 import pokecube.api.data.PokedexEntry;
@@ -50,7 +51,7 @@ public class SetupHandler
     @SubscribeEvent
     public static void setup(final FMLCommonSetupEvent event)
     {
-        PokecubeCore.LOGGER.info("Hello from Common Proxy setup!");
+        PokecubeAPI.LOGGER.info("Hello from Common Proxy setup!");
 
         // Registers the event listeners.
         EventsHandler.register();
@@ -81,7 +82,7 @@ public class SetupHandler
     public static void onEntityAttributes(final EntityAttributeCreationEvent event)
     {
         // register a new mob here
-        PokecubeCore.LOGGER.debug("Registering Pokecube Attributes");
+        PokecubeAPI.LOGGER.debug("Registering Pokecube Attributes");
 
         final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes()
                 .add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.ATTACK_KNOCKBACK).add(Attributes.MAX_HEALTH, 10.0D);

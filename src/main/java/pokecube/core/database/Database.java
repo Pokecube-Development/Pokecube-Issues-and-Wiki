@@ -38,15 +38,16 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.IForgeRegistry;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
+import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.events.core.onload.InitDatabase;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.berries.BerryGenManager;
-import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.moves.MovesDatabases;
 import pokecube.core.database.moves.json.JsonMoves;
 import pokecube.core.database.moves.json.JsonMoves.AnimationJson;
@@ -420,7 +421,7 @@ public class Database
      */
     public static void init()
     {
-        PokecubeCore.LOGGER.debug("Database Init()");
+        PokecubeAPI.LOGGER.debug("Database Init()");
 
         SpawnPresets.init();
         PokemobSpawns.init();
@@ -436,7 +437,7 @@ public class Database
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error with databases ", e);
+            PokecubeAPI.LOGGER.error("Error with databases ", e);
         }
         // Outputs a file for reference.
         if (PokecubeMod.debug) PokedexEntryLoader.writeCompoundDatabase();
@@ -451,10 +452,10 @@ public class Database
             dummies.sort(Database.COMPARATOR);
             final StringBuilder builder = new StringBuilder("Dummy Pokedex Entries:");
             for (final PokedexEntry e : dummies) builder.append("\n-   ").append(e.getName());
-            PokecubeCore.LOGGER.debug(builder.toString());
+            PokecubeAPI.LOGGER.debug(builder.toString());
         }
 
-        PokecubeCore.LOGGER.info("Loaded " + Database.data.size() + " by number, and " + Database.allFormes.size()
+        PokecubeAPI.LOGGER.info("Loaded " + Database.data.size() + " by number, and " + Database.allFormes.size()
                 + " by formes from databases.");
     }
 
@@ -467,7 +468,7 @@ public class Database
     private static void initFormes(final List<PokedexEntry> formes, final PokedexEntry base)
     {
         base.copyToGenderFormes();
-        PokecubeCore.LOGGER.debug("Processing " + base + " " + formes);
+        PokecubeAPI.LOGGER.debug("Processing " + base + " " + formes);
         for (final PokedexEntry e : formes)
         {
             e.forms.clear();
@@ -481,7 +482,7 @@ public class Database
                 }
                 catch (final Exception e2)
                 {
-                    PokecubeCore.LOGGER.error("Error copying data: {} <-> {}", e, base);
+                    PokecubeAPI.LOGGER.error("Error copying data: {} <-> {}", e, base);
                     e2.printStackTrace();
                     continue;
                 }
@@ -493,13 +494,13 @@ public class Database
                     e.mobType = base.mobType;
                     e.catchRate = base.catchRate;
                     e.mass = base.mass;
-                    PokecubeCore.LOGGER.debug("Error with " + e);
+                    PokecubeAPI.LOGGER.debug("Error with " + e);
                 }
                 if (e.type1 == null)
                 {
                     e.type1 = base.type1;
                     e.type2 = base.type2;
-                    PokecubeCore.LOGGER.debug("Copied Types from " + base + " to " + e);
+                    PokecubeAPI.LOGGER.debug("Copied Types from " + base + " to " + e);
                 }
                 boolean noAbilities;
                 if (noAbilities = e.abilities.isEmpty()) e.abilities.addAll(base.abilities);
@@ -513,7 +514,7 @@ public class Database
 
     private static void initFormLists()
     {
-        PokecubeCore.LOGGER.debug("Processing Form Lists");
+        PokecubeAPI.LOGGER.debug("Processing Form Lists");
         for (final Map.Entry<Integer, PokedexEntry> vars : Database.baseFormes.entrySet())
         {
             PokedexEntry entry = vars.getValue();
@@ -555,12 +556,12 @@ public class Database
             {
                 e.type1 = PokeType.unknown;
                 if (e != Database.missingno)
-                    PokecubeCore.LOGGER.error("Error with typing for " + e + " " + e.getType2());
+                    PokecubeAPI.LOGGER.error("Error with typing for " + e + " " + e.getType2());
             }
             if (e.getType2() == null) e.type2 = PokeType.unknown;
             if (e.dummy) dummies++;
         }
-        PokecubeCore.LOGGER.debug("Processed Form Lists, found " + dummies + " Dummy Forms.");
+        PokecubeAPI.LOGGER.debug("Processed Form Lists, found " + dummies + " Dummy Forms.");
     }
 
     public static void initMobSounds(final IForgeRegistry<SoundEvent> registry)
@@ -574,7 +575,7 @@ public class Database
             if (e.sound == null) if (e.customSound != null) e.setSound("mobs." + Database.trim(e.customSound));
             else if (e.base) e.setSound("mobs." + e.getTrimmedName());
             else e.setSound("mobs." + e.getBaseForme().getTrimmedName());
-            PokecubeCore.LOGGER.debug(e + " has Sound: " + e.sound);
+            PokecubeAPI.LOGGER.debug(e + " has Sound: " + e.sound);
             e.soundEvent = new SoundEvent(e.sound);
             e.soundEvent.setRegistryName(e.sound);
             // Loader.instance().setActiveModContainer(mc);
@@ -660,11 +661,11 @@ public class Database
         }
         catch (final FileNotFoundException e)
         {
-            PokecubeCore.LOGGER.info("No Custom Recipes of name {}", file);
+            PokecubeAPI.LOGGER.info("No Custom Recipes of name {}", file);
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error with " + file, e);
+            PokecubeAPI.LOGGER.error("Error with " + file, e);
         }
     }
 
@@ -693,11 +694,11 @@ public class Database
         }
         catch (final FileNotFoundException e)
         {
-            PokecubeCore.LOGGER.info("No Custom Rewards of name {}", file);
+            PokecubeAPI.LOGGER.info("No Custom Rewards of name {}", file);
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error with " + file, e);
+            PokecubeAPI.LOGGER.error("Error with " + file, e);
         }
     }
 
@@ -729,14 +730,14 @@ public class Database
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error Loading Starter Pack", e);
+            PokecubeAPI.LOGGER.error("Error Loading Starter Pack", e);
         }
     }
 
     /** does some final cleanup work for removing un-registered entries */
     public static void postInit()
     {
-        PokecubeCore.LOGGER.debug("Post Init of Database.");
+        PokecubeAPI.LOGGER.debug("Post Init of Database.");
         final List<PokedexEntry> toRemove = new ArrayList<>();
         final Set<Integer> removedNums = Sets.newHashSet();
         final List<PokedexEntry> removed = Lists.newArrayList();
@@ -758,14 +759,14 @@ public class Database
             messageList.sort(Database.COMPARATOR);
             final StringBuilder builder = new StringBuilder("UnRegistered Pokedex Entries:");
             for (final PokedexEntry e : messageList) builder.append("\n-   ").append(e.getName());
-            PokecubeCore.LOGGER.debug(builder.toString());
+            PokecubeAPI.LOGGER.debug(builder.toString());
         }
         /** Remove the non-registered entries found earlier */
         for (final PokedexEntry p : toRemove)
         {
             if (p == Database.getEntry(p.pokedexNb) && !p.dummy)
             {
-                if (p.dummy) PokecubeCore.LOGGER
+                if (p.dummy) PokecubeAPI.LOGGER
                         .debug("Error with " + p + ", It is still listed as base forme, as well as being dummy.");
                 Database.data.remove(p.pokedexNb);
                 Database.baseFormes.remove(p.pokedexNb);
@@ -785,9 +786,9 @@ public class Database
         }
 
         Database.allFormes.removeAll(toRemove);
-        PokecubeCore.LOGGER.debug("Removed " + removedNums.size() + " Missing Pokemon and "
+        PokecubeAPI.LOGGER.debug("Removed " + removedNums.size() + " Missing Pokemon and "
                 + (toRemove.size() - dummies) + " missing Formes");
-        if (removedNums.size() > 0) PokecubeCore.LOGGER.debug("Removed " + toRemove);
+        if (removedNums.size() > 0) PokecubeAPI.LOGGER.debug("Removed " + toRemove);
 
         toRemove.clear();
     }
@@ -802,14 +803,14 @@ public class Database
 
         if (!needs_reload)
         {
-            PokecubeCore.LOGGER.debug("Skipping Load, too soon since last load.");
+            PokecubeAPI.LOGGER.debug("Skipping Load, too soon since last load.");
             return;
         }
 
         long time = System.nanoTime();
         StructureSpawnPresetLoader.loadDatabase();
         long dt = System.nanoTime() - time;
-        PokecubeCore.LOGGER.debug("Resource Stage 1: {}s", dt / 1e9d);
+        PokecubeAPI.LOGGER.debug("Resource Stage 1: {}s", dt / 1e9d);
 
         // In this case, we are not acually a real datapack load, just an
         // initial world check thing.
@@ -820,7 +821,7 @@ public class Database
         // they also don't rely on anything else, they just do string based tags
         DataHelpers.onResourcesReloaded();
         dt = System.nanoTime() - time;
-        PokecubeCore.LOGGER.debug("Resource Stage 2: {}s", dt / 1e9d);
+        PokecubeAPI.LOGGER.debug("Resource Stage 2: {}s", dt / 1e9d);
 
         // In this case, we are not acually a real datapack load, just an
         // initial world check thing.
@@ -848,7 +849,7 @@ public class Database
         SpawnRateMask.init();
 
         dt = System.nanoTime() - time;
-        PokecubeCore.LOGGER.debug("Resource Stage 3: {}s", dt / 1e9d);
+        PokecubeAPI.LOGGER.debug("Resource Stage 3: {}s", dt / 1e9d);
         time = System.nanoTime();
 
         Database.loadStarterPack();
@@ -856,7 +857,7 @@ public class Database
         Database.loadRewards();
 
         dt = System.nanoTime() - time;
-        PokecubeCore.LOGGER.debug("Resource Stage 4: {}s", dt / 1e9d);
+        PokecubeAPI.LOGGER.debug("Resource Stage 4: {}s", dt / 1e9d);
         time = System.nanoTime();
 
         /** Initialize relations, prey, children. */
@@ -876,17 +877,17 @@ public class Database
         {
             final Set<String> ourTags = Tags.BREEDING.lookupTags(entry.getTrimmedName());
             if (Tags.BREEDING.validLoad && entry.breeds && ourTags.isEmpty())
-                PokecubeCore.LOGGER.debug("No egg group assigned for {}", entry.getTrimmedName());
+                PokecubeAPI.LOGGER.debug("No egg group assigned for {}", entry.getTrimmedName());
         }
         for (final PokedexEntry entry : Database.getSortedFormes())
             if (entry.lootTable == null && !(entry.isMega() || entry.isGMax()))
-                PokecubeCore.LOGGER.debug("Missing loot table for {}", entry.getTrimmedName());
+                PokecubeAPI.LOGGER.debug("Missing loot table for {}", entry.getTrimmedName());
 
         // This gets re-set to true if listener hears a reload
         Database.listener.loaded = false;
         Database.needs_reload = false;
         dt = System.nanoTime() - time;
-        PokecubeCore.LOGGER.debug("Resource Stage 5: {}s", dt / 1e9d);
+        PokecubeAPI.LOGGER.debug("Resource Stage 5: {}s", dt / 1e9d);
     }
 
     /**
@@ -947,7 +948,7 @@ public class Database
         {
             if (applyToManager)
             {
-                PokecubeCore.LOGGER.debug("Loading Pack: " + info.getName());
+                PokecubeAPI.LOGGER.debug("Loading Pack: " + info.getName());
                 PackListener.addPack(info, Database.resourceManager);
             }
             // Only add the zips or folders here, jars get properly added by
@@ -956,7 +957,7 @@ public class Database
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.fatal("Error with pack " + info.getName(), e);
+            PokecubeAPI.LOGGER.fatal("Error with pack " + info.getName(), e);
         }
     }
 
@@ -966,7 +967,7 @@ public class Database
      */
     public static void preInit()
     {
-        PokecubeCore.LOGGER.debug("Database preInit()");
+        PokecubeAPI.LOGGER.debug("Database preInit()");
         // Initialize the resourceloader.
         Database.loadCustomPacks(true);
 
@@ -981,7 +982,7 @@ public class Database
         // Finally load in the abilities
         AbilityManager.init();
 
-        PokecubeCore.LOGGER.debug("Loaded all databases");
+        PokecubeAPI.LOGGER.debug("Loaded all databases");
     }
 
     public static void preInitMoves()

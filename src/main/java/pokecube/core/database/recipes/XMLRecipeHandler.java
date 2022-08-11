@@ -16,7 +16,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.crafting.CraftingHelper;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.utils.Tools;
 import thut.api.util.JsonUtil;
@@ -103,7 +103,7 @@ public class XMLRecipeHandler
             catch (final Exception e1)
             {}
 
-            PokecubeCore.LOGGER.warn("Warning, Recipe {} using old inputs way!", json);
+            PokecubeAPI.LOGGER.warn("Warning, Recipe {} using old inputs way!", json);
 
             // Old way
             for (final JsonElement e : inputs.getAsJsonArray())
@@ -119,7 +119,7 @@ public class XMLRecipeHandler
                 }
                 else recipeItemsIn.add(Ingredient.of(Tools.getStack(value.getValues())));
             }
-            if (recipeItemsIn.isEmpty()) PokecubeCore.LOGGER.warn("Warning, Recipe {} has no inputs!", json);
+            if (recipeItemsIn.isEmpty()) PokecubeAPI.LOGGER.warn("Warning, Recipe {} has no inputs!", json);
         }
         return recipeItemsIn;
     }
@@ -132,12 +132,12 @@ public class XMLRecipeHandler
             final JsonElement type = jsonObject.has("handler") ? jsonObject.get("handler") : jsonObject.get("type");
             final String handler = type.getAsString();
             final IRecipeParser parser = XMLRecipeHandler.recipeParsers.get(handler);
-            PokecubeCore.LOGGER.debug("Recipe Handler: " + handler + " Parser: " + parser);
+            PokecubeAPI.LOGGER.debug("Recipe Handler: " + handler + " Parser: " + parser);
             parser.manageRecipe(jsonObject);
         }
         catch (final NullPointerException e)
         {
-            PokecubeCore.LOGGER.error("Error with a recipe, Error for: " + jsonObject, e);
+            PokecubeAPI.LOGGER.error("Error with a recipe, Error for: " + jsonObject, e);
         }
     }
 }

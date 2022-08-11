@@ -13,6 +13,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.commander.CommanderTile;
 import pokecube.adventures.client.gui.blocks.Commander;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IHasCommands.Command;
 import pokecube.core.PokecubeCore;
 import thut.core.common.network.Packet;
@@ -79,7 +80,7 @@ public class PacketCommander extends Packet
         }
         catch (final Exception e)
         {
-            if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.warn("Invalid Commander Block use at " + tile
+            if (PokecubeCore.getConfig().debug) PokecubeAPI.LOGGER.warn("Invalid Commander Block use at " + tile
                     .getBlockPos(), e);
             tile.getLevel().playSound(null, tile.getBlockPos(), SoundEvents.NOTE_BLOCK_BASEDRUM, SoundSource.BLOCKS,
                     1, 1);

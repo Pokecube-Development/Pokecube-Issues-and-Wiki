@@ -26,6 +26,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.moves.IMoveConstants;
@@ -63,7 +64,7 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
     {
         if (BerryManager.berryItems.containsKey(index))
         {
-            PokecubeCore.LOGGER.error("Duplicate Berry Index for " + index, new IllegalStateException());
+            PokecubeAPI.LOGGER.error("Duplicate Berry Index for " + index, new IllegalStateException());
             return;
         }
         BerryType type = new BerryType(name, effect, index, flavours);

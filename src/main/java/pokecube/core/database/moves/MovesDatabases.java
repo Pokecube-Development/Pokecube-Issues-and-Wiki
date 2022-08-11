@@ -3,7 +3,7 @@ package pokecube.core.database.moves;
 import java.util.Collection;
 
 import net.minecraft.resources.ResourceLocation;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.database.moves.json.JsonMoves;
 import pokecube.core.database.resources.PackFinder;
 
@@ -23,7 +23,7 @@ public class MovesDatabases
             }
             catch (final Exception e1)
             {
-                PokecubeCore.LOGGER.error("Error with moves database " + s, e1);
+                PokecubeAPI.LOGGER.error("Error with moves database " + s, e1);
             }
     }
 }

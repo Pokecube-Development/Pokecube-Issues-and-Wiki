@@ -19,6 +19,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
@@ -180,7 +181,7 @@ public class PokecubeManager
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.warn("Error getting UUID from cube! " + stack + " " + pokeTag);
+            PokecubeAPI.LOGGER.warn("Error getting UUID from cube! " + stack + " " + pokeTag);
             return null;
         }
     }
@@ -232,11 +233,11 @@ public class PokecubeManager
         if (world == null)
         {
             world = PokecubeCore.proxy.getWorld();
-            PokecubeCore.LOGGER.catching(new NullPointerException("World null when itemToMob!"));
+            PokecubeAPI.LOGGER.catching(new NullPointerException("World null when itemToMob!"));
         }
         if (world == null)
         {
-            PokecubeCore.LOGGER.catching(new NullPointerException("World Still null when itemToMob!"));
+            PokecubeAPI.LOGGER.catching(new NullPointerException("World Still null when itemToMob!"));
             return null;
         }
         final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(new ResourceLocation(id));
@@ -253,8 +254,8 @@ public class PokecubeManager
             // Nope, some mobs can't read from this on clients.
             if (world instanceof ServerLevel)
             {
-                PokecubeCore.LOGGER.error("Error reading cube: {}", stack.getTag());
-                PokecubeCore.LOGGER.error(e);
+                PokecubeAPI.LOGGER.error("Error reading cube: {}", stack.getTag());
+                PokecubeAPI.LOGGER.error(e);
             }
         }
         return mob;

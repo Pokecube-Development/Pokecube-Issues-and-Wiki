@@ -10,6 +10,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.core.PokecubeCore;
@@ -112,7 +113,7 @@ public class LeapTask extends TaskBase implements IAICombat
          */
         dir.addVelocities(this.entity);
 
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Leap: " + this.entity + " " + diff + " " + dir);
+        if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Leap: " + this.entity + " " + diff + " " + dir);
 
         // Set the timer so we don't leap again rapidly
         this.leapTick = this.entity.tickCount + PokecubeCore.getConfig().attackCooldown / 2;

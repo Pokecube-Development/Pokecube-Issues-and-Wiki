@@ -9,6 +9,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.utils.PokeType;
@@ -85,7 +86,7 @@ public class CombatTypeLoader
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error loading types.json", e);
+            PokecubeAPI.LOGGER.error("Error loading types.json", e);
             throw new RuntimeException(e);
         }
     }

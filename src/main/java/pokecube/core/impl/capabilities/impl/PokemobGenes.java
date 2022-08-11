@@ -3,14 +3,15 @@ package pokecube.core.impl.capabilities.impl;
 import java.util.Random;
 
 import net.minecraft.server.level.ServerLevel;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.abilities.Ability;
-import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.epigenes.EVsGene;
 import pokecube.core.entity.pokemobs.genetics.epigenes.MovesGene;
@@ -311,7 +312,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
 
         if (size <= 0 || Float.isNaN(size))
         {
-            PokecubeCore.LOGGER.error("Error with pokemob size! " + size);
+            PokecubeAPI.LOGGER.error("Error with pokemob size! " + size);
             size = 1f;
             gene.setValue(size);
         }
@@ -541,12 +542,12 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             if (this.genesMoves == null) this.getMoves();
             if (this.genesMoves == null || this.genesMoves.getExpressed() == null || this.getMoveStats() == null)
             {
-                PokecubeCore.LOGGER.error("Error in setMoves " + this.getEntity(), new NullPointerException());
-                PokecubeCore.LOGGER.error("AllGenes: " + this.genes);
-                PokecubeCore.LOGGER.error("Genes: " + this.genesMoves);
-                if (this.genesMoves != null) PokecubeCore.LOGGER.error("Gene: " + this.genesMoves.getExpressed());
-                else PokecubeCore.LOGGER.error("Gene: " + this.genesMoves);
-                PokecubeCore.LOGGER.error("stats: " + this.getMoveStats());
+                PokecubeAPI.LOGGER.error("Error in setMoves " + this.getEntity(), new NullPointerException());
+                PokecubeAPI.LOGGER.error("AllGenes: " + this.genes);
+                PokecubeAPI.LOGGER.error("Genes: " + this.genesMoves);
+                if (this.genesMoves != null) PokecubeAPI.LOGGER.error("Gene: " + this.genesMoves.getExpressed());
+                else PokecubeAPI.LOGGER.error("Gene: " + this.genesMoves);
+                PokecubeAPI.LOGGER.error("stats: " + this.getMoveStats());
                 return;
             }
             final MovesGene gene = this.genesMoves.getExpressed();

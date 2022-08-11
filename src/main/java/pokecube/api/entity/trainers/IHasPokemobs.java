@@ -17,9 +17,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import pokecube.adventures.Config;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.trainers.actions.ActionContext;
-import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.impl.PokecubeMod;
 import thut.api.world.mobs.data.DataSync;
@@ -97,7 +97,7 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
         if (found)
         {
             if (PokecubeMod.debug)
-                PokecubeCore.LOGGER.debug("Adding {} to slot {}", mob.getHoverName().getString(), foundID);
+                PokecubeAPI.LOGGER.debug("Adding {} to slot {}", mob.getHoverName().getString(), foundID);
             this.setPokemob(foundID, mob.copy());
         }
         else for (int i = 0; i < this.getMaxPokemobCount(); i++)
@@ -107,7 +107,7 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
             {
                 this.setPokemob(i, mob.copy());
                 if (PokecubeMod.debug)
-                    PokecubeCore.LOGGER.debug("Adding {} to slot {}", mob.getHoverName().getString(), i);
+                    PokecubeAPI.LOGGER.debug("Adding {} to slot {}", mob.getHoverName().getString(), i);
                 break;
             }
         }

@@ -10,6 +10,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -18,7 +19,6 @@ import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.items.IPokemobUseable;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.IMoveNames;
-import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect;
 import pokecube.core.moves.animations.EntityMoveUse;
@@ -165,7 +165,7 @@ public class LogicMovesUpdates extends LogicBase
             final Collection<?> set = affected.getEffects(PersistantStatusEffect.ID);
             if (set.isEmpty() && this.statusTick++ > 20)
             {
-                PokecubeCore.LOGGER.error("Fixed Broken Status " + this.pokemob.getStatus() + " for " + this.pokemob
+                PokecubeAPI.LOGGER.error("Fixed Broken Status " + this.pokemob.getStatus() + " for " + this.pokemob
                         .getEntity());
                 this.statusTick = 0;
                 this.pokemob.healStatus();

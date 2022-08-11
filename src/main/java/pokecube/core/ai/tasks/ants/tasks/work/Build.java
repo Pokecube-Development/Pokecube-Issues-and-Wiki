@@ -16,8 +16,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
 import pokecube.core.ai.tasks.ants.nest.Edge;
@@ -248,7 +248,7 @@ public class Build extends AbstractConstructTask
             {
                 this.n = next;
                 this.e = null;
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to a node 1 b " + this.n.type);
+                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Switching to a node 1 b " + this.n.type);
                 return true;
             }
             next = edge.node2;
@@ -256,7 +256,7 @@ public class Build extends AbstractConstructTask
             {
                 this.n = next;
                 this.e = null;
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to a node 2 b " + this.n.type);
+                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Switching to a node 2 b " + this.n.type);
                 return true;
             }
         }
@@ -273,7 +273,7 @@ public class Build extends AbstractConstructTask
             {
                 this.n = null;
                 this.e = next;
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to an edge 1 b");
+                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Switching to an edge 1 b");
                 return true;
             }
         }
@@ -281,13 +281,13 @@ public class Build extends AbstractConstructTask
         for (final Node n : this.nest.hab.rooms.allRooms) if (n.shouldBuild(time))
         {
             this.n = n;
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to a node 3 b " + this.n.type);
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Switching to a node 3 b " + this.n.type);
             return true;
         }
         for (final Edge e : this.nest.hab.rooms.allEdges) if (e.shouldBuild(time))
         {
             this.e = e;
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to an edge 2 b");
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Switching to an edge 2 b");
             return true;
         }
         return false;

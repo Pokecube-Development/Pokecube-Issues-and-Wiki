@@ -16,8 +16,8 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.ai.tasks.burrows.AbstractBurrowTask;
@@ -113,7 +113,7 @@ public class DigBurrow extends AbstractBurrowTask
         if (valid.isPresent())
         {
             this.work_pos = valid.get().immutable();
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Found Dig Site!");
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Found Dig Site!");
             return true;
         }
         if (valids.get() == 0) part.setDigDone(Tracker.instance().getTick() + 12000);

@@ -9,8 +9,8 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import pokecube.api.data.abilities.Ability;
 import pokecube.api.moves.IMoveConstants;
-import pokecube.core.database.abilities.Ability;
 
 public class PokemobMoveStats
 {

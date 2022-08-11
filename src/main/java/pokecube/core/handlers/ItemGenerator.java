@@ -102,14 +102,14 @@ public class ItemGenerator
     {
         final List<Integer> ids = Lists.newArrayList();
         ids.addAll(BerryManager.berryNames.keySet());
-        PokecubeCore.LOGGER.debug(BerryManager.berryNames);
-        PokecubeCore.LOGGER.debug(BerryManager.berryNames.keySet());
+        PokecubeAPI.LOGGER.debug(BerryManager.berryNames);
+        PokecubeAPI.LOGGER.debug(BerryManager.berryNames.keySet());
         Collections.sort(ids);
         for (final Integer id : ids)
         {
             final int index = id;
             final ItemBerry berry = BerryManager.berryItems.get(index);
-            PokecubeCore.LOGGER.debug("Registering berry_" + berry.type.name + " " + index + " " + id);
+            PokecubeAPI.LOGGER.debug("Registering berry_" + berry.type.name + " " + index + " " + id);
             berry.setRegistryName(PokecubeCore.MODID, "berry_" + berry.type.name);
             registry.register(berry);
         }
@@ -282,7 +282,7 @@ public class ItemGenerator
         {
             if (Database.getEntry(type) == null)
             {
-                PokecubeCore.LOGGER.error("No Pokedex entry for {}", type);
+                PokecubeAPI.LOGGER.error("No Pokedex entry for {}", type);
                 continue;
             }
             final ItemFossil item = new ItemFossil(props, Database.trim(type));

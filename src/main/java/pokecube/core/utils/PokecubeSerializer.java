@@ -29,6 +29,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelResource;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -190,7 +191,7 @@ public class PokecubeSerializer
     {
         if (player == null)
         {
-            PokecubeCore.LOGGER.error("Checking starter for null player!");
+            PokecubeAPI.LOGGER.error("Checking starter for null player!");
             return true;
         }
         return PlayerDataHandler.getInstance().getPlayerData(player).getData(PokecubePlayerData.class).hasStarter();
@@ -268,7 +269,7 @@ public class PokecubeSerializer
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error loading base from tag: " + pokemobData);
+                    PokecubeAPI.LOGGER.error("Error loading base from tag: " + pokemobData);
                 }
             }
         }
@@ -291,7 +292,7 @@ public class PokecubeSerializer
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error loading structure from tag: " + pokemobData);
+                    PokecubeAPI.LOGGER.error("Error loading structure from tag: " + pokemobData);
                 }
             }
         }
@@ -341,7 +342,7 @@ public class PokecubeSerializer
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error setting has starter state for " + player, e);
+            PokecubeAPI.LOGGER.error("Error setting has starter state for " + player, e);
         }
         if (ThutCore.proxy.isServerSide()) PlayerDataHandler.getInstance().save(player.getStringUUID());
     }

@@ -20,14 +20,15 @@ import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.database.Database;
-import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
 
@@ -305,7 +306,7 @@ public class Pokemob extends Page
 
         if (makeNew)
         {
-            PokecubeCore.LOGGER.debug("Creating new mob for trainer");
+            PokecubeAPI.LOGGER.debug("Creating new mob for trainer");
             if (entry == null || entry == Database.missingno)
             {
                 Minecraft.getInstance().player.displayClientMessage(new TranslatableComponent(

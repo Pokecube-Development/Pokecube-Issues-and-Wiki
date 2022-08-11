@@ -11,7 +11,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.entity.npc.NpcType;
 import thut.api.util.JsonUtil;
@@ -46,13 +46,13 @@ public class StructureSpawnPresetLoader
                     for (final JsonObject preset : database.presets)
                         if (preset.has("preset_name")) StructureSpawnPresetLoader.presetMap.put(preset.get(
                                 "preset_name").getAsString(), preset);
-                        else PokecubeCore.LOGGER.error("Warning, needs a \"preset_name\" field for " + preset);
+                        else PokecubeAPI.LOGGER.error("Warning, needs a \"preset_name\" field for " + preset);
                 }
 
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.error("Error loading npc presets from {}", file, e);
+                PokecubeAPI.LOGGER.error("Error loading npc presets from {}", file, e);
             }
         }
     }

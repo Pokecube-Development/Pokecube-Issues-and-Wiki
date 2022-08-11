@@ -12,7 +12,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.progress.GlobalProgress;
@@ -42,7 +42,7 @@ public class ProgressPage extends PageWithSubPages<Progress>
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error with making a page for watch", e);
+            PokecubeAPI.LOGGER.error("Error with making a page for watch", e);
             return null;
         }
     }

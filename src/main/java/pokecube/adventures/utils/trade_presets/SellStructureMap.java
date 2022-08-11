@@ -20,7 +20,7 @@ import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.utils.Tools;
 import thut.api.util.JsonUtil;
 
@@ -79,8 +79,8 @@ public class SellStructureMap implements TradePreset
             }
             catch (Exception e)
             {
-                PokecubeCore.LOGGER.error("Error making a map trade for {}", loc);
-                PokecubeCore.LOGGER.error(e);
+                PokecubeAPI.LOGGER.error("Error making a map trade for {}", loc);
+                PokecubeAPI.LOGGER.error(e);
                 return ItemStack.EMPTY;
             }
 

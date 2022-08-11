@@ -41,6 +41,7 @@ import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.utils.TrainerTracker;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.entity.trainers.IHasNPCAIStates;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
@@ -131,7 +132,7 @@ public class TrainerSpawnHandler
                     // TODO some of these should handle from IHasPokemobs
                     // instead!
                     if (type != null && mob instanceof NpcMob) ((NpcMob) mob).setNpcType(type);
-                    else PokecubeCore.LOGGER.error("No trainer type registerd for {}", typeName);
+                    else PokecubeAPI.LOGGER.error("No trainer type registerd for {}", typeName);
                 }
             }
             if (mob instanceof TrainerBase) ((TrainerBase) mob).initTeam(level);
@@ -269,7 +270,7 @@ public class TrainerSpawnHandler
                 return;
             }
             final double dt = (System.nanoTime() - time) / 1000000D;
-            if (dt > 20) PokecubeCore.LOGGER.warn("Trainer " + cap.getType().getName() + " " + dt + "ms ");
+            if (dt > 20) PokecubeAPI.LOGGER.warn("Trainer " + cap.getType().getName() + " " + dt + "ms ");
             v.offsetBy(Direction.UP).moveEntity(t);
 
             // Not valid spawning spot, so deny the spawn here.
@@ -282,7 +283,7 @@ public class TrainerSpawnHandler
             {
                 w.addFreshEntity(t);
                 TrainerSpawnHandler.randomizeTrainerTeam(t, cap);
-                PokecubeCore.LOGGER.debug("Spawned Trainer: " + t + " " + count);
+                PokecubeAPI.LOGGER.debug("Spawned Trainer: " + t + " " + count);
             }
             else t.remove(RemovalReason.DISCARDED);
         }
@@ -297,7 +298,7 @@ public class TrainerSpawnHandler
             final long time = System.nanoTime();
             TrainerSpawnHandler.tick((ServerLevel) evt.world);
             final double dt = (System.nanoTime() - time) / 1000000D;
-            if (dt > 50) PokecubeCore.LOGGER.warn("Trainer Spawn Tick took " + dt + "ms");
+            if (dt > 50) PokecubeAPI.LOGGER.warn("Trainer Spawn Tick took " + dt + "ms");
         }
     }
 
@@ -337,9 +338,9 @@ public class TrainerSpawnHandler
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.error("Error parsing " + function, e);
+                PokecubeAPI.LOGGER.error("Error parsing " + function, e);
             }
-            if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Adding trainer: " + mob);
+            if (PokecubeCore.getConfig().debug) PokecubeAPI.LOGGER.debug("Adding trainer: " + mob);
             if (!MinecraftForge.EVENT_BUS
                     .post(new NpcSpawn.Check(mob, event.pos, event.worldActual, MobSpawnType.STRUCTURE, thing)))
             {

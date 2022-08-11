@@ -347,7 +347,7 @@ public abstract class Move_Base
             {
                 this.soundUser = ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
                         this.move.baseEntry.soundEffectSource));
-                if (this.soundUser == null) PokecubeCore.LOGGER.error("No Sound found for `"
+                if (this.soundUser == null) PokecubeAPI.LOGGER.error("No Sound found for `"
                         + this.move.baseEntry.soundEffectSource + "` for attack " + this.getName());
                 this.move.baseEntry.soundEffectSource = null;
             }
@@ -364,7 +364,7 @@ public abstract class Move_Base
                 {
                     this.soundTarget = ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
                             this.move.baseEntry.soundEffectTarget));
-                    if (this.soundTarget == null) PokecubeCore.LOGGER.error("No Sound found for `"
+                    if (this.soundTarget == null) PokecubeAPI.LOGGER.error("No Sound found for `"
                             + this.move.baseEntry.soundEffectTarget + "` for attack " + this.getName());
                     this.move.baseEntry.soundEffectTarget = null;
                 }
@@ -380,7 +380,7 @@ public abstract class Move_Base
             {
                 this.soundTarget = ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
                         this.move.baseEntry.soundEffectTarget));
-                if (this.soundTarget == null) PokecubeCore.LOGGER.error("No Sound found for `"
+                if (this.soundTarget == null) PokecubeAPI.LOGGER.error("No Sound found for `"
                         + this.move.baseEntry.soundEffectTarget + "` for attack " + this.getName());
                 this.move.baseEntry.soundEffectTarget = null;
             }

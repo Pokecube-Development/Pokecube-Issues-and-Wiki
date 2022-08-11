@@ -1,4 +1,4 @@
-package pokecube.core.database.abilities;
+package pokecube.api.data.abilities;
 
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.data.PokedexEntry;

@@ -13,7 +13,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.resources.ResourceLocation;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.database.genes.Mutations.Mutation;
 import pokecube.core.database.genes.Mutations.MutationHolder;
 import pokecube.core.database.resources.PackFinder;
@@ -80,8 +80,8 @@ public class MutationHelper extends ResourceData
             catch (final Exception e)
             {
                 // Might not be valid, so log and skip in that case.
-                PokecubeCore.LOGGER.error("Malformed Json for Mutations in {}", l);
-                PokecubeCore.LOGGER.error(e);
+                PokecubeAPI.LOGGER.error("Malformed Json for Mutations in {}", l);
+                PokecubeAPI.LOGGER.error(e);
             }
             reader.close();
 
@@ -116,8 +116,8 @@ public class MutationHelper extends ResourceData
         catch (final Exception e)
         {
             // Might not be valid, so log and skip in that case.
-            PokecubeCore.LOGGER.error("Error with resources in {}", l);
-            PokecubeCore.LOGGER.error(e);
+            PokecubeAPI.LOGGER.error("Error with resources in {}", l);
+            PokecubeAPI.LOGGER.error(e);
         }
 
     }

@@ -20,6 +20,7 @@ import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.RegistryObject;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -263,7 +264,7 @@ public class LegendarySpawn
         this.targetBlockChecker = targetBlockChecker;
         this.entry = Database.getEntry(entry);
         if (this.entry == null)
-            PokecubeCore.LOGGER.warn("Tried to register spawn entry for {}, which is not a valid entry!", entry);
+            PokecubeAPI.LOGGER.warn("Tried to register spawn entry for {}, which is not a valid entry!", entry);
         else if (!data_based) LegendarySpawn.spawns.add(this);
     }
 }

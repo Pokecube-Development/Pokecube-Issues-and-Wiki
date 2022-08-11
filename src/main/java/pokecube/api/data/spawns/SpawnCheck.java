@@ -1,4 +1,4 @@
-package pokecube.core.database.spawns;
+package pokecube.api.data.spawns;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;

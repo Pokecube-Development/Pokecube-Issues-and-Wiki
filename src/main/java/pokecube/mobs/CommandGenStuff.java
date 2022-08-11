@@ -24,9 +24,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.items.IPokecube;
-import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.items.berries.BerryManager;
@@ -114,7 +114,7 @@ public class CommandGenStuff
             {
                 if (entry.getSoundEvent() == null)
                 {
-                    PokecubeCore.LOGGER.error("No sound event for {}", entry);
+                    PokecubeAPI.LOGGER.error("No sound event for {}", entry);
                     continue;
                 }
                 ResourceLocation event = entry.getSoundEvent().getLocation();
@@ -132,7 +132,7 @@ public class CommandGenStuff
                 catch (final Exception e)
                 {
                     event = new ResourceLocation(backup);
-                    PokecubeCore.LOGGER.error("Mapped sound: {} -> {} instead of {}", entry, backup, test);
+                    PokecubeAPI.LOGGER.error("Mapped sound: {} -> {} instead of {}", entry, backup, test);
                 }
 
                 final String soundName = event.getPath().replaceFirst("mobs.", "");

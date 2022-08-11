@@ -4,7 +4,7 @@ import java.lang.reflect.Array;
 import java.util.Random;
 
 import net.minecraft.nbt.CompoundTag;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.GeneRegistry;
@@ -40,7 +40,7 @@ public interface IGeneSelector
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.warn("Error merging genes " + geneSource.getKey() + " " + this.arrIndex(), e);
+            PokecubeAPI.LOGGER.warn("Error merging genes " + geneSource.getKey() + " " + this.arrIndex(), e);
         }
         return new Alleles(geneSource, geneDest);
     }

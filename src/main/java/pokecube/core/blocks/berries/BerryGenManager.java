@@ -33,11 +33,12 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.AlwaysTrueTes
 import net.minecraft.world.level.levelgen.structure.templatesystem.ProcessorRule;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.spawns.SpawnBiomeMatcher;
+import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.resources.PackFinder;
-import pokecube.core.database.spawns.SpawnBiomeMatcher;
-import pokecube.core.database.spawns.SpawnCheck;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.berries.ItemBerry;
 import pokecube.world.gen.structures.processors.NotRuleProcessor;
@@ -267,11 +268,11 @@ public class BerryGenManager
         }
         catch (final FileNotFoundException e1)
         {
-            PokecubeCore.LOGGER.debug("No berry spawns list {} found.", s);
+            PokecubeAPI.LOGGER.debug("No berry spawns list {} found.", s);
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error loading Berries Spawn Database " + s, e);
+            PokecubeAPI.LOGGER.error("Error loading Berries Spawn Database " + s, e);
         }
     }
 

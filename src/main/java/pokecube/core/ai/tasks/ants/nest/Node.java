@@ -12,7 +12,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
 
 public class Node extends Part
@@ -105,7 +105,7 @@ public class Node extends Part
             catch (final Exception e)
             {
                 e.printStackTrace();
-                PokecubeCore.LOGGER.error("Error saving an edge!");
+                PokecubeAPI.LOGGER.error("Error saving an edge!");
                 return true;
             }
         });
@@ -147,7 +147,7 @@ public class Node extends Part
             catch (final Exception e1)
             {
                 e1.printStackTrace();
-                PokecubeCore.LOGGER.error("Error loading an edge!");
+                PokecubeAPI.LOGGER.error("Error loading an edge!");
             }
         }
     }
