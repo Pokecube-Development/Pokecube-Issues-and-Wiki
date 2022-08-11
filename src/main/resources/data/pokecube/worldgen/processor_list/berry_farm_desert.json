@@ -5,6 +5,19 @@
       "rules": [
         {
           "output_state": {
+            "Name": "minecraft:dead_bush"
+          },
+          "input_predicate": {
+            "block": "pokecube:crop_cheri",
+            "probability": 0.1,
+            "predicate_type": "minecraft:random_block_match"
+          },
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          }
+        },
+        {
+          "output_state": {
             "Properties": {
               "age": "0"
             },
@@ -12,7 +25,7 @@
           },
           "input_predicate": {
             "block": "pokecube:crop_cheri",
-            "probability": 0.3,
+            "probability": 0.1,
             "predicate_type": "minecraft:random_block_match"
           },
           "location_predicate": {
