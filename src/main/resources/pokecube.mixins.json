@@ -9,6 +9,7 @@
     "brain.MixinLivingEntityInit",
     "brain.MixinVilagerBrainUpdate",
     "brain.MixinMobEntity",
+    "features.ChunkAccessAcessor",
     "features.LessJungleBushInStructuresMixin",
     "features.NoBasaltColumnsInStructuresMixin",
     "features.NoDeltasInStructuresMixin",

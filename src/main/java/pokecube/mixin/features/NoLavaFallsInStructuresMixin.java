@@ -9,7 +9,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
@@ -26,7 +25,7 @@ public class NoLavaFallsInStructuresMixin
     private void repurposedstructures_noLavaInStructures(FeaturePlaceContext<SpringConfiguration> context,
             CallbackInfoReturnable<Boolean> cir)
     {
-        if (!(context.level() instanceof WorldGenRegion))
+        if (!(context.level() instanceof WorldGenRegionAccessor accessor))
         {
             return;
         }
@@ -39,8 +38,7 @@ public class NoLavaFallsInStructuresMixin
                 mutable.set(context.origin()).move(face);
                 Registry<ConfiguredStructureFeature<?, ?>> configuredStructureFeatureRegistry = context.level()
                         .registryAccess().registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
-                StructureFeatureManager structureFeatureManager = ((WorldGenRegionAccessor) context.level())
-                        .getStructureFeatureManager();
+                StructureFeatureManager structureFeatureManager = accessor.getStructureFeatureManager();
 
                 for (Holder<ConfiguredStructureFeature<?, ?>> configuredStructureFeature : configuredStructureFeatureRegistry
                         .getOrCreateTag(WorldgenTags.NO_LAVAFALLS))
