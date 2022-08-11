@@ -12,7 +12,7 @@
           },
           "input_predicate": {
             "block": "pokecube:crop_rowap",
-            "probability": 0.25,
+            "probability": 0.4,
             "predicate_type": "minecraft:random_block_match"
           },
           "location_predicate": {
