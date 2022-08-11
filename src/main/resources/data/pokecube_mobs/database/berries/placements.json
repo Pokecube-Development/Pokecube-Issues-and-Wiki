@@ -33,6 +33,14 @@
       ]
     },
     {
+      "placement": "pokecube_world:trees_jungle_berries",
+      "spawn": [
+        {
+          "values":{"biome_category": "jungle","no_biome_types": "savanna,cold,spooky,snowy,sparse,dry"}
+        }
+      ]
+    },
+    {
       "placement": "pokecube_world:trees_plains_berries",
       "spawn": [
         {
