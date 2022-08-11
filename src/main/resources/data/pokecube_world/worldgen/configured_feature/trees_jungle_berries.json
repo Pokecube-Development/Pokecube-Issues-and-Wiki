@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:random_selector",
+    "config": {
+      "features": [
+        {
+          "chance": 0.2,
+          "feature": "pokecube_world:nanab_tree"
+        },
+        {
+          "chance": 0.1,
+          "feature": "pokecube_world:nanab_tree_bent"
+        },
+        {
+          "chance": 0.3,
+          "feature": "pokecube_world:pecha_tree"
+        },
+        {
+          "chance": 0.5,
+          "feature": "pokecube_world:pecha_tree_bent"
+        }
+      ],
+      "default": "pokecube_world:nanab_tree"
+    }
+  }
+  

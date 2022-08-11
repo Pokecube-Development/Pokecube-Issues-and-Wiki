@@ -30,6 +30,24 @@
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/farms/berry_farm_1",
+        "processors": "pokecube:berry_farm_cold",
+        "projection": "rigid"
+      },
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/snowy/farms/berry_farm_2",
+        "processors": "pokecube:berry_farm_cold",
+        "projection": "rigid"
+      },
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
         "flags": "pokecenter",
         "location": "pokecube:village/snowy/pokecenter/center_01",
         "processors": "pokecube:generic",
