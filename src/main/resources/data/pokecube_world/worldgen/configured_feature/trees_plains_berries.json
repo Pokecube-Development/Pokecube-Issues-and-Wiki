@@ -4,10 +4,10 @@
       "features": [
         {
           "chance": 0.5,
-          "feature": "pokecube_world:grepa_tree"
+          "feature": "pokecube_world:leppa_tree"
         }
       ],
-      "default": "pokecube_world:grepa_tree"
+      "default": "pokecube_world:leppa_tree"
     }
   }
   
