@@ -141,7 +141,9 @@ public class ClonerHelper
             final ListTag pages = (ListTag) stack.getTag().get("pages");
             try
             {
-                final Component comp = Component.Serializer.fromJson(pages.getString(0));
+                String string = pages.getString(0);
+                if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
+                final Component comp = Component.Serializer.fromJson(string);
                 for (final String line : comp.getString().split("\n"))
                 {
                     if (line.equalsIgnoreCase("ALL"))
