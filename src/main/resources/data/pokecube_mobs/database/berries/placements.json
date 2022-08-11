@@ -27,13 +27,21 @@
     {
       "placement": "pokecube_world:trees_forest_berries",
       "spawn": [
-        {          
+        {
           "values":{"biome_category": "forest","no_biome_types": "cold,spooky,snowy,sparse,dry", "no_biomes":"minecraft:flower_forest"}
         }
       ]
     },
     {
-      "placement": "pokecube_world:crops_meadow",
+      "placement": "pokecube_world:trees_plains_berries",
+      "spawn": [
+        {
+          "values":{"biome_category": "plains","no_biome_types": "savanna,cold,spooky,snowy,sparse,dry"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:crops_meadows",
       "spawn": [
         {
           "values":{"biomes": "minecraft:meadow"}
@@ -57,9 +65,17 @@
       ]
     },
     {
+      "placement": "pokecube_world:crops_mushrooms",
+      "spawn": [
+        {
+          "values":{"biome_category": "mushroom"}
+        }
+      ]
+    },
+    {
       "placement": "pokecube_world:crops_plains",
       "spawn": [
-        {          
+        {
           "values":{"biome_category": "plains","no_biome_types": "savanna,cold,spooky,snowy,sparse,dry"}
         }
       ]

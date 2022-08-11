@@ -14,16 +14,7 @@
               {
                 "weight": 1,
                 "data": {
-                  "Name": "pokecube:crop_chesto",
-                  "Properties": {
-                    "age": "5"
-                  }
-                }
-              },
-              {
-                "weight": 1,
-                "data": {
-                  "Name": "pokecube:crop_aspear",
+                  "Name": "pokecube:crop_null",
                   "Properties": {
                     "age": "5"
                   }
