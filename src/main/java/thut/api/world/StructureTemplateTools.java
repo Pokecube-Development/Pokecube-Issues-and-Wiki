@@ -44,12 +44,28 @@ public class StructureTemplateTools
         return needed;
     }
 
-    public static List<ItemStack> getNeededMaterials(ServerLevel level, List<StructureBlockInfo> infos)
+    public static ItemStack getForInfo(StructureBlockInfo info)
     {
+        if (info.state != null)
+        {
+            Item item = info.state.getBlock().asItem();
+            if (item != null)
+            {
+                return new ItemStack(item);
+            }
+        }
+        return ItemStack.EMPTY;
+    }
+
+    public static List<ItemStack> getNeededMaterials(ServerLevel level, List<StructureBlockInfo> infos, int startIndex,
+            int endIndex)
+    {
+        endIndex = Math.min(endIndex, infos.size() - 1);
         Map<Item, ItemStack> tmp = Maps.newHashMap();
         List<ItemStack> needed = Lists.newArrayList();
-        for (var info : infos)
+        for (int i = startIndex; i <= endIndex; i++)
         {
+            var info = infos.get(i);
             if (info.state != null && !info.state.isAir())
             {
                 BlockState old = level.getBlockState(info.pos);
@@ -68,6 +84,11 @@ public class StructureTemplateTools
         return needed;
     }
 
+    public static List<ItemStack> getNeededMaterials(ServerLevel level, List<StructureBlockInfo> infos)
+    {
+        return getNeededMaterials(level, infos, 0, infos.size() - 1);
+    }
+
     public static List<BlockPos> getNeedsRemoval(ServerLevel level, StructurePlaceSettings settings,
             List<StructureBlockInfo> infos)
     {
@@ -79,13 +100,13 @@ public class StructureTemplateTools
                 BlockState old = level.getBlockState(info.pos);
                 if (old.isAir()) continue;
                 if (old.getBlock() != info.state.getBlock()) remove.add(info.pos);
-                else
-                {
-                    BlockState placeState = info.state.mirror(settings.getMirror()).rotate(level, info.pos,
-                            settings.getRotation());
-                    if (old.getProperties().stream().anyMatch(p -> !old.getValue(p).equals(placeState.getValue(p))))
-                        remove.add(info.pos);
-                }
+//                else
+//                {
+//                    BlockState placeState = info.state.mirror(settings.getMirror()).rotate(level, info.pos,
+//                            settings.getRotation());
+//                    if (old.getProperties().stream().anyMatch(p -> !old.getValue(p).equals(placeState.getValue(p))))
+//                        remove.add(info.pos);
+//                }
             }
         }
         return remove;
