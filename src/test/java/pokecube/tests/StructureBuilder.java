@@ -62,7 +62,6 @@ public class StructureBuilder implements IWorldTickListener
             toPlace.clear();
             if (tag instanceof ListTag list && !list.isEmpty() && list.get(0) instanceof StringTag entry)
             {
-
                 try
                 {
                     String string = entry.getAsString();
@@ -124,8 +123,8 @@ public class StructureBuilder implements IWorldTickListener
                 }
 
                 BlockPos shift = new BlockPos(dx - size.getX() / 2, 0, dz);
-
                 BlockPos location = origin.above(dy).offset(shift);
+
                 settings.setRotation(rotation);
                 settings.setRandom(level.getRandom());
                 settings.setRotationPivot(new BlockPos(size.getX() / 2, 0, 0));
@@ -159,6 +158,51 @@ public class StructureBuilder implements IWorldTickListener
         else toPlace.clear();
     }
 
+    public boolean tryClear(List<Integer> ys, ServerLevel level)
+    {
+        for (int i = ys.size() - 1; i >= 0; i--)
+        {
+            int y = ys.get(i);
+            List<StructureBlockInfo> infos = toPlace.get(y);
+            List<BlockPos> remove = StructureTemplateTools.getNeedsRemoval(level, settings, infos);
+            if (remove.isEmpty()) continue;
+            BlockPos pos = remove.get(0);
+            BlockState block = level.getBlockState(pos);
+            boolean broke = level.destroyBlock(pos, true);
+            System.out.println(broke + " " + block);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean tryPlace(List<Integer> ys, ServerLevel level)
+    {
+        for (Integer y : ys)
+        {
+            List<StructureBlockInfo> infos = toPlace.get(y);
+            List<ItemStack> stacks = StructureTemplateTools.getNeededMaterials(level, infos);
+            if (stacks.isEmpty())
+            {
+                toPlace.remove(y);
+                continue;
+            }
+            var info = infos.get(0);
+            BlockState placeState = info.state.mirror(settings.getMirror()).rotate(level, info.pos,
+                    settings.getRotation());
+
+            BlockState old = level.getBlockState(info.pos);
+            boolean same = old.isAir() & placeState.isAir();
+            if (same) continue;
+
+            infos.remove(0);
+            level.setBlockAndUpdate(info.pos, placeState);
+            if (infos.isEmpty()) toPlace.remove(y);
+            System.out.println("placed " + placeState);
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void onTickEnd(ServerLevel level)
     {
@@ -168,35 +212,11 @@ public class StructureBuilder implements IWorldTickListener
         List<Integer> ys = new ArrayList<>(toPlace.keySet());
         ys.sort(null);
 
-        for (Integer y : ys)
-        {
-            List<StructureBlockInfo> infos = toPlace.get(y);
-            List<ItemStack> stacks = StructureTemplateTools.getNeededMaterials(level, infos);
-            List<BlockPos> remove = StructureTemplateTools.getNeedsRemoval(level, settings, infos);
+        // Check if we need to remove invalid blocks, do that first.
+        if (!tryClear(ys, level)) return;
+        // Then check if we can place blocks.
+        if (!tryPlace(ys, level)) return;
 
-            System.out.println(stacks.size() + " " + remove.size() + " " + infos.size() + " " + y);
-
-            if (stacks.isEmpty())
-            {
-                toPlace.remove(y);
-                continue;
-            }
-            var info = infos.get(0);
-            if (remove.contains(info.pos))
-            {
-                BlockState block = level.getBlockState(info.pos);
-                boolean broke = level.destroyBlock(info.pos, true);
-                System.out.println("Broke? " + block + " " + broke + " " + level.getBlockState(info.pos));
-                return;
-            }
-            infos.remove(0);
-            BlockState placeState = info.state.mirror(settings.getMirror()).rotate(level, info.pos,
-                    settings.getRotation());
-            level.setBlockAndUpdate(info.pos, placeState);
-
-            if (infos.isEmpty()) toPlace.remove(y);
-            return;
-        }
         // If we finished, remove.
         WorldTickManager.removeWorldData(level.dimension(), this);
         PokecubeAPI.LOGGER.info("Finished structure!");

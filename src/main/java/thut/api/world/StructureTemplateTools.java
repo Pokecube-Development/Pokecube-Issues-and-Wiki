@@ -74,7 +74,7 @@ public class StructureTemplateTools
         List<BlockPos> remove = Lists.newArrayList();
         for (var info : infos)
         {
-            if (info.state != null && !info.state.isAir())
+            if (info.state != null)
             {
                 BlockState old = level.getBlockState(info.pos);
                 if (old.isAir()) continue;

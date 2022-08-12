@@ -225,6 +225,7 @@ public class Database
 
     static int lastCount = -1;
 
+    public static boolean finished_early_loading = false;
     public static ReloadableResourceManager resourceManager = new ReloadableResourceManager(PackType.SERVER_DATA);
 
     public static PokedexEntry[] starters = {};
@@ -786,8 +787,8 @@ public class Database
         }
 
         Database.allFormes.removeAll(toRemove);
-        PokecubeAPI.LOGGER.debug("Removed " + removedNums.size() + " Missing Pokemon and "
-                + (toRemove.size() - dummies) + " missing Formes");
+        PokecubeAPI.LOGGER.debug("Removed " + removedNums.size() + " Missing Pokemon and " + (toRemove.size() - dummies)
+                + " missing Formes");
         if (removedNums.size() > 0) PokecubeAPI.LOGGER.debug("Removed " + toRemove);
 
         toRemove.clear();
@@ -926,6 +927,7 @@ public class Database
             }
         }
         DefaultFormeHolder._main_init_ = true;
+        Database.finished_early_loading = true;
     }
 
     public static Set<PackResources> customPacks = Sets.newHashSet();
@@ -943,12 +945,13 @@ public class Database
                 });
 
         List<PackResources> packs = applyToManager ? finder.allPacks : finder.folderPacks;
-
         for (final PackResources info : packs) try
         {
+            info.init(PackType.SERVER_DATA);
             if (applyToManager)
             {
                 PokecubeAPI.LOGGER.debug("Loading Pack: " + info.getName());
+                PokecubeAPI.LOGGER.debug("Namespaces: " + info.getNamespaces(PackType.SERVER_DATA));
                 PackListener.addPack(info, Database.resourceManager);
             }
             // Only add the zips or folders here, jars get properly added by
@@ -968,6 +971,7 @@ public class Database
     public static void preInit()
     {
         PokecubeAPI.LOGGER.debug("Database preInit()");
+
         // Initialize the resourceloader.
         Database.loadCustomPacks(true);
 
