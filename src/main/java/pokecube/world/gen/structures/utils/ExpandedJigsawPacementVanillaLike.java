@@ -143,7 +143,7 @@ public class ExpandedJigsawPacementVanillaLike
                             break;
                         }
                     }
-                    PostProcessor.POSTPROCESS.accept(config_context, list);
+                    PostProcessor.POSTPROCESS.accept(context, list);
                     list.forEach(builder::addPiece);
                 });
             }

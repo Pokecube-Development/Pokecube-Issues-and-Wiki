@@ -12,8 +12,7 @@ import net.minecraft.world.level.block.state.properties.StructureMode;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator.Context;
+import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.Palette;
@@ -26,14 +25,15 @@ import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import thut.api.terrain.BiomeType;
 
-public class PostProcessor
-        implements BiConsumer<PieceGenerator.Context<ExpandedJigsawConfiguration>, List<PoolElementStructurePiece>>
+public class PostProcessor implements
+        BiConsumer<PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration>, List<PoolElementStructurePiece>>
 {
-    public static BiConsumer<PieceGenerator.Context<ExpandedJigsawConfiguration>, List<PoolElementStructurePiece>> POSTPROCESS = new PostProcessor();
+    public static PostProcessor POSTPROCESS = new PostProcessor();
 
     @SuppressWarnings("deprecation")
     @Override
-    public void accept(Context<ExpandedJigsawConfiguration> context, List<PoolElementStructurePiece> parts)
+    public void accept(PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration> context,
+            List<PoolElementStructurePiece> parts)
     {
         ChunkGenerator chunkGenerator = context.chunkGenerator();
         ChunkPos pos = context.chunkPos();
@@ -50,12 +50,14 @@ public class PostProcessor
             part.getBoundingBox().encapsulate(min_corner);
             part.getBoundingBox().encapsulate(max_corner);
 
+            ServerLevel level = ExpandedJigsawPacement.getForGen(context);
+
             if (!"none".equals(config.biome_type))
             {
                 final BiomeType subbiome = BiomeType.getBiome(config.biome_type, true);
                 final BoundingBox box = part.getBoundingBox();
                 final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box);
-                SpawnEventsHandler.queueForUpdate(poses, subbiome, ExpandedJigsawPacement.getForGen(chunkGenerator));
+                SpawnEventsHandler.queueForUpdate(poses, subbiome, level);
             }
             if (part.getElement() instanceof final ExpandedJigsawPiece piece)
             {
@@ -89,7 +91,7 @@ public class PostProcessor
                     {
                         final int x = pos.getBlockX(7);
                         final int z = pos.getBlockZ(7);
-                        final ServerLevel sworld = ExpandedJigsawPacement.getForGen(chunkGenerator);
+                        final ServerLevel sworld = level;
                         final BlockPos blockpos = new BlockPos(x, chunkGenerator.getSeaLevel(), z);
                         final BlockPos spos = StructureTemplate.calculateRelativePosition(settings, localSpawn)
                                 .offset(blockpos).offset(0, part.getBoundingBox().minY, 0);

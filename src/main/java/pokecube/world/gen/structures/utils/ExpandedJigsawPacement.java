@@ -54,6 +54,8 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.api.PokecubeAPI;
+import pokecube.mixin.features.ChunkAccessAcessor;
+import pokecube.mixin.features.WorldGenRegionAccessor;
 import pokecube.world.gen.structures.GenericJigsawStructure;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
@@ -63,11 +65,28 @@ public class ExpandedJigsawPacement
 {
     static final Logger LOGGER = LogUtils.getLogger();
 
-    public static ServerLevel getForGen(final ChunkGenerator chunkGen)
+    public static ServerLevel getForGen(final PieceGeneratorSupplier.Context<?> context)
     {
+        // Try directly getting the level first
+        if (context.heightAccessor() instanceof ServerLevel level) return level;
+        // Then try from the chunk access
+        if (context.heightAccessor() instanceof ChunkAccessAcessor access_a)
+        {
+            LevelHeightAccessor levelh = access_a.getLevelHeightAccessor();
+            if (levelh instanceof ServerLevel level) return level;
+            else if (levelh instanceof WorldGenRegionAccessor access) return access.getServerLevel();
+        }
+        // Next try if it was a world gen region
+        if (context.heightAccessor() instanceof WorldGenRegionAccessor access) return access.getServerLevel();
+
+        // Finally decide from chunkGenerator.
+        ChunkGenerator chunkGen = context.chunkGenerator();
         final MinecraftServer server = ThutCore.proxy.getServer();
         for (final ServerLevel w : server.getAllLevels()) if (w.getChunkSource().getGenerator() == chunkGen) return w;
-        throw new IllegalStateException("Did not find a world for this chunk generator!");
+        Exception e = new IllegalStateException("Did not find a server level for this context!");
+        PokecubeAPI.LOGGER.error(e);
+        e.printStackTrace();
+        return server.overworld();
     }
 
     public static Optional<PieceGenerator<ExpandedJigsawConfiguration>> addPieces(
@@ -212,7 +231,7 @@ public class ExpandedJigsawPacement
                         List<PoolElementStructurePiece> list = (List<PoolElementStructurePiece>) most_complete.pieces;
 
                         if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Finshed: {}", root_pool.getName());
-                        PostProcessor.POSTPROCESS.accept(config_context, list);
+                        PostProcessor.POSTPROCESS.accept(context, list);
                         list.forEach(builder::addPiece);
 
                         GenericJigsawStructure.markPlaced(context);
@@ -649,7 +668,8 @@ public class ExpandedJigsawPacement
 
                                             if (rigid_bounds.getValue() != null)
                                             {
-                                                rigid_bounds.setValue(Shapes.joinUnoptimized(rigid_bounds.getValue(), new_shape, BooleanOp.OR));
+                                                rigid_bounds.setValue(Shapes.joinUnoptimized(rigid_bounds.getValue(),
+                                                        new_shape, BooleanOp.OR));
                                             }
                                             else
                                             {
@@ -771,7 +791,8 @@ public class ExpandedJigsawPacement
                 VoxelShape new_shape = Shapes.create(next_box);
                 if (non_rigid_bounds.getValue() != null)
                 {
-                    non_rigid_bounds.setValue(Shapes.joinUnoptimized(non_rigid_bounds.getValue(), new_shape, BooleanOp.OR));
+                    non_rigid_bounds
+                            .setValue(Shapes.joinUnoptimized(non_rigid_bounds.getValue(), new_shape, BooleanOp.OR));
                 }
                 else
                 {

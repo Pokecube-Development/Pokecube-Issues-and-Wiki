@@ -48,9 +48,8 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
     public static boolean tooClose(PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration> context)
     {
         ExpandedJigsawConfiguration config = context.config();
-        ChunkGenerator generator = context.chunkGenerator();
         ChunkPos pos = context.chunkPos();
-        Level level = ExpandedJigsawPacement.getForGen(generator);
+        Level level = ExpandedJigsawPacement.getForGen(context);
         List<AvoidanceEntry> avoidances = config.avoidances.avoidances;
         BlockPos bpos = pos.getMiddleBlockPosition(0);
         for (var avoid : avoidances)
@@ -71,9 +70,8 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         ExpandedJigsawConfiguration config = context.config();
         List<String> flags = config.avoidances.flags;
         if (flags.isEmpty()) return;
-        ChunkGenerator generator = context.chunkGenerator();
         ChunkPos pos = context.chunkPos();
-        Level level = ExpandedJigsawPacement.getForGen(generator);
+        Level level = ExpandedJigsawPacement.getForGen(context);
         BlockPos bpos = pos.getMiddleBlockPosition(0);
         if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug(config.avoidances.flags + " " + level.dimension());
         for (String flag : flags) PokecubeSerializer.getInstance().place(flag.strip(), bpos, level.dimension());
