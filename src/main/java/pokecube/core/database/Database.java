@@ -225,7 +225,6 @@ public class Database
 
     static int lastCount = -1;
 
-    public static boolean finished_early_loading = false;
     public static ReloadableResourceManager resourceManager = new ReloadableResourceManager(PackType.SERVER_DATA);
 
     public static PokedexEntry[] starters = {};
@@ -927,7 +926,6 @@ public class Database
             }
         }
         DefaultFormeHolder._main_init_ = true;
-        Database.finished_early_loading = true;
     }
 
     public static Set<PackResources> customPacks = Sets.newHashSet();

@@ -15,8 +15,7 @@
     "features.NoDeltasInStructuresMixin",
     "features.NoLakesInStructuresMixin",
     "features.NoLavaFallsInStructuresMixin",
-    "features.WorldGenRegionAccessor",
-    "forge.ResourceCacheManagerMixin"
+    "features.WorldGenRegionAccessor"
   ],
   "client": [
   ],
