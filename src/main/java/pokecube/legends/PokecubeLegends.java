@@ -227,146 +227,148 @@ public class PokecubeLegends
     {
 
         // Biome Dictionary
+        net.minecraftforge.common.BiomeDictionary.Type ULTRASPACE =
+                net.minecraftforge.common.BiomeDictionary.Type.getType("ultraspace");
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.AQUAMARINE_CAVES,
-                net.minecraftforge.common.BiomeDictionary.Type.RARE);
+                net.minecraftforge.common.BiomeDictionary.Type.RARE, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.AZURE_BADLANDS,
                 net.minecraftforge.common.BiomeDictionary.Type.DRY, net.minecraftforge.common.BiomeDictionary.Type.MESA,
-                net.minecraftforge.common.BiomeDictionary.Type.SANDY);
+                net.minecraftforge.common.BiomeDictionary.Type.SANDY, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.BLINDING_DELTAS,
                 net.minecraftforge.common.BiomeDictionary.Type.HOT,
                 net.minecraftforge.common.BiomeDictionary.Type.SPOOKY,
-                net.minecraftforge.common.BiomeDictionary.Type.WET);
+                net.minecraftforge.common.BiomeDictionary.Type.WET, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.BURNT_BEACH,
                 net.minecraftforge.common.BiomeDictionary.Type.BEACH,
                 net.minecraftforge.common.BiomeDictionary.Type.HOT,
                 net.minecraftforge.common.BiomeDictionary.Type.SPOOKY,
-                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND);
+                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.CORRUPTED_CAVES,
                 net.minecraftforge.common.BiomeDictionary.Type.RARE,
-                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND);
+                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.CRYSTALLIZED_BEACH,
                 net.minecraftforge.common.BiomeDictionary.Type.BEACH,
-                net.minecraftforge.common.BiomeDictionary.Type.HOT);
+                net.minecraftforge.common.BiomeDictionary.Type.HOT, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.DEAD_OCEAN,
                 net.minecraftforge.common.BiomeDictionary.Type.DEAD,
                 net.minecraftforge.common.BiomeDictionary.Type.OCEAN,
                 net.minecraftforge.common.BiomeDictionary.Type.SPOOKY,
-                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND);
+                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.DEEP_DEAD_OCEAN,
                 net.minecraftforge.common.BiomeDictionary.Type.DEAD,
                 net.minecraftforge.common.BiomeDictionary.Type.OCEAN,
                 net.minecraftforge.common.BiomeDictionary.Type.SPOOKY,
-                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND);
+                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.DEEP_FROZEN_DEAD_OCEAN,
                 net.minecraftforge.common.BiomeDictionary.Type.COLD,
                 net.minecraftforge.common.BiomeDictionary.Type.DEAD,
                 net.minecraftforge.common.BiomeDictionary.Type.OCEAN,
                 net.minecraftforge.common.BiomeDictionary.Type.SNOWY,
                 net.minecraftforge.common.BiomeDictionary.Type.SPOOKY,
-                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND);
+                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.DEEP_FROZEN_POLLUTED_OCEAN,
                 net.minecraftforge.common.BiomeDictionary.Type.COLD,
                 net.minecraftforge.common.BiomeDictionary.Type.OCEAN,
                 net.minecraftforge.common.BiomeDictionary.Type.SNOWY,
-                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND);
+                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.DEEP_POLLUTED_OCEAN,
                 net.minecraftforge.common.BiomeDictionary.Type.OCEAN,
-                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND);
+                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.DEAD_RIVER,
                 net.minecraftforge.common.BiomeDictionary.Type.DEAD,
                 net.minecraftforge.common.BiomeDictionary.Type.RIVER,
                 net.minecraftforge.common.BiomeDictionary.Type.SPOOKY,
-                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND);
+                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.DISTORTED_LANDS,
                 net.minecraftforge.common.BiomeDictionary.Type.MAGICAL,
-                net.minecraftforge.common.BiomeDictionary.Type.SPOOKY);
+                net.minecraftforge.common.BiomeDictionary.Type.SPOOKY, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.DRIED_BLINDING_DELTAS,
                 net.minecraftforge.common.BiomeDictionary.Type.DRY, net.minecraftforge.common.BiomeDictionary.Type.HOT,
-                net.minecraftforge.common.BiomeDictionary.Type.SPOOKY);
+                net.minecraftforge.common.BiomeDictionary.Type.SPOOKY, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.DRIPSTONE_CAVES,
-                net.minecraftforge.common.BiomeDictionary.Type.RARE);
+                net.minecraftforge.common.BiomeDictionary.Type.RARE, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.ERODED_AZURE_BADLANDS,
                 net.minecraftforge.common.BiomeDictionary.Type.HOT, net.minecraftforge.common.BiomeDictionary.Type.DRY,
                 net.minecraftforge.common.BiomeDictionary.Type.MESA,
                 net.minecraftforge.common.BiomeDictionary.Type.MOUNTAIN,
                 net.minecraftforge.common.BiomeDictionary.Type.RARE,
-                net.minecraftforge.common.BiomeDictionary.Type.SANDY);
+                net.minecraftforge.common.BiomeDictionary.Type.SANDY, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.FORBIDDEN_GROVE,
                 net.minecraftforge.common.BiomeDictionary.Type.COLD,
                 net.minecraftforge.common.BiomeDictionary.Type.CONIFEROUS,
                 net.minecraftforge.common.BiomeDictionary.Type.FOREST,
                 net.minecraftforge.common.BiomeDictionary.Type.MAGICAL,
                 net.minecraftforge.common.BiomeDictionary.Type.MOUNTAIN,
-                net.minecraftforge.common.BiomeDictionary.Type.SNOWY);
+                net.minecraftforge.common.BiomeDictionary.Type.SNOWY, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.FORBIDDEN_MEADOW,
                 net.minecraftforge.common.BiomeDictionary.Type.COLD,
                 net.minecraftforge.common.BiomeDictionary.Type.PLAINS,
                 net.minecraftforge.common.BiomeDictionary.Type.MAGICAL,
                 net.minecraftforge.common.BiomeDictionary.Type.MOUNTAIN,
-                net.minecraftforge.common.BiomeDictionary.Type.SNOWY);
+                net.minecraftforge.common.BiomeDictionary.Type.SNOWY, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.FORBIDDEN_TAIGA,
                 net.minecraftforge.common.BiomeDictionary.Type.COLD,
                 net.minecraftforge.common.BiomeDictionary.Type.CONIFEROUS,
                 net.minecraftforge.common.BiomeDictionary.Type.FOREST,
-                net.minecraftforge.common.BiomeDictionary.Type.MAGICAL);
+                net.minecraftforge.common.BiomeDictionary.Type.MAGICAL, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.FROZEN_DEAD_OCEAN,
                 net.minecraftforge.common.BiomeDictionary.Type.COLD,
                 net.minecraftforge.common.BiomeDictionary.Type.DEAD,
                 net.minecraftforge.common.BiomeDictionary.Type.OCEAN,
                 net.minecraftforge.common.BiomeDictionary.Type.SNOWY,
                 net.minecraftforge.common.BiomeDictionary.Type.SPOOKY,
-                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND);
+                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.FROZEN_DEAD_RIVER,
                 net.minecraftforge.common.BiomeDictionary.Type.COLD,
                 net.minecraftforge.common.BiomeDictionary.Type.DEAD,
                 net.minecraftforge.common.BiomeDictionary.Type.RIVER,
                 net.minecraftforge.common.BiomeDictionary.Type.SNOWY,
                 net.minecraftforge.common.BiomeDictionary.Type.SPOOKY,
-                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND);
+                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.FROZEN_PEAKS,
                 net.minecraftforge.common.BiomeDictionary.Type.COLD,
                 net.minecraftforge.common.BiomeDictionary.Type.MOUNTAIN,
-                net.minecraftforge.common.BiomeDictionary.Type.SNOWY);
+                net.minecraftforge.common.BiomeDictionary.Type.SNOWY, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.FROZEN_POLLUTED_OCEAN,
                 net.minecraftforge.common.BiomeDictionary.Type.COLD,
                 net.minecraftforge.common.BiomeDictionary.Type.OCEAN,
                 net.minecraftforge.common.BiomeDictionary.Type.SNOWY,
-                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND);
+                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.FROZEN_POLLUTED_RIVER,
                 net.minecraftforge.common.BiomeDictionary.Type.COLD,
                 net.minecraftforge.common.BiomeDictionary.Type.RIVER,
                 net.minecraftforge.common.BiomeDictionary.Type.SNOWY,
-                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND);
+                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.FUNGAL_FLOWER_FOREST,
                 net.minecraftforge.common.BiomeDictionary.Type.FOREST,
                 net.minecraftforge.common.BiomeDictionary.Type.HILLS,
                 net.minecraftforge.common.BiomeDictionary.Type.MUSHROOM,
-                net.minecraftforge.common.BiomeDictionary.Type.RARE);
+                net.minecraftforge.common.BiomeDictionary.Type.RARE, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.FUNGAL_FOREST,
                 net.minecraftforge.common.BiomeDictionary.Type.FOREST,
-                net.minecraftforge.common.BiomeDictionary.Type.MUSHROOM);
+                net.minecraftforge.common.BiomeDictionary.Type.MUSHROOM, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.FUNGAL_PLAINS,
                 net.minecraftforge.common.BiomeDictionary.Type.PLAINS,
-                net.minecraftforge.common.BiomeDictionary.Type.MUSHROOM);
+                net.minecraftforge.common.BiomeDictionary.Type.MUSHROOM, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.FUNGAL_SUNFLOWER_PLAINS,
                 net.minecraftforge.common.BiomeDictionary.Type.PLAINS,
                 net.minecraftforge.common.BiomeDictionary.Type.MUSHROOM,
-                net.minecraftforge.common.BiomeDictionary.Type.RARE);
+                net.minecraftforge.common.BiomeDictionary.Type.RARE, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.JAGGED_PEAKS,
                 net.minecraftforge.common.BiomeDictionary.Type.COLD,
                 net.minecraftforge.common.BiomeDictionary.Type.MOUNTAIN,
-                net.minecraftforge.common.BiomeDictionary.Type.SNOWY);
+                net.minecraftforge.common.BiomeDictionary.Type.SNOWY, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.MAGMATIC_BLINDING_DELTAS,
                 net.minecraftforge.common.BiomeDictionary.Type.DRY, net.minecraftforge.common.BiomeDictionary.Type.HOT,
-                net.minecraftforge.common.BiomeDictionary.Type.SPOOKY);
+                net.minecraftforge.common.BiomeDictionary.Type.SPOOKY, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.METEORITE_SPIKES,
                 net.minecraftforge.common.BiomeDictionary.Type.DRY, net.minecraftforge.common.BiomeDictionary.Type.HOT,
                 net.minecraftforge.common.BiomeDictionary.Type.SPOOKY,
-                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND);
+                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.MIRAGE_DESERT,
                 net.minecraftforge.common.BiomeDictionary.Type.DRY, net.minecraftforge.common.BiomeDictionary.Type.HOT,
                 net.minecraftforge.common.BiomeDictionary.Type.MAGICAL,
-                net.minecraftforge.common.BiomeDictionary.Type.SANDY);
+                net.minecraftforge.common.BiomeDictionary.Type.SANDY, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.OLD_GROWTH_FORBIDDEN_TAIGA,
                 net.minecraftforge.common.BiomeDictionary.Type.COLD,
                 net.minecraftforge.common.BiomeDictionary.Type.CONIFEROUS,
@@ -374,53 +376,53 @@ public class PokecubeLegends
                 net.minecraftforge.common.BiomeDictionary.Type.FOREST,
                 net.minecraftforge.common.BiomeDictionary.Type.MAGICAL,
                 net.minecraftforge.common.BiomeDictionary.Type.RARE,
-                net.minecraftforge.common.BiomeDictionary.Type.SPARSE);
+                net.minecraftforge.common.BiomeDictionary.Type.SPARSE, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.POLLUTED_OCEAN,
                 net.minecraftforge.common.BiomeDictionary.Type.OCEAN,
-                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND);
+                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.POLLUTED_RIVER,
                 net.minecraftforge.common.BiomeDictionary.Type.RIVER,
-                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND);
+                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.ROCKY_MIRAGE_DESERT,
                 net.minecraftforge.common.BiomeDictionary.Type.DRY, net.minecraftforge.common.BiomeDictionary.Type.HOT,
                 net.minecraftforge.common.BiomeDictionary.Type.MAGICAL,
-                net.minecraftforge.common.BiomeDictionary.Type.SANDY);
+                net.minecraftforge.common.BiomeDictionary.Type.SANDY, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.SHATTERED_BLINDING_DELTAS,
                 net.minecraftforge.common.BiomeDictionary.Type.HOT,
                 net.minecraftforge.common.BiomeDictionary.Type.MOUNTAIN,
                 net.minecraftforge.common.BiomeDictionary.Type.RARE,
                 net.minecraftforge.common.BiomeDictionary.Type.SPOOKY,
-                net.minecraftforge.common.BiomeDictionary.Type.WET);
+                net.minecraftforge.common.BiomeDictionary.Type.WET, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.SHATTERED_TAINTED_BARRENS,
                 net.minecraftforge.common.BiomeDictionary.Type.MOUNTAIN,
                 net.minecraftforge.common.BiomeDictionary.Type.SPARSE,
                 net.minecraftforge.common.BiomeDictionary.Type.SPOOKY,
                 net.minecraftforge.common.BiomeDictionary.Type.SWAMP,
                 net.minecraftforge.common.BiomeDictionary.Type.WASTELAND,
-                net.minecraftforge.common.BiomeDictionary.Type.WET);
+                net.minecraftforge.common.BiomeDictionary.Type.WET, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.SMALL_DISTORTED_ISLANDS,
                 net.minecraftforge.common.BiomeDictionary.Type.MAGICAL,
-                net.minecraftforge.common.BiomeDictionary.Type.SPOOKY);
+                net.minecraftforge.common.BiomeDictionary.Type.SPOOKY, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.SNOWY_CRYSTALLIZED_BEACH,
                 net.minecraftforge.common.BiomeDictionary.Type.BEACH,
                 net.minecraftforge.common.BiomeDictionary.Type.COLD,
-                net.minecraftforge.common.BiomeDictionary.Type.SNOWY);
+                net.minecraftforge.common.BiomeDictionary.Type.SNOWY, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.SNOWY_FORBIDDEN_TAIGA,
                 net.minecraftforge.common.BiomeDictionary.Type.COLD,
                 net.minecraftforge.common.BiomeDictionary.Type.CONIFEROUS,
                 net.minecraftforge.common.BiomeDictionary.Type.FOREST,
                 net.minecraftforge.common.BiomeDictionary.Type.MAGICAL,
-                net.minecraftforge.common.BiomeDictionary.Type.SNOWY);
+                net.minecraftforge.common.BiomeDictionary.Type.SNOWY, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.SNOWY_FUNGAL_PLAINS,
                 net.minecraftforge.common.BiomeDictionary.Type.COLD,
                 net.minecraftforge.common.BiomeDictionary.Type.PLAINS,
                 net.minecraftforge.common.BiomeDictionary.Type.MUSHROOM,
                 net.minecraftforge.common.BiomeDictionary.Type.SNOWY,
-                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND);
+                net.minecraftforge.common.BiomeDictionary.Type.WASTELAND, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.SNOWY_SLOPES,
                 net.minecraftforge.common.BiomeDictionary.Type.COLD,
                 net.minecraftforge.common.BiomeDictionary.Type.MOUNTAIN,
-                net.minecraftforge.common.BiomeDictionary.Type.SNOWY);
+                net.minecraftforge.common.BiomeDictionary.Type.SNOWY, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.SPARSE_TEMPORAL_JUNGLE,
                 net.minecraftforge.common.BiomeDictionary.Type.DENSE,
                 net.minecraftforge.common.BiomeDictionary.Type.HILLS,
@@ -429,33 +431,33 @@ public class PokecubeLegends
                 net.minecraftforge.common.BiomeDictionary.Type.MAGICAL,
                 net.minecraftforge.common.BiomeDictionary.Type.RARE,
                 net.minecraftforge.common.BiomeDictionary.Type.SPARSE,
-                net.minecraftforge.common.BiomeDictionary.Type.WET);
+                net.minecraftforge.common.BiomeDictionary.Type.WET, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.TAINTED_BARRENS,
                 net.minecraftforge.common.BiomeDictionary.Type.SPARSE,
                 net.minecraftforge.common.BiomeDictionary.Type.SPOOKY,
                 net.minecraftforge.common.BiomeDictionary.Type.SWAMP,
                 net.minecraftforge.common.BiomeDictionary.Type.WASTELAND,
-                net.minecraftforge.common.BiomeDictionary.Type.WET);
+                net.minecraftforge.common.BiomeDictionary.Type.WET, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.TEMPORAL_BAMBOO_JUNGLE,
                 net.minecraftforge.common.BiomeDictionary.Type.HOT,
                 net.minecraftforge.common.BiomeDictionary.Type.JUNGLE,
                 net.minecraftforge.common.BiomeDictionary.Type.LUSH,
                 net.minecraftforge.common.BiomeDictionary.Type.MAGICAL,
                 net.minecraftforge.common.BiomeDictionary.Type.RARE,
-                net.minecraftforge.common.BiomeDictionary.Type.WET);
+                net.minecraftforge.common.BiomeDictionary.Type.WET, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.TEMPORAL_JUNGLE,
                 net.minecraftforge.common.BiomeDictionary.Type.DENSE,
                 net.minecraftforge.common.BiomeDictionary.Type.HOT,
                 net.minecraftforge.common.BiomeDictionary.Type.JUNGLE,
                 net.minecraftforge.common.BiomeDictionary.Type.LUSH,
                 net.minecraftforge.common.BiomeDictionary.Type.MAGICAL,
-                net.minecraftforge.common.BiomeDictionary.Type.WET);
+                net.minecraftforge.common.BiomeDictionary.Type.WET, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.ULTRA_STONY_PEAKS,
                 net.minecraftforge.common.BiomeDictionary.Type.COLD,
-                net.minecraftforge.common.BiomeDictionary.Type.MOUNTAIN);
+                net.minecraftforge.common.BiomeDictionary.Type.MOUNTAIN, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.ULTRA_STONY_SHORE,
                 net.minecraftforge.common.BiomeDictionary.Type.BEACH,
-                net.minecraftforge.common.BiomeDictionary.Type.HOT);
+                net.minecraftforge.common.BiomeDictionary.Type.HOT, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.WINDSWEPT_FORBIDDEN_TAIGA,
                 net.minecraftforge.common.BiomeDictionary.Type.COLD,
                 net.minecraftforge.common.BiomeDictionary.Type.CONIFEROUS,
@@ -463,7 +465,7 @@ public class PokecubeLegends
                 net.minecraftforge.common.BiomeDictionary.Type.MAGICAL,
                 net.minecraftforge.common.BiomeDictionary.Type.MOUNTAIN,
                 net.minecraftforge.common.BiomeDictionary.Type.RARE,
-                net.minecraftforge.common.BiomeDictionary.Type.SNOWY);
+                net.minecraftforge.common.BiomeDictionary.Type.SNOWY, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.WINDSWEPT_TEMPORAL_JUNGLE,
                 net.minecraftforge.common.BiomeDictionary.Type.HOT,
                 net.minecraftforge.common.BiomeDictionary.Type.JUNGLE,
@@ -471,17 +473,17 @@ public class PokecubeLegends
                 net.minecraftforge.common.BiomeDictionary.Type.MAGICAL,
                 net.minecraftforge.common.BiomeDictionary.Type.MOUNTAIN,
                 net.minecraftforge.common.BiomeDictionary.Type.RARE,
-                net.minecraftforge.common.BiomeDictionary.Type.WET);
+                net.minecraftforge.common.BiomeDictionary.Type.WET, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.WOODED_AZURE_BADLANDS,
                 net.minecraftforge.common.BiomeDictionary.Type.DRY, net.minecraftforge.common.BiomeDictionary.Type.MESA,
                 net.minecraftforge.common.BiomeDictionary.Type.PLATEAU,
                 net.minecraftforge.common.BiomeDictionary.Type.SANDY,
-                net.minecraftforge.common.BiomeDictionary.Type.SPARSE);
+                net.minecraftforge.common.BiomeDictionary.Type.SPARSE, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.VOLCANIC_BLINDING_DELTAS,
                 net.minecraftforge.common.BiomeDictionary.Type.DRY, net.minecraftforge.common.BiomeDictionary.Type.HOT,
                 net.minecraftforge.common.BiomeDictionary.Type.MOUNTAIN,
                 net.minecraftforge.common.BiomeDictionary.Type.RARE,
-                net.minecraftforge.common.BiomeDictionary.Type.SPOOKY);
+                net.minecraftforge.common.BiomeDictionary.Type.SPOOKY, ULTRASPACE);
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event)
