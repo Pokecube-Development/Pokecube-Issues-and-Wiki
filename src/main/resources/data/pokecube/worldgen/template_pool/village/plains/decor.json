@@ -1,4 +1,3 @@
-
 {
   "name": "pokecube:village/plains/decor",
   "fallback": "minecraft:empty",
@@ -19,7 +18,7 @@
         "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic"
+      }
     }
-  }
   ]
 }
