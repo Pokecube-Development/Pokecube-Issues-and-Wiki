@@ -1,0 +1,14 @@
+{
+    "ctm":{
+        "ctm_version": 1,
+        "type":"CTM",
+        "layer":"TRANSLUCENT",
+        "textures":[
+            "pokecube_legends:block/framed_distortic_mirror_ctm"
+        ],
+        "extra":{
+        	"ignore_states":true,
+        	"connect_inside":true
+        }
+    }
+}
