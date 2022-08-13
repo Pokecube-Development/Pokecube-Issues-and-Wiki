@@ -202,10 +202,10 @@ public class ActionNaturePower implements IMoveAction
             ResourceKey<Biome> KEY = ResourceKey.create(Registry.BIOME_REGISTRY, _biome_);
             final PointChecker checker = new PointChecker(world, new Vector3().set(pos), _predicate_);
             checker.checkPoints();
-            System.out.println("Checking for " + _biome_);
+            PokecubeAPI.LOGGER.debug("Checking for " + _biome_);
             if (!_has_required_.test(checker))
             {
-                System.out.println("failed required for " + _biome_);
+                PokecubeAPI.LOGGER.debug("failed required for " + _biome_);
                 return false;
             }
             return ActionNaturePower.applyChecker(checker, world, KEY);

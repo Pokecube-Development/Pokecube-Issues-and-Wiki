@@ -394,7 +394,7 @@ public class ExpandedJigsawPacement
 
             boolean correct_direction = root_front == next_front.getOpposite();
 
-            if (!correct_direction && logs) System.out.println("wrong direction");
+            if (!correct_direction && logs) PokecubeAPI.LOGGER.debug("wrong direction");
             if (!correct_direction) return false;
 
             Direction root_top = JigsawBlock.getTopFacing(root.state);
@@ -404,14 +404,14 @@ public class ExpandedJigsawPacement
             });
 
             boolean correct_orientation = jointtype == JointType.ROLLABLE || root_top == next_top;
-            if (!correct_orientation && logs) System.out.println("wrong orientation");
+            if (!correct_orientation && logs) PokecubeAPI.LOGGER.debug("wrong orientation");
 
             if (!correct_orientation) return false;
 
             boolean tag_match = root.nbt.getString("target").equals(next.nbt.getString("name"));
 
             if (!tag_match && logs)
-                System.out.println(root.nbt.getString("target") + "!=" + next.nbt.getString("name"));
+                PokecubeAPI.LOGGER.debug(root.nbt.getString("target") + "!=" + next.nbt.getString("name"));
 
             return tag_match;
         }

@@ -449,11 +449,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
             // Next try custom ones
             VillagerData villagerdata = this.getVillagerData();;
             VillagerTrades.ItemListing[] itemListings = type.getTrades(villagerdata.getLevel());
-            if (itemListings != null)
-            {
-                this.addOffersFromItemListings(this.offers, itemListings, 2);
-                for (var listing : itemListings) System.out.println(listing.getOffer(this, this.random));
-            }
+            if (itemListings != null) this.addOffersFromItemListings(this.offers, itemListings, 2);
         }
         // Now add the defaults
         this.init_offers.accept(this.offers);
