@@ -157,8 +157,9 @@ public class SecretBaseRadarPage extends WatchPage
         mat.mulPose(Vector3f.ZP.rotationDegrees(angle));
 
         final Set<BlockPos> coords = SecretBaseRadarPage.radar_hits.get(SecretBaseRadarPage.mode);
-        final float range = SecretBaseRadarPage.baseRange * SecretBaseRadarPage.mode.rangeScale;
-        
+        final float scale = SecretBaseRadarPage.mode.rangeScale;
+        final float range = SecretBaseRadarPage.baseRange * scale;
+
         vertexbuffer.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 
         for (final BlockPos c : coords)
@@ -169,7 +170,7 @@ public class SecretBaseRadarPage extends WatchPage
             final Vector3 v = loc.subtract(here);
             final float max = 55;
             final float hDistSq = (float) (v.x * v.x + v.z * v.z);
-            final float vDist = (float) Math.abs(v.y);
+            final float vDist = (float) Math.abs(v.y) / scale;
             v.y = 0;
             v.norm();
             a = (64 - vDist) / 64;

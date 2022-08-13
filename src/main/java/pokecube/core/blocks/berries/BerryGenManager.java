@@ -95,21 +95,25 @@ public class BerryGenManager
                 {
                     String[] ts = specific_biomes.split(",");
                     for (String s : ts) if (s.equals(event.getName().toString())) return true;
+                    return false;
                 }
                 String biome_types = spawn.values.get("biome_types");
-                if (biome_types != null)
+                boolean correctType = biome_types == null || biome_types.isBlank();
+                if (!correctType)
                 {
                     String[] ts = biome_types.split(",");
                     for (String s : ts) if (!BiomeDatabase.contains(key, s)) return false;
-                    return true;
+                    correctType = true;
                 }
                 String biome_cats = spawn.values.get("biome_category");
-                if (biome_cats != null)
+                boolean correctCategory = biome_cats == null || biome_cats.isBlank();
+                if (!correctCategory)
                 {
                     String[] ts = biome_cats.split(",");
                     for (String s : ts) if (!catName.equals(s)) return false;
-                    return true;
+                    correctCategory = true;
                 }
+                return correctType && correctCategory;
             }
             return false;
         }

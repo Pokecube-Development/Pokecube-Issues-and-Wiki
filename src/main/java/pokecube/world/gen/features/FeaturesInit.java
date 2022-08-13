@@ -116,7 +116,7 @@ public class FeaturesInit
             BerryGenManager.list.locations.forEach(config -> {
                 if (config.matches(event))
                 {
-                    if (ThutCore.conf.debug)
+//                    if (ThutCore.conf.debug)
                         PokecubeAPI.LOGGER.info("Adding " + config.placement + " to " + event.getName());
                     event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
                             new PlacedFeatureHolder(config.placement));
