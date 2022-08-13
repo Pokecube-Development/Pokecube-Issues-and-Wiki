@@ -12,7 +12,7 @@
       }
     },
     {
-      "weight": 5,
+      "weight": 8,
       "element": {
         "location": "pokecube:village/plains/deco/banner_1",
         "projection": "rigid",
