@@ -5,7 +5,6 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/town_centers/center_1",
         "processors": "pokecube:generic",
-        "int_config":{"y_offset": -1},
         "projection": "rigid"
       },
       "weight": 1
@@ -14,7 +13,8 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/town_centers/center_2",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:decay_30_percent",
+        "int_config":{"y_offset": -1},
         "projection": "rigid"
       },
       "weight": 1
