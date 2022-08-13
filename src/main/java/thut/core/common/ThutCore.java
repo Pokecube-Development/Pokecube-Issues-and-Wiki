@@ -232,7 +232,7 @@ public class ThutCore
 
     private static Map<String, String> trimmed = new Object2ObjectOpenHashMap<String, String>();
 
-    public static String trim(final String name)
+    public static synchronized String trim(final String name)
     {
         if (name == null) return null;
         return trimmed.computeIfAbsent(name, ThutCore::_trim);
