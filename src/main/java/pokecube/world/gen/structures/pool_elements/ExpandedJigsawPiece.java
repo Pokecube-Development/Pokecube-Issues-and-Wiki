@@ -407,10 +407,11 @@ public class ExpandedJigsawPiece extends SinglePoolElement
                 final ResourceLocation key = new ResourceLocation(function.replaceFirst("Chest ", ""));
                 if (box.isInside(blockpos)) RandomizableContainerBlockEntity.setLootTable(worldIn, rand, blockpos, key);
             }
-            else if (ExpandedJigsawPiece.shouldApply(pos, this.world))
+            else // if (ExpandedJigsawPiece.shouldApply(pos, this.world))
             {
                 final Event event = new StructureEvent.ReadTag(function.trim(), pos, worldIn, (ServerLevel) this.world,
                         rand, box);
+                System.out.println(function.trim());
                 MinecraftForge.EVENT_BUS.post(event);
                 if (event.getResult() == Result.ALLOW) ExpandedJigsawPiece.apply(pos, this.world);
             }
