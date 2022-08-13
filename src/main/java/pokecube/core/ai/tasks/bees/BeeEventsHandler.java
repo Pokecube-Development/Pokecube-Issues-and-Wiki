@@ -2,7 +2,7 @@ package pokecube.core.ai.tasks.bees;
 
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.events.core.HarvestCheckEvent;
+import pokecube.api.events.core.pokemob.ai.HarvestCheckEvent;
 import pokecube.core.ai.tasks.bees.sensors.FlowerSensor;
 
 public class BeeEventsHandler

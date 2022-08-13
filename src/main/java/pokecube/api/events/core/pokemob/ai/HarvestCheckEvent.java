@@ -1,4 +1,4 @@
-package pokecube.api.events.core;
+package pokecube.api.events.core.pokemob.ai;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;

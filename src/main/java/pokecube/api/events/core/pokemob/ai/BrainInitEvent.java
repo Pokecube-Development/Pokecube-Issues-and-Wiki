@@ -1,4 +1,4 @@
-package pokecube.api.events.core;
+package pokecube.api.events.core.pokemob.ai;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.LivingEvent;

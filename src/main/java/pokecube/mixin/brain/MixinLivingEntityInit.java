@@ -12,7 +12,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
-import pokecube.api.events.core.BrainInitEvent;
+import pokecube.api.events.core.pokemob.ai.BrainInitEvent;
 import pokecube.core.utils.AITools;
 
 @Mixin(LivingEntity.class)

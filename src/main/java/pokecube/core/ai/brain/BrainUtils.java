@@ -16,7 +16,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
-import pokecube.api.events.core.SetAttackTargetEvent;
+import pokecube.api.events.core.pokemob.combat.SetAttackTargetEvent;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.utils.AITools;

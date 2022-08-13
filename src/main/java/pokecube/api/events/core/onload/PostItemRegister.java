@@ -1,4 +1,4 @@
-package pokecube.api.events.core;
+package pokecube.api.events.core.onload;
 
 import net.minecraftforge.eventbus.api.Event;
 

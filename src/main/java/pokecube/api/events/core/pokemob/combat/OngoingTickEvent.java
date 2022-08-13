@@ -1,4 +1,4 @@
-package pokecube.api.events.core;
+package pokecube.api.events.core.pokemob.combat;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.event.entity.EntityEvent;
