@@ -18,9 +18,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayer;
 import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.utils.PokeType;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.utils.PokeType;
 
 public class UseMoveTrigger implements CriterionTrigger<UseMoveTrigger.Instance>
 {

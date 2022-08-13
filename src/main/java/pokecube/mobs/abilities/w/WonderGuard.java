@@ -4,7 +4,7 @@ import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.moves.Move_Base;
-import pokecube.core.utils.PokeType;
+import pokecube.api.utils.PokeType;
 
 public class WonderGuard extends Ability
 {

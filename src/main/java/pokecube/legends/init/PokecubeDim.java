@@ -4,7 +4,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.core.utils.PokeType;
+import pokecube.api.utils.PokeType;
 
 public class PokecubeDim
 {

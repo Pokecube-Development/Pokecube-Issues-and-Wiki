@@ -16,11 +16,11 @@ import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
-import pokecube.core.utils.PokeType;
 import thut.api.entity.IBreedingMob;
 import thut.api.maths.Vector3;
 

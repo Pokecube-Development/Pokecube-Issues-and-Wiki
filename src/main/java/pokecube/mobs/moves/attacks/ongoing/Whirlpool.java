@@ -7,8 +7,8 @@ import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.utils.PokeType;
 import pokecube.core.moves.templates.Move_Ongoing;
-import pokecube.core.utils.PokeType;
 import thut.core.common.ThutCore;
 
 public class Whirlpool extends Move_Ongoing

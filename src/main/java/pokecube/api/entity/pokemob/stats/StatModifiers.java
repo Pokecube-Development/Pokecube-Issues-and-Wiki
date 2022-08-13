@@ -9,7 +9,7 @@ import com.google.common.collect.Maps;
 
 import pokecube.api.entity.pokemob.IHasStats;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
-import pokecube.core.utils.PokeType;
+import pokecube.api.utils.PokeType;
 
 public class StatModifiers
 {

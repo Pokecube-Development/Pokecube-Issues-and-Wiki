@@ -35,6 +35,7 @@ import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.items.IPokecube;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.Move_Base;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.moves.MovesUtils;

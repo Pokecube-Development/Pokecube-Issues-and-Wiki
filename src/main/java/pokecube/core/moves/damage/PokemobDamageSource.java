@@ -17,7 +17,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.Move_Base;
-import pokecube.core.utils.PokeType;
+import pokecube.api.utils.PokeType;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 

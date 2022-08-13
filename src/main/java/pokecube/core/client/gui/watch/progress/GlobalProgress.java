@@ -11,14 +11,14 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.stats.CaptureStats;
+import pokecube.api.stats.EggStats;
+import pokecube.api.stats.KillStats;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
-import pokecube.core.database.stats.CaptureStats;
-import pokecube.core.database.stats.EggStats;
-import pokecube.core.database.stats.KillStats;
 import pokecube.core.network.packets.PacketPokedex;
 
 public class GlobalProgress extends Progress

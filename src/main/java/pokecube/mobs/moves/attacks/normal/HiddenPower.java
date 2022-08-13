@@ -2,8 +2,8 @@ package pokecube.mobs.moves.attacks.normal;
 
 import net.minecraft.world.entity.Entity;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.utils.PokeType;
 import pokecube.core.moves.templates.Move_Basic;
-import pokecube.core.utils.PokeType;
 
 public class HiddenPower extends Move_Basic
 {

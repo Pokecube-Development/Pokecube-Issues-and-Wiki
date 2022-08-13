@@ -1,4 +1,4 @@
-package pokecube.core.utils;
+package pokecube.api.utils;
 
 import java.util.Map;
 

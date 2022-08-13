@@ -22,7 +22,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
-import pokecube.core.database.stats.SpecialCaseRegister;
+import pokecube.api.stats.SpecialCaseRegister;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.TimePeriod;
 import thut.api.item.ItemList;

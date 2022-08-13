@@ -31,6 +31,7 @@ import net.minecraft.world.entity.player.Player;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.utils.PokeType;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.ListHelper;
@@ -39,12 +40,11 @@ import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
-import pokecube.core.database.stats.StatsCollector;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
+import pokecube.core.handlers.events.StatsCollector;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.EntityTools;
-import pokecube.core.utils.PokeType;
 import thut.core.common.handlers.PlayerDataHandler;
 
 public class GuiPokedex extends Screen

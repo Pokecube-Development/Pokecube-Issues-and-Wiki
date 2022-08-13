@@ -23,7 +23,7 @@ import pokecube.api.events.core.StarterEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.GuiChooseFirstPokemob;
 import pokecube.core.database.Database;
-import pokecube.core.database.stats.StatsCollector;
+import pokecube.core.handlers.events.StatsCollector;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.Tools;

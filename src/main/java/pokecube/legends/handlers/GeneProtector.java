@@ -4,7 +4,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.events.adventures.GeneEditEvent;
 import pokecube.api.events.adventures.GeneEditEvent.EditType;
-import pokecube.core.database.stats.SpecialCaseRegister;
+import pokecube.api.stats.SpecialCaseRegister;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;

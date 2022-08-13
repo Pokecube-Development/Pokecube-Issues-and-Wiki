@@ -13,11 +13,11 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.IMoveAction;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.Move_Base;
+import pokecube.api.utils.PokeType;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.recipes.MoveRecipes;
 import pokecube.core.recipes.MoveRecipes.MoveRecipe;
-import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
 
 public class PokemobMoveRecipeParser implements IRecipeParser

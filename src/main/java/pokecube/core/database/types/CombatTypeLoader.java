@@ -10,9 +10,9 @@ import com.google.gson.Gson;
 
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
-import pokecube.core.utils.PokeType;
 
 public class CombatTypeLoader
 {

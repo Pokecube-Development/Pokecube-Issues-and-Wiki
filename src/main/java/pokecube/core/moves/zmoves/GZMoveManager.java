@@ -10,10 +10,10 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.moves.Move_Base;
+import pokecube.api.utils.PokeType;
 import pokecube.core.database.moves.json.JsonMoves.MoveJsonEntry;
 import pokecube.core.database.moves.json.JsonMoves.MovesJson;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.utils.PokeType;
 import thut.core.common.ThutCore;
 
 public class GZMoveManager

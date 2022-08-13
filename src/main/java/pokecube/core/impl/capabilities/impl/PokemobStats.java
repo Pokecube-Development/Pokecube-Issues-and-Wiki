@@ -9,9 +9,9 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.api.events.core.pokemob.LevelUpEvent;
+import pokecube.api.utils.PokeType;
 import pokecube.core.network.pokemobs.PacketNickname;
 import pokecube.core.network.pokemobs.PacketSyncExp;
-import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
 import thut.core.common.ThutCore;
 

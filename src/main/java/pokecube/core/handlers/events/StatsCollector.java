@@ -1,4 +1,4 @@
-package pokecube.core.database.stats;
+package pokecube.core.handlers.events;
 
 import java.util.Map;
 import java.util.UUID;

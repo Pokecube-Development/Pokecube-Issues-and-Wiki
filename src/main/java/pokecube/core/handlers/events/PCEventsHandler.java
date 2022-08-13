@@ -33,7 +33,6 @@ import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.database.stats.StatsCollector;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.pc.PCInventory;
 import pokecube.core.items.pokecubes.EntityPokecube;

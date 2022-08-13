@@ -19,10 +19,10 @@ import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.events.core.pokemob.RecallEvent;
 import pokecube.api.events.core.pokemob.combat.KillEvent;
 import pokecube.api.moves.IMoveConstants;
+import pokecube.api.utils.PokeType;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.moves.templates.Move_Basic;
-import pokecube.core.utils.PokeType;
 
 public class DestinyBond extends Move_Basic
 {

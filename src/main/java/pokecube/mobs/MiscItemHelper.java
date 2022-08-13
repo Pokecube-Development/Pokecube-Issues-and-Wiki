@@ -11,11 +11,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.utils.PokeType;
 import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.UsableItemEffects.BaseUseable;
 import pokecube.core.items.UsableItemEffects.VitaminUsable.VitaminEffect;
 import pokecube.core.items.vitamins.ItemVitamin;
-import pokecube.core.utils.PokeType;
 import thut.api.item.ItemList;
 
 public class MiscItemHelper

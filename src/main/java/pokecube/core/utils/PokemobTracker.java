@@ -23,6 +23,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.world.WorldEvent.Load;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.utils.PokeType;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import thut.api.maths.Vector3;
 

@@ -4,8 +4,8 @@ import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.moves.IMoveConstants;
+import pokecube.api.utils.PokeType;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.utils.PokeType;
 
 public class Rattled extends Ability
 {

@@ -1,8 +1,8 @@
-package pokecube.core.database.stats;
+package pokecube.api.stats;
 
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.utils.PokeType;
 import pokecube.core.database.Database;
-import pokecube.core.utils.PokeType;
 
 public class SpecialCaseRegister
 {

@@ -1,10 +1,11 @@
-package pokecube.core.database.stats;
+package pokecube.api.stats;
 
 import java.util.Map;
 import java.util.UUID;
 
 import pokecube.api.data.PokedexEntry;
-import pokecube.core.utils.PokeType;
+import pokecube.api.utils.PokeType;
+import pokecube.core.handlers.events.StatsCollector;
 
 public class EggStats
 {

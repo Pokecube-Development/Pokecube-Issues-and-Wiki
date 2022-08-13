@@ -6,9 +6,9 @@ import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.Move_Base;
+import pokecube.api.utils.PokeType;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.utils.PokeType;
 
 public class ChooseAttacks extends BaseBattleTask
 {

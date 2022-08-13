@@ -38,9 +38,9 @@ import pokecube.adventures.blocks.warp_pad.WarpPadTile;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.utils.PokeType;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
 
 public class EnergyHandler

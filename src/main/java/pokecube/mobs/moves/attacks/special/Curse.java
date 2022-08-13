@@ -5,9 +5,9 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.moves.IMoveConstants;
+import pokecube.api.utils.PokeType;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.templates.Move_Basic;
-import pokecube.core.utils.PokeType;
 
 public class Curse extends Move_Basic
 {

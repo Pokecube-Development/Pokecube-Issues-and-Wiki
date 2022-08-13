@@ -4,8 +4,8 @@ import java.util.Locale;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
-import pokecube.core.utils.PokeType;
 import pokecube.legends.Reference;
 
 public class ItemZCrystal extends Item

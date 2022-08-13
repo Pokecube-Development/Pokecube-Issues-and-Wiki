@@ -54,6 +54,7 @@ import pokecube.api.moves.IMoveAction;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.IMoveNames;
 import pokecube.api.moves.Move_Base;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.handlers.Config;
@@ -68,7 +69,6 @@ import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
-import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
 

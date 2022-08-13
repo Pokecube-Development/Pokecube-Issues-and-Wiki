@@ -15,6 +15,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.events.core.pokemob.combat.MoveUse;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.database.moves.MoveEntry.Category;
@@ -22,7 +23,6 @@ import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.moves.zmoves.GZMoveManager;
-import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
 
 public abstract class Move_Base

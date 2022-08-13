@@ -10,12 +10,12 @@ import javax.annotation.Nullable;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.moves.IMoveConstants;
+import pokecube.api.utils.PokeType;
 import pokecube.core.database.Database;
 import pokecube.core.database.moves.MoveEntry.Category;
 import pokecube.core.database.moves.json.JsonMoves.MoveJsonEntry;
 import pokecube.core.database.moves.json.JsonMoves.MovesJson;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.utils.PokeType;
 
 public class MovesParser
 {

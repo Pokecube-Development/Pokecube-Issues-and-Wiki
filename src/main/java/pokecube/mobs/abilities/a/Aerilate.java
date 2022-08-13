@@ -3,7 +3,7 @@ package pokecube.mobs.abilities.a;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.core.utils.PokeType;
+import pokecube.api.utils.PokeType;
 
 public class Aerilate extends Ability
 {

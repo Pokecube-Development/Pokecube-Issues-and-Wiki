@@ -18,9 +18,9 @@ import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayer;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.stats.CaptureStats;
 import pokecube.api.utils.TagNames;
 import pokecube.core.database.Database;
-import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.impl.PokecubeMod;
 
 public class CatchPokemobTrigger implements CriterionTrigger<CatchPokemobTrigger.Instance>

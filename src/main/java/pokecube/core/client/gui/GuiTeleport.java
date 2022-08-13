@@ -14,11 +14,11 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.client.Resources;
 import pokecube.core.network.pokemobs.PacketTeleport;
-import pokecube.core.utils.PokeType;
 import thut.api.entity.ThutTeleporter.TeleDest;
 
 public class GuiTeleport extends GuiComponent

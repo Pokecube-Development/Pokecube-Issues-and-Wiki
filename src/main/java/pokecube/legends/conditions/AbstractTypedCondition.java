@@ -3,8 +3,8 @@ package pokecube.legends.conditions;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.utils.PokeType;
 import pokecube.core.database.Database;
-import pokecube.core.utils.PokeType;
 
 public abstract class AbstractTypedCondition extends AbstractCondition
 {

@@ -14,9 +14,9 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.Move_Base;
+import pokecube.api.utils.PokeType;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.utils.PokeType;
 import thut.core.common.ThutCore;
 
 public class ItemTM extends Item

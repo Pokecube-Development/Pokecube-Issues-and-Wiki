@@ -24,6 +24,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.items.IPokecube;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.EventsHandlerClient;
@@ -31,7 +32,6 @@ import pokecube.core.client.Resources;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketChoose;
-import pokecube.core.utils.PokeType;
 import thut.api.entity.IMobColourable;
 
 public class GuiChooseFirstPokemob extends Screen

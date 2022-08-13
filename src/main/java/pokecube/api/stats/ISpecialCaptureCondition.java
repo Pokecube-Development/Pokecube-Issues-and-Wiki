@@ -1,4 +1,4 @@
-package pokecube.core.database.stats;
+package pokecube.api.stats;
 
 import java.util.HashMap;
 

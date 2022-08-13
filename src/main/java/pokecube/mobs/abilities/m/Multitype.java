@@ -5,8 +5,8 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.utils.PokeType;
 import pokecube.core.database.Database;
-import pokecube.core.utils.PokeType;
 
 public class Multitype extends Ability
 {

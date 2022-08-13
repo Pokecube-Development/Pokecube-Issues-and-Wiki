@@ -19,8 +19,8 @@ import net.minecraft.client.renderer.RenderStateShard.TransparencyStateShard;
 import net.minecraft.client.renderer.RenderType;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
-import pokecube.core.utils.PokeType;
 
 public class Evolution
 {

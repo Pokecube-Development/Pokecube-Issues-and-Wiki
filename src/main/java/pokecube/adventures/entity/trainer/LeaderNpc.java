@@ -14,8 +14,8 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
 import pokecube.api.entity.trainers.IHasRewards.Reward;
+import pokecube.api.utils.PokeType;
 import pokecube.core.database.Database;
-import pokecube.core.utils.PokeType;
 import thut.core.common.ThutCore;
 
 public class LeaderNpc extends TrainerNpc
