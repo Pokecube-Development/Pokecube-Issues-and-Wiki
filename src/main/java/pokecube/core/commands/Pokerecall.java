@@ -14,7 +14,6 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -31,6 +30,7 @@ import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.PokemobTracker;
 import thut.core.common.commands.CommandTools;
+import thut.lib.TComponent;
 
 public class Pokerecall
 {
@@ -83,8 +83,8 @@ public class Pokerecall
                     }
                 }
             }
-        if (num == 0) source.sendSuccess(new TranslatableComponent("pokecube.recall.fail"), false);
-        else source.sendSuccess(new TranslatableComponent("pokecube.recall.success", num), false);
+        if (num == 0) source.sendSuccess(TComponent.translatable("pokecube.recall.fail"), false);
+        else source.sendSuccess(TComponent.translatable("pokecube.recall.success", num), false);
         return 0;
     }
 
@@ -112,8 +112,8 @@ public class Pokerecall
                 }
             }
         }
-        if (num == 0) source.sendSuccess(new TranslatableComponent("pokecube.recall.fail"), false);
-        else source.sendSuccess(new TranslatableComponent("pokecube.recall.success", num), false);
+        if (num == 0) source.sendSuccess(TComponent.translatable("pokecube.recall.fail"), false);
+        else source.sendSuccess(TComponent.translatable("pokecube.recall.success", num), false);
         return 0;
     }
 

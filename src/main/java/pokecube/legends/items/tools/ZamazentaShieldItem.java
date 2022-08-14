@@ -6,7 +6,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -20,6 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import thut.lib.TComponent;
 
 public class ZamazentaShieldItem extends ShieldItem {
 
@@ -71,6 +71,6 @@ public class ZamazentaShieldItem extends ShieldItem {
         String message;
         if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltipname + ".tooltip", ChatFormatting.GOLD, ChatFormatting.BOLD, ChatFormatting.RESET);
         else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(new TranslatableComponent(message));
+        tooltip.add(TComponent.translatable(message));
     }
 }

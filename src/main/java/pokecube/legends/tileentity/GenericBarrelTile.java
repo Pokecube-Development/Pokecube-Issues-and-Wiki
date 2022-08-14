@@ -5,7 +5,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -25,6 +24,7 @@ import net.minecraft.world.phys.AABB;
 import pokecube.legends.Reference;
 import pokecube.legends.blocks.containers.GenericBarrel;
 import pokecube.legends.init.TileEntityInit;
+import thut.lib.TComponent;
 
 public class GenericBarrelTile extends RandomizableContainerBlockEntity
 {
@@ -69,7 +69,7 @@ public class GenericBarrelTile extends RandomizableContainerBlockEntity
     @Override
     protected Component getDefaultName()
     {
-        return new TranslatableComponent("container." + Reference.ID + ".generic_barrel");
+        return TComponent.translatable("container." + Reference.ID + ".generic_barrel");
     }
 
     @Override

@@ -5,11 +5,11 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.TranslatableComponent;
 import pokecube.core.database.Database;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.Tools;
+import thut.lib.TComponent;
 
 public class Reload
 {
@@ -25,11 +25,11 @@ public class Reload
 
     public static int execute(final CommandSourceStack source) throws CommandSyntaxException
     {
-        source.sendSuccess(new TranslatableComponent("pokecube.command.reloading_packs.start"), true);
+        source.sendSuccess(TComponent.translatable("pokecube.command.reloading_packs.start"), true);
         Database.listener.loaded = true;
         Database.needs_reload = true;
         Database.onResourcesReloaded();
-        source.sendSuccess(new TranslatableComponent("pokecube.command.reloading_packs.end"), true);
+        source.sendSuccess(TComponent.translatable("pokecube.command.reloading_packs.end"), true);
         return 0;
     }
 

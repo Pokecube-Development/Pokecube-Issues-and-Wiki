@@ -11,7 +11,6 @@ import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerPlayer;
@@ -45,6 +44,7 @@ import thut.api.entity.IShearable;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
+import thut.lib.TComponent;
 
 /** @author Manchou */
 public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOwner, IHasStats, IHungrymob,
@@ -282,7 +282,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     default Component getDisplayName()
     {
         if (this.getPokemonNickname().isEmpty()) return this.getPokedexEntry().getTranslatedName();
-        return new TextComponent(this.getPokemonNickname());
+        return TComponent.literal(this.getPokemonNickname());
     }
 
     /**

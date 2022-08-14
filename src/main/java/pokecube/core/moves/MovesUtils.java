@@ -14,8 +14,6 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -52,6 +50,7 @@ import thut.api.boom.ExplosionCustom;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainSegment;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 public class MovesUtils implements IMoveConstants
 {
@@ -79,12 +78,12 @@ public class MovesUtils implements IMoveConstants
         String key = baseKey + ".user";
         final IPokemob attacked = PokemobCaps.getPokemobFor(target);
         final Component targName = target != null ? target.getDisplayName()
-                : attacker != null ? attacker.getDisplayName() : new TextComponent("ERR PLS REPORT");
-        if (attacker != null) attacker.displayMessageToOwner(new TranslatableComponent(key, targName));
+                : attacker != null ? attacker.getDisplayName() : TComponent.literal("ERR PLS REPORT");
+        if (attacker != null) attacker.displayMessageToOwner(TComponent.translatable(key, targName));
         key = baseKey + ".target";
         if (target != attacker.getEntity() && target != null)
         {
-            final Component message = new TranslatableComponent(key, targName);
+            final Component message = TComponent.translatable(key, targName);
             if (attacked != null) attacked.displayMessageToOwner(message);
             else target.sendMessage(message, Util.NIL_UUID);
         }
@@ -96,11 +95,11 @@ public class MovesUtils implements IMoveConstants
         String key = baseKey + ".user";
         final IPokemob attacked = PokemobCaps.getPokemobFor(target);
         final Component targName = attacker != null ? attacker.getDisplayName() : target.getDisplayName();
-        if (attacker != null) attacker.displayMessageToOwner(new TranslatableComponent(key, targName, otherArg));
+        if (attacker != null) attacker.displayMessageToOwner(TComponent.translatable(key, targName, otherArg));
         key = baseKey + ".target";
         if (target != attacker.getEntity() && target != null)
         {
-            final Component message = new TranslatableComponent(key, targName, otherArg);
+            final Component message = TComponent.translatable(key, targName, otherArg);
             if (attacked != null) attacked.displayMessageToOwner(message);
             else if (target instanceof Player) PacketPokemobMessage.sendMessage((Player) target, message);
             else target.sendMessage(message, Util.NIL_UUID);
@@ -263,7 +262,7 @@ public class MovesUtils implements IMoveConstants
             if (amount > 0) message += ".fall" + amount;
             else message += ".rise" + -amount;
             final String statName = "pokemob.move.stat" + stat;
-            MovesUtils.sendPairedMessages(attacked, attacker, message, new TranslatableComponent(statName));
+            MovesUtils.sendPairedMessages(attacked, attacker, message, TComponent.translatable(statName));
         }
     }
 
@@ -276,11 +275,11 @@ public class MovesUtils implements IMoveConstants
             String key = baseKey + ".user";
             final IPokemob attacked = PokemobCaps.getPokemobFor(target);
             final Component targName = target.getDisplayName();
-            if (attacked != null) attacked.displayMessageToOwner(new TranslatableComponent(key, targName));
+            if (attacked != null) attacked.displayMessageToOwner(TComponent.translatable(key, targName));
             key = baseKey + ".target";
             if (attacker != target)
             {
-                final Component message = new TranslatableComponent(key, targName);
+                final Component message = TComponent.translatable(key, targName);
                 if (attacker != null) attacker.displayMessageToOwner(message);
                 else if (target instanceof Player) PacketPokemobMessage.sendMessage((Player) target, message);
                 else target.sendMessage(message, Util.NIL_UUID);
@@ -380,7 +379,7 @@ public class MovesUtils implements IMoveConstants
 
     public static Component getMoveName(final String attack)
     {
-        return new TranslatableComponent("pokemob.move." + attack);
+        return TComponent.translatable("pokemob.move." + attack);
     }
 
     protected static String getStatusMessage(final byte status, final boolean onMove)

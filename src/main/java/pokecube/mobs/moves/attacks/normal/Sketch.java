@@ -4,11 +4,11 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.network.chat.TranslatableComponent;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.moves.Move_Base;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.templates.Move_Basic;
+import thut.lib.TComponent;
 
 public class Sketch extends Move_Basic
 {
@@ -36,7 +36,7 @@ public class Sketch extends Move_Basic
             if (packet.attacker.getMoves()[i] != null && packet.attacker.getMoves()[i].equals(this.name))
             {
                 packet.attacker.setMove(i, toSketch.name);
-                packet.attacker.displayMessageToOwner(new TranslatableComponent("pokemob.move.sketched",
+                packet.attacker.displayMessageToOwner(TComponent.translatable("pokemob.move.sketched",
                         packet.attacker.getDisplayName(), MovesUtils.getMoveName(lastHitBy)));
                 return;
             }

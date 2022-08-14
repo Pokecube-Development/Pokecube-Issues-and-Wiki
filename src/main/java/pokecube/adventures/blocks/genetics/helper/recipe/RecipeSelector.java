@@ -8,7 +8,6 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
@@ -24,6 +23,7 @@ import pokecube.adventures.utils.RecipePokeAdv;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.lib.TComponent;
 
 public class RecipeSelector extends CustomRecipe
 {
@@ -85,8 +85,8 @@ public class RecipeSelector extends CustomRecipe
         @OnlyIn(Dist.CLIENT)
         public void addToTooltip(final List<Component> toolTip)
         {
-            toolTip.add(new TranslatableComponent("container.geneselector.tooltip.a", this.selectorDestructChance));
-            toolTip.add(new TranslatableComponent("container.geneselector.tooltip.b", this.dnaDestructChance));
+            toolTip.add(TComponent.translatable("container.geneselector.tooltip.a", this.selectorDestructChance));
+            toolTip.add(TComponent.translatable("container.geneselector.tooltip.b", this.dnaDestructChance));
         }
 
         @Override

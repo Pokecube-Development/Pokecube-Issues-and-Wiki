@@ -5,7 +5,6 @@ import java.util.List;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -24,6 +23,7 @@ import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.ItemInit;
 import pokecube.legends.worldgen.DimensionTranserHelper;
+import thut.lib.TComponent;
 
 public class DistortedMirror extends ItemBase
 {
@@ -41,7 +41,7 @@ public class DistortedMirror extends ItemBase
         String message;
         if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltipname + ".tooltip");
         else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(new TranslatableComponent(message));
+        tooltip.add(TComponent.translatable(message));
     }
 
     @Override

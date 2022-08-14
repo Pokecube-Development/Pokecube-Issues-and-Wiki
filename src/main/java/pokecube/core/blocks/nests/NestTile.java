@@ -7,7 +7,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -44,6 +43,7 @@ import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import thut.api.block.ITickTile;
 import thut.api.inventory.InvWrapper;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 public class NestTile extends InteractableTile implements ITickTile
 {
@@ -154,7 +154,7 @@ public class NestTile extends InteractableTile implements ITickTile
                 final Container wrapper = new InvWrapper((IItemHandlerModifiable) handler);
                 final SimpleMenuProvider provider = new SimpleMenuProvider(
                         (i, p, e) -> ChestMenu.sixRows(i, p, wrapper),
-                        new TranslatableComponent("block.pokecube.nest"));
+                        TComponent.translatable("block.pokecube.nest"));
                 NetworkHooks.openGui(sendTo, provider);
             }
             return InteractionResult.SUCCESS;

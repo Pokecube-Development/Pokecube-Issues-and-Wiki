@@ -1,11 +1,11 @@
 package pokecube.core.moves.damage;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
+import thut.lib.TComponent;
 
 public class TerrainDamageSource extends DamageSource implements IPokedamage
 {
@@ -30,7 +30,7 @@ public class TerrainDamageSource extends DamageSource implements IPokedamage
     public Component getLocalizedDeathMessage(final LivingEntity LivingEntityIn)
     {
         final String s = "death.attack." + this.msgId;
-        return new TranslatableComponent(s, LivingEntityIn.getDisplayName());
+        return TComponent.translatable(s, LivingEntityIn.getDisplayName());
     }
 
     @Override

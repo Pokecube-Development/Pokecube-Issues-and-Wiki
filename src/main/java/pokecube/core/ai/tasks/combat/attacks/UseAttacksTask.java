@@ -4,7 +4,6 @@ import org.apache.logging.log4j.Level;
 
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,6 +26,7 @@ import pokecube.core.moves.MovesUtils;
 import thut.api.Tracker;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
+import thut.lib.TComponent;
 
 /**
  * This is the IAIRunnable for managing which attack is used when. It
@@ -125,7 +125,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
                             .getLastHurtByMob() != this.entity && ((Player) this.entityTarget)
                                     .getLastHurtMob() != this.entity)
             {
-                final Component message = new TranslatableComponent("pokemob.agress", this.pokemob
+                final Component message = TComponent.translatable("pokemob.agress", this.pokemob
                         .getDisplayName().getString());
                 try
                 {

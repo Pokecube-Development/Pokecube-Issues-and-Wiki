@@ -12,7 +12,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -54,6 +53,7 @@ import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
+import thut.lib.TComponent;
 
 public class Pokecube extends Item implements IPokecube
 {
@@ -69,19 +69,19 @@ public class Pokecube extends Item implements IPokecube
     {
         final boolean flag2 = nbt.getBoolean("Flames");
 
-        if (flag2) list.add(new TranslatableComponent("item.pokecube.flames"));
+        if (flag2) list.add(TComponent.translatable("item.pokecube.flames"));
 
         final boolean flag3 = nbt.getBoolean("Bubbles");
 
-        if (flag3) list.add(new TranslatableComponent("item.pokecube.bubbles"));
+        if (flag3) list.add(TComponent.translatable("item.pokecube.bubbles"));
 
         final boolean flag4 = nbt.getBoolean("Leaves");
 
-        if (flag4) list.add(new TranslatableComponent("item.pokecube.leaves"));
+        if (flag4) list.add(TComponent.translatable("item.pokecube.leaves"));
 
         final boolean flag5 = nbt.contains("dye");
 
-        if (flag5) list.add(new TranslatableComponent(DyeColor.byId(nbt.getInt("dye")).getName()));
+        if (flag5) list.add(TComponent.translatable(DyeColor.byId(nbt.getInt("dye")).getName()));
     }
 
     public Pokecube(final Properties properties)
@@ -103,7 +103,7 @@ public class Pokecube extends Item implements IPokecube
             final Entity mob = PokecubeManager.itemToMob(item, world);
             if (mob == null)
             {
-                list.add(new TranslatableComponent("pokecube.filled.error"));
+                list.add(TComponent.translatable("pokecube.filled.error"));
                 return;
             }
             final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
@@ -117,9 +117,9 @@ public class Pokecube extends Item implements IPokecube
             final int lvlexp = Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel());
             final int exp = pokemob.getExp() - lvlexp;
             final int neededexp = Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel() + 1) - lvlexp;
-            list.add(new TranslatableComponent("pokecube.tooltip.level", pokemob.getLevel()));
-            list.add(new TranslatableComponent("pokecube.tooltip.health", health, maxHealth));
-            list.add(new TranslatableComponent("pokecube.tooltip.xp", exp, neededexp));
+            list.add(TComponent.translatable("pokecube.tooltip.level", pokemob.getLevel()));
+            list.add(TComponent.translatable("pokecube.tooltip.health", health, maxHealth));
+            list.add(TComponent.translatable("pokecube.tooltip.xp", exp, neededexp));
 
             if (Screen.hasShiftDown())
             {
@@ -127,11 +127,11 @@ public class Pokecube extends Item implements IPokecube
                 for (final String s : pokemob.getMoves())
                     if (s != null) arg += I18n.get(MovesUtils.getUnlocalizedMove(s)) + ", ";
                 if (arg.endsWith(", ")) arg = arg.substring(0, arg.length() - 2);
-                list.add(new TranslatableComponent("pokecube.tooltip.moves", arg));
+                list.add(TComponent.translatable("pokecube.tooltip.moves", arg));
                 arg = "";
                 for (final Byte b : pokemob.getIVs()) arg += b + ", ";
                 if (arg.endsWith(", ")) arg = arg.substring(0, arg.length() - 2);
-                list.add(new TranslatableComponent("pokecube.tooltip.ivs", arg));
+                list.add(TComponent.translatable("pokecube.tooltip.ivs", arg));
                 arg = "";
                 for (final Byte b : pokemob.getEVs())
                 {
@@ -139,16 +139,16 @@ public class Pokecube extends Item implements IPokecube
                     arg += n + ", ";
                 }
                 if (arg.endsWith(", ")) arg = arg.substring(0, arg.length() - 2);
-                list.add(new TranslatableComponent("pokecube.tooltip.evs", arg));
-                list.add(new TranslatableComponent("pokecube.tooltip.nature", pokemob.getNature()));
-                list.add(new TranslatableComponent("pokecube.tooltip.ability", pokemob.getAbility()));
+                list.add(TComponent.translatable("pokecube.tooltip.evs", arg));
+                list.add(TComponent.translatable("pokecube.tooltip.nature", pokemob.getNature()));
+                list.add(TComponent.translatable("pokecube.tooltip.ability", pokemob.getAbility()));
             }
-            else list.add(new TranslatableComponent("pokecube.tooltip.advanced"));
+            else list.add(TComponent.translatable("pokecube.tooltip.advanced"));
         }
         else
         {
             final ResourceLocation name = item.getItem().getRegistryName();
-            list.add(new TranslatableComponent("item.pokecube." + name.getPath() + ".desc"));
+            list.add(TComponent.translatable("item.pokecube." + name.getPath() + ".desc"));
         }
 
         if (item.hasTag())

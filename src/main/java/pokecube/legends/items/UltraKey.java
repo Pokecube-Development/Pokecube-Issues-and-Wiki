@@ -6,7 +6,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,6 +25,7 @@ import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.ItemInit;
 import pokecube.legends.worldgen.DimensionTranserHelper;
+import thut.lib.TComponent;
 
 public class UltraKey extends ItemBase
 {
@@ -44,7 +44,7 @@ public class UltraKey extends ItemBase
         if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltipname + ".tooltip",
                 ChatFormatting.LIGHT_PURPLE, PokecubeLegends.config.ultraKeyConsumeAmount);
         else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(new TranslatableComponent(message));
+        tooltip.add(TComponent.translatable(message));
     }
 
     @Override
@@ -98,7 +98,7 @@ public class UltraKey extends ItemBase
                     final Player player = (Player) entity;
                     final String message = I18n.get("msg.pokecube_legends.ultrakey.no_dust", ChatFormatting.RED,
                             PokecubeLegends.config.ultraKeyConsumeAmount);
-                    player.displayClientMessage(new TranslatableComponent(message), true);
+                    player.displayClientMessage(TComponent.translatable(message), true);
                 }
             }
         }
@@ -133,7 +133,7 @@ public class UltraKey extends ItemBase
                 final Player player = (Player) entity;
                 final String message = I18n.get("msg.pokecube_legends.ultrakey.no_dust", ChatFormatting.RED,
                         PokecubeLegends.config.ultraKeyConsumeAmount);
-                player.displayClientMessage(new TranslatableComponent(message), true);
+                player.displayClientMessage(TComponent.translatable(message), true);
             }
         }
 

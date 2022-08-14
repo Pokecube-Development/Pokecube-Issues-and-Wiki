@@ -19,7 +19,6 @@ import com.google.gson.JsonPrimitive;
 
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Block;
@@ -32,7 +31,8 @@ import pokecube.core.database.Database;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.megastuff.ItemMegawearable;
-import pokecube.core.items.vitamins.ItemVitamin;;
+import pokecube.core.items.vitamins.ItemVitamin;
+import thut.lib.TComponent;;
 
 public class CommandGenStuff
 {
@@ -161,13 +161,13 @@ public class CommandGenStuff
 
     public static void execute(final ServerPlayer sender, final String[] args)
     {
-        sender.sendMessage(new TextComponent("Starting File Output"), Util.NIL_UUID);
+        sender.sendMessage(TComponent.literal("Starting File Output"), Util.NIL_UUID);
         for (final PokedexEntry e : Database.getSortedFormes())
         {
             if (e == Database.missingno || e.dummy || e.isMega()) continue;
             CommandGenStuff.registerAchievements(e);
         }
-        sender.sendMessage(new TextComponent("Advancements Done"), Util.NIL_UUID);
+        sender.sendMessage(TComponent.literal("Advancements Done"), Util.NIL_UUID);
         final File dir = new File("./mods/pokecube/assets/pokecube_mobs/");
         if (!dir.exists()) dir.mkdirs();
         File file = null;
@@ -187,11 +187,11 @@ public class CommandGenStuff
         {
             e.printStackTrace();
         }
-        sender.sendMessage(new TextComponent("Sounds Done"), Util.NIL_UUID);
+        sender.sendMessage(TComponent.literal("Sounds Done"), Util.NIL_UUID);
         CommandGenStuff.generateBlockAndItemJsons();
         CommandGenStuff.generateMobsLang();
 
-        sender.sendMessage(new TextComponent("Finished File Output"), Util.NIL_UUID);
+        sender.sendMessage(TComponent.literal("Finished File Output"), Util.NIL_UUID);
     }
 
     public static void generateMobsLang()

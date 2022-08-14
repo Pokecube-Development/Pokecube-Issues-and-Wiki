@@ -7,7 +7,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -50,6 +49,7 @@ import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.Tools;
+import thut.lib.TComponent;
 
 public abstract class PokemobOwned extends PokemobAI implements ContainerListener
 {
@@ -320,7 +320,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
                 has = has || StatsCollector.getHatched(this.getPokedexEntry(), player) > 0;
                 if (!has) StatsCollector.addCapture(this);
             }
-            final Component mess = new TranslatableComponent("pokemob.action.return", this.getDisplayName());
+            final Component mess = TComponent.translatable("pokemob.action.return", this.getDisplayName());
             this.displayMessageToOwner(mess);
         }
         if (!added && this.getOwnerId() != null)

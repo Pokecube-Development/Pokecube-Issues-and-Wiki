@@ -7,12 +7,11 @@ import com.google.common.collect.Maps;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IExtensibleEnum;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 public enum PokeType implements IExtensibleEnum
 {
@@ -52,9 +51,9 @@ public enum PokeType implements IExtensibleEnum
     @OnlyIn(Dist.CLIENT)
     public static MutableComponent getTranslatedName(final PokeType type)
     {
-        MutableComponent ret = new TextComponent(type.name);
+        MutableComponent ret = TComponent.literal(type.name);
         final String translated = I18n.get(PokeType.getUnlocalizedName(type));
-        if (translated != null && !translated.startsWith("type.")) ret = new TranslatableComponent(PokeType
+        if (translated != null && !translated.startsWith("type.")) ret = TComponent.translatable(PokeType
                 .getUnlocalizedName(type));
         ret.setStyle(ret.getStyle().withColor(TextColor.fromRgb(type.colour)));
         return ret;

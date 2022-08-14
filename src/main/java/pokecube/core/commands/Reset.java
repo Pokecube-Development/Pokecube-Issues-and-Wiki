@@ -7,7 +7,6 @@ import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.handlers.events.EventsHandler;
@@ -15,6 +14,7 @@ import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.Tools;
+import thut.lib.TComponent;
 
 public class Reset
 {
@@ -23,8 +23,8 @@ public class Reset
     {
         PokecubeSerializer.getInstance().setHasStarter(target, false);
         EventsHandler.sendInitInfo(target);
-        source.sendSuccess(new TranslatableComponent("pokecube.command.reset", target.getDisplayName()), true);
-        target.sendMessage(new TranslatableComponent("pokecube.command.canchoose"), Util.NIL_UUID);
+        source.sendSuccess(TComponent.translatable("pokecube.command.reset", target.getDisplayName()), true);
+        target.sendMessage(TComponent.translatable("pokecube.command.canchoose"), Util.NIL_UUID);
         PokecubeAPI.LOGGER.info("Reset Starter for {}", target.getGameProfile());
         return 0;
     }

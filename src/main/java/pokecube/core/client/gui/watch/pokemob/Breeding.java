@@ -10,7 +10,6 @@ import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.client.EventsHandlerClient;
@@ -22,6 +21,7 @@ import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
+import thut.lib.TComponent;
 
 public class Breeding extends ListPage<LineEntry>
 {
@@ -106,13 +106,13 @@ public class Breeding extends ListPage<LineEntry>
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
         this.list = new ScrollGui<>(this, this.minecraft, width, height - this.font.lineHeight / 2,
                 this.font.lineHeight, offsetX, offsetY);
-        MutableComponent main = new TranslatableComponent(ourEntry.getUnlocalizedName());
+        MutableComponent main = TComponent.translatable(ourEntry.getUnlocalizedName());
         if (!PacketPokedex.noBreeding.contains(ourEntry)) for (final String name : PacketPokedex.relatedLists
                 .getOrDefault(ourEntry.getTrimmedName(), Collections.emptyList()))
         {
             final PokedexEntry entry = Database.getEntry(name);
             if (entry == null) continue;
-            main = new TranslatableComponent(entry.getUnlocalizedName());
+            main = TComponent.translatable(entry.getUnlocalizedName());
             main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN)).withClickEvent(
                     new ClickEvent(Action.CHANGE_PAGE, entry.getName())));
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));

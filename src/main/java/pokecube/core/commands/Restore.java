@@ -20,8 +20,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
@@ -37,6 +35,7 @@ import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.Tools;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
+import thut.lib.TComponent;
 
 public class Restore
 {
@@ -149,7 +148,7 @@ public class Restore
     {
         if (players.size() != 1)
         {
-            source.sendFailure(new TranslatableComponent("pokecube.command.restore_only_one"));
+            source.sendFailure(TComponent.translatable("pokecube.command.restore_only_one"));
             return 1;
         }
         toMatch = ThutCore.trim(toMatch);
@@ -160,9 +159,9 @@ public class Restore
         final PlayerPokemobCache pokemobCache = PlayerDataHandler.getInstance().getPlayerData(profile.getId()).getData(
                 PlayerPokemobCache.class);
         final Map<Integer, ItemStack> cache = pokemobCache.cache;
-        MutableComponent message = new TextComponent("Pokemobs: ");
+        MutableComponent message = TComponent.literal("Pokemobs: ");
         user.sendMessage(message, Util.NIL_UUID);
-        message = new TextComponent("");
+        message = TComponent.literal("");
         for (final Entry<Integer, ItemStack> entry : cache.entrySet())
         {
             final Integer id = entry.getKey();
@@ -208,7 +207,7 @@ public class Restore
             if (size > 32000)
             {
                 user.sendMessage(message, Util.NIL_UUID);
-                message = new TextComponent("");
+                message = TComponent.literal("");
             }
         }
         user.sendMessage(message, Util.NIL_UUID);

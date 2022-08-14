@@ -3,7 +3,7 @@ package pokecube.mobs.moves.world;
 import net.minecraft.Util;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -13,6 +13,7 @@ import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
+import thut.lib.TComponent;
 
 public class ActionSecretPower implements IMoveAction
 {
@@ -33,13 +34,13 @@ public class ActionSecretPower implements IMoveAction
         final BlockState state = location.getBlockState(owner.getLevel());
         if (!(PokecubeTerrainChecker.isTerrain(state) || PokecubeTerrainChecker.isWood(state)))
         {
-            final TranslatableComponent message = new TranslatableComponent("pokemob.createbase.deny.wrongloc");
+            final MutableComponent message = TComponent.translatable("pokemob.createbase.deny.wrongloc");
             owner.sendMessage(message, Util.NIL_UUID);
             return false;
         }
         SecretBase.pendingBaseLocations.put(owner.getUUID(), GlobalPos.of(owner.getLevel().dimension(),
                 location.getPos()));
-        final TranslatableComponent message = new TranslatableComponent("pokemob.createbase.confirm", location
+        final MutableComponent message = TComponent.translatable("pokemob.createbase.confirm", location
                 .set(location.getPos()));
         message.setStyle(message.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
                 "/pokebase confirm " + owner.getX() + " " + owner.getY() + " " + owner.getZ())));

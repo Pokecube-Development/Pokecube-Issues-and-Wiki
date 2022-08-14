@@ -9,8 +9,6 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -35,6 +33,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.items.UsableItemEffects.BerryUsable.BerryEffect;
+import thut.lib.TComponent;
 
 /**
  * @author Oracion
@@ -103,14 +102,14 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
             final TooltipFlag advanced)
     {
         Component info = null;
-        if (advanced.isAdvanced()) tooltip.add(new TextComponent("ID: " + this.type.index));
-        tooltip.add(new TranslatableComponent("item.pokecube.berry.desc"));
+        if (advanced.isAdvanced()) tooltip.add(TComponent.literal("ID: " + this.type.index));
+        tooltip.add(TComponent.translatable("item.pokecube.berry.desc"));
         final String berryName = this.type.name;
-        info = new TranslatableComponent("item.pokecube.berry_" + berryName + ".desc");
+        info = TComponent.translatable("item.pokecube.berry_" + berryName + ".desc");
         tooltip.add(info);
         if (BerryGenManager.isTree(this.type.index))
         {
-            info = new TranslatableComponent("item.berry.istree.desc");
+            info = TComponent.translatable("item.berry.istree.desc");
             tooltip.add(info);
         }
         if (PokecubeCore.proxy.getPlayer() == null) return;
@@ -125,38 +124,38 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
             {
                 final String tooltips = I18n.get("item.berry.favourite.desc", ChatFormatting.GOLD, ChatFormatting.RESET,
                         pokemob.getDisplayName().getString());
-                info = new TranslatableComponent(tooltips);
+                info = TComponent.translatable(tooltips);
                 tooltip.add(info);
                 info = null;
             }
             final int weight = Nature.getBerryWeight(this.type.index, nature);
             String tooltips = I18n.get("item.berry.nomind.desc", ChatFormatting.YELLOW, ChatFormatting.RESET,
                     pokemob.getDisplayName().getString());
-            if (weight == 0) info = new TranslatableComponent(tooltips);
+            if (weight == 0) info = TComponent.translatable(tooltips);
 
             tooltips = I18n.get("item.berry.like1.desc", ChatFormatting.GREEN, ChatFormatting.RESET,
                     pokemob.getDisplayName().getString());
-            if (weight >= 10) info = new TranslatableComponent(tooltips);
+            if (weight >= 10) info = TComponent.translatable(tooltips);
 
             tooltips = I18n.get("item.berry.like2.desc", ChatFormatting.DARK_GREEN, ChatFormatting.RESET,
                     pokemob.getDisplayName().getString());
-            if (weight >= 20) info = new TranslatableComponent(tooltips);
+            if (weight >= 20) info = TComponent.translatable(tooltips);
 
             tooltips = I18n.get("item.berry.like3.desc", ChatFormatting.DARK_GREEN, ChatFormatting.RESET,
                     pokemob.getDisplayName().getString());
-            if (weight >= 30) info = new TranslatableComponent(tooltips);
+            if (weight >= 30) info = TComponent.translatable(tooltips);
 
             tooltips = I18n.get("item.berry.hate1.desc", ChatFormatting.RED, ChatFormatting.RESET,
                     pokemob.getDisplayName().getString());
-            if (weight <= -10) info = new TranslatableComponent(tooltips);
+            if (weight <= -10) info = TComponent.translatable(tooltips);
 
             tooltips = I18n.get("item.berry.hate2.desc", ChatFormatting.RED, ChatFormatting.RESET,
                     pokemob.getDisplayName().getString());
-            if (weight <= -20) info = new TranslatableComponent(tooltips);
+            if (weight <= -20) info = TComponent.translatable(tooltips);
 
             tooltips = I18n.get("item.berry.hate3.desc", ChatFormatting.DARK_RED, ChatFormatting.RESET,
                     pokemob.getDisplayName().getString());
-            if (weight <= -30) info = new TranslatableComponent(tooltips);
+            if (weight <= -30) info = TComponent.translatable(tooltips);
 
             if (info != null) tooltip.add(info);
         }

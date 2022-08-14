@@ -17,7 +17,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.SectionPos;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
@@ -41,6 +40,7 @@ import thut.api.terrain.TerrainManager;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.BotAI;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 @BotAI(key = "thutbot:road")
 public class RoadBuilder extends AbstractBot
@@ -649,7 +649,7 @@ public class RoadBuilder extends AbstractBot
             var opt = level.getBlockEntity(p, BlockEntityType.SIGN);
             if (opt.isPresent())
             {
-                opt.get().setMessage(0, new TranslatableComponent(this.subbiome));
+                opt.get().setMessage(0, TComponent.translatable(this.subbiome));
             }
         }
     }

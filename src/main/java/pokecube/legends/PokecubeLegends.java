@@ -10,7 +10,6 @@ import com.mojang.serialization.Codec;
 import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -85,6 +84,7 @@ import pokecube.legends.worldgen.UltraSpaceSurfaceRules;
 import pokecube.legends.worldgen.WorldgenFeatures;
 import pokecube.legends.worldgen.trees.Trees;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 @Mod(value = Reference.ID)
 public class PokecubeLegends
@@ -629,7 +629,7 @@ public class PokecubeLegends
         if (hit.getBlock() != BlockInit.RAID_SPAWNER.get())
         {
             if (hit.getBlock() == PokecubeItems.DYNAMAX.get())
-                event.getPlayer().sendMessage(new TranslatableComponent("msg.notaraidspot.info"), Util.NIL_UUID);
+                event.getPlayer().sendMessage(TComponent.translatable("msg.notaraidspot.info"), Util.NIL_UUID);
             return;
         }
         final boolean active = hit.getValue(RaidSpawnBlock.ACTIVE).active();

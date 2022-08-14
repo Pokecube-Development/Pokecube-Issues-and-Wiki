@@ -15,7 +15,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -64,6 +63,7 @@ import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.genetics.DefaultGenetics;
+import thut.lib.TComponent;
 
 /** @author Manchou */
 public class ItemPokemobEgg extends Item
@@ -281,7 +281,7 @@ public class ItemPokemobEgg extends Item
         if (mob.getOwner() != null)
         {
             final LivingEntity owner = mob.getOwner();
-            owner.sendMessage(new TranslatableComponent("pokemob.hatch", mob.getDisplayName().getString()),
+            owner.sendMessage(TComponent.translatable("pokemob.hatch", mob.getDisplayName().getString()),
                     Util.NIL_UUID);
             if (world.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) world.addFreshEntity(new ExperienceOrb(world,
                     entity.getX(), entity.getY(), entity.getZ(), entity.getRandom().nextInt(7) + 1));
@@ -316,7 +316,7 @@ public class ItemPokemobEgg extends Item
     {
         final PokedexEntry entry = ItemPokemobEgg.getEntry(stack);
         if (entry != null) tooltip.add(1,
-                new TranslatableComponent("item.pokecube.pokemobegg.named", I18n.get(entry.getUnlocalizedName())));
+                TComponent.translatable("item.pokecube.pokemobegg.named", I18n.get(entry.getUnlocalizedName())));
     }
 
     /**

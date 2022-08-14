@@ -9,7 +9,6 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -45,6 +44,7 @@ import thut.core.client.render.json.JsonModel;
 import thut.core.common.commands.CommandTools;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.TerrainUpdate;
+import thut.lib.TComponent;
 
 /** @author Manchou */
 public class ItemPokedex extends Item
@@ -112,7 +112,7 @@ public class ItemPokedex extends Item
             {
                 final Set<StructureInfo> infos = StructureManager.getFor(worldIn.dimension(), pos);
                 for (final StructureInfo i : infos)
-                    playerIn.sendMessage(new TextComponent(i.getName()), Util.NIL_UUID);
+                    playerIn.sendMessage(TComponent.literal(i.getName()), Util.NIL_UUID);
             }
         }
         if (block instanceof HealerBlock)

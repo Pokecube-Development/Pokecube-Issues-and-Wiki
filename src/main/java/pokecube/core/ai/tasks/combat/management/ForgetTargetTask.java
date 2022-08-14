@@ -11,7 +11,6 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
@@ -31,6 +30,7 @@ import pokecube.core.handlers.TeamManager;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.Battle;
 import thut.api.entity.ai.RootTask;
+import thut.lib.TComponent;
 
 public class ForgetTargetTask extends CombatTask
 {
@@ -271,7 +271,7 @@ public class ForgetTargetTask extends CombatTask
             if (this.ticksSinceSeen++ > giveUpTimer)
             {
                 // Send deagress message and put mob on cooldown.
-                final Component message = new TranslatableComponent("pokemob.deagress.timeout",
+                final Component message = TComponent.translatable("pokemob.deagress.timeout",
                         this.pokemob.getDisplayName().getString());
                 try
                 {
@@ -290,7 +290,7 @@ public class ForgetTargetTask extends CombatTask
             if (this.entity.distanceTo(this.entityTarget) > PokecubeCore.getConfig().chaseDistance)
             {
                 // Send deagress message and put mob on cooldown.
-                final Component message = new TranslatableComponent("pokemob.deagress.timeout",
+                final Component message = TComponent.translatable("pokemob.deagress.timeout",
                         this.pokemob.getDisplayName().getString());
                 try
                 {

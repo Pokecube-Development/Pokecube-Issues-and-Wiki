@@ -10,7 +10,6 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -38,6 +37,7 @@ import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.terrain.StructureManager;
 import thut.api.terrain.StructureManager.StructureInfo;
+import thut.lib.TComponent;
 
 public class ForgeEventHandlers
 {
@@ -117,7 +117,7 @@ public class ForgeEventHandlers
         if (this.protectTemple(player, world, evt.getPlacedBlock(), evt.getPos()))
         {
             evt.setCanceled(true);
-            player.displayClientMessage(new TranslatableComponent("msg.cannot_defile_temple"), true);
+            player.displayClientMessage(TComponent.translatable("msg.cannot_defile_temple"), true);
         }
     }
 
@@ -130,7 +130,7 @@ public class ForgeEventHandlers
         if (this.protectTemple(player, world, null, evt.getPos()))
         {
             evt.setCanceled(true);
-            player.displayClientMessage(new TranslatableComponent("msg.cannot_defile_temple"), true);
+            player.displayClientMessage(TComponent.translatable("msg.cannot_defile_temple"), true);
         }
     }
 
@@ -148,7 +148,7 @@ public class ForgeEventHandlers
         if (this.protectTemple(player, world, null, pos))
         {
             evt.setCanceled(true);
-            player.displayClientMessage(new TranslatableComponent("msg.cannot_defile_temple"), true);
+            player.displayClientMessage(TComponent.translatable("msg.cannot_defile_temple"), true);
         }
     }
 

@@ -1,7 +1,6 @@
 package pokecube.api.entity.pokemob;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.eventbus.api.Event;
@@ -25,6 +24,7 @@ import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
+import thut.lib.TComponent;
 
 public interface IHasMoves extends IHasStats
 {
@@ -242,8 +242,8 @@ public interface IHasMoves extends IHasStats
 
         if (thisMob.getOwner() != null && thisEntity.isAlive())
         {
-            final Component move = new TranslatableComponent(MovesUtils.getUnlocalizedMove(moveName));
-            final Component mess = new TranslatableComponent("pokemob.move.notify.learn", thisMob
+            final Component move = TComponent.translatable(MovesUtils.getUnlocalizedMove(moveName));
+            final Component mess = TComponent.translatable("pokemob.move.notify.learn", thisMob
                     .getDisplayName(), move);
             thisMob.displayMessageToOwner(mess);
         }
@@ -261,7 +261,7 @@ public interface IHasMoves extends IHasStats
                     if (s.equals(moveName)) return;
                 }
                 final Component mess = CommandTools.makeTranslatedMessage("pokemob.move.notify.learn", "", thisMob
-                        .getDisplayName().getString(), new TranslatableComponent(MovesUtils
+                        .getDisplayName().getString(), TComponent.translatable(MovesUtils
                                 .getUnlocalizedMove(moveName)));
                 thisMob.displayMessageToOwner(mess);
                 if (!this.getMoveStats().newMoves.contains(moveName))

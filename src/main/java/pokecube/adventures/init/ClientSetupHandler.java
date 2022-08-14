@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -52,6 +52,7 @@ import pokecube.core.client.render.mobs.RenderNPC;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.lib.TComponent;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeAdv.MODID, value = Dist.CLIENT)
 public class ClientSetupHandler
@@ -85,10 +86,10 @@ public class ClientSetupHandler
             if (stack.isEmpty()) return;
             final CompoundTag tag = stack.hasTag() ? stack.getTag() : new CompoundTag();
             if (tag.getBoolean("isapokebag"))
-                evt.getToolTip().add(new TranslatableComponent(PokecubeAdv.MODID + ".tooltip.bag"));
+                evt.getToolTip().add(TComponent.translatable(PokecubeAdv.MODID + ".tooltip.bag"));
             if (tag.contains("dyeColour"))
             {
-                final Component colour = new TranslatableComponent(DyeColor.byId(tag.getInt("dyeColour")).getName());
+                final Component colour = TComponent.translatable(DyeColor.byId(tag.getInt("dyeColour")).getName());
                 boolean has = false;
                 for (final Component s : evt.getToolTip())
                 {
@@ -134,35 +135,35 @@ public class ClientSetupHandler
                 final int index = ClonerHelper.getIndex(stack);
                 if (genes != null) for (final Alleles<?, ?> a : genes.getAlleles().values())
                 {
-                    TranslatableComponent comp = new TranslatableComponent(
+                    MutableComponent comp = TComponent.translatable(
                             PokecubeAdv.MODID + ".tooltip.gene.expressed." + a.getExpressed().getKey().getPath(),
                             a.getExpressed());
                     evt.getToolTip().add(comp);
                     if (Config.instance.expandedDNATooltips || Screen.hasControlDown())
                     {
-                        comp = new TranslatableComponent(
+                        comp = TComponent.translatable(
                                 PokecubeAdv.MODID + ".tooltip.gene.parent." + a.getExpressed().getKey().getPath(),
                                 a.getAllele(0), a.getAllele(1));
                         evt.getToolTip().add(comp);
                     }
                 }
                 if (genes != null && !(Config.instance.expandedDNATooltips || Screen.hasControlDown()))
-                    evt.getToolTip().add(new TranslatableComponent(PokecubeAdv.MODID + ".tooltip.gene.expand"));
+                    evt.getToolTip().add(TComponent.translatable(PokecubeAdv.MODID + ".tooltip.gene.expand"));
                 if (index != -1) evt.getToolTip()
-                        .add(new TranslatableComponent(PokecubeAdv.MODID + ".tooltip.gene.array.index", index));
+                        .add(TComponent.translatable(PokecubeAdv.MODID + ".tooltip.gene.array.index", index));
                 Set<Class<? extends Gene<?>>> genesSet;
                 if (!(genesSet = ClonerHelper.getGeneSelectors(stack)).isEmpty())
                     if (Screen.hasControlDown()) for (final Class<? extends Gene<?>> geneC : genesSet) try
                 {
                     final Gene<?> gene = geneC.getConstructor().newInstance();
-                    evt.getToolTip().add(new TranslatableComponent(
+                    evt.getToolTip().add(TComponent.translatable(
                             PokecubeAdv.MODID + ".tooltip.selector.gene." + gene.getKey().getPath()));
                 }
                     catch (final Exception e)
                 {
 
                 }
-                    else evt.getToolTip().add(new TranslatableComponent(PokecubeAdv.MODID + ".tooltip.gene.expand"));
+                    else evt.getToolTip().add(TComponent.translatable(PokecubeAdv.MODID + ".tooltip.gene.expand"));
                 if (RecipeSelector.isSelector(stack))
                 {
                     final SelectorValue value = ClonerHelper.getSelectorValue(stack);

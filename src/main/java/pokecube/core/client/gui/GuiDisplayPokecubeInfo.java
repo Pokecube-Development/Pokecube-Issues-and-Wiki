@@ -18,7 +18,6 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -60,6 +59,7 @@ import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
+import thut.lib.TComponent;
 
 public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverlay
 {
@@ -291,7 +291,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             this.blit(evt.getMat(), nameOffsetX, nameOffsetY, 44, 0, 90, 13);
             if (this.fontRenderer.width(displayName) > 70)
             {
-                final List<MutableComponent> list = ListHelper.splitText(new TextComponent(displayName), 70,
+                final List<MutableComponent> list = ListHelper.splitText(TComponent.literal(displayName), 70,
                         this.fontRenderer, true);
                 displayName = list.get(0).getString();
             }

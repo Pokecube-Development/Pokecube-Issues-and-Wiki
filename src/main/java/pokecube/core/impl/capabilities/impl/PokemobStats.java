@@ -1,6 +1,5 @@
 package pokecube.core.impl.capabilities.impl;
 
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -14,6 +13,7 @@ import pokecube.core.network.pokemobs.PacketNickname;
 import pokecube.core.network.pokemobs.PacketSyncExp;
 import pokecube.core.utils.Tools;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 public abstract class PokemobStats extends PokemobGenes
 {
@@ -167,7 +167,7 @@ public abstract class PokemobStats extends PokemobGenes
         else if (oldName) this.dataSync().set(this.params.NICKNAMEDW, "");
         else this.dataSync().set(this.params.NICKNAMEDW, nickname);
         if (!this.getPokedexEntry().stock && this.getEntity().isAddedToWorld()) this.getEntity().setCustomName(oldName
-                ? null : new TextComponent(nickname));
+                ? null : TComponent.literal(nickname));
     }
 
     @Override

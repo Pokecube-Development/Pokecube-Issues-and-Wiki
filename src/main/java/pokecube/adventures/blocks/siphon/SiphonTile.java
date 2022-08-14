@@ -11,7 +11,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -32,6 +31,7 @@ import pokecube.core.blocks.InteractableTile;
 import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.block.ITickTile;
 import thut.api.entity.ThutTeleporter;
+import thut.lib.TComponent;
 
 public class SiphonTile extends InteractableTile implements ITickTile
 {
@@ -130,7 +130,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
         if (hand == InteractionHand.MAIN_HAND && this.energy != null && player instanceof ServerPlayer)
         {
             Component message = null;
-            message = new TranslatableComponent("block.rfsiphon.info",
+            message = TComponent.translatable("block.rfsiphon.info",
                     this.energy.theoreticalOutput - this.energy.currentOutput, this.energy.theoreticalOutput);
             player.displayClientMessage(message, true);
         }
@@ -183,7 +183,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
                 if (user != null && user instanceof ServerPlayer)
                 {
                     final Player player = (Player) user;
-                    player.displayClientMessage(new TranslatableComponent("block.pokecube_adventures.siphon.unlink",
+                    player.displayClientMessage(TComponent.translatable("block.pokecube_adventures.siphon.unlink",
                             new ThutTeleporter.TeleDest().setPos(pos).getInfoName()), true);
                 }
                 return true;
@@ -192,7 +192,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
             if (user != null && user instanceof ServerPlayer)
             {
                 final Player player = (Player) user;
-                player.displayClientMessage(new TranslatableComponent("block.pokecube_adventures.siphon.link",
+                player.displayClientMessage(TComponent.translatable("block.pokecube_adventures.siphon.link",
                         new ThutTeleporter.TeleDest().setPos(pos).getInfoName()), true);
             }
             return true;

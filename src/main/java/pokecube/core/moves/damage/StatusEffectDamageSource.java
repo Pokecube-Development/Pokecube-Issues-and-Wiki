@@ -6,7 +6,7 @@ package pokecube.core.moves.damage;
 import javax.annotation.Nullable;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.Entity;
@@ -17,6 +17,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
+import thut.lib.TComponent;
 
 /**
  * This class extends {@link EntityDamageSource} and only modifies the death
@@ -50,24 +51,24 @@ public class StatusEffectDamageSource extends DamageSource implements IPokedamag
     {
         final ItemStack localObject = this.sourceMob != null ? this.sourceMob.getMainHandItem()
                 : ItemStack.EMPTY;
-        if (!localObject.isEmpty() && localObject.hasCustomHoverName()) return new TranslatableComponent("death.attack."
+        if (!localObject.isEmpty() && localObject.hasCustomHoverName()) return TComponent.translatable("death.attack."
                 + this.msgId, new Object[] { died.getDisplayName(), this.sourceMob
                         .getDisplayName(), localObject.getDisplayName() });
         final IPokemob sourceMob = PokemobCaps.getPokemobFor(this.sourceMob);
         if (sourceMob != null && sourceMob.getOwner() != null)
         {
-            final TranslatableComponent message = new TranslatableComponent("pokemob.killed.tame",
+            final MutableComponent message = TComponent.translatable("pokemob.killed.tame",
                     died.getDisplayName(), sourceMob.getOwner().getDisplayName(), this.sourceMob
                             .getDisplayName());
             return message;
         }
         else if (sourceMob != null && sourceMob.getOwner() == null && !sourceMob.getGeneralState(GeneralStates.TAMED))
         {
-            final TranslatableComponent message = new TranslatableComponent("pokemob.killed.wild",
+            final MutableComponent message = TComponent.translatable("pokemob.killed.wild",
                     died.getDisplayName(), this.sourceMob.getDisplayName());
             return message;
         }
-        return new TranslatableComponent("death.attack." + this.msgId, new Object[] { died
+        return TComponent.translatable("death.attack." + this.msgId, new Object[] { died
                 .getDisplayName(), this.sourceMob.getDisplayName() });
     }
 

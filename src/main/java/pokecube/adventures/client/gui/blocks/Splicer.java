@@ -6,11 +6,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.splicer.SplicerContainer;
+import thut.lib.TComponent;
 
 public class Splicer extends AbstractContainerScreen<SplicerContainer>
 {
@@ -43,8 +43,8 @@ public class Splicer extends AbstractContainerScreen<SplicerContainer>
         this.font.draw(mat, this.getTitle().getString(), 8, 6, 4210752);
         this.font.draw(mat, this.playerInventoryTitle.getString(), 8, this.imageHeight - 96 + 2, 4210752);
 
-        final Component warning0 = new TranslatableComponent("gui.pokecube_adventures.cloner.warning_0");
-        final Component warning1 = new TranslatableComponent("gui.pokecube_adventures.cloner.warning_1");
+        final Component warning0 = TComponent.translatable("gui.pokecube_adventures.cloner.warning_0");
+        final Component warning1 = TComponent.translatable("gui.pokecube_adventures.cloner.warning_1");
 
         final int dx = 109;
         final int dy = 6;

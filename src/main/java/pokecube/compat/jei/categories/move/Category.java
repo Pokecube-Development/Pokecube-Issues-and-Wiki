@@ -15,12 +15,12 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.recipes.MoveRecipes.MoveRecipe;
+import thut.lib.TComponent;
 
 public class Category implements IRecipeCategory<MoveRecipe>
 {
@@ -59,7 +59,7 @@ public class Category implements IRecipeCategory<MoveRecipe>
     @Override
     public Component getTitle()
     {
-        return new TextComponent(this.localizedName);
+        return TComponent.literal(this.localizedName);
     }
 
     @Override

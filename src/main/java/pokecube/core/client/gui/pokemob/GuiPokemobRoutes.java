@@ -6,8 +6,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
@@ -20,6 +18,7 @@ import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.network.packets.PacketSyncRoutes;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.CapHolders;
+import thut.lib.TComponent;
 
 public class GuiPokemobRoutes extends GuiPokemobBase
 {
@@ -59,11 +58,11 @@ public class GuiPokemobRoutes extends GuiPokemobBase
         this.renderables.clear();
         final int xOffset = this.width / 2 - 10;
         final int yOffset = this.height / 2 - 77;
-        this.addRenderableWidget(new Button(xOffset + 60, yOffset, 30, 10, new TranslatableComponent("pokemob.gui.inventory"),
+        this.addRenderableWidget(new Button(xOffset + 60, yOffset, 30, 10, TComponent.translatable("pokemob.gui.inventory"),
                 b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.MAIN, this.entity.getId())));
-        this.addRenderableWidget(new Button(xOffset + 30, yOffset, 30, 10, new TranslatableComponent("pokemob.gui.storage"),
+        this.addRenderableWidget(new Button(xOffset + 30, yOffset, 30, 10, TComponent.translatable("pokemob.gui.storage"),
                 b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.STORAGE, this.entity.getId())));
-        this.addRenderableWidget(new Button(xOffset + 00, yOffset, 30, 10, new TranslatableComponent("pokemob.gui.ai"),
+        this.addRenderableWidget(new Button(xOffset + 00, yOffset, 30, 10, TComponent.translatable("pokemob.gui.ai"),
                 b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.AI, this.entity.getId())));
 
         this.list = new ScrollGui<>(this, this.minecraft, 92, 50, 50, xOffset, yOffset + 10);
@@ -77,12 +76,12 @@ public class GuiPokemobRoutes extends GuiPokemobBase
         RouteEditHelper.getGuiList(this.list, this.guard, function, this.entity, this, 60, dx, dy, 50);
 
         this.list.smoothScroll = false;
-        this.addRenderableWidget(new Button(xOffset + 45, yOffset + 54, 30, 10, new TextComponent("\u21e7"), b ->
+        this.addRenderableWidget(new Button(xOffset + 45, yOffset + 54, 30, 10, TComponent.literal("\u21e7"), b ->
         {
             this.list.scroll(-50);
             this.num = (int) (this.list.getScrollAmount() / 50);
         }));
-        this.addRenderableWidget(new Button(xOffset + 15, yOffset + 54, 30, 10, new TextComponent("\u21e9"), b ->
+        this.addRenderableWidget(new Button(xOffset + 15, yOffset + 54, 30, 10, TComponent.literal("\u21e9"), b ->
         {
             this.list.scroll(50);
             this.num = (int) (this.list.getScrollAmount() / 50);

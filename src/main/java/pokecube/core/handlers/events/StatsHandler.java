@@ -1,7 +1,6 @@
 package pokecube.core.handlers.events;
 
 import net.minecraft.Util;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -27,6 +26,7 @@ import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
+import thut.lib.TComponent;
 
 public class StatsHandler
 {
@@ -67,7 +67,7 @@ public class StatsHandler
         {
             evt.setCanceled(true);
             if (catcher instanceof Player)
-                ((Player) catcher).sendMessage(new TranslatableComponent("pokecube.denied"), Util.NIL_UUID);
+                ((Player) catcher).sendMessage(TComponent.translatable("pokecube.denied"), Util.NIL_UUID);
             CaptureManager.onCaptureDenied((EntityPokecubeBase) evt.pokecube);
             return;
         }
@@ -84,7 +84,7 @@ public class StatsHandler
             {
                 evt.setCanceled(true);
                 if (catcher instanceof Player)
-                    ((Player) catcher).sendMessage(new TranslatableComponent("pokecube.denied"), Util.NIL_UUID);
+                    ((Player) catcher).sendMessage(TComponent.translatable("pokecube.denied"), Util.NIL_UUID);
                 CaptureManager.onCaptureDenied((EntityPokecubeBase) evt.pokecube);
                 return;
             }
@@ -107,7 +107,7 @@ public class StatsHandler
             {
                 evt.setCanceled(true);
                 if (catcher instanceof Player)
-                    ((Player) catcher).sendMessage(new TranslatableComponent("pokecube.denied"), Util.NIL_UUID);
+                    ((Player) catcher).sendMessage(TComponent.translatable("pokecube.denied"), Util.NIL_UUID);
                 condition.onCaptureFail(catcher, evt.getCaught());
                 CaptureManager.onCaptureDenied((EntityPokecubeBase) evt.pokecube);
                 return;

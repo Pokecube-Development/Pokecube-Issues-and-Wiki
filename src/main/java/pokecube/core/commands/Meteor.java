@@ -6,7 +6,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.Vec3;
 import pokecube.core.handlers.events.SpawnHandler;
@@ -14,6 +13,7 @@ import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
+import thut.lib.TComponent;
 
 public class Meteor
 {
@@ -42,7 +42,7 @@ public class Meteor
         // /fill ~-11 ~-11 ~-11 ~11 ~11 ~11 minecraft:dirt replace air
         // @formatter:on
 
-        source.sendSuccess(new TranslatableComponent("pokecube.meteor.spawned", pos, power), true);
+        source.sendSuccess(TComponent.translatable("pokecube.meteor.spawned", pos, power), true);
         return 0;
     }
 

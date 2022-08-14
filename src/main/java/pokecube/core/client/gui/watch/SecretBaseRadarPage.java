@@ -21,14 +21,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.impl.PokecubeMod;
 import thut.api.maths.Vector3;
+import thut.lib.TComponent;
 
 public class SecretBaseRadarPage extends WatchPage
 {
@@ -50,12 +50,12 @@ public class SecretBaseRadarPage extends WatchPage
 
         RadarMode(final String string, final float scale)
         {
-            this.key = new TranslatableComponent("pokewatch.title." + string + "radar");
+            this.key = TComponent.translatable("pokewatch.title." + string + "radar");
             this.rangeScale = scale;
             SecretBaseRadarPage.radar_hits.put(this, Sets.newHashSet());
         }
 
-        final TranslatableComponent key;
+        final MutableComponent key;
 
         final float rangeScale;
     }
@@ -104,7 +104,7 @@ public class SecretBaseRadarPage extends WatchPage
 
     public SecretBaseRadarPage(final GuiPokeWatch watch)
     {
-        super(new TranslatableComponent(""), watch, SecretBaseRadarPage.TEX_DM, SecretBaseRadarPage.TEX_NM);
+        super(TComponent.translatable(""), watch, SecretBaseRadarPage.TEX_DM, SecretBaseRadarPage.TEX_NM);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class SecretBaseRadarPage extends WatchPage
         super.onPageOpened();
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
-        this.addRenderableWidget(new TexButton(x + 95, y - 70, 12, 12, new TextComponent(""),
+        this.addRenderableWidget(new TexButton(x + 95, y - 70, 12, 12, TComponent.literal(""),
                 b -> SecretBaseRadarPage.mode = RadarMode.values()[(SecretBaseRadarPage.mode.ordinal() + 1)
                         % RadarMode.values().length]).setTex(GuiPokeWatch.getWidgetTex())
                                 .setRender(new UVImgRender(200, 0, 12, 12)));

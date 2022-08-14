@@ -8,12 +8,12 @@ import net.minecraft.commands.CommandRuntimeException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.commands.CommandTools;
+import thut.lib.TComponent;
 import thut.wearables.network.MouseOverPacket;
 import thut.wearables.network.PacketGui;
 
@@ -31,7 +31,7 @@ public class CommandGui
     {
         final ServerPlayer user = commandSource.getPlayerOrException();
         if (!PermNodes.getBooleanPerm(user, CommandGui.PERMWEARABLESCMD)) throw new CommandRuntimeException(
-                new TranslatableComponent("wearables.command.fail.noperms"));
+                TComponent.translatable("wearables.command.fail.noperms"));
         if (target == null) ThutWearables.packets.sendTo(new MouseOverPacket(), user);
         else
         {

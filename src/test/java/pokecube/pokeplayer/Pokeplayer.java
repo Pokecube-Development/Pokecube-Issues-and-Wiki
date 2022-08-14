@@ -6,8 +6,6 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -30,6 +28,7 @@ import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
 import thut.bot.entity.BotPlayer;
 import thut.core.common.network.CapabilitySync;
+import thut.lib.TComponent;
 
 @Mod(value = "pokecube_pokeplayer")
 public class Pokeplayer
@@ -53,7 +52,7 @@ public class Pokeplayer
     }
 
     private static final SimpleCommandExceptionType ERROR_FAILED = new SimpleCommandExceptionType(
-            new TranslatableComponent("not copy?"));
+            TComponent.translatable("not copy?"));
 
     private static void onCommandRegister(final RegisterCommandsEvent event)
     {
@@ -67,7 +66,7 @@ public class Pokeplayer
                     if (copy == null) throw Pokeplayer.ERROR_FAILED.create();
                     if (wrd.equals("check"))
                     {
-                        ctx.getSource().sendSuccess(new TextComponent(copy.getCopiedID() + ""), false);
+                        ctx.getSource().sendSuccess(TComponent.literal(copy.getCopiedID() + ""), false);
                         return 0;
                     }
 

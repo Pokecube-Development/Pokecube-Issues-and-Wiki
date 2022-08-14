@@ -3,7 +3,6 @@ package pokecube.core.network.pokemobs;
 import net.minecraft.SharedConstants;
 import net.minecraft.Util;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import pokecube.api.PokecubeAPI;
@@ -11,6 +10,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import thut.core.common.network.Packet;
+import thut.lib.TComponent;
 
 public class PacketNickname extends Packet
 {
@@ -51,12 +51,12 @@ public class PacketNickname extends Packet
                 .getOriginalOwnerUUID());
         if (!OT)
         {
-            if (pokemob.getOwner() != null) pokemob.getOwner().sendMessage(new TranslatableComponent(
+            if (pokemob.getOwner() != null) pokemob.getOwner().sendMessage(TComponent.translatable(
                     "pokemob.rename.deny"), Util.NIL_UUID);
         }
         else
         {
-            pokemob.getOwner().sendMessage(new TranslatableComponent("pokemob.rename.success", pokemob
+            pokemob.getOwner().sendMessage(TComponent.translatable("pokemob.rename.success", pokemob
                     .getDisplayName().getString(), name), Util.NIL_UUID);
             pokemob.setPokemonNickname(name);
         }

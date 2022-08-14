@@ -21,7 +21,6 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -40,6 +39,7 @@ import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.utils.Tools;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
+import thut.lib.TComponent;
 
 /**
  * This health renderer is directly based on Neat by Vaziki, which can be found
@@ -90,7 +90,7 @@ public class Health
             }
         }
         val = new String(chars);
-        return new TextComponent(val).setStyle(compIn.getStyle());
+        return TComponent.literal(val).setStyle(compIn.getStyle());
     }
 
     public static Entity getEntityLookedAt(final Entity e)

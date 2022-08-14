@@ -7,7 +7,6 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -21,6 +20,7 @@ import pokecube.core.database.Database;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import pokecube.core.utils.Tools;
 import thut.core.common.handlers.PlayerDataHandler;
+import thut.lib.TComponent;
 
 public class PokedexInspector
 {
@@ -54,7 +54,7 @@ public class PokedexInspector
                 if (giveReward)
                 {
                     tag.putBoolean(this.tagString, true);
-                    entity.sendMessage(new TranslatableComponent(this.message), Util.NIL_UUID);
+                    entity.sendMessage(TComponent.translatable(this.message), Util.NIL_UUID);
                     final Player PlayerEntity = (Player) entity;
                     Tools.giveItem(PlayerEntity, reward);
                     PokecubePlayerDataHandler.saveCustomData(entity.getStringUUID());

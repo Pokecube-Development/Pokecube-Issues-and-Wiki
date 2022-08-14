@@ -12,7 +12,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -30,6 +29,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import thut.bling.client.ClientSetupHandler;
 import thut.bling.network.PacketBag;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
 
@@ -90,7 +90,7 @@ public class BlingItem extends Item implements IWearable
         {
             final int damage = stack.getTag().getInt("dyeColour");
             final DyeColor colour = DyeColor.byId(damage);
-            list.add(new TranslatableComponent(colour.getName()));
+            list.add(TComponent.translatable(colour.getName()));
         }
         if (stack.hasTag() && stack.getTag().contains("gemTag"))
         {

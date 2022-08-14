@@ -11,8 +11,8 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import thut.lib.TComponent;
 
 public class ListHelper
 {
@@ -29,7 +29,7 @@ public class ListHelper
         if (base instanceof MutableComponent) us = (MutableComponent) base;
         else
         {
-            us = new TextComponent(base.getContents());
+            us = TComponent.literal(base.getContents());
             us.setStyle(base.getStyle());
         }
         toAdd.add(us);
@@ -41,7 +41,7 @@ public class ListHelper
             final int maxTextLenght, final Font fontRendererIn, final boolean trimSpace)
     {
         int i = 0;
-        MutableComponent remainder = new TextComponent("");
+        MutableComponent remainder = TComponent.literal("");
         final List<MutableComponent> list = Lists.newArrayList();
         final List<MutableComponent> list1 = Lists.newArrayList();
         ListHelper.addSiblings(textComponent, list1);
@@ -53,9 +53,8 @@ public class ListHelper
             Style style = itextcomponent1.getStyle();
 
             // This means it has arguments, that might have styles themselves!
-            if (itextcomponent1 instanceof TranslatableComponent)
+            if (itextcomponent1 instanceof TranslatableComponent comp)
             {
-                final TranslatableComponent comp = (TranslatableComponent) itextcomponent1;
                 boolean hasClick = comp.getStyle().getClickEvent() != null;
                 boolean hasHover = comp.getStyle().getHoverEvent() != null;
                 for (final Object o : comp.getArgs())
@@ -74,7 +73,7 @@ public class ListHelper
                 final int k = s.indexOf(10);
                 final String s1 = s.substring(k + 1);
                 s = s.substring(0, k + 1);
-                final MutableComponent itextcomponent2 = new TextComponent(s1).setStyle(style);
+                final MutableComponent itextcomponent2 = TComponent.literal(s1).setStyle(style);
                 list1.add(j + 1, itextcomponent2);
                 flag = true;
             }
@@ -82,7 +81,7 @@ public class ListHelper
             final String s4 = s;
             final String s5 = s4.endsWith("\n") ? s4.substring(0, s4.length() - 1) : s4;
             int i1 = fontRendererIn.width(s5);
-            MutableComponent itextcomponent3 = new TextComponent(s5).setStyle(itextcomponent1
+            MutableComponent itextcomponent3 = TComponent.literal(s5).setStyle(itextcomponent1
                     .getStyle());
             if (i + i1 > maxTextLenght)
             {
@@ -104,12 +103,12 @@ public class ListHelper
                         s3 = s4;
                     }
                     s3 = ListHelper.getFormatString(s2) + s3;
-                    final MutableComponent itextcomponent4 = new TextComponent(s3).setStyle(style);
+                    final MutableComponent itextcomponent4 = TComponent.literal(s3).setStyle(style);
                     list1.add(j + 1, itextcomponent4);
                 }
 
                 i1 = fontRendererIn.width(s2);
-                itextcomponent3 = new TextComponent(s2);
+                itextcomponent3 = TComponent.literal(s2);
                 itextcomponent3.setStyle(style);
                 flag = true;
             }
@@ -125,7 +124,7 @@ public class ListHelper
             {
                 list.add(remainder);
                 i = 0;
-                remainder = new TextComponent("");
+                remainder = TComponent.literal("");
             }
         }
         list.add(remainder);

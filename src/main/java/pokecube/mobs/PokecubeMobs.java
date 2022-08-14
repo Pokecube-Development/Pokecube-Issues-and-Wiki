@@ -6,7 +6,6 @@ import java.util.Random;
 import com.google.common.collect.Maps;
 
 import net.minecraft.Util;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -35,9 +34,9 @@ import pokecube.api.events.init.InitDatabase;
 import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.api.events.init.RegisterPokecubes;
 import pokecube.api.events.init.RegisterPokemobsEvent;
-import pokecube.api.events.pokemobs.EvolveEvent;
 import pokecube.api.events.pokemobs.CaptureEvent.Post;
 import pokecube.api.events.pokemobs.CaptureEvent.Pre;
+import pokecube.api.events.pokemobs.EvolveEvent;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.DefaultPokecubeBehavior;
 import pokecube.api.items.IPokecube.NormalPokecubeBehavoir;
@@ -60,6 +59,7 @@ import pokecube.mobs.abilities.AbilityRegister;
 import pokecube.mobs.moves.MoveRegister;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 @Mod(value = PokecubeMobs.MODID)
 public class PokecubeMobs
@@ -204,7 +204,7 @@ public class PokecubeMobs
                 if (shuckle.getOwner() != null)
                 {
                     final String message = "A sweet smell is coming from " + shuckle.getDisplayName().getString();
-                    ((Player) shuckle.getOwner()).sendMessage(new TextComponent(message), Util.NIL_UUID);
+                    ((Player) shuckle.getOwner()).sendMessage(TComponent.literal(message), Util.NIL_UUID);
                 }
                 shuckle.setHeldItem(new ItemStack(PokecubeItems.BERRYJUICE.get()));
                 return;
@@ -219,7 +219,7 @@ public class PokecubeMobs
                 {
                     final String message = "The smell coming from " + shuckle.getDisplayName().getString()
                             + " has changed";
-                    ((Player) shuckle.getOwner()).sendMessage(new TextComponent(message), Util.NIL_UUID);
+                    ((Player) shuckle.getOwner()).sendMessage(TComponent.literal(message), Util.NIL_UUID);
                 }
                 shuckle.setHeldItem(candy);
                 return;

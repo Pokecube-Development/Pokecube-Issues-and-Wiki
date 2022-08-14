@@ -7,12 +7,12 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.core.entity.npc.NpcType;
+import thut.lib.TComponent;
 
 public class Spawn extends Page
 {
@@ -28,7 +28,7 @@ public class Spawn extends Page
 
     public Spawn(final EditorGui parent)
     {
-        super(new TextComponent(""), parent);
+        super(TComponent.literal(""), parent);
     }
 
     @Override
@@ -39,8 +39,8 @@ public class Spawn extends Page
         super.onPageOpened();
         int yOffset = this.height / 2;
         int xOffset = this.width / 2;
-        this.type = new EditBox(this.font, xOffset - 45, yOffset, 100, 10, new TextComponent(""));
-        this.level = new EditBox(this.font, xOffset - 45, yOffset + 20, 100, 10, new TextComponent(""));
+        this.type = new EditBox(this.font, xOffset - 45, yOffset, 100, 10, TComponent.literal(""));
+        this.level = new EditBox(this.font, xOffset - 45, yOffset + 20, 100, 10, TComponent.literal(""));
 
         this.index = this.index % NpcType.typeMap.size();
         final List<String> types = Lists.newArrayList(NpcType.typeMap.keySet());
@@ -70,41 +70,41 @@ public class Spawn extends Page
         this.addRenderableWidget(this.level);
         this.addRenderableWidget(this.type);
 
-        this.addRenderableWidget(new Button(xOffset + 75 - 15, yOffset, 40, 20, new TextComponent("next"), b ->
+        this.addRenderableWidget(new Button(xOffset + 75 - 15, yOffset, 40, 20, TComponent.literal("next"), b ->
         {
             this.index++;
             this.index = this.index % types.size();
             this.type.setValue(types.get(this.index));
 
         }));
-        this.addRenderableWidget(new Button(xOffset - 75 - 15, yOffset, 40, 20, new TextComponent("prev"), b ->
+        this.addRenderableWidget(new Button(xOffset - 75 - 15, yOffset, 40, 20, TComponent.literal("prev"), b ->
         {
             this.index--;
             if (this.index < 0) this.index = types.size() - 1;
             this.type.setValue(types.get(this.index));
         }));
-        this.addRenderableWidget(new Button(xOffset - 5, yOffset + 40, 40, 20, new TextComponent("stands"), b ->
+        this.addRenderableWidget(new Button(xOffset - 5, yOffset + 40, 40, 20, TComponent.literal("stands"), b ->
         {
-            if (b.getMessage().getString().equals("wanders")) b.setMessage(new TextComponent("stands"));
-            else b.setMessage(new TextComponent("wanders"));
+            if (b.getMessage().getString().equals("wanders")) b.setMessage(TComponent.literal("stands"));
+            else b.setMessage(TComponent.literal("wanders"));
             this.stand = b.getMessage().getString().equals("stands");
         }));
-        this.addRenderableWidget(new Button(xOffset - 45, yOffset + 40, 40, 20, new TextComponent("random"), b ->
+        this.addRenderableWidget(new Button(xOffset - 45, yOffset + 40, 40, 20, TComponent.literal("random"), b ->
         {
-            if (b.getMessage().getString().equals("male")) b.setMessage(new TextComponent("female"));
-            else if (b.getMessage().getString().equals("female")) b.setMessage(new TextComponent("random"));
-            else b.setMessage(new TextComponent("male"));
+            if (b.getMessage().getString().equals("male")) b.setMessage(TComponent.literal("female"));
+            else if (b.getMessage().getString().equals("female")) b.setMessage(TComponent.literal("random"));
+            else b.setMessage(TComponent.literal("male"));
             this.gender = b.getMessage().getString();
         }));
 
         xOffset -= 20;
         yOffset += 10;
 
-        this.addRenderableWidget(new Button(xOffset - 100, yOffset - 80, 80, 20, new TextComponent("Spawn NPC"), b -> this
+        this.addRenderableWidget(new Button(xOffset - 100, yOffset - 80, 80, 20, TComponent.literal("Spawn NPC"), b -> this
                 .send("npc")));
-        this.addRenderableWidget(new Button(xOffset - 20, yOffset - 80, 80, 20, new TextComponent("Spawn Trainer"),
+        this.addRenderableWidget(new Button(xOffset - 20, yOffset - 80, 80, 20, TComponent.literal("Spawn Trainer"),
                 b -> this.send("trainer")));
-        this.addRenderableWidget(new Button(xOffset + 60, yOffset - 80, 80, 20, new TextComponent("Spawn Leader"), b -> this
+        this.addRenderableWidget(new Button(xOffset + 60, yOffset - 80, 80, 20, TComponent.literal("Spawn Leader"), b -> this
                 .send("leader")));
     }
 

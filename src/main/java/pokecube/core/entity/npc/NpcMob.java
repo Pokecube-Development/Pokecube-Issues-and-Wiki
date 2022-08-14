@@ -15,8 +15,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -68,6 +66,7 @@ import pokecube.core.utils.CapHolders;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.inventory.npc.NpcContainer;
 import thut.api.maths.Vector3;
+import thut.lib.TComponent;
 
 public class NpcMob extends Villager implements IEntityAdditionalSpawnData
 {
@@ -341,10 +340,10 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
             if (this.getNPCName().startsWith("pokecube."))
             {
                 final String[] args = this.getNPCName().split(":");
-                if (args.length == 2) display = new TranslatableComponent(args[0], args[1]);
-                else display = new TextComponent(this.getNPCName());
+                if (args.length == 2) display = TComponent.translatable(args[0], args[1]);
+                else display = TComponent.literal(this.getNPCName());
             }
-            else display = new TextComponent(this.getNPCName());
+            else display = TComponent.literal(this.getNPCName());
             display.withStyle((style) -> {
                 return style.withHoverEvent(this.createHoverEvent()).withInsertion(this.getStringUUID());
             });

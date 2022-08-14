@@ -15,7 +15,6 @@ import com.google.common.collect.Sets;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
@@ -35,6 +34,7 @@ import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.StructureManager;
 import thut.api.terrain.StructureManager.StructureInfo;
+import thut.lib.TComponent;
 
 public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 {
@@ -572,10 +572,10 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 //            if (valid)
 //            {
 //                final String key = String.format("biome.%s.%s", test.getNamespace(), test.getPath());
-//                biomeNames.add(new TranslatableComponent(key).getString());
+//                biomeNames.add(TComponent.translatable(key).getString());
 //            }
 //        }
-        return new TranslatableComponent("pokemob.description.evolve.locations", biomeNames);
+        return TComponent.translatable("pokemob.description.evolve.locations", biomeNames);
     }
 
     private boolean initRawLists()

@@ -12,8 +12,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -23,6 +22,7 @@ import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.pc.PCSlot;
 import pokecube.core.network.packets.PacketPC;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
 {
@@ -33,8 +33,8 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
     EditBox textFieldBoxName;
     EditBox textFieldSearch;
 
-    TranslatableComponent autoOn  = new TranslatableComponent("block.pc.autoon");
-    TranslatableComponent autoOff = new TranslatableComponent("block.pc.autooff");
+    MutableComponent autoOn  = TComponent.translatable("block.pc.autoon");
+    MutableComponent autoOff = TComponent.translatable("block.pc.autooff");
 
     private String boxName = "1";
 
@@ -99,14 +99,14 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         super.init();
         final int xOffset = 0;
         final int yOffset = -11;
-        final Component next = new TranslatableComponent("block.pc.next");
+        final Component next = TComponent.translatable("block.pc.next");
         this.addRenderableWidget(new Button(this.width / 2 - xOffset - 44, this.height / 2 - yOffset - 121, 10, 10, next, b ->
         {
             this.menu.updateInventoryPages((byte) 1, this.minecraft.player.getInventory());
             this.textFieldSelectedBox.setValue(this.menu.getPageNb());
             this.textFieldBoxName.setValue(this.menu.getPage());
         }));
-        final Component prev = new TranslatableComponent("block.pc.previous");
+        final Component prev = TComponent.translatable("block.pc.previous");
         this.addRenderableWidget(new Button(this.width / 2 - xOffset - 81, this.height / 2 - yOffset - 121, 10, 10, prev, b ->
         {
             this.menu.updateInventoryPages((byte) -1, this.minecraft.player.getInventory());
@@ -114,18 +114,18 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
             this.textFieldBoxName.setValue(this.menu.getPage());
         }));
         this.textFieldSelectedBox = new EditBox(this.font, this.width / 2 - xOffset - 70, this.height / 2 - yOffset
-                - 121, 25, 10, new TextComponent(this.page));
+                - 121, 25, 10, TComponent.literal(this.page));
 
         if (!this.bound)
         {
-            final Component auto = this.menu.inv.autoToPC ? new TranslatableComponent("block.pc.autoon")
-                    : new TranslatableComponent("block.pc.autooff");
+            final Component auto = this.menu.inv.autoToPC ? TComponent.translatable("block.pc.autoon")
+                    : TComponent.translatable("block.pc.autooff");
             this.renderables.add(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset + 10, 50, 10, auto,
                     b -> this.menu.toggleAuto()));
         }
         if (!this.bound)
         {
-            final Component rename = new TranslatableComponent("block.pc.rename");
+            final Component rename = TComponent.translatable("block.pc.rename");
             this.addRenderableWidget(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset - 0, 50, 10, rename, b ->
             {
                 final String box = this.textFieldBoxName.getValue();
@@ -136,7 +136,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         if (this.menu.pcPos != null)
         {
             if (!this.bound) this.addRenderableWidget(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 85,
-                    50, 20, new TranslatableComponent("block.pc.option.private"), b ->
+                    50, 20, TComponent.translatable("block.pc.option.private"), b ->
                     {
                         // TODO bind.
                         // this.container.pcTile.toggleBound();
@@ -145,14 +145,14 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
             else
             {
                 this.addRenderableWidget(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 125, 50, 20,
-                        new TranslatableComponent("block.pc.option.public"), b ->
+                        TComponent.translatable("block.pc.option.public"), b ->
                         {
                             // TODO bind.
                             // this.container.pcTile.toggleBound();
                             this.minecraft.player.closeContainer();
                         }));
                 this.addRenderableWidget(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 105, 50, 20,
-                        new TranslatableComponent("block.pc.option.bind"), b ->
+                        TComponent.translatable("block.pc.option.bind"), b ->
                         {
                             // TODO bind.
                             // this.container.pcTile.setBoundOwner(this.minecraft.player);
@@ -161,7 +161,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
             }
         }
         else this.addRenderableWidget(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 125, 0, 0,
-                new TextComponent(""), b ->
+                TComponent.literal(""), b ->
                 {
                     // TODO bind.
                     // this.container.pcTile.toggleBound();
@@ -170,7 +170,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         if (!this.bound)
         {
             this.addRenderableWidget(new Button(this.width / 2 - xOffset - 81, this.height / 2 - yOffset + 10, 50, 10,
-                    new TranslatableComponent("block.pc.option.release"), b ->
+                    TComponent.translatable("block.pc.option.release"), b ->
                     {
                         this.release = !this.release;
                         if (!this.release && this.menu.release)
@@ -206,7 +206,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
                         }
                     }));
             this.addRenderableWidget(new Button(this.width / 2 - xOffset - 31, this.height / 2 - yOffset + 10, 50, 10,
-                    new TranslatableComponent("block.pc.option.confirm"), b ->
+                    TComponent.translatable("block.pc.option.confirm"), b ->
                     {
                         this.release = !this.release;
                         this.menu.setRelease(this.release, this.minecraft.player.getUUID());
@@ -240,9 +240,9 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         }
 
         this.textFieldBoxName = new EditBox(this.font, this.width / 2 - xOffset - 80, this.height / 2 - yOffset + 0,
-                100, 10, new TextComponent(this.boxName));
+                100, 10, TComponent.literal(this.boxName));
         this.textFieldSearch = new EditBox(this.font, this.width / 2 - xOffset - 10, this.height / 2 - yOffset - 121,
-                90, 10, new TextComponent(""));
+                90, 10, TComponent.literal(""));
 
         this.addRenderableWidget(this.textFieldSelectedBox);
         this.addRenderableWidget(this.textFieldBoxName);

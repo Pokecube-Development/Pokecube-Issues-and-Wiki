@@ -20,7 +20,7 @@ import net.minecraft.commands.arguments.GameProfileArgument;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
@@ -39,6 +39,7 @@ import thut.api.entity.ThutTeleporter;
 import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
+import thut.lib.TComponent;
 
 public class SecretBase
 {
@@ -71,13 +72,13 @@ public class SecretBase
     {
         if (player.getLevel().dimension() != SecretBaseDimension.WORLD_KEY)
         {
-            player.sendMessage(new TranslatableComponent("pokecube.secretbase.exit.notinbase"), Util.NIL_UUID);
+            player.sendMessage(TComponent.translatable("pokecube.secretbase.exit.notinbase"), Util.NIL_UUID);
             return 1;
         }
         final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(player.getUUID(), player.getServer(), false);
         final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
-        player.sendMessage(new TranslatableComponent("pokecube.secretbase.exit"), Util.NIL_UUID);
+        player.sendMessage(TComponent.translatable("pokecube.secretbase.exit"), Util.NIL_UUID);
         return 0;
     }
 
@@ -103,7 +104,7 @@ public class SecretBase
                 pos.x = pos.intX();
                 pos.y = pos.intY();
                 pos.z = pos.intZ();
-                final TranslatableComponent message = new TranslatableComponent("pokemob.createbase.confirmed",
+                final MutableComponent message = TComponent.translatable("pokemob.createbase.confirmed",
                         pos);
                 player.sendMessage(message, Util.NIL_UUID);
                 return 0;

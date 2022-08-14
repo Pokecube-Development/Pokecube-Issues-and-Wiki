@@ -8,8 +8,6 @@ import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
@@ -28,6 +26,7 @@ import pokecube.core.database.Database;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 public class PerMobProgress extends Progress
 {
@@ -36,7 +35,7 @@ public class PerMobProgress extends Progress
 
     public PerMobProgress(final GuiPokeWatch watch)
     {
-        super(new TranslatableComponent("pokewatch.progress.mob.title"), watch);
+        super(TComponent.translatable("pokewatch.progress.mob.title"), watch);
     }
 
     @Override
@@ -93,7 +92,7 @@ public class PerMobProgress extends Progress
         super.init();
         final int x = this.watch.width / 2 - 70;
         final int y = this.watch.height / 2 + 53;
-        this.text = new EditBox(this.font, x, y - 30, 140, 10, new TextComponent(""));
+        this.text = new EditBox(this.font, x, y - 30, 140, 10, TComponent.literal(""));
         this.addRenderableWidget(this.text);
     }
 
@@ -114,11 +113,11 @@ public class PerMobProgress extends Progress
         this.hatched0 = EggStats.getTotalNumberOfPokemobHatchedBy(player.getUUID(), this.entry);
         this.killed0 = KillStats.getTotalNumberOfPokemobKilledBy(player.getUUID(), this.entry);
 
-        final TranslatableComponent captureLine = new TranslatableComponent("pokewatch.progress.mob.caught",
+        final MutableComponent captureLine = TComponent.translatable("pokewatch.progress.mob.caught",
                 this.caught0, this.entry);
-        final TranslatableComponent killLine = new TranslatableComponent("pokewatch.progress.mob.killed",
+        final MutableComponent killLine = TComponent.translatable("pokewatch.progress.mob.killed",
                 this.killed0, this.entry);
-        final TranslatableComponent hatchLine = new TranslatableComponent("pokewatch.progress.mob.hatched",
+        final MutableComponent hatchLine = TComponent.translatable("pokewatch.progress.mob.hatched",
                 this.hatched0, this.entry);
 
         final AABB centre = this.watch.player.getBoundingBox();
@@ -132,7 +131,7 @@ public class PerMobProgress extends Progress
                         return false;
                     return pokemob.getPokedexEntry() == PerMobProgress.this.entry;
                 });
-        final TranslatableComponent nearbyLine = new TranslatableComponent("pokewatch.progress.global.nearby",
+        final MutableComponent nearbyLine = TComponent.translatable("pokewatch.progress.global.nearby",
                 otherMobs.size());
 
         for (final MutableComponent line : ListHelper.splitText(captureLine, 190, this.font, false))

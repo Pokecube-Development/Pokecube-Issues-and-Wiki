@@ -10,13 +10,12 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import pokecube.nbtedit.nbt.NBTTree;
 import pokecube.nbtedit.packets.CustomNBTPacket;
 import pokecube.nbtedit.packets.EntityNBTPacket;
 import pokecube.nbtedit.packets.TileNBTPacket;
+import thut.lib.TComponent;
 
 public class GuiEditNBTTree extends Screen
 {
@@ -29,7 +28,7 @@ public class GuiEditNBTTree extends Screen
 
     public GuiEditNBTTree(final BlockPos pos, final CompoundTag tag)
     {
-        super(new TranslatableComponent("nbtedit.tree"));
+        super(TComponent.translatable("nbtedit.tree"));
         this.entity = false;
         this.entityOrX = pos.getX();
         this.y = pos.getY();
@@ -40,7 +39,7 @@ public class GuiEditNBTTree extends Screen
 
     public GuiEditNBTTree(final int entity, final CompoundTag tag)
     {
-        super(new TranslatableComponent("nbtedit.tree"));
+        super(TComponent.translatable("nbtedit.tree"));
         this.entity = true;
         this.entityOrX = entity;
         this.y = 0;
@@ -51,7 +50,7 @@ public class GuiEditNBTTree extends Screen
 
     public GuiEditNBTTree(final int entity, final String customName, final CompoundTag tag)
     {
-        super(new TranslatableComponent("nbtedit.tree"));
+        super(TComponent.translatable("nbtedit.tree"));
         this.entity = true;
         this.entityOrX = entity;
         this.customName = customName;
@@ -95,9 +94,9 @@ public class GuiEditNBTTree extends Screen
     {
         this.minecraft.keyboardHandler.setSendRepeatsToGui(true);
         this.guiTree.initGUI(this.width, this.height, this.height - 35);
-        this.addRenderableWidget(new Button(this.width / 4 - 100, this.height - 27, 200, 20, new TextComponent("Save"),
+        this.addRenderableWidget(new Button(this.width / 4 - 100, this.height - 27, 200, 20, TComponent.literal("Save"),
                 b -> this.quitWithSave()));
-        this.addRenderableWidget(new Button(this.width * 3 / 4 - 100, this.height - 27, 200, 20, new TextComponent("Quit"),
+        this.addRenderableWidget(new Button(this.width * 3 / 4 - 100, this.height - 27, 200, 20, TComponent.literal("Quit"),
                 b -> this.quitWithoutSaving()));
         this.children.add(this.guiTree);
     }

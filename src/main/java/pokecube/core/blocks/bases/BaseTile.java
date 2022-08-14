@@ -8,7 +8,6 @@ import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,6 +24,7 @@ import pokecube.core.blocks.InteractableTile;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
+import thut.lib.TComponent;
 
 public class BaseTile extends InteractableTile
 {
@@ -66,7 +66,7 @@ public class BaseTile extends InteractableTile
             {
                 // We need to remove the location.
                 this.level.setBlockAndUpdate(pos, this.original);
-                player.sendMessage(new TranslatableComponent("pokemob.removebase.stale"), Util.NIL_UUID);
+                player.sendMessage(TComponent.translatable("pokemob.removebase.stale"), Util.NIL_UUID);
                 return InteractionResult.FAIL;
             }
         }

@@ -13,8 +13,6 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
@@ -25,6 +23,7 @@ import pokecube.core.client.gui.helper.GuardEntry;
 import pokecube.core.client.gui.helper.RouteEditHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.network.packets.PacketSyncRoutes;
+import thut.lib.TComponent;
 
 public class AI extends Page
 {
@@ -37,7 +36,7 @@ public class AI extends Page
 
     public AI(final EditorGui parent)
     {
-        super(new TextComponent(""), parent);
+        super(TComponent.literal(""), parent);
     }
 
     @Override
@@ -68,10 +67,10 @@ public class AI extends Page
         final int sy = 12;
         int i = 0;
 
-        this.resetTimeLose = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, new TextComponent(""));
-        this.resetTimeWin = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, new TextComponent(""));
-        this.battleCooldown = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, new TextComponent(""));
-        this.faceDirection = new EditBox(this.font, x + dx, y + dy + sy * i++, 30, 10, new TextComponent(""));
+        this.resetTimeLose = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, TComponent.literal(""));
+        this.resetTimeWin = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, TComponent.literal(""));
+        this.battleCooldown = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, TComponent.literal(""));
+        this.faceDirection = new EditBox(this.font, x + dx, y + dy + sy * i++, 30, 10, TComponent.literal(""));
 
         final Predicate<String> intValid = input -> {
             try
@@ -128,14 +127,14 @@ public class AI extends Page
                 b.setFGColor(flag ? 0x00FF00 : 0xFF0000);
                 this.onChanged();
             };
-            final Button press = new Button(x - 123, y - 30 + index * 12, 100, 12, new TextComponent(state.name()),
+            final Button press = new Button(x - 123, y - 30 + index * 12, 100, 12, TComponent.literal(state.name()),
                     action);
             press.setFGColor(this.parent.aiStates.getAIState(state) ? 0x00FF00 : 0xFF0000);
             this.addRenderableWidget(press);
         }
 
         this.addRenderableWidget(
-                new Button(x + 73, y + 64, 50, 12, new TranslatableComponent("traineredit.button.home"), b ->
+                new Button(x + 73, y + 64, 50, 12, TComponent.translatable("traineredit.button.home"), b ->
                 {
                     this.closeCallback.run();
                 }));

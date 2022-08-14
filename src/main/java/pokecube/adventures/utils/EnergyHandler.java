@@ -38,8 +38,8 @@ import pokecube.adventures.blocks.warp_pad.WarpPadTile;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
-import pokecube.api.utils.PokeType;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.utils.PokeType;
 import pokecube.core.handlers.events.EventsHandler;
 import thut.api.maths.Vector3;
 

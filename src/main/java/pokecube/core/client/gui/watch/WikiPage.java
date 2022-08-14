@@ -19,8 +19,6 @@ import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import pokecube.core.client.gui.helper.ListHelper;
@@ -36,6 +34,7 @@ import pokecube.core.database.rewards.XMLRewardsHandler.FreeBookParser.PagesFile
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.PokedexInspector.IInspectReward;
 import pokecube.core.impl.PokecubeMod;
+import thut.lib.TComponent;
 
 public class WikiPage extends ListPage<LineEntry>
 {
@@ -61,7 +60,7 @@ public class WikiPage extends ListPage<LineEntry>
 
     public WikiPage(final GuiPokeWatch watch)
     {
-        super(new TranslatableComponent("pokewatch.title.wiki"), watch, WikiPage.TEX_DM, WikiPage.TEX_NM);
+        super(TComponent.translatable("pokewatch.title.wiki"), watch, WikiPage.TEX_DM, WikiPage.TEX_NM);
     }
 
     @Override
@@ -108,8 +107,8 @@ public class WikiPage extends ListPage<LineEntry>
         super.initList();
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
-        final Component next = new TextComponent(">");
-        final Component prev = new TextComponent("<");
+        final Component next = TComponent.literal(">");
+        final Component prev = TComponent.literal("<");
         final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 94, y - 70, 12, 12, next, b -> {
             this.index++;
             this.setList();
@@ -226,7 +225,7 @@ public class WikiPage extends ListPage<LineEntry>
                         ref_val = ref_val.replace("{_ref_:", "").replace("}", "");
                     }
 
-                    final MutableComponent comp = new TextComponent(line);
+                    final MutableComponent comp = TComponent.literal(line);
                     final List<MutableComponent> list = ListHelper.splitText(comp, 120, this.font, false);
                     for (final MutableComponent element : list)
                     {
@@ -237,14 +236,14 @@ public class WikiPage extends ListPage<LineEntry>
                         if (text.contains(linkin))
                         {
                             text = text.replace(linkin, "");
-                            entry = new TextComponent(text);
+                            entry = TComponent.literal(text);
                             style = style.withClickEvent(new ClickEvent(Action.CHANGE_PAGE, link_val));
                         }
                         // We have a ref
                         if (text.contains(refin))
                         {
                             text = text.replace(refin, "");
-                            entry = new TextComponent(text);
+                            entry = TComponent.literal(text);
                             this.refs.put(ref_val, this.list.getSize());
                         }
                         entry.setStyle(style);
@@ -253,7 +252,7 @@ public class WikiPage extends ListPage<LineEntry>
                         this.list.addEntry(wikiline);
                     }
                 }
-                final LineEntry wikiline = new WikiLine(this.list, 0, 0, this.font, new TextComponent(""), pagenum);
+                final LineEntry wikiline = new WikiLine(this.list, 0, 0, this.font, TComponent.literal(""), pagenum);
                 this.list.addEntry(wikiline);
                 pagenum++;
             }

@@ -6,14 +6,13 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Button.OnTooltip;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.ImgRender;
 import pokecube.core.client.gui.helper.TexButton.ShiftedTooltip;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
+import thut.lib.TComponent;
 
 public class StartPage extends WatchPage
 {
@@ -41,7 +40,7 @@ public class StartPage extends WatchPage
 
     public StartPage(final GuiPokeWatch watch)
     {
-        super(new TranslatableComponent("pokewatch.title.start"), watch, GuiPokeWatch.TEX_DM, GuiPokeWatch.TEX_NM);
+        super(TComponent.translatable("pokewatch.title.start"), watch, GuiPokeWatch.TEX_DM, GuiPokeWatch.TEX_NM);
 
         final UVHolder pokemobInfoLoc = new UVHolder();
         pokemobInfoLoc.render = new UVImgRender(0, 0, 24, 24);
@@ -115,7 +114,7 @@ public class StartPage extends WatchPage
         loc.buttonY = 100;
         final ResourceLocation tex = GuiPokeWatch.getWidgetTex();
         final Button buttons = new TexButton(offsetX + loc.buttonX, offsetY + loc.buttonY, 12, 12,
-                new TextComponent(""), b ->
+                TComponent.literal(""), b ->
                 {
                     GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
                     this.watch.init();

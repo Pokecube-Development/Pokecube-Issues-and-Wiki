@@ -1,7 +1,6 @@
 package pokecube.legends.init.function;
 
 import net.minecraft.Util;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -14,6 +13,7 @@ import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
+import thut.lib.TComponent;
 
 public class RaidCapture
 {
@@ -31,7 +31,7 @@ public class RaidCapture
             PokecubeAPI.LOGGER.debug("Life: " + event.mob.getHealth() + "Max Life: " + event.mob.getMaxHealth());
             if (event.mob.getHealth() > event.mob.getMaxHealth() / 2)
             {
-                if (catcher instanceof Player) ((Player) catcher).sendMessage(new TranslatableComponent(
+                if (catcher instanceof Player) ((Player) catcher).sendMessage(TComponent.translatable(
                         "pokecube.denied"), Util.NIL_UUID);
                 event.setCanceled(true);
                 event.setResult(Result.DENY);
@@ -40,7 +40,7 @@ public class RaidCapture
         }
         else
         {
-            if (catcher instanceof Player) ((Player) catcher).sendMessage(new TranslatableComponent(
+            if (catcher instanceof Player) ((Player) catcher).sendMessage(TComponent.translatable(
                     "pokecube.denied"), Util.NIL_UUID);
             event.setCanceled(true);
             event.setResult(Result.DENY);
@@ -50,7 +50,7 @@ public class RaidCapture
         // No Catch normal Pokemobs
         if (dynamaxCube && !raidMob)
         {
-            if (catcher instanceof Player) ((Player) catcher).sendMessage(new TranslatableComponent(
+            if (catcher instanceof Player) ((Player) catcher).sendMessage(TComponent.translatable(
                     "pokecube.denied"), Util.NIL_UUID);
             event.setCanceled(true);
             event.setResult(Result.DENY);

@@ -1,7 +1,6 @@
 package pokecube.legends.conditions.custom;
 
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -9,6 +8,7 @@ import pokecube.api.stats.CaptureStats;
 import pokecube.core.database.Database;
 import pokecube.legends.conditions.AbstractCondition;
 import pokecube.mobs.moves.world.ActionTeleport;
+import thut.lib.TComponent;
 
 public class Mew extends AbstractCondition
 {
@@ -29,7 +29,7 @@ public class Mew extends AbstractCondition
     @Override
     public MutableComponent getFailureMessage(final Entity trainer)
     {
-        return new TranslatableComponent("pokecube_legends.mew.badges", this.getEntry().getTranslatedName());
+        return TComponent.translatable("pokecube_legends.mew.badges", this.getEntry().getTranslatedName());
     }
 
     @Override

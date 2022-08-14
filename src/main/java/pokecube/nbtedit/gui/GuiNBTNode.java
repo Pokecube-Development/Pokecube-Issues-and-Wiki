@@ -7,11 +7,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.nbtedit.NBTStringHelper;
 import pokecube.nbtedit.nbt.NamedNBT;
 import pokecube.nbtedit.nbt.Node;
+import thut.lib.TComponent;
 
 public class GuiNBTNode extends Button
 {
@@ -31,7 +31,7 @@ public class GuiNBTNode extends Button
 
     public GuiNBTNode(final GuiNBTTree tree, final Node<NamedNBT> node, final int x, final int y)
     {
-        super(x, y, 10, Minecraft.getInstance().font.lineHeight, new TextComponent(node.toString()), b -> tree
+        super(x, y, 10, Minecraft.getInstance().font.lineHeight, TComponent.literal(node.toString()), b -> tree
                 .nodeClicked((GuiNBTNode) b));
         this.tree = tree;
         this.node = node;

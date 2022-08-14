@@ -8,12 +8,12 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ScreenEvent.InitScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import thut.lib.TComponent;
 import thut.wearables.ThutWearables;
 import thut.wearables.network.PacketGui;
 
@@ -51,7 +51,7 @@ public class GuiEvents
             final GuiWearableButton button;
             event.getScreen().addRenderableWidget(button = new GuiWearableButton(gui.getGuiLeft()
                     + ThutWearables.config.buttonPos.get(0), gui.getGuiTop() + ThutWearables.config.buttonPos.get(1), 9,
-                    9, new TranslatableComponent(this.active ? "button.wearables.off" : "button.wearables.on"),
+                    9, TComponent.translatable(this.active ? "button.wearables.off" : "button.wearables.on"),
                     b -> this.pressButton(gui)));
             button.setFGColor(0xFFFF00FF);
         }
@@ -61,7 +61,7 @@ public class GuiEvents
             this.active = event.getScreen() instanceof GuiWearables;
             GuiWearableButton button;
             event.getScreen().addRenderableWidget(button = new GuiWearableButton(gui.getGuiLeft() + 43, gui.getGuiTop()
-                    + 9, 9, 9, new TranslatableComponent(this.active ? "button.wearables.off" : "button.wearables.on"),
+                    + 9, 9, 9, TComponent.translatable(this.active ? "button.wearables.off" : "button.wearables.on"),
                     b -> this.pressButton(gui)));
             button.setFGColor(0xFFFF00FF);
             button.visible = button.active = gui.getSelectedTab() == 11;

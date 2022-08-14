@@ -9,7 +9,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -55,6 +54,7 @@ import thut.api.entity.blockentity.BlockEntityUpdater;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
+import thut.lib.TComponent;
 
 public interface ICanEvolve extends IHasEntry, IHasOwner
 {
@@ -296,7 +296,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         }
         this.setEvolutionTicks(-1);
         this.setGeneralState(GeneralStates.EVOLVING, false);
-        this.displayMessageToOwner(new TranslatableComponent("pokemob.evolution.cancel",
+        this.displayMessageToOwner(TComponent.translatable("pokemob.evolution.cancel",
                 PokemobCaps.getPokemobFor(entity).getDisplayName()));
     }
 
@@ -416,7 +416,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     this.setGeneralState(GeneralStates.EVOLVING, true);
                     // Send the message about evolving, to let user cancel.
                     this.displayMessageToOwner(
-                            new TranslatableComponent("pokemob.evolution.start", thisMob.getDisplayName()));
+                            TComponent.translatable("pokemob.evolution.start", thisMob.getDisplayName()));
                     return thisMob;
                 }
                 // Evolve the mob.
@@ -483,7 +483,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         Collections.shuffle(moves);
         if (!theEntity.getLevel().isClientSide)
         {
-            final Component mess = new TranslatableComponent("pokemob.info.levelup", theMob.getDisplayName(),
+            final Component mess = TComponent.translatable("pokemob.info.levelup", theMob.getDisplayName(),
                     level + "");
             theMob.displayMessageToOwner(mess);
         }
@@ -506,8 +506,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     }
                     for (final String s : moves)
                     {
-                        final Component move = new TranslatableComponent(MovesUtils.getUnlocalizedMove(s));
-                        final Component mess = new TranslatableComponent("pokemob.move.notify.learn",
+                        final Component move = TComponent.translatable(MovesUtils.getUnlocalizedMove(s));
+                        final Component mess = TComponent.translatable("pokemob.move.notify.learn",
                                 theMob.getDisplayName(), move);
                         theMob.displayMessageToOwner(mess);
                         if (!theMob.getMoveStats().newMoves.contains(s))

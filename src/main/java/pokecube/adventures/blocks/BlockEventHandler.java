@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import net.minecraft.Util;
 import net.minecraft.core.GlobalPos;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,6 +23,7 @@ import thut.api.LinkableCaps.PosStorage;
 import thut.api.OwnableCaps;
 import thut.api.block.IOwnableTE;
 import thut.api.entity.CopyCaps;
+import thut.lib.TComponent;
 
 public class BlockEventHandler
 {
@@ -69,12 +69,12 @@ public class BlockEventHandler
                 if (user instanceof Player)
                 {
                     final Player player = (Player) user;
-                    player.displayClientMessage(new TranslatableComponent("block.pokecube_adventures.warp_pad.link",
+                    player.displayClientMessage(TComponent.translatable("block.pokecube_adventures.warp_pad.link",
                             tile.getDest().getInfoName()), true);
                 }
                 else
                 {
-                    user.sendMessage(new TranslatableComponent("block.pokecube_adventures.warp_pad.link",
+                    user.sendMessage(TComponent.translatable("block.pokecube_adventures.warp_pad.link",
                             tile.getDest().getInfoName()), Util.NIL_UUID);
                 }
             }

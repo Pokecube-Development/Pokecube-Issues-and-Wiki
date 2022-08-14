@@ -5,7 +5,6 @@ import java.util.Map;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
@@ -23,6 +22,7 @@ import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.utils.Tools;
 import thut.api.util.JsonUtil;
+import thut.lib.TComponent;
 
 @TradePresetAn(key = "sellExplorationMap")
 public class SellStructureMap implements TradePreset
@@ -73,7 +73,7 @@ public class SellStructureMap implements TradePreset
                     MapItem.renderBiomePreviewMap(serverlevel, itemstack);
                     MapItemSavedData.addTargetDecoration(itemstack, blockpos, "+", MapDecoration.Type.RED_X);
                     itemstack.setHoverName(
-                            new TranslatableComponent("filled_map." + loc.getPath().toLowerCase(Locale.ROOT)));
+                            TComponent.translatable("filled_map." + loc.getPath().toLowerCase(Locale.ROOT)));
                     return itemstack;
                 }
             }

@@ -17,7 +17,6 @@ import com.google.gson.JsonObject;
 import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -35,6 +34,7 @@ import pokecube.core.handlers.PokedexInspector.IInspectReward;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import pokecube.core.utils.Tools;
 import thut.api.util.JsonUtil;
+import thut.lib.TComponent;
 
 public class XMLRewardsHandler
 {
@@ -67,7 +67,7 @@ public class XMLRewardsHandler
                     if (giveReward)
                     {
                         tag.putBoolean(this.tagString, true);
-                        entity.sendMessage(new TranslatableComponent(this.message), Util.NIL_UUID);
+                        entity.sendMessage(TComponent.translatable(this.message), Util.NIL_UUID);
                         final Player PlayerEntity = (Player) entity;
                         Tools.giveItem(PlayerEntity, reward.copy());
                         PokecubePlayerDataHandler.saveCustomData(entity.getStringUUID());
@@ -186,7 +186,7 @@ public class XMLRewardsHandler
                 {
                     final ItemStack book = this.getInfoStack(lang);
                     data.tag.putBoolean(this.key, true);
-                    entity.sendMessage(new TranslatableComponent(this.message), Util.NIL_UUID);
+                    entity.sendMessage(TComponent.translatable(this.message), Util.NIL_UUID);
                     final Player PlayerEntity = (Player) entity;
                     Tools.giveItem(PlayerEntity, book);
                     PokecubePlayerDataHandler.saveCustomData(entity.getStringUUID());

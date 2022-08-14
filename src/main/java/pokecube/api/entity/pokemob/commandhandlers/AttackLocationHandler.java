@@ -2,7 +2,6 @@ package pokecube.api.entity.pokemob.commandhandlers;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.combat.CommandAttackEvent;
@@ -12,6 +11,7 @@ import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
 import thut.api.maths.Vector3;
+import thut.lib.TComponent;
 
 public class AttackLocationHandler extends DefaultHandler
 {
@@ -37,8 +37,8 @@ public class AttackLocationHandler extends DefaultHandler
         {
             final Move_Base move = MovesUtils.getMoveFromName(pokemob.getMoves()[currentMove]);
             // Send move use message first.
-            Component mess = new TranslatableComponent("pokemob.action.usemove", pokemob.getDisplayName(),
-                    new TranslatableComponent(MovesUtils.getUnlocalizedMove(move.getName())));
+            Component mess = TComponent.translatable("pokemob.action.usemove", pokemob.getDisplayName(),
+                    TComponent.translatable(MovesUtils.getUnlocalizedMove(move.getName())));
             if (this.fromOwner()) pokemob.displayMessageToOwner(mess);
 
             final float value = HungerTask.calculateHunger(pokemob);
@@ -46,7 +46,7 @@ public class AttackLocationHandler extends DefaultHandler
             // If too hungry, send message about that.
             if (HungerTask.hitThreshold(value, HungerTask.HUNTTHRESHOLD))
             {
-                mess = new TranslatableComponent("pokemob.action.hungry", pokemob.getDisplayName());
+                mess = TComponent.translatable("pokemob.action.hungry", pokemob.getDisplayName());
                 if (this.fromOwner()) pokemob.displayMessageToOwner(mess);
                 return;
             }

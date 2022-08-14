@@ -10,7 +10,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -29,6 +28,7 @@ import pokecube.nbtedit.packets.EntityRequestPacket;
 import pokecube.nbtedit.packets.PacketHandler;
 import pokecube.nbtedit.packets.TileRequestPacket;
 import thut.core.common.network.Packet;
+import thut.lib.TComponent;
 
 @OnlyIn(value = Dist.CLIENT)
 public class ClientProxy extends CommonProxy
@@ -85,7 +85,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public void sendMessage(final Player player, final String message, final ChatFormatting color)
     {
-        final Component component = new TextComponent(message);
+        final Component component = TComponent.literal(message);
         component.getStyle().withColor(TextColor.fromLegacyFormat(color));
         Minecraft.getInstance().player.sendMessage(component, Util.NIL_UUID);
     }

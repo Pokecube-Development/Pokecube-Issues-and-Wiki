@@ -9,7 +9,6 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Maps;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -20,6 +19,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeItems;
 import pokecube.core.impl.PokecubeMod;
+import thut.lib.TComponent;
 
 public class ItemMegawearable extends Item
 {
@@ -72,7 +72,7 @@ public class ItemMegawearable extends Item
         {
             final int damage = stack.getTag().getInt("dyeColour");
             final DyeColor colour = DyeColor.byId(damage);
-            tooltip.add(new TranslatableComponent(colour.getName()));
+            tooltip.add(TComponent.translatable(colour.getName()));
         }
     }
 

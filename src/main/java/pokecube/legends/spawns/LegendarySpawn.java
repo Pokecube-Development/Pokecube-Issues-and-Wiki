@@ -6,7 +6,6 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Mob;
@@ -37,6 +36,7 @@ import pokecube.legends.PokecubeLegends;
 import pokecube.legends.conditions.AbstractCondition;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
+import thut.lib.TComponent;
 
 public class LegendarySpawn
 {
@@ -162,8 +162,8 @@ public class LegendarySpawn
                 SpawnContext context = new SpawnContext((ServerPlayer) evt.getPlayer(), level, entry, location);
                 if (spawnCondition.canSpawn(context, false).test()) break;
             }
-            evt.getPlayer().displayClientMessage(new TranslatableComponent("msg.noitem.info",
-                    new TranslatableComponent(match.entry.getUnlocalizedName())), true);
+            evt.getPlayer().displayClientMessage(TComponent.translatable("msg.noitem.info",
+                    TComponent.translatable(match.entry.getUnlocalizedName())), true);
             evt.getPlayer().getPersistentData().putLong("pokecube_legends:msgtick", Tracker.instance().getTick());
             return;
         }
@@ -216,22 +216,22 @@ public class LegendarySpawn
         if (already_spawned.size() > 0)
         {
             Collections.shuffle(already_spawned);
-            evt.getPlayer().displayClientMessage(new TranslatableComponent("msg.alreadyspawned.info",
-                    new TranslatableComponent(already_spawned.get(0).getUnlocalizedName())), true);
+            evt.getPlayer().displayClientMessage(TComponent.translatable("msg.alreadyspawned.info",
+                    TComponent.translatable(already_spawned.get(0).getUnlocalizedName())), true);
             return;
         }
         if (wrong_items.size() > 0)
         {
             Collections.shuffle(wrong_items);
-            evt.getPlayer().displayClientMessage(new TranslatableComponent("msg.wrongitem.info",
-                    new TranslatableComponent(wrong_items.get(0).getUnlocalizedName())), true);
+            evt.getPlayer().displayClientMessage(TComponent.translatable("msg.wrongitem.info",
+                    TComponent.translatable(wrong_items.get(0).getUnlocalizedName())), true);
             return;
         }
         if (wrong_biomes.size() > 0)
         {
             Collections.shuffle(wrong_biomes);
-            evt.getPlayer().displayClientMessage(new TranslatableComponent("msg.nohere.info",
-                    new TranslatableComponent(matches.get(0).entry.getUnlocalizedName())), true);
+            evt.getPlayer().displayClientMessage(TComponent.translatable("msg.nohere.info",
+                    TComponent.translatable(matches.get(0).entry.getUnlocalizedName())), true);
             return;
         }
 

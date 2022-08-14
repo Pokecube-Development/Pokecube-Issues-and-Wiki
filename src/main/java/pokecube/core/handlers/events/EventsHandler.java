@@ -14,8 +14,6 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -133,6 +131,7 @@ import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 import thut.core.common.handlers.PlayerDataHandler.PlayerDataManager;
 import thut.core.common.world.mobs.data.DataSync_Impl;
+import thut.lib.TComponent;
 
 public class EventsHandler
 {
@@ -495,16 +494,16 @@ public class EventsHandler
             }
             if (!valid.isEmpty())
             {
-                player.sendMessage(new TextComponent("Spawn Presets valid for here:"), player.getUUID());
-                for (String s : valid) player.sendMessage(new TextComponent(s), player.getUUID());
+                player.sendMessage(TComponent.literal("Spawn Presets valid for here:"), player.getUUID());
+                for (String s : valid) player.sendMessage(TComponent.literal(s), player.getUUID());
             }
-            else player.sendMessage(new TextComponent("No matching presets for this location"), player.getUUID());
+            else player.sendMessage(TComponent.literal("No matching presets for this location"), player.getUUID());
         }
         if (isSubbiomeDebug)
         {
             TerrainSegment seg = TerrainManager.getInstance().getTerrainForEntity(player);
             BiomeType type = seg.getBiome(v);
-            player.sendMessage(new TextComponent("SubBiome Type: " + type.name), player.getUUID());
+            player.sendMessage(TComponent.literal("SubBiome Type: " + type.name), player.getUUID());
         }
     }
 
@@ -810,7 +809,7 @@ public class EventsHandler
         PacketPokedex.sendLoginPacket(player);
         if (PokecubeCore.getConfig().guiOnLogin) new ChooseFirst(player);
         else if (!PokecubeSerializer.getInstance().hasStarter(player) && PokecubeCore.getConfig().msgAboutProfessor)
-            player.sendMessage(new TranslatableComponent("pokecube.login.find_prof_or_config"), Util.NIL_UUID);
+            player.sendMessage(TComponent.translatable("pokecube.login.find_prof_or_config"), Util.NIL_UUID);
     }
 
     public static void recallAllPokemobs(final LivingEntity user)

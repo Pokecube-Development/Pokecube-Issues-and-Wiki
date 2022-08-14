@@ -22,7 +22,6 @@ import com.google.gson.JsonObject;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.TagKey;
@@ -88,6 +87,7 @@ import pokecube.core.items.vitamins.ItemCandy;
 import pokecube.core.utils.Tools;
 import thut.api.item.ItemList;
 import thut.api.util.JsonUtil;
+import thut.lib.TComponent;
 
 public class PokecubeItems extends ItemList
 {
@@ -736,7 +736,7 @@ public class PokecubeItems extends ItemList
         final ItemStack candy = PokecubeItems.getStack("candy");
         if (candy.isEmpty()) return ItemStack.EMPTY;
         PokecubeItems.makeStackValid(candy);
-        candy.setHoverName(new TranslatableComponent("item.pokecube.candy.rare"));
+        candy.setHoverName(TComponent.translatable("item.pokecube.candy.rare"));
         return candy;
     }
 

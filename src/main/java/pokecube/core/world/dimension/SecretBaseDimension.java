@@ -19,7 +19,6 @@ import net.minecraft.core.SectionPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -63,6 +62,7 @@ import pokecube.core.utils.PokecubeSerializer;
 import thut.api.entity.ThutTeleporter;
 import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.api.maths.Vector3;
+import thut.lib.TComponent;
 
 public class SecretBaseDimension
 {
@@ -79,7 +79,7 @@ public class SecretBaseDimension
         final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), true);
         final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
-        player.sendMessage(new TranslatableComponent("pokecube.secretbase.enter"), Util.NIL_UUID);
+        player.sendMessage(TComponent.translatable("pokecube.secretbase.enter"), Util.NIL_UUID);
     }
 
     public static void sendToExit(final ServerPlayer player, final UUID baseOwner)
@@ -87,7 +87,7 @@ public class SecretBaseDimension
         final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), false);
         final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
-        player.sendMessage(new TranslatableComponent("pokecube.secretbase.exit"), Util.NIL_UUID);
+        player.sendMessage(TComponent.translatable("pokecube.secretbase.exit"), Util.NIL_UUID);
     }
 
     public static void setSecretBasePoint(final ServerPlayer player, final GlobalPos gpos, final boolean inBase)

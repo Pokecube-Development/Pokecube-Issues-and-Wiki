@@ -7,7 +7,6 @@ import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -22,6 +21,7 @@ import pokecube.api.entity.trainers.actions.Action;
 import pokecube.api.entity.trainers.actions.ActionContext;
 import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.core.impl.PokecubeMod;
+import thut.lib.TComponent;
 
 public class CapabilityNPCMessages
 {
@@ -90,7 +90,7 @@ public class CapabilityNPCMessages
         {
             if (target instanceof FakePlayer || this.messages.get(state) == null || this.messages.get(state).trim()
                     .isEmpty()) return false;
-            target.sendMessage(new TranslatableComponent(this.messages.get(state), args), Util.NIL_UUID);
+            target.sendMessage(TComponent.translatable(this.messages.get(state), args), Util.NIL_UUID);
             if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug(state + ": " + this.messages.get(state));
             return true;
         }

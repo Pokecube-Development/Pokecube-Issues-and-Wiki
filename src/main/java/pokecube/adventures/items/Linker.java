@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -28,6 +27,7 @@ import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.LinkableCaps.LinkStorage;
 import thut.api.OwnableCaps;
 import thut.api.ThutCaps;
+import thut.lib.TComponent;
 
 public class Linker extends Item
 {
@@ -69,13 +69,13 @@ public class Linker extends Item
                     if (user instanceof Player)
                     {
                         final Player player = (Player) user;
-                        player.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linker.unset"),
+                        player.displayClientMessage(TComponent.translatable("item.pokecube_adventures.linker.unset"),
                                 true);
                         player.swing(player.getUsedItemHand());
                     }
                     else
                     {
-                        user.sendMessage(new TranslatableComponent("item.pokecube_adventures.linker.unset"),
+                        user.sendMessage(TComponent.translatable("item.pokecube_adventures.linker.unset"),
                                 Util.NIL_UUID);
                     }
                 }
@@ -89,13 +89,13 @@ public class Linker extends Item
                     if (user instanceof Player)
                     {
                         final Player player = (Player) user;
-                        player.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linker.set"),
+                        player.displayClientMessage(TComponent.translatable("item.pokecube_adventures.linker.set"),
                                 true);
                         player.swing(player.getUsedItemHand());
                     }
                     else
                     {
-                        user.sendMessage(new TranslatableComponent("item.pokecube_adventures.linker.set"),
+                        user.sendMessage(TComponent.translatable("item.pokecube_adventures.linker.set"),
                                 Util.NIL_UUID);
                     }
                 }
@@ -106,13 +106,13 @@ public class Linker extends Item
                     if (user instanceof Player)
                     {
                         final Player player = (Player) user;
-                        player.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linker.set"),
+                        player.displayClientMessage(TComponent.translatable("item.pokecube_adventures.linker.set"),
                                 true);
                         player.swing(player.getUsedItemHand());
                     }
                     else
                     {
-                        user.sendMessage(new TranslatableComponent("item.pokecube_adventures.linker.set"),
+                        user.sendMessage(TComponent.translatable("item.pokecube_adventures.linker.set"),
                                 Util.NIL_UUID);
                     }
                 }
@@ -153,12 +153,12 @@ public class Linker extends Item
             {
                 final BlockPos bpos = pos.pos().above();
                 ai.getPrimaryTask().setPos(pos.pos().above());
-                playerIn.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linked.mob",
+                playerIn.displayClientMessage(TComponent.translatable("item.pokecube_adventures.linked.mob",
                         target.getDisplayName(), bpos.getX(), bpos.getY(), bpos.getZ()), true);
                 playerIn.swing(playerIn.getUsedItemHand());
                 return true;
             }
-            else playerIn.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linked.mob.fail"),
+            else playerIn.displayClientMessage(TComponent.translatable("item.pokecube_adventures.linked.mob.fail"),
                     true);
         }
         return false;

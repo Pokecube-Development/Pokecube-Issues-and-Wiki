@@ -24,7 +24,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -92,6 +91,7 @@ import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 /** @author Manchou */
 public class PokedexEntry
@@ -155,33 +155,33 @@ public class PokedexEntry
         public List<MutableComponent> getEvoClauses()
         {
             final List<MutableComponent> comps = Lists.newArrayList();
-            if (this.level > 0) comps.add(new TranslatableComponent("pokemob.description.evolve.level", this.level));
-            if (this.traded) comps.add(new TranslatableComponent("pokemob.description.evolve.traded"));
-            if (this.gender == 1) comps.add(new TranslatableComponent("pokemob.description.evolve.male"));
-            if (this.gender == 2) comps.add(new TranslatableComponent("pokemob.description.evolve.female"));
+            if (this.level > 0) comps.add(TComponent.translatable("pokemob.description.evolve.level", this.level));
+            if (this.traded) comps.add(TComponent.translatable("pokemob.description.evolve.traded"));
+            if (this.gender == 1) comps.add(TComponent.translatable("pokemob.description.evolve.male"));
+            if (this.gender == 2) comps.add(TComponent.translatable("pokemob.description.evolve.female"));
             if (!this.item.isEmpty()) comps.add(
-                    new TranslatableComponent("pokemob.description.evolve.item", this.item.getHoverName().getString()));
+                    TComponent.translatable("pokemob.description.evolve.item", this.item.getHoverName().getString()));
             else if (this.preset != null)
             {
                 final ItemStack stack = PokecubeItems.getStack(this.preset);
                 if (!stack.isEmpty()) comps.add(
-                        new TranslatableComponent("pokemob.description.evolve.item", stack.getHoverName().getString()));
+                        TComponent.translatable("pokemob.description.evolve.item", stack.getHoverName().getString()));
             }
-            if (this.happy) comps.add(new TranslatableComponent("pokemob.description.evolve.happy"));
-            if (this.dawnOnly) comps.add(new TranslatableComponent("pokemob.description.evolve.dawn"));
-            if (this.duskOnly) comps.add(new TranslatableComponent("pokemob.description.evolve.dusk"));
-            if (this.dayOnly) comps.add(new TranslatableComponent("pokemob.description.evolve.day"));
-            if (this.nightOnly) comps.add(new TranslatableComponent("pokemob.description.evolve.night"));
-            if (this.rainOnly) comps.add(new TranslatableComponent("pokemob.description.evolve.rain"));
+            if (this.happy) comps.add(TComponent.translatable("pokemob.description.evolve.happy"));
+            if (this.dawnOnly) comps.add(TComponent.translatable("pokemob.description.evolve.dawn"));
+            if (this.duskOnly) comps.add(TComponent.translatable("pokemob.description.evolve.dusk"));
+            if (this.dayOnly) comps.add(TComponent.translatable("pokemob.description.evolve.day"));
+            if (this.nightOnly) comps.add(TComponent.translatable("pokemob.description.evolve.night"));
+            if (this.rainOnly) comps.add(TComponent.translatable("pokemob.description.evolve.rain"));
 
             // TODO add in info related to needed formes.
             if (this.randomFactor != 1)
             {
                 final String var = (int) (100 * this.randomFactor) + "%";
-                comps.add(new TranslatableComponent("pokemob.description.evolve.chance", var));
+                comps.add(TComponent.translatable("pokemob.description.evolve.chance", var));
             }
             if (this.move != null && !this.move.isEmpty())
-                comps.add(new TranslatableComponent("pokemob.description.evolve.move",
+                comps.add(TComponent.translatable("pokemob.description.evolve.move",
                         MovesUtils.getMoveName(this.move).getString()));
             if (this.matcher != null)
             {
@@ -209,7 +209,7 @@ public class PokedexEntry
             // @formatter:on
             final PokedexEntry entry = this.preEvolution;
             final PokedexEntry nex = this.evolution;
-            final MutableComponent subEvo = new TranslatableComponent("pokemob.description.evolve.to",
+            final MutableComponent subEvo = TComponent.translatable("pokemob.description.evolve.to",
                     entry.getTranslatedName(), nex.getTranslatedName());
             final List<MutableComponent> list = this.getEvoClauses();
             for (final MutableComponent item : list) subEvo.append("\n").append(item);
@@ -1548,7 +1548,7 @@ public class PokedexEntry
             final MutableComponent typeString = PokeType.getTranslatedName(entry.getType1());
             if (entry.getType2() != PokeType.unknown)
                 typeString.append("/").append(PokeType.getTranslatedName(entry.getType2()));
-            final MutableComponent typeDesc = new TranslatableComponent("pokemob.description.type",
+            final MutableComponent typeDesc = TComponent.translatable("pokemob.description.type",
                     entry.getTranslatedName(), typeString);
             MutableComponent evoString = null;
             if (entry.canEvolve()) for (final EvolutionData d : entry.evolutions)
@@ -1561,7 +1561,7 @@ public class PokedexEntry
             MutableComponent descString = typeDesc;
             if (evoString != null) descString = descString.append("\n").append(evoString);
             if (entry._evolvesFrom != null)
-                descString = descString.append("\n").append(new TranslatableComponent("pokemob.description.evolve.from",
+                descString = descString.append("\n").append(TComponent.translatable("pokemob.description.evolve.from",
                         entry.getTranslatedName(), entry._evolvesFrom.getTranslatedName()));
             this.description = descString;
         }
@@ -1811,7 +1811,7 @@ public class PokedexEntry
         {
             String key = this.getUnlocalizedName();
             if (!(this.getEntityType() instanceof PokemobType<?>)) key = this.getEntityType().getDescriptionId();
-            this.nameComp = new TranslatableComponent(key);
+            this.nameComp = TComponent.translatable(key);
             this.nameComp.setStyle(this.nameComp.getStyle().withClickEvent(
                     new ClickEvent(net.minecraft.network.chat.ClickEvent.Action.CHANGE_PAGE, this.getTrimmedName())));
         }

@@ -14,8 +14,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.entity.LevelEntityGetter;
@@ -29,6 +27,7 @@ import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.Tools;
 import thut.api.entity.ai.RootTask;
+import thut.lib.TComponent;
 
 public class Count
 {
@@ -58,9 +57,9 @@ public class Count
         }
         final List<Map.Entry<PokedexEntry, Integer>> entries = Lists.newArrayList(counts.entrySet());
         Collections.sort(entries, (o1, o2) -> o2.getValue() - o1.getValue());
-        source.sendSuccess(new TranslatableComponent("pokecube.command.count", count1, count2), true);
-        source.sendSuccess(new TextComponent(entries.toString()), true);
-        if (RootTask.doLoadThrottling) source.sendSuccess(new TextComponent("Load Factor: " + RootTask.runRate),
+        source.sendSuccess(TComponent.translatable("pokecube.command.count", count1, count2), true);
+        source.sendSuccess(TComponent.literal(entries.toString()), true);
+        if (RootTask.doLoadThrottling) source.sendSuccess(TComponent.literal("Load Factor: " + RootTask.runRate),
                 true);
         return 0;
     }

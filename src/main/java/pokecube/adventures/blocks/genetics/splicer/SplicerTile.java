@@ -1,7 +1,7 @@
 package pokecube.adventures.blocks.genetics.splicer;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
@@ -18,6 +18,7 @@ import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSplice;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.lib.TComponent;
 
 public class SplicerTile extends BaseGeneticsTile
 {
@@ -42,8 +43,8 @@ public class SplicerTile extends BaseGeneticsTile
             return ClonerHelper.getGenes(stack) != null;
         case 1:// DNA Selector
             final boolean hasGenes = !ClonerHelper.getGeneSelectors(stack).isEmpty();
-            final boolean selector = hasGenes || RecipeSelector.getSelectorValue(
-                    stack) != RecipeSelector.defaultSelector;
+            final boolean selector = hasGenes
+                    || RecipeSelector.getSelectorValue(stack) != RecipeSelector.defaultSelector;
             return hasGenes || selector;
         case 2:// DNA Destination
             final IMobGenetics genes = ClonerHelper.getGenes(stack);
@@ -62,9 +63,9 @@ public class SplicerTile extends BaseGeneticsTile
     public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
             final BlockHitResult hit)
     {
-        final TranslatableComponent name = new TranslatableComponent("block.pokecube_adventures.splicer");
-        player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) -> new SplicerContainer(
-                id, playerInventory, ContainerLevelAccess.create(this.getLevel(), pos)), name));
+        final MutableComponent name = TComponent.translatable("block.pokecube_adventures.splicer");
+        player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) -> new SplicerContainer(id,
+                playerInventory, ContainerLevelAccess.create(this.getLevel(), pos)), name));
         return InteractionResult.SUCCESS;
     }
 }

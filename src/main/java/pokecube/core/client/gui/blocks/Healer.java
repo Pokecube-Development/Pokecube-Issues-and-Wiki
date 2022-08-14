@@ -7,12 +7,12 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Inventory;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.network.packets.PacketHeal;
+import thut.lib.TComponent;
 
 public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T>
 {
@@ -48,7 +48,7 @@ public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T
     public void init()
     {
         super.init();
-        final Component heal = new TranslatableComponent("block.pokecenter.heal");
+        final Component heal = TComponent.translatable("block.pokecenter.heal");
         this.addRenderableWidget(new Button(this.width / 2 + 21, this.height / 2 - 50, 60, 20, heal, b ->
         {
             final PacketHeal packet = new PacketHeal();

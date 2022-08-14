@@ -11,11 +11,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent.RenderMoveMessages;
 import pokecube.core.client.gui.helper.ListHelper;
+import thut.lib.TComponent;
 
 public class GuiInfoMessages
 {
@@ -127,7 +127,7 @@ public class GuiInfoMessages
             int index = l + GuiInfoMessages.offset;
             if (index < 0) index = 0;
             if (index > size) break;
-            final TextComponent mess2 = new TextComponent(toUse.get(index));
+            final MutableComponent mess2 = TComponent.literal(toUse.get(index));
             final List<MutableComponent> mess1 = ListHelper.splitText(mess2, trim, minecraft.font, true);
             for (int j = mess1.size() - 1; j >= 0; j--)
             {

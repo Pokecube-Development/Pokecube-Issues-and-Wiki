@@ -11,7 +11,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -19,6 +18,7 @@ import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.nbtedit.NBTEdit;
 import thut.core.common.Proxy;
+import thut.lib.TComponent;
 
 public class CommonProxy implements Proxy
 {
@@ -72,7 +72,7 @@ public class CommonProxy implements Proxy
     {
         if (player != null)
         {
-            final Component component = new TextComponent(message);
+            final Component component = TComponent.literal(message);
             component.getStyle().withColor(TextColor.fromLegacyFormat(color));
             player.sendMessage(component, Util.NIL_UUID);
         }

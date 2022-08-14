@@ -7,7 +7,6 @@ import com.google.common.collect.Maps;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -25,6 +24,7 @@ import pokecube.api.moves.IMoveConstants;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.damage.StatusEffectDamageSource;
+import thut.lib.TComponent;
 
 public class NonPersistantStatusEffect extends BaseEffect
 {
@@ -51,7 +51,7 @@ public class NonPersistantStatusEffect extends BaseEffect
             case CURSED:
                 if (pokemob != null)
                 {
-                    final Component mess = new TranslatableComponent("pokemob.status.curse.ours", pokemob
+                    final Component mess = TComponent.translatable("pokemob.status.curse.ours", pokemob
                             .getDisplayName());
                     pokemob.displayMessageToOwner(mess);
                 }

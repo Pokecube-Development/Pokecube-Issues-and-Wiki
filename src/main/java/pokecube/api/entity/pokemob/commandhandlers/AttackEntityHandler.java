@@ -2,7 +2,6 @@ package pokecube.api.entity.pokemob.commandhandlers;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -14,6 +13,7 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
+import thut.lib.TComponent;
 
 public class AttackEntityHandler extends DefaultHandler
 {
@@ -50,8 +50,8 @@ public class AttackEntityHandler extends DefaultHandler
             if (move.isSelfMove()) pokemob.executeMove(pokemob.getEntity(), null, 0);
             else
             {
-                final Component mess = new TranslatableComponent("pokemob.command.attack", pokemob
-                        .getDisplayName(), target.getDisplayName(), new TranslatableComponent(MovesUtils
+                final Component mess = TComponent.translatable("pokemob.command.attack", pokemob
+                        .getDisplayName(), target.getDisplayName(), TComponent.translatable(MovesUtils
                                 .getUnlocalizedMove(move.getName())));
                 if (this.fromOwner()) pokemob.displayMessageToOwner(mess);
                 BrainUtils.initiateCombat(pokemob.getEntity(), (LivingEntity) target);

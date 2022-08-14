@@ -8,8 +8,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
@@ -22,6 +20,7 @@ import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketPokedex;
+import thut.lib.TComponent;
 
 public abstract class PokeInfoPage extends WatchPage
 {
@@ -34,7 +33,7 @@ public abstract class PokeInfoPage extends WatchPage
     public PokeInfoPage(final PokemobInfoPage parent, final String title, final ResourceLocation day,
             final ResourceLocation night)
     {
-        super(new TranslatableComponent("pokewatch.title.pokeinfo." + title), parent.watch, day, night);
+        super(TComponent.translatable("pokewatch.title.pokeinfo." + title), parent.watch, day, night);
         this.parent = parent;
     }
 
@@ -56,10 +55,10 @@ public abstract class PokeInfoPage extends WatchPage
         super.init();
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 3;
-        final Component next = new TextComponent(">");
-        final Component prev = new TextComponent("<");
-        final Component form = new TextComponent("\u2500");
-        final Component cry = new TextComponent("\u266B");
+        final Component next = TComponent.literal(">");
+        final Component prev = TComponent.literal("<");
+        final Component form = TComponent.literal("\u2500");
+        final Component cry = TComponent.literal("\u266B");
         final TexButton nextBtn = this.addRenderableWidget(new TexButton(x - 66, y + 35, 12, 20, next, b ->
         {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();

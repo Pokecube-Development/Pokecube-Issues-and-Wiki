@@ -12,7 +12,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -39,6 +38,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.legends.Reference;
 import pokecube.legends.blocks.BlockBase;
 import thut.api.item.ItemList;
+import thut.lib.TComponent;
 
 public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock
 {
@@ -66,7 +66,7 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock
         String message;
         if (Screen.hasShiftDown()) message = I18n.get("pokecube_legends." + this.infoName +".tooltip", ChatFormatting.GOLD, ChatFormatting.RESET);
         else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(new TranslatableComponent(message));
+        tooltip.add(TComponent.translatable(message));
     }
 
     // Precise selection box
@@ -170,7 +170,7 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock
   	    }
   	    else if (!ItemList.is(CramomaticBlock.CRAMOMATIC_FUEL, entity.getMainHandItem()))
   	    {
-  	      entity.displayClientMessage(new TranslatableComponent("msg.pokecube_legends.cramomatic.fail"), true);
+  	      entity.displayClientMessage(TComponent.translatable("msg.pokecube_legends.cramomatic.fail"), true);
   	      return InteractionResult.PASS;
   	    }
   	    return InteractionResult.PASS;

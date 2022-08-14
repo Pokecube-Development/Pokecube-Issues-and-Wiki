@@ -7,7 +7,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
@@ -71,6 +71,7 @@ import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
+import thut.lib.TComponent;
 
 public class MoveEventsHandler
 {
@@ -269,7 +270,7 @@ public class MoveEventsHandler
         MinecraftForge.EVENT_BUS.post(evt);
         if (evt.isCanceled())
         {
-            final TranslatableComponent message = new TranslatableComponent("pokemob.createbase.deny.noperms");
+            final MutableComponent message = TComponent.translatable("pokemob.createbase.deny.noperms");
             if (!user.inCombat() && denyMessage) owner.sendMessage(message, Util.NIL_UUID);
             return false;
         }

@@ -12,7 +12,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -29,6 +28,7 @@ import pokecube.api.PokecubeAPI;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.api.world.WorldTickManager;
+import thut.lib.TComponent;
 
 @Mod.EventBusSubscriber
 public class DebugInteractions
@@ -75,13 +75,13 @@ public class DebugInteractions
             List<ResourceLocation> found = Lists.newArrayList();
             List<ResourceLocation> not_found = Lists.newArrayList();
             Map<ResourceLocation, Pair<Integer, BlockPos>> found_map = Maps.newHashMap();
-            player.sendMessage(new TextComponent("Searching for Structures!"), player.getUUID());
+            player.sendMessage(TComponent.literal("Searching for Structures!"), player.getUUID());
             for (var feature : list)
             {
                 var name = registry.getKey(feature);
                 if (name.toString().startsWith("pokecube"))
                 {
-                    player.sendMessage(new TextComponent("Checking " + name), player.getUUID());
+                    player.sendMessage(TComponent.literal("Checking " + name), player.getUUID());
                     final ResourceKey<ConfiguredStructureFeature<?, ?>> structure = ResourceKey
                             .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, name);
                     var holder = registry.getHolderOrThrow(structure);
@@ -100,7 +100,7 @@ public class DebugInteractions
                     }
                 }
             }
-            player.sendMessage(new TextComponent("Search Complete"), player.getUUID());
+            player.sendMessage(TComponent.literal("Search Complete"), player.getUUID());
             found.sort(null);
             not_found.sort(null);
             PokecubeAPI.LOGGER.info("Structures Found:");

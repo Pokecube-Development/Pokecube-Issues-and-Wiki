@@ -2,7 +2,7 @@ package pokecube.legends.init.moves;
 
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -21,6 +21,7 @@ import pokecube.legends.tileentity.RingTile;
 import thut.api.Tracker;
 import thut.api.entity.IHungrymob;
 import thut.api.maths.Vector3;
+import thut.lib.TComponent;
 
 public class ActionHyperspaceHole implements IMoveAction
 {
@@ -34,7 +35,7 @@ public class ActionHyperspaceHole implements IMoveAction
         if (user.inCombat()) return false;
         final LivingEntity owner = user.getOwner();
         if (!(owner instanceof ServerPlayer)) return false;
-        final TranslatableComponent message;
+        final MutableComponent message;
         final IHungrymob mob = user;
         int count = 1;
         final int level = user.getLevel();
@@ -42,7 +43,7 @@ public class ActionHyperspaceHole implements IMoveAction
         count = (int) Math.max(1, Math.ceil(count * Math.pow((100 - level) / 100d, 3))) * hungerValue;
         if (level < PokecubeLegends.config.levelCreatePortal)
         {
-            message = new TranslatableComponent("msg.hoopaportal.deny.too_weak");
+            message = TComponent.translatable("msg.hoopaportal.deny.too_weak");
             if (owner instanceof Player)
             {
                 final Player player = (Player) owner;
@@ -63,7 +64,7 @@ public class ActionHyperspaceHole implements IMoveAction
                 final long diff = now - lastUse;
                 if (diff < PokecubeLegends.config.ticksPerPortalSpawn)
                 {
-                    message = new TranslatableComponent("msg.hoopaportal.deny.too_soon");
+                    message = TComponent.translatable("msg.hoopaportal.deny.too_soon");
 
                     if (owner instanceof Player)
                     {
@@ -85,7 +86,7 @@ public class ActionHyperspaceHole implements IMoveAction
             // Didn't place, so lets skip
             if (state == null)
             {
-                message = new TranslatableComponent("msg.hoopaportal.deny.invalid");
+                message = TComponent.translatable("msg.hoopaportal.deny.invalid");
                 mob.applyHunger(count);
             }
             else
@@ -94,7 +95,7 @@ public class ActionHyperspaceHole implements IMoveAction
                 block.place(world, prevPos, context.getHorizontalDirection());
                 final BlockEntity tile = world.getBlockEntity(prevPos.above());
                 if (tile instanceof RingTile) ((RingTile) tile).despawns = true;
-                message = new TranslatableComponent("msg.hoopaportal.accept.info");
+                message = TComponent.translatable("msg.hoopaportal.accept.info");
                 mob.applyHunger(count);
             }
             if (owner instanceof Player)

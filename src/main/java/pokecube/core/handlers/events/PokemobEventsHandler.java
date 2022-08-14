@@ -15,7 +15,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerBossEvent;
@@ -118,6 +117,7 @@ import thut.api.maths.vecmath.Vec3f;
 import thut.api.terrain.TerrainManager;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
+import thut.lib.TComponent;
 
 public class PokemobEventsHandler
 {
@@ -730,7 +730,7 @@ public class PokemobEventsHandler
             }
             final Entity targetOwner = attackedMob.getOwner();
             attacker.displayMessageToOwner(
-                    new TranslatableComponent("pokemob.action.faint.enemy", attackedMob.getDisplayName()));
+                    TComponent.translatable("pokemob.action.faint.enemy", attackedMob.getDisplayName()));
             if (targetOwner instanceof Player && attacker.getOwner() != targetOwner)
                 BrainUtils.initiateCombat(pokemob, (LivingEntity) targetOwner);
             else BrainUtils.deagro(pokemob);
@@ -902,7 +902,7 @@ public class PokemobEventsHandler
         if (deny)
         {
             // Add message here about cannot use items right now
-            player.sendMessage(new TranslatableComponent("pokemob.action.cannotuse"), Util.NIL_UUID);
+            player.sendMessage(TComponent.translatable("pokemob.action.cannotuse"), Util.NIL_UUID);
             return;
         }
 

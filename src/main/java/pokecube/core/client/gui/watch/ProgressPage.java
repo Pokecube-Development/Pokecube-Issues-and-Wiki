@@ -8,8 +8,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
@@ -22,6 +20,7 @@ import pokecube.core.client.gui.watch.progress.Progress;
 import pokecube.core.client.gui.watch.util.PageWithSubPages;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
+import thut.lib.TComponent;
 
 public class ProgressPage extends PageWithSubPages<Progress>
 {
@@ -54,7 +53,7 @@ public class ProgressPage extends PageWithSubPages<Progress>
 
     public ProgressPage(final GuiPokeWatch watch)
     {
-        super(new TranslatableComponent("pokewatch.progress.main.title"), watch, ProgressPage.TEX_DM,
+        super(TComponent.translatable("pokewatch.progress.main.title"), watch, ProgressPage.TEX_DM,
                 ProgressPage.TEX_NM);
     }
 
@@ -98,8 +97,8 @@ public class ProgressPage extends PageWithSubPages<Progress>
     {
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
-        final Component next = new TextComponent(">");
-        final Component prev = new TextComponent("<");
+        final Component next = TComponent.literal(">");
+        final Component prev = TComponent.literal("<");
         final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 90, y - 70, 12, 12, next, b ->
         {
             this.changePage(this.index + 1);
