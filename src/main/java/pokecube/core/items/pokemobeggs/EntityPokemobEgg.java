@@ -11,7 +11,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -31,14 +30,6 @@ import thut.api.maths.Vector3;
 /** @author Manchou */
 public class EntityPokemobEgg extends AgeableMob
 {
-    public static final EntityType<EntityPokemobEgg> TYPE;
-
-    static
-    {
-        TYPE = EntityType.Builder.of(EntityPokemobEgg::new, MobCategory.CREATURE).noSummon().fireImmune()
-                .sized(0.35f, 0.35f).build("egg");
-    }
-
     int delayBeforeCanPickup = 0;
     int lastIncubate = 0;
     public IPokemob mother = null;

@@ -32,7 +32,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.Brain;
@@ -70,14 +69,6 @@ import thut.lib.TComponent;
 
 public class NpcMob extends Villager implements IEntityAdditionalSpawnData
 {
-    public static final EntityType<NpcMob> TYPE;
-
-    static
-    {
-        TYPE = EntityType.Builder.of(NpcMob::new, MobCategory.CREATURE)
-                .setCustomClientFactory((s, w) -> NpcMob.TYPE.create(w)).build("pokecube:npc");
-    }
-
     static final EntityDataAccessor<String> NAMEDW = SynchedEntityData.<String>defineId(NpcMob.class,
             EntityDataSerializers.STRING);
 
@@ -98,7 +89,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
 
     private Consumer<MerchantOffer> use_offer = t -> {};
 
-    protected NpcMob(final EntityType<? extends NpcMob> type, final Level world)
+    public NpcMob(final EntityType<? extends NpcMob> type, final Level world)
     {
         super(type, world);
         this.setPersistenceRequired();

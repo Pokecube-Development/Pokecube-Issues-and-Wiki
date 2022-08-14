@@ -35,6 +35,7 @@ import pokecube.api.events.EggEvent;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.blocks.InteractableTile;
+import pokecube.core.entity.EntityTypes;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.events.SpawnHandler.ForbidReason;
 import pokecube.core.handlers.events.SpawnHandler.ForbidRegion;
@@ -58,7 +59,7 @@ public class NestTile extends InteractableTile implements ITickTile
         nbt.put("nestLoc", nest);
         eggItem.setTag(nbt);
         final Random rand = ThutCore.newRandom();
-        final EntityPokemobEgg egg = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world);
+        final EntityPokemobEgg egg = new EntityPokemobEgg(EntityTypes.getEgg(), world);
         egg.setToPos(pos.getX() + 1.5 * (0.5 - rand.nextDouble()), pos.getY() + 1,
                 pos.getZ() + 1.5 * (0.5 - rand.nextDouble())).setStack(eggItem);
         final EggEvent.Lay event = new EggEvent.Lay(egg);

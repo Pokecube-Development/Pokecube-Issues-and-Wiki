@@ -25,8 +25,7 @@ public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T
     }
 
     @Override
-    protected void renderBg(final PoseStack mat, final float partialTicks, final int mouseX,
-            final int mouseY)
+    protected void renderBg(final PoseStack mat, final float partialTicks, final int mouseX, final int mouseY)
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -49,12 +48,10 @@ public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T
     {
         super.init();
         final Component heal = TComponent.translatable("block.pokecenter.heal");
-        this.addRenderableWidget(new Button(this.width / 2 + 21, this.height / 2 - 50, 60, 20, heal, b ->
-        {
+        this.addRenderableWidget(new Button(this.width / 2 + 21, this.height / 2 - 50, 60, 20, heal, b -> {
             final PacketHeal packet = new PacketHeal();
             PokecubeCore.packets.sendToServer(packet);
-            if (HealerContainer.HEAL_SOUND != null) this.inventory.player.playSound(HealerContainer.HEAL_SOUND, 1,
-                    1);
+            this.inventory.player.playSound(PokecubeCore.HEAL_SOUND.get(), 1, 1);
         }));
     }
 

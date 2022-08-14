@@ -141,6 +141,8 @@ public class PokecubeItems extends ItemList
     public static final RegistryObject<Item> POKEDEX;
     public static final RegistryObject<Item> POKEWATCH;
     public static final RegistryObject<Item> REVIVE;
+    public static final RegistryObject<Item> LUCKYEGG;
+    public static final RegistryObject<Item> EMERALDSHARD;
 
     // Blocks
     public static final RegistryObject<Block> DEEPSLATE_FOSSIL_ORE;
@@ -217,6 +219,11 @@ public class PokecubeItems extends ItemList
         CANDY = PokecubeCore.ITEMS.register("candy",
                 () -> new ItemCandy(new Item.Properties().rarity(Rarity.EPIC).tab(PokecubeItems.TAB_ITEMS)));
         REVIVE = PokecubeCore.ITEMS.register("revive",
+                () -> new ItemRevive(new Item.Properties().tab(PokecubeItems.TAB_ITEMS)));
+
+        LUCKYEGG = PokecubeCore.ITEMS.register("luckyegg",
+                () -> new ItemRevive(new Item.Properties().rarity(Rarity.RARE).tab(PokecubeItems.TAB_ITEMS)));
+        EMERALDSHARD = PokecubeCore.ITEMS.register("emerald_shard",
                 () -> new ItemRevive(new Item.Properties().tab(PokecubeItems.TAB_ITEMS)));
 
         // Blocks

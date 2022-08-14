@@ -47,6 +47,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.Database;
+import pokecube.core.entity.EntityTypes;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
@@ -334,7 +335,7 @@ public class ItemPokemobEgg extends Item
     {
         if (this.hasCustomEntity(itemstack))
         {
-            final EntityPokemobEgg egg = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world).setStack(itemstack)
+            final EntityPokemobEgg egg = new EntityPokemobEgg(EntityTypes.getEgg(), world).setStack(itemstack)
                     .setToPos(oldItem.getX(), oldItem.getY(), oldItem.getZ());
             egg.setDeltaMovement(oldItem.getDeltaMovement());
             return egg;
@@ -349,7 +350,7 @@ public class ItemPokemobEgg extends Item
         final ItemStack eggItemStack = new ItemStack(ItemPokemobEgg.EGG, 1);
         if (stack.hasTag()) eggItemStack.setTag(stack.getTag());
         else eggItemStack.setTag(new CompoundTag());
-        final EntityPokemobEgg entity = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world).setToPos(location)
+        final EntityPokemobEgg entity = new EntityPokemobEgg(EntityTypes.getEgg(), world).setToPos(location)
                 .setStack(eggItemStack);
         final EggEvent.Place event = new EggEvent.Place(entity);
         MinecraftForge.EVENT_BUS.post(event);

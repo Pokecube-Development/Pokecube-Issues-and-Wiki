@@ -17,7 +17,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -61,8 +60,6 @@ import thut.core.common.network.EntityUpdate;
 public abstract class EntityPokecubeBase extends LivingEntity
 {
     public static final String CUBETIMETAG = "lastCubeTime";
-
-    public static SoundEvent POKECUBESOUND;
 
     static final EntityDataAccessor<Integer>   ENTITYID;
     static final EntityDataAccessor<ItemStack> ITEM;

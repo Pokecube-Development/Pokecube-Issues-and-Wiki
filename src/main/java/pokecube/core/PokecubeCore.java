@@ -37,6 +37,7 @@ import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
@@ -48,11 +49,9 @@ import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.npc.Schedules;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.blocks.berries.BerryGenManager;
-import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
-import pokecube.core.entity.npc.NpcMob;
-import pokecube.core.entity.pokemobs.ContainerPokemob;
+import pokecube.core.entity.EntityTypes;
 import pokecube.core.entity.pokemobs.GenericPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.handlers.Config;
@@ -69,15 +68,8 @@ import pokecube.core.handlers.playerdata.PokecubePlayerData;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.inventory.healer.HealerContainer;
-import pokecube.core.inventory.pc.PCContainer;
-import pokecube.core.inventory.tms.TMContainer;
-import pokecube.core.inventory.trade.TradeContainer;
-import pokecube.core.items.pokecubes.EntityPokecube;
-import pokecube.core.items.pokecubes.EntityPokecubeBase;
-import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import pokecube.core.inventory.MenuTypes;
 import pokecube.core.moves.Battle;
-import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.proxy.CommonProxy;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.world.PokecubeWorld;
@@ -96,6 +88,15 @@ public class PokecubeCore
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
     public static class RegistryEvents
     {
+        private static PokemobType<ShoulderRidingEntity> makePokemobEntityType(PokedexEntry entry)
+        {
+            final PokemobType<ShoulderRidingEntity> type = new PokemobType<>(GenericPokemob::new, entry);
+            type.setRegistryName(PokecubeCore.MODID, entry.getTrimmedName());
+            Pokedex.getInstance().registerPokemon(entry);
+            PokecubeCore.typeMap.put(type, entry);
+            CopyCaps.register(type);
+            return type;
+        }
 
         @SubscribeEvent
         public static void registerRegistry(final NewRegistryEvent event)
@@ -106,10 +107,6 @@ public class PokecubeCore
             PokecubeAPI.POKEMOB_BUS.post(pre);
             pre.modIDs.add(PokecubeCore.MODID);
             Database.preInit();
-            Activities.init();
-            Schedules.init();
-            MemoryModules.init();
-            Sensors.init();
         }
 
         @SubscribeEvent
@@ -129,28 +126,10 @@ public class PokecubeCore
         }
 
         @SubscribeEvent
-        public static void registerContainers(final RegistryEvent.Register<MenuType<?>> event)
-        {
-            // register a new container here
-            PokecubeAPI.LOGGER.debug("Registering Pokecube Containers");
-            event.getRegistry().register(ContainerPokemob.TYPE.setRegistryName(PokecubeCore.MODID, "pokemob"));
-            event.getRegistry().register(HealerContainer.TYPE.setRegistryName(PokecubeCore.MODID, "healer"));
-            event.getRegistry().register(PCContainer.TYPE.setRegistryName(PokecubeCore.MODID, "pc"));
-            event.getRegistry().register(TMContainer.TYPE.setRegistryName(PokecubeCore.MODID, "tm_machine"));
-            event.getRegistry().register(TradeContainer.TYPE.setRegistryName(PokecubeCore.MODID, "trade_machine"));
-        }
-
-        @SubscribeEvent
         public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event)
         {
             // register a new mob here
             PokecubeAPI.LOGGER.debug("Registering Pokecube Mobs");
-
-            // Register the non-pokemobs first
-            event.getRegistry().register(EntityPokecube.TYPE.setRegistryName(PokecubeCore.MODID, "pokecube"));
-            event.getRegistry().register(EntityPokemobEgg.TYPE.setRegistryName(PokecubeCore.MODID, "egg"));
-            event.getRegistry().register(NpcMob.TYPE.setRegistryName(PokecubeCore.MODID, "npc"));
-            event.getRegistry().register(EntityMoveUse.TYPE.setRegistryName(PokecubeCore.MODID, "move_use"));
             Database.init();
             PokecubeAPI.POKEMOB_BUS.post(new RegisterPokemobsEvent.Pre());
             PokecubeAPI.POKEMOB_BUS.post(new RegisterPokemobsEvent.Register());
@@ -161,12 +140,7 @@ public class PokecubeCore
                 if (!entry.stock) continue;
                 try
                 {
-                    final PokemobType<ShoulderRidingEntity> type = new PokemobType<>(GenericPokemob::new, entry);
-                    type.setRegistryName(PokecubeCore.MODID, entry.getTrimmedName());
-                    event.getRegistry().register(type);
-                    Pokedex.getInstance().registerPokemon(entry);
-                    PokecubeCore.typeMap.put(type, entry);
-                    CopyCaps.register(type);
+                    event.getRegistry().register(makePokemobEntityType(entry));
                 }
                 catch (final Exception e)
                 {
@@ -176,9 +150,6 @@ public class PokecubeCore
             PokecubeAPI.POKEMOB_BUS.post(new RegisterPokemobsEvent.Post());
             Database.postInit();
             PokecubeAPI.POKEMOB_BUS.post(new InitDatabase.Post());
-
-            CopyCaps.register(NpcMob.TYPE);
-            CopyCaps.register(EntityType.ARMOR_STAND);
         }
 
         @SubscribeEvent
@@ -195,22 +166,6 @@ public class PokecubeCore
             // register a new mob here
             PokecubeAPI.LOGGER.debug("Registering Pokecube Sounds");
             Database.initSounds(event.getRegistry());
-
-            ResourceLocation sound = new ResourceLocation(PokecubeCore.MODID + ":pokecube_caught");
-            event.getRegistry()
-                    .register((EntityPokecubeBase.POKECUBESOUND = new SoundEvent(sound)).setRegistryName(sound));
-            sound = new ResourceLocation(PokecubeCore.MODID + ":pokecenter");
-            event.getRegistry().register((HealerContainer.HEAL_SOUND = new SoundEvent(sound)).setRegistryName(sound));
-            sound = new ResourceLocation(PokecubeCore.MODID + ":pokecenterloop");
-            event.getRegistry().register((HealerTile.MUSICLOOP = new SoundEvent(sound)).setRegistryName(sound));
-        }
-
-        @SubscribeEvent
-        public static void registerTileEntities(final RegistryEvent.Register<BlockEntityType<?>> event)
-        {
-            // register a new TE here
-            PokecubeAPI.LOGGER.debug("Registering Pokecube TEs");
-            ItemHandler.registerTiles(event.getRegistry());
         }
     }
 
@@ -224,7 +179,13 @@ public class PokecubeCore
     public static final DeferredRegister<Block> BLOCKS;
     public static final DeferredRegister<Item> ITEMS;
     public static final DeferredRegister<BlockEntityType<?>> TILES;
+    public static final DeferredRegister<EntityType<?>> ENTITIES;
     public static final DeferredRegister<MenuType<?>> MENU;
+    public static final DeferredRegister<SoundEvent> SOUNDS;
+
+    public static final RegistryObject<SoundEvent> CAPTURE_SOUND;
+    public static final RegistryObject<SoundEvent> HEAL_SOUND;
+    public static final RegistryObject<SoundEvent> HEAL_MUSIC;
 
     static
     {
@@ -238,7 +199,16 @@ public class PokecubeCore
         BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
         ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, PokecubeCore.MODID);
         TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, PokecubeCore.MODID);
+        ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, PokecubeCore.MODID);
         MENU = DeferredRegister.create(ForgeRegistries.CONTAINERS, PokecubeCore.MODID);
+        SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, PokecubeCore.MODID);
+
+        CAPTURE_SOUND = SOUNDS.register("pokecube_caught",
+                () -> new SoundEvent(new ResourceLocation(PokecubeCore.MODID + ":pokecube_caught")));
+        HEAL_SOUND = SOUNDS.register("pokecenter",
+                () -> new SoundEvent(new ResourceLocation(PokecubeCore.MODID + ":pokecenter")));
+        HEAL_MUSIC = SOUNDS.register("pokecenterloop",
+                () -> new SoundEvent(new ResourceLocation(PokecubeCore.MODID + ":pokecenterloop")));
     }
 
     public static final String MODID = PokecubeAPI.MODID;
@@ -324,6 +294,7 @@ public class PokecubeCore
         PokecubeCore.BLOCKS.register(bus);
         PokecubeCore.BERRIES_TAB.register(bus);
         PokecubeCore.TILES.register(bus);
+        PokecubeCore.ENTITIES.register(bus);
         PokecubeCore.MENU.register(bus);
         PokecubeCore.CHUNKGENTYPE.register(bus);
         PokecubeCore.RECIPETYPE.register(bus);
@@ -331,6 +302,7 @@ public class PokecubeCore
         PokecubeCore.SENSORS.register(bus);
         PokecubeCore.SCHEDULES.register(bus);
         PokecubeCore.MEMORIES.register(bus);
+        PokecubeCore.SOUNDS.register(bus);
 
         PokecubeWorld.init(bus);
 
@@ -351,6 +323,14 @@ public class PokecubeCore
 
         // Initialize advancement triggers
         Triggers.init();
+        
+        // Init some more things that register stuff
+        Activities.init();
+        Schedules.init();
+        MemoryModules.init();
+        Sensors.init();
+        MenuTypes.init();
+        EntityTypes.init();
 
         // Register the battle managers
         Battle.register();
@@ -364,6 +344,10 @@ public class PokecubeCore
 
         event.enqueueWork(() -> {
             PointsOfInterest.postInit();
+            ItemHandler.postInit();
+
+            CopyCaps.register(EntityTypes.getNpc());
+            CopyCaps.register(EntityType.ARMOR_STAND);
         });
     }
 }

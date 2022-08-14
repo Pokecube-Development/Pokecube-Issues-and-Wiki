@@ -49,6 +49,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
+import pokecube.core.entity.EntityTypes;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.utils.CapHolders;
@@ -166,7 +167,7 @@ public class SpawnEventsHandler
 
         if (!(nurse || professor || trader || npc)) return false;
 
-        final NpcMob mob = NpcMob.TYPE.create(event.worldActual);
+        final NpcMob mob = EntityTypes.getNpc().create(event.worldActual);
 
         mob.setPersistenceRequired();
         mob.moveTo(event.pos, 0.0F, 0.0F);

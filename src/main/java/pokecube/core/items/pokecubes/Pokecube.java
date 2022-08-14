@@ -40,6 +40,7 @@ import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.tasks.idle.HungerTask;
+import pokecube.core.entity.EntityTypes;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.impl.PokecubeMod;
@@ -187,7 +188,7 @@ public class Pokecube extends Item implements IPokecube
         if (this.hasCustomEntity(itemstack))
         {
             final FakePlayer player = PokecubeMod.getFakePlayer(world);
-            final EntityPokecube cube = new EntityPokecube(EntityPokecube.TYPE, world);
+            final EntityPokecube cube = new EntityPokecube(EntityTypes.getPokecube(), world);
             cube.shootingEntity = player;
             cube.shooter = player.getUUID();
             cube.setItem(itemstack);
@@ -395,7 +396,7 @@ public class Pokecube extends Item implements IPokecube
                 return null;
         }
         stack.setCount(1);
-        entity = new EntityPokecube(EntityPokecube.TYPE, world);
+        entity = new EntityPokecube(EntityTypes.getPokecube(), world);
         entity.shootingEntity = thrower.isShiftKeyDown() ? null : thrower;
         if (thrower.isShiftKeyDown()) entity.setNoCollisionRelease();
         else entity.autoRelease = config.pokecubeAutoSendOutDelay;
@@ -449,7 +450,7 @@ public class Pokecube extends Item implements IPokecube
         if (id == null || !IPokecube.PokecubeBehavior.BEHAVIORS.get().containsKey(id)) return null;
         final ItemStack stack = cube.copy();
         stack.setCount(1);
-        entity = new EntityPokecube(EntityPokecube.TYPE, world);
+        entity = new EntityPokecube(EntityTypes.getPokecube(), world);
         entity.shootingEntity = thrower;
         entity.shooter = thrower.getUUID();
         entity.setItem(stack);

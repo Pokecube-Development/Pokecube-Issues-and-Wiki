@@ -3,9 +3,7 @@ package pokecube.core.handlers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.events.init.RegisterPokecubes;
@@ -21,23 +19,7 @@ public class ItemHandler
 {
     private static void addMiscItems(final IForgeRegistry<Item> registry)
     {
-        Item item = new Item(new Item.Properties().rarity(Rarity.RARE).tab(PokecubeItems.TAB_ITEMS))
-                .setRegistryName(PokecubeMod.ID, "luckyegg");
-        registry.register(item);
-        item = new Item(new Item.Properties().tab(PokecubeItems.TAB_ITEMS)).setRegistryName(PokecubeMod.ID,
-                "emerald_shard");
-        registry.register(item);
         ItemGenerator.registerItems(registry);
-    }
-
-    private static void addMiscTiles(final IForgeRegistry<BlockEntityType<?>> registry)
-    {
-        // Register classes for ownable caps
-        OwnableCaps.TILES.add(PokecubeItems.TRADE_TYPE.get());
-        OwnableCaps.TILES.add(PokecubeItems.TM_TYPE.get());
-        OwnableCaps.TILES.add(PokecubeItems.PC_TYPE.get());
-        OwnableCaps.TILES.add(PokecubeItems.HEALER_TYPE.get());
-        OwnableCaps.TILES.add(PokecubeItems.BASE_TYPE.get());
     }
 
     private static void addPokecubes(final IForgeRegistry<Item> registry)
@@ -57,7 +39,8 @@ public class ItemHandler
             if (PokecubeItems.POKECUBE_CUBES.isEmpty()) PokecubeItems.POKECUBE_CUBES = new ItemStack(cube);
             registry.register(cube.setRegistryName(PokecubeMod.ID, name + "cube"));
 
-            PokecubeItems.addCube(i.getRegistryName(), new Item[] { cube });
+            PokecubeItems.addCube(i.getRegistryName(), new Item[]
+            { cube });
         }
 
         final Item.Properties props = new Item.Properties();
@@ -66,7 +49,8 @@ public class ItemHandler
         PokecubeBehavior.POKESEAL = new ResourceLocation("pokecube:seal");
         registry.register(pokeseal.setRegistryName(PokecubeMod.ID, "pokeseal"));
 
-        PokecubeItems.addCube(PokecubeBehavior.POKESEAL, new Item[] { pokeseal });
+        PokecubeItems.addCube(PokecubeBehavior.POKESEAL, new Item[]
+        { pokeseal });
 
     }
 
@@ -98,8 +82,13 @@ public class ItemHandler
         ItemHandler.registerItemBlocks(iForgeRegistry);
     }
 
-    public static void registerTiles(final IForgeRegistry<BlockEntityType<?>> iForgeRegistry)
+    public static void postInit()
     {
-        ItemHandler.addMiscTiles(iForgeRegistry);
+        // Register classes for ownable caps
+        OwnableCaps.TILES.add(PokecubeItems.TRADE_TYPE.get());
+        OwnableCaps.TILES.add(PokecubeItems.TM_TYPE.get());
+        OwnableCaps.TILES.add(PokecubeItems.PC_TYPE.get());
+        OwnableCaps.TILES.add(PokecubeItems.HEALER_TYPE.get());
+        OwnableCaps.TILES.add(PokecubeItems.BASE_TYPE.get());
     }
 }

@@ -4,7 +4,6 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -12,14 +11,13 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.tms.TMTile;
+import pokecube.core.inventory.MenuTypes;
 import pokecube.core.inventory.TexturedSlot;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.inventory.BaseContainer;
 
 public class TMContainer extends BaseContainer
 {
-
-    public static final MenuType<TMContainer> TYPE  = new MenuType<>(TMContainer::new);
     private Container                             inv;
     private final ContainerLevelAccess                pos;
     public TMTile                                  tile;
@@ -32,7 +30,7 @@ public class TMContainer extends BaseContainer
 
     public TMContainer(final int id, final Inventory inv, final ContainerLevelAccess pos)
     {
-        super(TMContainer.TYPE, id);
+        super(MenuTypes.TMS.get(), id);
         this.pos = pos;
 
         pos.execute((w, p) ->

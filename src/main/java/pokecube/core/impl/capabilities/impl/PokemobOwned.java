@@ -36,6 +36,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
+import pokecube.core.entity.EntityTypes;
 import pokecube.core.entity.pokemobs.AnimalChest;
 import pokecube.core.handlers.TeamManager;
 import pokecube.core.handlers.events.EventsHandler;
@@ -364,7 +365,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
 
     private void onToss(final LivingEntity owner, final ItemStack itemstack)
     {
-        final EntityPokecube entity = new EntityPokecube(EntityPokecube.TYPE, owner.getLevel());
+        final EntityPokecube entity = new EntityPokecube(EntityTypes.getPokecube(), owner.getLevel());
         entity.shootingEntity = owner;
         entity.shooter = owner.getUUID();
         entity.setItem(itemstack);

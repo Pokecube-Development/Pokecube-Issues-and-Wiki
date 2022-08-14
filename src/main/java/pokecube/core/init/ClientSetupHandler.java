@@ -48,18 +48,16 @@ import pokecube.core.client.render.mobs.RenderPokecube;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.client.render.mobs.ShoulderLayer.IShoulderHolder;
 import pokecube.core.database.Database;
-import pokecube.core.entity.npc.NpcMob;
+import pokecube.core.entity.EntityTypes;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.handlers.ItemGenerator;
+import pokecube.core.inventory.MenuTypes;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.berries.BerryManager;
-import pokecube.core.items.pokecubes.EntityPokecube;
-import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
-import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.nbtedit.NBTEdit;
 
@@ -172,11 +170,11 @@ public class ClientSetupHandler
             return new GuiPokemob(c, i);
         };
 
-        MenuScreens.register(ContainerPokemob.TYPE, factory);
-        MenuScreens.register(HealerContainer.TYPE, Healer<HealerContainer>::new);
-        MenuScreens.register(PCContainer.TYPE, PC<PCContainer>::new);
-        MenuScreens.register(TradeContainer.TYPE, Trade<TradeContainer>::new);
-        MenuScreens.register(TMContainer.TYPE, TMs<TMContainer>::new);
+        MenuScreens.register(MenuTypes.POKEMOB.get(), factory);
+        MenuScreens.register(MenuTypes.HEALER.get(), Healer<HealerContainer>::new);
+        MenuScreens.register(MenuTypes.PC.get(), PC<PCContainer>::new);
+        MenuScreens.register(MenuTypes.TRADE.get(), Trade<TradeContainer>::new);
+        MenuScreens.register(MenuTypes.TMS.get(), TMs<TMContainer>::new);
 
         // Register mob rendering
         PokecubeAPI.LOGGER.debug("Init Mob Renderers");
@@ -215,10 +213,10 @@ public class ClientSetupHandler
             final EntityType<? extends Mob> t = e.getEntityType();
             event.registerEntityRenderer(t, (manager) -> new RenderPokemob(e, manager));
         }
-        event.registerEntityRenderer(EntityPokecube.TYPE, RenderPokecube::new);
-        event.registerEntityRenderer(EntityMoveUse.TYPE, RenderMoves::new);
-        event.registerEntityRenderer(NpcMob.TYPE, RenderNPC::new);
-        event.registerEntityRenderer(EntityPokemobEgg.TYPE, RenderEgg::new);
+        event.registerEntityRenderer(EntityTypes.getPokecube(), RenderPokecube::new);
+        event.registerEntityRenderer(EntityTypes.getMove(), RenderMoves::new);
+        event.registerEntityRenderer(EntityTypes.getNpc(), RenderNPC::new);
+        event.registerEntityRenderer(EntityTypes.getEgg(), RenderEgg::new);
     }
 
     @SubscribeEvent

@@ -17,7 +17,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
@@ -39,23 +38,13 @@ import pokecube.api.moves.IMoveAnimation.MovePacketInfo;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
+import pokecube.core.entity.EntityTypes;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.EntityTools;
 import thut.api.maths.Vector3;
 
 public class EntityMoveUse extends ThrowableProjectile
 {
-    public static EntityType<EntityMoveUse> TYPE;
-    static
-    {
-        EntityMoveUse.TYPE = EntityType.Builder.of(EntityMoveUse::new, MobCategory.MISC).noSummon().fireImmune()
-                .setTrackingRange(64).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).sized(0.5f, 0.5f)
-                .setCustomClientFactory((spawnEntity, world) ->
-                {
-                    return EntityMoveUse.TYPE.create(world);
-                }).build("move_use");
-    }
-
     public static class Builder
     {
         public static Builder make(final Entity user, final Move_Base move, final Vector3 start)
@@ -67,7 +56,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
         protected Builder(final Entity user, final Move_Base move, final Vector3 start)
         {
-            this.toMake = new EntityMoveUse(EntityMoveUse.TYPE, user.level);
+            this.toMake = new EntityMoveUse(EntityTypes.getMove(), user.level);
             this.toMake.setUser(user).setMove(move).setStart(start).setEnd(start);
         }
 
@@ -96,32 +85,32 @@ public class EntityMoveUse extends ThrowableProjectile
         }
     }
 
-    static final EntityDataAccessor<String>  MOVENAME  = SynchedEntityData.<String> defineId(EntityMoveUse.class,
+    static final EntityDataAccessor<String> MOVENAME = SynchedEntityData.<String>defineId(EntityMoveUse.class,
             EntityDataSerializers.STRING);
-    static final EntityDataAccessor<Float>   ENDX      = SynchedEntityData.<Float> defineId(EntityMoveUse.class,
+    static final EntityDataAccessor<Float> ENDX = SynchedEntityData.<Float>defineId(EntityMoveUse.class,
             EntityDataSerializers.FLOAT);
-    static final EntityDataAccessor<Float>   ENDY      = SynchedEntityData.<Float> defineId(EntityMoveUse.class,
+    static final EntityDataAccessor<Float> ENDY = SynchedEntityData.<Float>defineId(EntityMoveUse.class,
             EntityDataSerializers.FLOAT);
-    static final EntityDataAccessor<Float>   ENDZ      = SynchedEntityData.<Float> defineId(EntityMoveUse.class,
+    static final EntityDataAccessor<Float> ENDZ = SynchedEntityData.<Float>defineId(EntityMoveUse.class,
             EntityDataSerializers.FLOAT);
-    static final EntityDataAccessor<Float>   STARTX    = SynchedEntityData.<Float> defineId(EntityMoveUse.class,
+    static final EntityDataAccessor<Float> STARTX = SynchedEntityData.<Float>defineId(EntityMoveUse.class,
             EntityDataSerializers.FLOAT);
-    static final EntityDataAccessor<Float>   STARTY    = SynchedEntityData.<Float> defineId(EntityMoveUse.class,
+    static final EntityDataAccessor<Float> STARTY = SynchedEntityData.<Float>defineId(EntityMoveUse.class,
             EntityDataSerializers.FLOAT);
-    static final EntityDataAccessor<Float>   STARTZ    = SynchedEntityData.<Float> defineId(EntityMoveUse.class,
+    static final EntityDataAccessor<Float> STARTZ = SynchedEntityData.<Float>defineId(EntityMoveUse.class,
             EntityDataSerializers.FLOAT);
-    static final EntityDataAccessor<Integer> USER      = SynchedEntityData.<Integer> defineId(EntityMoveUse.class,
+    static final EntityDataAccessor<Integer> USER = SynchedEntityData.<Integer>defineId(EntityMoveUse.class,
             EntityDataSerializers.INT);
-    static final EntityDataAccessor<Integer> TARGET    = SynchedEntityData.<Integer> defineId(EntityMoveUse.class,
+    static final EntityDataAccessor<Integer> TARGET = SynchedEntityData.<Integer>defineId(EntityMoveUse.class,
             EntityDataSerializers.INT);
-    static final EntityDataAccessor<Integer> TICK      = SynchedEntityData.<Integer> defineId(EntityMoveUse.class,
+    static final EntityDataAccessor<Integer> TICK = SynchedEntityData.<Integer>defineId(EntityMoveUse.class,
             EntityDataSerializers.INT);
-    static final EntityDataAccessor<Integer> STARTTICK = SynchedEntityData.<Integer> defineId(EntityMoveUse.class,
+    static final EntityDataAccessor<Integer> STARTTICK = SynchedEntityData.<Integer>defineId(EntityMoveUse.class,
             EntityDataSerializers.INT);
-    static final EntityDataAccessor<Integer> APPLYTICK = SynchedEntityData.<Integer> defineId(EntityMoveUse.class,
+    static final EntityDataAccessor<Integer> APPLYTICK = SynchedEntityData.<Integer>defineId(EntityMoveUse.class,
             EntityDataSerializers.INT);
 
-    Vector3 end   = new Vector3();
+    Vector3 end = new Vector3();
     Vector3 start = new Vector3();
 
     Vector3 here = new Vector3();
@@ -129,15 +118,15 @@ public class EntityMoveUse extends ThrowableProjectile
 
     Vector3 dir = new Vector3();
 
-    Entity user   = null;
+    Entity user = null;
     Entity target = null;
 
     Move_Base move = null;
 
     boolean applied = false;
-    boolean onSelf  = false;
+    boolean onSelf = false;
     boolean contact = false;
-    boolean init    = false;
+    boolean init = false;
 
     int startAge = 1;
 
@@ -149,8 +138,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
     private final Vector3 size = new Vector3();
 
-    Predicate<Entity> valid = e ->
-    {
+    Predicate<Entity> valid = e -> {
         if (EntityTools.getCoreLiving(e) == null) return false;
         final UUID targetID = EntityTools.getCoreEntity(e).getUUID();
         return !this.alreadyHit.contains(targetID);
@@ -287,8 +275,8 @@ public class EntityMoveUse extends ThrowableProjectile
 
     public MovePacketInfo getMoveInfo()
     {
-        final MovePacketInfo info = new MovePacketInfo(this.getMove(), this.getUser(), this.getTarget(), this
-                .getStart(), this.getEnd());
+        final MovePacketInfo info = new MovePacketInfo(this.getMove(), this.getUser(), this.getTarget(),
+                this.getStart(), this.getEnd());
         final IPokemob userMob = PokemobCaps.getPokemobFor(info.attacker);
         info.currentTick = info.move.getAnimation(userMob).getDuration() - this.getDuration();
         return info;
@@ -323,8 +311,8 @@ public class EntityMoveUse extends ThrowableProjectile
     public Entity getUser()
     {
         if (this.user != null) return this.user;
-        return this.user = PokecubeAPI.getEntityProvider().getEntity(this.level, this.getEntityData().get(
-                EntityMoveUse.USER), true);
+        return this.user = PokecubeAPI.getEntityProvider().getEntity(this.level,
+                this.getEntityData().get(EntityMoveUse.USER), true);
     }
 
     public boolean isDone()
@@ -503,8 +491,8 @@ public class EntityMoveUse extends ThrowableProjectile
             // Otherwise they fly in a straight line from the user to the target
             final double frac = this.dist * (this.startAge - this.getDuration()) / this.startAge;
             this.setDeltaMovement(this.dir.x * frac, this.dir.y * frac, this.dir.z * frac);
-            this.setPos(this.start.x + this.dir.x * frac, this.start.y + this.dir.y * frac, this.start.z + this.dir.z
-                    * frac);
+            this.setPos(this.start.x + this.dir.x * frac, this.start.y + this.dir.y * frac,
+                    this.start.z + this.dir.z * frac);
             this.here.set(this);
             testBox = this.getBoundingBox();
             // Increase size near end to increase accuracy a bit
@@ -513,8 +501,8 @@ public class EntityMoveUse extends ThrowableProjectile
             hitboxes.add(testBox);
         }
 
-        if (this.level.isClientSide && attack.getAnimation(userMob) != null) attack.getAnimation(userMob)
-                .spawnClientEntities(this.getMoveInfo());
+        if (this.level.isClientSide && attack.getAnimation(userMob) != null)
+            attack.getAnimation(userMob).spawnClientEntities(this.getMoveInfo());
 
         // Not ready to apply yet
         if (this.getApplicationTick() < age) return;
@@ -523,25 +511,21 @@ public class EntityMoveUse extends ThrowableProjectile
         testBox = testBox.expandTowards(v.x, v.y, v.z);
         final List<Entity> hits = this.level.getEntities(this, testBox, this.valid);
         final AABB hitBox = testBox;
-        hits.removeIf(e ->
-        {
+        hits.removeIf(e -> {
             boolean hit = hitboxes.size() > 1;
-            if (!hit) for (final AABB box : hitboxes)
-                if (box.intersects(e.getBoundingBox()))
-                {
-                    hit = true;
-                    break;
-                }
+            if (!hit) for (final AABB box : hitboxes) if (box.intersects(e.getBoundingBox()))
+            {
+                hit = true;
+                break;
+            }
             if (!hit) return true;
             if (!e.isMultipartEntity()) return false;
             final PartEntity<?>[] parts = e.getParts();
-            for (final PartEntity<?> part : parts)
-                if (part.getBoundingBox().intersects(hitBox)) return false;
+            for (final PartEntity<?> part : parts) if (part.getBoundingBox().intersects(hitBox)) return false;
             return true;
         });
 
-        for (final Entity e : hits)
-            this.doMoveUse(e);
+        for (final Entity e : hits) this.doMoveUse(e);
 
         if (this.getMove() != null && userMob != null && !this.applied && !this.level.isClientSide)
         {
@@ -571,6 +555,5 @@ public class EntityMoveUse extends ThrowableProjectile
 
     @Override
     public void addAdditionalSaveData(final CompoundTag compound)
-    {
-    }
+    {}
 }

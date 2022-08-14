@@ -19,6 +19,7 @@ import pokecube.api.moves.IMoveNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.idle.HungerTask;
+import pokecube.core.entity.EntityTypes;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
@@ -121,7 +122,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
                 Math.max(this.getPokedexEntry().height * this.getSize() / 4, 0.5f), 0);
         if (pos.isClearOfBlocks(this.getEntity().getLevel()))
         {
-            Entity eggItem = new EntityPokemobEgg(EntityPokemobEgg.TYPE, this.getEntity().getLevel())
+            Entity eggItem = new EntityPokemobEgg(EntityTypes.getEgg(), this.getEntity().getLevel())
                     .setToPos(this.here).setStackByParents(this.getEntity(), male);
             EggEvent.Lay event;
             event = new EggEvent.Lay(eggItem);

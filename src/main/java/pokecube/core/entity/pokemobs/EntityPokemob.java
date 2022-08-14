@@ -67,6 +67,7 @@ import pokecube.api.utils.PokeType;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
+import pokecube.core.entity.EntityTypes;
 import pokecube.core.entity.pokemobs.helper.PokemobRidable;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.events.SpawnHandler;
@@ -122,7 +123,7 @@ public class EntityPokemob extends PokemobRidable
     {
         final IPokemob other = PokemobCaps.getPokemobFor(ageable);
         if (other == null) return null;
-        final EntityPokemobEgg egg = EntityPokemobEgg.TYPE.create(this.getLevel());
+        final EntityPokemobEgg egg = EntityTypes.getEgg().create(this.getLevel());
         egg.setStackByParents(this, other);
         return egg;
     }
