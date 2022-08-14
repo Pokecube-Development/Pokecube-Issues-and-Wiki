@@ -27,7 +27,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
 import pokecube.api.data.spawns.SpawnCheck.TerrainType;
 import pokecube.api.data.spawns.SpawnCheck.Weather;
-import pokecube.api.events.core.pokemob.SpawnCheckEvent;
+import pokecube.api.events.pokemobs.SpawnCheckEvent;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.network.packets.PacketPokedex;

@@ -19,7 +19,7 @@ import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.events.core.StarterEvent;
+import pokecube.api.events.StarterEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.GuiChooseFirstPokemob;
 import pokecube.core.database.Database;

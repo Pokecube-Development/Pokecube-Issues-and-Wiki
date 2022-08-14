@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
+import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.items.IPokemobUseable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.SpawnHandler;

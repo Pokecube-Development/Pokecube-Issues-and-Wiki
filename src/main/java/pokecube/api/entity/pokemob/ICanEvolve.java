@@ -36,7 +36,7 @@ import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.events.core.pokemob.EvolveEvent;
+import pokecube.api.events.pokemobs.EvolveEvent;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;

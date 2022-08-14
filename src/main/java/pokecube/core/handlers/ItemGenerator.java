@@ -44,7 +44,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.events.core.onload.RegisterMiscItems;
+import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;

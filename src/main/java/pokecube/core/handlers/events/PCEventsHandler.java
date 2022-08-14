@@ -28,7 +28,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.events.core.pokemob.CaptureEvent;
+import pokecube.api.events.pokemobs.CaptureEvent;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.core.PokecubeCore;
@@ -79,7 +79,7 @@ public class PCEventsHandler
      *
      * @param evt
      */
-    private static void onSendToPC(final pokecube.api.events.core.PCEvent evt)
+    private static void onSendToPC(final pokecube.api.events.PCEvent evt)
     {
         if (evt.owner == null) return;
         if (PokecubeManager.isFilled(evt.toPC))

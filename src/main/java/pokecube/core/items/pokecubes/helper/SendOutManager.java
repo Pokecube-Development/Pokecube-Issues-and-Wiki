@@ -22,7 +22,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.events.core.pokemob.SpawnEvent.SendOut;
+import pokecube.api.events.pokemobs.SpawnEvent.SendOut;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.IRunnable;

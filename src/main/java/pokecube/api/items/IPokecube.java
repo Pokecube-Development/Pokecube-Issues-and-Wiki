@@ -13,9 +13,9 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.events.core.pokemob.CaptureEvent;
-import pokecube.api.events.core.pokemob.CaptureEvent.Post;
-import pokecube.api.events.core.pokemob.CaptureEvent.Pre;
+import pokecube.api.events.pokemobs.CaptureEvent;
+import pokecube.api.events.pokemobs.CaptureEvent.Post;
+import pokecube.api.events.pokemobs.CaptureEvent.Pre;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import thut.api.maths.Vector3;
 

@@ -46,7 +46,7 @@ import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
-import pokecube.api.events.core.pokemob.SpawnEvent.FunctionVariance;
+import pokecube.api.events.pokemobs.SpawnEvent.FunctionVariance;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;

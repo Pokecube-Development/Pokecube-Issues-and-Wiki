@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.events.core.pokemob.CaptureEvent;
+import pokecube.api.events.pokemobs.CaptureEvent;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;

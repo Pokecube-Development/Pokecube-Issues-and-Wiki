@@ -5,7 +5,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.events.core.onload.RegisterMiscItems;
+import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.mobs.PokecubeMobs;
 

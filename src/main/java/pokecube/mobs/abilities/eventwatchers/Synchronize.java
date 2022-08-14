@@ -6,7 +6,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.events.core.pokemob.SpawnEvent;
+import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.core.moves.MovesUtils;
 import thut.api.maths.Vector3;

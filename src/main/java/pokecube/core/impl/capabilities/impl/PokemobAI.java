@@ -24,7 +24,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
-import pokecube.api.events.core.pokemob.InitAIEvent;
+import pokecube.api.events.pokemobs.InitAIEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;

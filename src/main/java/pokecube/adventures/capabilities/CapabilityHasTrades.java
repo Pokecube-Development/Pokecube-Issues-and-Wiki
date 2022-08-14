@@ -16,9 +16,9 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.entity.trainers.IHasNPCAIStates;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
+import pokecube.api.events.npcs.NpcTradesEvent;
 import pokecube.api.entity.trainers.IHasTrades;
 import pokecube.api.entity.trainers.TrainerCaps;
-import pokecube.api.events.core.npc.NpcTradesEvent;
 
 public class CapabilityHasTrades
 {

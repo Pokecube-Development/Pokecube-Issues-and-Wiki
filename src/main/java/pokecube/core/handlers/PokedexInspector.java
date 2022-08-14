@@ -14,7 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import pokecube.api.events.core.PokedexInspectEvent;
+import pokecube.api.events.PokedexInspectEvent;
 import pokecube.api.stats.CaptureStats;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;

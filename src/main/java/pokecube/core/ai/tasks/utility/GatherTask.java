@@ -41,7 +41,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
-import pokecube.api.events.core.pokemob.ai.HarvestCheckEvent;
+import pokecube.api.events.pokemobs.ai.HarvestCheckEvent;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;

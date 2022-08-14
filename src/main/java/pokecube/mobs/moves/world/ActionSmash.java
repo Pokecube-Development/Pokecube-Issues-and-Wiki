@@ -13,7 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.events.core.pokemob.combat.MoveUse;
+import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.api.moves.IMoveAction;
 import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;

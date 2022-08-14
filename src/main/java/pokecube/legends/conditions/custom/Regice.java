@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
+import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.legends.Reference;
 import pokecube.legends.conditions.AbstractCondition;
 import pokecube.legends.conditions.AbstractRegiCondition;

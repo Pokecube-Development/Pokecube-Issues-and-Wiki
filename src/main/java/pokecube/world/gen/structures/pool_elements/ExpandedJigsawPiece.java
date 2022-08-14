@@ -50,7 +50,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.events.core.StructureEvent;
+import pokecube.api.events.StructureEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.utils.PokecubeSerializer;

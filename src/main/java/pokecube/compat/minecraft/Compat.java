@@ -22,7 +22,7 @@ import pokecube.adventures.Config;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.CapabilityInhabitable.HabitatProvider;
-import pokecube.api.events.adventures.CompatEvent;
+import pokecube.api.events.init.CompatEvent;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;

@@ -14,7 +14,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.events.core.pokemob.combat.MoveUse;
+import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MoveEntry;

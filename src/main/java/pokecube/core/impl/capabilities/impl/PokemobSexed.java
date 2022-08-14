@@ -14,7 +14,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.events.core.EggEvent;
+import pokecube.api.events.EggEvent;
 import pokecube.api.moves.IMoveNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;

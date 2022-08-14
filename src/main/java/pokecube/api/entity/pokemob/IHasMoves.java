@@ -15,7 +15,7 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.commandhandlers.SwapMovesHandler;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
-import pokecube.api.events.core.pokemob.combat.MoveUse;
+import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;

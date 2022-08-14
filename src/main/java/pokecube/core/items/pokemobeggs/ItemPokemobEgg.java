@@ -42,7 +42,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.events.core.EggEvent;
+import pokecube.api.events.EggEvent;
 import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;

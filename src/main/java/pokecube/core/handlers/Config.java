@@ -24,7 +24,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
-import pokecube.api.events.core.pokemob.SpawnEvent.FunctionVariance;
+import pokecube.api.events.pokemobs.SpawnEvent.FunctionVariance;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.logic.LogicMountedControl;

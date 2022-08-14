@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.events.core.onload.RegisterPokecubes;
+import pokecube.api.events.init.RegisterPokecubes;
 import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;

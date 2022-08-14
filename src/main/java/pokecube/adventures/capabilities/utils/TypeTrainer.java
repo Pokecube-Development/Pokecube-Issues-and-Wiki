@@ -54,7 +54,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.trainers.IHasPokemobs;
 import pokecube.api.entity.trainers.TrainerCaps;
-import pokecube.api.events.core.pokemob.SpawnEvent.Variance;
+import pokecube.api.events.pokemobs.SpawnEvent.Variance;
 import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;

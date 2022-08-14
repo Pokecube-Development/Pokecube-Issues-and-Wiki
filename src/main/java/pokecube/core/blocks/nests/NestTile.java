@@ -32,7 +32,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.CapabilityInhabitable;
 import pokecube.api.entity.CapabilityInhabitable.HabitatProvider;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.events.core.EggEvent;
+import pokecube.api.events.EggEvent;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.blocks.InteractableTile;

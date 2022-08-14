@@ -45,7 +45,7 @@ import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
-import pokecube.api.events.core.onload.InitDatabase;
+import pokecube.api.events.init.InitDatabase;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.berries.BerryGenManager;

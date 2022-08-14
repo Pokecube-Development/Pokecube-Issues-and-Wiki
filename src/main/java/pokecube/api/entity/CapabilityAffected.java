@@ -22,7 +22,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect.AddType;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.events.core.pokemob.combat.OngoingTickEvent;
+import pokecube.api.events.pokemobs.combat.OngoingTickEvent;
 
 public class CapabilityAffected
 {

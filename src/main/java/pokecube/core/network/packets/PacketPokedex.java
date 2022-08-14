@@ -46,7 +46,7 @@ import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
-import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
+import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.stats.ISpecialCaptureCondition;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.GuiPokedex;

@@ -20,7 +20,7 @@ import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.events.core.pokemob.combat.EffectEvent;
+import pokecube.api.events.pokemobs.combat.EffectEvent;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;

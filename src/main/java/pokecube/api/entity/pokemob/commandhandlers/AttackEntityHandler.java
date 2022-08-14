@@ -8,7 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.events.core.pokemob.combat.CommandAttackEvent;
+import pokecube.api.events.pokemobs.combat.CommandAttackEvent;
 import pokecube.api.moves.Move_Base;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.impl.PokecubeMod;

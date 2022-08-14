@@ -20,7 +20,7 @@ import pokecube.api.ai.TaskAdders;
 import pokecube.api.entity.CapabilityInhabitable;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.events.core.pokemob.InitAIEvent.Init.Type;
+import pokecube.api.events.pokemobs.InitAIEvent.Init.Type;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;

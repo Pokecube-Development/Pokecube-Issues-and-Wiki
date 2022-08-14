@@ -6,7 +6,7 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import pokecube.api.events.core.pokemob.InitAIEvent.Init;
+import pokecube.api.events.pokemobs.InitAIEvent.Init;
 
 public class TaskAdders
 {

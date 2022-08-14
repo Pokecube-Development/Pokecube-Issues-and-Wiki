@@ -49,7 +49,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.events.core.onload.RegisterPokecubes;
+import pokecube.api.events.init.RegisterPokecubes;
 import pokecube.api.items.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;

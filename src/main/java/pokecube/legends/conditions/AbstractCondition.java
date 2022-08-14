@@ -21,7 +21,7 @@ import net.minecraft.world.level.material.Material;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.SpawnData;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
+import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.stats.CaptureStats;
 import pokecube.api.stats.ISpecialCaptureCondition;
 import pokecube.api.stats.ISpecialSpawnCondition;

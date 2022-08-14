@@ -24,7 +24,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
+import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.stats.ISpecialCaptureCondition;
 import pokecube.api.stats.ISpecialSpawnCondition;
 import pokecube.api.stats.ISpecialSpawnCondition.CanSpawn;

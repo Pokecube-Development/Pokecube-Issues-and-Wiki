@@ -9,7 +9,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
-import pokecube.api.events.core.pokemob.TeleportEvent;
+import pokecube.api.events.pokemobs.TeleportEvent;
 import pokecube.api.moves.IMoveAction;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.handlers.events.EventsHandler;
