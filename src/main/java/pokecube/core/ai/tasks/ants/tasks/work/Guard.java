@@ -14,7 +14,7 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.ants.AntTasks;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.tasks.AbstractWorkTask;
 import pokecube.core.ai.tasks.combat.management.FindTargetsTask;
@@ -28,7 +28,7 @@ public class Guard extends AbstractWorkTask
     static
     {
         Guard.mems.put(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryStatus.VALUE_PRESENT);
-        Guard.mems.put(AntTasks.GOING_HOME, MemoryStatus.VALUE_ABSENT);
+        Guard.mems.put(MemoryModules.GOING_HOME.get(), MemoryStatus.VALUE_ABSENT);
     }
 
     public static double ANTGUARDDIST = 8;

@@ -42,8 +42,8 @@ public class MoveRecipes
 {
     private static final ResourceLocation ID = new ResourceLocation("pokecube:move_recipe");
 
-    public static final RegistryObject<RecipeType<?>> MOVE_TYPE = PokecubeCore.RegistryEvents.RECIPETYPE
-            .register("move_recipe", () -> new RecipeType<>()
+    public static final RegistryObject<RecipeType<?>> MOVE_TYPE = PokecubeCore.RECIPETYPE.register("move_recipe",
+            () -> new RecipeType<>()
             {
                 public String toString()
                 {

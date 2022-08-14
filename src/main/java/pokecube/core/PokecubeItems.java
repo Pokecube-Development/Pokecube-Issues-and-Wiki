@@ -45,7 +45,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.PokecubeAPI;
@@ -91,16 +90,6 @@ import thut.lib.TComponent;
 
 public class PokecubeItems extends ItemList
 {
-    public static final DeferredRegister<Block> BERRIES_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
-            PokecubeCore.MODID);
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
-            PokecubeCore.MODID);
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS,
-            PokecubeCore.MODID);
-    public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister
-            .create(ForgeRegistries.BLOCK_ENTITIES, PokecubeCore.MODID);
-    public static final DeferredRegister<MenuType<?>> MENU = DeferredRegister.create(ForgeRegistries.CONTAINERS,
-            PokecubeCore.MODID);
 
     public static ItemStack POKECUBE_ITEMS = ItemStack.EMPTY;
     public static ItemStack POKECUBE_BLOCKS = ItemStack.EMPTY;
@@ -214,143 +203,142 @@ public class PokecubeItems extends ItemList
     static
     {
         // Items
-        POKEDEX = PokecubeItems.ITEMS.register("pokedex",
+        POKEDEX = PokecubeCore.ITEMS.register("pokedex",
                 () -> new ItemPokedex(new Properties().tab(PokecubeItems.TAB_ITEMS), false));
-        POKEWATCH = PokecubeItems.ITEMS.register("pokewatch",
+        POKEWATCH = PokecubeCore.ITEMS.register("pokewatch",
                 () -> new ItemPokedex(new Properties().tab(PokecubeItems.TAB_ITEMS), true));
-        BERRYJUICE = PokecubeItems.ITEMS
+        BERRYJUICE = PokecubeCore.ITEMS
                 .register("berryjuice",
                         () -> new Item(new Properties()
                                 .food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).build())
                                 .tab(PokecubeItems.TAB_ITEMS)));
-        EGG = PokecubeItems.ITEMS.register("pokemobegg",
+        EGG = PokecubeCore.ITEMS.register("pokemobegg",
                 () -> new ItemPokemobEgg(new Properties().tab(PokecubeItems.TAB_ITEMS)));
-        CANDY = PokecubeItems.ITEMS.register("candy",
+        CANDY = PokecubeCore.ITEMS.register("candy",
                 () -> new ItemCandy(new Item.Properties().rarity(Rarity.EPIC).tab(PokecubeItems.TAB_ITEMS)));
-        REVIVE = PokecubeItems.ITEMS.register("revive",
+        REVIVE = PokecubeCore.ITEMS.register("revive",
                 () -> new ItemRevive(new Item.Properties().tab(PokecubeItems.TAB_ITEMS)));
 
         // Blocks
-        FOSSIL_ORE = PokecubeItems.BLOCKS.register("fossil_ore",
+        FOSSIL_ORE = PokecubeCore.BLOCKS.register("fossil_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE)
                         .strength(3.0f, 3.0f).sound(SoundType.BONE_BLOCK).requiresCorrectToolForDrops(),
                         UniformInt.of(0, 3)));
-        DEEPSLATE_FOSSIL_ORE = PokecubeItems.BLOCKS.register("deepslate_fossil_ore",
+        DEEPSLATE_FOSSIL_ORE = PokecubeCore.BLOCKS.register("deepslate_fossil_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE)
                         .strength(4.5f, 3.0f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops(),
                         UniformInt.of(0, 3)));
 
-        NEST = PokecubeItems.BLOCKS.register("nest", () -> new NestBlock(BlockBehaviour.Properties
+        NEST = PokecubeCore.BLOCKS.register("nest", () -> new NestBlock(BlockBehaviour.Properties
                 .of(Material.GRASS, MaterialColor.COLOR_BROWN).sound(SoundType.GRASS).strength(0.5F)));
-        SECRET_BASE = PokecubeItems.BLOCKS.register("secret_base",
+        SECRET_BASE = PokecubeCore.BLOCKS.register("secret_base",
                 () -> new BaseBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).strength(2000)
                         .sound(SoundType.STONE).requiresCorrectToolForDrops()));
-        REPEL = PokecubeItems.BLOCKS.register("repel",
+        REPEL = PokecubeCore.BLOCKS.register("repel",
                 () -> new RepelBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_GREEN)
                         .strength(0.5F, 2.5F).sound(SoundType.GRASS).requiresCorrectToolForDrops()));
-        HEALER = PokecubeItems.BLOCKS.register("pokecenter",
+        HEALER = PokecubeCore.BLOCKS.register("pokecenter",
                 () -> new HealerBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.WOOL).strength(2000)
                         .sound(SoundType.METAL).requiresCorrectToolForDrops()));
-        PC_TOP = PokecubeItems.BLOCKS.register("pc_top",
+        PC_TOP = PokecubeCore.BLOCKS.register("pc_top",
                 () -> new PCBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_RED).strength(2000)
                         .sound(SoundType.METAL).requiresCorrectToolForDrops(), true));
-        PC_BASE = PokecubeItems.BLOCKS.register("pc_base",
+        PC_BASE = PokecubeCore.BLOCKS.register("pc_base",
                 () -> new PCBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_RED).strength(2000)
                         .sound(SoundType.METAL).requiresCorrectToolForDrops(), false));
-        TM_MACHINE = PokecubeItems.BLOCKS.register("tm_machine",
+        TM_MACHINE = PokecubeCore.BLOCKS.register("tm_machine",
                 () -> new TMBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_LIGHT_BLUE)
                         .strength(2000).sound(SoundType.METAL).requiresCorrectToolForDrops()));
-        TRADER = PokecubeItems.BLOCKS.register("trade_machine",
+        TRADER = PokecubeCore.BLOCKS.register("trade_machine",
                 () -> new TraderBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GREEN)
                         .strength(2000).sound(SoundType.METAL).requiresCorrectToolForDrops()));
-        DYNAMAX = PokecubeItems.BLOCKS
+        DYNAMAX = PokecubeCore.BLOCKS
                 .register("dynamax",
                         () -> new MaxBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_MAGENTA)
                                 .sound(SoundType.GLASS).sound(SoundType.AMETHYST_CLUSTER).strength(0.8F)
                                 .requiresCorrectToolForDrops()));
 
-        ENIGMA_BARREL = PokecubeItems.BERRIES_TAB.register("enigma_barrel",
+        ENIGMA_BARREL = PokecubeCore.BERRIES_TAB.register("enigma_barrel",
                 () -> new GenericBarrel(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BLACK)
                         .strength(2.5F).sound(SoundType.WOOD)));
-        LEPPA_BARREL = PokecubeItems.BERRIES_TAB.register("leppa_barrel",
+        LEPPA_BARREL = PokecubeCore.BERRIES_TAB.register("leppa_barrel",
                 () -> new GenericBarrel(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_RED)
                         .strength(2.5F).sound(SoundType.WOOD)));
-        NANAB_BARREL = PokecubeItems.BERRIES_TAB.register("nanab_barrel",
+        NANAB_BARREL = PokecubeCore.BERRIES_TAB.register("nanab_barrel",
                 () -> new GenericBarrel(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
                         .strength(2.5F).sound(SoundType.WOOD)));
-        ORAN_BARREL = PokecubeItems.BERRIES_TAB.register("oran_barrel",
-                () -> new GenericBarrel(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_LIGHT_BLUE)
-                        .strength(2.5F).sound(SoundType.WOOD)));
-        PECHA_BARREL = PokecubeItems.BERRIES_TAB.register("pecha_barrel",
+        ORAN_BARREL = PokecubeCore.BERRIES_TAB.register("oran_barrel", () -> new GenericBarrel(BlockBehaviour.Properties
+                .of(Material.WOOD, MaterialColor.COLOR_LIGHT_BLUE).strength(2.5F).sound(SoundType.WOOD)));
+        PECHA_BARREL = PokecubeCore.BERRIES_TAB.register("pecha_barrel",
                 () -> new GenericBarrel(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_PINK)
                         .strength(2.5F).sound(SoundType.WOOD)));
-        SITRUS_BARREL = PokecubeItems.BERRIES_TAB.register("sitrus_barrel",
+        SITRUS_BARREL = PokecubeCore.BERRIES_TAB.register("sitrus_barrel",
                 () -> new GenericBarrel(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_YELLOW)
                         .strength(2.5F).sound(SoundType.WOOD)));
 
-        ENIGMA_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("enigma_bookshelf_empty",
+        ENIGMA_BOOKSHELF_EMPTY = PokecubeCore.BERRIES_TAB.register("enigma_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BLACK)
                         .strength(2.5F).sound(SoundType.WOOD)));
-        LEPPA_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("leppa_bookshelf_empty",
+        LEPPA_BOOKSHELF_EMPTY = PokecubeCore.BERRIES_TAB.register("leppa_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_RED)
                         .strength(2.5F).sound(SoundType.WOOD)));
-        NANAB_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("nanab_bookshelf_empty",
+        NANAB_BOOKSHELF_EMPTY = PokecubeCore.BERRIES_TAB.register("nanab_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
                         .strength(2.5F).sound(SoundType.WOOD)));
-        ORAN_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("oran_bookshelf_empty",
+        ORAN_BOOKSHELF_EMPTY = PokecubeCore.BERRIES_TAB.register("oran_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties
                         .of(Material.WOOD, MaterialColor.COLOR_LIGHT_BLUE).strength(2.5F).sound(SoundType.WOOD)));
-        PECHA_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("pecha_bookshelf_empty",
+        PECHA_BOOKSHELF_EMPTY = PokecubeCore.BERRIES_TAB.register("pecha_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_PINK)
                         .strength(2.5F).sound(SoundType.WOOD)));
-        SITRUS_BOOKSHELF_EMPTY = PokecubeItems.BERRIES_TAB.register("sitrus_bookshelf_empty",
+        SITRUS_BOOKSHELF_EMPTY = PokecubeCore.BERRIES_TAB.register("sitrus_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_YELLOW)
                         .strength(2.5F).sound(SoundType.WOOD)));
 
         // Tile Entity Types
-        BARREL_TYPE = PokecubeItems.TILES
+        BARREL_TYPE = PokecubeCore.TILES
                 .register("generic_barrel",
                         () -> BlockEntityType.Builder.of(GenericBarrelTile::new, PokecubeItems.ENIGMA_BARREL.get(),
                                 PokecubeItems.LEPPA_BARREL.get(), PokecubeItems.NANAB_BARREL.get(),
                                 PokecubeItems.ORAN_BARREL.get(), PokecubeItems.PECHA_BARREL.get(),
                                 PokecubeItems.SITRUS_BARREL.get()).build(null));
-        BASE_TYPE = PokecubeItems.TILES.register("secret_base",
+        BASE_TYPE = PokecubeCore.TILES.register("secret_base",
                 () -> BlockEntityType.Builder.of(BaseTile::new, PokecubeItems.SECRET_BASE.get()).build(null));
-        BOOKSHELF_EMPTY_TYPE = PokecubeItems.TILES.register("generic_bookshelf_empty",
+        BOOKSHELF_EMPTY_TYPE = PokecubeCore.TILES.register("generic_bookshelf_empty",
                 () -> BlockEntityType.Builder.of(GenericBookshelfEmptyTile::new,
                         PokecubeItems.ENIGMA_BOOKSHELF_EMPTY.get(), PokecubeItems.LEPPA_BOOKSHELF_EMPTY.get(),
                         PokecubeItems.NANAB_BOOKSHELF_EMPTY.get(), PokecubeItems.ORAN_BOOKSHELF_EMPTY.get(),
                         PokecubeItems.PECHA_BOOKSHELF_EMPTY.get(), PokecubeItems.SITRUS_BOOKSHELF_EMPTY.get())
                         .build(null));
-        MAX_TYPE = PokecubeItems.TILES.register("dynamax",
+        MAX_TYPE = PokecubeCore.TILES.register("dynamax",
                 () -> BlockEntityType.Builder.of(MaxTile::new, PokecubeItems.DYNAMAX.get()).build(null));
-        NEST_TYPE = PokecubeItems.TILES.register("nest",
+        NEST_TYPE = PokecubeCore.TILES.register("nest",
                 () -> BlockEntityType.Builder.of(NestTile::new, PokecubeItems.NEST.get()).build(null));
-        REPEL_TYPE = PokecubeItems.TILES.register("repel",
+        REPEL_TYPE = PokecubeCore.TILES.register("repel",
                 () -> BlockEntityType.Builder.of(RepelTile::new, PokecubeItems.REPEL.get()).build(null));
 
-        HEALER_TYPE = PokecubeItems.TILES.register("pokecenter",
+        HEALER_TYPE = PokecubeCore.TILES.register("pokecenter",
                 () -> BlockEntityType.Builder.of(HealerTile::new, PokecubeItems.HEALER.get()).build(null));
-        PC_TYPE = PokecubeItems.TILES.register("pc", () -> BlockEntityType.Builder
+        PC_TYPE = PokecubeCore.TILES.register("pc", () -> BlockEntityType.Builder
                 .of(PCTile::new, PokecubeItems.PC_TOP.get(), PokecubeItems.PC_BASE.get()).build(null));
-        TM_TYPE = PokecubeItems.TILES.register("tm_machine",
+        TM_TYPE = PokecubeCore.TILES.register("tm_machine",
                 () -> BlockEntityType.Builder.of(TMTile::new, PokecubeItems.TM_MACHINE.get()).build(null));
-        TRADE_TYPE = PokecubeItems.TILES.register("trade_machine",
+        TRADE_TYPE = PokecubeCore.TILES.register("trade_machine",
                 () -> BlockEntityType.Builder.of(TraderTile::new, PokecubeItems.TRADER.get()).build(null));
 
         // Menus
-        BARREL_MENU = PokecubeItems.MENU.register("barrel_menu", () -> new MenuType<>(GenericBarrelMenu::threeRows));
+        BARREL_MENU = PokecubeCore.MENU.register("barrel_menu", () -> new MenuType<>(GenericBarrelMenu::threeRows));
     }
 
     public static void init()
     {
-        for (final RegistryObject<Block> reg : PokecubeItems.BLOCKS.getEntries())
-            PokecubeItems.ITEMS.register(reg.getId().getPath(),
+        for (final RegistryObject<Block> reg : PokecubeCore.BLOCKS.getEntries())
+            PokecubeCore.ITEMS.register(reg.getId().getPath(),
                     () -> new BlockItem(reg.get(), new Item.Properties().tab(PokecubeItems.TAB_BLOCKS)));
 
-        for (final RegistryObject<Block> reg : PokecubeItems.BERRIES_TAB.getEntries())
+        for (final RegistryObject<Block> reg : PokecubeCore.BERRIES_TAB.getEntries())
         {
-            PokecubeItems.ITEMS.register(reg.getId().getPath(),
+            PokecubeCore.ITEMS.register(reg.getId().getPath(),
                     () -> new BlockItem(reg.get(), new Item.Properties().tab(PokecubeItems.TAB_BERRIES)));
         }
     }

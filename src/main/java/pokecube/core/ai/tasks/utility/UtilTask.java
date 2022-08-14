@@ -21,7 +21,7 @@ public abstract class UtilTask extends TaskBase
 
     static
     {
-        UtilTask.MEMS.put(MemoryModules.ATTACKTARGET, MemoryStatus.VALUE_ABSENT);
+        UtilTask.MEMS.put(MemoryModules.ATTACKTARGET.get(), MemoryStatus.VALUE_ABSENT);
     }
 
     public static Predicate<BlockState> diggable = state -> (PokecubeTerrainChecker.isTerrain(state)

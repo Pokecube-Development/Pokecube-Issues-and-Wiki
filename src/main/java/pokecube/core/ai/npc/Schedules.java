@@ -3,20 +3,22 @@ package pokecube.core.ai.npc;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.entity.schedule.Schedule;
 import net.minecraft.world.entity.schedule.ScheduleBuilder;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.RegistryObject;
+import pokecube.core.PokecubeCore;
 
 public class Schedules
 {
-    public static final Schedule ADULT = Schedules.makeAdult();
-    public static final Schedule CHILD = Schedules.makeChild();
+    public static final RegistryObject<Schedule> ADULT;
+    public static final RegistryObject<Schedule> CHILD;
 
-    public static void register(final RegistryEvent.Register<Schedule> event)
+    static
     {
-        Schedules.ADULT.setRegistryName("pokecube:adult_npc");
-        event.getRegistry().register(Schedules.ADULT);
-        Schedules.CHILD.setRegistryName("pokecube:child_npc");
-        event.getRegistry().register(Schedules.CHILD);
+        ADULT = PokecubeCore.SCHEDULES.register("adult_npc", () -> Schedules.makeAdult());
+        CHILD = PokecubeCore.SCHEDULES.register("child_npc", () -> Schedules.makeChild());
     }
+
+    public static void init()
+    {}
 
     private static Schedule makeAdult()
     {
@@ -24,7 +26,7 @@ public class Schedules
         builder
         //@formatter:off
         .changeActivityAt(10, Activity.IDLE)
-        .changeActivityAt(10, Activities.STATIONARY)
+        .changeActivityAt(10, Activities.STATIONARY.get())
         .changeActivityAt(2000,Activity.WORK)
         .changeActivityAt(9000, Activity.MEET)
         .changeActivityAt(11000, Activity.IDLE)
@@ -36,7 +38,8 @@ public class Schedules
     private static Schedule makeChild()
     {
         final ScheduleBuilder builder = new ScheduleBuilder(new Schedule());
-        builder.changeActivityAt(10, Activity.IDLE).changeActivityAt(10, Activities.STATIONARY).changeActivityAt(3000, Activity.PLAY).changeActivityAt(6000, Activity.IDLE)
+        builder.changeActivityAt(10, Activity.IDLE).changeActivityAt(10, Activities.STATIONARY.get())
+                .changeActivityAt(3000, Activity.PLAY).changeActivityAt(6000, Activity.IDLE)
                 .changeActivityAt(10000, Activity.PLAY).changeActivityAt(12000, Activity.REST);
         return builder.build();
     }

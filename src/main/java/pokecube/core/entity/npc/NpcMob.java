@@ -149,7 +149,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
             Set<Activity> acts = brain.activityRequirements.keySet();
             for (Activity act : acts) BrainUtil.addToActivity(brain, act, args);
 
-            brain.addActivity(Activities.STATIONARY, this.addGuard(guardai, Tasks.stationary(profession, f)));
+            brain.addActivity(Activities.STATIONARY.get(), this.addGuard(guardai, Tasks.stationary(profession, f)));
             brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
             brain.setDefaultActivity(Activity.IDLE);
             brain.setActiveActivityIfPossible(Activity.IDLE);

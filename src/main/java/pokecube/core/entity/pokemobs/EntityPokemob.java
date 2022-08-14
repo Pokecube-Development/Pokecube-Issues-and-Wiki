@@ -514,6 +514,7 @@ public class EntityPokemob extends PokemobRidable
     @Override
     public boolean requiresCustomPersistence()
     {
+        if (isPersistenceRequired() || super.requiresCustomPersistence()) return true;
         if (!(level instanceof ServerLevel level)) return true;
 
         final boolean despawns = Config.Rules.doDespawn(level);

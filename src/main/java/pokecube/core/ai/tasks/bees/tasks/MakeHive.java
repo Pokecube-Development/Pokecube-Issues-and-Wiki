@@ -34,11 +34,11 @@ public class MakeHive extends BaseIdleTask
     static
     {
         // Don't run if we have a hive, we will make one if needed.
-        MakeHive.mems.put(BeeTasks.HIVE_POS, MemoryStatus.VALUE_ABSENT);
+        MakeHive.mems.put(BeeTasks.HIVE_POS.get(), MemoryStatus.VALUE_ABSENT);
         // We use this memory to determine how long since we had a hive
-        MakeHive.mems.put(BeeTasks.NO_HIVE_TIMER, MemoryStatus.VALUE_PRESENT);
+        MakeHive.mems.put(BeeTasks.NO_HIVE_TIMER.get(), MemoryStatus.VALUE_PRESENT);
         // We use this memory to decide where to put the hive
-        MakeHive.mems.put(MemoryModules.VISIBLE_BLOCKS, MemoryStatus.VALUE_PRESENT);
+        MakeHive.mems.put(MemoryModules.VISIBLE_BLOCKS.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     public MakeHive(final IPokemob pokemob)
@@ -81,7 +81,7 @@ public class MakeHive extends BaseIdleTask
 
         final Brain<?> brain = this.entity.getBrain();
         this.world.setBlockAndUpdate(pos.relative(dir), Blocks.BEE_NEST.defaultBlockState());
-        brain.eraseMemory(BeeTasks.NO_HIVE_TIMER);
+        brain.eraseMemory(BeeTasks.NO_HIVE_TIMER.get());
         return true;
     }
 
@@ -150,7 +150,7 @@ public class MakeHive extends BaseIdleTask
 
         final Brain<?> brain = this.entity.getBrain();
         // partially Reset this if we failed
-        brain.setMemory(BeeTasks.NO_HIVE_TIMER, 0);
+        brain.setMemory(BeeTasks.NO_HIVE_TIMER.get(), 0);
 
     }
 
@@ -166,7 +166,7 @@ public class MakeHive extends BaseIdleTask
         if (!tameCheck) return false;
         final Brain<?> brain = this.entity.getBrain();
         int timer = 0;
-        if (brain.hasMemoryValue(BeeTasks.NO_HIVE_TIMER)) timer = brain.getMemory(BeeTasks.NO_HIVE_TIMER).get();
+        if (brain.hasMemoryValue(BeeTasks.NO_HIVE_TIMER.get())) timer = brain.getMemory(BeeTasks.NO_HIVE_TIMER.get()).get();
         // This timer is in ticks of the HiveSensor, which is only once per
         // second or so!
         return timer > 60;

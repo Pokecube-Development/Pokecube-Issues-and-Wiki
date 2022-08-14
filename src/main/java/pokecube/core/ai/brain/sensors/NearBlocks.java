@@ -118,14 +118,14 @@ public class NearBlocks extends Sensor<LivingEntity>
         final BlockPos o0 = entityIn.blockPosition();
         list.sort((o1, o2) -> (int) (o1.getPos().distSqr(o0) - o1.getPos().distSqr(o0)));
         final Brain<?> brain = entityIn.getBrain();
-        if (!list.isEmpty()) brain.setMemory(MemoryModules.VISIBLE_BLOCKS, list);
-        else brain.eraseMemory(MemoryModules.VISIBLE_BLOCKS);
+        if (!list.isEmpty()) brain.setMemory(MemoryModules.VISIBLE_BLOCKS.get(), list);
+        else brain.eraseMemory(MemoryModules.VISIBLE_BLOCKS.get());
     }
 
     @Override
     public Set<MemoryModuleType<?>> requires()
     {
-        return ImmutableSet.of(MemoryModules.VISIBLE_BLOCKS);
+        return ImmutableSet.of(MemoryModules.VISIBLE_BLOCKS.get());
     }
 
 }

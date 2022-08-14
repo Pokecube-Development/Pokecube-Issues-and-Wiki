@@ -38,11 +38,16 @@ public class Tasks
 
     public static final List<SensorType<?>> REMOVE = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES);
 
-    public static final List<SensorType<?>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_PLAYERS,
-            SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS, Sensors.INTERESTING_ENTITIES);
+    private static final List<SensorType<?>> getSensors()
+    {
+        return List.of(SensorType.NEAREST_PLAYERS, SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS.get(),
+                Sensors.INTERESTING_ENTITIES.get());
+    }
 
-    public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModules.ATTACKTARGET,
-            MemoryTypes.BATTLETARGET);
+    private static final List<MemoryModuleType<?>> getMemories()
+    {
+        return List.of(MemoryModules.ATTACKTARGET.get(), MemoryTypes.BATTLETARGET);
+    }
 
     @SuppressWarnings("unchecked")
     public static void addBattleTasks(final LivingEntity mob,
@@ -51,11 +56,10 @@ public class Tasks
         final Brain<?> brain = mob.getBrain();
 
         final List<SensorType<?>> senses = Lists.newArrayList(Tasks.DUMMY);
-        for (final SensorType<?> type : Tasks.SENSOR_TYPES)
-            if (!brain.sensors.containsKey(type)) senses.add(type);
+        for (final SensorType<?> type : Tasks.getSensors()) if (!brain.sensors.containsKey(type)) senses.add(type);
 
         BrainUtil.removeSensors(brain, Tasks.REMOVE);
-        BrainUtil.addToBrain(brain, Tasks.MEMORY_TYPES, senses);
+        BrainUtil.addToBrain(brain, Tasks.getMemories(), senses);
 
         final List<Pair<Integer, ? extends Behavior<? super LivingEntity>>> battle_list = Lists.newArrayList();
         final List<Pair<Integer, ? extends Behavior<? super LivingEntity>>> other_list = Lists.newArrayList();
@@ -76,11 +80,10 @@ public class Tasks
         task = new ManagePokemobTarget(mob);
         battle_list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
 
-        brain.addActivityWithConditions(Activities.BATTLE, ImmutableList.copyOf(battle_list), ImmutableSet.of(Pair.of(
-                MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryStatus.VALUE_PRESENT)));
+        brain.addActivityWithConditions(Activities.BATTLE.get(), ImmutableList.copyOf(battle_list),
+                ImmutableSet.of(Pair.of(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryStatus.VALUE_PRESENT)));
 
-        brain.activeActivities.forEach(a ->
-        {
+        brain.activeActivities.forEach(a -> {
             BrainUtil.addToActivity(brain, a, other_list);
         });
     }

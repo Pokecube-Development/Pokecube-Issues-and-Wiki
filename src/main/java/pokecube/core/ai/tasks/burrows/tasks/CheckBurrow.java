@@ -38,7 +38,7 @@ public class CheckBurrow extends BaseIdleTask
     static
     {
         // We use this memory to decide where to put the hive
-        CheckBurrow.mems.put(MemoryModules.VISIBLE_BLOCKS, MemoryStatus.VALUE_PRESENT);
+        CheckBurrow.mems.put(MemoryModules.VISIBLE_BLOCKS.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     int burrowCheckTimer = -10;
@@ -67,9 +67,9 @@ public class CheckBurrow extends BaseIdleTask
         if (this.burrow == null)
         {
             // Ensure these are cleared.
-            this.entity.getBrain().eraseMemory(BurrowTasks.BURROW);
-            this.entity.getBrain().eraseMemory(BurrowTasks.GOING_HOME);
-            this.entity.getBrain().eraseMemory(BurrowTasks.JOB_INFO);
+            this.entity.getBrain().eraseMemory(MemoryModules.NEST_POS.get());
+            this.entity.getBrain().eraseMemory(MemoryModules.GOING_HOME.get());
+            this.entity.getBrain().eraseMemory(MemoryModules.JOB_INFO.get());
 
             // We need to do the following:
             //
@@ -129,8 +129,8 @@ public class CheckBurrow extends BaseIdleTask
         final NestTile nest = (NestTile) tile;
         nest.setWrappedHab(hab);
         nest.addResident(this.pokemob);
-        brain.setMemory(BurrowTasks.BURROW, GlobalPos.of(this.world.dimension(), pos));
-        brain.eraseMemory(BurrowTasks.NO_HOME_TIMER);
+        brain.setMemory(MemoryModules.NEST_POS.get(), GlobalPos.of(this.world.dimension(), pos));
+        brain.eraseMemory(MemoryModules.NO_NEST_TIMER.get());
         return true;
     }
 

@@ -58,18 +58,25 @@ import thut.api.entity.ai.IAIRunnable;
 
 public class Tasks
 {
-    public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModules.ATTACKTARGET,
-            MemoryModules.HUNTTARGET, MemoryModules.HUNTED_BY, MemoryModules.MOVE_TARGET, MemoryModules.LEAP_TARGET,
-            MemoryModules.PATH, MemoryModules.MATE_TARGET, MemoryModules.WALK_TARGET, MemoryModules.LOOK_TARGET,
-            MemoryModules.EGG, MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModules.NOT_FOUND_PATH,
-            MemoryModuleType.DOORS_TO_CLOSE);
 
-    public static final List<SensorType<?>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_PLAYERS,
-            SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS, Sensors.INTERESTING_ENTITIES);
+    private static final List<SensorType<?>> getSensors()
+    {
+        return List.of(SensorType.NEAREST_PLAYERS, SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS.get(),
+                Sensors.INTERESTING_ENTITIES.get());
+    }
+
+    private static final List<MemoryModuleType<?>> getMemories()
+    {
+        return List.of(MemoryModules.ATTACKTARGET.get(), MemoryModules.HUNTTARGET.get(), MemoryModules.HUNTED_BY.get(),
+                MemoryModules.MOVE_TARGET.get(), MemoryModules.LEAP_TARGET.get(), MemoryModules.PATH,
+                MemoryModules.MATE_TARGET, MemoryModules.WALK_TARGET, MemoryModules.LOOK_TARGET,
+                MemoryModules.EGG.get(), MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModules.NOT_FOUND_PATH,
+                MemoryModuleType.DOORS_TO_CLOSE);
+    }
 
     public static void initBrain(final Brain<?> brain)
     {
-        BrainUtil.addToBrain(brain, Tasks.MEMORY_TYPES, Tasks.SENSOR_TYPES);
+        BrainUtil.addToBrain(brain, Tasks.getMemories(), Tasks.getSensors());
     }
 
     @SuppressWarnings("unchecked")
@@ -116,7 +123,7 @@ public class Tasks
         {
             task = new LookAtTask(45, 90);
             list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
-            task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
+            task = new RunAway(MemoryModules.HUNTED_BY.get(), 1.5f);
             list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
             task = new SwimTask(pokemob, 0.8F);
             list.add(Pair.of(0, (Behavior<? super LivingEntity>) task));
@@ -179,7 +186,7 @@ public class Tasks
             Behavior<?> task = new LookAtTask(45, 90);
             list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
 
-            task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
+            task = new RunAway(MemoryModules.HUNTED_BY.get(), 1.5f);
             list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
 
             task = new SwimTask(pokemob, 0.8F);
@@ -234,7 +241,7 @@ public class Tasks
         {
             task = new LookAtTask(45, 90);
             list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
-            task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
+            task = new RunAway(MemoryModules.HUNTED_BY.get(), 1.5f);
             list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
             task = new SwimTask(pokemob, 0.8F);
             list.add(Pair.of(0, (Behavior<? super LivingEntity>) task));

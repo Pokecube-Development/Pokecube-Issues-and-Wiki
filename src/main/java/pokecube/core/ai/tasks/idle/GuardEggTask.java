@@ -23,7 +23,7 @@ public class GuardEggTask extends BaseIdleTask
 
     static
     {
-        MEMS.put(MemoryModules.EGG, MemoryStatus.VALUE_PRESENT);
+        MEMS.put(MemoryModules.EGG.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     public static int PATHCOOLDOWN = 50;
@@ -43,7 +43,7 @@ public class GuardEggTask extends BaseIdleTask
     public void reset()
     {
         this.egg = null;
-        entity.getBrain().eraseMemory(MemoryModules.EGG);
+        entity.getBrain().eraseMemory(MemoryModules.EGG.get());
     }
 
     @Override
@@ -63,7 +63,7 @@ public class GuardEggTask extends BaseIdleTask
     @Override
     public boolean shouldRun()
     {
-        Optional<EntityPokemobEgg> eggOpt = entity.getBrain().getMemory(MemoryModules.EGG);
+        Optional<EntityPokemobEgg> eggOpt = entity.getBrain().getMemory(MemoryModules.EGG.get());
         if (!eggOpt.isPresent()) return false;
         this.egg = eggOpt.get();
         if (!this.egg.isAlive())

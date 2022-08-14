@@ -65,7 +65,7 @@ import thut.lib.TComponent;
 
 public class SecretBaseDimension
 {
-    public static RegistryObject<Codec<? extends ChunkGenerator>> SECRETBASECODEC = PokecubeCore.RegistryEvents.CHUNKGENTYPE
+    public static RegistryObject<Codec<? extends ChunkGenerator>> SECRETBASECODEC = PokecubeCore.CHUNKGENTYPE
             .register("secret_base", () -> SecretChunkGenerator.CODEC);
 
     public static void onConstruct(final IEventBus bus)
@@ -205,10 +205,12 @@ public class SecretBaseDimension
     public static class SecretChunkGenerator extends ChunkGenerator
     {
         public static final Codec<SecretChunkGenerator> CODEC = RecordCodecBuilder.create((p_208215_) -> {
-            return commonCodec(p_208215_).and(RegistryOps.retrieveRegistry(Registry.BIOME_REGISTRY).forGetter((p_208210_) -> {
-               return p_208210_.registry;
-            })).apply(p_208215_, p_208215_.stable(SecretChunkGenerator::new));
-         });
+            return commonCodec(p_208215_)
+                    .and(RegistryOps.retrieveRegistry(Registry.BIOME_REGISTRY).forGetter((p_208210_) ->
+                    {
+                        return p_208210_.registry;
+                    })).apply(p_208215_, p_208215_.stable(SecretChunkGenerator::new));
+        });
 
         private final Registry<Biome> registry;
 

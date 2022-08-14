@@ -133,9 +133,9 @@ public class NestTile extends InteractableTile implements ITickTile
     {
         this.residents.add(resident);
         final IInhabitable hab = this.getWrappedHab();
-        if (resident.getEntity().getBrain().checkMemory(MemoryModules.NEST_POS, MemoryStatus.REGISTERED))
+        if (resident.getEntity().getBrain().checkMemory(MemoryModules.NEST_POS.get(), MemoryStatus.REGISTERED))
         {
-            resident.getEntity().getBrain().setMemory(MemoryModules.NEST_POS,
+            resident.getEntity().getBrain().setMemory(MemoryModules.NEST_POS.get(),
                     GlobalPos.of(level.dimension(), getBlockPos()));
         }
         if (hab != null) hab.addResident(resident.getEntity());
@@ -153,8 +153,7 @@ public class NestTile extends InteractableTile implements ITickTile
                 final ServerPlayer sendTo = (ServerPlayer) player;
                 final Container wrapper = new InvWrapper((IItemHandlerModifiable) handler);
                 final SimpleMenuProvider provider = new SimpleMenuProvider(
-                        (i, p, e) -> ChestMenu.sixRows(i, p, wrapper),
-                        TComponent.translatable("block.pokecube.nest"));
+                        (i, p, e) -> ChestMenu.sixRows(i, p, wrapper), TComponent.translatable("block.pokecube.nest"));
                 NetworkHooks.openGui(sendTo, provider);
             }
             return InteractionResult.SUCCESS;

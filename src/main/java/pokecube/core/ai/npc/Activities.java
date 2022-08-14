@@ -1,18 +1,21 @@
 package pokecube.core.ai.npc;
 
 import net.minecraft.world.entity.schedule.Activity;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.RegistryObject;
+import pokecube.core.PokecubeCore;
 
 public class Activities
 {
-    public static final Activity STATIONARY = new Activity("pokecube:stationary");
-    public static final Activity BATTLE     = new Activity("pokecube:battling");
+    public static final RegistryObject<Activity> STATIONARY;
+    public static final RegistryObject<Activity> BATTLE;
 
-    public static void register(final RegistryEvent.Register<Activity> event)
+    static
     {
-        Activities.STATIONARY.setRegistryName(Activities.STATIONARY.getName());
-        event.getRegistry().register(Activities.STATIONARY);
-        Activities.BATTLE.setRegistryName(Activities.BATTLE.getName());
-        event.getRegistry().register(Activities.BATTLE);
+        STATIONARY = PokecubeCore.ACTIVITIES.register("stationary", () -> new Activity("pokecube:stationary"));
+        BATTLE = PokecubeCore.ACTIVITIES.register("battling", () -> new Activity("pokecube:battling"));
+
     }
+
+    public static void init()
+    {}
 }

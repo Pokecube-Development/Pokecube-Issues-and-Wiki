@@ -174,12 +174,12 @@ public class ForgetTargetTask extends CombatTask
                     mobA.setCombatState(CombatStates.MATEFIGHT, false);
                     mobB.setCombatState(CombatStates.MATEFIGHT, false);
 
-                    if (weHealth < 0.5)
-                        if (mobA.getEntity().getBrain().checkMemory(MemoryModules.HUNTED_BY, MemoryStatus.REGISTERED))
-                            mobA.getEntity().getBrain().setMemory(MemoryModules.HUNTED_BY, mobB.getEntity());
-                    if (theyHealth < 0.5)
-                        if (mobB.getEntity().getBrain().checkMemory(MemoryModules.HUNTED_BY, MemoryStatus.REGISTERED))
-                            mobB.getEntity().getBrain().setMemory(MemoryModules.HUNTED_BY, mobA.getEntity());
+                    if (weHealth < 0.5) if (mobA.getEntity().getBrain().checkMemory(MemoryModules.HUNTED_BY.get(),
+                            MemoryStatus.REGISTERED))
+                        mobA.getEntity().getBrain().setMemory(MemoryModules.HUNTED_BY.get(), mobB.getEntity());
+                    if (theyHealth < 0.5) if (mobB.getEntity().getBrain().checkMemory(MemoryModules.HUNTED_BY.get(),
+                            MemoryStatus.REGISTERED))
+                        mobB.getEntity().getBrain().setMemory(MemoryModules.HUNTED_BY.get(), mobA.getEntity());
 
                     if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("No want to fight, too weak!");
                     deAgro = true;

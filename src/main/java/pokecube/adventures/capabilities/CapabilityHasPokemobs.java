@@ -660,8 +660,7 @@ public class CapabilityHasPokemobs
                 // Make trainer own it when place in.
                 if (!this.getTrainer().getStringUUID().equals(owner))
                 {
-                    final IPokemob pokemob = PokecubeManager.itemToPokemob(cube,
-                            this.getTrainer().getLevel());
+                    final IPokemob pokemob = PokecubeManager.itemToPokemob(cube, this.getTrainer().getLevel());
                     if (pokemob != null)
                     {
                         pokemob.setOwner(this.getTrainer());
@@ -744,7 +743,7 @@ public class CapabilityHasPokemobs
                 this.resetPokemob();
                 this.getTrainer().getBrain().setActiveActivityIfPossible(Activity.IDLE);
             }
-            else this.getTrainer().getBrain().setActiveActivityIfPossible(Activities.BATTLE);
+            else this.getTrainer().getBrain().setActiveActivityIfPossible(Activities.BATTLE.get());
         }
 
         @Override

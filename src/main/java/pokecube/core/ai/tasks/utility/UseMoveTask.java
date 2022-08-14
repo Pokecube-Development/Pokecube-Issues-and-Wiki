@@ -31,7 +31,7 @@ public class UseMoveTask extends UtilTask
 
     static
     {
-        UseMoveTask.MEMS.put(MemoryModules.MOVE_TARGET, MemoryStatus.VALUE_PRESENT);
+        UseMoveTask.MEMS.put(MemoryModules.MOVE_TARGET.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     private boolean running    = false;

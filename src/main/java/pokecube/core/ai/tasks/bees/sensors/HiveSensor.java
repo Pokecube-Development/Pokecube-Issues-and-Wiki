@@ -7,7 +7,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
 import net.minecraft.core.BlockPos;
@@ -28,8 +27,6 @@ import pokecube.core.ai.tasks.bees.BeeTasks;
 
 public class HiveSensor extends Sensor<Mob>
 {
-    private static final Set<MemoryModuleType<?>> MEMS = ImmutableSet.of(BeeTasks.HIVE_POS, BeeTasks.NO_HIVE_TIMER);
-
     public static interface IHiveEnterer
     {
         boolean addBee(Mob entityIn, BlockEntity hive);
@@ -53,35 +50,28 @@ public class HiveSensor extends Sensor<Mob>
 
     static
     {
-        final IHiveEnterer vanillaHives = (entityIn, tile) ->
-        {
+        final IHiveEnterer vanillaHives = (entityIn, tile) -> {
             if (!(tile instanceof BeehiveBlockEntity)) return false;
             final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
             return habitat != null && habitat.onEnterHabitat(entityIn);
         };
         HiveSensor.hiveEnterers.add(vanillaHives);
 
-        final IHiveSpaceCheck vanillaCheck = (entityIn, tile) ->
-        {
+        final IHiveSpaceCheck vanillaCheck = (entityIn, tile) -> {
             if (!(tile instanceof BeehiveBlockEntity)) return false;
             final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
             return habitat != null && habitat.canEnterHabitat(entityIn);
         };
         HiveSensor.hiveSpaceCheckers.add(vanillaCheck);
-        final IHiveLocator vanillaLocator = (entityIn) ->
-        {
+        final IHiveLocator vanillaLocator = (entityIn) -> {
             final BlockPos blockpos = entityIn.blockPosition();
-            final PoiManager pointofinterestmanager = ((ServerLevel) entityIn.level)
-                    .getPoiManager();
-            final Stream<PoiRecord> stream = pointofinterestmanager.getInRange((type) ->
-            {
+            final PoiManager pointofinterestmanager = ((ServerLevel) entityIn.level).getPoiManager();
+            final Stream<PoiRecord> stream = pointofinterestmanager.getInRange((type) -> {
                 return type == PoiType.BEEHIVE || type == PoiType.BEE_NEST;
             }, blockpos, 20, PoiManager.Occupancy.ANY);
-            return stream.map(PoiRecord::getPos).filter((pos) ->
-            {
+            return stream.map(PoiRecord::getPos).filter((pos) -> {
                 return HiveSensor.doesHiveHaveSpace(entityIn, pos);
-            }).sorted(Comparator.comparingDouble((pos) ->
-            {
+            }).sorted(Comparator.comparingDouble((pos) -> {
                 return pos.distSqr(blockpos);
             })).collect(Collectors.toList());
         };
@@ -93,8 +83,7 @@ public class HiveSensor extends Sensor<Mob>
         final List<BlockPos> hives = Lists.newArrayList();
         final BlockPos blockpos = entityIn.blockPosition();
         HiveSensor.hiveLocators.forEach(l -> hives.addAll(l.getHives(entityIn)));
-        hives.sort(Comparator.comparingDouble((pos) ->
-        {
+        hives.sort(Comparator.comparingDouble((pos) -> {
             return pos.distSqr(blockpos);
         }));
         return hives;
@@ -111,8 +100,8 @@ public class HiveSensor extends Sensor<Mob>
     public static boolean tryAddToBeeHive(final Mob entityIn, final BlockPos hive)
     {
         final BlockEntity tile = entityIn.getLevel().getBlockEntity(hive);
-        if (tile != null) for (final IHiveEnterer checker : HiveSensor.hiveEnterers)
-            if (checker.addBee(entityIn, tile)) return true;
+        if (tile != null)
+            for (final IHiveEnterer checker : HiveSensor.hiveEnterers) if (checker.addBee(entityIn, tile)) return true;
         return false;
     }
 
@@ -120,29 +109,29 @@ public class HiveSensor extends Sensor<Mob>
     protected void doTick(final ServerLevel worldIn, final Mob entityIn)
     {
         final Brain<?> brain = entityIn.getBrain();
-        if (brain.hasMemoryValue(BeeTasks.HIVE_POS)) return;
+        if (brain.hasMemoryValue(BeeTasks.HIVE_POS.get())) return;
         final List<BlockPos> hives = HiveSensor.getNearbyFreeHives(entityIn);
         Collections.shuffle(hives);
         if (!hives.isEmpty())
         {
             // Randomize this so we don't always pick the same hive if it was
             // cleared for some reason
-            brain.eraseMemory(BeeTasks.NO_HIVE_TIMER);
-            brain.setMemory(BeeTasks.HIVE_POS, GlobalPos.of(entityIn.getLevel().dimension(), hives
-                    .get(0)));
+            brain.eraseMemory(BeeTasks.NO_HIVE_TIMER.get());
+            brain.setMemory(BeeTasks.HIVE_POS.get(), GlobalPos.of(entityIn.getLevel().dimension(), hives.get(0)));
         }
         else
         {
             int timer = 0;
-            if (brain.hasMemoryValue(BeeTasks.NO_HIVE_TIMER)) timer = brain.getMemory(BeeTasks.NO_HIVE_TIMER).get();
-            brain.setMemory(BeeTasks.NO_HIVE_TIMER, timer + 1);
+            if (brain.hasMemoryValue(BeeTasks.NO_HIVE_TIMER.get()))
+                timer = brain.getMemory(BeeTasks.NO_HIVE_TIMER.get()).get();
+            brain.setMemory(BeeTasks.NO_HIVE_TIMER.get(), timer + 1);
         }
     }
 
     @Override
     public Set<MemoryModuleType<?>> requires()
     {
-        return HiveSensor.MEMS;
+        return Set.of(BeeTasks.HIVE_POS.get(), BeeTasks.NO_HIVE_TIMER.get());
     }
 
 }

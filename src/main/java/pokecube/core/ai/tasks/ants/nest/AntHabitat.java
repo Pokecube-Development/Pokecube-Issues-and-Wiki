@@ -40,6 +40,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
@@ -441,15 +442,21 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         }));
     }
 
+    private void updateJob(Mob mob, CompoundTag tag, BlockPos pos)
+    {
+        mob.getBrain().setMemory(MemoryModules.JOB_INFO.get(), tag);
+        mob.getBrain().setMemory(MemoryModules.WORK_POS.get(), GlobalPos.of(this.world.dimension(), pos));
+    }
+
     private void assignJob(final AntJob j, final Mob mob)
     {
-        final int timer = mob.getBrain().getMemory(AntTasks.NO_WORK_TIME).orElse(0);
-        mob.getBrain().setMemory(AntTasks.NO_WORK_TIME, timer + 1);
+        final int timer = mob.getBrain().getMemory(MemoryModules.NO_WORK_TIMER.get()).orElse(0);
+        mob.getBrain().setMemory(MemoryModules.NO_WORK_TIMER.get(), timer + 1);
         if (timer < 0) return;
         final long time = Tracker.instance().getTick();
         // Only assign the job if no work pos, the job should remove this
         // task if done or undoable
-        if (mob.getBrain().hasMemoryValue(AntTasks.WORK_POS)) return;
+        if (mob.getBrain().hasMemoryValue(MemoryModules.WORK_POS.get())) return;
 
         switch (j)
         {
@@ -469,8 +476,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                         final CompoundTag tag = new CompoundTag();
                         tag.putString("type", "node");
                         tag.put("data", n.serializeNBT());
-                        mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
-                        mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), pos));
+                        updateJob(mob, tag, pos);
                         break build;
                     }
                     final Node n = this.rooms.allRooms.get(this.world.random.nextInt(this.rooms.allRooms.size()));
@@ -491,8 +497,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                     final CompoundTag tag = new CompoundTag();
                     tag.putString("type", "node");
                     tag.put("data", n.serializeNBT());
-                    mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
-                    mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), pos));
+                    updateJob(mob, tag, pos);
                 }
             }
             break;
@@ -512,8 +517,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                         final CompoundTag tag = new CompoundTag();
                         tag.putString("type", "node");
                         tag.put("data", n.serializeNBT());
-                        mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
-                        mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), pos));
+                        updateJob(mob, tag, pos);
                         break dig;
                     }
                 }
@@ -527,8 +531,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                     final CompoundTag tag = new CompoundTag();
                     tag.putString("type", "node");
                     tag.put("data", n.serializeNBT());
-                    mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
-                    mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), pos));
+                    updateJob(mob, tag, pos);
                     break dig;
                 }
                 else
@@ -550,8 +553,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                     final CompoundTag tag = new CompoundTag();
                     tag.putString("type", "edge");
                     tag.put("data", a.serializeNBT());
-                    mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
-                    mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), pos));
+                    updateJob(mob, tag, pos);
                     break dig;
                 }
             }
@@ -574,7 +576,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 final boolean valid = BlockPos.betweenClosedStream(box).anyMatch(b -> this.world.isEmptyBlock(b));
                 if (valid)
                 {
-                    mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), x0.getPos()));
+                    mob.getBrain().setMemory(MemoryModules.WORK_POS.get(),
+                            GlobalPos.of(this.world.dimension(), x0.getPos()));
                     break nodes;
                 }
             }
@@ -639,9 +642,9 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         AntJob job = AntTasks.getJob(mob);
         // Remove the old work pos for now, we will decide which ones need
         // to keep it stored
-        mob.getBrain().eraseMemory(AntTasks.WORK_POS);
-        mob.getBrain().eraseMemory(AntTasks.GOING_HOME);
-        mob.getBrain().eraseMemory(AntTasks.NO_WORK_TIME);
+        mob.getBrain().eraseMemory(MemoryModules.WORK_POS.get());
+        mob.getBrain().eraseMemory(MemoryModules.GOING_HOME.get());
+        mob.getBrain().eraseMemory(MemoryModules.NO_WORK_TIMER.get());
         this.workers.get(job).remove(mob.getUUID());
         job = this.getNextJob(job);
         this.workers.get(job).add(mob.getUUID());
@@ -673,6 +676,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     {
         if (!this.canEnterHabitat(mob)) return;
         this.ants.add(mob.getUUID());
+        mob.setPersistenceRequired();
     }
 
     @Override

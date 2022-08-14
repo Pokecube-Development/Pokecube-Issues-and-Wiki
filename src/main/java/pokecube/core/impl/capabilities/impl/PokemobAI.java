@@ -174,8 +174,8 @@ public abstract class PokemobAI extends PokemobEvolves
                         this.getEntity().getY() + 0.5D + this.rand.nextFloat() * this.getEntity().getBbHeight(),
                         this.getEntity().getZ() + this.rand.nextFloat() * this.getEntity().getBbWidth() * 2.0F
                                 - this.getEntity().getBbWidth());
-                this.getEntity().getLevel().addParticle(ParticleTypes.HAPPY_VILLAGER, particleLoc.x,
-                        particleLoc.y, particleLoc.z, 0, 0, 0);
+                this.getEntity().getLevel().addParticle(ParticleTypes.HAPPY_VILLAGER, particleLoc.x, particleLoc.y,
+                        particleLoc.z, 0, 0, 0);
             }
         }
         // Update genes settings.
@@ -288,7 +288,7 @@ public abstract class PokemobAI extends PokemobEvolves
 
         final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getEntity().getBrain();
         // If brain was cleared at some point, this memory is removed.
-        if (brain.checkMemory(MemoryModules.ATTACKTARGET, MemoryStatus.REGISTERED)) return;
+        if (brain.checkMemory(MemoryModules.ATTACKTARGET.get(), MemoryStatus.REGISTERED)) return;
 
         final Mob entity = this.getEntity();
         final PokedexEntry entry = this.getPokedexEntry();

@@ -18,7 +18,7 @@ public class Retaliate extends BaseAgroTask
 
     static
     {
-        Retaliate.MEMS.put(MemoryModules.ATTACKTARGET, MemoryStatus.VALUE_ABSENT);
+        Retaliate.MEMS.put(MemoryModules.ATTACKTARGET.get(), MemoryStatus.VALUE_ABSENT);
     }
 
     public Retaliate(final LivingEntity trainer)

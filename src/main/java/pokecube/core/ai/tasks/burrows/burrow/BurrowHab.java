@@ -35,6 +35,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.Database;
@@ -228,7 +229,8 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
                 for (final IPokemob pokemob : pokemobs)
                 {
                     final Brain<?> brain = pokemob.getEntity().getBrain();
-                    if (!brain.hasMemoryValue(BurrowTasks.JOB_INFO)) brain.setMemory(BurrowTasks.JOB_INFO, tag);
+                    if (!brain.hasMemoryValue(MemoryModules.JOB_INFO.get()))
+                        brain.setMemory(MemoryModules.JOB_INFO.get(), tag);
                 }
             }
 

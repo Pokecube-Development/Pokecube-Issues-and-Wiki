@@ -18,7 +18,7 @@ public class Idle extends AbstractAntTask
     private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
     static
     {
-        Idle.mems.put(AntTasks.WORK_POS, MemoryStatus.VALUE_ABSENT);
+        Idle.mems.put(MemoryModules.WORK_POS.get(), MemoryStatus.VALUE_ABSENT);
         Idle.mems.put(MemoryModules.WALK_TARGET, MemoryStatus.VALUE_ABSENT);
         Idle.mems.put(MemoryModules.PATH, MemoryStatus.VALUE_ABSENT);
     }

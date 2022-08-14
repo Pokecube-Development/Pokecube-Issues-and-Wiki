@@ -32,11 +32,11 @@ public class MakeNest extends BaseIdleTask
     static
     {
         // Don't run if we have a hive, we will make one if needed.
-        MakeNest.mems.put(AntTasks.NEST_POS, MemoryStatus.VALUE_ABSENT);
+        MakeNest.mems.put(MemoryModules.NEST_POS.get(), MemoryStatus.VALUE_ABSENT);
         // We use this memory to determine how long since we had a hive
-        MakeNest.mems.put(AntTasks.NO_HIVE_TIMER, MemoryStatus.VALUE_PRESENT);
+        MakeNest.mems.put(MemoryModules.NO_NEST_TIMER.get(), MemoryStatus.VALUE_PRESENT);
         // We use this memory to decide where to put the hive
-        MakeNest.mems.put(MemoryModules.VISIBLE_BLOCKS, MemoryStatus.VALUE_PRESENT);
+        MakeNest.mems.put(MemoryModules.VISIBLE_BLOCKS.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     public MakeNest(final IPokemob pokemob)
@@ -58,7 +58,7 @@ public class MakeNest extends BaseIdleTask
         final NestTile nest = (NestTile) tile;
         nest.setWrappedHab(new AntHabitat());
         nest.addResident(this.pokemob);
-        brain.eraseMemory(AntTasks.NO_HIVE_TIMER);
+        brain.eraseMemory(MemoryModules.NO_NEST_TIMER.get());
         return true;
     }
 
@@ -96,7 +96,7 @@ public class MakeNest extends BaseIdleTask
 
         final Brain<?> brain = this.entity.getBrain();
         // partially Reset this if we failed
-        brain.setMemory(AntTasks.NO_HIVE_TIMER, 0);
+        brain.setMemory(MemoryModules.NO_NEST_TIMER.get(), 0);
 
     }
 
@@ -110,7 +110,8 @@ public class MakeNest extends BaseIdleTask
         if (!tameCheck) return false;
         final Brain<?> brain = this.entity.getBrain();
         int timer = 0;
-        if (brain.hasMemoryValue(AntTasks.NO_HIVE_TIMER)) timer = brain.getMemory(AntTasks.NO_HIVE_TIMER).get();
+        if (brain.hasMemoryValue(MemoryModules.NO_NEST_TIMER.get()))
+            timer = brain.getMemory(MemoryModules.NO_NEST_TIMER.get()).get();
         return timer > 60;
     }
 

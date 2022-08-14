@@ -35,6 +35,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
@@ -95,10 +96,6 @@ public class PokecubeCore
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
     public static class RegistryEvents
     {
-        public static final DeferredRegister<RecipeType<?>> RECIPETYPE = DeferredRegister
-                .create(Registry.RECIPE_TYPE_REGISTRY, PokecubeCore.MODID);
-        public static final DeferredRegister<Codec<? extends ChunkGenerator>> CHUNKGENTYPE = DeferredRegister
-                .create(Registry.CHUNK_GENERATOR_REGISTRY, PokecubeCore.MODID);
 
         @SubscribeEvent
         public static void registerRegistry(final NewRegistryEvent event)
@@ -109,30 +106,10 @@ public class PokecubeCore
             PokecubeAPI.POKEMOB_BUS.post(pre);
             pre.modIDs.add(PokecubeCore.MODID);
             Database.preInit();
-        }
-
-        @SubscribeEvent
-        public static void registerActivities(final RegistryEvent.Register<Activity> event)
-        {
-            Activities.register(event);
-        }
-
-        @SubscribeEvent
-        public static void registerSchedules(final RegistryEvent.Register<Schedule> event)
-        {
-            Schedules.register(event);
-        }
-
-        @SubscribeEvent
-        public static void registerMemories(final RegistryEvent.Register<MemoryModuleType<?>> event)
-        {
-            MemoryModules.register(event);
-        }
-
-        @SubscribeEvent
-        public static void registerSensors(final RegistryEvent.Register<SensorType<?>> event)
-        {
-            Sensors.register(event);
+            Activities.init();
+            Schedules.init();
+            MemoryModules.init();
+            Sensors.init();
         }
 
         @SubscribeEvent
@@ -237,6 +214,33 @@ public class PokecubeCore
         }
     }
 
+    public static final DeferredRegister<RecipeType<?>> RECIPETYPE;
+    public static final DeferredRegister<Codec<? extends ChunkGenerator>> CHUNKGENTYPE;
+    public static final DeferredRegister<Activity> ACTIVITIES;
+    public static final DeferredRegister<Schedule> SCHEDULES;
+    public static final DeferredRegister<MemoryModuleType<?>> MEMORIES;
+    public static final DeferredRegister<SensorType<?>> SENSORS;
+    public static final DeferredRegister<Block> BERRIES_TAB;
+    public static final DeferredRegister<Block> BLOCKS;
+    public static final DeferredRegister<Item> ITEMS;
+    public static final DeferredRegister<BlockEntityType<?>> TILES;
+    public static final DeferredRegister<MenuType<?>> MENU;
+
+    static
+    {
+        RECIPETYPE = DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, PokecubeCore.MODID);
+        CHUNKGENTYPE = DeferredRegister.create(Registry.CHUNK_GENERATOR_REGISTRY, PokecubeCore.MODID);
+        ACTIVITIES = DeferredRegister.create(Registry.ACTIVITY_REGISTRY, PokecubeCore.MODID);
+        SCHEDULES = DeferredRegister.create(Registry.SCHEDULE_REGISTRY, PokecubeCore.MODID);
+        MEMORIES = DeferredRegister.create(Registry.MEMORY_MODULE_TYPE_REGISTRY, PokecubeCore.MODID);
+        SENSORS = DeferredRegister.create(Registry.SENSOR_TYPE_REGISTRY, PokecubeCore.MODID);
+        BERRIES_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
+        BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
+        ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, PokecubeCore.MODID);
+        TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, PokecubeCore.MODID);
+        MENU = DeferredRegister.create(ForgeRegistries.CONTAINERS, PokecubeCore.MODID);
+    }
+
     public static final String MODID = PokecubeAPI.MODID;
 
     private static final String NETVERSION = "1.0.2";
@@ -316,14 +320,17 @@ public class PokecubeCore
 
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        PokecubeItems.ITEMS.register(bus);
-        PokecubeItems.BLOCKS.register(bus);
-        PokecubeItems.BERRIES_TAB.register(bus);
-        PokecubeItems.TILES.register(bus);
-        PokecubeItems.MENU.register(bus);
-
-        RegistryEvents.CHUNKGENTYPE.register(bus);
-        RegistryEvents.RECIPETYPE.register(bus);
+        PokecubeCore.ITEMS.register(bus);
+        PokecubeCore.BLOCKS.register(bus);
+        PokecubeCore.BERRIES_TAB.register(bus);
+        PokecubeCore.TILES.register(bus);
+        PokecubeCore.MENU.register(bus);
+        PokecubeCore.CHUNKGENTYPE.register(bus);
+        PokecubeCore.RECIPETYPE.register(bus);
+        PokecubeCore.ACTIVITIES.register(bus);
+        PokecubeCore.SENSORS.register(bus);
+        PokecubeCore.SCHEDULES.register(bus);
+        PokecubeCore.MEMORIES.register(bus);
 
         PokecubeWorld.init(bus);
 

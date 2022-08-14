@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor;
 import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor.Burrow;
@@ -29,7 +30,7 @@ public abstract class AbstractBurrowTask extends TaskBase
     {
         // Don't run if we don't have a hive
         // The HiveSensor will try to set this if it is invalid.
-        AbstractBurrowTask.mems.put(BurrowTasks.BURROW, MemoryStatus.VALUE_PRESENT);
+        AbstractBurrowTask.mems.put(MemoryModules.NEST_POS.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     protected Burrow burrow;
@@ -52,8 +53,8 @@ public abstract class AbstractBurrowTask extends TaskBase
         final BlockState state = this.world.getBlockState(pos);
         if (breakOnly)
         {
-            if (UtilTask.diggable.test(state) && MoveEventsHandler.canAffectBlock(this.pokemob, v.set(pos), "nest_dig",
-                    false, false))
+            if (UtilTask.diggable.test(state)
+                    && MoveEventsHandler.canAffectBlock(this.pokemob, v.set(pos), "nest_dig", false, false))
             {
                 this.world.destroyBlock(pos, true, this.entity);
                 // attempt to collect the drops
@@ -92,8 +93,8 @@ public abstract class AbstractBurrowTask extends TaskBase
             this.check_timer = 1200;
         }
         if (this.burrow == null) return false;
-        final boolean tameCheck = this.pokemob.getOwnerId() == null || this.pokemob.getGeneralState(
-                GeneralStates.STAYING);
+        final boolean tameCheck = this.pokemob.getOwnerId() == null
+                || this.pokemob.getGeneralState(GeneralStates.STAYING);
         final boolean aiEnabled = this.pokemob.isRoutineEnabled(AIRoutine.BURROWS);
         return tameCheck && aiEnabled && this.doTask();
     }

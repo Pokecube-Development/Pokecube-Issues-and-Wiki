@@ -29,13 +29,13 @@ public class CheckHive extends AbstractBeeTask
     public void run()
     {
         final Brain<?> brain = this.entity.getBrain();
-        final Optional<Integer> hiveTimer = brain.getMemory(BeeTasks.OUT_OF_HIVE_TIMER);
+        final Optional<Integer> hiveTimer = brain.getMemory(BeeTasks.OUT_OF_HIVE_TIMER.get());
         final int time = hiveTimer.orElseGet(() -> 0) - 1;
-        brain.setMemory(BeeTasks.OUT_OF_HIVE_TIMER, time);
+        brain.setMemory(BeeTasks.OUT_OF_HIVE_TIMER.get(), time);
         if (this.new_hive_cooldown++ > 600)
         {
             this.new_hive_cooldown = 0;
-            final Optional<GlobalPos> pos_opt = brain.getMemory(BeeTasks.HIVE_POS);
+            final Optional<GlobalPos> pos_opt = brain.getMemory(BeeTasks.HIVE_POS.get());
             if (pos_opt.isPresent())
             {
                 final Level world = this.entity.getLevel();
@@ -48,7 +48,7 @@ public class CheckHive extends AbstractBeeTask
                 }
                 // If we should clear the hive, remove the memory, the
                 // HiveSensor will find a new hive.
-                if (clearHive) this.entity.getBrain().eraseMemory(BeeTasks.HIVE_POS);
+                if (clearHive) this.entity.getBrain().eraseMemory(BeeTasks.HIVE_POS.get());
             }
         }
     }
