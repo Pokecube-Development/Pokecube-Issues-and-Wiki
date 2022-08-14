@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Level;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
@@ -17,6 +16,7 @@ import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -275,7 +275,8 @@ public class ForgetTargetTask extends CombatTask
                         this.pokemob.getDisplayName().getString());
                 try
                 {
-                    this.entityTarget.sendMessage(message, Util.NIL_UUID);
+                    if (this.entityTarget instanceof Player player)
+                        thut.lib.ChatHelper.sendSystemMessage(player, message);
                 }
                 catch (final Exception e)
                 {
@@ -294,7 +295,8 @@ public class ForgetTargetTask extends CombatTask
                         this.pokemob.getDisplayName().getString());
                 try
                 {
-                    this.entityTarget.sendMessage(message, Util.NIL_UUID);
+                    if (this.entityTarget instanceof Player player)
+                        thut.lib.ChatHelper.sendSystemMessage(player, message);
                 }
                 catch (final Exception e)
                 {

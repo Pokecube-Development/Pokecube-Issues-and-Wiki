@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.mojang.serialization.Codec;
 
-import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceLocation;
@@ -227,8 +226,8 @@ public class PokecubeLegends
     {
 
         // Biome Dictionary
-        net.minecraftforge.common.BiomeDictionary.Type ULTRASPACE =
-                net.minecraftforge.common.BiomeDictionary.Type.getType("ultraspace");
+        net.minecraftforge.common.BiomeDictionary.Type ULTRASPACE = net.minecraftforge.common.BiomeDictionary.Type
+                .getType("ultraspace");
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.AQUAMARINE_CAVES,
                 net.minecraftforge.common.BiomeDictionary.Type.RARE, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.AZURE_BADLANDS,
@@ -443,8 +442,8 @@ public class PokecubeLegends
                 net.minecraftforge.common.BiomeDictionary.Type.JUNGLE,
                 net.minecraftforge.common.BiomeDictionary.Type.LUSH,
                 net.minecraftforge.common.BiomeDictionary.Type.MAGICAL,
-                net.minecraftforge.common.BiomeDictionary.Type.RARE,
-                net.minecraftforge.common.BiomeDictionary.Type.WET, ULTRASPACE);
+                net.minecraftforge.common.BiomeDictionary.Type.RARE, net.minecraftforge.common.BiomeDictionary.Type.WET,
+                ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.TEMPORAL_JUNGLE,
                 net.minecraftforge.common.BiomeDictionary.Type.DENSE,
                 net.minecraftforge.common.BiomeDictionary.Type.HOT,
@@ -472,8 +471,8 @@ public class PokecubeLegends
                 net.minecraftforge.common.BiomeDictionary.Type.LUSH,
                 net.minecraftforge.common.BiomeDictionary.Type.MAGICAL,
                 net.minecraftforge.common.BiomeDictionary.Type.MOUNTAIN,
-                net.minecraftforge.common.BiomeDictionary.Type.RARE,
-                net.minecraftforge.common.BiomeDictionary.Type.WET, ULTRASPACE);
+                net.minecraftforge.common.BiomeDictionary.Type.RARE, net.minecraftforge.common.BiomeDictionary.Type.WET,
+                ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.WOODED_AZURE_BADLANDS,
                 net.minecraftforge.common.BiomeDictionary.Type.DRY, net.minecraftforge.common.BiomeDictionary.Type.MESA,
                 net.minecraftforge.common.BiomeDictionary.Type.PLATEAU,
@@ -628,8 +627,8 @@ public class PokecubeLegends
         final BlockState hit = event.getWorld().getBlockState(event.getPos());
         if (hit.getBlock() != BlockInit.RAID_SPAWNER.get())
         {
-            if (hit.getBlock() == PokecubeItems.DYNAMAX.get())
-                event.getPlayer().sendMessage(TComponent.translatable("msg.notaraidspot.info"), Util.NIL_UUID);
+            if (hit.getBlock() == PokecubeItems.DYNAMAX.get()) thut.lib.ChatHelper.sendSystemMessage(event.getPlayer(),
+                    TComponent.translatable("msg.notaraidspot.info"));
             return;
         }
         final boolean active = hit.getValue(RaidSpawnBlock.ACTIVE).active();

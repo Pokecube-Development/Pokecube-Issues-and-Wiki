@@ -17,7 +17,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -161,13 +160,13 @@ public class CommandGenStuff
 
     public static void execute(final ServerPlayer sender, final String[] args)
     {
-        sender.sendMessage(TComponent.literal("Starting File Output"), Util.NIL_UUID);
+        thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Starting File Output"));
         for (final PokedexEntry e : Database.getSortedFormes())
         {
             if (e == Database.missingno || e.dummy || e.isMega()) continue;
             CommandGenStuff.registerAchievements(e);
         }
-        sender.sendMessage(TComponent.literal("Advancements Done"), Util.NIL_UUID);
+        thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Advancements Done"));
         final File dir = new File("./mods/pokecube/assets/pokecube_mobs/");
         if (!dir.exists()) dir.mkdirs();
         File file = null;
@@ -187,11 +186,11 @@ public class CommandGenStuff
         {
             e.printStackTrace();
         }
-        sender.sendMessage(TComponent.literal("Sounds Done"), Util.NIL_UUID);
+        thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Sounds Done"));
         CommandGenStuff.generateBlockAndItemJsons();
         CommandGenStuff.generateMobsLang();
 
-        sender.sendMessage(TComponent.literal("Finished File Output"), Util.NIL_UUID);
+        thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Finished File Output"));
     }
 
     public static void generateMobsLang()

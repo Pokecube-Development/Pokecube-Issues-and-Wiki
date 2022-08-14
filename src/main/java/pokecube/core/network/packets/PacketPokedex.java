@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mojang.datafixers.util.Pair;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Holder;
@@ -612,14 +611,14 @@ public class PacketPokedex extends NBTPacket
             final int index = this.getTag().getInt("I");
             final TeleDest loc = TeleportHandler.getTeleport(player.getStringUUID(), index);
             TeleportHandler.unsetTeleport(index, player.getStringUUID());
-            player.sendMessage(TComponent.literal("Deleted " + loc.getName()), Util.NIL_UUID);
+            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Deleted " + loc.getName()));
             PlayerDataHandler.getInstance().save(player.getStringUUID());
             PacketDataSync.syncData(player, "pokecube-data");
             return;
         case RENAME:
             final String name = this.getTag().getString("N");
             TeleportHandler.renameTeleport(player.getStringUUID(), this.getTag().getInt("I"), name);
-            player.sendMessage(TComponent.literal("Set teleport as " + name), Util.NIL_UUID);
+            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Set teleport as " + name));
             PlayerDataHandler.getInstance().save(player.getStringUUID());
             PacketDataSync.syncData(player, "pokecube-data");
             return;
@@ -632,11 +631,12 @@ public class PacketPokedex extends NBTPacket
             if (!reward)
             {
                 if (inspected)
-                    player.sendMessage(TComponent.translatable("pokedex.inspect.available"), Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokedex.inspect.available"));
             }
             else
             {
-                if (!inspected) player.sendMessage(TComponent.translatable("pokedex.inspect.nothing"), Util.NIL_UUID);
+                if (!inspected)
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokedex.inspect.nothing"));
                 player.closeContainer();
             }
             return;
@@ -646,15 +646,13 @@ public class PacketPokedex extends NBTPacket
             {
                 final ISpecialCaptureCondition condition = ISpecialCaptureCondition.captureMap.get(entry);
                 final boolean valid = condition.canCapture(player);
-                if (valid) player.sendMessage(
-                        TComponent.translatable("pokewatch.capture.check.yes", entry.getTranslatedName()),
-                        Util.NIL_UUID);
+                if (valid) thut.lib.ChatHelper.sendSystemMessage(player,
+                        TComponent.translatable("pokewatch.capture.check.yes", entry.getTranslatedName()));
                 else
                 {
-                    player.sendMessage(condition.getFailureMessage(player), Util.NIL_UUID);
-                    player.sendMessage(
-                            TComponent.translatable("pokewatch.capture.check.no", entry.getTranslatedName()),
-                            Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(player, condition.getFailureMessage(player));
+                    thut.lib.ChatHelper.sendSystemMessage(player,
+                            TComponent.translatable("pokewatch.capture.check.no", entry.getTranslatedName()));
                 }
             }
             return;

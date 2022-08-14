@@ -1,6 +1,5 @@
 package pokecube.legends.init.function;
 
-import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -31,8 +30,8 @@ public class RaidCapture
             PokecubeAPI.LOGGER.debug("Life: " + event.mob.getHealth() + "Max Life: " + event.mob.getMaxHealth());
             if (event.mob.getHealth() > event.mob.getMaxHealth() / 2)
             {
-                if (catcher instanceof Player) ((Player) catcher).sendMessage(TComponent.translatable(
-                        "pokecube.denied"), Util.NIL_UUID);
+                if (catcher instanceof Player player)
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
                 event.setCanceled(true);
                 event.setResult(Result.DENY);
                 CaptureManager.onCaptureDenied((EntityPokecubeBase) event.pokecube);
@@ -40,8 +39,8 @@ public class RaidCapture
         }
         else
         {
-            if (catcher instanceof Player) ((Player) catcher).sendMessage(TComponent.translatable(
-                    "pokecube.denied"), Util.NIL_UUID);
+            if (catcher instanceof Player player)
+                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
             event.setCanceled(true);
             event.setResult(Result.DENY);
             CaptureManager.onCaptureDenied((EntityPokecubeBase) event.pokecube);
@@ -50,8 +49,8 @@ public class RaidCapture
         // No Catch normal Pokemobs
         if (dynamaxCube && !raidMob)
         {
-            if (catcher instanceof Player) ((Player) catcher).sendMessage(TComponent.translatable(
-                    "pokecube.denied"), Util.NIL_UUID);
+            if (catcher instanceof Player player)
+                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
             event.setCanceled(true);
             event.setResult(Result.DENY);
             CaptureManager.onCaptureDenied((EntityPokecubeBase) event.pokecube);

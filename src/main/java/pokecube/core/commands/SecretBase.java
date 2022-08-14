@@ -12,7 +12,6 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
-import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -72,13 +71,13 @@ public class SecretBase
     {
         if (player.getLevel().dimension() != SecretBaseDimension.WORLD_KEY)
         {
-            player.sendMessage(TComponent.translatable("pokecube.secretbase.exit.notinbase"), Util.NIL_UUID);
+            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.secretbase.exit.notinbase"));
             return 1;
         }
         final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(player.getUUID(), player.getServer(), false);
         final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
-        player.sendMessage(TComponent.translatable("pokecube.secretbase.exit"), Util.NIL_UUID);
+        thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.secretbase.exit"));
         return 0;
     }
 
@@ -106,7 +105,7 @@ public class SecretBase
                 pos.z = pos.intZ();
                 final MutableComponent message = TComponent.translatable("pokemob.createbase.confirmed",
                         pos);
-                player.sendMessage(message, Util.NIL_UUID);
+                thut.lib.ChatHelper.sendSystemMessage(player, message);
                 return 0;
             }
         }

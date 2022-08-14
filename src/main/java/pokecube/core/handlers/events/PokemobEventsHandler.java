@@ -10,7 +10,6 @@ import org.nfunk.jep.JEP;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Registry;
@@ -902,7 +901,7 @@ public class PokemobEventsHandler
         if (deny)
         {
             // Add message here about cannot use items right now
-            player.sendMessage(TComponent.translatable("pokemob.action.cannotuse"), Util.NIL_UUID);
+            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokemob.action.cannotuse"));
             return;
         }
 

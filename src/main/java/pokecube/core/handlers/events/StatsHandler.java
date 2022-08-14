@@ -1,6 +1,5 @@
 package pokecube.core.handlers.events;
 
-import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -66,8 +65,8 @@ public class StatsHandler
         if (!EntityPokecubeBase.canCaptureBasedOnConfigs(evt.getCaught()))
         {
             evt.setCanceled(true);
-            if (catcher instanceof Player)
-                ((Player) catcher).sendMessage(TComponent.translatable("pokecube.denied"), Util.NIL_UUID);
+            if (catcher instanceof Player player)
+                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
             CaptureManager.onCaptureDenied((EntityPokecubeBase) evt.pokecube);
             return;
         }
@@ -83,8 +82,7 @@ public class StatsHandler
             if (denied)
             {
                 evt.setCanceled(true);
-                if (catcher instanceof Player)
-                    ((Player) catcher).sendMessage(TComponent.translatable("pokecube.denied"), Util.NIL_UUID);
+                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
                 CaptureManager.onCaptureDenied((EntityPokecubeBase) evt.pokecube);
                 return;
             }
@@ -106,8 +104,8 @@ public class StatsHandler
             if (deny)
             {
                 evt.setCanceled(true);
-                if (catcher instanceof Player)
-                    ((Player) catcher).sendMessage(TComponent.translatable("pokecube.denied"), Util.NIL_UUID);
+                if (catcher instanceof Player player)
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
                 condition.onCaptureFail(catcher, evt.getCaught());
                 CaptureManager.onCaptureDenied((EntityPokecubeBase) evt.pokecube);
                 return;

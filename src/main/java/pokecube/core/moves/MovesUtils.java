@@ -12,7 +12,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -85,7 +84,6 @@ public class MovesUtils implements IMoveConstants
         {
             final Component message = TComponent.translatable(key, targName);
             if (attacked != null) attacked.displayMessageToOwner(message);
-            else target.sendMessage(message, Util.NIL_UUID);
         }
     }
 
@@ -101,8 +99,7 @@ public class MovesUtils implements IMoveConstants
         {
             final Component message = TComponent.translatable(key, targName, otherArg);
             if (attacked != null) attacked.displayMessageToOwner(message);
-            else if (target instanceof Player) PacketPokemobMessage.sendMessage((Player) target, message);
-            else target.sendMessage(message, Util.NIL_UUID);
+            else if (target instanceof Player player) PacketPokemobMessage.sendMessage(player, message);
         }
     }
 
@@ -281,8 +278,7 @@ public class MovesUtils implements IMoveConstants
             {
                 final Component message = TComponent.translatable(key, targName);
                 if (attacker != null) attacker.displayMessageToOwner(message);
-                else if (target instanceof Player) PacketPokemobMessage.sendMessage((Player) target, message);
-                else target.sendMessage(message, Util.NIL_UUID);
+                else if (target instanceof Player player) PacketPokemobMessage.sendMessage(player, message);
             }
         }
     }
@@ -613,8 +609,7 @@ public class MovesUtils implements IMoveConstants
             if (attacker.is(e)) return false;
             if (!PokecubeCore.getConfig().pokemobsDamagePlayers && e instanceof Player) return false;
             if (!PokecubeCore.getConfig().pokemobsDamageOwner && e.getUUID().equals(pokemob.getOwnerId())) return false;
-            if (PokecubeAPI.getEntityProvider().getEntity(attacker.getLevel(), e.getId(),
-                    true) == attacker)
+            if (PokecubeAPI.getEntityProvider().getEntity(attacker.getLevel(), e.getId(), true) == attacker)
                 return false;
             return true;
         };
@@ -624,8 +619,8 @@ public class MovesUtils implements IMoveConstants
     {
         final Vector3 source = new Vector3().set(attacker, false);
         final boolean ignoreAllies = false;
-        return MovesUtils.targetHit(source, dest.subtract(source), 16, attacker.getLevel(), attacker,
-                ignoreAllies, MovesUtils.targetMatcher(attacker));
+        return MovesUtils.targetHit(source, dest.subtract(source), 16, attacker.getLevel(), attacker, ignoreAllies,
+                MovesUtils.targetMatcher(attacker));
     }
 
     public static Entity targetHit(final Vector3 source, final Vector3 dir, final int distance, final Level world,
@@ -658,8 +653,7 @@ public class MovesUtils implements IMoveConstants
     public static List<LivingEntity> targetsHit(final Entity attacker, final Vector3 dest, final double area)
     {
         final Vector3 source = new Vector3().set(attacker);
-        final List<Entity> targets = attacker.getLevel().getEntities(attacker,
-                source.getAABB().inflate(area));
+        final List<Entity> targets = attacker.getLevel().getEntities(attacker, source.getAABB().inflate(area));
         final List<LivingEntity> ret = new ArrayList<>();
         if (targets != null) for (final Entity e : targets) if (e instanceof LivingEntity) ret.add((LivingEntity) e);
         return ret;

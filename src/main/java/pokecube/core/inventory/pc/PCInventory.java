@@ -2,10 +2,10 @@ package pokecube.core.inventory.pc;
 
 import java.util.UUID;
 
-import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import pokecube.core.PokecubeCore;
@@ -40,8 +40,9 @@ public class PCInventory extends BigInventory
             final ItemStack stack = mob;
             if (world != null) PokecubeManager.heal(stack, world);
             PlayerPokemobCache.UpdateCache(mob, true, false);
-            if (PokecubeCore.proxy.getPlayer(uuid) != null) PokecubeCore.proxy.getPlayer(uuid).sendMessage(
-                    TComponent.translatable("block.pc.sentto", mob.getHoverName()), Util.NIL_UUID);
+            Player player = PokecubeCore.proxy.getPlayer(uuid);
+            if (player != null) thut.lib.ChatHelper.sendSystemMessage(player,
+                    TComponent.translatable("block.pc.sentto", mob.getHoverName()));
         }
         pc.addItem(mob.copy());
     }
@@ -56,7 +57,7 @@ public class PCInventory extends BigInventory
         return PCManager.INSTANCE.get(uuid);
     }
 
-    public boolean autoToPC  = false;
+    public boolean autoToPC = false;
     public boolean seenOwner = false;
 
     public PCInventory(final Manager<? extends BigInventory> manager, final UUID id)

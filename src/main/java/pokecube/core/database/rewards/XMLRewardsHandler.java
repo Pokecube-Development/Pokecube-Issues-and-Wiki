@@ -14,7 +14,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 
-import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
@@ -64,12 +63,11 @@ public class XMLRewardsHandler
                 if (reward == null || tag.getBoolean(this.tagString)) return false;
                 if (this.matches(num))
                 {
-                    if (giveReward)
+                    if (giveReward && entity instanceof Player player)
                     {
                         tag.putBoolean(this.tagString, true);
-                        entity.sendMessage(TComponent.translatable(this.message), Util.NIL_UUID);
-                        final Player PlayerEntity = (Player) entity;
-                        Tools.giveItem(PlayerEntity, reward.copy());
+                        thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(this.message));
+                        Tools.giveItem(player, reward.copy());
                         PokecubePlayerDataHandler.saveCustomData(entity.getStringUUID());
                     }
                     return true;
@@ -182,13 +180,12 @@ public class XMLRewardsHandler
                 String lang = data.tag.getString("lang");
                 if (lang.isEmpty()) lang = "en_US";
                 if (data.tag.getBoolean(this.key)) return false;
-                if (giveReward)
+                if (giveReward && entity instanceof Player player)
                 {
                     final ItemStack book = this.getInfoStack(lang);
                     data.tag.putBoolean(this.key, true);
-                    entity.sendMessage(TComponent.translatable(this.message), Util.NIL_UUID);
-                    final Player PlayerEntity = (Player) entity;
-                    Tools.giveItem(PlayerEntity, book);
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(this.message));
+                    Tools.giveItem(player, book);
                     PokecubePlayerDataHandler.saveCustomData(entity.getStringUUID());
                 }
                 return true;

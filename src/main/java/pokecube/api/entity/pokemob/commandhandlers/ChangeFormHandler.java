@@ -3,7 +3,6 @@ package pokecube.api.entity.pokemob.commandhandlers;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -35,20 +34,21 @@ public class ChangeFormHandler extends DefaultHandler
     @Override
     public void handleCommand(final IPokemob pokemob) throws Exception
     {
-        final LivingEntity player = pokemob.getOwner();
+        final LivingEntity owner = pokemob.getOwner();
 
         final Entity mob = pokemob.getEntity();
+        Player player = owner instanceof Player ? (Player) owner : null;
         final Level world = mob.getLevel();
         final BlockPos pos = mob.blockPosition();
         final MinecraftServer server = mob.getServer();
 
-        if (pokemob.getGeneralState(GeneralStates.EVOLVING) || server == null || player == null) return;
+        if (pokemob.getGeneralState(GeneralStates.EVOLVING) || server == null || owner == null) return;
 
-        final boolean hasRing = !(player instanceof Player) || MegaCapability.canMegaEvolve(player, pokemob);
+        final boolean hasRing = player != null || MegaCapability.canMegaEvolve(owner, pokemob);
         if (!hasRing)
         {
-            player.sendMessage(TComponent.translatable("pokecube.mega.noring", pokemob.getDisplayName()),
-                    Util.NIL_UUID);
+            thut.lib.ChatHelper.sendSystemMessage(player,
+                    TComponent.translatable("pokecube.mega.noring", pokemob.getDisplayName()));
             return;
         }
         final PokedexEntry entry = pokemob.getPokedexEntry();
@@ -89,14 +89,14 @@ public class ChangeFormHandler extends DefaultHandler
             }
             else
             {
-                final long dynatime = PokecubePlayerDataHandler.getCustomDataTag(player.getUUID())
+                final long dynatime = PokecubePlayerDataHandler.getCustomDataTag(owner.getUUID())
                         .getLong("pokecube:dynatime");
                 final long time = Tracker.instance().getTick();
                 final long dynaagain = dynatime + PokecubeCore.getConfig().dynamax_cooldown;
                 if (dynatime != 0 && time < dynaagain)
                 {
-                    player.sendMessage(TComponent.translatable("pokemob.dynamax.too_soon", pokemob.getDisplayName()),
-                            Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(player,
+                            TComponent.translatable("pokemob.dynamax.too_soon", pokemob.getDisplayName()));
                     return;
                 }
                 Component mess = TComponent.translatable("pokemob.dynamax.command.evolve", oldName);
@@ -156,8 +156,8 @@ public class ChangeFormHandler extends DefaultHandler
                     TComponent.translatable(newEntry.getUnlocalizedName()));
             ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess);
         }
-        else player.sendMessage(TComponent.translatable("pokemob.megaevolve.failed", pokemob.getDisplayName()),
-                Util.NIL_UUID);
+        else thut.lib.ChatHelper.sendSystemMessage(player,
+                TComponent.translatable("pokemob.megaevolve.failed", pokemob.getDisplayName()));
     }
 
     @Override

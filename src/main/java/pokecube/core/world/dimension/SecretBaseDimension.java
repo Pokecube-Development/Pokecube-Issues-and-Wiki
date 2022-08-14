@@ -11,7 +11,6 @@ import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Registry;
@@ -79,7 +78,7 @@ public class SecretBaseDimension
         final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), true);
         final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
-        player.sendMessage(TComponent.translatable("pokecube.secretbase.enter"), Util.NIL_UUID);
+        thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.secretbase.enter"));
     }
 
     public static void sendToExit(final ServerPlayer player, final UUID baseOwner)
@@ -87,7 +86,7 @@ public class SecretBaseDimension
         final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), false);
         final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
-        player.sendMessage(TComponent.translatable("pokecube.secretbase.exit"), Util.NIL_UUID);
+        thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.secretbase.exit"));
     }
 
     public static void setSecretBasePoint(final ServerPlayer player, final GlobalPos gpos, final boolean inBase)

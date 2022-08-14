@@ -3,7 +3,6 @@ package pokecube.nbtedit.forge;
 import com.mojang.blaze3d.platform.InputConstants;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -87,7 +86,7 @@ public class ClientProxy extends CommonProxy
     {
         final Component component = TComponent.literal(message);
         component.getStyle().withColor(TextColor.fromLegacyFormat(color));
-        Minecraft.getInstance().player.sendMessage(component, Util.NIL_UUID);
+        thut.lib.ChatHelper.sendSystemMessage(Minecraft.getInstance().player, component);
     }
 
     @Override

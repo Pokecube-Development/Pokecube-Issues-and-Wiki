@@ -5,7 +5,6 @@ import java.io.File;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -74,7 +73,7 @@ public class CommonProxy implements Proxy
         {
             final Component component = TComponent.literal(message);
             component.getStyle().withColor(TextColor.fromLegacyFormat(color));
-            player.sendMessage(component, Util.NIL_UUID);
+            thut.lib.ChatHelper.sendSystemMessage(player, component);
         }
     }
 

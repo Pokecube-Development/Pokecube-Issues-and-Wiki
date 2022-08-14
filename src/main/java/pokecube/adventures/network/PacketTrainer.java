@@ -206,11 +206,10 @@ public class PacketTrainer extends NBTPacket
         case SPAWN:
             if (!PermNodes.getBooleanPerm(player, PacketTrainer.SPAWNTRAINER))
             {
-                player.sendMessage(TComponent.literal(ChatFormatting.RED + "You are not allowed to do that."),
-                        Util.NIL_UUID);
+                thut.lib.ChatHelper.sendSystemMessage(player,
+                        TComponent.literal(ChatFormatting.RED + "You are not allowed to do that."));
                 return;
             }
-
             PokecubeAPI.LOGGER.debug("Recieved Trainer Spawn Packet");
 
             final int level = this.getTag().getInt("L");
@@ -248,8 +247,8 @@ public class PacketTrainer extends NBTPacket
         case UPDATETRAINER:
             if (!PermNodes.getBooleanPerm(player, PacketTrainer.EDITTRAINER))
             {
-                player.sendMessage(TComponent.literal(ChatFormatting.RED + "You are not allowed to do that."),
-                        Util.NIL_UUID);
+                thut.lib.ChatHelper.sendSystemMessage(player,
+                        TComponent.literal(ChatFormatting.RED + "You are not allowed to do that."));
                 return;
             }
 
@@ -350,8 +349,8 @@ public class PacketTrainer extends NBTPacket
         case KILLTRAINER:
             if (!PermNodes.getBooleanPerm(player, PacketTrainer.EDITTRAINER))
             {
-                player.sendMessage(TComponent.literal(ChatFormatting.RED + "You are not allowed to do that."),
-                        Util.NIL_UUID);
+                thut.lib.ChatHelper.sendSystemMessage(player,
+                        TComponent.literal(ChatFormatting.RED + "You are not allowed to do that."));
                 return;
             }
             mob = player.getLevel().getEntity(id);
@@ -360,8 +359,8 @@ public class PacketTrainer extends NBTPacket
         case UPDATEMOB:
             if (!PermNodes.getBooleanPerm(player, PacketTrainer.EDITMOB))
             {
-                player.sendMessage(TComponent.literal(ChatFormatting.RED + "You are not allowed to do that."),
-                        Util.NIL_UUID);
+                thut.lib.ChatHelper.sendSystemMessage(player,
+                        TComponent.literal(ChatFormatting.RED + "You are not allowed to do that."));
                 return;
             }
             mob = player.getLevel().getEntity(id);

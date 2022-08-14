@@ -1,11 +1,9 @@
 package pokecube.legends.init.moves;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,15 +24,14 @@ import thut.lib.TComponent;
 public class ActionHyperspaceHole implements IMoveAction
 {
     public ActionHyperspaceHole()
-    {
-    }
+    {}
 
     @Override
     public boolean applyEffect(final IPokemob user, final Vector3 location)
     {
         if (user.inCombat()) return false;
         final LivingEntity owner = user.getOwner();
-        if (!(owner instanceof ServerPlayer)) return false;
+        if (!(owner instanceof ServerPlayer player)) return false;
         final MutableComponent message;
         final IHungrymob mob = user;
         int count = 1;
@@ -44,14 +41,7 @@ public class ActionHyperspaceHole implements IMoveAction
         if (level < PokecubeLegends.config.levelCreatePortal)
         {
             message = TComponent.translatable("msg.hoopaportal.deny.too_weak");
-            if (owner instanceof Player)
-            {
-                final Player player = (Player) owner;
-                player.displayClientMessage(message, true);
-            } else
-            {
-                owner.sendMessage(message, Util.NIL_UUID);
-            }
+            player.displayClientMessage(message, true);
             return false;
         }
         else
@@ -65,21 +55,13 @@ public class ActionHyperspaceHole implements IMoveAction
                 if (diff < PokecubeLegends.config.ticksPerPortalSpawn)
                 {
                     message = TComponent.translatable("msg.hoopaportal.deny.too_soon");
-
-                    if (owner instanceof Player)
-                    {
-                        final Player player = (Player) owner;
-                        player.displayClientMessage(message, true);
-                    } else
-                    {
-                        owner.sendMessage(message, Util.NIL_UUID);
-                    }
+                    player.displayClientMessage(message, true);
                     return false;
                 }
             }
             final PortalWarp block = (PortalWarp) BlockInit.PORTAL.get();
-            final UseContext context = MoveEventsHandler.getContext(world, user, block.defaultBlockState(), location.add(
-                    0, 2, 0));
+            final UseContext context = MoveEventsHandler.getContext(world, user, block.defaultBlockState(),
+                    location.add(0, 2, 0));
             final BlockPos prevPos = context.getClickedPos();
             final BlockState state = BlockInit.PORTAL.get().getStateForPlacement(context);
 
@@ -98,14 +80,7 @@ public class ActionHyperspaceHole implements IMoveAction
                 message = TComponent.translatable("msg.hoopaportal.accept.info");
                 mob.applyHunger(count);
             }
-            if (owner instanceof Player)
-            {
-                final Player player = (Player) owner;
-                player.displayClientMessage(message, true);
-            } else
-            {
-                owner.sendMessage(message, Util.NIL_UUID);
-            }
+            player.displayClientMessage(message, true);
             return true;
         }
     }

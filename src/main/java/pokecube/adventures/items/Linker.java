@@ -2,7 +2,6 @@ package pokecube.adventures.items;
 
 import java.util.UUID;
 
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
@@ -66,17 +65,11 @@ public class Linker extends Item
                 this.linker.getOrCreateTag().remove("thutcore:pos");
                 if (!user.getLevel().isClientSide)
                 {
-                    if (user instanceof Player)
+                    if (user instanceof Player player)
                     {
-                        final Player player = (Player) user;
                         player.displayClientMessage(TComponent.translatable("item.pokecube_adventures.linker.unset"),
                                 true);
                         player.swing(player.getUsedItemHand());
-                    }
-                    else
-                    {
-                        user.sendMessage(TComponent.translatable("item.pokecube_adventures.linker.unset"),
-                                Util.NIL_UUID);
                     }
                 }
             }
@@ -86,34 +79,22 @@ public class Linker extends Item
                         GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, pos).get().left().get());
                 if (!user.getLevel().isClientSide)
                 {
-                    if (user instanceof Player)
+                    if (user instanceof Player player)
                     {
-                        final Player player = (Player) user;
                         player.displayClientMessage(TComponent.translatable("item.pokecube_adventures.linker.set"),
                                 true);
                         player.swing(player.getUsedItemHand());
-                    }
-                    else
-                    {
-                        user.sendMessage(TComponent.translatable("item.pokecube_adventures.linker.set"),
-                                Util.NIL_UUID);
                     }
                 }
                 if (user.getLevel().isClientSide) try
                 {
                     final String loc = String.format("%d %d %d", pos.pos().getX(), pos.pos().getY(), pos.pos().getZ());
                     Minecraft.getInstance().keyboardHandler.setClipboard(loc);
-                    if (user instanceof Player)
+                    if (user instanceof Player player)
                     {
-                        final Player player = (Player) user;
                         player.displayClientMessage(TComponent.translatable("item.pokecube_adventures.linker.set"),
                                 true);
                         player.swing(player.getUsedItemHand());
-                    }
-                    else
-                    {
-                        user.sendMessage(TComponent.translatable("item.pokecube_adventures.linker.set"),
-                                Util.NIL_UUID);
                     }
                 }
                 catch (final Exception e)

@@ -5,7 +5,6 @@ import java.util.Random;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -201,10 +200,10 @@ public class PokecubeMobs
             final Random r = ThutCore.newRandom();
             if (berry && r.nextGaussian() > EventsHandler.juiceChance)
             {
-                if (shuckle.getOwner() != null)
+                if (shuckle.getOwner() instanceof Player player)
                 {
                     final String message = "A sweet smell is coming from " + shuckle.getDisplayName().getString();
-                    ((Player) shuckle.getOwner()).sendMessage(TComponent.literal(message), Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal(message));
                 }
                 shuckle.setHeldItem(new ItemStack(PokecubeItems.BERRYJUICE.get()));
                 return;
@@ -215,11 +214,11 @@ public class PokecubeMobs
                 final ItemStack candy = PokecubeItems.makeCandyStack();
                 if (candy.isEmpty()) return;
 
-                if (shuckle.getOwner() != null && shuckle.getOwner() instanceof Player)
+                if (shuckle.getOwner() != null && shuckle.getOwner() instanceof Player player)
                 {
                     final String message = "The smell coming from " + shuckle.getDisplayName().getString()
                             + " has changed";
-                    ((Player) shuckle.getOwner()).sendMessage(TComponent.literal(message), Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal(message));
                 }
                 shuckle.setHeldItem(candy);
                 return;

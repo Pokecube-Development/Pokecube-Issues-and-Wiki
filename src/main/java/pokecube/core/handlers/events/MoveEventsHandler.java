@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
@@ -271,7 +270,7 @@ public class MoveEventsHandler
         if (evt.isCanceled())
         {
             final MutableComponent message = TComponent.translatable("pokemob.createbase.deny.noperms");
-            if (!user.inCombat() && denyMessage) owner.sendMessage(message, Util.NIL_UUID);
+            if (!user.inCombat() && denyMessage) thut.lib.ChatHelper.sendSystemMessage(player, message);
             return false;
         }
         return true;
@@ -291,8 +290,8 @@ public class MoveEventsHandler
         final Level world = attacker.getEntity().getLevel();
         final BlockState state = location.getBlockState(world);
         final Block block = state.getBlock();
-        final Vector3 nextBlock = new Vector3().set(attacker.getEntity()).subtractFrom(location).reverse()
-                .norm().addTo(location);
+        final Vector3 nextBlock = new Vector3().set(attacker.getEntity()).subtractFrom(location).reverse().norm()
+                .addTo(location);
         final BlockState nextState = nextBlock.getBlockState(world);
         if (block == Blocks.SAND)
         {

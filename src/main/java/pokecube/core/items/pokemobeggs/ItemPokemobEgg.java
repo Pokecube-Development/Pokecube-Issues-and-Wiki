@@ -7,7 +7,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 
-import net.minecraft.Util;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -181,8 +180,8 @@ public class ItemPokemobEgg extends Item
                 ItemPokemobEgg.MOBDIST);
         if (owner == null)
         {
-            final List<LivingEntity> list = mob.getEntity().getLevel().getEntitiesOfClass(
-                    LivingEntity.class, box, (Predicate<LivingEntity>) input -> !(input instanceof EntityPokemobEgg));
+            final List<LivingEntity> list = mob.getEntity().getLevel().getEntitiesOfClass(LivingEntity.class, box,
+                    (Predicate<LivingEntity>) input -> !(input instanceof EntityPokemobEgg));
             final LivingEntity closestTo = mob.getEntity();
             LivingEntity t = null;
             double d0 = Double.MAX_VALUE;
@@ -281,8 +280,8 @@ public class ItemPokemobEgg extends Item
         if (mob.getOwner() != null)
         {
             final LivingEntity owner = mob.getOwner();
-            owner.sendMessage(TComponent.translatable("pokemob.hatch", mob.getDisplayName().getString()),
-                    Util.NIL_UUID);
+            if (owner instanceof Player player) thut.lib.ChatHelper.sendSystemMessage(player,
+                    TComponent.translatable("pokemob.hatch", mob.getDisplayName().getString()));
             if (world.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) world.addFreshEntity(new ExperienceOrb(world,
                     entity.getX(), entity.getY(), entity.getZ(), entity.getRandom().nextInt(7) + 1));
         }

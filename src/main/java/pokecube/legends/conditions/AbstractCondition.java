@@ -7,7 +7,6 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -130,7 +129,8 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     {
         if (!this.canCapture(trainer))
         {
-            if (message && trainer != null) trainer.sendMessage(this.getFailureMessage(trainer), Util.NIL_UUID);
+            if (message && trainer instanceof Player player)
+                thut.lib.ChatHelper.sendSystemMessage(player, this.getFailureMessage(trainer));
             return false;
         }
         return true;
@@ -216,7 +216,8 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     @Override
     public void onCaptureFail(final Entity trainer, final IPokemob pokemob)
     {
-        if (trainer != null) trainer.sendMessage(this.getFailureMessage(trainer), Util.NIL_UUID);
+        if (trainer instanceof Player player)
+            thut.lib.ChatHelper.sendSystemMessage(player, this.getFailureMessage(trainer));
     }
 
     public MutableComponent sendNoTrust(final Entity trainer)
@@ -232,7 +233,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         final String message = "msg.nohere.info";
         final MutableComponent component = TComponent.translatable(message,
                 TComponent.translatable(this.getEntry().getUnlocalizedName()));
-        trainer.sendMessage(component, Util.NIL_UUID);
+        if (trainer instanceof Player player) thut.lib.ChatHelper.sendSystemMessage(player, component);
         return component;
     }
 
@@ -279,12 +280,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     {
         final String message = "msg.reginotlookright.info";
         final MutableComponent component = TComponent.translatable(message, name);
-        if (trainer instanceof Player)
-        {
-            final Player player = (Player) trainer;
-            player.displayClientMessage(component, true);
-        }
-        else trainer.sendMessage(component, Util.NIL_UUID);
+        if (trainer instanceof Player player) player.displayClientMessage(component, true);
         return component;
     }
 

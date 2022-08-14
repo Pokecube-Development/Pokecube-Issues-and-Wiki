@@ -2,7 +2,6 @@ package pokecube.core.blocks.bases;
 
 import java.util.UUID;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
@@ -66,7 +65,7 @@ public class BaseTile extends InteractableTile
             {
                 // We need to remove the location.
                 this.level.setBlockAndUpdate(pos, this.original);
-                player.sendMessage(TComponent.translatable("pokemob.removebase.stale"), Util.NIL_UUID);
+                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokemob.removebase.stale"));
                 return InteractionResult.FAIL;
             }
         }

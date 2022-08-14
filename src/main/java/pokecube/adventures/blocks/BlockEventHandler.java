@@ -2,7 +2,6 @@ package pokecube.adventures.blocks;
 
 import java.util.UUID;
 
-import net.minecraft.Util;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -66,16 +65,10 @@ public class BlockEventHandler
             this.tile.getDest().setPos(pos);
             if (!user.getLevel().isClientSide)
             {
-                if (user instanceof Player)
+                if (user instanceof Player player)
                 {
-                    final Player player = (Player) user;
                     player.displayClientMessage(TComponent.translatable("block.pokecube_adventures.warp_pad.link",
                             tile.getDest().getInfoName()), true);
-                }
-                else
-                {
-                    user.sendMessage(TComponent.translatable("block.pokecube_adventures.warp_pad.link",
-                            tile.getDest().getInfoName()), Util.NIL_UUID);
                 }
             }
             // Centre us properly.

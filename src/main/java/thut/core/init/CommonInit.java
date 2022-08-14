@@ -1,6 +1,5 @@
 package thut.core.init;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
@@ -32,7 +31,8 @@ public class CommonInit
     public static void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
     {
         if (evt.getHand() == InteractionHand.OFF_HAND || evt.getWorld().isClientSide || evt.getItemStack().isEmpty()
-                || !evt.getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER) return;
+                || !evt.getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER)
+            return;
         final ItemStack itemstack = evt.getItemStack();
         final Player playerIn = evt.getPlayer();
         final Level worldIn = evt.getWorld();
@@ -52,7 +52,8 @@ public class CommonInit
             if (max.getY() - min.getY() > 30 || dw > 2 * 20 + 1)
             {
                 final String message = "msg.craft.toobig";
-                if (!worldIn.isClientSide) playerIn.sendMessage(TComponent.translatable(message), Util.NIL_UUID);
+                if (!worldIn.isClientSide)
+                    thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message));
                 return;
             }
             if (!worldIn.isClientSide)
@@ -60,7 +61,7 @@ public class CommonInit
                 final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(evt.getWorld(), min, max, mid,
                         EntityCraft.CRAFTTYPE);
                 final String message = craft != null ? "msg.craft.create" : "msg.craft.fail";
-                playerIn.sendMessage(TComponent.translatable(message), Util.NIL_UUID);
+                thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message));
             }
             itemstack.getTag().remove("min");
             evt.setCanceled(true);
@@ -72,7 +73,8 @@ public class CommonInit
             new Vector3().set(pos).writeToNBT(min, "");
             itemstack.getTag().put("min", min);
             final String message = "msg.craft.setcorner";
-            if (!worldIn.isClientSide) playerIn.sendMessage(TComponent.translatable(message, pos), Util.NIL_UUID);
+            if (!worldIn.isClientSide)
+                thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message, pos));
             evt.setCanceled(true);
             itemstack.getTag().putLong("time", Tracker.instance().getTick());
         }
@@ -82,17 +84,18 @@ public class CommonInit
     public static void interactRightClickBlock(final PlayerInteractEvent.RightClickItem evt)
     {
         if (evt.getHand() == InteractionHand.OFF_HAND || evt.getWorld().isClientSide || evt.getItemStack().isEmpty()
-                || !evt.getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER) return;
+                || !evt.getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER)
+            return;
         final ItemStack itemstack = evt.getItemStack();
         final Player playerIn = evt.getPlayer();
         final Level worldIn = evt.getWorld();
         final long now = Tracker.instance().getTick();
-        if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min") && itemstack.getTag()
-                .getLong("time") != now)
+        if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min")
+                && itemstack.getTag().getLong("time") != now)
         {
             final CompoundTag minTag = itemstack.getTag().getCompound("min");
-            final Vec3 loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0).add(playerIn.getLookAngle().scale(
-                    2));
+            final Vec3 loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0)
+                    .add(playerIn.getLookAngle().scale(2));
             final BlockPos pos = new BlockPos(loc);
             BlockPos min = pos;
             BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
@@ -106,7 +109,8 @@ public class CommonInit
             if (max.getY() - min.getY() > 30 || dw > 2 * 20 + 1)
             {
                 final String message = "msg.craft.toobig";
-                if (!worldIn.isClientSide) playerIn.sendMessage(TComponent.translatable(message), Util.NIL_UUID);
+                if (!worldIn.isClientSide)
+                    thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message));
                 return;
             }
             if (!worldIn.isClientSide)
@@ -114,7 +118,7 @@ public class CommonInit
                 final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(evt.getWorld(), min, max, mid,
                         EntityCraft.CRAFTTYPE);
                 final String message = craft != null ? "msg.craft.create" : "msg.craft.fail";
-                playerIn.sendMessage(TComponent.translatable(message), Util.NIL_UUID);
+                thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message));
             }
             itemstack.getTag().remove("min");
         }
@@ -123,8 +127,8 @@ public class CommonInit
     @SubscribeEvent
     public static void logout(final PlayerLoggedOutEvent event)
     {
-        if (event.getPlayer().isPassenger() && event.getPlayer().getRootVehicle() instanceof EntityCraft) event
-                .getPlayer().stopRiding();
+        if (event.getPlayer().isPassenger() && event.getPlayer().getRootVehicle() instanceof EntityCraft)
+            event.getPlayer().stopRiding();
     }
 
     @SubscribeEvent

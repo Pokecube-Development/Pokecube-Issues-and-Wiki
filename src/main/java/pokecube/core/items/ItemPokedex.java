@@ -5,7 +5,6 @@ package pokecube.core.items;
 
 import java.util.Set;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.Component;
@@ -70,8 +69,8 @@ public class ItemPokedex extends Item
 
             // Not a pokemob, or not a stock pokemob, only the watch will do
             // anything on right click, pokedex is for accessing the mob.
-            final boolean doInteract = target instanceof ServerPlayer || pokemob != null && pokemob
-                    .getPokedexEntry().stock && this.watch;
+            final boolean doInteract = target instanceof ServerPlayer
+                    || pokemob != null && pokemob.getPokedexEntry().stock && this.watch;
 
             if (!doInteract) break interact;
             this.showGui(playerIn, target, pokemob);
@@ -84,8 +83,7 @@ public class ItemPokedex extends Item
     public InteractionResultHolder<ItemStack> use(final Level world, final Player player, final InteractionHand hand)
     {
         final ItemStack itemstack = player.getItemInHand(hand);
-        if (!world.isClientSide) SpawnHandler.refreshTerrain(new Vector3().set(player), player.getLevel(),
-                true);
+        if (!world.isClientSide) SpawnHandler.refreshTerrain(new Vector3().set(player), player.getLevel(), true);
         if (!player.isCrouching())
         {
             new JsonModel(new ResourceLocation("thut_bling", "models/worn/bag.json"));
@@ -112,7 +110,7 @@ public class ItemPokedex extends Item
             {
                 final Set<StructureInfo> infos = StructureManager.getFor(worldIn.dimension(), pos);
                 for (final StructureInfo i : infos)
-                    playerIn.sendMessage(TComponent.literal(i.getName()), Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.literal(i.getName()));
             }
         }
         if (block instanceof HealerBlock)
@@ -131,13 +129,13 @@ public class ItemPokedex extends Item
         {
             Component message = CommandTools.makeTranslatedMessage("pokedex.locationinfo1", "green",
                     Database.spawnables.size());
-            playerIn.sendMessage(message, Util.NIL_UUID);
-            message = CommandTools.makeTranslatedMessage("pokedex.locationinfo2", "green", Pokedex.getInstance()
-                    .getEntries().size());
-            playerIn.sendMessage(message, Util.NIL_UUID);
-            message = CommandTools.makeTranslatedMessage("pokedex.locationinfo3", "green", Pokedex.getInstance()
-                    .getRegisteredEntries().size());
-            playerIn.sendMessage(message, Util.NIL_UUID);
+            thut.lib.ChatHelper.sendSystemMessage(playerIn, message);
+            message = CommandTools.makeTranslatedMessage("pokedex.locationinfo2", "green",
+                    Pokedex.getInstance().getEntries().size());
+            thut.lib.ChatHelper.sendSystemMessage(playerIn, message);
+            message = CommandTools.makeTranslatedMessage("pokedex.locationinfo3", "green",
+                    Pokedex.getInstance().getRegisteredEntries().size());
+            thut.lib.ChatHelper.sendSystemMessage(playerIn, message);
         }
 
         if (!playerIn.isCrouching())
@@ -154,12 +152,11 @@ public class ItemPokedex extends Item
         if (player instanceof ServerPlayer)
         {
             final ChunkAccess chunk = player.getLevel().getChunk(player.blockPosition());
-            TerrainUpdate.sendTerrainToClient(new ChunkPos(chunk.getPos().x, chunk.getPos().z),
-                    (ServerPlayer) player);
+            TerrainUpdate.sendTerrainToClient(new ChunkPos(chunk.getPos().x, chunk.getPos().z), (ServerPlayer) player);
             PacketDataSync.syncData(player, "pokecube-stats");
             PacketPokedex.sendSecretBaseInfoPacket((ServerPlayer) player, this.watch);
-            if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player).getData(
-                    PokecubePlayerStats.class).inspect(player, pokemob);
+            if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player)
+                    .getData(PokecubePlayerStats.class).inspect(player, pokemob);
             PacketPokedex.sendOpenPacket((ServerPlayer) player, mob, this.watch);
         }
     }

@@ -12,7 +12,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -494,16 +493,16 @@ public class EventsHandler
             }
             if (!valid.isEmpty())
             {
-                player.sendMessage(TComponent.literal("Spawn Presets valid for here:"), player.getUUID());
-                for (String s : valid) player.sendMessage(TComponent.literal(s), player.getUUID());
+                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Spawn Presets valid for here:"), player.getUUID());
+                for (String s : valid) thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal(s), player.getUUID());
             }
-            else player.sendMessage(TComponent.literal("No matching presets for this location"), player.getUUID());
+            else thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("No matching presets for this location"), player.getUUID());
         }
         if (isSubbiomeDebug)
         {
             TerrainSegment seg = TerrainManager.getInstance().getTerrainForEntity(player);
             BiomeType type = seg.getBiome(v);
-            player.sendMessage(TComponent.literal("SubBiome Type: " + type.name), player.getUUID());
+            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("SubBiome Type: " + type.name), player.getUUID());
         }
     }
 
@@ -809,7 +808,7 @@ public class EventsHandler
         PacketPokedex.sendLoginPacket(player);
         if (PokecubeCore.getConfig().guiOnLogin) new ChooseFirst(player);
         else if (!PokecubeSerializer.getInstance().hasStarter(player) && PokecubeCore.getConfig().msgAboutProfessor)
-            player.sendMessage(TComponent.translatable("pokecube.login.find_prof_or_config"), Util.NIL_UUID);
+            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.login.find_prof_or_config"));
     }
 
     public static void recallAllPokemobs(final LivingEntity user)

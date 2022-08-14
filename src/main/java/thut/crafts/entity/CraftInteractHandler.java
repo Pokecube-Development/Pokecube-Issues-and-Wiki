@@ -2,7 +2,6 @@ package thut.crafts.entity;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -106,7 +105,7 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
     {
         if (stack.getItem() == Items.BLAZE_ROD) if (!player.level.isClientSide)
         {
-            player.sendMessage(TComponent.translatable("msg.craft.killed"), Util.NIL_UUID);
+            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("msg.craft.killed"));
             this.craft.remove(RemovalReason.KILLED);
             return InteractionResult.SUCCESS;
         }
