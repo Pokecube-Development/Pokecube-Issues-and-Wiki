@@ -75,13 +75,13 @@ public class DebugInteractions
             List<ResourceLocation> found = Lists.newArrayList();
             List<ResourceLocation> not_found = Lists.newArrayList();
             Map<ResourceLocation, Pair<Integer, BlockPos>> found_map = Maps.newHashMap();
-            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Searching for Structures!"), player.getUUID());
+            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Searching for Structures!"));
             for (var feature : list)
             {
                 var name = registry.getKey(feature);
                 if (name.toString().startsWith("pokecube"))
                 {
-                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Checking " + name), player.getUUID());
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Checking " + name));
                     final ResourceKey<ConfiguredStructureFeature<?, ?>> structure = ResourceKey
                             .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, name);
                     var holder = registry.getHolderOrThrow(structure);
@@ -100,7 +100,7 @@ public class DebugInteractions
                     }
                 }
             }
-            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Search Complete"), player.getUUID());
+            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Search Complete"));
             found.sort(null);
             not_found.sort(null);
             PokecubeAPI.LOGGER.info("Structures Found:");

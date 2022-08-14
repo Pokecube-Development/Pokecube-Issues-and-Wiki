@@ -493,16 +493,17 @@ public class EventsHandler
             }
             if (!valid.isEmpty())
             {
-                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Spawn Presets valid for here:"), player.getUUID());
-                for (String s : valid) thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal(s), player.getUUID());
+                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Spawn Presets valid for here:"));
+                for (String s : valid) thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal(s));
             }
-            else thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("No matching presets for this location"), player.getUUID());
+            else thut.lib.ChatHelper.sendSystemMessage(player,
+                    TComponent.literal("No matching presets for this location"));
         }
         if (isSubbiomeDebug)
         {
             TerrainSegment seg = TerrainManager.getInstance().getTerrainForEntity(player);
             BiomeType type = seg.getBiome(v);
-            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("SubBiome Type: " + type.name), player.getUUID());
+            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("SubBiome Type: " + type.name));
         }
     }
 
@@ -808,7 +809,8 @@ public class EventsHandler
         PacketPokedex.sendLoginPacket(player);
         if (PokecubeCore.getConfig().guiOnLogin) new ChooseFirst(player);
         else if (!PokecubeSerializer.getInstance().hasStarter(player) && PokecubeCore.getConfig().msgAboutProfessor)
-            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.login.find_prof_or_config"));
+            thut.lib.ChatHelper.sendSystemMessage(player,
+                    TComponent.translatable("pokecube.login.find_prof_or_config"));
     }
 
     public static void recallAllPokemobs(final LivingEntity user)
