@@ -1,6 +1,6 @@
 {
   "name": "pokecube:village/plains/start_pool",
-  "fallback": "pokecube:village/plains/terminators",
+  "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 6,

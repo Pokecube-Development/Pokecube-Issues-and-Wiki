@@ -5,15 +5,15 @@
       "rules": [
         {
           "input_predicate": {
-            "predicate_type": "minecraft:block_match",
-            "block": "minecraft:magenta_concrete"
+            "block": "minecraft:magenta_concrete",
+            "predicate_type": "minecraft:block_match"
           },
           "output_state": {
             "Name": "minecraft:blue_concrete"
           },
           "location_predicate": {
-            "predicate_type": "minecraft:block_match",
-            "block": "minecraft:water"
+            "block": "minecraft:water",
+            "predicate_type": "minecraft:block_match"
           }
         },
         {
@@ -65,40 +65,23 @@
           },
           "location_predicate": {
             "predicate_type": "minecraft:block_match",
-            "block": "minecraft:ice"
+            "block": "pokecube_legends:mushroom_dirt"
           }
         },
         {
           "input_predicate": {
             "predicate_type": "minecraft:block_match",
-            "block": "minecraft:shroomlight"
+            "block": "minecraft:smooth_quartz"
           },
           "output_state": {
-            "Name": "minecraft:sea_lantern"
+            "Name": "pokecube_adventures:laboratory_glass"
           },
           "location_predicate": {
             "predicate_type": "minecraft:block_match",
-            "block": "minecraft:ice"
+            "block": "pokecube_legends:mushroom_grass_block"
           }
         }
       ]
-    },
-    {
-      "processor_type": "minecraft:block_ignore",
-      "blocks": [
-        {
-          "Name": "minecraft:air"
-        }
-      ]
-    },
-    {
-      "processor_type": "pokecube:ladders_to_ground"
-    },
-    {
-      "processor_type": "pokecube:structures"
-    },
-    {
-      "processor_type": "pokecube:marker_to_air"
     }
   ]
 }
