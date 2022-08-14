@@ -11,6 +11,7 @@
       "pokecube_legends:towns",
       "pokecube_legends:villages"
     ],
+    "y_settings":{"min_y": 65},
     "spawn_preset": "all",
     "avoid_range": 6,
     "size": 1
