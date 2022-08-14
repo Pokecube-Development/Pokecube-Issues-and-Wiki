@@ -30,6 +30,7 @@ import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.init.Sounds;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
@@ -185,7 +186,7 @@ public class CaptureManager
         if (mob == null || cube.shooter == null)
         {
             if (mob == null) PokecubeAPI.LOGGER.error("Error with mob capture: {}", mob);
-            else cube.playSound(PokecubeCore.CAPTURE_SOUND.get(), (float) PokecubeCore.getConfig().captureVolume, 1);
+            else cube.playSound(Sounds.CAPTURE_SOUND.get(), (float) PokecubeCore.getConfig().captureVolume, 1);
             return false;
         }
         if (ownable != null)
@@ -198,7 +199,7 @@ public class CaptureManager
         {
             final Component mess = TComponent.translatable("pokecube.caught", mob.getDisplayName());
             if (cube.shootingEntity instanceof Player) ((Player) cube.shootingEntity).displayClientMessage(mess, true);
-            cube.playSound(PokecubeCore.CAPTURE_SOUND.get(), (float) PokecubeCore.getConfig().captureVolume, 1);
+            cube.playSound(Sounds.CAPTURE_SOUND.get(), (float) PokecubeCore.getConfig().captureVolume, 1);
             return true;
         }
         HappinessType.applyHappiness(pokemob, HappinessType.TRADE);
@@ -218,7 +219,7 @@ public class CaptureManager
             final Component mess = TComponent.translatable("pokecube.caught", pokemob.getDisplayName());
             ((Player) cube.shootingEntity).displayClientMessage(mess, true);
             cube.setPos(cube.shootingEntity.getX(), cube.shootingEntity.getY(), cube.shootingEntity.getZ());
-            cube.playSound(PokecubeCore.CAPTURE_SOUND.get(), (float) PokecubeCore.getConfig().captureVolume, 1);
+            cube.playSound(Sounds.CAPTURE_SOUND.get(), (float) PokecubeCore.getConfig().captureVolume, 1);
         }
         return true;
     }

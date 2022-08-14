@@ -13,7 +13,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.trade.TraderTile;
-import pokecube.core.inventory.MenuTypes;
+import pokecube.core.init.MenuTypes;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.inventory.BaseContainer;
 

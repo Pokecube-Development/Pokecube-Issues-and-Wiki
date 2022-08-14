@@ -24,7 +24,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.FakePlayer;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.events.pokemobs.CaptureEvent;
-import pokecube.core.entity.EntityTypes;
+import pokecube.core.init.EntityTypes;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.network.packets.PacketPokecube;

@@ -1,4 +1,4 @@
-package pokecube.core.inventory;
+package pokecube.core.init;
 
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.network.IContainerFactory;

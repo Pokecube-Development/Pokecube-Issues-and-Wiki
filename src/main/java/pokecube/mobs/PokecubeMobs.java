@@ -16,12 +16,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
@@ -55,6 +58,7 @@ import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
 import pokecube.mobs.abilities.AbilityRegister;
+import pokecube.mobs.init.PokemobSounds;
 import pokecube.mobs.moves.MoveRegister;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
@@ -63,18 +67,10 @@ import thut.lib.TComponent;
 @Mod(value = PokecubeMobs.MODID)
 public class PokecubeMobs
 {
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeMobs.MODID)
-    public static class RegistryEvents
-    {
-        @SubscribeEvent
-        public static void registerSounds(final RegistryEvent.Register<SoundEvent> event)
-        {
-            PokecubeAPI.LOGGER.debug("Registering Pokemob Sounds");
-            Database.initMobSounds(event.getRegistry());
-        }
-    }
-
     public static final String MODID = "pokecube_mobs";
+
+    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS,
+            PokecubeMobs.MODID);;
 
     Map<PokedexEntry, Integer> genMap = Maps.newHashMap();
 
@@ -84,6 +80,9 @@ public class PokecubeMobs
         PokecubeAPI.POKEMOB_BUS.register(this);
         // We override these so that they use ours instead of default ones.
         CombatTypeLoader.TYPES = new ResourceLocation(PokecubeMobs.MODID, "database/types.json");
+
+        final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        PokecubeMobs.SOUNDS.register(bus);
 
         new BerryGenManager(PokecubeMobs.MODID);
         MoveRegister.init();
@@ -717,5 +716,11 @@ public class PokecubeMobs
             entry.texture = new ResourceLocation(PokecubeMobs.MODID, tex + entry.getTrimmedName() + ".png");
             entry.animation = new ResourceLocation(PokecubeMobs.MODID, model + entry.getTrimmedName() + ".xml");
         }
+    }
+
+    @SubscribeEvent
+    public void postRegisterPokemobs(final RegisterPokemobsEvent.Post event)
+    {
+        PokemobSounds.initMobSounds();
     }
 }

@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
+import pokecube.core.init.Sounds;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.network.packets.PacketHeal;
 import thut.lib.TComponent;
@@ -51,7 +52,7 @@ public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T
         this.addRenderableWidget(new Button(this.width / 2 + 21, this.height / 2 - 50, 60, 20, heal, b -> {
             final PacketHeal packet = new PacketHeal();
             PokecubeCore.packets.sendToServer(packet);
-            this.inventory.player.playSound(PokecubeCore.HEAL_SOUND.get(), 1, 1);
+            this.inventory.player.playSound(Sounds.HEAL_SOUND.get(), 1, 1);
         }));
     }
 

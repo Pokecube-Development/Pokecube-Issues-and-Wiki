@@ -2,8 +2,8 @@ package pokecube.core.client;
 
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.sounds.SoundSource;
-import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.healer.HealerTile;
+import pokecube.core.init.Sounds;
 import thut.api.maths.Vector3;
 
 public class PokecenterSound extends AbstractTickableSoundInstance
@@ -14,7 +14,7 @@ public class PokecenterSound extends AbstractTickableSoundInstance
 
     public PokecenterSound(final HealerTile tileIn)
     {
-        super(PokecubeCore.HEAL_MUSIC.get(), SoundSource.RECORDS);
+        super(Sounds.HEAL_MUSIC.get(), SoundSource.RECORDS);
         this.tile = tileIn;
         this.looping = true;
         this.delay = 1;

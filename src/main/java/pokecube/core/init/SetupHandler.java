@@ -19,7 +19,6 @@ import pokecube.api.items.IPokemobUseable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
-import pokecube.core.entity.EntityTypes;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.items.megastuff.IMegaCapability;
 import pokecube.core.moves.PokemobTerrainEffects;

@@ -16,7 +16,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.SensorType;
-import net.minecraft.world.entity.animal.ShoulderRidingEntity;
 import net.minecraft.world.entity.decoration.Motive;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.entity.schedule.Schedule;
@@ -37,12 +36,9 @@ import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
-import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.events.init.InitDatabase;
-import pokecube.api.events.init.RegisterPokemobsEvent;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.npc.Activities;
@@ -50,10 +46,6 @@ import pokecube.core.ai.npc.Schedules;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.database.Database;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
-import pokecube.core.entity.EntityTypes;
-import pokecube.core.entity.pokemobs.GenericPokemob;
-import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.handlers.ItemHandler;
@@ -68,7 +60,9 @@ import pokecube.core.handlers.playerdata.PokecubePlayerData;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.inventory.MenuTypes;
+import pokecube.core.init.EntityTypes;
+import pokecube.core.init.MenuTypes;
+import pokecube.core.init.Sounds;
 import pokecube.core.moves.Battle;
 import pokecube.core.proxy.CommonProxy;
 import pokecube.core.world.dimension.SecretBaseDimension;
@@ -88,16 +82,6 @@ public class PokecubeCore
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
     public static class RegistryEvents
     {
-        private static PokemobType<ShoulderRidingEntity> makePokemobEntityType(PokedexEntry entry)
-        {
-            final PokemobType<ShoulderRidingEntity> type = new PokemobType<>(GenericPokemob::new, entry);
-            type.setRegistryName(PokecubeCore.MODID, entry.getTrimmedName());
-            Pokedex.getInstance().registerPokemon(entry);
-            PokecubeCore.typeMap.put(type, entry);
-            CopyCaps.register(type);
-            return type;
-        }
-
         @SubscribeEvent
         public static void registerRegistry(final NewRegistryEvent event)
         {
@@ -107,6 +91,9 @@ public class PokecubeCore
             PokecubeAPI.POKEMOB_BUS.post(pre);
             pre.modIDs.add(PokecubeCore.MODID);
             Database.preInit();
+            Sounds.initMoveSounds();
+            Sounds.initConfigSounds();
+            EntityTypes.registerPokemobs();
         }
 
         @SubscribeEvent
@@ -126,46 +113,11 @@ public class PokecubeCore
         }
 
         @SubscribeEvent
-        public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event)
-        {
-            // register a new mob here
-            PokecubeAPI.LOGGER.debug("Registering Pokecube Mobs");
-            Database.init();
-            PokecubeAPI.POKEMOB_BUS.post(new RegisterPokemobsEvent.Pre());
-            PokecubeAPI.POKEMOB_BUS.post(new RegisterPokemobsEvent.Register());
-            PokedexEntryLoader.postInit();
-            for (final PokedexEntry entry : Database.getSortedFormes())
-            {
-                if (entry.dummy) continue;
-                if (!entry.stock) continue;
-                try
-                {
-                    event.getRegistry().register(makePokemobEntityType(entry));
-                }
-                catch (final Exception e)
-                {
-                    throw new RuntimeException(e);
-                }
-            }
-            PokecubeAPI.POKEMOB_BUS.post(new RegisterPokemobsEvent.Post());
-            Database.postInit();
-            PokecubeAPI.POKEMOB_BUS.post(new InitDatabase.Post());
-        }
-
-        @SubscribeEvent
         public static void registerItems(final RegistryEvent.Register<Item> event)
         {
             // register a new item here
             PokecubeAPI.LOGGER.debug("Registering Pokecube Items");
             ItemHandler.registerItems(event.getRegistry());
-        }
-
-        @SubscribeEvent
-        public static void registerSounds(final RegistryEvent.Register<SoundEvent> event)
-        {
-            // register a new mob here
-            PokecubeAPI.LOGGER.debug("Registering Pokecube Sounds");
-            Database.initSounds(event.getRegistry());
         }
     }
 
@@ -183,10 +135,6 @@ public class PokecubeCore
     public static final DeferredRegister<MenuType<?>> MENU;
     public static final DeferredRegister<SoundEvent> SOUNDS;
 
-    public static final RegistryObject<SoundEvent> CAPTURE_SOUND;
-    public static final RegistryObject<SoundEvent> HEAL_SOUND;
-    public static final RegistryObject<SoundEvent> HEAL_MUSIC;
-
     static
     {
         RECIPETYPE = DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, PokecubeCore.MODID);
@@ -202,13 +150,6 @@ public class PokecubeCore
         ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, PokecubeCore.MODID);
         MENU = DeferredRegister.create(ForgeRegistries.CONTAINERS, PokecubeCore.MODID);
         SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, PokecubeCore.MODID);
-
-        CAPTURE_SOUND = SOUNDS.register("pokecube_caught",
-                () -> new SoundEvent(new ResourceLocation(PokecubeCore.MODID + ":pokecube_caught")));
-        HEAL_SOUND = SOUNDS.register("pokecenter",
-                () -> new SoundEvent(new ResourceLocation(PokecubeCore.MODID + ":pokecenter")));
-        HEAL_MUSIC = SOUNDS.register("pokecenterloop",
-                () -> new SoundEvent(new ResourceLocation(PokecubeCore.MODID + ":pokecenterloop")));
     }
 
     public static final String MODID = PokecubeAPI.MODID;
@@ -323,7 +264,7 @@ public class PokecubeCore
 
         // Initialize advancement triggers
         Triggers.init();
-        
+
         // Init some more things that register stuff
         Activities.init();
         Schedules.init();
@@ -331,6 +272,7 @@ public class PokecubeCore
         Sensors.init();
         MenuTypes.init();
         EntityTypes.init();
+        Sounds.init();
 
         // Register the battle managers
         Battle.register();

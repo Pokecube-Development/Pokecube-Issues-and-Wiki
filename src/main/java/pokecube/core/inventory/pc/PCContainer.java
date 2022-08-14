@@ -19,7 +19,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.core.PokecubeCore;
-import pokecube.core.inventory.MenuTypes;
+import pokecube.core.init.MenuTypes;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.megastuff.IMegaCapability;
 import pokecube.core.items.pokecubes.PokecubeManager;

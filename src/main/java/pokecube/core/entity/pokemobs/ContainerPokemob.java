@@ -12,7 +12,7 @@ import net.minecraft.world.item.Items;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeItems;
-import pokecube.core.inventory.MenuTypes;
+import pokecube.core.init.MenuTypes;
 import pokecube.core.utils.EntityTools;
 import thut.api.inventory.BaseContainer;
 import thut.core.common.ThutCore;
