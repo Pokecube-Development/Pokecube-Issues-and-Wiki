@@ -15,7 +15,7 @@ import pokecube.api.entity.trainers.IHasPokemobs;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.handlers.events.PCEventsHandler;
+import pokecube.core.eventhandlers.PCEventsHandler;
 
 public class DeAgro extends BaseBattleTask
 {

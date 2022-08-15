@@ -6,8 +6,8 @@ import java.util.List;
 
 import net.minecraft.world.level.Level;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.core.handlers.events.MoveEventsHandler;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import pokecube.core.eventhandlers.MoveEventsHandler;
+import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
 
 public class TreeRemover

@@ -1,4 +1,4 @@
-package pokecube.core.handlers;
+package pokecube.core.init;
 
 import java.util.List;
 
@@ -31,8 +31,8 @@ import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.ai.tasks.idle.IdleWalkTask;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
-import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.handlers.events.SpawnHandler;
+import pokecube.core.eventhandlers.EventsHandler;
+import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.Pokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;

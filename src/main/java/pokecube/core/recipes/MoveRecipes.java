@@ -33,8 +33,8 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.recipes.PokemobMoveRecipeParser;
 import pokecube.core.database.recipes.PokemobMoveRecipeParser.MoveMatcher;
 import pokecube.core.database.recipes.PokemobMoveRecipeParser.RecipeMove;
+import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.handlers.RecipeHandler;
-import pokecube.core.handlers.events.MoveEventsHandler;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 

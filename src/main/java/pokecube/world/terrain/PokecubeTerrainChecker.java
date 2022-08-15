@@ -1,4 +1,4 @@
-package pokecube.core.world.terrain;
+package pokecube.world.terrain;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,14 +6,19 @@ import java.util.Set;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.QuartPos;
 import net.minecraft.core.Registry;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Climate;
+import net.minecraft.world.level.biome.TerrainShaper;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.material.Material;
+import pokecube.api.data.spawns.SpawnCheck.TerrainType;
 import pokecube.core.PokecubeCore;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
 import thut.api.maths.Vector3;
@@ -30,6 +35,22 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
     {
         final PokecubeTerrainChecker checker = new PokecubeTerrainChecker();
         TerrainSegment.defaultChecker = checker;
+    }
+
+    public static TerrainType getTerrain(Vector3 v, LevelAccessor world)
+    {
+        if (!(world instanceof ServerLevel level)) return TerrainType.FLAT;
+
+        ChunkGenerator generator = level.getChunkSource().getGenerator();
+        BlockPos pos = v.getPos();
+
+        int i = QuartPos.fromBlock(pos.getX());
+        int j = QuartPos.fromBlock(pos.getY());
+        int k = QuartPos.fromBlock(pos.getZ());
+        Climate.TargetPoint climate$targetpoint = generator.climateSampler().sample(i, j, k);
+        float f4 = Climate.unquantizeCoord(climate$targetpoint.weirdness());
+        double d0 = (double) TerrainShaper.peaksAndValleys(f4);
+        return d0 > 0.5 ? TerrainType.HILLS : TerrainType.FLAT;
     }
 
     @Override

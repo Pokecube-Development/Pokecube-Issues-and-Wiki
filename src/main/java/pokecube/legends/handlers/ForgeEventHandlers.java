@@ -30,7 +30,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.events.MeteorEvent;
 import pokecube.api.stats.ISpecialCaptureCondition;
 import pokecube.api.stats.SpecialCaseRegister;
-import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.conditions.AbstractCondition;
 import thut.api.item.ItemList;

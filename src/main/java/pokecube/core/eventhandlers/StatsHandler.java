@@ -1,4 +1,4 @@
-package pokecube.core.handlers.events;
+package pokecube.core.eventhandlers;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,7 +19,7 @@ import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.api.stats.ISpecialCaptureCondition;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.handlers.Config;
+import pokecube.core.init.Config;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.helper.CaptureManager;

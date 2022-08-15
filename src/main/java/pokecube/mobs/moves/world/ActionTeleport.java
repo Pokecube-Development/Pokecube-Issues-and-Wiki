@@ -12,8 +12,8 @@ import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.api.events.pokemobs.TeleportEvent;
 import pokecube.api.moves.IMoveAction;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.handlers.events.SpawnHandler;
+import pokecube.core.eventhandlers.EventsHandler;
+import pokecube.core.eventhandlers.SpawnHandler;
 import thut.api.maths.Vector3;
 
 public class ActionTeleport implements IMoveAction

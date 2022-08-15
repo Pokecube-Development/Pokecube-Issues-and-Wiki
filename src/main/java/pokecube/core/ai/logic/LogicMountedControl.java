@@ -27,7 +27,7 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
-import pokecube.core.handlers.Config;
+import pokecube.core.init.Config;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 

@@ -8,10 +8,10 @@ import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.IMoveAction;
 import pokecube.core.PokecubeCore;
-import pokecube.core.handlers.events.MoveEventsHandler;
+import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.templates.Move_Basic;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
 
 public class ActionDig implements IMoveAction

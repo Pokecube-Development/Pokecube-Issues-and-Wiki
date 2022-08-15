@@ -1,4 +1,4 @@
-package pokecube.core.handlers.events;
+package pokecube.core.eventhandlers;
 
 import java.util.List;
 import java.util.Map;
@@ -56,14 +56,14 @@ import pokecube.api.moves.Move_Base;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MoveEntry;
-import pokecube.core.handlers.Config;
-import pokecube.core.handlers.events.SpawnHandler.ForbidReason;
+import pokecube.core.eventhandlers.SpawnHandler.ForbidReason;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;
 import pokecube.core.impl.entity.impl.OngoingMoveEffect;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
+import pokecube.core.init.Config;
 import pokecube.core.init.ItemGenerator;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.PermNodes;

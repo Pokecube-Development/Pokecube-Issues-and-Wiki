@@ -28,7 +28,7 @@ import pokecube.core.ai.tasks.ants.tasks.AbstractConstructTask;
 import pokecube.core.ai.tasks.ants.tasks.AbstractWorkTask;
 import pokecube.core.ai.tasks.utility.UtilTask;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.Tracker;
 
 public class Build extends AbstractConstructTask

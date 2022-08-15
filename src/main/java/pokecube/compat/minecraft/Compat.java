@@ -32,7 +32,7 @@ import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager.GeneticsProvider;
-import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.eventhandlers.EventsHandler;
 import thut.api.OwnableCaps;
 import thut.api.item.ItemList;
 import thut.core.common.world.mobs.data.DataSync_Impl;

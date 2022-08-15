@@ -2,7 +2,6 @@ package pokecube.core.impl.capabilities.impl;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 import java.util.Vector;
 
@@ -40,7 +39,6 @@ import thut.api.entity.ICopyMob;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
-import thut.core.common.ThutCore;
 import thut.core.common.world.mobs.data.SyncHandler;
 import thut.core.common.world.mobs.data.types.Data_Byte;
 import thut.core.common.world.mobs.data.types.Data_Float;
@@ -200,8 +198,6 @@ public abstract class PokemobBase implements IPokemob
     protected Vector3 here = new Vector3();
     /** The Entity this IPokemob is attached to. */
     protected Mob entity;
-    /** RNG used, should be entity.getRNG() */
-    protected Random rand = ThutCore.newRandom();
     /** Our original owner. */
     protected UUID OTID;
     /** Used for maintaining/storing homes and routes. */
@@ -261,7 +257,6 @@ public abstract class PokemobBase implements IPokemob
     @Override
     public void setEntity(final Mob entityIn)
     {
-        this.rand = entityIn.getRandom();
         this.entity = entityIn;
     }
 

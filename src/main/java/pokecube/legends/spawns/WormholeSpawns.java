@@ -29,7 +29,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
-import pokecube.core.handlers.events.SpawnHandler;
+import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.legends.Reference;
 import pokecube.legends.entity.WormholeEntity;
 import pokecube.legends.init.EntityInit;

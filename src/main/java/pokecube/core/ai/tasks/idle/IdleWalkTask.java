@@ -21,7 +21,7 @@ import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
-import pokecube.core.handlers.Config;
+import pokecube.core.init.Config;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 import thut.core.common.ThutCore;

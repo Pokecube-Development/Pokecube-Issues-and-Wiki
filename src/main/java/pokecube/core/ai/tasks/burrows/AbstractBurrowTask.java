@@ -19,7 +19,7 @@ import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor;
 import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor.Burrow;
 import pokecube.core.ai.tasks.utility.UtilTask;
-import pokecube.core.handlers.events.MoveEventsHandler;
+import pokecube.core.eventhandlers.MoveEventsHandler;
 import thut.api.entity.ai.RootTask;
 import thut.api.maths.Vector3;
 

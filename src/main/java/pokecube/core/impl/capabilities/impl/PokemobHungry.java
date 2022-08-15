@@ -10,7 +10,7 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.items.IPokemobUseable;
 import pokecube.core.PokecubeCore;
-import pokecube.core.handlers.events.SpawnHandler;
+import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.items.berries.ItemBerry;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;

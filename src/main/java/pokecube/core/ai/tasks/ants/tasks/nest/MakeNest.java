@@ -24,7 +24,7 @@ import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.nest.AntHabitat;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.blocks.nests.NestTile;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import pokecube.world.terrain.PokecubeTerrainChecker;
 
 public class MakeNest extends BaseIdleTask
 {

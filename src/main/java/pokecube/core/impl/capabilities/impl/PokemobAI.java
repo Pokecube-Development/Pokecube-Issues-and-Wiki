@@ -21,6 +21,7 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
@@ -36,7 +37,6 @@ import pokecube.core.ai.logic.LogicMiscUpdate;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.logic.LogicMovesUpdates;
 import pokecube.core.ai.tasks.Tasks;
-import pokecube.core.handlers.TeamManager;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.moves.Battle;
 import pokecube.core.utils.AITools;
@@ -169,10 +169,10 @@ public abstract class PokemobAI extends PokemobEvolves
             for (int i = 0; i < 20; ++i)
             {
                 particleLoc.set(
-                        this.getEntity().getX() + this.rand.nextFloat() * this.getEntity().getBbWidth() * 2.0F
+                        this.getEntity().getX() + this.getEntity().getRandom().nextFloat() * this.getEntity().getBbWidth() * 2.0F
                                 - this.getEntity().getBbWidth(),
-                        this.getEntity().getY() + 0.5D + this.rand.nextFloat() * this.getEntity().getBbHeight(),
-                        this.getEntity().getZ() + this.rand.nextFloat() * this.getEntity().getBbWidth() * 2.0F
+                        this.getEntity().getY() + 0.5D + this.getEntity().getRandom().nextFloat() * this.getEntity().getBbHeight(),
+                        this.getEntity().getZ() + this.getEntity().getRandom().nextFloat() * this.getEntity().getBbWidth() * 2.0F
                                 - this.getEntity().getBbWidth());
                 this.getEntity().getLevel().addParticle(ParticleTypes.HAPPY_VILLAGER, particleLoc.x, particleLoc.y,
                         particleLoc.z, 0, 0, 0);

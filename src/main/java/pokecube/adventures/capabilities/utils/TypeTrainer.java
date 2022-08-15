@@ -63,7 +63,7 @@ import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.database.Database;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
-import pokecube.core.handlers.events.SpawnHandler;
+import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;

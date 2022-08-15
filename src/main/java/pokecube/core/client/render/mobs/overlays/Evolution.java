@@ -5,7 +5,6 @@ import java.util.Random;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -113,11 +112,6 @@ public class Evolution
     private static void white_points(final VertexConsumer builder, final Matrix4f posmat, final int alpha,
             final Color col)
     {
-        if (builder instanceof BufferBuilder)
-        {
-            final BufferBuilder buf = (BufferBuilder) builder;
-            if (buf.getVertexFormat().getVertexSize() != 16) return;
-        }
         builder.vertex(posmat, 0.0F, 0.0F, 0.0F).color(col.getRed(), col.getGreen(), col.getBlue(), alpha).endVertex();
         builder.vertex(posmat, 0.0F, 0.0F, 0.0F).color(col.getRed(), col.getGreen(), col.getBlue(), alpha).endVertex();
     }
@@ -125,11 +119,6 @@ public class Evolution
     private static void transp_point_a(final VertexConsumer builder, final Matrix4f posmat, final float dy,
             final float dxz, final Color col)
     {
-        if (builder instanceof BufferBuilder)
-        {
-            final BufferBuilder buf = (BufferBuilder) builder;
-            if (buf.getVertexFormat().getVertexSize() != 16) return;
-        }
         builder.vertex(posmat, -Evolution.sqrt3_2 * dxz, dy, -0.5F * dxz)
                 .color(col.getRed(), col.getGreen(), col.getBlue(), 0).endVertex();
     }
@@ -137,11 +126,6 @@ public class Evolution
     private static void transp_point_b(final VertexConsumer builder, final Matrix4f posmat, final float dy,
             final float dxz, final Color col)
     {
-        if (builder instanceof BufferBuilder)
-        {
-            final BufferBuilder buf = (BufferBuilder) builder;
-            if (buf.getVertexFormat().getVertexSize() != 16) return;
-        }
         builder.vertex(posmat, Evolution.sqrt3_2 * dxz, dy, -0.5F * dxz)
                 .color(col.getRed(), col.getGreen(), col.getBlue(), 0).endVertex();
     }
@@ -149,11 +133,6 @@ public class Evolution
     private static void transp_point_c(final VertexConsumer builder, final Matrix4f posmat, final float dy,
             final float dz, final Color col)
     {
-        if (builder instanceof BufferBuilder)
-        {
-            final BufferBuilder buf = (BufferBuilder) builder;
-            if (buf.getVertexFormat().getVertexSize() != 16) return;
-        }
         builder.vertex(posmat, 0.0F, dy, 1.0F * dz).color(col.getRed(), col.getGreen(), col.getBlue(), 0).endVertex();
     }
 }

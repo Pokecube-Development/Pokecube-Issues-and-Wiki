@@ -272,7 +272,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         {
             if (this.getNpcType().getProfession() == VillagerProfession.NONE)
             {
-                String prof = this.getVillagerData().getProfession().getName();
+                String prof = this.getVillagerData().getProfession().toString();
                 NpcType type = NpcType.byType(prof);
                 this.setNpcType(type);
             }
@@ -290,7 +290,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         if (this.getVillagerData().getProfession() != VillagerProfession.NONE
                 && this.getNpcType().getName().equals("none"))
         {
-            String prof = this.getVillagerData().getProfession().getName();
+            String prof = this.getVillagerData().getProfession().toString();
             NpcType type = NpcType.byType(prof);
             this.setNpcType(type);
         }

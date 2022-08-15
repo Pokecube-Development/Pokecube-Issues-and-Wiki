@@ -38,7 +38,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
-import pokecube.core.handlers.events.SpawnEventsHandler.GuardInfo;
+import pokecube.core.eventhandlers.SpawnEventsHandler.GuardInfo;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.PermNodes;

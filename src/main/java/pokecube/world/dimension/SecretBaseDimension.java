@@ -1,4 +1,4 @@
-package pokecube.core.world.dimension;
+package pokecube.world.dimension;
 
 import java.util.Arrays;
 import java.util.List;
@@ -55,8 +55,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
+import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
-import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.utils.PokecubeSerializer;
 import thut.api.entity.ThutTeleporter;
 import thut.api.entity.ThutTeleporter.TeleDest;

@@ -20,7 +20,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
-import pokecube.core.world.dimension.SecretBaseDimension;
+import pokecube.world.dimension.SecretBaseDimension;
 import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
 import thut.lib.TComponent;

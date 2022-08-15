@@ -1,4 +1,4 @@
-package pokecube.core.handlers.events;
+package pokecube.core.eventhandlers;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,6 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerBossEvent;
@@ -64,6 +65,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent.StopTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.ai.IInhabitor;
 import pokecube.api.blocks.IInhabitable;
@@ -88,9 +90,11 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.entity.pokemobs.EntityPokemob;
-import pokecube.core.handlers.Config;
+import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
+import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import pokecube.core.impl.capabilities.DefaultPokemob;
+import pokecube.core.init.Config;
 import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.moves.damage.IPokedamage;
@@ -120,6 +124,200 @@ import thut.lib.TComponent;
 
 public class PokemobEventsHandler
 {
+    public static class EvoTicker
+    {
+        final LivingEntity thisEntity;
+        final LivingEntity evolution;
+        final Level world;
+        boolean done = false;
+
+        public EvoTicker(final LivingEntity thisEntity, final LivingEntity evolution)
+        {
+            this.thisEntity = thisEntity;
+            this.evolution = evolution;
+            this.world = thisEntity.getLevel();
+        }
+
+        public void init()
+        {
+            MinecraftForge.EVENT_BUS.register(this);
+        }
+
+        public void tick()
+        {
+            if (this.done) return;
+            this.done = true;
+            final ServerLevel world = (ServerLevel) this.thisEntity.getLevel();
+            final IPokemob old = PokemobCaps.getPokemobFor(this.thisEntity);
+
+            if (this.thisEntity != this.evolution)
+            {
+                // Remount riders on the new mob.
+                final List<Entity> riders = this.thisEntity.getPassengers();
+                for (final Entity e : riders) e.stopRiding();
+                for (final Entity e : riders) e.startRiding(this.evolution, true);
+
+                // Set this mob wild, then kill it.
+                if (old != null) old.setOwner((UUID) null);
+                this.thisEntity.getPersistentData().putBoolean(TagNames.REMOVED, true);
+                // Remove old mob
+                this.thisEntity.remove(RemovalReason.DISCARDED);
+                // Add new mob
+                if (!this.evolution.isAlive()) this.evolution.revive();
+                this.evolution.getPersistentData().remove(TagNames.REMOVED);
+                if (old != null) PokemobTracker.removePokemob(old);
+                this.evolution.setUUID(this.thisEntity.getUUID());
+                this.evolution.getLevel().addFreshEntity(this.evolution);
+
+                this.evolution.refreshDimensions();
+                final AABB oldBox = this.thisEntity.getBoundingBox();
+                final AABB newBox = this.evolution.getBoundingBox();
+
+                // Take the larger of the boxes, collide off that.
+                final AABB biggerBox = oldBox.minmax(newBox);
+
+                final List<VoxelShape> hits = Lists.newArrayList();
+                // Find all voxel shapes in the area
+                BlockPos.betweenClosedStream(biggerBox).forEach(pos -> {
+                    final BlockState state = world.getBlockState(pos);
+                    final VoxelShape shape = state.getCollisionShape(world, pos);
+                    if (!shape.isEmpty()) hits.add(shape.move(pos.getX(), pos.getY(), pos.getZ()));
+                });
+
+                // If there were any voxel shapes, then check if we need to
+                // collidedw
+                if (hits.size() > 0)
+                {
+                    VoxelShape total = Shapes.empty();
+                    // Merge the found shapes into a single one
+                    for (final VoxelShape s : hits) total = Shapes.joinUnoptimized(total, s, BooleanOp.OR);
+                    final List<AABB> aabbs = Lists.newArrayList();
+                    // Convert to colliding AABBs
+                    BlockEntityUpdater.fill(aabbs, biggerBox, total);
+                    // Push off the AABBS if needed
+                    final boolean col = BlockEntityUpdater.applyEntityCollision(this.evolution, biggerBox, aabbs,
+                            Vec3.ZERO);
+
+                    // This gives us an indication if if we did actually
+                    // collide, if this occured, then we need to do some extra
+                    // processing to make sure that we fit properly
+                    if (col)
+                    {
+                        Vector3 v = new Vector3().set(this.evolution);
+                        v = SendOutManager.getFreeSpot(this.evolution, world, v, false);
+                        this.evolution.refreshDimensions();
+                        if (v != null) v.moveEntity(this.evolution);
+                    }
+                }
+            }
+            EntityUpdate.sendEntityUpdate(this.evolution);
+        }
+
+        @SubscribeEvent
+        public void tick(final WorldTickEvent evt)
+        {
+            if (evt.world != this.world || evt.phase != Phase.END) return;
+            MinecraftForge.EVENT_BUS.unregister(this);
+            this.tick();
+        }
+
+        public static void scheduleEvolve(final LivingEntity thisEntity, final LivingEntity evolution,
+                final boolean immediate)
+        {
+            if (!(thisEntity.level instanceof ServerLevel)) return;
+            final EvoTicker ticker = new EvoTicker(thisEntity, evolution);
+            if (!immediate) ticker.init();
+            else ticker.tick();
+        }
+    }
+
+    /** Simlar to EvoTicker, but for more general form changing. */
+    public static class MegaEvoTicker
+    {
+        final Level world;
+        final Entity mob;
+        IPokemob pokemob;
+        final PokedexEntry mega;
+        final Component message;
+        final long evoTime;
+        boolean dynamaxing = false;
+        boolean set = false;
+
+        public MegaEvoTicker(final PokedexEntry mega, final long evoTime, final IPokemob evolver,
+                final Component message, final boolean dynamaxing)
+        {
+            this.mob = evolver.getEntity();
+            this.world = this.mob.getLevel();
+            this.evoTime = this.world.getGameTime() + evoTime;
+            this.message = message;
+            this.mega = mega;
+            this.pokemob = evolver;
+            this.dynamaxing = dynamaxing;
+
+            // Flag as evolving
+            this.pokemob.setGeneralState(GeneralStates.EVOLVING, true);
+            this.pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
+            this.pokemob.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
+
+            MinecraftForge.EVENT_BUS.register(this);
+
+            if (dynamaxing)
+            {
+                PokecubeAPI.LOGGER.debug("Dynamaxing: {}", this.mob);
+            }
+
+        }
+
+        @SubscribeEvent
+        public void tick(final WorldTickEvent evt)
+        {
+            if (evt.world != this.world || evt.phase != Phase.END) return;
+            if (!this.mob.isAddedToWorld() || !this.mob.isAlive() || this.set)
+            {
+                MinecraftForge.EVENT_BUS.unregister(this);
+                return;
+            }
+            if (evt.world.getGameTime() >= this.evoTime)
+            {
+                this.set = true;
+                if (this.pokemob.getCombatState(CombatStates.MEGAFORME)
+                        && this.pokemob.getOwner() instanceof ServerPlayer)
+                    Triggers.MEGAEVOLVEPOKEMOB.trigger((ServerPlayer) this.pokemob.getOwner(), this.pokemob);
+                final int evoTicks = this.pokemob.getEvolutionTicks();
+                final float hp = this.pokemob.getHealth();
+                this.pokemob = this.pokemob.megaEvolve(this.mega, true);
+                this.pokemob.setHealth(hp);
+                /**
+                 * Flag the new mob as evolving to continue the animation
+                 * effects.
+                 */
+                this.pokemob.setGeneralState(GeneralStates.EVOLVING, true);
+                this.pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
+                if (this.dynamaxing)
+                {
+                    final boolean dyna = !this.pokemob.getCombatState(CombatStates.DYNAMAX);
+                    this.pokemob.setCombatState(CombatStates.DYNAMAX, dyna);
+                    final float maxHp = this.pokemob.getMaxHealth();
+                    this.pokemob.updateHealth();
+                    // we need to adjust health.
+                    if (dyna)
+                    {
+                        this.pokemob.setHealth(hp + this.pokemob.getMaxHealth() - maxHp);
+                        final Long time = Tracker.instance().getTick();
+                        this.pokemob.getEntity().getPersistentData().putLong("pokecube:dynatime", time);
+                        if (this.pokemob.getOwnerId() != null) PokecubePlayerDataHandler
+                                .getCustomDataTag(this.pokemob.getOwnerId()).putLong("pokecube:dynatime", time);
+                        this.pokemob.setCombatState(CombatStates.USINGGZMOVE, true);
+                    }
+                }
+                this.pokemob.setEvolutionTicks(evoTicks);
+                this.pokemob.getEntity().getPersistentData().remove(TagNames.REMOVED);
+                if (this.message != null) this.pokemob.displayMessageToOwner(this.message);
+                MinecraftForge.EVENT_BUS.unregister(this);
+            }
+        }
+    }
+
     private static Map<DyeColor, TagKey<Item>> DYETAGS = Maps.newHashMap();
 
     public static void register()
@@ -243,16 +441,11 @@ public class PokemobEventsHandler
             }
             if (fromHive || n++ > 100) break;
         }
-        // was not from the hive, so exit
-//        if (!fromHive) return;
-//        final Class<?> clss = c;
         // not loaded, definitely not a bee leaving hive
         if (!world.isPositionEntityTicking(pos.pos())) return;
         final BlockEntity tile = world.getBlockEntity(pos.pos());
         // No tile entity here? also not a bee leaving hive!
         if (tile == null) return;
-        // Not the same class, so return as well.
-//        if (tile.getClass() != clss) return;
         final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
         // Not a habitat, so not going to be a bee leaving a hive
         if (habitat == null) return;
@@ -521,8 +714,8 @@ public class PokemobEventsHandler
 
     private static void onWorldTick(final WorldTickEvent evt)
     {
-        for (final Player player : evt.world.players()) if (player.getVehicle() instanceof LivingEntity
-                && PokemobCaps.getPokemobFor(player.getVehicle()) != null)
+        for (final Player player : evt.world.players())
+            if (player.getVehicle() instanceof LivingEntity && PokemobCaps.getPokemobFor(player.getVehicle()) != null)
         {
             final LivingEntity ridden = (LivingEntity) player.getVehicle();
             EntityTools.copyRotations(ridden, player);
@@ -675,7 +868,7 @@ public class PokemobEventsHandler
         if (PokemobEventsHandler.DYETAGS.isEmpty()) for (final DyeColor colour : DyeColor.values())
         {
             final ResourceLocation tag = new ResourceLocation("forge", "dyes/" + colour.getName());
-            PokemobEventsHandler.DYETAGS.put(colour,TagKey.create(Registry.ITEM_REGISTRY, tag));
+            PokemobEventsHandler.DYETAGS.put(colour, TagKey.create(Registry.ITEM_REGISTRY, tag));
         }
         return PokemobEventsHandler.DYETAGS;
     }

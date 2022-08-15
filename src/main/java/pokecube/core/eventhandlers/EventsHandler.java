@@ -1,4 +1,4 @@
-package pokecube.core.handlers.events;
+package pokecube.core.eventhandlers;
 
 import java.util.ArrayList;
 import java.util.Collections;

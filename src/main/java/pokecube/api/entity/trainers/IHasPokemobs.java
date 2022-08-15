@@ -20,7 +20,7 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.trainers.actions.ActionContext;
-import pokecube.core.handlers.events.PCEventsHandler;
+import pokecube.core.eventhandlers.PCEventsHandler;
 import pokecube.core.impl.PokecubeMod;
 import thut.api.world.mobs.data.DataSync;
 

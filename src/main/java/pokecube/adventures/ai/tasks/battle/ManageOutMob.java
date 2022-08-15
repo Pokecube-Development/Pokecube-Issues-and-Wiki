@@ -16,7 +16,7 @@ import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
 import pokecube.api.entity.trainers.actions.ActionContext;
 import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.core.database.Database;
-import pokecube.core.handlers.events.PCEventsHandler;
+import pokecube.core.eventhandlers.PCEventsHandler;
 import pokecube.core.items.pokecubes.PokecubeManager;
 
 public class ManageOutMob extends BaseBattleTask

@@ -50,7 +50,7 @@ import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
-import pokecube.core.handlers.Config;
+import pokecube.core.init.Config;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;

@@ -30,7 +30,7 @@ import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.healer.HealerBlock;
 import pokecube.core.database.Database;
-import pokecube.core.handlers.events.SpawnHandler;
+import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketDataSync;

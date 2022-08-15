@@ -19,7 +19,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.TeleportEvent;
 import pokecube.api.moves.IMoveNames;
 import pokecube.core.PokecubeCore;
-import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerData;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
@@ -49,8 +49,7 @@ public class TeleportHandler extends DefaultHandler
     public static TeleDest getTeleport(final String uuid, final int teleIndex)
     {
         final List<TeleDest> list = TeleportHandler.getTeleports(uuid);
-        for (final TeleDest dest : list)
-            if (dest.index == teleIndex) return dest;
+        for (final TeleDest dest : list) if (dest.index == teleIndex) return dest;
         return null;
     }
 
@@ -100,8 +99,7 @@ public class TeleportHandler extends DefaultHandler
             list.add(teleport);
             teleport.index = list.size() - 1;
         }
-        for (int i = 0; i < list.size(); i++)
-            list.get(i).index = i;
+        for (int i = 0; i < list.size(); i++) list.get(i).index = i;
 
         PlayerDataHandler.getInstance().save(uuid, "pokecube-data");
     }
@@ -124,8 +122,7 @@ public class TeleportHandler extends DefaultHandler
         dest2.index = index1;
         teleports.set(index1, dest2);
         teleports.set(index2, dest1);
-        for (int i = 0; i < teleports.size(); i++)
-            teleports.get(i).index = i;
+        for (int i = 0; i < teleports.size(); i++) teleports.get(i).index = i;
     }
 
     public static void unsetTeleport(final int index, final String uuid)
@@ -133,8 +130,7 @@ public class TeleportHandler extends DefaultHandler
         final TeleDest dest = TeleportHandler.getTeleport(uuid, index);
         final List<TeleDest> list = TeleportHandler.getTeleports(uuid);
         if (dest != null) list.remove(dest);
-        for (int i = 0; i < list.size(); i++)
-            list.get(i).index = i;
+        for (int i = 0; i < list.size(); i++) list.get(i).index = i;
     }
 
     @Override
@@ -145,8 +141,7 @@ public class TeleportHandler extends DefaultHandler
         final boolean inCombat = pokemob.inCombat();
         if (inCombat)
         {
-            final Component text = TComponent.translatable("pokemob.teleport.incombat", pokemob
-                    .getDisplayName());
+            final Component text = TComponent.translatable("pokemob.teleport.incombat", pokemob.getDisplayName());
             if (this.fromOwner()) pokemob.displayMessageToOwner(text);
             return;
         }
@@ -157,8 +152,8 @@ public class TeleportHandler extends DefaultHandler
         if (dim != oldDim)
         {
             needed = PokecubeCore.getConfig().telePearlsCostOtherDim;
-            if (TeleportHandler.invalidDests.contains(dim.getRegistryName()) || TeleportHandler.invalidDests.contains(
-                    oldDim.getRegistryName()))
+            if (TeleportHandler.invalidDests.contains(dim.location())
+                    || TeleportHandler.invalidDests.contains(oldDim.location()))
             {
                 final Component text = TComponent.translatable("pokemob.teleport.invalid");
                 if (this.fromOwner()) pokemob.displayMessageToOwner(text);
@@ -199,10 +194,8 @@ public class TeleportHandler extends DefaultHandler
             if (this.fromOwner()) pokemob.displayMessageToOwner(text);
             return;
         }
-        final Component attackName = TComponent.translatable(MovesUtils.getUnlocalizedMove(
-                IMoveNames.MOVE_TELEPORT));
-        final Component text = TComponent.translatable("pokemob.move.used.user", pokemob.getDisplayName(),
-                attackName);
+        final Component attackName = TComponent.translatable(MovesUtils.getUnlocalizedMove(IMoveNames.MOVE_TELEPORT));
+        final Component text = TComponent.translatable("pokemob.move.used.user", pokemob.getDisplayName(), attackName);
         if (this.fromOwner()) pokemob.displayMessageToOwner(text);
 
         // Send a teleport event for the using mob, if that fails, do not

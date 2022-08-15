@@ -1,4 +1,4 @@
-package pokecube.core.handlers.events;
+package pokecube.core.eventhandlers;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -64,8 +64,8 @@ import pokecube.api.events.pokemobs.SpawnEvent.Variance;
 import pokecube.core.PokecubeCore;
 import pokecube.core.commands.Pokemake;
 import pokecube.core.database.Database;
-import pokecube.core.handlers.Config;
 import pokecube.core.impl.PokecubeMod;
+import pokecube.core.init.Config;
 import pokecube.core.utils.ChunkCoordinate;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;

@@ -12,7 +12,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.entity.ai.RootTask;
 
 public abstract class UtilTask extends TaskBase

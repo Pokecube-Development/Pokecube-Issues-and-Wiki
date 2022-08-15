@@ -1,6 +1,5 @@
 package pokecube.core.items.pokecubes.helper;
 
-import java.util.Random;
 import java.util.UUID;
 
 import net.minecraft.network.chat.Component;
@@ -47,7 +46,7 @@ public class CaptureManager
         cube.discard();
     }
 
-    public static void captureAttempt(final EntityPokecubeBase cube, final Random rand, final Entity e)
+    public static void captureAttempt(final EntityPokecubeBase cube, final Entity e)
     {
         if (!(cube.getLevel() instanceof ServerLevel)) return;
         if (!e.isAlive()) return;
@@ -127,13 +126,10 @@ public class CaptureManager
                 }
                 final double b = 1048560 / Math.sqrt(Math.sqrt(16711680 / a));
 
-                if (rand.nextInt(65535) <= b) n++;
-
-                if (rand.nextInt(65535) <= b) n++;
-
-                if (rand.nextInt(65535) <= b) n++;
-
-                if (rand.nextInt(65535) <= b) n++;
+                if (cube.getRandom().nextInt(65535) <= b) n++;
+                if (cube.getRandom().nextInt(65535) <= b) n++;
+                if (cube.getRandom().nextInt(65535) <= b) n++;
+                if (cube.getRandom().nextInt(65535) <= b) n++;
             }
             cube.setTilt(n);
             if (n == 5) cube.setTime(10);

@@ -1,4 +1,4 @@
-package pokecube.core.handlers;
+package pokecube.api.entity;
 
 import java.util.UUID;
 

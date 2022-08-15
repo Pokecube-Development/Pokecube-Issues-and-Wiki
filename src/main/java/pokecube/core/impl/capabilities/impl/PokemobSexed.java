@@ -165,7 +165,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
     @Override
     public void resetLoveStatus()
     {
-        this.loveTimer = -this.rand.nextInt(600 + this.getBreedingDelay(null));
+        this.loveTimer = -this.getEntity().getRandom().nextInt(600 + this.getBreedingDelay(null));
         this.setGeneralState(GeneralStates.MATING, false);
     }
 

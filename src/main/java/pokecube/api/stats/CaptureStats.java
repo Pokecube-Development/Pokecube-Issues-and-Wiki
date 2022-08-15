@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.utils.PokeType;
-import pokecube.core.handlers.events.StatsCollector;
+import pokecube.core.eventhandlers.StatsCollector;
 
 public class CaptureStats
 {
