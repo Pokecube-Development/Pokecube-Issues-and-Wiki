@@ -50,9 +50,9 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.database.Database;
 import pokecube.core.database.types.CombatTypeLoader;
-import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.StatsCollector;
+import pokecube.core.init.ItemGenerator;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -460,10 +460,10 @@ public class PokecubeMobs
         final PokecubeHelper helper = new PokecubeHelper();
         PokecubeBehavior.DEFAULTCUBE = new ResourceLocation("pokecube", "poke");
 
-        event.register(new NormalPokecubeBehavoir(1).setRegistryName(PokecubeBehavior.DEFAULTCUBE));
-        event.register(new NormalPokecubeBehavoir(1.5).setRegistryName("pokecube", "great"));
-        event.register(new NormalPokecubeBehavoir(2).setRegistryName("pokecube", "ultra"));
-        event.register(new NormalPokecubeBehavoir(255).setRegistryName("pokecube", "master"));
+        event.register(new NormalPokecubeBehavoir(1).setName("poke"));
+        event.register(new NormalPokecubeBehavoir(1.5).setName("great"));
+        event.register(new NormalPokecubeBehavoir(2).setName("ultra"));
+        event.register(new NormalPokecubeBehavoir(255).setName("master"));
         event.register(new DefaultPokecubeBehavior()
         {
             @Override
@@ -471,7 +471,7 @@ public class PokecubeMobs
             {
                 return helper.dusk(mob);
             }
-        }.setRegistryName("pokecube", "dusk"));
+        }.setName("dusk"));
         event.register(new DefaultPokecubeBehavior()
         {
             @Override
@@ -479,7 +479,7 @@ public class PokecubeMobs
             {
                 return helper.quick(mob);
             }
-        }.setRegistryName("pokecube", "quick"));
+        }.setName("quick"));
         event.register(new DefaultPokecubeBehavior()
         {
             @Override
@@ -487,7 +487,7 @@ public class PokecubeMobs
             {
                 return helper.timer(mob);
             }
-        }.setRegistryName("pokecube", "timer"));
+        }.setName("timer"));
         event.register(new DefaultPokecubeBehavior()
         {
             @Override
@@ -495,7 +495,7 @@ public class PokecubeMobs
             {
                 return helper.net(mob);
             }
-        }.setRegistryName("pokecube", "net"));
+        }.setName("net"));
         event.register(new DefaultPokecubeBehavior()
         {
             @Override
@@ -503,7 +503,7 @@ public class PokecubeMobs
             {
                 return helper.nest(mob);
             }
-        }.setRegistryName("pokecube", "nest"));
+        }.setName("nest"));
         event.register(new DefaultPokecubeBehavior()
         {
             @Override
@@ -511,7 +511,7 @@ public class PokecubeMobs
             {
                 return helper.dive(mob);
             }
-        }.setRegistryName("pokecube", "dive"));
+        }.setName("dive"));
         event.register(new DefaultPokecubeBehavior()
         {
             @Override
@@ -519,9 +519,9 @@ public class PokecubeMobs
             {
                 return helper.premier(mob);
             }
-        }.setRegistryName("pokecube", "premier"));
-        event.register(new NormalPokecubeBehavoir(1).setRegistryName("pokecube", "cherish"));
-        event.register(new NormalPokecubeBehavoir(1.5).setRegistryName("pokecube", "safari"));
+        }.setName("premier"));
+        event.register(new NormalPokecubeBehavoir(1).setName("cherish"));
+        event.register(new NormalPokecubeBehavoir(1.5).setName("safari"));
         event.register(new DefaultPokecubeBehavior()
         {
             @Override
@@ -529,7 +529,7 @@ public class PokecubeMobs
             {
                 return helper.level(mob);
             }
-        }.setRegistryName("pokecube", "level"));
+        }.setName("level"));
         event.register(new DefaultPokecubeBehavior()
         {
             @Override
@@ -537,7 +537,7 @@ public class PokecubeMobs
             {
                 return helper.lure(mob);
             }
-        }.setRegistryName("pokecube", "lure"));
+        }.setName("lure"));
         event.register(new DefaultPokecubeBehavior()
         {
             @Override
@@ -545,7 +545,7 @@ public class PokecubeMobs
             {
                 return helper.moon(mob);
             }
-        }.setRegistryName("pokecube", "moon"));
+        }.setName("moon"));
         event.register(new DefaultPokecubeBehavior()
         {
             @Override
@@ -560,7 +560,7 @@ public class PokecubeMobs
                 final IPokemob mob = evt.getCaught();
                 mob.addHappiness(200 - mob.getHappiness());
             }
-        }.setRegistryName("pokecube", "friend"));
+        }.setName("friend"));
         event.register(new DefaultPokecubeBehavior()
         {
             @Override
@@ -568,7 +568,7 @@ public class PokecubeMobs
             {
                 return helper.love(mob);
             }
-        }.setRegistryName("pokecube", "love"));
+        }.setName("love"));
         event.register(new NormalPokecubeBehavoir(1)
         {
             @Override
@@ -576,7 +576,7 @@ public class PokecubeMobs
             {
                 return helper.heavy(mob);
             }
-        }.setRegistryName("pokecube", "heavy"));
+        }.setName("heavy"));
         event.register(new DefaultPokecubeBehavior()
         {
             @Override
@@ -584,8 +584,8 @@ public class PokecubeMobs
             {
                 return helper.fast(mob);
             }
-        }.setRegistryName("pokecube", "fast"));
-        event.register(new NormalPokecubeBehavoir(1.5).setRegistryName("pokecube", "sport"));
+        }.setName("fast"));
+        event.register(new NormalPokecubeBehavoir(1.5).setName("sport"));
         event.register(new NormalPokecubeBehavoir(1)
         {
             @Override
@@ -593,7 +593,7 @@ public class PokecubeMobs
             {
                 helper.luxury(mob);
             }
-        }.setRegistryName("pokecube", "luxury"));
+        }.setName("luxury"));
         event.register(new NormalPokecubeBehavoir(1)
         {
             @Override
@@ -603,9 +603,9 @@ public class PokecubeMobs
                 mob.getEntity().setHealth(mob.getEntity().getMaxHealth());
                 mob.healStatus();
             }
-        }.setRegistryName("pokecube", "heal"));
-        event.register(new NormalPokecubeBehavoir(255).setRegistryName("pokecube", "park"));
-        event.register(new NormalPokecubeBehavoir(255).setRegistryName("pokecube", "dream"));
+        }.setName("heal"));
+        event.register(new NormalPokecubeBehavoir(255).setName("park"));
+        event.register(new NormalPokecubeBehavoir(255).setName("dream"));
 
         final PokecubeBehavior snag = new PokecubeBehavior()
         {
@@ -696,9 +696,8 @@ public class PokecubeMobs
             }
 
         };
-
-        event.register(snag.setRegistryName("pokecube", "snag"));
-        event.register(repeat.setRegistryName("pokecube", "repeat"));
+        event.register(snag.setName("snag"));
+        event.register(repeat.setName("repeat"));
     }
 
     @SubscribeEvent

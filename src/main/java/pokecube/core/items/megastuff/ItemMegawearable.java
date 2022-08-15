@@ -18,7 +18,6 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeItems;
-import pokecube.core.impl.PokecubeMod;
 import thut.lib.TComponent;
 
 public class ItemMegawearable extends Item
@@ -55,7 +54,6 @@ public class ItemMegawearable extends Item
         super(new Properties().tab(PokecubeItems.TAB_ITEMS).stacksTo(1));
         this.name = name;
         this.slot = slot;
-        this.setRegistryName(PokecubeMod.ID, "mega_" + name);
 
     }
 

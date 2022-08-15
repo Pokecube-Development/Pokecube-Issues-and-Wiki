@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.minecraftforge.common.crafting.conditions.TrueCondition;
-import pokecube.core.handlers.ItemGenerator;
+import pokecube.core.init.ItemGenerator;
 
 public class Recipes extends RecipeProvider implements IConditionBuilder
 {

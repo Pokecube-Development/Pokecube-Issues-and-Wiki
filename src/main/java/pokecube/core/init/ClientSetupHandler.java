@@ -49,7 +49,6 @@ import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.client.render.mobs.ShoulderLayer.IShoulderHolder;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
-import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.tms.TMContainer;

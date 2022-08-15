@@ -27,7 +27,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.items.IPokecube;
 import pokecube.api.utils.PokeType;
 import pokecube.core.database.Database;
-import pokecube.core.handlers.ItemGenerator;
+import pokecube.core.init.ItemGenerator;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.items.vitamins.ItemVitamin;

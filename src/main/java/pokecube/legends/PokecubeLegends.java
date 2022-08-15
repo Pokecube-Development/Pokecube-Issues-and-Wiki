@@ -1,7 +1,5 @@
 package pokecube.legends;
 
-import java.util.Optional;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,7 +22,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.SurfaceRules.RuleSource;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.MinecraftForge;
@@ -36,9 +33,6 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -135,14 +129,6 @@ public class PokecubeLegends
         public static void onItemRegister(final RegistryEvent.Register<Item> event)
         {
             ItemInit.registerItems(event);
-        }
-
-        @SubscribeEvent
-        public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
-        {
-            PokecubeAPI.LOGGER.debug("Registering Pokecube Legends Features");
-
-            // Register the ruby and sapphire ores
         }
 
         @SubscribeEvent
@@ -536,79 +522,62 @@ public class PokecubeLegends
     {
         final PokecubeDim helper = new PokecubeDim();
 
-        // Here we do some stuff to supress the annoying forge warnings
-        // about "dangerous alternative prefixes.
-        String namespace = Reference.ID;
-        String prefix = ModLoadingContext.get().getActiveNamespace();
-        ModContainer old = ModLoadingContext.get().getActiveContainer();
-        if (!prefix.equals(namespace))
-        {
-            Optional<? extends ModContainer> swap = ModList.get().getModContainerById(namespace);
-            if (swap.isPresent()) ModLoadingContext.get().setActiveContainer(swap.get());
-        }
-
-        event.behaviors.add(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehavior()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.dyna(mob);
             }
-        }.setRegistryName(Reference.ID, "dyna"));
-        event.behaviors.add(new DefaultPokecubeBehavior()
+        }.setName("dyna"));
+        event.register(new DefaultPokecubeBehavior()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.beast(mob);
             }
-        }.setRegistryName(Reference.ID, "beast"));
-        event.behaviors.add(new DefaultPokecubeBehavior()
+        }.setName("beast"));
+        event.register(new DefaultPokecubeBehavior()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.clone(mob);
             }
-        }.setRegistryName(Reference.ID, "clone"));
-        event.behaviors.add(new DefaultPokecubeBehavior()
+        }.setName("clone"));
+        event.register(new DefaultPokecubeBehavior()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.typingB(mob);
             }
-        }.setRegistryName(Reference.ID, "typing"));
-        event.behaviors.add(new DefaultPokecubeBehavior()
+        }.setName("typing"));
+        event.register(new DefaultPokecubeBehavior()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.teamAqua(mob);
             }
-        }.setRegistryName(Reference.ID, "teamaqua"));
-        event.behaviors.add(new DefaultPokecubeBehavior()
+        }.setName("teamaqua"));
+        event.register(new DefaultPokecubeBehavior()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.teamMagma(mob);
             }
-        }.setRegistryName(Reference.ID, "teammagma"));
-        event.behaviors.add(new DefaultPokecubeBehavior()
+        }.setName("teammagma"));
+        event.register(new DefaultPokecubeBehavior()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.teamR(mob);
             }
-        }.setRegistryName(Reference.ID, "rocket"));
-
-        // Undo the suppression for the prefixes.
-        if (old != ModLoadingContext.get().getActiveContainer())
-        {
-            ModLoadingContext.get().setActiveContainer(old);
-        }
+        }.setName("rocket"));
     }
 
     @SubscribeEvent

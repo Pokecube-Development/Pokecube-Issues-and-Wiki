@@ -46,7 +46,7 @@ public class Tasks
 
     private static final List<MemoryModuleType<?>> getMemories()
     {
-        return List.of(MemoryModules.ATTACKTARGET.get(), MemoryTypes.BATTLETARGET);
+        return List.of(MemoryModules.ATTACKTARGET.get(), MemoryTypes.BATTLETARGET.get());
     }
 
     @SuppressWarnings("unchecked")

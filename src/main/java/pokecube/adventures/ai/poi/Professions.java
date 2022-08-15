@@ -13,35 +13,38 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades.ItemListing;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.event.village.VillagerTradesEvent;
+import net.minecraftforge.registries.RegistryObject;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.core.entity.npc.NpcType;
 
 public class Professions
 {
-    public static VillagerProfession HEALER;
-    public static VillagerProfession PROFESSOR;
-    public static VillagerProfession MERCHANT;
+    public static final RegistryObject<VillagerProfession> HEALER;
+    public static final RegistryObject<VillagerProfession> PROFESSOR;
+    public static final RegistryObject<VillagerProfession> MERCHANT;
 
-    public static void register(final Register<VillagerProfession> event)
+    static
     {
-        Professions.HEALER = new VillagerProfession("pokecube_adventures:healer",
-                pokecube.core.ai.poi.PointsOfInterest.HEALER.get(), ImmutableSet.of(), ImmutableSet.of(), null)
-                        .setRegistryName("pokecube_adventures:healer");
-        Professions.PROFESSOR = new VillagerProfession("pokecube_adventures:professor", PointsOfInterest.GENELAB.get(),
-                ImmutableSet.of(), ImmutableSet.of(), null).setRegistryName("pokecube_adventures:professor");
-        Professions.MERCHANT = new VillagerProfession("pokecube_adventures:trader", PointsOfInterest.TRADER.get(),
-                ImmutableSet.of(), ImmutableSet.of(), null).setRegistryName("pokecube_adventures:trader");
+        HEALER = PokecubeAdv.PROFESSIONS.register("healer", () -> new VillagerProfession("pokecube_adventures:healer",
+                pokecube.core.ai.poi.PointsOfInterest.HEALER.get(), ImmutableSet.of(), ImmutableSet.of(), null));
+        PROFESSOR = PokecubeAdv.PROFESSIONS.register("professor",
+                () -> new VillagerProfession("pokecube_adventures:professor", PointsOfInterest.GENELAB.get(),
+                        ImmutableSet.of(), ImmutableSet.of(), null));
+        MERCHANT = PokecubeAdv.PROFESSIONS.register("trader", () -> new VillagerProfession("pokecube_adventures:trader",
+                PointsOfInterest.TRADER.get(), ImmutableSet.of(), ImmutableSet.of(), null));
+    }
 
-        event.getRegistry().register(HEALER);
-        event.getRegistry().register(PROFESSOR);
-        event.getRegistry().register(MERCHANT);
-
-        NpcType.byType("healer").setProfession(Professions.HEALER);
-        NpcType.byType("professor").setProfession(Professions.PROFESSOR);
-        NpcType.byType("trader").setProfession(Professions.MERCHANT);
-
+    public static void init()
+    {
         MinecraftForge.EVENT_BUS.addListener(Professions::onTradeUpdate);
+    }
+
+    public static void postInit()
+    {
+        NpcType.byType("healer").setProfession(Professions.HEALER.get());
+        NpcType.byType("professor").setProfession(Professions.PROFESSOR.get());
+        NpcType.byType("trader").setProfession(Professions.MERCHANT.get());
     }
 
     public static void clear()

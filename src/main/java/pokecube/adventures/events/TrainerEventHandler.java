@@ -385,7 +385,7 @@ public class TrainerEventHandler
         {
             final LivingEntity npc = event.getEntityLiving();
             final Brain<?> brain = npc.getBrain();
-            if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET) && brain.isActive(Activities.BATTLE.get()))
+            if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get()) && brain.isActive(Activities.BATTLE.get()))
                 brain.setActiveActivityIfPossible(Activity.IDLE);
             pokemobHolder.onTick();
         }

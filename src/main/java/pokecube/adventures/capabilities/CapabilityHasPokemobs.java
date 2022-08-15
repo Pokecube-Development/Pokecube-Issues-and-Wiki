@@ -376,8 +376,8 @@ public class CapabilityHasPokemobs
         public LivingEntity getTarget()
         {
             final Brain<?> brain = this.user.getBrain();
-            if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET)) return null;
-            return brain.getMemory(MemoryTypes.BATTLETARGET).get();
+            if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get())) return null;
+            return brain.getMemory(MemoryTypes.BATTLETARGET.get()).get();
         }
 
         @Override
@@ -687,8 +687,8 @@ public class CapabilityHasPokemobs
             // No next pokemob, so we shouldn't have a target in this case.
 
             // Set this here, before trying to validate other's target below.
-            this.getTrainer().getBrain().eraseMemory(MemoryTypes.BATTLETARGET);
-            if (target != null) this.getTrainer().getBrain().setMemory(MemoryTypes.BATTLETARGET, target);
+            this.getTrainer().getBrain().eraseMemory(MemoryTypes.BATTLETARGET.get());
+            if (target != null) this.getTrainer().getBrain().setMemory(MemoryTypes.BATTLETARGET.get(), target);
 
             final IHasPokemobs oldOther = TrainerCaps.getHasPokemobs(old);
             if (oldOther != null) oldOther.onSetTarget(null);
@@ -700,7 +700,7 @@ public class CapabilityHasPokemobs
                 this.aiStates.setAIState(AIState.THROWING, false);
                 this.aiStates.setAIState(AIState.INBATTLE, false);
                 BrainUtils.deagro(this.getTrainer());
-                this.getTrainer().getBrain().eraseMemory(MemoryTypes.BATTLETARGET);
+                this.getTrainer().getBrain().eraseMemory(MemoryTypes.BATTLETARGET.get());
                 this.getTrainer().getBrain().setActiveActivityIfPossible(Activity.IDLE);
                 return;
             }
@@ -830,8 +830,8 @@ public class CapabilityHasPokemobs
         public LivingEntity getTargetRaw()
         {
             final Brain<?> brain = this.user.getBrain();
-            if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET)) return null;
-            return brain.getMemory(MemoryTypes.BATTLETARGET).get();
+            if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get())) return null;
+            return brain.getMemory(MemoryTypes.BATTLETARGET.get()).get();
         }
 
         @Override

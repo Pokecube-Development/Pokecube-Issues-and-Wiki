@@ -57,7 +57,7 @@ public interface IPokecube
     public static abstract class PokecubeBehavior extends ForgeRegistryEntry<PokecubeBehavior>
     {
         public static Supplier<IForgeRegistry<PokecubeBehavior>> BEHAVIORS;
-        
+
         // Whoever registers the default pokecube should set this.
         public static ResourceLocation DEFAULTCUBE = null;
         public static ResourceLocation POKESEAL = null;
@@ -71,6 +71,14 @@ public interface IPokecube
         public static void addCubeBehavior(final PokecubeBehavior behavior)
         {
             BEHAVIORS.get().register(behavior);
+        }
+
+        public String name;
+
+        public PokecubeBehavior setName(String name)
+        {
+            this.name = name;
+            return this;
         }
 
         /**

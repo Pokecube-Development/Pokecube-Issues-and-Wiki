@@ -40,7 +40,7 @@ import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipe;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
-import pokecube.core.handlers.ItemGenerator;
+import pokecube.core.init.ItemGenerator;
 import pokecube.core.items.ItemFossil;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.Alleles;

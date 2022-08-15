@@ -26,7 +26,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -36,9 +35,12 @@ import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
+import net.minecraftforge.registries.RegistryBuilder;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.events.init.InitDatabase;
+import pokecube.api.items.IPokecube;
+import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.npc.Activities;
@@ -47,8 +49,6 @@ import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.database.Database;
 import pokecube.core.handlers.Config;
-import pokecube.core.handlers.ItemGenerator;
-import pokecube.core.handlers.ItemHandler;
 import pokecube.core.handlers.PaintingsHandler;
 import pokecube.core.handlers.RecipeHandler;
 import pokecube.core.handlers.data.Drops;
@@ -61,11 +61,14 @@ import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.init.EntityTypes;
+import pokecube.core.init.ItemGenerator;
+import pokecube.core.init.ItemInit;
 import pokecube.core.init.MenuTypes;
 import pokecube.core.init.Sounds;
 import pokecube.core.moves.Battle;
 import pokecube.core.proxy.CommonProxy;
 import pokecube.core.world.dimension.SecretBaseDimension;
+import pokecube.nbtedit.NBTEdit;
 import pokecube.world.PokecubeWorld;
 import thut.api.entity.CopyCaps;
 import thut.api.maths.Vector3;
@@ -85,6 +88,15 @@ public class PokecubeCore
         @SubscribeEvent
         public static void registerRegistry(final NewRegistryEvent event)
         {
+            if (PokecubeCore.proxy == null)
+            {
+                PokecubeCore.proxy = new CommonProxy();
+                NBTEdit.proxy = new pokecube.nbtedit.forge.CommonProxy();
+            }
+            IPokecube.PokecubeBehavior.BEHAVIORS = event.create(new RegistryBuilder<PokecubeBehavior>()
+                    .setIDRange(0, Short.MAX_VALUE).setType(PokecubeBehavior.class)
+                    .setName(new ResourceLocation(PokecubeMod.ID, "pokecubes")));
+
             // Register these before items and blocks, as some items might need
             // them
             final InitDatabase.Pre pre = new InitDatabase.Pre();
@@ -94,6 +106,9 @@ public class PokecubeCore
             Sounds.initMoveSounds();
             Sounds.initConfigSounds();
             EntityTypes.registerPokemobs();
+
+            // Now we can initialise some of the custom items.
+            ItemInit.init();
         }
 
         @SubscribeEvent
@@ -102,22 +117,6 @@ public class PokecubeCore
             final DataGenerator gen = event.getGenerator();
             gen.addProvider(new Recipes(gen));
             gen.addProvider(new Drops(gen));
-        }
-
-        @SubscribeEvent
-        public static void registerBlocks(final RegistryEvent.Register<Block> event)
-        {
-            // register a new block here
-            PokecubeAPI.LOGGER.debug("Registering Blocks");
-            ItemHandler.registerBlocks(event.getRegistry());
-        }
-
-        @SubscribeEvent
-        public static void registerItems(final RegistryEvent.Register<Item> event)
-        {
-            // register a new item here
-            PokecubeAPI.LOGGER.debug("Registering Pokecube Items");
-            ItemHandler.registerItems(event.getRegistry());
         }
     }
 
@@ -134,6 +133,7 @@ public class PokecubeCore
     public static final DeferredRegister<EntityType<?>> ENTITIES;
     public static final DeferredRegister<MenuType<?>> MENU;
     public static final DeferredRegister<SoundEvent> SOUNDS;
+    public static final DeferredRegister<PokecubeBehavior> POKECUBES;
 
     static
     {
@@ -150,6 +150,7 @@ public class PokecubeCore
         ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, PokecubeCore.MODID);
         MENU = DeferredRegister.create(ForgeRegistries.CONTAINERS, PokecubeCore.MODID);
         SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, PokecubeCore.MODID);
+        POKECUBES = DeferredRegister.create(new ResourceLocation(PokecubeMod.ID, "pokecubes"), PokecubeCore.MODID);
     }
 
     public static final String MODID = PokecubeAPI.MODID;
@@ -286,7 +287,7 @@ public class PokecubeCore
 
         event.enqueueWork(() -> {
             PointsOfInterest.postInit();
-            ItemHandler.postInit();
+            ItemInit.postInit();
 
             CopyCaps.register(EntityTypes.getNpc());
             CopyCaps.register(EntityType.ARMOR_STAND);

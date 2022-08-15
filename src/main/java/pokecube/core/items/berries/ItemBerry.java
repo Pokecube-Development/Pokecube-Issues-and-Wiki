@@ -61,15 +61,15 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
     public static void registerBerryType(final String name, final BerryEffect effect, final int index,
             final int... flavours)
     {
-        if (BerryManager.berryItems.containsKey(index))
+        if (BerryManager.berryTypes.containsKey(index))
         {
             PokecubeAPI.LOGGER.error("Duplicate Berry Index for " + index, new IllegalStateException());
             return;
         }
         BerryType type = new BerryType(name, effect, index, flavours);
-        final ItemBerry berry = new ItemBerry(type);
-        BerryManager.berryItems.put(index, berry);
-        if (index == 0) PokecubeItems.POKECUBE_BERRIES = new ItemStack(berry);
+        BerryManager.berryNames.put(type.index, type.name);
+        BerryManager.berryTypes.put(type.index, type);
+        BerryManager.indexByName.put(type.name, type.index);
     }
 
     public final BerryType type;

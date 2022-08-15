@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import pokecube.core.handlers.ItemGenerator;
+import pokecube.core.init.ItemGenerator;
 
 public class PottedCrystallizedCactus extends ItemGenerator.GenericPottedPlant
 {

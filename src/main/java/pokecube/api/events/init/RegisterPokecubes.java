@@ -23,7 +23,7 @@ public class RegisterPokecubes extends Event
 
     public void register(final PokecubeBehavior behaviour)
     {
-        PokecubeAPI.LOGGER.debug("Registering cube: " + behaviour.getRegistryName());
+        PokecubeAPI.LOGGER.debug("Registering cube: " + behaviour.name);
         this.behaviors.add(behaviour);
     }
 }

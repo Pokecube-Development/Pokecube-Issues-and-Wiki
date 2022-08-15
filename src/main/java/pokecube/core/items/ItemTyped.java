@@ -11,7 +11,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.core.impl.PokecubeMod;
 import thut.lib.TComponent;
 
 public class ItemTyped extends Item
@@ -20,14 +19,8 @@ public class ItemTyped extends Item
 
     public ItemTyped(Properties props, String type)
     {
-        this(props, type, true);
-    }
-
-    public ItemTyped(Properties props, String type, boolean reg)
-    {
         super(props);
         this.type = type;
-        if (reg) this.setRegistryName(PokecubeMod.ID, type);
     }
 
     /**

@@ -13,7 +13,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.core.impl.PokecubeMod;
 import thut.lib.TComponent;
 
 public class ItemVitamin extends Item
@@ -26,7 +25,6 @@ public class ItemVitamin extends Item
     {
         super(properties);
         this.type = type;
-        this.setRegistryName(PokecubeMod.ID, "vitamin_" + type);
     }
 
     @Override

@@ -44,8 +44,6 @@ import pokecube.adventures.client.gui.blocks.Splicer;
 import pokecube.adventures.client.gui.items.Bag;
 import pokecube.adventures.client.gui.trainer.Trainer;
 import pokecube.adventures.client.render.StatueBlock;
-import pokecube.adventures.entity.trainer.LeaderNpc;
-import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.items.bag.BagContainer;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.core.client.render.mobs.RenderNPC;
@@ -156,8 +154,8 @@ public class ClientSetupHandler
                     if (Screen.hasControlDown()) for (final Class<? extends Gene<?>> geneC : genesSet) try
                 {
                     final Gene<?> gene = geneC.getConstructor().newInstance();
-                    evt.getToolTip().add(TComponent.translatable(
-                            PokecubeAdv.MODID + ".tooltip.selector.gene." + gene.getKey().getPath()));
+                    evt.getToolTip().add(TComponent
+                            .translatable(PokecubeAdv.MODID + ".tooltip.selector.gene." + gene.getKey().getPath()));
                 }
                     catch (final Exception e)
                 {
@@ -176,8 +174,8 @@ public class ClientSetupHandler
     @SubscribeEvent
     public static void registerRenderers(final RegisterRenderers event)
     {
-        event.registerEntityRenderer(TrainerNpc.TYPE, RenderNPC::new);
-        event.registerEntityRenderer(LeaderNpc.TYPE, RenderNPC::new);
+        event.registerEntityRenderer(EntityTypes.getTrainer(), RenderNPC::new);
+        event.registerEntityRenderer(EntityTypes.getLeader(), RenderNPC::new);
 
         event.registerBlockEntityRenderer(PokecubeAdv.STATUE_TYPE.get(), StatueBlock::new);
     }
