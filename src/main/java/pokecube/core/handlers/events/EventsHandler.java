@@ -130,6 +130,7 @@ import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 import thut.core.common.handlers.PlayerDataHandler.PlayerDataManager;
 import thut.core.common.world.mobs.data.DataSync_Impl;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 public class EventsHandler
@@ -253,7 +254,7 @@ public class EventsHandler
             // We don't want to block something if we have made it a pokemob
             final boolean isPokemob = pokemob != null;
             // Simple check for vanillaness, via the entity type registry name
-            boolean isVanilla = e.getType().getRegistryName().getNamespace().equals("minecraft");
+            boolean isVanilla = RegHelper.getKey(e).getNamespace().equals("minecraft");
 
             // Now also check that the world is also a vanilla world, or one
             // specifically allowed to have spawns revoked.

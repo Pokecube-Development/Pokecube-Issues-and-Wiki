@@ -16,6 +16,7 @@ import pokecube.adventures.blocks.warp_pad.WarpPadTile;
 import pokecube.adventures.utils.EnergyHandler;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
+import thut.lib.RegHelper;
 
 public class Config extends ConfigData
 {
@@ -212,7 +213,7 @@ public class Config extends ConfigData
     {
         if (!this.npcsAreTrainers) return false;
         if (mob instanceof Npc) return true;
-        return this.customTrainerTypes.contains(mob.getType().getRegistryName());
+        return this.customTrainerTypes.contains(RegHelper.getKey(mob));
     }
 
 }

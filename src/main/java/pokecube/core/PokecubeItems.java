@@ -86,6 +86,7 @@ import pokecube.core.items.vitamins.ItemCandy;
 import pokecube.core.utils.Tools;
 import thut.api.item.ItemList;
 import thut.api.util.JsonUtil;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 public class PokecubeItems extends ItemList
@@ -553,7 +554,7 @@ public class PokecubeItems extends ItemList
             {
                 if (input == null || input.getBlock() == null) return false;
                 final Block block = input.getBlock();
-                final ResourceLocation name = block.getRegistryName();
+                final ResourceLocation name = RegHelper.getKey(block);
                 if (this.checks.containsKey(name) && !this.checks.get(name)) return false;
                 else if (!this.checks.containsKey(name))
                 {
@@ -653,7 +654,7 @@ public class PokecubeItems extends ItemList
         json.addProperty("replace", false);
         array = new JsonArray();
         for (final Entry<ItemBerry> type : BerryManager.berryItems.int2ObjectEntrySet())
-            array.add(type.getValue().getRegistryName().toString());
+            array.add(RegHelper.getKey(type.getValue()).toString());
         json.add("values", array);
         file = new File(folder, "berries.json");
         try
@@ -674,8 +675,8 @@ public class PokecubeItems extends ItemList
             json.addProperty("replace", false);
             array = new JsonArray();
             final List<Item> items = Lists.newArrayList(ItemList.pendingTags.get(name));
-            items.sort((a, b) -> a.getRegistryName().compareTo(b.getRegistryName()));
-            for (final Item item : items) array.add(item.getRegistryName().toString());
+            items.sort((a, b) -> RegHelper.getKey(a).compareTo(RegHelper.getKey(b)));
+            for (final Item item : items) array.add(RegHelper.getKey(item).toString());
             json.add("values", array);
             final String fileConts = JsonUtil.gson.toJson(json);
             file = new File(folder, name.getPath() + ".json");
@@ -709,7 +710,7 @@ public class PokecubeItems extends ItemList
     public static boolean isValidHeldItem(final ItemStack stack)
     {
         if (stack.getCapability(UsableItemEffects.USABLEITEM_CAP, null).isPresent()) return true;
-        if (ADDED_HELD.contains(stack.getItem().getRegistryName())) return true;
+        if (ADDED_HELD.contains(RegHelper.getKey(stack))) return true;
         return ItemList.is(PokecubeItems.HELDKEY, stack) || PokecubeItems.isValidEvoItem(stack);
     }
 

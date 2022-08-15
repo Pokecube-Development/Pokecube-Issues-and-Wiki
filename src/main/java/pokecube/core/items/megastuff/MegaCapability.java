@@ -13,6 +13,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.utils.CapHolders;
 import thut.api.item.ItemList;
+import thut.lib.RegHelper;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.PlayerWearables;
 
@@ -113,7 +114,7 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
         final boolean isStone = ItemList.is(MegaCapability.MEGASTONES, stack);
         if (isStone)
         {
-            PokedexEntry e = Database.getEntry(stack.getItem().getRegistryName().getPath());
+            PokedexEntry e = Database.getEntry(RegHelper.getKey(stack).getPath());
             if (e == null) e = Database.missingno;
             return e;
         }

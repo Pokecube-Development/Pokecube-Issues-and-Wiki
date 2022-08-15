@@ -91,6 +91,7 @@ import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 /** @author Manchou */
@@ -719,7 +720,7 @@ public class PokedexEntry
 
         public boolean isValid(final Biome biome)
         {
-            return isValid(biome.getRegistryName());
+            return isValid(RegHelper.getKey(biome));
         }
 
         public boolean isValid(final ResourceKey<Biome> biome)
@@ -1158,7 +1159,7 @@ public class PokedexEntry
                         PokecubeAPI.LOGGER.error("Error with key " + key + " for " + this);
                         continue;
                     }
-                    PokecubeItems.ADDED_HELD.add(stack.getItem().getRegistryName());
+                    PokecubeItems.ADDED_HELD.add(RegHelper.getKey(stack));
                     this.formeItems.put(stack, output);
                     if (output.noItemForm != null) PokecubeAPI.LOGGER.warn("Changing Base forme of {} from {} to {}",
                             output, output.noItemForm, this);
@@ -1221,7 +1222,7 @@ public class PokedexEntry
                 if (!stack.isEmpty())
                 {
                     mrule.stack = stack;
-                    PokecubeItems.ADDED_HELD.add(stack.getItem().getRegistryName());
+                    PokecubeItems.ADDED_HELD.add(RegHelper.getKey(stack));
                 }
                 formeEntry.setMega(true);
                 formeEntry.setBaseForme(this);

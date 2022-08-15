@@ -12,6 +12,7 @@ import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.minecraftforge.common.crafting.conditions.TrueCondition;
 import pokecube.core.init.ItemGenerator;
+import thut.lib.RegHelper;
 
 public class Recipes extends RecipeProvider implements IConditionBuilder
 {
@@ -23,15 +24,15 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
     protected void addConvertRecipe(final Consumer<FinishedRecipe> consumer, final Block from, final Block to,
             final int number)
     {
-        final ResourceLocation id = new ResourceLocation(to.getRegistryName().getNamespace(), from.getRegistryName()
-                .getPath() + "-" + to.getRegistryName().getPath());
+        final ResourceLocation id = new ResourceLocation(RegHelper.getKey(to).getNamespace(),
+                RegHelper.getKey(from).getPath() + "-" + RegHelper.getKey(to).getPath());
         //@formatter:off
         ConditionalRecipe.builder()
         .addCondition(TrueCondition.INSTANCE)
         .addRecipe(
             ShapelessRecipeBuilder.shapeless(to, number)
             .requires(from)
-            .group(to.getRegistryName().getNamespace())
+            .group(RegHelper.getKey(to).getNamespace())
             .unlockedBy("has_from", RecipeProvider.has(from))
             ::save
         )

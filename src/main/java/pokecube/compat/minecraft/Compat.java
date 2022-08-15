@@ -36,6 +36,7 @@ import pokecube.core.handlers.events.EventsHandler;
 import thut.api.OwnableCaps;
 import thut.api.item.ItemList;
 import thut.core.common.world.mobs.data.DataSync_Impl;
+import thut.lib.RegHelper;
 
 @Mod.EventBusSubscriber
 public class Compat
@@ -45,7 +46,7 @@ public class Compat
     public static Map<EntityType<?>, PokedexEntry> customEntries = Maps.newHashMap();
 
     private static final ResourceLocation NOTPOKEMOBS = new ResourceLocation(PokecubeCore.MODID, "never_pokemob");
-    private static final ResourceLocation BEEHIVES    = new ResourceLocation(PokecubeCore.MODID, "bee_hive_cap");
+    private static final ResourceLocation BEEHIVES = new ResourceLocation(PokecubeCore.MODID, "bee_hive_cap");
 
     static
     {
@@ -73,11 +74,10 @@ public class Compat
         Compat.DERP.stock = false;
     }
 
-    public static Predicate<EntityType<?>> makePokemob = e ->
-    {
+    public static Predicate<EntityType<?>> makePokemob = e -> {
         // Already a pokemob.
         if (e instanceof PokemobType) return false;
-        final boolean vanilla = e.getRegistryName().getNamespace().equals("minecraft");
+        final boolean vanilla = RegHelper.getKey(e).getNamespace().equals("minecraft");
         if (!vanilla && !PokecubeCore.getConfig().non_vanilla_pokemobs) return false;
         if (vanilla && !PokecubeCore.getConfig().vanilla_pokemobs) return false;
         if (ItemList.is(Compat.NOTPOKEMOBS, e)) return false;
@@ -127,8 +127,7 @@ public class Compat
             if (entry == null) try
             {
                 @SuppressWarnings("unchecked")
-                final EntityType<? extends Mob> mobType = (EntityType<? extends Mob>) event.getObject()
-                        .getType();
+                final EntityType<? extends Mob> mobType = (EntityType<? extends Mob>) event.getObject().getType();
                 final String name = mobType.toString();
                 PokedexEntry newDerp = Database.getEntry(name);
                 if (newDerp == null)
@@ -144,8 +143,8 @@ public class Compat
             catch (final Exception e)
             {
                 // Something went wrong, so log and exit early
-                PokecubeAPI.LOGGER.warn("Error making pokedex entry for {}", event.getObject().getType()
-                        .getRegistryName());
+                PokecubeAPI.LOGGER.warn("Error making pokedex entry for {}",
+                        RegHelper.getKey(event.getObject().getType()));
                 e.printStackTrace();
                 return;
             }

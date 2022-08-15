@@ -17,6 +17,7 @@ import net.minecraftforge.fml.LogicalSide;
 import pokecube.legends.blocks.properties.Strippables;
 import pokecube.legends.blocks.properties.Tillables;
 import pokecube.legends.init.ItemInit;
+import thut.lib.RegHelper;
 
 public class EventsHandler
 {
@@ -55,35 +56,35 @@ public class EventsHandler
             final Biome biome = event.player.getLevel().getBiome(player.getOnPos()).value();
             MobEffectInstance effect = null;
 
-            if (biome.getRegistryName().toString().equals("pokecube_legends:aquamarine_caves") && !player.isCreative()
+            if (RegHelper.getKey(biome).toString().equals("pokecube_legends:aquamarine_caves") && !player.isCreative()
                     && !player.isSpectator()
                     && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.DIG_SLOWDOWN))
             {
                 effect = new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 480, 2);
             }
 
-            if ((biome.getRegistryName().toString().equals("pokecube_legends:azure_badlands")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:eroded_azure_badlands")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:wooded_azure_badlands"))
+            if ((RegHelper.getKey(biome).toString().equals("pokecube_legends:azure_badlands")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:eroded_azure_badlands")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:wooded_azure_badlands"))
                     && !player.isCreative() && !player.isSpectator()
                     && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.WEAKNESS))
             {
                 effect = new MobEffectInstance(MobEffects.WEAKNESS, 480, 1);
             }
 
-            if ((biome.getRegistryName().toString().equals("pokecube_legends:blinding_deltas")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:dried_blinding_deltas")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:magmatic_blinding_deltas")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:shattered_blinding_deltas")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:volcanic_blinding_deltas"))
+            if ((RegHelper.getKey(biome).toString().equals("pokecube_legends:blinding_deltas")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:dried_blinding_deltas")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:magmatic_blinding_deltas")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:shattered_blinding_deltas")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:volcanic_blinding_deltas"))
                     && !player.isCreative() && !player.isSpectator()
                     && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.BLINDNESS))
             {
                 effect = new MobEffectInstance(MobEffects.BLINDNESS, 480, 0);
             }
 
-            if ((biome.getRegistryName().toString().equals("pokecube_legends:burnt_beach")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:meteorite_spikes"))
+            if ((RegHelper.getKey(biome).toString().equals("pokecube_legends:burnt_beach")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:meteorite_spikes"))
                     && !player.isCreative() && !player.isSpectator()
                     && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.UNLUCK))
             {
@@ -95,52 +96,52 @@ public class EventsHandler
                 }
             }
 
-            if ((biome.getRegistryName().toString().equals("pokecube_legends:corrupted_caves")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:deep_frozen_polluted_ocean")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:deep_polluted_ocean")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:frozen_polluted_river")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:frozen_polluted_ocean")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:polluted_ocean")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:polluted_river")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:shattered_tainted_barrens")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:tainted_barrens"))
+            if ((RegHelper.getKey(biome).toString().equals("pokecube_legends:corrupted_caves")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:deep_frozen_polluted_ocean")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:deep_polluted_ocean")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:frozen_polluted_river")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:frozen_polluted_ocean")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:polluted_ocean")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:polluted_river")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:shattered_tainted_barrens")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:tainted_barrens"))
                     && !player.isCreative() && !player.isSpectator()
                     && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.CONFUSION))
             {
                 effect = new MobEffectInstance(MobEffects.CONFUSION, 480, 1);
             }
 
-            if ((biome.getRegistryName().toString().equals("pokecube_legends:crystallized_beach")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:mirage_desert")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:rocky_mirage_desert")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:snowy_crystallized_beach"))
+            if ((RegHelper.getKey(biome).toString().equals("pokecube_legends:crystallized_beach")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:mirage_desert")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:rocky_mirage_desert")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:snowy_crystallized_beach"))
                     && !player.isCreative() && !player.isSpectator()
                     && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.LEVITATION))
             {
                 effect = new MobEffectInstance(MobEffects.LEVITATION, 120, 0);
             }
 
-            if ((biome.getRegistryName().toString().equals("pokecube_legends:dead_ocean")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:dead_river")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:deep_dead_ocean")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:deep_frozen_dead_ocean")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:frozen_dead_ocean")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:frozen_dead_river"))
+            if ((RegHelper.getKey(biome).toString().equals("pokecube_legends:dead_ocean")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:dead_river")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:deep_dead_ocean")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:deep_frozen_dead_ocean")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:frozen_dead_ocean")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:frozen_dead_river"))
                     && !player.isCreative() && !player.isSpectator()
                     && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.HUNGER))
             {
                 effect = new MobEffectInstance(MobEffects.HUNGER, 480, 2);
             }
 
-            if ((biome.getRegistryName().toString().equals("pokecube_legends:distorted_lands")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:small_distorted_islands"))
+            if ((RegHelper.getKey(biome).toString().equals("pokecube_legends:distorted_lands")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:small_distorted_islands"))
                     && !player.isCreative() && !player.isSpectator()
                     && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.MOVEMENT_SPEED))
             {
                 effect = new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 480, 2);
             }
 
-            if (biome.getRegistryName().toString().equals("pokecube_legends:dripstone_caves") && !player.isCreative()
+            if (RegHelper.getKey(biome).toString().equals("pokecube_legends:dripstone_caves") && !player.isCreative()
                     && !player.isSpectator())
             {
                 if (takesBiomeDamage(player) && player.tickCount % 20 == 0)
@@ -152,50 +153,50 @@ public class EventsHandler
                 }
             }
 
-            if ((biome.getRegistryName().toString().equals("pokecube_legends:forbidden_grove")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:forbidden_meadow")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:forbidden_taiga")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:old_growth_forbidden_taiga")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:snowy_forbidden_taiga")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:windswept_forbidden_taiga"))
+            if ((RegHelper.getKey(biome).toString().equals("pokecube_legends:forbidden_grove")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:forbidden_meadow")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:forbidden_taiga")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:old_growth_forbidden_taiga")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:snowy_forbidden_taiga")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:windswept_forbidden_taiga"))
                     && !player.isCreative() && !player.isSpectator()
                     && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.WITHER))
             {
                 effect = new MobEffectInstance(MobEffects.WITHER, 480, 1);
             }
 
-            if ((biome.getRegistryName().toString().equals("pokecube_legends:frozen_peaks")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:jagged_peaks")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:snowy_slopes")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:ultra_stony_peaks"))
+            if ((RegHelper.getKey(biome).toString().equals("pokecube_legends:frozen_peaks")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:jagged_peaks")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:snowy_slopes")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:ultra_stony_peaks"))
                     && !player.isCreative() && !player.isSpectator()
                     && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.MOVEMENT_SLOWDOWN))
             {
                 effect = new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 480, 2);
             }
 
-            if ((biome.getRegistryName().toString().equals("pokecube_legends:fungal_flower_forest")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:fungal_forest")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:fungal_plains")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:fungal_sunflower_plains")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:snowy_fungal_plains"))
+            if ((RegHelper.getKey(biome).toString().equals("pokecube_legends:fungal_flower_forest")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:fungal_forest")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:fungal_plains")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:fungal_sunflower_plains")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:snowy_fungal_plains"))
                     && !player.isCreative() && !player.isSpectator()
                     && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.MOVEMENT_SLOWDOWN))
             {
                 effect = new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 480, 0);
             }
 
-            if ((biome.getRegistryName().toString().equals("pokecube_legends:sparse_temporal_jungle")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:temporal_bamboo_jungle")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:temporal_jungle")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:windswept_temporal_jungle"))
+            if ((RegHelper.getKey(biome).toString().equals("pokecube_legends:sparse_temporal_jungle")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:temporal_bamboo_jungle")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:temporal_jungle")
+                    || RegHelper.getKey(biome).toString().equals("pokecube_legends:windswept_temporal_jungle"))
                     && !player.isCreative() && !player.isSpectator()
                     && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.POISON))
             {
                 effect = new MobEffectInstance(MobEffects.POISON, 480, 1);
             }
 
-            if (biome.getRegistryName().toString().equals("pokecube_legends:ultra_stony_shore") && !player.isCreative()
+            if (RegHelper.getKey(biome).toString().equals("pokecube_legends:ultra_stony_shore") && !player.isCreative()
                     && !player.isSpectator()
                     && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.UNLUCK))
             {

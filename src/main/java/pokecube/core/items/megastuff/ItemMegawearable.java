@@ -18,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeItems;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 public class ItemMegawearable extends Item
@@ -77,7 +78,7 @@ public class ItemMegawearable extends Item
     @Override
     public EquipmentSlot getEquipmentSlot(ItemStack stack)
     {
-        final String name = this.getRegistryName().getPath().replace("mega_", "");
+        final String name = RegHelper.getKey(this).getPath().replace("mega_", "");
         if (name.equals("megahat")) return EquipmentSlot.HEAD;
         return super.getEquipmentSlot(stack);
     }

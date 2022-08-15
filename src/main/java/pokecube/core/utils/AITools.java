@@ -32,6 +32,7 @@ import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.IPokedamage;
 import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 
 public class AITools
 {
@@ -64,7 +65,7 @@ public class AITools
         {
             if (input == null) return true;
             input = EntityTools.getCoreEntity(input);
-            final ResourceLocation eid = input.getType().getRegistryName();
+            final ResourceLocation eid = RegHelper.getKey(input);
             if (AITools.invalidIDs.contains(eid)) return false;
             for (final String tag : AITools.invalidTags) if (input.getTags().contains(tag)) return false;
 

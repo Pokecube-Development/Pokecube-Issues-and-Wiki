@@ -22,6 +22,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 
 public class CapabilitySync extends NBTPacket
 {
@@ -128,7 +129,7 @@ public class CapabilitySync extends NBTPacket
         }
         catch (final Exception e)
         {
-            ThutCore.LOGGER.error("Error Loading Caps for: {}", mob.getType().getRegistryName());
+            ThutCore.LOGGER.error("Error Loading Caps for: {}", RegHelper.getKey(mob));
             ThutCore.LOGGER.error(e);
         }
         mob.refreshDimensions();

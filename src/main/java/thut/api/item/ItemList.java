@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import thut.lib.RegHelper;
 
 public class ItemList extends Items
 {
@@ -26,7 +27,7 @@ public class ItemList extends Items
         final EntityType<?> type = (EntityType<?>) toCheck;
         TagKey<EntityType<?>> tagkey = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, tag);
         final boolean tagged = type.is(tagkey);
-        if (!tagged && type.getRegistryName() != null) return type.getRegistryName().equals(tag);
+        if (!tagged) return RegHelper.getKey(type).equals(tag);
         return tagged;
     }
 
@@ -40,7 +41,7 @@ public class ItemList extends Items
         final Block block = toCheck.getBlock();
         TagKey<Block> tagkey = TagKey.create(Registry.BLOCK_REGISTRY, tag);
         final boolean tagged = toCheck.is(tagkey);
-        if (!tagged && block.getRegistryName() != null) return block.getRegistryName().equals(tag);
+        if (!tagged) return RegHelper.getKey(block).equals(tag);
         return tagged;
     }
 
@@ -55,7 +56,7 @@ public class ItemList extends Items
         TagKey<Item> tagkey = TagKey.create(Registry.ITEM_REGISTRY, tag);
         boolean tagged = stack.is(tagkey);
         tagged = tagged || ItemList.pendingTags.getOrDefault(tag, Collections.emptySet()).contains(stack.getItem());
-        if (!tagged && stack.getItem().getRegistryName() != null) return stack.getItem().getRegistryName().equals(tag);
+        if (!tagged) return RegHelper.getKey(stack).equals(tag);
         return tagged;
     }
 

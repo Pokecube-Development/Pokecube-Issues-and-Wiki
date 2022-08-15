@@ -31,6 +31,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import thut.api.item.ItemList;
 import thut.core.common.network.EntityUpdate;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 public class PokecubeManager
@@ -47,7 +48,7 @@ public class PokecubeManager
 
     public static void addToCube(final ItemStack cube, final LivingEntity mob)
     {
-        final ResourceLocation id = mob.getType().getRegistryName();
+        final ResourceLocation id = RegHelper.getKey(mob.getType());
         if (!cube.hasTag()) cube.setTag(new CompoundTag());
         cube.getTag().putString(TagNames.MOBID, id.toString());
         final CompoundTag tag = new CompoundTag();

@@ -24,6 +24,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import thut.api.ThutCaps;
 import thut.api.entity.animation.CapabilityAnimation.DefaultImpl;
 import thut.core.common.network.CapabilitySync;
+import thut.lib.RegHelper;
 
 public class CopyCaps
 {
@@ -90,7 +91,7 @@ public class CopyCaps
 
     private static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (!CopyCaps.ATTACH_TO.contains(event.getObject().getType().getRegistryName())) return;
+        if (!CopyCaps.ATTACH_TO.contains(RegHelper.getKey(event.getObject().getType()))) return;
         if (!event.getCapabilities().containsKey(CopyCaps.LOC)) event.addCapability(CopyCaps.LOC, new Impl());
         if (!event.getCapabilities().containsKey(CopyCaps.ANIM)) event.addCapability(CopyCaps.ANIM, new DefaultImpl());
     }
@@ -133,7 +134,7 @@ public class CopyCaps
     {
         synchronized (CopyCaps.ATTACH_TO)
         {
-            CopyCaps.ATTACH_TO.add(type.getRegistryName());
+            CopyCaps.ATTACH_TO.add(RegHelper.getKey(type));
         }
     }
 }

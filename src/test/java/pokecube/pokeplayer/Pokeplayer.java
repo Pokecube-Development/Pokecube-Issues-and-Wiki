@@ -28,6 +28,7 @@ import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
 import thut.bot.entity.BotPlayer;
 import thut.core.common.network.CapabilitySync;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 @Mod(value = "pokecube_pokeplayer")
@@ -71,7 +72,7 @@ public class Pokeplayer
                     }
 
                     if (var == null) copy.setCopiedID(null);
-                    else copy.setCopiedID(var.getEntityType().getRegistryName());
+                    else copy.setCopiedID(RegHelper.getKey(var.getEntityType()));
                     CapabilitySync.sendUpdate(ctx.getSource().getEntity());
                     return 0;
                 }));

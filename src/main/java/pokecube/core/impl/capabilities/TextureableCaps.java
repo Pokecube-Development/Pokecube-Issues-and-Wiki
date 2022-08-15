@@ -22,27 +22,27 @@ import pokecube.core.entity.pokemobs.EntityPokemob;
 import thut.api.ThutCaps;
 import thut.api.entity.IMobTexturable;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 
 public class TextureableCaps
 {
     public static class NPCCap<E extends LivingEntity> implements IMobTexturable, ICapabilityProvider
     {
-        private final LazyOptional<IMobTexturable>      holder = LazyOptional.of(() -> this);
-        E                                               mob;
-        String                                          modid;
+        private final LazyOptional<IMobTexturable> holder = LazyOptional.of(() -> this);
+        E mob;
+        String modid;
         public Function<LivingEntity, ResourceLocation> texGetter;
-        public Function<LivingEntity, Boolean>          slim;
+        public Function<LivingEntity, Boolean> slim;
 
         public NPCCap()
-        {
-        }
+        {}
 
         @SuppressWarnings("unchecked")
         public NPCCap(final E mob, final Function<E, ResourceLocation> texGetter, final Function<E, Boolean> slim)
         {
             this();
             this.mob = mob;
-            this.modid = this.mob.getType().getRegistryName().getNamespace();
+            this.modid = RegHelper.getKey(this.mob.getType()).getNamespace();
             this.texGetter = (Function<LivingEntity, ResourceLocation>) texGetter;
             this.slim = (Function<LivingEntity, Boolean>) slim;
         }
@@ -88,14 +88,13 @@ public class TextureableCaps
     public static class PokemobCap implements IMobTexturable, ICapabilityProvider
     {
         private final LazyOptional<IMobTexturable> holder = LazyOptional.of(() -> this);
-        EntityPokemob                              mob;
-        public IPokemob                            pokemob;
-        String                                     forme;
-        List<String>                               states = Lists.newArrayList();
+        EntityPokemob mob;
+        public IPokemob pokemob;
+        String forme;
+        List<String> states = Lists.newArrayList();
 
         public PokemobCap()
-        {
-        }
+        {}
 
         public PokemobCap(final EntityPokemob mob)
         {

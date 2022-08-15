@@ -52,6 +52,7 @@ import net.minecraftforge.network.IContainerFactory;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import thut.lib.RegHelper;
 import thut.wearables.client.gui.GuiEvents;
 import thut.wearables.client.gui.GuiWearables;
 import thut.wearables.client.render.WearableEventHandler;
@@ -280,7 +281,7 @@ public class ThutWearables
     @SubscribeEvent
     public void onItemCapabilityAttach(final AttachCapabilitiesEvent<ItemStack> event)
     {
-        final ResourceLocation loc = event.getObject().getItem().getRegistryName();
+        final ResourceLocation loc = RegHelper.getKey(event.getObject());
         if (this.configWearables.containsKey(loc))
         {
             final EnumWearable slot = this.configWearables.get(loc);

@@ -19,6 +19,7 @@ import thut.bling.bag.large.LargeManager;
 import thut.bling.bag.small.SmallContainer;
 import thut.bling.bag.small.SmallInventory;
 import thut.bling.bag.small.SmallManager;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 import thut.wearables.network.Packet;
 
@@ -41,7 +42,7 @@ public class PacketBag extends Packet
 
     public static void sendOpenPacket(final Player playerIn, final ItemStack heldItem)
     {
-        final String item = heldItem.getItem().getRegistryName().getPath();
+        final String item = RegHelper.getKey(heldItem).getPath();
         if (item.equalsIgnoreCase("bling_bag_ender_large"))
         {
             PacketBag.sendOpenPacket(playerIn, playerIn.getUUID());

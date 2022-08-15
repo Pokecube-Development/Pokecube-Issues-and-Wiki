@@ -54,6 +54,7 @@ import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 public class Pokecube extends Item implements IPokecube
@@ -61,7 +62,7 @@ public class Pokecube extends Item implements IPokecube
     public static final Set<ResourceLocation> snagblacklist = Sets.newHashSet();
 
     private static final Predicate<Entity> capturable = t -> {
-        if (Pokecube.snagblacklist.contains(t.getType().getRegistryName())) return false;
+        if (Pokecube.snagblacklist.contains(RegHelper.getKey(t))) return false;
         return true;
     };
 
@@ -148,7 +149,7 @@ public class Pokecube extends Item implements IPokecube
         }
         else
         {
-            final ResourceLocation name = item.getItem().getRegistryName();
+            final ResourceLocation name = RegHelper.getKey(item.getItem());
             list.add(TComponent.translatable("item.pokecube." + name.getPath() + ".desc"));
         }
 

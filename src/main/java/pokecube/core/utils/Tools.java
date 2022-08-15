@@ -43,6 +43,7 @@ import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
+import thut.lib.RegHelper;
 
 public class Tools
 {
@@ -357,7 +358,7 @@ public class Tools
                 if (!itemstack.isEmpty())
             {
                 final ItemStack stack = itemstack.copy();
-                if (stack.getItem().getRegistryName().equals(new ResourceLocation("pokecube", "candy")))
+                if (RegHelper.getKey(stack).equals(new ResourceLocation("pokecube", "candy")))
                     PokecubeItems.makeStackValid(stack);
                 return stack;
             }

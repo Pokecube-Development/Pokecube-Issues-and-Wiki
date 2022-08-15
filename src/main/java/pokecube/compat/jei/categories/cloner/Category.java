@@ -20,6 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.compat.jei.ingredients.Pokemob;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 public class Category implements IRecipeCategory<Wrapper>
@@ -63,7 +64,7 @@ public class Category implements IRecipeCategory<Wrapper>
     @Override
     public ResourceLocation getUid()
     {
-        return PokecubeAdv.CLONER.get().getRegistryName();
+        return RegHelper.getKey(PokecubeAdv.CLONER.get());
     }
 
     @Override

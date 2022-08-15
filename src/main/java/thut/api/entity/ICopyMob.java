@@ -15,6 +15,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.registries.ForgeRegistries;
 import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
+import thut.lib.RegHelper;
 
 public interface ICopyMob extends INBTSerializable<CompoundTag>
 {
@@ -58,7 +59,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
                     final LivingEntity mob = this.getCopiedMob();
                     if (MinecraftForge.EVENT_BUS.post(new CopySetEvent(holder, mob, null)))
                     {
-                        this.setCopiedID(this.getCopiedMob().getType().getRegistryName());
+                        this.setCopiedID(RegHelper.getKey(this.getCopiedMob().getType()));
                         this.setCopiedMob(mob);
                         this.setCopiedNBT(mob.serializeNBT());
                         return;
@@ -69,7 +70,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
             }
             return;
         }
-        if (this.getCopiedMob() == null || !this.getCopiedID().equals(this.getCopiedMob().getType().getRegistryName()))
+        if (this.getCopiedMob() == null || !this.getCopiedID().equals(RegHelper.getKey(this.getCopiedMob().getType())))
         {
             final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(this.getCopiedID());
             final Entity entity = type.create(level);

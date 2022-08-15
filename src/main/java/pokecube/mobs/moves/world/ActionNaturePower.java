@@ -40,6 +40,7 @@ import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
+import thut.lib.RegHelper;
 
 public class ActionNaturePower implements IMoveAction
 {
@@ -160,7 +161,7 @@ public class ActionNaturePower implements IMoveAction
 
         final Predicate<BlockPos> _predicate_ = t -> {
 
-            final ResourceLocation here = _level_.getBiome(t).value().getRegistryName();
+            final ResourceLocation here = RegHelper.getKey(_level_.getBiome(t).value());
             // Already the same biome, no apply!
             if (here.equals(_biome_)) return false;
 

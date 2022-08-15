@@ -60,6 +60,7 @@ import thut.api.maths.vecmath.Vec3f;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 public class AnimationGui extends Screen
@@ -115,7 +116,7 @@ public class AnimationGui extends Screen
                     catch (final Exception e)
                     {
                         PokecubeAPI.LOGGER
-                                .error("Error with syncing tag for " + realMob.getEntity().getType().getRegistryName());
+                                .error("Error with syncing tag for " + RegHelper.getKey(realMob.getEntity().getType()));
                         e.printStackTrace();
                     }
                 }

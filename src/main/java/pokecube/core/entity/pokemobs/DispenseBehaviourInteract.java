@@ -27,6 +27,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.impl.PokecubeMod;
 import thut.api.maths.Vector3;
+import thut.lib.RegHelper;
 
 public class DispenseBehaviourInteract implements DispenseItemBehavior
 {
@@ -36,9 +37,9 @@ public class DispenseBehaviourInteract implements DispenseItemBehavior
 
     public static void registerBehavior(final ItemStack stack)
     {
-        if (DispenseBehaviourInteract.DEFAULTS.containsKey(stack.getItem().getRegistryName())) return;
+        if (DispenseBehaviourInteract.DEFAULTS.containsKey(RegHelper.getKey(stack))) return;
         final DispenseItemBehavior original = DispenserBlock.DISPENSER_REGISTRY.get(stack.getItem());
-        DispenseBehaviourInteract.DEFAULTS.put(stack.getItem().getRegistryName(), original);
+        DispenseBehaviourInteract.DEFAULTS.put(RegHelper.getKey(stack), original);
         DispenserBlock.registerBehavior(() -> stack.getItem(), new DispenseBehaviourInteract());
     }
 
@@ -46,8 +47,7 @@ public class DispenseBehaviourInteract implements DispenseItemBehavior
     {
         TagKey<Item> itemtag = TagKey.create(Registry.ITEM_REGISTRY, tag);
         List<Item> items = ForgeRegistries.ITEMS.tags().getTag(itemtag).stream().toList();
-        for (final Item item : items)
-            DispenseBehaviourInteract.registerBehavior(new ItemStack(item));
+        for (final Item item : items) DispenseBehaviourInteract.registerBehavior(new ItemStack(item));
     }
 
     @Override
@@ -55,14 +55,14 @@ public class DispenseBehaviourInteract implements DispenseItemBehavior
     {
         Direction dir = null;
         final BlockState state = source.getBlockState();
-        for (final Property<?> prop : state.getProperties())
-            if (prop.getValueClass() == Direction.class)
-            {
-                dir = (Direction) state.getValue(prop);
-                break;
-            }
-        if (dir == null) return DispenseBehaviourInteract.DEFAULTS.getOrDefault(stack.getItem().getRegistryName(),
-                DispenseBehaviourInteract.DEFAULT).dispense(source, stack);
+        for (final Property<?> prop : state.getProperties()) if (prop.getValueClass() == Direction.class)
+        {
+            dir = (Direction) state.getValue(prop);
+            break;
+        }
+        if (dir == null) return DispenseBehaviourInteract.DEFAULTS
+                .getOrDefault(RegHelper.getKey(stack.getItem()), DispenseBehaviourInteract.DEFAULT)
+                .dispense(source, stack);
 
         final FakePlayer player = PokecubeMod.getFakePlayer(source.getLevel());
         player.setPos(source.x(), source.y() - player.getEyeHeight(), source.z());
@@ -76,29 +76,30 @@ public class DispenseBehaviourInteract implements DispenseItemBehavior
             player.getInventory().clearContent();
             player.setItemInHand(InteractionHand.MAIN_HAND, stack);
 
-            InteractionResult cancelResult = net.minecraftforge.common.ForgeHooks.onInteractEntityAt(player, mobs.get(0),
-                    new Vec3(0, 0, 0), InteractionHand.MAIN_HAND);
-            if (cancelResult == null) cancelResult = net.minecraftforge.common.ForgeHooks.onInteractEntity(player, mobs
-                    .get(0), InteractionHand.MAIN_HAND);
+            InteractionResult cancelResult = net.minecraftforge.common.ForgeHooks.onInteractEntityAt(player,
+                    mobs.get(0), new Vec3(0, 0, 0), InteractionHand.MAIN_HAND);
+            if (cancelResult == null) cancelResult = net.minecraftforge.common.ForgeHooks.onInteractEntity(player,
+                    mobs.get(0), InteractionHand.MAIN_HAND);
 
-            final boolean interacted = cancelResult != null || mobs.get(0).interact(player,
-                    InteractionHand.MAIN_HAND) != InteractionResult.PASS;
+            final boolean interacted = cancelResult != null
+                    || mobs.get(0).interact(player, InteractionHand.MAIN_HAND) != InteractionResult.PASS;
             InteractionResult result = InteractionResult.PASS;
             if (!interacted) result = stack.interactLivingEntity(player, mobs.get(0), InteractionHand.MAIN_HAND);
-            for (final ItemStack stack3 : player.getInventory().items)
-                if (!stack3.isEmpty()) if (stack3 != stack)
-                {
-                    result = InteractionResult.SUCCESS;
-                    // This should result in the object just being
-                    // dropped.
-                    DispenseBehaviourInteract.DEFAULTS.getOrDefault(stack.getItem().getRegistryName(),
-                            DispenseBehaviourInteract.DEFAULT).dispense(source, stack3);
-                }
+            for (final ItemStack stack3 : player.getInventory().items) if (!stack3.isEmpty()) if (stack3 != stack)
+            {
+                result = InteractionResult.SUCCESS;
+                // This should result in the object just being
+                // dropped.
+                DispenseBehaviourInteract.DEFAULTS
+                        .getOrDefault(RegHelper.getKey(stack.getItem()), DispenseBehaviourInteract.DEFAULT)
+                        .dispense(source, stack3);
+            }
             player.getInventory().clearContent();
             if (result != InteractionResult.PASS) return stack;
         }
-        return DispenseBehaviourInteract.DEFAULTS.getOrDefault(stack.getItem().getRegistryName(),
-                DispenseBehaviourInteract.DEFAULT).dispense(source, stack);
+        return DispenseBehaviourInteract.DEFAULTS
+                .getOrDefault(RegHelper.getKey(stack.getItem()), DispenseBehaviourInteract.DEFAULT)
+                .dispense(source, stack);
     }
 
 }
