@@ -132,7 +132,8 @@ public class BeeTasks
         @Override
         public GlobalPos getHome()
         {
-            return BeeTasks.getHive(this.bee).get();
+            Optional<GlobalPos> home = BeeTasks.getHive(this.bee);
+            return home.isPresent() ? home.get() : null;
         }
 
         @Override
@@ -150,7 +151,8 @@ public class BeeTasks
         @Override
         public GlobalPos getWorkSite()
         {
-            return BeeTasks.getFlower(this.bee).get();
+            Optional<GlobalPos> flower = BeeTasks.getFlower(this.bee);
+            return flower.isPresent() ? flower.get() : null;
         }
 
         @Override
