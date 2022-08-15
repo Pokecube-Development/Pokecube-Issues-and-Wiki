@@ -234,9 +234,9 @@ public class PokecubeCore
 
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        PokecubeCore.BERRIES_TAB.register(bus);
         PokecubeCore.ITEMS.register(bus);
         PokecubeCore.BLOCKS.register(bus);
-        PokecubeCore.BERRIES_TAB.register(bus);
         PokecubeCore.TILES.register(bus);
         PokecubeCore.ENTITIES.register(bus);
         PokecubeCore.MENU.register(bus);

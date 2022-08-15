@@ -296,7 +296,7 @@ public class ThutCore
     {
         ThutCore.LOGGER.info("Setup");
 
-        if (ThutCore.THUTICON.isEmpty()) ThutCore.THUTICON = new ItemStack(ThutCrafts.CRAFTMAKER);
+        if (ThutCore.THUTICON.isEmpty()) ThutCore.THUTICON = new ItemStack(ThutCrafts.CRAFTMAKER.get());
 
         // Register the actual packets
         ThutCore.packets.registerMessage(EntityUpdate.class, EntityUpdate::new);

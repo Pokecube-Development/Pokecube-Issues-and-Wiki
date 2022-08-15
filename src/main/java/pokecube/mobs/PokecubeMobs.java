@@ -458,7 +458,7 @@ public class PokecubeMobs
         MiscItemHelper.CHARCOALSTACK = new ItemStack(Items.CHARCOAL);
 
         final PokecubeHelper helper = new PokecubeHelper();
-        PokecubeBehavior.DEFAULTCUBE = new ResourceLocation("pokecube", "poke");
+        PokecubeBehavior.DEFAULTCUBE = new ResourceLocation("pokecube", "pokecube");
 
         event.register(new NormalPokecubeBehavoir(1).setName("poke"));
         event.register(new NormalPokecubeBehavoir(1.5).setName("great"));

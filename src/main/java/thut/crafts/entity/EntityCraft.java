@@ -63,8 +63,6 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         }
     }
 
-    public static final EntityType<EntityCraft> CRAFTTYPE = new BlockEntityType<>(EntityCraft::new);
-
     @SuppressWarnings("unchecked")
     static final EntityDataAccessor<Seat>[] SEAT = new EntityDataAccessor[10];
     static final EntityDataAccessor<Integer> SEATCOUNT = SynchedEntityData.<Integer>defineId(EntityCraft.class,

@@ -31,7 +31,7 @@ public class CommonInit
     public static void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
     {
         if (evt.getHand() == InteractionHand.OFF_HAND || evt.getWorld().isClientSide || evt.getItemStack().isEmpty()
-                || !evt.getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER)
+                || !evt.getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER.get())
             return;
         final ItemStack itemstack = evt.getItemStack();
         final Player playerIn = evt.getPlayer();
@@ -59,7 +59,7 @@ public class CommonInit
             if (!worldIn.isClientSide)
             {
                 final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(evt.getWorld(), min, max, mid,
-                        EntityCraft.CRAFTTYPE);
+                        ThutCrafts.CRAFTTYPE.get());
                 final String message = craft != null ? "msg.craft.create" : "msg.craft.fail";
                 thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message));
             }
@@ -84,7 +84,7 @@ public class CommonInit
     public static void interactRightClickBlock(final PlayerInteractEvent.RightClickItem evt)
     {
         if (evt.getHand() == InteractionHand.OFF_HAND || evt.getWorld().isClientSide || evt.getItemStack().isEmpty()
-                || !evt.getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER)
+                || !evt.getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER.get())
             return;
         final ItemStack itemstack = evt.getItemStack();
         final Player playerIn = evt.getPlayer();
@@ -116,7 +116,7 @@ public class CommonInit
             if (!worldIn.isClientSide)
             {
                 final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(evt.getWorld(), min, max, mid,
-                        EntityCraft.CRAFTTYPE);
+                        ThutCrafts.CRAFTTYPE.get());
                 final String message = craft != null ? "msg.craft.create" : "msg.craft.fail";
                 thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message));
             }

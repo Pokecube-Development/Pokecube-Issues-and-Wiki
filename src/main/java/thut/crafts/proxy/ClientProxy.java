@@ -51,7 +51,7 @@ public class ClientProxy
         @SubscribeEvent
         public static void registerRenderers(final RegisterRenderers event)
         {
-            event.registerEntityRenderer(EntityCraft.CRAFTTYPE, RenderBlockEntity::new);
+            event.registerEntityRenderer(ThutCrafts.CRAFTTYPE.get(), RenderBlockEntity::new);
         }
 
         @SubscribeEvent
@@ -116,7 +116,7 @@ public class ClientProxy
         final Player player = Minecraft.getInstance().player;
         if (!(held = player.getMainHandItem()).isEmpty() || !(held = player.getOffhandItem()).isEmpty())
         {
-            if (held.getItem() != ThutCrafts.CRAFTMAKER) return;
+            if (held.getItem() != ThutCrafts.CRAFTMAKER.get()) return;
             if (held.getTag() != null && held.getTag().contains("min"))
             {
                 final Minecraft mc = Minecraft.getInstance();
