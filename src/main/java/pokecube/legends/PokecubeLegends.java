@@ -26,7 +26,6 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -41,6 +40,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.api.events.init.RegisterPokecubes;
 import pokecube.api.items.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.PokecubeCore;
@@ -71,8 +71,6 @@ import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
 import pokecube.legends.recipes.LegendsDistorticRecipeManager;
 import pokecube.legends.recipes.LegendsLootingRecipeManager;
-import pokecube.legends.tileentity.RaidSpawn;
-import pokecube.legends.tileentity.RingTile;
 import pokecube.legends.worldgen.UltraSpaceSurfaceRules;
 import pokecube.legends.worldgen.WorldgenFeatures;
 import pokecube.legends.worldgen.trees.Trees;
@@ -125,22 +123,6 @@ public class PokecubeLegends
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
     public static class RegistryHandler
     {
-        @SubscribeEvent
-        public static void onItemRegister(final RegistryEvent.Register<Item> event)
-        {
-            ItemInit.registerItems(event);
-        }
-
-        @SubscribeEvent
-        public static void registerTiles(final RegistryEvent.Register<BlockEntityType<?>> event)
-        {
-            RaidSpawn.TYPE = BlockEntityType.Builder.of(RaidSpawn::new, BlockInit.RAID_SPAWNER.get()).build(null);
-            RingTile.TYPE = BlockEntityType.Builder.of(RingTile::new, BlockInit.PORTAL.get()).build(null);
-            event.getRegistry()
-                    .register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWNER.get().getRegistryName()));
-            event.getRegistry().register(RingTile.TYPE.setRegistryName(BlockInit.PORTAL.get().getRegistryName()));
-        }
-
         @SubscribeEvent
         public static void onEntityAttributes(final EntityAttributeCreationEvent event)
         {
@@ -516,6 +498,12 @@ public class PokecubeLegends
             return new ItemStack(ItemInit.RAINBOW_ORB.get());
         }
     };
+
+    @SubscribeEvent
+    public void registerItems(final RegisterMiscItems event)
+    {
+        ItemInit.registerItems();
+    }
 
     @SubscribeEvent
     public void registerPokecubes(final RegisterPokecubes event)

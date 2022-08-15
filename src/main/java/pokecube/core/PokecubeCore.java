@@ -134,6 +134,7 @@ public class PokecubeCore
     public static final DeferredRegister<MenuType<?>> MENU;
     public static final DeferredRegister<SoundEvent> SOUNDS;
     public static final DeferredRegister<PokecubeBehavior> POKECUBES;
+    public static final DeferredRegister<Motive> PAINTINGS;
 
     static
     {
@@ -151,6 +152,7 @@ public class PokecubeCore
         MENU = DeferredRegister.create(ForgeRegistries.CONTAINERS, PokecubeCore.MODID);
         SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, PokecubeCore.MODID);
         POKECUBES = DeferredRegister.create(new ResourceLocation(PokecubeMod.ID, "pokecubes"), PokecubeCore.MODID);
+        PAINTINGS = DeferredRegister.create(ForgeRegistries.PAINTING_TYPES, PokecubeCore.MODID);
     }
 
     public static final String MODID = PokecubeAPI.MODID;
@@ -245,11 +247,12 @@ public class PokecubeCore
         PokecubeCore.SCHEDULES.register(bus);
         PokecubeCore.MEMORIES.register(bus);
         PokecubeCore.SOUNDS.register(bus);
+        PokecubeCore.PAINTINGS.register(bus);
+        PokecubeCore.POKECUBES.register(bus);
 
         PokecubeWorld.init(bus);
 
         bus.addListener(this::loadComplete);
-        bus.addGenericListener(Motive.class, PaintingsHandler::registerPaintings);
 
         RecipeHandler.init(bus);
         PointsOfInterest.REG.register(bus);
@@ -274,6 +277,7 @@ public class PokecubeCore
         MenuTypes.init();
         EntityTypes.init();
         Sounds.init();
+        PaintingsHandler.init();
 
         // Register the battle managers
         Battle.register();

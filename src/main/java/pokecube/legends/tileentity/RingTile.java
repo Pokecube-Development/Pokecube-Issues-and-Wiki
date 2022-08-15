@@ -8,7 +8,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.customblocks.PortalWarp;
@@ -19,15 +18,13 @@ import thut.core.common.ThutCore;
 
 public class RingTile extends BlockEntity implements ITickTile
 {
-    public static BlockEntityType<RingTile> TYPE;
-
     public int timer = 0;
 
     public boolean despawns = false;
 
     public RingTile(final BlockPos pos, final BlockState state)
     {
-        super(RingTile.TYPE, pos, state);
+        super(BlockInit.RING_ENTITY.get(), pos, state);
     }
 
     public void activatePortal()

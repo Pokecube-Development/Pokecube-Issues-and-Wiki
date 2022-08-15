@@ -23,15 +23,15 @@ public class ItemInit
         // Register any cube behaviours and cubes from event.
         for (final PokecubeBehavior i : event.behaviors)
         {
-            PokecubeCore.POKECUBES.register(i.name, () -> i);
-            final String name = i.name;
+            final String name = i.name + "cube";
+            PokecubeCore.POKECUBES.register(name, () -> i);
             final Item.Properties props = new Item.Properties();
             props.tab(PokecubeItems.TAB_POKECUBES);
             props.durability(255).defaultDurability(255);
-            PokecubeCore.ITEMS.register(name + "cube", () -> {
+            PokecubeCore.ITEMS.register(name, () -> {
                 final Pokecube cube = new Pokecube(props);
                 if (PokecubeItems.POKECUBE_CUBES.isEmpty()) PokecubeItems.POKECUBE_CUBES = new ItemStack(cube);
-                PokecubeItems.addCube(i.getRegistryName(), new Item[]
+                PokecubeItems.addCube(new ResourceLocation("pokecube:" + name), new Item[]
                 { cube });
                 return cube;
             });

@@ -44,7 +44,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
-import thut.api.inventory.npc.NpcContainer;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
 import thut.api.terrain.BiomeType;
@@ -65,7 +64,7 @@ public class ClientInit
         @SubscribeEvent
         public static void setupClient(final FMLClientSetupEvent event)
         {
-            MenuScreens.register(NpcContainer.TYPE, NpcScreen::new);
+            MenuScreens.register(RegistryObjects.NPC_MENU.get(), NpcScreen::new);
         }
     }
 

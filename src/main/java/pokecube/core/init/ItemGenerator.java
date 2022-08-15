@@ -408,7 +408,7 @@ public class ItemGenerator
     {
         for (final String type : ItemMegawearable.getWearables())
         {
-            PokecubeCore.ITEMS.register("mega_" + type, () -> new ItemMegawearable(type, Database.trim(type)));
+            PokecubeCore.ITEMS.register("mega_" + type, () -> new ItemMegawearable(type));
         }
     }
 

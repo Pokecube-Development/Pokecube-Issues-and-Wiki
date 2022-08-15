@@ -33,7 +33,6 @@ import pokecube.legends.blocks.normalblocks.InfectedFireBlock;
 import pokecube.legends.blocks.plants.TaintedKelpPlantBlock;
 import pokecube.legends.client.render.block.Raid;
 import pokecube.legends.client.render.entity.Wormhole;
-import pokecube.legends.tileentity.RaidSpawn;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID, value = Dist.CLIENT)
 public class ClientSetupHandler
@@ -184,7 +183,7 @@ public class ClientSetupHandler
     public static void registerRenderers(final RegisterRenderers event)
     {
         // Renderer for blocks
-        event.registerBlockEntityRenderer(RaidSpawn.TYPE, Raid::new);
+        event.registerBlockEntityRenderer(BlockInit.RAID_SPAWN_ENTITY.get(), Raid::new);
         event.registerBlockEntityRenderer(TileEntityInit.CAMPFIRE_ENTITY.get(), CampfireRenderer::new);
 
         // Register entity renderer for the wormhole

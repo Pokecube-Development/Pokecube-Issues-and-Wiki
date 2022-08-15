@@ -55,8 +55,6 @@ public class ThutCrafts
             // register a new mob here
             EntityCraft.CRAFTTYPE.setRegistryName(Reference.MODID, "craft");
             event.getRegistry().register(EntityCraft.CRAFTTYPE);
-//            EntityTest.TYPE.setRegistryName(Reference.MODID, "testmob");
-//            event.getRegistry().register(EntityTest.TYPE);
         }
 
         @SubscribeEvent

@@ -1,12 +1,9 @@
 package pokecube.legends.items.zmove;
 
-import java.util.Locale;
-
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
-import pokecube.legends.Reference;
 
 public class ItemZCrystal extends Item
 {
@@ -20,8 +17,6 @@ public class ItemZCrystal extends Item
     public ItemZCrystal(final PokeType type)
     {
         super(new Item.Properties().tab(PokecubeItems.TAB_ITEMS));
-        final String name = type.name.equals("???") ? "unknown" : type.name;
-        this.setRegistryName(Reference.ID, "z_" + name.toLowerCase(Locale.ROOT));
         this.type = type;
     }
 }

@@ -49,11 +49,11 @@ public class ItemMegawearable extends Item
     public final String name;
     public final String slot;
 
-    public ItemMegawearable(String name, String slot)
+    public ItemMegawearable(String name)
     {
         super(new Properties().tab(PokecubeItems.TAB_ITEMS).stacksTo(1));
         this.name = name;
-        this.slot = slot;
+        this.slot = wearables.get(name);
 
     }
 

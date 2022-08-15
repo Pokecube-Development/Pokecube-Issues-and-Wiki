@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -110,6 +111,8 @@ import pokecube.legends.blocks.plants.PollutingBlossomBlock;
 import pokecube.legends.blocks.plants.SmallContaminatedDripleafBlock;
 import pokecube.legends.blocks.plants.StringOfPearlsBlock;
 import pokecube.legends.blocks.plants.TallCrystallizedBush;
+import pokecube.legends.tileentity.RaidSpawn;
+import pokecube.legends.tileentity.RingTile;
 import pokecube.legends.worldgen.trees.AgedTreeGrower;
 import pokecube.legends.worldgen.trees.CorruptedTreeGrower;
 import pokecube.legends.worldgen.trees.DistorticTreeGrower;
@@ -722,9 +725,17 @@ public class BlockInit
     public static final RegistryObject<Block> BIG_CONTAMINATED_DRIPLEAF_STEM;
     public static final RegistryObject<Block> POLLUTING_BLOSSOM;
     public static final RegistryObject<Block> SMALL_CONTAMINATED_DRIPLEAF;
+    
+    public static final RegistryObject<BlockEntityType<RaidSpawn>> RAID_SPAWN_ENTITY;
+    public static final RegistryObject<BlockEntityType<RingTile>> RING_ENTITY;
 
     static
     {
+        RAID_SPAWN_ENTITY = PokecubeLegends.TILES.register("raid_spot_spawner",
+                () -> BlockEntityType.Builder.of(RaidSpawn::new, BlockInit.RAID_SPAWNER.get()).build(null));
+        RING_ENTITY = PokecubeLegends.TILES.register("mirage_spot_block",
+                () -> BlockEntityType.Builder.of(RingTile::new, BlockInit.PORTAL.get()).build(null));
+        
         // Dimensions Creative Tab -
         // Sorting depends on the order the blocks are listed in
         ULTRA_COAL_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_coal_ore",

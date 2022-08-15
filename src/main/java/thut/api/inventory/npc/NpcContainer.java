@@ -8,24 +8,20 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.network.IContainerFactory;
 import thut.api.inventory.BaseContainer;
+import thut.core.init.RegistryObjects;
 
 public class NpcContainer extends BaseContainer
 {
-    public static final MenuType<NpcContainer> TYPE = new MenuType<>(
-            (IContainerFactory<NpcContainer>) NpcContainer::new);
-
     private ResourceLocation tex = new ResourceLocation("thutcore", "textures/gui/generic_4x2.png");
 
     private final Container wrapped;
 
     public NpcContainer(int id, final Inventory ivplay, final FriendlyByteBuf data)
     {
-        super(TYPE, id);
+        super(RegistryObjects.NPC_MENU.get(), id);
         final LivingEntity entity = ivplay.player;
         final int num = data.readInt();
         final Entity mob = entity.getLevel().getEntity(num);

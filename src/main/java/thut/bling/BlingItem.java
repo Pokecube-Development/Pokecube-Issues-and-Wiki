@@ -25,7 +25,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.IForgeRegistry;
 import thut.bling.client.ClientSetupHandler;
 import thut.bling.network.PacketBag;
 import thut.core.common.ThutCore;
@@ -37,9 +36,9 @@ public class BlingItem extends Item implements IWearable
 {
 
     public static Map<String, EnumWearable> wearables = Maps.newHashMap();
-    public static Map<Item, EnumWearable>   defaults  = Maps.newHashMap();
-    public static List<String>              names     = Lists.newArrayList();
-    public static List<Item>                bling     = Lists.newArrayList();
+    public static Map<Item, EnumWearable> defaults = Maps.newHashMap();
+    public static List<String> names = Lists.newArrayList();
+    public static List<Item> bling = Lists.newArrayList();
     static
     {
         BlingItem.wearables.put("ring", EnumWearable.FINGER);
@@ -57,18 +56,19 @@ public class BlingItem extends Item implements IWearable
         Collections.sort(BlingItem.names);
     }
 
-    public static void initDefaults(final IForgeRegistry<Item> iForgeRegistry)
+    public static void init()
     {
         for (final String s : BlingItem.names)
         {
-            final BlingItem bling = new BlingItem(s, BlingItem.wearables.get(s));
-            bling.setRegistryName(ThutBling.MODID, "bling_" + s);
-            BlingItem.bling.add(bling);
-            iForgeRegistry.register(bling);
+            ThutBling.ITEMS.register("bling_" + s, () -> {
+                final BlingItem bling = new BlingItem(s, BlingItem.wearables.get(s));
+                BlingItem.bling.add(bling);
+                return bling;
+            });
         }
     }
 
-    public final String        name;
+    public final String name;
     private final EnumWearable slot;
 
     public BlingItem(final String name, final EnumWearable slot)
@@ -79,8 +79,10 @@ public class BlingItem extends Item implements IWearable
         BlingItem.defaults.put(this, slot);
     }
 
-    /** allows items to add custom lines of information to the mouseover
-     * description */
+    /**
+     * allows items to add custom lines of information to the mouseover
+     * description
+     */
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(final ItemStack stack, @Nullable final Level playerIn, final List<Component> list,
@@ -120,7 +122,8 @@ public class BlingItem extends Item implements IWearable
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(final Level worldIn, final Player playerIn, final InteractionHand hand)
+    public InteractionResultHolder<ItemStack> use(final Level worldIn, final Player playerIn,
+            final InteractionHand hand)
     {
         if (this.slot == EnumWearable.BACK)
         {

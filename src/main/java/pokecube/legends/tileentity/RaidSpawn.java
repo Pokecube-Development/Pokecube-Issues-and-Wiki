@@ -15,11 +15,10 @@ import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import pokecube.core.blocks.maxspot.MaxTile;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
+import pokecube.legends.init.BlockInit;
 
 public class RaidSpawn extends MaxTile
 {
-    public static BlockEntityType<RaidSpawn> TYPE;
-
     private static final List<BeamSegment> empty = ImmutableList.of();
 
     private final List<BeamSegment> normal = Lists.newArrayList();
@@ -27,7 +26,7 @@ public class RaidSpawn extends MaxTile
 
     public RaidSpawn(final BlockPos pos, final BlockState state)
     {
-        this(RaidSpawn.TYPE, pos, state);
+        this(BlockInit.RAID_SPAWN_ENTITY.get(), pos, state);
     }
 
     public RaidSpawn(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
