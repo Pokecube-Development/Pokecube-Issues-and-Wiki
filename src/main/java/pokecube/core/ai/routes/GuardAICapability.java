@@ -132,17 +132,15 @@ public class GuardAICapability implements IGuardAICapability
 
         private void pathFail(final Mob entity)
         {
-            if (this.path_fails++ > 100)
+            if (this.path_fails++ > 100 && entity.getLevel() instanceof ServerLevel level)
             {
-                final ServerLevel world = (ServerLevel) entity.getLevel();
-
                 final BlockPos old = entity.blockPosition();
                 // Only path fail if we actually are nearby.
                 if (old.distSqr(this.getPos()) > 128 * 128) return;
                 // Ensure chunk exists
-                world.getChunk(this.getPos());
-                final BlockState state = world.getBlockState(this.getPos());
-                final VoxelShape shape = state.getCollisionShape(world, this.getPos());
+                level.getChunk(this.getPos());
+                final BlockState state = level.getBlockState(this.getPos());
+                final VoxelShape shape = state.getCollisionShape(level, this.getPos());
                 if (shape.isEmpty() || !state.canOcclude()) entity.moveTo(this.getPos(), 0, 0);
                 else entity.moveTo(this.pos.getX() + 0.5D, this.pos.getY() + shape.max(Axis.Y), this.pos.getZ() + 0.5D,
                         0, 0);
@@ -152,8 +150,7 @@ public class GuardAICapability implements IGuardAICapability
 
         private boolean path(final Mob entity, final double speed)
         {
-            final Vec3 pos = new Vec3(this.getPos().getX() + 0.5, this.getPos().getY(), this.getPos().getZ()
-                    + 0.5);
+            final Vec3 pos = new Vec3(this.getPos().getX() + 0.5, this.getPos().getY(), this.getPos().getZ() + 0.5);
             this.setWalkTo(entity, pos, speed, 0);
             return true;
         }
@@ -238,8 +235,7 @@ public class GuardAICapability implements IGuardAICapability
     public ListTag serializeTasks()
     {
         final ListTag list = new ListTag();
-        for (final IGuardTask task : this.tasks)
-            list.add(task.serialze());
+        for (final IGuardTask task : this.tasks) list.add(task.serialze());
         return list;
     }
 
@@ -253,11 +249,7 @@ public class GuardAICapability implements IGuardAICapability
     public void deserializeNBT(final CompoundTag nbt)
     {
         this.setState(GuardState.values()[nbt.getInt("state")]);
-        if (nbt.contains("tasks"))
-        {
-            final ListTag tasks = (ListTag) nbt.get("tasks");
-            this.loadTasks(tasks);
-        }
+        if (nbt.get("tasks") instanceof ListTag tasks) this.loadTasks(tasks);
     }
 
     @Override

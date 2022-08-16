@@ -31,7 +31,7 @@ public class BrainUtils extends BrainUtil
         final Brain<?> brain = mobIn.getBrain();
         if (brain.hasMemoryValue(MemoryModules.ATTACKTARGET.get()))
             return brain.getMemory(MemoryModules.ATTACKTARGET.get()).get();
-        else if (mobIn instanceof Mob) return ((Mob) mobIn).getTarget();
+        else if (mobIn instanceof Mob mob) return mob.getTarget();
         else return null;
     }
 
@@ -50,7 +50,7 @@ public class BrainUtils extends BrainUtil
         final Brain<?> brain = mobIn.getBrain();
         if (brain.checkMemory(MemoryModules.ATTACKTARGET.get(), MemoryStatus.REGISTERED))
             brain.setMemory(MemoryModules.ATTACKTARGET.get(), target);
-        if (mobIn instanceof Mob) ((Mob) mobIn).setTarget(target);
+        if (mobIn instanceof Mob mob) mob.setTarget(target);
     }
 
     public static void setHuntTarget(final LivingEntity mobIn, final LivingEntity target)
@@ -72,7 +72,7 @@ public class BrainUtils extends BrainUtil
         final Brain<?> brain = mobIn.getBrain();
         if (brain.hasMemoryValue(MemoryModules.HUNTTARGET.get()))
             return brain.getMemory(MemoryModules.HUNTTARGET.get()).get();
-        else if (mobIn instanceof Mob) return ((Mob) mobIn).getTarget();
+        else if (mobIn instanceof Mob mob) return mob.getTarget();
         else return null;
     }
 

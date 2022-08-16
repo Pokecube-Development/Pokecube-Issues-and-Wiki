@@ -70,9 +70,8 @@ public class Dig extends AbstractConstructTask
         final long time = Tracker.instance().getTick();
         this.n = null;
         this.e = null;
-        if (old instanceof Edge)
+        if (old instanceof Edge edge)
         {
-            final Edge edge = (Edge) old;
             Node next = edge.node1;
             if (next.shouldDig(time))
             {
@@ -90,9 +89,8 @@ public class Dig extends AbstractConstructTask
                 return true;
             }
         }
-        else if (old instanceof Node)
+        else if (old instanceof Node node)
         {
-            final Node node = (Node) old;
             Edge next = null;
             for (final Edge e : node.edges)
                 if (e.shouldDig(time))

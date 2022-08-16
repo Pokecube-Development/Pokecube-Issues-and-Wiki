@@ -70,9 +70,8 @@ public class EggSensor extends Sensor<Mob>
 
     private void addIfEgg(final LivingEntity e, final List<EntityPokemobEgg> eggs)
     {
-        if (e instanceof EntityPokemobEgg)
+        if (e instanceof EntityPokemobEgg egg)
         {
-            final EntityPokemobEgg egg = (EntityPokemobEgg) e;
             final IPokemob mob = egg.getPokemob(false);
             if (mob == null) return;
             if (AntTasks.isValid(mob.getEntity())) eggs.add(egg);

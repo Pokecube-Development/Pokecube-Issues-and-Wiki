@@ -240,9 +240,8 @@ public class Build extends AbstractConstructTask
         final long time = Tracker.instance().getTick();
         this.n = null;
         this.e = null;
-        if (old instanceof Edge)
+        if (old instanceof Edge edge)
         {
-            final Edge edge = (Edge) old;
             Node next = edge.node1;
             if (next.shouldBuild(time))
             {
@@ -260,9 +259,8 @@ public class Build extends AbstractConstructTask
                 return true;
             }
         }
-        else if (old instanceof Node)
+        else if (old instanceof Node node)
         {
-            final Node node = (Node) old;
             Edge next = null;
             for (final Edge e : node.edges) if (e.shouldBuild(time))
             {
@@ -305,9 +303,8 @@ public class Build extends AbstractConstructTask
             {
 
                 final ItemStack stack = this.pokemob.getInventory().getItem(i);
-                if (!stack.isEmpty() && stack.getItem() instanceof BlockItem)
+                if (!stack.isEmpty() && stack.getItem() instanceof BlockItem item)
                 {
-                    final BlockItem item = (BlockItem) stack.getItem();
                     if (!PokecubeTerrainChecker.isTerrain(item.getBlock().defaultBlockState())) continue;
                     this.storeInd = i;
                     this.to_place = stack;
@@ -327,9 +324,8 @@ public class Build extends AbstractConstructTask
                     for (int i = 0; i < cont.getSlots(); i++)
                     {
                         final ItemStack stack = cont.getStackInSlot(i);
-                        if (!stack.isEmpty() && stack.getItem() instanceof BlockItem)
+                        if (!stack.isEmpty() && stack.getItem() instanceof BlockItem item)
                         {
-                            final BlockItem item = (BlockItem) stack.getItem();
                             if (!PokecubeTerrainChecker.isTerrain(item.getBlock().defaultBlockState())) continue;
                             this.to_place = inv.getFirst().extractItem(i, Math.min(stack.getCount(), 5), false);
                             this.storeInd = this.storage.firstEmpty;
@@ -376,9 +372,8 @@ public class Build extends AbstractConstructTask
     @Override
     protected void doWork()
     {
-        if (!this.to_place.isEmpty() && this.to_place.getItem() instanceof BlockItem && this.storeInd != -1)
+        if (!this.to_place.isEmpty() && this.to_place.getItem() instanceof BlockItem item && this.storeInd != -1)
         {
-            final BlockItem item = (BlockItem) this.to_place.getItem();
             final BlockState state = item.getBlock().defaultBlockState();
             boolean wall = false;
             final Part part = this.n == null ? this.e : this.n;

@@ -417,8 +417,9 @@ public class LogicMiscUpdate extends LogicBase
 
         // Everything below here is client side only!
 
-        if (id >= 0 && targ == null)
-            this.entity.setTarget((LivingEntity) PokecubeAPI.getEntityProvider().getEntity(world, id, false));
+        if (id >= 0 && targ == null
+                && PokecubeAPI.getEntityProvider().getEntity(world, id, false) instanceof LivingEntity living)
+            this.entity.setTarget(living);
         if (id < 0 && targ != null) this.entity.setTarget(null);
         if (targ != null && !targ.isAlive()) this.entity.setTarget(null);
 

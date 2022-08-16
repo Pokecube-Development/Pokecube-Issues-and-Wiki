@@ -77,9 +77,8 @@ public class CheckNest extends BaseIdleTask
                         // Lets remake the hive.
                         this.world.setBlockAndUpdate(pos.pos(), PokecubeItems.NEST.get().defaultBlockState());
                         final BlockEntity tile = this.world.getBlockEntity(pos.pos());
-                        if (tile instanceof NestTile)
+                        if (tile instanceof NestTile nest)
                         {
-                            final NestTile nest = (NestTile) tile;
                             nest.setWrappedHab(new AntHabitat());
                             nest.addResident(this.pokemob);
                             // Copy over the old habitat info.

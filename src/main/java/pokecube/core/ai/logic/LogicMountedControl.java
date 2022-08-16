@@ -201,11 +201,11 @@ public class LogicMountedControl extends LogicBase
 
         this.entity.setNoGravity(verticalControl);
 
-        for (final Entity e : this.entity.getIndirectPassengers()) if (e instanceof LivingEntity)
+        for (final Entity e : this.entity.getIndirectPassengers()) if (e instanceof LivingEntity living)
         {
             final boolean doBuffs = !buffs.isEmpty();
-            if (doBuffs) for (final MobEffectInstance buff : buffs) ((LivingEntity) e).addEffect(buff);
-            else((LivingEntity) e).curePotionEffects(stack);
+            if (doBuffs) for (final MobEffectInstance buff : buffs) living.addEffect(buff);
+            else living.curePotionEffects(stack);
         }
 
         double vx = this.entity.getDeltaMovement().x;

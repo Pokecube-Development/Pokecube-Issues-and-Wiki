@@ -155,17 +155,15 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     public void updateRepelledRegion(final BlockEntity tile, final ServerLevel world)
     {
         final AABB box = this.rooms.getBounds().inflate(10, 0, 10);
-        NestTile nest = null;
+        this.repelled = new AABBRegion(box);
         this.tile = tile;
-        if (this.tile instanceof NestTile)
+        if (this.tile instanceof NestTile nest)
         {
-            nest = (NestTile) this.tile;
             this.removing = true;
             if (this.repelled != null) SpawnHandler.removeForbiddenSpawningCoord(this.repelled.getPos(), world);
             this.removing = false;
+            nest.addForbiddenSpawningCoord();
         }
-        this.repelled = new AABBRegion(box);
-        if (nest != null) nest.addForbiddenSpawningCoord();
     }
 
     @Override
@@ -350,8 +348,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         // This also removes hatched/removed eggs
         this.eggs.removeIf(uuid -> {
             final Entity mob = world.getEntity(uuid);
-            if (!(mob instanceof EntityPokemobEgg) || !mob.isAddedToWorld()) return true;
-            final EntityPokemobEgg egg = (EntityPokemobEgg) mob;
+            if (!(mob instanceof EntityPokemobEgg egg) || !mob.isAddedToWorld()) return true;
             if (ants > PokecubeCore.getConfig().antNestMobNumber || !playerNear) egg.setAge(-100);
             else if (egg.getAge() < -100) egg.setAge(-rng.nextInt(100));
             return false;
@@ -408,9 +405,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 for (int i = 0; i < handler.getSlots(); i++)
                 {
                     final ItemStack stack = handler.getStackInSlot(i);
-                    if (!stack.isEmpty() && stack.getItem() instanceof BlockItem)
+                    if (!stack.isEmpty() && stack.getItem() instanceof BlockItem item)
                     {
-                        final BlockItem item = (BlockItem) stack.getItem();
                         if (!item.getBlock().defaultBlockState().canOcclude()) continue;
                         this.hasItems = true;
                         break;
@@ -682,7 +678,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     @Override
     public boolean onEnterHabitat(final Mob mob)
     {
-        if (!this.canEnterHabitat(mob)) return false;
+        if (!this.canEnterHabitat(mob) || !(mob.getLevel() instanceof ServerLevel level)) return false;
 
         final int ants = this.ants_in.size() + this.ants.size();
 
@@ -697,10 +693,9 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             {
                 if (!room.isPresent()) room = Optional.of(this.here);
                 final PokedexEntry entry = poke.getPokedexEntry();
-                final ServerLevel world = (ServerLevel) mob.getLevel();
-                if (world.isEmptyBlock(room.get().above()))
+                if (level.isEmptyBlock(room.get().above()))
                 {
-                    final EntityPokemobEgg egg = NestTile.spawnEgg(entry, room.get().above(), world, false);
+                    final EntityPokemobEgg egg = NestTile.spawnEgg(entry, room.get().above(), level, false);
                     if (egg != null)
                     {
                         final CompoundTag nest = NbtUtils.writeBlockPos(this.here);

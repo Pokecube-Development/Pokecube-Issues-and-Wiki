@@ -54,8 +54,7 @@ public class MakeNest extends BaseIdleTask
         final Brain<?> brain = this.entity.getBrain();
         this.world.setBlockAndUpdate(pos, PokecubeItems.NEST.get().defaultBlockState());
         final BlockEntity tile = this.world.getBlockEntity(pos);
-        if (!(tile instanceof NestTile)) return false;
-        final NestTile nest = (NestTile) tile;
+        if (!(tile instanceof NestTile nest)) return false;
         nest.setWrappedHab(new AntHabitat());
         nest.addResident(this.pokemob);
         brain.eraseMemory(MemoryModules.NO_NEST_TIMER.get());
