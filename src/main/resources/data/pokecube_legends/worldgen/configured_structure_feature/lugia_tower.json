@@ -11,7 +11,7 @@
       "pokecube_legends:towns",
       "pokecube_legends:villages"
     ],
-    "y_settings":{"min_y": 63},
+    "y_settings":{"min_y": 65},
     "avoid_range": 6,
     "biome_room": 5,
     "size": 2,
