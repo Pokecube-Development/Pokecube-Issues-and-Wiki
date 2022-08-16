@@ -46,6 +46,9 @@ public class MemoryModules extends MemoryModuleTypes
 
     public static final RegistryObject<MemoryModuleType<List<AgeableMob>>> POSSIBLE_MATES;
     public static final RegistryObject<MemoryModuleType<List<LivingEntity>>> HERD_MEMBERS;
+    
+    // Used to decide if we want to do the mixin for brain activation
+    public static final RegistryObject<MemoryModuleType<Boolean>> DUMMY;// Boolean
 
     static
     {
@@ -85,6 +88,8 @@ public class MemoryModules extends MemoryModuleTypes
         POSSIBLE_MATES = PokecubeCore.MEMORIES.register("mate_options", () -> new MemoryModuleType<>(Optional.empty()));
 
         HERD_MEMBERS = PokecubeCore.MEMORIES.register("herd_members", () -> new MemoryModuleType<>(Optional.empty()));
+        
+        DUMMY = PokecubeCore.MEMORIES.register("dummy", () -> new MemoryModuleType<>(Optional.empty()));
 
     }
 

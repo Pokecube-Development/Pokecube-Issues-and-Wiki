@@ -20,7 +20,7 @@ import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.level.Level;
-import pokecube.adventures.ai.brain.MemoryTypes;
+import pokecube.core.ai.brain.MemoryModules;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.RootTask;
 
@@ -31,14 +31,14 @@ public abstract class MixinMobEntity extends LivingEntity
     {
         public DummySetTask()
         {
-            super(ImmutableMap.of(MemoryTypes.DUMMY.get(), MemoryStatus.REGISTERED));
+            super(ImmutableMap.of(MemoryModules.DUMMY.get(), MemoryStatus.REGISTERED));
         }
 
         @Override
         protected boolean checkExtraStartConditions(final ServerLevel worldIn, final LivingEntity owner)
         {
             final Brain<?> brain = owner.getBrain();
-            brain.setMemory(MemoryTypes.DUMMY.get(), true);
+            brain.setMemory(MemoryModules.DUMMY.get(), true);
             return false;
         }
     }
@@ -64,11 +64,11 @@ public abstract class MixinMobEntity extends LivingEntity
         {
             LivingEntity living = (LivingEntity) (Object) this;
             final Brain<?> brain = living.getBrain();
-            BrainUtil.addToBrain(brain, Lists.newArrayList(MemoryTypes.DUMMY.get()), Lists.newArrayList());
+            BrainUtil.addToBrain(brain, Lists.newArrayList(MemoryModules.DUMMY.get()), Lists.newArrayList());
             final List<Pair<Integer, ? extends Behavior<? super LivingEntity>>> dummyTasks = Lists.newArrayList();
             dummyTasks.add(Pair.of(0, new DummySetTask()));
             for (final Activity a : brain.activeActivities) BrainUtil.addToActivity(brain, a, dummyTasks);
-            brain.setMemory(MemoryTypes.DUMMY.get(), false);
+            brain.setMemory(MemoryModules.DUMMY.get(), false);
         }
     }
 
@@ -82,7 +82,7 @@ public abstract class MixinMobEntity extends LivingEntity
     {
         if (!this.checked_for_ai)
         {
-            this.ticked_default_ai = this.brain.getMemory(MemoryTypes.DUMMY.get()).get();
+            this.ticked_default_ai = this.brain.getMemory(MemoryModules.DUMMY.get()).get();
             this.checked_for_ai = true;
         }
         if (!this.ticked_default_ai)
