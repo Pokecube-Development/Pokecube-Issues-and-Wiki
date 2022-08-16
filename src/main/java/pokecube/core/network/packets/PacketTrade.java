@@ -12,7 +12,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.items.IPokecube.PokecubeBehavior;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -150,13 +150,13 @@ public class PacketTrade extends Packet
                     if (pokecube0.isEmpty())
                     {
                         pokeseal = (seal = inv.getStackInSlot(0)).getItem() == PokecubeItems.getEmptyCube(
-                                PokecubeBehavior.POKESEAL);
+                                PokecubeBehaviour.POKESEAL);
                         cube = pokecube1;
                     }
                     if (pokecube1.isEmpty())
                     {
                         pokeseal = (seal = inv.getStackInSlot(1)).getItem() == PokecubeItems.getEmptyCube(
-                                PokecubeBehavior.POKESEAL);
+                                PokecubeBehaviour.POKESEAL);
                         cube = pokecube0;
                     }
                 }

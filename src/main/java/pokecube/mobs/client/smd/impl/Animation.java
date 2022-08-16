@@ -1,13 +1,14 @@
 package pokecube.mobs.client.smd.impl;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import thut.api.maths.vecmath.Mat4f;
+import thut.lib.ResourceHelper;
 
 /**
  * Animation Object, this contains the various frames of the animations, and
@@ -15,19 +16,19 @@ import thut.api.maths.vecmath.Mat4f;
  */
 public class Animation
 {
-    public final Model      owner;
+    public final Model owner;
     /** List of frames in this animation. */
-    public ArrayList<Frame> frames      = new ArrayList<>();
+    public ArrayList<Frame> frames = new ArrayList<>();
     /**
-     * A list of copies of the bones in owner. They are copied to prevent
-     * issues with modifying the original bones.
+     * A list of copies of the bones in owner. They are copied to prevent issues
+     * with modifying the original bones.
      */
-    public ArrayList<Bone>  bones       = new ArrayList<>();
-    public int              index       = 0;
-    public int              lastIndex;
-    public int              size;
-    public String           name;
-    private int             nextFrameID = 0;
+    public ArrayList<Bone> bones = new ArrayList<>();
+    public int index = 0;
+    public int lastIndex;
+    public int size;
+    public String name;
+    private int nextFrameID = 0;
 
     public Animation(Animation anim, Model owner)
     {
@@ -35,8 +36,7 @@ public class Animation
         this.name = anim.name;
         for (final Bone b : anim.bones)
             this.bones.add(new Bone(b, b.parent != null ? this.bones.get(b.parent.ID) : null, null));
-        for (final Frame f : anim.frames)
-            this.frames.add(new Frame(f, this));
+        for (final Frame f : anim.frames) this.frames.add(new Frame(f, this));
         this.size = anim.size;
     }
 
@@ -75,14 +75,13 @@ public class Animation
     /**
      * Loads the animation from the file.
      *
-     * @param resloc
-     *            - file with the animation.
+     * @param resloc - file with the animation.
      * @throws Exception
      */
     private void loadAnimation(ResourceLocation resloc) throws Exception
     {
-        final InputStream inputStream = Helpers.getStream(resloc);
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        final BufferedReader reader = ResourceHelper.getReader(resloc, Minecraft.getInstance().getResourceManager());
+        if (reader == null) throw new FileNotFoundException(resloc.toString());
         String currentLine = null;
         int lineCount = 0;
         try
@@ -165,8 +164,7 @@ public class Animation
                     }
                     final int boneIndex = Integer.parseInt(params[0]);
                     final float[] locRots = new float[6];
-                    for (int i = 1; i < 7; i++)
-                        locRots[i - 1] = Float.parseFloat(params[i]);
+                    for (int i = 1; i < 7; i++) locRots[i - 1] = Float.parseFloat(params[i]);
                     final Mat4f animated = Helpers.makeMatrix(locRots[0], -locRots[1], -locRots[2], locRots[3],
                             -locRots[4], -locRots[5]);
                     this.frames.get(currentTime).addTransforms(boneIndex, animated);
@@ -210,8 +208,7 @@ public class Animation
         for (int i = 0; i < this.bones.size(); i++)
         {
             theBone = this.bones.get(i);
-            for (final Bone child : this.bones)
-                if (child.parent == theBone) theBone.addChild(child);
+            for (final Bone child : this.bones) if (child.parent == theBone) theBone.addChild(child);
         }
     }
 

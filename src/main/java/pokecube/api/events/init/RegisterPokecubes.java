@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraftforge.eventbus.api.Event;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.items.IPokecube.PokecubeBehavior;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
 
 /**
  * This event is fired during the item registration phase. Add any pokecubes
@@ -14,14 +14,14 @@ import pokecube.api.items.IPokecube.PokecubeBehavior;
  */
 public class RegisterPokecubes extends Event
 {
-    public final List<PokecubeBehavior> behaviors = Lists.newArrayList();
+    public final List<PokecubeBehaviour> behaviors = Lists.newArrayList();
 
     public RegisterPokecubes()
     {
         PokecubeAPI.LOGGER.debug("Cube Registry Event");
     }
 
-    public void register(final PokecubeBehavior behaviour)
+    public void register(final PokecubeBehaviour behaviour)
     {
         PokecubeAPI.LOGGER.debug("Registering cube: " + behaviour.name);
         this.behaviors.add(behaviour);

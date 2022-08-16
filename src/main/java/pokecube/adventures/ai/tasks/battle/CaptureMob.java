@@ -6,7 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.items.IPokecube;
-import pokecube.api.items.IPokecube.PokecubeBehavior;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.core.PokecubeItems;
 
 public class CaptureMob extends BaseBattleTask
@@ -27,7 +27,7 @@ public class CaptureMob extends BaseBattleTask
         if (targ != null && targ.getOwnerId() == null && gameTimeIn - this.lastTry > CaptureMob.COOLDOWN)
         {
             this.lastTry = gameTimeIn;
-            final ItemStack itemStack = new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE), 1);
+            final ItemStack itemStack = new ItemStack(PokecubeItems.getFilledCube(PokecubeBehaviour.DEFAULTCUBE), 1);
             ((IPokecube) itemStack.getItem()).throwPokecubeAt(this.world, this.entity, itemStack, null, this.trainer
                     .getTarget());
         }

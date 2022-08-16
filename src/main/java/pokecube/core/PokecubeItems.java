@@ -50,7 +50,7 @@ import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.items.IPokecube;
-import pokecube.api.items.IPokecube.PokecubeBehavior;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.core.blocks.barrels.GenericBarrel;
 import pokecube.core.blocks.barrels.GenericBarrelTile;
 import pokecube.core.blocks.bases.BaseBlock;
@@ -439,7 +439,7 @@ public class PokecubeItems extends ItemList
 
         if (ret == null) try
         {
-            ret = PokecubeItems.pokecubes.get(PokecubeBehavior.DEFAULTCUBE)[0];
+            ret = PokecubeItems.pokecubes.get(PokecubeBehaviour.DEFAULTCUBE)[0];
         }
         catch (final Exception e)
         {
@@ -467,7 +467,7 @@ public class PokecubeItems extends ItemList
 
         if (ret == null)
         {
-            ret = PokecubeItems.pokecubes.get(PokecubeBehavior.DEFAULTCUBE)[1];
+            ret = PokecubeItems.pokecubes.get(PokecubeBehaviour.DEFAULTCUBE)[1];
             if (id != null) System.err.println("Could not find filled cube for id " + id);
         }
 
@@ -634,7 +634,7 @@ public class PokecubeItems extends ItemList
         json = new JsonObject();
         json.addProperty("replace", false);
         array = new JsonArray();
-        for (final ResourceLocation type : IPokecube.PokecubeBehavior.BEHAVIORS.get().getKeys())
+        for (final ResourceLocation type : IPokecube.PokecubeBehaviour.BEHAVIORS.keySet())
             array.add(PokecubeCore.MODID + ":" + type.getPath() + "cube");
         json.add("values", array);
         file = new File(folder, "pokecubes.json");

@@ -1,9 +1,7 @@
 package pokecube.core.database.moves.json;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +28,7 @@ public class JsonMoves
     public static class AnimationJson
     {
         public String preset;
-        public String duration  = "5";
+        public String duration = "5";
         public String starttick = "0";
         public String sound;
 
@@ -52,10 +50,10 @@ public class JsonMoves
 
     public static class AnimationsJson
     {
-        public String              name;
-        public String              defaultanimation;
-        public String              soundEffectSource;
-        public String              soundEffectTarget;
+        public String name;
+        public String defaultanimation;
+        public String soundEffectSource;
+        public String soundEffectTarget;
         public List<AnimationJson> animations = new ArrayList<>();
     }
 
@@ -66,7 +64,7 @@ public class JsonMoves
 
     public static class FieldApplicator
     {
-        Field       field;
+        Field field;
         IValueFixer fixer = input -> input;
 
         public FieldApplicator(final Field field)
@@ -117,7 +115,7 @@ public class JsonMoves
         public String effectRate;
 
         public String zMovesTo;
-        public int    zMovePower = -1;
+        public int zMovePower = -1;
         public String zEffect;
         public String zMove;
         public String zEntry;
@@ -125,7 +123,7 @@ public class JsonMoves
         public String gMove;
         public String gMoveTo;
         public String gmaxEntry;
-        public int    gMovePower = -1;
+        public int gMovePower = -1;
 
         public String tmNum;
         public String speedPriority;
@@ -148,13 +146,13 @@ public class JsonMoves
         public String soundEffectSource;
         public String soundEffectTarget;
 
-        public boolean multiTarget     = false;
-        public boolean interceptable   = true;
-        public String  preset;
-        public boolean ohko            = false;
+        public boolean multiTarget = false;
+        public boolean interceptable = true;
+        public String preset;
+        public boolean ohko = false;
         public boolean protectionMoves = false;
-        public int     extraInfo       = -1;
-        
+        public int extraInfo = -1;
+
         public float cooldown_scale = 1.0f;
 
         public String customSize = null;
@@ -212,8 +210,7 @@ public class JsonMoves
         String ret = "";
         final String name = ThutCore.trim(old);
         final String[] args = name.split(" ");
-        for (final String arg : args)
-            ret += arg;
+        for (final String arg : args) ret += arg;
         return ret;
     }
 
@@ -227,8 +224,8 @@ public class JsonMoves
     {
         try
         {
-            final InputStream res = PackFinder.getStream(file);
-            final Reader reader = new InputStreamReader(res);
+            final BufferedReader reader = PackFinder.getReader(file);
+            if (reader == null) throw new FileNotFoundException(file.toString());
             JsonMoves.moves = JsonMoves.gson.fromJson(reader, MovesJson.class);
             JsonMoves.moves.init();
             reader.close();
@@ -248,20 +245,19 @@ public class JsonMoves
         JsonMoves.loadMoves(movesFile);
         try
         {
-            final InputStream res = PackFinder.getStream(animationFile);
-            final Reader reader = new InputStreamReader(res);
+            final BufferedReader reader = PackFinder.getReader(animationFile);
             final AnimsJson animations = JsonMoves.gson.fromJson(reader, AnimsJson.class);
             reader.close();
             final List<AnimationsJson> movesList = new ArrayList<>(animations.moves);
             for (final AnimationsJson anim : movesList)
                 if (anim.defaultanimation == null && anim.animations.isEmpty()) animations.moves.remove(anim);
                 else if (anim.defaultanimation != null)
-                {
-                    final AnimationJson animation = new AnimationJson();
-                    animation.preset = anim.defaultanimation;
-                    anim.defaultanimation = null;
-                    anim.animations.add(animation);
-                }
+            {
+                final AnimationJson animation = new AnimationJson();
+                animation.preset = anim.defaultanimation;
+                anim.defaultanimation = null;
+                anim.animations.add(animation);
+            }
 
             animations.moves.sort((arg0, arg1) -> arg0.name.compareTo(arg1.name));
             final Map<String, MoveJsonEntry> entryMap = Maps.newHashMap();
@@ -270,14 +266,14 @@ public class JsonMoves
                 entryMap.put(entry.name, entry);
                 for (final AnimationsJson anims : animations.moves)
                     if (JsonMoves.convertMoveName(anims.name).equals(JsonMoves.convertMoveName(entry.name)))
-                    {
-                        entry.defaultanimation = anims.defaultanimation;
-                        entry.animations = anims.animations;
-                        entry.soundEffectSource = anims.soundEffectSource;
-                        entry.soundEffectTarget = anims.soundEffectTarget;
-                        anims.name = entry.name;
-                        break;
-                    }
+                {
+                    entry.defaultanimation = anims.defaultanimation;
+                    entry.animations = anims.animations;
+                    entry.soundEffectSource = anims.soundEffectSource;
+                    entry.soundEffectTarget = anims.soundEffectTarget;
+                    anims.name = entry.name;
+                    break;
+                }
             }
             MovesParser.load(JsonMoves.moves);
             final Collection<Move_Base> moves = MovesUtils.getKnownMoves();
@@ -285,8 +281,7 @@ public class JsonMoves
             {
                 final MoveJsonEntry entry = entryMap.get(move.name);
                 if (entry != null) move.move.baseEntry = entry;
-                else if (!move.name.startsWith("pokemob.status")) PokecubeAPI.LOGGER.error("No Entry for "
-                        + move.name);
+                else if (!move.name.startsWith("pokemob.status")) PokecubeAPI.LOGGER.error("No Entry for " + move.name);
             }
             if (PokecubeMod.debug) PokecubeAPI.LOGGER.info("Processed " + moves.size() + " Moves.");
             MovesAdder.postInitMoves();
@@ -295,15 +290,14 @@ public class JsonMoves
             for (final MoveJsonEntry entry : JsonMoves.moves.moves)
             {
                 final MoveJsonEntry newEntry = new MoveJsonEntry();
-                for (final Field f : MoveJsonEntry.class.getFields())
-                    if (!f.getName().equals("animations")) try
-                    {
-                        f.set(newEntry, f.get(entry));
-                    }
-                    catch (final Exception e)
-                    {
-                        e.printStackTrace();
-                    }
+                for (final Field f : MoveJsonEntry.class.getFields()) if (!f.getName().equals("animations")) try
+                {
+                    f.set(newEntry, f.get(entry));
+                }
+                catch (final Exception e)
+                {
+                    e.printStackTrace();
+                }
                 cleaned.moves.add(newEntry);
             }
         }

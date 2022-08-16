@@ -1,8 +1,8 @@
 package pokecube.core.client.gui.pokemob;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -24,7 +24,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import pokecube.api.PokecubeAPI;
@@ -38,6 +37,7 @@ import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import thut.api.util.JsonUtil;
+import thut.lib.ResourceHelper;
 import thut.lib.TComponent;
 
 public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
@@ -50,12 +50,12 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
 
     public static void initSizeMap()
     {
-        Resource res = null;
         try
         {
-            res = Minecraft.getInstance().getResourceManager().getResource(GuiPokemobBase.SIZEMAP);
-            final InputStream in = res.getInputStream();
-            final JsonObject json = JsonUtil.gson.fromJson(new InputStreamReader(in), JsonObject.class);
+            final BufferedReader reader = ResourceHelper.getReader(GuiPokemobBase.SIZEMAP,
+                    Minecraft.getInstance().getResourceManager());
+            if (reader == null) throw new FileNotFoundException(GuiPokemobBase.SIZEMAP.toString());
+            final JsonObject json = JsonUtil.gson.fromJson(reader, JsonObject.class);
             for (final Entry<String, JsonElement> entry : json.entrySet())
             {
                 final String key = entry.getKey();
@@ -69,7 +69,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
                     PokecubeAPI.LOGGER.error("Error loading size for {}", key);
                 }
             }
-            res.close();
+            reader.close();
         }
         catch (final IOException e)
         {

@@ -1,8 +1,7 @@
 package pokecube.core.database.spawns;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -192,8 +191,8 @@ public class PokemobSpawns extends ResourceData
             // wants to edit an existing one, it means they are most likely
             // trying to remove default behaviour. They can add new things by
             // just adding another json file to the correct package.
-            InputStream res = PackFinder.getStream(l);
-            final Reader reader = new InputStreamReader(res);
+            final BufferedReader reader = PackFinder.getReader(l);
+            if (reader == null) throw new FileNotFoundException(l.toString());
             try
             {
                 final SpawnList temp = JsonUtil.gson.fromJson(reader, SpawnList.class);

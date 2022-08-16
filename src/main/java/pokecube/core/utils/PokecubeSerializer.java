@@ -33,7 +33,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.items.IPokecube.PokecubeBehavior;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.playerdata.PokecubePlayerData;
@@ -359,7 +359,7 @@ public class PokecubeSerializer
             entity.setForSpawn(Tools.levelToXp(entity.getExperienceMode(), 5));
             entity.setHealth(entity.getMaxHealth());
             entity.setOwner(owner.getUUID());
-            entity.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
+            entity.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehaviour.DEFAULTCUBE)));
             final ItemStack item = PokecubeManager.pokemobToItem(entity);
             PokecubeManager.heal(item, owner.getLevel());
             entity.getEntity().discard();

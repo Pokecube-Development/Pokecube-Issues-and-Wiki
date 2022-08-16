@@ -15,7 +15,7 @@ import pokecube.api.events.pokemobs.EvolveEvent;
 import pokecube.api.events.pokemobs.TradeEvent;
 import pokecube.api.events.pokemobs.combat.KillEvent;
 import pokecube.api.items.IPokecube;
-import pokecube.api.items.IPokecube.PokecubeBehavior;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.stats.ISpecialCaptureCondition;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -52,9 +52,9 @@ public class StatsHandler
     private static void canCapture(final CaptureEvent.Pre evt)
     {
         final ResourceLocation id = PokecubeItems.getCubeId(evt.getFilledCube());
-        if (IPokecube.PokecubeBehavior.BEHAVIORS.get().containsKey(id))
+        if (IPokecube.PokecubeBehaviour.BEHAVIORS.containsKey(id))
         {
-            final PokecubeBehavior cube = IPokecube.PokecubeBehavior.BEHAVIORS.get().getValue(id);
+            final PokecubeBehaviour cube = IPokecube.PokecubeBehaviour.BEHAVIORS.get(id);
             cube.onPreCapture(evt);
         }
         if (evt.getCaught() == null) return;
@@ -116,9 +116,9 @@ public class StatsHandler
     private static void recordCapture(final CaptureEvent.Post evt)
     {
         final ResourceLocation id = PokecubeItems.getCubeId(evt.getFilledCube());
-        if (IPokecube.PokecubeBehavior.BEHAVIORS.get().containsKey(id))
+        if (IPokecube.PokecubeBehaviour.BEHAVIORS.containsKey(id))
         {
-            final PokecubeBehavior cube = IPokecube.PokecubeBehavior.BEHAVIORS.get().getValue(id);
+            final PokecubeBehaviour cube = IPokecube.PokecubeBehaviour.BEHAVIORS.get(id);
             cube.onPostCapture(evt);
         }
         if (evt.getCaught() == null || evt.isCanceled() || evt.getCaught().isShadow()) return;

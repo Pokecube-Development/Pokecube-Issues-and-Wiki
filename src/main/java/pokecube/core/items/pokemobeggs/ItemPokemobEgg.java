@@ -41,7 +41,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.events.EggEvent;
-import pokecube.api.items.IPokecube.PokecubeBehavior;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -225,7 +225,7 @@ public class ItemPokemobEgg extends Item
         {
             mob.setOwner(owner.getUUID());
             mob.setGeneralState(GeneralStates.TAMED, true);
-            mob.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
+            mob.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehaviour.DEFAULTCUBE)));
             mob.setHeldItem(ItemStack.EMPTY);
         }
         else mob.getEntity().getPersistentData().remove(TagNames.HATCHED);

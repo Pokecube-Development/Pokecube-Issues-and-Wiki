@@ -15,7 +15,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.Entity;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -27,6 +26,7 @@ import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.common.ThutCore;
+import thut.lib.ResourceHelper;
 
 public abstract class BaseModel implements IModelCustom, IModel, IRetexturableModel
 {
@@ -89,14 +89,12 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         try
         {
             // Check if the model even exists
-            final Resource res = Minecraft.getInstance().getResourceManager().getResource(l);
             this.last_loaded = l;
-            if (res == null)
+            if (!ResourceHelper.exists(l, Minecraft.getInstance().getResourceManager()))
             {
                 this.valid = false;
                 return;
             }
-            res.close();
             // If it did exist, then lets schedule load on another thread
             Loader loader = new Loader(this, l);
             loader.start();

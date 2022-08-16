@@ -30,7 +30,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.pokemobs.CaptureEvent;
 import pokecube.api.items.IPokecube;
-import pokecube.api.items.IPokecube.PokecubeBehavior;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.inventory.pc.PCContainer;
@@ -250,9 +250,9 @@ public class PCEventsHandler
             // Apply the same code that StatsHandler does, as it does not
             // get the cancelled event.
             final ResourceLocation cube_id = PokecubeItems.getCubeId(evt.getFilledCube());
-            if (IPokecube.PokecubeBehavior.BEHAVIORS.get().containsKey(cube_id))
+            if (IPokecube.PokecubeBehaviour.BEHAVIORS.containsKey(cube_id))
             {
-                final PokecubeBehavior cube = IPokecube.PokecubeBehavior.BEHAVIORS.get().getValue(cube_id);
+                final PokecubeBehaviour cube = IPokecube.PokecubeBehaviour.BEHAVIORS.get(cube_id);
                 cube.onPostCapture(evt);
             }
             StatsCollector.addCapture(evt.getCaught());

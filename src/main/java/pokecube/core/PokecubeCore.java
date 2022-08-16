@@ -35,12 +35,9 @@ import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
-import net.minecraftforge.registries.RegistryBuilder;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.events.init.InitDatabase;
-import pokecube.api.items.IPokecube;
-import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.npc.Activities;
@@ -93,10 +90,6 @@ public class PokecubeCore
                 PokecubeCore.proxy = new CommonProxy();
                 NBTEdit.proxy = new pokecube.nbtedit.forge.CommonProxy();
             }
-            IPokecube.PokecubeBehavior.BEHAVIORS = event.create(new RegistryBuilder<PokecubeBehavior>()
-                    .setIDRange(0, Short.MAX_VALUE).setType(PokecubeBehavior.class)
-                    .setName(new ResourceLocation(PokecubeMod.ID, "pokecubes")));
-
             // Register these before items and blocks, as some items might need
             // them
             final InitDatabase.Pre pre = new InitDatabase.Pre();
@@ -133,7 +126,6 @@ public class PokecubeCore
     public static final DeferredRegister<EntityType<?>> ENTITIES;
     public static final DeferredRegister<MenuType<?>> MENU;
     public static final DeferredRegister<SoundEvent> SOUNDS;
-    public static final DeferredRegister<PokecubeBehavior> POKECUBES;
     public static final DeferredRegister<Motive> PAINTINGS;
 
     static
@@ -151,7 +143,6 @@ public class PokecubeCore
         ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, PokecubeCore.MODID);
         MENU = DeferredRegister.create(ForgeRegistries.CONTAINERS, PokecubeCore.MODID);
         SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, PokecubeCore.MODID);
-        POKECUBES = DeferredRegister.create(new ResourceLocation(PokecubeMod.ID, "pokecubes"), PokecubeCore.MODID);
         PAINTINGS = DeferredRegister.create(ForgeRegistries.PAINTING_TYPES, PokecubeCore.MODID);
     }
 
@@ -248,7 +239,6 @@ public class PokecubeCore
         PokecubeCore.MEMORIES.register(bus);
         PokecubeCore.SOUNDS.register(bus);
         PokecubeCore.PAINTINGS.register(bus);
-        PokecubeCore.POKECUBES.register(bus);
 
         PokecubeWorld.init(bus);
 

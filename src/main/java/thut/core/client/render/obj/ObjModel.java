@@ -20,7 +20,6 @@ import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.Entity;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.animation.Animation;
@@ -37,6 +36,7 @@ import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.common.ThutCore;
+import thut.lib.ResourceHelper;
 
 public class ObjModel implements IModelCustom, IModel, IRetexturableModel
 {
@@ -95,14 +95,14 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
         this.valid = true;
         try
         {
-            final Resource res = Minecraft.getInstance().getResourceManager().getResource(model);
-            if (res == null)
+            InputStream stream = ResourceHelper.getStream(model, Minecraft.getInstance().getResourceManager());
+            if (stream == null)
             {
                 this.valid = false;
                 return;
             }
-            this.makeObjects(res.getInputStream());
-            res.close();
+            this.makeObjects(stream);
+            stream.close();
         }
         catch (final Exception e)
         {

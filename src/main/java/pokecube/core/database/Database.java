@@ -2,7 +2,6 @@ package pokecube.core.database;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -563,7 +562,8 @@ public class Database
         final Collection<ResourceLocation> resources = PackFinder.getJsonResources("database/recipes");
         for (final ResourceLocation file : resources) try
         {
-            final Reader reader = new InputStreamReader(PackFinder.getStream(file));
+            final BufferedReader reader = PackFinder.getReader(file);
+            if (reader == null) throw new FileNotFoundException(file.toString());
             final JsonObject database = JsonUtil.gson.fromJson(reader, JsonObject.class);
             reader.close();
 
@@ -602,7 +602,8 @@ public class Database
         final Collection<ResourceLocation> resources = PackFinder.getJsonResources("database/rewards");
         for (final ResourceLocation file : resources) try
         {
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(PackFinder.getStream(file)));
+            final BufferedReader reader = PackFinder.getReader(file);
+            if (reader == null) throw new FileNotFoundException(file.toString());
             final StringBuffer sb = new StringBuffer();
             String str;
             while ((str = reader.readLine()) != null) sb.append(str);
@@ -628,7 +629,8 @@ public class Database
             final List<ItemStack> kit = Lists.newArrayList();
             for (final ResourceLocation file : resources)
             {
-                final BufferedReader reader = new BufferedReader(new InputStreamReader(PackFinder.getStream(file)));
+                final BufferedReader reader = PackFinder.getReader(file);
+                if (reader == null) throw new FileNotFoundException(file.toString());
                 final XMLStarterItems database = JsonUtil.gson.fromJson(reader, XMLStarterItems.class);
                 reader.close();
                 valid = true;

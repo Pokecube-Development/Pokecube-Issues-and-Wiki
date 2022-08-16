@@ -17,7 +17,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -55,7 +54,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.trainers.IHasPokemobs;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.events.pokemobs.SpawnEvent.Variance;
-import pokecube.api.items.IPokecube.PokecubeBehavior;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -69,6 +68,7 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+import thut.lib.ResourceHelper;
 
 @SuppressWarnings("unchecked")
 public class TypeTrainer extends NpcType
@@ -418,7 +418,7 @@ public class TypeTrainer extends NpcType
             pokemob.getEntity().getPersistentData().putBoolean("__need_init_evos__", true);
             pokemob = pokemob.setPokedexEntry(entry);
             pokemob.setOwner(trainer.getUUID());
-            pokemob.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
+            pokemob.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehaviour.DEFAULTCUBE)));
             final int exp = Tools.levelToXp(pokemob.getExperienceMode(), level);
             pokemob = pokemob.setForSpawn(exp, false);
             final ItemStack item = PokecubeManager.pokemobToItem(pokemob);
@@ -579,16 +579,7 @@ public class TypeTrainer extends NpcType
     @OnlyIn(Dist.CLIENT)
     private boolean texExists(final ResourceLocation texture)
     {
-        try
-        {
-            final Resource res = Minecraft.getInstance().getResourceManager().getResource(texture);
-            res.close();
-            return true;
-        }
-        catch (final Exception e)
-        {
-            return false;
-        }
+        return ResourceHelper.exists(texture, Minecraft.getInstance().getResourceManager());
     }
 
     @Override

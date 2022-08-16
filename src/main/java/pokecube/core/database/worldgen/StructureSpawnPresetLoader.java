@@ -1,7 +1,7 @@
 package pokecube.core.database.worldgen;
 
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +36,8 @@ public class StructureSpawnPresetLoader
             JsonObject loaded;
             try
             {
-                final BufferedReader reader = new BufferedReader(new InputStreamReader(PackFinder.getStream(file)));
+                final BufferedReader reader = PackFinder.getReader(file);
+                if (reader == null) throw new FileNotFoundException(file.toString());
                 loaded = JsonUtil.gson.fromJson(reader, JsonObject.class);
                 reader.close();
                 if (loaded.has("presets"))

@@ -1,7 +1,6 @@
 package pokecube.core.blocks.berries;
 
 import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Collection;
 import java.util.Collections;
@@ -264,7 +263,8 @@ public class BerryGenManager
         for (final ResourceLocation s : resources) try
         {
             BerryConfig loaded;
-            final Reader reader = new InputStreamReader(PackFinder.getStream(s));
+            final Reader reader = PackFinder.getReader(s);
+            if (reader == null) throw new FileNotFoundException(s.toString());
             loaded = JsonUtil.gson.fromJson(reader, BerryConfig.class);
             reader.close();
             BerryGenManager.list.locations.addAll(loaded.locations);

@@ -1,6 +1,7 @@
 package thut.core.client.render.mca;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,7 +12,6 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import thut.core.client.render.mca.McaXML.Buffers;
 import thut.core.client.render.mca.McaXML.Children;
 import thut.core.client.render.mca.McaXML.GeometryNode;
@@ -24,6 +24,7 @@ import thut.core.client.render.x3d.X3dMesh;
 import thut.core.client.render.x3d.X3dModel;
 import thut.core.client.render.x3d.X3dPart;
 import thut.core.common.ThutCore;
+import thut.lib.ResourceHelper;
 
 public class McaModel extends X3dModel
 {
@@ -47,8 +48,7 @@ public class McaModel extends X3dModel
     private Set<String> getChildren(final Children parent)
     {
         final Set<String> ret = Sets.newHashSet();
-        for (final SceneNode child : parent.scenes)
-            if (child.children.geometry != null) ret.add(child.name);
+        for (final SceneNode child : parent.scenes) if (child.children.geometry != null) ret.add(child.name);
         return ret;
     }
 
@@ -58,15 +58,15 @@ public class McaModel extends X3dModel
         this.valid = true;
         try
         {
-            final Resource res = Minecraft.getInstance().getResourceManager().getResource(model);
+            InputStream stream = ResourceHelper.getStream(model, Minecraft.getInstance().getResourceManager());
             this.last_loaded = model;
-            if (res == null)
+            if (stream == null)
             {
                 this.valid = false;
                 return;
             }
-            final McaXML xml = new McaXML(res.getInputStream());
-            res.close();
+            final McaXML xml = new McaXML(stream);
+            stream.close();
             this.makeObjects(xml);
         }
         catch (final Exception e)
@@ -94,8 +94,7 @@ public class McaModel extends X3dModel
             final X3dMesh shape = new X3dMesh(buffers.getOrder(), buffers.getVerts(), buffers.getNormals(),
                     buffers.getTex());
             shapes.add(shape);
-            o.setShapes(shapes);
-            ;
+            o.setShapes(shapes);;
 
             // o.offset.set(bound.x / 16f, bound.y / 16f, bound.z / 16f);
             if (trans != null) o.offset.set(trans.x / 16f, trans.y / 16f, trans.z / 16f);

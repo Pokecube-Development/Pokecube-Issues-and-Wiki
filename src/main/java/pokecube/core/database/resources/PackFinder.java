@@ -1,5 +1,6 @@
 package pokecube.core.database.resources;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+
+import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -27,6 +30,7 @@ import net.minecraftforge.resource.ResourcePackLoader;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
+import thut.lib.ResourceHelper;
 
 public class PackFinder implements RepositorySource
 {
@@ -53,12 +57,26 @@ public class PackFinder implements RepositorySource
         return ret;
     }
 
-    public static InputStream getStream(ResourceLocation l) throws IOException
+    @Nullable
+    public static InputStream getStream(ResourceLocation l)
     {
         if (l.toString().contains("//")) l = new ResourceLocation(l.toString().replace("//", "/"));
 
         long start = System.nanoTime();
-        InputStream ret = Database.resourceManager.getResource(l).getInputStream();
+        InputStream ret = ResourceHelper.getStream(l, Database.resourceManager);
+        long end = System.nanoTime();
+        time_getting_1 += (end - start);
+
+        return ret;
+    }
+
+    @Nullable
+    public static BufferedReader getReader(ResourceLocation l)
+    {
+        if (l.toString().contains("//")) l = new ResourceLocation(l.toString().replace("//", "/"));
+
+        long start = System.nanoTime();
+        BufferedReader ret = ResourceHelper.getReader(l, Database.resourceManager);
         long end = System.nanoTime();
         time_getting_1 += (end - start);
 

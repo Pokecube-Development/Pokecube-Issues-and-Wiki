@@ -1,14 +1,7 @@
 package pokecube.mobs.client.smd.impl;
 
-import java.io.BufferedInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.maths.vecmath.Mat4f;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.model.VectorMath;
@@ -23,39 +16,12 @@ public class Helpers
     /**
      * Ensures that the given index will fit in the list.
      *
-     * @param list
-     *            array to ensure has capacity
-     * @param i
-     *            index to check.
+     * @param list array to ensure has capacity
+     * @param i    index to check.
      */
     public static void ensureFits(final ArrayList<?> list, final int index)
     {
-        while (list.size() <= index)
-            list.add(null);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    /**
-     * Gets an input stream for the given resourcelocation.
-     *
-     * @param resloc
-     * @return
-     */
-    public static BufferedInputStream getStream(final ResourceLocation resloc)
-    {
-        try
-        {
-            return new BufferedInputStream(Minecraft.getInstance().getResourceManager().getResource(resloc)
-                    .getInputStream());
-        }
-        catch (final FileNotFoundException nofile)
-        {
-            return null;
-        }
-        catch (final IOException e)
-        {
-            throw new RuntimeException(e);
-        }
+        while (list.size() <= index) list.add(null);
     }
 
     /**

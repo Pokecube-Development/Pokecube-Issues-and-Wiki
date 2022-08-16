@@ -1,6 +1,7 @@
 package thut.core.client.render.x3d;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,6 @@ import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
@@ -27,6 +27,7 @@ import thut.core.client.render.x3d.X3dXML.Appearance;
 import thut.core.client.render.x3d.X3dXML.IndexedTriangleSet;
 import thut.core.client.render.x3d.X3dXML.Transform;
 import thut.core.common.ThutCore;
+import thut.lib.ResourceHelper;
 
 public class X3dModel extends BaseModel
 {
@@ -91,15 +92,15 @@ public class X3dModel extends BaseModel
         this.valid = true;
         try
         {
-            final Resource res = Minecraft.getInstance().getResourceManager().getResource(model);
+            InputStream stream = ResourceHelper.getStream(model, Minecraft.getInstance().getResourceManager());
             this.last_loaded = model;
-            if (res == null)
+            if (stream == null)
             {
                 this.valid = false;
                 return;
             }
-            final X3dXML xml = new X3dXML(res.getInputStream());
-            res.close();
+            final X3dXML xml = new X3dXML(stream);
+            stream.close();
             this.makeObjects(xml);
         }
         catch (final Exception e)

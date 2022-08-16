@@ -1,8 +1,8 @@
 package pokecube.adventures.utils;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.List;
@@ -265,7 +265,8 @@ public class TradeEntryLoader
             JsonObject loaded;
             try
             {
-                final BufferedReader reader = new BufferedReader(new InputStreamReader(PackFinder.getStream(file)));
+                final BufferedReader reader = PackFinder.getReader(file);
+                if (reader == null) throw new FileNotFoundException(file.toString());
                 loaded = JsonUtil.gson.fromJson(reader, JsonObject.class);
                 TradeDatabase database = null;
                 reader.close();

@@ -35,7 +35,7 @@ import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.entity.pokemob.stats.IStatsModifiers;
 import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.api.items.IPokecube;
-import pokecube.api.items.IPokecube.PokecubeBehavior;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.api.moves.Move_Base;
@@ -376,7 +376,7 @@ public class LogicMiscUpdate extends LogicBase
 
             final ItemStack pokecube = this.pokemob.getPokecube();
             final ResourceLocation id = PokecubeItems.getCubeId(pokecube);
-            final PokecubeBehavior behaviour = IPokecube.PokecubeBehavior.BEHAVIORS.get().getValue(id);
+            final PokecubeBehaviour behaviour = IPokecube.PokecubeBehaviour.BEHAVIORS.get(id);
             if (behaviour != null) behaviour.onUpdate(this.pokemob);
         }
 

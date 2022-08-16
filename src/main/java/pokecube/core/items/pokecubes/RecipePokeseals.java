@@ -11,7 +11,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import pokecube.api.items.IPokecube.PokecubeBehavior;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.RecipeHandler;
@@ -67,7 +67,7 @@ public class RecipePokeseals extends CustomRecipe
     @Override
     public ItemStack assemble(final CraftingContainer inv)
     {
-        final ItemStack toCraft = new ItemStack(PokecubeItems.getEmptyCube(PokecubeBehavior.POKESEAL), 1);
+        final ItemStack toCraft = new ItemStack(PokecubeItems.getEmptyCube(PokecubeBehaviour.POKESEAL), 1);
         final CompoundTag tag = new CompoundTag();
         final CompoundTag tag1 = new CompoundTag();
         boolean dye;
@@ -130,7 +130,7 @@ public class RecipePokeseals extends CustomRecipe
                 }
                 if (c != null) addons++;
             }
-            if (!itemstack.isEmpty()) if (itemstack.getItem() == PokecubeItems.getEmptyCube(PokecubeBehavior.POKESEAL)
+            if (!itemstack.isEmpty()) if (itemstack.getItem() == PokecubeItems.getEmptyCube(PokecubeBehaviour.POKESEAL)
                     && PokecubeManager.isFilled(itemstack) == false) ++cube;
             else if (itemstack.getItem() == Items.WATER_BUCKET) ++addons;
             else if (itemstack.getItem() == Items.COAL) ++addons;

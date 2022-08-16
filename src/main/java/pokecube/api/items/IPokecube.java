@@ -1,21 +1,22 @@
 package pokecube.api.items;
 
-import java.util.function.Supplier;
+import java.util.Map;
 
 import javax.annotation.Nullable;
+
+import com.google.common.collect.Maps;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.pokemobs.CaptureEvent;
 import pokecube.api.events.pokemobs.CaptureEvent.Post;
 import pokecube.api.events.pokemobs.CaptureEvent.Pre;
+import pokecube.core.PokecubeCore;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import thut.api.maths.Vector3;
 
@@ -25,7 +26,7 @@ public interface IPokecube
      * helper class so extensions don't need to include blank onPostCapture and
      * onPreCapture.
      */
-    public abstract static class DefaultPokecubeBehavior extends PokecubeBehavior
+    public abstract static class DefaultPokecubeBehaviour extends PokecubeBehaviour
     {
 
         @Override
@@ -37,11 +38,11 @@ public interface IPokecube
         {}
     }
 
-    public static class NormalPokecubeBehavoir extends DefaultPokecubeBehavior
+    public static class NormalPokecubeBehaviour extends DefaultPokecubeBehaviour
     {
         final double rate;
 
-        public NormalPokecubeBehavoir(final double rate)
+        public NormalPokecubeBehaviour(final double rate)
         {
             this.rate = rate;
         }
@@ -54,9 +55,9 @@ public interface IPokecube
 
     }
 
-    public static abstract class PokecubeBehavior extends ForgeRegistryEntry<PokecubeBehavior>
+    public static abstract class PokecubeBehaviour
     {
-        public static Supplier<IForgeRegistry<PokecubeBehavior>> BEHAVIORS;
+        public static Map<ResourceLocation, PokecubeBehaviour> BEHAVIORS = Maps.newHashMap();
 
         // Whoever registers the default pokecube should set this.
         public static ResourceLocation DEFAULTCUBE = null;
@@ -68,17 +69,24 @@ public interface IPokecube
          * @param cubeId
          * @param behavior
          */
-        public static void addCubeBehavior(final PokecubeBehavior behavior)
+        public static void addCubeBehavior(final PokecubeBehaviour behaviour)
         {
-            BEHAVIORS.get().register(behavior);
+            BEHAVIORS.put(behaviour.getKey(), behaviour);
         }
 
         public String name;
+        private ResourceLocation key;
 
-        public PokecubeBehavior setName(String name)
+        public PokecubeBehaviour setName(String name)
         {
             this.name = name;
+            this.key = new ResourceLocation(PokecubeCore.MODID, name + "cube");
             return this;
+        }
+
+        public ResourceLocation getKey()
+        {
+            return key;
         }
 
         /**

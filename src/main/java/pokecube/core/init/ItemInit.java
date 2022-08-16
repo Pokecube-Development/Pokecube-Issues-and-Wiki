@@ -5,7 +5,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.events.init.RegisterPokecubes;
-import pokecube.api.items.IPokecube.PokecubeBehavior;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
@@ -21,10 +21,10 @@ public class ItemInit
         PokecubeAPI.POKEMOB_BUS.post(event);
 
         // Register any cube behaviours and cubes from event.
-        for (final PokecubeBehavior i : event.behaviors)
+        for (final PokecubeBehaviour i : event.behaviors)
         {
             final String name = i.name + "cube";
-            PokecubeCore.POKECUBES.register(name, () -> i);
+            PokecubeBehaviour.addCubeBehavior(i);
             final Item.Properties props = new Item.Properties();
             props.tab(PokecubeItems.TAB_POKECUBES);
             props.durability(255).defaultDurability(255);
@@ -41,8 +41,8 @@ public class ItemInit
         props.tab(PokecubeItems.TAB_POKECUBES);
         PokecubeCore.ITEMS.register("pokeseal", () -> {
             final Pokecube pokeseal = new Pokecube(props);
-            PokecubeBehavior.POKESEAL = new ResourceLocation("pokecube:seal");
-            PokecubeItems.addCube(PokecubeBehavior.POKESEAL, new Item[]
+            PokecubeBehaviour.POKESEAL = new ResourceLocation("pokecube:seal");
+            PokecubeItems.addCube(PokecubeBehaviour.POKESEAL, new Item[]
             { pokeseal });
             return pokeseal;
         });

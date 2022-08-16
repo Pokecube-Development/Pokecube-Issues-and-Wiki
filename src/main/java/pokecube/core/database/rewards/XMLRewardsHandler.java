@@ -204,6 +204,7 @@ public class XMLRewardsHandler
                     final ResourceLocation langloc = PokecubeItems
                             .toPokecubeResource(String.format(this.langFile, lang));
                     final InputStream stream = PackFinder.getStream(langloc);
+                    if (stream == null) throw new FileNotFoundException(this.langFile);
                     if (this.page_file)
                     {
                         final PagesFile book = JsonUtil.gson.fromJson(new InputStreamReader(stream, "UTF-8"),

@@ -42,7 +42,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.api.events.init.RegisterPokecubes;
-import pokecube.api.items.IPokecube.DefaultPokecubeBehavior;
+import pokecube.api.items.IPokecube.DefaultPokecubeBehaviour;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
@@ -510,7 +510,7 @@ public class PokecubeLegends
     {
         final PokecubeDim helper = new PokecubeDim();
 
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -518,7 +518,7 @@ public class PokecubeLegends
                 return helper.dyna(mob);
             }
         }.setName("dyna"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -526,7 +526,7 @@ public class PokecubeLegends
                 return helper.beast(mob);
             }
         }.setName("beast"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -534,7 +534,7 @@ public class PokecubeLegends
                 return helper.clone(mob);
             }
         }.setName("clone"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -542,7 +542,7 @@ public class PokecubeLegends
                 return helper.typingB(mob);
             }
         }.setName("typing"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -550,7 +550,7 @@ public class PokecubeLegends
                 return helper.teamAqua(mob);
             }
         }.setName("teamaqua"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -558,7 +558,7 @@ public class PokecubeLegends
                 return helper.teamMagma(mob);
             }
         }.setName("teammagma"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)

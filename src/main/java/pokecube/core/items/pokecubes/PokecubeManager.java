@@ -23,7 +23,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.items.IPokecube.PokecubeBehavior;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
@@ -281,7 +281,7 @@ public class PokecubeManager
     public static ItemStack pokemobToItem(final IPokemob pokemob)
     {
         ItemStack itemStack = pokemob.getPokecube();
-        if (itemStack.isEmpty()) itemStack = new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE),
+        if (itemStack.isEmpty()) itemStack = new ItemStack(PokecubeItems.getFilledCube(PokecubeBehaviour.DEFAULTCUBE),
                 1);
         itemStack = itemStack.copy();
         PokecubeManager.addToCube(itemStack, pokemob.getEntity());

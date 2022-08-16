@@ -1,5 +1,6 @@
 package thut.core.client.render.animation;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +18,6 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import thut.api.ModelHolder;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
@@ -36,6 +36,7 @@ import thut.core.client.render.model.IModelRenderer.Vector5;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.TextureHelper;
 import thut.core.common.ThutCore;
+import thut.lib.ResourceHelper;
 
 public class AnimationLoader
 {
@@ -299,14 +300,14 @@ public class AnimationLoader
     {
         try
         {
-            final Resource res = Minecraft.getInstance().getResourceManager().getResource(animations);
-            final InputStream stream = res.getInputStream();
+            InputStream stream = ResourceHelper.getStream(animations, Minecraft.getInstance().getResourceManager());
+            if (stream == null) throw new FileNotFoundException(animations.toString());
             if (ThutCore.conf.debug) ThutCore.LOGGER.debug("Loading " + animations + " for " + holder.name);
             synchronized (renderer)
             {
                 AnimationLoader.parse(stream, holder, model, renderer);
             }
-            res.close();
+            stream.close();
             return true;
         }
         catch (final Exception e)

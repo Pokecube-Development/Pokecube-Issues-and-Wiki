@@ -40,9 +40,9 @@ import pokecube.api.events.pokemobs.CaptureEvent.Post;
 import pokecube.api.events.pokemobs.CaptureEvent.Pre;
 import pokecube.api.events.pokemobs.EvolveEvent;
 import pokecube.api.items.IPokecube;
-import pokecube.api.items.IPokecube.DefaultPokecubeBehavior;
-import pokecube.api.items.IPokecube.NormalPokecubeBehavoir;
-import pokecube.api.items.IPokecube.PokecubeBehavior;
+import pokecube.api.items.IPokecube.DefaultPokecubeBehaviour;
+import pokecube.api.items.IPokecube.NormalPokecubeBehaviour;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.stats.CaptureStats;
 import pokecube.api.stats.EggStats;
 import pokecube.core.PokecubeCore;
@@ -246,7 +246,7 @@ public class PokecubeMobs
                 final ItemStack item = inv.getItem(n);
                 if (item == ItemStack.EMPTY) hasSpace = true;
                 final ResourceLocation key = PokecubeItems.getCubeId(item);
-                if (!hasCube && key != null && IPokecube.PokecubeBehavior.BEHAVIORS.get().containsKey(key)
+                if (!hasCube && key != null && IPokecube.PokecubeBehaviour.BEHAVIORS.containsKey(key)
                         && !PokecubeManager.isFilled(item))
                 {
                     hasCube = true;
@@ -458,13 +458,13 @@ public class PokecubeMobs
         MiscItemHelper.CHARCOALSTACK = new ItemStack(Items.CHARCOAL);
 
         final PokecubeHelper helper = new PokecubeHelper();
-        PokecubeBehavior.DEFAULTCUBE = new ResourceLocation("pokecube", "pokecube");
+        PokecubeBehaviour.DEFAULTCUBE = new ResourceLocation("pokecube", "pokecube");
 
-        event.register(new NormalPokecubeBehavoir(1).setName("poke"));
-        event.register(new NormalPokecubeBehavoir(1.5).setName("great"));
-        event.register(new NormalPokecubeBehavoir(2).setName("ultra"));
-        event.register(new NormalPokecubeBehavoir(255).setName("master"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new NormalPokecubeBehaviour(1).setName("poke"));
+        event.register(new NormalPokecubeBehaviour(1.5).setName("great"));
+        event.register(new NormalPokecubeBehaviour(2).setName("ultra"));
+        event.register(new NormalPokecubeBehaviour(255).setName("master"));
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -472,7 +472,7 @@ public class PokecubeMobs
                 return helper.dusk(mob);
             }
         }.setName("dusk"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -480,7 +480,7 @@ public class PokecubeMobs
                 return helper.quick(mob);
             }
         }.setName("quick"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -488,7 +488,7 @@ public class PokecubeMobs
                 return helper.timer(mob);
             }
         }.setName("timer"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -496,7 +496,7 @@ public class PokecubeMobs
                 return helper.net(mob);
             }
         }.setName("net"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -504,7 +504,7 @@ public class PokecubeMobs
                 return helper.nest(mob);
             }
         }.setName("nest"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -512,7 +512,7 @@ public class PokecubeMobs
                 return helper.dive(mob);
             }
         }.setName("dive"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -520,9 +520,9 @@ public class PokecubeMobs
                 return helper.premier(mob);
             }
         }.setName("premier"));
-        event.register(new NormalPokecubeBehavoir(1).setName("cherish"));
-        event.register(new NormalPokecubeBehavoir(1.5).setName("safari"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new NormalPokecubeBehaviour(1).setName("cherish"));
+        event.register(new NormalPokecubeBehaviour(1.5).setName("safari"));
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -530,7 +530,7 @@ public class PokecubeMobs
                 return helper.level(mob);
             }
         }.setName("level"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -538,7 +538,7 @@ public class PokecubeMobs
                 return helper.lure(mob);
             }
         }.setName("lure"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -546,7 +546,7 @@ public class PokecubeMobs
                 return helper.moon(mob);
             }
         }.setName("moon"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -561,7 +561,7 @@ public class PokecubeMobs
                 mob.addHappiness(200 - mob.getHappiness());
             }
         }.setName("friend"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -569,7 +569,7 @@ public class PokecubeMobs
                 return helper.love(mob);
             }
         }.setName("love"));
-        event.register(new NormalPokecubeBehavoir(1)
+        event.register(new NormalPokecubeBehaviour(1)
         {
             @Override
             public int getAdditionalBonus(final IPokemob mob)
@@ -577,7 +577,7 @@ public class PokecubeMobs
                 return helper.heavy(mob);
             }
         }.setName("heavy"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -585,8 +585,8 @@ public class PokecubeMobs
                 return helper.fast(mob);
             }
         }.setName("fast"));
-        event.register(new NormalPokecubeBehavoir(1.5).setName("sport"));
-        event.register(new NormalPokecubeBehavoir(1)
+        event.register(new NormalPokecubeBehaviour(1.5).setName("sport"));
+        event.register(new NormalPokecubeBehaviour(1)
         {
             @Override
             public void onUpdate(final IPokemob mob)
@@ -594,7 +594,7 @@ public class PokecubeMobs
                 helper.luxury(mob);
             }
         }.setName("luxury"));
-        event.register(new NormalPokecubeBehavoir(1)
+        event.register(new NormalPokecubeBehaviour(1)
         {
             @Override
             public void onPostCapture(final Post evt)
@@ -604,10 +604,10 @@ public class PokecubeMobs
                 mob.healStatus();
             }
         }.setName("heal"));
-        event.register(new NormalPokecubeBehavoir(255).setName("park"));
-        event.register(new NormalPokecubeBehavoir(255).setName("dream"));
+        event.register(new NormalPokecubeBehaviour(255).setName("park"));
+        event.register(new NormalPokecubeBehaviour(255).setName("dream"));
 
-        final PokecubeBehavior snag = new PokecubeBehavior()
+        final PokecubeBehaviour snag = new PokecubeBehaviour()
         {
 
             @Override
@@ -653,7 +653,7 @@ public class PokecubeMobs
             }
         };
 
-        final PokecubeBehavior repeat = new PokecubeBehavior()
+        final PokecubeBehaviour repeat = new PokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)

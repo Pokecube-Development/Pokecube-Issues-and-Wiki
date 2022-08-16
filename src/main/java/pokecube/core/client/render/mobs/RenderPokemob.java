@@ -1,6 +1,5 @@
 package pokecube.core.client.render.mobs;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,6 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -301,15 +299,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         {
             this.wrapper = model;
             model.imodel = ModelFactory.create(model.model, m -> {
-                // Check if an animation file exists.
-                try
-                {
-                    Minecraft.getInstance().getResourceManager().getResource(this.animation);
-                }
-                catch (final IOException e)
-                {
-                    // No animation here, lets try to use the base one.
-                }
                 AnimationLoader.parse(this, model, this);
             });
         }

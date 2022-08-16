@@ -18,11 +18,12 @@ public class DBLoader
 
     public static boolean loaded = false;
 
-    private static ArrayList<ArrayList<String>> getRows(final ResourceLocation location) throws IOException
+    private static ArrayList<ArrayList<String>> getRows(final ResourceLocation location)
     {
         final InputStream res = PackFinder.getStream(location);
 
         final ArrayList<ArrayList<String>> rows = new ArrayList<>();
+        if (res == null) return rows;
         BufferedReader br = null;
         String line = "";
         final String cvsSplitBy = ",";
@@ -37,8 +38,7 @@ public class DBLoader
 
                 final String[] row = line.split(cvsSplitBy);
                 rows.add(new ArrayList<String>());
-                for (final String element : row)
-                    rows.get(n).add(element);
+                for (final String element : row) rows.get(n).add(element);
                 n++;
             }
 
@@ -74,13 +74,10 @@ public class DBLoader
     public static void loadNames()
     {
         ArrayList<ArrayList<String>> rows;
-        try
+        rows = DBLoader.getRows(DBLoader.NAMESLOC);
+        if (rows.isEmpty())
         {
-            rows = DBLoader.getRows(DBLoader.NAMESLOC);
-        }
-        catch (final IOException e)
-        {
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error("No NPC names!");
             TypeTrainer.femaleNames.add("Jane");
             TypeTrainer.maleNames.add("John");
             return;
@@ -92,14 +89,12 @@ public class DBLoader
             final String name = row.get(0);
             if (name.equalsIgnoreCase("female:"))
             {
-                for (int i = 1; i < row.size(); i++)
-                    TypeTrainer.femaleNames.add(row.get(i));
+                for (int i = 1; i < row.size(); i++) TypeTrainer.femaleNames.add(row.get(i));
                 continue;
             }
             if (name.equalsIgnoreCase("male:"))
             {
-                for (int i = 1; i < row.size(); i++)
-                    TypeTrainer.maleNames.add(row.get(i));
+                for (int i = 1; i < row.size(); i++) TypeTrainer.maleNames.add(row.get(i));
                 continue;
             }
         }

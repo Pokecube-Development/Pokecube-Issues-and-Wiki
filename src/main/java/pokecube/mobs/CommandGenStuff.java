@@ -32,6 +32,7 @@ import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.items.vitamins.ItemVitamin;
 import thut.lib.RegHelper;
+import thut.lib.ResourceHelper;
 import thut.lib.TComponent;;
 
 public class CommandGenStuff
@@ -125,11 +126,8 @@ public class CommandGenStuff
 
                 final ResourceLocation test = new ResourceLocation(
                         event.getNamespace() + ":" + event.getPath().replaceFirst("mobs.", "sounds/mobs/") + ".ogg");
-                try
-                {
-                    Minecraft.getInstance().getResourceManager().getResource(test);
-                }
-                catch (final Exception e)
+
+                if (!ResourceHelper.exists(test, Minecraft.getInstance().getResourceManager()))
                 {
                     event = new ResourceLocation(backup);
                     PokecubeAPI.LOGGER.error("Mapped sound: {} -> {} instead of {}", entry, backup, test);
@@ -272,7 +270,7 @@ public class CommandGenStuff
             CommandGenStuff.generateItemJson(name, "berry_", dir, "pokecube");
         }
 
-        if (cubes) for (final ResourceLocation l : IPokecube.PokecubeBehavior.BEHAVIORS.get().getKeys())
+        if (cubes) for (final ResourceLocation l : IPokecube.PokecubeBehaviour.BEHAVIORS.keySet())
         {
             final String cube = l.getPath();
             final JsonObject blockJson = new JsonObject();

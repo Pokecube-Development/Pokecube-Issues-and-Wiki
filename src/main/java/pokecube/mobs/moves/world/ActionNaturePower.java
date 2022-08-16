@@ -1,8 +1,7 @@
 package pokecube.mobs.moves.world;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -88,8 +87,8 @@ public class ActionNaturePower implements IMoveAction
                 // trying to remove default behaviour. They can add new things
                 // by
                 // just adding another json file to the correct package.
-                InputStream res = PackFinder.getStream(l);
-                final Reader reader = new InputStreamReader(res);
+                final BufferedReader reader = PackFinder.getReader(l);
+                if (reader == null) throw new FileNotFoundException(l.toString());
 
                 final ConfigChanger temp = JsonUtil.gson.fromJson(reader, ConfigChanger.class);
                 if (!confirmNew(temp, l))
