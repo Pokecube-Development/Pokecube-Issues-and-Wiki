@@ -2,13 +2,11 @@ package pokecube.core.blocks.bases;
 
 import java.util.UUID;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,9 +20,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
-import pokecube.core.world.dimension.SecretBaseDimension;
+import pokecube.world.dimension.SecretBaseDimension;
 import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
+import thut.lib.TComponent;
 
 public class BaseTile extends InteractableTile
 {
@@ -66,7 +65,7 @@ public class BaseTile extends InteractableTile
             {
                 // We need to remove the location.
                 this.level.setBlockAndUpdate(pos, this.original);
-                player.sendMessage(new TranslatableComponent("pokemob.removebase.stale"), Util.NIL_UUID);
+                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokemob.removebase.stale"));
                 return InteractionResult.FAIL;
             }
         }

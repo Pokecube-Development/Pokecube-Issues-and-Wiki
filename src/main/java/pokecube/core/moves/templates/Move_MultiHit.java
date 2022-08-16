@@ -7,7 +7,7 @@ import net.minecraft.world.entity.Entity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.events.core.pokemob.combat.MoveUse;
+import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.moves.animations.EntityMoveUse;
 import thut.api.maths.Vector3;

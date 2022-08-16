@@ -35,7 +35,7 @@ public class MateTask extends BaseIdleTask
     static
     {
         // only run this if we have mate targets.
-        MateTask.mems.put(MemoryModules.POSSIBLE_MATES, MemoryStatus.VALUE_PRESENT);
+        MateTask.mems.put(MemoryModules.POSSIBLE_MATES.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     int spawnBabyDelay = 0;

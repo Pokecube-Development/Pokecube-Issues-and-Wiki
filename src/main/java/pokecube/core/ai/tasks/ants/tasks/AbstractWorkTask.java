@@ -15,11 +15,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.ai.tasks.utility.UtilTask;
-import pokecube.core.handlers.events.MoveEventsHandler;
+import pokecube.core.eventhandlers.MoveEventsHandler;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.maths.Vector3;
 
@@ -28,8 +29,8 @@ public abstract class AbstractWorkTask extends AbstractAntTask
     private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
     static
     {
-        AbstractWorkTask.mems.put(AntTasks.WORK_POS, MemoryStatus.VALUE_PRESENT);
-        AbstractWorkTask.mems.put(AntTasks.GOING_HOME, MemoryStatus.VALUE_ABSENT);
+        AbstractWorkTask.mems.put(MemoryModules.WORK_POS.get(), MemoryStatus.VALUE_PRESENT);
+        AbstractWorkTask.mems.put(MemoryModules.GOING_HOME.get(), MemoryStatus.VALUE_ABSENT);
     }
     protected StoreTask storage = null;
 
@@ -87,12 +88,12 @@ public abstract class AbstractWorkTask extends AbstractAntTask
     {
         if (AntTasks.shouldAntBeInNest(this.world, this.nest.nest.getBlockPos())) return false;
         final Brain<?> brain = this.entity.getBrain();
-        if (!brain.hasMemoryValue(AntTasks.WORK_POS)) return false;
+        if (!brain.hasMemoryValue(MemoryModules.WORK_POS.get())) return false;
 
         if (this.storage == null) for (final IAIRunnable run : this.pokemob.getTasks())
-            if (run instanceof StoreTask)
+            if (run instanceof StoreTask storage)
             {
-                this.storage = (StoreTask) run;
+                this.storage = storage;
                 this.pokemob.setRoutineState(AIRoutine.STORE, true);
                 this.storage.storageLoc = this.nest.nest.getBlockPos();
                 this.storage.berryLoc = this.nest.nest.getBlockPos();

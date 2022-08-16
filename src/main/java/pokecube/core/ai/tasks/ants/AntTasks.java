@@ -2,11 +2,8 @@ package pokecube.core.ai.tasks.ants;
 
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -14,13 +11,13 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.SensorType;
-import net.minecraftforge.event.RegistryEvent.Register;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.ai.IInhabitor;
 import pokecube.api.ai.TaskAdders;
 import pokecube.api.entity.CapabilityInhabitable;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.events.core.pokemob.InitAIEvent.Init.Type;
+import pokecube.api.events.pokemobs.InitAIEvent.Init.Type;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
@@ -39,7 +36,6 @@ import pokecube.core.ai.tasks.ants.tasks.work.Dig;
 import pokecube.core.ai.tasks.ants.tasks.work.Gather;
 import pokecube.core.ai.tasks.ants.tasks.work.Guard;
 import pokecube.core.ai.tasks.ants.tasks.work.Idle;
-import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.IAIRunnable;
 
@@ -55,47 +51,40 @@ public class AntTasks
         EGG, FOOD, NODE, ENTRANCE;
     }
 
-    public static final MemoryModuleType<GlobalPos> NEST_POS = MemoryModules.NEST_POS;
-    public static final MemoryModuleType<GlobalPos> WORK_POS = MemoryModules.WORK_POS;
+    public static final RegistryObject<SensorType<NestSensor>> NEST_SENSOR;
+    public static final RegistryObject<SensorType<GatherSensor>> WORK_SENSOR;
+    public static final RegistryObject<SensorType<ThreatSensor>> THREAT_SENSOR;
+    public static final RegistryObject<SensorType<EggSensor>> EGG_SENSOR;
 
-    public static final MemoryModuleType<Integer> OUT_OF_HIVE_TIMER = MemoryModules.OUT_OF_NEST_TIMER;
-    public static final MemoryModuleType<Integer> NO_HIVE_TIMER = MemoryModules.NO_NEST_TIMER;
-    public static final MemoryModuleType<Integer> NO_WORK_TIME = MemoryModules.NO_WORK_TIMER;
-
-    public static final MemoryModuleType<EntityPokemobEgg> EGG = MemoryModules.EGG;
-
-    public static final MemoryModuleType<Integer> JOB_TYPE = MemoryModules.JOB_TYPE;
-
-    public static final MemoryModuleType<CompoundTag> JOB_INFO = MemoryModules.JOB_INFO;
-
-    public static final MemoryModuleType<Boolean> GOING_HOME = MemoryModules.GOING_HOME;
-
-    public static final SensorType<NestSensor> NEST_SENSOR = new SensorType<>(NestSensor::new);
-    public static final SensorType<GatherSensor> WORK_SENSOR = new SensorType<>(GatherSensor::new);
-    public static final SensorType<ThreatSensor> THREAT_SENSOR = new SensorType<>(ThreatSensor::new);
-    public static final SensorType<EggSensor> EGG_SENSOR = new SensorType<>(EggSensor::new);
-
-    public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(AntTasks.NEST_POS,
-            AntTasks.WORK_POS, AntTasks.OUT_OF_HIVE_TIMER, AntTasks.NO_WORK_TIME, AntTasks.NO_HIVE_TIMER,
-            AntTasks.JOB_TYPE, AntTasks.JOB_INFO, AntTasks.EGG, AntTasks.GOING_HOME);
-
-    public static final List<SensorType<?>> SENSOR_TYPES = ImmutableList.of(AntTasks.NEST_SENSOR, AntTasks.WORK_SENSOR,
-            AntTasks.EGG_SENSOR, AntTasks.THREAT_SENSOR, Sensors.VISIBLE_BLOCKS, Sensors.INTERESTING_ENTITIES);
+    static
+    {
+        // Sensors
+        NEST_SENSOR = PokecubeCore.SENSORS.register("ant_nests", () -> new SensorType<>(NestSensor::new));
+        WORK_SENSOR = PokecubeCore.SENSORS.register("ant_work", () -> new SensorType<>(GatherSensor::new));
+        THREAT_SENSOR = PokecubeCore.SENSORS.register("ant_threat", () -> new SensorType<>(ThreatSensor::new));
+        EGG_SENSOR = PokecubeCore.SENSORS.register("ant_eggs", () -> new SensorType<>(EggSensor::new));
+    }
 
     public static final ResourceLocation NESTLOC = new ResourceLocation(PokecubeCore.MODID, "ant_nest");
 
-    public static void registerMems(final Register<MemoryModuleType<?>> event)
+    public static void init()
     {
-        TaskAdders.register(Type.IDLE, AntTasks::addTasks);
         CapabilityInhabitable.Register(AntTasks.NESTLOC, () -> new AntHabitat());
+        TaskAdders.register(Type.IDLE, AntTasks::addTasks);
     }
 
-    public static void registerSensors(final Register<SensorType<?>> event)
+    private static final List<SensorType<?>> getSensors()
     {
-        event.getRegistry().register(AntTasks.NEST_SENSOR.setRegistryName(PokecubeCore.MODID, "ant_nests"));
-        event.getRegistry().register(AntTasks.WORK_SENSOR.setRegistryName(PokecubeCore.MODID, "ant_work"));
-        event.getRegistry().register(AntTasks.THREAT_SENSOR.setRegistryName(PokecubeCore.MODID, "ant_threat"));
-        event.getRegistry().register(AntTasks.EGG_SENSOR.setRegistryName(PokecubeCore.MODID, "ant_eggs"));
+        return List.of(AntTasks.NEST_SENSOR.get(), AntTasks.WORK_SENSOR.get(), AntTasks.EGG_SENSOR.get(),
+                AntTasks.THREAT_SENSOR.get(), Sensors.VISIBLE_BLOCKS.get(), Sensors.INTERESTING_ENTITIES.get());
+    }
+
+    private static final List<MemoryModuleType<?>> getMemories()
+    {
+        return List.of(MemoryModules.NEST_POS.get(), MemoryModules.WORK_POS.get(),
+                MemoryModules.OUT_OF_NEST_TIMER.get(), MemoryModules.NO_WORK_TIMER.get(),
+                MemoryModules.NO_NEST_TIMER.get(), MemoryModules.JOB_TYPE.get(), MemoryModules.JOB_INFO.get(),
+                MemoryModules.EGG.get(), MemoryModules.GOING_HOME.get());
     }
 
     private static void addTasks(final IPokemob pokemob, final List<IAIRunnable> list)
@@ -113,7 +102,7 @@ public class AntTasks
         list.add(new Dig(pokemob).setPriority(3));
         list.add(new Idle(pokemob).setPriority(4));
 
-        BrainUtil.addToBrain(pokemob.getEntity().getBrain(), AntTasks.MEMORY_TYPES, AntTasks.SENSOR_TYPES);
+        BrainUtil.addToBrain(pokemob.getEntity().getBrain(), AntTasks.getMemories(), AntTasks.getSensors());
     }
 
     public static boolean isValid(final Entity entity)
@@ -126,14 +115,15 @@ public class AntTasks
     public static AntJob getJob(final Mob ant)
     {
         int index = 0;
-        if (ant.getBrain().hasMemoryValue(AntTasks.JOB_TYPE)) index = ant.getBrain().getMemory(AntTasks.JOB_TYPE).get();
+        if (ant.getBrain().hasMemoryValue(MemoryModules.JOB_TYPE.get()))
+            index = ant.getBrain().getMemory(MemoryModules.JOB_TYPE.get()).get();
         final AntJob job = AntJob.values()[index];
         return job;
     }
 
     public static void setJob(final Mob ant, final AntJob job)
     {
-        ant.getBrain().setMemory(AntTasks.JOB_TYPE, job.ordinal());
+        ant.getBrain().setMemory(MemoryModules.JOB_TYPE.get(), job.ordinal());
     }
 
     public static boolean shouldAntBeInNest(final ServerLevel world, final BlockPos pos)
@@ -156,8 +146,8 @@ public class AntTasks
         public GlobalPos getHome()
         {
             final Brain<?> brain = this.ant.getBrain();
-            if (!brain.hasMemoryValue(AntTasks.NEST_POS)) return null;
-            return brain.getMemory(AntTasks.NEST_POS).get();
+            if (!brain.hasMemoryValue(MemoryModules.NEST_POS.get())) return null;
+            return brain.getMemory(MemoryModules.NEST_POS.get()).get();
         }
 
         @Override
@@ -170,16 +160,16 @@ public class AntTasks
         public GlobalPos getWorkSite()
         {
             final Brain<?> brain = this.ant.getBrain();
-            if (!brain.hasMemoryValue(AntTasks.WORK_POS)) return null;
-            return brain.getMemory(AntTasks.WORK_POS).get();
+            if (!brain.hasMemoryValue(MemoryModules.WORK_POS.get())) return null;
+            return brain.getMemory(MemoryModules.WORK_POS.get()).get();
         }
 
         @Override
-        public void setWorldSite(final GlobalPos site)
+        public void setWorkSite(final GlobalPos site)
         {
             final Brain<?> brain = this.ant.getBrain();
-            if (site == null) brain.eraseMemory(AntTasks.WORK_POS);
-            else brain.setMemory(AntTasks.WORK_POS, site);
+            if (site == null) brain.eraseMemory(MemoryModules.WORK_POS.get());
+            else brain.setMemory(MemoryModules.WORK_POS.get(), site);
         }
     }
 

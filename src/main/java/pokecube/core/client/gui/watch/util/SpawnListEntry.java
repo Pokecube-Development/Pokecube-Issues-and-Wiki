@@ -13,13 +13,13 @@ import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TextComponent;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
+import thut.lib.TComponent;
 
 public class SpawnListEntry
 {
@@ -43,7 +43,7 @@ public class SpawnListEntry
         final List<Component> biomes = Lists.newArrayList();
 // TODO biome entry in watch
 //        for (final ResourceLocation b : matcher.clientBiomes)
-//            biomes.add(new TranslatableComponent(String.format("biome.%s.%s", b.getNamespace(), b.getPath())));
+//            biomes.add(TComponent.translatable(String.format("biome.%s.%s", b.getNamespace(), b.getPath())));
 
         final String ind = entry != null ? "  " : "";
         if (!biomes.isEmpty())
@@ -51,9 +51,9 @@ public class SpawnListEntry
             String biomeString = I18n.get("pokewatch.spawns.biomes") + "\n";
             for (final Component s : biomes) biomeString = biomeString + s.getString() + ",\n";
             biomeString = biomeString.substring(0, biomeString.length() - 2) + ".";
-            for (final MutableComponent line : ListHelper.splitText(new TextComponent(biomeString),
+            for (final MutableComponent line : ListHelper.splitText(TComponent.literal(biomeString),
                     width - fontRender.width(ind), fontRender, true))
-                output.add(new TextComponent(ind + line.getString()));
+                output.add(TComponent.literal(ind + line.getString()));
         }
 
         final List<String> types = Lists.newArrayList();
@@ -66,9 +66,9 @@ public class SpawnListEntry
         {
             String typeString = I18n.get("pokewatch.spawns.types") + " ";
             for (final String s : types) typeString = typeString + s + ", ";
-            for (final MutableComponent line : ListHelper.splitText(new TextComponent(typeString),
+            for (final MutableComponent line : ListHelper.splitText(TComponent.literal(typeString),
                     width - fontRender.width(ind), fontRender, false))
-                output.add(new TextComponent(ind + line.getString()));
+                output.add(TComponent.literal(ind + line.getString()));
         }
         final boolean day = matcher.day;
         final boolean night = matcher.night;
@@ -77,10 +77,10 @@ public class SpawnListEntry
         final boolean water = matcher.water;
         final boolean air = matcher.air;
         if (water) if (air) for (final MutableComponent line : ListHelper.splitText(
-                new TextComponent(ind + I18n.get("pokewatch.spawns.water_optional")), width, fontRender, false))
+                TComponent.literal(ind + I18n.get("pokewatch.spawns.water_optional")), width, fontRender, false))
             output.add(line);
         else for (final MutableComponent line : ListHelper
-                .splitText(new TextComponent(ind + I18n.get("pokewatch.spawns.water_only")), width, fontRender, false))
+                .splitText(TComponent.literal(ind + I18n.get("pokewatch.spawns.water_only")), width, fontRender, false))
             output.add(line);
         String times = I18n.get("pokewatch.spawns.times");
         if (day) times = times + " " + I18n.get("pokewatch.spawns.day");
@@ -99,9 +99,9 @@ public class SpawnListEntry
             if (day || night || dawn) times = times + ", ";
             times = times + I18n.get("pokewatch.spawns.dawn");
         }
-        for (final MutableComponent line : ListHelper.splitText(new TextComponent(times), width - fontRender.width(ind),
+        for (final MutableComponent line : ListHelper.splitText(TComponent.literal(times), width - fontRender.width(ind),
                 fontRender, false))
-            output.add(new TextComponent(ind + line.getString()));
+            output.add(TComponent.literal(ind + line.getString()));
         String rate = "";
         if (matcher.spawnRule.values.containsKey("Local_Rate"))
         {
@@ -151,8 +151,8 @@ public class SpawnListEntry
                 rate = ind + I18n.get("pokewatch.spawns.rate_single", var);
             }
         }
-        if (!rate.isEmpty()) output.add(new TextComponent(ind + rate));
-        output.add(new TextComponent(""));
+        if (!rate.isEmpty()) output.add(TComponent.literal(ind + rate));
+        output.add(TComponent.literal(""));
         return output;
     }
 

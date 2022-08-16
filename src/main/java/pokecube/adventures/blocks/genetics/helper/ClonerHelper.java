@@ -19,8 +19,8 @@ import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.SelectorValue;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.events.adventures.GeneEditEvent;
-import pokecube.api.events.adventures.GeneEditEvent.EditType;
+import pokecube.api.events.GeneEditEvent;
+import pokecube.api.events.GeneEditEvent.EditType;
 import pokecube.api.utils.TagNames;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
@@ -37,9 +37,9 @@ public class ClonerHelper
 {
     public static class DNAPack
     {
-        public final String        id;
+        public final String id;
         public final Alleles<?, ?> alleles;
-        public final float         chance;
+        public final float chance;
 
         public DNAPack(final String id, final Alleles<?, ?> alleles, final float chance)
         {
@@ -115,10 +115,11 @@ public class ClonerHelper
                 final CompoundTag poketag = nbt.getCompound(TagNames.POKEMOB);
                 if (!poketag.getCompound("ForgeCaps").contains(GeneticsManager.POKECUBEGENETICS.toString()))
                     return null;
-                if (!poketag.getCompound("ForgeCaps").getCompound(GeneticsManager.POKECUBEGENETICS.toString()).contains(
-                        "V")) return null;
-                final Tag genes = poketag.getCompound("ForgeCaps").getCompound(GeneticsManager.POKECUBEGENETICS
-                        .toString()).get("V");
+                if (!poketag.getCompound("ForgeCaps").getCompound(GeneticsManager.POKECUBEGENETICS.toString())
+                        .contains("V"))
+                    return null;
+                final Tag genes = poketag.getCompound("ForgeCaps")
+                        .getCompound(GeneticsManager.POKECUBEGENETICS.toString()).get("V");
                 final IMobGenetics eggs = new DefaultGenetics();
                 eggs.deserializeNBT((ListTag) genes);
                 return eggs;
@@ -136,9 +137,8 @@ public class ClonerHelper
     {
         final Set<Class<? extends Gene<?>>> ret = Sets.newHashSet();
         if (stack.isEmpty() || !stack.hasTag()) return ret;
-        if (stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag)
+        if (stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag pages)
         {
-            final ListTag pages = (ListTag) stack.getTag().get("pages");
             try
             {
                 String string = pages.getString(0);
@@ -166,9 +166,8 @@ public class ClonerHelper
     public static int getIndex(final ItemStack stack)
     {
         if (stack.isEmpty() || !stack.hasTag()) return -1;
-        if (stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag)
+        if (stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag pages)
         {
-            final ListTag pages = (ListTag) stack.getTag().get("pages");
             try
             {
                 final Component comp = Component.Serializer.fromJson(pages.getString(0));
@@ -216,8 +215,7 @@ public class ClonerHelper
     {
         IMobGenetics eggs = ClonerHelper.getGenes(destination);
         if (eggs == null) eggs = new DefaultGenetics();
-        for (final ResourceLocation loc : genesIn.getKeys())
-            ClonerHelper.merge(genesIn, eggs, selector, loc);
+        for (final ResourceLocation loc : genesIn.getKeys()) ClonerHelper.merge(genesIn, eggs, selector, loc);
         ClonerHelper.setGenes(destination, eggs, force ? EditType.OTHER : EditType.EXTRACT);
     }
 
@@ -264,8 +262,7 @@ public class ClonerHelper
         IMobGenetics eggs = ClonerHelper.getGenes(destination);
         if (eggs == null) eggs = new DefaultGenetics();
         ClonerHelper.setGenes(destination, genesIn, EditType.EXTRACT);
-        for (final ResourceLocation loc : genesIn.getKeys())
-            ClonerHelper.splice(genesIn, eggs, selector, loc);
+        for (final ResourceLocation loc : genesIn.getKeys()) ClonerHelper.splice(genesIn, eggs, selector, loc);
         ClonerHelper.setGenes(destination, eggs, EditType.SPLICE);
     }
 }

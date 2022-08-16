@@ -28,6 +28,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
+import thut.lib.RegHelper;
 
 public interface IBlockEntity
 {
@@ -49,7 +50,7 @@ public interface IBlockEntity
             {
                 temp = pos.offset(i, j, k);
                 final BlockState state = world.getBlockState(temp);
-                if (IBlockEntity.BLOCKBLACKLIST.contains(state.getBlock().getRegistryName())) return null;
+                if (IBlockEntity.BLOCKBLACKLIST.contains(RegHelper.getKey(state.getBlock()))) return null;
                 valid = valid || !state.isAir();
                 ret[i - xMin][j - yMin][k - zMin] = state;
             }

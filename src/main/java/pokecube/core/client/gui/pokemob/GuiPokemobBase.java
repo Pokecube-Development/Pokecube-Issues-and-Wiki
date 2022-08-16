@@ -23,7 +23,6 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.LivingEntity;
@@ -39,6 +38,7 @@ import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import thut.api.util.JsonUtil;
+import thut.lib.TComponent;
 
 public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
 {
@@ -153,7 +153,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
         }
     }
 
-    protected EditBox name = new EditBox(null, 1 / 2, 1 / 2, 120, 10, new TextComponent(""));
+    protected EditBox name = new EditBox(null, 1 / 2, 1 / 2, 120, 10, TComponent.literal(""));
 
     public GuiPokemobBase(final ContainerPokemob container, final Inventory inv)
     {
@@ -210,7 +210,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
         super.init();
         final int xOffset = 80;
         final int yOffset = 77;
-        final Component comp = new TextComponent("");
+        final Component comp = TComponent.literal("");
         this.name = new EditBox(this.font, this.width / 2 - xOffset, this.height / 2 - yOffset, 69, 10, comp);
         this.name.setTextColor(0xFFFFFFFF);
         this.name.textColorUneditable = 4210752;

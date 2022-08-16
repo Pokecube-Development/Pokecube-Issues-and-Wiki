@@ -110,28 +110,28 @@ public class InterestingMobs extends Sensor<LivingEntity>
             }
         }
         else if (e instanceof ItemEntity) items.add((ItemEntity) e);
-        if (!mates.isEmpty()) brain.setMemory(MemoryModules.POSSIBLE_MATES, mates);
-        else brain.eraseMemory(MemoryModules.POSSIBLE_MATES);
+        if (!mates.isEmpty()) brain.setMemory(MemoryModules.POSSIBLE_MATES.get(), mates);
+        else brain.eraseMemory(MemoryModules.POSSIBLE_MATES.get());
         if (!visible.isEmpty()) brain.setMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
                 new NearestVisibleLivingEntities(entityIn, visible));
         else brain.eraseMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
         if (!mobs.isEmpty()) brain.setMemory(MemoryModuleType.NEAREST_LIVING_ENTITIES, mobs);
         else brain.eraseMemory(MemoryModuleType.NEAREST_LIVING_ENTITIES);
-        if (!items.isEmpty()) brain.setMemory(MemoryModules.VISIBLE_ITEMS, items);
-        else brain.eraseMemory(MemoryModules.VISIBLE_ITEMS);
-        if (brain.checkMemory(MemoryModules.EGG, MemoryStatus.REGISTERED))
+        if (!items.isEmpty()) brain.setMemory(MemoryModules.VISIBLE_ITEMS.get(), items);
+        else brain.eraseMemory(MemoryModules.VISIBLE_ITEMS.get());
+        if (brain.checkMemory(MemoryModules.EGG.get(), MemoryStatus.REGISTERED))
         {
-            if (egg != null) brain.setMemory(MemoryModules.EGG, egg);
-            else brain.eraseMemory(MemoryModules.EGG);
+            if (egg != null) brain.setMemory(MemoryModules.EGG.get(), egg);
+            else brain.eraseMemory(MemoryModules.EGG.get());
         }
     }
 
     @Override
     public Set<MemoryModuleType<?>> requires()
     {
-        return ImmutableSet.of(MemoryModuleType.NEAREST_LIVING_ENTITIES, MemoryModules.POSSIBLE_MATES,
-                MemoryModules.HERD_MEMBERS, MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
-                MemoryModules.VISIBLE_ITEMS);
+        return ImmutableSet.of(MemoryModuleType.NEAREST_LIVING_ENTITIES, MemoryModules.POSSIBLE_MATES.get(),
+                MemoryModules.HERD_MEMBERS.get(), MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
+                MemoryModules.VISIBLE_ITEMS.get());
     }
 
 }

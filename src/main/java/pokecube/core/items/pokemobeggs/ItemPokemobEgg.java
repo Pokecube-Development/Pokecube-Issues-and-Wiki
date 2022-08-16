@@ -7,7 +7,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 
-import net.minecraft.Util;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -15,7 +14,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -42,7 +40,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.events.core.EggEvent;
+import pokecube.api.events.EggEvent;
 import pokecube.api.items.IPokecube.PokecubeBehavior;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
@@ -52,7 +50,8 @@ import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
-import pokecube.core.handlers.Config;
+import pokecube.core.init.Config;
+import pokecube.core.init.EntityTypes;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.Tools;
@@ -64,6 +63,7 @@ import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.genetics.DefaultGenetics;
+import thut.lib.TComponent;
 
 /** @author Manchou */
 public class ItemPokemobEgg extends Item
@@ -181,8 +181,8 @@ public class ItemPokemobEgg extends Item
                 ItemPokemobEgg.MOBDIST);
         if (owner == null)
         {
-            final List<LivingEntity> list = mob.getEntity().getLevel().getEntitiesOfClass(
-                    LivingEntity.class, box, (Predicate<LivingEntity>) input -> !(input instanceof EntityPokemobEgg));
+            final List<LivingEntity> list = mob.getEntity().getLevel().getEntitiesOfClass(LivingEntity.class, box,
+                    (Predicate<LivingEntity>) input -> !(input instanceof EntityPokemobEgg));
             final LivingEntity closestTo = mob.getEntity();
             LivingEntity t = null;
             double d0 = Double.MAX_VALUE;
@@ -281,8 +281,8 @@ public class ItemPokemobEgg extends Item
         if (mob.getOwner() != null)
         {
             final LivingEntity owner = mob.getOwner();
-            owner.sendMessage(new TranslatableComponent("pokemob.hatch", mob.getDisplayName().getString()),
-                    Util.NIL_UUID);
+            if (owner instanceof Player player) thut.lib.ChatHelper.sendSystemMessage(player,
+                    TComponent.translatable("pokemob.hatch", mob.getDisplayName().getString()));
             if (world.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) world.addFreshEntity(new ExperienceOrb(world,
                     entity.getX(), entity.getY(), entity.getZ(), entity.getRandom().nextInt(7) + 1));
         }
@@ -316,7 +316,7 @@ public class ItemPokemobEgg extends Item
     {
         final PokedexEntry entry = ItemPokemobEgg.getEntry(stack);
         if (entry != null) tooltip.add(1,
-                new TranslatableComponent("item.pokecube.pokemobegg.named", I18n.get(entry.getUnlocalizedName())));
+                TComponent.translatable("item.pokecube.pokemobegg.named", I18n.get(entry.getUnlocalizedName())));
     }
 
     /**
@@ -335,7 +335,7 @@ public class ItemPokemobEgg extends Item
     {
         if (this.hasCustomEntity(itemstack))
         {
-            final EntityPokemobEgg egg = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world).setStack(itemstack)
+            final EntityPokemobEgg egg = new EntityPokemobEgg(EntityTypes.getEgg(), world).setStack(itemstack)
                     .setToPos(oldItem.getX(), oldItem.getY(), oldItem.getZ());
             egg.setDeltaMovement(oldItem.getDeltaMovement());
             return egg;
@@ -350,7 +350,7 @@ public class ItemPokemobEgg extends Item
         final ItemStack eggItemStack = new ItemStack(ItemPokemobEgg.EGG, 1);
         if (stack.hasTag()) eggItemStack.setTag(stack.getTag());
         else eggItemStack.setTag(new CompoundTag());
-        final EntityPokemobEgg entity = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world).setToPos(location)
+        final EntityPokemobEgg entity = new EntityPokemobEgg(EntityTypes.getEgg(), world).setToPos(location)
                 .setStack(eggItemStack);
         final EggEvent.Place event = new EggEvent.Place(entity);
         MinecraftForge.EVENT_BUS.post(event);

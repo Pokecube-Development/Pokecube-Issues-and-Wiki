@@ -19,16 +19,13 @@ import pokecube.api.items.IPokemobUseable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
-import pokecube.core.entity.npc.NpcMob;
-import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.items.megastuff.IMegaCapability;
-import pokecube.core.items.pokecubes.EntityPokecube;
-import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.moves.zmoves.ZPower;
 import pokecube.core.network.PokecubePacketHandler;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import pokecube.nbtedit.NBTEdit;
+import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.terrain.TerrainSegment;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
@@ -86,9 +83,9 @@ public class SetupHandler
 
         final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes()
                 .add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.ATTACK_KNOCKBACK).add(Attributes.MAX_HEALTH, 10.0D);
-        event.put(EntityPokecube.TYPE, attribs.build());
-        event.put(EntityPokemobEgg.TYPE, attribs.build());
-        event.put(NpcMob.TYPE, attribs.build());
+        event.put(EntityTypes.getPokecube(), attribs.build());
+        event.put(EntityTypes.getEgg(), attribs.build());
+        event.put(EntityTypes.getNpc(), attribs.build());
 
         for (final PokedexEntry entry : Database.getSortedFormes())
         {

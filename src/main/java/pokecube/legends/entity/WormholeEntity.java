@@ -49,7 +49,7 @@ import net.minecraftforge.network.NetworkHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.utils.EntityTools;
 import pokecube.legends.init.EntityInit;
 import pokecube.legends.spawns.WormholeSpawns;

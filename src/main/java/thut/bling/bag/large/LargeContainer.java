@@ -5,12 +5,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.IContainerFactory;
 import thut.api.inventory.BaseContainer;
 import thut.api.item.ItemList;
 import thut.bling.ThutBling;
@@ -20,9 +18,6 @@ import thut.core.common.ThutCore;
 public class LargeContainer extends BaseContainer
 {
     public static final ResourceLocation INVALID = new ResourceLocation(ThutBling.MODID, "not_bagable");
-
-    public static final MenuType<LargeContainer> TYPE = new MenuType<>(
-            (IContainerFactory<LargeContainer>) LargeContainer::new);
 
     public static int STACKLIMIT = 64;
     public static int yOffset;
@@ -52,7 +47,7 @@ public class LargeContainer extends BaseContainer
 
     public LargeContainer(final int id, final Inventory ivplay, final LargeInventory pc)
     {
-        super(LargeContainer.TYPE, id);
+        super(ThutBling.BIG_BAG.get(), id);
         LargeContainer.xOffset = 0;
         LargeContainer.yOffset = 0;
         this.inv = pc;

@@ -7,7 +7,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -23,33 +22,35 @@ import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
+import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.events.core.PCEvent;
-import pokecube.api.events.core.pokemob.RecallEvent;
-import pokecube.api.events.core.pokemob.SpawnEvent;
-import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
-import pokecube.api.events.core.pokemob.combat.MoveMessageEvent;
+import pokecube.api.events.PCEvent;
+import pokecube.api.events.pokemobs.RecallEvent;
+import pokecube.api.events.pokemobs.SpawnEvent;
+import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
+import pokecube.api.events.pokemobs.combat.MoveMessageEvent;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.entity.pokemobs.AnimalChest;
-import pokecube.core.handlers.TeamManager;
-import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.handlers.events.SpawnHandler;
-import pokecube.core.handlers.events.StatsCollector;
+import pokecube.core.eventhandlers.EventsHandler;
+import pokecube.core.eventhandlers.SpawnHandler;
+import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.impl.PokecubeMod;
+import pokecube.core.init.EntityTypes;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.Tools;
+import thut.lib.TComponent;
 
 public abstract class PokemobOwned extends PokemobAI implements ContainerListener
 {
@@ -320,7 +321,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
                 has = has || StatsCollector.getHatched(this.getPokedexEntry(), player) > 0;
                 if (!has) StatsCollector.addCapture(this);
             }
-            final Component mess = new TranslatableComponent("pokemob.action.return", this.getDisplayName());
+            final Component mess = TComponent.translatable("pokemob.action.return", this.getDisplayName());
             this.displayMessageToOwner(mess);
         }
         if (!added && this.getOwnerId() != null)
@@ -364,7 +365,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
 
     private void onToss(final LivingEntity owner, final ItemStack itemstack)
     {
-        final EntityPokecube entity = new EntityPokecube(EntityPokecube.TYPE, owner.getLevel());
+        final EntityPokecube entity = new EntityPokecube(EntityTypes.getPokecube(), owner.getLevel());
         entity.shootingEntity = owner;
         entity.shooter = owner.getUUID();
         entity.setItem(itemstack);

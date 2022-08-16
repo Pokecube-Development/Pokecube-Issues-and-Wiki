@@ -9,16 +9,16 @@ import org.apache.logging.log4j.Level;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -27,10 +27,10 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.combat.CombatTask;
-import pokecube.core.handlers.TeamManager;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.Battle;
 import thut.api.entity.ai.RootTask;
+import thut.lib.TComponent;
 
 public class ForgetTargetTask extends CombatTask
 {
@@ -174,12 +174,12 @@ public class ForgetTargetTask extends CombatTask
                     mobA.setCombatState(CombatStates.MATEFIGHT, false);
                     mobB.setCombatState(CombatStates.MATEFIGHT, false);
 
-                    if (weHealth < 0.5)
-                        if (mobA.getEntity().getBrain().checkMemory(MemoryModules.HUNTED_BY, MemoryStatus.REGISTERED))
-                            mobA.getEntity().getBrain().setMemory(MemoryModules.HUNTED_BY, mobB.getEntity());
-                    if (theyHealth < 0.5)
-                        if (mobB.getEntity().getBrain().checkMemory(MemoryModules.HUNTED_BY, MemoryStatus.REGISTERED))
-                            mobB.getEntity().getBrain().setMemory(MemoryModules.HUNTED_BY, mobA.getEntity());
+                    if (weHealth < 0.5) if (mobA.getEntity().getBrain().checkMemory(MemoryModules.HUNTED_BY.get(),
+                            MemoryStatus.REGISTERED))
+                        mobA.getEntity().getBrain().setMemory(MemoryModules.HUNTED_BY.get(), mobB.getEntity());
+                    if (theyHealth < 0.5) if (mobB.getEntity().getBrain().checkMemory(MemoryModules.HUNTED_BY.get(),
+                            MemoryStatus.REGISTERED))
+                        mobB.getEntity().getBrain().setMemory(MemoryModules.HUNTED_BY.get(), mobA.getEntity());
 
                     if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("No want to fight, too weak!");
                     deAgro = true;
@@ -271,11 +271,12 @@ public class ForgetTargetTask extends CombatTask
             if (this.ticksSinceSeen++ > giveUpTimer)
             {
                 // Send deagress message and put mob on cooldown.
-                final Component message = new TranslatableComponent("pokemob.deagress.timeout",
+                final Component message = TComponent.translatable("pokemob.deagress.timeout",
                         this.pokemob.getDisplayName().getString());
                 try
                 {
-                    this.entityTarget.sendMessage(message, Util.NIL_UUID);
+                    if (this.entityTarget instanceof Player player)
+                        thut.lib.ChatHelper.sendSystemMessage(player, message);
                 }
                 catch (final Exception e)
                 {
@@ -290,11 +291,12 @@ public class ForgetTargetTask extends CombatTask
             if (this.entity.distanceTo(this.entityTarget) > PokecubeCore.getConfig().chaseDistance)
             {
                 // Send deagress message and put mob on cooldown.
-                final Component message = new TranslatableComponent("pokemob.deagress.timeout",
+                final Component message = TComponent.translatable("pokemob.deagress.timeout",
                         this.pokemob.getDisplayName().getString());
                 try
                 {
-                    this.entityTarget.sendMessage(message, Util.NIL_UUID);
+                    if (this.entityTarget instanceof Player player)
+                        thut.lib.ChatHelper.sendSystemMessage(player, message);
                 }
                 catch (final Exception e)
                 {

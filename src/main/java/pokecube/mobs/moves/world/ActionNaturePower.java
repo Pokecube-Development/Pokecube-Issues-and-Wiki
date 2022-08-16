@@ -35,11 +35,12 @@ import pokecube.api.moves.IMoveAction;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.ResourceData;
-import pokecube.core.handlers.events.MoveEventsHandler;
+import pokecube.core.eventhandlers.MoveEventsHandler;
 import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
+import thut.lib.RegHelper;
 
 public class ActionNaturePower implements IMoveAction
 {
@@ -160,7 +161,7 @@ public class ActionNaturePower implements IMoveAction
 
         final Predicate<BlockPos> _predicate_ = t -> {
 
-            final ResourceLocation here = _level_.getBiome(t).value().getRegistryName();
+            final ResourceLocation here = RegHelper.getKey(_level_.getBiome(t).value());
             // Already the same biome, no apply!
             if (here.equals(_biome_)) return false;
 
@@ -202,10 +203,10 @@ public class ActionNaturePower implements IMoveAction
             ResourceKey<Biome> KEY = ResourceKey.create(Registry.BIOME_REGISTRY, _biome_);
             final PointChecker checker = new PointChecker(world, new Vector3().set(pos), _predicate_);
             checker.checkPoints();
-            System.out.println("Checking for " + _biome_);
+            PokecubeAPI.LOGGER.debug("Checking for " + _biome_);
             if (!_has_required_.test(checker))
             {
-                System.out.println("failed required for " + _biome_);
+                PokecubeAPI.LOGGER.debug("failed required for " + _biome_);
                 return false;
             }
             return ActionNaturePower.applyChecker(checker, world, KEY);

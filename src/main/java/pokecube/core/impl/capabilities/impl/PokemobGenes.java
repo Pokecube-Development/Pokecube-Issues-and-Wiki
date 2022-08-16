@@ -103,9 +103,9 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             {
                 EVsGene evs = new EVsGene();
                 this.genesEVs.setAllele(0,
-                        evs.getMutationRate() > this.rand.nextFloat() ? (EVsGene) evs.mutate() : evs);
+                        evs.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (EVsGene) evs.mutate() : evs);
                 this.genesEVs.setAllele(1,
-                        evs.getMutationRate() > this.rand.nextFloat() ? (EVsGene) evs.mutate() : evs);
+                        evs.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (EVsGene) evs.mutate() : evs);
                 this.genesEVs.refreshExpressed();
                 evs = this.genesEVs.getExpressed();
                 evs.setValue(new EVsGene().getValue());
@@ -131,9 +131,9 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             {
                 final IVsGene gene = new IVsGene();
                 this.genesIVs.setAllele(0,
-                        gene.getMutationRate() > this.rand.nextFloat() ? (IVsGene) gene.mutate() : gene);
+                        gene.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (IVsGene) gene.mutate() : gene);
                 this.genesIVs.setAllele(1,
-                        gene.getMutationRate() > this.rand.nextFloat() ? (IVsGene) gene.mutate() : gene);
+                        gene.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (IVsGene) gene.mutate() : gene);
                 this.genesIVs.refreshExpressed();
             }
         }
@@ -159,9 +159,9 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 final MovesGene gene = new MovesGene();
                 gene.setValue(moves);
                 this.genesMoves.setAllele(0,
-                        gene.getMutationRate() > this.rand.nextFloat() ? (MovesGene) gene.mutate() : gene);
+                        gene.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (MovesGene) gene.mutate() : gene);
                 this.genesMoves.setAllele(1,
-                        gene.getMutationRate() > this.rand.nextFloat() ? (MovesGene) gene.mutate() : gene);
+                        gene.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (MovesGene) gene.mutate() : gene);
                 this.genesMoves.refreshExpressed();
             }
         }
@@ -185,9 +185,9 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             {
                 final NatureGene gene = new NatureGene();
                 this.genesNature.setAllele(0,
-                        gene.getMutationRate() > this.rand.nextFloat() ? (NatureGene) gene.mutate() : gene);
+                        gene.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (NatureGene) gene.mutate() : gene);
                 this.genesNature.setAllele(1,
-                        gene.getMutationRate() > this.rand.nextFloat() ? (NatureGene) gene.mutate() : gene);
+                        gene.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (NatureGene) gene.mutate() : gene);
                 this.genesNature.refreshExpressed();
             }
         }
@@ -220,9 +220,9 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 info = info.clone();
                 // Generate the basic genes
                 this.genesSpecies.setAllele(0,
-                        gene.getMutationRate() > this.rand.nextFloat() ? (SpeciesGene) gene.mutate() : gene);
+                        gene.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (SpeciesGene) gene.mutate() : gene);
                 this.genesSpecies.setAllele(1,
-                        gene.getMutationRate() > this.rand.nextFloat() ? (SpeciesGene) gene.mutate() : gene);
+                        gene.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (SpeciesGene) gene.mutate() : gene);
                 this.genesSpecies.refreshExpressed();
                 gene = this.genesSpecies.getExpressed();
                 // Set the expressed gene to the info made above, this is to
@@ -256,9 +256,9 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             {
                 final ColourGene gene = new ColourGene();
                 this.genesColour.setAllele(0,
-                        gene.getMutationRate() > this.rand.nextFloat() ? (ColourGene) gene.mutate() : gene);
+                        gene.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (ColourGene) gene.mutate() : gene);
                 this.genesColour.setAllele(1,
-                        gene.getMutationRate() > this.rand.nextFloat() ? (ColourGene) gene.mutate() : gene);
+                        gene.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (ColourGene) gene.mutate() : gene);
                 this.genesColour.refreshExpressed();
             }
         }
@@ -299,9 +299,9 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             {
                 SizeGene gene = new SizeGene();
                 this.genesSize.setAllele(0,
-                        gene.getMutationRate() > this.rand.nextFloat() ? (SizeGene) gene.mutate() : gene);
+                        gene.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (SizeGene) gene.mutate() : gene);
                 this.genesSize.setAllele(1,
-                        gene.getMutationRate() > this.rand.nextFloat() ? (SizeGene) gene.mutate() : gene);
+                        gene.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (SizeGene) gene.mutate() : gene);
                 this.genesSize.refreshExpressed();
                 gene = this.genesSize.getExpressed();
                 this.setSize(gene.getValue());
@@ -373,9 +373,9 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             {
                 final ShinyGene gene = new ShinyGene();
                 this.genesShiny.setAllele(0,
-                        gene.getMutationRate() > this.rand.nextFloat() ? (ShinyGene) gene.mutate() : gene);
+                        gene.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (ShinyGene) gene.mutate() : gene);
                 this.genesShiny.setAllele(1,
-                        gene.getMutationRate() > this.rand.nextFloat() ? (ShinyGene) gene.mutate() : gene);
+                        gene.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (ShinyGene) gene.mutate() : gene);
                 this.genesShiny.refreshExpressed();
             }
         }

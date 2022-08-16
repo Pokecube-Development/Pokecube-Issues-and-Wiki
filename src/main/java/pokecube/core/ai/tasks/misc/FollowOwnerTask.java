@@ -40,9 +40,9 @@ public class FollowOwnerTask extends TaskBase
     static
     {
         // Dont run if have a combat target
-        FollowOwnerTask.mems.put(MemoryModules.ATTACKTARGET, MemoryStatus.VALUE_ABSENT);
+        FollowOwnerTask.mems.put(MemoryModules.ATTACKTARGET.get(), MemoryStatus.VALUE_ABSENT);
         // Don't run if have a target location for moves
-        FollowOwnerTask.mems.put(MemoryModules.MOVE_TARGET, MemoryStatus.VALUE_ABSENT);
+        FollowOwnerTask.mems.put(MemoryModules.MOVE_TARGET.get(), MemoryStatus.VALUE_ABSENT);
     }
 
     public static double speedMult = 2;

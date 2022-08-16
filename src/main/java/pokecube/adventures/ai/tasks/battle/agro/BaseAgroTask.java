@@ -28,7 +28,7 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
 
     static
     {
-        BaseAgroTask.MEMS.put(MemoryTypes.BATTLETARGET, MemoryStatus.VALUE_ABSENT);
+        BaseAgroTask.MEMS.put(MemoryTypes.BATTLETARGET.get(), MemoryStatus.VALUE_ABSENT);
     }
 
     private int timer = 0;
@@ -51,8 +51,8 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
     protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         final Brain<?> brain = this.entity.getBrain();
-        if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET)) return false;
-        final LivingEntity targ = brain.getMemory(MemoryTypes.BATTLETARGET).get();
+        if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get())) return false;
+        final LivingEntity targ = brain.getMemory(MemoryTypes.BATTLETARGET.get()).get();
         if (targ != this.target)
         {
             this.timer = 0;
@@ -130,7 +130,7 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
     protected boolean checkExtraStartConditions(final ServerLevel worldIn, final LivingEntity owner)
     {
         final Brain<?> brain = owner.getBrain();
-        if (brain.hasMemoryValue(MemoryTypes.BATTLETARGET)) return false;
+        if (brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get())) return false;
         if (owner.tickCount % PokecubeAdv.config.trainerAgroRate != 0) return false;
         return this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
     }

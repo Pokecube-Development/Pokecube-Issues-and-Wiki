@@ -23,7 +23,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.events.core.pokemob.SpawnEvent;
+import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
@@ -34,6 +34,7 @@ import thut.api.entity.ICopyMob;
 import thut.api.entity.IMobColourable;
 import thut.api.maths.Vector3;
 import thut.core.common.network.TileUpdate;
+import thut.lib.RegHelper;
 
 public class StatueEntity extends BlockEntity
 {
@@ -63,7 +64,7 @@ public class StatueEntity extends BlockEntity
             if (before == null)
             {
                 copy.setCopiedMob(before = PokecubeCore.createPokemob(Database.missingno, this.level));
-                if (copy.getCopiedID() == null) copy.setCopiedID(before.getType().getRegistryName());
+                if (copy.getCopiedID() == null) copy.setCopiedID(RegHelper.getKey(before.getType()));
                 if (!copy.getCopiedNBT().isEmpty()) before.deserializeNBT(copy.getCopiedNBT());
                 before = null;
             }

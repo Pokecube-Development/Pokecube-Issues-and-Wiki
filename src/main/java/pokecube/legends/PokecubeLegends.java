@@ -1,16 +1,12 @@
 package pokecube.legends;
 
-import java.util.Optional;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.mojang.serialization.Codec;
 
-import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -26,21 +22,16 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.SurfaceRules.RuleSource;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -49,7 +40,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.events.core.onload.RegisterPokecubes;
+import pokecube.api.events.init.RegisterMiscItems;
+import pokecube.api.events.init.RegisterPokecubes;
 import pokecube.api.items.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -79,12 +71,11 @@ import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
 import pokecube.legends.recipes.LegendsDistorticRecipeManager;
 import pokecube.legends.recipes.LegendsLootingRecipeManager;
-import pokecube.legends.tileentity.RaidSpawn;
-import pokecube.legends.tileentity.RingTile;
 import pokecube.legends.worldgen.UltraSpaceSurfaceRules;
 import pokecube.legends.worldgen.WorldgenFeatures;
 import pokecube.legends.worldgen.trees.Trees;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 @Mod(value = Reference.ID)
 public class PokecubeLegends
@@ -132,30 +123,6 @@ public class PokecubeLegends
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
     public static class RegistryHandler
     {
-        @SubscribeEvent
-        public static void onItemRegister(final RegistryEvent.Register<Item> event)
-        {
-            ItemInit.registerItems(event);
-        }
-
-        @SubscribeEvent
-        public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
-        {
-            PokecubeAPI.LOGGER.debug("Registering Pokecube Legends Features");
-
-            // Register the ruby and sapphire ores
-        }
-
-        @SubscribeEvent
-        public static void registerTiles(final RegistryEvent.Register<BlockEntityType<?>> event)
-        {
-            RaidSpawn.TYPE = BlockEntityType.Builder.of(RaidSpawn::new, BlockInit.RAID_SPAWNER.get()).build(null);
-            RingTile.TYPE = BlockEntityType.Builder.of(RingTile::new, BlockInit.PORTAL.get()).build(null);
-            event.getRegistry()
-                    .register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWNER.get().getRegistryName()));
-            event.getRegistry().register(RingTile.TYPE.setRegistryName(BlockInit.PORTAL.get().getRegistryName()));
-        }
-
         @SubscribeEvent
         public static void onEntityAttributes(final EntityAttributeCreationEvent event)
         {
@@ -227,8 +194,8 @@ public class PokecubeLegends
     {
 
         // Biome Dictionary
-        net.minecraftforge.common.BiomeDictionary.Type ULTRASPACE =
-                net.minecraftforge.common.BiomeDictionary.Type.getType("ultraspace");
+        net.minecraftforge.common.BiomeDictionary.Type ULTRASPACE = net.minecraftforge.common.BiomeDictionary.Type
+                .getType("ultraspace");
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.AQUAMARINE_CAVES,
                 net.minecraftforge.common.BiomeDictionary.Type.RARE, ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.AZURE_BADLANDS,
@@ -443,8 +410,8 @@ public class PokecubeLegends
                 net.minecraftforge.common.BiomeDictionary.Type.JUNGLE,
                 net.minecraftforge.common.BiomeDictionary.Type.LUSH,
                 net.minecraftforge.common.BiomeDictionary.Type.MAGICAL,
-                net.minecraftforge.common.BiomeDictionary.Type.RARE,
-                net.minecraftforge.common.BiomeDictionary.Type.WET, ULTRASPACE);
+                net.minecraftforge.common.BiomeDictionary.Type.RARE, net.minecraftforge.common.BiomeDictionary.Type.WET,
+                ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.TEMPORAL_JUNGLE,
                 net.minecraftforge.common.BiomeDictionary.Type.DENSE,
                 net.minecraftforge.common.BiomeDictionary.Type.HOT,
@@ -472,8 +439,8 @@ public class PokecubeLegends
                 net.minecraftforge.common.BiomeDictionary.Type.LUSH,
                 net.minecraftforge.common.BiomeDictionary.Type.MAGICAL,
                 net.minecraftforge.common.BiomeDictionary.Type.MOUNTAIN,
-                net.minecraftforge.common.BiomeDictionary.Type.RARE,
-                net.minecraftforge.common.BiomeDictionary.Type.WET, ULTRASPACE);
+                net.minecraftforge.common.BiomeDictionary.Type.RARE, net.minecraftforge.common.BiomeDictionary.Type.WET,
+                ULTRASPACE);
         net.minecraftforge.common.BiomeDictionary.addTypes(FeaturesInit.WOODED_AZURE_BADLANDS,
                 net.minecraftforge.common.BiomeDictionary.Type.DRY, net.minecraftforge.common.BiomeDictionary.Type.MESA,
                 net.minecraftforge.common.BiomeDictionary.Type.PLATEAU,
@@ -533,83 +500,72 @@ public class PokecubeLegends
     };
 
     @SubscribeEvent
+    public void registerItems(final RegisterMiscItems event)
+    {
+        ItemInit.registerItems();
+    }
+
+    @SubscribeEvent
     public void registerPokecubes(final RegisterPokecubes event)
     {
         final PokecubeDim helper = new PokecubeDim();
 
-        // Here we do some stuff to supress the annoying forge warnings
-        // about "dangerous alternative prefixes.
-        String namespace = Reference.ID;
-        String prefix = ModLoadingContext.get().getActiveNamespace();
-        ModContainer old = ModLoadingContext.get().getActiveContainer();
-        if (!prefix.equals(namespace))
-        {
-            Optional<? extends ModContainer> swap = ModList.get().getModContainerById(namespace);
-            if (swap.isPresent()) ModLoadingContext.get().setActiveContainer(swap.get());
-        }
-
-        event.behaviors.add(new DefaultPokecubeBehavior()
+        event.register(new DefaultPokecubeBehavior()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.dyna(mob);
             }
-        }.setRegistryName(Reference.ID, "dyna"));
-        event.behaviors.add(new DefaultPokecubeBehavior()
+        }.setName("dyna"));
+        event.register(new DefaultPokecubeBehavior()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.beast(mob);
             }
-        }.setRegistryName(Reference.ID, "beast"));
-        event.behaviors.add(new DefaultPokecubeBehavior()
+        }.setName("beast"));
+        event.register(new DefaultPokecubeBehavior()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.clone(mob);
             }
-        }.setRegistryName(Reference.ID, "clone"));
-        event.behaviors.add(new DefaultPokecubeBehavior()
+        }.setName("clone"));
+        event.register(new DefaultPokecubeBehavior()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.typingB(mob);
             }
-        }.setRegistryName(Reference.ID, "typing"));
-        event.behaviors.add(new DefaultPokecubeBehavior()
+        }.setName("typing"));
+        event.register(new DefaultPokecubeBehavior()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.teamAqua(mob);
             }
-        }.setRegistryName(Reference.ID, "teamaqua"));
-        event.behaviors.add(new DefaultPokecubeBehavior()
+        }.setName("teamaqua"));
+        event.register(new DefaultPokecubeBehavior()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.teamMagma(mob);
             }
-        }.setRegistryName(Reference.ID, "teammagma"));
-        event.behaviors.add(new DefaultPokecubeBehavior()
+        }.setName("teammagma"));
+        event.register(new DefaultPokecubeBehavior()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.teamR(mob);
             }
-        }.setRegistryName(Reference.ID, "rocket"));
-
-        // Undo the suppression for the prefixes.
-        if (old != ModLoadingContext.get().getActiveContainer())
-        {
-            ModLoadingContext.get().setActiveContainer(old);
-        }
+        }.setName("rocket"));
     }
 
     @SubscribeEvent
@@ -628,8 +584,8 @@ public class PokecubeLegends
         final BlockState hit = event.getWorld().getBlockState(event.getPos());
         if (hit.getBlock() != BlockInit.RAID_SPAWNER.get())
         {
-            if (hit.getBlock() == PokecubeItems.DYNAMAX.get())
-                event.getPlayer().sendMessage(new TranslatableComponent("msg.notaraidspot.info"), Util.NIL_UUID);
+            if (hit.getBlock() == PokecubeItems.DYNAMAX.get()) thut.lib.ChatHelper.sendSystemMessage(event.getPlayer(),
+                    TComponent.translatable("msg.notaraidspot.info"));
             return;
         }
         final boolean active = hit.getValue(RaidSpawnBlock.ACTIVE).active();

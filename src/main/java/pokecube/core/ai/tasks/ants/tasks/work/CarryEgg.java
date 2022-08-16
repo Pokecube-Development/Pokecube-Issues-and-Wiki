@@ -11,6 +11,7 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.tasks.AbstractWorkTask;
@@ -23,8 +24,8 @@ public class CarryEgg extends AbstractWorkTask
     static
     {
         // Only run this if we have an egg to carry
-        CarryEgg.mems.put(AntTasks.EGG, MemoryStatus.VALUE_PRESENT);
-        CarryEgg.mems.put(AntTasks.GOING_HOME, MemoryStatus.VALUE_ABSENT);
+        CarryEgg.mems.put(MemoryModules.EGG.get(), MemoryStatus.VALUE_PRESENT);
+        CarryEgg.mems.put(MemoryModules.GOING_HOME.get(), MemoryStatus.VALUE_ABSENT);
     }
 
     // Any that is not a guard ant is allowed to carry eggs
@@ -50,7 +51,7 @@ public class CarryEgg extends AbstractWorkTask
         this.egg.getPersistentData().putLong("__carried__", Tracker.instance().getTick() + 100);
         AntTasks.setJob(this.entity, AntJob.NONE);
         final Brain<?> brain = this.entity.getBrain();
-        final GlobalPos dropOff = brain.getMemory(AntTasks.WORK_POS).get();
+        final GlobalPos dropOff = brain.getMemory(MemoryModules.WORK_POS.get()).get();
         this.entity.getNavigation().setMaxVisitedNodesMultiplier(10);
         if (!this.entity.hasPassenger(this.egg))
         {
@@ -71,9 +72,9 @@ public class CarryEgg extends AbstractWorkTask
             else
             {
                 this.egg.stopRiding();
-                brain.eraseMemory(AntTasks.EGG);
-                brain.eraseMemory(AntTasks.WORK_POS);
-                brain.setMemory(AntTasks.GOING_HOME, true);
+                brain.eraseMemory(MemoryModules.EGG.get());
+                brain.eraseMemory(MemoryModules.WORK_POS.get());
+                brain.setMemory(MemoryModules.GOING_HOME.get(), true);
             }
         }
     }
@@ -81,7 +82,7 @@ public class CarryEgg extends AbstractWorkTask
     @Override
     protected boolean shouldWork()
     {
-        this.egg = this.entity.getBrain().getMemory(AntTasks.EGG).orElse(null);
+        this.egg = this.entity.getBrain().getMemory(MemoryModules.EGG.get()).orElse(null);
         return this.egg != null;
     }
 }

@@ -13,7 +13,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
@@ -52,6 +51,7 @@ import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.init.function.PortalActiveFunction;
 import pokecube.legends.tileentity.RingTile;
 import thut.api.block.ITickTile;
+import thut.lib.TComponent;
 
 public class PortalWarp extends Rotates implements SimpleWaterloggedBlock, EntityBlock
 {
@@ -1152,7 +1152,7 @@ public class PortalWarp extends Rotates implements SimpleWaterloggedBlock, Entit
         String message;
         if (Screen.hasShiftDown()) message = I18n.get("legendblock." + this.infoname + ".tooltip");
         else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(new TranslatableComponent(message));
+        tooltip.add(TComponent.translatable(message));
     }
 
     @Override

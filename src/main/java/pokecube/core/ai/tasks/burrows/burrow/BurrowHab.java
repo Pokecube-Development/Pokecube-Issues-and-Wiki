@@ -35,14 +35,15 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
-import pokecube.core.handlers.Config;
-import pokecube.core.handlers.events.SpawnHandler.AABBRegion;
-import pokecube.core.handlers.events.SpawnHandler.ForbidRegion;
+import pokecube.core.eventhandlers.SpawnHandler.AABBRegion;
+import pokecube.core.eventhandlers.SpawnHandler.ForbidRegion;
+import pokecube.core.init.Config;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.Tracker;
 import thut.api.world.IWorldTickListener;
@@ -228,7 +229,8 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
                 for (final IPokemob pokemob : pokemobs)
                 {
                     final Brain<?> brain = pokemob.getEntity().getBrain();
-                    if (!brain.hasMemoryValue(BurrowTasks.JOB_INFO)) brain.setMemory(BurrowTasks.JOB_INFO, tag);
+                    if (!brain.hasMemoryValue(MemoryModules.JOB_INFO.get()))
+                        brain.setMemory(MemoryModules.JOB_INFO.get(), tag);
                 }
             }
 

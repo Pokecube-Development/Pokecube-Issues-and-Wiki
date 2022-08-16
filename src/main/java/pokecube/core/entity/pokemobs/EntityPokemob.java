@@ -59,19 +59,20 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.events.core.pokemob.FaintEvent;
-import pokecube.api.events.core.pokemob.SpawnEvent;
-import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
-import pokecube.api.events.core.pokemob.SpawnEvent.Variance;
+import pokecube.api.events.pokemobs.FaintEvent;
+import pokecube.api.events.pokemobs.SpawnEvent;
+import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
+import pokecube.api.events.pokemobs.SpawnEvent.Variance;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.entity.pokemobs.helper.PokemobRidable;
-import pokecube.core.handlers.Config;
-import pokecube.core.handlers.events.SpawnHandler;
+import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.impl.PokecubeMod;
+import pokecube.core.init.Config;
+import pokecube.core.init.EntityTypes;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.PokemobTracker;
@@ -122,7 +123,7 @@ public class EntityPokemob extends PokemobRidable
     {
         final IPokemob other = PokemobCaps.getPokemobFor(ageable);
         if (other == null) return null;
-        final EntityPokemobEgg egg = EntityPokemobEgg.TYPE.create(this.getLevel());
+        final EntityPokemobEgg egg = EntityTypes.getEgg().create(this.getLevel());
         egg.setStackByParents(this, other);
         return egg;
     }
@@ -514,6 +515,7 @@ public class EntityPokemob extends PokemobRidable
     @Override
     public boolean requiresCustomPersistence()
     {
+        if (isPersistenceRequired() || super.requiresCustomPersistence()) return true;
         if (!(level instanceof ServerLevel level)) return true;
 
         final boolean despawns = Config.Rules.doDespawn(level);

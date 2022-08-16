@@ -22,16 +22,17 @@ import net.minecraft.world.entity.ai.memory.ExpirableValue;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
-import pokecube.core.handlers.TeamManager;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.IPokedamage;
 import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 
 public class AITools
 {
@@ -64,7 +65,7 @@ public class AITools
         {
             if (input == null) return true;
             input = EntityTools.getCoreEntity(input);
-            final ResourceLocation eid = input.getType().getRegistryName();
+            final ResourceLocation eid = RegHelper.getKey(input);
             if (AITools.invalidIDs.contains(eid)) return false;
             for (final String tag : AITools.invalidTags) if (input.getTags().contains(tag)) return false;
 

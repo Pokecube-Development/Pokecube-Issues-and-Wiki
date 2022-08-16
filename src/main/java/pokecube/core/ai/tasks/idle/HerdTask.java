@@ -15,7 +15,7 @@ public class HerdTask extends BaseIdleTask
 
     static
     {
-        HerdTask.MEMS.put(MemoryModules.HERD_MEMBERS, MemoryStatus.VALUE_PRESENT);
+        HerdTask.MEMS.put(MemoryModules.HERD_MEMBERS.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     public HerdTask(final IPokemob pokemob)

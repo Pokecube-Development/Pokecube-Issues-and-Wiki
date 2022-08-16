@@ -1,9 +1,7 @@
 package pokecube.core.network.pokemobs;
 
 import net.minecraft.SharedConstants;
-import net.minecraft.Util;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import pokecube.api.PokecubeAPI;
@@ -11,6 +9,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import thut.core.common.network.Packet;
+import thut.lib.TComponent;
 
 public class PacketNickname extends Packet
 {
@@ -22,12 +21,11 @@ public class PacketNickname extends Packet
         PokecubeCore.packets.sendToServer(packet);
     }
 
-    int    entityId;
+    int entityId;
     String name;
 
     public PacketNickname()
-    {
-    }
+    {}
 
     public PacketNickname(final FriendlyByteBuf buf)
     {
@@ -45,19 +43,17 @@ public class PacketNickname extends Packet
         if (pokemob == null) return;
         final String name = SharedConstants.filterText(new String(this.name));
         if (pokemob.getDisplayName().getString().equals(name)) return;
-        boolean OT = pokemob.getOwnerId() == null || pokemob.getOriginalOwnerUUID() == null || pokemob
-                .getOwnerId().equals(pokemob.getOriginalOwnerUUID());
-        if (!OT && pokemob.getOwner() != null) OT = pokemob.getOwner().getUUID().equals(pokemob
-                .getOriginalOwnerUUID());
+        boolean OT = pokemob.getOwnerId() == null || pokemob.getOriginalOwnerUUID() == null
+                || pokemob.getOwnerId().equals(pokemob.getOriginalOwnerUUID());
+        if (!OT && pokemob.getOwner() != null) OT = pokemob.getOwner().getUUID().equals(pokemob.getOriginalOwnerUUID());
         if (!OT)
         {
-            if (pokemob.getOwner() != null) pokemob.getOwner().sendMessage(new TranslatableComponent(
-                    "pokemob.rename.deny"), Util.NIL_UUID);
+            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokemob.rename.deny"));
         }
         else
         {
-            pokemob.getOwner().sendMessage(new TranslatableComponent("pokemob.rename.success", pokemob
-                    .getDisplayName().getString(), name), Util.NIL_UUID);
+            thut.lib.ChatHelper.sendSystemMessage(player,
+                    TComponent.translatable("pokemob.rename.success", pokemob.getDisplayName().getString(), name));
             pokemob.setPokemonNickname(name);
         }
     }

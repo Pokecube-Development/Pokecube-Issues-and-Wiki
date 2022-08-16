@@ -17,8 +17,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import pokecube.core.ai.routes.GuardAICapability;
@@ -26,6 +24,7 @@ import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability.IGuardTask;
 import pokecube.core.utils.TimePeriod;
 import thut.api.maths.Vector4;
+import thut.lib.TComponent;
 
 public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implements INotifiedEntry
 {
@@ -58,17 +57,17 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         this.variation = variation;
         this.index = index;
         this.entity = entity;
-        this.delete = new Button(0, 0, 10, 10, new TextComponent("x"), b -> this.deleteClicked(b));
+        this.delete = new Button(0, 0, 10, 10, TComponent.literal("x"), b -> this.deleteClicked(b));
         this.delete.setFGColor(0xFFFF0000);
-        this.confirm = new Button(0, 0, 10, 10, new TextComponent("Y"), b -> this.confirmClicked(b));
+        this.confirm = new Button(0, 0, 10, 10, TComponent.literal("Y"), b -> this.confirmClicked(b));
         this.confirm.active = false;
 
         if (index == guard.getTasks().size()) this.delete.active = false;
 
-        this.moveUp = new Button(0, 0, 10, 10, new TextComponent("\u21e7"), b -> this.moveUpClicked(b));
-        this.moveDown = new Button(0, 0, 10, 10, new TextComponent("\u21e9"), b -> this.moveDownClicked(b));
+        this.moveUp = new Button(0, 0, 10, 10, TComponent.literal("\u21e7"), b -> this.moveUpClicked(b));
+        this.moveDown = new Button(0, 0, 10, 10, TComponent.literal("\u21e9"), b -> this.moveDownClicked(b));
 
-        this.update = new Button(0, 0, 20, 10, new TextComponent("btn"), b -> this.update());
+        this.update = new Button(0, 0, 20, 10, TComponent.literal("btn"), b -> this.update());
 
         this.moveUp.active = index > 0 && index < guard.getTasks().size();
         this.moveDown.active = index < guard.getTasks().size() - 1;
@@ -200,13 +199,13 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         catch (final NumberFormatException e)
         {
             // Send status message about not working here.
-            final Component mess = new TranslatableComponent("traineredit.info.pos.formaterror");
+            final Component mess = TComponent.translatable("traineredit.info.pos.formaterror");
             this.parent.getMinecraft().player.displayClientMessage(mess, true);
         }
         else if (args.length != 0)
         {
             // Send status message about not working here.
-            final Component mess = new TranslatableComponent("traineredit.info.pos.formatinfo");
+            final Component mess = TComponent.translatable("traineredit.info.pos.formatinfo");
             this.parent.getMinecraft().player.displayClientMessage(mess, true);
         }
         return null;
@@ -305,13 +304,13 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         catch (final NumberFormatException e)
         {
             // Send status message about not working here.
-            final Component mess = new TranslatableComponent("traineredit.info.time.formaterror");
+            final Component mess = TComponent.translatable("traineredit.info.time.formaterror");
             this.parent.getMinecraft().player.displayClientMessage(mess, true);
         }
         else if (args.length != 0)
         {
             // Send status message about not working here.
-            final Component mess = new TranslatableComponent("traineredit.info.time.formatinfo");
+            final Component mess = TComponent.translatable("traineredit.info.time.formatinfo");
             this.parent.getMinecraft().player.displayClientMessage(mess, true);
         }
         return null;
@@ -328,7 +327,7 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         }
         catch (final NumberFormatException e)
         {
-            final Component mess = new TranslatableComponent("traineredit.info.dist.formatinfo");
+            final Component mess = TComponent.translatable("traineredit.info.dist.formatinfo");
             this.parent.getMinecraft().player.displayClientMessage(mess, false);
             return;
         }
@@ -350,7 +349,7 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
             data.put("T", tag);
             data.putInt("I", this.entity.getId());
             this.function.apply(data);
-            final Component mess = new TranslatableComponent("pokemob.route.updated");
+            final Component mess = TComponent.translatable("pokemob.route.updated");
             this.parent.getMinecraft().player.displayClientMessage(mess, false);
         }
     }

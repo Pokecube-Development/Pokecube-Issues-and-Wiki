@@ -29,7 +29,7 @@ import pokecube.adventures.network.PacketAFA;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.events.core.pokemob.SpawnEvent;
+import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.ThutCaps;

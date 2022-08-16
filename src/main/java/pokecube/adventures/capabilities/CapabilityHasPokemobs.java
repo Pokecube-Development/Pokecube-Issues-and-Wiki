@@ -44,13 +44,13 @@ import pokecube.api.entity.trainers.IHasRewards;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.entity.trainers.actions.ActionContext;
 import pokecube.api.entity.trainers.actions.MessageState;
-import pokecube.api.events.adventures.TrainerInteractEvent;
-import pokecube.api.events.adventures.TrainerInteractEvent.CanInteract;
+import pokecube.api.events.npcs.TrainerInteractEvent;
+import pokecube.api.events.npcs.TrainerInteractEvent.CanInteract;
 import pokecube.api.items.IPokecube;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.npc.Activities;
-import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.Tracker;
@@ -376,8 +376,8 @@ public class CapabilityHasPokemobs
         public LivingEntity getTarget()
         {
             final Brain<?> brain = this.user.getBrain();
-            if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET)) return null;
-            return brain.getMemory(MemoryTypes.BATTLETARGET).get();
+            if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get())) return null;
+            return brain.getMemory(MemoryTypes.BATTLETARGET.get()).get();
         }
 
         @Override
@@ -660,8 +660,7 @@ public class CapabilityHasPokemobs
                 // Make trainer own it when place in.
                 if (!this.getTrainer().getStringUUID().equals(owner))
                 {
-                    final IPokemob pokemob = PokecubeManager.itemToPokemob(cube,
-                            this.getTrainer().getLevel());
+                    final IPokemob pokemob = PokecubeManager.itemToPokemob(cube, this.getTrainer().getLevel());
                     if (pokemob != null)
                     {
                         pokemob.setOwner(this.getTrainer());
@@ -688,8 +687,8 @@ public class CapabilityHasPokemobs
             // No next pokemob, so we shouldn't have a target in this case.
 
             // Set this here, before trying to validate other's target below.
-            this.getTrainer().getBrain().eraseMemory(MemoryTypes.BATTLETARGET);
-            if (target != null) this.getTrainer().getBrain().setMemory(MemoryTypes.BATTLETARGET, target);
+            this.getTrainer().getBrain().eraseMemory(MemoryTypes.BATTLETARGET.get());
+            if (target != null) this.getTrainer().getBrain().setMemory(MemoryTypes.BATTLETARGET.get(), target);
 
             final IHasPokemobs oldOther = TrainerCaps.getHasPokemobs(old);
             if (oldOther != null) oldOther.onSetTarget(null);
@@ -701,7 +700,7 @@ public class CapabilityHasPokemobs
                 this.aiStates.setAIState(AIState.THROWING, false);
                 this.aiStates.setAIState(AIState.INBATTLE, false);
                 BrainUtils.deagro(this.getTrainer());
-                this.getTrainer().getBrain().eraseMemory(MemoryTypes.BATTLETARGET);
+                this.getTrainer().getBrain().eraseMemory(MemoryTypes.BATTLETARGET.get());
                 this.getTrainer().getBrain().setActiveActivityIfPossible(Activity.IDLE);
                 return;
             }
@@ -744,7 +743,7 @@ public class CapabilityHasPokemobs
                 this.resetPokemob();
                 this.getTrainer().getBrain().setActiveActivityIfPossible(Activity.IDLE);
             }
-            else this.getTrainer().getBrain().setActiveActivityIfPossible(Activities.BATTLE);
+            else this.getTrainer().getBrain().setActiveActivityIfPossible(Activities.BATTLE.get());
         }
 
         @Override
@@ -831,8 +830,8 @@ public class CapabilityHasPokemobs
         public LivingEntity getTargetRaw()
         {
             final Brain<?> brain = this.user.getBrain();
-            if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET)) return null;
-            return brain.getMemory(MemoryTypes.BATTLETARGET).get();
+            if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get())) return null;
+            return brain.getMemory(MemoryTypes.BATTLETARGET.get()).get();
         }
 
         @Override

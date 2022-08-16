@@ -172,7 +172,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         this.firstTick = true;
         this.refreshDimensions();
         this.firstTick = first;
-        PartSync.sendUpdate(self());
+        PartSync.sendUpdate(weSelf());
     }
 
     @Override

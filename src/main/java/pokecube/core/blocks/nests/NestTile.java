@@ -7,7 +7,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,18 +31,20 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.CapabilityInhabitable;
 import pokecube.api.entity.CapabilityInhabitable.HabitatProvider;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.events.core.EggEvent;
+import pokecube.api.events.EggEvent;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.blocks.InteractableTile;
-import pokecube.core.handlers.events.SpawnHandler;
-import pokecube.core.handlers.events.SpawnHandler.ForbidReason;
-import pokecube.core.handlers.events.SpawnHandler.ForbidRegion;
+import pokecube.core.eventhandlers.SpawnHandler;
+import pokecube.core.eventhandlers.SpawnHandler.ForbidReason;
+import pokecube.core.eventhandlers.SpawnHandler.ForbidRegion;
+import pokecube.core.init.EntityTypes;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import thut.api.block.ITickTile;
 import thut.api.inventory.InvWrapper;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 public class NestTile extends InteractableTile implements ITickTile
 {
@@ -58,7 +59,7 @@ public class NestTile extends InteractableTile implements ITickTile
         nbt.put("nestLoc", nest);
         eggItem.setTag(nbt);
         final Random rand = ThutCore.newRandom();
-        final EntityPokemobEgg egg = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world);
+        final EntityPokemobEgg egg = new EntityPokemobEgg(EntityTypes.getEgg(), world);
         egg.setToPos(pos.getX() + 1.5 * (0.5 - rand.nextDouble()), pos.getY() + 1,
                 pos.getZ() + 1.5 * (0.5 - rand.nextDouble())).setStack(eggItem);
         final EggEvent.Lay event = new EggEvent.Lay(egg);
@@ -133,9 +134,9 @@ public class NestTile extends InteractableTile implements ITickTile
     {
         this.residents.add(resident);
         final IInhabitable hab = this.getWrappedHab();
-        if (resident.getEntity().getBrain().checkMemory(MemoryModules.NEST_POS, MemoryStatus.REGISTERED))
+        if (resident.getEntity().getBrain().checkMemory(MemoryModules.NEST_POS.get(), MemoryStatus.REGISTERED))
         {
-            resident.getEntity().getBrain().setMemory(MemoryModules.NEST_POS,
+            resident.getEntity().getBrain().setMemory(MemoryModules.NEST_POS.get(),
                     GlobalPos.of(level.dimension(), getBlockPos()));
         }
         if (hab != null) hab.addResident(resident.getEntity());
@@ -153,8 +154,7 @@ public class NestTile extends InteractableTile implements ITickTile
                 final ServerPlayer sendTo = (ServerPlayer) player;
                 final Container wrapper = new InvWrapper((IItemHandlerModifiable) handler);
                 final SimpleMenuProvider provider = new SimpleMenuProvider(
-                        (i, p, e) -> ChestMenu.sixRows(i, p, wrapper),
-                        new TranslatableComponent("block.pokecube.nest"));
+                        (i, p, e) -> ChestMenu.sixRows(i, p, wrapper), TComponent.translatable("block.pokecube.nest"));
                 NetworkHooks.openGui(sendTo, provider);
             }
             return InteractionResult.SUCCESS;

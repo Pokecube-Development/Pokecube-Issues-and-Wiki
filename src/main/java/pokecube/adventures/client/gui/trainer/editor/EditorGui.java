@@ -11,8 +11,6 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import pokecube.adventures.PokecubeAdv;
@@ -34,6 +32,7 @@ import pokecube.api.entity.trainers.IHasRewards;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.utils.CapHolders;
+import thut.lib.TComponent;
 
 public class EditorGui extends Screen
 {
@@ -42,7 +41,7 @@ public class EditorGui extends Screen
 
         public MissingPage(final EditorGui watch)
         {
-            super(new TranslatableComponent("pokewatch.title.blank"), watch);
+            super(TComponent.translatable("pokewatch.title.blank"), watch);
             this.font = Minecraft.getInstance().font;
         }
 
@@ -101,7 +100,7 @@ public class EditorGui extends Screen
 
     public EditorGui(final Entity mob)
     {
-        super(new TextComponent(""));
+        super(TComponent.literal(""));
         this.entity = mob;
         this.trainer = TrainerCaps.getHasPokemobs(mob);
         this.rewards = TrainerCaps.getHasRewards(mob);

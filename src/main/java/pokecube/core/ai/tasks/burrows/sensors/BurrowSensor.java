@@ -4,8 +4,6 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableSet;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.level.ServerLevel;
@@ -18,6 +16,7 @@ import net.minecraft.world.entity.ai.village.poi.PoiManager.Occupancy;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.api.blocks.IInhabitable;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.ai.tasks.burrows.burrow.BurrowHab;
@@ -26,8 +25,6 @@ import thut.core.common.ThutCore;
 
 public class BurrowSensor extends Sensor<Mob>
 {
-    private static final Set<MemoryModuleType<?>> MEMS = ImmutableSet.of(BurrowTasks.BURROW, BurrowTasks.NO_HOME_TIMER);
-
     public static class Burrow
     {
         public final NestTile nest;
@@ -44,8 +41,8 @@ public class BurrowSensor extends Sensor<Mob>
     public static Optional<Burrow> getNest(final Mob mob)
     {
         final Brain<?> brain = mob.getBrain();
-        if (!brain.hasMemoryValue(BurrowTasks.BURROW)) return Optional.empty();
-        final Optional<GlobalPos> pos_opt = brain.getMemory(BurrowTasks.BURROW);
+        if (!brain.hasMemoryValue(MemoryModules.NEST_POS.get())) return Optional.empty();
+        final Optional<GlobalPos> pos_opt = brain.getMemory(MemoryModules.NEST_POS.get());
         if (pos_opt.isPresent())
         {
             final Level world = mob.getLevel();
@@ -68,7 +65,7 @@ public class BurrowSensor extends Sensor<Mob>
     protected void doTick(final ServerLevel worldIn, final Mob entityIn)
     {
         final Brain<?> brain = entityIn.getBrain();
-        if (brain.hasMemoryValue(BurrowTasks.BURROW)) return;
+        if (brain.hasMemoryValue(MemoryModules.NEST_POS.get())) return;
 
         final PoiManager pois = worldIn.getPoiManager();
         final BlockPos pos = entityIn.blockPosition();
@@ -79,15 +76,15 @@ public class BurrowSensor extends Sensor<Mob>
         {
             // Randomize this so we don't always pick the same hive if it was
             // cleared for some reason
-            brain.eraseMemory(BurrowTasks.NO_HOME_TIMER);
-            brain.setMemory(BurrowTasks.BURROW, GlobalPos.of(entityIn.getLevel().dimension(), opt.get()));
+            brain.eraseMemory(MemoryModules.NO_NEST_TIMER.get());
+            brain.setMemory(MemoryModules.NEST_POS.get(), GlobalPos.of(entityIn.getLevel().dimension(), opt.get()));
         }
         else
         {
             int timer = 0;
-            if (brain.hasMemoryValue(BurrowTasks.NO_HOME_TIMER))
-                timer = brain.getMemory(BurrowTasks.NO_HOME_TIMER).get();
-            brain.setMemory(BurrowTasks.NO_HOME_TIMER, timer + 1);
+            if (brain.hasMemoryValue(MemoryModules.NO_NEST_TIMER.get()))
+                timer = brain.getMemory(MemoryModules.NO_NEST_TIMER.get()).get();
+            brain.setMemory(MemoryModules.NO_NEST_TIMER.get(), timer + 1);
         }
     }
 
@@ -104,7 +101,7 @@ public class BurrowSensor extends Sensor<Mob>
     @Override
     public Set<MemoryModuleType<?>> requires()
     {
-        return BurrowSensor.MEMS;
+        return Set.of(MemoryModules.NEST_POS.get(), MemoryModules.NO_NEST_TIMER.get());
     }
 
 }

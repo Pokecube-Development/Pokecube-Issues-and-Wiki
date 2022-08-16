@@ -13,8 +13,6 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Inventory;
 import pokecube.api.entity.pokemob.IHasCommands.Command;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -26,6 +24,7 @@ import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import thut.api.entity.IHungrymob;
+import thut.lib.TComponent;
 
 public class GuiPokemob extends GuiPokemobBase
 {
@@ -36,7 +35,7 @@ public class GuiPokemob extends GuiPokemobBase
 
         public HungerBar(final int xIn, final int yIn, final int widthIn, final int heightIn, final IHungrymob mob)
         {
-            super(xIn, yIn, widthIn, heightIn, new TranslatableComponent("pokemob.gui.hungerbar"));
+            super(xIn, yIn, widthIn, heightIn, TComponent.translatable("pokemob.gui.hungerbar"));
             this.mob = mob;
         }
 
@@ -107,15 +106,15 @@ public class GuiPokemob extends GuiPokemobBase
         int h = 10;
 
         this.addRenderableWidget(this.sit = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 00, w, h,
-                new TranslatableComponent("pokemob.gui.sit"), c -> PacketCommand.sendCommand(this.menu.pokemob,
+                TComponent.translatable("pokemob.gui.sit"), c -> PacketCommand.sendCommand(this.menu.pokemob,
                         Command.STANCE, new StanceHandler(!this.menu.pokemob.getLogicState(LogicStates.SITTING),
                                 StanceHandler.SIT))));
         this.addRenderableWidget(this.stay = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 10, w, h,
-                new TranslatableComponent("pokemob.gui.stay"), c -> PacketCommand.sendCommand(this.menu.pokemob,
+                TComponent.translatable("pokemob.gui.stay"), c -> PacketCommand.sendCommand(this.menu.pokemob,
                         Command.STANCE, new StanceHandler(!this.menu.pokemob.getGeneralState(
                                 GeneralStates.STAYING), StanceHandler.STAY))));
         this.addRenderableWidget(this.guard = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 20, w, h,
-                new TranslatableComponent("pokemob.gui.guard"), c -> PacketCommand.sendCommand(
+                TComponent.translatable("pokemob.gui.guard"), c -> PacketCommand.sendCommand(
                         this.menu.pokemob, Command.STANCE, new StanceHandler(!this.menu.pokemob
                                 .getCombatState(CombatStates.GUARDING), StanceHandler.GUARD))));
         // Bar width
@@ -131,13 +130,13 @@ public class GuiPokemob extends GuiPokemobBase
         w = 30;
         h = 10;
         this.addRenderableWidget(new Button(this.width / 2 - xOffset + 60, this.height / 2 - yOffset, w, h,
-                new TranslatableComponent("pokemob.gui.ai"), c -> PacketPokemobGui.sendPagePacket(
+                TComponent.translatable("pokemob.gui.ai"), c -> PacketPokemobGui.sendPagePacket(
                         PacketPokemobGui.AI, this.menu.pokemob.getEntity().getId())));
         this.addRenderableWidget(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset, w, h,
-                new TranslatableComponent("pokemob.gui.storage"), c -> PacketPokemobGui.sendPagePacket(
+                TComponent.translatable("pokemob.gui.storage"), c -> PacketPokemobGui.sendPagePacket(
                         PacketPokemobGui.STORAGE, this.menu.pokemob.getEntity().getId())));
         this.addRenderableWidget(new Button(this.width / 2 - xOffset + 00, this.height / 2 - yOffset, w, h,
-                new TranslatableComponent("pokemob.gui.routes"), c -> PacketPokemobGui.sendPagePacket(
+                TComponent.translatable("pokemob.gui.routes"), c -> PacketPokemobGui.sendPagePacket(
                         PacketPokemobGui.ROUTES, this.menu.pokemob.getEntity().getId())));
     }
 
@@ -165,7 +164,7 @@ public class GuiPokemob extends GuiPokemobBase
         else text.add(I18n.get("pokemob.stance.no_sit"));
         if (this.bar.isMouseOver(x, y)) text.add(I18n.get("pokemob.bar.value", this.bar.value));
         final List<Component> msgs = new ArrayList<>();
-        for(final String s: text) msgs.add(new TextComponent(s));
+        for(final String s: text) msgs.add(TComponent.literal(s));
         if (!text.isEmpty()) this.renderComponentTooltip(mat, msgs, x, y, this.font);
         this.renderTooltip(mat, x, y);
     }

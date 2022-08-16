@@ -10,12 +10,10 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang3.mutable.MutableObject;
-import org.slf4j.Logger;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
-import com.mojang.logging.LogUtils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -63,7 +61,12 @@ import thut.core.common.ThutCore;
 
 public class ExpandedJigsawPacement
 {
-    static final Logger LOGGER = LogUtils.getLogger();
+    public static final Set<ResourceLocation> ALWAYS_ADD = Sets.newHashSet();
+
+    static
+    {
+        ALWAYS_ADD.add(new ResourceLocation("pokecube:village/common/trainers"));
+    }
 
     public static ServerLevel getForGen(final PieceGeneratorSupplier.Context<?> context)
     {
@@ -322,7 +325,8 @@ public class ExpandedJigsawPacement
                 Optional<StructureTemplatePool> fallback_pool)
         {
             List<StructurePoolElement> list = Lists.newArrayList();
-            if (depth != this.maxDepth)
+            boolean addChildren = depth < this.maxDepth || ALWAYS_ADD.contains(target_pool.get().getName());
+            if (addChildren)
             {
                 list.addAll(target_pool.get().getShuffledTemplates(this.random));
                 Set<ResourceLocation> extra_pools = Sets.newHashSet();
@@ -390,7 +394,7 @@ public class ExpandedJigsawPacement
 
             boolean correct_direction = root_front == next_front.getOpposite();
 
-            if (!correct_direction && logs) System.out.println("wrong direction");
+            if (!correct_direction && logs) PokecubeAPI.LOGGER.debug("wrong direction");
             if (!correct_direction) return false;
 
             Direction root_top = JigsawBlock.getTopFacing(root.state);
@@ -400,14 +404,14 @@ public class ExpandedJigsawPacement
             });
 
             boolean correct_orientation = jointtype == JointType.ROLLABLE || root_top == next_top;
-            if (!correct_orientation && logs) System.out.println("wrong orientation");
+            if (!correct_orientation && logs) PokecubeAPI.LOGGER.debug("wrong orientation");
 
             if (!correct_orientation) return false;
 
             boolean tag_match = root.nbt.getString("target").equals(next.nbt.getString("name"));
 
             if (!tag_match && logs)
-                System.out.println(root.nbt.getString("target") + "!=" + next.nbt.getString("name"));
+                PokecubeAPI.LOGGER.debug(root.nbt.getString("target") + "!=" + next.nbt.getString("name"));
 
             return tag_match;
         }
@@ -420,7 +424,7 @@ public class ExpandedJigsawPacement
             int depth = root_state.depth;
 
             Predicate<StructurePoolElement> log_data = e -> {
-                return e.toString().contains("team_") && false;
+                return e.toString().contains("trainer") && false;
             };
 
             StructurePoolElement root_element = current_root.getElement();
@@ -478,11 +482,12 @@ public class ExpandedJigsawPacement
 
                 int dy = raw_jigsaw_pos.getY() - root_min_y;
                 int k = -1;
-                ResourceLocation resourcelocation = new ResourceLocation(root_block_info.nbt.getString("pool"));
-                Optional<StructureTemplatePool> next_pool = this.pools.getOptional(resourcelocation);
+                ResourceLocation next_pool_name = new ResourceLocation(root_block_info.nbt.getString("pool"));
+                boolean alwaysAdd = ALWAYS_ADD.contains(next_pool_name);
+                Optional<StructureTemplatePool> next_pool = this.pools.getOptional(next_pool_name);
 
                 boolean valid_next_pool = next_pool.isPresent()
-                        && (next_pool.get().size() != 0 || Objects.equals(resourcelocation, Pools.EMPTY.location()));
+                        && (next_pool.get().size() != 0 || Objects.equals(next_pool_name, Pools.EMPTY.location()));
 
                 if (valid_next_pool)
                 {
@@ -494,7 +499,6 @@ public class ExpandedJigsawPacement
 
                     if (valid_fallback)
                     {
-
                         for (StructurePoolElement next_picked_element : getShuffledParts(depth, next_pool,
                                 fallback_pool))
                         {
@@ -547,10 +551,13 @@ public class ExpandedJigsawPacement
                                 {
                                     l = 0;
                                 }
+
+                                if (this.logs) PokecubeAPI.LOGGER.info(next_jigsaws);
+
                                 pick_jigsaws:
                                 for (StructureBlockInfo next_block_info : next_jigsaws)
                                 {
-                                    if (canAttach(root_block_info, next_block_info))
+                                    if (alwaysAdd || canAttach(root_block_info, next_block_info))
                                     {
                                         BlockPos next_pos_raw = next_block_info.pos;
                                         BlockPos next_jigsaw_pos = connecting_jigsaw_pos.subtract(next_pos_raw);
@@ -613,69 +620,76 @@ public class ExpandedJigsawPacement
 
                                         AABB test_box = AABB.of(next_pick_box_shifted_y).deflate(0.25D);
 
-                                        // Unless we are actually inside, do not
-                                        // allow intersections with the root
-                                        // box.
-                                        if (!next_pick_inside)
+                                        valid_checks:
                                         {
-                                            if (test_box.intersects(root_box))
+                                            if (alwaysAdd) break valid_checks;
+
+                                            // Unless we are actually inside, do
+                                            // not
+                                            // allow intersections with the root
+                                            // box.
+                                            if (!next_pick_inside)
                                             {
-                                                bounds_fails++;
-                                                continue pick_jigsaws;
+                                                if (test_box.intersects(root_box))
+                                                {
+                                                    bounds_fails++;
+                                                    continue pick_jigsaws;
+                                                }
                                             }
-                                        }
 
-                                        // Never allow intersection of rigid
-                                        // objects.
-                                        if (rigid_bounds.getValue() != null)
-                                        {
-                                            VoxelShape new_shape = Shapes.create(test_box);
-                                            if (Shapes.joinIsNotEmpty(rigid_bounds.getValue(), new_shape,
-                                                    BooleanOp.AND))
-                                            {
-                                                rigid_fails++;
-                                                continue pick_jigsaws;
-                                            }
-                                        }
-
-                                        // And then don't let non-rigids overlap
-                                        // each other
-                                        if (non_rigid_bounds.getValue() != null)
-                                        {
-                                            VoxelShape new_shape = Shapes.create(test_box);
-                                            if (Shapes.joinIsNotEmpty(non_rigid_bounds.getValue(), new_shape,
-                                                    BooleanOp.AND))
-                                            {
-                                                non_rigid_fails++;
-                                                continue pick_jigsaws;
-                                            }
-                                        }
-
-                                        if (log_data.test(next_picked_element))
-                                            PokecubeAPI.LOGGER.debug("Placing Sub Part! {}", next_picked_element);
-
-                                        // If we are rigid, add the boundary
-                                        // now, so we don't conflict with future
-                                        // possible additions
-                                        if (next_pick_rigid)
-                                        {
-                                            // If it was rigid, add it to the
-                                            // rigid bounds
-                                            AABB next_box = AABB.of(next_pick_box_shifted_y)
-                                                    .expandTowards(0, -room_below, 0)
-                                                    .inflate(h_clearance, v_clearance, h_clearance);
-                                            VoxelShape new_shape = Shapes.create(next_box);
-
+                                            // Never allow intersection of rigid
+                                            // objects.
                                             if (rigid_bounds.getValue() != null)
                                             {
-                                                rigid_bounds.setValue(Shapes.joinUnoptimized(rigid_bounds.getValue(),
-                                                        new_shape, BooleanOp.OR));
+                                                VoxelShape new_shape = Shapes.create(test_box);
+                                                if (Shapes.joinIsNotEmpty(rigid_bounds.getValue(), new_shape,
+                                                        BooleanOp.AND))
+                                                {
+                                                    rigid_fails++;
+                                                    continue pick_jigsaws;
+                                                }
                                             }
-                                            else
+
+                                            // And then don't let non-rigids
+                                            // overlap
+                                            // each other
+                                            if (non_rigid_bounds.getValue() != null)
                                             {
-                                                rigid_bounds.setValue(new_shape);
+                                                VoxelShape new_shape = Shapes.create(test_box);
+                                                if (Shapes.joinIsNotEmpty(non_rigid_bounds.getValue(), new_shape,
+                                                        BooleanOp.AND))
+                                                {
+                                                    non_rigid_fails++;
+                                                    continue pick_jigsaws;
+                                                }
+                                            }
+
+                                            // If we are rigid, add the boundary
+                                            // now, so we don't conflict with
+                                            // future possible additions
+                                            if (next_pick_rigid)
+                                            {
+                                                // If it was rigid, add it to
+                                                // the rigid bounds
+                                                AABB next_box = AABB.of(next_pick_box_shifted_y)
+                                                        .expandTowards(0, -room_below, 0)
+                                                        .inflate(h_clearance, v_clearance, h_clearance);
+                                                VoxelShape new_shape = Shapes.create(next_box);
+
+                                                if (rigid_bounds.getValue() != null)
+                                                {
+                                                    rigid_bounds.setValue(Shapes.joinUnoptimized(
+                                                            rigid_bounds.getValue(), new_shape, BooleanOp.OR));
+                                                }
+                                                else
+                                                {
+                                                    rigid_bounds.setValue(new_shape);
+                                                }
                                             }
                                         }
+
+                                        if (this.logs)
+                                            PokecubeAPI.LOGGER.debug("Placing Sub Part! {}", next_picked_element);
 
                                         int root_y_offset = current_root.getGroundLevelDelta();
                                         int next_y_offset;
@@ -765,7 +779,7 @@ public class ExpandedJigsawPacement
                                     else wrong_attach++;
                                 }
                             }
-                            if (log_data.test(next_picked_element)) PokecubeAPI.LOGGER.debug(
+                            if (this.logs) PokecubeAPI.LOGGER.debug(
                                     "Skipping {} as did not fit: rigid_conflict:{} non_rigid_conflict:{} root_conflict:{} duplicated:{} no_attachment:{}",
                                     next_picked_element, rigid_fails, non_rigid_fails, bounds_fails, duplicated_fails,
                                     wrong_attach);
@@ -778,7 +792,7 @@ public class ExpandedJigsawPacement
                 }
                 else
                 {
-                    PokecubeAPI.LOGGER.warn("Empty or non-existent pool: {}", (Object) resourcelocation);
+                    PokecubeAPI.LOGGER.warn("Empty or non-existent pool: {}", (Object) next_pool_name);
                 }
             }
 

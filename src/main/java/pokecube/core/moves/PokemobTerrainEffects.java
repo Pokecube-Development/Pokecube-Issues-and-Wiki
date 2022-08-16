@@ -31,7 +31,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
-import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.moves.damage.TerrainDamageSource;
 import pokecube.core.moves.damage.TerrainDamageSource.TerrainType;
 import pokecube.core.network.packets.PacketSyncTerrain;

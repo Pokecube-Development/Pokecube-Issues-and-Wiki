@@ -5,7 +5,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,10 +15,11 @@ import net.minecraftforge.eventbus.api.Cancelable;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.core.handlers.Config;
+import pokecube.core.init.Config;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.Tools;
+import thut.lib.TComponent;
 
 public class Kill
 {
@@ -63,7 +63,7 @@ public class Kill
                 }
             }
         }
-        source.sendSuccess(new TranslatableComponent("pokecube.command." + (cull ? "cull" : "kill"), count1), true);
+        source.sendSuccess(TComponent.translatable("pokecube.command." + (cull ? "cull" : "kill"), count1), true);
         return 0;
     }
 

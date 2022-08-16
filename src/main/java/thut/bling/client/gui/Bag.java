@@ -11,14 +11,13 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import thut.bling.ThutBling;
 import thut.bling.bag.large.LargeContainer;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 public class Bag<T extends LargeContainer> extends AbstractContainerScreen<T>
 {
@@ -90,14 +89,14 @@ public class Bag<T extends LargeContainer> extends AbstractContainerScreen<T>
         super.init();
         final int xOffset = 0;
         final int yOffset = -11;
-        final Component next = new TranslatableComponent("block.pc.next");
+        final Component next = TComponent.translatable("block.pc.next");
         this.addRenderableWidget(new Button(this.width / 2 - xOffset - 44, this.height / 2 - yOffset - 121, 10, 10,
                 next, b ->
                 {
                     this.menu.updateInventoryPages((byte) 1, this.minecraft.player.getInventory());
                     this.textFieldSelectedBox.setValue(this.menu.getPageNb());
                 }));
-        final Component prev = new TranslatableComponent("block.pc.previous");
+        final Component prev = TComponent.translatable("block.pc.previous");
         this.addRenderableWidget(new Button(this.width / 2 - xOffset - 81, this.height / 2 - yOffset - 121, 10, 10,
                 prev, b ->
                 {
@@ -105,9 +104,9 @@ public class Bag<T extends LargeContainer> extends AbstractContainerScreen<T>
                     this.textFieldSelectedBox.setValue(this.menu.getPageNb());
                 }));
         this.textFieldSelectedBox = new EditBox(this.font, this.width / 2 - xOffset - 70, this.height / 2 - yOffset
-                - 121, 25, 10, new TextComponent(this.page));
+                - 121, 25, 10, TComponent.literal(this.page));
 
-        final Component rename = new TranslatableComponent("block.pc.rename");
+        final Component rename = TComponent.translatable("block.pc.rename");
         this.addRenderableWidget(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset - 0, 50, 10,
                 rename, b ->
                 {
@@ -117,9 +116,9 @@ public class Bag<T extends LargeContainer> extends AbstractContainerScreen<T>
                 }));
 
         this.textFieldBoxName = new EditBox(this.font, this.width / 2 - xOffset - 80, this.height / 2 - yOffset + 0,
-                100, 10, new TextComponent(this.boxName));
+                100, 10, TComponent.literal(this.boxName));
         this.textFieldSearch = new EditBox(this.font, this.width / 2 - xOffset - 10, this.height / 2 - yOffset - 121,
-                90, 10, new TextComponent(""));
+                90, 10, TComponent.literal(""));
 
         this.addRenderableWidget(this.textFieldSelectedBox);
         this.addRenderableWidget(this.textFieldBoxName);

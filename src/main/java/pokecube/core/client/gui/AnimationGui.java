@@ -34,8 +34,6 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -62,6 +60,8 @@ import thut.api.maths.vecmath.Vec3f;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
+import thut.lib.RegHelper;
+import thut.lib.TComponent;
 
 public class AnimationGui extends Screen
 {
@@ -116,7 +116,7 @@ public class AnimationGui extends Screen
                     catch (final Exception e)
                     {
                         PokecubeAPI.LOGGER
-                                .error("Error with syncing tag for " + realMob.getEntity().getType().getRegistryName());
+                                .error("Error with syncing tag for " + RegHelper.getKey(realMob.getEntity().getType()));
                         e.printStackTrace();
                     }
                 }
@@ -208,7 +208,7 @@ public class AnimationGui extends Screen
 
     public AnimationGui()
     {
-        super(new TranslatableComponent("pokecube.model_reloader"));
+        super(TComponent.translatable("pokecube.model_reloader"));
     }
 
     void onUpdated()
@@ -593,7 +593,7 @@ public class AnimationGui extends Screen
         if (AnimationGui.entry == null) AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
         if (AnimationGui.entry != null) AnimationGui.mob = AnimationGui.entry.getName();
 
-        final Component blank = new TextComponent("");
+        final Component blank = TComponent.literal("");
 
         this.anim = new EditBox(this.font, this.width - 101, yOffset + 43 - yOffset / 2, 100, 10, blank);
         this.state_g = new EditBox(this.font, this.width - 101, yOffset - 33 - yOffset / 2, 100, 10, blank);
@@ -615,19 +615,19 @@ public class AnimationGui extends Screen
         this.addRenderableWidget(this.rngValue);
         this.addRenderableWidget(this.dyeColour);
 
-        final Component icons = new TextComponent("Icons");
-        final Component up = new TextComponent("\u25bc");
-        final Component down = new TextComponent("\u25b2");
-        final Component right = new TextComponent("\u25b6");
-        final Component left = new TextComponent("\u25c0");
-        final Component next = new TextComponent("next");
-        final Component prev = new TextComponent("prev");
-        final Component plus = new TextComponent("+");
-        final Component minus = new TextComponent("-");
+        final Component icons = TComponent.literal("Icons");
+        final Component up = TComponent.literal("\u25bc");
+        final Component down = TComponent.literal("\u25b2");
+        final Component right = TComponent.literal("\u25b6");
+        final Component left = TComponent.literal("\u25c0");
+        final Component next = TComponent.literal("next");
+        final Component prev = TComponent.literal("prev");
+        final Component plus = TComponent.literal("+");
+        final Component minus = TComponent.literal("-");
 
-        final Component reset = new TextComponent("reset");
-        final Component f5 = new TextComponent("f5");
-        final Component bg = new TextComponent("bg");
+        final Component reset = TComponent.literal("reset");
+        final Component f5 = TComponent.literal("f5");
+        final Component bg = TComponent.literal("bg");
 
         int dy = -120;
 
@@ -698,26 +698,26 @@ public class AnimationGui extends Screen
         }));
         dy += 20;
         this.addRenderableWidget(
-                new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, new TextComponent("normal"), b ->
+                new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, TComponent.literal("normal"), b ->
                 {
                     this.shiny = !this.shiny;
-                    b.setMessage(new TextComponent(this.shiny ? "shiny" : "normal"));
+                    b.setMessage(TComponent.literal(this.shiny ? "shiny" : "normal"));
                     this.onUpdated();
                 }));
         dy += 20;
         this.addRenderableWidget(
-                new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, new TextComponent("sexe:M"), b ->
+                new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, TComponent.literal("sexe:M"), b ->
                 {
                     final String[] gender = b.getMessage().getString().split(":");
                     if (gender[1].equalsIgnoreCase("f"))
                     {
                         this.sexe = IPokemob.MALE;
-                        b.setMessage(new TextComponent("sexe:M"));
+                        b.setMessage(TComponent.literal("sexe:M"));
                     }
                     else if (gender[1].equalsIgnoreCase("m"))
             {
                 this.sexe = IPokemob.FEMALE;
-                b.setMessage(new TextComponent("sexe:F"));
+                b.setMessage(TComponent.literal("sexe:F"));
             }
                     this.holder = AnimationGui.entry.getModel(this.sexe);
                     this.forme_alt.setValue("");
@@ -737,7 +737,7 @@ public class AnimationGui extends Screen
         }));
         dy += 40;
         this.addRenderableWidget(
-                new Button(this.width / 2 - xOffset, yOffset + dy, 40, 10, new TextComponent("WRTSIZE"), b ->
+                new Button(this.width / 2 - xOffset, yOffset + dy, 40, 10, TComponent.literal("WRTSIZE"), b ->
                 {
                     AnimationGui.printSizes();
                 }));

@@ -100,7 +100,6 @@ public class ItemTM extends Item
     public ItemTM(final Properties props, final PokeType type)
     {
         super(props);
-        this.setRegistryName(PokecubeMod.ID, "tm" + type.ordinal());
         this.type = type;
         ItemTM.tms.put(type, this);
     }

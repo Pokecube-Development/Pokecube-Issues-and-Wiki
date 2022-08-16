@@ -4,18 +4,20 @@ import java.util.Optional;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraftforge.event.RegistryEvent.Register;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.adventures.PokecubeAdv;
 
 public class MemoryTypes
 {
-    public static final MemoryModuleType<LivingEntity> BATTLETARGET = new MemoryModuleType<>(Optional.empty());
+    public static final RegistryObject<MemoryModuleType<LivingEntity>> BATTLETARGET;// LivingEntity
+    public static final RegistryObject<MemoryModuleType<Boolean>> DUMMY;// Boolean
 
-    public static final MemoryModuleType<Boolean> DUMMY = new MemoryModuleType<>(Optional.empty());
-
-    public static void register(final Register<MemoryModuleType<?>> event)
+    static
     {
-        event.getRegistry().register(MemoryTypes.BATTLETARGET.setRegistryName(PokecubeAdv.MODID, "battle_target"));
-        event.getRegistry().register(MemoryTypes.DUMMY.setRegistryName(PokecubeAdv.MODID, "dummy"));
+        BATTLETARGET = PokecubeAdv.MEMORIES.register("battle_target", () -> new MemoryModuleType<>(Optional.empty()));
+        DUMMY = PokecubeAdv.MEMORIES.register("dummy", () -> new MemoryModuleType<>(Optional.empty()));
     }
+
+    public static void init()
+    {}
 }

@@ -12,7 +12,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -41,9 +40,10 @@ import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.tasks.idle.HungerTask;
-import pokecube.core.handlers.Config;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.impl.PokecubeMod;
+import pokecube.core.init.Config;
+import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.PermNodes;
@@ -54,13 +54,15 @@ import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
+import thut.lib.RegHelper;
+import thut.lib.TComponent;
 
 public class Pokecube extends Item implements IPokecube
 {
     public static final Set<ResourceLocation> snagblacklist = Sets.newHashSet();
 
     private static final Predicate<Entity> capturable = t -> {
-        if (Pokecube.snagblacklist.contains(t.getType().getRegistryName())) return false;
+        if (Pokecube.snagblacklist.contains(RegHelper.getKey(t))) return false;
         return true;
     };
 
@@ -69,19 +71,19 @@ public class Pokecube extends Item implements IPokecube
     {
         final boolean flag2 = nbt.getBoolean("Flames");
 
-        if (flag2) list.add(new TranslatableComponent("item.pokecube.flames"));
+        if (flag2) list.add(TComponent.translatable("item.pokecube.flames"));
 
         final boolean flag3 = nbt.getBoolean("Bubbles");
 
-        if (flag3) list.add(new TranslatableComponent("item.pokecube.bubbles"));
+        if (flag3) list.add(TComponent.translatable("item.pokecube.bubbles"));
 
         final boolean flag4 = nbt.getBoolean("Leaves");
 
-        if (flag4) list.add(new TranslatableComponent("item.pokecube.leaves"));
+        if (flag4) list.add(TComponent.translatable("item.pokecube.leaves"));
 
         final boolean flag5 = nbt.contains("dye");
 
-        if (flag5) list.add(new TranslatableComponent(DyeColor.byId(nbt.getInt("dye")).getName()));
+        if (flag5) list.add(TComponent.translatable(DyeColor.byId(nbt.getInt("dye")).getName()));
     }
 
     public Pokecube(final Properties properties)
@@ -103,7 +105,7 @@ public class Pokecube extends Item implements IPokecube
             final Entity mob = PokecubeManager.itemToMob(item, world);
             if (mob == null)
             {
-                list.add(new TranslatableComponent("pokecube.filled.error"));
+                list.add(TComponent.translatable("pokecube.filled.error"));
                 return;
             }
             final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
@@ -117,9 +119,9 @@ public class Pokecube extends Item implements IPokecube
             final int lvlexp = Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel());
             final int exp = pokemob.getExp() - lvlexp;
             final int neededexp = Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel() + 1) - lvlexp;
-            list.add(new TranslatableComponent("pokecube.tooltip.level", pokemob.getLevel()));
-            list.add(new TranslatableComponent("pokecube.tooltip.health", health, maxHealth));
-            list.add(new TranslatableComponent("pokecube.tooltip.xp", exp, neededexp));
+            list.add(TComponent.translatable("pokecube.tooltip.level", pokemob.getLevel()));
+            list.add(TComponent.translatable("pokecube.tooltip.health", health, maxHealth));
+            list.add(TComponent.translatable("pokecube.tooltip.xp", exp, neededexp));
 
             if (Screen.hasShiftDown())
             {
@@ -127,11 +129,11 @@ public class Pokecube extends Item implements IPokecube
                 for (final String s : pokemob.getMoves())
                     if (s != null) arg += I18n.get(MovesUtils.getUnlocalizedMove(s)) + ", ";
                 if (arg.endsWith(", ")) arg = arg.substring(0, arg.length() - 2);
-                list.add(new TranslatableComponent("pokecube.tooltip.moves", arg));
+                list.add(TComponent.translatable("pokecube.tooltip.moves", arg));
                 arg = "";
                 for (final Byte b : pokemob.getIVs()) arg += b + ", ";
                 if (arg.endsWith(", ")) arg = arg.substring(0, arg.length() - 2);
-                list.add(new TranslatableComponent("pokecube.tooltip.ivs", arg));
+                list.add(TComponent.translatable("pokecube.tooltip.ivs", arg));
                 arg = "";
                 for (final Byte b : pokemob.getEVs())
                 {
@@ -139,16 +141,16 @@ public class Pokecube extends Item implements IPokecube
                     arg += n + ", ";
                 }
                 if (arg.endsWith(", ")) arg = arg.substring(0, arg.length() - 2);
-                list.add(new TranslatableComponent("pokecube.tooltip.evs", arg));
-                list.add(new TranslatableComponent("pokecube.tooltip.nature", pokemob.getNature()));
-                list.add(new TranslatableComponent("pokecube.tooltip.ability", pokemob.getAbility()));
+                list.add(TComponent.translatable("pokecube.tooltip.evs", arg));
+                list.add(TComponent.translatable("pokecube.tooltip.nature", pokemob.getNature()));
+                list.add(TComponent.translatable("pokecube.tooltip.ability", pokemob.getAbility()));
             }
-            else list.add(new TranslatableComponent("pokecube.tooltip.advanced"));
+            else list.add(TComponent.translatable("pokecube.tooltip.advanced"));
         }
         else
         {
-            final ResourceLocation name = item.getItem().getRegistryName();
-            list.add(new TranslatableComponent("item.pokecube." + name.getPath() + ".desc"));
+            final ResourceLocation name = RegHelper.getKey(item.getItem());
+            list.add(TComponent.translatable("item.pokecube." + name.getPath() + ".desc"));
         }
 
         if (item.hasTag())
@@ -187,7 +189,7 @@ public class Pokecube extends Item implements IPokecube
         if (this.hasCustomEntity(itemstack))
         {
             final FakePlayer player = PokecubeMod.getFakePlayer(world);
-            final EntityPokecube cube = new EntityPokecube(EntityPokecube.TYPE, world);
+            final EntityPokecube cube = new EntityPokecube(EntityTypes.getPokecube(), world);
             cube.shootingEntity = player;
             cube.shooter = player.getUUID();
             cube.setItem(itemstack);
@@ -395,7 +397,7 @@ public class Pokecube extends Item implements IPokecube
                 return null;
         }
         stack.setCount(1);
-        entity = new EntityPokecube(EntityPokecube.TYPE, world);
+        entity = new EntityPokecube(EntityTypes.getPokecube(), world);
         entity.shootingEntity = thrower.isShiftKeyDown() ? null : thrower;
         if (thrower.isShiftKeyDown()) entity.setNoCollisionRelease();
         else entity.autoRelease = config.pokecubeAutoSendOutDelay;
@@ -449,7 +451,7 @@ public class Pokecube extends Item implements IPokecube
         if (id == null || !IPokecube.PokecubeBehavior.BEHAVIORS.get().containsKey(id)) return null;
         final ItemStack stack = cube.copy();
         stack.setCount(1);
-        entity = new EntityPokecube(EntityPokecube.TYPE, world);
+        entity = new EntityPokecube(EntityTypes.getPokecube(), world);
         entity.shootingEntity = thrower;
         entity.shooter = thrower.getUUID();
         entity.setItem(stack);

@@ -3,7 +3,7 @@ package pokecube.api.entity.pokemob.moves;
 import net.minecraft.world.entity.Entity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.events.core.pokemob.combat.AttackEvent;
+import pokecube.api.events.pokemobs.combat.AttackEvent;
 import pokecube.api.moves.Move_Base;
 import pokecube.api.utils.PokeType;
 import pokecube.core.moves.MovesUtils;

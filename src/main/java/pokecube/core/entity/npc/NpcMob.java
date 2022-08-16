@@ -15,8 +15,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -34,7 +32,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.Brain;
@@ -55,9 +52,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.network.NetworkHooks;
-import pokecube.api.events.core.npc.NpcBreedEvent;
-import pokecube.api.events.core.npc.NpcEvent;
-import pokecube.api.events.core.npc.NpcTradesEvent;
+import pokecube.api.events.npcs.NpcBreedEvent;
+import pokecube.api.events.npcs.NpcEvent;
+import pokecube.api.events.npcs.NpcTradesEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.npc.Tasks;
@@ -68,17 +65,10 @@ import pokecube.core.utils.CapHolders;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.inventory.npc.NpcContainer;
 import thut.api.maths.Vector3;
+import thut.lib.TComponent;
 
 public class NpcMob extends Villager implements IEntityAdditionalSpawnData
 {
-    public static final EntityType<NpcMob> TYPE;
-
-    static
-    {
-        TYPE = EntityType.Builder.of(NpcMob::new, MobCategory.CREATURE)
-                .setCustomClientFactory((s, w) -> NpcMob.TYPE.create(w)).build("pokecube:npc");
-    }
-
     static final EntityDataAccessor<String> NAMEDW = SynchedEntityData.<String>defineId(NpcMob.class,
             EntityDataSerializers.STRING);
 
@@ -99,7 +89,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
 
     private Consumer<MerchantOffer> use_offer = t -> {};
 
-    protected NpcMob(final EntityType<? extends NpcMob> type, final Level world)
+    public NpcMob(final EntityType<? extends NpcMob> type, final Level world)
     {
         super(type, world);
         this.setPersistenceRequired();
@@ -150,7 +140,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
             Set<Activity> acts = brain.activityRequirements.keySet();
             for (Activity act : acts) BrainUtil.addToActivity(brain, act, args);
 
-            brain.addActivity(Activities.STATIONARY, this.addGuard(guardai, Tasks.stationary(profession, f)));
+            brain.addActivity(Activities.STATIONARY.get(), this.addGuard(guardai, Tasks.stationary(profession, f)));
             brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
             brain.setDefaultActivity(Activity.IDLE);
             brain.setActiveActivityIfPossible(Activity.IDLE);
@@ -282,7 +272,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         {
             if (this.getNpcType().getProfession() == VillagerProfession.NONE)
             {
-                String prof = this.getVillagerData().getProfession().getName();
+                String prof = this.getVillagerData().getProfession().toString();
                 NpcType type = NpcType.byType(prof);
                 this.setNpcType(type);
             }
@@ -300,7 +290,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         if (this.getVillagerData().getProfession() != VillagerProfession.NONE
                 && this.getNpcType().getName().equals("none"))
         {
-            String prof = this.getVillagerData().getProfession().getName();
+            String prof = this.getVillagerData().getProfession().toString();
             NpcType type = NpcType.byType(prof);
             this.setNpcType(type);
         }
@@ -341,10 +331,10 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
             if (this.getNPCName().startsWith("pokecube."))
             {
                 final String[] args = this.getNPCName().split(":");
-                if (args.length == 2) display = new TranslatableComponent(args[0], args[1]);
-                else display = new TextComponent(this.getNPCName());
+                if (args.length == 2) display = TComponent.translatable(args[0], args[1]);
+                else display = TComponent.literal(this.getNPCName());
             }
-            else display = new TextComponent(this.getNPCName());
+            else display = TComponent.literal(this.getNPCName());
             display.withStyle((style) -> {
                 return style.withHoverEvent(this.createHoverEvent()).withInsertion(this.getStringUUID());
             });
@@ -449,11 +439,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
             // Next try custom ones
             VillagerData villagerdata = this.getVillagerData();;
             VillagerTrades.ItemListing[] itemListings = type.getTrades(villagerdata.getLevel());
-            if (itemListings != null)
-            {
-                this.addOffersFromItemListings(this.offers, itemListings, 2);
-                for (var listing : itemListings) System.out.println(listing.getOffer(this, this.random));
-            }
+            if (itemListings != null) this.addOffersFromItemListings(this.offers, itemListings, 2);
         }
         // Now add the defaults
         this.init_offers.accept(this.offers);

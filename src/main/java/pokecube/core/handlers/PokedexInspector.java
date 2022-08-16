@@ -5,22 +5,21 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import pokecube.api.events.core.PokedexInspectEvent;
+import pokecube.api.events.PokedexInspectEvent;
 import pokecube.api.stats.CaptureStats;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import pokecube.core.utils.Tools;
 import thut.core.common.handlers.PlayerDataHandler;
+import thut.lib.TComponent;
 
 public class PokedexInspector
 {
@@ -32,9 +31,9 @@ public class PokedexInspector
     public static class InspectCapturesReward implements IInspectReward
     {
         final ItemStack reward;
-        final Field     configField;
-        final String    message;
-        final String    tagString;
+        final Field configField;
+        final String message;
+        final String tagString;
 
         public InspectCapturesReward(final ItemStack reward, final Field configField, final String message,
                 final String tagString)
@@ -51,12 +50,11 @@ public class PokedexInspector
             if (reward == null || tag.getBoolean(this.tagString)) return false;
             if (this.matches(num, configArg))
             {
-                if (giveReward)
+                if (giveReward && entity instanceof Player player)
                 {
                     tag.putBoolean(this.tagString, true);
-                    entity.sendMessage(new TranslatableComponent(this.message), Util.NIL_UUID);
-                    final Player PlayerEntity = (Player) entity;
-                    Tools.giveItem(PlayerEntity, reward);
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(this.message));
+                    Tools.giveItem(player, reward);
                     PokecubePlayerDataHandler.saveCustomData(entity.getStringUUID());
                 }
                 return true;
@@ -87,8 +85,8 @@ public class PokedexInspector
         private boolean matches(final int num, final String arg)
         {
             int required = 0;
-            if (arg.contains("%")) required = (int) (Double.parseDouble(arg.replace("%", "")) * Database.spawnables
-                    .size() / 100d);
+            if (arg.contains("%"))
+                required = (int) (Double.parseDouble(arg.replace("%", "")) * Database.spawnables.size() / 100d);
             else required = (int) Double.parseDouble(arg);
             return required <= num;
         }
@@ -112,8 +110,8 @@ public class PokedexInspector
     public static void inspectEvent(final PokedexInspectEvent evt)
     {
         final String uuid = evt.getEntity().getStringUUID();
-        final PokecubePlayerCustomData data = PlayerDataHandler.getInstance().getPlayerData(uuid).getData(
-                PokecubePlayerCustomData.class);
+        final PokecubePlayerCustomData data = PlayerDataHandler.getInstance().getPlayerData(uuid)
+                .getData(PokecubePlayerCustomData.class);
         boolean done = false;
         for (final IInspectReward reward : PokedexInspector.rewards)
         {

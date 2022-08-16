@@ -33,11 +33,9 @@ import net.minecraft.server.packs.repository.Pack.Position;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
@@ -45,15 +43,10 @@ import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
-import pokecube.api.events.core.onload.InitDatabase;
+import pokecube.api.events.init.InitDatabase;
 import pokecube.api.utils.PokeType;
-import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.database.moves.MovesDatabases;
-import pokecube.core.database.moves.json.JsonMoves;
-import pokecube.core.database.moves.json.JsonMoves.AnimationJson;
-import pokecube.core.database.moves.json.JsonMoves.MoveJsonEntry;
-import pokecube.core.database.moves.json.JsonMoves.MovesJson;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
@@ -562,82 +555,6 @@ public class Database
             if (e.dummy) dummies++;
         }
         PokecubeAPI.LOGGER.debug("Processed Form Lists, found " + dummies + " Dummy Forms.");
-    }
-
-    public static void initMobSounds(final IForgeRegistry<SoundEvent> registry)
-    {
-        // Register sounds for the pokemobs
-        final List<PokedexEntry> toProcess = Lists.newArrayList(Pokedex.getInstance().getRegisteredEntries());
-        toProcess.sort(Database.COMPARATOR);
-        for (final PokedexEntry e : toProcess)
-        {
-            if (e.getModId() == null || e.soundEvent != null) continue;
-            if (e.sound == null) if (e.customSound != null) e.setSound("mobs." + Database.trim(e.customSound));
-            else if (e.base) e.setSound("mobs." + e.getTrimmedName());
-            else e.setSound("mobs." + e.getBaseForme().getTrimmedName());
-            PokecubeAPI.LOGGER.debug(e + " has Sound: " + e.sound);
-            e.soundEvent = new SoundEvent(e.sound);
-            e.soundEvent.setRegistryName(e.sound);
-            // Loader.instance().setActiveModContainer(mc);
-            if (registry.containsKey(e.sound)) continue;
-            registry.register(e.soundEvent);
-        }
-    }
-
-    public static void initSounds(final IForgeRegistry<SoundEvent> registry)
-    {
-        // Register sounds for the moves
-
-        // null as it should have been populated already
-        final MovesJson moves = JsonMoves.getMoves(null);
-        for (final MoveJsonEntry entry : moves.moves)
-        {
-            // Register sound on source
-            if (entry.soundEffectSource != null)
-            {
-                final ResourceLocation sound = new ResourceLocation(entry.soundEffectSource);
-                final SoundEvent event = new SoundEvent(sound);
-                if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft"))
-                {
-                    event.setRegistryName(sound);
-                    registry.register(event);
-                }
-            }
-            // Register sound on target
-            if (entry.soundEffectTarget != null)
-            {
-                final ResourceLocation sound = new ResourceLocation(entry.soundEffectTarget);
-                final SoundEvent event = new SoundEvent(sound);
-                if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft"))
-                {
-                    event.setRegistryName(sound);
-                    registry.register(event);
-                }
-            }
-            // Register sounds for the animations
-            if (entry.animations != null) for (final AnimationJson anim : entry.animations) if (anim.sound != null)
-            {
-                final ResourceLocation sound = new ResourceLocation(anim.sound);
-                final SoundEvent event = new SoundEvent(sound);
-                if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft"))
-                {
-                    event.setRegistryName(sound);
-                    registry.register(event);
-                }
-            }
-        }
-
-        // Register sound events from config.
-        for (final String var : PokecubeCore.getConfig().customSounds)
-        {
-            final ResourceLocation sound = new ResourceLocation(var);
-            final SoundEvent event = new SoundEvent(sound);
-            if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft"))
-            {
-                event.setRegistryName(sound);
-                registry.register(event);
-            }
-        }
     }
 
     public static void loadRecipes()

@@ -17,9 +17,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Block;
@@ -29,10 +27,12 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.items.IPokecube;
 import pokecube.api.utils.PokeType;
 import pokecube.core.database.Database;
-import pokecube.core.handlers.ItemGenerator;
+import pokecube.core.init.ItemGenerator;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.megastuff.ItemMegawearable;
-import pokecube.core.items.vitamins.ItemVitamin;;
+import pokecube.core.items.vitamins.ItemVitamin;
+import thut.lib.RegHelper;
+import thut.lib.TComponent;;
 
 public class CommandGenStuff
 {
@@ -161,13 +161,13 @@ public class CommandGenStuff
 
     public static void execute(final ServerPlayer sender, final String[] args)
     {
-        sender.sendMessage(new TextComponent("Starting File Output"), Util.NIL_UUID);
+        thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Starting File Output"));
         for (final PokedexEntry e : Database.getSortedFormes())
         {
             if (e == Database.missingno || e.dummy || e.isMega()) continue;
             CommandGenStuff.registerAchievements(e);
         }
-        sender.sendMessage(new TextComponent("Advancements Done"), Util.NIL_UUID);
+        thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Advancements Done"));
         final File dir = new File("./mods/pokecube/assets/pokecube_mobs/");
         if (!dir.exists()) dir.mkdirs();
         File file = null;
@@ -187,11 +187,11 @@ public class CommandGenStuff
         {
             e.printStackTrace();
         }
-        sender.sendMessage(new TextComponent("Sounds Done"), Util.NIL_UUID);
+        thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Sounds Done"));
         CommandGenStuff.generateBlockAndItemJsons();
         CommandGenStuff.generateMobsLang();
 
-        sender.sendMessage(new TextComponent("Finished File Output"), Util.NIL_UUID);
+        thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Finished File Output"));
     }
 
     public static void generateMobsLang()
@@ -345,7 +345,7 @@ public class CommandGenStuff
 
         for (final Block b : ForgeRegistries.BLOCKS.getValues())
         {
-            if (b.getRegistryName().toString().startsWith("minecraft")) continue;
+            if (RegHelper.getKey(b).toString().startsWith("minecraft")) continue;
             CommandGenStuff.generateBlockDropJson(b);
         }
 
@@ -356,11 +356,11 @@ public class CommandGenStuff
             final Block plank = ItemGenerator.planks.get(s);
             if (log != null && plank != null)
             {
-                final File dir = new File("./mods/data/" + log.getRegistryName().getNamespace() + "/recipes");
+                final File dir = new File("./mods/data/" + RegHelper.getKey(log).getNamespace() + "/recipes");
                 dir.mkdirs();
-                final File out = new File(dir, log.getRegistryName().getPath() + ".json");
+                final File out = new File(dir, RegHelper.getKey(log).getPath() + ".json");
                 String loottable = "{\"type\":\"minecraft:crafting_shapeless\",\"group\":\"planks\",\"ingredients\":[{\"tag\":\""
-                        + log.getRegistryName() + "\"}],\"result\":{\"item\":\"" + plank.getRegistryName()
+                        + RegHelper.getKey(log) + "\"}],\"result\":{\"item\":\"" + RegHelper.getKey(plank)
                         + "\",\"count\":4}}";
                 final JsonObject obj = AdvancementGenerator.GSON.fromJson(loottable, JsonObject.class);
                 loottable = AdvancementGenerator.GSON.toJson(obj);
@@ -383,12 +383,12 @@ public class CommandGenStuff
 
     private static void generateBlockDropJson(final Block block)
     {
-        final File dir = new File("./mods/data/" + block.getRegistryName().getNamespace() + "/loot_tables/blocks");
+        final File dir = new File("./mods/data/" + RegHelper.getKey(block).getNamespace() + "/loot_tables/blocks");
         dir.mkdirs();
-        final File out = new File(dir, block.getRegistryName().getPath() + ".json");
+        final File out = new File(dir, RegHelper.getKey(block).getPath() + ".json");
 
         String loottable = "{\"type\": \"minecraft:block\",\"pools\":[{\"name\":\"pool_0\",\"rolls\":1,\"entries\":[{\"type\":\"minecraft:item\",\"name\":\""
-                + block.getRegistryName()
+                + RegHelper.getKey(block)
                 + "\"}],\"conditions\":[{\"condition\": \"minecraft:survives_explosion\"}]}]}";
         final JsonObject obj = AdvancementGenerator.GSON.fromJson(loottable, JsonObject.class);
         loottable = AdvancementGenerator.GSON.toJson(obj);

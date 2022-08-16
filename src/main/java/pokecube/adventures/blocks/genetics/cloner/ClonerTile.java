@@ -1,7 +1,7 @@
 package pokecube.adventures.blocks.genetics.cloner;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -19,6 +19,7 @@ import pokecube.adventures.blocks.genetics.helper.GeneticsTileParentable;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeClone;
 import thut.api.item.ItemList;
+import thut.lib.TComponent;
 
 public class ClonerTile extends GeneticsTileParentable<ClonerTile>
 {
@@ -52,8 +53,8 @@ public class ClonerTile extends GeneticsTileParentable<ClonerTile>
     protected boolean saveInv(final BlockState state)
     {
         if (!this.isDummy) return true;
-        final boolean doSave = state.hasProperty(ClonerBlock.HALF) && state.getValue(
-                ClonerBlock.HALF) == ClonerBlockPart.BOTTOM;
+        final boolean doSave = state.hasProperty(ClonerBlock.HALF)
+                && state.getValue(ClonerBlock.HALF) == ClonerBlockPart.BOTTOM;
         return doSave;
     }
 
@@ -88,7 +89,7 @@ public class ClonerTile extends GeneticsTileParentable<ClonerTile>
             hit = new BlockHitResult(hit.getLocation(), hit.getDirection(), new_pos, hit.isInside());
             return down.use(this.getLevel(), player, hand, hit);
         }
-        final TranslatableComponent name = new TranslatableComponent("block.pokecube_adventures.cloner");
+        final MutableComponent name = TComponent.translatable("block.pokecube_adventures.cloner");
         player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) -> new ClonerContainer(id,
                 playerInventory, ContainerLevelAccess.create(this.getLevel(), pos)), name));
         return InteractionResult.SUCCESS;

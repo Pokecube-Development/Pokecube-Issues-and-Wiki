@@ -6,7 +6,6 @@ import java.util.Objects;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
@@ -33,6 +32,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.core.network.packets.PacketPC;
+import thut.lib.TComponent;
 
 public class PCBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock
 {
@@ -136,12 +136,12 @@ public class PCBlock extends HorizontalDirectionalBlock implements SimpleWaterlo
         }
         else if (this.top && (this.needsBase || !(world.getBlockState(pos.below()).getBlock() instanceof PCBlock)))
         {
-            player.displayClientMessage(new TranslatableComponent("msg.pokecube.pc_top.fail"), true);
+            player.displayClientMessage(TComponent.translatable("msg.pokecube.pc_top.fail"), true);
             return InteractionResult.PASS;
         }
         else if (!this.top && !(world.getBlockState(pos.above()).getBlock() instanceof PCBlock))
         {
-            player.displayClientMessage(new TranslatableComponent("msg.pokecube.pc_base.fail"), true);
+            player.displayClientMessage(TComponent.translatable("msg.pokecube.pc_base.fail"), true);
             return InteractionResult.PASS;
         }
         return InteractionResult.PASS;

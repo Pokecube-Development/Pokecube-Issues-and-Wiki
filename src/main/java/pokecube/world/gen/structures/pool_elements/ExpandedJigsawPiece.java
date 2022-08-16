@@ -50,14 +50,15 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.events.core.StructureEvent;
+import pokecube.api.events.StructureEvent;
 import pokecube.core.PokecubeCore;
-import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.mixin.features.WorldGenRegionAccessor;
 import pokecube.world.gen.structures.PokecubeStructures;
 import pokecube.world.gen.structures.processors.MarkerToAirProcessor;
 import pokecube.world.gen.structures.processors.NoWaterlogProcessor;
+import thut.core.common.ThutCore;
 
 public class ExpandedJigsawPiece extends SinglePoolElement
 {
@@ -343,8 +344,10 @@ public class ExpandedJigsawPiece extends SinglePoolElement
                         .getRandomPalette(template.palettes, pos1).blocks();
                 for (final StructureBlockInfo info : list)
                 {
+                    String key;
                     final boolean isDataMarker = info.state.getBlock() == Blocks.STRUCTURE_BLOCK && info.nbt != null
-                            && StructureMode.valueOf(info.nbt.getString("mode")) == StructureMode.DATA;
+                            && !(key = info.nbt.getString("mode")).isBlank()
+                            && StructureMode.valueOf(key) == StructureMode.DATA;
                     if (isDataMarker)
                     {
                         final BlockPos blockpos = StructureTemplate
@@ -411,6 +414,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
             {
                 final Event event = new StructureEvent.ReadTag(function.trim(), pos, worldIn, (ServerLevel) this.world,
                         rand, box);
+                if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug(function.trim() + " " + pos);
                 MinecraftForge.EVENT_BUS.post(event);
                 if (event.getResult() == Result.ALLOW) ExpandedJigsawPiece.apply(pos, this.world);
             }

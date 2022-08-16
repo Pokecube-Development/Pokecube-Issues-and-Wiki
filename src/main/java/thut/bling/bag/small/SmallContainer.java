@@ -5,10 +5,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.network.IContainerFactory;
 import thut.api.item.ItemList;
 import thut.bling.ThutBling;
 import thut.bling.bag.large.BagSlot;
@@ -18,8 +16,6 @@ public class SmallContainer extends ChestMenu
 {
     public static final ResourceLocation INVALID = new ResourceLocation(ThutBling.MODID, "not_bagable");
 
-    public static final MenuType<SmallContainer> TYPE = new MenuType<>(
-            (IContainerFactory<SmallContainer>) SmallContainer::new);
 
     public static int STACKLIMIT = 64;
     public static int yOffset;
@@ -49,7 +45,7 @@ public class SmallContainer extends ChestMenu
 
     public SmallContainer(final int id, final Inventory ivplay, final SmallInventory pc)
     {
-        super(SmallContainer.TYPE, id, ivplay, pc, 3);
+        super(ThutBling.SMALL_BAG.get(), id, ivplay, pc, 3);
         SmallContainer.xOffset = 0;
         SmallContainer.yOffset = 0;
         this.inv = pc;

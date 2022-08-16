@@ -18,7 +18,7 @@ import pokecube.api.entity.trainers.IHasNPCAIStates;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
 import pokecube.api.entity.trainers.IHasTrades;
 import pokecube.api.entity.trainers.TrainerCaps;
-import pokecube.api.events.core.npc.NpcTradesEvent;
+import pokecube.api.events.npcs.NpcTradesEvent;
 
 public class CapabilityHasTrades
 {

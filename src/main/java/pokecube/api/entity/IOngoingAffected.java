@@ -71,7 +71,7 @@ public interface IOngoingAffected extends INBTSerializable<ListTag>
         /**
          * @return how many times should affectTarget be called. by default,
          *         this happens once every
-         *         {@link pokecube.core.handlers.Config#attackCooldown} ticks,
+         *         {@link pokecube.core.init.Config#attackCooldown} ticks,
          *         if this value is less than 0, it will never run out.
          */
         int getDuration();

@@ -19,7 +19,7 @@ public abstract class BaseBattleTask extends BaseTask
 
     static
     {
-        BaseBattleTask.MEMS.put(MemoryTypes.BATTLETARGET, MemoryStatus.VALUE_PRESENT);
+        BaseBattleTask.MEMS.put(MemoryTypes.BATTLETARGET.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     protected LivingEntity target;
@@ -38,8 +38,8 @@ public abstract class BaseBattleTask extends BaseTask
     protected boolean checkExtraStartConditions(final ServerLevel worldIn, final LivingEntity owner)
     {
         final Brain<?> brain = owner.getBrain();
-        if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET)) return false;
-        this.target = brain.getMemory(MemoryTypes.BATTLETARGET).get();
+        if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get())) return false;
+        this.target = brain.getMemory(MemoryTypes.BATTLETARGET.get()).get();
         return true;
     }
 

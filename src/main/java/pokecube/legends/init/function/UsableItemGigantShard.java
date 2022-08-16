@@ -7,6 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -30,9 +31,10 @@ public class UsableItemGigantShard
          * @return something happened
          */
         @Override
-        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
+        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack,
+                final LivingEntity user)
         {
-            System.out.println(user + " " + pokemob.getOwner());
+            PokecubeAPI.LOGGER.debug(user + " " + pokemob.getOwner());
             if (user != pokemob.getOwner()) return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
             boolean gigant = pokemob.getCombatState(CombatStates.GIGANTAMAX);
             // Already able to gigantamax, no effect.
@@ -53,7 +55,7 @@ public class UsableItemGigantShard
     {
         if (event.getCapabilities().containsKey(UsableItemGigantShard.USABLE)) return;
         final Item item = event.getObject().getItem();
-        if (item == ItemInit.GIGANTIC_SHARD.get()) event.addCapability(UsableItemGigantShard.USABLE,
-                new GigantShardUsable());
+        if (item == ItemInit.GIGANTIC_SHARD.get())
+            event.addCapability(UsableItemGigantShard.USABLE, new GigantShardUsable());
     }
 }

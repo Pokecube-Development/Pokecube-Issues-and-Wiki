@@ -15,8 +15,6 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
@@ -28,6 +26,7 @@ import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketUpdateAI;
 import thut.api.maths.Vector4;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 public class GuiPokemobStorage extends GuiPokemobBase
 {
@@ -120,26 +119,26 @@ public class GuiPokemobStorage extends GuiPokemobBase
         int xOffset = this.width / 2 - 10;
         final int yOffset = this.height / 2 - 77;
         this.addRenderableWidget(
-                new Button(xOffset + 60, yOffset, 30, 10, new TranslatableComponent("pokemob.gui.inventory"),
+                new Button(xOffset + 60, yOffset, 30, 10, TComponent.translatable("pokemob.gui.inventory"),
                         b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.MAIN, this.entity.getId())));
-        this.addRenderableWidget(new Button(xOffset + 30, yOffset, 30, 10, new TranslatableComponent("pokemob.gui.ai"),
+        this.addRenderableWidget(new Button(xOffset + 30, yOffset, 30, 10, TComponent.translatable("pokemob.gui.ai"),
                 b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.AI, this.entity.getId())));
         this.addRenderableWidget(
-                new Button(xOffset + 00, yOffset, 30, 10, new TranslatableComponent("pokemob.gui.routes"),
+                new Button(xOffset + 00, yOffset, 30, 10, TComponent.translatable("pokemob.gui.routes"),
                         b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.ROUTES, this.entity.getId())));
         xOffset += 29;
         final int dy = 13;
         final int ds = 10;
         this.addRenderableWidget(this.berry = new EditBox(this.font, xOffset + 10, yOffset + dy + ds * 0, 50, 10,
-                new TextComponent("")));
+                TComponent.literal("")));
         this.addRenderableWidget(this.storage = new EditBox(this.font, xOffset + 10, yOffset + dy + ds * 1, 50, 10,
-                new TextComponent("")));
+                TComponent.literal("")));
         this.addRenderableWidget(this.storageFace = new EditBox(this.font, xOffset + 10, yOffset + dy + ds * 2, 50, 10,
-                new TextComponent("")));
+                TComponent.literal("")));
         this.addRenderableWidget(this.empty = new EditBox(this.font, xOffset + 10, yOffset + dy + ds * 3, 50, 10,
-                new TextComponent("")));
+                TComponent.literal("")));
         this.addRenderableWidget(this.emptyFace = new EditBox(this.font, xOffset + 10, yOffset + dy + ds * 4, 50, 10,
-                new TextComponent("")));
+                TComponent.literal("")));
         this.textBoxes = Lists.newArrayList(this.berry, this.storage, this.storageFace, this.empty, this.emptyFace);
 
         final CompoundTag nbt = this.ai.serializeNBT();
@@ -252,6 +251,6 @@ public class GuiPokemobStorage extends GuiPokemobBase
         PacketUpdateAI.sendUpdatePacket(this.pokemob, this.ai);
 
         // Send status message thingy
-        this.minecraft.player.displayClientMessage(new TranslatableComponent("pokemob.gui.updatestorage"), true);
+        this.minecraft.player.displayClientMessage(TComponent.translatable("pokemob.gui.updatestorage"), true);
     }
 }

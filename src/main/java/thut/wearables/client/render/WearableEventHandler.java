@@ -13,7 +13,6 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
@@ -24,6 +23,7 @@ import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import thut.lib.TComponent;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
 import thut.wearables.Reference;
@@ -127,14 +127,14 @@ public class WearableEventHandler
             {
             case 2:
                 message = I18n.get("wearables.keyuse.left", key);
-                evt.getToolTip().add(new TextComponent(message));
+                evt.getToolTip().add(TComponent.literal(message));
                 key = this.keys[slot.index + 1].getTranslatedKeyMessage().getString();
                 message = I18n.get("wearables.keyuse.right", key);
-                evt.getToolTip().add(new TextComponent(message));
+                evt.getToolTip().add(TComponent.literal(message));
                 break;
             default:
                 message = I18n.get("wearables.keyuse.single", key);
-                evt.getToolTip().add(new TextComponent(message));
+                evt.getToolTip().add(TComponent.literal(message));
                 break;
             }
         }

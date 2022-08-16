@@ -20,6 +20,7 @@ import thut.api.entity.event.CopyUpdateEvent;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.BotAI;
 import thut.core.common.network.CapabilitySync;
+import thut.lib.RegHelper;
 
 @BotAI(key = "thutbot:mimic")
 public class MimicBot extends AbstractBot
@@ -41,7 +42,7 @@ public class MimicBot extends AbstractBot
             {
                 ResourceLocation loc = new ResourceLocation(match.group(5));
                 final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(loc);
-                if (type == null || !type.getRegistryName().equals(loc)) return false;
+                if (type == null || !RegHelper.getKey(type).equals(loc)) return false;
                 final ICopyMob copy = CopyCaps.get(player);
                 copy.setCopiedID(loc);
                 CapabilitySync.sendUpdate(player);

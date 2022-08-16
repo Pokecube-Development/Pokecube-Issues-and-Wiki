@@ -2,19 +2,16 @@ package pokecube.api.data.spawns;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.QuartPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Climate;
-import net.minecraft.world.level.biome.TerrainShaper;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.Material;
 import pokecube.api.data.PokedexEntry;
+import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.ITerrainProvider;
@@ -103,23 +100,7 @@ public class SpawnCheck
         this.dusk = PokedexEntry.dusk.contains(time);
         this.dawn = PokedexEntry.dawn.contains(time);
         this.night = PokedexEntry.night.contains(time);
-        this.terrain = getTerrain(location, world);
-    }
-
-    private TerrainType getTerrain(Vector3 v, LevelAccessor world)
-    {
-        if (!(world instanceof ServerLevel level)) return TerrainType.FLAT;
-
-        ChunkGenerator generator = level.getChunkSource().getGenerator();
-        BlockPos pos = v.getPos();
-
-        int i = QuartPos.fromBlock(pos.getX());
-        int j = QuartPos.fromBlock(pos.getY());
-        int k = QuartPos.fromBlock(pos.getZ());
-        Climate.TargetPoint climate$targetpoint = generator.climateSampler().sample(i, j, k);
-        float f4 = Climate.unquantizeCoord(climate$targetpoint.weirdness());
-        double d0 = (double) TerrainShaper.peaksAndValleys(f4);
-        return d0 > 0.5 ? TerrainType.HILLS : TerrainType.FLAT;
+        this.terrain = PokecubeTerrainChecker.getTerrain(location, world);
     }
 
     @Override

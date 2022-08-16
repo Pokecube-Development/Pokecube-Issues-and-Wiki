@@ -40,6 +40,7 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.entity.trainer.TrainerNpc;
+import pokecube.adventures.init.EntityTypes;
 import pokecube.adventures.utils.TrainerTracker;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
@@ -49,18 +50,18 @@ import pokecube.api.entity.trainers.IHasPokemobs;
 import pokecube.api.entity.trainers.IHasRewards;
 import pokecube.api.entity.trainers.IHasRewards.Reward;
 import pokecube.api.entity.trainers.TrainerCaps;
-import pokecube.api.events.core.StructureEvent;
-import pokecube.api.events.core.npc.NpcSpawn;
-import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
+import pokecube.api.events.StructureEvent;
+import pokecube.api.events.npcs.NpcSpawn;
+import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
-import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.handlers.events.SpawnEventsHandler;
-import pokecube.core.handlers.events.SpawnHandler;
+import pokecube.core.eventhandlers.EventsHandler;
+import pokecube.core.eventhandlers.SpawnEventsHandler;
+import pokecube.core.eventhandlers.SpawnHandler;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 import thut.api.util.JsonUtil;
@@ -77,8 +78,7 @@ public class TrainerSpawnHandler
         SpawnEventsHandler.processors.add((mob, thing) -> {
             final ServerLevel world = (ServerLevel) mob.level;
             // Then apply trainer specific stuff.
-            int level = SpawnHandler
-                    .getSpawnLevel(new SpawnContext(world, Database.missingno, new Vector3().set(mob)));
+            int level = SpawnHandler.getSpawnLevel(new SpawnContext(world, Database.missingno, new Vector3().set(mob)));
             if (thing.has("level")) level = thing.get("level").getAsInt();
             String typeName = "";
             if (thing.has("aiStates"))
@@ -186,7 +186,7 @@ public class TrainerSpawnHandler
         NpcType ttype = NpcType.getRandomForLocation(v, w);
         if (ttype == null) return null;
         final int level = SpawnHandler.getSpawnLevel(new SpawnContext(w, Database.missingno, v));
-        final TrainerNpc trainer = new TrainerNpc(TrainerNpc.TYPE, w);
+        final TrainerNpc trainer = new TrainerNpc(EntityTypes.getTrainer(), w);
         trainer.setNpcType(ttype);
         trainer.setLevel(level);
         trainer.aiStates.setAIState(AIState.MATES, true);
@@ -318,8 +318,8 @@ public class TrainerSpawnHandler
         if ((leader = function.startsWith("leader")) || function.startsWith("trainer"))
         {
             function = function.replaceFirst(leader ? "leader" : "trainer", "");
-            final TrainerNpc mob = leader ? LeaderNpc.TYPE.create(event.worldActual)
-                    : TrainerNpc.TYPE.create(event.worldActual);
+            final TrainerNpc mob = leader ? EntityTypes.getLeader().create(event.worldActual)
+                    : EntityTypes.getTrainer().create(event.worldActual);
             mob.setPersistenceRequired();
             mob.moveTo(event.pos, 0.0F, 0.0F);
             mob.finalizeSpawn((ServerLevelAccessor) event.worldBlocks,

@@ -13,12 +13,11 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.minecraft.commands.CommandRuntimeException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.ThutCore;
 import thut.core.common.config.Config.ConfigData;
+import thut.lib.TComponent;
 
 public class CommandConfigs
 {
@@ -28,11 +27,11 @@ public class CommandConfigs
         {
             final Field f = data.getClass().getField(field);
             final Object value = f.get(data);
-            source.sendSuccess(new TranslatableComponent("thutcore.command.settings.check", field, value), true);
+            source.sendSuccess(TComponent.translatable("thutcore.command.settings.check", field, value), true);
         }
         catch (final Exception e)
         {
-            throw new CommandRuntimeException(new TextComponent("Error with field name " + field));
+            throw new CommandRuntimeException(TComponent.literal("Error with field name " + field));
         }
 
         return 0;
@@ -51,14 +50,14 @@ public class CommandConfigs
         catch (final Exception e)
         {
             ThutCore.LOGGER.error(e);
-            throw new CommandRuntimeException(new TextComponent("Error with field name " + field));
+            throw new CommandRuntimeException(TComponent.literal("Error with field name " + field));
         }
         final String[] args = message.split(" ");
         String val = args[0];
         if (val.equals("!set"))
         {
             CommandConfigs.handleSet(data, args, value, f);
-            source.sendSuccess(new TranslatableComponent("thutcore.command.settings.array.set", field, value),
+            source.sendSuccess(TComponent.translatable("thutcore.command.settings.array.set", field, value),
                     true);
             return 0;
         }
@@ -66,7 +65,7 @@ public class CommandConfigs
         if (val.equals("!add"))
         {
             CommandConfigs.handleAdd(data, args, value, f);
-            source.sendSuccess(new TranslatableComponent("thutcore.command.settings.array.add", field, value),
+            source.sendSuccess(TComponent.translatable("thutcore.command.settings.array.add", field, value),
                     true);
             return 0;
         }
@@ -74,7 +73,7 @@ public class CommandConfigs
         if (val.equals("!remove"))
         {
             CommandConfigs.handleRemove(data, args, value, f);
-            source.sendSuccess(new TranslatableComponent("thutcore.command.settings.array.remove", field, value),
+            source.sendSuccess(TComponent.translatable("thutcore.command.settings.array.remove", field, value),
                     true);
             return 0;
         }
@@ -88,9 +87,9 @@ public class CommandConfigs
         }
         catch (final Exception e)
         {
-            throw new CommandRuntimeException(new TextComponent("Error with setting field name " + field));
+            throw new CommandRuntimeException(TComponent.literal("Error with setting field name " + field));
         }
-        source.sendSuccess(new TranslatableComponent("thutcore.command.settings.set", field, value), true);
+        source.sendSuccess(TComponent.translatable("thutcore.command.settings.set", field, value), true);
 
         return 0;
     }
@@ -114,14 +113,14 @@ public class CommandConfigs
             toSet = Arrays.copyOf((int[]) o, len + 1);
             ((int[]) toSet)[len] = CommandConfigs.parseInt(value);
         }
-        else throw new CommandRuntimeException(new TextComponent("This can only by done for arrays."));
+        else throw new CommandRuntimeException(TComponent.literal("This can only by done for arrays."));
         try
         {
             data.updateField(field, toSet);
         }
         catch (final Exception e)
         {
-            throw new CommandRuntimeException(new TextComponent("Error with setting field name " + field));
+            throw new CommandRuntimeException(TComponent.literal("Error with setting field name " + field));
         }
     }
 
@@ -153,14 +152,14 @@ public class CommandConfigs
             for (int i = 0; i < values.size(); i++)
                 arr[i] = values.get(i);
         }
-        else throw new CommandRuntimeException(new TextComponent("This can only by done for arrays."));
+        else throw new CommandRuntimeException(TComponent.literal("This can only by done for arrays."));
         try
         {
             data.updateField(field, toSet);
         }
         catch (final Exception e)
         {
-            throw new CommandRuntimeException(new TextComponent("Error with setting field name " + field));
+            throw new CommandRuntimeException(TComponent.literal("Error with setting field name " + field));
         }
     }
 
@@ -182,14 +181,14 @@ public class CommandConfigs
             ((int[]) o)[num] = CommandConfigs.parseInt(value);
             toSet = ((int[]) o).clone();
         }
-        else throw new CommandRuntimeException(new TextComponent("This can only by done for arrays."));
+        else throw new CommandRuntimeException(TComponent.literal("This can only by done for arrays."));
         try
         {
             data.updateField(field, toSet);
         }
         catch (final Exception e)
         {
-            throw new CommandRuntimeException(new TextComponent("Error with setting field name " + field));
+            throw new CommandRuntimeException(TComponent.literal("Error with setting field name " + field));
         }
     }
 
@@ -213,7 +212,7 @@ public class CommandConfigs
         }
         catch (final NumberFormatException var2)
         {
-            throw new CommandRuntimeException(new TranslatableComponent("commands.generic.num.invalid", new Object[] {
+            throw new CommandRuntimeException(TComponent.translatable("commands.generic.num.invalid", new Object[] {
                     input }));
         }
     }

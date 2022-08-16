@@ -12,7 +12,6 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -25,6 +24,7 @@ import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
+import thut.lib.TComponent;
 
 public class GuiPokeWatch extends Screen
 {
@@ -33,7 +33,7 @@ public class GuiPokeWatch extends Screen
 
         public MissingPage(final GuiPokeWatch watch)
         {
-            super(new TranslatableComponent("pokewatch.title.blank"), watch, GuiPokeWatch.TEX_DM, GuiPokeWatch.TEX_NM);
+            super(TComponent.translatable("pokewatch.title.blank"), watch, GuiPokeWatch.TEX_DM, GuiPokeWatch.TEX_NM);
             this.font = Minecraft.getInstance().font;
         }
 
@@ -108,7 +108,7 @@ public class GuiPokeWatch extends Screen
 
     public GuiPokeWatch(final Player player, final LivingEntity target)
     {
-        super(new TranslatableComponent("pokecube.watch"));
+        super(TComponent.translatable("pokecube.watch"));
         this.target = target;
         this.pokemob = PokemobCaps.getPokemobFor(target);
         if (this.pokemob != null)
@@ -206,9 +206,9 @@ public class GuiPokeWatch extends Screen
         this.current_page.init();
         final int x = this.width / 2;
         final int y = this.height / 2 - 5;
-        final Component next = new TranslatableComponent("block.pc.next");
-        final Component prev = new TranslatableComponent("block.pc.previous");
-        final Component home = new TranslatableComponent("pokewatch.button.home");
+        final Component next = TComponent.translatable("block.pc.next");
+        final Component prev = TComponent.translatable("block.pc.previous");
+        final Component home = TComponent.translatable("pokewatch.button.home");
         final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 14, y + 40, 17, 17, next, b -> {
             int index = this.index;
             if (index < GuiPokeWatch.PAGELIST.size() - 1) index++;

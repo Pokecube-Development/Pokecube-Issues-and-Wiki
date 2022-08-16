@@ -7,20 +7,18 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.trade.TraderTile;
+import pokecube.core.init.MenuTypes;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.inventory.BaseContainer;
 
 public class TradeContainer extends BaseContainer
 {
-
-    public static final MenuType<TradeContainer> TYPE = new MenuType<>(TradeContainer::new);
     private Container inv;
     private final ContainerLevelAccess pos;
     public TraderTile tile;
@@ -32,7 +30,7 @@ public class TradeContainer extends BaseContainer
 
     public TradeContainer(final int id, final Inventory inv, final ContainerLevelAccess pos)
     {
-        super(TradeContainer.TYPE, id);
+        super(MenuTypes.TRADE.get(), id);
         this.pos = pos;
 
         pos.execute((w, p) -> {

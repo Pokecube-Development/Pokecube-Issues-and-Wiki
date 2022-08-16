@@ -19,8 +19,7 @@ public class GuardTask<T extends LivingEntity> extends RootTask<T>
     }
 
     @Override
-    protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn,
-            final long gameTimeIn)
+    protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         return this.goal.canContinueToUse();
     }
@@ -29,14 +28,15 @@ public class GuardTask<T extends LivingEntity> extends RootTask<T>
     protected boolean checkExtraStartConditions(final ServerLevel worldIn, final LivingEntity owner)
     {
         final boolean valid = this.goal.canUse();
-        if (!valid && owner.getBrain().isActive(Activities.STATIONARY)) owner.getBrain().setActiveActivityIfPossible(Activity.IDLE);
+        if (!valid && owner.getBrain().isActive(Activities.STATIONARY.get()))
+            owner.getBrain().setActiveActivityIfPossible(Activity.IDLE);
         return valid;
     }
 
     @Override
     protected void start(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
-        entityIn.getBrain().setActiveActivityIfPossible(Activities.STATIONARY);
+        entityIn.getBrain().setActiveActivityIfPossible(Activities.STATIONARY.get());
         this.goal.start();
     }
 

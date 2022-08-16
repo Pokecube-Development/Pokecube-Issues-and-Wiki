@@ -10,7 +10,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -34,14 +33,6 @@ import thut.wearables.inventory.PlayerWearables;
 
 public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnData
 {
-    public static final EntityType<TrainerNpc> TYPE;
-
-    static
-    {
-        TYPE = EntityType.Builder.of(TrainerNpc::new, MobCategory.CREATURE)
-                .setCustomClientFactory((s, w) -> TrainerNpc.TYPE.create(w)).build("trainer");
-    }
-
     boolean added = false;
     public long visibleTime = 0;
 

@@ -5,8 +5,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.TranslatableComponent;
 import thut.core.common.config.Config.ConfigData;
+import thut.lib.TComponent;
 
 public class ConfigGui extends Screen
 {
@@ -15,7 +15,7 @@ public class ConfigGui extends Screen
 
     public ConfigGui(final ConfigData data, final Screen parent)
     {
-        super(new TranslatableComponent("thutcore.config.not_finished"));
+        super(TComponent.translatable("thutcore.config.not_finished"));
         this.data = data;
         this.parent = parent;
     }
@@ -23,7 +23,7 @@ public class ConfigGui extends Screen
     @Override
     protected void init()
     {
-        this.addRenderableWidget(new Button(this.width / 2 - 50, this.height / 2 + 20, 100, 20, new TranslatableComponent(
+        this.addRenderableWidget(new Button(this.width / 2 - 50, this.height / 2 + 20, 100, 20, TComponent.translatable(
                 "gui.done"), w ->
         {
             this.minecraft.setScreen(this.parent);

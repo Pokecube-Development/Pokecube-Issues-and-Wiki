@@ -11,7 +11,6 @@ import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -55,6 +54,7 @@ import thut.api.entity.IAnimated;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 /**
  * Mostly does visuals updates, such as particle effects, checking that shearing
@@ -145,7 +145,7 @@ public class LogicMiscUpdate extends LogicBase
                 this.dynatime = this.pokemob.getEntity().getPersistentData().getLong("pokecube:dynatime");
             if (!this.de_dyna && time - PokecubeCore.getConfig().dynamax_duration > this.dynatime)
             {
-                Component mess = new TranslatableComponent("pokemob.dynamax.timeout.revert",
+                Component mess = TComponent.translatable("pokemob.dynamax.timeout.revert",
                         this.pokemob.getDisplayName());
                 this.pokemob.displayMessageToOwner(mess);
 
@@ -154,7 +154,7 @@ public class LogicMiscUpdate extends LogicBase
                     ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry, mess, true);
 
                 pokemob.setCombatState(CombatStates.MEGAFORME, false);
-                mess = new TranslatableComponent("pokemob.dynamax.revert", this.pokemob.getDisplayName());
+                mess = TComponent.translatable("pokemob.dynamax.revert", this.pokemob.getDisplayName());
                 ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry, mess, true);
 
                 PokecubeAPI.LOGGER.debug("Reverting Dynamax");

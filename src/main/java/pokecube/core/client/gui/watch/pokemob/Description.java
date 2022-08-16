@@ -9,7 +9,6 @@ import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.client.EventsHandlerClient;
@@ -24,6 +23,7 @@ import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
+import thut.lib.TComponent;
 
 public class Description extends ListPage<LineEntry>
 {
@@ -49,7 +49,7 @@ public class Description extends ListPage<LineEntry>
         {
             final int x = this.watch.width / 2 + 10;
             final int y = this.watch.height / 2 + 22;
-            final Component check_conditions = new TranslatableComponent("pokewatch.capture.check");
+            final Component check_conditions = TComponent.translatable("pokewatch.capture.check");
             final TexButton button = this.addRenderableWidget(new TexButton(x, y, 100, 12, check_conditions, b ->
             {
                 PacketPokedex.sendCaptureCheck(e);

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
+import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.legends.conditions.AbstractCondition;
 import pokecube.legends.conditions.AbstractEntriedCondition;
 import pokecube.legends.init.BlockInit;

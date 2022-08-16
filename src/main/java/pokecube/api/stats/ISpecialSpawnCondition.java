@@ -6,7 +6,7 @@ import com.google.common.collect.Maps;
 
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
+import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 
 public interface ISpecialSpawnCondition
 {

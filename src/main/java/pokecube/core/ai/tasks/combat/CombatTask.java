@@ -19,7 +19,7 @@ public abstract class CombatTask extends TaskBase implements IAICombat
 
     static
     {
-        CombatTask.MEMS.put(MemoryModules.ATTACKTARGET, MemoryStatus.VALUE_PRESENT);
+        CombatTask.MEMS.put(MemoryModules.ATTACKTARGET.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     public CombatTask(final IPokemob pokemob)

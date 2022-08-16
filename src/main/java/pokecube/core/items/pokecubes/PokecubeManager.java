@@ -10,7 +10,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -32,6 +31,8 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import thut.api.item.ItemList;
 import thut.core.common.network.EntityUpdate;
+import thut.lib.RegHelper;
+import thut.lib.TComponent;
 
 public class PokecubeManager
 {
@@ -47,7 +48,7 @@ public class PokecubeManager
 
     public static void addToCube(final ItemStack cube, final LivingEntity mob)
     {
-        final ResourceLocation id = mob.getType().getRegistryName();
+        final ResourceLocation id = RegHelper.getKey(mob.getType());
         if (!cube.hasTag()) cube.setTag(new CompoundTag());
         cube.getTag().putString(TagNames.MOBID, id.toString());
         final CompoundTag tag = new CompoundTag();
@@ -290,12 +291,12 @@ public class PokecubeManager
         final int status = pokemob.getStatus();
         PokecubeManager.setStatus(itemStack, pokemob.getStatus());
         Component name = pokemob.getDisplayName();
-        if (status == IMoveConstants.STATUS_BRN) name = new TranslatableComponent("pokecube.filled.brn", name);
-        else if (status == IMoveConstants.STATUS_FRZ) name = new TranslatableComponent("pokecube.filled.frz", name);
-        else if (status == IMoveConstants.STATUS_PAR) name = new TranslatableComponent("pokecube.filled.par", name);
-        else if (status == IMoveConstants.STATUS_SLP) name = new TranslatableComponent("pokecube.filled.slp", name);
+        if (status == IMoveConstants.STATUS_BRN) name = TComponent.translatable("pokecube.filled.brn", name);
+        else if (status == IMoveConstants.STATUS_FRZ) name = TComponent.translatable("pokecube.filled.frz", name);
+        else if (status == IMoveConstants.STATUS_PAR) name = TComponent.translatable("pokecube.filled.par", name);
+        else if (status == IMoveConstants.STATUS_SLP) name = TComponent.translatable("pokecube.filled.slp", name);
         else if (status == IMoveConstants.STATUS_PSN || status == IMoveConstants.STATUS_PSN2)
-            name = new TranslatableComponent("pokecube.filled.psn", name);
+            name = TComponent.translatable("pokecube.filled.psn", name);
         itemStack.setHoverName(name);
         return itemStack;
     }

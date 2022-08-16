@@ -13,8 +13,8 @@ import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeItems;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.poi.PointsOfInterest;
-import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.nest.AntHabitat;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor.AntNest;
@@ -28,7 +28,7 @@ public class CheckNest extends BaseIdleTask
     static
     {
         // Only run if we have a nest
-        CheckNest.mems.put(AntTasks.NEST_POS, MemoryStatus.VALUE_PRESENT);
+        CheckNest.mems.put(MemoryModules.NEST_POS.get(), MemoryStatus.VALUE_PRESENT);
     }
     protected int new_hive_cooldown = 0;
 
@@ -49,14 +49,14 @@ public class CheckNest extends BaseIdleTask
     public void run()
     {
         final Brain<?> brain = this.entity.getBrain();
-        final Optional<Integer> hiveTimer = brain.getMemory(AntTasks.OUT_OF_HIVE_TIMER);
+        final Optional<Integer> hiveTimer = brain.getMemory(MemoryModules.OUT_OF_NEST_TIMER.get());
         final int time = hiveTimer.orElseGet(() -> 0) - 1;
-        brain.setMemory(BeeTasks.OUT_OF_HIVE_TIMER, time);
+        brain.setMemory(BeeTasks.OUT_OF_HIVE_TIMER.get(), time);
         if (this.nest == null) this.nest = NestSensor.getNest(this.entity).orElse(null);
         if (this.new_hive_cooldown++ > 60)
         {
             this.new_hive_cooldown = 0;
-            final Optional<GlobalPos> pos_opt = brain.getMemory(AntTasks.NEST_POS);
+            final Optional<GlobalPos> pos_opt = brain.getMemory(MemoryModules.NEST_POS.get());
             if (pos_opt.isPresent())
             {
                 final GlobalPos pos = pos_opt.get();
@@ -84,7 +84,7 @@ public class CheckNest extends BaseIdleTask
                             nest.addResident(this.pokemob);
                             // Copy over the old habitat info.
                             nest.setWrappedHab(this.nest.hab);
-                            brain.eraseMemory(AntTasks.NO_HIVE_TIMER);
+                            brain.eraseMemory(MemoryModules.NO_NEST_TIMER.get());
                             this.nest = null;
                             return;
                         }
@@ -93,7 +93,7 @@ public class CheckNest extends BaseIdleTask
 
                 // If we should clear the hive, remove the memory, the
                 // HiveSensor will find a new hive.
-                if (clearHive) this.entity.getBrain().eraseMemory(AntTasks.NEST_POS);
+                if (clearHive) this.entity.getBrain().eraseMemory(MemoryModules.NEST_POS.get());
             }
         }
     }

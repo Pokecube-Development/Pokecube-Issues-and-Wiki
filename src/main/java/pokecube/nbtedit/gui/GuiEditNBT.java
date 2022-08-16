@@ -21,12 +21,12 @@ import net.minecraft.nbt.LongTag;
 import net.minecraft.nbt.ShortTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.nbtedit.NBTStringHelper;
 import pokecube.nbtedit.nbt.NamedNBT;
 import pokecube.nbtedit.nbt.Node;
 import pokecube.nbtedit.nbt.ParseHelper;
+import thut.lib.TComponent;
 
 public class GuiEditNBT extends AbstractWidget
 {
@@ -125,7 +125,7 @@ public class GuiEditNBT extends AbstractWidget
             final boolean editValue)
     {
         super((parent.width - GuiEditNBT.WIDTH) / 2, (parent.height - GuiEditNBT.HEIGHT) / 2, GuiEditNBT.WIDTH,
-                GuiEditNBT.HEIGHT, new TextComponent(""));
+                GuiEditNBT.HEIGHT, TComponent.literal(""));
         this.parent = parent;
         this.node = node;
         this.nbt = node.getObject().getNBT();
@@ -205,8 +205,8 @@ public class GuiEditNBT extends AbstractWidget
         if (!this.key.isFocused() && !this.value.isFocused()) if (this.canEditText) this.key.setFocused(true);
         else if (this.canEditValue) this.value.setFocused(true);
 
-        this.parent.addRenderableWidget(this.save = new Button(x + 9, y + 62, 75, 20, new TextComponent("Save"), b -> this.saveAndQuit()));
-        this.parent.addRenderableWidget(new Button(x + 93, y + 62, 75, 20, new TextComponent("Cancel"), b -> this.parent.closeWindow()));
+        this.parent.addRenderableWidget(this.save = new Button(x + 9, y + 62, 75, 20, TComponent.literal("Save"), b -> this.saveAndQuit()));
+        this.parent.addRenderableWidget(new Button(x + 93, y + 62, 75, 20, TComponent.literal("Cancel"), b -> this.parent.closeWindow()));
     }
 
     @Override

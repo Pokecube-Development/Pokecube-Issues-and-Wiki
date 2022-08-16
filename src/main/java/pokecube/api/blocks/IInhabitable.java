@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import pokecube.core.handlers.events.SpawnHandler.ForbidRegion;
+import pokecube.core.eventhandlers.SpawnHandler.ForbidRegion;
 
 public interface IInhabitable
 {

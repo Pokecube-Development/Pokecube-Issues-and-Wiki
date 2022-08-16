@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -22,12 +21,12 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.events.core.pokemob.SpawnEvent.SendOut;
+import pokecube.api.events.pokemobs.SpawnEvent.SendOut;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.IRunnable;
-import pokecube.core.handlers.Config;
-import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.eventhandlers.EventsHandler;
+import pokecube.core.init.Config;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.PermNodes;
@@ -36,6 +35,7 @@ import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
+import thut.lib.TComponent;
 
 public class SendOutManager
 {
@@ -120,7 +120,7 @@ public class SendOutManager
             if (isPlayers && cube.shootingEntity.isAlive())
             {
                 Tools.giveItem((Player) cube.shootingEntity, cube.getItem());
-                user.displayClientMessage(new TranslatableComponent("pokecube.sendout.fail.noperms.general"), true);
+                user.displayClientMessage(TComponent.translatable("pokecube.sendout.fail.noperms.general"), true);
                 cube.discard();
             }
             return null;
@@ -148,7 +148,7 @@ public class SendOutManager
             if (v == null && isPlayers)
             {
                 Tools.giveItem((Player) cube.shootingEntity, cube.getItem());
-                user.displayClientMessage(new TranslatableComponent("pokecube.noroom"), true);
+                user.displayClientMessage(TComponent.translatable("pokecube.noroom"), true);
                 cube.discard();
                 return null;
             }
@@ -166,7 +166,7 @@ public class SendOutManager
                 if (denied)
                 {
                     Tools.giveItem(user, cube.getItem());
-                    user.displayClientMessage(new TranslatableComponent("pokecube.sendout.fail.noperms.specific",
+                    user.displayClientMessage(TComponent.translatable("pokecube.sendout.fail.noperms.specific",
                             pokemob.getDisplayName()), true);
                     cube.discard();
                     return null;
@@ -180,7 +180,7 @@ public class SendOutManager
                 {
                     Tools.giveItem(user, cube.getItem());
                     user.displayClientMessage(
-                            new TranslatableComponent("pokecube.sendout.fail.cancelled", pokemob.getDisplayName()),
+                            TComponent.translatable("pokecube.sendout.fail.cancelled", pokemob.getDisplayName()),
                             true);
                     cube.discard();
                 }

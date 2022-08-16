@@ -3,7 +3,7 @@ package pokecube.mobs.abilities.i;
 import net.minecraft.server.level.ServerLevel;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.events.core.pokemob.SpawnEvent.SpawnContext;
+import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.core.PokecubeCore;
 
 public class Illuminate extends Ability

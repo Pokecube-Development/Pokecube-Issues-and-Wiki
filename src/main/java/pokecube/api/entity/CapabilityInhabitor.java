@@ -53,7 +53,7 @@ public class CapabilityInhabitor
         }
 
         @Override
-        public void setWorldSite(final GlobalPos site)
+        public void setWorkSite(final GlobalPos site)
         {
         }
     }

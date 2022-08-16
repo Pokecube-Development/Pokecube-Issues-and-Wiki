@@ -14,13 +14,14 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.events.core.EggEvent;
+import pokecube.api.events.EggEvent;
 import pokecube.api.moves.IMoveNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import pokecube.core.impl.PokecubeMod;
+import pokecube.core.init.EntityTypes;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.entity.IBreedingMob;
@@ -121,7 +122,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
                 Math.max(this.getPokedexEntry().height * this.getSize() / 4, 0.5f), 0);
         if (pos.isClearOfBlocks(this.getEntity().getLevel()))
         {
-            Entity eggItem = new EntityPokemobEgg(EntityPokemobEgg.TYPE, this.getEntity().getLevel())
+            Entity eggItem = new EntityPokemobEgg(EntityTypes.getEgg(), this.getEntity().getLevel())
                     .setToPos(this.here).setStackByParents(this.getEntity(), male);
             EggEvent.Lay event;
             event = new EggEvent.Lay(eggItem);
@@ -164,7 +165,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
     @Override
     public void resetLoveStatus()
     {
-        this.loveTimer = -this.rand.nextInt(600 + this.getBreedingDelay(null));
+        this.loveTimer = -this.getEntity().getRandom().nextInt(600 + this.getBreedingDelay(null));
         this.setGeneralState(GeneralStates.MATING, false);
     }
 

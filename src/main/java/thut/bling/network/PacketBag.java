@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.SimpleMenuProvider;
@@ -19,15 +19,17 @@ import thut.bling.bag.large.LargeManager;
 import thut.bling.bag.small.SmallContainer;
 import thut.bling.bag.small.SmallInventory;
 import thut.bling.bag.small.SmallManager;
+import thut.lib.RegHelper;
+import thut.lib.TComponent;
 import thut.wearables.network.Packet;
 
 public class PacketBag extends Packet
 {
-    public static final TranslatableComponent ENDERBAG      = new TranslatableComponent(
+    public static final MutableComponent ENDERBAG      = TComponent.translatable(
             "item.thut_bling.bling_bag_ender_vanilla");
-    public static final TranslatableComponent LARGEENDERBAG = new TranslatableComponent(
+    public static final MutableComponent LARGEENDERBAG = TComponent.translatable(
             "item.thut_bling.bling_bag_ender_large");
-    public static final TranslatableComponent SMALLBAG      = new TranslatableComponent(
+    public static final MutableComponent SMALLBAG      = TComponent.translatable(
             "item.thut_bling.bling_bag");
 
     public static final byte SETPAGE = 0;
@@ -40,7 +42,7 @@ public class PacketBag extends Packet
 
     public static void sendOpenPacket(final Player playerIn, final ItemStack heldItem)
     {
-        final String item = heldItem.getItem().getRegistryName().getPath();
+        final String item = RegHelper.getKey(heldItem).getPath();
         if (item.equalsIgnoreCase("bling_bag_ender_large"))
         {
             PacketBag.sendOpenPacket(playerIn, playerIn.getUUID());

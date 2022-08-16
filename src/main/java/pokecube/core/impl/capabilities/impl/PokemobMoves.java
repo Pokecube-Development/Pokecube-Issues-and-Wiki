@@ -38,6 +38,7 @@ import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
 import thut.core.common.network.CapabilitySync;
+import thut.lib.RegHelper;
 
 public abstract class PokemobMoves extends PokemobStats
 {
@@ -380,7 +381,7 @@ public abstract class PokemobMoves extends PokemobStats
             this.setCopiedNBT(tag);
         }
         final LivingEntity old = this.getCopiedMob();
-        this.setCopiedID(id == -1 ? null : to.getType().getRegistryName());
+        this.setCopiedID(id == -1 ? null : RegHelper.getKey(to));
         this.getCopy().onBaseTick(this.getEntity().level, this.getEntity());
         if (to != old && !this.getEntity().level.isClientSide())
             CapabilitySync.sendUpdate(this.getEntity(), PokemobMoves.TO_SYNC);

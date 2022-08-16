@@ -19,7 +19,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
-import pokecube.core.handlers.events.SpawnEventsHandler;
+import pokecube.core.eventhandlers.SpawnEventsHandler;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;

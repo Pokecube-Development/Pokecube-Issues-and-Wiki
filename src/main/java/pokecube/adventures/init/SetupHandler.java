@@ -25,7 +25,7 @@ import pokecube.adventures.utils.InventoryHandler;
 import pokecube.adventures.utils.TrainerTracker;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.trainers.TrainerCaps;
-import pokecube.api.events.adventures.CompatEvent;
+import pokecube.api.events.init.CompatEvent;
 import pokecube.compat.Compat;
 import thut.api.OwnableCaps;
 

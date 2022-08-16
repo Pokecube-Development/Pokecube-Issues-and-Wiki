@@ -15,7 +15,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -33,6 +32,7 @@ import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketChoose;
 import thut.api.entity.IMobColourable;
+import thut.lib.TComponent;
 
 public class GuiChooseFirstPokemob extends Screen
 {
@@ -62,7 +62,7 @@ public class GuiChooseFirstPokemob extends Screen
 
     public GuiChooseFirstPokemob(PokedexEntry[] _starters)
     {
-        super(new TranslatableComponent("pokecube.starter.select"));
+        super(TComponent.translatable("pokecube.starter.select"));
         if (_starters == null) _starters = Database.getStarters();
         GuiChooseFirstPokemob.starters = _starters;
         this.player = PokecubeCore.proxy.getPlayer();
@@ -94,14 +94,14 @@ public class GuiChooseFirstPokemob extends Screen
         final int yOffset = 110;
         if (GuiChooseFirstPokemob.starters.length > 0)
         {
-            final Component next = new TranslatableComponent("block.pc.next");
+            final Component next = TComponent.translatable("block.pc.next");
             this.addRenderableWidget(this.next = new Button(this.width / 2 - xOffset + 65, this.height / 2 - yOffset,
                     50, 20, next, b ->
                     {
                         this.index++;
                         if (this.index >= GuiChooseFirstPokemob.starters.length) this.index = 0;
                     }));
-            final Component prev = new TranslatableComponent("block.pc.previous");
+            final Component prev = TComponent.translatable("block.pc.previous");
             this.addRenderableWidget(this.prev = new Button(this.width / 2 - xOffset - 115, this.height / 2 - yOffset,
                     50, 20, prev, b ->
                     {
@@ -111,14 +111,14 @@ public class GuiChooseFirstPokemob extends Screen
         }
 
         this.addRenderableWidget(this.choose = new Button(this.width / 2 - xOffset - 25, this.height / 2 - yOffset
-                + 160, 50, 20, new TranslatableComponent("gui.pokemob.select"), b ->
+                + 160, 50, 20, TComponent.translatable("gui.pokemob.select"), b ->
                 {
                     this.sendMessage(this.pokedexEntry);
                     this.player.closeContainer();
                 }));
 
         this.addRenderableWidget(this.accept = new Button(this.width / 2 - xOffset + 64, this.height / 2 - yOffset + 30,
-                50, 20, new TranslatableComponent("gui.pokemob.accept"), b ->
+                50, 20, TComponent.translatable("gui.pokemob.accept"), b ->
                 {
                     this.gotSpecial = true;
 
@@ -135,7 +135,7 @@ public class GuiChooseFirstPokemob extends Screen
                     }
                 }));
         this.addRenderableWidget(this.deny = new Button(this.width / 2 - xOffset - 115, this.height / 2 - yOffset + 30,
-                50, 20, new TranslatableComponent("gui.pokemob.deny"), b ->
+                50, 20, TComponent.translatable("gui.pokemob.deny"), b ->
                 {
                     this.next.visible = true;
                     this.prev.visible = true;

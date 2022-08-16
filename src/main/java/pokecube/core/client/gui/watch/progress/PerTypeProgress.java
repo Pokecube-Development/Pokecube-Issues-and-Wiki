@@ -11,8 +11,6 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
@@ -28,6 +26,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 public class PerTypeProgress extends Progress
 {
@@ -40,7 +39,7 @@ public class PerTypeProgress extends Progress
 
     public PerTypeProgress(final GuiPokeWatch watch)
     {
-        super(new TranslatableComponent("pokewatch.progress.type.title"), watch);
+        super(TComponent.translatable("pokewatch.progress.type.title"), watch);
         if (PerTypeProgress.NAMES.isEmpty()) for (final PokeType type : PokeType.values())
             PerTypeProgress.NAMES.add(PokeType.getTranslatedName(type).getString());
     }
@@ -85,7 +84,7 @@ public class PerTypeProgress extends Progress
         super.init();
         final int x = this.watch.width / 2 - 30;
         final int y = this.watch.height / 2 + 53;
-        this.text = new EditBox(this.font, x, y - 30, 60, 10, new TextComponent(""));
+        this.text = new EditBox(this.font, x, y - 30, 60, 10, TComponent.literal(""));
         this.addRenderableWidget(this.text);
     }
 
@@ -113,11 +112,11 @@ public class PerTypeProgress extends Progress
         this.killed0 = KillStats.getUniqueOfTypeKilledBy(player.getUUID(), this.type);
         this.killed1 = KillStats.getTotalOfTypeKilledBy(player.getUUID(), this.type);
 
-        final TranslatableComponent captureLine = new TranslatableComponent("pokewatch.progress.type.caught",
+        final MutableComponent captureLine = TComponent.translatable("pokewatch.progress.type.caught",
                 this.caught1, this.caught0, this.type, total_of_type);
-        final TranslatableComponent killLine = new TranslatableComponent("pokewatch.progress.type.killed",
+        final MutableComponent killLine = TComponent.translatable("pokewatch.progress.type.killed",
                 this.killed1, this.killed0, this.type, total_of_type);
-        final TranslatableComponent hatchLine = new TranslatableComponent("pokewatch.progress.type.hatched",
+        final MutableComponent hatchLine = TComponent.translatable("pokewatch.progress.type.hatched",
                 this.hatched1, this.hatched0, this.type, total_of_type);
 
         final AABB centre = this.watch.player.getBoundingBox();
@@ -131,7 +130,7 @@ public class PerTypeProgress extends Progress
                         return false;
                     return pokemob.isType(PerTypeProgress.this.type);
                 });
-        final TranslatableComponent nearbyLine = new TranslatableComponent("pokewatch.progress.global.nearby",
+        final MutableComponent nearbyLine = TComponent.translatable("pokewatch.progress.global.nearby",
                 otherMobs.size());
 
         for (final MutableComponent line : ListHelper.splitText(captureLine, 190, this.font, false))

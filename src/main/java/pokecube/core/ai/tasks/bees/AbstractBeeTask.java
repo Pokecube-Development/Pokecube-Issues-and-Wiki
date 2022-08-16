@@ -19,7 +19,7 @@ public abstract class AbstractBeeTask extends BaseIdleTask
     {
         // Don't run if we don't have a hive
         // The HiveSensor will try to set this if it is invalid.
-        AbstractBeeTask.mems.put(BeeTasks.HIVE_POS, MemoryStatus.VALUE_PRESENT);
+        AbstractBeeTask.mems.put(BeeTasks.HIVE_POS.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     public AbstractBeeTask(final IPokemob pokemob)

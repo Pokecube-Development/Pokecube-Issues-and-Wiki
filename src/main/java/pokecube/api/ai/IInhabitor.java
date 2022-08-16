@@ -18,5 +18,5 @@ public interface IInhabitor
     GlobalPos getWorkSite();
 
     // The habitat might decide our worksite for us, so make this have a setter
-    void setWorldSite(@Nullable GlobalPos site);
+    void setWorkSite(@Nullable GlobalPos site);
 }

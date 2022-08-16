@@ -13,14 +13,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.events.core.pokemob.combat.MoveUse;
+import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.api.moves.IMoveAction;
 import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
-import pokecube.core.handlers.events.MoveEventsHandler;
+import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.templates.Move_Basic;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
 
 public class ActionSmash implements IMoveAction

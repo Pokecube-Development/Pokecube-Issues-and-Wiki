@@ -13,9 +13,9 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.events.core.pokemob.CaptureEvent;
-import pokecube.api.events.core.pokemob.CaptureEvent.Post;
-import pokecube.api.events.core.pokemob.CaptureEvent.Pre;
+import pokecube.api.events.pokemobs.CaptureEvent;
+import pokecube.api.events.pokemobs.CaptureEvent.Post;
+import pokecube.api.events.pokemobs.CaptureEvent.Pre;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import thut.api.maths.Vector3;
 
@@ -57,7 +57,7 @@ public interface IPokecube
     public static abstract class PokecubeBehavior extends ForgeRegistryEntry<PokecubeBehavior>
     {
         public static Supplier<IForgeRegistry<PokecubeBehavior>> BEHAVIORS;
-        
+
         // Whoever registers the default pokecube should set this.
         public static ResourceLocation DEFAULTCUBE = null;
         public static ResourceLocation POKESEAL = null;
@@ -71,6 +71,14 @@ public interface IPokecube
         public static void addCubeBehavior(final PokecubeBehavior behavior)
         {
             BEHAVIORS.get().register(behavior);
+        }
+
+        public String name;
+
+        public PokecubeBehavior setName(String name)
+        {
+            this.name = name;
+            return this;
         }
 
         /**

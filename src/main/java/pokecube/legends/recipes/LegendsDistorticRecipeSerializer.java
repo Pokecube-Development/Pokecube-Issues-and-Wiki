@@ -20,16 +20,17 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import thut.lib.RegHelper;
 
 public class LegendsDistorticRecipeSerializer implements Recipe<Container>
 {
 
     public static final SerializerDistortic SERIALIZER_DISTORTIC = new SerializerDistortic();
 
-    private final Ingredient        input;
-    private final ItemStack         output;
-    private final Block             block;
-    private final ResourceLocation  id;
+    private final Ingredient input;
+    private final ItemStack output;
+    private final Block block;
+    private final ResourceLocation id;
     public final ResourceKey<Level> dimId;
 
     public LegendsDistorticRecipeSerializer(final ResourceLocation id, final Ingredient input, final ItemStack output,
@@ -45,8 +46,8 @@ public class LegendsDistorticRecipeSerializer implements Recipe<Container>
     @Override
     public String toString()
     {
-        return "BlockRecipe [input=" + this.input + ", output=" + this.output + ", block=" + this.block
-                .getRegistryName() + ", id=" + this.id + ", dimID=" + this.dimId + "]";
+        return "BlockRecipe [input=" + this.input + ", output=" + this.output + ", block="
+                + RegHelper.getKey(this.block) + ", id=" + this.id + ", dimID=" + this.dimId + "]";
     }
 
     @Override
@@ -98,16 +99,17 @@ public class LegendsDistorticRecipeSerializer implements Recipe<Container>
         return this.output;
     }
 
-    public static class SerializerDistortic extends ForgeRegistryEntry<RecipeSerializer<?>> implements
-            RecipeSerializer<LegendsDistorticRecipeSerializer>
+    public static class SerializerDistortic extends ForgeRegistryEntry<RecipeSerializer<?>>
+            implements RecipeSerializer<LegendsDistorticRecipeSerializer>
     {
 
         @Override
         public LegendsDistorticRecipeSerializer fromJson(final ResourceLocation recipeId, final JsonObject json)
         {
 
-            final JsonElement inputElement = GsonHelper.isArrayNode(json, "input") ? GsonHelper.getAsJsonArray(json,
-                    "input") : GsonHelper.getAsJsonObject(json, "input");
+            final JsonElement inputElement = GsonHelper.isArrayNode(json, "input")
+                    ? GsonHelper.getAsJsonArray(json, "input")
+                    : GsonHelper.getAsJsonObject(json, "input");
 
             final Ingredient input = Ingredient.fromJson(inputElement);
 
@@ -118,8 +120,8 @@ public class LegendsDistorticRecipeSerializer implements Recipe<Container>
 
             final ResourceLocation dimID = new ResourceLocation(GsonHelper.getAsString(json, "dimId"));
 
-            if (block == null || block == Blocks.AIR) throw new IllegalStateException("The block " + blockId
-                    + " does not exist.");
+            if (block == null || block == Blocks.AIR)
+                throw new IllegalStateException("The block " + blockId + " does not exist.");
 
             return new LegendsDistorticRecipeSerializer(recipeId, input, output, block, dimID);
         }
@@ -144,7 +146,7 @@ public class LegendsDistorticRecipeSerializer implements Recipe<Container>
         {
             recipe.input.toNetwork(buffer);
             buffer.writeItem(recipe.output);
-            buffer.writeResourceLocation(recipe.block.getRegistryName());
+            buffer.writeResourceLocation(RegHelper.getKey(recipe.block));
             buffer.writeResourceLocation(recipe.dimId.location());
         }
     }

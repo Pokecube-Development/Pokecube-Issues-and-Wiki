@@ -16,7 +16,7 @@ import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.Move_Base;
 import pokecube.core.database.Database;
 import pokecube.core.database.moves.MoveEntry;
-import pokecube.core.handlers.events.MoveEventsHandler;
+import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.animations.AnimationMultiAnimations;

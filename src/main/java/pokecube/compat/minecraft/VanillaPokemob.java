@@ -105,7 +105,7 @@ public class VanillaPokemob extends PokemobSaves implements ICapabilitySerializa
             if (this.getPokedexEntry().interact(key))
             {
                 final Interaction action = this.getPokedexEntry().interactionLogic.getFor(key);
-                final int timer = action.cooldown + this.rand.nextInt(1 + action.variance);
+                final int timer = action.cooldown + this.getEntity().getRandom().nextInt(1 + action.variance);
                 if (lastShear < Tracker.instance().getTick() - timer) sheared = false;
             }
             // Cannot shear this!

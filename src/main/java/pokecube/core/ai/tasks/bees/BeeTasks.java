@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.GlobalPos;
@@ -12,6 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
@@ -21,13 +21,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.RegistryEvent.Register;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.ai.IInhabitor;
 import pokecube.api.ai.TaskAdders;
 import pokecube.api.blocks.IInhabitable;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.events.core.pokemob.InitAIEvent.Init.Type;
+import pokecube.api.events.pokemobs.InitAIEvent.Init.Type;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
@@ -43,36 +43,44 @@ import thut.api.entity.ai.IAIRunnable;
 
 public class BeeTasks
 {
-    public static final MemoryModuleType<GlobalPos> HIVE_POS = MemoryModules.NEST_POS;
-    public static final MemoryModuleType<GlobalPos> FLOWER_POS = MemoryModules.WORK_POS;
+    public static final RegistryObject<MemoryModuleType<GlobalPos>> HIVE_POS = MemoryModules.NEST_POS;
+    public static final RegistryObject<MemoryModuleType<GlobalPos>> FLOWER_POS = MemoryModules.WORK_POS;
 
-    public static final MemoryModuleType<Integer> OUT_OF_HIVE_TIMER = MemoryModules.OUT_OF_NEST_TIMER;
-    public static final MemoryModuleType<Integer> NO_HIVE_TIMER = MemoryModules.NO_NEST_TIMER;
-    public static final MemoryModuleType<Integer> NO_FLOWER_TIME = MemoryModules.NO_WORK_TIMER;
+    public static final RegistryObject<MemoryModuleType<Integer>> OUT_OF_HIVE_TIMER = MemoryModules.OUT_OF_NEST_TIMER;
+    public static final RegistryObject<MemoryModuleType<Integer>> NO_HIVE_TIMER = MemoryModules.NO_NEST_TIMER;
+    public static final RegistryObject<MemoryModuleType<Integer>> NO_FLOWER_TIME = MemoryModules.NO_WORK_TIMER;
 
-    public static final MemoryModuleType<Boolean> HAS_NECTAR = new MemoryModuleType<>(Optional.of(Codec.BOOL));
+    public static final RegistryObject<MemoryModuleType<Boolean>> HAS_NECTAR;
 
-    public static final SensorType<HiveSensor> HIVE_SENSOR = new SensorType<>(HiveSensor::new);
-    public static final SensorType<FlowerSensor> FLOWER_SENSOR = new SensorType<>(FlowerSensor::new);
+    public static final RegistryObject<SensorType<HiveSensor>> HIVE_SENSOR;
+    public static final RegistryObject<SensorType<FlowerSensor>> FLOWER_SENSOR;
 
-    public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(BeeTasks.HIVE_POS,
-            BeeTasks.FLOWER_POS, BeeTasks.OUT_OF_HIVE_TIMER, BeeTasks.NO_FLOWER_TIME, BeeTasks.HAS_NECTAR,
-            BeeTasks.NO_HIVE_TIMER);
-
-    public static final List<SensorType<?>> SENSOR_TYPES = ImmutableList.of(BeeTasks.HIVE_SENSOR,
-            BeeTasks.FLOWER_SENSOR, Sensors.VISIBLE_BLOCKS);
-
-    public static void registerMems(final Register<MemoryModuleType<?>> event)
+    static
     {
-        event.getRegistry().register(BeeTasks.HAS_NECTAR.setRegistryName(PokecubeCore.MODID, "bee_has_nectar"));
-        BeeEventsHandler.init();
-        TaskAdders.register(Type.IDLE, BeeTasks::addTasks);
+        // Sensors
+        HIVE_SENSOR = PokecubeCore.SENSORS.register("bee_hives", () -> new SensorType<>(HiveSensor::new));
+        FLOWER_SENSOR = PokecubeCore.SENSORS.register("bee_flowers", () -> new SensorType<>(FlowerSensor::new));
+
+        // Memories
+        HAS_NECTAR = PokecubeCore.MEMORIES.register("bee_has_nectar",
+                () -> new MemoryModuleType<>(Optional.of(Codec.BOOL)));
     }
 
-    public static void registerSensors(final Register<SensorType<?>> event)
+    public static void init()
     {
-        event.getRegistry().register(BeeTasks.HIVE_SENSOR.setRegistryName(PokecubeCore.MODID, "bee_hives"));
-        event.getRegistry().register(BeeTasks.FLOWER_SENSOR.setRegistryName(PokecubeCore.MODID, "bee_flowers"));
+        TaskAdders.register(Type.IDLE, BeeTasks::addTasks);
+        BeeEventsHandler.init();
+    }
+
+    private static List<MemoryModuleType<?>> getMemories()
+    {
+        return List.of(BeeTasks.HIVE_POS.get(), BeeTasks.FLOWER_POS.get(), BeeTasks.OUT_OF_HIVE_TIMER.get(),
+                BeeTasks.NO_FLOWER_TIME.get(), BeeTasks.HAS_NECTAR.get(), BeeTasks.NO_HIVE_TIMER.get());
+    }
+
+    private static final List<SensorType<?>> getSensors()
+    {
+        return List.of(BeeTasks.HIVE_SENSOR.get(), BeeTasks.FLOWER_SENSOR.get(), Sensors.VISIBLE_BLOCKS.get());
     }
 
     private static void addTasks(final IPokemob pokemob, final List<IAIRunnable> list)
@@ -88,7 +96,7 @@ public class BeeTasks
         // Try to make a hive if we don't have one for too long
         list.add(new MakeHive(pokemob));
 
-        BrainUtil.addToBrain(pokemob.getEntity().getBrain(), BeeTasks.MEMORY_TYPES, BeeTasks.SENSOR_TYPES);
+        BrainUtil.addToBrain(pokemob.getEntity().getBrain(), BeeTasks.getMemories(), BeeTasks.getSensors());
     }
 
     public static boolean isValid(final Entity entity)
@@ -96,6 +104,20 @@ public class BeeTasks
         final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return false;
         return pokemob.isRoutineEnabled(AIRoutine.BEEAI);
+    }
+
+    public static Optional<GlobalPos> getFlower(LivingEntity bee)
+    {
+        final Brain<?> brain = bee.getBrain();
+        if (!brain.hasMemoryValue(BeeTasks.FLOWER_POS.get())) return Optional.empty();
+        return brain.getMemory(BeeTasks.FLOWER_POS.get());
+    }
+
+    public static Optional<GlobalPos> getHive(LivingEntity bee)
+    {
+        final Brain<?> brain = bee.getBrain();
+        if (!brain.hasMemoryValue(BeeTasks.HIVE_POS.get())) return Optional.empty();
+        return brain.getMemory(BeeTasks.HIVE_POS.get());
     }
 
     public static class BeeInhabitor implements IInhabitor
@@ -110,37 +132,35 @@ public class BeeTasks
         @Override
         public GlobalPos getHome()
         {
-            final Brain<?> brain = this.bee.getBrain();
-            if (!brain.hasMemoryValue(BeeTasks.HIVE_POS)) return null;
-            return brain.getMemory(BeeTasks.HIVE_POS).get();
+            Optional<GlobalPos> home = BeeTasks.getHive(this.bee);
+            return home.isPresent() ? home.get() : null;
         }
 
         @Override
         public void onExitHabitat()
         {
             final Brain<?> brain = this.bee.getBrain();
-            if (!brain.hasMemoryValue(BeeTasks.HAS_NECTAR)) return;
-            final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR);
+            if (!brain.hasMemoryValue(BeeTasks.HAS_NECTAR.get())) return;
+            final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR.get());
             final boolean nectar = hasNectar.isPresent() && hasNectar.get();
             final IPokemob pokemob = PokemobCaps.getPokemobFor(this.bee);
             if (pokemob != null && nectar) pokemob.eat(ItemStack.EMPTY);
-            brain.eraseMemory(BeeTasks.HAS_NECTAR);
+            brain.eraseMemory(BeeTasks.HAS_NECTAR.get());
         }
 
         @Override
         public GlobalPos getWorkSite()
         {
-            final Brain<?> brain = this.bee.getBrain();
-            if (!brain.hasMemoryValue(BeeTasks.FLOWER_POS)) return null;
-            return brain.getMemory(BeeTasks.FLOWER_POS).get();
+            Optional<GlobalPos> flower = BeeTasks.getFlower(this.bee);
+            return flower.isPresent() ? flower.get() : null;
         }
 
         @Override
-        public void setWorldSite(final GlobalPos site)
+        public void setWorkSite(final GlobalPos site)
         {
             final Brain<?> brain = this.bee.getBrain();
-            if (site == null) brain.eraseMemory(BeeTasks.FLOWER_POS);
-            else brain.setMemory(BeeTasks.FLOWER_POS, site);
+            if (site == null) brain.eraseMemory(BeeTasks.FLOWER_POS.get());
+            else brain.setMemory(BeeTasks.FLOWER_POS.get(), site);
         }
     }
 
@@ -165,8 +185,8 @@ public class BeeTasks
         public void onExitHabitat(final Mob mob)
         {
             final Brain<?> brain = mob.getBrain();
-            if (!brain.hasMemoryValue(BeeTasks.HAS_NECTAR)) return;
-            final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR);
+            if (!brain.hasMemoryValue(BeeTasks.HAS_NECTAR.get())) return;
+            final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR.get());
             final boolean nectar = hasNectar.isPresent() && hasNectar.get();
             if (nectar)
             {
@@ -191,7 +211,7 @@ public class BeeTasks
         {
             final int num = this.hive.stored.size();
             final Brain<?> brain = mob.getBrain();
-            final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR);
+            final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR.get());
             final boolean nectar = hasNectar.isPresent() && hasNectar.get();
 
             // Fix the silly vanilla thing that deletes tags...

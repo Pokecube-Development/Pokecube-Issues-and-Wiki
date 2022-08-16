@@ -19,9 +19,9 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.ai.tasks.burrows.AbstractBurrowTask;
-import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.ai.tasks.burrows.burrow.Part;
 import pokecube.core.ai.tasks.utility.UtilTask;
 import pokecube.core.impl.PokecubeMod;
@@ -33,17 +33,17 @@ public class DigBurrow extends AbstractBurrowTask
 
     static
     {
-        DigBurrow.mems.put(BurrowTasks.JOB_INFO, MemoryStatus.VALUE_PRESENT);
+        DigBurrow.mems.put(MemoryModules.JOB_INFO.get(), MemoryStatus.VALUE_PRESENT);
     }
     protected int progressTimer = 0;
 
-    boolean dig   = false;
+    boolean dig = false;
     boolean build = false;
 
     BlockPos work_pos = null;
 
     final double ds2Max = 9;
-    final double dsMax  = 3;
+    final double dsMax = 3;
 
     protected Predicate<BlockPos> hasEmptySpace;
     protected Predicate<BlockPos> canStand;
@@ -53,14 +53,14 @@ public class DigBurrow extends AbstractBurrowTask
     {
         super(pokemob, DigBurrow.mems);
 
-        this.canStand = p -> PokecubeMod.debug || this.world.getBlockState(p).canOcclude() && this.world.getBlockState(p
-                .above()).isPathfindable(this.world, p, PathComputationType.LAND);
+        this.canStand = p -> PokecubeMod.debug || this.world.getBlockState(p).canOcclude()
+                && this.world.getBlockState(p.above()).isPathfindable(this.world, p, PathComputationType.LAND);
 
-        this.canStandNear = pos -> PokecubeMod.debug || BlockPos.betweenClosedStream(pos.offset(-2, -2, -2), pos.offset(
-                2, 2, 2)).anyMatch(p2 -> p2.distSqr(pos) < this.ds2Max && this.canStand.test(p2));
+        this.canStandNear = pos -> PokecubeMod.debug
+                || BlockPos.betweenClosedStream(pos.offset(-2, -2, -2), pos.offset(2, 2, 2))
+                        .anyMatch(p2 -> p2.distSqr(pos) < this.ds2Max && this.canStand.test(p2));
 
-        this.hasEmptySpace = pos ->
-        {
+        this.hasEmptySpace = pos -> {
             if (PokecubeMod.debug) return true;
             for (final Direction dir : Direction.values())
             {
@@ -75,7 +75,7 @@ public class DigBurrow extends AbstractBurrowTask
     @Override
     public void reset()
     {
-        this.entity.getBrain().eraseMemory(BurrowTasks.JOB_INFO);
+        this.entity.getBrain().eraseMemory(MemoryModules.JOB_INFO.get());
         this.work_pos = null;
         this.progressTimer = 0;
     }
@@ -92,8 +92,7 @@ public class DigBurrow extends AbstractBurrowTask
         Predicate<BlockPos> isValid = p -> part.shouldCheckDig(p, time);
         // If it is inside, and not diggable, we notify the node of the
         // dug spot, finally we check if there is space nearby to stand.
-        isValid = isValid.and(p ->
-        {
+        isValid = isValid.and(p -> {
             if (UtilTask.diggable.test(this.world.getBlockState(p)))
             {
                 valids.getAndIncrement();
@@ -104,8 +103,7 @@ public class DigBurrow extends AbstractBurrowTask
         final BlockPos pos = this.entity.blockPosition();
         // Stream -> filter gets us only the valid postions.
         // Min then gets us the one closest to the ant.
-        final Optional<BlockPos> valid = part.getDigBlocks().keySet().stream().filter(isValid).min((p1, p2) ->
-        {
+        final Optional<BlockPos> valid = part.getDigBlocks().keySet().stream().filter(isValid).min((p1, p2) -> {
             final double d1 = p1.distSqr(pos);
             final double d2 = p2.distSqr(pos);
             return Double.compare(d1, d2);

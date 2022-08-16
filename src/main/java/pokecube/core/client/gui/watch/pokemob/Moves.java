@@ -16,8 +16,6 @@ import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.moves.Move_Base;
@@ -29,6 +27,7 @@ import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.zmoves.GZMoveManager;
+import thut.lib.TComponent;
 
 public class Moves extends ListPage<LineEntry>
 {
@@ -173,11 +172,11 @@ public class Moves extends ListPage<LineEntry>
                     added.add(s);
                     final MutableComponent moveName = (MutableComponent) MovesUtils.getMoveName(s);
                     moveName.setStyle(moveName.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.RED)));
-                    final MutableComponent main = new TranslatableComponent("pokewatch.moves.lvl", i,
+                    final MutableComponent main = TComponent.translatable("pokewatch.moves.lvl", i,
                             moveName);
                     main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
                             .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s)).withHoverEvent(
-                                    new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(s))));
+                                    new HoverEvent(HoverEvent.Action.SHOW_TEXT, TComponent.literal(s))));
                     this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(
                             listener));
                 }
@@ -187,10 +186,10 @@ public class Moves extends ListPage<LineEntry>
                 added.add(s);
                 final MutableComponent moveName = (MutableComponent) MovesUtils.getMoveName(s);
                 moveName.setStyle(moveName.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.RED)));
-                final MutableComponent main = new TranslatableComponent("pokewatch.moves.tm", moveName);
+                final MutableComponent main = TComponent.translatable("pokewatch.moves.tm", moveName);
                 main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN)).withClickEvent(
                         new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s)).withHoverEvent(new HoverEvent(
-                                HoverEvent.Action.SHOW_TEXT, new TextComponent(s))));
+                                HoverEvent.Action.SHOW_TEXT, TComponent.literal(s))));
                 this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
             }
         }

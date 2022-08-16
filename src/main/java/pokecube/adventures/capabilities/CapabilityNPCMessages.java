@@ -4,10 +4,9 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.Util;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -22,14 +21,15 @@ import pokecube.api.entity.trainers.actions.Action;
 import pokecube.api.entity.trainers.actions.ActionContext;
 import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.core.impl.PokecubeMod;
+import thut.lib.TComponent;
 
 public class CapabilityNPCMessages
 {
     public static class DefaultMessager implements IHasMessages, ICapabilitySerializable<CompoundTag>
     {
-        private final LazyOptional<IHasMessages> holder   = LazyOptional.of(() -> this);
-        Map<MessageState, String>                messages = Maps.newHashMap();
-        Map<MessageState, Action>                actions  = Maps.newHashMap();
+        private final LazyOptional<IHasMessages> holder = LazyOptional.of(() -> this);
+        Map<MessageState, String> messages = Maps.newHashMap();
+        Map<MessageState, Action> actions = Maps.newHashMap();
 
         public DefaultMessager()
         {
@@ -54,9 +54,8 @@ public class CapabilityNPCMessages
             for (final MessageState state : MessageState.values())
                 if (messTag.contains(state.name())) this.setMessage(state, messTag.getString(state.name()));
             final CompoundTag actionTag = nbt.getCompound("actions");
-            for (final MessageState state : MessageState.values())
-                if (actionTag.contains(state.name())) this.setAction(state, new Action(actionTag.getString(state
-                        .name())));
+            for (final MessageState state : MessageState.values()) if (actionTag.contains(state.name()))
+                this.setAction(state, new Action(actionTag.getString(state.name())));
         }
 
         @Override
@@ -88,9 +87,11 @@ public class CapabilityNPCMessages
         @Override
         public boolean sendMessage(final MessageState state, final Entity target, final Object... args)
         {
-            if (target instanceof FakePlayer || this.messages.get(state) == null || this.messages.get(state).trim()
-                    .isEmpty()) return false;
-            target.sendMessage(new TranslatableComponent(this.messages.get(state), args), Util.NIL_UUID);
+            if (target instanceof FakePlayer || this.messages.get(state) == null
+                    || this.messages.get(state).trim().isEmpty())
+                return false;
+            if (target instanceof ServerPlayer player)
+                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(this.messages.get(state), args));
             if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug(state + ": " + this.messages.get(state));
             return true;
         }
@@ -106,8 +107,8 @@ public class CapabilityNPCMessages
                 final String message = this.getMessage(state);
                 if (message != null && !message.isEmpty()) messTag.putString(state.name(), message);
                 final Action action = this.getAction(state);
-                if (action != null && !action.getCommand().isEmpty()) actionTag.putString(state.name(), action
-                        .getCommand());
+                if (action != null && !action.getCommand().isEmpty())
+                    actionTag.putString(state.name(), action.getCommand());
             }
             nbt.put("messages", messTag);
             nbt.put("actions", actionTag);

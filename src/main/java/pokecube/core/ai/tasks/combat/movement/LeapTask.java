@@ -33,7 +33,7 @@ public class LeapTask extends TaskBase implements IAICombat
 
     static
     {
-        LeapTask.MEMS.put(MemoryModules.LEAP_TARGET, MemoryStatus.VALUE_PRESENT);
+        LeapTask.MEMS.put(MemoryModules.LEAP_TARGET.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     int leapTick = -1;

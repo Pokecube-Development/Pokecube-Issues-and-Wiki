@@ -7,7 +7,6 @@ import java.util.Random;
 import com.google.common.collect.Lists;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -37,6 +36,7 @@ import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.lib.ItemStackTools;
+import thut.lib.TComponent;
 
 /**
  * This IAIRunnable is responsible for finding food for the mobs. It also is
@@ -432,14 +432,14 @@ public class HungerTask extends BaseIdleTask
                         if (this.lastMessageTick1 < this.entity.getLevel().getGameTime())
                         {
                             this.lastMessageTick1 = (int) (this.entity.getLevel().getGameTime() + 100);
-                            this.pokemob.displayMessageToOwner(new TranslatableComponent("pokemob.hungry.hurt",
+                            this.pokemob.displayMessageToOwner(TComponent.translatable("pokemob.hungry.hurt",
                                     this.pokemob.getDisplayName()));
                         }
                     }
                     else if (this.lastMessageTick2 < this.entity.getLevel().getGameTime())
                     {
                         this.lastMessageTick2 = (int) (this.entity.getLevel().getGameTime() + 100);
-                        this.pokemob.displayMessageToOwner(new TranslatableComponent("pokemob.hungry.dead", this.pokemob
+                        this.pokemob.displayMessageToOwner(TComponent.translatable("pokemob.hungry.dead", this.pokemob
                                 .getDisplayName()));
                     }
                 }

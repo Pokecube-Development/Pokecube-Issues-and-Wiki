@@ -15,19 +15,20 @@ public abstract class BaseIdleTask extends TaskBase
 {
     private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
 
-    static
+    private static final Map<MemoryModuleType<?>, MemoryStatus> getMems()
     {
-        BaseIdleTask.MEMS.put(MemoryModules.ATTACKTARGET, MemoryStatus.VALUE_ABSENT);
+        if (MEMS.isEmpty()) MEMS.put(MemoryModules.ATTACKTARGET.get(), MemoryStatus.VALUE_ABSENT);
+        return MEMS;
     }
 
     public BaseIdleTask(final IPokemob pokemob)
     {
-        super(pokemob, BaseIdleTask.MEMS);
+        super(pokemob, getMems());
     }
 
     public BaseIdleTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryStatus> mems)
     {
-        super(pokemob, RootTask.merge(BaseIdleTask.MEMS, mems));
+        super(pokemob, RootTask.merge(getMems(), mems));
     }
 
     @Override
