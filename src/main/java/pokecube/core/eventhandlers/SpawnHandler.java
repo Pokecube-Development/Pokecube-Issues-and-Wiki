@@ -189,7 +189,7 @@ public final class SpawnHandler
         @Override
         public boolean equals(final Object obj)
         {
-            if (obj instanceof ForbidReason) return ((ForbidReason) obj).name.equals(this.name);
+            if (obj instanceof ForbidReason fob) return fob.name.equals(this.name);
             return false;
         }
     }
@@ -371,8 +371,8 @@ public final class SpawnHandler
             dz *= world.getRandom().nextBoolean() ? 1 : -1;
             final Vector3 vec = pos.add(dx, 0, dz);
             final ChunkAccess chunk = world.getChunk(vec.getPos());
-            if (!(chunk instanceof LevelChunk)) continue;
-            final BlockPos blockpos = SpawnHandler.getRandomHeight(world, (LevelChunk) chunk, vec.intY(), dy);
+            if (!(chunk instanceof LevelChunk lchunk)) continue;
+            final BlockPos blockpos = SpawnHandler.getRandomHeight(world, lchunk, vec.intY(), dy);
             final int j = blockpos.getX();
             final int k = blockpos.getY();
             final int l = blockpos.getZ();
@@ -390,8 +390,8 @@ public final class SpawnHandler
 
     public static Vector3 getRandomPointNear(final Entity player, final int range)
     {
-        if (player == null || !(player.getLevel() instanceof ServerLevel)) return null;
-        return SpawnHandler.getRandomPointNear((ServerLevel) player.getLevel(), new Vector3().set(player), range);
+        if (player == null || !(player.getLevel() instanceof ServerLevel level)) return null;
+        return SpawnHandler.getRandomPointNear(level, new Vector3().set(player), range);
     }
 
     public static SpawnContext getSpawnForLoc(SpawnContext context)

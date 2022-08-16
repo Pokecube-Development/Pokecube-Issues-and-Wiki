@@ -3,7 +3,6 @@ package pokecube.adventures.network;
 import com.google.gson.JsonObject;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -104,8 +103,8 @@ public class PacketTrainer extends NBTPacket
 
         if (!canEdit)
         {
-            editor.sendMessage(TComponent.literal(ChatFormatting.RED + "You are not allowed to do that."),
-                    Util.NIL_UUID);
+            thut.lib.ChatHelper.sendSystemMessage(editor,
+                    TComponent.literal(ChatFormatting.RED + "You are not allowed to do that."));
             return;
         }
         final PacketTrainer packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);

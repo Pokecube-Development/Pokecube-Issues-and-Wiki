@@ -193,14 +193,13 @@ public class TrainerEventHandler
             PlayerPokemobs.register(event);
             return;
         }
-        if (!(event.getObject() instanceof Mob)) return;
+        if (!(event.getObject() instanceof Mob mob)) return;
         if (TrainerEventHandler.hasCap(event)) return;
 
-        if (TypeTrainer.get((LivingEntity) event.getObject(), false) == null) return;
+        if (TypeTrainer.get(mob, false) == null) return;
 
         final DefaultPokemobs mobs = new DefaultPokemobs();
         final DefaultRewards rewards = new DefaultRewards();
-        final Mob mob = (Mob) event.getObject();
         ItemStack stack = ItemStack.EMPTY;
         try
         {
@@ -213,7 +212,7 @@ public class TrainerEventHandler
         if (!stack.isEmpty()) rewards.getRewards().add(new Reward(stack));
         final DefaultAIStates aiStates = new DefaultAIStates();
         final DefaultMessager messages = new DefaultMessager();
-        mobs.init((LivingEntity) event.getObject(), aiStates, messages, rewards);
+        mobs.init(mob, aiStates, messages, rewards);
         event.addCapability(TrainerEventHandler.POKEMOBSCAP, mobs);
         event.addCapability(TrainerEventHandler.AICAP, aiStates);
         event.addCapability(TrainerEventHandler.MESSAGECAP, messages);
@@ -303,17 +302,15 @@ public class TrainerEventHandler
                 && (evt.getSource() instanceof PokemobDamageSource || evt.getSource() instanceof TerrainDamageSource))
             evt.setAmount(0);
 
-        if (evt.getSource().getEntity() instanceof LivingEntity)
+        if (evt.getSource().getEntity() instanceof LivingEntity mob)
         {
             if (messages != null)
             {
-                messages.sendMessage(MessageState.HURT, evt.getSource().getEntity(), evt.getEntity().getDisplayName(),
+                messages.sendMessage(MessageState.HURT, mob, evt.getEntity().getDisplayName(),
                         evt.getSource().getEntity().getDisplayName());
-                messages.doAction(MessageState.HURT, new ActionContext((LivingEntity) evt.getSource().getEntity(),
-                        evt.getEntityLiving(), evt.getSource()));
+                messages.doAction(MessageState.HURT, new ActionContext(mob, evt.getEntityLiving(), evt.getSource()));
             }
-            if (pokemobHolder != null && pokemobHolder.getTarget() == null)
-                pokemobHolder.onSetTarget((LivingEntity) evt.getSource().getEntity());
+            if (pokemobHolder != null && pokemobHolder.getTarget() == null) pokemobHolder.onSetTarget(mob);
         }
     }
 
@@ -331,12 +328,11 @@ public class TrainerEventHandler
     {
         final DamageSource source = event.getSource();
         final Entity user = source.getEntity();
-        if (user instanceof ServerPlayer)
+        if (user instanceof ServerPlayer murderer)
         {
             final LivingEntity mob = event.getEntityLiving();
             // Check if the target was a wild pokemob.
             final int repGain = TrainerEventHandler.goodKill.apply(mob);
-            final ServerPlayer murderer = (ServerPlayer) user;
             if (repGain != 0 && mob.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES))
             {
                 final GossipType type = repGain > 0 ? GossipType.MINOR_POSITIVE : GossipType.MINOR_NEGATIVE;
@@ -399,9 +395,9 @@ public class TrainerEventHandler
             final LivingEntity npc = event.getEntityLiving();
             // Add our task if the dummy not present, this can happen if the
             // brain has reset before
-            if (npc instanceof Mob && npc.getLevel() instanceof ServerLevel)
+            if (npc instanceof Mob mob && npc.getLevel() instanceof ServerLevel)
             {
-                TypeTrainer.addAI((Mob) npc);
+                TypeTrainer.addAI(mob);
                 if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Added Tasks: " + npc);
             }
         }
@@ -417,7 +413,7 @@ public class TrainerEventHandler
         }
 
         final IHasPokemobs mobs = TrainerCaps.getHasPokemobs(mob);
-        if (mobs == null || !(mob.getLevel() instanceof ServerLevel) || mob instanceof Player) return;
+        if (mobs == null || !(mob.getLevel() instanceof ServerLevel slevel) || mob instanceof Player) return;
         if (mob.getPersistentData().contains("pokeadv_join")
                 && mob.getPersistentData().getLong("pokeadv_join") == mob.getLevel().getGameTime())
             return;
@@ -427,9 +423,9 @@ public class TrainerEventHandler
         final TypeTrainer newType = TypeTrainer.get(mob, true);
         if (newType == null) return;
         mobs.setType(newType);
-        SpawnContext context = new SpawnContext((ServerLevel) mob.level, Database.missingno, new Vector3().set(mob));
+        SpawnContext context = new SpawnContext(slevel, Database.missingno, new Vector3().set(mob));
         final int level = SpawnHandler.getSpawnLevel(context);
-        if (mob instanceof TrainerBase) ((TrainerBase) mob).initTeam(level);
+        if (mob instanceof TrainerBase npc) npc.initTeam(level);
         else TypeTrainer.getRandomTeam(mobs, mob, level, mob.getLevel());
         if (mob.isAddedToWorld()) EntityUpdate.sendEntityUpdate(mob);
     }
@@ -445,7 +441,7 @@ public class TrainerEventHandler
      */
     public static void processInteract(final PlayerInteractEvent evt, final Entity target)
     {
-        if (!(target instanceof LivingEntity)) return;
+        if (!(target instanceof LivingEntity living)) return;
 
         Player player = evt.getPlayer();
         InteractionHand hand = evt.getHand();
@@ -478,15 +474,15 @@ public class TrainerEventHandler
                 evt.setCancellationResult(succeed);
             }
         }
-        if (evt.getItemStack().getItem() instanceof Linker
-                && Linker.interact((ServerPlayer) evt.getPlayer(), target, evt.getItemStack()))
+        if (evt.getItemStack().getItem() instanceof Linker && player instanceof ServerPlayer sp
+                && Linker.interact(sp, target, evt.getItemStack()))
         {
             evt.setCanceled(true);
             evt.setCancellationResult(succeed);
             return;
         }
-        if (target instanceof NpcMob && ((NpcMob) target).getNpcType().getInteraction().processInteract(evt.getPlayer(),
-                evt.getHand(), (NpcMob) target))
+        if (target instanceof NpcMob npc
+                && npc.getNpcType().getInteraction().processInteract(player, evt.getHand(), npc))
         {
             evt.setCanceled(true);
             evt.setCancellationResult(succeed);
@@ -499,13 +495,9 @@ public class TrainerEventHandler
         {
             MessageState state = MessageState.INTERACT;
 
-//            if(target instanceof NpcMob npc) {
-//                npc.resetTrades();
-//            }
-
             if (filled_cube)
             {
-                final AllowedBattle test = pokemobs.canBattle(evt.getPlayer(), true);
+                final AllowedBattle test = pokemobs.canBattle(player, true);
                 switch (test)
                 {
                 case NO:
@@ -524,17 +516,17 @@ public class TrainerEventHandler
             // Check if a trade would have been possible, if so, and it is
             // no_battle, set it to interact instead. This prevents duplicated
             // "not want to battle right now" messages
-            if (state == MessageState.INTERACT_NOBATTLE && target instanceof TrainerBase)
+            if (state == MessageState.INTERACT_NOBATTLE && target instanceof TrainerBase npc)
             {
-                final boolean canTrade = ((TrainerBase) target).canTrade(evt.getPlayer());
+                final boolean canTrade = npc.canTrade(player);
                 if (canTrade) state = MessageState.INTERACT;
             }
-            final int timer = evt.getPlayer().tickCount;
-            if (evt.getPlayer().getPersistentData().getInt("__msg_sent_last_") != timer)
-                messages.sendMessage(state, evt.getPlayer(), target.getDisplayName(), evt.getPlayer().getDisplayName());
-            evt.getPlayer().getPersistentData().putInt("__msg_sent_last_", timer);
-            if (messages.doAction(state, pokemobs
-                    .setLatestContext(new ActionContext(evt.getPlayer(), (LivingEntity) target, evt.getItemStack()))))
+            final int timer = player.tickCount;
+            if (player.getPersistentData().getInt("__msg_sent_last_") != timer)
+                messages.sendMessage(state, player, target.getDisplayName(), player.getDisplayName());
+            player.getPersistentData().putInt("__msg_sent_last_", timer);
+            if (messages.doAction(state,
+                    pokemobs.setLatestContext(new ActionContext(player, living, evt.getItemStack()))))
             {
                 evt.setCanceled(true);
                 evt.setCancellationResult(succeed);
@@ -663,20 +655,15 @@ public class TrainerEventHandler
      */
     public static void onWatchTrainer(final StartTracking event)
     {
-        if (!(event.getTarget() instanceof TrainerNpc)) return;
+        if (!(event.getTarget() instanceof TrainerNpc trainer)) return;
         final IHasPokemobs mobs = TrainerCaps.getHasPokemobs(event.getEntity());
-        if (!(mobs instanceof DefaultPokemobs)) return;
-        final DefaultPokemobs pokemobs = (DefaultPokemobs) mobs;
-        if (event.getPlayer() instanceof ServerPlayer)
+        if (!(mobs instanceof DefaultPokemobs pokemobs)) return;
+        if (pokemobs.notifyDefeat && event.getPlayer() instanceof ServerPlayer player)
         {
-            final TrainerNpc trainer = (TrainerNpc) event.getTarget();
-            if (pokemobs.notifyDefeat)
-            {
-                final PacketTrainer packet = new PacketTrainer(PacketTrainer.NOTIFYDEFEAT);
-                packet.getTag().putInt("I", trainer.getId());
-                packet.getTag().putBoolean("V", pokemobs.defeatedBy(event.getPlayer()));
-                PacketTrainer.ASSEMBLER.sendTo(packet, (ServerPlayer) event.getPlayer());
-            }
+            final PacketTrainer packet = new PacketTrainer(PacketTrainer.NOTIFYDEFEAT);
+            packet.getTag().putInt("I", trainer.getId());
+            packet.getTag().putBoolean("V", pokemobs.defeatedBy(player));
+            PacketTrainer.ASSEMBLER.sendTo(packet, player);
         }
     }
 }

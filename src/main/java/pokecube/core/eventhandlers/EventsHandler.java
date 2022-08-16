@@ -288,15 +288,14 @@ public class EventsHandler
 
     public static void Schedule(final Level world, final IRunnable task, final boolean immedateIfPossible)
     {
-        if (!(world instanceof ServerLevel)) return;
-        final ServerLevel swrld = (ServerLevel) world;
+        if (!(world instanceof ServerLevel level)) return;
 
         // If we are tickingEntities, do not do this, as it can cause
         // concurrent modification exceptions.
-        if (immedateIfPossible && !swrld.isHandlingTick() && swrld.getServer().isSameThread())
+        if (immedateIfPossible && !level.isHandlingTick() && level.getServer().isSameThread())
         {
             // This will either run it now, or run it on main thread soon
-            swrld.getServer().execute(() -> task.run(swrld));
+            level.getServer().execute(() -> task.run(level));
             return;
         }
         final ResourceKey<Level> dim = world.dimension();
@@ -417,8 +416,7 @@ public class EventsHandler
     private static void onEntityInteract(final PlayerInteractEvent.EntityInteract evt)
     {
         if (evt instanceof CustomInteractEvent) return;
-        if (!(evt.getPlayer() instanceof ServerPlayer)) return;
-        final ServerPlayer player = (ServerPlayer) evt.getPlayer();
+        if (!(evt.getPlayer() instanceof ServerPlayer player)) return;
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
         if (time == Tracker.instance().getTick())
@@ -428,7 +426,7 @@ public class EventsHandler
         }
         if (!evt.isCanceled())
         {
-            final CustomInteractEvent event = new CustomInteractEvent(evt.getPlayer(), evt.getHand(), evt.getTarget());
+            final CustomInteractEvent event = new CustomInteractEvent(player, evt.getHand(), evt.getTarget());
             MinecraftForge.EVENT_BUS.post(event);
             if (event.getResult() == Result.ALLOW)
             {
@@ -440,8 +438,7 @@ public class EventsHandler
 
     private static void onEntityInteractSpecific(final PlayerInteractEvent.EntityInteractSpecific evt)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayer)) return;
-        final ServerPlayer player = (ServerPlayer) evt.getPlayer();
+        if (!(evt.getPlayer() instanceof ServerPlayer player)) return;
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
         if (time == Tracker.instance().getTick())
@@ -451,7 +448,7 @@ public class EventsHandler
         }
         if (!evt.isCanceled())
         {
-            final CustomInteractEvent event = new CustomInteractEvent(evt.getPlayer(), evt.getHand(), evt.getTarget());
+            final CustomInteractEvent event = new CustomInteractEvent(player, evt.getHand(), evt.getTarget());
             MinecraftForge.EVENT_BUS.post(event);
             if (event.isCanceled())
             {
@@ -510,8 +507,7 @@ public class EventsHandler
 
     private static void onEmptyRightClick(final PlayerInteractEvent.RightClickEmpty evt)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayer)) return;
-        final ServerPlayer player = (ServerPlayer) evt.getPlayer();
+        if (!(evt.getPlayer() instanceof ServerPlayer player)) return;
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
         if (time == Tracker.instance().getTick())
@@ -536,17 +532,15 @@ public class EventsHandler
 
     private static void onEntityCaps(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (!(event.getObject() instanceof LivingEntity)) return;
-        if (event.getObject() instanceof LivingEntity
-                && !event.getCapabilities().containsKey(EventsHandler.AFFECTEDCAP))
+        if (!(event.getObject() instanceof LivingEntity living)) return;
+        if (!event.getCapabilities().containsKey(EventsHandler.AFFECTEDCAP))
         {
             final DefaultAffected affected = new DefaultAffected((LivingEntity) event.getObject());
             event.addCapability(EventsHandler.AFFECTEDCAP, affected);
         }
-        if (event.getObject() instanceof EntityPokemob
+        if (event.getObject() instanceof EntityPokemob mob
                 && !event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP))
         {
-            final EntityPokemob mob = (EntityPokemob) event.getObject();
             final DefaultPokemob pokemob = new DefaultPokemob(mob);
             final GeneticsProvider genes = new GeneticsProvider();
             final DataSync_Impl data = new DataSync_Impl();
@@ -568,10 +562,9 @@ public class EventsHandler
                 event.addCapability(EventsHandler.ANTCAP, new InhabitorProvider(new AntInhabitor(mob)));
         }
 
-        if (event.getObject() instanceof NpcMob)
+        if (event.getObject() instanceof NpcMob npc)
         {
-            final NpcMob prof = (NpcMob) event.getObject();
-            event.addCapability(EventsHandler.TEXTURECAP, new NPCCap<>(prof, e -> e.getTex(), e -> !e.isMale()));
+            event.addCapability(EventsHandler.TEXTURECAP, new NPCCap<>(npc, e -> e.getTex(), e -> !e.isMale()));
             IGuardAICapability.addCapability(event);
         }
     }
@@ -591,10 +584,9 @@ public class EventsHandler
     {
         final ResourceLocation key = EventsHandler.INVENTORYCAP;
         if (event.getCapabilities().containsKey(key)) return;
-        if (event.getObject() instanceof TMTile) event.addCapability(key, new TMInventory((TMTile) event.getObject()));
-        if (event.getObject() instanceof TraderTile)
-            event.addCapability(key, new TradeInventory((TraderTile) event.getObject()));
-        if (event.getObject() instanceof PCTile) event.addCapability(key, new PCWrapper((PCTile) event.getObject()));
+        if (event.getObject() instanceof TMTile te) event.addCapability(key, new TMInventory(te));
+        if (event.getObject() instanceof TraderTile te) event.addCapability(key, new TradeInventory(te));
+        if (event.getObject() instanceof PCTile te) event.addCapability(key, new PCWrapper(te));
         if (event.getObject() instanceof NestTile)
         {
             final ResourceLocation nestCap = new ResourceLocation("pokecube:nest");
@@ -605,8 +597,8 @@ public class EventsHandler
 
     private static void onWorldCaps(final AttachCapabilitiesEvent<Level> event)
     {
-        if (event.getObject() instanceof ServerLevel && Level.OVERWORLD.equals(event.getObject().dimension()))
-            PokecubeSerializer.newInstance((ServerLevel) event.getObject());
+        if (event.getObject() instanceof ServerLevel level && Level.OVERWORLD.equals(level.dimension()))
+            PokecubeSerializer.newInstance(level);
     }
 
     private static void onMobJoinWorld(final EntityJoinWorldEvent evt)
@@ -626,14 +618,13 @@ public class EventsHandler
         // Forge workaround for this not being called server side!
         if (!evt.getEntity().isAddedToWorld()) evt.getEntity().onAddedToWorld();
 
-        if (evt.getEntity() instanceof IPokemob && evt.getEntity().getPersistentData().getBoolean("onShoulder"))
+        if (evt.getEntity() instanceof IPokemob pokemob && evt.getEntity().getPersistentData().getBoolean("onShoulder"))
         {
-            ((IPokemob) evt.getEntity()).setLogicState(LogicStates.SITTING, false);
+            pokemob.setLogicState(LogicStates.SITTING, false);
             evt.getEntity().getPersistentData().remove("onShoulder");
         }
-        if (evt.getEntity() instanceof Creeper)
+        if (evt.getEntity() instanceof Creeper creeper)
         {
-            final Creeper creeper = (Creeper) evt.getEntity();
             final AvoidEntityGoal<?> avoidAI = new AvoidEntityGoal<>(creeper, EntityPokemob.class, 6.0F, 1.0D, 1.2D,
                     e -> PokemobCaps.getPokemobFor(e).isType(PokeType.getType("psychic")));
             creeper.goalSelector.addGoal(3, avoidAI);
@@ -655,11 +646,11 @@ public class EventsHandler
 
     private static void onPlayerWakeUp(final PlayerWakeUpEvent evt)
     {
-        if (!PokecubeCore.getConfig().bedsHeal) return;
-        for (int i = 0; i < evt.getPlayer().getInventory().getContainerSize(); i++)
+        if (!PokecubeCore.getConfig().bedsHeal || !(evt.getPlayer() instanceof ServerPlayer player)) return;
+        for (int i = 0; i < player.getInventory().getContainerSize(); i++)
         {
-            final ItemStack stack = evt.getPlayer().getInventory().getItem(i);
-            if (PokecubeManager.isFilled(stack)) PokecubeManager.heal(stack, evt.getPlayer().getLevel());
+            final ItemStack stack = player.getInventory().getItem(i);
+            if (PokecubeManager.isFilled(stack)) PokecubeManager.heal(stack, player.getLevel());
         }
     }
 
@@ -710,18 +701,16 @@ public class EventsHandler
     {
         // Check if the pokecube is loot, and is not collectable by the player,
         // if this is the case, it should be set invisible.
-        if (event.getTarget() instanceof EntityPokecube && event.getEntity() instanceof ServerPlayer)
+        if (event.getTarget() instanceof EntityPokecube pokecube && event.getEntity() instanceof ServerPlayer player)
         {
-            final EntityPokecube pokecube = (EntityPokecube) event.getTarget();
             if (pokecube.isLoot && pokecube.cannotCollect(event.getEntity()))
-                PacketPokecube.sendMessage((Player) event.getEntity(), pokecube.getId(),
-                        Tracker.instance().getTick() + pokecube.resetTime);
+                PacketPokecube.sendMessage(player, pokecube.getId(), Tracker.instance().getTick() + pokecube.resetTime);
         }
-        if (event.getTarget() instanceof ServerPlayer && event.getEntity() instanceof ServerPlayer)
+        if (event.getTarget() instanceof ServerPlayer player1 && event.getEntity() instanceof ServerPlayer player2)
         {
-            final PlayerDataManager manager = PlayerDataHandler.getInstance().getPlayerData((Player) event.getTarget());
+            final PlayerDataManager manager = PlayerDataHandler.getInstance().getPlayerData(player1);
             final PlayerData data = manager.getData("pokecube-stats");
-            PacketDataSync.syncData(data, event.getTarget().getUUID(), (ServerPlayer) event.getEntity(), false);
+            PacketDataSync.syncData(data, player1.getUUID(), player2, false);
         }
     }
 
@@ -754,9 +743,8 @@ public class EventsHandler
     {
         final Entity entity = evt.getEntity();
         final Level tworld = entity.getLevel();
-        if (tworld.isClientSide || !(tworld instanceof ServerLevel)) return;
+        if (tworld.isClientSide || !(tworld instanceof ServerLevel world)) return;
         // Recall the pokemobs if the player changes dimension.
-        final ServerLevel world = (ServerLevel) tworld;
         final ResourceKey<Level> newDim = evt.getDimension();
         if (newDim == world.dimension() || entity.getPersistentData().contains("thutcore:dimtp")) return;
         final List<Entity> pokemobs = new ArrayList<>(
@@ -766,9 +754,8 @@ public class EventsHandler
 
     private static void onPlayerTick(final PlayerTickEvent event)
     {
-        if (event.side == LogicalSide.SERVER && event.player instanceof ServerPlayer)
+        if (event.side == LogicalSide.SERVER && event.player instanceof ServerPlayer player)
         {
-            final ServerPlayer player = (ServerPlayer) event.player;
             final IPokemob ridden = PokemobCaps.getPokemobFor(player.getVehicle());
             if (ridden != null && (ridden.floats() || ridden.flys()))
             {
@@ -781,9 +768,9 @@ public class EventsHandler
     private static void onWorldSave(final WorldEvent.Save evt)
     {
         if (evt.getWorld().isClientSide()) return;
-        if (!(evt.getWorld() instanceof ServerLevel)) return;
+        if (!(evt.getWorld() instanceof ServerLevel level)) return;
         // Save the pokecube data whenever the overworld saves.
-        if (((Level) evt.getWorld()).dimension().equals(Level.OVERWORLD))
+        if (level.dimension().equals(Level.OVERWORLD))
         {
             final long time = System.nanoTime();
             PokecubeSerializer.getInstance().save();
@@ -846,14 +833,10 @@ public class EventsHandler
         final IPokemob mob = PokemobCaps.getPokemobFor(toRecall);
         if (mob == null)
         {
-            if (toRecall instanceof EntityPokecube)
+            if (toRecall instanceof EntityPokecube cube && !cube.getItem().isEmpty())
             {
-                final EntityPokecube cube = (EntityPokecube) toRecall;
-                if (!cube.getItem().isEmpty())
-                {
-                    final String name = PokecubeManager.getOwner(cube.getItem());
-                    if (name != null && name.equals(owner.getStringUUID())) return true;
-                }
+                final String name = PokecubeManager.getOwner(cube.getItem());
+                if (name != null && name.equals(owner.getStringUUID())) return true;
             }
             return false;
         }
@@ -880,14 +863,10 @@ public class EventsHandler
                     && (includeStay || !pokemob.getGeneralState(GeneralStates.STAYING)))
                 return true;
         }
-        else if (toRecall instanceof EntityPokecube)
+        else if (toRecall instanceof EntityPokecube mob && !mob.getItem().isEmpty())
         {
-            final EntityPokecube mob = (EntityPokecube) toRecall;
-            if (!mob.getItem().isEmpty())
-            {
-                final String name = PokecubeManager.getOwner(mob.getItem());
-                if (name != null && name.equals(player.getStringUUID())) return true;
-            }
+            final String name = PokecubeManager.getOwner(mob.getItem());
+            if (name != null && name.equals(player.getStringUUID())) return true;
         }
         return false;
     }

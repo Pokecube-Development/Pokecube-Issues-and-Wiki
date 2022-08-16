@@ -281,8 +281,8 @@ public class PokemobEventsHandler
             {
                 this.set = true;
                 if (this.pokemob.getCombatState(CombatStates.MEGAFORME)
-                        && this.pokemob.getOwner() instanceof ServerPlayer)
-                    Triggers.MEGAEVOLVEPOKEMOB.trigger((ServerPlayer) this.pokemob.getOwner(), this.pokemob);
+                        && this.pokemob.getOwner() instanceof ServerPlayer player)
+                    Triggers.MEGAEVOLVEPOKEMOB.trigger(player, this.pokemob);
                 final int evoTicks = this.pokemob.getEvolutionTicks();
                 final float hp = this.pokemob.getHealth();
                 this.pokemob = this.pokemob.megaEvolve(this.mega, true);
@@ -387,9 +387,7 @@ public class PokemobEventsHandler
     private static void onMobAddedToWorld(final EntityJoinWorldEvent event)
     {
         // We only consider MobEntities
-        if (!(event.getEntity() instanceof Mob)) return;
-
-        final Mob mob = (Mob) event.getEntity();
+        if (!(event.getEntity() instanceof Mob mob)) return;
 
         if (mob.getLevel().isClientSide()) return;
 
@@ -500,7 +498,7 @@ public class PokemobEventsHandler
     private static void onLivingHurt(final LivingHurtEvent evt)
     {
         // Only process these server side
-        if (!(evt.getEntity().getLevel() instanceof ServerLevel)) return;
+        if (!(evt.getEntity().getLevel() instanceof ServerLevel level)) return;
         /*
          * No harming invalid targets, only apply this to pokemob related damage
          * sources
@@ -512,15 +510,17 @@ public class PokemobEventsHandler
         }
         IPokemob pokemob = PokemobCaps.getPokemobFor(evt.getEntity());
         // check if configs say this damage can't happen
-        if (pokemob != null && !AITools.validToHitPokemob.test(evt.getSource()))
+        if (pokemob != null)
         {
-            evt.setCanceled(true);
-            return;
+            if (!AITools.validToHitPokemob.test(evt.getSource()))
+            {
+                evt.setCanceled(true);
+                return;
+            }
+            // Apply scaling from config for this
+            if (evt.getSource().getEntity() instanceof Player)
+                evt.setAmount((float) (evt.getAmount() * PokecubeCore.getConfig().playerToPokemobDamageScale));
         }
-        // Apply scaling from config for this
-        if (pokemob != null && evt.getSource().getEntity() instanceof Player)
-            evt.setAmount((float) (evt.getAmount() * PokecubeCore.getConfig().playerToPokemobDamageScale));
-
         // Some special handling for in wall stuff
         if (evt.getSource() == DamageSource.IN_WALL)
         {
@@ -535,7 +535,6 @@ public class PokemobEventsHandler
             if (toPush != null)
             {
                 evt.setCanceled(true);
-                final ServerLevel world = (ServerLevel) evt.getEntity().getLevel();
                 final AABB oldBox = evt.getEntity().getBoundingBox();
                 final AABB newBox = toPush.getBoundingBox();
 
@@ -545,8 +544,8 @@ public class PokemobEventsHandler
                 final List<VoxelShape> hits = Lists.newArrayList();
                 // Find all voxel shapes in the area
                 BlockPos.betweenClosedStream(biggerBox).forEach(pos -> {
-                    final BlockState state = world.getBlockState(pos);
-                    final VoxelShape shape = state.getCollisionShape(world, pos);
+                    final BlockState state = level.getBlockState(pos);
+                    final VoxelShape shape = state.getCollisionShape(level, pos);
                     if (!shape.isEmpty()) hits.add(shape.move(pos.getX(), pos.getY(), pos.getZ()));
                 });
 
@@ -569,7 +568,7 @@ public class PokemobEventsHandler
                     if (col)
                     {
                         Vector3 v = new Vector3().set(toPush);
-                        v = SendOutManager.getFreeSpot(toPush, world, v, false);
+                        v = SendOutManager.getFreeSpot(toPush, level, v, false);
                         if (v != null) v.moveEntity(toPush);
                     }
                 }
@@ -626,8 +625,10 @@ public class PokemobEventsHandler
 
     private static void onLivingDeath(final LivingDeathEvent evt)
     {
+        if (!(evt.getEntity() instanceof LivingEntity living)) return;
+
         // If the thing that died was a pokemob, ensure no boss bar left
-        final IPokemob pokemob = PokemobCaps.getPokemobFor(evt.getEntity());
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(living);
         if (pokemob != null && pokemob.getBossInfo() != null)
         {
             pokemob.getBossInfo().removeAllPlayers();
@@ -637,14 +638,13 @@ public class PokemobEventsHandler
         final DamageSource damageSource = evt.getSource();
         // Handle transferring the kill info over, This is in place for mod
         // support.
-        if (damageSource instanceof PokemobDamageSource && evt.getEntity().getLevel() instanceof ServerLevel)
-            damageSource.getDirectEntity().killed((ServerLevel) evt.getEntity().getLevel(),
-                    (LivingEntity) evt.getEntity());
+        if (damageSource instanceof PokemobDamageSource && living.getLevel() instanceof ServerLevel level)
+            damageSource.getDirectEntity().killed(level, living);
 
         // Handle exp gain for the mob.
         final IPokemob attacker = PokemobCaps.getPokemobFor(damageSource.getDirectEntity());
-        if (attacker != null && damageSource.getDirectEntity() instanceof Mob) PokemobEventsHandler
-                .handleExp((Mob) damageSource.getDirectEntity(), attacker, (LivingEntity) evt.getEntity());
+        if (attacker != null && damageSource.getDirectEntity() instanceof Mob mob)
+            PokemobEventsHandler.handleExp(mob, attacker, living);
     }
 
     private static void onJoinWorldLast(final EntityJoinWorldEvent event)
@@ -687,12 +687,12 @@ public class PokemobEventsHandler
         // Sync genes over to players when they start tracking a pokemob
         final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getTarget());
         if (pokemob == null) return;
-        if (!(event.getEntity() instanceof ServerPlayer)) return;
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
         final PokedexEntry entry = pokemob.getPokedexEntry();
 
         final IMobGenetics genes = event.getTarget().getCapability(ThutCaps.GENETICS_CAP).orElse(null);
         for (final Alleles<?, ?> allele : genes.getAlleles().values())
-            PacketSyncGene.syncGene(event.getTarget(), allele, (ServerPlayer) event.getPlayer());
+            PacketSyncGene.syncGene(event.getTarget(), allele, player);
 
         // Send the whole thing over in this case, as it means it won't
         // auto-sync things like IPokemob, etc.
@@ -700,7 +700,7 @@ public class PokemobEventsHandler
         if (!entry.stock) EntityUpdate.sendEntityUpdate(event.getTarget());
 
         // If the mob has a boss bar, add the player to track from that as well
-        if (pokemob.getBossInfo() != null) pokemob.getBossInfo().addPlayer((ServerPlayer) event.getEntity());
+        if (pokemob.getBossInfo() != null) pokemob.getBossInfo().addPlayer(player);
     }
 
     private static void onStopTracking(final StopTracking event)
@@ -708,18 +708,15 @@ public class PokemobEventsHandler
         // Sync genes over to players when they start tracking a pokemob
         final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getTarget());
         if (pokemob == null) return;
-        if (!(event.getEntity() instanceof ServerPlayer)) return;
-        if (pokemob.getBossInfo() != null) pokemob.getBossInfo().removePlayer((ServerPlayer) event.getEntity());
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+        if (pokemob.getBossInfo() != null) pokemob.getBossInfo().removePlayer(player);
     }
 
     private static void onWorldTick(final WorldTickEvent evt)
     {
-        for (final Player player : evt.world.players())
-            if (player.getVehicle() instanceof LivingEntity && PokemobCaps.getPokemobFor(player.getVehicle()) != null)
-        {
-            final LivingEntity ridden = (LivingEntity) player.getVehicle();
+        for (final Player player : evt.world.players()) if (player.getVehicle() instanceof LivingEntity ridden
+                && PokemobCaps.getPokemobFor(player.getVehicle()) != null)
             EntityTools.copyRotations(ridden, player);
-        }
     }
 
     private static long mean(final long[] values)
@@ -808,10 +805,9 @@ public class PokemobEventsHandler
         if (tooFast) living.setDeltaMovement(0, living.getDeltaMovement().y, 0);
 
         final IPokemob pokemob = PokemobCaps.getPokemobFor(living);
-        if (pokemob instanceof DefaultPokemob && living instanceof EntityPokemob && dim instanceof ServerLevel level)
+        if (pokemob instanceof DefaultPokemob pokemobCap && living instanceof EntityPokemob mob
+                && dim instanceof ServerLevel level)
         {
-            final DefaultPokemob pokemobCap = (DefaultPokemob) pokemob;
-            final EntityPokemob mob = (EntityPokemob) living;
             if (pokemobCap.returning)
             {
                 mob.remove(RemovalReason.DISCARDED);
@@ -831,7 +827,6 @@ public class PokemobEventsHandler
                 }
             }
         }
-
         if (living.getPersistentData().hasUUID("old_uuid"))
         {
             final UUID id = living.getPersistentData().getUUID("old_uuid");
@@ -855,7 +850,6 @@ public class PokemobEventsHandler
                     && dim instanceof ServerLevel)
                 pokemob.setBossInfo(new ServerBossEvent(living.getDisplayName(), BossEvent.BossBarColor.RED,
                         BossEvent.BossBarOverlay.PROGRESS));
-
             // Reset death time if we are not dead.
             if (evt.getEntityLiving().getHealth() > 0) evt.getEntityLiving().deathTime = 0;
             // Tick the logic stuff for this mob.
@@ -923,8 +917,8 @@ public class PokemobEventsHandler
             final Entity targetOwner = attackedMob.getOwner();
             attacker.displayMessageToOwner(
                     TComponent.translatable("pokemob.action.faint.enemy", attackedMob.getDisplayName()));
-            if (targetOwner instanceof Player && attacker.getOwner() != targetOwner)
-                BrainUtils.initiateCombat(pokemob, (LivingEntity) targetOwner);
+            if (targetOwner instanceof Player player && attacker.getOwner() != targetOwner)
+                BrainUtils.initiateCombat(pokemob, player);
             else BrainUtils.deagro(pokemob);
             if (attacker.getPokedexEntry().isFood(attackedMob.getPokedexEntry())
                     && attacker.getCombatState(CombatStates.HUNTING))
@@ -974,11 +968,10 @@ public class PokemobEventsHandler
 
     private static void processInteract(final PlayerInteractEvent evt, final Entity target)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayer)) return;
+        if (!(evt.getPlayer() instanceof ServerPlayer player)) return;
         final IPokemob pokemob = PokemobCaps.getPokemobFor(target);
         if (pokemob == null) return;
 
-        final ServerPlayer player = (ServerPlayer) evt.getPlayer();
         final InteractionHand hand = evt.getHand();
         final ItemStack held = player.getItemInHand(hand);
         final Mob entity = pokemob.getEntity();

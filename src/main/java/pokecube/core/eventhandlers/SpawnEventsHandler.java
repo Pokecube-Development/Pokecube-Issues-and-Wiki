@@ -99,7 +99,7 @@ public class SpawnEventsHandler
      */
     private static void onSpawnCheck(final SpawnEvent.Check event)
     {
-        if (!SpawnHandler.canSpawnInWorld((Level) event.level(), event.forSpawn)) event.setCanceled(true);
+        if (!SpawnHandler.canSpawnInWorld(event.level(), event.forSpawn)) event.setCanceled(true);
     }
 
     private static void PickSpawn(final SpawnEvent.Pick.Pre event)
@@ -232,14 +232,14 @@ public class SpawnEventsHandler
 
             final Entity entity = type.create(event.worldActual);
 
-            if (entity instanceof Mob) ((Mob) entity).setPersistenceRequired();
+            if (entity instanceof Mob mob) mob.setPersistenceRequired();
             entity.moveTo(event.pos, 0.0F, 0.0F);
-            if (entity instanceof Mob) ((Mob) entity).finalizeSpawn((ServerLevelAccessor) event.worldBlocks,
+            if (entity instanceof Mob mob) mob.finalizeSpawn((ServerLevelAccessor) event.worldBlocks,
                     event.worldBlocks.getCurrentDifficultyAt(event.pos), MobSpawnType.STRUCTURE, (SpawnGroupData) null,
                     (CompoundTag) null);
 
-            if (entity instanceof NpcMob) SpawnEventsHandler.spawnNpc(event, (NpcMob) entity, thing);
-            else if (entity instanceof Mob) SpawnEventsHandler.spawnMob(event, (Mob) entity, thing);
+            if (entity instanceof NpcMob npc) SpawnEventsHandler.spawnNpc(event, npc, thing);
+            else if (entity instanceof Mob mob) SpawnEventsHandler.spawnMob(event, mob, thing);
             else PokecubeAPI.LOGGER.warn("Unsupported Entity for spawning! {}", function);
         }
     }
@@ -267,12 +267,12 @@ public class SpawnEventsHandler
     private static void onStructureSpawn(final StructureEvent.BuildStructure event)
     {
         if (event.getBiomeType() == null) return;
-        if (event.getWorld() instanceof ServerLevel)
+        if (event.getWorld() instanceof ServerLevel level)
         {
             final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
             final BoundingBox box = event.getBoundingBox();
             final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box);
-            SpawnEventsHandler.queueForUpdate(poses, subbiome, (Level) event.getWorld());
+            SpawnEventsHandler.queueForUpdate(poses, subbiome, level);
         }
         else
         {
