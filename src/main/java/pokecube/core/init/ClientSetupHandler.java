@@ -57,6 +57,7 @@ import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.nbtedit.NBTEdit;
+import pokecube.nbtedit.forge.ClientProxy;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
 public class ClientSetupHandler
@@ -144,6 +145,10 @@ public class ClientSetupHandler
         registerKey(ClientSetupHandler.arrangeGui, event);
         registerKey(ClientSetupHandler.animateGui, event);
         registerKey(ClientSetupHandler.gzmove, event);
+
+        ClientProxy.NBTEditKey = new KeyMapping("NBTEdit Shortcut", InputConstants.UNKNOWN.getValue(),
+                "key.categories.misc");
+        ClientRegistry.registerKeyBinding(ClientProxy.NBTEditKey);
     }
 
     @SubscribeEvent

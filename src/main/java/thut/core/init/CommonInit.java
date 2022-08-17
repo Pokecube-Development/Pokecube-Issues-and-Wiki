@@ -139,7 +139,7 @@ public class CommonInit
      */
     public static void startTracking(final StartTracking evt)
     {
-        if (evt.getTarget() instanceof IEntityAdditionalSpawnData && evt.getEntity() instanceof BlockEntityBase)
-            EntityUpdate.sendEntityUpdate(evt.getEntity());
+        if (evt.getTarget() instanceof IEntityAdditionalSpawnData && evt.getTarget() instanceof BlockEntityBase)
+            EntityUpdate.sendEntityUpdate(evt.getTarget());
     }
 }

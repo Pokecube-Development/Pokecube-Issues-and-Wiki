@@ -51,6 +51,16 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
         float f4 = Climate.unquantizeCoord(climate$targetpoint.weirdness());
         double d0 = (double) TerrainShaper.peaksAndValleys(f4);
         return d0 > 0.5 ? TerrainType.HILLS : TerrainType.FLAT;
+
+// 1.19:
+//        if (!(world instanceof ServerLevel level)) return TerrainType.FLAT;
+//        BlockPos pos = v.getPos();
+//        NoiseRouter noiserouter = level.getChunkSource().randomState().router();
+//        DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(pos.getX(), pos.getY(), pos.getZ());
+//        double f4 = noiserouter.ridges().compute(densityfunction$singlepointcontext);
+//        double d0 = (double)NoiseRouterData.peaksAndValleys((float)f4);
+//        return d0 > 0.5 ? TerrainType.HILLS : TerrainType.FLAT;
+
     }
 
     @Override

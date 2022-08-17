@@ -227,7 +227,7 @@ public class PokecubeItems extends ItemList
         EMERALDSHARD = PokecubeCore.ITEMS.register("emerald_shard",
                 () -> new ItemRevive(new Item.Properties().tab(PokecubeItems.TAB_ITEMS)));
 
-        // Blocks
+        // Blocks // 1.19 OreBlock -> DropExperienceBlock .noDrops() -> gone
         FOSSIL_ORE = PokecubeCore.BLOCKS.register("fossil_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE)
                         .strength(3.0f, 3.0f).sound(SoundType.BONE_BLOCK).requiresCorrectToolForDrops(),

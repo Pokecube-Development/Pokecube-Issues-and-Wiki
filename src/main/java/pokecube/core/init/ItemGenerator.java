@@ -112,7 +112,6 @@ public class ItemGenerator
     {
         final ItemBerry berry = new ItemBerry(type);
         BerryManager.berryItems.put(type.index, berry);
-        if (type.index == 0) PokecubeItems.POKECUBE_BERRIES = new ItemStack(berry);
         return berry;
     }
 

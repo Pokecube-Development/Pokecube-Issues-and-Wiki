@@ -1,7 +1,5 @@
 package pokecube.nbtedit.forge;
 
-import com.mojang.blaze3d.platform.InputConstants;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -15,7 +13,6 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -103,8 +100,5 @@ public class ClientProxy extends CommonProxy
         {
             PokecubeAPI.LOGGER.catching(e);
         }
-        ClientProxy.NBTEditKey = new KeyMapping("NBTEdit Shortcut", InputConstants.UNKNOWN.getValue(),
-                "key.categories.misc");
-        ClientRegistry.registerKeyBinding(ClientProxy.NBTEditKey);
     }
 }

@@ -27,7 +27,6 @@ import pokecube.api.data.Pokedex;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
-import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.healer.HealerBlock;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.SpawnHandler;
@@ -54,7 +53,6 @@ public class ItemPokedex extends Item
     {
         super(props);
         this.watch = watch;
-        if (PokecubeItems.POKECUBE_ITEMS.isEmpty()) PokecubeItems.POKECUBE_ITEMS = new ItemStack(this);
     }
 
     @Override

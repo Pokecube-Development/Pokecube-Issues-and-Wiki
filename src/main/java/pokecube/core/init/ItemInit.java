@@ -30,7 +30,6 @@ public class ItemInit
             props.durability(255).defaultDurability(255);
             PokecubeCore.ITEMS.register(name, () -> {
                 final Pokecube cube = new Pokecube(props);
-                if (PokecubeItems.POKECUBE_CUBES.isEmpty()) PokecubeItems.POKECUBE_CUBES = new ItemStack(cube);
                 PokecubeItems.addCube(new ResourceLocation("pokecube:" + name), new Item[]
                 { cube });
                 return cube;

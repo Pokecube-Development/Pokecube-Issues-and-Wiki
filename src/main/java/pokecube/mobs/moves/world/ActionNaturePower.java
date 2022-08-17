@@ -334,6 +334,9 @@ public class ActionNaturePower implements IMoveAction
 
             ChunkGenerator generator = world.getChunkSource().getGenerator();
             Climate.Sampler sampler = generator.climateSampler();
+            
+            //1.19:
+            // Climate.Sampler sampler = world.getChunkSource().randomState().sampler();
 
             for (int i = -8; i <= 8; i++) for (int j = -8; j <= 8; j++) for (int k = -8; k <= 8; k++)
             {
