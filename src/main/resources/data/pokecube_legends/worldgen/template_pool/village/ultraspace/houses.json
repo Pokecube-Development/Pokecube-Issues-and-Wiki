@@ -5,7 +5,7 @@
     {
       "weight": 10,
       "element": {
-        "location": "pokecube_legends:village/ultraspace/houses/house_1"
+        "location": "pokecube_legends:village/ultraspace/houses/house_1",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic",
         "projection": "rigid"
