@@ -17,6 +17,7 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades.ItemListing;
@@ -259,9 +260,8 @@ public class TradeEntryLoader
     public static TradeDatabase loadDatabase()
     {
         final TradeDatabase full = new TradeDatabase();
-        final Collection<ResourceLocation> resources = PackFinder.getJsonResources(NpcType.DATALOC);
-        for (final ResourceLocation file : resources)
-        {
+        final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(NpcType.DATALOC);
+        resources.forEach((file, resource) -> {
             JsonObject loaded;
             try
             {
@@ -285,7 +285,7 @@ public class TradeEntryLoader
             {
                 PokecubeAPI.LOGGER.error("Error with database file {}", file, e);
             }
-        }
+        });
         return full;
     }
 

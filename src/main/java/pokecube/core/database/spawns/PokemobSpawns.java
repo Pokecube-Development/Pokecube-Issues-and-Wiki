@@ -2,13 +2,14 @@ package pokecube.core.database.spawns;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.google.common.collect.Lists;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
@@ -76,11 +77,11 @@ public class PokemobSpawns extends ResourceData
     {
         this.validLoad = false;
         final String path = new ResourceLocation(this.tagPath).getPath();
-        final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
+        final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(path);
         this.validLoad = !resources.isEmpty();
         MASTER_LIST.rules.clear();
         preLoad();
-        resources.forEach(l -> this.loadFile(l));
+        resources.forEach((l, r) -> this.loadFile(l, r));
         if (this.validLoad)
         {
             PokecubeAPI.LOGGER.debug("Loaded Pokemob spawns.");
@@ -181,7 +182,7 @@ public class PokemobSpawns extends ResourceData
         PokecubeAPI.LOGGER.debug("Applied Pokemob spawns.");
     }
 
-    private void loadFile(final ResourceLocation l)
+    private void loadFile(final ResourceLocation l, Resource r)
     {
         try
         {
@@ -191,7 +192,7 @@ public class PokemobSpawns extends ResourceData
             // wants to edit an existing one, it means they are most likely
             // trying to remove default behaviour. They can add new things by
             // just adding another json file to the correct package.
-            final BufferedReader reader = PackFinder.getReader(l);
+            final BufferedReader reader = PackFinder.getReader(r);
             if (reader == null) throw new FileNotFoundException(l.toString());
             try
             {

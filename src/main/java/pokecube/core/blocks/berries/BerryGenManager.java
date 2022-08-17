@@ -2,7 +2,6 @@ package pokecube.core.blocks.berries;
 
 import java.io.FileNotFoundException;
 import java.io.Reader;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -20,6 +19,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -259,25 +259,27 @@ public class BerryGenManager
     private static void loadBerrySpawns()
     {
         BerryGenManager.list = new BerryConfig();
-        final Collection<ResourceLocation> resources = PackFinder.getJsonResources(BerryGenManager.DATABASES);
-        for (final ResourceLocation s : resources) try
-        {
-            BerryConfig loaded;
-            final Reader reader = PackFinder.getReader(s);
-            if (reader == null) throw new FileNotFoundException(s.toString());
-            loaded = JsonUtil.gson.fromJson(reader, BerryConfig.class);
-            reader.close();
-            BerryGenManager.list.locations.addAll(loaded.locations);
-            BerryGenManager.list.trees.addAll(loaded.trees);
-        }
-        catch (final FileNotFoundException e1)
-        {
-            PokecubeAPI.LOGGER.debug("No berry spawns list {} found.", s);
-        }
-        catch (final Exception e)
-        {
-            PokecubeAPI.LOGGER.error("Error loading Berries Spawn Database " + s, e);
-        }
+        final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(BerryGenManager.DATABASES);
+        resources.forEach((s, resource) -> {
+            try
+            {
+                BerryConfig loaded;
+                final Reader reader = PackFinder.getReader(resource);
+                if (reader == null) throw new FileNotFoundException(s.toString());
+                loaded = JsonUtil.gson.fromJson(reader, BerryConfig.class);
+                reader.close();
+                BerryGenManager.list.locations.addAll(loaded.locations);
+                BerryGenManager.list.trees.addAll(loaded.trees);
+            }
+            catch (final FileNotFoundException e1)
+            {
+                PokecubeAPI.LOGGER.debug("No berry spawns list {} found.", s);
+            }
+            catch (final Exception e)
+            {
+                PokecubeAPI.LOGGER.error("Error loading Berries Spawn Database " + s, e);
+            }
+        });
     }
 
     public static ItemStack getRandomBerryForBiome(final Level world, final BlockPos location)

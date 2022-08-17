@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -16,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -31,6 +31,7 @@ import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.Pack.Position;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
@@ -559,31 +560,33 @@ public class Database
     public static void loadRecipes()
     {
         for (final IRecipeParser parser : XMLRecipeHandler.recipeParsers.values()) parser.init();
-        final Collection<ResourceLocation> resources = PackFinder.getJsonResources("database/recipes");
-        for (final ResourceLocation file : resources) try
-        {
-            final BufferedReader reader = PackFinder.getReader(file);
-            if (reader == null) throw new FileNotFoundException(file.toString());
-            final JsonObject database = JsonUtil.gson.fromJson(reader, JsonObject.class);
-            reader.close();
+        final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources("database/recipes");
+        resources.forEach((file, resource) -> {
+            try
+            {
+                final BufferedReader reader = PackFinder.getReader(resource);
+                if (reader == null) throw new FileNotFoundException(file.toString());
+                final JsonObject database = JsonUtil.gson.fromJson(reader, JsonObject.class);
+                reader.close();
 
-            // Handle lists of recipes in the json
-            if (database.has("recipes") && database.get("recipes").isJsonArray())
-                for (final JsonElement drop : database.get("recipes").getAsJsonArray())
-                    if (drop.isJsonObject()) XMLRecipeHandler.addRecipe(drop.getAsJsonObject());
+                // Handle lists of recipes in the json
+                if (database.has("recipes") && database.get("recipes").isJsonArray())
+                    for (final JsonElement drop : database.get("recipes").getAsJsonArray())
+                        if (drop.isJsonObject()) XMLRecipeHandler.addRecipe(drop.getAsJsonObject());
 
-            // Handle single json as a recipe
-            if (database.has("type") || database.has("handler")) XMLRecipeHandler.addRecipe(database);
+                // Handle single json as a recipe
+                if (database.has("type") || database.has("handler")) XMLRecipeHandler.addRecipe(database);
 
-        }
-        catch (final FileNotFoundException e)
-        {
-            PokecubeAPI.LOGGER.info("No Custom Recipes of name {}", file);
-        }
-        catch (final Exception e)
-        {
-            PokecubeAPI.LOGGER.error("Error with " + file, e);
-        }
+            }
+            catch (final FileNotFoundException e)
+            {
+                PokecubeAPI.LOGGER.info("No Custom Recipes of name {}", file);
+            }
+            catch (final Exception e)
+            {
+                PokecubeAPI.LOGGER.error("Error with " + file, e);
+            }
+        });
     }
 
     public static void loadRewards(final String input)
@@ -599,58 +602,64 @@ public class Database
 
     private static void loadRewards()
     {
-        final Collection<ResourceLocation> resources = PackFinder.getJsonResources("database/rewards");
-        for (final ResourceLocation file : resources) try
-        {
-            final BufferedReader reader = PackFinder.getReader(file);
-            if (reader == null) throw new FileNotFoundException(file.toString());
-            final StringBuffer sb = new StringBuffer();
-            String str;
-            while ((str = reader.readLine()) != null) sb.append(str);
-            reader.close();
-            Database.loadRewards(sb.toString());
-        }
-        catch (final FileNotFoundException e)
-        {
-            PokecubeAPI.LOGGER.info("No Custom Rewards of name {}", file);
-        }
-        catch (final Exception e)
-        {
-            PokecubeAPI.LOGGER.error("Error with " + file, e);
-        }
+        final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources("database/rewards");
+        resources.forEach((file, resource) -> {
+            try
+            {
+                final BufferedReader reader = PackFinder.getReader(resource);
+                if (reader == null) throw new FileNotFoundException(file.toString());
+                final StringBuffer sb = new StringBuffer();
+                String str;
+                while ((str = reader.readLine()) != null) sb.append(str);
+                reader.close();
+                Database.loadRewards(sb.toString());
+            }
+            catch (final FileNotFoundException e)
+            {
+                PokecubeAPI.LOGGER.info("No Custom Rewards of name {}", file);
+            }
+            catch (final Exception e)
+            {
+                PokecubeAPI.LOGGER.error("Error with " + file, e);
+            }
+        });
     }
 
     private static void loadStarterPack()
     {
-        try
-        {
-            final Collection<ResourceLocation> resources = PackFinder.getJsonResources("database/starterpack");
-            boolean valid = false;
-            final List<ItemStack> kit = Lists.newArrayList();
-            for (final ResourceLocation file : resources)
+
+        final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources("database/starterpack");
+        AtomicBoolean valid = new AtomicBoolean(false);
+        final List<ItemStack> kit = Lists.newArrayList();
+        resources.forEach((file, resource) -> {
+            try
             {
-                final BufferedReader reader = PackFinder.getReader(file);
-                if (reader == null) throw new FileNotFoundException(file.toString());
-                final XMLStarterItems database = JsonUtil.gson.fromJson(reader, XMLStarterItems.class);
-                reader.close();
-                valid = true;
-                for (final Drop drop : database.drops)
                 {
-                    final ItemStack stack = PokedexEntryLoader.getStackFromDrop(drop);
-                    if (!stack.isEmpty()) kit.add(stack);
+                    final BufferedReader reader = PackFinder.getReader(resource);
+                    if (reader == null) throw new FileNotFoundException(file.toString());
+                    final XMLStarterItems database = JsonUtil.gson.fromJson(reader, XMLStarterItems.class);
+                    reader.close();
+                    valid.set(true);
+                    for (final Drop drop : database.drops)
+                    {
+                        final ItemStack stack = PokedexEntryLoader.getStackFromDrop(drop);
+                        if (!stack.isEmpty()) kit.add(stack);
+                    }
                 }
             }
-            if (valid)
+            catch (final Exception e)
             {
-                // Only clear this if things have not failed earlier
-                Database.starterPack.clear();
-                Database.starterPack.addAll(kit);
+                PokecubeAPI.LOGGER.error("Error Loading Starter Pack", e);
             }
-        }
-        catch (final Exception e)
+        });
+
+        if (valid.get())
         {
-            PokecubeAPI.LOGGER.error("Error Loading Starter Pack", e);
+            // Only clear this if things have not failed earlier
+            Database.starterPack.clear();
+            Database.starterPack.addAll(kit);
         }
+
     }
 
     /** does some final cleanup work for removing un-registered entries */

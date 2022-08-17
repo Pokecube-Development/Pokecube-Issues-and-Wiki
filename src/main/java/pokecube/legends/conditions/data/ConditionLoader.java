@@ -2,7 +2,6 @@ package pokecube.legends.conditions.data;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -11,6 +10,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
@@ -51,12 +51,12 @@ public class ConditionLoader extends ResourceData
     {
         this.validLoad = false;
         final String path = new ResourceLocation(this.tagPath).getPath();
-        final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
+        final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(path);
         this.validLoad = !resources.isEmpty();
         this.conditions.clear();
         LegendarySpawn.data_spawns.clear();
         this.preLoad();
-        resources.forEach(l -> this.loadFile(l));
+        resources.forEach((l, r) -> this.loadFile(l, r));
         if (this.validLoad) valid.set(true);
     }
 
@@ -68,7 +68,7 @@ public class ConditionLoader extends ResourceData
         this.conditions.clear();
     }
 
-    private void loadFile(final ResourceLocation l)
+    private void loadFile(final ResourceLocation l, Resource r)
     {
         try
         {
@@ -78,7 +78,7 @@ public class ConditionLoader extends ResourceData
             // wants to edit an existing one, it means they are most likely
             // trying to remove default behaviour. They can add new things by
             // just adding another json file to the correct package.
-            final BufferedReader reader = PackFinder.getReader(l);
+            final BufferedReader reader = PackFinder.getReader(r);
             if (reader == null) throw new FileNotFoundException(l.toString());
             try
             {

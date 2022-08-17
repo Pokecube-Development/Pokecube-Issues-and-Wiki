@@ -3,10 +3,10 @@ package pokecube.mobs.moves.world;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
@@ -21,6 +21,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Climate;
@@ -65,11 +66,11 @@ public class ActionNaturePower implements IMoveAction
         {
             this.validLoad = false;
             final String path = new ResourceLocation(this.tagPath).getPath();
-            final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
+            final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(path);
             this.validLoad = !resources.isEmpty();
             CHANGERS.clear();
             preLoad();
-            resources.forEach(l -> this.loadFile(l));
+            resources.forEach((l, r) -> this.loadFile(l, r));
             CHANGERS.sort(Comparator.comparingInt(c -> c.priority));
             if (this.validLoad)
             {
@@ -78,7 +79,7 @@ public class ActionNaturePower implements IMoveAction
             }
         }
 
-        private void loadFile(final ResourceLocation l)
+        private void loadFile(final ResourceLocation l, Resource r)
         {
             try
             {
@@ -87,7 +88,7 @@ public class ActionNaturePower implements IMoveAction
                 // trying to remove default behaviour. They can add new things
                 // by
                 // just adding another json file to the correct package.
-                final BufferedReader reader = PackFinder.getReader(l);
+                final BufferedReader reader = PackFinder.getReader(r);
                 if (reader == null) throw new FileNotFoundException(l.toString());
 
                 final ConfigChanger temp = JsonUtil.gson.fromJson(reader, ConfigChanger.class);
@@ -334,9 +335,10 @@ public class ActionNaturePower implements IMoveAction
 
             ChunkGenerator generator = world.getChunkSource().getGenerator();
             Climate.Sampler sampler = generator.climateSampler();
-            
-            //1.19:
-            // Climate.Sampler sampler = world.getChunkSource().randomState().sampler();
+
+            // 1.19:
+            // Climate.Sampler sampler =
+            // world.getChunkSource().randomState().sampler();
 
             for (int i = -8; i <= 8; i++) for (int j = -8; j <= 8; j++) for (int k = -8; k <= 8; k++)
             {

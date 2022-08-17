@@ -2,13 +2,14 @@ package pokecube.core.database.pokedex;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraftforge.fml.ModList;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -33,12 +34,12 @@ public class PokemobsDatabases
 
         for (final String path : PokemobsDatabases.DATABASES)
         {
-            final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
-            resources.forEach(l ->
+            final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(path);
+            resources.forEach((l,r) ->
             {
                 try
                 {
-                    final PokemobsJson database = PokemobsDatabases.loadDatabase(PackFinder.getStream(l));
+                    final PokemobsJson database = PokemobsDatabases.loadDatabase(PackFinder.getStream(r));
                     if (database != null)
                     {
                         database.pokemon.forEach(e -> e.name = ThutCore.trim(e.name));

@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -40,17 +42,60 @@ public class PackFinder implements RepositorySource
 
     static final PackSource DECORATOR = PackSource.decorating("pack.source.pokecube.data");
 
-    public static Collection<ResourceLocation> getJsonResources(final String path)
+    public static Map<ResourceLocation, Resource> getJsonResources(final String path)
     {
         return PackFinder.getResources(path, s -> s.endsWith(".json"));
     }
 
-    public static Collection<ResourceLocation> getResources(String path, final Predicate<String> match)
+    public static Map<ResourceLocation, Resource> getResources(String path, final Predicate<String> match)
     {
         if (path.endsWith("/")) path = path.substring(0, path.length() - 1);
 
         long start = System.nanoTime();
-        Collection<ResourceLocation> ret = Database.resourceManager.listResources(path, match);
+
+        Collection<ResourceLocation> resources = Database.resourceManager.listResources(path, match);
+
+        Map<ResourceLocation, Resource> ret = Maps.newHashMap();
+
+        for (var loc : resources)
+        {
+            Resource res = ResourceHelper.getResource(loc, Database.resourceManager);
+            if (res != null) ret.put(loc, res);
+        }
+
+        long end = System.nanoTime();
+        time_listing += (end - start);
+
+        return ret;
+    }
+
+    public static Map<ResourceLocation, List<Resource>> getAllJsonResources(final String path)
+    {
+        return PackFinder.getAllResources(path, s -> s.endsWith(".json"));
+    }
+
+    public static Map<ResourceLocation, List<Resource>> getAllResources(String path, final Predicate<String> match)
+    {
+        if (path.endsWith("/")) path = path.substring(0, path.length() - 1);
+
+        long start = System.nanoTime();
+
+        Collection<ResourceLocation> resources = Database.resourceManager.listResources(path, match);
+
+        Map<ResourceLocation, List<Resource>> ret = Maps.newHashMap();
+
+        for (var loc : resources)
+        {
+            try
+            {
+                ret.put(loc, Database.resourceManager.getResources(loc));
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
         long end = System.nanoTime();
         time_listing += (end - start);
 
@@ -68,6 +113,16 @@ public class PackFinder implements RepositorySource
         time_getting_1 += (end - start);
 
         return ret;
+    }
+
+    public static InputStream getStream(Resource r)
+    {
+        return r.getInputStream();
+    }
+
+    public static BufferedReader getReader(Resource r)
+    {
+        return new BufferedReader(new InputStreamReader(r.getInputStream(), StandardCharsets.UTF_8));
     }
 
     @Nullable

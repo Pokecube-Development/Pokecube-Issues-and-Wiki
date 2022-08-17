@@ -2,7 +2,6 @@ package pokecube.adventures.utils;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +10,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.api.PokecubeAPI;
@@ -75,9 +75,8 @@ public class TrainerEntryLoader
     private static XMLDatabase loadDatabase()
     {
         final XMLDatabase full = new XMLDatabase();
-        final Collection<ResourceLocation> resources = PackFinder.getJsonResources(NpcType.DATALOC);
-        for (final ResourceLocation file : resources)
-        {
+        final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(NpcType.DATALOC);
+        resources.forEach((file, resource) -> {
             JsonObject loaded;
             try
             {
@@ -102,7 +101,7 @@ public class TrainerEntryLoader
             {
                 PokecubeAPI.LOGGER.error("Error loading trainer database from {}", file, e);
             }
-        }
+        });
         return full;
     }
 

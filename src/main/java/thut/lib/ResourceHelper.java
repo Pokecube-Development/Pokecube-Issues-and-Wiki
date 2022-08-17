@@ -41,6 +41,19 @@ public class ResourceHelper
         }
     }
 
+    @Nullable
+    public static Resource getResource(ResourceLocation l, ResourceManager source)
+    {
+        try
+        {
+            return source.getResource(l);
+        }
+        catch (IOException e)
+        {
+            return null;
+        }
+    }
+
     public static boolean exists(ResourceLocation l, ResourceManager source)
     {
         try

@@ -1,8 +1,9 @@
 package pokecube.core.database.moves;
 
-import java.util.Collection;
+import java.util.Map;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.database.moves.json.JsonMoves;
 import pokecube.core.database.resources.PackFinder;
@@ -13,9 +14,9 @@ public class MovesDatabases
 
     public static void preInitLoad()
     {
-        final Collection<ResourceLocation> resources = PackFinder.getResources(MovesDatabases.DATABASES, s -> s
-                .endsWith(".json") && !s.endsWith("_anims.json"));
-        for (ResourceLocation s : resources)
+        final Map<ResourceLocation, Resource> resources = PackFinder.getResources(MovesDatabases.DATABASES,
+                s -> s.endsWith(".json") && !s.endsWith("_anims.json"));
+        resources.forEach((s, r) -> {
             try
             {
                 if (s.toString().contains("//")) s = new ResourceLocation(s.toString().replace("//", "/"));
@@ -25,5 +26,6 @@ public class MovesDatabases
             {
                 PokecubeAPI.LOGGER.error("Error with moves database " + s, e1);
             }
+        });
     }
 }
