@@ -2,6 +2,7 @@ package pokecube.mobs;
 
 import java.util.List;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -9,6 +10,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -118,10 +120,13 @@ public class PokecubeHelper
 
     public double moon(final IPokemob mob)
     {
+        if (!(mob.getEntity().getLevel() instanceof ServerLevel level))
+        {
+            PokecubeAPI.LOGGER.error("moon cube catch rate called wrong side!");
+            return 1;
+        }
         if (mob.getPokedexEntry().canEvolve(1, PokecubeItems.getStack("moonstone"))) return 4;
-        if (PokecubeHelper.moonMatcher.matches(
-                new SpawnCheck(new Vector3().set(mob.getEntity()), mob.getEntity().getLevel())))
-            return 4;
+        if (PokecubeHelper.moonMatcher.matches(new SpawnCheck(new Vector3().set(mob.getEntity()), level))) return 4;
         return 1;
     }
 

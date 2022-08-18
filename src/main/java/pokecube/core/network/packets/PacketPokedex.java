@@ -432,13 +432,15 @@ public class PacketPokedex extends NBTPacket
         SpawnData data;
         final CompoundTag spawns = new CompoundTag();
 
+        ServerLevel level = player.getLevel();
+
         pos = new Vector3().set(player);
-        checker = new SpawnCheck(pos, player.level);
+        checker = new SpawnCheck(pos, level);
 
         switch (this.message)
         {
         case INSPECTMOB:
-            mob = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), this.getTag().getInt("V"), true);
+            mob = PokecubeAPI.getEntityProvider().getEntity(level, this.getTag().getInt("V"), true);
             pokemob = PokemobCaps.getPokemobFor(mob);
             if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player)
                     .getData(PokecubePlayerStats.class).inspect(player, pokemob);
@@ -479,8 +481,7 @@ public class PacketPokedex extends NBTPacket
         case REQUESTLOC:
             rates = Maps.newHashMap();
             names = new ArrayList<>();
-            final boolean repelled = SpawnHandler.getNoSpawnReason(player.getLevel(),
-                    pos.getPos()) != ForbidReason.NONE;
+            final boolean repelled = SpawnHandler.getNoSpawnReason(level, pos.getPos()) != ForbidReason.NONE;
             for (final PokedexEntry e : Database.spawnables)
                 if (e.getSpawnData().getMatcher(new SpawnContext(player, e), checker, false) != null) names.add(e);
             final Map<PokedexEntry, SpawnBiomeMatcher> matchers = Maps.newHashMap();

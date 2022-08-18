@@ -6,11 +6,13 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.Material;
 import pokecube.api.data.PokedexEntry;
+import pokecube.mixin.features.WorldGenRegionAccessor;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
@@ -79,23 +81,25 @@ public class SpawnCheck
     public final ChunkAccess chunk;
     public final Vector3 location;
 
-    public SpawnCheck(final Vector3 location, final LevelAccessor world)
+    public SpawnCheck(final Vector3 location, final ServerLevelAccessor world)
     {
         this.world = world;
         this.location = location;
         final Holder<Biome> biome = location.getBiomeHolder(world);
         this.biome = biome;
         this.material = location.getBlockMaterial(world);
-        this.chunk = ITerrainProvider.getChunk(((Level) world).dimension(), new ChunkPos(location.getPos()));
+        ServerLevel level;
+        if (world instanceof ServerLevel) level = (ServerLevel) world;
+        else level = ((WorldGenRegionAccessor) world).getServerLevel();
+        this.chunk = ITerrainProvider.getChunk(level.dimension(), new ChunkPos(location.getPos()));
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
         this.type = t.getBiome(location);
         // TODO better way to choose current time.
-        final double time = (((ServerLevel) world).getDayTime() % 24000L) / 24000.0;
+        final double time = (level.getDayTime() % 24000L) / 24000.0;
         final int lightBlock = world.getMaxLocalRawBrightness(location.getPos());
         this.light = lightBlock / 15f;
-        final Level w = (ServerLevel) world;
-        this.weather = Weather.getForWorld(w, location);
-        this.thundering = this.weather == Weather.RAIN && w.isThundering();
+        this.weather = Weather.getForWorld(level, location);
+        this.thundering = this.weather == Weather.RAIN && level.isThundering();
         this.day = PokedexEntry.day.contains(time);
         this.dusk = PokedexEntry.dusk.contains(time);
         this.dawn = PokedexEntry.dawn.contains(time);

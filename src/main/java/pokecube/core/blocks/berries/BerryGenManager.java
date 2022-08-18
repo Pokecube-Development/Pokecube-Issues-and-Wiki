@@ -284,8 +284,14 @@ public class BerryGenManager
 
     public static ItemStack getRandomBerryForBiome(final Level world, final BlockPos location)
     {
+        if (!(world instanceof ServerLevel level))
+        {
+            PokecubeAPI.LOGGER.error("Warning, calling getRandomBerryForBiome on wrong side!");
+            PokecubeAPI.LOGGER.error(new IllegalAccessError());
+            return ItemStack.EMPTY;
+        }
         SpawnBiomeMatcher toMatch = null;
-        final SpawnCheck checker = new SpawnCheck(new Vector3().set(location), world);
+        final SpawnCheck checker = new SpawnCheck(new Vector3().set(location), level);
         /**
          * Shuffle list, then re-sort it. This allows the values of the same
          * priority to be randomized, but then still respect priority order for

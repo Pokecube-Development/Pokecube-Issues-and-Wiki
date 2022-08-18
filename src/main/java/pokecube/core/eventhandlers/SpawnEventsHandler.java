@@ -105,7 +105,7 @@ public class SpawnEventsHandler
     private static void PickSpawn(final SpawnEvent.Pick.Pre event)
     {
         Vector3 v = event.getLocation();
-        final LevelAccessor world = event.level();
+        final ServerLevel world = event.level();
         final List<PokedexEntry> entries = Lists.newArrayList(Database.spawnables);
         Collections.shuffle(entries);
         int index = 0;
