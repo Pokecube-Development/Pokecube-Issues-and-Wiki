@@ -20,9 +20,9 @@ import net.minecraftforge.items.IItemHandler;
 
 public abstract class InteractableBlock extends Block
 {
-    public static final VoxelShape PARTIAL_BASE  = Block.box(0.05D, 0.0D, 0.05D, 15.95D, 2.0D, 15.95D);
+    public static final VoxelShape PARTIAL_BASE = Block.box(0.05D, 0.0D, 0.05D, 15.95D, 2.0D, 15.95D);
     public static final VoxelShape CENTRALCOLUMN = Block.box(4.0D, 2.0D, 4.0D, 12.0D, 14.0D, 12.0D);
-    public static final VoxelShape RENDERSHAPE   = Shapes.or(InteractableBlock.PARTIAL_BASE,
+    public static final VoxelShape RENDERSHAPE = Shapes.or(InteractableBlock.PARTIAL_BASE,
             InteractableBlock.CENTRALCOLUMN);
 
     public InteractableBlock(final Properties properties)
@@ -35,7 +35,7 @@ public abstract class InteractableBlock extends Block
             final InteractionHand hand, final BlockHitResult hit)
     {
         final BlockEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof InteractableTile) return ((InteractableTile) tile).onInteract(pos, player, hand, hit);
+        if (tile instanceof InteractableTile interact) return interact.onInteract(pos, player, hand, hit);
         return InteractionResult.PASS;
     }
 
@@ -43,7 +43,7 @@ public abstract class InteractableBlock extends Block
     public void stepOn(final Level worldIn, final BlockPos pos, final BlockState state, final Entity entityIn)
     {
         final BlockEntity tile = worldIn.getBlockEntity(pos);
-        if (tile instanceof InteractableTile) ((InteractableTile) tile).onWalkedOn(entityIn);
+        if (tile instanceof InteractableTile interact) interact.onWalkedOn(entityIn);
     }
 
     @Override
@@ -54,14 +54,14 @@ public abstract class InteractableBlock extends Block
         if (state.getBlock() != newState.getBlock())
         {
             final BlockEntity tileentity = worldIn.getBlockEntity(pos);
-            if (tileentity instanceof InteractableTile) ((InteractableTile) tileentity).onBroken();
+            if (tileentity instanceof InteractableTile interact) interact.onBroken();
             if (tileentity == null)
             {
 
             }
-            else if (tileentity instanceof Container)
+            else if (tileentity instanceof Container container)
             {
-                Containers.dropContents(worldIn, pos, (Container) tileentity);
+                Containers.dropContents(worldIn, pos, container);
                 worldIn.updateNeighbourForOutputSignal(pos, this);
             }
             else
@@ -76,13 +76,11 @@ public abstract class InteractableBlock extends Block
 
                         @Override
                         public void clearContent()
-                        {
-                        }
+                        {}
 
                         @Override
                         public void setItem(final int index, final ItemStack stack)
-                        {
-                        }
+                        {}
 
                         @Override
                         public ItemStack removeItemNoUpdate(final int index)
@@ -92,8 +90,7 @@ public abstract class InteractableBlock extends Block
 
                         @Override
                         public void setChanged()
-                        {
-                        }
+                        {}
 
                         @Override
                         public boolean stillValid(final Player player)

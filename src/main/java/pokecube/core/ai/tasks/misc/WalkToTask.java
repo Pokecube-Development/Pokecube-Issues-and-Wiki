@@ -69,13 +69,8 @@ public class WalkToTask extends RootTask<Mob>
 
         if (RootTask.doLoadThrottling)
         {
-            final boolean pauseable = walktarget.getTarget() instanceof PosWrapWrap;
-            final boolean pauseTick = this.tryPause(owner);
-            if (pauseable && pauseTick)
-            {
-                final PosWrapWrap wrapped = (PosWrapWrap) walktarget.getTarget();
+            if (walktarget.getTarget() instanceof PosWrapWrap wrapped && this.tryPause(owner))
                 if (wrapped.canThrottle) return false;
-            }
         }
         if (!this.hasReachedTarget(owner, walktarget) && this.isPathValid(owner, walktarget, worldIn.getGameTime()))
         {

@@ -103,10 +103,8 @@ public class CheckBurrow extends BaseIdleTask
         else
         {
             // Here we might want to check if the burrow is still valid?
-            StoreTask storage = null;
-            for (final IAIRunnable run : this.pokemob.getTasks()) if (run instanceof StoreTask)
+            for (final IAIRunnable run : this.pokemob.getTasks()) if (run instanceof StoreTask storage)
             {
-                storage = (StoreTask) run;
                 this.pokemob.setRoutineState(AIRoutine.STORE, true);
                 storage.storageLoc = this.burrow.nest.getBlockPos();
                 storage.berryLoc = this.burrow.nest.getBlockPos();
@@ -125,8 +123,7 @@ public class CheckBurrow extends BaseIdleTask
         final Brain<?> brain = this.entity.getBrain();
         this.world.setBlockAndUpdate(pos, PokecubeItems.NEST.get().defaultBlockState());
         final BlockEntity tile = this.world.getBlockEntity(pos);
-        if (!(tile instanceof NestTile)) return false;
-        final NestTile nest = (NestTile) tile;
+        if (!(tile instanceof NestTile nest)) return false;
         nest.setWrappedHab(hab);
         nest.addResident(this.pokemob);
         brain.setMemory(MemoryModules.NEST_POS.get(), GlobalPos.of(this.world.dimension(), pos));

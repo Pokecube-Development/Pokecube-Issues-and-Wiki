@@ -176,11 +176,11 @@ public class GenericBarrelTile extends RandomizableContainerBlockEntity
         int i = 0;
         for (final Player player : world.getEntitiesOfClass(Player.class,
                 new AABB(j - 5.0F, k - 5.0F, l - 5.0F, j + 1 + 5.0F, k + 1 + 5.0F, l + 1 + 5.0F)))
-            if (player.containerMenu instanceof GenericBarrelMenu)
+            if (player.containerMenu instanceof GenericBarrelMenu menu)
         {
-            final Container iinventory = ((GenericBarrelMenu) player.containerMenu).getContainer();
-            if (iinventory == lockableTileEntity || iinventory instanceof CompoundContainer
-                    && ((CompoundContainer) iinventory).contains(lockableTileEntity))
+            final Container iinventory = menu.getContainer();
+            if (iinventory == lockableTileEntity
+                    || iinventory instanceof CompoundContainer container && container.contains(lockableTileEntity))
                 ++i;
         }
         return i;

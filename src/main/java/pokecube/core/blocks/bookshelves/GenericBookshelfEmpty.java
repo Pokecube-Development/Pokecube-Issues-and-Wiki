@@ -135,8 +135,8 @@ public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWate
             @Nullable final LivingEntity entity, final ItemStack stack)
     {
         final BlockEntity tile = world.getBlockEntity(pos);
-        if (stack.hasCustomHoverName()) if (tile instanceof GenericBookshelfEmptyTile)
-            ((GenericBookshelfEmptyTile) tile).setCustomName(stack.getHoverName());
+        if (stack.hasCustomHoverName())
+            if (tile instanceof GenericBookshelfEmptyTile shelf) shelf.setCustomName(stack.getHoverName());
     }
 
     // Adds Waterlogging
@@ -199,12 +199,12 @@ public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWate
             final InteractionHand hand, final BlockHitResult hit)
     {
         final BlockEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof GenericBookshelfEmptyTile && !player.isShiftKeyDown())
-            return ((GenericBookshelfEmptyTile) tile).interact(player, hand, world);
+        if (tile instanceof GenericBookshelfEmptyTile shelf && !player.isShiftKeyDown())
+            return shelf.interact(player, hand, world);
         if (world.isClientSide) return InteractionResult.SUCCESS;
-        else if (tile instanceof GenericBookshelfEmptyTile && player.isShiftKeyDown())
+        else if (tile instanceof GenericBookshelfEmptyTile shelf && player.isShiftKeyDown())
         {
-            player.openMenu((GenericBookshelfEmptyTile) tile);
+            player.openMenu(shelf);
             PiglinAi.angerNearbyPiglins(player, true);
         }
         return InteractionResult.CONSUME;
@@ -237,9 +237,9 @@ public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWate
         if (!state.is(state1.getBlock()))
         {
             final BlockEntity tile = world.getBlockEntity(pos);
-            if (tile instanceof GenericBookshelfEmptyTile)
+            if (tile instanceof GenericBookshelfEmptyTile shelf)
             {
-                Containers.dropContents(world, pos, ((GenericBookshelfEmptyTile) tile).getItems());
+                Containers.dropContents(world, pos, shelf.getItems());
                 world.updateNeighbourForOutputSignal(pos, this);
             }
             super.onRemove(state, world, pos, state1, b);

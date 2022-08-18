@@ -50,12 +50,10 @@ public class BurrowSensor extends Sensor<Mob>
             final boolean notHere = pos.dimension() != world.dimension();
             if (notHere) return Optional.empty();
             final BlockEntity tile = world.getBlockEntity(pos.pos());
-            if (tile instanceof NestTile)
+            if (tile instanceof NestTile nest)
             {
-                final NestTile nest = (NestTile) tile;
                 if (!nest.isType(BurrowTasks.BURROWLOC)) return Optional.empty();
-                if (nest.getWrappedHab() instanceof BurrowHab)
-                    return Optional.of(new Burrow(nest, (BurrowHab) nest.getWrappedHab()));
+                if (nest.getWrappedHab() instanceof BurrowHab hab) return Optional.of(new Burrow(nest, hab));
             }
         }
         return Optional.empty();
@@ -91,8 +89,7 @@ public class BurrowSensor extends Sensor<Mob>
     private boolean validNest(final BlockPos p, final ServerLevel worldIn, final Mob entityIn)
     {
         final BlockEntity tile = worldIn.getBlockEntity(p);
-        if (!(tile instanceof NestTile)) return false;
-        final NestTile nest = (NestTile) tile;
+        if (!(tile instanceof NestTile nest)) return false;
         if (!nest.isType(BurrowTasks.BURROWLOC)) return false;
         final IInhabitable habitat = nest.getWrappedHab();
         return habitat.canEnterHabitat(entityIn);

@@ -95,31 +95,29 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         {
             this.heldItem = stack;
             keys.clear();
-            if (stack.hasTag() && stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag)
-            {
-                final ListTag pages = (ListTag) stack.getTag().get("pages");
+            if (stack.hasTag() && stack.getTag().contains("pages")
+                    && stack.getTag().get("pages") instanceof ListTag pages)
                 try
+            {
+                final Component comp = Component.Serializer.fromJson(pages.getString(0));
+                boolean isFilter = false;
+                for (final String line : comp.getString().split("\n"))
                 {
-                    final Component comp = Component.Serializer.fromJson(pages.getString(0));
-                    boolean isFilter = false;
-                    for (final String line : comp.getString().split("\n"))
+                    if (line.toLowerCase(Locale.ROOT).contains("item filters"))
                     {
-                        if (line.toLowerCase(Locale.ROOT).contains("item filters"))
-                        {
-                            isFilter = true;
-                            continue;
-                        }
-                        if (isFilter)
-                        {
-                            ResourceLocation res = new ResourceLocation(line);
-                            keys.add(res);
-                        }
+                        isFilter = true;
+                        continue;
+                    }
+                    if (isFilter)
+                    {
+                        ResourceLocation res = new ResourceLocation(line);
+                        keys.add(res);
                     }
                 }
+            }
                 catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+            {
+                e.printStackTrace();
             }
         }
     }
@@ -469,8 +467,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         if (this.knownValid.contains(pos)) return true;
         // TODO decide on what to do here later, for now, only let this run if
         // owner is online.
-        if (this.pokemob.getOwner() == null) return false;
-        final Player player = (Player) this.pokemob.getOwner();
+        if (!(pokemob.getOwner() instanceof Player player)) return false;
         final BreakEvent evt = new BreakEvent(player.getLevel(), pos, world.getBlockState(pos), player);
         MinecraftForge.EVENT_BUS.post(evt);
         if (evt.isCanceled()) return false;

@@ -47,9 +47,8 @@ public class RepelTile extends InteractableTile
             final BlockHitResult hit)
     {
         final ItemStack stack = player.getItemInHand(hand);
-        if (stack.getItem() instanceof ItemBerry)
+        if (stack.getItem() instanceof ItemBerry berry)
         {
-            final ItemBerry berry = (ItemBerry) stack.getItem();
             final int old = this.range;
             this.removeForbiddenSpawningCoord();
             this.range = Math.max(1, berry.type.index);

@@ -40,7 +40,7 @@ public class BaseTile extends InteractableTile
     public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
             final BlockHitResult hit)
     {
-        if (!(player instanceof ServerPlayer)) return InteractionResult.SUCCESS;
+        if (!(player instanceof ServerPlayer splayer)) return InteractionResult.SUCCESS;
         final MinecraftServer server = player.getServer();
         UUID targetBase = player.getUUID();
         if (!this.any)
@@ -70,8 +70,8 @@ public class BaseTile extends InteractableTile
             }
         }
         final ResourceKey<Level> dim = player.getLevel().dimension();
-        if (dim == SecretBaseDimension.WORLD_KEY) SecretBaseDimension.sendToExit((ServerPlayer) player, targetBase);
-        else SecretBaseDimension.sendToBase((ServerPlayer) player, targetBase);
+        if (dim == SecretBaseDimension.WORLD_KEY) SecretBaseDimension.sendToExit(splayer, targetBase);
+        else SecretBaseDimension.sendToBase(splayer, targetBase);
         return InteractionResult.SUCCESS;
     }
 

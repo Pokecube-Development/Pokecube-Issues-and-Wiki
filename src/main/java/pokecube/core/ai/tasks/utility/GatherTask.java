@@ -70,13 +70,11 @@ public class GatherTask extends UtilTask
      */
     public static final ResourceLocation HARVEST = new ResourceLocation(PokecubeCore.MODID, "harvest_extra");
 
-    private static final Predicate<BlockState> fullCropNormal = input -> input.getBlock() instanceof CropBlock
-            && input.hasProperty(CropBlock.AGE)
-            && input.getValue(CropBlock.AGE) >= ((CropBlock) input.getBlock()).getMaxAge();
+    private static final Predicate<BlockState> fullCropNormal = input -> input.getBlock() instanceof CropBlock crop
+            && input.hasProperty(CropBlock.AGE) && input.getValue(CropBlock.AGE) >= crop.getMaxAge();
 
-    private static final Predicate<BlockState> fullCropBeet = input -> input.getBlock() instanceof CropBlock
-            && input.hasProperty(BeetrootBlock.AGE)
-            && input.getValue(BeetrootBlock.AGE) >= ((CropBlock) input.getBlock()).getMaxAge();
+    private static final Predicate<BlockState> fullCropBeet = input -> input.getBlock() instanceof CropBlock crop
+            && input.hasProperty(BeetrootBlock.AGE) && input.getValue(BeetrootBlock.AGE) >= crop.getMaxAge();
 
     private static final Predicate<BlockState> fullCropNetherWart = input -> input.getBlock() instanceof NetherWartBlock
             && input.hasProperty(NetherWartBlock.AGE) && input.getValue(NetherWartBlock.AGE) >= 3;
@@ -176,9 +174,9 @@ public class GatherTask extends UtilTask
             final UseOnContext context = new UseOnContext(player, InteractionHand.MAIN_HAND,
                     new BlockHitResult(new Vec3(0.5, 1, 0.5), Direction.UP, down, false));
             check:
-            if (this.seeds.getItem() instanceof BlockItem && !this.selfPlacement)
+            if (this.seeds.getItem() instanceof BlockItem item && !this.selfPlacement)
             {
-                final Block block = Block.byItem(this.seeds.getItem());
+                final Block block = item.getBlock();
                 if (block != this.oldState.getBlock()) break check;
 
                 final BlockState def = block.defaultBlockState();

@@ -28,8 +28,7 @@ public class RepelBlock extends InteractableBlock implements EntityBlock
     {
         final int power = worldIn.getBestNeighborSignal(pos);
         final BlockEntity tile = worldIn.getBlockEntity(pos);
-        if (tile == null || !(tile instanceof RepelTile)) return;
-        final RepelTile repel = (RepelTile) tile;
+        if (!(tile instanceof RepelTile repel)) return;
         if (power != 0)
         {
             repel.enabled = false;

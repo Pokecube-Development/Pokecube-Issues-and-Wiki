@@ -35,13 +35,13 @@ import net.minecraft.world.phys.BlockHitResult;
 public class GenericBarrel extends BaseEntityBlock
 {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
-    public static final BooleanProperty   OPEN   = BlockStateProperties.OPEN;
+    public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 
     public GenericBarrel(final Properties props)
     {
         super(props);
-        this.registerDefaultState(this.stateDefinition.any().setValue(GenericBarrel.FACING, Direction.NORTH).setValue(
-                GenericBarrel.OPEN, Boolean.valueOf(false)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(GenericBarrel.FACING, Direction.NORTH)
+                .setValue(GenericBarrel.OPEN, Boolean.valueOf(false)));
     }
 
     @Override
@@ -57,8 +57,7 @@ public class GenericBarrel extends BaseEntityBlock
         if (stack.hasCustomHoverName())
         {
             final BlockEntity tileentity = world.getBlockEntity(pos);
-            if (tileentity instanceof GenericBarrelTile) ((GenericBarrelTile) tileentity).setCustomName(stack
-                    .getHoverName());
+            if (tileentity instanceof GenericBarrelTile barrel) barrel.setCustomName(stack.getHoverName());
         }
     }
 
@@ -69,16 +68,16 @@ public class GenericBarrel extends BaseEntityBlock
     }
 
     @Override
-    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos,
-            final Player player, final InteractionHand hand, final BlockHitResult blockRayTraceResult)
+    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player player,
+            final InteractionHand hand, final BlockHitResult blockRayTraceResult)
     {
         if (world.isClientSide) return InteractionResult.SUCCESS;
         else
         {
             final BlockEntity tileentity = world.getBlockEntity(pos);
-            if (tileentity instanceof GenericBarrelTile)
+            if (tileentity instanceof GenericBarrelTile barrel)
             {
-                player.openMenu((GenericBarrelTile) tileentity);
+                player.openMenu(barrel);
                 player.awardStat(Stats.OPEN_BARREL);
                 PiglinAi.angerNearbyPiglins(player, true);
             }
@@ -120,8 +119,8 @@ public class GenericBarrel extends BaseEntityBlock
     @Override
     public BlockState getStateForPlacement(final BlockPlaceContext blockItemUseContext)
     {
-        return this.defaultBlockState().setValue(GenericBarrel.FACING, blockItemUseContext.getNearestLookingDirection()
-                .getOpposite());
+        return this.defaultBlockState().setValue(GenericBarrel.FACING,
+                blockItemUseContext.getNearestLookingDirection().getOpposite());
     }
 
     @Override

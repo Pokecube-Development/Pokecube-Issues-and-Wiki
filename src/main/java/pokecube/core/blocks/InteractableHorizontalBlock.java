@@ -26,8 +26,8 @@ public abstract class InteractableHorizontalBlock extends HorizontalDirectionalB
     public InteractableHorizontalBlock(final Properties properties)
     {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(HorizontalDirectionalBlock.FACING,
-                Direction.NORTH));
+        this.registerDefaultState(
+                this.stateDefinition.any().setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH));
     }
 
     @Override
@@ -39,8 +39,8 @@ public abstract class InteractableHorizontalBlock extends HorizontalDirectionalB
     @Override
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
-        return this.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, context.getHorizontalDirection()
-                .getOpposite());
+        return this.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING,
+                context.getHorizontalDirection().getOpposite());
     }
 
     @Override
@@ -48,7 +48,7 @@ public abstract class InteractableHorizontalBlock extends HorizontalDirectionalB
             final InteractionHand hand, final BlockHitResult hit)
     {
         final BlockEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof InteractableTile) return ((InteractableTile) tile).onInteract(pos, player, hand, hit);
+        if (tile instanceof InteractableTile interact) return interact.onInteract(pos, player, hand, hit);
         return InteractionResult.PASS;
     }
 
@@ -56,7 +56,7 @@ public abstract class InteractableHorizontalBlock extends HorizontalDirectionalB
     public void stepOn(final Level worldIn, final BlockPos pos, final BlockState state, final Entity entityIn)
     {
         final BlockEntity tile = worldIn.getBlockEntity(pos);
-        if (tile instanceof InteractableTile) ((InteractableTile) tile).onWalkedOn(entityIn);
+        if (tile instanceof InteractableTile interact) interact.onWalkedOn(entityIn);
     }
 
     @Override
@@ -67,14 +67,14 @@ public abstract class InteractableHorizontalBlock extends HorizontalDirectionalB
         if (state.getBlock() != newState.getBlock())
         {
             final BlockEntity tileentity = worldIn.getBlockEntity(pos);
-            if (tileentity instanceof InteractableTile) ((InteractableTile) tileentity).onBroken();
+            if (tileentity instanceof InteractableTile interact) interact.onBroken();
             if (tileentity == null)
             {
 
             }
-            else if (tileentity instanceof Container)
+            else if (tileentity instanceof Container container)
             {
-                Containers.dropContents(worldIn, pos, (Container) tileentity);
+                Containers.dropContents(worldIn, pos, container);
                 worldIn.updateNeighbourForOutputSignal(pos, this);
             }
             else
@@ -89,13 +89,11 @@ public abstract class InteractableHorizontalBlock extends HorizontalDirectionalB
 
                         @Override
                         public void clearContent()
-                        {
-                        }
+                        {}
 
                         @Override
                         public void setItem(final int index, final ItemStack stack)
-                        {
-                        }
+                        {}
 
                         @Override
                         public ItemStack removeItemNoUpdate(final int index)
@@ -105,8 +103,7 @@ public abstract class InteractableHorizontalBlock extends HorizontalDirectionalB
 
                         @Override
                         public void setChanged()
-                        {
-                        }
+                        {}
 
                         @Override
                         public boolean stillValid(final Player player)

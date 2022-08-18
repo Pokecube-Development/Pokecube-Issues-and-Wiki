@@ -8,7 +8,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.ai.behavior.EntityTracker;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.FakePlayer;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -117,18 +116,16 @@ public class UseAttacksTask extends CombatTask implements IAICombat
              * it should.
              */
             if (!previousCaptureAttempt && PokecubeCore.getConfig().pokemobagresswarning
-                    && this.entityTarget instanceof ServerPlayer && !(this.entityTarget instanceof FakePlayer)
-                    && !this.pokemob.getGeneralState(GeneralStates.TAMED)
-                    && ((Player) this.entityTarget).getLastHurtByMob() != this.entity
-                    && ((Player) this.entityTarget).getLastHurtMob() != this.entity)
+                    && this.entityTarget instanceof ServerPlayer player && !(this.entityTarget instanceof FakePlayer)
+                    && !this.pokemob.getGeneralState(GeneralStates.TAMED) && player.getLastHurtByMob() != this.entity
+                    && player.getLastHurtMob() != this.entity)
             {
                 final Component message = TComponent.translatable("pokemob.agress",
                         this.pokemob.getDisplayName().getString());
                 try
                 {
                     // Only send this once.
-                    if (this.pokemob.getAttackCooldown() == 0 && entityTarget instanceof Player player)
-                        thut.lib.ChatHelper.sendSystemMessage(player, message);
+                    if (this.pokemob.getAttackCooldown() == 0) thut.lib.ChatHelper.sendSystemMessage(player, message);
                 }
                 catch (final Exception e)
                 {

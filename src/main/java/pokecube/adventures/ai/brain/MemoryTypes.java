@@ -9,7 +9,7 @@ import pokecube.adventures.PokecubeAdv;
 
 public class MemoryTypes
 {
-    public static final RegistryObject<MemoryModuleType<LivingEntity>> BATTLETARGET;// LivingEntity
+    public static final RegistryObject<MemoryModuleType<LivingEntity>> BATTLETARGET;
 
     static
     {

@@ -183,9 +183,9 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
     {
         final List<IPokemob> pokemobs = Lists.newArrayList();
         this.mobs.removeIf(uuid -> {
-            final Entity mob = world.getEntity(uuid);
-            if (mob == null || !(mob instanceof Mob)) return true;
-            if (!this.canEnterHabitat((Mob) mob)) return true;
+            final Entity entity = world.getEntity(uuid);
+            if (!(entity instanceof Mob mob)) return true;
+            if (!this.canEnterHabitat(mob)) return true;
             pokemobs.add(PokemobCaps.getPokemobFor(mob));
             return false;
         });
@@ -210,8 +210,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
         // This also removes hatched/removed eggs
         this.eggs.removeIf(uuid -> {
             final Entity mob = world.getEntity(uuid);
-            if (!(mob instanceof EntityPokemobEgg) || !mob.isAddedToWorld()) return true;
-            final EntityPokemobEgg egg = (EntityPokemobEgg) mob;
+            if (!(mob instanceof EntityPokemobEgg egg) || !mob.isAddedToWorld()) return true;
             if (this.mobs.size() > PokecubeCore.getConfig().nestMobNumber || !playerNear) egg.setAge(-100);
             else if (egg.getAge() < -100) egg.setAge(-rng.nextInt(100));
             return false;
@@ -236,15 +235,15 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
 
             final BlockEntity tile = world.getBlockEntity(this.burrow.getCenter());
 
-            if (tile instanceof NestTile)
+            if (tile instanceof NestTile nest)
             {
-                ((NestTile) tile).residents.removeIf(p -> {
+                nest.residents.removeIf(p -> {
                     if (p == null) return true;
                     if (!p.getEntity().isAlive()) return true;
                     if (!p.getEntity().isAddedToWorld()) return true;
                     return false;
                 });
-                ((NestTile) tile).residents.forEach(p -> this.mobs.add(p.getEntity().getUUID()));
+                nest.residents.forEach(p -> this.mobs.add(p.getEntity().getUUID()));
             }
 
             // Here we cleanup the burrow, and see if any other mobs of similar

@@ -94,25 +94,25 @@ public class NestTile extends InteractableTile implements ITickTile
 
     public void setWrappedHab(final IInhabitable toWrap)
     {
-        if (this.habitat instanceof HabitatProvider)
+        if (this.habitat instanceof HabitatProvider hab)
         {
             this.removeForbiddenSpawningCoord();
-            ((HabitatProvider) this.habitat).setWrapped(toWrap);
+            hab.setWrapped(toWrap);
             this.addForbiddenSpawningCoord();
         }
     }
 
     public IInhabitable getWrappedHab()
     {
-        if (this.habitat instanceof HabitatProvider) return ((HabitatProvider) this.habitat).getWrapped();
+        if (this.habitat instanceof HabitatProvider hab) return hab.getWrapped();
         return null;
     }
 
     public boolean isType(final ResourceLocation type)
     {
-        if (this.habitat instanceof HabitatProvider)
+        if (this.habitat instanceof HabitatProvider hab)
         {
-            final IInhabitable wrapped = ((HabitatProvider) this.habitat).getWrapped();
+            final IInhabitable wrapped = hab.getWrapped();
             if (wrapped.getKey() != null) return type.equals(wrapped.getKey());
         }
         return false;
@@ -120,12 +120,12 @@ public class NestTile extends InteractableTile implements ITickTile
 
     public boolean addForbiddenSpawningCoord()
     {
-        if (!(this.level instanceof ServerLevel)) return false;
+        if (!(this.level instanceof ServerLevel level)) return false;
         final BlockPos pos = this.getBlockPos();
         final IInhabitable hab = this.getWrappedHab();
         if (hab == null) return false;
         hab.setPos(pos);
-        final ForbidRegion region = hab.getRepelledRegion(this, (ServerLevel) this.level);
+        final ForbidRegion region = hab.getRepelledRegion(this, level);
         if (region == null) return false;
         return SpawnHandler.addForbiddenSpawningCoord(this.level, region, ForbidReason.NEST);
     }
@@ -149,9 +149,8 @@ public class NestTile extends InteractableTile implements ITickTile
         final IItemHandler handler = this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
         if (handler instanceof IItemHandlerModifiable)
         {
-            if (player instanceof ServerPlayer)
+            if (player instanceof ServerPlayer sendTo)
             {
-                final ServerPlayer sendTo = (ServerPlayer) player;
                 final Container wrapper = new InvWrapper((IItemHandlerModifiable) handler);
                 final SimpleMenuProvider provider = new SimpleMenuProvider(
                         (i, p, e) -> ChestMenu.sixRows(i, p, wrapper), TComponent.translatable("block.pokecube.nest"));
@@ -182,12 +181,12 @@ public class NestTile extends InteractableTile implements ITickTile
 
     public boolean removeForbiddenSpawningCoord()
     {
-        if (!(this.level instanceof ServerLevel)) return false;
+        if (!(this.level instanceof ServerLevel level)) return false;
         final IInhabitable hab = this.getWrappedHab();
         if (hab == null || this.level.isClientSide()) return false;
         final BlockPos pos = this.getBlockPos();
         hab.setPos(pos);
-        final ForbidRegion region = hab.getRepelledRegion(this, (ServerLevel) this.level);
+        final ForbidRegion region = hab.getRepelledRegion(this, level);
         if (region == null) return false;
         return SpawnHandler.removeForbiddenSpawningCoord(region.getPos(), this.level);
     }
@@ -200,14 +199,14 @@ public class NestTile extends InteractableTile implements ITickTile
     @Override
     public void tick()
     {
-        if (this.habitat != null && this.level instanceof ServerLevel) this.habitat.onTick((ServerLevel) this.level);
+        if (this.habitat != null && this.level instanceof ServerLevel level) this.habitat.onTick(level);
         this.time++;
     }
 
     @Override
     public void onBroken()
     {
-        if (this.habitat != null && this.level instanceof ServerLevel) this.habitat.onBroken((ServerLevel) this.level);
+        if (this.habitat != null && this.level instanceof ServerLevel level) this.habitat.onBroken(level);
     }
 
     @Override

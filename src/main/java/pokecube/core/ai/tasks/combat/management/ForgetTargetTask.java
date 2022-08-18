@@ -100,12 +100,12 @@ public class ForgetTargetTask extends CombatTask
         final IPokemob mobB = this.pokemobTarget;
 
         LivingEntity mate = null;
-        if (this.entity instanceof AgeableMob)
+        if (this.entity instanceof AgeableMob ageable)
         {
-            mate = BrainUtils.getMateTarget((AgeableMob) this.entity);
+            mate = BrainUtils.getMateTarget(ageable);
             if (mate != null && !mate.isAlive())
             {
-                BrainUtils.setMateTarget((AgeableMob) this.entity, null);
+                BrainUtils.setMateTarget(ageable, null);
                 mate = null;
             }
         }
