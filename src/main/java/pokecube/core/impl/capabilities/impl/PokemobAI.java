@@ -169,10 +169,13 @@ public abstract class PokemobAI extends PokemobEvolves
             for (int i = 0; i < 20; ++i)
             {
                 particleLoc.set(
-                        this.getEntity().getX() + this.getEntity().getRandom().nextFloat() * this.getEntity().getBbWidth() * 2.0F
+                        this.getEntity().getX()
+                                + this.getEntity().getRandom().nextFloat() * this.getEntity().getBbWidth() * 2.0F
                                 - this.getEntity().getBbWidth(),
-                        this.getEntity().getY() + 0.5D + this.getEntity().getRandom().nextFloat() * this.getEntity().getBbHeight(),
-                        this.getEntity().getZ() + this.getEntity().getRandom().nextFloat() * this.getEntity().getBbWidth() * 2.0F
+                        this.getEntity().getY() + 0.5D
+                                + this.getEntity().getRandom().nextFloat() * this.getEntity().getBbHeight(),
+                        this.getEntity().getZ()
+                                + this.getEntity().getRandom().nextFloat() * this.getEntity().getBbWidth() * 2.0F
                                 - this.getEntity().getBbWidth());
                 this.getEntity().getLevel().addParticle(ParticleTypes.HAPPY_VILLAGER, particleLoc.x, particleLoc.y,
                         particleLoc.z, 0, 0, 0);
@@ -259,8 +262,8 @@ public abstract class PokemobAI extends PokemobEvolves
         this.cachedLogicState = state;
         this.dataSync().set(this.params.LOGICSTATESDW, state);
         // Sync sitting status over to the TameableEntity
-        if (this.getEntity() instanceof TamableAnimal) ((TamableAnimal) this.getEntity())
-                .setOrderedToSit((this.cachedLogicState & LogicStates.SITTING.getMask()) != 0);
+        if (this.getEntity() instanceof TamableAnimal animal)
+            animal.setOrderedToSit((this.cachedLogicState & LogicStates.SITTING.getMask()) != 0);
     }
 
     @Override
@@ -286,7 +289,7 @@ public abstract class PokemobAI extends PokemobEvolves
     public void preInitAI()
     {
 
-        final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getEntity().getBrain();
+        final Brain<?> brain = this.getEntity().getBrain();
         // If brain was cleared at some point, this memory is removed.
         if (brain.checkMemory(MemoryModules.ATTACKTARGET.get(), MemoryStatus.REGISTERED)) return;
 

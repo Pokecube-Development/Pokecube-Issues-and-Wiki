@@ -22,10 +22,10 @@ public class Bonus extends PokeInfoPage
     public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
             "textures/gui/pokewatchgui_battle_nm.png");
 
-    int                   last = 0;
+    int last = 0;
     final PokemobInfoPage parent;
 
-    private MultiLineLabel      splitRenderer = MultiLineLabel.EMPTY;
+    private MultiLineLabel splitRenderer = MultiLineLabel.EMPTY;
     private final Font fontRender;
 
     public Bonus(final PokemobInfoPage parent)

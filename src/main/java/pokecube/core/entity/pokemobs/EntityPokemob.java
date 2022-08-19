@@ -223,8 +223,7 @@ public class EntityPokemob extends PokemobRidable
                 this.setDeltaMovement(motion.x * 0.5, motion.y, motion.z * 0.5);
                 return;
             }
-            final LivingEntity livingentity = (LivingEntity) this.getControllingPassenger();
-            if (livingentity == null) break ridden;
+            if (!(this.getControllingPassenger() instanceof LivingEntity livingentity)) break ridden;
             this.pokemobCap.setHeading(livingentity.yRot);
             this.yRotO = this.yRot;
             this.xRot = livingentity.xRot * 0.5F;

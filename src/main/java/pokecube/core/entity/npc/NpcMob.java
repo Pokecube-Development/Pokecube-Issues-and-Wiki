@@ -188,11 +188,8 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     public boolean hurt(final DamageSource source, final float i)
     {
         final Entity e = source.getEntity();
-        if (e instanceof Player && ((Player) e).getAbilities().instabuild && e.isCrouching())
-        {
-            final Player player = (Player) e;
+        if (e instanceof Player player && player.getAbilities().instabuild && e.isCrouching())
             if (player.getMainHandItem().isEmpty()) this.discard();
-        }
         if (this.invuln) return false;
         return super.hurt(source, i);
     }
@@ -238,7 +235,6 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         MinecraftForge.EVENT_BUS.post(event);
         if (event.getResult() == Result.ALLOW)
         {
-
             if (player instanceof ServerPlayer sp)
             {
                 final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));

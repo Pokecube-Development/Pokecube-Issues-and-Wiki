@@ -56,8 +56,8 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
         @Override
         public boolean modifyColourForPart(final String partIdentifier, final Entity entity, final int[] rgba)
         {
-            if (entity == null) return false;
-            final IPokemob poke = ((EntityPokemobEgg) entity).getPokemob(false);
+            if (!(entity instanceof EntityPokemobEgg egg)) return false;
+            final IPokemob poke = egg.getPokemob(false);
             if (poke == null) return false;
             final PokeType t1 = poke.getType1();
             final PokeType t2 = poke.getType2();

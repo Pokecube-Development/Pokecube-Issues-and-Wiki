@@ -320,10 +320,9 @@ public class SpawnEventsHandler
     }
 
     public static List<INpcProcessor> processors = Lists.newArrayList((mob, thing) -> {
-        if (mob instanceof NpcMob)
+        if (mob instanceof NpcMob npc)
         {
             // TODO some of these should handle from IHasPokemobs instead!
-            final NpcMob npc = (NpcMob) mob;
             if (thing.has("name")) npc.setNPCName(thing.get("name").getAsString());
             else if (thing.has("names"))
             {

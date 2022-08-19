@@ -20,8 +20,6 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.ClipContext.Fluid;
@@ -170,15 +168,14 @@ public class MoveEventsHandler
 
     public static final Map<String, IMoveAction> customActions = Maps.newHashMap();
 
-    public static boolean attemptSmelt(final IPokemob attacker, final Vector3 location)
+    public static boolean attemptSmelt(final IPokemob attacker, final Vector3 pos)
     {
         final Level world = attacker.getEntity().getLevel();
-        final List<ItemEntity> items = world.getEntitiesOfClass(ItemEntity.class, location.getAABB().inflate(1));
+        final List<ItemEntity> items = world.getEntitiesOfClass(ItemEntity.class, pos.getAABB().inflate(1));
         if (!items.isEmpty())
         {
             boolean smelt = false;
-            final AbstractFurnaceBlockEntity tile = new FurnaceBlockEntity(location.getPos(),
-                    location.getBlockState(world));
+            final AbstractFurnaceBlockEntity tile = new FurnaceBlockEntity(pos.getPos(), pos.getBlockState(world));
             tile.setLevel(world);
             for (final ItemEntity item2 : items)
             {
@@ -187,16 +184,15 @@ public class MoveEventsHandler
                 final int num = stack.getCount();
                 tile.setItem(0, stack);
                 tile.setItem(1, stack);
-                final Recipe<?> irecipe = world.getRecipeManager().getRecipeFor(RecipeType.SMELTING, tile, world)
-                        .orElse(null);
-                if (irecipe == null) continue;
-                ItemStack newstack = irecipe.getResultItem();
+                var recipe = world.getRecipeManager().getRecipeFor(RecipeType.SMELTING, tile, world).orElse(null);
+                if (recipe == null) continue;
+                ItemStack newstack = recipe.getResultItem();
                 if (newstack != null)
                 {
                     newstack = newstack.copy();
                     newstack.setCount(num);
                     int i1 = num;
-                    float f = ((AbstractCookingRecipe) irecipe).getExperience();
+                    float f = recipe.getExperience();
                     if (f == 0.0F) i1 = 0;
                     else if (f < 1.0F)
                     {
@@ -210,8 +206,7 @@ public class MoveEventsHandler
                     {
                         final int k = ExperienceOrb.getExperienceValue(i1);
                         i1 -= k;
-                        world.addFreshEntity(
-                                new ExperienceOrb(world, location.x, location.y + 1.5D, location.z + 0.5D, k));
+                        world.addFreshEntity(new ExperienceOrb(world, pos.x, pos.y + 1.5D, pos.z + 0.5D, k));
                     }
                     int hunger = PokecubeCore.getConfig().baseSmeltingHunger * num;
                     hunger = (int) Math.max(1, hunger / (float) attacker.getLevel());

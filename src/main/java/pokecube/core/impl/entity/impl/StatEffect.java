@@ -17,7 +17,7 @@ public class StatEffect extends BaseEffect
     public final static ResourceLocation ID = new ResourceLocation(PokecubeMod.ID, "stat_effect");
 
     Stats stat;
-    byte  amount;
+    byte amount;
 
     public StatEffect()
     {
@@ -106,16 +106,12 @@ public class StatEffect extends BaseEffect
     {
         // Check if this is same stat, and if the stat in that direction is
         // capped.
-        if (toAdd instanceof StatEffect)
+        if (toAdd instanceof StatEffect effect && effect.stat == this.stat)
         {
-            final StatEffect effect = (StatEffect) toAdd;
-            if (effect.stat == this.stat)
-            {
-                this.setDuration(Math.max(this.getDuration(), effect.getDuration()));
-                this.amount += effect.amount;
-                this.amount = (byte) Math.max(Math.min(this.amount, 6), -6);
-                return AddType.UPDATED;
-            }
+            this.setDuration(Math.max(this.getDuration(), effect.getDuration()));
+            this.amount += effect.amount;
+            this.amount = (byte) Math.max(Math.min(this.amount, 6), -6);
+            return AddType.UPDATED;
         }
         return AddType.ACCEPT;
     }

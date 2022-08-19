@@ -44,8 +44,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
         @Override
         public boolean equals(final Object obj)
         {
-            if (!(obj instanceof SpeciesInfo)) return false;
-            final SpeciesInfo info = (SpeciesInfo) obj;
+            if (!(obj instanceof SpeciesInfo info)) return false;
             return this.value == info.value && (this.entry == null ? true : this.entry.equals(info.entry));
         }
 

@@ -1092,8 +1092,7 @@ public class PokemobEventsHandler
         }
 
         boolean fits = isOwner;
-        if (!fits && pokemob.getEntity() instanceof EntityPokemob)
-            fits = ((EntityPokemob) pokemob.getEntity()).canAddPassenger(player);
+        if (!fits && pokemob.getEntity() instanceof EntityPokemob mob) fits = mob.canAddPassenger(player);
         final boolean saddled = PokemobEventsHandler.handleHmAndSaddle(player, pokemob);
 
         final boolean guiAllowed = pokemob.getPokedexEntry().stock || held.getItem() == PokecubeItems.POKEDEX.get();
@@ -1105,8 +1104,8 @@ public class PokemobEventsHandler
         {
             final int fav = Nature.getFavouriteBerryIndex(pokemob.getNature());
             if (PokecubeCore.getConfig().berryBreeding && (player.isShiftKeyDown() || player instanceof FakePlayer)
-                    && !hasTarget && held.getItem() instanceof ItemBerry
-                    && (fav == -1 || fav == ((ItemBerry) held.getItem()).type.index))
+                    && !hasTarget && held.getItem() instanceof ItemBerry berry
+                    && (fav == -1 || fav == berry.type.index))
             {
                 if (!player.isCreative())
                 {

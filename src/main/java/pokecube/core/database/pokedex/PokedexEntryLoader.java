@@ -142,9 +142,9 @@ public class PokedexEntryLoader
         @Override
         public boolean equals(final Object obj)
         {
-            if (!(obj instanceof DefaultFormeHolder)) return false;
+            if (!(obj instanceof DefaultFormeHolder holder)) return false;
             if (this.key == null) return super.equals(obj);
-            return this.key.equals(((DefaultFormeHolder) obj).key);
+            return this.key.equals(holder.key);
         }
 
         public FormeHolder getForme(final PokedexEntry baseEntry)
@@ -1372,7 +1372,8 @@ public class PokedexEntryLoader
             database.__map__ = null;
             final String json = JsonUtil.gson.toJson(database);
             database.__map__ = back;
-            final FileOutputStream writer = new FileOutputStream(new File(FMLPaths.CONFIGDIR.get().toFile(), "pokemobs.json"));
+            final FileOutputStream writer = new FileOutputStream(
+                    new File(FMLPaths.CONFIGDIR.get().toFile(), "pokemobs.json"));
             writer.write(json.getBytes());
             writer.close();
         }

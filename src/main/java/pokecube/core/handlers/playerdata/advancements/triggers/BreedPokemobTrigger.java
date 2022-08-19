@@ -1,10 +1,8 @@
 package pokecube.core.handlers.playerdata.advancements.triggers;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
@@ -63,15 +61,15 @@ public class BreedPokemobTrigger implements CriterionTrigger<BreedPokemobTrigger
 
     static class Listeners
     {
-        private final PlayerAdvancements                                            playerAdvancements;
-        private final Set<CriterionTrigger.Listener<BreedPokemobTrigger.Instance>> listeners = Sets.<CriterionTrigger.Listener<BreedPokemobTrigger.Instance>> newHashSet();
+        private final PlayerAdvancements playerAdvancements;
+        private final Set<CriterionTrigger.Listener<Instance>> listeners = Sets.<CriterionTrigger.Listener<Instance>>newHashSet();
 
         public Listeners(final PlayerAdvancements playerAdvancementsIn)
         {
             this.playerAdvancements = playerAdvancementsIn;
         }
 
-        public void add(final CriterionTrigger.Listener<BreedPokemobTrigger.Instance> listener)
+        public void add(final CriterionTrigger.Listener<Instance> listener)
         {
             this.listeners.add(listener);
         }
@@ -81,49 +79,36 @@ public class BreedPokemobTrigger implements CriterionTrigger<BreedPokemobTrigger
             return this.listeners.isEmpty();
         }
 
-        public void remove(final CriterionTrigger.Listener<BreedPokemobTrigger.Instance> listener)
+        public void remove(final CriterionTrigger.Listener<Instance> listener)
         {
             this.listeners.remove(listener);
         }
 
         public void trigger(final ServerPlayer player, final IPokemob first, final IPokemob second)
         {
-            List<CriterionTrigger.Listener<BreedPokemobTrigger.Instance>> list = null;
-
-            for (final CriterionTrigger.Listener<BreedPokemobTrigger.Instance> listener : this.listeners)
-                if (listener.getTriggerInstance().test(player, first, second))
-                {
-                    if (list == null)
-                        list = Lists.<CriterionTrigger.Listener<BreedPokemobTrigger.Instance>> newArrayList();
-
-                    list.add(listener);
-                }
-            if (list != null) for (final CriterionTrigger.Listener<BreedPokemobTrigger.Instance> listener1 : list)
-                listener1.run(this.playerAdvancements);
+            for (final var listener : this.listeners)
+                if (listener.getTriggerInstance().test(player, first, second)) listener.run(this.playerAdvancements);
         }
     }
 
     public static ResourceLocation ID = new ResourceLocation(PokecubeMod.ID, "breed");
 
-    private final Map<PlayerAdvancements, BreedPokemobTrigger.Listeners> listeners = Maps.<PlayerAdvancements, BreedPokemobTrigger.Listeners> newHashMap();
+    private final Map<PlayerAdvancements, Listeners> listeners = Maps.newHashMap();
 
     public BreedPokemobTrigger()
-    {
-    }
+    {}
 
     @Override
     public void addPlayerListener(final PlayerAdvancements playerAdvancementsIn,
-            final CriterionTrigger.Listener<BreedPokemobTrigger.Instance> listener)
+            final CriterionTrigger.Listener<Instance> listener)
     {
-        BreedPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
-
-        if (bredanimalstrigger$listeners == null)
+        Listeners listeners = this.listeners.get(playerAdvancementsIn);
+        if (listeners == null)
         {
-            bredanimalstrigger$listeners = new BreedPokemobTrigger.Listeners(playerAdvancementsIn);
-            this.listeners.put(playerAdvancementsIn, bredanimalstrigger$listeners);
+            listeners = new Listeners(playerAdvancementsIn);
+            this.listeners.put(playerAdvancementsIn, listeners);
         }
-
-        bredanimalstrigger$listeners.add(listener);
+        listeners.add(listener);
     }
 
     @Override
@@ -140,22 +125,20 @@ public class BreedPokemobTrigger implements CriterionTrigger<BreedPokemobTrigger
 
     @Override
     public void removePlayerListener(final PlayerAdvancements playerAdvancementsIn,
-            final CriterionTrigger.Listener<BreedPokemobTrigger.Instance> listener)
+            final CriterionTrigger.Listener<Instance> listener)
     {
-        final BreedPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
-
-        if (bredanimalstrigger$listeners != null)
+        final Listeners listeners = this.listeners.get(playerAdvancementsIn);
+        if (listeners != null)
         {
-            bredanimalstrigger$listeners.remove(listener);
-
-            if (bredanimalstrigger$listeners.isEmpty()) this.listeners.remove(playerAdvancementsIn);
+            listeners.remove(listener);
+            if (listeners.isEmpty()) this.listeners.remove(playerAdvancementsIn);
         }
     }
 
     public void trigger(final ServerPlayer player, final IPokemob first, final IPokemob second)
     {
-        final BreedPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(player.getAdvancements());
-        if (bredanimalstrigger$listeners != null) bredanimalstrigger$listeners.trigger(player, first, second);
+        final Listeners listeners = this.listeners.get(player.getAdvancements());
+        if (listeners != null) listeners.trigger(player, first, second);
     }
 
     @Override

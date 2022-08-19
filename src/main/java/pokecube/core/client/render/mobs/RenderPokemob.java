@@ -82,7 +82,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public void modifiyRGBA(final String part, final int[] rgbaIn)
         {
             IPokemob mob = null;
-            if (this.mob instanceof PokemobCap) mob = ((PokemobCap) this.mob).pokemob;
+            if (this.mob instanceof PokemobCap poke) mob = poke.pokemob;
             holders:
             if (mob != null)
             {
@@ -111,7 +111,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public boolean isHidden(final String part)
         {
             IPokemob mob = null;
-            if (this.mob instanceof PokemobCap) mob = ((PokemobCap) this.mob).pokemob;
+            if (this.mob instanceof PokemobCap poke) mob = poke.pokemob;
             if (mob == null) return false;
             final FormeHolder holder = mob.getCustomHolder();
             if (holder == null || holder.loaded_from == null) return false;

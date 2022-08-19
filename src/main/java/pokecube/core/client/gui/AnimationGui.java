@@ -55,7 +55,6 @@ import pokecube.core.database.Database;
 import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.EntityTools;
-import thut.api.entity.IMobColourable;
 import thut.api.maths.vecmath.Vec3f;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
@@ -99,12 +98,8 @@ public class AnimationGui extends Screen
                 ret.getEntity().setUUID(realMob.getEntity().getUUID());
                 ret.read(realMob.write());
                 ret.onGenesChanged();
-                if (ret instanceof DefaultPokemob && realMob instanceof DefaultPokemob)
-                {
-                    final DefaultPokemob from = (DefaultPokemob) realMob;
-                    final DefaultPokemob to = (DefaultPokemob) ret;
+                if (ret instanceof DefaultPokemob to && realMob instanceof DefaultPokemob from)
                     to.genes.deserializeNBT(from.genes.serializeNBT());
-                }
                 if (!realMob.getPokedexEntry().stock)
                 {
                     final CompoundTag tag = new CompoundTag();
@@ -496,10 +491,7 @@ public class AnimationGui extends Screen
 
             final float yaw = 0;
 
-            final IMobColourable colourable = pokemob.getEntity() instanceof IMobColourable
-                    ? (IMobColourable) pokemob.getEntity()
-                    : pokemob instanceof IMobColourable ? (IMobColourable) pokemob : null;
-            if (colourable != null) colourable.setRGBA(255, 255, 255, 255);
+            pokemob.setRGBA(255, 255, 255, 255);
             // Reset some things that add special effects to rendered mobs.
             pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
             pokemob.setGeneralState(GeneralStates.EVOLVING, false);

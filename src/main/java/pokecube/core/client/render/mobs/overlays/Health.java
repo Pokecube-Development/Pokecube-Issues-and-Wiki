@@ -137,11 +137,8 @@ public class Health
 
         ridingStack.push(entity);
 
-        while (entity.getVehicle() != null && entity.getVehicle() instanceof LivingEntity)
-        {
-            entity = (LivingEntity) entity.getVehicle();
-            ridingStack.push(entity);
-        }
+        while (entity.getVehicle() != null && entity.getVehicle() instanceof LivingEntity living)
+            ridingStack.push(living);
 
         VertexConsumer buffer;
         Matrix4f pos;
@@ -189,8 +186,8 @@ public class Health
             MutableComponent nameComp = (MutableComponent) pokemob.getDisplayName();
             final boolean obfuscated = Health.obfuscateName(pokemob);
             if (obfuscated) nameComp = Health.obfuscate(nameComp);
-            if (entity instanceof Mob && ((Mob) entity).hasCustomName())
-                nameComp = (MutableComponent) ((Mob) entity).getCustomName();
+            if (entity instanceof Mob mob && mob.hasCustomName())
+                nameComp = (MutableComponent) mob.getCustomName();
 
             final float s = 0.5F;
             final String name = nameComp.getString();

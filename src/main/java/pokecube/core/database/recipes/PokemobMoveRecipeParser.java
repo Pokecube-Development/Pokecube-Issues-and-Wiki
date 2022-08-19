@@ -34,7 +34,7 @@ public class PokemobMoveRecipeParser implements IRecipeParser
         int maxPower = 300;
 
         boolean contact = true;
-        boolean ranged  = true;
+        boolean ranged = true;
 
         @Override
         public boolean test(final String t)
@@ -133,12 +133,11 @@ public class PokemobMoveRecipeParser implements IRecipeParser
             this.recipe = recipe;
             RecipeMove.ALLRECIPES.add(recipe);
 
-            for (final String s : MovesUtils.getKnownMoveNames())
-                if (this.recipe.match.test(s))
-                {
-                    recipe.matchedMoves.add(s);
-                    this.actions.add(new RecipeAction(s, this.recipe));
-                }
+            for (final String s : MovesUtils.getKnownMoveNames()) if (this.recipe.match.test(s))
+            {
+                recipe.matchedMoves.add(s);
+                this.actions.add(new RecipeAction(s, this.recipe));
+            }
         }
     }
 
@@ -147,9 +146,8 @@ public class PokemobMoveRecipeParser implements IRecipeParser
         if (MoveEventsHandler.customActions.containsKey(action.getMoveName()))
         {
             final IMoveAction prev = MoveEventsHandler.customActions.get(action.getMoveName());
-            if (prev instanceof WrappedRecipeMove)
+            if (prev instanceof WrappedRecipeMove edit)
             {
-                final WrappedRecipeMove edit = (WrappedRecipeMove) prev;
                 edit.other = action;
                 action = prev;
             }
@@ -159,18 +157,16 @@ public class PokemobMoveRecipeParser implements IRecipeParser
     }
 
     public PokemobMoveRecipeParser()
-    {
-    }
+    {}
 
     @Override
     public void manageRecipe(final JsonObject json) throws NullPointerException
     {
         json.addProperty("loading_from_other", true);
-        final MoveRecipe recipe = MoveRecipes.SERIALIZER.get().fromJson(new ResourceLocation("pokecube:move_recipe_"
-                + RecipeMove.uid++), json);
+        final MoveRecipe recipe = MoveRecipes.SERIALIZER.get()
+                .fromJson(new ResourceLocation("pokecube:move_recipe_" + RecipeMove.uid++), json);
         final RecipeMove loaded = new RecipeMove(recipe);
-        for (final IMoveAction action : loaded.actions)
-            PokemobMoveRecipeParser.addOrMergeActions(action);
+        for (final IMoveAction action : loaded.actions) PokemobMoveRecipeParser.addOrMergeActions(action);
     }
 
     @Override

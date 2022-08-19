@@ -57,17 +57,17 @@ public class StatsHandler
             final PokecubeBehaviour cube = IPokecube.PokecubeBehaviour.BEHAVIORS.get(id);
             cube.onPreCapture(evt);
         }
-        if (evt.getCaught() == null) return;
+        if (evt.getCaught() == null || !(evt.pokecube instanceof EntityPokecube cube)) return;
         final PokedexEntry entry = evt.getCaught().getPokedexEntry();
         if (evt.getCaught().getGeneralState(GeneralStates.TAMED)) evt.setResult(Result.DENY);
         if (evt.getCaught().getGeneralState(GeneralStates.DENYCAPTURE)) evt.setResult(Result.DENY);
-        final Entity catcher = ((EntityPokecube) evt.pokecube).shootingEntity;
+        final Entity catcher = cube.shootingEntity;
         if (!EntityPokecubeBase.canCaptureBasedOnConfigs(evt.getCaught()))
         {
             evt.setCanceled(true);
             if (catcher instanceof Player player)
                 thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
-            CaptureManager.onCaptureDenied((EntityPokecubeBase) evt.pokecube);
+            CaptureManager.onCaptureDenied(cube);
             return;
         }
         final Config config = PokecubeCore.getConfig();
@@ -83,7 +83,7 @@ public class StatsHandler
             {
                 evt.setCanceled(true);
                 thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
-                CaptureManager.onCaptureDenied((EntityPokecubeBase) evt.pokecube);
+                CaptureManager.onCaptureDenied(cube);
                 return;
             }
         }
@@ -107,7 +107,7 @@ public class StatsHandler
                 if (catcher instanceof Player player)
                     thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
                 condition.onCaptureFail(catcher, evt.getCaught());
-                CaptureManager.onCaptureDenied((EntityPokecubeBase) evt.pokecube);
+                CaptureManager.onCaptureDenied(cube);
                 return;
             }
         }

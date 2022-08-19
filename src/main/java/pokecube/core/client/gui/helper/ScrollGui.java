@@ -152,7 +152,7 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
             final int j1 = this.itemHeight;
             final int k1 = this.getRowWidth();
             final int j2 = this.getRowLeft();
-            if (e instanceof INotifiedEntry) ((INotifiedEntry) e).preRender(j, k, j2, k1, j1, mouseX, mouseY, this
+            if (e instanceof INotifiedEntry entry) entry.preRender(j, k, j2, k1, j1, mouseX, mouseY, this
                     .isMouseOver(mouseX, mouseY) && Objects.equals(this.getEntryAtPosition(mouseX, mouseY), e), tick);
 
             if (l >= this.y0 && k <= this.y1)

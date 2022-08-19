@@ -92,14 +92,14 @@ public class NpcType
             return false;
         };
         final IInteract starter = (player, hand, mob) -> {
-            if (player instanceof ServerPlayer && !PokecubeSerializer.getInstance().hasStarter(player))
+            if (player instanceof ServerPlayer splayer && !PokecubeSerializer.getInstance().hasStarter(player))
             {
                 if (player.isShiftKeyDown()) return false;
                 PacketChoose packet;
                 final boolean special = false;
                 final boolean pick = false;
                 packet = PacketChoose.createOpenPacket(special, pick, Database.getStarters());
-                PokecubeCore.packets.sendTo(packet, (ServerPlayer) player);
+                PokecubeCore.packets.sendTo(packet, splayer);
                 return true;
             }
             return false;
