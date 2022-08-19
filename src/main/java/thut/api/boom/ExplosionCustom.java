@@ -41,16 +41,19 @@ public class ExplosionCustom extends Explosion
 {
     public static class BlastResult
     {
-        public final Object2FloatOpenHashMap<BlockPos> results;
+        public final Object2FloatOpenHashMap<BlockPos> destroyedBlocks;
+        public final Object2FloatOpenHashMap<BlockPos> damagedBlocks;
         public final Set<ChunkPos> affectedChunks;
 
         public final List<HitEntity> hit;
         public final boolean done;
 
-        public BlastResult(final Object2FloatOpenHashMap<BlockPos> results, final List<HitEntity> hit,
+        public BlastResult(final Object2FloatOpenHashMap<BlockPos> results,
+                final Object2FloatOpenHashMap<BlockPos> remaining, final List<HitEntity> hit,
                 final Set<ChunkPos> affectedChunks, final boolean done)
         {
-            this.results = results;
+            this.destroyedBlocks = results;
+            this.damagedBlocks = remaining;
             this.hit = hit;
             this.done = done;
             this.affectedChunks = affectedChunks;
@@ -96,15 +99,32 @@ public class ExplosionCustom extends Explosion
             return to;
         }
 
+        default BlockState onAbsorbed(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
+                boolean canEffect, ServerLevel level)
+        {
+            return state;
+        }
+
         default void breakBlocks(final BlastResult result, final ExplosionCustom boom)
         {
-            for (final Entry<BlockPos> entry : result.results.object2FloatEntrySet())
+            for (final Entry<BlockPos> entry : result.destroyedBlocks.object2FloatEntrySet())
             {
                 BlockPos pos = entry.getKey();
-                final BlockState destroyed = boom.level.getBlockState(pos);
-                boom.getToBlow().add(pos);
                 float power = entry.getFloatValue();
-                applyBreak(boom, pos, destroyed, power, shouldBreak(pos, destroyed, power, boom.level), boom.level);
+                final BlockState state = boom.level.getBlockState(pos);
+                BlockState broken = applyBreak(boom, pos, state, power, shouldBreak(pos, state, power, boom.level),
+                        boom.level);
+                if (broken != state) boom.getToBlow().add(pos);
+            }
+
+            for (final Entry<BlockPos> entry : result.damagedBlocks.object2FloatEntrySet())
+            {
+                BlockPos pos = entry.getKey();
+                float power = entry.getFloatValue();
+                final BlockState state = boom.level.getBlockState(pos);
+                BlockState broken = onAbsorbed(boom, pos, state, power, shouldBreak(pos, state, power, boom.level),
+                        boom.level);
+                if (broken != state) boom.getToBlow().add(pos);
             }
         }
     }

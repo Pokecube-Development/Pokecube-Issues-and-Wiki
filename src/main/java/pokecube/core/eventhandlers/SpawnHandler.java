@@ -517,7 +517,6 @@ public final class SpawnHandler
 
             boom.breaker = new BlockBreaker()
             {
-
                 private BlockState _applyBreak(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
                         boolean destroy, ServerLevel level)
                 {
@@ -532,12 +531,26 @@ public final class SpawnHandler
                     {
                         if (PokecubeTerrainChecker.isRock(state)) to = MELT_GETTER.get();
                     }
-                    else if (level.getRandom().nextDouble() < 0.1)
+                    if (to.getBlock() == Blocks.AIR && level.getRandom().nextDouble() < 0.1)
                     {
                         if (PokecubeTerrainChecker.isTerrain(state)) to = DUST_GETTER.get();
                     }
                     level.setBlock(pos, to, 3);
                     return to;
+                }
+
+                @Override
+                public BlockState onAbsorbed(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
+                        boolean canEffect, ServerLevel level)
+                {
+                    if (!canEffect) return state;
+                    if (state.getBlock() == Blocks.STONE && level.getRandom().nextDouble() < 0.25)
+                    {
+                        BlockState to = Blocks.COBBLESTONE.defaultBlockState();
+                        level.setBlock(pos, to, 3);
+                        return to;
+                    }
+                    return state;
                 }
 
                 @Override
