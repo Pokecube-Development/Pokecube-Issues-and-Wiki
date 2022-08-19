@@ -17,11 +17,11 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import pokecube.legends.blocks.FallingDirtBlockBase;
 
-public class AshBlock extends FallingDirtBlockBase implements Fallable
+public class AshOre extends FallingDirtBlockBase implements Fallable
 {
     public static final BooleanProperty WET = BooleanProperty.create("wet");
 
-    public AshBlock(final int color, final Properties properties)
+    public AshOre(final int color, final Properties properties)
     {
         super(color, properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(WET, false));

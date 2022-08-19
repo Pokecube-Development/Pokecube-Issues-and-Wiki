@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
@@ -39,6 +40,7 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.NaturalSpawner;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -70,6 +72,7 @@ import pokecube.core.utils.ChunkCoordinate;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.Tools;
+import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.boom.ExplosionCustom;
 import thut.api.boom.ExplosionCustom.BlockBreaker;
 import thut.api.maths.Vector3;
@@ -200,6 +203,9 @@ public final class SpawnHandler
     public static Variance DEFAULT_VARIANCE = new Variance();
 
     private static final Map<ResourceKey<Level>, Map<BlockPos, ForbiddenEntry>> forbidReasons = new HashMap<>();
+
+    public static Supplier<BlockState> MELT_GETTER = () -> Blocks.AIR.defaultBlockState();
+    public static Supplier<BlockState> DUST_GETTER = () -> Blocks.AIR.defaultBlockState();
 
     public static HashMap<BiomeType, Variance> subBiomeLevels = new HashMap<>();
 
@@ -511,15 +517,41 @@ public final class SpawnHandler
 
             boom.breaker = new BlockBreaker()
             {
+
+                private BlockState _applyBreak(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
+                        boolean destroy, ServerLevel level)
+                {
+                    if (!destroy) return state;
+                    BlockState to = Blocks.AIR.defaultBlockState();
+                    if (power < 36)
+                    {
+                        if (PokecubeTerrainChecker.isLeaves(state)) to = Blocks.FIRE.defaultBlockState();
+                        else if (PokecubeTerrainChecker.isCutablePlant(state)) to = Blocks.FIRE.defaultBlockState();
+                    }
+                    else if (power > 100)
+                    {
+                        if (PokecubeTerrainChecker.isRock(state)) to = MELT_GETTER.get();
+                    }
+                    else if (level.getRandom().nextDouble() < 0.1)
+                    {
+                        if (PokecubeTerrainChecker.isTerrain(state)) to = DUST_GETTER.get();
+                    }
+                    level.setBlock(pos, to, 3);
+                    return to;
+                }
+
                 @Override
                 public BlockState applyBreak(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
                         boolean applyBreak, ServerLevel level)
                 {
-                    BlockState to = BlockBreaker.super.applyBreak(boom, pos, state, power, applyBreak, level);
-                    final MeteorEvent event = new MeteorEvent(state, to, pos, power, boom);
-                    MinecraftForge.EVENT_BUS.post(event);
-                    final TerrainSegment seg = TerrainManager.getInstance().getTerrain(boom.level, pos);
-                    seg.setBiome(pos, BiomeType.METEOR);
+                    BlockState to = _applyBreak(boom, pos, state, power, applyBreak, level);
+                    if (applyBreak)
+                    {
+                        final MeteorEvent event = new MeteorEvent(state, to, pos, power, boom);
+                        MinecraftForge.EVENT_BUS.post(event);
+                        final TerrainSegment seg = TerrainManager.getInstance().getTerrain(boom.level, pos);
+                        seg.setBiome(pos, BiomeType.METEOR);
+                    }
                     return to;
                 }
             };
@@ -528,8 +560,6 @@ public final class SpawnHandler
             PokecubeAPI.LOGGER.debug(message);
 
             boom.doKineticImpactor(world, new Vector3().set(0, -1, 0), location, null, 0.1f, power);
-
-//            boom.doExplosion();
         }
         PokecubeSerializer.getInstance().addMeteorLocation(GlobalPos.of(world.dimension(), location.getPos()));
     }

@@ -45,6 +45,7 @@ import pokecube.api.events.init.RegisterPokecubes;
 import pokecube.api.items.IPokecube.DefaultPokecubeBehaviour;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
 import pokecube.legends.blocks.properties.Compostables;
@@ -74,6 +75,7 @@ import pokecube.legends.recipes.LegendsLootingRecipeManager;
 import pokecube.legends.worldgen.UltraSpaceSurfaceRules;
 import pokecube.legends.worldgen.WorldgenFeatures;
 import pokecube.legends.worldgen.trees.Trees;
+import thut.api.block.flowing.FlowingBlock;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
@@ -460,6 +462,10 @@ public class PokecubeLegends
             Flammables.registerDefaults();
             Strippables.registerDefaults();
             Tillables.registerDefaults();
+
+            SpawnHandler.MELT_GETTER = () -> BlockInit.METEORITE_MOLTEN_BLOCK.get().defaultBlockState();
+            SpawnHandler.DUST_GETTER = () -> BlockInit.ASH.get().defaultBlockState().setValue(FlowingBlock.LAYERS, 5);
+
             initBiomeDicts();
         });
     }

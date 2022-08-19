@@ -1,0 +1,6 @@
+{
+    "parent": "pokecube_legends:block/layered_14",
+    "textures": {
+        "texture":"pokecube_legends:block/meteorite_block"
+    }
+}

@@ -19,7 +19,6 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Explosion;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -114,10 +113,6 @@ public class ExplosionCustom extends Explosion
     public static int MAXPERTICK = 25;
     public static float MINBLASTDAMAGE = 0.1f;
     public static boolean AFFECTINAIR = true;
-
-    public static Block melt;
-    public static Block solidmelt;
-    public static Block dust;
 
     public static final ResourceLocation EXPLOSION_BLOCKING = new ResourceLocation("thutcore:explosion_blocking");
     public static final ResourceLocation EXPLOSION_TRANSPARENT = new ResourceLocation("thutcore:explosion_transparent");
@@ -275,6 +270,7 @@ public class ExplosionCustom extends Explosion
             hitLocation = hitLocation.subtract(velocity.normalize());
             final ExplosionCustom boo = new ExplosionCustom(world, this.exploder, hitLocation, blast * factor);
             boo.setMaxRadius(this.radius);
+            boo.breaker = this.breaker;
             boo.owner = this.owner;
             boo.doExplosion();
             return;
@@ -312,6 +308,7 @@ public class ExplosionCustom extends Explosion
             {
                 final ExplosionCustom boo = new ExplosionCustom(world, this.exploder, source, strength * factor);
                 boo.setMaxRadius(this.radius);
+                boo.breaker = this.breaker;
                 boo.owner = this.owner;
                 this.subBooms.add(boo);
                 hasSubBooms = true;
@@ -323,6 +320,7 @@ public class ExplosionCustom extends Explosion
             final ExplosionCustom boo = new ExplosionCustom(world, this.exploder, absorbedLoc,
                     remainingEnergy * factor);
             boo.setMaxRadius(this.radius);
+            boo.breaker = this.breaker;
             boo.owner = this.owner;
             this.subBooms.add(boo);
             hasSubBooms = true;
