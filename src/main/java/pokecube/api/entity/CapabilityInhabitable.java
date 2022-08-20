@@ -124,8 +124,8 @@ public class CapabilityInhabitable
         public CompoundTag serializeNBT()
         {
             final CompoundTag nbt = new CompoundTag();
-            if (this.getWrapped() instanceof INBTSerializable) nbt.put(this.getWrapped().getKey().toString(),
-                    ((INBTSerializable<?>) this.getWrapped()).serializeNBT());
+            if (this.getWrapped() instanceof INBTSerializable<?> ser)
+                nbt.put(this.getWrapped().getKey().toString(), ser.serializeNBT());
             return nbt;
         }
 

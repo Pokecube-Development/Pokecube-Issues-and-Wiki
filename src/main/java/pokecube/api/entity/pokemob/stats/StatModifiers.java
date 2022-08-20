@@ -15,7 +15,7 @@ public class StatModifiers
 {
 
     public static final String DEFAULT = "default";
-    public static final String ARMOUR  = "armour";
+    public static final String ARMOUR = "armour";
 
     public static Map<String, Class<? extends IStatsModifiers>> modifierClasses = Maps.newHashMap();
 
@@ -31,40 +31,37 @@ public class StatModifiers
         else throw new IllegalArgumentException(name + " is already registered as a modifier.");
     }
 
-    final Map<String, IStatsModifiers> modifiers       = Maps.newHashMap();
-    public List<IStatsModifiers>       sortedModifiers = Lists.newArrayList();
-    public Map<String, Integer>        indecies        = Maps.newHashMap();
+    final Map<String, IStatsModifiers> modifiers = Maps.newHashMap();
+    public List<IStatsModifiers> sortedModifiers = Lists.newArrayList();
+    public Map<String, Integer> indecies = Maps.newHashMap();
     /** This are types which may be modified via abilities or moves. */
-    public PokeType                    type1, type2;
-    DefaultModifiers                   defaultmods;
+    public PokeType type1, type2;
+    DefaultModifiers defaultmods;
 
     public StatModifiers()
     {
-        for (final String s : StatModifiers.modifierClasses.keySet())
-            try
-            {
-                this.modifiers.put(s, StatModifiers.modifierClasses.get(s).getConstructor().newInstance());
-            }
-            catch (final Exception e)
-            {
-                e.printStackTrace();
-            }
+        for (final String s : StatModifiers.modifierClasses.keySet()) try
+        {
+            this.modifiers.put(s, StatModifiers.modifierClasses.get(s).getConstructor().newInstance());
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+        }
         this.defaultmods = this.getModifiers(StatModifiers.DEFAULT, DefaultModifiers.class);
         this.sortedModifiers.addAll(this.modifiers.values());
-        Collections.sort(this.sortedModifiers, (o1, o2) ->
-        {
+        Collections.sort(this.sortedModifiers, (o1, o2) -> {
             int comp = o1.getPriority() - o2.getPriority();
             if (comp == 0) comp = o1.getClass().getName().compareTo(o2.getClass().getName());
             return comp;
         });
         outer:
         for (int i = 0; i < this.sortedModifiers.size(); i++)
-            for (final String key : this.modifiers.keySet())
-                if (this.modifiers.get(key) == this.sortedModifiers.get(i))
-                {
-                    this.indecies.put(key, i);
-                    continue outer;
-                }
+            for (final String key : this.modifiers.keySet()) if (this.modifiers.get(key) == this.sortedModifiers.get(i))
+        {
+            this.indecies.put(key, i);
+            continue outer;
+        }
     }
 
     public DefaultModifiers getDefaultMods()
@@ -107,15 +104,13 @@ public class StatModifiers
                 actualStat *= natureMod;
             }
         }
-        if (modified) for (final IStatsModifiers mods : this.sortedModifiers)
-            actualStat = mods.apply(stat, actualStat);
+        if (modified) for (final IStatsModifiers mods : this.sortedModifiers) actualStat = mods.apply(stat, actualStat);
         return actualStat;
     }
 
     public void outOfCombatReset()
     {
         this.defaultmods.reset();
-        for (final IStatsModifiers mods : this.sortedModifiers)
-            if (!mods.persistant()) mods.reset();
+        for (final IStatsModifiers mods : this.sortedModifiers) if (!mods.persistant()) mods.reset();
     }
 }

@@ -16,7 +16,7 @@ public class PokemobMoveStats
 {
 
     private static final PokemobMoveStats defaults = new PokemobMoveStats();
-    private static final Set<String>      IGNORE   = Sets.newHashSet();
+    private static final Set<String> IGNORE = Sets.newHashSet();
     static
     {
         PokemobMoveStats.IGNORE.add("moves");
@@ -29,26 +29,26 @@ public class PokemobMoveStats
     public Entity infatuateTarget;
 
     // Timers used for various move types.
-    public int TOXIC_COUNTER      = 0;
-    public int ROLLOUTCOUNTER     = 0;
-    public int FURYCUTTERCOUNTER  = 0;
+    public int TOXIC_COUNTER = 0;
+    public int ROLLOUTCOUNTER = 0;
+    public int FURYCUTTERCOUNTER = 0;
     public int DEFENSECURLCOUNTER = 0;
 
     public boolean Exploding = false;
-    public int     boomState = -1;
+    public int boomState = -1;
 
     public int SPECIALCOUNTER = 0;
     /** Used for cooldown of crit chance moves */
-    public int SPECIALTYPE    = 0;
+    public int SPECIALTYPE = 0;
 
     /** Used for moves such as bide/counter/mirror coat */
     public int PHYSICALDAMAGETAKENCOUNTER = 0;
-    public int SPECIALDAMAGETAKENCOUNTER  = 0;
+    public int SPECIALDAMAGETAKENCOUNTER = 0;
 
     /** Number of times detect, protect or similar has worked. */
-    public int     BLOCKCOUNTER = 0;
-    public int     blockTimer   = 0;
-    public boolean blocked      = false;
+    public int BLOCKCOUNTER = 0;
+    public int blockTimer = 0;
+    public boolean blocked = false;
 
     public boolean biding = false;
 
@@ -76,17 +76,17 @@ public class PokemobMoveStats
     public int oldLevel = 0;
 
     /** The array of moves. */
-    public String[]     moves     = new String[4];
+    public String[] moves = new String[4];
     /** The array of moves. */
-    public String[]     g_z_moves = new String[4];
+    public String[] g_z_moves = new String[4];
     /** Moves it is trying to learn. */
-    public List<String> newMoves  = Lists.newArrayList();
+    public List<String> newMoves = Lists.newArrayList();
     /** Index of new move to learn from newMoves. */
-    public int          num       = 0;
+    public int num = 0;
     /** The last move we used. */
-    public String       lastMove;
+    public String lastMove;
     /** Storing exp in here as well. */
-    public int          exp       = 0;
+    public int exp = 0;
 
     /**
      * This is the ability to apply in battle, out of battle it will be reset to
@@ -96,14 +96,13 @@ public class PokemobMoveStats
 
     public void reset()
     {
-        for (final Field f : this.getClass().getFields())
-            try
-            {
-                if (!PokemobMoveStats.IGNORE.contains(f.getName())) f.set(this, f.get(PokemobMoveStats.defaults));
-            }
-            catch (final Exception e)
-            {
-                e.printStackTrace();
-            }
+        for (final Field f : this.getClass().getFields()) try
+        {
+            if (!PokemobMoveStats.IGNORE.contains(f.getName())) f.set(this, f.get(PokemobMoveStats.defaults));
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

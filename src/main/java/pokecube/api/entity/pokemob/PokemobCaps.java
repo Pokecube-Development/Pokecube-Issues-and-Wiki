@@ -16,7 +16,7 @@ public class PokemobCaps
     public static IPokemob getPokemobFor(ICapabilityProvider entityIn)
     {
         if (entityIn == null) return null;
-        if (entityIn instanceof Entity) entityIn = EntityTools.getCoreEntity((Entity) entityIn);
+        if (entityIn instanceof Entity entity) entityIn = EntityTools.getCoreEntity(entity);
         final IPokemob pokemobHolder = entityIn.getCapability(PokemobCaps.POKEMOB_CAP, null).orElse(null);
         if (pokemobHolder == null && IPokemob.class.isInstance(entityIn)) return IPokemob.class.cast(entityIn);
         return pokemobHolder;
