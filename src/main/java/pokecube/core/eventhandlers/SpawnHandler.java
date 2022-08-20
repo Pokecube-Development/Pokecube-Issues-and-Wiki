@@ -74,7 +74,7 @@ import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.Tools;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.boom.ExplosionCustom;
-import thut.api.boom.ExplosionCustom.BlockBreaker;
+import thut.api.boom.ExplosionCustom.DefaultBreaker;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.api.terrain.BiomeType;
@@ -194,6 +194,52 @@ public final class SpawnHandler
         {
             if (obj instanceof ForbidReason fob) return fob.name.equals(this.name);
             return false;
+        }
+    }
+
+    private static class MeteorBlockBreaker extends DefaultBreaker
+    {
+
+        public MeteorBlockBreaker(ServerLevel world)
+        {
+            super(world);
+        }
+
+        private BlockState _applyBreak(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
+                boolean destroy, ServerLevel level)
+        {
+            if (!destroy) return state;
+            BlockState to = Blocks.AIR.defaultBlockState();
+            if (power < 36)
+            {
+                if (PokecubeTerrainChecker.isLeaves(state)) to = Blocks.FIRE.defaultBlockState();
+                else if (PokecubeTerrainChecker.isCutablePlant(state)) to = Blocks.FIRE.defaultBlockState();
+            }
+            else if (power > 100)
+            {
+                if (PokecubeTerrainChecker.isRock(state)) to = MELT_GETTER.get();
+            }
+            if (to.getBlock() == Blocks.AIR && level.getRandom().nextDouble() < 0.1)
+            {
+                if (PokecubeTerrainChecker.isTerrain(state)) to = DUST_GETTER.get();
+            }
+            level.setBlock(pos, to, 3);
+            return to;
+        }
+
+        @Override
+        public BlockState applyBreak(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
+                boolean applyBreak, ServerLevel level)
+        {
+            BlockState to = _applyBreak(boom, pos, state, power, applyBreak, level);
+            if (applyBreak)
+            {
+                final MeteorEvent event = new MeteorEvent(state, to, pos, power, boom);
+                MinecraftForge.EVENT_BUS.post(event);
+                final TerrainSegment seg = TerrainManager.getInstance().getTerrain(boom.level, pos);
+                seg.setBiome(pos, BiomeType.METEOR);
+            }
+            return to;
         }
     }
 
@@ -514,61 +560,7 @@ public final class SpawnHandler
             final ExplosionCustom boom = new ExplosionCustom(world, null, location,
                     (float) (power * PokecubeCore.getConfig().meteorScale))
                             .setMaxRadius(PokecubeCore.getConfig().meteorRadius);
-
-            boom.breaker = new BlockBreaker()
-            {
-                private BlockState _applyBreak(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
-                        boolean destroy, ServerLevel level)
-                {
-                    if (!destroy) return state;
-                    BlockState to = Blocks.AIR.defaultBlockState();
-                    if (power < 36)
-                    {
-                        if (PokecubeTerrainChecker.isLeaves(state)) to = Blocks.FIRE.defaultBlockState();
-                        else if (PokecubeTerrainChecker.isCutablePlant(state)) to = Blocks.FIRE.defaultBlockState();
-                    }
-                    else if (power > 100)
-                    {
-                        if (PokecubeTerrainChecker.isRock(state)) to = MELT_GETTER.get();
-                    }
-                    if (to.getBlock() == Blocks.AIR && level.getRandom().nextDouble() < 0.1)
-                    {
-                        if (PokecubeTerrainChecker.isTerrain(state)) to = DUST_GETTER.get();
-                    }
-                    level.setBlock(pos, to, 3);
-                    return to;
-                }
-
-                @Override
-                public BlockState onAbsorbed(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
-                        boolean canEffect, ServerLevel level)
-                {
-                    if (!canEffect) return state;
-                    if (state.getBlock() == Blocks.STONE && level.getRandom().nextDouble() < 0.25)
-                    {
-                        BlockState to = Blocks.COBBLESTONE.defaultBlockState();
-                        level.setBlock(pos, to, 3);
-                        return to;
-                    }
-                    return state;
-                }
-
-                @Override
-                public BlockState applyBreak(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
-                        boolean applyBreak, ServerLevel level)
-                {
-                    BlockState to = _applyBreak(boom, pos, state, power, applyBreak, level);
-                    if (applyBreak)
-                    {
-                        final MeteorEvent event = new MeteorEvent(state, to, pos, power, boom);
-                        MinecraftForge.EVENT_BUS.post(event);
-                        final TerrainSegment seg = TerrainManager.getInstance().getTerrain(boom.level, pos);
-                        seg.setBiome(pos, BiomeType.METEOR);
-                    }
-                    return to;
-                }
-            };
-
+            boom.breaker = new MeteorBlockBreaker(world);
             final String message = "Meteor at " + location + " with energy of " + power;
             PokecubeAPI.LOGGER.debug(message);
 

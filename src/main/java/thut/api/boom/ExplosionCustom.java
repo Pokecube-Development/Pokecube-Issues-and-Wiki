@@ -8,6 +8,7 @@ import it.unimi.dsi.fastutil.objects.Object2FloatMap.Entry;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -22,6 +23,9 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -105,7 +109,7 @@ public class ExplosionCustom extends Explosion
             return state;
         }
 
-        default void breakBlocks(final BlastResult result, final ExplosionCustom boom)
+        default void destroyBlocks(final BlastResult result, final ExplosionCustom boom)
         {
             for (final Entry<BlockPos> entry : result.destroyedBlocks.object2FloatEntrySet())
             {
@@ -116,7 +120,10 @@ public class ExplosionCustom extends Explosion
                         boom.level);
                 if (broken != state) boom.getToBlow().add(pos);
             }
+        }
 
+        default void damageBlocks(final BlastResult result, final ExplosionCustom boom)
+        {
             for (final Entry<BlockPos> entry : result.damagedBlocks.object2FloatEntrySet())
             {
                 BlockPos pos = entry.getKey();
@@ -126,6 +133,42 @@ public class ExplosionCustom extends Explosion
                         boom.level);
                 if (broken != state) boom.getToBlow().add(pos);
             }
+        }
+    }
+
+    public static class DefaultBreaker implements BlockBreaker
+    {
+        public static final ResourceLocation DAMAGE_LIST = new ResourceLocation("thutcore:absorption_damage");
+
+        final ServerLevel level;
+        final StructureProcessorList list;
+        final StructurePlaceSettings settings;
+
+        public DefaultBreaker(ServerLevel level)
+        {
+            this.level = level;
+            list = level.registryAccess().registryOrThrow(Registry.PROCESSOR_LIST_REGISTRY).get(DAMAGE_LIST);
+            settings = new StructurePlaceSettings();
+        }
+
+        @Override
+        public BlockState onAbsorbed(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
+                boolean canEffect, ServerLevel level)
+        {
+            if (!canEffect) return state;
+
+            StructureBlockInfo info = new StructureBlockInfo(pos, state, null);
+            StructureBlockInfo processed = info;
+            for (var list : this.list.list())
+            {
+                info = list.process(level, pos, pos, info, processed, settings, null);
+            }
+            if (state != info.state)
+            {
+                state = info.state;
+                level.setBlock(pos, state, 3);
+            }
+            return state;
         }
     }
 
@@ -158,9 +201,7 @@ public class ExplosionCustom extends Explosion
 
     final float strength;
 
-    public BlockBreaker breaker = new BlockBreaker()
-    {
-    };
+    public BlockBreaker breaker;
 
     public ResistProvider resistProvider = new ResistProvider()
     {
@@ -199,12 +240,14 @@ public class ExplosionCustom extends Explosion
         this.strength = factor * power;
 
         boomApplier = new SphereMaskChecker(this);
+        this.breaker = new DefaultBreaker(world);
     }
 
     private void applyBlockEffects(final BlastResult result)
     {
         this.getToBlow().clear();
-        this.breaker.breakBlocks(result, this);
+        this.breaker.destroyBlocks(result, this);
+        this.breaker.damageBlocks(result, this);
     }
 
     private void applyEntityEffects(final BlastResult result)
