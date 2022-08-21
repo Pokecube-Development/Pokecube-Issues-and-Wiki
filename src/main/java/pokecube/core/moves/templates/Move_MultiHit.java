@@ -31,11 +31,8 @@ public class Move_MultiHit extends Move_Basic
         if (this.getAnimation(pokemob) != null) duration = this.getAnimation(pokemob).getDuration();
         for (int i = 0; i < count; i++)
         {
-            if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, this, target))) // Move
-                                                                                                   // Failed
-                                                                                                   // message
-                                                                                                   // here?
-                break;
+            // TODO move failed message here?
+            if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, this, target))) break;
             final EntityMoveUse moveUse = EntityMoveUse.Builder.make(user, this, start).setEnd(end).setTarget(target)
                     .setStartTick(i * duration).build();
             MoveQueuer.queueMove(moveUse);

@@ -70,9 +70,8 @@ public class AITools
             for (final String tag : AITools.invalidTags) if (input.getTags().contains(tag)) return false;
 
             // Then check if is a valid player.
-            if (input instanceof ServerPlayer)
+            if (input instanceof ServerPlayer player)
             {
-                final ServerPlayer player = (ServerPlayer) input;
                 // Do not target creative or spectator
                 if (player.isCreative() || player.isSpectator()) return false;
                 // Do not target any player on easy or peaceful

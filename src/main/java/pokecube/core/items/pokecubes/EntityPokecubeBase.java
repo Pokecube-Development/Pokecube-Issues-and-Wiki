@@ -143,10 +143,9 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public boolean hurt(final DamageSource source, final float damage)
     {
         if (this.isLoot || this.isReleasing() || !this.canBePickedUp) return false;
-        if (source.getDirectEntity() instanceof ServerPlayer
-                && (this.tilt <= 0 || ((Player) source.getDirectEntity()).getAbilities().instabuild))
+        if (source.getDirectEntity() instanceof ServerPlayer player
+                && (this.tilt <= 0 || player.getAbilities().instabuild))
         {
-            final ServerPlayer player = (ServerPlayer) source.getDirectEntity();
             this.interact(player, InteractionHand.MAIN_HAND);
             return false;
         }
@@ -211,8 +210,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
             if (PokecubeManager.isFilled(this.getItem()))
             {
                 final LivingEntity sent = SendOutManager.sendOut(this, true);
-                if (sent instanceof Mob && hit.getEntity() instanceof LivingEntity)
-                    BrainUtils.initiateCombat((Mob) sent, (LivingEntity) hit.getEntity());
+                if (sent instanceof Mob mob && hit.getEntity() instanceof LivingEntity living)
+                    BrainUtils.initiateCombat(mob, living);
             }
             else CaptureManager.captureAttempt(this, hitEntity);
             break;
@@ -298,9 +297,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
             if (raytraceresult.getType() == HitResult.Type.BLOCK && this.level
                     .getBlockState(((BlockHitResult) raytraceresult).getBlockPos()).getBlock() == Blocks.NETHER_PORTAL)
                 this.handleInsidePortal(((BlockHitResult) raytraceresult).getBlockPos());
-            if (raytraceresult instanceof BlockHitResult)
+            if (raytraceresult instanceof BlockHitResult result)
             {
-                final BlockHitResult result = (BlockHitResult) raytraceresult;
                 final BlockState hit = this.getLevel().getBlockState(result.getBlockPos());
                 final VoxelShape shape = hit.getCollisionShape(this.getLevel(), result.getBlockPos());
                 if (!shape.isEmpty() && !shape.bounds().move(result.getBlockPos()).intersects(axisalignedbb))

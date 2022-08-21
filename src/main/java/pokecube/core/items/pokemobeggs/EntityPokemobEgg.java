@@ -59,14 +59,12 @@ public class EntityPokemobEgg extends AgeableMob
     /** Called when the entity is attacked. */
     public boolean hurt(final DamageSource source, final float damage)
     {
+        if (this.delayBeforeCanPickup > 0) return false;
         final Entity e = source.getDirectEntity();
-        if (!this.getLevel().isClientSide && e instanceof Player)
+        if (!this.getLevel().isClientSide && e instanceof Player player)
         {
-            if (this.delayBeforeCanPickup > 0) return false;
-
             final ItemStack itemstack = this.getMainHandItem();
             final int i = itemstack.getCount();
-            final Player player = (Player) e;
             if (this.mother != null && this.mother.getOwner() != player)
                 BrainUtils.initiateCombat(this.mother.getEntity(), player);
             if (i <= 0 || player.getInventory().add(itemstack))
@@ -262,9 +260,8 @@ public class EntityPokemobEgg extends AgeableMob
         }
         BlockEntity te = this.here.getTileEntity(this.getLevel(), Direction.DOWN);
         if (te == null) te = this.here.getTileEntity(this.getLevel());
-        if (te instanceof HopperBlockEntity)
+        if (te instanceof HopperBlockEntity hopper)
         {
-            final HopperBlockEntity hopper = (HopperBlockEntity) te;
             final ItemEntity item = new ItemEntity(this.getLevel(), this.getX(), this.getY(), this.getZ(),
                     this.getMainHandItem());
             if (HopperBlockEntity.addItem(hopper, item)) this.discard();

@@ -16,12 +16,11 @@ public class PacketPokecube extends Packet
         PokecubeCore.packets.sendTo(toSend, (ServerPlayer) player);
     }
 
-    int  id;
+    int id;
     long time;
 
     public PacketPokecube()
-    {
-    }
+    {}
 
     public PacketPokecube(int id, long renderTime)
     {
@@ -39,7 +38,7 @@ public class PacketPokecube extends Packet
     public void handleClient()
     {
         final Entity e = PokecubeCore.proxy.getWorld().getEntity(this.id);
-        if (e instanceof EntityPokecube) ((EntityPokecube) e).reset = this.time;
+        if (e instanceof EntityPokecube cube) cube.reset = this.time;
     }
 
     @Override

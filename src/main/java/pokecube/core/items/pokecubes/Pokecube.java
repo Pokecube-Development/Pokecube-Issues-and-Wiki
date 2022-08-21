@@ -313,9 +313,8 @@ public class Pokecube extends Item implements IPokecube
     public void releaseUsing(final ItemStack stack, final Level worldIn, final LivingEntity MobEntity,
             final int timeLeft)
     {
-        if (MobEntity instanceof Player && !worldIn.isClientSide)
+        if (MobEntity instanceof Player player && !worldIn.isClientSide)
         {
-            final Player player = (Player) MobEntity;
             final Predicate<Entity> selector = input -> {
                 final IPokemob pokemob = PokemobCaps.getPokemobFor(input);
                 if (!AITools.validTargets.test(input)) return false;
@@ -405,9 +404,8 @@ public class Pokecube extends Item implements IPokecube
         entity.setItem(stack);
 
         final Vector3 temp = new Vector3().set(thrower).addTo(0, thrower.getEyeHeight(), 0);
-        if (thrower instanceof ServerPlayer && !(thrower instanceof FakePlayer))
+        if (thrower instanceof ServerPlayer player && !(thrower instanceof FakePlayer))
         {
-            final ServerPlayer player = (ServerPlayer) thrower;
             final InteractionHand hand = player.getUsedItemHand();
             final Vec3 tmp = thrower.getLookAngle();
             final Vec3f look = new Vec3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
@@ -467,9 +465,8 @@ public class Pokecube extends Item implements IPokecube
             entity.targetLocation.set(targetLocation);
             final Vector3 temp = new Vector3().set(thrower).add(0, thrower.getEyeHeight(), 0);
             temp.moveEntity(entity);
-            if (thrower instanceof ServerPlayer && !(thrower instanceof FakePlayer))
+            if (thrower instanceof ServerPlayer player && !(thrower instanceof FakePlayer))
             {
-                final ServerPlayer player = (ServerPlayer) thrower;
                 final InteractionHand hand = player.getUsedItemHand();
                 final Vec3 tmp = thrower.getLookAngle();
                 final Vec3f look = new Vec3f((float) tmp.x, (float) tmp.y, (float) tmp.z);

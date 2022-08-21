@@ -26,8 +26,7 @@ public class PacketTrade extends Packet
     public CompoundTag data = new CompoundTag();
 
     public PacketTrade()
-    {
-    }
+    {}
 
     public PacketTrade(final FriendlyByteBuf buf)
     {
@@ -39,8 +38,7 @@ public class PacketTrade extends Packet
     {
         final Player player = PokecubeCore.proxy.getPlayer();
         final AbstractContainerMenu cont = player.containerMenu;
-        if (!(cont instanceof TradeContainer)) return;
-        final TradeContainer container = (TradeContainer) cont;
+        if (!(cont instanceof TradeContainer container)) return;
         if (this.data.contains("r"))
         {
             container.tile.confirmed[0] = false;
@@ -64,9 +62,7 @@ public class PacketTrade extends Packet
     public void handleServer(final ServerPlayer player)
     {
         final AbstractContainerMenu cont = player.containerMenu;
-        if (!(cont instanceof TradeContainer)) return;
-        final TradeContainer container = (TradeContainer) cont;
-
+        if (!(cont instanceof TradeContainer container)) return;
         final InvWrapper inv = (InvWrapper) container.tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
                 .orElse(null);
         if (this.data.contains("r"))
@@ -149,14 +145,14 @@ public class PacketTrade extends Packet
                 {
                     if (pokecube0.isEmpty())
                     {
-                        pokeseal = (seal = inv.getStackInSlot(0)).getItem() == PokecubeItems.getEmptyCube(
-                                PokecubeBehaviour.POKESEAL);
+                        pokeseal = (seal = inv.getStackInSlot(0)).getItem() == PokecubeItems
+                                .getEmptyCube(PokecubeBehaviour.POKESEAL);
                         cube = pokecube1;
                     }
                     if (pokecube1.isEmpty())
                     {
-                        pokeseal = (seal = inv.getStackInSlot(1)).getItem() == PokecubeItems.getEmptyCube(
-                                PokecubeBehaviour.POKESEAL);
+                        pokeseal = (seal = inv.getStackInSlot(1)).getItem() == PokecubeItems
+                                .getEmptyCube(PokecubeBehaviour.POKESEAL);
                         cube = pokecube0;
                     }
                 }

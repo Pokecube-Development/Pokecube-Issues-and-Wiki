@@ -234,9 +234,8 @@ public class PokecubeSerializer
         this.customData = tag.getCompound("data");
         Tag temp;
         temp = tag.get(PokecubeSerializer.METEORS);
-        if (temp instanceof ListTag)
+        if (temp instanceof ListTag tagListMeteors)
         {
-            final ListTag tagListMeteors = (ListTag) temp;
             if (tagListMeteors.size() > 0) meteors:
             for (int i = 0; i < tagListMeteors.size(); i++)
             {
@@ -252,9 +251,8 @@ public class PokecubeSerializer
             }
         }
         temp = tag.get(PokecubeSerializer.BASES);
-        if (temp instanceof ListTag)
+        if (temp instanceof ListTag tagListBases)
         {
-            final ListTag tagListBases = (ListTag) temp;
             if (tagListBases.size() > 0) meteors:
             for (int i = 0; i < tagListBases.size(); i++)
             {
@@ -275,9 +273,8 @@ public class PokecubeSerializer
         }
 
         temp = tag.get(PokecubeSerializer.STRUCTS);
-        if (temp instanceof ListTag)
+        if (temp instanceof ListTag tagListStructs)
         {
-            final ListTag tagListStructs = (ListTag) temp;
             if (tagListStructs.size() > 0) for (int i = 0; i < tagListStructs.size(); i++)
             {
                 final CompoundTag pokemobData = tagListStructs.getCompound(i);

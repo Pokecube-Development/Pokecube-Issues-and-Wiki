@@ -166,8 +166,9 @@ public class SendOutManager
                 if (denied)
                 {
                     Tools.giveItem(user, cube.getItem());
-                    user.displayClientMessage(TComponent.translatable("pokecube.sendout.fail.noperms.specific",
-                            pokemob.getDisplayName()), true);
+                    user.displayClientMessage(
+                            TComponent.translatable("pokecube.sendout.fail.noperms.specific", pokemob.getDisplayName()),
+                            true);
                     cube.discard();
                     return null;
                 }
@@ -180,8 +181,7 @@ public class SendOutManager
                 {
                     Tools.giveItem(user, cube.getItem());
                     user.displayClientMessage(
-                            TComponent.translatable("pokecube.sendout.fail.cancelled", pokemob.getDisplayName()),
-                            true);
+                            TComponent.translatable("pokecube.sendout.fail.cancelled", pokemob.getDisplayName()), true);
                     cube.discard();
                 }
                 return null;
@@ -203,13 +203,13 @@ public class SendOutManager
             cube.setItem(pokemob.getPokecube());
 
         }
-        else if (mob instanceof LivingEntity)
+        else if (mob instanceof LivingEntity living)
         {
             cube.getItem().getTag().remove(TagNames.MOBID);
             cube.getItem().getTag().remove(TagNames.POKEMOB);
             cube.setReleased(mob);
             SendOutManager.apply(world, mob, v, pokemob, summon);
-            return (LivingEntity) mob;
+            return living;
         }
         else
         {

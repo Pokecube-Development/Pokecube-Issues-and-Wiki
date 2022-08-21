@@ -45,10 +45,8 @@ public class Battle
         public void addBattle(final Battle battle)
         {
             this.battles.add(battle);
-            for (final UUID id : battle.side1.keySet())
-                this.battlesById.put(id, battle);
-            for (final UUID id : battle.side2.keySet())
-                this.battlesById.put(id, battle);
+            for (final UUID id : battle.side1.keySet()) this.battlesById.put(id, battle);
+            for (final UUID id : battle.side2.keySet()) this.battlesById.put(id, battle);
         }
 
         @Nullable
@@ -74,10 +72,8 @@ public class Battle
         @Override
         public void onTickStart(final ServerLevel world)
         {
-            for (final Battle battle : this.battles)
-                battle.tick();
-            this.battles.removeIf(b ->
-            {
+            for (final Battle battle : this.battles) battle.tick();
+            this.battles.removeIf(b -> {
                 final boolean ended = b.ended;
                 if (ended)
                 {
@@ -91,26 +87,23 @@ public class Battle
 
     public static Battle getBattle(final LivingEntity mob)
     {
-        if (!(mob.getLevel() instanceof ServerLevel))
+        if (!(mob.getLevel() instanceof ServerLevel level))
         {
             PokecubeAPI.LOGGER.error("Error checking for a battle on wrong side!");
             PokecubeAPI.LOGGER.error(new IllegalAccessError());
             return null;
         }
-        final ServerLevel world = (ServerLevel) mob.getLevel();
-        final BattleManager manager = BattleManager.managers.get(world.dimension());
+        final BattleManager manager = BattleManager.managers.get(level.dimension());
         return manager.getFor(mob);
     }
 
     public static boolean createOrAddToBattle(final LivingEntity mobA, final LivingEntity mobB)
     {
         if (mobB == null || !AITools.validTargets.test(mobB)) return false;
-        if (mobA == null || !(mobA.getLevel() instanceof ServerLevel)) return false;
+        if (mobA == null || !(mobA.getLevel() instanceof ServerLevel level)) return false;
 
         final Battle existingA = Battle.getBattle(mobA);
         final Battle existingB = Battle.getBattle(mobB);
-
-        final ServerLevel world = (ServerLevel) mobA.getLevel();
 
         if (existingA != null && existingB != null)
         {
@@ -122,15 +115,15 @@ public class Battle
                 existingA.addToBattle(mobA, mobB);
                 return true;
             }
-            existingA.mergeFrom(mobA, mobB, existingB, world);
+            existingA.mergeFrom(mobA, mobB, existingB, level);
             return false;
         }
         if (existingA != null) existingA.addToBattle(mobA, mobB);
         else if (existingB != null) existingB.addToBattle(mobA, mobB);
         else
         {
-            final BattleManager manager = BattleManager.managers.get(world.dimension());
-            final Battle battle = new Battle(world, manager);
+            final BattleManager manager = BattleManager.managers.get(level.dimension());
+            final Battle battle = new Battle(level, manager);
             battle.addToBattle(mobA, mobB);
             manager.addBattle(battle);
             battle.start();
@@ -146,7 +139,7 @@ public class Battle
 
     private final UUID battleID = UUID.randomUUID();
 
-    private final ServerLevel   world;
+    private final ServerLevel world;
     private final BattleManager manager;
 
     private final Object2IntArrayMap<LivingEntity> aliveTracker = new Object2IntArrayMap<>();
@@ -194,13 +187,11 @@ public class Battle
         final Map<UUID, LivingEntity> sideBUs = mobAisSide1 ? this.side2 : this.side1;
         final Map<UUID, LivingEntity> sideAThem = mobBisSide1 ? other.side2 : other.side1;
 
-        sideBThem.forEach((id, mob) ->
-        {
+        sideBThem.forEach((id, mob) -> {
             sideBUs.put(id, mob);
             this.manager.battlesById.put(id, this);
         });
-        sideAThem.forEach((id, mob) ->
-        {
+        sideAThem.forEach((id, mob) -> {
             sideAUs.put(id, mob);
             this.manager.battlesById.put(id, this);
         });
@@ -273,40 +264,37 @@ public class Battle
         this.valid = true;
         final Set<LivingEntity> stale = Sets.newHashSet();
         final int tooLong = Battle.BATTLE_END_TIMER;
-        for (final LivingEntity mob1 : this.side1.values())
-            if (!mob1.isAlive())
-            {
-                final int tick = this.aliveTracker.getInt(mob1) + 1;
-                this.aliveTracker.put(mob1, tick);
-                final UUID id = mob1.getUUID();
-                final Entity mob = this.world.getEntity(id);
-                if (mob != null && mob != mob1)
-                {
-                    this.aliveTracker.removeInt(mob1);
-                    if (mob instanceof LivingEntity) this.side1.put(id, (LivingEntity) mob);
-                    continue;
-                }
-                if (tick > tooLong) stale.add(mob1);
-                continue;
-            }
-        for (final LivingEntity mob2 : this.side2.values())
-            if (!mob2.isAlive())
-            {
-                final int tick = this.aliveTracker.getInt(mob2) + 1;
-                final UUID id = mob2.getUUID();
-                final Entity mob = this.world.getEntity(id);
-                if (mob != null && mob != mob2)
-                {
-                    this.aliveTracker.removeInt(mob2);
-                    if (mob instanceof LivingEntity) this.side2.put(id, (LivingEntity) mob);
-                    continue;
-                }
-                this.aliveTracker.put(mob2, tick);
-                if (tick > tooLong) stale.add(mob2);
-                continue;
-            }
-        stale.forEach(mob ->
+        for (final LivingEntity mob1 : this.side1.values()) if (!mob1.isAlive())
         {
+            final int tick = this.aliveTracker.getInt(mob1) + 1;
+            this.aliveTracker.put(mob1, tick);
+            final UUID id = mob1.getUUID();
+            final Entity mob = this.world.getEntity(id);
+            if (mob != null && mob != mob1)
+            {
+                this.aliveTracker.removeInt(mob1);
+                if (mob instanceof LivingEntity living) this.side1.put(id, living);
+                continue;
+            }
+            if (tick > tooLong) stale.add(mob1);
+            continue;
+        }
+        for (final LivingEntity mob2 : this.side2.values()) if (!mob2.isAlive())
+        {
+            final int tick = this.aliveTracker.getInt(mob2) + 1;
+            final UUID id = mob2.getUUID();
+            final Entity mob = this.world.getEntity(id);
+            if (mob != null && mob != mob2)
+            {
+                this.aliveTracker.removeInt(mob2);
+                if (mob instanceof LivingEntity living) this.side2.put(id, living);
+                continue;
+            }
+            this.aliveTracker.put(mob2, tick);
+            if (tick > tooLong) stale.add(mob2);
+            continue;
+        }
+        stale.forEach(mob -> {
             this.removeFromBattle(mob);
         });
         if (this.side1.isEmpty() || this.side2.isEmpty()) this.end();
@@ -323,8 +311,8 @@ public class Battle
         for (final LivingEntity mob1 : this.side1.values())
         {
             final IPokemob poke = PokemobCaps.getPokemobFor(mob1);
-            if (!(mob1 instanceof Mob)) continue;
-            BrainUtils.initiateCombat((Mob) mob1, main2);
+            if (!(mob1 instanceof Mob mob)) continue;
+            BrainUtils.initiateCombat(mob, main2);
             if (poke != null && poke.getAbility() != null) poke.getAbility().startCombat(poke);
         }
         for (final LivingEntity mob2 : this.side2.values())
@@ -332,8 +320,8 @@ public class Battle
             final IPokemob poke = PokemobCaps.getPokemobFor(mob2);
             // This was already handled
             if (mob2 == main2) continue;
-            if (!(mob2 instanceof Mob)) continue;
-            BrainUtils.initiateCombat((Mob) mob2, main1);
+            if (!(mob2 instanceof Mob mob)) continue;
+            BrainUtils.initiateCombat(mob, main1);
             if (poke != null && poke.getAbility() != null) poke.getAbility().startCombat(poke);
         }
     }

@@ -104,7 +104,7 @@ public class PCContainer extends BaseContainer
         for (int i = 0; i < 6; i++) for (int j = 0; j < 9; j++) this.addSlot(new PCSlot(this.inv, n + j + i * 9,
                 8 + j * 18 + PCContainer.xOffset, 18 + i * 18 + PCContainer.yOffset));
         // int k = 0;
-        for (final Object o : this.slots) if (o instanceof Slot) ((Slot) o).setChanged();
+        for (final Slot s : this.slots) s.setChanged();
     }
 
     @Override

@@ -113,9 +113,8 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
             tooltip.add(info);
         }
         if (PokecubeCore.proxy.getPlayer() == null) return;
-        if (PokecubeCore.proxy.getPlayer().containerMenu instanceof ContainerPokemob)
+        if (PokecubeCore.proxy.getPlayer().containerMenu instanceof ContainerPokemob container)
         {
-            final ContainerPokemob container = (ContainerPokemob) PokecubeCore.proxy.getPlayer().containerMenu;
             final IPokemob pokemob = container.getPokemob();
             if (pokemob == null || pokemob.getEntity() == null) return;
             final Nature nature = pokemob.getNature();

@@ -215,7 +215,7 @@ public class Tools
         double cubeBonus = 0;
         int additionalBonus = 0;
         final Item cube = PokecubeItems.getFilledCube(pokecubeId);
-        if (cube instanceof IPokecube) cubeBonus = ((IPokecube) cube).getCaptureModifier(pokemob, pokecubeId);
+        if (cube instanceof IPokecube pokecube) cubeBonus = pokecube.getCaptureModifier(pokemob, pokecubeId);
         if (IPokecube.PokecubeBehaviour.BEHAVIORS.containsKey(pokecubeId))
             additionalBonus = IPokecube.PokecubeBehaviour.BEHAVIORS.get(pokecubeId).getAdditionalBonus(pokemob);
         return Tools.computeCatchRate(pokemob, cubeBonus, additionalBonus);

@@ -202,9 +202,10 @@ public class ItemPokemobEgg extends Item
         final IOwnable ownable = OwnableCaps.getOwnable(owner);
         if (owner == null || pokemob != null || ownable != null)
         {
-            if (pokemob != null && pokemob.getOwner() instanceof Player) player = (Player) pokemob.getOwner();
-            else if (ownable != null && ownable.getOwner() instanceof Player) player = (Player) ownable.getOwner();
-            owner = player;
+            // Prioritise owned pokemobs first
+            if (pokemob != null && pokemob.getOwner() instanceof Player) owner = pokemob.getOwner();
+            // Then select other owned mob types if present.
+            else if (ownable != null && ownable.getOwner() instanceof Player) owner = ownable.getOwner();
         }
         return owner;
     }

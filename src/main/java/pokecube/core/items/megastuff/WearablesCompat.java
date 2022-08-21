@@ -57,13 +57,13 @@ public class WearablesCompat
 
         String getSlotSt(final ItemStack stack)
         {
-            if (stack.getItem() instanceof ItemMegawearable) return ((ItemMegawearable) stack.getItem()).slot;
+            if (stack.getItem() instanceof ItemMegawearable wearable) return wearable.slot;
             return "";
         }
 
         String getVariant(final ItemStack stack)
         {
-            if (stack.getItem() instanceof ItemMegawearable) return ((ItemMegawearable) stack.getItem()).name;
+            if (stack.getItem() instanceof ItemMegawearable wearable) return wearable.name;
             return "";
         }
 
@@ -90,9 +90,9 @@ public class WearablesCompat
         }
 
         @OnlyIn(Dist.CLIENT)
-        public abstract void renderWearable(final PoseStack mat, final MultiBufferSource buff,
-                final EnumWearable slot, final int index, final LivingEntity wearer, final ItemStack stack,
-                final float partialTicks, int brightness, int overlay);
+        public abstract void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
+                final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+                int brightness, int overlay);
     }
 
     public static class WearableWatch implements thut.wearables.IActiveWearable, ICapabilityProvider
@@ -129,9 +129,9 @@ public class WearablesCompat
         }
     }
 
-    private static final ResourceLocation        WEARABLESKEY = new ResourceLocation("pokecube:wearable");
+    private static final ResourceLocation WEARABLESKEY = new ResourceLocation("pokecube:wearable");
 
-    public static Map<String, WearablesRenderer> renderers    = Maps.newHashMap();
+    public static Map<String, WearablesRenderer> renderers = Maps.newHashMap();
 
     static
     {
@@ -139,7 +139,7 @@ public class WearablesCompat
         {
             // 2 layers of belt rendering for the different colours.
             @OnlyIn(Dist.CLIENT)
-            private X3dModel         model;
+            private X3dModel model;
 
             // Textures for each belt layer.
             private ResourceLocation strap;
@@ -231,7 +231,7 @@ public class WearablesCompat
         {
             // 2 layers of belt rendering for the different colours.
             @OnlyIn(Dist.CLIENT)
-            private X3dModel         belt;
+            private X3dModel belt;
 
             // Textures for each belt layer.
             private ResourceLocation keystone;
@@ -285,12 +285,13 @@ public class WearablesCompat
         {
             // 2 layers of hat rendering for the different colours.
             @OnlyIn(Dist.CLIENT)
-            X3dModel                         hat;
+            X3dModel hat;
 
             // Textures for each hat layer.
-            private final ResourceLocation   hat_1 = new ResourceLocation(PokecubeCore.MODID, "textures/worn/hat.png");
-            private final ResourceLocation   hat_2 = new ResourceLocation(PokecubeCore.MODID, "textures/worn/hat2.png");
-            private final ResourceLocation[] TEX   = { this.hat_1, this.hat_2 };
+            private final ResourceLocation hat_1 = new ResourceLocation(PokecubeCore.MODID, "textures/worn/hat.png");
+            private final ResourceLocation hat_2 = new ResourceLocation(PokecubeCore.MODID, "textures/worn/hat2.png");
+            private final ResourceLocation[] TEX =
+            { this.hat_1, this.hat_2 };
 
             @OnlyIn(Dist.CLIENT)
             @Override

@@ -56,8 +56,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         return pokemob.getLevel() >= 90 && ability.toString().equalsIgnoreCase("hypercutter");
     }
 
-    public static void silkHarvest(final BlockState state, final BlockPos pos, final Level worldIn,
-            final Player player)
+    public static void silkHarvest(final BlockState state, final BlockPos pos, final Level worldIn, final Player player)
     {
         final ItemStack pickaxe = new ItemStack(Items.DIAMOND_PICKAXE);
         pickaxe.enchant(Enchantments.SILK_TOUCH, 1);
@@ -74,12 +73,10 @@ public class Move_Basic extends Move_Base implements IMoveConstants
      * The attack category defines the way the mob will move in order to make
      * its attack.
      *
-     * @param name
-     *            the English name of the attack, used as identifier and
-     *            translation key
-     * @param attackCategory
-     *            can be either {@link MovesUtils#CATEGORY_CONTACT} or
-     *            {@link MovesUtils#CATEGORY_DISTANCE}
+     * @param name           the English name of the attack, used as identifier
+     *                       and translation key
+     * @param attackCategory can be either {@link MovesUtils#CATEGORY_CONTACT}
+     *                       or {@link MovesUtils#CATEGORY_DISTANCE}
      */
     public Move_Basic(final String name)
     {
@@ -101,45 +98,44 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         final IPokemob attackedMob = PokemobCaps.getPokemobFor(attacked);
         if ((attacker.getStatus() & IMoveConstants.STATUS_SLP) > 0)
         {
-            if (attackedMob != null) MovesUtils.displayStatusMessages(attackedMob, attacker.getEntity(),
-                    IMoveConstants.STATUS_SLP, false);
+            if (attackedMob != null)
+                MovesUtils.displayStatusMessages(attackedMob, attacker.getEntity(), IMoveConstants.STATUS_SLP, false);
             else MovesUtils.displayStatusMessages(null, attacker.getEntity(), IMoveConstants.STATUS_SLP, false);
             return;
         }
         if ((attacker.getStatus() & IMoveConstants.STATUS_FRZ) > 0)
         {
-            if (attackedMob != null) MovesUtils.displayStatusMessages(attackedMob, attacker.getEntity(),
-                    IMoveConstants.STATUS_FRZ, false);
+            if (attackedMob != null)
+                MovesUtils.displayStatusMessages(attackedMob, attacker.getEntity(), IMoveConstants.STATUS_FRZ, false);
             else MovesUtils.displayStatusMessages(null, attacker.getEntity(), IMoveConstants.STATUS_FRZ, false);
             return;
         }
         if ((attacker.getStatus() & IMoveConstants.STATUS_PAR) > 0 && Math.random() > 0.75)
         {
-            if (attackedMob != null) MovesUtils.displayStatusMessages(attackedMob, attacker.getEntity(),
-                    IMoveConstants.STATUS_PAR, false);
+            if (attackedMob != null)
+                MovesUtils.displayStatusMessages(attackedMob, attacker.getEntity(), IMoveConstants.STATUS_PAR, false);
             else MovesUtils.displayStatusMessages(null, attacker.getEntity(), IMoveConstants.STATUS_PAR, false);
             return;
         }
         if (AnimationMultiAnimations.isThunderAnimation(this.getAnimation(attacker)))
         {
-            final LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, attacked
-                    .getLevel());
+            final LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, attacked.getLevel());
             attacked.thunderHit((ServerLevel) attacked.getLevel(), lightning);
         }
-        if (attacked instanceof Creeper)
+        if (attacked instanceof Creeper creeper)
         {
-            final Creeper creeper = (Creeper) attacked;
             if (this.move.type == PokeType.getType("psychic") && creeper.getHealth() > 0) creeper.explodeCreeper();
         }
         this.playSounds(attacker.getEntity(), attacked, null);
         byte statusChange = IMoveConstants.STATUS_NON;
         byte changeAddition = IMoveConstants.CHANGE_NONE;
-        if (this.move.statusChange != IMoveConstants.STATUS_NON && MovesUtils.rand
-                .nextFloat() <= this.move.statusChance) statusChange = this.move.statusChange;
+        if (this.move.statusChange != IMoveConstants.STATUS_NON
+                && MovesUtils.rand.nextFloat() <= this.move.statusChance)
+            statusChange = this.move.statusChange;
         if (this.move.change != IMoveConstants.CHANGE_NONE && MovesUtils.rand.nextFloat() <= this.move.chanceChance)
             changeAddition = this.move.change;
-        final MovePacket packet = new MovePacket(attacker, attacked, this.name, this.getType(attacker), this.getPWR(
-                attacker, attacked), this.move.crit, statusChange, changeAddition);
+        final MovePacket packet = new MovePacket(attacker, attacked, this.name, this.getType(attacker),
+                this.getPWR(attacker, attacked), this.move.crit, statusChange, changeAddition);
 
         final boolean self = this.isSelfMove();
         boolean doAttack = true;
@@ -175,10 +171,10 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         final boolean shouldEffect = packet.attackedStatModProb > 0 || packet.attackerStatModProb > 0;
         if (!shouldEffect) return;
         boolean effect = false;
-        if (packet.getMove().hasStatModTarget && packet.hit) effect = MovesUtils.handleStats(packet.attacker,
-                packet.attacked, packet, true);
-        if (packet.getMove().hasStatModSelf) effect = MovesUtils.handleStats(packet.attacker, packet.attacker
-                .getEntity(), packet, false);
+        if (packet.getMove().hasStatModTarget && packet.hit)
+            effect = MovesUtils.handleStats(packet.attacker, packet.attacked, packet, true);
+        if (packet.getMove().hasStatModSelf)
+            effect = MovesUtils.handleStats(packet.attacker, packet.attacker.getEntity(), packet, false);
         if (!effect) MovesUtils.displayStatsMessage(packet.attacker, packet.attacked, -2, (byte) 0, (byte) 0);
     }
 
@@ -227,8 +223,8 @@ public class Move_Basic extends Move_Base implements IMoveConstants
             return;
         }
 
-        if (packet.infatuateTarget && targetPokemob != null) targetPokemob.getMoveStats().infatuateTarget = attacker
-                .getEntity();
+        if (packet.infatuateTarget && targetPokemob != null)
+            targetPokemob.getMoveStats().infatuateTarget = attacker.getEntity();
 
         if (packet.infatuateAttacker) attacker.getMoveStats().infatuateTarget = attacked;
         if (attacked == null)
@@ -272,8 +268,8 @@ public class Move_Basic extends Move_Base implements IMoveConstants
 
         if (targetPokemob != null)
         {
-            attackStrength = MovesUtils.getAttackStrength(attacker, targetPokemob, packet.getMove().getCategory(
-                    attacker), PWR, packet);
+            attackStrength = MovesUtils.getAttackStrength(attacker, targetPokemob,
+                    packet.getMove().getCategory(attacker), PWR, packet);
 
             final int moveAcc = packet.getMove().move.accuracy;
             if (moveAcc > 0)
@@ -297,16 +293,14 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         }
         if (efficiency > 0 && packet.applyOngoing)
         {
-            Move_Ongoing ongoing;
-            if (MovesUtils.getMoveFromName(attack) instanceof Move_Ongoing)
+            if (MovesUtils.getMoveFromName(attack) instanceof Move_Ongoing ongoing)
             {
-                ongoing = (Move_Ongoing) MovesUtils.getMoveFromName(attack);
                 final IOngoingAffected targetAffected = CapabilityAffected.getAffected(attacked);
                 final IOngoingAffected sourceAffected = CapabilityAffected.getAffected(attackerMob);
-                if (ongoing.onTarget() && targetAffected != null) targetAffected.getEffects().add(ongoing.makeEffect(
-                        attackerMob));
-                if (ongoing.onSource() && sourceAffected != null) sourceAffected.getEffects().add(ongoing.makeEffect(
-                        attackerMob));
+                if (ongoing.onTarget() && targetAffected != null)
+                    targetAffected.getEffects().add(ongoing.makeEffect(attackerMob));
+                if (ongoing.onSource() && sourceAffected != null)
+                    sourceAffected.getEffects().add(ongoing.makeEffect(attackerMob));
             }
         }
         final TerrainSegment terrain = TerrainManager.getInstance().getTerrainForEntity(attackerMob);
@@ -358,21 +352,24 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         if (attacked instanceof Player)
         {
             final boolean owner = attacked == attacker.getOwner();
-            if (!owner || PokecubeCore.getConfig().pokemobsDamageOwner) scaleFactor = PokecubeCore
-                    .getConfig().pokemobsDamagePlayers ? wild ? PokecubeCore.getConfig().wildPlayerDamageRatio
-                            : PokecubeCore.getConfig().ownedPlayerDamageRatio : 0;
+            if (!owner || PokecubeCore.getConfig().pokemobsDamageOwner)
+                scaleFactor = PokecubeCore.getConfig().pokemobsDamagePlayers
+                        ? wild ? PokecubeCore.getConfig().wildPlayerDamageRatio
+                                : PokecubeCore.getConfig().ownedPlayerDamageRatio
+                        : 0;
             else scaleFactor = 0;
         }
-        else if (targetPokemob == null) scaleFactor = attacked instanceof Npc ? PokecubeCore
-                .getConfig().pokemobToNPCDamageRatio : PokecubeCore.getConfig().pokemobToOtherMobDamageRatio;
+        else if (targetPokemob == null)
+            scaleFactor = attacked instanceof Npc ? PokecubeCore.getConfig().pokemobToNPCDamageRatio
+                    : PokecubeCore.getConfig().pokemobToOtherMobDamageRatio;
         finalAttackStrength *= scaleFactor;
 
-        if (targetPokemob != null) if (targetPokemob.getAbility() != null) finalAttackStrength = targetPokemob
-                .getAbility().beforeDamage(targetPokemob, packet, finalAttackStrength);
+        if (targetPokemob != null) if (targetPokemob.getAbility() != null)
+            finalAttackStrength = targetPokemob.getAbility().beforeDamage(targetPokemob, packet, finalAttackStrength);
 
         if ((this.getAttackCategory() & IMoveConstants.CATEGORY_SELF) == 0 && this.move.defrosts
-                && targetPokemob != null && (targetPokemob.getStatus() & IMoveConstants.STATUS_FRZ) > 0) targetPokemob
-                        .healStatus();
+                && targetPokemob != null && (targetPokemob.getStatus() & IMoveConstants.STATUS_FRZ) > 0)
+            targetPokemob.healStatus();
 
         if (!((this.getAttackCategory() & IMoveConstants.CATEGORY_SELF) > 0 && PWR == 0) && finalAttackStrength > 0
                 && !attacked.isInvulnerable())
@@ -436,22 +433,23 @@ public class Move_Basic extends Move_Base implements IMoveConstants
 
             if (targetPokemob != null)
             {
-                if (this.move.category == IMoveConstants.SPECIAL) targetPokemob
-                        .getMoveStats().SPECIALDAMAGETAKENCOUNTER += finalAttackStrength;
-                if (this.move.category == IMoveConstants.PHYSICAL) targetPokemob
-                        .getMoveStats().PHYSICALDAMAGETAKENCOUNTER += finalAttackStrength;
+                if (this.move.category == IMoveConstants.SPECIAL)
+                    targetPokemob.getMoveStats().SPECIALDAMAGETAKENCOUNTER += finalAttackStrength;
+                if (this.move.category == IMoveConstants.PHYSICAL)
+                    targetPokemob.getMoveStats().PHYSICALDAMAGETAKENCOUNTER += finalAttackStrength;
             }
         }
 
         if ((efficiency > 0 || packet.getMove().getAttackCategory() == IMoveConstants.CATEGORY_SELF)
-                && statusChange != IMoveConstants.STATUS_NON) if (MovesUtils.setStatus(attacked, statusChange))
-                    MovesUtils.displayStatusMessages(attacker, attacked, statusChange, true);
-        else MovesUtils.displayEfficiencyMessages(attacker, attacked, -2, 0);
-        if (efficiency > 0 && changeAddition != IMoveConstants.CHANGE_NONE) MovesUtils.addChange(attacked, attacker,
-                changeAddition);
+                && statusChange != IMoveConstants.STATUS_NON)
+            if (MovesUtils.setStatus(attacked, statusChange))
+                MovesUtils.displayStatusMessages(attacker, attacked, statusChange, true);
+            else MovesUtils.displayEfficiencyMessages(attacker, attacked, -2, 0);
+        if (efficiency > 0 && changeAddition != IMoveConstants.CHANGE_NONE)
+            MovesUtils.addChange(attacked, attacker, changeAddition);
 
-        if (finalAttackStrength > 0) MovesUtils.displayEfficiencyMessages(attacker, attacked, efficiency,
-                criticalRatio);
+        if (finalAttackStrength > 0)
+            MovesUtils.displayEfficiencyMessages(attacker, attacked, efficiency, criticalRatio);
 
         int afterHealth = 0;
         if (attackedHp != null) afterHealth = (int) attackedHp.getHealth();
@@ -495,13 +493,13 @@ public class Move_Basic extends Move_Base implements IMoveConstants
 
         healRatio = this.getSelfHealRatio(attacker);
         boolean canHeal = attackerMob.getHealth() < attackerMob.getMaxHealth();
-        if (healRatio > 0 && canHeal) attackerMob.setHealth(Math.min(attackerMob.getMaxHealth(), attackerMob.getHealth()
-                + attackerMob.getMaxHealth() * healRatio));
+        if (healRatio > 0 && canHeal) attackerMob.setHealth(
+                Math.min(attackerMob.getMaxHealth(), attackerMob.getHealth() + attackerMob.getMaxHealth() * healRatio));
 
         healRatio = this.getTargetHealRatio(attacker);
         canHeal = attackedHp.getHealth() < attackedHp.getMaxHealth();
-        if (healRatio > 0 && canHeal) attackedHp.setHealth(Math.min(attackedHp.getMaxHealth(), attackedHp.getHealth()
-                + attackedHp.getMaxHealth() * healRatio));
+        if (healRatio > 0 && canHeal) attackedHp.setHealth(
+                Math.min(attackedHp.getMaxHealth(), attackedHp.getHealth() + attackedHp.getMaxHealth() * healRatio));
 
         packet = new MovePacket(attacker, attacked, attack, type, PWR, criticalLevel, statusChange, changeAddition,
                 false);

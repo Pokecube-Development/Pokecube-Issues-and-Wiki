@@ -147,15 +147,15 @@ public class ItemPokedex extends Item
 
     private void showGui(final Player player, final Entity mob, final IPokemob pokemob)
     {
-        if (player instanceof ServerPlayer)
+        if (player instanceof ServerPlayer splayer)
         {
             final ChunkAccess chunk = player.getLevel().getChunk(player.blockPosition());
-            TerrainUpdate.sendTerrainToClient(new ChunkPos(chunk.getPos().x, chunk.getPos().z), (ServerPlayer) player);
+            TerrainUpdate.sendTerrainToClient(new ChunkPos(chunk.getPos().x, chunk.getPos().z), splayer);
             PacketDataSync.syncData(player, "pokecube-stats");
-            PacketPokedex.sendSecretBaseInfoPacket((ServerPlayer) player, this.watch);
+            PacketPokedex.sendSecretBaseInfoPacket(splayer, this.watch);
             if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player)
                     .getData(PokecubePlayerStats.class).inspect(player, pokemob);
-            PacketPokedex.sendOpenPacket((ServerPlayer) player, mob, this.watch);
+            PacketPokedex.sendOpenPacket(splayer, mob, this.watch);
         }
     }
 

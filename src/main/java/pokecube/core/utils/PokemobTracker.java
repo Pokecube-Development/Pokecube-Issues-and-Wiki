@@ -49,7 +49,7 @@ public class PokemobTracker
         @Override
         public boolean equals(final Object obj)
         {
-            if (obj instanceof MobEntry) return ((MobEntry) obj).id.equals(this.id);
+            if (obj instanceof MobEntry entry) return entry.id.equals(this.id);
             return false;
         }
 
@@ -88,8 +88,7 @@ public class PokemobTracker
         @Override
         public boolean equals(final Object obj)
         {
-            if (obj instanceof MobEntry) return ((MobEntry) obj).pokemob.getEntity().getUUID().equals(this.cube
-                    .getUUID());
+            if (obj instanceof MobEntry entry) return entry.pokemob.getEntity().getUUID().equals(this.cube.getUUID());
             return false;
         }
 
@@ -122,7 +121,7 @@ public class PokemobTracker
 
     private final Map<ResourceKey<Level>, List<MobEntry>> liveMobs = new ConcurrentHashMap<>();
 
-    private final Map<UUID, Set<MobEntry>>  ownerMap   = new ConcurrentHashMap<>();
+    private final Map<UUID, Set<MobEntry>> ownerMap = new ConcurrentHashMap<>();
     private final Map<UUID, Set<CubeEntry>> ownedCubes = new ConcurrentHashMap<>();
 
     private final Map<UUID, MobEntry> entries = Maps.newConcurrentMap();
@@ -247,12 +246,12 @@ public class PokemobTracker
     {
         final PokemobTracker tracker = PokemobTracker.getFor(world);
         ResourceKey<Level> key = Level.OVERWORLD;
-        if (world instanceof Level) key = ((Level) world).dimension();
+        if (world instanceof Level level) key = level.dimension();
         final MobEntry[] mobList = tracker.liveMobs.getOrDefault(key, new ArrayList<>()).toArray(new MobEntry[0]);
         int num = 0;
-        for (final MobEntry e : mobList)
-            if (box.contains(e.getPos().getX(), e.getPos().getY(), e.getPos().getZ()) && e.pokemob.getEntity().isAlive()
-                    && matches.test(e.pokemob)) num++;
+        for (final MobEntry e : mobList) if (box.contains(e.getPos().getX(), e.getPos().getY(), e.getPos().getZ())
+                && e.pokemob.getEntity().isAlive() && matches.test(e.pokemob))
+            num++;
         return num;
     }
 
@@ -288,13 +287,11 @@ public class PokemobTracker
         final UUID id = owner.getUUID();
         final Set<MobEntry> mobs = tracker.ownerMap.getOrDefault(id, Collections.emptySet());
         final Set<CubeEntry> cubes = tracker.ownedCubes.getOrDefault(id, Collections.emptySet());
-        mobs.forEach(e ->
-        {
-            if (matcher.test(e.pokemob.getEntity()) && e.pokemob.getEntity().isAlive()) pokemobs.add(e.pokemob
-                    .getEntity());
+        mobs.forEach(e -> {
+            if (matcher.test(e.pokemob.getEntity()) && e.pokemob.getEntity().isAlive())
+                pokemobs.add(e.pokemob.getEntity());
         });
-        cubes.forEach(e ->
-        {
+        cubes.forEach(e -> {
             if (matcher.test(e.cube)) pokemobs.add(e.cube);
         });
         return pokemobs;
@@ -309,7 +306,7 @@ public class PokemobTracker
             tracker.ownerMap.clear();
         }
         ResourceKey<Level> key = Level.OVERWORLD;
-        if (evt.getWorld() instanceof Level) key = ((Level) evt.getWorld()).dimension();
+        if (evt.getWorld() instanceof Level level) key = level.dimension();
         // Reset the tracked map for this world
         tracker.liveMobs.put(key, new ArrayList<>());
         if (tracker == PokemobTracker.CLIENT) tracker.setDim(key);
