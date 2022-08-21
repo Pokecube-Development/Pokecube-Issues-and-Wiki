@@ -24,10 +24,12 @@ import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
+import pokecube.api.data.Pokedex;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.utils.PokeType;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.ListHelper;
@@ -36,16 +38,13 @@ import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
-import pokecube.core.database.Pokedex;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.stats.StatsCollector;
+import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.EntityTools;
-import pokecube.core.utils.PokeType;
 import thut.core.common.handlers.PlayerDataHandler;
+import thut.lib.TComponent;
 
 public class GuiPokedex extends Screen
 {
@@ -69,7 +68,7 @@ public class GuiPokedex extends Screen
      */
     public GuiPokedex(final IPokemob pokemob, final Player PlayerEntity)
     {
-        super(new TranslatableComponent("pokecube.pokedex.gui"));
+        super(TComponent.translatable("pokecube.pokedex.gui"));
         this.xSize = 256;
         this.ySize = 197;
         this.pokemob = pokemob;
@@ -156,7 +155,7 @@ public class GuiPokedex extends Screen
         final int yOffset = this.height / 2 - 80;
         final int xOffset = this.width / 2;
 
-        this.pokemobTextField = new EditBox(this.font, xOffset - 65, yOffset + 123, 110, 10, new TextComponent(""));
+        this.pokemobTextField = new EditBox(this.font, xOffset - 65, yOffset + 123, 110, 10, TComponent.literal(""));
         this.pokemobTextField.setBordered(false);
         this.pokemobTextField.setEditable(true);
 

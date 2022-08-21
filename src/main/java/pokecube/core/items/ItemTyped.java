@@ -5,14 +5,13 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.core.interfaces.PokecubeMod;
+import thut.lib.TComponent;
 
 public class ItemTyped extends Item
 {
@@ -20,14 +19,8 @@ public class ItemTyped extends Item
 
     public ItemTyped(Properties props, String type)
     {
-        this(props, type, true);
-    }
-
-    public ItemTyped(Properties props, String type, boolean reg)
-    {
         super(props);
         this.type = type;
-        if (reg) this.setRegistryName(PokecubeMod.ID, type);
     }
 
     /**
@@ -39,6 +32,6 @@ public class ItemTyped extends Item
     public void appendHoverText(ItemStack stack, @Nullable Level playerIn, List<Component> list,
             TooltipFlag advanced)
     {
-        list.add(new TextComponent(this.type));
+        list.add(TComponent.literal(this.type));
     }
 }

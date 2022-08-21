@@ -22,7 +22,7 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
 import pokecube.adventures.blocks.genetics.helper.recipe.IPoweredProgress;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredProcess;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.blocks.InteractableTile;
 import thut.api.block.ITickTile;
 import thut.api.inventory.InvHelper;
@@ -196,7 +196,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error ticking genetics process", e);
+                    PokecubeAPI.LOGGER.error("Error ticking genetics process", e);
                 }
             }
             if (!valid || done)

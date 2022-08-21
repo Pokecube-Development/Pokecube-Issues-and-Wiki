@@ -13,17 +13,20 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.ai.village.poi.PoiManager;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import pokecube.world.terrain.PokecubeTerrainChecker;
 
 public class MakeHive extends BaseIdleTask
 {
@@ -31,11 +34,11 @@ public class MakeHive extends BaseIdleTask
     static
     {
         // Don't run if we have a hive, we will make one if needed.
-        MakeHive.mems.put(BeeTasks.HIVE_POS, MemoryStatus.VALUE_ABSENT);
+        MakeHive.mems.put(BeeTasks.HIVE_POS.get(), MemoryStatus.VALUE_ABSENT);
         // We use this memory to determine how long since we had a hive
-        MakeHive.mems.put(BeeTasks.NO_HIVE_TIMER, MemoryStatus.VALUE_PRESENT);
+        MakeHive.mems.put(BeeTasks.NO_HIVE_TIMER.get(), MemoryStatus.VALUE_PRESENT);
         // We use this memory to decide where to put the hive
-        MakeHive.mems.put(MemoryModules.VISIBLE_BLOCKS, MemoryStatus.VALUE_PRESENT);
+        MakeHive.mems.put(MemoryModules.VISIBLE_BLOCKS.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     public MakeHive(final IPokemob pokemob)
@@ -70,9 +73,15 @@ public class MakeHive extends BaseIdleTask
     {
         if (!this.canPlaceHive(b, dir)) return false;
         final BlockPos pos = b.getPos();
+
+        final PoiManager pois = this.world.getPoiManager();
+        final long num = pois.getCountInRange(p -> p == PoiType.BEE_NEST || p == PoiType.BEEHIVE, pos,
+                PokecubeCore.getConfig().nestSpacing, PoiManager.Occupancy.ANY);
+        if (num > 0) return false;
+
         final Brain<?> brain = this.entity.getBrain();
         this.world.setBlockAndUpdate(pos.relative(dir), Blocks.BEE_NEST.defaultBlockState());
-        brain.eraseMemory(BeeTasks.NO_HIVE_TIMER);
+        brain.eraseMemory(BeeTasks.NO_HIVE_TIMER.get());
         return true;
     }
 
@@ -100,7 +109,8 @@ public class MakeHive extends BaseIdleTask
         final List<NearBlock> logs = Lists.newArrayList();
         // Otherwise on the ground
         final List<NearBlock> surfaces = Lists.newArrayList();
-        blocks.forEach(b -> {
+
+        if (blocks != null) blocks.forEach(b -> {
             if (PokecubeTerrainChecker.isLeaves(b.getState()) && this.canPlaceHive(b, Direction.DOWN)) leaves.add(b);
             if (PokecubeTerrainChecker.isWood(b.getState())
                     && this.canPlaceHive(b, Direction.Plane.HORIZONTAL.stream()))
@@ -140,7 +150,7 @@ public class MakeHive extends BaseIdleTask
 
         final Brain<?> brain = this.entity.getBrain();
         // partially Reset this if we failed
-        brain.setMemory(BeeTasks.NO_HIVE_TIMER, 0);
+        brain.setMemory(BeeTasks.NO_HIVE_TIMER.get(), 0);
 
     }
 
@@ -156,7 +166,7 @@ public class MakeHive extends BaseIdleTask
         if (!tameCheck) return false;
         final Brain<?> brain = this.entity.getBrain();
         int timer = 0;
-        if (brain.hasMemoryValue(BeeTasks.NO_HIVE_TIMER)) timer = brain.getMemory(BeeTasks.NO_HIVE_TIMER).get();
+        if (brain.hasMemoryValue(BeeTasks.NO_HIVE_TIMER.get())) timer = brain.getMemory(BeeTasks.NO_HIVE_TIMER.get()).get();
         // This timer is in ticks of the HiveSensor, which is only once per
         // second or so!
         return timer > 60;

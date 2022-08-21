@@ -1,8 +1,8 @@
 package pokecube.core.client.gui.pokemob;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -23,21 +23,22 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import thut.api.util.JsonUtil;
+import thut.lib.ResourceHelper;
+import thut.lib.TComponent;
 
 public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
 {
@@ -49,12 +50,12 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
 
     public static void initSizeMap()
     {
-        Resource res = null;
         try
         {
-            res = Minecraft.getInstance().getResourceManager().getResource(GuiPokemobBase.SIZEMAP);
-            final InputStream in = res.getInputStream();
-            final JsonObject json = JsonUtil.gson.fromJson(new InputStreamReader(in), JsonObject.class);
+            final BufferedReader reader = ResourceHelper.getReader(GuiPokemobBase.SIZEMAP,
+                    Minecraft.getInstance().getResourceManager());
+            if (reader == null) throw new FileNotFoundException(GuiPokemobBase.SIZEMAP.toString());
+            final JsonObject json = JsonUtil.gson.fromJson(reader, JsonObject.class);
             for (final Entry<String, JsonElement> entry : json.entrySet())
             {
                 final String key = entry.getKey();
@@ -65,10 +66,10 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error loading size for {}", key);
+                    PokecubeAPI.LOGGER.error("Error loading size for {}", key);
                 }
             }
-            res.close();
+            reader.close();
         }
         catch (final IOException e)
         {
@@ -86,7 +87,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
     public static void renderMob(final PoseStack mat, final LivingEntity entity, final int dx, final int dy,
             final float pitch, final float yaw, final float headPitch, final float headYaw, float scale)
     {
-        IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         LivingEntity renderMob = entity;
         final int j = dx;
         final int k = dy;
@@ -98,7 +99,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
             if (GuiPokemobBase.autoScale)
             {
                 final Float value = GuiPokemobBase.sizeMap.get(pokemob.getPokedexEntry());
-                if (value != null) mobScale = value * 2.0f;
+                if (value != null) mobScale = value * 8.0f;
                 else
                 {
                     final boolean stock = pokemob.getPokedexEntry().stock;
@@ -147,12 +148,12 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
     {
         if (pokemobIn == null)
         {
-            PokecubeCore.LOGGER.error("Error syncing pokemob", new IllegalArgumentException());
+            PokecubeAPI.LOGGER.error("Error syncing pokemob", new IllegalArgumentException());
             return;
         }
     }
 
-    protected EditBox name = new EditBox(null, 1 / 2, 1 / 2, 120, 10, new TextComponent(""));
+    protected EditBox name = new EditBox(null, 1 / 2, 1 / 2, 120, 10, TComponent.literal(""));
 
     public GuiPokemobBase(final ContainerPokemob container, final Inventory inv)
     {
@@ -209,7 +210,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
         super.init();
         final int xOffset = 80;
         final int yOffset = 77;
-        final Component comp = new TextComponent("");
+        final Component comp = TComponent.literal("");
         this.name = new EditBox(this.font, this.width / 2 - xOffset, this.height / 2 - yOffset, 69, 10, comp);
         this.name.setTextColor(0xFFFFFFFF);
         this.name.textColorUneditable = 4210752;

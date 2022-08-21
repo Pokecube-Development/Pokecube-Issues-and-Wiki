@@ -2,8 +2,8 @@ package pokecube.core.moves.animations.presets.parametric;
 
 import org.nfunk.jep.JEP;
 
+import pokecube.api.moves.IMoveAnimation;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IMoveAnimation;
 import pokecube.core.moves.animations.AnimPreset;
 import pokecube.core.moves.animations.MoveAnimationBase;
 import thut.api.maths.Vector3;
@@ -14,11 +14,9 @@ public class CartesianFunction extends MoveAnimationBase
     JEP x;
     JEP y;
     JEP z;
-
-    Vector3 v        = new Vector3();
+    
     boolean reverse  = false;
     boolean absolute = false;
-    Vector3 v1       = new Vector3();
 
     public CartesianFunction()
     {

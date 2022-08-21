@@ -2,8 +2,8 @@ package pokecube.core.moves.animations.presets.parametric;
 
 import org.nfunk.jep.JEP;
 
+import pokecube.api.moves.IMoveAnimation;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IMoveAnimation;
 import pokecube.core.moves.animations.AnimPreset;
 import pokecube.core.moves.animations.MoveAnimationBase;
 import thut.api.maths.Vector3;
@@ -13,9 +13,6 @@ public class CylindricalFunction extends MoveAnimationBase
 {
     JEP radial;
     JEP angular;
-
-    Vector3 v  = new Vector3();
-    Vector3 v1 = new Vector3();
 
     public CylindricalFunction()
     {

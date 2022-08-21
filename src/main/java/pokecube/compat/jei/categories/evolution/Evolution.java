@@ -1,11 +1,11 @@
 package pokecube.compat.jei.categories.evolution;
 
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.PokedexEntry.EvolutionData;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.compat.jei.ingredients.Pokemob;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntry.EvolutionData;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.FormeHolder;
 
 public class Evolution
 {

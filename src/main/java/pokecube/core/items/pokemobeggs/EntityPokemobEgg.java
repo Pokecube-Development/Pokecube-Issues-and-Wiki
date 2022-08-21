@@ -11,7 +11,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -21,24 +20,16 @@ import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.events.EggEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.events.EggEvent;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.api.maths.Vector3;
 
 /** @author Manchou */
 public class EntityPokemobEgg extends AgeableMob
 {
-    public static final EntityType<EntityPokemobEgg> TYPE;
-
-    static
-    {
-        TYPE = EntityType.Builder.of(EntityPokemobEgg::new, MobCategory.CREATURE).noSummon().fireImmune()
-                .sized(0.35f, 0.35f).build("egg");
-    }
-
     int delayBeforeCanPickup = 0;
     int lastIncubate = 0;
     public IPokemob mother = null;
@@ -68,14 +59,12 @@ public class EntityPokemobEgg extends AgeableMob
     /** Called when the entity is attacked. */
     public boolean hurt(final DamageSource source, final float damage)
     {
+        if (this.delayBeforeCanPickup > 0) return false;
         final Entity e = source.getDirectEntity();
-        if (!this.getLevel().isClientSide && e instanceof Player)
+        if (!this.getLevel().isClientSide && e instanceof Player player)
         {
-            if (this.delayBeforeCanPickup > 0) return false;
-
             final ItemStack itemstack = this.getMainHandItem();
             final int i = itemstack.getCount();
-            final Player player = (Player) e;
             if (this.mother != null && this.mother.getOwner() != player)
                 BrainUtils.initiateCombat(this.mother.getEntity(), player);
             if (i <= 0 || player.getInventory().add(itemstack))
@@ -210,7 +199,7 @@ public class EntityPokemobEgg extends AgeableMob
 
     public EntityPokemobEgg setStackByParents(final Entity placer, final IPokemob father)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(placer);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(placer);
         final ItemStack itemstack = ItemPokemobEgg.getEggStack(pokemob);
         ItemPokemobEgg.initStack(placer, father, itemstack);
         this.setItemInHand(InteractionHand.MAIN_HAND, itemstack);
@@ -271,9 +260,8 @@ public class EntityPokemobEgg extends AgeableMob
         }
         BlockEntity te = this.here.getTileEntity(this.getLevel(), Direction.DOWN);
         if (te == null) te = this.here.getTileEntity(this.getLevel());
-        if (te instanceof HopperBlockEntity)
+        if (te instanceof HopperBlockEntity hopper)
         {
-            final HopperBlockEntity hopper = (HopperBlockEntity) te;
             final ItemEntity item = new ItemEntity(this.getLevel(), this.getX(), this.getY(), this.getZ(),
                     this.getMainHandItem());
             if (HopperBlockEntity.addItem(hopper, item)) this.discard();

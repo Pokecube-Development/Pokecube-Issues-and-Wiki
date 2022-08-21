@@ -13,6 +13,8 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
@@ -26,9 +28,7 @@ import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor.Burrow;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.blocks.nests.NestTile;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.entity.ai.IAIRunnable;
 
 public class CheckBurrow extends BaseIdleTask
@@ -38,7 +38,7 @@ public class CheckBurrow extends BaseIdleTask
     static
     {
         // We use this memory to decide where to put the hive
-        CheckBurrow.mems.put(MemoryModules.VISIBLE_BLOCKS, MemoryStatus.VALUE_PRESENT);
+        CheckBurrow.mems.put(MemoryModules.VISIBLE_BLOCKS.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     int burrowCheckTimer = -10;
@@ -67,9 +67,9 @@ public class CheckBurrow extends BaseIdleTask
         if (this.burrow == null)
         {
             // Ensure these are cleared.
-            this.entity.getBrain().eraseMemory(BurrowTasks.BURROW);
-            this.entity.getBrain().eraseMemory(BurrowTasks.GOING_HOME);
-            this.entity.getBrain().eraseMemory(BurrowTasks.JOB_INFO);
+            this.entity.getBrain().eraseMemory(MemoryModules.NEST_POS.get());
+            this.entity.getBrain().eraseMemory(MemoryModules.GOING_HOME.get());
+            this.entity.getBrain().eraseMemory(MemoryModules.JOB_INFO.get());
 
             // We need to do the following:
             //
@@ -103,10 +103,8 @@ public class CheckBurrow extends BaseIdleTask
         else
         {
             // Here we might want to check if the burrow is still valid?
-            StoreTask storage = null;
-            for (final IAIRunnable run : this.pokemob.getTasks()) if (run instanceof StoreTask)
+            for (final IAIRunnable run : this.pokemob.getTasks()) if (run instanceof StoreTask storage)
             {
-                storage = (StoreTask) run;
                 this.pokemob.setRoutineState(AIRoutine.STORE, true);
                 storage.storageLoc = this.burrow.nest.getBlockPos();
                 storage.berryLoc = this.burrow.nest.getBlockPos();
@@ -125,12 +123,11 @@ public class CheckBurrow extends BaseIdleTask
         final Brain<?> brain = this.entity.getBrain();
         this.world.setBlockAndUpdate(pos, PokecubeItems.NEST.get().defaultBlockState());
         final BlockEntity tile = this.world.getBlockEntity(pos);
-        if (!(tile instanceof NestTile)) return false;
-        final NestTile nest = (NestTile) tile;
+        if (!(tile instanceof NestTile nest)) return false;
         nest.setWrappedHab(hab);
         nest.addResident(this.pokemob);
-        brain.setMemory(BurrowTasks.BURROW, GlobalPos.of(this.world.dimension(), pos));
-        brain.eraseMemory(BurrowTasks.NO_HOME_TIMER);
+        brain.setMemory(MemoryModules.NEST_POS.get(), GlobalPos.of(this.world.dimension(), pos));
+        brain.eraseMemory(MemoryModules.NO_NEST_TIMER.get());
         return true;
     }
 

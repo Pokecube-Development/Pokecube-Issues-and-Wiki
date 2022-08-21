@@ -6,9 +6,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.IMobGenetics;
@@ -63,10 +64,10 @@ public class PacketSyncGene extends Packet
         final Player player = PokecubeCore.proxy.getPlayer();
         final int id = this.entityId;
         final Alleles<?, ?> alleles = this.genes;
-        final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), id, true);
+        final Entity mob = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), id, true);
         if (mob == null) return;
         final IMobGenetics genes = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (genes != null && alleles != null && alleles.getExpressed() != null) genes.getAlleles().put(alleles
                 .getExpressed().getKey(), alleles);
         if (pokemob != null) pokemob.onGenesChanged();
@@ -83,7 +84,7 @@ public class PacketSyncGene extends Packet
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error syncing a gene! {}", this.genes, e);
+            PokecubeAPI.LOGGER.error("Error syncing a gene! {}", this.genes, e);
         }
         buffer.writeNbt(tag);
     }

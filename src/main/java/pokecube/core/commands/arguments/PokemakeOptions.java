@@ -8,18 +8,18 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.data.abilities.AbilityManager;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
+import pokecube.api.entity.pokemob.Nature;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
-import pokecube.core.database.abilities.AbilityManager;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.FormeHolder;
-import pokecube.core.interfaces.Nature;
 import pokecube.core.utils.Tools;
 import thut.api.entity.IMobColourable;
 import thut.api.maths.Vector3;
+import thut.lib.TComponent;
 
 public class PokemakeOptions
 {
@@ -39,7 +39,7 @@ public class PokemakeOptions
         }, (options) ->
         {
             return !options.locks[PokemakeOptions.NAME];
-        }, new TranslatableComponent("argument.entity.options.name.description"));
+        }, TComponent.translatable("argument.entity.options.name.description"));
     }
 
     static final int COLOUR   = 0;

@@ -3,8 +3,8 @@ package pokecube.core.moves.animations.presets.parametric;
 import org.nfunk.jep.JEP;
 
 import net.minecraft.util.Mth;
+import pokecube.api.moves.IMoveAnimation;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IMoveAnimation;
 import pokecube.core.moves.animations.AnimPreset;
 import pokecube.core.moves.animations.MoveAnimationBase;
 import thut.api.maths.Vector3;
@@ -16,14 +16,11 @@ public class SphericalFunction extends MoveAnimationBase
     JEP theta;
     JEP phi;
 
-    Vector3 v        = new Vector3();
-    boolean reverse  = false;
+    boolean reverse = false;
     boolean absolute = false;
-    Vector3 v1       = new Vector3();
 
     public SphericalFunction()
-    {
-    }
+    {}
 
     @Override
     public IMoveAnimation init(String preset)

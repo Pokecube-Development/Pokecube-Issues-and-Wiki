@@ -7,10 +7,8 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -18,24 +16,25 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.PokedexEntry.SpawnData;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
+import pokecube.api.stats.CaptureStats;
+import pokecube.api.stats.ISpecialCaptureCondition;
+import pokecube.api.stats.ISpecialSpawnCondition;
+import pokecube.api.stats.KillStats;
+import pokecube.api.stats.SpecialCaseRegister;
+import pokecube.api.utils.PokeType;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntry.SpawnData;
-import pokecube.core.database.stats.CaptureStats;
-import pokecube.core.database.stats.ISpecialCaptureCondition;
-import pokecube.core.database.stats.ISpecialSpawnCondition;
-import pokecube.core.database.stats.KillStats;
-import pokecube.core.database.stats.SpecialCaseRegister;
-import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
+import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
-import pokecube.core.handlers.events.SpawnHandler;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.legends.PokecubeLegends;
 import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
+import thut.lib.TComponent;
 
 public abstract class AbstractCondition implements ISpecialCaptureCondition, ISpecialSpawnCondition
 {
@@ -130,7 +129,8 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     {
         if (!this.canCapture(trainer))
         {
-            if (message && trainer != null) trainer.sendMessage(this.getFailureMessage(trainer), Util.NIL_UUID);
+            if (message && trainer instanceof Player player)
+                thut.lib.ChatHelper.sendSystemMessage(player, this.getFailureMessage(trainer));
             return false;
         }
         return true;
@@ -216,23 +216,24 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     @Override
     public void onCaptureFail(final Entity trainer, final IPokemob pokemob)
     {
-        if (trainer != null) trainer.sendMessage(this.getFailureMessage(trainer), Util.NIL_UUID);
+        if (trainer instanceof Player player)
+            thut.lib.ChatHelper.sendSystemMessage(player, this.getFailureMessage(trainer));
     }
 
     public MutableComponent sendNoTrust(final Entity trainer)
     {
         final String message = "msg.notrust.info";
-        final TranslatableComponent component = new TranslatableComponent(message,
-                new TranslatableComponent(this.getEntry().getUnlocalizedName()));
+        final MutableComponent component = TComponent.translatable(message,
+                TComponent.translatable(this.getEntry().getUnlocalizedName()));
         return component;
     }
 
     public MutableComponent sendNoHere(final Entity trainer)
     {
         final String message = "msg.nohere.info";
-        final TranslatableComponent component = new TranslatableComponent(message,
-                new TranslatableComponent(this.getEntry().getUnlocalizedName()));
-        trainer.sendMessage(component, Util.NIL_UUID);
+        final MutableComponent component = TComponent.translatable(message,
+                TComponent.translatable(this.getEntry().getUnlocalizedName()));
+        if (trainer instanceof Player player) thut.lib.ChatHelper.sendSystemMessage(player, component);
         return component;
     }
 
@@ -240,8 +241,8 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     public MutableComponent sendLegend(final Entity trainer, final String type, final int numA, final int numB)
     {
         final String message = "msg.infolegend.info";
-        final Component typeMess = new TranslatableComponent(PokeType.getUnlocalizedName(PokeType.getType(type)));
-        final TranslatableComponent component = new TranslatableComponent(message, typeMess, numA + 1, numB);
+        final Component typeMess = TComponent.translatable(PokeType.getUnlocalizedName(PokeType.getType(type)));
+        final MutableComponent component = TComponent.translatable(message, typeMess, numA + 1, numB);
         return component;
     }
 
@@ -250,9 +251,9 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
             final int numB, final int killa, final int killb)
     {
         final String message = "msg.infolegendduo.info";
-        final Component typeMess = new TranslatableComponent(PokeType.getUnlocalizedName(PokeType.getType(type)));
-        final Component killMess = new TranslatableComponent(PokeType.getUnlocalizedName(PokeType.getType(kill)));
-        final TranslatableComponent component = new TranslatableComponent(message, typeMess, killMess, numA + 1, numB,
+        final Component typeMess = TComponent.translatable(PokeType.getUnlocalizedName(PokeType.getType(type)));
+        final Component killMess = TComponent.translatable(PokeType.getUnlocalizedName(PokeType.getType(kill)));
+        final MutableComponent component = TComponent.translatable(message, typeMess, killMess, numA + 1, numB,
                 killa + 1, killb);
         return component;
     }
@@ -267,10 +268,10 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         {
             PokedexEntry entry = Database.getEntry(s);
             if (entry == null) entry = Database.missingno;
-            if (namemes == null) namemes = new TranslatableComponent(entry.getUnlocalizedName());
-            else namemes = namemes.append(", ").append(new TranslatableComponent(entry.getUnlocalizedName()));
+            if (namemes == null) namemes = TComponent.translatable(entry.getUnlocalizedName());
+            else namemes = namemes.append(", ").append(TComponent.translatable(entry.getUnlocalizedName()));
         }
-        final TranslatableComponent component = new TranslatableComponent(message, namemes);
+        final MutableComponent component = TComponent.translatable(message, namemes);
         return component;
     }
 
@@ -278,21 +279,16 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     public MutableComponent sendLegendBuild(final Entity trainer, final String name)
     {
         final String message = "msg.reginotlookright.info";
-        final TranslatableComponent component = new TranslatableComponent(message, name);
-        if (trainer instanceof Player)
-        {
-            final Player player = (Player) trainer;
-            player.displayClientMessage(component, true);
-        }
-        else trainer.sendMessage(component, Util.NIL_UUID);
+        final MutableComponent component = TComponent.translatable(message, name);
+        if (trainer instanceof Player player) player.displayClientMessage(component, true);
         return component;
     }
 
     public MutableComponent sendAngered(final Entity trainer)
     {
         final String message = "msg.angeredlegend.json";
-        final TranslatableComponent component = new TranslatableComponent(message,
-                new TranslatableComponent(this.getEntry().getUnlocalizedName()));
+        final MutableComponent component = TComponent.translatable(message,
+                TComponent.translatable(this.getEntry().getUnlocalizedName()));
         return component;
     }
 }

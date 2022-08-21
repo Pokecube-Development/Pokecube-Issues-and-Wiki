@@ -10,14 +10,15 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.RecipePokeseals;
-import pokecube.core.utils.TagNames;
 import thut.core.common.network.Packet;
 
 public class PacketTrade extends Packet
@@ -25,8 +26,7 @@ public class PacketTrade extends Packet
     public CompoundTag data = new CompoundTag();
 
     public PacketTrade()
-    {
-    }
+    {}
 
     public PacketTrade(final FriendlyByteBuf buf)
     {
@@ -38,13 +38,12 @@ public class PacketTrade extends Packet
     {
         final Player player = PokecubeCore.proxy.getPlayer();
         final AbstractContainerMenu cont = player.containerMenu;
-        if (!(cont instanceof TradeContainer)) return;
-        final TradeContainer container = (TradeContainer) cont;
+        if (!(cont instanceof TradeContainer container)) return;
         if (this.data.contains("r"))
         {
             container.tile.confirmed[0] = false;
             container.tile.confirmed[1] = false;
-            PokecubeCore.LOGGER.debug("Resetting trade status, users: " + container.tile.users);
+            PokecubeAPI.LOGGER.debug("Resetting trade status, users: " + container.tile.users);
             return;
         }
         if (this.data.contains("0"))
@@ -63,9 +62,7 @@ public class PacketTrade extends Packet
     public void handleServer(final ServerPlayer player)
     {
         final AbstractContainerMenu cont = player.containerMenu;
-        if (!(cont instanceof TradeContainer)) return;
-        final TradeContainer container = (TradeContainer) cont;
-
+        if (!(cont instanceof TradeContainer container)) return;
         final InvWrapper inv = (InvWrapper) container.tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
                 .orElse(null);
         if (this.data.contains("r"))
@@ -148,14 +145,14 @@ public class PacketTrade extends Packet
                 {
                     if (pokecube0.isEmpty())
                     {
-                        pokeseal = (seal = inv.getStackInSlot(0)).getItem() == PokecubeItems.getEmptyCube(
-                                PokecubeBehavior.POKESEAL);
+                        pokeseal = (seal = inv.getStackInSlot(0)).getItem() == PokecubeItems
+                                .getEmptyCube(PokecubeBehaviour.POKESEAL);
                         cube = pokecube1;
                     }
                     if (pokecube1.isEmpty())
                     {
-                        pokeseal = (seal = inv.getStackInSlot(1)).getItem() == PokecubeItems.getEmptyCube(
-                                PokecubeBehavior.POKESEAL);
+                        pokeseal = (seal = inv.getStackInSlot(1)).getItem() == PokecubeItems
+                                .getEmptyCube(PokecubeBehaviour.POKESEAL);
                         cube = pokecube0;
                     }
                 }

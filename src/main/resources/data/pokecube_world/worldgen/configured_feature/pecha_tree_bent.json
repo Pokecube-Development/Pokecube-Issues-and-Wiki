@@ -1,0 +1,64 @@
+{
+  "type": "minecraft:tree",
+  "config": {
+    "ignore_vines": true,
+    "force_dirt": false,
+    "minimum_size": {
+      "type": "minecraft:two_layers_feature_size",
+      "limit": 1,
+      "lower_size": 0,
+      "upper_size": 1
+    },
+    "dirt_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "minecraft:dirt"
+      }
+    },
+    "trunk_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "pokecube:log_pecha",
+        "Properties": {
+          "axis": "y"
+        }
+      }
+    },
+    "foliage_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "pokecube:leaves_pecha",
+        "Properties": {
+          "persistent": "false",
+          "distance": "7"
+        }
+      }
+    },
+    "trunk_placer": {
+      "height_rand_b": 1,
+      "min_height_for_leaves": 4,
+      "bend_length": {
+        "type": "minecraft:uniform",
+        "value": {
+          "min_inclusive": 1,
+          "max_inclusive": 1
+        }
+      },
+      "base_height": 3,
+      "height_rand_a": 2,
+      "type": "pokecube:palm_trunk_placer"
+    },
+    "foliage_placer": {
+      "type": "pokecube:palm_foliage_placer",
+      "radius": 3,
+      "offset": 0,
+      "height": 5
+    },
+    "decorators": [
+      {
+        "probability": 0.002,
+        "type": "minecraft:beehive"
+      }
+    ]
+  }
+}

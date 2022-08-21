@@ -26,6 +26,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.EventsHandlerClient;
@@ -45,22 +48,16 @@ import pokecube.core.client.render.mobs.RenderPokecube;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.client.render.mobs.ShoulderLayer.IShoulderHolder;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
-import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.berries.BerryManager;
-import pokecube.core.items.pokecubes.EntityPokecube;
-import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
-import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
-import pokecube.core.utils.PokeType;
 import pokecube.nbtedit.NBTEdit;
+import pokecube.nbtedit.forge.ClientProxy;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
 public class ClientSetupHandler
@@ -86,77 +83,90 @@ public class ClientSetupHandler
     public static KeyMapping arrangeGui;
     public static KeyMapping animateGui;
 
+    static
+    {
+        int unk = InputConstants.UNKNOWN.getValue();
+
+        nextMob = new KeyMapping("key.pokemob.next", GLFW.GLFW_KEY_RIGHT, "Pokecube");
+        previousMob = new KeyMapping("key.pokemob.prev", GLFW.GLFW_KEY_LEFT, "Pokecube");
+        nextMove = new KeyMapping("key.pokemob.move.next", GLFW.GLFW_KEY_DOWN, "Pokecube");
+        previousMove = new KeyMapping("key.pokemob.move.prev", GLFW.GLFW_KEY_UP, "Pokecube");
+        mobBack = new KeyMapping("key.pokemob.recall", GLFW.GLFW_KEY_R, "Pokecube");
+        mobAttack = new KeyMapping("key.pokemob.attack", GLFW.GLFW_KEY_G, "Pokecube");
+        mobStance = new KeyMapping("key.pokemob.stance", GLFW.GLFW_KEY_BACKSLASH, "Pokecube");
+        mobMegavolve = new KeyMapping("key.pokemob.megaevolve", GLFW.GLFW_KEY_M, "Pokecube");
+        noEvolve = new KeyMapping("key.pokemob.b", GLFW.GLFW_KEY_B, "Pokecube");
+
+        mobMove1 = new KeyMapping("key.pokemob.move.1", unk, "Pokecube");
+        mobMove2 = new KeyMapping("key.pokemob.move.2", unk, "Pokecube");
+        mobMove3 = new KeyMapping("key.pokemob.move.3", unk, "Pokecube");
+        mobMove4 = new KeyMapping("key.pokemob.move.4", unk, "Pokecube");
+
+        mobUp = new KeyMapping("key.pokemob.up", GLFW.GLFW_KEY_SPACE, "Pokecube");
+        mobDown = new KeyMapping("key.pokemob.down", GLFW.GLFW_KEY_LEFT_CONTROL, "Pokecube");
+        throttleUp = new KeyMapping("key.pokemob.speed.up", GLFW.GLFW_KEY_LEFT_BRACKET, "Pokecube");
+        throttleDown = new KeyMapping("key.pokemob.speed.down", GLFW.GLFW_KEY_RIGHT_BRACKET, "Pokecube");
+        arrangeGui = new KeyMapping("key.pokemob.arrangegui", unk, "Pokecube");
+        animateGui = new KeyMapping("key.pokemob.animategui", unk, "Pokecube");
+        gzmove = new KeyMapping("key.pokemob.gzmove", unk, "Pokecube");
+    }
+
     @SubscribeEvent
     public static void loaded(final FMLLoadCompleteEvent event)
     {
         RenderPokemob.register();
     }
 
+    private static void registerKey(KeyMapping key, Object event)
+    {
+        ClientRegistry.registerKeyBinding(key);
+    }
+
+    public static void registerKeybinds(Object event)
+    {
+        PokecubeAPI.LOGGER.debug("Init Keybinds");
+        registerKey(ClientSetupHandler.nextMob, event);
+        registerKey(ClientSetupHandler.previousMob, event);
+        registerKey(ClientSetupHandler.nextMove, event);
+        registerKey(ClientSetupHandler.previousMove, event);
+        registerKey(ClientSetupHandler.mobBack, event);
+        registerKey(ClientSetupHandler.mobAttack, event);
+        registerKey(ClientSetupHandler.mobStance, event);
+        registerKey(ClientSetupHandler.mobMegavolve, event);
+        registerKey(ClientSetupHandler.noEvolve, event);
+        registerKey(ClientSetupHandler.mobMove1, event);
+        registerKey(ClientSetupHandler.mobMove2, event);
+        registerKey(ClientSetupHandler.mobMove3, event);
+        registerKey(ClientSetupHandler.mobMove4, event);
+        registerKey(ClientSetupHandler.mobUp, event);
+        registerKey(ClientSetupHandler.mobDown, event);
+        registerKey(ClientSetupHandler.throttleUp, event);
+        registerKey(ClientSetupHandler.throttleDown, event);
+        registerKey(ClientSetupHandler.arrangeGui, event);
+        registerKey(ClientSetupHandler.animateGui, event);
+        registerKey(ClientSetupHandler.gzmove, event);
+
+        ClientProxy.NBTEditKey = new KeyMapping("NBTEdit Shortcut", InputConstants.UNKNOWN.getValue(),
+                "key.categories.misc");
+        ClientRegistry.registerKeyBinding(ClientProxy.NBTEditKey);
+    }
+
     @SubscribeEvent
     public static void setupClient(final FMLClientSetupEvent event)
     {
-        PokecubeCore.LOGGER.debug("Pokecube Client Setup");
+        PokecubeAPI.LOGGER.debug("Pokecube Client Setup");
 
         // Register event handlers
         EventsHandlerClient.register();
 
         // Register keybinds
-        PokecubeCore.LOGGER.debug("Init Keybinds");
-        ClientRegistry.registerKeyBinding(
-                ClientSetupHandler.nextMob = new KeyMapping("key.pokemob.next", GLFW.GLFW_KEY_RIGHT, "Pokecube"));
-        ClientRegistry.registerKeyBinding(
-                ClientSetupHandler.previousMob = new KeyMapping("key.pokemob.prev", GLFW.GLFW_KEY_LEFT, "Pokecube"));
-
-        ClientRegistry.registerKeyBinding(
-                ClientSetupHandler.nextMove = new KeyMapping("key.pokemob.move.next", GLFW.GLFW_KEY_DOWN, "Pokecube"));
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.previousMove = new KeyMapping("key.pokemob.move.prev",
-                GLFW.GLFW_KEY_UP, "Pokecube"));
-
-        ClientRegistry.registerKeyBinding(
-                ClientSetupHandler.mobBack = new KeyMapping("key.pokemob.recall", GLFW.GLFW_KEY_R, "Pokecube"));
-        ClientRegistry.registerKeyBinding(
-                ClientSetupHandler.mobAttack = new KeyMapping("key.pokemob.attack", GLFW.GLFW_KEY_G, "Pokecube"));
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.mobStance = new KeyMapping("key.pokemob.stance",
-                GLFW.GLFW_KEY_BACKSLASH, "Pokecube"));
-
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.mobMegavolve = new KeyMapping("key.pokemob.megaevolve",
-                GLFW.GLFW_KEY_M, "Pokecube"));
-        ClientRegistry.registerKeyBinding(
-                ClientSetupHandler.noEvolve = new KeyMapping("key.pokemob.b", GLFW.GLFW_KEY_B, "Pokecube"));
-
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.mobMove1 = new KeyMapping("key.pokemob.move.1",
-                InputConstants.UNKNOWN.getValue(), "Pokecube"));
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.mobMove2 = new KeyMapping("key.pokemob.move.2",
-                InputConstants.UNKNOWN.getValue(), "Pokecube"));
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.mobMove3 = new KeyMapping("key.pokemob.move.3",
-                InputConstants.UNKNOWN.getValue(), "Pokecube"));
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.mobMove4 = new KeyMapping("key.pokemob.move.4",
-                InputConstants.UNKNOWN.getValue(), "Pokecube"));
-
-        ClientRegistry.registerKeyBinding(
-                ClientSetupHandler.mobUp = new KeyMapping("key.pokemob.up", GLFW.GLFW_KEY_SPACE, "Pokecube"));
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.mobDown = new KeyMapping("key.pokemob.down",
-                GLFW.GLFW_KEY_LEFT_CONTROL, "Pokecube"));
-
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.throttleUp = new KeyMapping("key.pokemob.speed.up",
-                GLFW.GLFW_KEY_LEFT_BRACKET, "Pokecube"));
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.throttleDown = new KeyMapping("key.pokemob.speed.down",
-                GLFW.GLFW_KEY_RIGHT_BRACKET, "Pokecube"));
-
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.arrangeGui = new KeyMapping("key.pokemob.arrangegui",
-                InputConstants.UNKNOWN.getValue(), "Pokecube"));
-
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.animateGui = new KeyMapping("key.pokemob.animategui",
-                InputConstants.UNKNOWN.getValue(), "Pokecube"));
-
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.gzmove = new KeyMapping("key.pokemob.gzmove",
-                InputConstants.UNKNOWN.getValue(), "Pokecube"));
+        registerKeybinds(event);
 
         // Forward this to PCEdit mod:
         NBTEdit.setupClient(event);
 
         // Register the gui side of the screens.
-        PokecubeCore.LOGGER.debug("Init Screen Factories");
+        PokecubeAPI.LOGGER.debug("Init Screen Factories");
 
         final MenuScreens.ScreenConstructor<ContainerPokemob, GuiPokemobBase> factory = (c, i, t) -> {
             switch (c.mode)
@@ -171,14 +181,14 @@ public class ClientSetupHandler
             return new GuiPokemob(c, i);
         };
 
-        MenuScreens.register(ContainerPokemob.TYPE, factory);
-        MenuScreens.register(HealerContainer.TYPE, Healer<HealerContainer>::new);
-        MenuScreens.register(PCContainer.TYPE, PC<PCContainer>::new);
-        MenuScreens.register(TradeContainer.TYPE, Trade<TradeContainer>::new);
-        MenuScreens.register(TMContainer.TYPE, TMs<TMContainer>::new);
+        MenuScreens.register(MenuTypes.POKEMOB.get(), factory);
+        MenuScreens.register(MenuTypes.HEALER.get(), Healer<HealerContainer>::new);
+        MenuScreens.register(MenuTypes.PC.get(), PC<PCContainer>::new);
+        MenuScreens.register(MenuTypes.TRADE.get(), Trade<TradeContainer>::new);
+        MenuScreens.register(MenuTypes.TMS.get(), TMs<TMContainer>::new);
 
         // Register mob rendering
-        PokecubeCore.LOGGER.debug("Init Mob Renderers");
+        PokecubeAPI.LOGGER.debug("Init Mob Renderers");
 
         // Register the render layers
         for (final Block crop : BerryManager.berryCrops.values())
@@ -214,10 +224,10 @@ public class ClientSetupHandler
             final EntityType<? extends Mob> t = e.getEntityType();
             event.registerEntityRenderer(t, (manager) -> new RenderPokemob(e, manager));
         }
-        event.registerEntityRenderer(EntityPokecube.TYPE, RenderPokecube::new);
-        event.registerEntityRenderer(EntityMoveUse.TYPE, RenderMoves::new);
-        event.registerEntityRenderer(NpcMob.TYPE, RenderNPC::new);
-        event.registerEntityRenderer(EntityPokemobEgg.TYPE, RenderEgg::new);
+        event.registerEntityRenderer(EntityTypes.getPokecube(), RenderPokecube::new);
+        event.registerEntityRenderer(EntityTypes.getMove(), RenderMoves::new);
+        event.registerEntityRenderer(EntityTypes.getNpc(), RenderNPC::new);
+        event.registerEntityRenderer(EntityTypes.getEgg(), RenderEgg::new);
     }
 
     @SubscribeEvent
@@ -251,7 +261,7 @@ public class ClientSetupHandler
     public static void textureStitch(final TextureStitchEvent.Pre event)
     {
         if (!event.getAtlas().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
-        PokecubeCore.LOGGER.debug("Registering Pokecube Slot Textures");
+        PokecubeAPI.LOGGER.debug("Registering Pokecube Slot Textures");
         event.addSprite(new ResourceLocation(PokecubeCore.MODID, "gui/slot_cube"));
         event.addSprite(new ResourceLocation(PokecubeCore.MODID, "gui/slot_tm"));
     }

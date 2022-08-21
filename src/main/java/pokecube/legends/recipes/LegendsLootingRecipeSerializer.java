@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import thut.lib.RegHelper;
 
 public class LegendsLootingRecipeSerializer implements Recipe<Container>
 {
@@ -141,7 +142,7 @@ public class LegendsLootingRecipeSerializer implements Recipe<Container>
         {
             recipe.input.toNetwork(buffer);
             buffer.writeResourceLocation(recipe.output);
-            buffer.writeResourceLocation(recipe.block.getRegistryName());
+            buffer.writeResourceLocation(RegHelper.getKey(recipe.block));
         }
     }
 }

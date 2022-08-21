@@ -12,10 +12,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.moves.animations.EntityMoveUse;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
@@ -39,7 +39,7 @@ public class MoveQueue
             final MoveQueue queue = MoveQueuer.queues.get(world.dimension());
             if (queue == null)
             {
-                PokecubeCore.LOGGER.error("Critical Error with world for dimension " + world.dimension()
+                PokecubeAPI.LOGGER.error("Critical Error with world for dimension " + world.dimension()
                         + " It is somehow ticking when not loaded, this should not happen.", new Exception());
                 return;
             }
@@ -47,8 +47,8 @@ public class MoveQueue
             final int num = queue.moves.size();
             queue.executeMoves();
             final double dt = (System.nanoTime() - time) / 1000d;
-            if (dt > 1000) PokecubeCore.LOGGER.debug("move queue took {}  for world {} for {} moves.", dt, world
-                    .dimension(), num);
+            if (dt > 1000)
+                PokecubeAPI.LOGGER.debug("move queue took {}  for world {} for {} moves.", dt, world.dimension(), num);
         }
 
         @Override
@@ -72,7 +72,7 @@ public class MoveQueue
     }
 
     public List<EntityMoveUse> moves = Lists.newArrayList();
-    final LevelAccessor               world;
+    final LevelAccessor world;
 
     public MoveQueue(final LevelAccessor iWorld)
     {
@@ -83,10 +83,9 @@ public class MoveQueue
     {
         synchronized (this.moves)
         {
-            Collections.sort(this.moves, (o1, o2) ->
-            {
-                final IPokemob user1 = CapabilityPokemob.getPokemobFor(o1.getUser());
-                final IPokemob user2 = CapabilityPokemob.getPokemobFor(o2.getUser());
+            Collections.sort(this.moves, (o1, o2) -> {
+                final IPokemob user1 = PokemobCaps.getPokemobFor(o1.getUser());
+                final IPokemob user2 = PokemobCaps.getPokemobFor(o2.getUser());
                 final int speed1 = user1 == null ? 0 : user1.getStat(Stats.VIT, true);
                 final int speed2 = user2 == null ? 0 : user2.getStat(Stats.VIT, true);
                 // TODO also factor in move priority here.
@@ -96,10 +95,10 @@ public class MoveQueue
             {
                 if (move.getUser() == null || !move.getUser().isAlive()) continue;
                 boolean toUse = true;
-                if (move.getUser() instanceof LivingEntity) toUse = ((LivingEntity) move.getUser()).getHealth() >= 1;
+                if (move.getUser() instanceof LivingEntity living) toUse = living.getHealth() >= 1;
                 if (toUse)
                 {
-                    final IPokemob mob = CapabilityPokemob.getPokemobFor(move.getUser());
+                    final IPokemob mob = PokemobCaps.getPokemobFor(move.getUser());
                     this.world.addFreshEntity(move);
                     move.getMove().applyHungerCost(mob);
                     MovesUtils.displayMoveMessages(mob, move.getTarget(), move.getMove().name);

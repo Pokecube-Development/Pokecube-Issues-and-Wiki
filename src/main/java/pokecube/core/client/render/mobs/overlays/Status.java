@@ -11,9 +11,9 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.IMoveConstants;
 import pokecube.core.client.Resources;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
@@ -87,7 +87,7 @@ public class Status
             final MultiBufferSource buf, final IPokemob pokemob, final float partialTicks, final int light)
     {
         byte status = pokemob.getStatus();
-        if (status == IMoveConstants.STATUS_NON) return;
+        if (status == IMoveConstants.STATUS_NON || !(renderer.getModel() instanceof ModelWrapper<?> wrap)) return;
 
         final Mob mob = pokemob.getEntity();
 
@@ -95,8 +95,6 @@ public class Status
                 : (status & IMoveConstants.STATUS_FRZ) > 0 ? IMoveConstants.STATUS_FRZ : 0;
         if (status == 0) return;
         final boolean frz = status == IMoveConstants.STATUS_FRZ;
-
-        final ModelWrapper<?> wrap = (ModelWrapper<?>) renderer.getModel();
 
         mat.pushPose();
 

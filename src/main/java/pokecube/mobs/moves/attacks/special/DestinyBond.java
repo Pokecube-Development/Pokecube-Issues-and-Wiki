@@ -13,16 +13,16 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import pokecube.core.PokecubeCore;
-import pokecube.core.events.pokemob.RecallEvent;
-import pokecube.core.events.pokemob.combat.KillEvent;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.events.pokemobs.RecallEvent;
+import pokecube.api.events.pokemobs.combat.KillEvent;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.utils.PokeType;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.moves.templates.Move_Basic;
-import pokecube.core.utils.PokeType;
 
 public class DestinyBond extends Move_Basic
 {
@@ -63,13 +63,13 @@ public class DestinyBond extends Move_Basic
     @Override
     public void init()
     {
-        PokecubeCore.POKEMOB_BUS.register(this);
+        PokecubeAPI.POKEMOB_BUS.register(this);
     }
 
     @Override
     public void destroy()
     {
-        PokecubeCore.POKEMOB_BUS.unregister(this);
+        PokecubeAPI.POKEMOB_BUS.unregister(this);
     }
 
     @Override

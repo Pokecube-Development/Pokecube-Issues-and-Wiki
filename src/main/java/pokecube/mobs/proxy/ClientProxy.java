@@ -19,9 +19,10 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.NewRegistryEvent;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.core.PokecubeCore;
-import pokecube.core.events.onload.RegisterMiscItems;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.megastuff.WearablesCompat;
 import pokecube.core.items.megastuff.WearablesCompat.WearablesRenderer;
 import pokecube.mobs.PokecubeMobs;
@@ -35,7 +36,7 @@ public class ClientProxy
     @SubscribeEvent
     public static void onStart(final NewRegistryEvent event)
     {
-        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, ClientProxy::initWearables);
+        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.LOWEST, ClientProxy::initWearables);
     }
 
     public static void initWearables(final RegisterMiscItems event)

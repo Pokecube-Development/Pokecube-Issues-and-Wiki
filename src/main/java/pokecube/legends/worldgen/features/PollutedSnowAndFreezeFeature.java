@@ -14,8 +14,8 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import pokecube.legends.blocks.normalblocks.AshLayerBlock;
 import pokecube.legends.init.BlockInit;
+import thut.api.block.flowing.FlowingBlock;
 
 public class PollutedSnowAndFreezeFeature extends Feature<NoneFeatureConfiguration>
 {
@@ -50,7 +50,7 @@ public class PollutedSnowAndFreezeFeature extends Feature<NoneFeatureConfigurati
 
             if (biome.value().shouldSnow(world, mutablePos))
             {
-               world.setBlock(mutablePos, BlockInit.ASH.get().defaultBlockState().setValue(AshLayerBlock.LAYERS, 2), 2);
+               world.setBlock(mutablePos, BlockInit.ASH.get().defaultBlockState().setValue(FlowingBlock.LAYERS, 2), 2);
                if (state.hasProperty(SnowyDirtBlock.SNOWY))
                {
                   world.setBlock(mutablePosDown, state.setValue(SnowyDirtBlock.SNOWY, Boolean.valueOf(true)), 2);

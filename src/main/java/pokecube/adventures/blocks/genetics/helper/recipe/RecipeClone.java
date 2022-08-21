@@ -25,15 +25,16 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.adventures.blocks.genetics.cloner.ClonerTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
-import pokecube.adventures.events.CloneEvent;
 import pokecube.adventures.utils.RecipePokeAdv;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.events.CloneEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.IMobGenetics;
@@ -58,7 +59,7 @@ public class RecipeClone extends PoweredRecipe
             {
                 ItemStack dnaSource = tile.getItem(0);
                 if (!dnaSource.isEmpty()) dnaSource = dnaSource.copy();
-                IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+                IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
                 entity.setHealth(entity.getMaxHealth());
                 // to avoid the death on spawn
                 final int exp = Tools.levelToXp(entry.getEvolutionMode(), AnyMatcher.level);
@@ -71,7 +72,7 @@ public class RecipeClone extends PoweredRecipe
                 if (tile.getUser() != null && tame) pokemob.setOwner(tile.getUser().getUUID());
 
                 final CloneEvent.Spawn event = new CloneEvent.Spawn((ClonerTile) tile, pokemob);
-                if (PokecubeCore.POKEMOB_BUS.post(event)) return false;
+                if (PokecubeAPI.POKEMOB_BUS.post(event)) return false;
 
                 pokemob = event.getPokemob();
                 entity = pokemob.getEntity();
@@ -160,11 +161,10 @@ public class RecipeClone extends PoweredRecipe
 
     public static PokedexEntry getEntry(final ReviveMatcher matcher, final IPoweredProgress tile)
     {
-        if (!(tile instanceof ClonerTile)) return Database.missingno;
-        final ClonerTile cloner = (ClonerTile) tile;
+        if (!(tile instanceof ClonerTile cloner)) return Database.missingno;
         PokedexEntry entry = matcher.getEntry(tile.getCraftMatrix(), cloner.getLevel());
         final CloneEvent.Pick pick = new CloneEvent.Pick(cloner, entry);
-        if (PokecubeCore.POKEMOB_BUS.post(pick)) entry = Database.missingno;
+        if (PokecubeAPI.POKEMOB_BUS.post(pick)) entry = Database.missingno;
         entry = pick.getEntry();
         return entry;
     }
@@ -270,10 +270,8 @@ public class RecipeClone extends PoweredRecipe
     public NonNullList<ItemStack> getRemainingItems(final CraftingContainer inv)
     {
         final NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getContainerSize(), ItemStack.EMPTY);
-        if (!(inv instanceof PoweredCraftingInventory)) return nonnulllist;
-        final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
-        if (!(inv_p.inventory instanceof ClonerTile)) return nonnulllist;
-        final ClonerTile tile = (ClonerTile) inv_p.inventory;
+        if (!(inv instanceof PoweredCraftingInventory inv_p)) return nonnulllist;
+        if (!(inv_p.inventory instanceof ClonerTile tile)) return nonnulllist;
         ReviveMatcher matcher = RecipeClone.ANYMATCHER;
         for (final ReviveMatcher matcher2 : RecipeClone.getMatchers())
             if (matcher2.getEntry(inv, tile.getLevel()) != Database.missingno)

@@ -7,10 +7,11 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability.IGuardTask;
+import thut.lib.TComponent;
 
 public class RouteEditHelper
 {
@@ -21,7 +22,7 @@ public class RouteEditHelper
     {
         final Font fontRenderer = Minecraft.getInstance().font;
         int num = 0;
-        final TextComponent blank = new TextComponent("");
+        final MutableComponent blank = TComponent.literal("");
         for (final IGuardTask task : guard.getTasks())
         {
             final EditBox location = new EditBox(fontRenderer, 0, 0, width, 10, blank);

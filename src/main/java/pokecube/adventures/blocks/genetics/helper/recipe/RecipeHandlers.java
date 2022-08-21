@@ -27,19 +27,20 @@ import pokecube.adventures.blocks.genetics.helper.ClonerHelper.DNAPack;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeClone.AnyMatcher;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeClone.ReviveMatcher;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.SelectorValue;
-import pokecube.adventures.events.CloneEvent;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.events.CloneEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.recipes.IRecipeParser;
 import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipe;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
-import pokecube.core.handlers.ItemGenerator;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.init.ItemGenerator;
 import pokecube.core.items.ItemFossil;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.Alleles;
@@ -107,13 +108,13 @@ public class RecipeHandlers
                     final Direction dir = world.getBlockState(pos).getValue(HorizontalDirectionalBlock.FACING);
                     entity.moveTo(pos.getX() + 0.5 + dir.getStepX(), pos.getY() + 1, pos.getZ() + 0.5 + dir.getStepZ(),
                             world.random.nextFloat() * 360F, 0.0F);
-                    
+
                     // Mark as cloned for preventing drops, etc
                     entity.getPersistentData().putBoolean("cloned", true);
 
                     ItemStack dnaSource = tile.getItem(0);
                     if (!dnaSource.isEmpty()) dnaSource = dnaSource.copy();
-                    IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+                    IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
                     entity.setHealth(entity.getMaxHealth());
                     // to avoid the death on spawn
                     final int exp = Tools.levelToXp(entry.getEvolutionMode(), this.level);
@@ -123,7 +124,7 @@ public class RecipeHandlers
                     if (tile.getUser() != null && tame) pokemob.setOwner(tile.getUser().getUUID());
 
                     final CloneEvent.Spawn event = new CloneEvent.Spawn((ClonerTile) tile, pokemob);
-                    if (PokecubeCore.POKEMOB_BUS.post(event)) return false;
+                    if (PokecubeAPI.POKEMOB_BUS.post(event)) return false;
                     pokemob = event.getPokemob();
                     entity = pokemob.getEntity();
                     world.addFreshEntity(entity);
@@ -333,8 +334,7 @@ public class RecipeHandlers
 
     private static void onCrafted(final ItemCraftedEvent event)
     {
-        if (!(event.getInventory() instanceof CraftingContainer)) return;
-        final CraftingContainer inv = (CraftingContainer) event.getInventory();
+        if (!(event.getInventory() instanceof CraftingContainer inv)) return;
         final BookCloningRecipe test = new BookCloningRecipe(new ResourceLocation("dummy"));
 
         if (!test.matches(inv, event.getEntity().getLevel())) return;

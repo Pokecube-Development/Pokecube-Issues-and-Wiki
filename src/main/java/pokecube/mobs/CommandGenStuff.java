@@ -2,7 +2,6 @@ package pokecube.mobs;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
@@ -18,22 +17,23 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.items.IPokecube;
+import pokecube.api.utils.PokeType;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.handlers.ItemGenerator;
-import pokecube.core.interfaces.IPokecube;
+import pokecube.core.init.ItemGenerator;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.items.vitamins.ItemVitamin;
-import pokecube.core.utils.PokeType;;
+import thut.lib.RegHelper;
+import thut.lib.ResourceHelper;
+import thut.lib.TComponent;;
 
 public class CommandGenStuff
 {
@@ -115,7 +115,7 @@ public class CommandGenStuff
             {
                 if (entry.getSoundEvent() == null)
                 {
-                    PokecubeCore.LOGGER.error("No sound event for {}", entry);
+                    PokecubeAPI.LOGGER.error("No sound event for {}", entry);
                     continue;
                 }
                 ResourceLocation event = entry.getSoundEvent().getLocation();
@@ -126,14 +126,11 @@ public class CommandGenStuff
 
                 final ResourceLocation test = new ResourceLocation(
                         event.getNamespace() + ":" + event.getPath().replaceFirst("mobs.", "sounds/mobs/") + ".ogg");
-                try
-                {
-                    Minecraft.getInstance().getResourceManager().getResource(test);
-                }
-                catch (final Exception e)
+
+                if (!ResourceHelper.exists(test, Minecraft.getInstance().getResourceManager()))
                 {
                     event = new ResourceLocation(backup);
-                    PokecubeCore.LOGGER.error("Mapped sound: {} -> {} instead of {}", entry, backup, test);
+                    PokecubeAPI.LOGGER.error("Mapped sound: {} -> {} instead of {}", entry, backup, test);
                 }
 
                 final String soundName = event.getPath().replaceFirst("mobs.", "");
@@ -162,13 +159,13 @@ public class CommandGenStuff
 
     public static void execute(final ServerPlayer sender, final String[] args)
     {
-        sender.sendMessage(new TextComponent("Starting File Output"), Util.NIL_UUID);
+        thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Starting File Output"));
         for (final PokedexEntry e : Database.getSortedFormes())
         {
             if (e == Database.missingno || e.dummy || e.isMega()) continue;
             CommandGenStuff.registerAchievements(e);
         }
-        sender.sendMessage(new TextComponent("Advancements Done"), Util.NIL_UUID);
+        thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Advancements Done"));
         final File dir = new File("./mods/pokecube/assets/pokecube_mobs/");
         if (!dir.exists()) dir.mkdirs();
         File file = null;
@@ -188,11 +185,11 @@ public class CommandGenStuff
         {
             e.printStackTrace();
         }
-        sender.sendMessage(new TextComponent("Sounds Done"), Util.NIL_UUID);
+        thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Sounds Done"));
         CommandGenStuff.generateBlockAndItemJsons();
         CommandGenStuff.generateMobsLang();
 
-        sender.sendMessage(new TextComponent("Finished File Output"), Util.NIL_UUID);
+        thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Finished File Output"));
     }
 
     public static void generateMobsLang()
@@ -273,7 +270,7 @@ public class CommandGenStuff
             CommandGenStuff.generateItemJson(name, "berry_", dir, "pokecube");
         }
 
-        if (cubes) for (final ResourceLocation l : IPokecube.PokecubeBehavior.BEHAVIORS.get().getKeys())
+        if (cubes) for (final ResourceLocation l : IPokecube.PokecubeBehaviour.BEHAVIORS.keySet())
         {
             final String cube = l.getPath();
             final JsonObject blockJson = new JsonObject();
@@ -292,8 +289,8 @@ public class CommandGenStuff
             String json = AdvancementGenerator.GSON.toJson(blockJson);
             try
             {
-                final FileWriter write = new FileWriter(file);
-                write.write(json);
+                final FileOutputStream write = new FileOutputStream(file);
+                write.write(json.getBytes());
                 write.close();
             }
             catch (final IOException e)
@@ -333,8 +330,8 @@ public class CommandGenStuff
             json = AdvancementGenerator.GSON.toJson(itemJson);
             try
             {
-                final FileWriter write = new FileWriter(file);
-                write.write(json);
+                final FileOutputStream write = new FileOutputStream(file);
+                write.write(json.getBytes());
                 write.close();
             }
             catch (final IOException e)
@@ -346,7 +343,7 @@ public class CommandGenStuff
 
         for (final Block b : ForgeRegistries.BLOCKS.getValues())
         {
-            if (b.getRegistryName().toString().startsWith("minecraft")) continue;
+            if (RegHelper.getKey(b).toString().startsWith("minecraft")) continue;
             CommandGenStuff.generateBlockDropJson(b);
         }
 
@@ -357,19 +354,19 @@ public class CommandGenStuff
             final Block plank = ItemGenerator.planks.get(s);
             if (log != null && plank != null)
             {
-                final File dir = new File("./mods/data/" + log.getRegistryName().getNamespace() + "/recipes");
+                final File dir = new File("./mods/data/" + RegHelper.getKey(log).getNamespace() + "/recipes");
                 dir.mkdirs();
-                final File out = new File(dir, log.getRegistryName().getPath() + ".json");
+                final File out = new File(dir, RegHelper.getKey(log).getPath() + ".json");
                 String loottable = "{\"type\":\"minecraft:crafting_shapeless\",\"group\":\"planks\",\"ingredients\":[{\"tag\":\""
-                        + log.getRegistryName() + "\"}],\"result\":{\"item\":\"" + plank.getRegistryName()
+                        + RegHelper.getKey(log) + "\"}],\"result\":{\"item\":\"" + RegHelper.getKey(plank)
                         + "\",\"count\":4}}";
                 final JsonObject obj = AdvancementGenerator.GSON.fromJson(loottable, JsonObject.class);
                 loottable = AdvancementGenerator.GSON.toJson(obj);
-                FileWriter write;
+                FileOutputStream write;
                 try
                 {
-                    write = new FileWriter(out);
-                    write.write(loottable);
+                    write = new FileOutputStream(out);
+                    write.write(loottable.getBytes());
                     write.close();
                 }
                 catch (final IOException e)
@@ -384,20 +381,20 @@ public class CommandGenStuff
 
     private static void generateBlockDropJson(final Block block)
     {
-        final File dir = new File("./mods/data/" + block.getRegistryName().getNamespace() + "/loot_tables/blocks");
+        final File dir = new File("./mods/data/" + RegHelper.getKey(block).getNamespace() + "/loot_tables/blocks");
         dir.mkdirs();
-        final File out = new File(dir, block.getRegistryName().getPath() + ".json");
+        final File out = new File(dir, RegHelper.getKey(block).getPath() + ".json");
 
         String loottable = "{\"type\": \"minecraft:block\",\"pools\":[{\"name\":\"pool_0\",\"rolls\":1,\"entries\":[{\"type\":\"minecraft:item\",\"name\":\""
-                + block.getRegistryName()
+                + RegHelper.getKey(block)
                 + "\"}],\"conditions\":[{\"condition\": \"minecraft:survives_explosion\"}]}]}";
         final JsonObject obj = AdvancementGenerator.GSON.fromJson(loottable, JsonObject.class);
         loottable = AdvancementGenerator.GSON.toJson(obj);
-        FileWriter write;
+        FileOutputStream write;
         try
         {
-            write = new FileWriter(out);
-            write.write(loottable);
+            write = new FileOutputStream(out);
+            write.write(loottable.getBytes());
             write.close();
         }
         catch (final IOException e)
@@ -473,8 +470,8 @@ public class CommandGenStuff
         final String json = AdvancementGenerator.GSON.toJson(blockJson);
         try
         {
-            final FileWriter write = new FileWriter(file);
-            write.write(json);
+            final FileOutputStream write = new FileOutputStream(file);
+            write.write(json.getBytes());
             write.close();
         }
         catch (final IOException e)
@@ -490,11 +487,11 @@ public class CommandGenStuff
         final File dir = new File("./mods/pokecube/data/pokecube_mobs/advancements/" + path + "/");
         if (!dir.exists()) dir.mkdirs();
         final File file = new File(dir, key.getPath() + ".json");
-        FileWriter write;
+        FileOutputStream write;
         try
         {
-            write = new FileWriter(file);
-            write.write(json);
+            write = new FileOutputStream(file);
+            write.write(json.getBytes());
             write.close();
         }
         catch (final IOException e)
@@ -527,8 +524,8 @@ public class CommandGenStuff
                 json = AdvancementGenerator.GSON.toJson(rootObj);
                 try
                 {
-                    write = new FileWriter(first);
-                    write.write(json);
+                    write = new FileOutputStream(first);
+                    write.write(json.getBytes());
                     write.close();
                 }
                 catch (final IOException e)
@@ -564,8 +561,8 @@ public class CommandGenStuff
             json = AdvancementGenerator.GSON.toJson(rootObj);
             try
             {
-                write = new FileWriter(root);
-                write.write(json);
+                write = new FileOutputStream(root);
+                write.write(json.getBytes());
                 write.close();
             }
             catch (final IOException e)

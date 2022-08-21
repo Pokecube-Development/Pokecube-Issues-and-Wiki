@@ -8,8 +8,8 @@ import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
-import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
 
 @TradePresetAn(key = "buyRandomBadge")

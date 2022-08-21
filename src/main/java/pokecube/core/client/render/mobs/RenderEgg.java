@@ -20,10 +20,10 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
-import pokecube.core.utils.PokeType;
 import thut.api.ModelHolder;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -56,8 +56,8 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
         @Override
         public boolean modifyColourForPart(final String partIdentifier, final Entity entity, final int[] rgba)
         {
-            if (entity == null) return false;
-            final IPokemob poke = ((EntityPokemobEgg) entity).getPokemob(false);
+            if (!(entity instanceof EntityPokemobEgg egg)) return false;
+            final IPokemob poke = egg.getPokemob(false);
             if (poke == null) return false;
             final PokeType t1 = poke.getType1();
             final PokeType t2 = poke.getType2();

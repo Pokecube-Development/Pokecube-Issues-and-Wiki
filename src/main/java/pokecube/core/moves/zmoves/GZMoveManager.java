@@ -6,14 +6,14 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.moves.Move_Base;
+import pokecube.api.utils.PokeType;
 import pokecube.core.database.moves.json.JsonMoves.MoveJsonEntry;
 import pokecube.core.database.moves.json.JsonMoves.MovesJson;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.utils.PokeType;
 import thut.core.common.ThutCore;
 
 public class GZMoveManager
@@ -88,13 +88,13 @@ public class GZMoveManager
                         List<String> movesList = GZMoveManager.z_sig_moves_map.get(s);
                         if (movesList == null) GZMoveManager.z_sig_moves_map.put(s, movesList = Lists.newArrayList());
                         movesList.add(entry.name);
-                        PokecubeCore.LOGGER.debug("Signature Z-Move {} -> {}", s, entry.name);
+                        PokecubeAPI.LOGGER.debug("Signature Z-Move {} -> {}", s, entry.name);
                     }
                 }
                 else z_moves.put(type, entry.name);
             }
         }
-        PokecubeCore.LOGGER.debug("Found {} G or Z Moves, of which {} are G-Max moves", num, num2);
+        PokecubeAPI.LOGGER.debug("Found {} G or Z Moves, of which {} are G-Max moves", num, num2);
         // Second pass to map on alternates.
         for (final MoveJsonEntry entry : moves.moves)
         {
@@ -112,7 +112,7 @@ public class GZMoveManager
                 final PokeType type = PokeType.getType(entry.type);
                 z_to = z_moves.get(type);
                 if (z_to != null) GZMoveManager.zmoves_map.put(name, z_to);
-                else PokecubeCore.LOGGER.warn("No Max Move For Type {}, when allocating for {}", type.name, entry.name);
+                else PokecubeAPI.LOGGER.warn("No Max Move For Type {}, when allocating for {}", type.name, entry.name);
             }
             // Manual mapping
             if (g_to != null && g_type_map.containsValue(z_to)) GZMoveManager.gmoves_map.put(name, g_to);
@@ -121,7 +121,7 @@ public class GZMoveManager
                 final PokeType type = PokeType.getType(entry.type);
                 g_to = g_type_map.get(type);
                 if (g_to != null) GZMoveManager.gmoves_map.put(name, g_to);
-                else PokecubeCore.LOGGER.warn("No Max Move For Type {}, when allocating for {}", type.name, entry.name);
+                else PokecubeAPI.LOGGER.warn("No Max Move For Type {}, when allocating for {}", type.name, entry.name);
             }
         }
     }

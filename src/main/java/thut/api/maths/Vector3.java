@@ -15,10 +15,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Direction8;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Holder.Direct;
+import net.minecraft.core.Holder.Reference;
 import net.minecraft.core.QuartPos;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ChunkMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -54,6 +56,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.entity.PartEntity;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 
 /** @author Thutmose */
 public class Vector3
@@ -127,8 +130,7 @@ public class Vector3
                 test.set(xtest, ytest, ztest);
                 final boolean clear = test.isClearOfBlocks(world);
 
-                if (!clear)
-                    return new Vector3().set(Vector3.Int(xtest), Vector3.Int(ytest), Vector3.Int(ztest));
+                if (!clear) return new Vector3().set(Vector3.Int(xtest), Vector3.Int(ytest), Vector3.Int(ztest));
             }
 
             yprev = ytest;
@@ -270,12 +272,15 @@ public class Vector3
         ret.z = nbt.getDouble(tag + "z");
         return ret;
     }
-    
+
     @Deprecated
     /*
      * Do not use, use new Vector3() instead!
      */
-    public static Vector3 getNewVector() {return new Vector3();}
+    public static Vector3 getNewVector()
+    {
+        return new Vector3();
+    }
 
     public double x;
 
@@ -1103,8 +1108,12 @@ public class Vector3
         // No need to run this if we are already the same biome...
         if (old == biome) return;
 
-        // TODO see if this works?
-        biomes.set(qx & 3, l & 3, qz & 3, new Direct<Biome>(biome));
+        ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, RegHelper.getKey(biome));
+        Registry<Biome> registry = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
+        Reference<Biome> holder = Holder.Reference.createStandAlone(registry, key);
+        holder.bind(key, biome);
+
+        biomes.set(qx & 3, l & 3, qz & 3, holder);
 
         if (chunk instanceof LevelChunk lchunk)
         {

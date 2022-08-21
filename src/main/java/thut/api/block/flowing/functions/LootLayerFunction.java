@@ -18,8 +18,11 @@ import thut.core.common.ThutCore;
 public class LootLayerFunction extends LootItemConditionalFunction
 {
 
-    public static RegistryObject<LootItemFunctionType> TYPE = ThutCore.RegistryEvents.LOOTTYPE.register("flowing_layer_loot",
-            () -> new LootItemFunctionType(new LootLayerFunction.Serializer()));
+    public static RegistryObject<LootItemFunctionType> TYPE = ThutCore.RegistryEvents.LOOTTYPE
+            .register("flowing_layer_loot", () -> new LootItemFunctionType(new LootLayerFunction.Serializer()));
+
+    public static void init()
+    {}
 
     protected LootLayerFunction(LootItemCondition[] conds)
     {

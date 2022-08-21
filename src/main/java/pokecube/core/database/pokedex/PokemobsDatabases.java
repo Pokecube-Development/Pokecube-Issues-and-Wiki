@@ -2,17 +2,18 @@ package pokecube.core.database.pokedex;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraftforge.fml.ModList;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader.XMLPokedexEntry;
 import pokecube.core.database.resources.PackFinder;
 import thut.api.util.JsonUtil;
@@ -33,12 +34,12 @@ public class PokemobsDatabases
 
         for (final String path : PokemobsDatabases.DATABASES)
         {
-            final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
-            resources.forEach(l ->
+            final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(path);
+            resources.forEach((l,r) ->
             {
                 try
                 {
-                    final PokemobsJson database = PokemobsDatabases.loadDatabase(PackFinder.getStream(l));
+                    final PokemobsJson database = PokemobsDatabases.loadDatabase(PackFinder.getStream(r));
                     if (database != null)
                     {
                         database.pokemon.forEach(e -> e.name = ThutCore.trim(e.name));
@@ -51,13 +52,13 @@ public class PokemobsDatabases
                                 allHere = allHere || ModList.get().isLoaded(s);
                             if (!allHere) return;
                         }
-                        PokecubeCore.LOGGER.debug("Loaded Database File: {}, entries: {}", l, database.pokemon.size());
+                        PokecubeAPI.LOGGER.debug("Loaded Database File: {}, entries: {}", l, database.pokemon.size());
                         allFound.add(database);
                     }
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error with database file {}", l, e);
+                    PokecubeAPI.LOGGER.error("Error with database file {}", l, e);
                 }
             });
         }
@@ -77,7 +78,7 @@ public class PokemobsDatabases
                     // entries, any higher are adding extra things to the entry.
                     if (json.priority > 10 && !json.register)
                     {
-                        PokecubeCore.LOGGER.info("Adding entry again? {} {}, skipping entry!", e.name, json._file);
+                        PokecubeAPI.LOGGER.info("Adding entry again? {} {}, skipping entry!", e.name, json._file);
                         continue;
                     }
                     PokemobsDatabases.compound.addEntry(e);

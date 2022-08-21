@@ -1,8 +1,8 @@
 package pokecube.mobs.moves.attacks.normal;
 
 import net.minecraft.world.entity.Entity;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.core.moves.templates.Move_Basic;
 
 public class EchoedVoice extends Move_Basic

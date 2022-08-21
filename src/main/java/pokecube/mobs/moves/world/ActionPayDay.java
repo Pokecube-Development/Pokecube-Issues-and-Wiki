@@ -9,8 +9,8 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
-import pokecube.core.interfaces.IMoveAction;
-import pokecube.core.interfaces.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.IMoveAction;
 import thut.api.maths.Vector3;
 
 public class ActionPayDay implements IMoveAction

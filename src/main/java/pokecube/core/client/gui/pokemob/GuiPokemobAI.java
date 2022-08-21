@@ -9,18 +9,17 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.AbstractSelectionList.Entry;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.network.pokemobs.PacketAIRoutine;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.nbtedit.gui.TextFieldWidget2;
+import thut.lib.TComponent;
 
 public class GuiPokemobAI extends GuiPokemobBase
 {
@@ -92,11 +91,11 @@ public class GuiPokemobAI extends GuiPokemobBase
         super.init();
         int xOffset = this.width / 2 - 10;
         int yOffset = this.height / 2 - 77;
-        this.addRenderableWidget(new Button(xOffset + 60, yOffset, 30, 10, new TranslatableComponent("pokemob.gui.inventory"),
+        this.addRenderableWidget(new Button(xOffset + 60, yOffset, 30, 10, TComponent.translatable("pokemob.gui.inventory"),
                 b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.MAIN, this.entity.getId())));
-        this.addRenderableWidget(new Button(xOffset + 30, yOffset, 30, 10, new TranslatableComponent("pokemob.gui.storage"),
+        this.addRenderableWidget(new Button(xOffset + 30, yOffset, 30, 10, TComponent.translatable("pokemob.gui.storage"),
                 b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.STORAGE, this.entity.getId())));
-        this.addRenderableWidget(new Button(xOffset + 00, yOffset, 30, 10, new TranslatableComponent("pokemob.gui.routes"),
+        this.addRenderableWidget(new Button(xOffset + 00, yOffset, 30, 10, TComponent.translatable("pokemob.gui.routes"),
                 b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.ROUTES, this.entity.getId())));
         yOffset += 9;
         xOffset += 2;
@@ -108,7 +107,7 @@ public class GuiPokemobAI extends GuiPokemobBase
             if (!AIRoutine.values()[i].isAllowed(this.pokemob)) continue;
             if (name.length() > 6) name = name.substring(0, 6);
             final int index = i;
-            final Button button = new Button(xOffset, yOffset, 40, 10, new TextComponent(name), b ->
+            final Button button = new Button(xOffset, yOffset, 40, 10, TComponent.literal(name), b ->
             {
                 final AIRoutine routine = AIRoutine.values()[index];
                 final boolean state = !this.pokemob.isRoutineEnabled(routine);

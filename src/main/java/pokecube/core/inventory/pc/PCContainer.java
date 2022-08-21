@@ -12,15 +12,14 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.WritableBookItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.network.IContainerFactory;
 import pokecube.core.PokecubeCore;
+import pokecube.core.init.MenuTypes;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.megastuff.IMegaCapability;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -34,8 +33,6 @@ import thut.wearables.ThutWearables;
 
 public class PCContainer extends BaseContainer
 {
-    public static final MenuType<PCContainer> TYPE = new MenuType<>((IContainerFactory<PCContainer>) PCContainer::new);
-
     public static Set<Predicate<ItemStack>> CUSTOMPCWHILTELIST = Sets.newHashSet();
 
     public static int STACKLIMIT = 64;
@@ -84,7 +81,7 @@ public class PCContainer extends BaseContainer
 
     public PCContainer(final int id, final Inventory ivplay, final PCInventory pc, final BlockPos pcPos)
     {
-        super(PCContainer.TYPE, id);
+        super(MenuTypes.PC.get(), id);
         PCContainer.xOffset = 0;
         PCContainer.yOffset = 0;
         this.inv = pc;
@@ -107,7 +104,7 @@ public class PCContainer extends BaseContainer
         for (int i = 0; i < 6; i++) for (int j = 0; j < 9; j++) this.addSlot(new PCSlot(this.inv, n + j + i * 9,
                 8 + j * 18 + PCContainer.xOffset, 18 + i * 18 + PCContainer.yOffset));
         // int k = 0;
-        for (final Object o : this.slots) if (o instanceof Slot) ((Slot) o).setChanged();
+        for (final Slot s : this.slots) s.setChanged();
     }
 
     @Override

@@ -13,15 +13,15 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.handlers.Config;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.init.Config;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 import thut.core.common.ThutCore;
@@ -59,15 +59,20 @@ public class IdleWalkTask extends BaseIdleTask
         return null;
     }
 
-    private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
-    static
+    private static final Map<MemoryModuleType<?>, MemoryStatus> _MEMS = Maps.newHashMap();
+
+    private static final Map<MemoryModuleType<?>, MemoryStatus> _getMems()
     {
-        // Dont run if have a walk target
-        IdleWalkTask.mems.put(MemoryModules.WALK_TARGET, MemoryStatus.VALUE_ABSENT);
-        // Don't run if have a target location for moves
-        IdleWalkTask.mems.put(MemoryModules.MOVE_TARGET, MemoryStatus.VALUE_ABSENT);
-        // Don't run if we have a path
-        IdleWalkTask.mems.put(MemoryModules.PATH, MemoryStatus.VALUE_ABSENT);
+        if (_MEMS.isEmpty())
+        {
+            // Dont run if have a walk target
+            _MEMS.put(MemoryModules.WALK_TARGET, MemoryStatus.VALUE_ABSENT);
+            // Don't run if have a target location for moves
+            _MEMS.put(MemoryModules.MOVE_TARGET.get(), MemoryStatus.VALUE_ABSENT);
+            // Don't run if we have a path
+            _MEMS.put(MemoryModules.PATH, MemoryStatus.VALUE_ABSENT);
+        }
+        return _MEMS;
     }
 
     final PokedexEntry entry;
@@ -81,7 +86,7 @@ public class IdleWalkTask extends BaseIdleTask
 
     public IdleWalkTask(final IPokemob pokemob)
     {
-        super(pokemob, IdleWalkTask.mems);
+        super(pokemob, IdleWalkTask._getMems());
         this.entry = pokemob.getPokedexEntry();
     }
 

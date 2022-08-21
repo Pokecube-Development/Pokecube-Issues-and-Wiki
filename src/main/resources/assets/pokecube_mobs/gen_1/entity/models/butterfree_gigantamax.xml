@@ -4,7 +4,7 @@
   <phase name="global" scale="0.6"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1" headDir1="-1"/>
   <phase duration="10" leftArm="" leftLeg="foot1" legAngle="25" name="biWalk" rightArm="" rightLeg="foot2"/>
-  <customTex default="butterfreemax"/>
+  <customTex default="butterfree_gigantamax"/>
   <phase type="idle">
    <part name="ant1">
     <component length="10" name="1" rotOffset="20,0,0," rotChange="2,0,0" startKey="0"/>

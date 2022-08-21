@@ -20,8 +20,8 @@ public class PokecubePlayerData extends PlayerData
     // TODO a way to share teleports.
     // TODO a way to sort teleports into groups.
     ArrayList<TeleDest> telelocs = Lists.newArrayList();
-    int                 teleIndex;
-    boolean             hasStarter;
+    int teleIndex;
+    boolean hasStarter;
 
     public PokecubePlayerData()
     {
@@ -62,9 +62,8 @@ public class PokecubePlayerData extends PlayerData
         this.teleIndex = tag.getInt("teleIndex");
         final Tag temp2 = tag.get("telelocs");
         this.telelocs.clear();
-        if (temp2 instanceof ListTag)
+        if (temp2 instanceof ListTag tagListOptions)
         {
-            final ListTag tagListOptions = (ListTag) temp2;
             CompoundTag pokemobData2 = null;
             for (int j = 0; j < tagListOptions.size(); j++)
             {
@@ -97,13 +96,12 @@ public class PokecubePlayerData extends PlayerData
         tag.putBoolean("hasStarter", this.hasStarter);
         tag.putInt("teleIndex", this.teleIndex);
         final ListTag list = new ListTag();
-        for (final TeleDest d : this.telelocs)
-            if (d != null && d.loc != null)
-            {
-                final CompoundTag loc = new CompoundTag();
-                d.writeToNBT(loc);
-                list.add(loc);
-            }
+        for (final TeleDest d : this.telelocs) if (d != null && d.loc != null)
+        {
+            final CompoundTag loc = new CompoundTag();
+            d.writeToNBT(loc);
+            list.add(loc);
+        }
         tag.put("telelocs", list);
     }
 }

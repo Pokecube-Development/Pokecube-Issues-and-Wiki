@@ -18,21 +18,21 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerTy
 
 public class PalmFoliagePlacer extends FoliagePlacer
 {
-    protected final int height;
+    protected final IntProvider height;
 
     public static final Codec<PalmFoliagePlacer> CODEC = RecordCodecBuilder.create((type) -> {
         return palmParts(type).apply(type, PalmFoliagePlacer::new);
     });
 
-    protected static <P extends PalmFoliagePlacer> P3<Mu<P>, IntProvider, IntProvider, Integer> palmParts(
+    protected static <P extends PalmFoliagePlacer> P3<Mu<P>, IntProvider, IntProvider, IntProvider> palmParts(
             RecordCodecBuilder.Instance<P> instance)
     {
-        return foliagePlacerParts(instance).and(Codec.intRange(0, 16).fieldOf("height").forGetter((get) -> {
+        return foliagePlacerParts(instance).and(IntProvider.codec(0, 16).fieldOf("height").forGetter((get) -> {
             return get.height;
         }));
     }
 
-    public PalmFoliagePlacer(IntProvider radius, IntProvider offset, int height)
+    public PalmFoliagePlacer(IntProvider radius, IntProvider offset, IntProvider height)
     {
         super(radius, offset);
         this.height = height;
@@ -51,7 +51,7 @@ public class PalmFoliagePlacer extends FoliagePlacer
     {
         for (int yOffset = offset; yOffset >= offset - height; --yOffset)
         {
-            int range = Math.max(radius + foliageAttachment.radiusOffset() - 1 - yOffset, 0);
+            int range = Math.max(radius + foliageAttachment.radiusOffset() - 2 - yOffset, 0);
             placeLeafSegment(level, blockSetter, random, treeConfig, foliageAttachment.pos(), offset, range, yOffset,
                     foliageAttachment.doubleTrunk());
         }
@@ -61,8 +61,9 @@ public class PalmFoliagePlacer extends FoliagePlacer
             Random random, TreeConfiguration treeConfig, BlockPos pos, int offset, int range, int yOffset,
             boolean large)
     {
-        int minRadius = range - yOffset - 2 + (1+yOffset % 2);
+        int minRadius = range - yOffset - 2 + ((1 + yOffset) % 2);
         if (yOffset == offset) minRadius = 0;
+        int sideLeafRadius = 1;
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
         for (int j = -range; j <= range; ++j)
         {
@@ -77,13 +78,24 @@ public class PalmFoliagePlacer extends FoliagePlacer
                 mutablePos.setWithOffset(pos, 0, yOffset, j);
                 tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
             }
+            if (minRadius <= sideLeafRadius && Math.abs(j) <= sideLeafRadius)
+            {
+                for (int k = -sideLeafRadius; k <= sideLeafRadius; ++k)
+                {
+                    if (!this.shouldSkipLocationSigned(random, j, yOffset, k, range, large))
+                    {
+                        mutablePos.setWithOffset(pos, j, yOffset, k);
+                        tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
+                    }
+                }
+            }
         }
     }
 
     @Override
     public int foliageHeight(Random random, int height, TreeConfiguration treeConfig)
     {
-        return this.height;
+        return this.height.sample(random);
     }
 
     @Override

@@ -15,6 +15,16 @@
         "Name": "minecraft:dirt"
       }
     },
+    "foliage_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "pokecube:leaves_nanab",
+        "Properties": {
+          "persistent": "false",
+          "distance": "7"
+        }
+      }
+    },
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
@@ -35,25 +45,22 @@
       }
     },
     "trunk_placer": {
-      "height_rand_b": 0,
-      "min_height_for_leaves": 6,
-      "bend_length": {
-        "type": "minecraft:uniform",
-        "value": {
-          "min_inclusive": 1,
-          "max_inclusive": 2
-        }
-      },
-      "base_height": 4,
-      "height_rand_a": 2,
-      "type": "pokecube:palm_trunk_placer"
+      "type": "pokecube:straight_trunk_placer_no_dirt",
+      "base_height": 5,
+      "height_rand_a": 4,
+      "height_rand_b": 2
     },
     "foliage_placer": {
       "type": "pokecube:palm_foliage_placer",
       "radius": 3,
-      "offset": 1,
-      "height": 3
+      "offset": 0,
+      "height": 5
     },
-    "decorators": []
+    "decorators": [
+      {
+        "probability": 0.002,
+        "type": "minecraft:beehive"
+      }
+    ]
   }
 }

@@ -36,17 +36,15 @@ public class RecipeBrewBerries implements IBrewingRecipe
         final CompoundTag pokebloc = new CompoundTag();
         final ItemStack stack = PokecubeItems.getStack("revive");
 
-        if (ingredient.getItem() instanceof ItemBerry)
+        if (ingredient.getItem() instanceof ItemBerry berry)
         {
-            final ItemBerry berry = (ItemBerry) ingredient.getItem();
             int[] flav = berry.type.flavours;
             int[] old = null;
             if (input.hasTag() && input.getTag().contains("pokebloc")) old = input.getTag().getIntArray("pokebloc");
             if (flav != null)
             {
                 flav = flav.clone();
-                if (old != null) for (int i = 0; i < Math.min(old.length, flav.length); i++)
-                    flav[i] += old[i];
+                if (old != null) for (int i = 0; i < Math.min(old.length, flav.length); i++) flav[i] += old[i];
                 pokebloc.putIntArray("pokebloc", flav);
                 final CompoundTag tag = input.hasTag() ? input.getTag().copy() : new CompoundTag();
                 tag.put("pokebloc", pokebloc);

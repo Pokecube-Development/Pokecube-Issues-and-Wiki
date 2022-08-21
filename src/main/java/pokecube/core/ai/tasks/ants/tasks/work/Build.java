@@ -16,7 +16,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
 import pokecube.core.ai.tasks.ants.nest.Edge;
@@ -26,9 +27,8 @@ import pokecube.core.ai.tasks.ants.nest.Tree;
 import pokecube.core.ai.tasks.ants.tasks.AbstractConstructTask;
 import pokecube.core.ai.tasks.ants.tasks.AbstractWorkTask;
 import pokecube.core.ai.tasks.utility.UtilTask;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import pokecube.core.impl.PokecubeMod;
+import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.Tracker;
 
 public class Build extends AbstractConstructTask
@@ -240,15 +240,14 @@ public class Build extends AbstractConstructTask
         final long time = Tracker.instance().getTick();
         this.n = null;
         this.e = null;
-        if (old instanceof Edge)
+        if (old instanceof Edge edge)
         {
-            final Edge edge = (Edge) old;
             Node next = edge.node1;
             if (next.shouldBuild(time))
             {
                 this.n = next;
                 this.e = null;
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to a node 1 b " + this.n.type);
+                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Switching to a node 1 b " + this.n.type);
                 return true;
             }
             next = edge.node2;
@@ -256,13 +255,12 @@ public class Build extends AbstractConstructTask
             {
                 this.n = next;
                 this.e = null;
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to a node 2 b " + this.n.type);
+                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Switching to a node 2 b " + this.n.type);
                 return true;
             }
         }
-        else if (old instanceof Node)
+        else if (old instanceof Node node)
         {
-            final Node node = (Node) old;
             Edge next = null;
             for (final Edge e : node.edges) if (e.shouldBuild(time))
             {
@@ -273,7 +271,7 @@ public class Build extends AbstractConstructTask
             {
                 this.n = null;
                 this.e = next;
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to an edge 1 b");
+                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Switching to an edge 1 b");
                 return true;
             }
         }
@@ -281,13 +279,13 @@ public class Build extends AbstractConstructTask
         for (final Node n : this.nest.hab.rooms.allRooms) if (n.shouldBuild(time))
         {
             this.n = n;
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to a node 3 b " + this.n.type);
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Switching to a node 3 b " + this.n.type);
             return true;
         }
         for (final Edge e : this.nest.hab.rooms.allEdges) if (e.shouldBuild(time))
         {
             this.e = e;
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Switching to an edge 2 b");
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Switching to an edge 2 b");
             return true;
         }
         return false;
@@ -305,9 +303,8 @@ public class Build extends AbstractConstructTask
             {
 
                 final ItemStack stack = this.pokemob.getInventory().getItem(i);
-                if (!stack.isEmpty() && stack.getItem() instanceof BlockItem)
+                if (!stack.isEmpty() && stack.getItem() instanceof BlockItem item)
                 {
-                    final BlockItem item = (BlockItem) stack.getItem();
                     if (!PokecubeTerrainChecker.isTerrain(item.getBlock().defaultBlockState())) continue;
                     this.storeInd = i;
                     this.to_place = stack;
@@ -327,9 +324,8 @@ public class Build extends AbstractConstructTask
                     for (int i = 0; i < cont.getSlots(); i++)
                     {
                         final ItemStack stack = cont.getStackInSlot(i);
-                        if (!stack.isEmpty() && stack.getItem() instanceof BlockItem)
+                        if (!stack.isEmpty() && stack.getItem() instanceof BlockItem item)
                         {
-                            final BlockItem item = (BlockItem) stack.getItem();
                             if (!PokecubeTerrainChecker.isTerrain(item.getBlock().defaultBlockState())) continue;
                             this.to_place = inv.getFirst().extractItem(i, Math.min(stack.getCount(), 5), false);
                             this.storeInd = this.storage.firstEmpty;
@@ -376,9 +372,8 @@ public class Build extends AbstractConstructTask
     @Override
     protected void doWork()
     {
-        if (!this.to_place.isEmpty() && this.to_place.getItem() instanceof BlockItem && this.storeInd != -1)
+        if (!this.to_place.isEmpty() && this.to_place.getItem() instanceof BlockItem item && this.storeInd != -1)
         {
-            final BlockItem item = (BlockItem) this.to_place.getItem();
             final BlockState state = item.getBlock().defaultBlockState();
             boolean wall = false;
             final Part part = this.n == null ? this.e : this.n;

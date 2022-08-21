@@ -36,30 +36,32 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
-import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
-import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
-import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.entity.trainer.TrainerNpc;
+import pokecube.adventures.init.EntityTypes;
 import pokecube.adventures.utils.TrainerTracker;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.Pokedex;
+import pokecube.api.entity.trainers.IHasNPCAIStates;
+import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
+import pokecube.api.entity.trainers.IHasPokemobs;
+import pokecube.api.entity.trainers.IHasRewards;
+import pokecube.api.entity.trainers.IHasRewards.Reward;
+import pokecube.api.entity.trainers.TrainerCaps;
+import pokecube.api.events.StructureEvent;
+import pokecube.api.events.npcs.NpcSpawn;
+import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.Pokedex;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
-import pokecube.core.events.StructureEvent;
-import pokecube.core.events.npc.NpcSpawn;
-import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
-import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.handlers.events.SpawnEventsHandler;
-import pokecube.core.handlers.events.SpawnHandler;
-import pokecube.core.utils.PokeType;
+import pokecube.core.eventhandlers.EventsHandler;
+import pokecube.core.eventhandlers.SpawnEventsHandler;
+import pokecube.core.eventhandlers.SpawnHandler;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 import thut.api.util.JsonUtil;
@@ -76,8 +78,7 @@ public class TrainerSpawnHandler
         SpawnEventsHandler.processors.add((mob, thing) -> {
             final ServerLevel world = (ServerLevel) mob.level;
             // Then apply trainer specific stuff.
-            int level = SpawnHandler
-                    .getSpawnLevel(new SpawnContext(world, Database.missingno, new Vector3().set(mob)));
+            int level = SpawnHandler.getSpawnLevel(new SpawnContext(world, Database.missingno, new Vector3().set(mob)));
             if (thing.has("level")) level = thing.get("level").getAsInt();
             String typeName = "";
             if (thing.has("aiStates"))
@@ -130,8 +131,8 @@ public class TrainerSpawnHandler
                     final TypeTrainer type = TypeTrainer.typeMap.get(typeName);
                     // TODO some of these should handle from IHasPokemobs
                     // instead!
-                    if (type != null && mob instanceof NpcMob) ((NpcMob) mob).setNpcType(type);
-                    else PokecubeCore.LOGGER.error("No trainer type registerd for {}", typeName);
+                    if (type != null && mob instanceof NpcMob npc) npc.setNpcType(type);
+                    else PokecubeAPI.LOGGER.error("No trainer type registerd for {}", typeName);
                 }
             }
             if (mob instanceof TrainerBase) ((TrainerBase) mob).initTeam(level);
@@ -185,7 +186,7 @@ public class TrainerSpawnHandler
         NpcType ttype = NpcType.getRandomForLocation(v, w);
         if (ttype == null) return null;
         final int level = SpawnHandler.getSpawnLevel(new SpawnContext(w, Database.missingno, v));
-        final TrainerNpc trainer = new TrainerNpc(TrainerNpc.TYPE, w);
+        final TrainerNpc trainer = new TrainerNpc(EntityTypes.getTrainer(), w);
         trainer.setNpcType(ttype);
         trainer.setLevel(level);
         trainer.aiStates.setAIState(AIState.MATES, true);
@@ -200,13 +201,13 @@ public class TrainerSpawnHandler
         int level = SpawnHandler.getSpawnLevel(
                 new SpawnContext((ServerLevel) trainer.level, Pokedex.getInstance().getFirstEntry(), loc));
 
-        if (trainer instanceof LeaderNpc)
+        if (trainer instanceof LeaderNpc npc)
         {
             // Gym leaders are 10 lvls higher than others.
             level += 10;
             // Randomize badge for leader.
 
-            final IHasRewards rewardsCap = ((LeaderNpc) trainer).rewardsCap;
+            final IHasRewards rewardsCap = npc.rewardsCap;
             final PokeType type = PokeType.values()[ThutCore.newRandom().nextInt(PokeType.values().length)];
             final Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(PokecubeAdv.MODID, ":badge_" + type));
             if (item != null)
@@ -214,13 +215,12 @@ public class TrainerSpawnHandler
                 final ItemStack badge = new ItemStack(item);
                 if (!rewardsCap.getRewards().isEmpty()) rewardsCap.getRewards().set(0, new Reward(badge));
                 else rewardsCap.getRewards().add(new Reward(badge));
-                ((LeaderNpc) trainer).setItemInHand(InteractionHand.OFF_HAND, rewardsCap.getRewards().get(0).stack);
+                npc.setItemInHand(InteractionHand.OFF_HAND, rewardsCap.getRewards().get(0).stack);
             }
         }
         // Randomize team.
-        if (trainer instanceof TrainerNpc)
+        if (trainer instanceof TrainerNpc t)
         {
-            final TrainerNpc t = (TrainerNpc) trainer;
             t.setNPCName("");
             // Reset their trades, as this will randomize them when trades are
             // needed later.
@@ -269,7 +269,7 @@ public class TrainerSpawnHandler
                 return;
             }
             final double dt = (System.nanoTime() - time) / 1000000D;
-            if (dt > 20) PokecubeCore.LOGGER.warn("Trainer " + cap.getType().getName() + " " + dt + "ms ");
+            if (dt > 20) PokecubeAPI.LOGGER.warn("Trainer " + cap.getType().getName() + " " + dt + "ms ");
             v.offsetBy(Direction.UP).moveEntity(t);
 
             // Not valid spawning spot, so deny the spawn here.
@@ -282,7 +282,7 @@ public class TrainerSpawnHandler
             {
                 w.addFreshEntity(t);
                 TrainerSpawnHandler.randomizeTrainerTeam(t, cap);
-                PokecubeCore.LOGGER.debug("Spawned Trainer: " + t + " " + count);
+                PokecubeAPI.LOGGER.debug("Spawned Trainer: " + t + " " + count);
             }
             else t.remove(RemovalReason.DISCARDED);
         }
@@ -291,13 +291,13 @@ public class TrainerSpawnHandler
     @SubscribeEvent
     public static void tickEvent(final WorldTickEvent evt)
     {
-        if (Config.instance.trainerSpawn && evt.phase == Phase.END && evt.world instanceof ServerLevel
+        if (Config.instance.trainerSpawn && evt.phase == Phase.END && evt.world instanceof ServerLevel level
                 && evt.world.getGameTime() % PokecubeCore.getConfig().spawnRate == 0)
         {
             final long time = System.nanoTime();
-            TrainerSpawnHandler.tick((ServerLevel) evt.world);
+            TrainerSpawnHandler.tick(level);
             final double dt = (System.nanoTime() - time) / 1000000D;
-            if (dt > 50) PokecubeCore.LOGGER.warn("Trainer Spawn Tick took " + dt + "ms");
+            if (dt > 50) PokecubeAPI.LOGGER.warn("Trainer Spawn Tick took " + dt + "ms");
         }
     }
 
@@ -317,8 +317,8 @@ public class TrainerSpawnHandler
         if ((leader = function.startsWith("leader")) || function.startsWith("trainer"))
         {
             function = function.replaceFirst(leader ? "leader" : "trainer", "");
-            final TrainerNpc mob = leader ? LeaderNpc.TYPE.create(event.worldActual)
-                    : TrainerNpc.TYPE.create(event.worldActual);
+            final TrainerNpc mob = leader ? EntityTypes.getLeader().create(event.worldActual)
+                    : EntityTypes.getTrainer().create(event.worldActual);
             mob.setPersistenceRequired();
             mob.moveTo(event.pos, 0.0F, 0.0F);
             mob.finalizeSpawn((ServerLevelAccessor) event.worldBlocks,
@@ -337,9 +337,9 @@ public class TrainerSpawnHandler
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.error("Error parsing " + function, e);
+                PokecubeAPI.LOGGER.error("Error parsing " + function, e);
             }
-            if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Adding trainer: " + mob);
+            if (PokecubeCore.getConfig().debug) PokecubeAPI.LOGGER.debug("Adding trainer: " + mob);
             if (!MinecraftForge.EVENT_BUS
                     .post(new NpcSpawn.Check(mob, event.pos, event.worldActual, MobSpawnType.STRUCTURE, thing)))
             {

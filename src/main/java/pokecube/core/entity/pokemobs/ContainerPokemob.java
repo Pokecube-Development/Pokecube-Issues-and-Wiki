@@ -6,39 +6,36 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.network.IContainerFactory;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeItems;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.init.MenuTypes;
 import pokecube.core.utils.EntityTools;
 import thut.api.inventory.BaseContainer;
 import thut.core.common.ThutCore;
 
 public class ContainerPokemob extends BaseContainer
 {
-    public static final MenuType<ContainerPokemob> TYPE = new MenuType<>(
-            (IContainerFactory<ContainerPokemob>) ContainerPokemob::new);
 
     public final Container pokemobInv;
-    public final IPokemob  pokemob;
+    public final IPokemob pokemob;
 
-    public byte            mode;
+    public byte mode;
     public FriendlyByteBuf data;
-    Inventory              playerInv;
+    Inventory playerInv;
 
     public ContainerPokemob(final int id, final Inventory playerInv, final FriendlyByteBuf data)
     {
-        super(ContainerPokemob.TYPE, id);
+        super(MenuTypes.POKEMOB.get(), id);
         LivingEntity entity = playerInv.player;
         final int num = data.readInt();
         Entity mob = entity.getLevel().getEntity(num);
         mob = EntityTools.getCoreEntity(mob);
         if (mob instanceof LivingEntity) entity = (LivingEntity) mob;
-        this.pokemob = CapabilityPokemob.getPokemobFor(entity);
+        this.pokemob = PokemobCaps.getPokemobFor(entity);
         this.pokemobInv = this.pokemob.getInventory();
         this.mode = data.readByte();
         this.data = data;
@@ -61,8 +58,8 @@ public class ContainerPokemob extends BaseContainer
             this.addSlot(new Slot(this.pokemobInv, 0, 8, 18)
             {
                 /**
-                 * Check if the stack is a valid item for this slot. Always
-                 * true beside for the armor slots.
+                 * Check if the stack is a valid item for this slot. Always true
+                 * beside for the armor slots.
                  */
                 @Override
                 public boolean mayPlace(final ItemStack stack)
@@ -84,8 +81,8 @@ public class ContainerPokemob extends BaseContainer
                 }
 
                 /**
-                 * Check if the stack is a valid item for this slot. Always
-                 * true beside for the armor slots.
+                 * Check if the stack is a valid item for this slot. Always true
+                 * beside for the armor slots.
                  */
                 @Override
                 public boolean mayPlace(final ItemStack stack)
@@ -97,8 +94,8 @@ public class ContainerPokemob extends BaseContainer
                 public void onTake(final Player playerIn, final ItemStack stack)
                 {
                     final ItemStack old = this.getItem();
-                    if (ThutCore.proxy.isServerSide()) ContainerPokemob.this.pokemob.getPokedexEntry().onHeldItemChange(
-                            stack, old, ContainerPokemob.this.pokemob);
+                    if (ThutCore.proxy.isServerSide()) ContainerPokemob.this.pokemob.getPokedexEntry()
+                            .onHeldItemChange(stack, old, ContainerPokemob.this.pokemob);
                     super.onTake(playerIn, stack);
                 }
 
@@ -112,19 +109,18 @@ public class ContainerPokemob extends BaseContainer
                 }
             });
             for (j = 0; j < 1; ++j)
-                for (k = 0; k < 5; ++k)
-                    this.addSlot(new Slot(this.pokemobInv, 2 + k + j * 5, 80 + k * 18, 18 + j * 18)
+                for (k = 0; k < 5; ++k) this.addSlot(new Slot(this.pokemobInv, 2 + k + j * 5, 80 + k * 18, 18 + j * 18)
+                {
+                    /**
+                     * Check if the stack is a valid item for this slot. Always
+                     * true beside for the armor slots.
+                     */
+                    @Override
+                    public boolean mayPlace(final ItemStack stack)
                     {
-                        /**
-                         * Check if the stack is a valid item for this slot.
-                         * Always true beside for the armor slots.
-                         */
-                        @Override
-                        public boolean mayPlace(final ItemStack stack)
-                        {
-                            return true;// ItemList.isValidHeldItem(stack);
-                        }
-                    });
+                        return true;// ItemList.isValidHeldItem(stack);
+                    }
+                });
         }
         this.bindPlayerInventory(this.playerInv, -19);
     }
@@ -132,8 +128,8 @@ public class ContainerPokemob extends BaseContainer
     @Override
     public boolean stillValid(final Player p_75145_1_)
     {
-        return this.pokemobInv.stillValid(p_75145_1_) && this.pokemob.getEntity().isAlive() && this.pokemob.getEntity()
-                .distanceTo(p_75145_1_) < 8.0F;
+        return this.pokemobInv.stillValid(p_75145_1_) && this.pokemob.getEntity().isAlive()
+                && this.pokemob.getEntity().distanceTo(p_75145_1_) < 8.0F;
     }
 
     @Override

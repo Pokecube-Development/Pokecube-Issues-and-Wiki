@@ -1,8 +1,8 @@
 package pokecube.mobs.moves.attacks.special;
 
-import pokecube.core.interfaces.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.utils.PokeType;
 import pokecube.core.moves.templates.Move_Basic;
-import pokecube.core.utils.PokeType;
 
 public class MultiAttack extends Move_Basic
 {

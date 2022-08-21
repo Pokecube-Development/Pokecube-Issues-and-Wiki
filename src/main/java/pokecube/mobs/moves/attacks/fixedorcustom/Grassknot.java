@@ -1,8 +1,8 @@
 package pokecube.mobs.moves.attacks.fixedorcustom;
 
 import net.minecraft.world.entity.Entity;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.moves.templates.Move_Basic;
 
 public class Grassknot extends Move_Basic
@@ -17,7 +17,7 @@ public class Grassknot extends Move_Basic
     public int getPWR(IPokemob user, Entity target)
     {
         final int pwr = 120;
-        final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
         if (targetMob == null) return pwr;
         final double mass = targetMob.getWeight();
         if (mass < 10) return 20;

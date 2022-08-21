@@ -1,7 +1,7 @@
 package pokecube.mobs.moves.attacks.flying;
 
 import net.minecraft.world.entity.Entity;
-import pokecube.core.interfaces.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.moves.templates.Move_Basic;
 
 public class Acrobatics extends Move_Basic

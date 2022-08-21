@@ -34,7 +34,7 @@ public class TrainerTracker
         @Override
         public boolean equals(final Object obj)
         {
-            if (obj instanceof Entry) return ((Entry) obj).npc.getUUID().equals(this.npc.getUUID());
+            if (obj instanceof Entry entry) return entry.npc.getUUID().equals(this.npc.getUUID());
             return false;
         }
 
@@ -107,8 +107,8 @@ public class TrainerTracker
     @SubscribeEvent
     public static void worldLoadEvent(final Load evt)
     {
-        if (evt.getWorld().isClientSide() || !(evt.getWorld() instanceof Level)) return;
+        if (evt.getWorld().isClientSide() || !(evt.getWorld() instanceof Level level)) return;
         // Reset the tracked map for this world
-        TrainerTracker.mobMap.put(((Level) evt.getWorld()).dimension(), new ArrayList<>());
+        TrainerTracker.mobMap.put(level.dimension(), new ArrayList<>());
     }
 }

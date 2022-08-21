@@ -9,15 +9,15 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
-import pokecube.core.handlers.events.MoveEventsHandler;
-import pokecube.core.interfaces.IMoveAction;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Move_Base;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.IMoveAction;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.Move_Base;
+import pokecube.api.utils.PokeType;
+import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.recipes.MoveRecipes;
 import pokecube.core.recipes.MoveRecipes.MoveRecipe;
-import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
 
 public class PokemobMoveRecipeParser implements IRecipeParser
@@ -34,7 +34,7 @@ public class PokemobMoveRecipeParser implements IRecipeParser
         int maxPower = 300;
 
         boolean contact = true;
-        boolean ranged  = true;
+        boolean ranged = true;
 
         @Override
         public boolean test(final String t)
@@ -133,12 +133,11 @@ public class PokemobMoveRecipeParser implements IRecipeParser
             this.recipe = recipe;
             RecipeMove.ALLRECIPES.add(recipe);
 
-            for (final String s : MovesUtils.getKnownMoveNames())
-                if (this.recipe.match.test(s))
-                {
-                    recipe.matchedMoves.add(s);
-                    this.actions.add(new RecipeAction(s, this.recipe));
-                }
+            for (final String s : MovesUtils.getKnownMoveNames()) if (this.recipe.match.test(s))
+            {
+                recipe.matchedMoves.add(s);
+                this.actions.add(new RecipeAction(s, this.recipe));
+            }
         }
     }
 
@@ -147,9 +146,8 @@ public class PokemobMoveRecipeParser implements IRecipeParser
         if (MoveEventsHandler.customActions.containsKey(action.getMoveName()))
         {
             final IMoveAction prev = MoveEventsHandler.customActions.get(action.getMoveName());
-            if (prev instanceof WrappedRecipeMove)
+            if (prev instanceof WrappedRecipeMove edit)
             {
-                final WrappedRecipeMove edit = (WrappedRecipeMove) prev;
                 edit.other = action;
                 action = prev;
             }
@@ -159,18 +157,16 @@ public class PokemobMoveRecipeParser implements IRecipeParser
     }
 
     public PokemobMoveRecipeParser()
-    {
-    }
+    {}
 
     @Override
     public void manageRecipe(final JsonObject json) throws NullPointerException
     {
         json.addProperty("loading_from_other", true);
-        final MoveRecipe recipe = MoveRecipes.SERIALIZER.get().fromJson(new ResourceLocation("pokecube:move_recipe_"
-                + RecipeMove.uid++), json);
+        final MoveRecipe recipe = MoveRecipes.SERIALIZER.get()
+                .fromJson(new ResourceLocation("pokecube:move_recipe_" + RecipeMove.uid++), json);
         final RecipeMove loaded = new RecipeMove(recipe);
-        for (final IMoveAction action : loaded.actions)
-            PokemobMoveRecipeParser.addOrMergeActions(action);
+        for (final IMoveAction action : loaded.actions) PokemobMoveRecipeParser.addOrMergeActions(action);
     }
 
     @Override

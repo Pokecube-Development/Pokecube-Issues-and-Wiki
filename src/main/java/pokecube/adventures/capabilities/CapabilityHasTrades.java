@@ -14,9 +14,11 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
-import pokecube.core.events.npc.NpcTradesEvent;
+import pokecube.api.entity.trainers.IHasNPCAIStates;
+import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
+import pokecube.api.entity.trainers.IHasTrades;
+import pokecube.api.entity.trainers.TrainerCaps;
+import pokecube.api.events.npcs.NpcTradesEvent;
 
 public class CapabilityHasTrades
 {
@@ -96,30 +98,6 @@ public class CapabilityHasTrades
             this.onTraded = validator;
         }
 
-    }
-
-    public static interface IHasTrades
-    {
-        void applyTrade(MerchantOffer trade);
-
-        void setCustomer(Player player);
-
-        Player getCustomer();
-
-        default boolean hasCustomer()
-        {
-            return this.getCustomer() != null;
-        }
-
-        MerchantOffers getOffers();
-
-        void setOffers(MerchantOffers offers);
-
-        void initTrades();
-
-        void verify(ItemStack stack);
-
-        void setValidator(Consumer<ItemStack> validator);
     }
 
     @SubscribeEvent

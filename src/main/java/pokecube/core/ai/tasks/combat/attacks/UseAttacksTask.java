@@ -2,36 +2,34 @@ package pokecube.core.ai.tasks.combat.attacks;
 
 import org.apache.logging.log4j.Level;
 
-import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.ai.behavior.EntityTracker;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.FakePlayer;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.combat.CombatTask;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.moves.MovesUtils;
 import thut.api.Tracker;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
+import thut.lib.TComponent;
 
 /**
- * This is the IAIRunnable for managing which attack is used when. It
- * determines whether the pokemob is in range, manages pathing to account for
- * range issues, and also manage auto selection of moves for wild or hunting
- * pokemobs.<br>
+ * This is the IAIRunnable for managing which attack is used when. It determines
+ * whether the pokemob is in range, manages pathing to account for range issues,
+ * and also manage auto selection of moves for wild or hunting pokemobs.<br>
  * <br>
  * It also manages the message to notify the player that a wild pokemob has
  * decided to battle, as well as dealing with combat between rivals over a mate.
@@ -47,12 +45,12 @@ public class UseAttacksTask extends CombatTask implements IAICombat
     IPokemob pokemobTarget;
 
     /** Where the target is/was for attack. */
-    Vector3 targetLoc   = new Vector3();
+    Vector3 targetLoc = new Vector3();
     /** Move we are using */
     Move_Base attack;
 
     /** Temp vectors for checking things. */
-    Vector3 v  = new Vector3();
+    Vector3 v = new Vector3();
     Vector3 v1 = new Vector3();
     Vector3 v2 = new Vector3();
 
@@ -103,14 +101,13 @@ public class UseAttacksTask extends CombatTask implements IAICombat
 
         if (!this.waitingToStart)
         {
-            if (!((this.attack.getAttackCategory() & IMoveConstants.CATEGORY_SELF) != 0) && !this.pokemob
-                    .getGeneralState(GeneralStates.CONTROLLED)) this.setWalkTo(this.entityTarget.position(), this.speed,
-                            0);
+            if (!((this.attack.getAttackCategory() & IMoveConstants.CATEGORY_SELF) != 0)
+                    && !this.pokemob.getGeneralState(GeneralStates.CONTROLLED))
+                this.setWalkTo(this.entityTarget.position(), this.speed, 0);
             this.targetLoc.set(this.entityTarget);
             this.waitingToStart = true;
             /**
-             * Don't want to notify if the pokemob just broke out of a
-             * pokecube.
+             * Don't want to notify if the pokemob just broke out of a pokecube.
              */
             final boolean previousCaptureAttempt = !EntityPokecubeBase.canCaptureBasedOnConfigs(this.pokemob);
 
@@ -119,21 +116,20 @@ public class UseAttacksTask extends CombatTask implements IAICombat
              * it should.
              */
             if (!previousCaptureAttempt && PokecubeCore.getConfig().pokemobagresswarning
-                    && this.entityTarget instanceof ServerPlayer && !(this.entityTarget instanceof FakePlayer)
-                    && !this.pokemob.getGeneralState(GeneralStates.TAMED) && ((Player) this.entityTarget)
-                            .getLastHurtByMob() != this.entity && ((Player) this.entityTarget)
-                                    .getLastHurtMob() != this.entity)
+                    && this.entityTarget instanceof ServerPlayer player && !(this.entityTarget instanceof FakePlayer)
+                    && !this.pokemob.getGeneralState(GeneralStates.TAMED) && player.getLastHurtByMob() != this.entity
+                    && player.getLastHurtMob() != this.entity)
             {
-                final Component message = new TranslatableComponent("pokemob.agress", this.pokemob
-                        .getDisplayName().getString());
+                final Component message = TComponent.translatable("pokemob.agress",
+                        this.pokemob.getDisplayName().getString());
                 try
                 {
                     // Only send this once.
-                    if (this.pokemob.getAttackCooldown() == 0) this.entityTarget.sendMessage(message, Util.NIL_UUID);
+                    if (this.pokemob.getAttackCooldown() == 0) thut.lib.ChatHelper.sendSystemMessage(player, message);
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.log(Level.WARN, "Error with message for " + this.entityTarget, e);
+                    PokecubeAPI.LOGGER.log(Level.WARN, "Error with message for " + this.entityTarget, e);
                 }
                 this.pokemob.setAttackCooldown(PokecubeCore.getConfig().pokemobagressticks);
             }
@@ -157,8 +153,8 @@ public class UseAttacksTask extends CombatTask implements IAICombat
 
         distanced = (move.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0;
         // Check to see if the move is ranged, contact or self.
-        if (distanced) var1 = PokecubeCore.getConfig().rangedAttackDistance * PokecubeCore
-                .getConfig().rangedAttackDistance;
+        if (distanced)
+            var1 = PokecubeCore.getConfig().rangedAttackDistance * PokecubeCore.getConfig().rangedAttackDistance;
         else if (PokecubeCore.getConfig().contactAttackDistance > 0)
         {
             var1 = PokecubeCore.getConfig().contactAttackDistance * PokecubeCore.getConfig().contactAttackDistance;
@@ -186,11 +182,11 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         // If we have not set a move executing, we update target location. If we
         // have a move executing, we leave the old location to give the target
         // time to dodge needed.
-        if (!this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE)) this.targetLoc.set(this.entityTarget).addTo(0,
-                this.entityTarget.getBbHeight() / 2, 0);
+        if (!this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
+            this.targetLoc.set(this.entityTarget).addTo(0, this.entityTarget.getBbHeight() / 2, 0);
 
-        final boolean isTargetDodging = this.pokemobTarget != null && this.pokemobTarget.getCombatState(
-                CombatStates.DODGING);
+        final boolean isTargetDodging = this.pokemobTarget != null
+                && this.pokemobTarget.getCombatState(CombatStates.DODGING);
 
         // If the target is not trying to dodge, and the move allows it,
         // then set target location to where the target is now. This is so that
@@ -259,7 +255,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         if (!target.isAlive() || target.getHealth() <= 0 || this.pokemob.getHealth() <= 0 || !this.entity.isAlive())
             return false;
 
-        if (target != this.entityTarget) this.pokemobTarget = CapabilityPokemob.getPokemobFor(target);
+        if (target != this.entityTarget) this.pokemobTarget = PokemobCaps.getPokemobFor(target);
         this.entityTarget = target;
 
         return true;

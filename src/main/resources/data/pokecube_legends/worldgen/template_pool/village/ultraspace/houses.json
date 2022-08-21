@@ -1,104 +1,104 @@
 {
   "name": "pokecube_legends:village/ultraspace/start_pool",
-  "fallback": "pokecube_legends:village/ultraspace/houses",
+  "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 10,
       "element": {
         "location": "pokecube_legends:village/ultraspace/houses/house_1",
-        "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic",
+        "projection": "rigid"
       }
     },
     {
       "weight": 10,
       "element": {
         "location": "pokecube_legends:village/ultraspace/houses/house_2",
-        "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic",
+        "projection": "rigid"
       }
     },
     {
       "weight": 10,
       "element": {
         "location": "pokecube_legends:village/ultraspace/houses/house_3",
-        "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic",
+        "projection": "rigid"
       }
     },
     {
       "weight": 10,
       "element": {
         "location": "pokecube_legends:village/ultraspace/houses/house_4",
-        "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic",
+        "projection": "rigid"
       }
     },
     {
       "weight": 10,
       "element": {
         "location": "pokecube_legends:village/ultraspace/houses/house_5",
-        "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic",
+        "projection": "rigid"
       }
     },
     {
       "weight": 10,
       "element": {
         "location": "pokecube_legends:village/ultraspace/houses/house_6",
-        "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic",
+        "projection": "rigid"
       }
     },
     {
       "weight": 10,
       "element": {
         "location": "pokecube_legends:village/ultraspace/houses/house_7",
-        "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic",
+        "projection": "rigid"
       }
     },
     {
       "weight": 10,
       "element": {
         "location": "pokecube_legends:village/ultraspace/houses/house_8",
-        "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic",
+        "projection": "rigid"
       }
     },
     {
       "weight": 5,
       "element": {
         "location": "pokecube_legends:village/ultraspace/houses/capsule_a",
-        "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic",
+        "projection": "rigid"
       }
     },
     {
       "weight": 5,
       "element": {
         "location": "pokecube_legends:village/ultraspace/houses/capsule_b",
-        "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic",
+        "projection": "rigid"
       }
     },
     {
       "weight": 5,
       "element": {
         "location": "pokecube_legends:village/ultraspace/houses/capsule_c",
-        "projection": "rigid",
         "element_type": "pokecube:expanded_pool_element",
-        "processors": "pokecube:generic"
+        "processors": "pokecube:generic",
+        "projection": "rigid"
       }
     },
     {
@@ -124,7 +124,7 @@
       }
     },
     {
-      "weight": 5,
+      "weight": 10,
       "element": {
         "element_type": "minecraft:empty_pool_element"
       }

@@ -3,7 +3,9 @@ package thut.core.client.render.wrappers;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
@@ -33,6 +35,7 @@ import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
+import thut.core.client.render.model.IModelCustom;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.IModelRenderer.Vector5;
 import thut.core.client.render.model.ModelFactory;
@@ -147,7 +150,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             alpha = this.tmp[3];
         }
         parent.setRGBABrO(red, green, blue, alpha, brightness, overlay);
-        for (final String partName : parent.getSubParts().keySet())
+        for (final String partName : parent.getRenderOrder())
         {
             final IExtendedModelPart part = parent.getSubParts().get(partName);
             this.initColours(part, entity, brightness, overlay);
@@ -160,6 +163,8 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     {
         if (!this.isLoaded()) return;
         this.setEntity(entityIn);
+        IPartTexturer texer = this.renderer.getTexturer();
+        if (texer != null) texer.bindObject(this.entityIn);
         final HeadInfo info = this.renderer.getAnimationHolder().getHeadInfo();
         if (!info.fixed)
         {
@@ -168,11 +173,12 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         }
         info.currentTick = entityIn.tickCount;
         final IAnimationChanger animChanger = this.renderer.getAnimationChanger();
-        final Set<String> excluded = Sets.newHashSet();
-        if (animChanger != null) for (final String partName : this.imodel.getParts().keySet())
+        for (final Entry<String, IExtendedModelPart> entry : this.imodel.getParts().entrySet())
         {
-            if (animChanger.isPartHidden(partName, entityIn, false)) excluded.add(partName);
-            if (this.renderer.getTexturer() != null) this.renderer.getTexturer().bindObject(entityIn);
+            String partName = entry.getKey();
+            IExtendedModelPart part = entry.getValue();
+            if (animChanger != null) animChanger.isPartHidden(partName, entityIn, false);
+            if (part instanceof IRetexturableModel tex) tex.setTexturer(texer);
         }
         if (info != null) info.lastTick = entityIn.tickCount;
     }
@@ -186,26 +192,39 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         mat.pushPose();
         this.transformGlobal(mat, buffer, this.renderer.getAnimation(this.entityIn), this.entityIn,
                 Minecraft.getInstance().getFrameTime());
-        final IAnimationChanger animChanger = this.renderer.getAnimationChanger();
         final Set<String> excluded = Sets.newHashSet();
-        if (animChanger != null) for (final String partName : this.imodel.getParts().keySet())
+        for (final Entry<String, IExtendedModelPart> entry : this.imodel.getParts().entrySet())
         {
-            if (animChanger.isPartHidden(partName, this.entityIn, false)) excluded.add(partName);
-            if (this.renderer.getTexturer() != null) this.renderer.getTexturer().bindObject(this.entityIn);
-        }
-
-        for (final String partName : this.imodel.getParts().keySet())
-        {
-            final IExtendedModelPart part = this.imodel.getParts().get(partName);
+            String partName = entry.getKey();
+            IExtendedModelPart part = entry.getValue();
             if (part == null) continue;
-            if (part instanceof IRetexturableModel)
-                ((IRetexturableModel) part).setTexturer(this.renderer.getTexturer());
+            if (part.isHidden())
+            {
+                excluded.add(partName);
+                excluded.addAll(part.getRenderOrder());
+            }
             if (part.getParent() == null)
             {
-                mat.pushPose();
                 this.initColours(part, this.entityIn, packedLightIn, packedOverlayIn);
-                part.renderAllExcept(mat, buffer, this.renderer, excluded.toArray(new String[excluded.size()]));
-                mat.popPose();
+            }
+        }
+        if (this.imodel instanceof IModelCustom cmodel)
+        {
+            cmodel.renderAllExcept(mat, buffer, excluded);
+        }
+        else
+        {
+            for (final String partName : this.imodel.getRenderOrder())
+            {
+                final IExtendedModelPart part = this.imodel.getParts().get(partName);
+                if (part == null) continue;
+                if (part.getParent() == null)
+                {
+                    mat.pushPose();
+                    this.initColours(part, this.entityIn, packedLightIn, packedOverlayIn);
+                    part.renderAllExcept(mat, buffer, this.renderer, excluded);
+                    mat.popPose();
+                }
             }
         }
         mat.popPose();
@@ -297,4 +316,9 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         IModel.super.updateMaterial(mat);
     }
 
+    @Override
+    public List<String> getRenderOrder()
+    {
+        return imodel.getRenderOrder();
+    }
 }

@@ -18,7 +18,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
-import pokecube.core.database.spawns.SpawnBiomeMatcher;
+import pokecube.api.data.spawns.SpawnBiomeMatcher;
 
 public class ExpandedJigsawConfiguration extends JigsawConfiguration
 {

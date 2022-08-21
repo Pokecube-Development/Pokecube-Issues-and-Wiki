@@ -4,6 +4,6 @@
   <phase name="global" rotation="0,1,0,0" scale="0.3"/>
   <metadata head="Head_base" headAxis="-1" headAxis2="0" headCap="-90,90" headDir="1"/>
   <phase angle="50" duration="10" leftFront="Left_foreleg" leftHind="Left_rear_thigh" name="quadWalk" rightFront="Right_foreleg" rightHind="Right_rear_thigh"/>
-  <customTex default="deerlingwinter"/>
+  <customTex default="deerling_wi"/>
  </model>
 </ModelAnimator>

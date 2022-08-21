@@ -41,14 +41,35 @@ public class Factory<T>
 
     private static Map<Class<?>, Field> knownAnyAtrMappins = Maps.newHashMap();
 
+    private static XMLReader XMLREADER;
+
+    private static final DocumentBuilderFactory DOCFACTORY = DocumentBuilderFactory.newInstance();
+
+    static
+    {
+        try
+        {
+            SAXParserFactory spf = SAXParserFactory.newInstance();
+            spf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            XMLREADER = spf.newSAXParser().getXMLReader();
+            XMLREADER.setEntityResolver((publicId, systemId) -> new InputSource(new StringReader("")));
+
+            DOCFACTORY.setNamespaceAware(true);
+            DOCFACTORY.setFeature("http://xml.org/sax/features/namespaces", false);
+            DOCFACTORY.setFeature("http://xml.org/sax/features/validation", false);
+            DOCFACTORY.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
+            DOCFACTORY.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+        }
+        catch (ParserConfigurationException | SAXException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     public static <T> T make(final InputStream stream, final Class<T> clazz) throws Exception
     {
-        final SAXParserFactory spf = SAXParserFactory.newInstance();
-        spf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-        final XMLReader xmlReader = spf.newSAXParser().getXMLReader();
-        xmlReader.setEntityResolver((publicId, systemId) -> new InputSource(new StringReader("")));
         final InputSource inputSource = new InputSource(new InputStreamReader(stream));
-        final SAXSource source = new SAXSource(xmlReader, inputSource);
+        final SAXSource source = new SAXSource(XMLREADER, inputSource);
         return Factory.makeForClass(clazz).make(source);
     }
 
@@ -125,8 +146,7 @@ public class Factory<T>
     private void processNode(final Node node, final Object obj, final int depth)
     {
         String tabbing = "";
-        for (int i = 0; i < depth; i++)
-            tabbing = tabbing + "   ";
+        for (int i = 0; i < depth; i++) tabbing = tabbing + "   ";
 
         String name = node.getNodeName();
         final NodeList children = node.getChildNodes();
@@ -170,7 +190,8 @@ public class Factory<T>
                 if (value == null) continue;
                 if (ThutCore.trim(value).isEmpty()) continue;
                 // Else we try to set the corresponding object as this.
-                ThutCore.LOGGER.error("We do not handle this properly yet!");
+                if (ThutCore.conf.debug)
+                    ThutCore.LOGGER.error("We do not handle this properly yet! {}: {}", name, value);
                 continue;
             }
             if (elems.containsKey(name)) this.apply(n, obj, depth, elems.get(name), tabbing);
@@ -187,13 +208,7 @@ public class Factory<T>
 
     public T make(final SAXSource source) throws SAXException, IOException, ParserConfigurationException
     {
-        final DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
-        f.setNamespaceAware(true);
-        f.setFeature("http://xml.org/sax/features/namespaces", false);
-        f.setFeature("http://xml.org/sax/features/validation", false);
-        f.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
-        f.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-        final Document d = f.newDocumentBuilder().parse(source.getInputSource());
+        final Document d = DOCFACTORY.newDocumentBuilder().parse(source.getInputSource());
         final Node root = d.getDocumentElement();
         this.processNode(root, this.toFill, 0);
         return this.toFill;

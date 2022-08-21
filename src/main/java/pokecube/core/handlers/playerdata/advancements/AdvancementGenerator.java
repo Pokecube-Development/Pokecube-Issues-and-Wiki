@@ -6,7 +6,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import net.minecraft.advancements.AdvancementRewards;
-import pokecube.core.database.PokedexEntry;
+import pokecube.api.data.PokedexEntry;
 
 public class AdvancementGenerator
 {

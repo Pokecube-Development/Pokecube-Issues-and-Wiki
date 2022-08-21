@@ -15,13 +15,13 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.compat.jei.ingredients.Pokemob;
+import thut.lib.RegHelper;
+import thut.lib.TComponent;
 
 public class Category implements IRecipeCategory<Wrapper>
 {
@@ -46,7 +46,7 @@ public class Category implements IRecipeCategory<Wrapper>
     @Override
     public Component getTitle()
     {
-        return new TextComponent(this.localizedName);
+        return TComponent.literal(this.localizedName);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class Category implements IRecipeCategory<Wrapper>
     @Override
     public ResourceLocation getUid()
     {
-        return PokecubeAdv.CLONER.get().getRegistryName();
+        return RegHelper.getKey(PokecubeAdv.CLONER.get());
     }
 
     @Override
@@ -79,7 +79,7 @@ public class Category implements IRecipeCategory<Wrapper>
         final List<Component> tooltips = Lists.newArrayList();
         final Rectangle arrow = new Rectangle(44, 18, 32, 17);
         if (!arrow.contains(mouseX, mouseY)) return tooltips;
-        tooltips.add(new TranslatableComponent("gui.jei.cloner.need_egg"));
+        tooltips.add(TComponent.translatable("gui.jei.cloner.need_egg"));
         return tooltips;
     }
 

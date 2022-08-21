@@ -12,12 +12,13 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.events.SpawnMaskEvent;
+import pokecube.api.events.pokemobs.SpawnEvent;
+import pokecube.api.events.pokemobs.SpawnEvent.Function;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.events.SpawnMaskEvent;
-import pokecube.core.events.pokemob.SpawnEvent;
-import pokecube.core.events.pokemob.SpawnEvent.Function;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 
@@ -33,7 +34,7 @@ public class SpawnRateMask
         {
             RATE_MASKS.put(e, new SpawnRateMask(e));
         }
-        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.HIGHEST, SpawnRateMask::onRateCheck);
+        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.HIGHEST, SpawnRateMask::onRateCheck);
     }
 
     private static float getMask(PokedexEntry entry, LevelAccessor level, Vector3 location)

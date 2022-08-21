@@ -28,7 +28,7 @@
       "base_height": 10,
       "height_rand_a": 5,
       "height_rand_b": 15,
-      "type": "minecraft:straight_trunk_placer"
+      "type": "pokecube:straight_trunk_placer_no_dirt"
     },
     "foliage_provider": {
       "state": {

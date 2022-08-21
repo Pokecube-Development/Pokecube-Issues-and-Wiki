@@ -10,16 +10,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.TeleportsPage.TeleOption;
 import pokecube.core.client.gui.watch.util.ListPage;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.api.entity.ThutTeleporter.TeleDest;
+import thut.lib.TComponent;
 
 public class TeleportsPage extends ListPage<TeleOption>
 {
@@ -45,7 +44,7 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.offsetY = offsetY;
             this.guiHeight = height;
             this.parent = parent;
-            this.confirm = new Button(0, 0, 10, 10, new TextComponent("Y"), b ->
+            this.confirm = new Button(0, 0, 10, 10, TComponent.literal("Y"), b ->
             {
                 b.playDownSound(this.mc.getSoundManager());
                 // Send packet for removal server side
@@ -55,21 +54,21 @@ public class TeleportsPage extends ListPage<TeleOption>
                 // Update the list for the page.
                 this.parent.initList();
             });
-            this.delete = new Button(0, 0, 10, 10, new TextComponent("x"), b ->
+            this.delete = new Button(0, 0, 10, 10, TComponent.literal("x"), b ->
             {
                 b.playDownSound(this.mc.getSoundManager());
                 this.confirm.active = !this.confirm.active;
             });
             this.delete.setFGColor(0xFFFF0000);
             this.confirm.active = false;
-            this.moveUp = new Button(0, 0, 10, 10, new TextComponent("\u21e7"), b ->
+            this.moveUp = new Button(0, 0, 10, 10, TComponent.literal("\u21e7"), b ->
             {
                 b.playDownSound(this.mc.getSoundManager());
                 PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index - 1);
                 // Update the list for the page.
                 this.parent.initList();
             });
-            this.moveDown = new Button(0, 0, 10, 10, new TextComponent("\u21e9"), b ->
+            this.moveDown = new Button(0, 0, 10, 10, TComponent.literal("\u21e9"), b ->
             {
                 b.playDownSound(this.mc.getSoundManager());
                 PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index + 1);
@@ -195,7 +194,7 @@ public class TeleportsPage extends ListPage<TeleOption>
 
     public TeleportsPage(final GuiPokeWatch watch)
     {
-        super(new TranslatableComponent("pokewatch.title.teleports"), watch, TeleportsPage.TEX_DM,
+        super(TComponent.translatable("pokewatch.title.teleports"), watch, TeleportsPage.TEX_DM,
                 TeleportsPage.TEX_NM);
     }
 
@@ -214,7 +213,7 @@ public class TeleportsPage extends ListPage<TeleOption>
         this.list = new ScrollGui<>(this, this.minecraft, width, height, 10, offsetX, offsetY);
         for (final TeleDest d : this.locations)
         {
-            final EditBox name = new EditBox(this.font, 0, 0, 104, 10, new TextComponent(""));
+            final EditBox name = new EditBox(this.font, 0, 0, 104, 10, TComponent.literal(""));
             name.setValue(d.getName());
             this.list.addEntry(new TeleOption(this.minecraft, offsetY, d, name, height, this));
         }

@@ -35,6 +35,14 @@ public class Vector4
         this.quat = quat;
     }
 
+    @OnlyIn(value = Dist.CLIENT)
+    public Vector4 set(final Quaternion quat)
+    {
+        this.set(quat.i(), quat.j(), quat.k(), quat.r());
+        this.quat = quat;
+        return this;
+    }
+
     public Vector4(final CompoundTag nbt)
     {
         this();

@@ -18,9 +18,9 @@ import net.minecraft.world.entity.animal.ShoulderRidingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import thut.api.entity.multipart.GenericPartEntity;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.entity.multipart.GenericPartEntity.Factory;
@@ -89,7 +89,9 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
             part.remove(RemovalReason.DISCARDED);
         }
 
-        getHolder().allParts().clear();
+        if (this.isAddedToWorld() && !this.getHolder().allParts().isEmpty()) PartSync.sendUpdate(this, true);
+
+        getHolder().clear();
 
         if (entry.poseShapes != null)
         {
@@ -172,7 +174,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         this.firstTick = true;
         this.refreshDimensions();
         this.firstTick = first;
-        PartSync.sendUpdate(self());
+        if (this.isAddedToWorld()) PartSync.sendUpdate(weSelf());
     }
 
     @Override

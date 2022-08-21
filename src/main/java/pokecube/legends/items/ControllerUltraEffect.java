@@ -5,7 +5,6 @@ import java.util.List;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,6 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.legends.init.ItemInit;
+import thut.lib.TComponent;
 
 public class ControllerUltraEffect extends ItemBase
 {
@@ -41,7 +41,7 @@ public class ControllerUltraEffect extends ItemBase
         String message;
         if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltipname + ".tooltip");
         else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(new TranslatableComponent(message));
+        tooltip.add(TComponent.translatable(message));
     }
 
     @Override

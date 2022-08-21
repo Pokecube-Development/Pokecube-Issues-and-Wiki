@@ -1,10 +1,10 @@
 package pokecube.mobs.moves.world;
 
 import net.minecraft.core.Direction;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.IMoveAction;
 import pokecube.core.PokecubeCore;
-import pokecube.core.handlers.events.MoveEventsHandler;
-import pokecube.core.interfaces.IMoveAction;
-import pokecube.core.interfaces.IPokemob;
+import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.moves.TreeRemover;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;

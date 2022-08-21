@@ -31,11 +31,12 @@ public class PalmTrunkPlacer extends TrunkPlacer
                     return placer.bendLength;
                 }))).apply(instance, PalmTrunkPlacer::new);
     });
+
     private final int minHeightForLeaves;
     private final IntProvider bendLength;
 
     public PalmTrunkPlacer(int baseHeight, int heightRandA, int heightRandB, int minHeightForLeaves,
-            IntProvider bendLength)
+                           IntProvider bendLength)
     {
         super(baseHeight, heightRandA, heightRandB);
         this.minHeightForLeaves = minHeightForLeaves;
@@ -49,15 +50,14 @@ public class PalmTrunkPlacer extends TrunkPlacer
     }
 
     @Override
-    public List<FoliagePlacer.FoliageAttachment> placeTrunk(LevelSimulatedReader level,
-            BiConsumer<BlockPos, BlockState> blockSetter, Random random, int freeTreeHeight, BlockPos pos,
-            TreeConfiguration config)
+    public List<FoliagePlacer.FoliageAttachment> placeTrunk(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
+                                                            Random random, int freeTreeHeight, BlockPos pos, TreeConfiguration config)
     {
         Direction direction = Direction.Plane.HORIZONTAL.getRandomDirection(random);
         int i = freeTreeHeight - 1;
         BlockPos.MutableBlockPos blockpos$mutableblockpos = pos.mutable();
         BlockPos blockpos = blockpos$mutableblockpos.below();
-        setDirtAt(level, blockSetter, random, blockpos, config);
+        TrunkPlacerTypes.setDirtAt(level, blockSetter, random, blockpos, config);
         List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
 
         for (int j = 0; j <= i; ++j)
@@ -86,7 +86,7 @@ public class PalmTrunkPlacer extends TrunkPlacer
             blockpos$mutableblockpos.move(direction);
         }
         blockpos$mutableblockpos.move(direction.getOpposite());
-        list.add(new FoliagePlacer.FoliageAttachment(blockpos$mutableblockpos.immutable(), 0, false));
+        list.add(new FoliagePlacer.FoliageAttachment(blockpos$mutableblockpos.immutable().above(), 0, false));
         return list;
     }
 }

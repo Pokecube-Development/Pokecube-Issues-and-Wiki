@@ -5,8 +5,6 @@ import java.util.Random;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.Util;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -18,72 +16,73 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.PokedexEntry.EvolutionData;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.events.init.InitDatabase;
+import pokecube.api.events.init.RegisterMiscItems;
+import pokecube.api.events.init.RegisterPokecubes;
+import pokecube.api.events.init.RegisterPokemobsEvent;
+import pokecube.api.events.pokemobs.CaptureEvent.Post;
+import pokecube.api.events.pokemobs.CaptureEvent.Pre;
+import pokecube.api.events.pokemobs.EvolveEvent;
+import pokecube.api.items.IPokecube;
+import pokecube.api.items.IPokecube.DefaultPokecubeBehaviour;
+import pokecube.api.items.IPokecube.NormalPokecubeBehaviour;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
+import pokecube.api.stats.CaptureStats;
+import pokecube.api.stats.EggStats;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntry.EvolutionData;
-import pokecube.core.database.stats.CaptureStats;
-import pokecube.core.database.stats.EggStats;
-import pokecube.core.database.stats.StatsCollector;
 import pokecube.core.database.types.CombatTypeLoader;
-import pokecube.core.events.onload.InitDatabase;
-import pokecube.core.events.onload.RegisterMiscItems;
-import pokecube.core.events.onload.RegisterPokecubes;
-import pokecube.core.events.onload.RegisterPokemobsEvent;
-import pokecube.core.events.pokemob.CaptureEvent.Post;
-import pokecube.core.events.pokemob.CaptureEvent.Pre;
-import pokecube.core.events.pokemob.EvolveEvent;
-import pokecube.core.handlers.ItemGenerator;
-import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.interfaces.IPokecube;
-import pokecube.core.interfaces.IPokecube.DefaultPokecubeBehavior;
-import pokecube.core.interfaces.IPokecube.NormalPokecubeBehavoir;
-import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.eventhandlers.EventsHandler;
+import pokecube.core.eventhandlers.StatsCollector;
+import pokecube.core.init.ItemGenerator;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
 import pokecube.mobs.abilities.AbilityRegister;
+import pokecube.mobs.init.PokemobSounds;
 import pokecube.mobs.moves.MoveRegister;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 @Mod(value = PokecubeMobs.MODID)
 public class PokecubeMobs
 {
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeMobs.MODID)
-    public static class RegistryEvents
-    {
-        @SubscribeEvent
-        public static void registerSounds(final RegistryEvent.Register<SoundEvent> event)
-        {
-            PokecubeCore.LOGGER.debug("Registering Pokemob Sounds");
-            Database.initMobSounds(event.getRegistry());
-        }
-    }
-
     public static final String MODID = "pokecube_mobs";
+
+    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS,
+            PokecubeMobs.MODID);;
 
     Map<PokedexEntry, Integer> genMap = Maps.newHashMap();
 
     public PokecubeMobs()
     {
         MinecraftForge.EVENT_BUS.register(this);
-        PokecubeCore.POKEMOB_BUS.register(this);
+        PokecubeAPI.POKEMOB_BUS.register(this);
         // We override these so that they use ours instead of default ones.
         CombatTypeLoader.TYPES = new ResourceLocation(PokecubeMobs.MODID, "database/types.json");
+
+        final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        PokecubeMobs.SOUNDS.register(bus);
 
         new BerryGenManager(PokecubeMobs.MODID);
         MoveRegister.init();
@@ -188,7 +187,7 @@ public class PokecubeMobs
     @SubscribeEvent
     public void livingUpdate(final LivingUpdateEvent evt)
     {
-        final IPokemob shuckle = CapabilityPokemob.getPokemobFor(evt.getEntity());
+        final IPokemob shuckle = PokemobCaps.getPokemobFor(evt.getEntity());
         if (shuckle != null && shuckle.getPokedexNb() == 213)
         {
             if (evt.getEntity().level.isClientSide) return;
@@ -200,10 +199,10 @@ public class PokecubeMobs
             final Random r = ThutCore.newRandom();
             if (berry && r.nextGaussian() > EventsHandler.juiceChance)
             {
-                if (shuckle.getOwner() != null)
+                if (shuckle.getOwner() instanceof Player player)
                 {
                     final String message = "A sweet smell is coming from " + shuckle.getDisplayName().getString();
-                    ((Player) shuckle.getOwner()).sendMessage(new TextComponent(message), Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal(message));
                 }
                 shuckle.setHeldItem(new ItemStack(PokecubeItems.BERRYJUICE.get()));
                 return;
@@ -214,11 +213,11 @@ public class PokecubeMobs
                 final ItemStack candy = PokecubeItems.makeCandyStack();
                 if (candy.isEmpty()) return;
 
-                if (shuckle.getOwner() != null && shuckle.getOwner() instanceof Player)
+                if (shuckle.getOwner() != null && shuckle.getOwner() instanceof Player player)
                 {
                     final String message = "The smell coming from " + shuckle.getDisplayName().getString()
                             + " has changed";
-                    ((Player) shuckle.getOwner()).sendMessage(new TextComponent(message), Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal(message));
                 }
                 shuckle.setHeldItem(candy);
                 return;
@@ -247,7 +246,7 @@ public class PokecubeMobs
                 final ItemStack item = inv.getItem(n);
                 if (item == ItemStack.EMPTY) hasSpace = true;
                 final ResourceLocation key = PokecubeItems.getCubeId(item);
-                if (!hasCube && key != null && IPokecube.PokecubeBehavior.BEHAVIORS.get().containsKey(key)
+                if (!hasCube && key != null && IPokecube.PokecubeBehaviour.BEHAVIORS.containsKey(key)
                         && !PokecubeManager.isFilled(item))
                 {
                     hasCube = true;
@@ -264,7 +263,7 @@ public class PokecubeMobs
                 {
                     final ItemStack mobCube = cube.copy();
                     mobCube.setCount(1);
-                    final IPokemob poke = CapabilityPokemob.getPokemobFor(pokemon);
+                    final IPokemob poke = PokemobCaps.getPokemobFor(pokemon);
                     poke.setPokecube(mobCube);
                     poke.setOwner(player);
                     poke.setExp(Tools.levelToXp(poke.getExperienceMode(), 20), true);
@@ -459,95 +458,95 @@ public class PokecubeMobs
         MiscItemHelper.CHARCOALSTACK = new ItemStack(Items.CHARCOAL);
 
         final PokecubeHelper helper = new PokecubeHelper();
-        PokecubeBehavior.DEFAULTCUBE = new ResourceLocation("pokecube", "poke");
+        PokecubeBehaviour.DEFAULTCUBE = new ResourceLocation("pokecube", "pokecube");
 
-        event.register(new NormalPokecubeBehavoir(1).setRegistryName(PokecubeBehavior.DEFAULTCUBE));
-        event.register(new NormalPokecubeBehavoir(1.5).setRegistryName("pokecube", "great"));
-        event.register(new NormalPokecubeBehavoir(2).setRegistryName("pokecube", "ultra"));
-        event.register(new NormalPokecubeBehavoir(255).setRegistryName("pokecube", "master"));
-        event.register(new DefaultPokecubeBehavior()
+        event.register(new NormalPokecubeBehaviour(1).setName("poke"));
+        event.register(new NormalPokecubeBehaviour(1.5).setName("great"));
+        event.register(new NormalPokecubeBehaviour(2).setName("ultra"));
+        event.register(new NormalPokecubeBehaviour(255).setName("master"));
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.dusk(mob);
             }
-        }.setRegistryName("pokecube", "dusk"));
-        event.register(new DefaultPokecubeBehavior()
+        }.setName("dusk"));
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.quick(mob);
             }
-        }.setRegistryName("pokecube", "quick"));
-        event.register(new DefaultPokecubeBehavior()
+        }.setName("quick"));
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.timer(mob);
             }
-        }.setRegistryName("pokecube", "timer"));
-        event.register(new DefaultPokecubeBehavior()
+        }.setName("timer"));
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.net(mob);
             }
-        }.setRegistryName("pokecube", "net"));
-        event.register(new DefaultPokecubeBehavior()
+        }.setName("net"));
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.nest(mob);
             }
-        }.setRegistryName("pokecube", "nest"));
-        event.register(new DefaultPokecubeBehavior()
+        }.setName("nest"));
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.dive(mob);
             }
-        }.setRegistryName("pokecube", "dive"));
-        event.register(new DefaultPokecubeBehavior()
+        }.setName("dive"));
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.premier(mob);
             }
-        }.setRegistryName("pokecube", "premier"));
-        event.register(new NormalPokecubeBehavoir(1).setRegistryName("pokecube", "cherish"));
-        event.register(new NormalPokecubeBehavoir(1.5).setRegistryName("pokecube", "safari"));
-        event.register(new DefaultPokecubeBehavior()
+        }.setName("premier"));
+        event.register(new NormalPokecubeBehaviour(1).setName("cherish"));
+        event.register(new NormalPokecubeBehaviour(1.5).setName("safari"));
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.level(mob);
             }
-        }.setRegistryName("pokecube", "level"));
-        event.register(new DefaultPokecubeBehavior()
+        }.setName("level"));
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.lure(mob);
             }
-        }.setRegistryName("pokecube", "lure"));
-        event.register(new DefaultPokecubeBehavior()
+        }.setName("lure"));
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.moon(mob);
             }
-        }.setRegistryName("pokecube", "moon"));
-        event.register(new DefaultPokecubeBehavior()
+        }.setName("moon"));
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -561,41 +560,41 @@ public class PokecubeMobs
                 final IPokemob mob = evt.getCaught();
                 mob.addHappiness(200 - mob.getHappiness());
             }
-        }.setRegistryName("pokecube", "friend"));
-        event.register(new DefaultPokecubeBehavior()
+        }.setName("friend"));
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.love(mob);
             }
-        }.setRegistryName("pokecube", "love"));
-        event.register(new NormalPokecubeBehavoir(1)
+        }.setName("love"));
+        event.register(new NormalPokecubeBehaviour(1)
         {
             @Override
             public int getAdditionalBonus(final IPokemob mob)
             {
                 return helper.heavy(mob);
             }
-        }.setRegistryName("pokecube", "heavy"));
-        event.register(new DefaultPokecubeBehavior()
+        }.setName("heavy"));
+        event.register(new DefaultPokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.fast(mob);
             }
-        }.setRegistryName("pokecube", "fast"));
-        event.register(new NormalPokecubeBehavoir(1.5).setRegistryName("pokecube", "sport"));
-        event.register(new NormalPokecubeBehavoir(1)
+        }.setName("fast"));
+        event.register(new NormalPokecubeBehaviour(1.5).setName("sport"));
+        event.register(new NormalPokecubeBehaviour(1)
         {
             @Override
             public void onUpdate(final IPokemob mob)
             {
                 helper.luxury(mob);
             }
-        }.setRegistryName("pokecube", "luxury"));
-        event.register(new NormalPokecubeBehavoir(1)
+        }.setName("luxury"));
+        event.register(new NormalPokecubeBehaviour(1)
         {
             @Override
             public void onPostCapture(final Post evt)
@@ -604,11 +603,11 @@ public class PokecubeMobs
                 mob.getEntity().setHealth(mob.getEntity().getMaxHealth());
                 mob.healStatus();
             }
-        }.setRegistryName("pokecube", "heal"));
-        event.register(new NormalPokecubeBehavoir(255).setRegistryName("pokecube", "park"));
-        event.register(new NormalPokecubeBehavoir(255).setRegistryName("pokecube", "dream"));
+        }.setName("heal"));
+        event.register(new NormalPokecubeBehaviour(255).setName("park"));
+        event.register(new NormalPokecubeBehaviour(255).setName("dream"));
 
-        final PokecubeBehavior snag = new PokecubeBehavior()
+        final PokecubeBehaviour snag = new PokecubeBehaviour()
         {
 
             @Override
@@ -637,7 +636,7 @@ public class PokecubeMobs
                 if (evt.getCaught().isShadow())
                 {
                     final EntityPokecube cube = (EntityPokecube) evt.pokecube;
-                    final IPokemob mob = CapabilityPokemob.getPokemobFor(
+                    final IPokemob mob = PokemobCaps.getPokemobFor(
                             PokecubeCore.createPokemob(evt.getCaught().getPokedexEntry(), cube.getLevel()));
                     cube.setTilt(Tools.computeCatchRate(mob, 1));
                     cube.setTime(cube.getTilt() * 20 + 5);
@@ -654,7 +653,7 @@ public class PokecubeMobs
             }
         };
 
-        final PokecubeBehavior repeat = new PokecubeBehavior()
+        final PokecubeBehaviour repeat = new PokecubeBehaviour()
         {
             @Override
             public double getCaptureModifier(final IPokemob mob)
@@ -675,7 +674,7 @@ public class PokecubeMobs
 
                 final EntityPokecube cube = (EntityPokecube) evt.pokecube;
 
-                final IPokemob mob = CapabilityPokemob
+                final IPokemob mob = PokemobCaps
                         .getPokemobFor(PokecubeCore.createPokemob(evt.getCaught().getPokedexEntry(), cube.getLevel()));
                 final Vector3 v = new Vector3();
                 final Entity thrower = cube.shootingEntity;
@@ -697,9 +696,8 @@ public class PokecubeMobs
             }
 
         };
-
-        event.register(snag.setRegistryName("pokecube", "snag"));
-        event.register(repeat.setRegistryName("pokecube", "repeat"));
+        event.register(snag.setName("snag"));
+        event.register(repeat.setName("repeat"));
     }
 
     @SubscribeEvent
@@ -717,5 +715,11 @@ public class PokecubeMobs
             entry.texture = new ResourceLocation(PokecubeMobs.MODID, tex + entry.getTrimmedName() + ".png");
             entry.animation = new ResourceLocation(PokecubeMobs.MODID, model + entry.getTrimmedName() + ".xml");
         }
+    }
+
+    @SubscribeEvent
+    public void postRegisterPokemobs(final RegisterPokemobsEvent.Post event)
+    {
+        PokemobSounds.initMobSounds();
     }
 }

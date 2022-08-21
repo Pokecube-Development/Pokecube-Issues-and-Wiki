@@ -1,6 +1,5 @@
 package thut.bot.entity.ai.modules;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -23,6 +22,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import thut.api.Tracker;
+import thut.api.maths.Cruncher.SquareLoopCruncher;
 import thut.api.terrain.StructureManager;
 import thut.api.terrain.StructureManager.StructureInfo;
 import thut.bot.ThutBot;
@@ -32,6 +32,7 @@ import thut.bot.entity.ai.modules.map.Edge;
 import thut.bot.entity.ai.modules.map.Node;
 import thut.bot.entity.ai.modules.map.Part;
 import thut.bot.entity.ai.modules.map.Tree;
+import thut.core.common.ThutCore;
 
 @BotAI(key = "thutbot:routes")
 public class RouteMaker extends AbstractBot
@@ -53,6 +54,10 @@ public class RouteMaker extends AbstractBot
     public ResourceLocation target = null;
 
     RoadBuilder road_maker;
+
+    SquareLoopCruncher searcher = new SquareLoopCruncher();
+
+    List<BlockPos> foundNodes = Lists.newArrayList();
 
     public RouteMaker(final BotPlayer player)
     {
@@ -117,16 +122,11 @@ public class RouteMaker extends AbstractBot
         {
             if (this.player.tickCount % 20 == 0)
             {
-                this.player.chat(String.format("Looking for a %s...", this.target));
                 this.findNearestVillageNode(this.player.getOnPos(), this.map.nodeCount != 0);
             }
         }
         else
         {
-            final List<Node> nodes = Lists.newArrayList();
-            this.map.allParts.forEach((i, p) -> {
-                if (p instanceof final Node n) nodes.add(n);
-            });
             this.map.computeEdges(0.8, 4);
             getTag().putBoolean("made_map", true);
         }
@@ -191,16 +191,43 @@ public class RouteMaker extends AbstractBot
         final TagKey<ConfiguredStructureFeature<?, ?>> structure = TagKey
                 .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, location);
         final ServerLevel world = (ServerLevel) this.player.level;
+
         BlockPos village = null;
-        if (village == null) village = world.findNearestMapFeature(structure, mid, 50, skipKnownStructures);
-        if (village != null && village.getY() < world.getSeaLevel())
+
+        long time = System.currentTimeMillis() + 10;
+        int dr = 256;
+
+        BlockPos testPoint = searcher.getNext(mid, dr);
+
+        if (this.searcher._radius > 20000 / 256)
         {
-            world.getChunk(village);
-            village = new BlockPos(village.getX(), world.getHeight(Types.WORLD_SURFACE, village.getX(), village.getZ()),
-                    village.getZ());
-            if (village.getY() < world.getSeaLevel())
-                village = new BlockPos(village.getX(), world.getSeaLevel(), village.getZ());
+            ThutCore.LOGGER.error("Too Far!");
         }
+        while (time > System.currentTimeMillis())
+        {
+            village = world.findNearestMapFeature(structure, testPoint, 1, false);
+            if (village != null && village.getY() < world.getSeaLevel())
+            {
+                world.getChunk(village);
+                village = new BlockPos(village.getX(),
+                        world.getHeight(Types.WORLD_SURFACE, village.getX(), village.getZ()), village.getZ());
+                if (village.getY() < world.getSeaLevel())
+                    village = new BlockPos(village.getX(), world.getSeaLevel(), village.getZ());
+            }
+            if (village != null && foundNodes.contains(village))
+            {
+                ThutBot.LOGGER.info("Already had " + village + " while checking at " + testPoint);
+                village = null;
+            }
+            if (village != null)
+            {
+                foundNodes.add(village);
+                player.chat(String.format("Found a %s at %s, Adding to list!, %s", target, village, foundNodes.size()));
+                break;
+            }
+            else testPoint = searcher.getNext(mid, dr);
+        }
+        if (village == null) return null;
 
         final List<Node> nodes = Lists.newArrayList();
         this.map.allParts.forEach((i, p) -> {
@@ -208,16 +235,14 @@ public class RouteMaker extends AbstractBot
         });
         for (final Node n : nodes)
         {
-            final int dr = n.getCenter().atY(0).distManhattan(village);
+            dr = n.getCenter().atY(0).distManhattan(village);
             if (dr == 0)
             {
                 ThutBot.LOGGER.error("Error with duplicate node! {}, {} {}", skipKnownStructures, mid, village);
                 return null;
             }
         }
-        if (village == null) return null;
         ThutBot.LOGGER.info("Adding node for a structure at: " + village);
-        player.chat(String.format("Found a %s at %s", target, village));
         final Node newNode = this.addNode(village);
         return newNode;
     }
@@ -239,13 +264,22 @@ public class RouteMaker extends AbstractBot
         }
         if (this.getMap().nodeCount >= this.maxNodes)
         {
-            final List<Edge> edges = Lists.newArrayList();
-            for (final Part o : this.getMap().allParts.values()) if (o instanceof final Edge e) edges.add(e);
-            Collections.shuffle(edges);
-            for (final Edge e : edges) if (e.getBuildBounds().isEmpty() && e.dig_done <= 0)
+            final List<Node> nodes = Lists.newArrayList();
+            for (final Part o : this.getMap().allParts.values()) if (o instanceof final Node n) nodes.add(n);
+            nodes.sort((n1, n2) -> {
+                return (int) (n1.mid.distanceTo(player.position()) - n2.mid.distanceTo(player.position()));
+            });
+            // Always pick closest node first.
+            for (final Node n : nodes)
             {
-                this.setCurrentEdge(e);
-                return this.setTargetNode(e.node1);
+                for (Edge e : n.edges)
+                {
+                    if (e.getBuildBounds().isEmpty() && e.dig_done <= 0)
+                    {
+                        this.setCurrentEdge(e);
+                        return this.setTargetNode(n);
+                    }
+                }
             }
             this.setCurrentEdge(null);
             return this.setTargetNode(null);
@@ -368,16 +402,6 @@ public class RouteMaker extends AbstractBot
             return;
         }
 
-        if (traverse.index == 0)
-        {
-            int next_index = 1;
-            if (getTag().contains("next_index")) next_index = getTag().getInt("next_index");
-            traverse.index = next_index;
-            getTag().putInt("next_index", next_index + 1);
-        }
-
-        road_maker.subbiome = "route_" + traverse.index;
-
         if (this.player.tickCount % 200 == 0)
             player.chat("Bot Builds Roads. " + player.tickCount + " " + this.player.getOnPos());
 
@@ -404,9 +428,53 @@ public class RouteMaker extends AbstractBot
                 BlockPos next = e1.distManhattan(player.getOnPos()) < e2.distManhattan(player.getOnPos()) ? e1 : e2;
                 BlockPos end = next == e1 ? e2 : e1;
 
+                Vec3 dir = new Vec3(end.getX() - next.getX(), 0, end.getZ() - next.getZ());
+                dir = dir.normalize();
+                double max_padding = 128;
+
                 road_maker.done = false;
-                road_maker.end = new Vec3(end.getX(), end.getY(), end.getZ());
-                road_maker.next = new Vec3(next.getX(), next.getY(), next.getZ());
+                road_maker.end = null;
+                road_maker.next = null;
+                road_maker.subbiome = "none";
+                // First lets find the end, we go to the end part, then walk
+                // backwards until not in a structure.
+                int i = 0;
+                for (i = 0; i <= max_padding; i++)
+                {
+                    if (road_maker.end == null)
+                    {
+                        BlockPos test_end = end.offset(-i * dir.x, 0, -i * dir.z);
+                        player.level.getBlockState(test_end);
+                        test_end = player.level.getHeightmapPos(Types.OCEAN_FLOOR_WG, test_end);
+                        if (StructureManager.getNear(world, test_end, 8).isEmpty())
+                        {
+                            road_maker.end = new Vec3(test_end.getX(), test_end.getY(), test_end.getZ());
+                            if (road_maker.next != null) break;
+                        }
+                    }
+                    if (road_maker.next == null)
+                    {
+                        BlockPos text_next = next.offset(i * dir.x, 0, i * dir.z);
+                        player.level.getBlockState(text_next);
+                        text_next = player.level.getHeightmapPos(Types.OCEAN_FLOOR_WG, text_next);
+                        if (StructureManager.getNear(world, text_next, 8).isEmpty())
+                        {
+                            road_maker.next = new Vec3(text_next.getX(), text_next.getY(), text_next.getZ());
+                            if (road_maker.end != null) break;
+                        }
+                    }
+                }
+
+                if (traverse.index == 0)
+                {
+                    int next_index = 1;
+                    if (getTag().contains("next_index")) next_index = getTag().getInt("next_index");
+                    traverse.index = next_index;
+                    getTag().putInt("next_index", next_index + 1);
+                }
+                road_maker.subbiome = "route_" + traverse.index;
+
+                player.chat("Starting Road!" + road_maker.subbiome);
             }
             else
             {

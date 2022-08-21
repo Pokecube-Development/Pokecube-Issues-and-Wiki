@@ -1,6 +1,6 @@
 package pokecube.mobs.abilities.t;
 
-import pokecube.core.database.abilities.Ability;
+import pokecube.api.data.abilities.Ability;
 
 public class TangledFeet extends Ability
 {

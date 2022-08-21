@@ -1,11 +1,11 @@
 package pokecube.mobs.abilities.r;
 
-import pokecube.core.database.abilities.Ability;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.api.data.abilities.Ability;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.utils.PokeType;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.utils.PokeType;
 
 public class Rattled extends Ability
 {

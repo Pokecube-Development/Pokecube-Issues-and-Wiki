@@ -6,8 +6,8 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 
 public abstract class AbstractEntriedCondition extends AbstractCondition
 {

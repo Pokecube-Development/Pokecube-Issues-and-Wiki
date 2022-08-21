@@ -18,7 +18,6 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -29,6 +28,22 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import pokecube.api.entity.pokemob.IHasCommands.Command;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.entity.pokemob.ai.LogicStates;
+import pokecube.api.entity.pokemob.commandhandlers.AttackEntityHandler;
+import pokecube.api.entity.pokemob.commandhandlers.AttackLocationHandler;
+import pokecube.api.entity.pokemob.commandhandlers.AttackNothingHandler;
+import pokecube.api.entity.pokemob.commandhandlers.MoveIndexHandler;
+import pokecube.api.entity.pokemob.commandhandlers.MoveToHandler;
+import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
+import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
+import pokecube.api.moves.IMoveNames;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.client.EventsHandlerClient;
@@ -36,22 +51,6 @@ import pokecube.core.client.GuiEvent;
 import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IMoveNames;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.IHasCommands.Command;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.interfaces.pokemob.ai.LogicStates;
-import pokecube.core.interfaces.pokemob.commandhandlers.AttackEntityHandler;
-import pokecube.core.interfaces.pokemob.commandhandlers.AttackLocationHandler;
-import pokecube.core.interfaces.pokemob.commandhandlers.AttackNothingHandler;
-import pokecube.core.interfaces.pokemob.commandhandlers.MoveIndexHandler;
-import pokecube.core.interfaces.pokemob.commandhandlers.MoveToHandler;
-import pokecube.core.interfaces.pokemob.commandhandlers.StanceHandler;
-import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.MovesUtils.AbleStatus;
 import pokecube.core.network.pokemobs.PacketAIRoutine;
@@ -60,13 +59,17 @@ import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
+import thut.lib.TComponent;
 
 public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverlay
 {
-    protected static int                 lightGrey  = 0xDDDDDD;
-    public static int[]                  guiDims    = { 147, 42 };
-    public static int[]                  targetDims = { 147, 42 };
-    public static int[]                  teleDims   = { 147, 42 };
+    protected static int lightGrey = 0xDDDDDD;
+    public static int[] guiDims =
+    { 147, 42 };
+    public static int[] targetDims =
+    { 147, 42 };
+    public static int[] teleDims =
+    { 147, 42 };
     public static GuiDisplayPokecubeInfo instance;
 
     public static int[] applyTransform(final PoseStack mat, final String ref, final List<Integer> offsets,
@@ -136,7 +139,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             mat.scale(targetSize, targetSize, targetSize);
             break;
         }
-        final int[] ret = { x, y, w, h, dx, dy };
+        final int[] ret =
+        { x, y, w, h, dx, dy };
         return ret;
     }
 
@@ -148,8 +152,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
 
     public static void sendMoveIndexPacket(final IPokemob pokemob, final int moveIndex)
     {
-        PacketCommand.sendCommand(pokemob, Command.CHANGEMOVEINDEX, new MoveIndexHandler((byte) moveIndex).setFromOwner(
-                true));
+        PacketCommand.sendCommand(pokemob, Command.CHANGEMOVEINDEX,
+                new MoveIndexHandler((byte) moveIndex).setFromOwner(true));
     }
 
     private static final IPokemob[] EMPTY = new IPokemob[0];
@@ -173,8 +177,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
     {
         this.minecraft = Minecraft.getInstance();
         this.fontRenderer = this.minecraft.font;
-        if (GuiDisplayPokecubeInfo.instance != null) MinecraftForge.EVENT_BUS.unregister(
-                GuiDisplayPokecubeInfo.instance);
+        if (GuiDisplayPokecubeInfo.instance != null)
+            MinecraftForge.EVENT_BUS.unregister(GuiDisplayPokecubeInfo.instance);
         GuiDisplayPokecubeInfo.instance = this;
         OverlayRegistry.registerOverlayTop("Pokecube Info", this.infoOverlay);
         MinecraftForge.EVENT_BUS.register(this);
@@ -233,8 +237,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             final int currentMoveIndex = pokemob.getMoveIndex();
             evt.getMat().pushPose();
             final float s = (float) PokecubeCore.getConfig().guiSize;
-            GuiDisplayPokecubeInfo.applyTransform(evt.getMat(), PokecubeCore.getConfig().guiRef, PokecubeCore
-                    .getConfig().guiPos, GuiDisplayPokecubeInfo.guiDims, s);
+            GuiDisplayPokecubeInfo.applyTransform(evt.getMat(), PokecubeCore.getConfig().guiRef,
+                    PokecubeCore.getConfig().guiPos, GuiDisplayPokecubeInfo.guiDims, s);
             // Render HP
             RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
             this.blit(evt.getMat(), hpOffsetX, hpOffsetY, 43, 12, 92, 7);
@@ -291,7 +295,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             this.blit(evt.getMat(), nameOffsetX, nameOffsetY, 44, 0, 90, 13);
             if (this.fontRenderer.width(displayName) > 70)
             {
-                final List<MutableComponent> list = ListHelper.splitText(new TextComponent(displayName), 70,
+                final List<MutableComponent> list = ListHelper.splitText(TComponent.literal(displayName), 70,
                         this.fontRenderer, true);
                 displayName = list.get(0).getString();
             }
@@ -314,8 +318,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             // Render Moves
             int moveIndex = 0;
             int moveCount = 0;
-            for (moveCount = 0; moveCount < 4; moveCount++)
-                if (pokemob.getMove(moveCount) == null) break;
+            for (moveCount = 0; moveCount < 4; moveCount++) if (pokemob.getMove(moveCount) == null) break;
             int h = 0;
             if (dir == -1) h -= 14 + 12 * (moveCount - 1) - (4 - moveCount) * 2;
             for (moveIndex = 0; moveIndex < 4; moveIndex++)
@@ -345,9 +348,9 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
                         Move_Base lastMove;
                         if (MovesUtils.isAbleToUseMoves(pokemob) != AbleStatus.ABLE) timer = 0;
                         else if ((lastMove = MovesUtils.getMoveFromName(pokemob.getLastMoveUsed())) != null)
-                            timer -= pokemob.getAttackCooldown() / (float) MovesUtils.getAttackDelay(pokemob, pokemob
-                                    .getLastMoveUsed(), (lastMove.getAttackCategory()
-                                            & IMoveConstants.CATEGORY_DISTANCE) > 0, false);
+                            timer -= pokemob.getAttackCooldown() / (float) MovesUtils.getAttackDelay(pokemob,
+                                    pokemob.getLastMoveUsed(),
+                                    (lastMove.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0, false);
                         timer = Math.max(0, Math.min(timer, 1));
                         RenderSystem.enableBlend();
                         this.blit(evt.getMat(), movesOffsetX, movesOffsetY + 13 * index + h, 43, 35, (int) (91 * timer),
@@ -357,8 +360,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
 
                     evt.getMat().popPose();
                     evt.getMat().pushPose();
-                    this.fontRenderer.draw(evt.getMat(), MovesUtils.getMoveName(move.getName()).getString(), 5
-                            + movesOffsetX, index * 13 + movesOffsetY + 3 + h, move.getType(pokemob).colour);
+                    this.fontRenderer.draw(evt.getMat(), MovesUtils.getMoveName(move.getName()).getString(),
+                            5 + movesOffsetX, index * 13 + movesOffsetY + 3 + h, move.getType(pokemob).colour);
                     evt.getMat().popPose();
                 }
             }
@@ -397,9 +400,9 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             if (entity == null || !entity.isAlive()) break render;
 
             evt.getMat().pushPose();
-            GuiDisplayPokecubeInfo.applyTransform(evt.getMat(), PokecubeCore.getConfig().targetRef, PokecubeCore
-                    .getConfig().targetPos, GuiDisplayPokecubeInfo.targetDims, (float) PokecubeCore
-                            .getConfig().targetSize);
+            GuiDisplayPokecubeInfo.applyTransform(evt.getMat(), PokecubeCore.getConfig().targetRef,
+                    PokecubeCore.getConfig().targetPos, GuiDisplayPokecubeInfo.targetDims,
+                    (float) PokecubeCore.getConfig().targetSize);
             // Render HP
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
@@ -412,7 +415,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             this.blit(evt.getMat(), x, y, 0, 85, width, 5);
 
             // Render Status
-            pokemob = CapabilityPokemob.getPokemobFor(entity);
+            pokemob = PokemobCaps.getPokemobFor(entity);
             if (pokemob != null)
             {
                 final byte status = pokemob.getStatus();
@@ -485,15 +488,14 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
         }
         if (this.pokemobsCache.length != ret.size()) this.pokemobsCache = ret.toArray(new IPokemob[ret.size()]);
         else this.pokemobsCache = ret.toArray(this.pokemobsCache);
-        Arrays.sort(this.pokemobsCache, (o1, o2) ->
-        {
+        Arrays.sort(this.pokemobsCache, (o1, o2) -> {
             final Entity e1 = o1.getEntity();
             final Entity e2 = o2.getEntity();
 
             if (e1.tickCount == e2.tickCount)
             {
-                if (o2.getLevel() == o1.getLevel()) return o1.getDisplayName().getString().compareTo(o2.getDisplayName()
-                        .getString());
+                if (o2.getLevel() == o1.getLevel())
+                    return o1.getDisplayName().getString().compareTo(o2.getDisplayName().getString());
                 return o2.getLevel() - o1.getLevel();
             }
             return e1.tickCount - e2.tickCount;
@@ -526,8 +528,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
         {
             int index = pokemob.getMoveIndex() + i;
             int max = 0;
-            for (max = 0; max < 4; max++)
-                if (pokemob.getMove(max) == null) break;
+            for (max = 0; max < 4; max++) if (pokemob.getMove(max) == null) break;
             if (index >= 5) index = 0;
             if (index >= max) index = 5;
             this.setMove(index);
@@ -546,20 +547,20 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
     {
         if (this.getCurrentPokemob() == null) return;
         final Player player = this.minecraft.player;
-        final Predicate<Entity> selector = input ->
-        {
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(input);
+        final Predicate<Entity> selector = input -> {
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(input);
             if (!AITools.validTargets.test(input)) return false;
             if (pokemob == null) return true;
             return pokemob.getOwner() != GuiDisplayPokecubeInfo.this.getCurrentPokemob().getOwner();
         };
         Entity target = Tools.getPointedEntity(player, 32, selector);
         target = EntityTools.getCoreEntity(target);
-        if (target == null && Minecraft.getInstance().crosshairPickEntity != null && selector.test(Minecraft
-                .getInstance().crosshairPickEntity)) target = Minecraft.getInstance().crosshairPickEntity;
+        if (target == null && Minecraft.getInstance().crosshairPickEntity != null
+                && selector.test(Minecraft.getInstance().crosshairPickEntity))
+            target = Minecraft.getInstance().crosshairPickEntity;
         final Vector3 targetLocation = Tools.getPointedLocation(player, 32);
         boolean sameOwner = false;
-        final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
         if (targetMob != null) sameOwner = targetMob.getOwner() == player;
         final IPokemob pokemob = this.getCurrentPokemob();
         if (pokemob != null)
@@ -578,8 +579,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             }
         }
         if (target != null && !sameOwner && (target instanceof LivingEntity || target instanceof PartEntity<?>))
-            PacketCommand.sendCommand(pokemob, Command.ATTACKENTITY, new AttackEntityHandler(target.getId())
-                    .setFromOwner(true));
+            PacketCommand.sendCommand(pokemob, Command.ATTACKENTITY,
+                    new AttackEntityHandler(target.getId()).setFromOwner(true));
         else if (targetLocation != null) PacketCommand.sendCommand(pokemob, Command.ATTACKLOCATION,
                 new AttackLocationHandler(targetLocation).setFromOwner(true));
         else PacketCommand.sendCommand(pokemob, Command.ATTACKNOTHING, new AttackNothingHandler().setFromOwner(true));
@@ -595,8 +596,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
 
         if (Screen.hasShiftDown() && pokemob != null && pokemob.getOwner() != null)
         {
-            PacketCommand.sendCommand(pokemob, Command.MOVETO, new MoveToHandler(new Vector3().set(pokemob
-                    .getOwner()), 1.0f));
+            PacketCommand.sendCommand(pokemob, Command.MOVETO,
+                    new MoveToHandler(new Vector3().set(pokemob.getOwner()), 1.0f));
             return;
         }
         if (pokemob != null) pokemob.onRecall();
@@ -604,7 +605,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
         {
             final Player player = this.minecraft.player;
             final Entity target = Tools.getPointedEntity(player, 32);
-            final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+            final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
             if (targetMob != null && player.getUUID().equals(targetMob.getOwnerId())) targetMob.onRecall();
         }
 
@@ -624,8 +625,9 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
         if ((pokemob = this.getCurrentPokemob()) != null)
         {
             final boolean isRiding = pokemob.getEntity().hasIndirectPassenger(pokemob.getOwner());
-            if (!isRiding) PacketCommand.sendCommand(pokemob, Command.STANCE, new StanceHandler(!pokemob.getLogicState(
-                    LogicStates.SITTING), StanceHandler.SIT).setFromOwner(true));
+            if (!isRiding) PacketCommand.sendCommand(pokemob, Command.STANCE,
+                    new StanceHandler(!pokemob.getLogicState(LogicStates.SITTING), StanceHandler.SIT)
+                            .setFromOwner(true));
             else
             {
                 final AIRoutine routine = AIRoutine.AIRBORNE;
@@ -638,7 +640,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
         {
             final Player player = this.minecraft.player;
             final Entity target = Tools.getPointedEntity(player, 32);
-            final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+            final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
             if (targetMob != null && targetMob.getOwner() == player) PacketCommand.sendCommand(targetMob,
                     Command.STANCE, new StanceHandler(!targetMob.getLogicState(LogicStates.SITTING), StanceHandler.SIT)
                             .setFromOwner(true));
@@ -658,12 +660,11 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             int index = pokemob.getMoveIndex();
             if (index == 5)
             {
-                for (int i = 3; i > 0; i -= j)
-                    if (pokemob.getMove(i) != null)
-                    {
-                        index = i;
-                        break;
-                    }
+                for (int i = 3; i > 0; i -= j) if (pokemob.getMove(i) != null)
+                {
+                    index = i;
+                    break;
+                }
             }
             else index -= j;
 

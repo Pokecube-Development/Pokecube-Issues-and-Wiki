@@ -12,9 +12,9 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.legends.Reference;
 import pokecube.legends.conditions.custom.LegendaryConditions;
 import pokecube.legends.entity.WormholeEntity;
@@ -144,13 +144,13 @@ public class Config extends ConfigData
         {
             if (!s.contains("->"))
             {
-                PokecubeCore.LOGGER.error("Formatting error for {}, it should be of form \"<dimid>-><weight>\"");
+                PokecubeAPI.LOGGER.error("Formatting error for {}, it should be of form \"<dimid>-><weight>\"");
                 return;
             }
             final String[] args = s.split("->");
             if (args.length != 2)
             {
-                PokecubeCore.LOGGER.error("Formatting error for {}, it should be of form \"<dimid>-><weight>\"");
+                PokecubeAPI.LOGGER.error("Formatting error for {}, it should be of form \"<dimid>-><weight>\"");
                 return;
             }
             final ResourceKey<Level> key = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(

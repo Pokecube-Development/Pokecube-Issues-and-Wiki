@@ -6,20 +6,21 @@ package pokecube.core.moves.damage;
 import javax.annotation.Nullable;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.utils.PokeType;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.Move_Base;
+import pokecube.api.utils.PokeType;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
+import thut.lib.TComponent;
 
 /**
  * This class extends {@link EntityDamageSource} and only modifies the death
@@ -48,7 +49,7 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
     {
         super("mob");
         this.damageSourceEntity = par2Entity;
-        this.user = CapabilityPokemob.getPokemobFor(par2Entity);
+        this.user = PokemobCaps.getPokemobFor(par2Entity);
         this.move = type;
     }
 
@@ -57,24 +58,24 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
     {
         final ItemStack localObject = this.damageSourceEntity != null ? this.damageSourceEntity.getMainHandItem()
                 : ItemStack.EMPTY;
-        if (!localObject.isEmpty() && localObject.hasCustomHoverName()) return new TranslatableComponent("death.attack."
+        if (!localObject.isEmpty() && localObject.hasCustomHoverName()) return TComponent.translatable("death.attack."
                 + this.msgId, new Object[] { par1PlayerEntity.getDisplayName(), this.damageSourceEntity
                         .getDisplayName(), localObject.getDisplayName() });
-        final IPokemob sourceMob = CapabilityPokemob.getPokemobFor(this.damageSourceEntity);
+        final IPokemob sourceMob = PokemobCaps.getPokemobFor(this.damageSourceEntity);
         if (sourceMob != null && sourceMob.getOwner() != null)
         {
-            final TranslatableComponent message = new TranslatableComponent("pokemob.killed.tame",
+            final MutableComponent message = TComponent.translatable("pokemob.killed.tame",
                     par1PlayerEntity.getDisplayName(), sourceMob.getOwner().getDisplayName(), this.damageSourceEntity
                             .getDisplayName());
             return message;
         }
         else if (sourceMob != null && sourceMob.getOwner() == null && !sourceMob.getGeneralState(GeneralStates.TAMED))
         {
-            final TranslatableComponent message = new TranslatableComponent("pokemob.killed.wild",
+            final MutableComponent message = TComponent.translatable("pokemob.killed.wild",
                     par1PlayerEntity.getDisplayName(), this.damageSourceEntity.getDisplayName());
             return message;
         }
-        return new TranslatableComponent("death.attack." + this.msgId, new Object[] { par1PlayerEntity
+        return TComponent.translatable("death.attack." + this.msgId, new Object[] { par1PlayerEntity
                 .getDisplayName(), this.damageSourceEntity.getDisplayName() });
     }
 
@@ -93,7 +94,7 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
     @Override
     public Entity getEntity()
     {
-        final IPokemob sourceMob = CapabilityPokemob.getPokemobFor(this.damageSourceEntity);
+        final IPokemob sourceMob = PokemobCaps.getPokemobFor(this.damageSourceEntity);
         if (sourceMob != null && sourceMob.getOwner() != null) return sourceMob.getOwner();
         final IOwnable ownable = OwnableCaps.getOwnable(this.damageSourceEntity);
         if (ownable != null)

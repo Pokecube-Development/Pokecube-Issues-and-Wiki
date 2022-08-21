@@ -14,16 +14,15 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.handlers.events.PCEventsHandler;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.interfaces.pokemob.ai.LogicStates;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.entity.pokemob.ai.LogicStates;
+import pokecube.core.eventhandlers.EventsHandler;
+import pokecube.core.eventhandlers.PCEventsHandler;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
@@ -31,6 +30,7 @@ import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.PokemobTracker;
 import thut.core.common.commands.CommandTools;
+import thut.lib.TComponent;
 
 public class Pokerecall
 {
@@ -42,11 +42,10 @@ public class Pokerecall
                 true));
         for (final Entity e : mobs)
         {
-            final IPokemob poke = CapabilityPokemob.getPokemobFor(e);
+            final IPokemob poke = PokemobCaps.getPokemobFor(e);
             if (poke != null) opts.add(e.getDisplayName().getString());
-            else if (e instanceof EntityPokecubeBase)
+            else if (e instanceof EntityPokecubeBase cube)
             {
-                final EntityPokecubeBase cube = (EntityPokecubeBase) e;
                 final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getLevel());
                 if (mob != null) opts.add(mob.getDisplayName().getString());
             }
@@ -61,30 +60,29 @@ public class Pokerecall
         for (final Entity e : PCEventsHandler.getOutMobs(player, true))
             if (e.getDisplayName().getString().equals(pokemob))
             {
-                final IPokemob poke = CapabilityPokemob.getPokemobFor(e);
+                final IPokemob poke = PokemobCaps.getPokemobFor(e);
                 if (poke != null)
                 {
                     poke.onRecall();
                     num++;
                 }
             }
-            else if (e instanceof EntityPokecubeBase)
+            else if (e instanceof EntityPokecubeBase cube)
             {
-                final EntityPokecubeBase cube = (EntityPokecubeBase) e;
                 final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getLevel());
                 if (mob != null && mob.getDisplayName().getString().equals(pokemob))
                 {
                     final LivingEntity sent = SendOutManager.sendOut(cube, true, false);
                     IPokemob poke;
-                    if (sent != null && (poke = CapabilityPokemob.getPokemobFor(sent)) != null)
+                    if (sent != null && (poke = PokemobCaps.getPokemobFor(sent)) != null)
                     {
                         poke.onRecall();
                         num++;
                     }
                 }
             }
-        if (num == 0) source.sendSuccess(new TranslatableComponent("pokecube.recall.fail"), false);
-        else source.sendSuccess(new TranslatableComponent("pokecube.recall.success", num), false);
+        if (num == 0) source.sendSuccess(TComponent.translatable("pokecube.recall.fail"), false);
+        else source.sendSuccess(TComponent.translatable("pokecube.recall.success", num), false);
         return 0;
     }
 
@@ -94,26 +92,25 @@ public class Pokerecall
         int num = 0;
         for (final Entity e : PCEventsHandler.getOutMobs(player, true))
         {
-            IPokemob poke = CapabilityPokemob.getPokemobFor(e);
+            IPokemob poke = PokemobCaps.getPokemobFor(e);
             if (poke != null) if (all || sitting && poke.getLogicState(LogicStates.SITTING) || staying && poke
                     .getGeneralState(GeneralStates.STAYING))
             {
                 poke.onRecall();
                 num++;
             }
-            else if (e instanceof EntityPokecubeBase)
+            else if (e instanceof EntityPokecubeBase cube)
             {
-                final EntityPokecubeBase cube = (EntityPokecubeBase) e;
                 final LivingEntity sent = SendOutManager.sendOut(cube, true);
-                if (sent != null && (poke = CapabilityPokemob.getPokemobFor(e)) != null)
+                if (sent != null && (poke = PokemobCaps.getPokemobFor(e)) != null)
                 {
                     poke.onRecall();
                     num++;
                 }
             }
         }
-        if (num == 0) source.sendSuccess(new TranslatableComponent("pokecube.recall.fail"), false);
-        else source.sendSuccess(new TranslatableComponent("pokecube.recall.success", num), false);
+        if (num == 0) source.sendSuccess(TComponent.translatable("pokecube.recall.fail"), false);
+        else source.sendSuccess(TComponent.translatable("pokecube.recall.success", num), false);
         return 0;
     }
 

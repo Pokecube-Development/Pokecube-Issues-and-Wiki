@@ -1,7 +1,7 @@
 package thut.core.client.render.json;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +11,12 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import thut.api.entity.animation.Animation;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.json.JsonTemplate.JsonBlock;
 import thut.core.client.render.model.BaseModel;
 import thut.core.common.ThutCore;
+import thut.lib.ResourceHelper;
 
 public class JsonModel extends BaseModel
 {
@@ -35,14 +35,15 @@ public class JsonModel extends BaseModel
     {
         try
         {
-            final Resource res = Minecraft.getInstance().getResourceManager().getResource(model);
             this.last_loaded = model;
-            if (res == null)
+            BufferedReader reader = ResourceHelper.getReader(model, Minecraft.getInstance().getResourceManager());
+            if (reader == null)
             {
                 this.valid = false;
                 return;
             }
-            JsonTemplate t = JsonUtil.gson.fromJson(new InputStreamReader(res.getInputStream()), JsonTemplate.class);
+            JsonTemplate t = JsonUtil.gson.fromJson(reader, JsonTemplate.class);
+            reader.close();
             t.init();
             this.makeObjects(t);
         }

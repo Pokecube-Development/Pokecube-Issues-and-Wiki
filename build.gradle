@@ -141,9 +141,11 @@ dependencies {
     minecraft "net.minecraftforge:forge:${version_minecraft}-${version_forge}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     
-    //Cyanide
+    // Cyanide
     implementation fg.deobf("curse.maven:cyanide-${version_cyanide}")
-    //JEI
+    // Curios
+    implementation fg.deobf("curse.maven:curios-${version_curios}")
+    // JEI
     // compile against the JEI API but do not include it at runtime
     compileOnly fg.deobf("mezz.jei:jei-${version_jei_mc}:${version_jei}:api")
     // at runtime, use the full JEI jar
@@ -172,6 +174,7 @@ processResources.doLast {
     def TOMLFILE = "./build/resources/main/META-INF/mods.toml"
     replaceParameters(TOMLFILE, "version_thutcore", VERSION_THUTCORE)
     replaceParameters(TOMLFILE, "version_mc", "${version_mcsupport}")
+    replaceParameters(TOMLFILE, "version_forge", "${version_forge}")
 }
 
 def replaceParameters(filename, find, replace) {

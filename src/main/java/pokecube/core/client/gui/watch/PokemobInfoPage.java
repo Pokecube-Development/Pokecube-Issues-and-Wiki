@@ -18,9 +18,12 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.Pokedex;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.utils.PokeType;
 import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
@@ -34,17 +37,13 @@ import pokecube.core.client.gui.watch.pokemob.Spawns;
 import pokecube.core.client.gui.watch.pokemob.StatsInfo;
 import pokecube.core.client.gui.watch.util.PageWithSubPages;
 import pokecube.core.database.Database;
-import pokecube.core.database.Pokedex;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.stats.StatsCollector;
+import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.network.packets.PacketPokedex;
-import pokecube.core.utils.PokeType;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
+import thut.lib.TComponent;
 
 public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
 {
@@ -70,7 +69,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error with making a page for watch", e);
+            PokecubeAPI.LOGGER.error("Error with making a page for watch", e);
             return null;
         }
     }
@@ -81,7 +80,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
 
     public PokemobInfoPage(final GuiPokeWatch watch)
     {
-        super(new TranslatableComponent("pokewatch.title.pokeinfo"), watch, GuiPokeWatch.TEX_DM,
+        super(TComponent.translatable("pokewatch.title.pokeinfo"), watch, GuiPokeWatch.TEX_DM,
                 GuiPokeWatch.TEX_NM);
         this.pokemob = watch.pokemob;
     }
@@ -175,7 +174,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         super.init();
         final int x = this.watch.width / 2 + 90;
         final int y = this.watch.height / 2 + 30;
-        this.search = new EditBox(this.font, x - 200, y - 109, 100, 10, new TextComponent(""));
+        this.search = new EditBox(this.font, x - 200, y - 109, 100, 10, TComponent.literal(""));
         this.addRenderableWidget(this.search);
         this.index = PokemobInfoPage.savedIndex;
     }
@@ -429,8 +428,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         this.initPages(this.pokemob);
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
-        final Component next = new TextComponent(">");
-        final Component prev = new TextComponent("<");
+        final Component next = TComponent.literal(">");
+        final Component prev = TComponent.literal("<");
         final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 95, y - 74, 12, 12, next, b ->
         {
             this.changePage(this.index + 1);

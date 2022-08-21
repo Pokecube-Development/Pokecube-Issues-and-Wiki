@@ -1,9 +1,9 @@
 package pokecube.mobs.abilities.z;
 
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.abilities.Ability;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.abilities.Ability;
-import pokecube.core.interfaces.IPokemob;
 
 public class ZenMode extends Ability
 {

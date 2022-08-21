@@ -2,7 +2,7 @@ package pokecube.adventures.network;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -10,22 +10,23 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import pokecube.adventures.blocks.afa.AfaContainer;
 import pokecube.adventures.blocks.afa.AfaTile;
 import thut.core.common.network.Packet;
+import thut.lib.TComponent;
 
 public class PacketAFA extends Packet
 {
     public static void openGui(final ServerPlayer player, final AfaTile tile)
     {
-        final TranslatableComponent name = new TranslatableComponent("block.pokecube_adventures.afa");
-        final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new AfaContainer(i,
-                p, ContainerLevelAccess.create(tile.getLevel(), tile.getBlockPos())), name);
+        final MutableComponent name = TComponent.translatable("block.pokecube_adventures.afa");
+        final SimpleMenuProvider provider = new SimpleMenuProvider(
+                (i, p, e) -> new AfaContainer(i, p, ContainerLevelAccess.create(tile.getLevel(), tile.getBlockPos())),
+                name);
         player.openMenu(provider);
     }
 
     public CompoundTag data = new CompoundTag();
 
     public PacketAFA()
-    {
-    }
+    {}
 
     public PacketAFA(final FriendlyByteBuf buf)
     {

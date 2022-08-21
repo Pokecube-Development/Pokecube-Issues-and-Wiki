@@ -1,9 +1,7 @@
 package pokecube.core.blocks.berries;
 
 import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -21,6 +19,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -33,11 +32,12 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.AlwaysTrueTes
 import net.minecraft.world.level.levelgen.structure.templatesystem.ProcessorRule;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.spawns.SpawnBiomeMatcher;
+import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.resources.PackFinder;
-import pokecube.core.database.spawns.SpawnBiomeMatcher;
-import pokecube.core.database.spawns.SpawnCheck;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.berries.ItemBerry;
 import pokecube.world.gen.structures.processors.NotRuleProcessor;
@@ -94,21 +94,25 @@ public class BerryGenManager
                 {
                     String[] ts = specific_biomes.split(",");
                     for (String s : ts) if (s.equals(event.getName().toString())) return true;
+                    return false;
                 }
                 String biome_types = spawn.values.get("biome_types");
-                if (biome_types != null)
+                boolean correctType = biome_types == null || biome_types.isBlank();
+                if (!correctType)
                 {
                     String[] ts = biome_types.split(",");
                     for (String s : ts) if (!BiomeDatabase.contains(key, s)) return false;
-                    return true;
+                    correctType = true;
                 }
                 String biome_cats = spawn.values.get("biome_category");
-                if (biome_cats != null)
+                boolean correctCategory = biome_cats == null || biome_cats.isBlank();
+                if (!correctCategory)
                 {
                     String[] ts = biome_cats.split(",");
                     for (String s : ts) if (!catName.equals(s)) return false;
-                    return true;
+                    correctCategory = true;
                 }
+                return correctType && correctCategory;
             }
             return false;
         }
@@ -118,6 +122,7 @@ public class BerryGenManager
     {
         public String berry;
         public String tree;
+        public int weight = 1;
     }
 
     private static class TreeProvider extends AbstractTreeGrower implements Supplier<AbstractTreeGrower>
@@ -236,7 +241,7 @@ public class BerryGenManager
                         return t;
                     });
                     ResourceLocation loc = new ResourceLocation(conf.tree);
-                    if (!prov.trees.contains(loc)) prov.trees.add(loc);
+                    if (!prov.trees.contains(loc)) for (int i = 0; i < conf.weight; i++) prov.trees.add(loc);
                 }
             });
         }
@@ -254,30 +259,39 @@ public class BerryGenManager
     private static void loadBerrySpawns()
     {
         BerryGenManager.list = new BerryConfig();
-        final Collection<ResourceLocation> resources = PackFinder.getJsonResources(BerryGenManager.DATABASES);
-        for (final ResourceLocation s : resources) try
-        {
-            BerryConfig loaded;
-            final Reader reader = new InputStreamReader(PackFinder.getStream(s));
-            loaded = JsonUtil.gson.fromJson(reader, BerryConfig.class);
-            reader.close();
-            BerryGenManager.list.locations.addAll(loaded.locations);
-            BerryGenManager.list.trees.addAll(loaded.trees);
-        }
-        catch (final FileNotFoundException e1)
-        {
-            PokecubeCore.LOGGER.debug("No berry spawns list {} found.", s);
-        }
-        catch (final Exception e)
-        {
-            PokecubeCore.LOGGER.error("Error loading Berries Spawn Database " + s, e);
-        }
+        final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(BerryGenManager.DATABASES);
+        resources.forEach((s, resource) -> {
+            try
+            {
+                BerryConfig loaded;
+                final Reader reader = PackFinder.getReader(resource);
+                if (reader == null) throw new FileNotFoundException(s.toString());
+                loaded = JsonUtil.gson.fromJson(reader, BerryConfig.class);
+                reader.close();
+                BerryGenManager.list.locations.addAll(loaded.locations);
+                BerryGenManager.list.trees.addAll(loaded.trees);
+            }
+            catch (final FileNotFoundException e1)
+            {
+                PokecubeAPI.LOGGER.debug("No berry spawns list {} found.", s);
+            }
+            catch (final Exception e)
+            {
+                PokecubeAPI.LOGGER.error("Error loading Berries Spawn Database " + s, e);
+            }
+        });
     }
 
     public static ItemStack getRandomBerryForBiome(final Level world, final BlockPos location)
     {
+        if (!(world instanceof ServerLevel level))
+        {
+            PokecubeAPI.LOGGER.error("Warning, calling getRandomBerryForBiome on wrong side!");
+            PokecubeAPI.LOGGER.error(new IllegalAccessError());
+            return ItemStack.EMPTY;
+        }
         SpawnBiomeMatcher toMatch = null;
-        final SpawnCheck checker = new SpawnCheck(new Vector3().set(location), world);
+        final SpawnCheck checker = new SpawnCheck(new Vector3().set(location), level);
         /**
          * Shuffle list, then re-sort it. This allows the values of the same
          * priority to be randomized, but then still respect priority order for

@@ -4,8 +4,8 @@ import java.util.Random;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.entity.pokemob.Nature;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
-import pokecube.core.interfaces.Nature;
 import thut.api.entity.genetics.Gene;
 import thut.core.common.ThutCore;
 

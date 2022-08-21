@@ -4,23 +4,22 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.Entity;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.animation.Animation;
@@ -37,14 +36,16 @@ import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.common.ThutCore;
+import thut.lib.ResourceHelper;
 
 public class ObjModel implements IModelCustom, IModel, IRetexturableModel
 {
     public HashMap<String, IExtendedModelPart> parts = new HashMap<>();
-    Map<String, Material>                      mats  = Maps.newHashMap();
-    Set<String>                                heads = Sets.newHashSet();
-    public String                              name;
-    private boolean                            valid = true;
+    Map<String, Material> mats = new HashMap<>();
+    Set<String> heads = new HashSet<>();
+    List<String> order = new ArrayList<>();
+    public String name;
+    private boolean valid = true;
 
     public ObjModel()
     {
@@ -94,14 +95,14 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
         this.valid = true;
         try
         {
-            final Resource res = Minecraft.getInstance().getResourceManager().getResource(model);
-            if (res == null)
+            InputStream stream = ResourceHelper.getStream(model, Minecraft.getInstance().getResourceManager());
+            if (stream == null)
             {
                 this.valid = false;
                 return;
             }
-            this.makeObjects(res.getInputStream());
-            res.close();
+            this.makeObjects(stream);
+            stream.close();
         }
         catch (final Exception e)
         {
@@ -143,18 +144,17 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
                     final List<TextureCoordinate> tex2 = Lists.newArrayList();
                     final List<Integer> order = Lists.newArrayList();
                     int i = 0;
-                    for (final int[][] facepair : faces)
-                        for (final int[] element : facepair)
-                        {
-                            final Vertex v = vertices.get(element[0] - 1);
-                            final TextureCoordinate coord = tex.get(element[1] - 1);
-                            Vertex norm = new Vertex(0, 0);
-                            if (normals.size() > element[0] - 1) norm = normals.get(element[0] - 1);
-                            vertices2.add(v);
-                            normals2.add(norm);
-                            tex2.add(coord);
-                            order.add(i++);
-                        }
+                    for (final int[][] facepair : faces) for (final int[] element : facepair)
+                    {
+                        final Vertex v = vertices.get(element[0] - 1);
+                        final TextureCoordinate coord = tex.get(element[1] - 1);
+                        Vertex norm = new Vertex(0, 0);
+                        if (normals.size() > element[0] - 1) norm = normals.get(element[0] - 1);
+                        vertices2.add(v);
+                        normals2.add(norm);
+                        tex2.add(coord);
+                        order.add(i++);
+                    }
                     final ObjMesh mesh = new ObjMesh(order.toArray(new Integer[0]), vertices2.toArray(new Vertex[0]),
                             normals2.toArray(new Vertex[0]), tex2.toArray(new TextureCoordinate[0]));
                     final ObjPart part = new ObjPart(currentPart);
@@ -193,7 +193,7 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
                 faces.add(facepairs);
             }
         }
-
+        this.order.addAll(this.parts.keySet());
         return this.parts;
     }
 
@@ -201,8 +201,7 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
     // strings to floats
     {
         final float[] ret = new float[data.length];
-        for (int i = 0; i < data.length; i++)
-            ret[i] = Float.parseFloat(data[i]);
+        for (int i = 0; i < data.length; i++) ret[i] = Float.parseFloat(data[i]);
         return ret;
     }
 
@@ -210,8 +209,7 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
     public void preProcessAnimations(final Collection<Animation> animations)
     {
         // a: animation, comps: component lists
-        animations.forEach(a -> a.sets.forEach((s, comps) -> comps.forEach(comp ->
-        {
+        animations.forEach(a -> a.sets.forEach((s, comps) -> comps.forEach(comp -> {
             double d0, d1, d2;
             // These get adjusted so the coordinate system is
             // consistant with the older versions.
@@ -237,19 +235,19 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
     @Override
     public void renderAll(final PoseStack mat, final VertexConsumer buffer)
     {
-        for (final IExtendedModelPart o : this.parts.values())
-            if (o.getParent() == null) o.renderAll(mat, buffer);
+        for (final IExtendedModelPart o : this.parts.values()) if (o.getParent() == null) o.renderAll(mat, buffer);
     }
 
     @Override
-    public void renderAllExcept(final PoseStack mat, final VertexConsumer buffer, final String... excludedGroupNames)
+    public void renderAllExcept(final PoseStack mat, final VertexConsumer buffer,
+            final Collection<String> excludedGroupNames)
     {
         for (final IExtendedModelPart o : this.parts.values())
             if (o.getParent() == null) o.renderAllExcept(mat, buffer, excludedGroupNames);
     }
 
     @Override
-    public void renderOnly(final PoseStack mat, final VertexConsumer buffer, final String... groupNames)
+    public void renderOnly(final PoseStack mat, final VertexConsumer buffer, final Collection<String> groupNames)
     {
         for (final IExtendedModelPart o : this.parts.values())
             if (o.getParent() == null) o.renderOnly(mat, buffer, groupNames);
@@ -309,8 +307,7 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
         final boolean anim = renderer.getAnimations().containsKey(currentPhase);
         if (anim) if (AnimationHelper.doAnimation(renderer.getAnimations().get(currentPhase), entity, parent.getName(),
                 parent, partialTick, limbSwing))
-        {
-        }
+        {}
         if (this.isHead(parent.getName()))
         {
             float ang;
@@ -344,5 +341,11 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
             this.updateSubParts(entity, renderer, currentPhase, partialTick, part, headYaw, headPitch, limbSwing,
                     brightnessIn);
         }
+    }
+
+    @Override
+    public List<String> getRenderOrder()
+    {
+        return order;
     }
 }

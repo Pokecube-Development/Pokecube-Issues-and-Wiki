@@ -18,7 +18,7 @@ import net.minecraft.world.phys.Vec3;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.tasks.BaseTask;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs.ITargetWatcher;
+import pokecube.api.entity.trainers.IHasPokemobs.ITargetWatcher;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 
@@ -28,7 +28,7 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
 
     static
     {
-        BaseAgroTask.MEMS.put(MemoryTypes.BATTLETARGET, MemoryStatus.VALUE_ABSENT);
+        BaseAgroTask.MEMS.put(MemoryTypes.BATTLETARGET.get(), MemoryStatus.VALUE_ABSENT);
     }
 
     private int timer = 0;
@@ -51,8 +51,8 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
     protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         final Brain<?> brain = this.entity.getBrain();
-        if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET)) return false;
-        final LivingEntity targ = brain.getMemory(MemoryTypes.BATTLETARGET).get();
+        if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get())) return false;
+        final LivingEntity targ = brain.getMemory(MemoryTypes.BATTLETARGET.get()).get();
         if (targ != this.target)
         {
             this.timer = 0;
@@ -72,12 +72,11 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
     {
         if (this.trainer.getCooldown() > gameTimeIn) return;
         if (worldIn.getRandom().nextDouble() > this.chance) return;
-        final NearestVisibleLivingEntities mobs = this.entity.getBrain().getMemory(
-                MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
+        final NearestVisibleLivingEntities mobs = this.entity.getBrain()
+                .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
 
         // Count tame mobs as their owners, rather than seperately mobs
-        final Predicate<LivingEntity> tameChecker = mob ->
-        {
+        final Predicate<LivingEntity> tameChecker = mob -> {
             final IOwnable owned = OwnableCaps.getOwnable(mob);
             LivingEntity owner;
             // If there is an owner, divert the check to it, rather than mob
@@ -96,10 +95,9 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
 
         for (LivingEntity mob : mobs.findAll(mob -> this.isValidTarget(mob) && tameChecker.test(mob)))
         {
-            if (mob instanceof Player && this.entity instanceof Villager)
+            if (mob instanceof Player player && this.entity instanceof Villager villager)
             {
-                final Villager villager = (Villager) this.entity;
-                final int rep = villager.getPlayerReputation((Player) mob) + rep_base;
+                final int rep = villager.getPlayerReputation(player) + rep_base;
                 double s1 = s;
                 if (rep > rep_cap) s1 = 0;
                 else if (rep < rep_base) s1 *= 2;
@@ -130,7 +128,7 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
     protected boolean checkExtraStartConditions(final ServerLevel worldIn, final LivingEntity owner)
     {
         final Brain<?> brain = owner.getBrain();
-        if (brain.hasMemoryValue(MemoryTypes.BATTLETARGET)) return false;
+        if (brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get())) return false;
         if (owner.tickCount % PokecubeAdv.config.trainerAgroRate != 0) return false;
         return this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
     }

@@ -17,13 +17,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.network.PacketCommander;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IHasCommands;
+import pokecube.api.entity.pokemob.IHasCommands.Command;
+import pokecube.api.entity.pokemob.IHasCommands.IMobCommandHandler;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.blocks.InteractableTile;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.IHasCommands;
-import pokecube.core.interfaces.pokemob.IHasCommands.Command;
-import pokecube.core.interfaces.pokemob.IHasCommands.IMobCommandHandler;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
@@ -185,12 +185,11 @@ public class CommanderTile extends InteractableTile
     public void sendCommand() throws Exception
     {
         final Level w = this.getLevel();
-        if (!(w instanceof ServerLevel)) return;
+        if (!(w instanceof ServerLevel level)) return;
         if (this.command != null && this.handler == null) this.initCommand();
         if (this.handler == null) throw new Exception("No CommandHandler has been set");
         if (this.pokeID == null) throw new Exception("No Pokemob Set, please set a UUID first.");
-        final ServerLevel world = (ServerLevel) w;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(world.getEntity(this.pokeID));
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(level.getEntity(this.pokeID));
         if (pokemob == null) throw new Exception("Pokemob for given ID is not found.");
         try
         {
@@ -198,7 +197,7 @@ public class CommanderTile extends InteractableTile
         }
         catch (final Exception e)
         {
-            PokecubeMod.LOGGER.error("Error executing a command for a pokemob", e);
+            PokecubeAPI.LOGGER.error("Error executing a command for a pokemob", e);
             throw new Exception("Error handling the command", e);
         }
     }

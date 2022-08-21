@@ -9,13 +9,14 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.DyeColor;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMiscUpdate;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 
 public class ExitCube
 {
@@ -37,7 +38,7 @@ public class ExitCube
                 loc.x += (rand.nextDouble() - 0.5) * width;
                 loc.y += rand.nextDouble();
                 loc.z += (rand.nextDouble() - 0.5) * width;
-                PokecubeCore.spawnParticle(entity.getLevel(), ParticleTypes.BUBBLE.getRegistryName().toString(),
+                PokecubeCore.spawnParticle(entity.getLevel(), RegHelper.getKey(ParticleTypes.BUBBLE).toString(),
                         loc, vel);
             }
             if (sealTag.getBoolean("Flames"))
@@ -45,7 +46,7 @@ public class ExitCube
                 loc.x += (rand.nextDouble() - 0.5) * width;
                 loc.y += rand.nextDouble();
                 loc.z += (rand.nextDouble() - 0.5) * width;
-                PokecubeCore.spawnParticle(entity.getLevel(), ParticleTypes.FLAME.getRegistryName().toString(),
+                PokecubeCore.spawnParticle(entity.getLevel(), RegHelper.getKey(ParticleTypes.FLAME).toString(),
                         loc, vel);
             }
             if (sealTag.getBoolean("Leaves"))

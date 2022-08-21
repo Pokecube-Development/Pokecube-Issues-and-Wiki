@@ -10,13 +10,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.moves.Move_Base;
+import pokecube.api.utils.PokeType;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.utils.PokeType;
 import thut.core.common.ThutCore;
 
 public class ItemTM extends Item
@@ -32,7 +32,7 @@ public class ItemTM extends Item
 
     public static boolean feedToPokemob(final ItemStack stack, final Entity entity)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob != null) return ItemTM.teachToPokemob(stack, pokemob);
         return false;
     }
@@ -55,7 +55,7 @@ public class ItemTM extends Item
         final Move_Base attack = MovesUtils.getMoveFromName(move.trim());
         if (attack == null)
         {
-            PokecubeCore.LOGGER.error("Attempting to make TM for un-registered move: " + move);
+            PokecubeAPI.LOGGER.error("Attempting to make TM for un-registered move: " + move);
             return stack;
         }
         stack = new ItemStack(ItemTM.tms.get(attack.move.type));
@@ -100,7 +100,6 @@ public class ItemTM extends Item
     public ItemTM(final Properties props, final PokeType type)
     {
         super(props);
-        this.setRegistryName(PokecubeMod.ID, "tm" + type.ordinal());
         this.type = type;
         ItemTM.tms.put(type, this);
     }

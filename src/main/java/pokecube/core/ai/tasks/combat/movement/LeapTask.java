@@ -10,13 +10,14 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
+import pokecube.core.impl.PokecubeMod;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
@@ -32,7 +33,7 @@ public class LeapTask extends TaskBase implements IAICombat
 
     static
     {
-        LeapTask.MEMS.put(MemoryModules.LEAP_TARGET, MemoryStatus.VALUE_PRESENT);
+        LeapTask.MEMS.put(MemoryModules.LEAP_TARGET.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     int leapTick = -1;
@@ -112,7 +113,7 @@ public class LeapTask extends TaskBase implements IAICombat
          */
         dir.addVelocities(this.entity);
 
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Leap: " + this.entity + " " + diff + " " + dir);
+        if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Leap: " + this.entity + " " + diff + " " + dir);
 
         // Set the timer so we don't leap again rapidly
         this.leapTick = this.entity.tickCount + PokecubeCore.getConfig().attackCooldown / 2;

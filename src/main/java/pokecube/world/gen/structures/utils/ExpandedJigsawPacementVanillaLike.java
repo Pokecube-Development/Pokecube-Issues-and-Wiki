@@ -47,13 +47,13 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 
 public class ExpandedJigsawPacementVanillaLike
 {
-    static final Logger LOGGER = PokecubeCore.LOGGER;
+    static final Logger LOGGER = PokecubeAPI.LOGGER;
 
     public static Optional<PieceGenerator<ExpandedJigsawConfiguration>> addPieces(
             PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration> context, PieceFactory factory, BlockPos centre,
@@ -143,7 +143,7 @@ public class ExpandedJigsawPacementVanillaLike
                             break;
                         }
                     }
-                    PostProcessor.POSTPROCESS.accept(config_context, list);
+                    PostProcessor.POSTPROCESS.accept(context, list);
                     list.forEach(builder::addPiece);
                 });
             }

@@ -4,10 +4,10 @@ import java.util.Random;
 
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.entity.IOngoingAffected;
-import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
-import pokecube.core.interfaces.entity.impl.OngoingMoveEffect;
+import pokecube.api.entity.IOngoingAffected;
+import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.core.impl.entity.impl.OngoingMoveEffect;
 import pokecube.core.moves.damage.GenericDamageSource;
 import thut.core.common.ThutCore;
 
@@ -50,7 +50,7 @@ public class Move_Ongoing extends Move_Basic
     protected DamageSource getOngoingDamage(final LivingEntity user)
     {
         final DamageSource source = GenericDamageSource.causeMobDamage(user);
-        if (CapabilityPokemob.getPokemobFor(user) != null)
+        if (PokemobCaps.getPokemobFor(user) != null)
         {
             source.bypassMagic();
             source.bypassArmor();

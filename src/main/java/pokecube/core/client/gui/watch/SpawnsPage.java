@@ -15,9 +15,9 @@ import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.util.LineEntry;
@@ -26,9 +26,9 @@ import pokecube.core.client.gui.watch.util.ListPage;
 import pokecube.core.client.gui.watch.util.SpawnListEntry;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
+import thut.lib.TComponent;
 
 public class SpawnsPage extends ListPage<LineEntry>
 {
@@ -43,7 +43,7 @@ public class SpawnsPage extends ListPage<LineEntry>
 
     public SpawnsPage(final GuiPokeWatch watch)
     {
-        super(new TranslatableComponent("pokewatch.title.spawns"), watch, SpawnsPage.TEX_DM, SpawnsPage.TEX_NM);
+        super(TComponent.translatable("pokewatch.title.spawns"), watch, SpawnsPage.TEX_DM, SpawnsPage.TEX_NM);
         for (final Class<? extends WatchPage> clazz : GuiPokeWatch.PAGELIST) if (clazz == PokemobInfoPage.class)
         {
             this.index = GuiPokeWatch.PAGELIST.indexOf(clazz);
@@ -116,8 +116,8 @@ public class SpawnsPage extends ListPage<LineEntry>
             final SpawnListEntry entry = new SpawnListEntry(this, this.font, PacketPokedex.selectedLoc.get(pokeEntry),
                     pokeEntry, 120, height, offsetY);
             final List<LineEntry> lines = entry.getLines(this.list, listener);
-            final Component water0 = new TranslatableComponent("pokewatch.spawns.water_only");
-            final Component water1 = new TranslatableComponent("pokewatch.spawns.water_optional");
+            final Component water0 = TComponent.translatable("pokewatch.spawns.water_only");
+            final Component water1 = TComponent.translatable("pokewatch.spawns.water_optional");
             // This is the name
             final LineEntry first = lines.get(0);
             // This is the blank line
@@ -158,7 +158,7 @@ public class SpawnsPage extends ListPage<LineEntry>
 
         if (Minecraft.getInstance().level.getDifficulty() == Difficulty.PEACEFUL)
         {
-            final MutableComponent comp = new TranslatableComponent("pokewatch.spawns.peaceful");
+            final MutableComponent comp = TComponent.translatable("pokewatch.spawns.peaceful");
             final List<MutableComponent> list = ListHelper.splitText(comp, 120, this.font, false);
             int n = 0;
             for (final MutableComponent entry : list)
@@ -166,7 +166,7 @@ public class SpawnsPage extends ListPage<LineEntry>
         }
         else if (this.repel = PacketPokedex.repelled)
         {
-            final MutableComponent comp = new TranslatableComponent("pokewatch.spawns.repelled");
+            final MutableComponent comp = TComponent.translatable("pokewatch.spawns.repelled");
             final List<MutableComponent> list = ListHelper.splitText(comp, 120, this.font, false);
             int n = 0;
             for (final MutableComponent entry : list)

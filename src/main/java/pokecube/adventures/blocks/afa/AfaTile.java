@@ -26,11 +26,11 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.network.PacketAFA;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.abilities.Ability;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.core.blocks.InteractableTile;
-import pokecube.core.database.abilities.Ability;
-import pokecube.core.events.pokemob.SpawnEvent;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
@@ -238,14 +238,14 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     {
         super.setRemoved();
         if (this.ability != null) this.ability.destroy();
-        PokecubeCore.POKEMOB_BUS.unregister(this);
+        PokecubeAPI.POKEMOB_BUS.unregister(this);
     }
 
     @Override
     public void clearRemoved()
     {
         super.clearRemoved();
-        PokecubeCore.POKEMOB_BUS.register(this);
+        PokecubeAPI.POKEMOB_BUS.register(this);
     }
 
     @Override
@@ -348,7 +348,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
             final BlockHitResult hit)
     {
-        if (player instanceof ServerPlayer) PacketAFA.openGui((ServerPlayer) player, this);
+        if (player instanceof ServerPlayer splayer) PacketAFA.openGui(splayer, this);
         return InteractionResult.SUCCESS;
     }
 

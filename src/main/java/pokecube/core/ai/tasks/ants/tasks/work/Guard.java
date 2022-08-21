@@ -11,12 +11,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.ants.AntTasks;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.tasks.AbstractWorkTask;
 import pokecube.core.ai.tasks.combat.management.FindTargetsTask;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.moves.Battle;
 import pokecube.core.utils.AITools;
 import thut.api.maths.Vector3;
@@ -27,7 +28,7 @@ public class Guard extends AbstractWorkTask
     static
     {
         Guard.mems.put(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryStatus.VALUE_PRESENT);
-        Guard.mems.put(AntTasks.GOING_HOME, MemoryStatus.VALUE_ABSENT);
+        Guard.mems.put(MemoryModules.GOING_HOME.get(), MemoryStatus.VALUE_ABSENT);
     }
 
     public static double ANTGUARDDIST = 8;
@@ -97,7 +98,7 @@ public class Guard extends AbstractWorkTask
         if (newtarget != null)
         {
             this.initiateBattle(newtarget);
-            if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Selecting Guard Target.");
+            if (PokecubeCore.getConfig().debug) PokecubeAPI.LOGGER.debug("Selecting Guard Target.");
             return true;
         }
         return false;

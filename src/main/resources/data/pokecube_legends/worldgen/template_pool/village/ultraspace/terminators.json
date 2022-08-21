@@ -12,6 +12,16 @@
         "bool_config": {"no_affect_noise":true},
         "projection": "terrain_matching"
       }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "pokecube_legends:village/ultraspace/terminators/terminator_02",
+        "processors": "pokecube_legends:street_ultraspace",
+        "element_type": "pokecube:expanded_pool_element",
+        "bool_config": {"no_affect_noise":true},
+        "projection": "terrain_matching"
+      }
     }
   ]
 }

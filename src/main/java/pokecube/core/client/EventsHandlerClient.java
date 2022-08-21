@@ -47,6 +47,16 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IHasCommands.Command;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
+import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
@@ -60,18 +70,9 @@ import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.client.render.mobs.ShoulderLayer;
 import pokecube.core.client.render.mobs.ShoulderLayer.ShoulderHolder;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
+import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.init.ClientSetupHandler;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.FormeHolder;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.capabilities.DefaultPokemob;
-import pokecube.core.interfaces.pokemob.IHasCommands.Command;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.interfaces.pokemob.commandhandlers.ChangeFormHandler;
-import pokecube.core.interfaces.pokemob.commandhandlers.StanceHandler;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.animations.MoveAnimationHelper;
@@ -79,7 +80,6 @@ import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketMountedControl;
 import pokecube.core.proxy.ClientProxy;
 import pokecube.core.utils.PokemobTracker;
-import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 
 public class EventsHandlerClient
@@ -154,7 +154,7 @@ public class EventsHandlerClient
 
         for (final Entity e : PokemobTracker.getMobs(owner, e -> !(e instanceof EntityPokecubeBase)))
         {
-            final IPokemob mob = CapabilityPokemob.getPokemobFor(e);
+            final IPokemob mob = PokemobCaps.getPokemobFor(e);
             if (mob != null) ret.add(mob);
         }
         return ret;
@@ -167,20 +167,21 @@ public class EventsHandlerClient
         if (pokemob != null && PokecubeCore.getConfig().autoSelectMoves)
         {
             final Entity target = BrainUtils.getAttackTarget(pokemob.getEntity());
-            if (target != null && !pokemob.getGeneralState(GeneralStates.MATING)) EventsHandlerClient
-                    .setMostDamagingMove(pokemob, target);
+            if (target != null && !pokemob.getGeneralState(GeneralStates.MATING))
+                EventsHandlerClient.setMostDamagingMove(pokemob, target);
         }
         if (PokecubeCore.getConfig().autoRecallPokemobs)
         {
             final IPokemob mob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
-            if (mob != null && mob.getEntity().isAlive() && mob.getEntity().isAddedToWorld() && event.player.distanceTo(
-                    mob.getEntity()) > PokecubeCore.getConfig().autoRecallDistance) mob.onRecall();
+            if (mob != null && mob.getEntity().isAlive() && mob.getEntity().isAddedToWorld()
+                    && event.player.distanceTo(mob.getEntity()) > PokecubeCore.getConfig().autoRecallDistance)
+                mob.onRecall();
         }
         control:
         if (event.player.isPassenger() && Minecraft.getInstance().screen == null)
         {
             final Entity e = event.player.getVehicle();
-            pokemob = CapabilityPokemob.getPokemobFor(e);
+            pokemob = PokemobCaps.getPokemobFor(e);
             if (pokemob != null && e.getControllingPassenger() == event.player)
             {
                 final LogicMountedControl controller = pokemob.getController();
@@ -221,17 +222,18 @@ public class EventsHandlerClient
         // We only handle these ingame anyway.
         if (player == null) return;
         //
-        if (evt.getAction() == GLFW.GLFW_PRESS && evt.getButton() == GLFW.GLFW_MOUSE_BUTTON_RIGHT) if (Minecraft
-                .getInstance().hitResult == null || Minecraft.getInstance().hitResult.getType() == Type.MISS)
+        if (evt.getAction() == GLFW.GLFW_PRESS && evt.getButton() == GLFW.GLFW_MOUSE_BUTTON_RIGHT
+                && Minecraft.getInstance().hitResult == null
+                || Minecraft.getInstance().hitResult.getType() == Type.MISS)
         {
             final Entity entity = Tools.getPointedEntity(player, 6);
             if (entity != null) hands:
             for (final InteractionHand hand : InteractionHand.values())
                 if (Minecraft.getInstance().gameMode.interact(player, entity, hand) == InteractionResult.SUCCESS)
-                {
-                    evt.setCanceled(true);
-                    break hands;
-                }
+            {
+                evt.setCanceled(true);
+                break hands;
+            }
         }
     }
 
@@ -240,27 +242,28 @@ public class EventsHandlerClient
         final Player player = Minecraft.getInstance().player;
         // We only handle these ingame anyway.
         if (player == null) return;
-        if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_F3) && evt
-                .getKey() == GLFW.GLFW_KEY_D) GuiInfoMessages.clear();
+        if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_F3)
+                && evt.getKey() == GLFW.GLFW_KEY_D)
+            GuiInfoMessages.clear();
 
-        if (evt.getKey() == GLFW.GLFW_KEY_F5) if (AnimationGui.entry != null && Minecraft
-                .getInstance().screen instanceof AnimationGui)
+        if (evt.getKey() == GLFW.GLFW_KEY_F5 && AnimationGui.entry != null
+                && Minecraft.getInstance().screen instanceof AnimationGui)
         {
             PokedexEntryLoader.updateEntry(AnimationGui.entry);
             RenderPokemob.reloadModel(AnimationGui.entry);
         }
         else if (player.getVehicle() != null && Minecraft.getInstance().screen != null)
         {
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(player.getVehicle());
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(player.getVehicle());
             if (pokemob != null) PokedexEntryLoader.updateEntry(pokemob.getPokedexEntry());
         }
-        if (ClientSetupHandler.animateGui.consumeClick() && Minecraft.getInstance().screen == null) Minecraft
-                .getInstance().setScreen(new AnimationGui());
+        if (ClientSetupHandler.animateGui.consumeClick() && Minecraft.getInstance().screen == null)
+            Minecraft.getInstance().setScreen(new AnimationGui());
         if (ClientSetupHandler.mobMegavolve.consumeClick())
         {
             final IPokemob current = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
-            if (current != null && !current.getGeneralState(GeneralStates.EVOLVING)) PacketCommand.sendCommand(current,
-                    Command.CHANGEFORM, new ChangeFormHandler());
+            if (current != null && !current.getGeneralState(GeneralStates.EVOLVING))
+                PacketCommand.sendCommand(current, Command.CHANGEFORM, new ChangeFormHandler());
         }
         if (ClientSetupHandler.arrangeGui.consumeClick()) GuiArranger.toggle = !GuiArranger.toggle;
         if (ClientSetupHandler.noEvolve.consumeClick() && GuiDisplayPokecubeInfo.instance().getCurrentPokemob() != null)
@@ -281,9 +284,9 @@ public class EventsHandlerClient
             if (GuiTeleport.instance().getState()) GuiTeleport.instance().previousMove();
             else GuiDisplayPokecubeInfo.instance().previousMove(num);
         }
-        if (ClientSetupHandler.mobBack.consumeClick()) if (GuiTeleport.instance().getState()) GuiTeleport.instance()
-                .setState(false);
-        else GuiDisplayPokecubeInfo.instance().pokemobBack();
+        if (ClientSetupHandler.mobBack.consumeClick())
+            if (GuiTeleport.instance().getState()) GuiTeleport.instance().setState(false);
+            else GuiDisplayPokecubeInfo.instance().pokemobBack();
         if (ClientSetupHandler.mobAttack.consumeClick()) GuiDisplayPokecubeInfo.instance().pokemobAttack();
         if (ClientSetupHandler.mobStance.consumeClick()) GuiDisplayPokecubeInfo.instance().pokemobStance();
         if (ClientSetupHandler.mobMove1.consumeClick()) GuiDisplayPokecubeInfo.instance().setMove(0);
@@ -294,8 +297,9 @@ public class EventsHandlerClient
         if (ClientSetupHandler.gzmove.consumeClick())
         {
             final IPokemob current = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
-            if (current != null) PacketCommand.sendCommand(current, Command.STANCE, new StanceHandler(!current
-                    .getCombatState(CombatStates.USINGGZMOVE), StanceHandler.GZMOVE).setFromOwner(true));
+            if (current != null) PacketCommand.sendCommand(current, Command.STANCE,
+                    new StanceHandler(!current.getCombatState(CombatStates.USINGGZMOVE), StanceHandler.GZMOVE)
+                            .setFromOwner(true));
         }
     }
 
@@ -308,39 +312,37 @@ public class EventsHandlerClient
 
     private static void onCapabilityAttach(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (event.getObject() instanceof Player) event.addCapability(new ResourceLocation("pokecube:shouldermobs"),
-                new ShoulderHolder((Player) event.getObject()));
+        if (event.getObject() instanceof Player player)
+            event.addCapability(new ResourceLocation("pokecube:shouldermobs"), new ShoulderHolder(player));
     }
 
     private static void onRenderGUIScreenPre(final DrawScreenEvent.Post event)
     {
         try
         {
-            if (!(event.getScreen() instanceof AbstractContainerScreen)) return;
             if (!Screen.hasAltDown()) return;
-            final AbstractContainerScreen<?> gui = (AbstractContainerScreen<?>) event.getScreen();
+            if (!(event.getScreen() instanceof AbstractContainerScreen<?> gui)) return;
             final List<Slot> slots = gui.getMenu().slots;
-            for (final Slot slot : slots)
-                if (slot.hasItem() && PokecubeManager.isFilled(slot.getItem()))
-                {
-                    final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(slot.getItem(), gui
-                            .getMinecraft().level);
-                    if (pokemob == null) continue;
+            for (final Slot slot : slots) if (slot.hasItem() && PokecubeManager.isFilled(slot.getItem()))
+            {
+                final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(slot.getItem(),
+                        gui.getMinecraft().level);
+                if (pokemob == null) continue;
 
-                    int i, j;
-                    i = slot.x;
-                    j = slot.y;
-                    final int x = i + gui.getGuiLeft();
-                    final int y = j + gui.getGuiTop();
-                    if (Screen.hasControlDown())
-                    {
-                        final float z = Minecraft.getInstance().getItemRenderer().blitOffset;
-                        Minecraft.getInstance().getItemRenderer().blitOffset += 200;
-                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y - 2);
-                        Minecraft.getInstance().getItemRenderer().blitOffset = z;
-                    }
-                    else EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
+                int i, j;
+                i = slot.x;
+                j = slot.y;
+                final int x = i + gui.getGuiLeft();
+                final int y = j + gui.getGuiTop();
+                if (Screen.hasControlDown())
+                {
+                    final float z = Minecraft.getInstance().getItemRenderer().blitOffset;
+                    Minecraft.getInstance().getItemRenderer().blitOffset += 200;
+                    Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y - 2);
+                    Minecraft.getInstance().getItemRenderer().blitOffset = z;
                 }
+                else EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
+            }
         }
         catch (final Exception e)
         {
@@ -364,8 +366,7 @@ public class EventsHandlerClient
                 final ItemStack stack = player.getInventory().items.get(l);
                 if (stack != null && PokecubeManager.isFilled(stack))
                 {
-                    final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(stack, player
-                            .getLevel());
+                    final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(stack, player.getLevel());
                     if (pokemob == null) continue;
                     int x = w / 2;
                     x = i + x + 20 * l - 8;
@@ -408,7 +409,7 @@ public class EventsHandlerClient
         if (pokemob != null) pokemob = pokemob.setPokedexEntry(entry);
         if (pokemob == null || pokemob != EventsHandlerClient.renderMobs.get(entry))
         {
-            if (pokemob == null) pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, world));
+            if (pokemob == null) pokemob = PokemobCaps.getPokemobFor(PokecubeCore.createPokemob(entry, world));
             if (pokemob == null) return null;
             pokemob.spawnInit();
             EventsHandlerClient.renderMobs.put(entry, pokemob);
@@ -446,16 +447,11 @@ public class EventsHandlerClient
         ResourceLocation icon = entry.getIcon(!female, shiny);
         if (holder != null) icon = holder.getIcon(!female, shiny, entry);
 
-        // RenderSystem.pushMatrix();
-
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, icon);
 
         Minecraft.getInstance().getTextureManager().getTexture(icon).setFilter(false, false);
 
-        // RenderSystem.enableRescaleNormal();
-        // RenderSystem.enableAlphaTest();
-        // RenderSystem.defaultAlphaFunc();
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         Lighting.setupForFlatItems();
@@ -473,35 +469,7 @@ public class EventsHandlerClient
 
         RenderSystem.enableDepthTest();
         Lighting.setupFor3DItems();
-        //
-        // RenderSystem.disableAlphaTest();
-        // RenderSystem.disableRescaleNormal();
-        // RenderSystem.popMatrix();
     }
-
-    // private static Map<ResourceLocation, RenderType> cache =
-    // Maps.newHashMap();
-    //
-    // private static RenderType getRenderTypeForIcon(final ResourceLocation
-    // icon)
-    // {
-    // if (EventsHandlerClient.cache.containsKey(icon)) return
-    // EventsHandlerClient.cache.get(icon);
-    // else
-    // {
-    // final RenderType.State rendertype$state =
-    // RenderType.State.builder().setTextureState(
-    // new RenderState.TextureState(icon, false,
-    // false)).setAlphaState(RenderState.DEFAULT_ALPHA)
-    // .setLayeringState(RenderState.VIEW_OFFSET_Z_LAYERING).setTransparencyState(
-    // RenderState.TRANSLUCENT_TRANSPARENCY).setOutputState(RenderState.ITEM_ENTITY_TARGET)
-    // .setWriteMaskState(RenderState.COLOR_DEPTH_WRITE).createCompositeState(true);
-    // EventsHandlerClient.cache.put(icon, RenderType.create("_icon_" + icon,
-    // DefaultVertexFormats.POSITION_TEX, 7,
-    // 256, rendertype$state));
-    // }
-    // return EventsHandlerClient.cache.get(icon);
-    // }
 
     public static void setFromNBT(final IPokemob pokemob, final CompoundTag tag)
     {

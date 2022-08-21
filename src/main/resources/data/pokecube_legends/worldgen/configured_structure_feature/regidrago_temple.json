@@ -14,7 +14,11 @@
     ],
     "y_settings":{"max_dy": 5, "y_check_radius": 2, "vertical_offset": -75},
     "avoid_range": 6,
-    "size": 2
+    "size": 2,
+    "avoidances":{
+      "flags": ["regi_temple", "regidrago_temple"],
+      "avoidances": [{"name":"regi_temple","distance":8}, {"name":"temple","distance":4}, {"name":"regidrago_temple","distance":256}]
+    }
   },
   "biomes": "#pokecube_world:has_structure/regidrago_temple",
   "adapt_noise": true,

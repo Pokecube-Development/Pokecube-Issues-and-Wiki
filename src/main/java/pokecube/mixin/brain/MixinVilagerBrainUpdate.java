@@ -11,7 +11,7 @@ import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
-import pokecube.core.events.BrainInitEvent;
+import pokecube.api.events.pokemobs.ai.BrainInitEvent;
 
 @Mixin(Villager.class)
 public abstract class MixinVilagerBrainUpdate extends AbstractVillager

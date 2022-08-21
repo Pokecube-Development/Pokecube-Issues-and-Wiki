@@ -10,6 +10,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.utils.RecipePokeAdv;
+import thut.lib.RegHelper;
 
 public class RecipeStatueCoat extends CustomRecipe
 {
@@ -55,7 +56,7 @@ public class RecipeStatueCoat extends CustomRecipe
 
         CompoundTag blockTag = statue.getOrCreateTagElement("BlockEntityTag");
         CompoundTag modelTag = blockTag.getCompound("custom_model");
-        modelTag.putString("over_tex", block.getItem().getRegistryName().toString());
+        modelTag.putString("over_tex", RegHelper.getKey(block.getItem()).toString());
 
         blockTag.put("custom_model", modelTag);
 

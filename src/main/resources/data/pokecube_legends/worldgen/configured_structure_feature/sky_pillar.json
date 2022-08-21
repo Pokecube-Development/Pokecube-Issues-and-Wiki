@@ -17,7 +17,7 @@
     "size": 4,
     "avoidances":{
       "flags": ["temple", "sky_pillar"],
-      "avoidances": [{"name":"temple","distance":8}, {"name":"sky_pillar","distance":80}]
+      "avoidances": [{"name":"temple","distance":8}, {"name":"sky_pillar","distance":256}]
     }
   },
   "biomes": "#pokecube_world:has_structure/sky_pillar",

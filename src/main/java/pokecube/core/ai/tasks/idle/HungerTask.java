@@ -7,7 +7,6 @@ import java.util.Random;
 import com.google.common.collect.Lists;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,6 +15,11 @@ import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
@@ -27,16 +31,12 @@ import pokecube.core.ai.tasks.idle.hunger.EatRock;
 import pokecube.core.ai.tasks.idle.hunger.EatWater;
 import pokecube.core.ai.tasks.idle.hunger.IBlockEatTask;
 import pokecube.core.blocks.berries.BerryGenManager;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.utils.TimePeriod;
 import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.lib.ItemStackTools;
+import thut.lib.TComponent;
 
 /**
  * This IAIRunnable is responsible for finding food for the mobs. It also is
@@ -100,10 +100,10 @@ public class HungerTask extends BaseIdleTask
     public static int TICKRATE = 20;
 
     public static float EATTHRESHOLD  = 0.75f;
-    public static float HUNTTHRESHOLD = 0.6f;
-    public static float BERRYGEN      = 0.55f;
-    public static float MATERESET     = 0.5f;
-    public static float DAMAGE        = 0.3f;
+    public static float HUNTTHRESHOLD = 0.60f;
+    public static float MATERESET     = 0.50f;
+    public static float BERRYGEN      = 0.30f;
+    public static float DAMAGE        = 0.25f;
     public static float DEATH         = 0.0f;
 
     int lastMessageTick1 = -1;
@@ -178,7 +178,7 @@ public class HungerTask extends BaseIdleTask
                     MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(e -> true);
             for (final LivingEntity mob : targets)
             {
-                final IPokemob other = CapabilityPokemob.getPokemobFor(mob);
+                final IPokemob other = PokemobCaps.getPokemobFor(mob);
                 if (other != null && this.pokemob.getPokedexEntry().isFood(other.getPokedexEntry()))
                 {
                     final boolean isValid = other.getLevel() - this.pokemob.getLevel() < 5;
@@ -432,14 +432,14 @@ public class HungerTask extends BaseIdleTask
                         if (this.lastMessageTick1 < this.entity.getLevel().getGameTime())
                         {
                             this.lastMessageTick1 = (int) (this.entity.getLevel().getGameTime() + 100);
-                            this.pokemob.displayMessageToOwner(new TranslatableComponent("pokemob.hungry.hurt",
+                            this.pokemob.displayMessageToOwner(TComponent.translatable("pokemob.hungry.hurt",
                                     this.pokemob.getDisplayName()));
                         }
                     }
                     else if (this.lastMessageTick2 < this.entity.getLevel().getGameTime())
                     {
                         this.lastMessageTick2 = (int) (this.entity.getLevel().getGameTime() + 100);
-                        this.pokemob.displayMessageToOwner(new TranslatableComponent("pokemob.hungry.dead", this.pokemob
+                        this.pokemob.displayMessageToOwner(TComponent.translatable("pokemob.hungry.dead", this.pokemob
                                 .getDisplayName()));
                     }
                 }

@@ -12,10 +12,11 @@ import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.utils.Tools;
+import thut.lib.RegHelper;
 
 @TradePresetAn(key = "sellRandomStatue")
 public class SellRandomStatue implements TradePreset
@@ -54,7 +55,7 @@ public class SellRandomStatue implements TradePreset
                 ItemStack statue = new ItemStack(PokecubeAdv.STATUE.get());
                 CompoundTag modelTag = new CompoundTag();
 
-                modelTag.putString("id", e.getEntityType().getRegistryName().toString());
+                modelTag.putString("id", RegHelper.getKey(e.getEntityType()).toString());
                 modelTag.putString("over_tex", "minecraft:textures/block/stone.png");
                 statue.getOrCreateTagElement("BlockEntityTag").put("custom_model", modelTag);
 
@@ -70,7 +71,7 @@ public class SellRandomStatue implements TradePreset
                     modelTag.putString("variant", variant.key.toString());
                 }
 
-                modelTag.putString("id", e.getEntityType().getRegistryName().toString());
+                modelTag.putString("id", RegHelper.getKey(e.getEntityType()).toString());
                 modelTag.putString("over_tex", "minecraft:textures/block/stone.png");
                 statue.getOrCreateTagElement("BlockEntityTag").put("custom_model", modelTag);
 

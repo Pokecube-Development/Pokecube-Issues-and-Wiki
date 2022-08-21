@@ -9,8 +9,8 @@ import net.minecraft.world.entity.animal.ShoulderRidingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IPokemob.Stats;
 import pokecube.core.moves.damage.PokemobDamageSource;
 
 public abstract class PokemobCombat extends PokemobBase
@@ -25,8 +25,7 @@ public abstract class PokemobCombat extends PokemobBase
     public boolean isInvulnerableTo(final DamageSource source)
     {
         // Check type effectiveness for damage sources.
-        if (source instanceof PokemobDamageSource) return ((PokemobDamageSource) source).getEffectiveness(
-                this.pokemobCap) <= 0;
+        if (source instanceof PokemobDamageSource psource) return psource.getEffectiveness(this.pokemobCap) <= 0;
         return super.isInvulnerableTo(source);
     }
 
@@ -44,8 +43,8 @@ public abstract class PokemobCombat extends PokemobBase
             int armour = 0;
             if (source.isMagic()) armour = (int) (this.pokemobCap.getStat(Stats.SPDEFENSE, true) / 12.5);
             else armour = this.getArmorValue();
-            damage = CombatRules.getDamageAfterAbsorb(damage, armour, (float) this.getAttribute(
-                    Attributes.ARMOR_TOUGHNESS).getValue());
+            damage = CombatRules.getDamageAfterAbsorb(damage, armour,
+                    (float) this.getAttribute(Attributes.ARMOR_TOUGHNESS).getValue());
         }
         return damage;
     }
@@ -53,8 +52,10 @@ public abstract class PokemobCombat extends PokemobBase
     @Override
     protected void dropExperience()
     {
-        if (!this.level.isClientSide && (this.isAlwaysExperienceDropper() || this.lastHurtByPlayerTime > 0 && this.shouldDropExperience() && this.level
-                .getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) && this.pokemobCap.getOwnerId() == null)
+        if (!this.level.isClientSide
+                && (this.isAlwaysExperienceDropper() || this.lastHurtByPlayerTime > 0 && this.shouldDropExperience()
+                        && this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT))
+                && this.pokemobCap.getOwnerId() == null)
         {
             int i = this.getExperienceReward(this.lastHurtByPlayer);
             i = net.minecraftforge.event.ForgeEventFactory.getExperienceDrop(this, this.lastHurtByPlayer, i);
@@ -62,8 +63,7 @@ public abstract class PokemobCombat extends PokemobBase
             {
                 final int j = ExperienceOrb.getExperienceValue(i);
                 i -= j;
-                this.level.addFreshEntity(new ExperienceOrb(this.level, this.getX(), this.getY(), this.getZ(),
-                        j));
+                this.level.addFreshEntity(new ExperienceOrb(this.level, this.getX(), this.getY(), this.getZ(), j));
             }
         }
     }
@@ -73,8 +73,8 @@ public abstract class PokemobCombat extends PokemobBase
     protected int getExperienceReward(final Player player)
     {
         final float scale = (float) PokecubeCore.getConfig().expFromDeathDropScale;
-        final int exp = (int) Math.max(1, this.pokemobCap.getBaseXP() * scale * 0.01 * Math.sqrt(this.pokemobCap
-                .getLevel()));
+        final int exp = (int) Math.max(1,
+                this.pokemobCap.getBaseXP() * scale * 0.01 * Math.sqrt(this.pokemobCap.getLevel()));
         return exp;
     }
 }

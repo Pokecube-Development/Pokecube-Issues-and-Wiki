@@ -7,13 +7,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.RecipeHandler;
-import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.utils.TagNames;
 import thut.api.item.ItemList;
 
 public class RecipeRevive extends CustomRecipe
@@ -47,7 +47,7 @@ public class RecipeRevive extends CustomRecipe
             {
                 if (PokecubeManager.isFilled(stack)) other = stack;
                 if (ItemList.is(RecipeRevive.REVIVETAG, stack)) revive = true;
-                if (stack.getItem() == PokecubeItems.getEmptyCube(PokecubeBehavior.POKESEAL)) seal = stack;
+                if (stack.getItem() == PokecubeItems.getEmptyCube(PokecubeBehaviour.POKESEAL)) seal = stack;
             }
         }
         revive = revive && !other.isEmpty();
@@ -100,7 +100,7 @@ public class RecipeRevive extends CustomRecipe
                 n++;
                 if (PokecubeManager.isFilled(stack)) other = stack;
                 if (ItemList.is(RecipeRevive.REVIVETAG, stack)) revive = true;
-                if (stack.getItem() == PokecubeItems.getEmptyCube(PokecubeBehavior.POKESEAL)) seal = stack;
+                if (stack.getItem() == PokecubeItems.getEmptyCube(PokecubeBehaviour.POKESEAL)) seal = stack;
             }
         }
         revive = revive && !other.isEmpty();

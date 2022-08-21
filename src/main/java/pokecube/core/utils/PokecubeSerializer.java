@@ -29,13 +29,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelResource;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.playerdata.PokecubePlayerData;
-import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
@@ -190,7 +191,7 @@ public class PokecubeSerializer
     {
         if (player == null)
         {
-            PokecubeCore.LOGGER.error("Checking starter for null player!");
+            PokecubeAPI.LOGGER.error("Checking starter for null player!");
             return true;
         }
         return PlayerDataHandler.getInstance().getPlayerData(player).getData(PokecubePlayerData.class).hasStarter();
@@ -233,9 +234,8 @@ public class PokecubeSerializer
         this.customData = tag.getCompound("data");
         Tag temp;
         temp = tag.get(PokecubeSerializer.METEORS);
-        if (temp instanceof ListTag)
+        if (temp instanceof ListTag tagListMeteors)
         {
-            final ListTag tagListMeteors = (ListTag) temp;
             if (tagListMeteors.size() > 0) meteors:
             for (int i = 0; i < tagListMeteors.size(); i++)
             {
@@ -251,9 +251,8 @@ public class PokecubeSerializer
             }
         }
         temp = tag.get(PokecubeSerializer.BASES);
-        if (temp instanceof ListTag)
+        if (temp instanceof ListTag tagListBases)
         {
-            final ListTag tagListBases = (ListTag) temp;
             if (tagListBases.size() > 0) meteors:
             for (int i = 0; i < tagListBases.size(); i++)
             {
@@ -268,15 +267,14 @@ public class PokecubeSerializer
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error loading base from tag: " + pokemobData);
+                    PokecubeAPI.LOGGER.error("Error loading base from tag: " + pokemobData);
                 }
             }
         }
 
         temp = tag.get(PokecubeSerializer.STRUCTS);
-        if (temp instanceof ListTag)
+        if (temp instanceof ListTag tagListStructs)
         {
-            final ListTag tagListStructs = (ListTag) temp;
             if (tagListStructs.size() > 0) for (int i = 0; i < tagListStructs.size(); i++)
             {
                 final CompoundTag pokemobData = tagListStructs.getCompound(i);
@@ -291,7 +289,7 @@ public class PokecubeSerializer
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error loading structure from tag: " + pokemobData);
+                    PokecubeAPI.LOGGER.error("Error loading structure from tag: " + pokemobData);
                 }
             }
         }
@@ -341,7 +339,7 @@ public class PokecubeSerializer
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error setting has starter state for " + player, e);
+            PokecubeAPI.LOGGER.error("Error setting has starter state for " + player, e);
         }
         if (ThutCore.proxy.isServerSide()) PlayerDataHandler.getInstance().save(player.getStringUUID());
     }
@@ -349,7 +347,7 @@ public class PokecubeSerializer
     public ItemStack starter(final PokedexEntry entry, final Player owner)
     {
         final Level worldObj = owner.getLevel();
-        final IPokemob entity = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, worldObj));
+        final IPokemob entity = PokemobCaps.getPokemobFor(PokecubeCore.createPokemob(entry, worldObj));
 
         if (entity != null)
         {
@@ -358,7 +356,7 @@ public class PokecubeSerializer
             entity.setForSpawn(Tools.levelToXp(entity.getExperienceMode(), 5));
             entity.setHealth(entity.getMaxHealth());
             entity.setOwner(owner.getUUID());
-            entity.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
+            entity.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehaviour.DEFAULTCUBE)));
             final ItemStack item = PokecubeManager.pokemobToItem(entity);
             PokecubeManager.heal(item, owner.getLevel());
             entity.getEntity().discard();

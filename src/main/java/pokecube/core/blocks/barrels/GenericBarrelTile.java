@@ -5,7 +5,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -25,6 +24,7 @@ import net.minecraft.world.phys.AABB;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.inventory.barrels.GenericBarrelMenu;
+import thut.lib.TComponent;
 
 public class GenericBarrelTile extends RandomizableContainerBlockEntity
 {
@@ -69,7 +69,7 @@ public class GenericBarrelTile extends RandomizableContainerBlockEntity
     @Override
     protected Component getDefaultName()
     {
-        return new TranslatableComponent("container." + PokecubeCore.MODID + ".generic_barrel");
+        return TComponent.translatable("container." + PokecubeCore.MODID + ".generic_barrel");
     }
 
     @Override
@@ -176,11 +176,11 @@ public class GenericBarrelTile extends RandomizableContainerBlockEntity
         int i = 0;
         for (final Player player : world.getEntitiesOfClass(Player.class,
                 new AABB(j - 5.0F, k - 5.0F, l - 5.0F, j + 1 + 5.0F, k + 1 + 5.0F, l + 1 + 5.0F)))
-            if (player.containerMenu instanceof GenericBarrelMenu)
+            if (player.containerMenu instanceof GenericBarrelMenu menu)
         {
-            final Container iinventory = ((GenericBarrelMenu) player.containerMenu).getContainer();
-            if (iinventory == lockableTileEntity || iinventory instanceof CompoundContainer
-                    && ((CompoundContainer) iinventory).contains(lockableTileEntity))
+            final Container iinventory = menu.getContainer();
+            if (iinventory == lockableTileEntity
+                    || iinventory instanceof CompoundContainer container && container.contains(lockableTileEntity))
                 ++i;
         }
         return i;

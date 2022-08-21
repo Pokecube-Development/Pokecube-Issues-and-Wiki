@@ -10,8 +10,8 @@ import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
@@ -19,9 +19,9 @@ import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
+import thut.lib.TComponent;
 
 public class Breeding extends ListPage<LineEntry>
 {
@@ -30,7 +30,7 @@ public class Breeding extends ListPage<LineEntry>
     public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
             "textures/gui/pokewatchgui_breeding_nm.png");
 
-    int                   last = 0;
+    int last = 0;
     final PokemobInfoPage parent;
 
     public Breeding(final PokemobInfoPage parent)
@@ -63,8 +63,8 @@ public class Breeding extends ListPage<LineEntry>
             if (clickevent != null) if (clickevent.getAction() == Action.CHANGE_PAGE)
             {
                 final PokedexEntry entry = Database.getEntry(clickevent.getValue());
-                if (entry != null && entry != this.parent.pokemob.getPokedexEntry()) this.parent.initPages(
-                        EventsHandlerClient.getRenderMob(entry, this.watch.player.getLevel()));
+                if (entry != null && entry != this.parent.pokemob.getPokedexEntry())
+                    this.parent.initPages(EventsHandlerClient.getRenderMob(entry, this.watch.player.getLevel()));
                 return true;
             }
         }
@@ -106,15 +106,15 @@ public class Breeding extends ListPage<LineEntry>
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
         this.list = new ScrollGui<>(this, this.minecraft, width, height - this.font.lineHeight / 2,
                 this.font.lineHeight, offsetX, offsetY);
-        MutableComponent main = new TranslatableComponent(ourEntry.getUnlocalizedName());
+        MutableComponent main = TComponent.translatable(ourEntry.getUnlocalizedName());
         if (!PacketPokedex.noBreeding.contains(ourEntry)) for (final String name : PacketPokedex.relatedLists
                 .getOrDefault(ourEntry.getTrimmedName(), Collections.emptyList()))
         {
             final PokedexEntry entry = Database.getEntry(name);
             if (entry == null) continue;
-            main = new TranslatableComponent(entry.getUnlocalizedName());
-            main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN)).withClickEvent(
-                    new ClickEvent(Action.CHANGE_PAGE, entry.getName())));
+            main = TComponent.translatable(entry.getUnlocalizedName());
+            main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
+                    .withClickEvent(new ClickEvent(Action.CHANGE_PAGE, entry.getName())));
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
         }
     }

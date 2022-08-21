@@ -3,9 +3,10 @@ package pokecube.core.ai.tasks.burrows.tasks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.level.pathfinder.Path;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.burrows.AbstractBurrowTask;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
-import pokecube.core.interfaces.IPokemob;
 import thut.api.maths.Vector3;
 
 public class ReturnHome extends AbstractBurrowTask
@@ -22,7 +23,7 @@ public class ReturnHome extends AbstractBurrowTask
     @Override
     public void reset()
     {
-        this.entity.getBrain().eraseMemory(BurrowTasks.GOING_HOME);
+        this.entity.getBrain().eraseMemory(MemoryModules.GOING_HOME.get());
         this.homePos.clear();
         this.entity.getNavigation().resetMaxVisitedNodesMultiplier();
         this.enterTimer = 0;
@@ -33,7 +34,7 @@ public class ReturnHome extends AbstractBurrowTask
     {
         // This should path the mob over to the center of the home room, maybe
         // call "enter" for it as well?{
-        this.entity.getBrain().eraseMemory(BurrowTasks.JOB_INFO);
+        this.entity.getBrain().eraseMemory(MemoryModules.JOB_INFO.get());
         this.homePos.set(this.burrow.nest.getBlockPos());
         if (this.enterTimer++ > 6000) this.entity.setPos(this.homePos.x + 0.5, this.homePos.y + 1, this.homePos.z
                 + 0.5);
@@ -48,7 +49,7 @@ public class ReturnHome extends AbstractBurrowTask
         else
         {
             final Brain<?> brain = this.entity.getBrain();
-            brain.setMemory(BurrowTasks.GOING_HOME, false);
+            brain.setMemory(MemoryModules.GOING_HOME.get(), false);
         }
     }
 
@@ -58,10 +59,10 @@ public class ReturnHome extends AbstractBurrowTask
         // We were already heading home, so keep doing that.
         if (!this.homePos.isEmpty()) return true;
         final Brain<?> brain = this.entity.getBrain();
-        if (brain.hasMemoryValue(BurrowTasks.GOING_HOME)) return true;
+        if (brain.hasMemoryValue(MemoryModules.GOING_HOME.get())) return true;
         if (BurrowTasks.shouldBeInside(this.world, this.burrow))
         {
-            brain.setMemory(BurrowTasks.GOING_HOME, true);
+            brain.setMemory(MemoryModules.GOING_HOME.get(), true);
             return true;
         }
         return false;

@@ -1,10 +1,10 @@
 package pokecube.core.handlers.playerdata.advancements.triggers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
@@ -16,23 +16,24 @@ import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayer;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.stats.CaptureStats;
+import pokecube.api.utils.TagNames;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.stats.CaptureStats;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.utils.TagNames;
+import pokecube.core.impl.PokecubeMod;
 
 public class CatchPokemobTrigger implements CriterionTrigger<CatchPokemobTrigger.Instance>
 {
     public static class Instance extends AbstractCriterionTriggerInstance
     {
         final PokedexEntry entry;
-        boolean            lenient = false;
-        int                number  = -1;
-        int                sign    = 0;
+        boolean lenient = false;
+        int number = -1;
+        int sign = 0;
 
-        public Instance(final EntityPredicate.Composite player, final PokedexEntry entry, final boolean lenient, final int number, final int sign)
+        public Instance(final EntityPredicate.Composite player, final PokedexEntry entry, final boolean lenient,
+                final int number, final int sign)
         {
             super(CatchPokemobTrigger.ID, player);
             this.entry = entry != null ? entry : Database.missingno;
@@ -67,15 +68,15 @@ public class CatchPokemobTrigger implements CriterionTrigger<CatchPokemobTrigger
 
     static class Listeners
     {
-        private final PlayerAdvancements                                            playerAdvancements;
-        private final Set<CriterionTrigger.Listener<CatchPokemobTrigger.Instance>> listeners = Sets.<CriterionTrigger.Listener<CatchPokemobTrigger.Instance>> newHashSet();
+        private final PlayerAdvancements playerAdvancements;
+        private final Set<CriterionTrigger.Listener<Instance>> listeners = Sets.newHashSet();
 
         public Listeners(final PlayerAdvancements playerAdvancementsIn)
         {
             this.playerAdvancements = playerAdvancementsIn;
         }
 
-        public void add(final CriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener)
+        public void add(final CriterionTrigger.Listener<Instance> listener)
         {
             this.listeners.add(listener);
         }
@@ -85,49 +86,38 @@ public class CatchPokemobTrigger implements CriterionTrigger<CatchPokemobTrigger
             return this.listeners.isEmpty();
         }
 
-        public void remove(final CriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener)
+        public void remove(final CriterionTrigger.Listener<Instance> listener)
         {
             this.listeners.remove(listener);
         }
 
         public void trigger(final ServerPlayer player, final IPokemob pokemob)
         {
-            List<CriterionTrigger.Listener<CatchPokemobTrigger.Instance>> list = null;
-
-            for (final CriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener : this.listeners)
-                if (listener.getTriggerInstance().test(player, pokemob))
-                {
-                    if (list == null)
-                        list = Lists.<CriterionTrigger.Listener<CatchPokemobTrigger.Instance>> newArrayList();
-
-                    list.add(listener);
-                }
-            if (list != null) for (final CriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener1 : list)
-                listener1.run(this.playerAdvancements);
+            List<Listener<Instance>> toTrigger = new ArrayList<>();
+            for (var listener : this.listeners)
+                if (listener.getTriggerInstance().test(player, pokemob)) toTrigger.add(listener);
+            toTrigger.forEach(l -> l.run(playerAdvancements));
         }
     }
 
     public static ResourceLocation ID = new ResourceLocation(PokecubeMod.ID, "catch");
 
-    private final Map<PlayerAdvancements, CatchPokemobTrigger.Listeners> listeners = Maps.<PlayerAdvancements, CatchPokemobTrigger.Listeners> newHashMap();
+    private final Map<PlayerAdvancements, Listeners> listeners = Maps.newHashMap();
 
     public CatchPokemobTrigger()
-    {
-    }
+    {}
 
     @Override
     public void addPlayerListener(final PlayerAdvancements playerAdvancementsIn,
-            final CriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener)
+            final CriterionTrigger.Listener<Instance> listener)
     {
-        CatchPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
-
-        if (bredanimalstrigger$listeners == null)
+        Listeners listeners = this.listeners.get(playerAdvancementsIn);
+        if (listeners == null)
         {
-            bredanimalstrigger$listeners = new CatchPokemobTrigger.Listeners(playerAdvancementsIn);
-            this.listeners.put(playerAdvancementsIn, bredanimalstrigger$listeners);
+            listeners = new Listeners(playerAdvancementsIn);
+            this.listeners.put(playerAdvancementsIn, listeners);
         }
-
-        bredanimalstrigger$listeners.add(listener);
+        listeners.add(listener);
     }
 
     @Override
@@ -144,22 +134,20 @@ public class CatchPokemobTrigger implements CriterionTrigger<CatchPokemobTrigger
 
     @Override
     public void removePlayerListener(final PlayerAdvancements playerAdvancementsIn,
-            final CriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener)
+            final CriterionTrigger.Listener<Instance> listener)
     {
-        final CatchPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
-
-        if (bredanimalstrigger$listeners != null)
+        final Listeners listeners = this.listeners.get(playerAdvancementsIn);
+        if (listeners != null)
         {
-            bredanimalstrigger$listeners.remove(listener);
-
-            if (bredanimalstrigger$listeners.isEmpty()) this.listeners.remove(playerAdvancementsIn);
+            listeners.remove(listener);
+            if (listeners.isEmpty()) this.listeners.remove(playerAdvancementsIn);
         }
     }
 
     public void trigger(final ServerPlayer player, final IPokemob pokemob)
     {
-        final CatchPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(player.getAdvancements());
-        if (bredanimalstrigger$listeners != null) bredanimalstrigger$listeners.trigger(player, pokemob);
+        final Listeners listeners = this.listeners.get(player.getAdvancements());
+        if (listeners != null) listeners.trigger(player, pokemob);
     }
 
     @Override

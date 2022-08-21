@@ -1,10 +1,18 @@
 package thut.core.client.render.model;
 
+import java.util.Collection;
+
+import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 public interface IModelCustom
 {
+    default void render(final PoseStack mat, final VertexConsumer buffer)
+    {
+
+    }
+
     default void renderAll(final PoseStack mat, final VertexConsumer buffer)
     {
 
@@ -16,23 +24,23 @@ public interface IModelCustom
     }
 
     default void renderAllExcept(final PoseStack mat, final VertexConsumer buffer, final IModelRenderer<?> renderer,
-            final String... excludedGroupNames)
+            final Collection<String> excluded)
     {
-        this.renderAllExcept(mat, buffer, excludedGroupNames);
+        this.renderAllExcept(mat, buffer, excluded);
     }
 
-    default void renderAllExcept(final PoseStack mat, final VertexConsumer buffer, final String... excludedGroupNames)
+    default void renderAllExcept(final PoseStack mat, final VertexConsumer buffer, final Collection<String> excluded)
     {
 
     }
 
     default void renderOnly(final PoseStack mat, final VertexConsumer buffer, final IModelRenderer<?> renderer,
-            final String... groupNames)
+            final Collection<String> groupNames)
     {
         this.renderOnly(mat, buffer, groupNames);
     }
 
-    default void renderOnly(final PoseStack mat, final VertexConsumer buffer, final String... groupNames)
+    default void renderOnly(final PoseStack mat, final VertexConsumer buffer, final Collection<String> groupNames)
     {
 
     }
@@ -46,5 +54,10 @@ public interface IModelCustom
     default void renderPart(final PoseStack mat, final VertexConsumer buffer, final String partName)
     {
 
+    }
+
+    default void renderOnly(PoseStack mat, VertexConsumer buf0, String string)
+    {
+        this.renderOnly(mat, buf0, Sets.newHashSet(string));
     }
 }

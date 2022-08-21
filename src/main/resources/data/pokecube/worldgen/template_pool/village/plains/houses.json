@@ -1,6 +1,6 @@
 {
   "name": "pokecube:village/plains/start_pool",
-  "fallback": "pokecube:village/plains/terminators",
+  "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 6,
@@ -74,6 +74,24 @@
         "needed_flags": "shaft",
         "projection": "rigid",
         "flags": "team_house"
+      }
+    },
+    {
+      "weight": 4,
+      "element": {
+        "location": "pokecube:village/plains/farms/large_berry_farm",
+        "processors": "pokecube:berry_farm",
+        "projection": "rigid",
+        "element_type": "minecraft:legacy_single_pool_element"
+      }
+    },
+    {
+      "weight": 4,
+      "element": {
+        "location": "pokecube:village/plains/farms/small_berry_farm",
+        "processors": "pokecube:berry_farm",
+        "projection": "rigid",
+        "element_type": "minecraft:legacy_single_pool_element"
       }
     }
   ]

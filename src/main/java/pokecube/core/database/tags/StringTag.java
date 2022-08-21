@@ -3,12 +3,9 @@ package pokecube.core.database.tags;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.nio.charset.Charset;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +20,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraftforge.fml.loading.FMLEnvironment;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.IResourceData;
@@ -68,13 +65,13 @@ public class StringTag implements IResourceData
                 final String tag = s.replace("#", "");
                 if (checked.contains(tag))
                 {
-                    PokecubeCore.LOGGER.warn("Warning, Recursive tags list! {}", checked);
+                    PokecubeAPI.LOGGER.warn("Warning, Recursive tags list! {}", checked);
                     continue;
                 }
                 final TagHolder incl = parent.tagsMap.get(tag);
                 if (incl == null)
                 {
-                    PokecubeCore.LOGGER.warn("Warning, Tag not found for {}", s);
+                    PokecubeAPI.LOGGER.warn("Warning, Tag not found for {}", s);
                     continue;
                 }
                 this._includes.add(incl);
@@ -105,18 +102,18 @@ public class StringTag implements IResourceData
         try
         {
             final String path = new ResourceLocation(this.tagPath).getPath();
-            final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
+            var resources = PackFinder.getAllJsonResources(path);
             this.validLoad = !resources.isEmpty();
-            resources.forEach(l -> {
+            resources.forEach((l, r) -> {
                 if (l.toString().contains("//")) l = new ResourceLocation(l.toString().replace("//", "/"));
                 final String tag = l.toString().replace(path, "").replace(".json", "");
-                this.loadTag(l, tag, "");
+                this.loadTag(l, r, tag, "");
             });
             this.checkIncludes();
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error reloading tags for {}", this.tagPath);
+            PokecubeAPI.LOGGER.error("Error reloading tags for {}", this.tagPath);
             e.printStackTrace();
         }
         if (this.validLoad) valid.set(true);
@@ -186,15 +183,15 @@ public class StringTag implements IResourceData
         });
     }
 
-    private boolean loadTag(final ResourceLocation tagLoc, final String tag, final String toCheck)
+    private boolean loadTag(final ResourceLocation tagLoc, List<Resource> resources, final String tag,
+            final String toCheck)
     {
         try
         {
             final TagHolder tagged = new TagHolder();
-            for (final Resource resource : PackFinder.getResources(tagLoc))
+            for (final Resource resource : resources)
             {
-                final InputStream res = resource.getInputStream();
-                final Reader reader = new InputStreamReader(res);
+                final Reader reader = PackFinder.getReader(resource);
                 final TagHolder temp = JsonUtil.gson.fromJson(reader, TagHolder.class);
                 temp.postProcess();
                 if (temp.replace) tagged.values.clear();
@@ -220,11 +217,11 @@ public class StringTag implements IResourceData
         }
         catch (final FileNotFoundException e)
         {
-            PokecubeCore.LOGGER.debug("No Tag: {}", tagLoc);
+            PokecubeAPI.LOGGER.debug("No Tag: {}", tagLoc);
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error reading tag " + tagLoc, e);
+            PokecubeAPI.LOGGER.error("Error reading tag " + tagLoc, e);
         }
         return false;
     }

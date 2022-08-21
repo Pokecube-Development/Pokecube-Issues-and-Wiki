@@ -3,7 +3,9 @@ package thut.core.client.render.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -60,24 +62,30 @@ public interface IExtendedModelPart extends IModelCustom
         this.getMaterials().add(material);
     }
 
-    default void rotateForChild(final PoseStack mat)
-    {
-
-    }
-
-    default void unRotateForChild(final PoseStack mat)
-    {
-
-    }
-
     default void preProcess()
     {
         for (final IExtendedModelPart o : this.getSubParts().values()) o.preProcess();
+        IExtendedModelPart parent = this.getParent();
+        while (parent != null)
+        {
+            this.getParentNames().add(parent.getName());
+            parent = parent.getParent();
+        }
     }
 
     default void sort(final List<String> order)
     {
         IExtendedModelPart.sort(order, this.getSubParts());
+    }
+
+    default void preRender(PoseStack mat)
+    {
+
+    }
+
+    default void postRender(PoseStack mat)
+    {
+
     }
 
     Vector3 minBound();
@@ -112,9 +120,19 @@ public interface IExtendedModelPart extends IModelCustom
 
     }
 
+    default boolean isHidden()
+    {
+        return false;
+    }
+
     default void updateMaterial(final Mat mat, final Material material)
     {
 
+    }
+
+    default Set<String> getParentNames()
+    {
+        return Sets.newHashSet();
     }
 
     void setAnimationHolder(IAnimationHolder holder);

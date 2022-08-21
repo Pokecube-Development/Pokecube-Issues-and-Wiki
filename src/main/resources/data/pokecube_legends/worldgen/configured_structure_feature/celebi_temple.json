@@ -16,7 +16,7 @@
     "size": 2,
     "avoidances":{
       "flags": ["temple", "celebi_temple"],
-      "avoidances": [{"name":"temple","distance":8}, {"name":"celebi_temple","distance":80}]
+      "avoidances": [{"name":"temple","distance":8}, {"name":"celebi_temple","distance":256}]
     }
   },
   "biomes": "#pokecube_world:has_structure/celebi_temple",

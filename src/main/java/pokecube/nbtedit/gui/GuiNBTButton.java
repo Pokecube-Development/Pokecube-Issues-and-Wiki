@@ -7,8 +7,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.network.chat.TranslatableComponent;
 import pokecube.nbtedit.NBTStringHelper;
+import thut.lib.TComponent;
 
 public class GuiNBTButton extends Button
 {
@@ -23,7 +23,7 @@ public class GuiNBTButton extends Button
 
     public GuiNBTButton(final byte id, final int x, final int y, final OnPress onPress)
     {
-        super(x, y, GuiNBTButton.WIDTH, GuiNBTButton.HEIGHT, new TranslatableComponent(""), onPress);
+        super(x, y, GuiNBTButton.WIDTH, GuiNBTButton.HEIGHT, TComponent.translatable(""), onPress);
         this.id = id;
     }
 

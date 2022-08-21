@@ -13,7 +13,7 @@
   <phase axis="0" name="snakeIdle" parts="p2_2:p2_3:p2_4:p2_5:p2_6:p2_7:p2_8:p2_9:p2_10:p2_11:p2_12"/>
   <phase axis="0" name="snakeWalk" parts="p1_2:p1_3:p1_4:p1_5:p1_6:p1_7:p1_8:p1_9:p1_10:p1_11:p1_12"/>
   <phase axis="0" name="snakeWalk" parts="p2_2:p2_3:p2_4:p2_5:p2_6:p2_7:p2_8:p2_9:p2_10:p2_11:p2_12"/>
-  <customTex default="gyaradosmega">
+  <customTex default="gyarados_mega">
    <part name="Head" tex="gyaradosmegahead"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
   </customTex>

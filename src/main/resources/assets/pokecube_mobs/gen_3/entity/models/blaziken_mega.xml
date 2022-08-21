@@ -17,7 +17,7 @@
   <worn angles="-90,180,0" id="__WAIST__" offset="0,-0.45,0" parent="body" scale="0.6,0.8,1"/>
   <worn angles="-90,0,0" id="__BACK__" offset="0,0,-0.05" parent="neck" scale="1,1,1"/>
   <phase duration="10" leftArm="" leftLeg="leg1:leg1_1" legAngle="10" name="biWalk" rightArm="" rightLeg="leg2:leg2_1"/>
-  <customTex default="blazikenmega">
+  <customTex default="blaziken_mega">
    <part name="Head" tex="blazikenmegaeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
    <part name="Fire" tex="blazikenfire"/>

@@ -17,15 +17,15 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.level.pathfinder.PathComputationType;
-import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.ants.AntTasks;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.nest.Edge;
 import pokecube.core.ai.tasks.ants.nest.Node;
 import pokecube.core.ai.tasks.ants.nest.Part;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import thut.api.entity.ai.RootTask;
 
 public abstract class AbstractConstructTask extends AbstractWorkTask
@@ -33,7 +33,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
     private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
     static
     {
-        AbstractConstructTask.mems.put(AntTasks.JOB_INFO, MemoryStatus.VALUE_PRESENT);
+        AbstractConstructTask.mems.put(MemoryModules.JOB_INFO.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     protected int progressTimer    = 0;
@@ -94,15 +94,15 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         this.work_pos = null;
         this.valids.set(0);
         final Brain<?> brain = this.entity.getBrain();
-        brain.eraseMemory(AntTasks.WORK_POS);
-        brain.eraseMemory(AntTasks.JOB_INFO);
-        brain.setMemory(AntTasks.NO_WORK_TIME, -20);
+        brain.eraseMemory(MemoryModules.WORK_POS.get());
+        brain.eraseMemory(MemoryModules.JOB_INFO.get());
+        brain.setMemory(MemoryModules.NO_WORK_TIMER.get(), -20);
     }
 
     protected final void endTask()
     {
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Need New Work Site " + this.progressTimer);
-        if (this.progressTimer > 700) this.entity.getBrain().setMemory(AntTasks.GOING_HOME, true);
+        if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Need New Work Site " + this.progressTimer);
+        if (this.progressTimer > 700) this.entity.getBrain().setMemory(MemoryModules.GOING_HOME.get(), true);
         this.reset();
     }
 
@@ -127,21 +127,21 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
 
         if (edge && this.e.getTree() == null)
         {
-            PokecubeCore.LOGGER.error("No Edge Tree! " + this.job + " " + this.e);
+            PokecubeAPI.LOGGER.error("No Edge Tree! " + this.job + " " + this.e);
             this.reset();
             return false;
         }
 
         if (node && this.n.getTree() == null)
         {
-            PokecubeCore.LOGGER.error("No Node Tree!" + this.job + " " + this.n);
+            PokecubeAPI.LOGGER.error("No Node Tree!" + this.job + " " + this.n);
             this.reset();
             return false;
         }
 
         if (!(edge || node))
         {
-            final CompoundTag tag = brain.getMemory(AntTasks.JOB_INFO).get();
+            final CompoundTag tag = brain.getMemory(MemoryModules.JOB_INFO.get()).get();
             edge = tag.getString("type").equals("edge");
             node = tag.getString("type").equals("node");
             final CompoundTag data = tag.getCompound("data");
@@ -153,7 +153,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
                 {
                     tag.remove("type");
                     tag.remove("data");
-                    PokecubeCore.LOGGER.error("Corrupted Dig Edge Info!");
+                    PokecubeAPI.LOGGER.error("Corrupted Dig Edge Info!");
                     this.reset();
                     return false;
                 }
@@ -164,7 +164,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
                 {
                     tag.remove("type");
                     tag.remove("data");
-                    PokecubeCore.LOGGER.error("No Edge Tree!");
+                    PokecubeAPI.LOGGER.error("No Edge Tree!");
                     this.reset();
                     return false;
                 }
@@ -180,7 +180,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
                     {
                         tag.remove("type");
                         tag.remove("data");
-                        PokecubeCore.LOGGER.error("No Node Tree!");
+                        PokecubeAPI.LOGGER.error("No Node Tree!");
                         this.reset();
                         return false;
                     }
@@ -190,7 +190,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
                     e1.printStackTrace();
                     tag.remove("type");
                     tag.remove("data");
-                    PokecubeCore.LOGGER.error("Corrupted Dig Node Info!");
+                    PokecubeAPI.LOGGER.error("Corrupted Dig Node Info!");
                     this.reset();
                     return false;
                 }
@@ -198,7 +198,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         }
         if (!(edge || node))
         {
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Invalid Dig Info!");
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Invalid Dig Info!");
             this.reset();
             return false;
         }
@@ -244,7 +244,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
 
         final Brain<?> brain = this.entity.getBrain();
         final GlobalPos pos = GlobalPos.of(this.world.dimension(), this.work_pos);
-        brain.setMemory(AntTasks.WORK_POS, pos);
+        brain.setMemory(MemoryModules.WORK_POS.get(), pos);
 
         final Path p = this.entity.getNavigation().getPath();
 
@@ -267,7 +267,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         {
             this.progressTimer = -10;
             this.doWork();
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Work Done! " + this.job + " " + this.n + " " + this.e);
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Work Done! " + this.job + " " + this.n + " " + this.e);
             if (PokecubeMod.debug) this.pokemob.setPokemonNickname(this.job + " IDLE");
             this.work_pos = null;
             this.progressDistance = 0;

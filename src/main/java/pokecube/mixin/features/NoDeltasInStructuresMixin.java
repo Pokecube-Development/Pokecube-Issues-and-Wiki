@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.feature.DeltaFeature;
@@ -23,15 +22,14 @@ public class NoDeltasInStructuresMixin
     private void repurposedstructures_noDeltasInStructures(FeaturePlaceContext<DeltaFeatureConfiguration> context,
             CallbackInfoReturnable<Boolean> cir)
     {
-        if (!(context.level() instanceof WorldGenRegion))
+        if (!(context.level() instanceof WorldGenRegionAccessor accessor))
         {
             return;
         }
 
         Registry<ConfiguredStructureFeature<?, ?>> configuredStructureFeatureRegistry = context.level().registryAccess()
                 .registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
-        StructureFeatureManager structureFeatureManager = ((WorldGenRegionAccessor) context.level())
-                .getStructureFeatureManager();
+        StructureFeatureManager structureFeatureManager = accessor.getStructureFeatureManager();
         for (Holder<ConfiguredStructureFeature<?, ?>> configuredStructureFeature : configuredStructureFeatureRegistry
                 .getOrCreateTag(WorldgenTags.NO_BASALT))
         {

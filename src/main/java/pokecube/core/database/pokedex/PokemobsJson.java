@@ -8,9 +8,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.resources.ResourceLocation;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader.XMLPokedexEntry;
 import thut.core.common.ThutCore;
 
@@ -47,7 +47,7 @@ public class PokemobsJson implements Comparable<PokemobsJson>
                     value.name = entry.getTrimmedName();
                     return false;
                 }
-                PokecubeCore.LOGGER.error(
+                PokecubeAPI.LOGGER.error(
                         "Error with entry for {}, it is missing a Number for sorting! removing on add!", value.name);
                 return true;
             }

@@ -10,19 +10,18 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.stats.SpecialCaseRegister;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ICanEvolve;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.ICanEvolve;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
+import pokecube.api.stats.SpecialCaseRegister;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.TimePeriod;
 import thut.api.item.ItemList;
@@ -34,14 +33,6 @@ import thut.wearables.inventory.PlayerWearables;
 
 public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnData
 {
-    public static final EntityType<TrainerNpc> TYPE;
-
-    static
-    {
-        TYPE = EntityType.Builder.of(TrainerNpc::new, MobCategory.CREATURE)
-                .setCustomClientFactory((s, w) -> TrainerNpc.TYPE.create(w)).build("trainer");
-    }
-
     boolean added = false;
     public long visibleTime = 0;
 

@@ -30,10 +30,10 @@ import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.ai.tasks.idle.HungerTask;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import thut.api.item.ItemList;
 import thut.lib.ItemStackTools;
 
@@ -95,31 +95,29 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         {
             this.heldItem = stack;
             keys.clear();
-            if (stack.hasTag() && stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag)
-            {
-                final ListTag pages = (ListTag) stack.getTag().get("pages");
+            if (stack.hasTag() && stack.getTag().contains("pages")
+                    && stack.getTag().get("pages") instanceof ListTag pages)
                 try
+            {
+                final Component comp = Component.Serializer.fromJson(pages.getString(0));
+                boolean isFilter = false;
+                for (final String line : comp.getString().split("\n"))
                 {
-                    final Component comp = Component.Serializer.fromJson(pages.getString(0));
-                    boolean isFilter = false;
-                    for (final String line : comp.getString().split("\n"))
+                    if (line.toLowerCase(Locale.ROOT).contains("item filters"))
                     {
-                        if (line.toLowerCase(Locale.ROOT).contains("item filters"))
-                        {
-                            isFilter = true;
-                            continue;
-                        }
-                        if (isFilter)
-                        {
-                            ResourceLocation res = new ResourceLocation(line);
-                            keys.add(res);
-                        }
+                        isFilter = true;
+                        continue;
+                    }
+                    if (isFilter)
+                    {
+                        ResourceLocation res = new ResourceLocation(line);
+                        keys.add(res);
                     }
                 }
+            }
                 catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+            {
+                e.printStackTrace();
             }
         }
     }
@@ -240,7 +238,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
             this.setWalkTo(this.berryLoc, speed, 0);
             // We should be pathing to berries, so return true to stop other
             // storage tasks.
-            // PokecubeCore.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText()
+            // PokecubeAPI.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText()
             // + " Pathing to Berries at " + this.berryLoc);
             return true;
         }
@@ -469,8 +467,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         if (this.knownValid.contains(pos)) return true;
         // TODO decide on what to do here later, for now, only let this run if
         // owner is online.
-        if (this.pokemob.getOwner() == null) return false;
-        final Player player = (Player) this.pokemob.getOwner();
+        if (!(pokemob.getOwner() instanceof Player player)) return false;
         final BreakEvent evt = new BreakEvent(player.getLevel(), pos, world.getBlockState(pos), player);
         MinecraftForge.EVENT_BUS.post(evt);
         if (evt.isCanceled()) return false;

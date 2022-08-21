@@ -49,14 +49,16 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.Event.Result;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.events.StructureEvent;
 import pokecube.core.PokecubeCore;
-import pokecube.core.events.StructureEvent;
-import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.utils.PokecubeSerializer;
+import pokecube.mixin.features.WorldGenRegionAccessor;
 import pokecube.world.gen.structures.PokecubeStructures;
 import pokecube.world.gen.structures.processors.MarkerToAirProcessor;
 import pokecube.world.gen.structures.processors.NoWaterlogProcessor;
-import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
+import thut.core.common.ThutCore;
 
 public class ExpandedJigsawPiece extends SinglePoolElement
 {
@@ -313,21 +315,24 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error with part of structure: {}", this.name);
-            PokecubeCore.LOGGER.error(e);
+            PokecubeAPI.LOGGER.error("Error with part of structure: {}", this.name);
+            PokecubeAPI.LOGGER.error(e);
         }
 
         if (!placed) return false;
         else
         {
-            if (this.world == null) this.world = ExpandedJigsawPacement.getForGen(chunkGenerator);
-            if (!"none".equals(this.biome_type))
+            if (level instanceof WorldGenRegionAccessor accessor)
             {
-                final BoundingBox realBox = this.getBoundingBox(templates, pos1, rotation);
-                final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(realBox, this.world,
-                        this.name, placementsettings);
-                event.setBiomeType(this.biome_type);
-                MinecraftForge.EVENT_BUS.post(event);
+                this.world = accessor.getServerLevel();
+                if (!"none".equals(this.biome_type))
+                {
+                    final BoundingBox realBox = this.getBoundingBox(templates, pos1, rotation);
+                    final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(realBox, this.world,
+                            this.name, placementsettings);
+                    event.setBiomeType(this.biome_type);
+                    MinecraftForge.EVENT_BUS.post(event);
+                }
             }
 
             // Check if we need to undo any waterlogging which may have
@@ -339,8 +344,10 @@ public class ExpandedJigsawPiece extends SinglePoolElement
                         .getRandomPalette(template.palettes, pos1).blocks();
                 for (final StructureBlockInfo info : list)
                 {
+                    String key;
                     final boolean isDataMarker = info.state.getBlock() == Blocks.STRUCTURE_BLOCK && info.nbt != null
-                            && StructureMode.valueOf(info.nbt.getString("mode")) == StructureMode.DATA;
+                            && !(key = info.nbt.getString("mode")).isBlank()
+                            && StructureMode.valueOf(key) == StructureMode.DATA;
                     if (isDataMarker)
                     {
                         final BlockPos blockpos = StructureTemplate
@@ -368,45 +375,51 @@ public class ExpandedJigsawPiece extends SinglePoolElement
     public void handleDataMarker(final LevelAccessor worldIn, final StructureBlockInfo info, final BlockPos pos,
             final Rotation rotationIn, final Random rand, final BoundingBox box)
     {
-        String function = info.nbt != null ? info.nbt.getString("metadata") : "";
 
-        final boolean toPlaceProf = this.isSpawn && !PokecubeSerializer.getInstance().hasPlacedProf();
-        final boolean toPlaceSpawn = this.isSpawn && !this.placedSpawn;
+        if (worldIn instanceof WorldGenRegionAccessor accessor)
+        {
+            this.world = accessor.getServerLevel();
+            String function = info.nbt != null ? info.nbt.getString("metadata") : "";
 
-        if (toPlaceProf && info.pos.equals(this.profPos))
-        {
-            PokecubeCore.LOGGER.info("Overriding an entry as a professor at " + pos);
-            function = PokecubeCore.getConfig().professor_override;
-            PokecubeSerializer.getInstance().setPlacedProf();
+            final boolean toPlaceProf = this.isSpawn && !PokecubeSerializer.getInstance().hasPlacedProf();
+            final boolean toPlaceSpawn = this.isSpawn && !this.placedSpawn;
+            if (toPlaceProf && info.pos.equals(this.profPos))
+            {
+                PokecubeAPI.LOGGER.info("Overriding an entry as a professor at " + pos);
+                function = PokecubeCore.getConfig().professor_override;
+                PokecubeSerializer.getInstance().setPlacedProf();
+            }
+            if (toPlaceSpawn && info.pos.equals(this.spawnPos))
+            {
+                PokecubeAPI.LOGGER.info("Overriding world spawn to " + pos);
+                EventsHandler.Schedule(this.world, w -> {
+                    ((ServerLevel) w).setDefaultSpawnPos(pos, 0);
+                    return true;
+                });
+                this.placedSpawn = true;
+            }
+            if (function.startsWith("pokecube:chest:"))
+            {
+                final BlockPos blockpos = pos.below();
+                final ResourceLocation key = new ResourceLocation(function.replaceFirst("pokecube:chest:", ""));
+                if (box.isInside(blockpos)) RandomizableContainerBlockEntity.setLootTable(worldIn, rand, blockpos, key);
+            }
+            else if (function.startsWith("Chest "))
+            {
+                final BlockPos blockpos = pos.below();
+                final ResourceLocation key = new ResourceLocation(function.replaceFirst("Chest ", ""));
+                if (box.isInside(blockpos)) RandomizableContainerBlockEntity.setLootTable(worldIn, rand, blockpos, key);
+            }
+            else if (ExpandedJigsawPiece.shouldApply(pos, this.world))
+            {
+                final Event event = new StructureEvent.ReadTag(function.trim(), pos, worldIn, (ServerLevel) this.world,
+                        rand, box);
+                if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug(function.trim() + " " + pos);
+                MinecraftForge.EVENT_BUS.post(event);
+                if (event.getResult() == Result.ALLOW) ExpandedJigsawPiece.apply(pos, this.world);
+            }
         }
-        if (toPlaceSpawn && info.pos.equals(this.spawnPos))
-        {
-            PokecubeCore.LOGGER.info("Overriding world spawn to " + pos);
-            EventsHandler.Schedule(this.world, w -> {
-                ((ServerLevel) w).setDefaultSpawnPos(pos, 0);
-                return true;
-            });
-            this.placedSpawn = true;
-        }
-        if (function.startsWith("pokecube:chest:"))
-        {
-            final BlockPos blockpos = pos.below();
-            final ResourceLocation key = new ResourceLocation(function.replaceFirst("pokecube:chest:", ""));
-            if (box.isInside(blockpos)) RandomizableContainerBlockEntity.setLootTable(worldIn, rand, blockpos, key);
-        }
-        else if (function.startsWith("Chest "))
-        {
-            final BlockPos blockpos = pos.below();
-            final ResourceLocation key = new ResourceLocation(function.replaceFirst("Chest ", ""));
-            if (box.isInside(blockpos)) RandomizableContainerBlockEntity.setLootTable(worldIn, rand, blockpos, key);
-        }
-        else if (ExpandedJigsawPiece.shouldApply(pos, this.world))
-        {
-            final Event event = new StructureEvent.ReadTag(function.trim(), pos, worldIn, (ServerLevel) this.world,
-                    rand, box);
-            MinecraftForge.EVENT_BUS.post(event);
-            if (event.getResult() == Result.ALLOW) ExpandedJigsawPiece.apply(pos, this.world);
-        }
+
         super.handleDataMarker(worldIn, info, pos, rotationIn, rand, box);
     }
 

@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainSegment;
+import thut.lib.RegHelper;
 
 public class ConfigTerrainBuilder
 {
@@ -70,7 +71,7 @@ public class ConfigTerrainBuilder
             {
                 if (input == null || input.getBlock() == null) return false;
                 final Block block = input.getBlock();
-                final ResourceLocation name = block.getRegistryName();
+                final ResourceLocation name = RegHelper.getKey(block);
                 if (this.checks.containsKey(name) && !this.checks.get(name)) return false;
                 else if (!this.checks.containsKey(name))
                 {

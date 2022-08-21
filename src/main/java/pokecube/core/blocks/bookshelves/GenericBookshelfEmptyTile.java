@@ -1,11 +1,12 @@
 package pokecube.core.blocks.bookshelves;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
@@ -28,8 +29,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.ModTags;
 import pokecube.core.inventory.bookshelves.GenericBookshelfMenu;
-
-import javax.annotation.Nullable;
+import thut.lib.TComponent;
 
 public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity implements WorldlyContainer
 {
@@ -69,7 +69,7 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
     @Override
     protected Component getDefaultName()
     {
-        return new TranslatableComponent("container." + PokecubeCore.MODID + ".generic_bookshelf");
+        return TComponent.translatable("container." + PokecubeCore.MODID + ".generic_bookshelf");
     }
 
     @Override

@@ -3,6 +3,7 @@
   "biomes": "#pokecube_world:has_structure/village_snowy",
   "config": {
     "avoid_range": 6,
+    "spawn_blacklist": "oceans,rivers,beaches",
     "biome_type": "village",
     "required_parts": [
       "pokecenter",

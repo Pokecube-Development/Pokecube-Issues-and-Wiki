@@ -3,9 +3,9 @@ package pokecube.mobs.moves.world;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.IMoveAction;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IMoveAction;
-import pokecube.core.interfaces.IPokemob;
 import thut.api.entity.IHungrymob;
 import thut.api.maths.Vector3;
 

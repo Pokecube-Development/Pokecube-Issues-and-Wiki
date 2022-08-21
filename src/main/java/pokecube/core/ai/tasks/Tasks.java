@@ -1,11 +1,9 @@
 package pokecube.core.ai.tasks;
 
 import java.util.List;
-import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.world.entity.EntityType;
@@ -17,6 +15,12 @@ import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.behavior.InteractWithDoor;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.SensorType;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.events.pokemobs.InitAIEvent.Init;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
@@ -47,11 +51,6 @@ import pokecube.core.ai.tasks.misc.WalkToTask;
 import pokecube.core.ai.tasks.utility.GatherTask;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.ai.tasks.utility.UseMoveTask;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.events.pokemob.InitAIEvent.Init;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.CapHolders;
 import thut.api.entity.IBreedingMob;
 import thut.api.entity.ai.BrainUtil;
@@ -59,35 +58,25 @@ import thut.api.entity.ai.IAIRunnable;
 
 public class Tasks
 {
-    public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModules.ATTACKTARGET,
-            MemoryModules.HUNTTARGET, MemoryModules.HUNTED_BY, MemoryModules.MOVE_TARGET, MemoryModules.LEAP_TARGET,
-            MemoryModules.PATH, MemoryModules.MATE_TARGET, MemoryModules.WALK_TARGET, MemoryModules.LOOK_TARGET,
-            MemoryModules.EGG, MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModules.NOT_FOUND_PATH,
-            MemoryModuleType.DOORS_TO_CLOSE);
 
-    public static final List<SensorType<?>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_PLAYERS,
-            SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS, Sensors.INTERESTING_ENTITIES);
+    private static final List<SensorType<?>> getSensors()
+    {
+        return List.of(SensorType.NEAREST_PLAYERS, SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS.get(),
+                Sensors.INTERESTING_ENTITIES.get());
+    }
+
+    private static final List<MemoryModuleType<?>> getMemories()
+    {
+        return List.of(MemoryModules.ATTACKTARGET.get(), MemoryModules.HUNTTARGET.get(), MemoryModules.HUNTED_BY.get(),
+                MemoryModules.MOVE_TARGET.get(), MemoryModules.LEAP_TARGET.get(), MemoryModules.PATH,
+                MemoryModules.MATE_TARGET, MemoryModules.WALK_TARGET, MemoryModules.LOOK_TARGET,
+                MemoryModules.EGG.get(), MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModules.NOT_FOUND_PATH,
+                MemoryModuleType.DOORS_TO_CLOSE);
+    }
 
     public static void initBrain(final Brain<?> brain)
     {
-        BrainUtil.addToBrain(brain, Tasks.MEMORY_TYPES, Tasks.SENSOR_TYPES);
-    }
-
-    private static Map<Init.Type, List<ITaskAdder>> taskAdders = Maps.newConcurrentMap();
-
-    static
-    {
-        for (final Init.Type type : Init.Type.values()) Tasks.taskAdders.put(type, Lists.newArrayList());
-    }
-
-    public static void register(final Init.Type type, final ITaskAdder adder)
-    {
-        Tasks.taskAdders.get(type).add(adder);
-    }
-
-    public static List<ITaskAdder> getAdders(final Init.Type type)
-    {
-        return Tasks.taskAdders.get(type);
+        BrainUtil.addToBrain(brain, Tasks.getMemories(), Tasks.getSensors());
     }
 
     @SuppressWarnings("unchecked")
@@ -134,7 +123,7 @@ public class Tasks
         {
             task = new LookAtTask(45, 90);
             list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
-            task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
+            task = new RunAway(MemoryModules.HUNTED_BY.get(), 1.5f);
             list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
             task = new SwimTask(pokemob, 0.8F);
             list.add(Pair.of(0, (Behavior<? super LivingEntity>) task));
@@ -147,7 +136,7 @@ public class Tasks
         if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoor()));
 
         // Send the event to let anyone edit the tasks if needed.
-        PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.IDLE, aiList));
+        PokecubeAPI.POKEMOB_BUS.post(new Init(pokemob, Init.Type.IDLE, aiList));
 
         pokemob.getTasks().addAll(aiList);
         for (final IAIRunnable run : aiList)
@@ -197,7 +186,7 @@ public class Tasks
             Behavior<?> task = new LookAtTask(45, 90);
             list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
 
-            task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
+            task = new RunAway(MemoryModules.HUNTED_BY.get(), 1.5f);
             list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
 
             task = new SwimTask(pokemob, 0.8F);
@@ -205,7 +194,7 @@ public class Tasks
         }
         if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoor()));
         // Send the event to let anyone edit the tasks if needed.
-        PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.COMBAT, aiList));
+        PokecubeAPI.POKEMOB_BUS.post(new Init(pokemob, Init.Type.COMBAT, aiList));
 
         pokemob.getTasks().addAll(aiList);
         for (final IAIRunnable run : aiList)
@@ -252,7 +241,7 @@ public class Tasks
         {
             task = new LookAtTask(45, 90);
             list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
-            task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
+            task = new RunAway(MemoryModules.HUNTED_BY.get(), 1.5f);
             list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
             task = new SwimTask(pokemob, 0.8F);
             list.add(Pair.of(0, (Behavior<? super LivingEntity>) task));
@@ -262,7 +251,7 @@ public class Tasks
         list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
         if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoor()));
         // Send the event to let anyone edit the tasks if needed.
-        PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.UTILITY, aiList));
+        PokecubeAPI.POKEMOB_BUS.post(new Init(pokemob, Init.Type.UTILITY, aiList));
 
         pokemob.getTasks().addAll(aiList);
         for (final IAIRunnable run : aiList)

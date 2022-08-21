@@ -18,8 +18,8 @@ public class SphereMaskChecker extends ShadowMaskChecker
     }
 
     @Override
-    protected boolean apply(Object2FloatOpenHashMap<BlockPos> ret, List<HitEntity> entityAffected,
-            HashSet<ChunkPos> seen)
+    protected boolean apply(Object2FloatOpenHashMap<BlockPos> destroyed, Object2FloatOpenHashMap<BlockPos> remaining,
+            List<HitEntity> entityAffected, HashSet<ChunkPos> seen)
     {
         int num = (int) Math.sqrt(this.boom.strength / 0.5);
         final int max = this.boom.radius * 2 + 1;
@@ -65,7 +65,7 @@ public class SphereMaskChecker extends ShadowMaskChecker
                 final double z = sin_theta * Mth.sin(phi_k) * radius;
                 this.rTest.set(x, y, z);
                 this.r.set(this.rTest.intX(), this.rTest.intY(), this.rTest.intZ());
-                done = this.run(radSq, num, seen, ret, entityAffected);
+                done = this.run(radSq, num, seen, destroyed, remaining, entityAffected);
                 if (done) break boom;
             }
             // This gives us an easy way to determine which is the first

@@ -9,12 +9,12 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.afa.AfaContainer;
 import pokecube.adventures.network.PacketAFA;
+import thut.lib.TComponent;
 
 public class AFA extends AbstractContainerScreen<AfaContainer>
 {
@@ -73,7 +73,7 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
 
         final int xOffset = -119;
         final int yOffset = -88;
-        final Component next = new TranslatableComponent("block.pc.next");
+        final Component next = TComponent.translatable("block.pc.next");
         this.addRenderableWidget(new Button(this.width / 2 - xOffset - 44, this.height / 2 - yOffset - 121, 10, 10,
                 next, b ->
                 {
@@ -82,7 +82,7 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
                     message.data.putBoolean("S", Screen.hasShiftDown());
                     PokecubeAdv.packets.sendToServer(message);
                 }));
-        final Component prev = new TranslatableComponent("block.pc.previous");
+        final Component prev = TComponent.translatable("block.pc.previous");
         this.addRenderableWidget(new Button(this.width / 2 - xOffset - 54, this.height / 2 - yOffset - 121, 10, 10,
                 prev, b ->
                 {

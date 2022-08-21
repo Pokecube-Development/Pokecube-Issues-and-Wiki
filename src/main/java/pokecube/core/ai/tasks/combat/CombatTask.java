@@ -6,9 +6,9 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
-import pokecube.core.interfaces.IPokemob;
 import thut.api.entity.ai.IAICombat;
 import thut.api.entity.ai.RootTask;
 
@@ -19,7 +19,7 @@ public abstract class CombatTask extends TaskBase implements IAICombat
 
     static
     {
-        CombatTask.MEMS.put(MemoryModules.ATTACKTARGET, MemoryStatus.VALUE_PRESENT);
+        CombatTask.MEMS.put(MemoryModules.ATTACKTARGET.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     public CombatTask(final IPokemob pokemob)

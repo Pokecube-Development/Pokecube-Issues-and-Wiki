@@ -37,16 +37,17 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.eventbus.api.Event.Result;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.entity.pokemob.ai.LogicStates;
+import pokecube.api.events.pokemobs.ai.HarvestCheckEvent;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.IRunnable;
-import pokecube.core.events.HarvestCheckEvent;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.interfaces.pokemob.ai.LogicStates;
+import pokecube.core.impl.PokecubeMod;
 import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
@@ -69,13 +70,11 @@ public class GatherTask extends UtilTask
      */
     public static final ResourceLocation HARVEST = new ResourceLocation(PokecubeCore.MODID, "harvest_extra");
 
-    private static final Predicate<BlockState> fullCropNormal = input -> input.getBlock() instanceof CropBlock
-            && input.hasProperty(CropBlock.AGE)
-            && input.getValue(CropBlock.AGE) >= ((CropBlock) input.getBlock()).getMaxAge();
+    private static final Predicate<BlockState> fullCropNormal = input -> input.getBlock() instanceof CropBlock crop
+            && input.hasProperty(CropBlock.AGE) && input.getValue(CropBlock.AGE) >= crop.getMaxAge();
 
-    private static final Predicate<BlockState> fullCropBeet = input -> input.getBlock() instanceof CropBlock
-            && input.hasProperty(BeetrootBlock.AGE)
-            && input.getValue(BeetrootBlock.AGE) >= ((CropBlock) input.getBlock()).getMaxAge();
+    private static final Predicate<BlockState> fullCropBeet = input -> input.getBlock() instanceof CropBlock crop
+            && input.hasProperty(BeetrootBlock.AGE) && input.getValue(BeetrootBlock.AGE) >= crop.getMaxAge();
 
     private static final Predicate<BlockState> fullCropNetherWart = input -> input.getBlock() instanceof NetherWartBlock
             && input.hasProperty(NetherWartBlock.AGE) && input.getValue(NetherWartBlock.AGE) >= 3;
@@ -100,7 +99,7 @@ public class GatherTask extends UtilTask
                 final BlockPos pos, final ServerLevel world)
         {
             final HarvestCheckEvent event = new HarvestCheckEvent(pokemob, state, pos);
-            PokecubeCore.POKEMOB_BUS.post(event);
+            PokecubeAPI.POKEMOB_BUS.post(event);
             final boolean gatherable = event.getResult() == Result.ALLOW ? true
                     : event.getResult() == Result.DENY ? false : GatherTask.harvestMatcher.apply(state);
             return gatherable;
@@ -175,9 +174,9 @@ public class GatherTask extends UtilTask
             final UseOnContext context = new UseOnContext(player, InteractionHand.MAIN_HAND,
                     new BlockHitResult(new Vec3(0.5, 1, 0.5), Direction.UP, down, false));
             check:
-            if (this.seeds.getItem() instanceof BlockItem && !this.selfPlacement)
+            if (this.seeds.getItem() instanceof BlockItem item && !this.selfPlacement)
             {
-                final Block block = Block.byItem(this.seeds.getItem());
+                final Block block = item.getBlock();
                 if (block != this.oldState.getBlock()) break check;
 
                 final BlockState def = block.defaultBlockState();
@@ -237,7 +236,7 @@ public class GatherTask extends UtilTask
                     final BlockPos pos, final ServerLevel world)
             {
                 final HarvestCheckEvent event = new HarvestCheckEvent(pokemob, state, pos);
-                PokecubeCore.POKEMOB_BUS.post(event);
+                PokecubeAPI.POKEMOB_BUS.post(event);
                 final boolean gatherable = event.getResult() == Result.ALLOW ? true
                         : event.getResult() == Result.DENY ? false : GatherTask.sweetBerry.apply(state);
                 return gatherable;
@@ -299,7 +298,7 @@ public class GatherTask extends UtilTask
         {
             final BlockState state = this.entity.getLevel().getBlockState(this.targetBlock.getPos());
             final HarvestCheckEvent event = new HarvestCheckEvent(this.pokemob, state, this.targetBlock.getPos());
-            PokecubeCore.POKEMOB_BUS.post(event);
+            PokecubeAPI.POKEMOB_BUS.post(event);
             final boolean gatherable = event.getResult() == Result.ALLOW ? true
                     : event.getResult() == Result.DENY ? false : GatherTask.harvestMatcher.apply(state);
             if (!gatherable) this.targetBlock = null;

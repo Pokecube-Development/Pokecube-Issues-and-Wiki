@@ -7,15 +7,15 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.utils.PokeType;
 import pokecube.core.database.Database;
 import pokecube.core.database.moves.MoveEntry.Category;
 import pokecube.core.database.moves.json.JsonMoves.MoveJsonEntry;
 import pokecube.core.database.moves.json.JsonMoves.MovesJson;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.utils.PokeType;
+import pokecube.core.impl.PokecubeMod;
 
 public class MovesParser
 {
@@ -93,7 +93,7 @@ public class MovesParser
         }
         catch (final NumberFormatException e)
         {
-            PokecubeCore.LOGGER.error("Error with " + entry.readableName, e);
+            PokecubeAPI.LOGGER.error("Error with " + entry.readableName, e);
             return;
         }
         final String yes = "Yes";
@@ -156,7 +156,7 @@ public class MovesParser
                 }
                 catch (final NumberFormatException e)
                 {
-                    PokecubeCore.LOGGER.error("Error in with move size for {}", entry.readableName);
+                    PokecubeAPI.LOGGER.error("Error in with move size for {}", entry.readableName);
                     return;
                 }
                 sv = sh;
@@ -171,13 +171,13 @@ public class MovesParser
                 }
                 catch (final NumberFormatException e)
                 {
-                    PokecubeCore.LOGGER.error("Error in with move size for {}", entry.readableName);
+                    PokecubeAPI.LOGGER.error("Error in with move size for {}", entry.readableName);
                     return;
                 }
             }
             else
             {
-                PokecubeCore.LOGGER.error("Error in with move size for {}, must be 1 or 2 numbers separated by ,",
+                PokecubeAPI.LOGGER.error("Error in with move size for {}, must be 1 or 2 numbers separated by ,",
                         entry.readableName);
                 return;
             }
@@ -197,7 +197,7 @@ public class MovesParser
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.error("Error in move " + entry.readableName, e);
+                PokecubeAPI.LOGGER.error("Error in move " + entry.readableName, e);
             }
         }
     }
@@ -232,12 +232,12 @@ public class MovesParser
         if (alwaysCrit)
         {
             move.crit = 255;
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info(move.name + " set to always crit.");
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.info(move.name + " set to always crit.");
         }
         else if (crit)
         {
             move.crit = 2;
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info(move.name + " set to twice crit rate.");
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.info(move.name + " set to twice crit rate.");
         }
         else move.crit = 1;
     }
@@ -256,11 +256,11 @@ public class MovesParser
             try
             {
                 move.power = Integer.parseInt(var);
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.info(entry.readableName + " set to fixed damage of " + var);
+                if (PokecubeMod.debug) PokecubeAPI.LOGGER.info(entry.readableName + " set to fixed damage of " + var);
             }
             catch (final NumberFormatException e)
             {
-                PokecubeCore.LOGGER.error("Error parsing fixed damage for " + entry.readableName + " "
+                PokecubeAPI.LOGGER.error("Error parsing fixed damage for " + entry.readableName + " "
                         + entry.secondaryEffect + " " + var, e);
             }
         }
@@ -282,7 +282,7 @@ public class MovesParser
             if (number.find()) move.damageHeal = Integer.parseInt(number.group()) / 100f;
             else if (half.find()) move.damageHeal = 0.5f;
             else if (third.find()) move.damageHeal = 1 / 3f;
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info(move.name + " set to damage heal of " + move.damageHeal);
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.info(move.name + " set to damage heal of " + move.damageHeal);
             return;
         }
         else if (healRatio)
@@ -293,7 +293,7 @@ public class MovesParser
             if (number.find()) move.selfHealRatio = Integer.parseInt(number.group()) / 100f;
             else if (half.find()) move.selfHealRatio = 0.5f;
             else if (third.find()) move.selfHealRatio = 1 / 3f;
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info(move.name + " set to self heal of " + move.damageHeal);
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.info(move.name + " set to self heal of " + move.damageHeal);
             return;
         }
         else if (healOther)
@@ -316,7 +316,7 @@ public class MovesParser
         if (secondaryEffect.equals("User cannot Attack on the next turn.") && move.cooldown_scale == 1)
         {
             move.cooldown_scale = 4.0f;
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info(move.name + " set as long cooldown move.");
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.info(move.name + " set as long cooldown move.");
         }
     }
 
@@ -351,7 +351,7 @@ public class MovesParser
             else if (half.find()) damage = 1 / 2f;
             move.selfDamage = damage;
             move.selfDamageType = MoveEntry.DAMAGEDEALT;
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info(move.name + " set to recoil factor of " + damage);
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.info(move.name + " set to recoil factor of " + damage);
             return;
         }
         final boolean userFaint = var.contains("user faints");
@@ -438,7 +438,7 @@ public class MovesParser
         if (confuse || flinch) move.chanceChance = rate / 100f;
         move.statusChance = rate / 100f;
         if (slp || burn || par || poison || frz || slp) if (PokecubeMod.debug)
-            PokecubeCore.LOGGER.info(move.name + " Has Status Effects: " + move.statusChange + " " + move.statusChance);
+            PokecubeAPI.LOGGER.info(move.name + " Has Status Effects: " + move.statusChange + " " + move.statusChance);
     }
 
     private static void parseTarget(final MoveJsonEntry entry, final MoveEntry move)

@@ -18,7 +18,6 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.server.MinecraftServer;
@@ -35,6 +34,7 @@ import thut.bot.ThutBot;
 import thut.bot.ThutBot.BotEntry;
 import thut.bot.entity.ai.IBotAI;
 import thut.core.common.network.EntityUpdate;
+import thut.lib.TComponent;
 
 public class BotPlayer extends ServerPlayer implements Npc
 {
@@ -235,8 +235,8 @@ public class BotPlayer extends ServerPlayer implements Npc
     public void chat(String message)
     {
         Component component = message.isEmpty() ? null
-                : new TranslatableComponent("chat.type.text", this.getDisplayName(), message);
-        Component component1 = new TranslatableComponent("chat.type.text", this.getDisplayName(), message);
+                : TComponent.translatable("chat.type.text", this.getDisplayName(), message);
+        Component component1 = TComponent.translatable("chat.type.text", this.getDisplayName(), message);
         Component finalComponent = component1;
         this.server.getPlayerList().broadcastMessage(component1, (player) -> {
             return this.shouldFilterMessageTo(player) ? component : finalComponent;

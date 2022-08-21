@@ -1,8 +1,8 @@
 package pokecube.adventures.utils;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.List;
@@ -17,6 +17,7 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades.ItemListing;
@@ -31,7 +32,7 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.utils.trade_presets.TradePresetAn;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.resources.PackFinder;
@@ -259,13 +260,13 @@ public class TradeEntryLoader
     public static TradeDatabase loadDatabase()
     {
         final TradeDatabase full = new TradeDatabase();
-        final Collection<ResourceLocation> resources = PackFinder.getJsonResources(NpcType.DATALOC);
-        for (final ResourceLocation file : resources)
-        {
+        final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(NpcType.DATALOC);
+        resources.forEach((file, resource) -> {
             JsonObject loaded;
             try
             {
-                final BufferedReader reader = new BufferedReader(new InputStreamReader(PackFinder.getStream(file)));
+                final BufferedReader reader = PackFinder.getReader(file);
+                if (reader == null) throw new FileNotFoundException(file.toString());
                 loaded = JsonUtil.gson.fromJson(reader, JsonObject.class);
                 TradeDatabase database = null;
                 reader.close();
@@ -282,9 +283,9 @@ public class TradeEntryLoader
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.error("Error with database file {}", file, e);
+                PokecubeAPI.LOGGER.error("Error with database file {}", file, e);
             }
-        }
+        });
         return full;
     }
 
@@ -344,7 +345,7 @@ public class TradeEntryLoader
                 }
                 if (sell.isEmpty())
                 {
-                    PokecubeCore.LOGGER.error("No Sell:" + trade.sell + " " + trade.buys);
+                    PokecubeAPI.LOGGER.error("No Sell:" + trade.sell + " " + trade.buys);
                     continue;
                 }
 
@@ -360,7 +361,7 @@ public class TradeEntryLoader
             }
             catch (Throwable t)
             {
-                PokecubeCore.LOGGER.error("Error with trade: {}", JsonUtil.gson.toJson(trade), t);
+                PokecubeAPI.LOGGER.error("Error with trade: {}", JsonUtil.gson.toJson(trade), t);
             }
 
         }

@@ -18,18 +18,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.PokedexEntry.EvolutionData;
+import pokecube.api.data.PokedexEntry.InteractionLogic;
+import pokecube.api.data.PokedexEntry.InteractionLogic.Interaction;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.compat.jei.categories.cloner.Wrapper;
 import pokecube.compat.jei.categories.evolution.Evolution;
 import pokecube.compat.jei.categories.interaction.InteractRecipe;
 import pokecube.compat.jei.ingredients.Pokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntry.EvolutionData;
-import pokecube.core.database.PokedexEntry.InteractionLogic;
-import pokecube.core.database.PokedexEntry.InteractionLogic.Interaction;
 import pokecube.core.database.recipes.PokemobMoveRecipeParser.RecipeMove;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.recipes.MoveRecipes.MoveRecipe;
 
 @JeiPlugin

@@ -1,18 +1,19 @@
 package pokecube.core.database.spawns;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.Collection;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.google.common.collect.Lists;
 
 import net.minecraft.resources.ResourceLocation;
-import pokecube.core.PokecubeCore;
+import net.minecraft.server.packs.resources.Resource;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
@@ -76,21 +77,21 @@ public class PokemobSpawns extends ResourceData
     {
         this.validLoad = false;
         final String path = new ResourceLocation(this.tagPath).getPath();
-        final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
+        final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(path);
         this.validLoad = !resources.isEmpty();
         MASTER_LIST.rules.clear();
         preLoad();
-        resources.forEach(l -> this.loadFile(l));
+        resources.forEach((l, r) -> this.loadFile(l, r));
         if (this.validLoad)
         {
-            PokecubeCore.LOGGER.debug("Loaded Pokemob spawns.");
+            PokecubeAPI.LOGGER.debug("Loaded Pokemob spawns.");
             valid.set(true);
         }
     }
 
     private void apply()
     {
-        PokecubeCore.LOGGER.debug("Applying Pokemob spawns.");
+        PokecubeAPI.LOGGER.debug("Applying Pokemob spawns.");
         MASTER_LIST.rules.forEach(entry -> {
 
             SpawnRule rule = null;
@@ -173,15 +174,15 @@ public class PokemobSpawns extends ResourceData
                     }
                     else
                     {
-                        PokecubeCore.LOGGER.error("Error with key {} for spawns", key);
+                        PokecubeAPI.LOGGER.error("Error with key {} for spawns", key);
                     }
                 });
             }
         });
-        PokecubeCore.LOGGER.debug("Applied Pokemob spawns.");
+        PokecubeAPI.LOGGER.debug("Applied Pokemob spawns.");
     }
 
-    private void loadFile(final ResourceLocation l)
+    private void loadFile(final ResourceLocation l, Resource r)
     {
         try
         {
@@ -191,8 +192,8 @@ public class PokemobSpawns extends ResourceData
             // wants to edit an existing one, it means they are most likely
             // trying to remove default behaviour. They can add new things by
             // just adding another json file to the correct package.
-            InputStream res = PackFinder.getStream(l);
-            final Reader reader = new InputStreamReader(res);
+            final BufferedReader reader = PackFinder.getReader(r);
+            if (reader == null) throw new FileNotFoundException(l.toString());
             try
             {
                 final SpawnList temp = JsonUtil.gson.fromJson(reader, SpawnList.class);
@@ -207,8 +208,8 @@ public class PokemobSpawns extends ResourceData
             catch (final Exception e)
             {
                 // Might not be valid, so log and skip in that case.
-                PokecubeCore.LOGGER.error("Malformed Json for Mutations in {}", l);
-                PokecubeCore.LOGGER.error(e);
+                PokecubeAPI.LOGGER.error("Malformed Json for Mutations in {}", l);
+                PokecubeAPI.LOGGER.error(e);
             }
             reader.close();
 
@@ -219,7 +220,7 @@ public class PokemobSpawns extends ResourceData
                 {
                     if (rule.and_preset == null && rule.or_preset == null)
                     {
-                        PokecubeCore.LOGGER.error("Missing preset tag for {}, skipping it.", rule.entries);
+                        PokecubeAPI.LOGGER.error("Missing preset tag for {}, skipping it.", rule.entries);
                         continue;
                     }
                     MASTER_LIST.rules.add(rule);
@@ -229,8 +230,8 @@ public class PokemobSpawns extends ResourceData
         catch (final Exception e)
         {
             // Might not be valid, so log and skip in that case.
-            PokecubeCore.LOGGER.error("Error with resources in {}", l);
-            PokecubeCore.LOGGER.error(e);
+            PokecubeAPI.LOGGER.error("Error with resources in {}", l);
+            PokecubeAPI.LOGGER.error(e);
         }
     }
 }

@@ -6,8 +6,8 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.interfaces.IPokemob;
 
 public class HerdTask extends BaseIdleTask
 {
@@ -15,7 +15,7 @@ public class HerdTask extends BaseIdleTask
 
     static
     {
-        HerdTask.MEMS.put(MemoryModules.HERD_MEMBERS, MemoryStatus.VALUE_PRESENT);
+        HerdTask.MEMS.put(MemoryModules.HERD_MEMBERS.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     public HerdTask(final IPokemob pokemob)

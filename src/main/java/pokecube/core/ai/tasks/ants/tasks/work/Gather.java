@@ -1,9 +1,9 @@
 package pokecube.core.ai.tasks.ants.tasks.work;
 
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.tasks.AbstractWorkTask;
 import pokecube.core.ai.tasks.utility.GatherTask;
-import pokecube.core.interfaces.IPokemob;
 import thut.api.entity.ai.IAIRunnable;
 import thut.core.common.ThutCore;
 
@@ -29,18 +29,17 @@ public class Gather extends AbstractWorkTask
     {
         if (this.task == null)
         {
-            for (final IAIRunnable run : this.pokemob.getTasks())
-                if (run instanceof GatherTask)
-                {
-                    this.task = (GatherTask) run;
-                    break;
-                }
+            for (final IAIRunnable run : this.pokemob.getTasks()) if (run instanceof GatherTask task)
+            {
+                this.task = task;
+                break;
+            }
         }
         else if (this.gather_timer++ > 100 && this.task.targetItem == null)
         {
             this.gather_timer = 0;
-            if (!this.nest.hab.items.isEmpty()) this.task.targetItem = this.nest.hab.items.get(ThutCore.newRandom().nextInt(
-                    this.nest.hab.items.size()));
+            if (!this.nest.hab.items.isEmpty()) this.task.targetItem = this.nest.hab.items
+                    .get(ThutCore.newRandom().nextInt(this.nest.hab.items.size()));
         }
     }
 }

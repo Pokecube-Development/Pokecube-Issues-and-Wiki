@@ -2,8 +2,8 @@ package pokecube.core.ai.tasks.idle.hunger;
 
 import java.util.List;
 
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
-import pokecube.core.interfaces.IPokemob;
 
 public interface IBlockEatTask
 {

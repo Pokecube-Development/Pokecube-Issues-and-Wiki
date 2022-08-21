@@ -1,0 +1,42 @@
+{
+  "processors": [
+    {
+      "processor_type": "minecraft:rule",
+      "rules": [
+        {
+          "output_state": {
+            "Properties": {
+              "age": "0"
+            },
+            "Name": "pokecube:crop_jaboca"
+          },
+          "input_predicate": {
+            "block": "pokecube:crop_rowap",
+            "probability": 0.4,
+            "predicate_type": "minecraft:random_block_match"
+          },
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          }
+        }
+      ]
+    },
+    {
+      "processor_type": "pokecube:marker_to_air"
+    },
+    {
+      "processor_type": "minecraft:block_ignore",
+      "blocks": [
+        {
+          "Name": "minecraft:air"
+        }
+      ]
+    },
+    {
+      "processor_type": "pokecube:ladders_to_ground"
+    },
+    {
+      "processor_type": "pokecube:structures"
+    }
+  ]
+}

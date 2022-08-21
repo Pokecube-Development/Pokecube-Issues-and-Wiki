@@ -31,12 +31,12 @@
           "feature": "pokecube_world:qualot_tree"
         },
         {
-          "chance": 0.1,
+          "chance": 0.3,
           "feature": "pokecube_world:sitrus_tree"
         },
         {
           "chance": 0.5,
-          "feature": "pokecube_world:tomato_tree"
+          "feature": "pokecube_world:tamato_tree"
         }
       ],
       "default": "pokecube_world:oran_tree"

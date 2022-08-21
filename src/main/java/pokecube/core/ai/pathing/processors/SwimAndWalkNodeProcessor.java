@@ -15,23 +15,23 @@ public class SwimAndWalkNodeProcessor extends WalkNodeEvaluator
     private float oldWaterBorderPriority;
 
     @Override
-    public void prepare(final PathNavigationRegion p_225578_1_, final Mob p_225578_2_)
+    public void prepare(final PathNavigationRegion level, final Mob mob)
     {
-        super.prepare(p_225578_1_, p_225578_2_);
+        super.prepare(level, mob);
         // Super called handled storing the water priority
-        p_225578_2_.setPathfindingMalus(BlockPathTypes.WATER, 2.0F);
-        this.oldWalkPriority = p_225578_2_.getPathfindingMalus(BlockPathTypes.WALKABLE);
-        p_225578_2_.setPathfindingMalus(BlockPathTypes.WALKABLE, 6.0F);
-        this.oldWaterBorderPriority = p_225578_2_.getPathfindingMalus(BlockPathTypes.WATER_BORDER);
-        p_225578_2_.setPathfindingMalus(BlockPathTypes.WATER_BORDER, 4.0F);
+        mob.setPathfindingMalus(BlockPathTypes.WATER, 2.0F);
+        this.oldWalkPriority = mob.getPathfindingMalus(BlockPathTypes.WALKABLE);
+        mob.setPathfindingMalus(BlockPathTypes.WALKABLE, 6.0F);
+        this.oldWaterBorderPriority = mob.getPathfindingMalus(BlockPathTypes.WATER_BORDER);
+        mob.setPathfindingMalus(BlockPathTypes.WATER_BORDER, 4.0F);
     }
 
     /**
      * This method is called when all nodes have been processed and PathEntity
-     * is created.
-     * {@link net.minecraft.world.pathfinder.WalkNodeProcessor
-     * WalkNodeProcessor} uses this to change its field {@link
-     * net.minecraft.world.pathfinder.WalkNodeProcessor#avoidsWater avoidsWater}
+     * is created. {@link net.minecraft.world.pathfinder.WalkNodeProcessor
+     * WalkNodeProcessor} uses this to change its field
+     * {@link net.minecraft.world.pathfinder.WalkNodeProcessor#avoidsWater
+     * avoidsWater}
      */
     @Override
     public void done()

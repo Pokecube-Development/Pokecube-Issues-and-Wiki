@@ -6,14 +6,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.BaseComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.entity.pokemob.Nature;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
-import pokecube.core.interfaces.Nature;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
+import thut.lib.TComponent;
 
 public class Bonus extends PokeInfoPage
 {
@@ -23,10 +22,10 @@ public class Bonus extends PokeInfoPage
     public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
             "textures/gui/pokewatchgui_battle_nm.png");
 
-    int                   last = 0;
+    int last = 0;
     final PokemobInfoPage parent;
 
-    private MultiLineLabel      splitRenderer = MultiLineLabel.EMPTY;
+    private MultiLineLabel splitRenderer = MultiLineLabel.EMPTY;
     private final Font fontRender;
 
     public Bonus(final PokemobInfoPage parent)
@@ -65,11 +64,11 @@ public class Bonus extends PokeInfoPage
             this.font.draw(mat, I18n.get("pokewatch.ability", abilityName), x + dx, y + dy, abilitycolour);
         }
         final int happiness = this.parent.pokemob.getHappiness();
-        BaseComponent message = new TextComponent("");
+        MutableComponent message = TComponent.literal("");
 
         // Draw size
         dy += 10; // 50
-        message = new TranslatableComponent("pokewatch.size", this.parent.pokemob.getSize());
+        message = TComponent.translatable("pokewatch.size", this.parent.pokemob.getSize());
         this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 100);
         this.splitRenderer.renderLeftAlignedNoShadow(mat, x + dx, y + dy, 12, sizeColour);
 
@@ -77,18 +76,18 @@ public class Bonus extends PokeInfoPage
         dy += 11; // 50
         if (nature != null)
         {
-            message = new TranslatableComponent("pokewatch.nature", this.parent.pokemob.getNature());
+            message = TComponent.translatable("pokewatch.nature", this.parent.pokemob.getNature());
             this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 100);
             this.splitRenderer.renderLeftAlignedNoShadow(mat, x + dx, y + dy, 12, natureColour);
         }
 
-        if (happiness == 0) message = new TranslatableComponent("pokemob.info.happy0");
-        if (happiness > 0) message = new TranslatableComponent("pokemob.info.happy1");
-        if (happiness > 49) message = new TranslatableComponent("pokemob.info.happy2");
-        if (happiness > 99) message = new TranslatableComponent("pokemob.info.happy3");
-        if (happiness > 149) message = new TranslatableComponent("pokemob.info.happy4");
-        if (happiness > 199) message = new TranslatableComponent("pokemob.info.happy5");
-        if (happiness > 254) message = new TranslatableComponent("pokemob.info.happy6");
+        if (happiness == 0) message = TComponent.translatable("pokemob.info.happy0");
+        if (happiness > 0) message = TComponent.translatable("pokemob.info.happy1");
+        if (happiness > 49) message = TComponent.translatable("pokemob.info.happy2");
+        if (happiness > 99) message = TComponent.translatable("pokemob.info.happy3");
+        if (happiness > 149) message = TComponent.translatable("pokemob.info.happy4");
+        if (happiness > 199) message = TComponent.translatable("pokemob.info.happy5");
+        if (happiness > 254) message = TComponent.translatable("pokemob.info.happy6");
         // Draw Happiness
         dy += 16; // 50
         this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 100);

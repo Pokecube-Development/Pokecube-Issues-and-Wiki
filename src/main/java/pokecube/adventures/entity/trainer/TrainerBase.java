@@ -16,20 +16,20 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.Level;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
-import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
-import pokecube.adventures.capabilities.CapabilityHasTrades.IHasTrades;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
-import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
-import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.utils.TrainerTracker;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.trainers.IHasMessages;
+import pokecube.api.entity.trainers.IHasNPCAIStates;
+import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
+import pokecube.api.entity.trainers.IHasRewards;
+import pokecube.api.entity.trainers.IHasTrades;
+import pokecube.api.entity.trainers.TrainerCaps;
+import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
-import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
-import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.handlers.events.SpawnHandler;
-import pokecube.core.interfaces.IPokemob;
+import pokecube.core.eventhandlers.EventsHandler;
+import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.utils.Tools;
 import thut.api.Tracker;
 import thut.api.item.ItemList;
@@ -229,9 +229,9 @@ public abstract class TrainerBase extends NpcMob
     public void setNpcType(final NpcType type)
     {
         super.setNpcType(type);
-        if (this.pokemobsCap != null && type instanceof TypeTrainer)
+        if (this.pokemobsCap != null && type instanceof TypeTrainer ttype)
         {
-            this.pokemobsCap.setType((TypeTrainer) type);
+            this.pokemobsCap.setType(ttype);
             this.pokemobsCap.getType().initTrainerItems(this);
         }
     }

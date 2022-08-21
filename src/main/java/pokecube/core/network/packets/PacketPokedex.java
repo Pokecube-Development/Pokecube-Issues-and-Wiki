@@ -11,49 +11,56 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mojang.datafixers.util.Pair;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.Heightmap.Types;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.PokedexEntry.SpawnData;
+import pokecube.api.data.PokedexEntry.SpawnData.SpawnEntry;
+import pokecube.api.data.spawns.SpawnBiomeMatcher;
+import pokecube.api.data.spawns.SpawnCheck;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
+import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
+import pokecube.api.stats.ISpecialCaptureCondition;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.GuiPokedex;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntry.SpawnData;
-import pokecube.core.database.PokedexEntry.SpawnData.SpawnEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.rewards.XMLRewardsHandler;
-import pokecube.core.database.spawns.SpawnBiomeMatcher;
-import pokecube.core.database.spawns.SpawnCheck;
-import pokecube.core.database.stats.ISpecialCaptureCondition;
-import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
+import pokecube.core.eventhandlers.SpawnHandler;
+import pokecube.core.eventhandlers.SpawnHandler.ForbidReason;
+import pokecube.core.eventhandlers.SpawnHandler.ForbiddenEntry;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.PokedexInspector;
-import pokecube.core.handlers.events.SpawnHandler;
-import pokecube.core.handlers.events.SpawnHandler.ForbidReason;
-import pokecube.core.handlers.events.SpawnHandler.ForbiddenEntry;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.utils.PokecubeSerializer;
-import pokecube.core.world.dimension.SecretBaseDimension;
+import pokecube.world.dimension.SecretBaseDimension;
 import thut.api.entity.ThutTeleporter.TeleDest;
+import thut.api.maths.Cruncher.SquareLoopCruncher;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
@@ -61,6 +68,7 @@ import thut.api.util.UnderscoreIgnore;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.NBTPacket;
 import thut.core.common.network.PacketAssembly;
+import thut.lib.TComponent;
 
 public class PacketPokedex extends NBTPacket
 {
@@ -179,10 +187,10 @@ public class PacketPokedex extends NBTPacket
         final PacketPokedex packet = new PacketPokedex(PacketPokedex.BASERADAR);
         ListTag list = new ListTag();
 
-        final Level world = player.getLevel();
+        final ServerLevel level = player.getLevel();
 
         final BlockPos pos = player.blockPosition();
-        final GlobalPos here = GlobalPos.of(world.dimension(), pos);
+        final GlobalPos here = GlobalPos.of(level.dimension(), pos);
         for (final GlobalPos c : SecretBaseDimension.getNearestBases(here, PokecubeCore.getConfig().baseRadarRange))
         {
             final CompoundTag nbt = NbtUtils.writeBlockPos(c.pos());
@@ -194,6 +202,32 @@ public class PacketPokedex extends NBTPacket
         packet.getTag().putInt("R", PokecubeCore.getConfig().baseRadarRange);
         final List<GlobalPos> meteors = Lists.newArrayList(PokecubeSerializer.getInstance().meteors);
         meteors.removeIf(p -> p.dimension() != here.dimension());
+
+        SquareLoopCruncher searcher = new SquareLoopCruncher();
+        int step = 12 * 16;
+        BlockPos testPos = searcher.getNext(pos, step);
+
+        ResourceLocation resourcelocation1 = new ResourceLocation("pokecube_world:meteorites");
+        var registry = level.registryAccess().registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
+        var key = TagKey.create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, resourcelocation1);
+        HolderSet<ConfiguredStructureFeature<?, ?>> holderset = HolderSet
+                .direct(registry.getOrCreateTag(key).stream().toList());
+
+        long time = System.nanoTime();
+        while ((System.nanoTime() - time) < 5e5)
+        {
+            Pair<BlockPos, Holder<ConfiguredStructureFeature<?, ?>>> thing = level.getChunkSource().getGenerator()
+                    .findNearestMapFeature(level, holderset, testPos, 1, false);
+            if (thing != null)
+            {
+                BlockPos p2 = thing.getFirst();
+                if (level.isPositionEntityTicking(p2))
+                    p2 = p2.atY(level.getHeight(Types.WORLD_SURFACE, p2.getX(), p2.getZ()));
+                meteors.add(GlobalPos.of(level.dimension(), p2));
+            }
+            testPos = searcher.getNext(pos, step);
+        }
+
         meteors.sort((c1, c2) -> {
             final int d1 = c1.pos().compareTo(pos);
             final int d2 = c2.pos().compareTo(pos);
@@ -209,7 +243,7 @@ public class PacketPokedex extends NBTPacket
         packet.getTag().put("_meteors_", list);
 
         list = new ListTag();
-        final List<ForbiddenEntry> repels = SpawnHandler.getForbiddenEntries(world, pos);
+        final List<ForbiddenEntry> repels = SpawnHandler.getForbiddenEntries(level, pos);
         for (final ForbiddenEntry entry : repels)
         {
             final CompoundTag nbt = NbtUtils.writeBlockPos(entry.region.getPos());
@@ -287,9 +321,9 @@ public class PacketPokedex extends NBTPacket
         switch (this.message)
         {
         case OPEN:
-            final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), this.getTag().getInt("M"),
+            final Entity mob = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), this.getTag().getInt("M"),
                     true);
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
             final boolean watch = this.getTag().getBoolean("W");
             if (watch) net.minecraft.client.Minecraft.getInstance()
                     .setScreen(new GuiPokeWatch(player, mob instanceof LivingEntity ? (LivingEntity) mob : null));
@@ -398,14 +432,16 @@ public class PacketPokedex extends NBTPacket
         SpawnData data;
         final CompoundTag spawns = new CompoundTag();
 
+        ServerLevel level = player.getLevel();
+
         pos = new Vector3().set(player);
-        checker = new SpawnCheck(pos, player.level);
+        checker = new SpawnCheck(pos, level);
 
         switch (this.message)
         {
         case INSPECTMOB:
-            mob = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), this.getTag().getInt("V"), true);
-            pokemob = CapabilityPokemob.getPokemobFor(mob);
+            mob = PokecubeAPI.getEntityProvider().getEntity(level, this.getTag().getInt("V"), true);
+            pokemob = PokemobCaps.getPokemobFor(mob);
             if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player)
                     .getData(PokecubePlayerStats.class).inspect(player, pokemob);
             return;
@@ -445,8 +481,7 @@ public class PacketPokedex extends NBTPacket
         case REQUESTLOC:
             rates = Maps.newHashMap();
             names = new ArrayList<>();
-            final boolean repelled = SpawnHandler.getNoSpawnReason(player.getLevel(),
-                    pos.getPos()) != ForbidReason.NONE;
+            final boolean repelled = SpawnHandler.getNoSpawnReason(level, pos.getPos()) != ForbidReason.NONE;
             for (final PokedexEntry e : Database.spawnables)
                 if (e.getSpawnData().getMatcher(new SpawnContext(player, e), checker, false) != null) names.add(e);
             final Map<PokedexEntry, SpawnBiomeMatcher> matchers = Maps.newHashMap();
@@ -577,14 +612,14 @@ public class PacketPokedex extends NBTPacket
             final int index = this.getTag().getInt("I");
             final TeleDest loc = TeleportHandler.getTeleport(player.getStringUUID(), index);
             TeleportHandler.unsetTeleport(index, player.getStringUUID());
-            player.sendMessage(new TextComponent("Deleted " + loc.getName()), Util.NIL_UUID);
+            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Deleted " + loc.getName()));
             PlayerDataHandler.getInstance().save(player.getStringUUID());
             PacketDataSync.syncData(player, "pokecube-data");
             return;
         case RENAME:
             final String name = this.getTag().getString("N");
             TeleportHandler.renameTeleport(player.getStringUUID(), this.getTag().getInt("I"), name);
-            player.sendMessage(new TextComponent("Set teleport as " + name), Util.NIL_UUID);
+            thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Set teleport as " + name));
             PlayerDataHandler.getInstance().save(player.getStringUUID());
             PacketDataSync.syncData(player, "pokecube-data");
             return;
@@ -597,11 +632,12 @@ public class PacketPokedex extends NBTPacket
             if (!reward)
             {
                 if (inspected)
-                    player.sendMessage(new TranslatableComponent("pokedex.inspect.available"), Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokedex.inspect.available"));
             }
             else
             {
-                if (!inspected) player.sendMessage(new TranslatableComponent("pokedex.inspect.nothing"), Util.NIL_UUID);
+                if (!inspected)
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokedex.inspect.nothing"));
                 player.closeContainer();
             }
             return;
@@ -611,15 +647,13 @@ public class PacketPokedex extends NBTPacket
             {
                 final ISpecialCaptureCondition condition = ISpecialCaptureCondition.captureMap.get(entry);
                 final boolean valid = condition.canCapture(player);
-                if (valid) player.sendMessage(
-                        new TranslatableComponent("pokewatch.capture.check.yes", entry.getTranslatedName()),
-                        Util.NIL_UUID);
+                if (valid) thut.lib.ChatHelper.sendSystemMessage(player,
+                        TComponent.translatable("pokewatch.capture.check.yes", entry.getTranslatedName()));
                 else
                 {
-                    player.sendMessage(condition.getFailureMessage(player), Util.NIL_UUID);
-                    player.sendMessage(
-                            new TranslatableComponent("pokewatch.capture.check.no", entry.getTranslatedName()),
-                            Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(player, condition.getFailureMessage(player));
+                    thut.lib.ChatHelper.sendSystemMessage(player,
+                            TComponent.translatable("pokewatch.capture.check.no", entry.getTranslatedName()));
                 }
             }
             return;

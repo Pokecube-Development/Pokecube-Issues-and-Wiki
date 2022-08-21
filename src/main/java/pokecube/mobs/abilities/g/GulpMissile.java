@@ -1,12 +1,12 @@
 package pokecube.mobs.abilities.g;
 
 import net.minecraft.world.damagesource.DamageSource;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.abilities.Ability;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.IMoveConstants;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.abilities.Ability;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.damage.GenericDamageSource;
 

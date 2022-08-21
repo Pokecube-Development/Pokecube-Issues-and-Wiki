@@ -2,7 +2,7 @@ package pokecube.mobs.moves.attacks.normal;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import pokecube.core.interfaces.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.moves.templates.Move_Basic;
 
 public class Superfang extends Move_Basic

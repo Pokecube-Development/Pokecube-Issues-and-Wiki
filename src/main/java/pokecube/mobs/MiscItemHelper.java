@@ -8,14 +8,14 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.utils.PokeType;
 import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.UsableItemEffects.BaseUseable;
 import pokecube.core.items.UsableItemEffects.VitaminUsable.VitaminEffect;
 import pokecube.core.items.vitamins.ItemVitamin;
-import pokecube.core.utils.PokeType;
 import thut.api.item.ItemList;
 
 public class MiscItemHelper
@@ -75,7 +75,7 @@ public class MiscItemHelper
 
     private static InteractionResultHolder<ItemStack> feedVitamin(final ItemStack stack, final Entity entity)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob != null)
         {
             if (ItemList.is(new ResourceLocation("pokecube:vit_hpup"), stack)) return MiscItemHelper.applyEVs(

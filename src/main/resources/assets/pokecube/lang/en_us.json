@@ -523,6 +523,8 @@
 
     "entity.pokecube.egg": "Pokémob Egg",
     "entity.pokecube.npc": "Npc",
+    "entity.pokecube.npc.pokecube_adventures.healer": "Healer",
+    "entity.pokecube.npc.pokecube_adventures.professor": "Professor",
     "entity.pokecube.cube": "Pokécube",
     "entity.pokecube.pokecube": "Pokécube",
     "pkmn.missingno": "MissingNo.",

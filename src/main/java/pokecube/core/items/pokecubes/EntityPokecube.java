@@ -14,7 +14,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -23,8 +22,9 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.FakePlayer;
-import pokecube.core.PokecubeCore;
-import pokecube.core.events.pokemob.CaptureEvent;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.events.pokemobs.CaptureEvent;
+import pokecube.core.init.EntityTypes;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.network.packets.PacketPokecube;
@@ -46,7 +46,7 @@ public class EntityPokecube extends EntityPokecubeBase
         }
 
         final String player;
-        final long   time;
+        final long time;
 
         public CollectEntry(final String player, final long time)
         {
@@ -89,21 +89,12 @@ public class EntityPokecube extends EntityPokecubeBase
 
     }
 
-    public static final EntityType<EntityPokecube> TYPE;
-
-    static
-    {
-        TYPE = EntityType.Builder.of(EntityPokecube::new, MobCategory.MISC).setShouldReceiveVelocityUpdates(
-                true).setTrackingRange(32).setUpdateInterval(1).noSummon().fireImmune().sized(0.25f, 0.25f).build(
-                        "pokecube");
-    }
-
-    public long reset     = 0;
+    public long reset = 0;
     public long resetTime = 0;
 
-    public ArrayList<CollectEntry> players    = Lists.newArrayList();
-    public ArrayList<LootEntry>    loot       = Lists.newArrayList();
-    public ArrayList<ItemStack>    lootStacks = Lists.newArrayList();
+    public ArrayList<CollectEntry> players = Lists.newArrayList();
+    public ArrayList<LootEntry> loot = Lists.newArrayList();
+    public ArrayList<ItemStack> lootStacks = Lists.newArrayList();
 
     public EntityPokecube(final EntityType<? extends EntityPokecubeBase> type, final Level worldIn)
     {
@@ -113,34 +104,32 @@ public class EntityPokecube extends EntityPokecubeBase
     public void addLoot(final LootEntry entry)
     {
         this.loot.add(entry);
-        for (int i = 0; i < entry.rolls; i++)
-            this.lootStacks.add(entry.loot);
+        for (int i = 0; i < entry.rolls; i++) this.lootStacks.add(entry.loot);
     }
 
     public boolean cannotCollect(final Entity e)
     {
         if (e == null) return false;
         final String name = e.getStringUUID();
-        for (final CollectEntry s : this.players)
-            if (s.player.equals(name))
+        for (final CollectEntry s : this.players) if (s.player.equals(name))
+        {
+            if (this.resetTime > 0)
             {
-                if (this.resetTime > 0)
+                final long diff = Tracker.instance().getTick() - s.time;
+                if (diff > this.resetTime)
                 {
-                    final long diff = Tracker.instance().getTick() - s.time;
-                    if (diff > this.resetTime)
-                    {
-                        this.players.remove(s);
-                        return false;
-                    }
+                    this.players.remove(s);
+                    return false;
                 }
-                return true;
             }
+            return true;
+        }
         return false;
     }
 
     public EntityPokecube copy()
     {
-        final EntityPokecube copy = new EntityPokecube(EntityPokecube.TYPE, this.getLevel());
+        final EntityPokecube copy = new EntityPokecube(EntityTypes.getPokecube(), this.getLevel());
         copy.copyPosition(this);
         copy.restoreFrom(this);
         return copy;
@@ -152,8 +141,7 @@ public class EntityPokecube extends EntityPokecubeBase
         final ItemStack stack = player.getItemInHand(hand);
         if (player instanceof ServerPlayer && this.canBePickedUp)
         {
-            if (player.isCrouching() && PokecubeManager.isFilled(this.getItem()) && player
-                    .getAbilities().instabuild)
+            if (player.isCrouching() && PokecubeManager.isFilled(this.getItem()) && player.getAbilities().instabuild)
                 if (!stack.isEmpty())
             {
                 this.isLoot = true;
@@ -181,19 +169,18 @@ public class EntityPokecube extends EntityPokecubeBase
                         loot = this.lootStacks.get(ThutCore.newRandom().nextInt(this.lootStacks.size()));
                         if (!loot.isEmpty())
                         {
-                            PacketPokecube.sendMessage(player, this.getId(), Tracker.instance().getTick()
-                                    + this.resetTime);
+                            PacketPokecube.sendMessage(player, this.getId(),
+                                    Tracker.instance().getTick() + this.resetTime);
                             Tools.giveItem(player, loot.copy());
                         }
                     }
                     else if (this.lootTable != null)
                     {
-                        final LootTable loottable = this.getLevel().getServer().getLootTables().get(
-                                this.lootTable);
-                        final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) this
-                                .getLevel()).withParameter(LootContextParams.THIS_ENTITY, this);
-                        for (final ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(loottable
-                                .getParamSet())))
+                        final LootTable loottable = this.getLevel().getServer().getLootTables().get(this.lootTable);
+                        final LootContext.Builder lootcontext$builder = new LootContext.Builder(
+                                (ServerLevel) this.getLevel()).withParameter(LootContextParams.THIS_ENTITY, this);
+                        for (final ItemStack itemstack : loottable
+                                .getRandomItems(lootcontext$builder.create(loottable.getParamSet())))
                             if (!itemstack.isEmpty()) Tools.giveItem(player, itemstack.copy());
                         PacketPokecube.sendMessage(player, this.getId(), Tracker.instance().getTick() + this.resetTime);
                     }
@@ -225,8 +212,7 @@ public class EntityPokecube extends EntityPokecubeBase
         if (nbt.contains("loot", 9))
         {
             final ListTag ListNBT = nbt.getList("loot", 10);
-            for (int i = 0; i < ListNBT.size(); i++)
-                this.addLoot(LootEntry.createFromNBT(ListNBT.getCompound(i)));
+            for (int i = 0; i < ListNBT.size(); i++) this.addLoot(LootEntry.createFromNBT(ListNBT.getCompound(i)));
         }
         final String lootTable = nbt.getString("lootTable");
         if (!lootTable.isEmpty()) this.lootTable = new ResourceLocation(lootTable);
@@ -275,7 +261,7 @@ public class EntityPokecube extends EntityPokecubeBase
                     if (filled)
                     {
                         final CaptureEvent.Post event = new CaptureEvent.Post(this);
-                        gave = PokecubeCore.POKEMOB_BUS.post(event);
+                        gave = PokecubeAPI.POKEMOB_BUS.post(event);
                     }
                     else if (this.shootingEntity instanceof ServerPlayer
                             && !(this.shootingEntity instanceof FakePlayer))

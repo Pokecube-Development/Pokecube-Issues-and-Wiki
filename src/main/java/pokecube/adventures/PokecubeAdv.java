@@ -28,7 +28,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -68,8 +67,7 @@ import pokecube.adventures.blocks.statue.StatueEntity;
 import pokecube.adventures.blocks.statue.StatueItem;
 import pokecube.adventures.blocks.warp_pad.WarpPadBlock;
 import pokecube.adventures.blocks.warp_pad.WarpPadTile;
-import pokecube.adventures.entity.trainer.LeaderNpc;
-import pokecube.adventures.entity.trainer.TrainerNpc;
+import pokecube.adventures.init.EntityTypes;
 import pokecube.adventures.init.SetupHandler;
 import pokecube.adventures.inventory.trainer.ContainerTrainer;
 import pokecube.adventures.items.Linker;
@@ -77,9 +75,11 @@ import pokecube.adventures.items.bag.BagContainer;
 import pokecube.adventures.items.bag.BagItem;
 import pokecube.adventures.proxy.CommonProxy;
 import pokecube.adventures.utils.RecipePokeAdv;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.events.init.RegisterMiscItems;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.utils.PokeType;
 import thut.api.entity.CopyCaps;
 import thut.core.common.commands.CommandConfigs;
 import thut.core.common.network.PacketHandler;
@@ -95,53 +95,13 @@ public class PokecubeAdv
     public static class RegistryEvents
     {
         @SubscribeEvent
-        public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event)
-        {
-            // register a new mob here
-            event.getRegistry().register(TrainerNpc.TYPE.setRegistryName(PokecubeAdv.MODID, "trainer"));
-            event.getRegistry().register(LeaderNpc.TYPE.setRegistryName(PokecubeAdv.MODID, "leader"));
-
-            CopyCaps.register(TrainerNpc.TYPE);
-            CopyCaps.register(LeaderNpc.TYPE);
-        }
-
-        @SubscribeEvent
         public static void onEntityAttributes(final EntityAttributeCreationEvent event)
         {
             final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes()
                     .add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.ATTACK_KNOCKBACK)
                     .add(Attributes.MAX_HEALTH, 20.0D);
-            event.put(TrainerNpc.TYPE, attribs.build());
-            event.put(LeaderNpc.TYPE, attribs.build());
-        }
-
-        @SubscribeEvent
-        public static void registerMemories(final RegistryEvent.Register<MemoryModuleType<?>> event)
-        {
-            MemoryTypes.register(event);
-        }
-
-        @SubscribeEvent
-        public static void registerItems(final RegistryEvent.Register<Item> event)
-        {
-            // register items
-
-            // Register the badges
-            for (final PokeType type : PokeType.values())
-            {
-                final Item badge = new Item(new Item.Properties().tab(PokecubeItems.TAB_ITEMS));
-                final String name = type.name.equals("???") ? "unknown" : type.name;
-                PokecubeAdv.BADGES.put(type, badge);
-                PokecubeAdv.BADGEINV.put(badge, type);
-                badge.setRegistryName(PokecubeAdv.MODID, "badge_" + name.toLowerCase(Locale.ROOT));
-                event.getRegistry().register(badge);
-            }
-        }
-
-        @SubscribeEvent
-        public static void registerProfessions(final RegistryEvent.Register<VillagerProfession> event)
-        {
-            Professions.register(event);
+            event.put(EntityTypes.getTrainer(), attribs.build());
+            event.put(EntityTypes.getLeader(), attribs.build());
         }
 
         @OnlyIn(Dist.CLIENT)
@@ -196,10 +156,13 @@ public class PokecubeAdv
 
     public static final DeferredRegister<BlockEntityType<?>> TILES;
     public static final DeferredRegister<MenuType<?>> CONTAINERS;
+    public static final DeferredRegister<VillagerProfession> PROFESSIONS;
+    public static final DeferredRegister<MemoryModuleType<?>> MEMORIES;
+    public static final DeferredRegister<EntityType<?>> ENTITIES;
 
     public static final Map<PokeType, Item> BADGES = Maps.newHashMap();
     public static final Map<Item, PokeType> BADGEINV = Maps.newHashMap();
-    
+
     public static CreativeModeTab TAB_DECORATIONS = PokecubeItems.TAB_ITEMS;
 
     static
@@ -209,6 +172,9 @@ public class PokecubeAdv
         DECORATIONS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeAdv.MODID);
         ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, PokecubeAdv.MODID);
         TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, PokecubeAdv.MODID);
+        PROFESSIONS = DeferredRegister.create(ForgeRegistries.PROFESSIONS, MODID);
+        MEMORIES = DeferredRegister.create(ForgeRegistries.MEMORY_MODULE_TYPES, MODID);
+        ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, MODID);
 
         // Blocks
         AFA = PokecubeAdv.BLOCKS.register("afa",
@@ -333,6 +299,9 @@ public class PokecubeAdv
         PokecubeAdv.ITEMS.register(modEventBus);
         PokecubeAdv.TILES.register(modEventBus);
         PokecubeAdv.CONTAINERS.register(modEventBus);
+        PokecubeAdv.PROFESSIONS.register(modEventBus);
+        PokecubeAdv.MEMORIES.register(modEventBus);
+        PokecubeAdv.ENTITIES.register(modEventBus);
 
         modEventBus.addListener(this::loadComplete);
 
@@ -345,13 +314,37 @@ public class PokecubeAdv
         // Register event handlers
         SetupHandler.registerListeners();
 
+        Professions.init();
+        EntityTypes.init();
+        MemoryTypes.init();
+
         MinecraftForge.EVENT_BUS.register(this);
-        PokecubeCore.POKEMOB_BUS.register(this);
+        PokecubeAPI.POKEMOB_BUS.register(this);
+    }
+
+    @SubscribeEvent
+    public void registerItems(final RegisterMiscItems event)
+    {
+        for (final PokeType type : PokeType.values())
+        {
+            final String name = type.name.equals("???") ? "unknown" : type.name;
+            PokecubeAdv.ITEMS.register("badge_" + name.toLowerCase(Locale.ROOT), () -> {
+                final Item badge = new Item(new Item.Properties().tab(PokecubeItems.TAB_ITEMS));
+                PokecubeAdv.BADGES.put(type, badge);
+                PokecubeAdv.BADGEINV.put(badge, type);
+                return badge;
+            });
+        }
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event)
     {
         event.enqueueWork(PointsOfInterest::postInit);
+        event.enqueueWork(() -> {
+            Professions.postInit();
+            CopyCaps.register(EntityTypes.getTrainer());
+            CopyCaps.register(EntityTypes.getLeader());
+        });
     }
 
     @SubscribeEvent

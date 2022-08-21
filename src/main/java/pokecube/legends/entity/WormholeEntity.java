@@ -46,10 +46,10 @@ import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.network.NetworkHooks;
-import pokecube.core.PokecubeCore;
-import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.utils.EntityTools;
 import pokecube.legends.init.EntityInit;
 import pokecube.legends.spawns.WormholeSpawns;
@@ -151,7 +151,7 @@ public class WormholeEntity extends LivingEntity
         {
             if (!(nbt instanceof IntTag))
             {
-                PokecubeCore.LOGGER.error("error loading wormhole energy, this is probably from a version update!");
+                PokecubeAPI.LOGGER.error("error loading wormhole energy, this is probably from a version update!");
                 return;
             }
             // TODO Auto-generated method stub
@@ -182,7 +182,7 @@ public class WormholeEntity extends LivingEntity
 
         // If it is a pokemob, check if holding a location linker, if so, use
         // that for destination of the wormhole!
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
         if (pokemob != null)
         {
             ILinkStorage link = null;
@@ -303,7 +303,7 @@ public class WormholeEntity extends LivingEntity
             if (dest == null)
             {
                 dest = (ServerLevel) this.level;
-                PokecubeCore.LOGGER.error("Warning, Wormhole had invalid exit dimension {}", key);
+                PokecubeAPI.LOGGER.error("Warning, Wormhole had invalid exit dimension {}", key);
             }
             final WorldBorder border = dest.getWorldBorder();
             final IWormholeWorld holes = this.level.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
@@ -436,7 +436,7 @@ public class WormholeEntity extends LivingEntity
             final long now = Tracker.instance().getTick();
             final UUID uuid = entity.getUUID();
             if (now < lastTp || tpd.contains(uuid)) continue;
-            PokecubeCore.LOGGER.debug("Transfering {} through a wormhole!", entity);
+            PokecubeAPI.LOGGER.debug("Transfering {} through a wormhole!", entity);
             tpd.add(uuid);
             entity.getPersistentData().putLong("pokecube_legends:uwh_use", now);
 

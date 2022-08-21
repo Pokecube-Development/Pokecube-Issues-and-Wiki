@@ -1,13 +1,18 @@
 package pokecube.core.database.resources;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+
+import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -24,8 +29,10 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.resource.PathResourcePack;
 import net.minecraftforge.resource.ResourcePackLoader;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
+import thut.lib.ResourceHelper;
 
 public class PackFinder implements RepositorySource
 {
@@ -35,29 +42,96 @@ public class PackFinder implements RepositorySource
 
     static final PackSource DECORATOR = PackSource.decorating("pack.source.pokecube.data");
 
-    public static Collection<ResourceLocation> getJsonResources(final String path)
+    public static Map<ResourceLocation, Resource> getJsonResources(final String path)
     {
         return PackFinder.getResources(path, s -> s.endsWith(".json"));
     }
 
-    public static Collection<ResourceLocation> getResources(String path, final Predicate<String> match)
+    public static Map<ResourceLocation, Resource> getResources(String path, final Predicate<String> match)
     {
         if (path.endsWith("/")) path = path.substring(0, path.length() - 1);
 
         long start = System.nanoTime();
-        Collection<ResourceLocation> ret = Database.resourceManager.listResources(path, match);
+
+        Collection<ResourceLocation> resources = Database.resourceManager.listResources(path, match);
+
+        Map<ResourceLocation, Resource> ret = Maps.newHashMap();
+
+        for (var loc : resources)
+        {
+            Resource res = ResourceHelper.getResource(loc, Database.resourceManager);
+            if (res != null) ret.put(loc, res);
+        }
+
         long end = System.nanoTime();
         time_listing += (end - start);
 
         return ret;
     }
 
-    public static InputStream getStream(ResourceLocation l) throws IOException
+    public static Map<ResourceLocation, List<Resource>> getAllJsonResources(final String path)
+    {
+        return PackFinder.getAllResources(path, s -> s.endsWith(".json"));
+    }
+
+    public static Map<ResourceLocation, List<Resource>> getAllResources(String path, final Predicate<String> match)
+    {
+        if (path.endsWith("/")) path = path.substring(0, path.length() - 1);
+
+        long start = System.nanoTime();
+
+        Collection<ResourceLocation> resources = Database.resourceManager.listResources(path, match);
+
+        Map<ResourceLocation, List<Resource>> ret = Maps.newHashMap();
+
+        for (var loc : resources)
+        {
+            try
+            {
+                ret.put(loc, Database.resourceManager.getResources(loc));
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        long end = System.nanoTime();
+        time_listing += (end - start);
+
+        return ret;
+    }
+
+    @Nullable
+    public static InputStream getStream(ResourceLocation l)
     {
         if (l.toString().contains("//")) l = new ResourceLocation(l.toString().replace("//", "/"));
 
         long start = System.nanoTime();
-        InputStream ret = Database.resourceManager.getResource(l).getInputStream();
+        InputStream ret = ResourceHelper.getStream(l, Database.resourceManager);
+        long end = System.nanoTime();
+        time_getting_1 += (end - start);
+
+        return ret;
+    }
+
+    public static InputStream getStream(Resource r)
+    {
+        return r.getInputStream();
+    }
+
+    public static BufferedReader getReader(Resource r)
+    {
+        return new BufferedReader(new InputStreamReader(r.getInputStream(), StandardCharsets.UTF_8));
+    }
+
+    @Nullable
+    public static BufferedReader getReader(ResourceLocation l)
+    {
+        if (l.toString().contains("//")) l = new ResourceLocation(l.toString().replace("//", "/"));
+
+        long start = System.nanoTime();
+        BufferedReader ret = ResourceHelper.getReader(l, Database.resourceManager);
         long end = System.nanoTime();
         time_getting_1 += (end - start);
 
@@ -86,11 +160,11 @@ public class PackFinder implements RepositorySource
     {
         File folder = FMLPaths.GAMEDIR.get().resolve("resourcepacks").toFile();
         folder.mkdirs();
-        PokecubeCore.LOGGER.debug("Adding data folder: {}", folder);
+        PokecubeAPI.LOGGER.debug("Adding data folder: {}", folder);
         this.folderFinder_old = new FolderRepositorySource(folder, PackFinder.DECORATOR);
         folder = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks").toFile();
         folder.mkdirs();
-        PokecubeCore.LOGGER.debug("Adding data folder: {}", folder);
+        PokecubeAPI.LOGGER.debug("Adding data folder: {}", folder);
         this.folderFinder_new = new FolderRepositorySource(folder, PackFinder.DECORATOR);
         this.init(packInfoFactoryIn);
     }
@@ -115,7 +189,7 @@ public class PackFinder implements RepositorySource
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.fatal("Error checking resourcepacks for data!", e);
+            PokecubeAPI.LOGGER.fatal("Error checking resourcepacks for data!", e);
         }
         try
         {
@@ -123,7 +197,7 @@ public class PackFinder implements RepositorySource
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.fatal("Error checking config/pokecube/datapacks for data!", e);
+            PokecubeAPI.LOGGER.fatal("Error checking config/pokecube/datapacks for data!", e);
         }
         for (final Pack info : map.values())
         {
@@ -133,7 +207,7 @@ public class PackFinder implements RepositorySource
                 this.allPacks.add(pack);
                 this.folderPacks.add(pack);
             }
-            else PokecubeCore.LOGGER.error("No Pack found for " + info);
+            else PokecubeAPI.LOGGER.error("No Pack found for " + info);
         }
     }
 

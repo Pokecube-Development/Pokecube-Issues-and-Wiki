@@ -1,13 +1,12 @@
 package pokecube.mobs.moves.world;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
@@ -22,6 +21,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Climate;
@@ -29,17 +29,18 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.IMoveAction;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.ResourceData;
-import pokecube.core.handlers.events.MoveEventsHandler;
-import pokecube.core.interfaces.IMoveAction;
-import pokecube.core.interfaces.IPokemob;
+import pokecube.core.eventhandlers.MoveEventsHandler;
 import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
+import thut.lib.RegHelper;
 
 public class ActionNaturePower implements IMoveAction
 {
@@ -65,20 +66,20 @@ public class ActionNaturePower implements IMoveAction
         {
             this.validLoad = false;
             final String path = new ResourceLocation(this.tagPath).getPath();
-            final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
+            final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(path);
             this.validLoad = !resources.isEmpty();
             CHANGERS.clear();
             preLoad();
-            resources.forEach(l -> this.loadFile(l));
+            resources.forEach((l, r) -> this.loadFile(l, r));
             CHANGERS.sort(Comparator.comparingInt(c -> c.priority));
             if (this.validLoad)
             {
-                PokecubeCore.LOGGER.debug("Loaded Nature Power effects.");
+                PokecubeAPI.LOGGER.debug("Loaded Nature Power effects.");
                 valid.set(true);
             }
         }
 
-        private void loadFile(final ResourceLocation l)
+        private void loadFile(final ResourceLocation l, Resource r)
         {
             try
             {
@@ -87,8 +88,8 @@ public class ActionNaturePower implements IMoveAction
                 // trying to remove default behaviour. They can add new things
                 // by
                 // just adding another json file to the correct package.
-                InputStream res = PackFinder.getStream(l);
-                final Reader reader = new InputStreamReader(res);
+                final BufferedReader reader = PackFinder.getReader(r);
+                if (reader == null) throw new FileNotFoundException(l.toString());
 
                 final ConfigChanger temp = JsonUtil.gson.fromJson(reader, ConfigChanger.class);
                 if (!confirmNew(temp, l))
@@ -102,8 +103,8 @@ public class ActionNaturePower implements IMoveAction
             catch (final Exception e)
             {
                 // Might not be valid, so log and skip in that case.
-                PokecubeCore.LOGGER.error("Error with resources in {}", l);
-                PokecubeCore.LOGGER.error(e);
+                PokecubeAPI.LOGGER.error("Error with resources in {}", l);
+                PokecubeAPI.LOGGER.error(e);
             }
         }
     }
@@ -160,7 +161,7 @@ public class ActionNaturePower implements IMoveAction
 
         final Predicate<BlockPos> _predicate_ = t -> {
 
-            final ResourceLocation here = _level_.getBiome(t).value().getRegistryName();
+            final ResourceLocation here = RegHelper.getKey(_level_.getBiome(t).value());
             // Already the same biome, no apply!
             if (here.equals(_biome_)) return false;
 
@@ -202,10 +203,10 @@ public class ActionNaturePower implements IMoveAction
             ResourceKey<Biome> KEY = ResourceKey.create(Registry.BIOME_REGISTRY, _biome_);
             final PointChecker checker = new PointChecker(world, new Vector3().set(pos), _predicate_);
             checker.checkPoints();
-            System.out.println("Checking for " + _biome_);
+            PokecubeAPI.LOGGER.debug("Checking for " + _biome_);
             if (!_has_required_.test(checker))
             {
-                System.out.println("failed required for " + _biome_);
+                PokecubeAPI.LOGGER.debug("failed required for " + _biome_);
                 return false;
             }
             return ActionNaturePower.applyChecker(checker, world, KEY);
@@ -334,6 +335,10 @@ public class ActionNaturePower implements IMoveAction
 
             ChunkGenerator generator = world.getChunkSource().getGenerator();
             Climate.Sampler sampler = generator.climateSampler();
+
+            // 1.19:
+            // Climate.Sampler sampler =
+            // world.getChunkSource().randomState().sampler();
 
             for (int i = -8; i <= 8; i++) for (int j = -8; j <= 8; j++) for (int k = -8; k <= 8; k++)
             {

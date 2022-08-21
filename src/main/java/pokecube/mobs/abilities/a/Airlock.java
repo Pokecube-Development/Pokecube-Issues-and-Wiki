@@ -1,9 +1,9 @@
 package pokecube.mobs.abilities.a;
 
 import net.minecraft.world.level.Level;
-import pokecube.core.database.abilities.Ability;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.api.data.abilities.Ability;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
 
 public class Airlock extends Ability
 {

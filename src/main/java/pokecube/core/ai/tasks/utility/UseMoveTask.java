@@ -15,12 +15,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Move_Base;
 import pokecube.core.moves.MovesUtils;
 import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.maths.Vector3;
@@ -31,7 +31,7 @@ public class UseMoveTask extends UtilTask
 
     static
     {
-        UseMoveTask.MEMS.put(MemoryModules.MOVE_TARGET, MemoryStatus.VALUE_PRESENT);
+        UseMoveTask.MEMS.put(MemoryModules.MOVE_TARGET.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     private boolean running    = false;

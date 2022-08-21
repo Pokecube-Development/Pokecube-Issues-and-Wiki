@@ -1,11 +1,11 @@
 package pokecube.mobs.abilities.e;
 
-import pokecube.core.database.abilities.Ability;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
-import pokecube.core.utils.PokeType;
+import pokecube.api.data.abilities.Ability;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.Move_Base;
+import pokecube.api.utils.PokeType;
 import thut.core.common.ThutCore;
 
 public class EffectSpore extends Ability

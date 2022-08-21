@@ -17,15 +17,15 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.SelectorValue;
-import pokecube.adventures.events.GeneEditEvent;
-import pokecube.adventures.events.GeneEditEvent.EditType;
-import pokecube.core.PokecubeCore;
-import pokecube.core.database.PokedexEntry;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.events.GeneEditEvent;
+import pokecube.api.events.GeneEditEvent.EditType;
+import pokecube.api.utils.TagNames;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.utils.TagNames;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.GeneRegistry;
@@ -37,9 +37,9 @@ public class ClonerHelper
 {
     public static class DNAPack
     {
-        public final String        id;
+        public final String id;
         public final Alleles<?, ?> alleles;
-        public final float         chance;
+        public final float chance;
 
         public DNAPack(final String id, final Alleles<?, ?> alleles, final float chance)
         {
@@ -115,10 +115,11 @@ public class ClonerHelper
                 final CompoundTag poketag = nbt.getCompound(TagNames.POKEMOB);
                 if (!poketag.getCompound("ForgeCaps").contains(GeneticsManager.POKECUBEGENETICS.toString()))
                     return null;
-                if (!poketag.getCompound("ForgeCaps").getCompound(GeneticsManager.POKECUBEGENETICS.toString()).contains(
-                        "V")) return null;
-                final Tag genes = poketag.getCompound("ForgeCaps").getCompound(GeneticsManager.POKECUBEGENETICS
-                        .toString()).get("V");
+                if (!poketag.getCompound("ForgeCaps").getCompound(GeneticsManager.POKECUBEGENETICS.toString())
+                        .contains("V"))
+                    return null;
+                final Tag genes = poketag.getCompound("ForgeCaps")
+                        .getCompound(GeneticsManager.POKECUBEGENETICS.toString()).get("V");
                 final IMobGenetics eggs = new DefaultGenetics();
                 eggs.deserializeNBT((ListTag) genes);
                 return eggs;
@@ -136,12 +137,13 @@ public class ClonerHelper
     {
         final Set<Class<? extends Gene<?>>> ret = Sets.newHashSet();
         if (stack.isEmpty() || !stack.hasTag()) return ret;
-        if (stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag)
+        if (stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag pages)
         {
-            final ListTag pages = (ListTag) stack.getTag().get("pages");
             try
             {
-                final Component comp = Component.Serializer.fromJson(pages.getString(0));
+                String string = pages.getString(0);
+                if (!string.startsWith("{")) string = "{\"text\":\"" + string + "\"}";
+                final Component comp = Component.Serializer.fromJson(string);
                 for (final String line : comp.getString().split("\n"))
                 {
                     if (line.equalsIgnoreCase("ALL"))
@@ -155,7 +157,7 @@ public class ClonerHelper
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.warn("Error locating selectors for " + stack + " " + stack.getTag(), e);
+                PokecubeAPI.LOGGER.warn("Error locating selectors for " + stack + " " + stack.getTag(), e);
             }
         }
         return ret;
@@ -164,9 +166,8 @@ public class ClonerHelper
     public static int getIndex(final ItemStack stack)
     {
         if (stack.isEmpty() || !stack.hasTag()) return -1;
-        if (stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag)
+        if (stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag pages)
         {
-            final ListTag pages = (ListTag) stack.getTag().get("pages");
             try
             {
                 final Component comp = Component.Serializer.fromJson(pages.getString(0));
@@ -179,7 +180,7 @@ public class ClonerHelper
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.warn("Error checking index for " + stack + " " + stack.getTag(), e);
+                PokecubeAPI.LOGGER.warn("Error checking index for " + stack + " " + stack.getTag(), e);
             }
         }
         return -1;
@@ -214,8 +215,7 @@ public class ClonerHelper
     {
         IMobGenetics eggs = ClonerHelper.getGenes(destination);
         if (eggs == null) eggs = new DefaultGenetics();
-        for (final ResourceLocation loc : genesIn.getKeys())
-            ClonerHelper.merge(genesIn, eggs, selector, loc);
+        for (final ResourceLocation loc : genesIn.getKeys()) ClonerHelper.merge(genesIn, eggs, selector, loc);
         ClonerHelper.setGenes(destination, eggs, force ? EditType.OTHER : EditType.EXTRACT);
     }
 
@@ -262,8 +262,7 @@ public class ClonerHelper
         IMobGenetics eggs = ClonerHelper.getGenes(destination);
         if (eggs == null) eggs = new DefaultGenetics();
         ClonerHelper.setGenes(destination, genesIn, EditType.EXTRACT);
-        for (final ResourceLocation loc : genesIn.getKeys())
-            ClonerHelper.splice(genesIn, eggs, selector, loc);
+        for (final ResourceLocation loc : genesIn.getKeys()) ClonerHelper.splice(genesIn, eggs, selector, loc);
         ClonerHelper.setGenes(destination, eggs, EditType.SPLICE);
     }
 }

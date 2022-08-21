@@ -2,13 +2,11 @@ package pokecube.core.blocks.bases;
 
 import java.util.UUID;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,12 +17,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
-import pokecube.core.world.dimension.SecretBaseDimension;
+import pokecube.world.dimension.SecretBaseDimension;
 import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
+import thut.lib.TComponent;
 
 public class BaseTile extends InteractableTile
 {
@@ -41,7 +40,7 @@ public class BaseTile extends InteractableTile
     public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
             final BlockHitResult hit)
     {
-        if (!(player instanceof ServerPlayer)) return InteractionResult.SUCCESS;
+        if (!(player instanceof ServerPlayer splayer)) return InteractionResult.SUCCESS;
         final MinecraftServer server = player.getServer();
         UUID targetBase = player.getUUID();
         if (!this.any)
@@ -57,7 +56,7 @@ public class BaseTile extends InteractableTile
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.error(e);
+                PokecubeAPI.LOGGER.error(e);
                 return InteractionResult.FAIL;
             }
             if (this.last_base == null) this.last_base = exit_here;
@@ -66,13 +65,13 @@ public class BaseTile extends InteractableTile
             {
                 // We need to remove the location.
                 this.level.setBlockAndUpdate(pos, this.original);
-                player.sendMessage(new TranslatableComponent("pokemob.removebase.stale"), Util.NIL_UUID);
+                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokemob.removebase.stale"));
                 return InteractionResult.FAIL;
             }
         }
         final ResourceKey<Level> dim = player.getLevel().dimension();
-        if (dim == SecretBaseDimension.WORLD_KEY) SecretBaseDimension.sendToExit((ServerPlayer) player, targetBase);
-        else SecretBaseDimension.sendToBase((ServerPlayer) player, targetBase);
+        if (dim == SecretBaseDimension.WORLD_KEY) SecretBaseDimension.sendToExit(splayer, targetBase);
+        else SecretBaseDimension.sendToBase(splayer, targetBase);
         return InteractionResult.SUCCESS;
     }
 

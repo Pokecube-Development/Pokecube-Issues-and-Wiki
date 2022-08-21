@@ -11,16 +11,9 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
-import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
-import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
-import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.client.gui.trainer.editor.pages.AI;
 import pokecube.adventures.client.gui.trainer.editor.pages.LivePokemob;
 import pokecube.adventures.client.gui.trainer.editor.pages.Messages;
@@ -29,11 +22,17 @@ import pokecube.adventures.client.gui.trainer.editor.pages.Rewards;
 import pokecube.adventures.client.gui.trainer.editor.pages.Spawn;
 import pokecube.adventures.client.gui.trainer.editor.pages.Trainer;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.trainers.IHasMessages;
+import pokecube.api.entity.trainers.IHasNPCAIStates;
+import pokecube.api.entity.trainers.IHasPokemobs;
+import pokecube.api.entity.trainers.IHasRewards;
+import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.CapHolders;
+import thut.lib.TComponent;
 
 public class EditorGui extends Screen
 {
@@ -42,7 +41,7 @@ public class EditorGui extends Screen
 
         public MissingPage(final EditorGui watch)
         {
-            super(new TranslatableComponent("pokewatch.title.blank"), watch);
+            super(TComponent.translatable("pokewatch.title.blank"), watch);
             this.font = Minecraft.getInstance().font;
         }
 
@@ -82,7 +81,7 @@ public class EditorGui extends Screen
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error with making a page for watch", e);
+            PokecubeAPI.LOGGER.error("Error with making a page for watch", e);
             return null;
         }
     }
@@ -101,13 +100,13 @@ public class EditorGui extends Screen
 
     public EditorGui(final Entity mob)
     {
-        super(new TextComponent(""));
+        super(TComponent.literal(""));
         this.entity = mob;
         this.trainer = TrainerCaps.getHasPokemobs(mob);
         this.rewards = TrainerCaps.getHasRewards(mob);
         this.messages = TrainerCaps.getMessages(mob);
         this.aiStates = TrainerCaps.getNPCAIStates(mob);
-        this.pokemob = CapabilityPokemob.getPokemobFor(mob);
+        this.pokemob = PokemobCaps.getPokemobFor(mob);
         if (this.entity != null) this.guard = this.entity.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
         else this.guard = null;
     }
@@ -142,7 +141,7 @@ public class EditorGui extends Screen
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.warn("Error with page " + this.current_page, e);
+            PokecubeAPI.LOGGER.warn("Error with page " + this.current_page, e);
         }
     }
 

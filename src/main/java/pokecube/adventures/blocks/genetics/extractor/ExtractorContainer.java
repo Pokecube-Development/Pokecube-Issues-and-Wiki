@@ -19,17 +19,15 @@ public class ExtractorContainer extends PoweredContainer<ExtractorTile>
 
     public ExtractorContainer(final int id, final Inventory invIn, final ContainerLevelAccess pos)
     {
-        super(PokecubeAdv.EXTRACTOR_CONT.get(), id, (c) ->
-        {
-            pos.execute((w, p) ->
-            {
+        super(PokecubeAdv.EXTRACTOR_CONT.get(), id, (c) -> {
+            pos.execute((w, p) -> {
                 final BlockEntity temp = w.getBlockEntity(p);
                 // Server side
-                if (temp instanceof ExtractorTile) c.tile = (ExtractorTile) temp;
+                if (temp instanceof ExtractorTile tile) c.tile = tile;
             });
             // Client side
-            if (c.tile == null) c.tile = new ExtractorTile(invIn.player.blockPosition(), PokecubeAdv.EXTRACTOR.get()
-                    .defaultBlockState());
+            if (c.tile == null) c.tile = new ExtractorTile(invIn.player.blockPosition(),
+                    PokecubeAdv.EXTRACTOR.get().defaultBlockState());
             return c.tile;
         });
 

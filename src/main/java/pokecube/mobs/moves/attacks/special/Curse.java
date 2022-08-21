@@ -1,13 +1,13 @@
 package pokecube.mobs.moves.attacks.special;
 
 import net.minecraft.world.damagesource.DamageSource;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.utils.PokeType;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.templates.Move_Basic;
-import pokecube.core.utils.PokeType;
 
 public class Curse extends Move_Basic
 {
@@ -24,7 +24,7 @@ public class Curse extends Move_Basic
         if (packet.canceled || packet.failed) return;
         if (packet.attacker.isType(PokeType.getType("ghost")))
         {
-            final IPokemob target = CapabilityPokemob.getPokemobFor(packet.attacked);
+            final IPokemob target = PokemobCaps.getPokemobFor(packet.attacked);
             boolean apply = true;
             if (target != null)
             {

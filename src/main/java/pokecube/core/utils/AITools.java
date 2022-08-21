@@ -21,23 +21,25 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.ExpirableValue;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.TeamManager;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
-import pokecube.core.handlers.TeamManager;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.IPokedamage;
 import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 
 public class AITools
 {
 
     public static final ResourceLocation AGRESSIVE = new ResourceLocation("pokecube", "aggressive");
 
-    public static class AgroCheck implements Predicate<IPokemob>
+    private static class AgroCheck implements Predicate<IPokemob>
     {
         @Override
         public boolean test(final IPokemob input)
@@ -63,14 +65,13 @@ public class AITools
         {
             if (input == null) return true;
             input = EntityTools.getCoreEntity(input);
-            final ResourceLocation eid = input.getType().getRegistryName();
+            final ResourceLocation eid = RegHelper.getKey(input);
             if (AITools.invalidIDs.contains(eid)) return false;
             for (final String tag : AITools.invalidTags) if (input.getTags().contains(tag)) return false;
 
             // Then check if is a valid player.
-            if (input instanceof ServerPlayer)
+            if (input instanceof ServerPlayer player)
             {
-                final ServerPlayer player = (ServerPlayer) input;
                 // Do not target creative or spectator
                 if (player.isCreative() || player.isSpectator()) return false;
                 // Do not target any player on easy or peaceful
@@ -103,10 +104,6 @@ public class AITools
             return t instanceof IPokedamage;
         }
     }
-
-    public static boolean handleDamagedTargets = true;
-
-    public static int DEAGROTIMER = 50;
 
     public static Set<ResourceLocation> invalidIDs = Sets.newHashSet();
 
@@ -157,7 +154,7 @@ public class AITools
         if (!AITools.validTargets.test(target)) return false;
         // Only target living entities
         if (!(target instanceof LivingEntity)) return false;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         // Some pokemob specific checks
         if (pokemob != null)
         {
@@ -193,12 +190,12 @@ public class AITools
                             .orElseGet(() -> DataResult.error("Error loading Memory??"))
                             .flatMap(codec -> codec.parse(d));
                     final ExpirableValue<?> memory = (ExpirableValue<?>) res.getOrThrow(true,
-                            s1 -> PokecubeCore.LOGGER.error(s1));
+                            s1 -> PokecubeAPI.LOGGER.error(s1));
                     brain.setMemory(mem, memory.getValue());
                 }
                 catch (final Throwable e)
                 {
-                    PokecubeCore.LOGGER.error(e);
+                    PokecubeAPI.LOGGER.error(e);
                 }
             }
         }

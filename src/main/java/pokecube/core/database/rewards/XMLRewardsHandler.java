@@ -14,27 +14,26 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 
-import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.stats.CaptureStats;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.resources.PackFinder;
-import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.PokedexInspector.IInspectReward;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import pokecube.core.utils.Tools;
 import thut.api.util.JsonUtil;
+import thut.lib.TComponent;
 
 public class XMLRewardsHandler
 {
@@ -64,12 +63,11 @@ public class XMLRewardsHandler
                 if (reward == null || tag.getBoolean(this.tagString)) return false;
                 if (this.matches(num))
                 {
-                    if (giveReward)
+                    if (giveReward && entity instanceof Player player)
                     {
                         tag.putBoolean(this.tagString, true);
-                        entity.sendMessage(new TranslatableComponent(this.message), Util.NIL_UUID);
-                        final Player PlayerEntity = (Player) entity;
-                        Tools.giveItem(PlayerEntity, reward.copy());
+                        thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(this.message));
+                        Tools.giveItem(player, reward.copy());
                         PokecubePlayerDataHandler.saveCustomData(entity.getStringUUID());
                     }
                     return true;
@@ -182,13 +180,12 @@ public class XMLRewardsHandler
                 String lang = data.tag.getString("lang");
                 if (lang.isEmpty()) lang = "en_US";
                 if (data.tag.getBoolean(this.key)) return false;
-                if (giveReward)
+                if (giveReward && entity instanceof Player player)
                 {
                     final ItemStack book = this.getInfoStack(lang);
                     data.tag.putBoolean(this.key, true);
-                    entity.sendMessage(new TranslatableComponent(this.message), Util.NIL_UUID);
-                    final Player PlayerEntity = (Player) entity;
-                    Tools.giveItem(PlayerEntity, book);
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(this.message));
+                    Tools.giveItem(player, book);
                     PokecubePlayerDataHandler.saveCustomData(entity.getStringUUID());
                 }
                 return true;
@@ -207,6 +204,7 @@ public class XMLRewardsHandler
                     final ResourceLocation langloc = PokecubeItems
                             .toPokecubeResource(String.format(this.langFile, lang));
                     final InputStream stream = PackFinder.getStream(langloc);
+                    if (stream == null) throw new FileNotFoundException(this.langFile);
                     if (this.page_file)
                     {
                         final PagesFile book = JsonUtil.gson.fromJson(new InputStreamReader(stream, "UTF-8"),
@@ -226,7 +224,7 @@ public class XMLRewardsHandler
                         }
                         catch (final Exception e)
                         {
-                            PokecubeCore.LOGGER.error("Error with book for " + this.tagKey + " " + json, e);
+                            PokecubeAPI.LOGGER.error("Error with book for " + this.tagKey + " " + json, e);
                         }
                     }
                     stream.close();
@@ -234,12 +232,12 @@ public class XMLRewardsHandler
                 catch (final FileNotFoundException e)
                 {
                     if (lang.equals(FreeBookParser.default_lang))
-                        PokecubeCore.LOGGER.error("Error with book for " + this.tagKey, e);
+                        PokecubeAPI.LOGGER.error("Error with book for " + this.tagKey, e);
                     else this.initLangBook(FreeBookParser.default_lang, lang);
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error with book for " + this.tagKey, e);
+                    PokecubeAPI.LOGGER.error("Error with book for " + this.tagKey, e);
                 }
 
             }
@@ -328,7 +326,7 @@ public class XMLRewardsHandler
         }
         catch (final NullPointerException e)
         {
-            PokecubeCore.LOGGER.error("Error with a recipe, Error for: " + recipe, e);
+            PokecubeAPI.LOGGER.error("Error with a recipe, Error for: " + recipe, e);
         }
     }
 }

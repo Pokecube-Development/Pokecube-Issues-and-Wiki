@@ -13,7 +13,11 @@
     "structures_to_avoid": [
       "minecraft:villages",
       "minecraft:pillager_outposts"
-    ]
+    ],
+    "avoidances":{
+      "flags": ["village_deep"],
+      "avoidances": [{"name":"village_deep","distance":128}]
+    }
   },
   "spawn_overrides": {},
   "type": "pokecube:generic_surface_jigsaw"

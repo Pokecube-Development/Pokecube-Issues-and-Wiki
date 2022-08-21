@@ -1,12 +1,12 @@
 package pokecube.mobs.abilities.t;
 
 import net.minecraft.world.entity.LivingEntity;
+import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityManager;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.database.abilities.Ability;
-import pokecube.core.database.abilities.AbilityManager;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
 
 public class Trace extends Ability
 {
@@ -15,7 +15,7 @@ public class Trace extends Ability
     @Override
     public void onAgress(final IPokemob mob, final LivingEntity target)
     {
-        final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
         if (this.traced != null) this.traced.onAgress(mob, target);
         else if (targetMob != null)
         {

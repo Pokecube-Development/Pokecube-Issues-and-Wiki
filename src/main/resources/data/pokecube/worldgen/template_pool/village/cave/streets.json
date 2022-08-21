@@ -3,7 +3,7 @@
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
-        "location": "pokecube:village/cave/streets/end_01",
+        "location": "pokecube:village/cave/terminators/end_01",
         "processors": "pokecube:cave_village",
         "bool_config": {"no_affect_noise":true},"int_config":{"space_below":0},"projection": "rigid"
       },

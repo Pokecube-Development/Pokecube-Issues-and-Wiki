@@ -1,8 +1,7 @@
 package pokecube.mobs.client.smd.impl;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +11,7 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.animation.IAnimationChanger;
@@ -20,6 +20,7 @@ import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.common.ThutCore;
+import thut.lib.ResourceHelper;
 
 /** Body, Made of Bones, Faces, and Materials. */
 public class Body implements IRetexturableModel
@@ -133,8 +134,8 @@ public class Body implements IRetexturableModel
 
     private void loadModel(final ResourceLocation resloc, final Body body) throws Exception
     {
-        final InputStream inputStream = Helpers.getStream(resloc);
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        final BufferedReader reader = ResourceHelper.getReader(resloc, Minecraft.getInstance().getResourceManager());
+        if (reader == null) throw new FileNotFoundException(resloc.toString());
         String currentLine = null;
         int lineCount = -1;
         try

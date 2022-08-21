@@ -1,9 +1,7 @@
 package pokecube.core.database.spawns;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.Collection;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -11,7 +9,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.google.common.collect.Lists;
 
 import net.minecraft.resources.ResourceLocation;
-import pokecube.core.PokecubeCore;
+import net.minecraft.server.packs.resources.Resource;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
@@ -49,19 +49,19 @@ public class SpawnPresets extends ResourceData
     {
         this.validLoad = false;
         final String path = new ResourceLocation(this.tagPath).getPath();
-        final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
+        final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(path);
         this.validLoad = !resources.isEmpty();
         PRESETS.clear();
         preLoad();
-        resources.forEach(l -> this.loadFile(l));
+        resources.forEach((l, r) -> this.loadFile(l, r));
         if (this.validLoad)
         {
-            PokecubeCore.LOGGER.debug("Loaded Spawn Rule presets.");
+            PokecubeAPI.LOGGER.debug("Loaded Spawn Rule presets.");
             valid.set(true);
         }
     }
 
-    private void loadFile(final ResourceLocation l)
+    private void loadFile(final ResourceLocation l, Resource r)
     {
         try
         {
@@ -71,8 +71,8 @@ public class SpawnPresets extends ResourceData
             // wants to edit an existing one, it means they are most likely
             // trying to remove default behaviour. They can add new things by
             // just adding another json file to the correct package.
-            InputStream res = PackFinder.getStream(l);
-            final Reader reader = new InputStreamReader(res);
+            final BufferedReader reader = PackFinder.getReader(r);
+            if (reader == null) throw new FileNotFoundException(l.toString());
             try
             {
                 final MatcherList temp = JsonUtil.gson.fromJson(reader, MatcherList.class);
@@ -87,8 +87,8 @@ public class SpawnPresets extends ResourceData
             catch (final Exception e)
             {
                 // Might not be valid, so log and skip in that case.
-                PokecubeCore.LOGGER.error("Malformed Json for Mutations in {}", l);
-                PokecubeCore.LOGGER.error(e);
+                PokecubeAPI.LOGGER.error("Malformed Json for Mutations in {}", l);
+                PokecubeAPI.LOGGER.error(e);
             }
             reader.close();
 
@@ -100,7 +100,7 @@ public class SpawnPresets extends ResourceData
                     String preset = rule.values.get(SpawnBiomeMatcher.PRESET);
                     if (preset == null)
                     {
-                        PokecubeCore.LOGGER.error("Missing preset tag for {}, skipping it.", rule.values);
+                        PokecubeAPI.LOGGER.error("Missing preset tag for {}, skipping it.", rule.values);
                         continue;
                     }
                     PRESETS.put(preset, rule);
@@ -110,8 +110,8 @@ public class SpawnPresets extends ResourceData
         catch (final Exception e)
         {
             // Might not be valid, so log and skip in that case.
-            PokecubeCore.LOGGER.error("Error with resources in {}", l);
-            PokecubeCore.LOGGER.error(e);
+            PokecubeAPI.LOGGER.error("Error with resources in {}", l);
+            PokecubeAPI.LOGGER.error(e);
         }
     }
 }

@@ -37,6 +37,12 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         public String effective_pose = "";
 
         int tick = -1;
+
+        public void clear()
+        {
+            allParts = null;
+            parts = null;
+        }
     }
 
     public static record PartHolder<E extends GenericPartEntity<?>> (List<E> allParts, Map<String, E[]> partMap,
@@ -62,6 +68,13 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         {
             holder.parts = parts;
         }
+
+        public void clear()
+        {
+            allParts.clear();
+            partMap.clear();
+            holder.clear();
+        }
     };
 
     PartHolder<T> getHolder();
@@ -73,7 +86,12 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
     Class<T> getPartClass();
 
     @SuppressWarnings("unchecked")
-    default E self()
+    /**
+     * This is not "self" as forge used that for something in 1.19+
+     * 
+     * @return
+     */
+    default E weSelf()
     {
         return (E) this;
     }
@@ -82,9 +100,9 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
     {
         // This only does something complex if the parts have changed, otherwise
         // it just ensures their locations are synced to us.
-        if (getHolder().holder.tick != self().tickCount)
+        if (getHolder().holder.tick != weSelf().tickCount)
         {
-            getHolder().holder.tick = self().tickCount;
+            getHolder().holder.tick = weSelf().tickCount;
             this.initParts();
         }
     }
@@ -109,7 +127,7 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         String name = part.name;
         int n = 0;
         while (names.contains(name)) name = part.name + n++;
-        return getFactory().create(self(), dw, dh, dx, dy, dz, name);
+        return getFactory().create(weSelf(), dw, dh, dx, dy, dz, name);
     }
 
     default void addPart(final String key, final float size, final BodyNode node)
@@ -136,7 +154,7 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
     {
         this.initParts();
         // check if effective_pose needs updating
-        final IAnimated animHolder = AnimatedCaps.getAnimated(self());
+        final IAnimated animHolder = AnimatedCaps.getAnimated(weSelf());
         anims:
         if (animHolder != null)
         {
@@ -154,7 +172,7 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
             if (getHolder().partMap().containsKey(getHolder().holder().effective_pose))
             {
                 getHolder().setParts(getHolder().partMap().get(getHolder().holder().effective_pose));
-                PartSync.sendUpdate(self());
+                PartSync.sendUpdate(weSelf());
             }
         }
         if (getHolder().holder().parts.length == 0 && getHolder().allParts().isEmpty()) return;
@@ -162,13 +180,13 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         Mat3f rot = getHolder().holder().rot;
         Vec3f r = getHolder().holder().r;
 
-        final Vec3 v = self().position();
+        final Vec3 v = weSelf().position();
         r.set((float) v.x(), (float) v.y(), (float) v.z());
-        final Vec3 dr = new Vec3(r.x - self().xOld, r.y - self().yOld, r.z - self().zOld);
-        float rotY = self() instanceof LivingEntity e ? e.yBodyRot : self().yRot;
+        final Vec3 dr = new Vec3(r.x - weSelf().xOld, r.y - weSelf().yOld, r.z - weSelf().zOld);
+        float rotY = weSelf() instanceof LivingEntity e ? e.yBodyRot : weSelf().yRot;
 
         rot.rotY((float) Math.toRadians(180 - rotY));
-        if (self().isAddedToWorld()) for (final T p : getHolder().holder().parts) p.update(rot, r, dr);
+        if (weSelf().isAddedToWorld()) for (final T p : getHolder().holder().parts) p.update(rot, r, dr);
         else for (final T p : getHolder().allParts()) p.update(rot, r, dr);
     }
 }

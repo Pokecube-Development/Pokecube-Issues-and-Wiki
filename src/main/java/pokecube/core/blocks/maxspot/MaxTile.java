@@ -2,7 +2,6 @@ package pokecube.core.blocks.maxspot;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -13,10 +12,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
-import pokecube.core.handlers.events.SpawnHandler;
-import pokecube.core.handlers.events.SpawnHandler.ForbidReason;
+import pokecube.core.eventhandlers.SpawnHandler;
+import pokecube.core.eventhandlers.SpawnHandler.ForbidReason;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.berries.ItemBerry;
+import thut.lib.TComponent;
 
 public class MaxTile extends InteractableTile
 {
@@ -47,21 +47,20 @@ public class MaxTile extends InteractableTile
             final BlockHitResult hit)
     {
         final ItemStack stack = player.getItemInHand(hand);
-        if (stack.getItem() instanceof ItemBerry)
+        if (stack.getItem() instanceof ItemBerry berry)
         {
-            final ItemBerry berry = (ItemBerry) stack.getItem();
             final int old = this.range;
             this.range = Math.max(1, berry.type.index);
             if (!player.isCreative() && old != this.range) stack.split(1);
             if (!this.getLevel().isClientSide)
-                player.displayClientMessage(new TranslatableComponent("repel.info.setrange", this.range, this.enabled),
+                player.displayClientMessage(TComponent.translatable("repel.info.setrange", this.range, this.enabled),
                         true);
             return InteractionResult.SUCCESS;
         }
         else if (stack.getItem() instanceof ItemPokedex)
         {
             if (!this.getLevel().isClientSide)
-                player.displayClientMessage(new TranslatableComponent("repel.info.getrange", this.range, this.enabled),
+                player.displayClientMessage(TComponent.translatable("repel.info.getrange", this.range, this.enabled),
                         true);
             return InteractionResult.SUCCESS;
         }

@@ -11,16 +11,16 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.packets.PacketTMs;
+import thut.lib.TComponent;
 
 public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 {
@@ -71,21 +71,21 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     public void init()
     {
         super.init();
-        final Component apply = new TranslatableComponent("block.tm_machine.apply");
+        final Component apply = TComponent.translatable("block.tm_machine.apply");
         this.addRenderableWidget(new Button(this.width / 2 - 8, this.height / 2 - 39, 60, 20, apply, b ->
         {
             final PacketTMs packet = new PacketTMs();
             packet.data.putInt("m", this.index);
             PokecubeCore.packets.sendToServer(packet);
         }));
-        final Component next = new TranslatableComponent(">");
+        final Component next = TComponent.translatable(">");
         this.addRenderableWidget(new Button(this.width / 2 + 68, this.height / 2 - 50, 10, 10, next, b ->
         {
             final String[] moves = this.menu.moves;
             this.index++;
             if (this.index > moves.length - 1) this.index = 0;
         }));
-        final Component prev = new TranslatableComponent("<");
+        final Component prev = TComponent.translatable("<");
         this.addRenderableWidget(new Button(this.width / 2 - 30, this.height / 2 - 50, 10, 10, prev, b ->
         {
             final String[] moves = this.menu.moves;
@@ -94,7 +94,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             else if (this.index < 0) this.index = 0;
         }));
         this.addRenderableWidget(this.search = new EditBox(this.font, this.width / 2 - 19, this.height / 2 - 50, 87, 10,
-                new TranslatableComponent("")));
+                TComponent.translatable("")));
     }
 
     @Override

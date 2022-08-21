@@ -2,9 +2,9 @@ package pokecube.core.moves.templates;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.moves.PokemobTerrainEffects.EffectType;
 import pokecube.core.network.packets.PacketSyncTerrain;
@@ -30,7 +30,7 @@ public class Move_Terrain extends Move_Basic
     {
         super(name);
         this.effect = PokemobTerrainEffects.getForIndex(this.move.baseEntry.extraInfo);
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.info(name + " " + this.move.baseEntry.extraInfo + " " + this.effect);
+        if (PokecubeMod.debug) PokecubeAPI.LOGGER.info(name + " " + this.move.baseEntry.extraInfo + " " + this.effect);
     }
 
     @Override

@@ -9,7 +9,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -20,6 +19,7 @@ import net.minecraftforge.server.permission.events.PermissionGatherEvent;
 import net.minecraftforge.server.permission.nodes.PermissionNode;
 import net.minecraftforge.server.permission.nodes.PermissionTypes;
 import pokecube.core.PokecubeCore;
+import thut.lib.TComponent;
 
 @Mod.EventBusSubscriber
 public class PermNodes
@@ -67,7 +67,7 @@ public class PermNodes
     {
         PermissionNode<Boolean> node = new PermissionNode<>(PokecubeCore.MODID, name, PermissionTypes.BOOLEAN,
                 (player, playerUUID, context) -> level.matches(playerUUID));
-        node.setInformation(new TextComponent(node.getNodeName()), new TextComponent(message));
+        node.setInformation(TComponent.literal(node.getNodeName()), TComponent.literal(message));
 
         if (NODES.containsKey(name) || NODES.containsKey(node.getNodeName()))
         {
@@ -85,8 +85,6 @@ public class PermNodes
     {
         NODES.put(node.getNodeName(), node);
     }
-
-    public static long test = 0;
 
     @SubscribeEvent
     public static void gatherPerms(PermissionGatherEvent.Nodes event)

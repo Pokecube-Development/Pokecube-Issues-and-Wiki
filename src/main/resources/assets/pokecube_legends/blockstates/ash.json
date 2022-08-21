@@ -1,100 +1,300 @@
 {
-  "variants": {
-    "layers=1,wet=false": {
-      "model": "pokecube_legends:block/ash_height1"
+  "multipart": [
+    {
+      "when": {
+        "falling": "true"
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_air"
+      }
     },
-    "layers=2,wet=false": {
-      "model": "pokecube_legends:block/ash_height2"
+    {
+      "when": {
+        "falling": "false", "wet": false,
+        "layers": 16
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_block"
+      }
     },
-    "layers=3,wet=false": {
-      "model": "pokecube_legends:block/ash_height3"
+    {
+      "when": {
+        "falling": "false", "wet": false,
+        "layers": 1
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height1"
+      }
     },
-    "layers=4,wet=false": {
-      "model": "pokecube_legends:block/ash_height4"
+    {
+      "when": {
+        "falling": "false", "wet": false,
+        "layers": 2
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height2"
+      }
     },
-    "layers=5,wet=false": {
-      "model": "pokecube_legends:block/ash_height5"
+    {
+      "when": {
+        "falling": "false", "wet": false,
+        "layers": 3
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height3"
+      }
     },
-    "layers=6,wet=false": {
-      "model": "pokecube_legends:block/ash_height6"
+    {
+      "when": {
+        "falling": "false", "wet": false,
+        "layers": 4
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height4"
+      }
     },
-    "layers=7,wet=false": {
-      "model": "pokecube_legends:block/ash_height7"
+    {
+      "when": {
+        "falling": "false", "wet": false,
+        "layers": 5
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height5"
+      }
     },
-    "layers=8,wet=false": {
-      "model": "pokecube_legends:block/ash_height8"
+    {
+      "when": {
+        "falling": "false", "wet": false,
+        "layers": 6
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height6"
+      }
     },
-    "layers=9,wet=false": {
-      "model": "pokecube_legends:block/ash_height9"
+    {
+      "when": {
+        "falling": "false", "wet": false,
+        "layers": 7
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height7"
+      }
     },
-    "layers=10,wet=false": {
-      "model": "pokecube_legends:block/ash_height10"
+    {
+      "when": {
+        "falling": "false", "wet": false,
+        "layers": 8
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height8"
+      }
     },
-    "layers=11,wet=false": {
-      "model": "pokecube_legends:block/ash_height11"
+    {
+      "when": {
+        "falling": "false", "wet": false,
+        "layers": 9
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height9"
+      }
     },
-    "layers=12,wet=false": {
-      "model": "pokecube_legends:block/ash_height12"
+    {
+      "when": {
+        "falling": "false", "wet": false,
+        "layers": 10
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height10"
+      }
     },
-    "layers=13,wet=false": {
-      "model": "pokecube_legends:block/ash_height13"
+    {
+      "when": {
+        "falling": "false", "wet": false,
+        "layers": 11
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height11"
+      }
     },
-    "layers=14,wet=false": {
-      "model": "pokecube_legends:block/ash_height14"
+    {
+      "when": {
+        "falling": "false", "wet": false,
+        "layers": 12
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height12"
+      }
     },
-    "layers=15,wet=false": {
-      "model": "pokecube_legends:block/ash_height15"
+    {
+      "when": {
+        "falling": "false", "wet": false,
+        "layers": 13
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height13"
+      }
     },
-    "layers=16,wet=false": {
-      "model": "pokecube_legends:block/ash_block"
+    {
+      "when": {
+        "falling": "false", "wet": false,
+        "layers": 14
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height14"
+      }
     },
-    "layers=1,wet=true": {
-      "model": "pokecube_legends:block/ash_height1_wet"
+    {
+      "when": {
+        "falling": "false", "wet": false,
+        "layers": 15
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height15"
+      }
     },
-    "layers=2,wet=true": {
-      "model": "pokecube_legends:block/ash_height2_wet"
+    {
+      "when": {
+        "falling": "false", "wet": true,
+        "layers": 16
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_block_wet"
+      }
     },
-    "layers=3,wet=true": {
-      "model": "pokecube_legends:block/ash_height3_wet"
+    {
+      "when": {
+        "falling": "false", "wet": true,
+        "layers": 1
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height1_wet"
+      }
     },
-    "layers=4,wet=true": {
-      "model": "pokecube_legends:block/ash_height4_wet"
+    {
+      "when": {
+        "falling": "false", "wet": true,
+        "layers": 2
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height2_wet"
+      }
     },
-    "layers=5,wet=true": {
-      "model": "pokecube_legends:block/ash_height5_wet"
+    {
+      "when": {
+        "falling": "false", "wet": true,
+        "layers": 3
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height3_wet"
+      }
     },
-    "layers=6,wet=true": {
-      "model": "pokecube_legends:block/ash_height6_wet"
+    {
+      "when": {
+        "falling": "false", "wet": true,
+        "layers": 4
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height4_wet"
+      }
     },
-    "layers=7,wet=true": {
-      "model": "pokecube_legends:block/ash_height7_wet"
+    {
+      "when": {
+        "falling": "false", "wet": true,
+        "layers": 5
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height5_wet"
+      }
     },
-    "layers=8,wet=true": {
-      "model": "pokecube_legends:block/ash_height8_wet"
+    {
+      "when": {
+        "falling": "false", "wet": true,
+        "layers": 6
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height6_wet"
+      }
     },
-    "layers=9,wet=true": {
-      "model": "pokecube_legends:block/ash_height9_wet"
+    {
+      "when": {
+        "falling": "false", "wet": true,
+        "layers": 7
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height7_wet"
+      }
     },
-    "layers=10,wet=true": {
-      "model": "pokecube_legends:block/ash_height10_wet"
+    {
+      "when": {
+        "falling": "false", "wet": true,
+        "layers": 8
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height8_wet"
+      }
     },
-    "layers=11,wet=true": {
-      "model": "pokecube_legends:block/ash_height11_wet"
+    {
+      "when": {
+        "falling": "false", "wet": true,
+        "layers": 9
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height9_wet"
+      }
     },
-    "layers=12,wet=true": {
-      "model": "pokecube_legends:block/ash_height12_wet"
+    {
+      "when": {
+        "falling": "false", "wet": true,
+        "layers": 10
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height10_wet"
+      }
     },
-    "layers=13,wet=true": {
-      "model": "pokecube_legends:block/ash_height13_wet"
+    {
+      "when": {
+        "falling": "false", "wet": true,
+        "layers": 11
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height11_wet"
+      }
     },
-    "layers=14,wet=true": {
-      "model": "pokecube_legends:block/ash_height14_wet"
+    {
+      "when": {
+        "falling": "false", "wet": true,
+        "layers": 12
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height12_wet"
+      }
     },
-    "layers=15,wet=true": {
-      "model": "pokecube_legends:block/ash_height15_wet"
+    {
+      "when": {
+        "falling": "false", "wet": true,
+        "layers": 13
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height13_wet"
+      }
     },
-    "layers=16,wet=true": {
-      "model": "pokecube_legends:block/ash_block_wet"
+    {
+      "when": {
+        "falling": "false", "wet": true,
+        "layers": 14
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height14_wet"
+      }
+    },
+    {
+      "when": {
+        "falling": "false", "wet": true,
+        "layers": 15
+      },
+      "apply": {
+        "model": "pokecube_legends:block/ash_height15_wet"
+      }
     }
-  }
+  ]
 }

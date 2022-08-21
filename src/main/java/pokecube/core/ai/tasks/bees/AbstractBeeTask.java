@@ -6,10 +6,10 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import thut.api.entity.ai.RootTask;
 
 public abstract class AbstractBeeTask extends BaseIdleTask
@@ -19,7 +19,7 @@ public abstract class AbstractBeeTask extends BaseIdleTask
     {
         // Don't run if we don't have a hive
         // The HiveSensor will try to set this if it is invalid.
-        AbstractBeeTask.mems.put(BeeTasks.HIVE_POS, MemoryStatus.VALUE_PRESENT);
+        AbstractBeeTask.mems.put(BeeTasks.HIVE_POS.get(), MemoryStatus.VALUE_PRESENT);
     }
 
     public AbstractBeeTask(final IPokemob pokemob)

@@ -4,12 +4,11 @@ import java.util.UUID;
 
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Entity.RemovalReason;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,24 +16,26 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.entity.PartEntity;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.events.pokemobs.SpawnEvent.SendOut;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.IRunnable;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.events.pokemob.SpawnEvent.SendOut;
-import pokecube.core.handlers.Config;
-import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.eventhandlers.EventsHandler;
+import pokecube.core.init.Config;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
-import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
+import thut.lib.TComponent;
 
 public class SendOutManager
 {
@@ -94,7 +95,7 @@ public class SendOutManager
 
         if (mob == null) return null;
 
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         final Config config = PokecubeCore.getConfig();
 
         // Next check some conditions for whether the sendout can occur.
@@ -119,7 +120,7 @@ public class SendOutManager
             if (isPlayers && cube.shootingEntity.isAlive())
             {
                 Tools.giveItem((Player) cube.shootingEntity, cube.getItem());
-                user.displayClientMessage(new TranslatableComponent("pokecube.sendout.fail.noperms.general"), true);
+                user.displayClientMessage(TComponent.translatable("pokecube.sendout.fail.noperms.general"), true);
                 cube.discard();
             }
             return null;
@@ -147,7 +148,7 @@ public class SendOutManager
             if (v == null && isPlayers)
             {
                 Tools.giveItem((Player) cube.shootingEntity, cube.getItem());
-                user.displayClientMessage(new TranslatableComponent("pokecube.noroom"), true);
+                user.displayClientMessage(TComponent.translatable("pokecube.noroom"), true);
                 cube.discard();
                 return null;
             }
@@ -165,22 +166,22 @@ public class SendOutManager
                 if (denied)
                 {
                     Tools.giveItem(user, cube.getItem());
-                    user.displayClientMessage(new TranslatableComponent("pokecube.sendout.fail.noperms.specific",
-                            pokemob.getDisplayName()), true);
+                    user.displayClientMessage(
+                            TComponent.translatable("pokecube.sendout.fail.noperms.specific", pokemob.getDisplayName()),
+                            true);
                     cube.discard();
                     return null;
                 }
             }
 
             final SendOut evt = new SendOut.Pre(pokemob);
-            if (PokecubeCore.POKEMOB_BUS.post(evt))
+            if (PokecubeAPI.POKEMOB_BUS.post(evt))
             {
                 if (isPlayers)
                 {
                     Tools.giveItem(user, cube.getItem());
                     user.displayClientMessage(
-                            new TranslatableComponent("pokecube.sendout.fail.cancelled", pokemob.getDisplayName()),
-                            true);
+                            TComponent.translatable("pokecube.sendout.fail.cancelled", pokemob.getDisplayName()), true);
                     cube.discard();
                 }
                 return null;
@@ -202,13 +203,13 @@ public class SendOutManager
             cube.setItem(pokemob.getPokecube());
 
         }
-        else if (mob instanceof LivingEntity)
+        else if (mob instanceof LivingEntity living)
         {
             cube.getItem().getTag().remove(TagNames.MOBID);
             cube.getItem().getTag().remove(TagNames.POKEMOB);
             cube.setReleased(mob);
             SendOutManager.apply(world, mob, v, pokemob, summon);
-            return (LivingEntity) mob;
+            return living;
         }
         else
         {
@@ -238,7 +239,7 @@ public class SendOutManager
                 pokemob.getEntity().getPersistentData().remove(TagNames.NOPOOF);
             }
             final SendOut evt = new SendOut.Post(pokemob);
-            PokecubeCore.POKEMOB_BUS.post(evt);
+            PokecubeAPI.POKEMOB_BUS.post(evt);
         }
     }
 
@@ -251,7 +252,7 @@ public class SendOutManager
         if (test == null) SendOutManager.make(world, mob, vec, pokemob, summon);
         else
         {
-            PokecubeCore.LOGGER.warn("Replacing errored UUID mob! {}", mob);
+            PokecubeAPI.LOGGER.warn("Replacing errored UUID mob! {}", mob);
             mob.getPersistentData().putUUID("old_uuid", id);
             mob.setUUID(UUID.randomUUID());
             SendOutManager.make(world, mob, vec, pokemob, summon);

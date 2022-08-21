@@ -437,7 +437,8 @@ public abstract class ShadowMaskChecker extends AbstractChecker
     }
 
     protected boolean run(final double radSq, final int num, final Set<ChunkPos> seen,
-            final Object2FloatOpenHashMap<BlockPos> ret, final List<HitEntity> entityAffected)
+            final Object2FloatOpenHashMap<BlockPos> destroyed, Object2FloatOpenHashMap<BlockPos> remaining,
+            final List<HitEntity> entityAffected)
     {
         double rMag;
         double str;
@@ -510,6 +511,7 @@ public abstract class ShadowMaskChecker extends AbstractChecker
         if (res > str)
         {
             this.shadow.block(relPos, this.rHat);
+            remaining.put(this.rAbs.getPos().immutable(), (float) str);
             return false;
         }
 
@@ -523,24 +525,25 @@ public abstract class ShadowMaskChecker extends AbstractChecker
                 this.rAbs.getAABB().inflate(0.5, 0.5, 0.5));
         if (hits != null) for (final Entity e : hits) entityAffected.add(new HitEntity(e, (float) str));
         // Add to blocks to remove list.
-        ret.addTo(pos, (float) str);
+        destroyed.addTo(pos, (float) str);
 
         return false;
     }
 
-    protected abstract boolean apply(Object2FloatOpenHashMap<BlockPos> ret, List<HitEntity> entityAffected,
-            HashSet<ChunkPos> seen);
+    protected abstract boolean apply(Object2FloatOpenHashMap<BlockPos> destroyed,
+            Object2FloatOpenHashMap<BlockPos> remaining, List<HitEntity> entityAffected, HashSet<ChunkPos> seen);
 
     @Override
     protected BlastResult getBlocksToRemove()
     {
         beginLoop();
-        final Object2FloatOpenHashMap<BlockPos> ret = new Object2FloatOpenHashMap<>();
+        final Object2FloatOpenHashMap<BlockPos> destroyed = new Object2FloatOpenHashMap<>();
+        final Object2FloatOpenHashMap<BlockPos> remaining = new Object2FloatOpenHashMap<>();
         final List<HitEntity> entityAffected = Lists.newArrayList();
         final HashSet<ChunkPos> seen = new HashSet<>();
-        boolean done = this.apply(ret, entityAffected, seen);
+        boolean done = this.apply(destroyed, remaining, entityAffected, seen);
         endLoop();
-        return new BlastResult(ret, entityAffected, seen, done);
+        return new BlastResult(destroyed, remaining, entityAffected, seen, done);
     }
 
     @Override

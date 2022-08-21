@@ -8,11 +8,11 @@ import com.google.common.collect.Maps;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.level.block.state.BlockState;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.entity.ai.RootTask;
 
 public abstract class UtilTask extends TaskBase
@@ -21,7 +21,7 @@ public abstract class UtilTask extends TaskBase
 
     static
     {
-        UtilTask.MEMS.put(MemoryModules.ATTACKTARGET, MemoryStatus.VALUE_ABSENT);
+        UtilTask.MEMS.put(MemoryModules.ATTACKTARGET.get(), MemoryStatus.VALUE_ABSENT);
     }
 
     public static Predicate<BlockState> diggable = state -> (PokecubeTerrainChecker.isTerrain(state)

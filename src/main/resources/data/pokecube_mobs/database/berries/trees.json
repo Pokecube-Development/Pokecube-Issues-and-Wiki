@@ -21,16 +21,28 @@
             "tree": "pokecube_world:leppa_tree"
         },
         {
+            "weight": 3,
             "berry": "nanab",
             "tree": "pokecube_world:nanab_tree"
+        },
+        {
+            "weight": 1,
+            "berry": "nanab",
+            "tree": "pokecube_world:nanab_tree_bent"
         },
         {
             "berry": "oran",
             "tree": "pokecube_world:oran_tree"
         },
         {
+            "weight": 1,
             "berry": "pecha",
             "tree": "pokecube_world:pecha_tree"
+        },
+        {
+            "weight": 2,
+            "berry": "pecha",
+            "tree": "pokecube_world:pecha_tree_bent"
         },
         {
             "berry": "pomeg",
@@ -45,8 +57,8 @@
             "tree": "pokecube_world:sitrus_tree"
         },
         {
-            "berry": "tomato",
-            "tree": "pokecube_world:tomato_tree"
+            "berry": "tamato",
+            "tree": "pokecube_world:tamato_tree"
         }
     ]
 }

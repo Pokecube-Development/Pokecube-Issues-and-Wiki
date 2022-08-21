@@ -1,19 +1,18 @@
 package pokecube.legends.init.function;
 
-import net.minecraft.Util;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.eventbus.api.Event.Result;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.events.pokemobs.CaptureEvent;
 import pokecube.core.PokecubeItems;
-import pokecube.core.events.pokemob.CaptureEvent;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
+import thut.lib.TComponent;
 
 public class RaidCapture
 {
@@ -28,11 +27,11 @@ public class RaidCapture
         // Catch Raids
         if (raidMob) if (dynamaxCube)
         {
-            PokecubeCore.LOGGER.debug("Life: " + event.mob.getHealth() + "Max Life: " + event.mob.getMaxHealth());
+            PokecubeAPI.LOGGER.debug("Life: " + event.mob.getHealth() + "Max Life: " + event.mob.getMaxHealth());
             if (event.mob.getHealth() > event.mob.getMaxHealth() / 2)
             {
-                if (catcher instanceof Player) ((Player) catcher).sendMessage(new TranslatableComponent(
-                        "pokecube.denied"), Util.NIL_UUID);
+                if (catcher instanceof Player player)
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
                 event.setCanceled(true);
                 event.setResult(Result.DENY);
                 CaptureManager.onCaptureDenied((EntityPokecubeBase) event.pokecube);
@@ -40,8 +39,8 @@ public class RaidCapture
         }
         else
         {
-            if (catcher instanceof Player) ((Player) catcher).sendMessage(new TranslatableComponent(
-                    "pokecube.denied"), Util.NIL_UUID);
+            if (catcher instanceof Player player)
+                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
             event.setCanceled(true);
             event.setResult(Result.DENY);
             CaptureManager.onCaptureDenied((EntityPokecubeBase) event.pokecube);
@@ -50,8 +49,8 @@ public class RaidCapture
         // No Catch normal Pokemobs
         if (dynamaxCube && !raidMob)
         {
-            if (catcher instanceof Player) ((Player) catcher).sendMessage(new TranslatableComponent(
-                    "pokecube.denied"), Util.NIL_UUID);
+            if (catcher instanceof Player player)
+                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
             event.setCanceled(true);
             event.setResult(Result.DENY);
             CaptureManager.onCaptureDenied((EntityPokecubeBase) event.pokecube);

@@ -3,7 +3,6 @@ package pokecube.wiki;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
@@ -24,14 +23,14 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.loading.FMLPaths;
+import pokecube.api.data.Pokedex;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.database.Database;
-import pokecube.core.database.Pokedex;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.XMLPokedexEntry;
 import pokecube.core.database.pokedex.PokemobsDatabases;
 import pokecube.core.database.pokedex.PokemobsJson;
-import pokecube.core.interfaces.IPokemob;
 import pokecube.core.moves.MovesUtils;
 import thut.core.common.ThutCore;
 
@@ -128,11 +127,11 @@ public class JsonHelper
         final File dir = new File("./mods/" + path + "/");
         if (!dir.exists()) dir.mkdirs();
         final File file = new File(dir, key.getPath() + ".json");
-        FileWriter write;
+        FileOutputStream write;
         try
         {
-            write = new FileWriter(file);
-            write.write(json);
+            write = new FileOutputStream(file);
+            write.write(json.getBytes());
             write.close();
         }
         catch (final IOException e)
@@ -158,11 +157,11 @@ public class JsonHelper
         final File dir = new File("./mods/" + path + "/");
         if (!dir.exists()) dir.mkdirs();
         final File file = new File(dir, key.getPath() + ".json");
-        FileWriter write;
+        FileOutputStream write;
         try
         {
-            write = new FileWriter(file);
-            write.write(loot_table);
+            write = new FileOutputStream(file);
+            write.write(loot_table.getBytes());
             write.close();
         }
         catch (final IOException e)
@@ -178,11 +177,11 @@ public class JsonHelper
         final File dir = new File("./mods/" + path + "/");
         if (!dir.exists()) dir.mkdirs();
         final File file = new File(dir, key.getPath() + ".json");
-        FileWriter write;
+        FileOutputStream write;
         try
         {
-            write = new FileWriter(file);
-            write.write(json);
+            write = new FileOutputStream(file);
+            write.write(json.getBytes());
             write.close();
         }
         catch (final IOException e)

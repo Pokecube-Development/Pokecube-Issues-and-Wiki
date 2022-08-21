@@ -6,8 +6,6 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -19,17 +17,19 @@ import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.utils.PokeType;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.utils.PokeType;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
 import thut.bot.entity.BotPlayer;
 import thut.core.common.network.CapabilitySync;
+import thut.lib.RegHelper;
+import thut.lib.TComponent;
 
 @Mod(value = "pokecube_pokeplayer")
 public class Pokeplayer
@@ -53,7 +53,7 @@ public class Pokeplayer
     }
 
     private static final SimpleCommandExceptionType ERROR_FAILED = new SimpleCommandExceptionType(
-            new TranslatableComponent("not copy?"));
+            TComponent.translatable("not copy?"));
 
     private static void onCommandRegister(final RegisterCommandsEvent event)
     {
@@ -67,12 +67,12 @@ public class Pokeplayer
                     if (copy == null) throw Pokeplayer.ERROR_FAILED.create();
                     if (wrd.equals("check"))
                     {
-                        ctx.getSource().sendSuccess(new TextComponent(copy.getCopiedID() + ""), false);
+                        ctx.getSource().sendSuccess(TComponent.literal(copy.getCopiedID() + ""), false);
                         return 0;
                     }
 
                     if (var == null) copy.setCopiedID(null);
-                    else copy.setCopiedID(var.getEntityType().getRegistryName());
+                    else copy.setCopiedID(RegHelper.getKey(var.getEntityType()));
                     CapabilitySync.sendUpdate(ctx.getSource().getEntity());
                     return 0;
                 }));
@@ -133,7 +133,7 @@ public class Pokeplayer
         if (event.getEntity().getBbHeight() < 1 && pose == Pose.SWIMMING && !event.realEntity.isInWaterOrBubble())
             event.realEntity.setPose(Pose.STANDING);
 
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
         if (pokemob != null)
         {
             Pokeplayer.setFlying(player, pokemob);

@@ -10,7 +10,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.StringRepresentable;
@@ -45,6 +44,7 @@ import pokecube.core.blocks.InteractableHorizontalBlock;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.function.MaxRaidFunction;
 import pokecube.legends.tileentity.RaidSpawn;
+import thut.lib.TComponent;
 
 public class RaidSpawnBlock extends InteractableHorizontalBlock implements SimpleWaterloggedBlock, EntityBlock
 {
@@ -159,7 +159,7 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements Simpl
         String message;
         if (Screen.hasShiftDown()) message = I18n.get("legendblock." + this.infoname + ".tooltip");
         else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(new TranslatableComponent(message));
+        tooltip.add(TComponent.translatable(message));
     }
 
     @Override

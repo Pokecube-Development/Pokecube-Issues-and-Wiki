@@ -27,22 +27,23 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.api.blocks.IInhabitable;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.PokedexEntry.EvolutionData;
+import pokecube.api.data.PokedexEntry.SpawnData;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.moves.IMoveConstants;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntry.EvolutionData;
-import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
-import pokecube.core.handlers.Config;
-import pokecube.core.handlers.events.SpawnHandler.AABBRegion;
-import pokecube.core.handlers.events.SpawnHandler.ForbidRegion;
-import pokecube.core.interfaces.IInhabitable;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.eventhandlers.SpawnHandler.AABBRegion;
+import pokecube.core.eventhandlers.SpawnHandler.ForbidRegion;
+import pokecube.core.init.Config;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.Tracker;
 import thut.api.world.IWorldTickListener;
@@ -182,10 +183,10 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
     {
         final List<IPokemob> pokemobs = Lists.newArrayList();
         this.mobs.removeIf(uuid -> {
-            final Entity mob = world.getEntity(uuid);
-            if (mob == null || !(mob instanceof Mob)) return true;
-            if (!this.canEnterHabitat((Mob) mob)) return true;
-            pokemobs.add(CapabilityPokemob.getPokemobFor(mob));
+            final Entity entity = world.getEntity(uuid);
+            if (!(entity instanceof Mob mob)) return true;
+            if (!this.canEnterHabitat(mob)) return true;
+            pokemobs.add(PokemobCaps.getPokemobFor(mob));
             return false;
         });
         return pokemobs;
@@ -209,8 +210,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
         // This also removes hatched/removed eggs
         this.eggs.removeIf(uuid -> {
             final Entity mob = world.getEntity(uuid);
-            if (!(mob instanceof EntityPokemobEgg) || !mob.isAddedToWorld()) return true;
-            final EntityPokemobEgg egg = (EntityPokemobEgg) mob;
+            if (!(mob instanceof EntityPokemobEgg egg) || !mob.isAddedToWorld()) return true;
             if (this.mobs.size() > PokecubeCore.getConfig().nestMobNumber || !playerNear) egg.setAge(-100);
             else if (egg.getAge() < -100) egg.setAge(-rng.nextInt(100));
             return false;
@@ -228,21 +228,22 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
                 for (final IPokemob pokemob : pokemobs)
                 {
                     final Brain<?> brain = pokemob.getEntity().getBrain();
-                    if (!brain.hasMemoryValue(BurrowTasks.JOB_INFO)) brain.setMemory(BurrowTasks.JOB_INFO, tag);
+                    if (!brain.hasMemoryValue(MemoryModules.JOB_INFO.get()))
+                        brain.setMemory(MemoryModules.JOB_INFO.get(), tag);
                 }
             }
 
             final BlockEntity tile = world.getBlockEntity(this.burrow.getCenter());
 
-            if (tile instanceof NestTile)
+            if (tile instanceof NestTile nest)
             {
-                ((NestTile) tile).residents.removeIf(p -> {
+                nest.residents.removeIf(p -> {
                     if (p == null) return true;
                     if (!p.getEntity().isAlive()) return true;
                     if (!p.getEntity().isAddedToWorld()) return true;
                     return false;
                 });
-                ((NestTile) tile).residents.forEach(p -> this.mobs.add(p.getEntity().getUUID()));
+                nest.residents.forEach(p -> this.mobs.add(p.getEntity().getUUID()));
             }
 
             // Here we cleanup the burrow, and see if any other mobs of similar
@@ -259,7 +260,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
                 selection:
                 for (final EntityType<?> t : types)
                 {
-                    final IPokemob pokemob = CapabilityPokemob.getPokemobFor(t.create(world));
+                    final IPokemob pokemob = PokemobCaps.getPokemobFor(t.create(world));
                     if (pokemob != null)
                     {
                         final PokedexEntry entry = pokemob.getPokedexEntry();
@@ -364,7 +365,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
     @Override
     public boolean canEnterHabitat(final Mob mob)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob == null) return false;
         return this.valid.test(pokemob.getPokedexEntry());
     }

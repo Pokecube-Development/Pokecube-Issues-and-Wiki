@@ -17,7 +17,7 @@
     "size": 2,
     "avoidances":{
       "flags": ["temple", "groudon_temple"],
-      "avoidances": [{"name":"temple","distance":8}, {"name":"groudon_temple","distance":80}]
+      "avoidances": [{"name":"temple","distance":8}, {"name":"groudon_temple","distance":256}]
     }
   },
   "biomes": "#pokecube_world:has_structure/groudon_temple",

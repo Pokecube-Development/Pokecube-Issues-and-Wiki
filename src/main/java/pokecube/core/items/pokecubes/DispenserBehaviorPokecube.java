@@ -11,9 +11,9 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.FakePlayer;
+import pokecube.api.items.IPokecube;
 import pokecube.core.PokecubeItems;
-import pokecube.core.interfaces.IPokecube;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.impl.PokecubeMod;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 

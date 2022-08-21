@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
-import pokecube.core.interfaces.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob;
 import thut.api.entity.ICopyMob;
 
 public class EntityTools
@@ -45,18 +45,18 @@ public class EntityTools
 
     public static Entity getCoreEntity(final Entity in)
     {
-        if (in instanceof PartEntity<?>) return ((PartEntity<?>) in).getParent();
+        if (in instanceof PartEntity<?> part) return part.getParent();
         return in;
     }
 
     public static LivingEntity getCoreLiving(final Entity in)
     {
-        if (in instanceof PartEntity<?>)
+        if (in instanceof PartEntity<?> part)
         {
-            final Entity mob = ((PartEntity<?>) in).getParent();
-            if (mob instanceof LivingEntity) return (LivingEntity) mob;
+            final Entity mob = part.getParent();
+            if (mob instanceof LivingEntity living) return living;
         }
-        return in instanceof LivingEntity ? (LivingEntity) in : null;
+        return in instanceof LivingEntity living ? living : null;
     }
 
     /**

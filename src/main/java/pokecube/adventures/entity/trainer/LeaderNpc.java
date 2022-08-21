@@ -5,29 +5,20 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
+import pokecube.api.entity.trainers.IHasRewards.Reward;
+import pokecube.api.utils.PokeType;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.utils.PokeType;
 import thut.core.common.ThutCore;
 
 public class LeaderNpc extends TrainerNpc
 {
-    public static final EntityType<LeaderNpc> TYPE;
-
-    static
-    {
-        TYPE = EntityType.Builder.of(LeaderNpc::new, MobCategory.CREATURE).setCustomClientFactory((s,
-                w) -> LeaderNpc.TYPE.create(w)).build("leader");
-    }
-
     public LeaderNpc(final EntityType<? extends TrainerBase> type, final Level worldIn)
     {
         super(type, worldIn);

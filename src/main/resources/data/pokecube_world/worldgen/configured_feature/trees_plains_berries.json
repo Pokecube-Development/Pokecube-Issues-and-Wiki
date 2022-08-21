@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:random_selector",
+    "config": {
+      "features": [
+        {
+          "chance": 0.5,
+          "feature": "pokecube_world:leppa_tree"
+        }
+      ],
+      "default": "pokecube_world:leppa_tree"
+    }
+  }
+  

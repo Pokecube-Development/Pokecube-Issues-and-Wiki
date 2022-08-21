@@ -161,14 +161,12 @@ public class StructureManager
 
     public static Set<StructureInfo> getFor(final ServerLevel dim, final BlockPos loc)
     {
-        final Set<StructureInfo> matches = Sets.newHashSet();
-        return matches;
+        return getFor(dim.dimension(), loc);
     }
 
     public static Set<StructureInfo> getNear(final ServerLevel dim, final BlockPos loc, int distance)
     {
-        final Set<StructureInfo> matches = Sets.newHashSet();
-        return matches;
+        return getNear(dim.dimension(), loc, distance);
     }
 
     private static Set<StructureInfo> getNearInt(final ResourceKey<Level> dim, final BlockPos loc, final ChunkPos pos,

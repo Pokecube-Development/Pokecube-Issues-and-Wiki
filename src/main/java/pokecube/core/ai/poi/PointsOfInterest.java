@@ -20,7 +20,10 @@ public class PointsOfInterest
     public static final RegistryObject<PoiType> NEST = PointsOfInterest.REG.register("pokemob_nest",
             () -> new PoiType("pokemob_nest",
                     Sets.newHashSet(PokecubeItems.NEST.get().getStateDefinition().getPossibleStates()), 1, 2));
+    
+    // 1.19 notes: These need to turn to RegistryKey<PoiType>
 
+    // This needs to turn to "init", and then be blank
     public static void postInit()
     {
         PointsOfInterest.REG.getEntries().forEach(r -> PoiType.registerBlockStates(r.get()));

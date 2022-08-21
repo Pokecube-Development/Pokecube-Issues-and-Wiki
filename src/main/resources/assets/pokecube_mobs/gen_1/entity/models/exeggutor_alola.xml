@@ -3,7 +3,7 @@
  <model name="">
   <phase name="global" scale="1.8"/>
   <phase duration="10" leftArm="" leftLeg="leg2" legAngle="20" name="biWalk" rightArm="" rightLeg="leg1"/>
-  <customTex default="exeggutoralola">
+  <customTex default="exeggutor_alola">
   <part name="Head" tex="exeggutoralolaeye3"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
    <part name="Head1" tex="exeggutoralolaeye2"/>

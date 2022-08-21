@@ -6,35 +6,35 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent.RenderMoveMessages;
 import pokecube.core.client.gui.helper.ListHelper;
+import thut.lib.TComponent;
 
 public class GuiInfoMessages
 {
     private static final LinkedList<String> messages = Lists.newLinkedList();
-    private static final LinkedList<String> recent   = Lists.newLinkedList();
+    private static final LinkedList<String> recent = Lists.newLinkedList();
 
-    static long       time   = 0;
+    static long time = 0;
     static public int offset = 0;
 
     public static void addMessage(final Component message)
     {
         if (message == null)
         {
-            PokecubeCore.LOGGER.warn("Null message was sent!", new NullPointerException());
+            PokecubeAPI.LOGGER.warn("Null message was sent!", new NullPointerException());
             return;
         }
         if (PokecubeCore.getConfig().battleLogInChat)
         {
-            if (PokecubeCore.proxy.getPlayer() != null) PokecubeCore.proxy.getPlayer().sendMessage(message,
-                    Util.NIL_UUID);
+            if (PokecubeCore.proxy.getPlayer() != null)
+                thut.lib.ChatHelper.sendSystemMessage(PokecubeCore.proxy.getPlayer(), message);;
             return;
         }
         GuiInfoMessages.messages.push(message.getString());
@@ -61,8 +61,9 @@ public class GuiInfoMessages
         final int paddingXNeg = PokecubeCore.getConfig().messagePadding.get(1);
 
         final int[] mess = GuiDisplayPokecubeInfo.applyTransform(event.getMat(), PokecubeCore.getConfig().messageRef,
-                PokecubeCore.getConfig().messagePos, new int[] { PokecubeCore.getConfig().messageWidth, 7
-                        * minecraft.font.lineHeight }, (float) PokecubeCore.getConfig().messageSize);
+                PokecubeCore.getConfig().messagePos, new int[]
+                { PokecubeCore.getConfig().messageWidth, 7 * minecraft.font.lineHeight },
+                (float) PokecubeCore.getConfig().messageSize);
         int x = 0, y = 0;
         final float s = (float) PokecubeCore.getConfig().messageSize;
         x = x - 150;
@@ -81,8 +82,8 @@ public class GuiInfoMessages
         if (minecraft.screen != null)
         {
             i1 = (int) (mx * minecraft.screen.width / minecraft.getWindow().getGuiScaledWidth());
-            j1 = (int) (minecraft.screen.height - my * minecraft.screen.height / minecraft.getWindow()
-                    .getGuiScaledHeight() - 1);
+            j1 = (int) (minecraft.screen.height
+                    - my * minecraft.screen.height / minecraft.getWindow().getGuiScaledHeight() - 1);
         }
         i1 = i1 - mess[0];
         j1 = j1 - mess[1];
@@ -115,8 +116,7 @@ public class GuiInfoMessages
             GuiInfoMessages.time = minecraft.player.tickCount;
             if (!GuiInfoMessages.recent.isEmpty()) GuiInfoMessages.recent.removeLast();
         }
-        while (GuiInfoMessages.recent.size() > 8)
-            GuiInfoMessages.recent.removeLast();
+        while (GuiInfoMessages.recent.size() > 8) GuiInfoMessages.recent.removeLast();
         final List<String> toUse = num == 7 ? GuiInfoMessages.messages : GuiInfoMessages.recent;
         final int size = toUse.size() - 1;
         num = Math.min(num, size + 1);
@@ -126,7 +126,7 @@ public class GuiInfoMessages
             int index = l + GuiInfoMessages.offset;
             if (index < 0) index = 0;
             if (index > size) break;
-            final TextComponent mess2 = new TextComponent(toUse.get(index));
+            final MutableComponent mess2 = TComponent.literal(toUse.get(index));
             final List<MutableComponent> mess1 = ListHelper.splitText(mess2, trim, minecraft.font, true);
             for (int j = mess1.size() - 1; j >= 0; j--)
             {

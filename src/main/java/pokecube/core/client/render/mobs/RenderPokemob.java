@@ -1,6 +1,5 @@
 package pokecube.core.client.render.mobs;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,6 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -24,16 +22,16 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader.DefaultFormeHolder.TexColours;
 import pokecube.core.entity.pokemobs.PokemobType;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.FormeHolder;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.capabilities.TextureableCaps.PokemobCap;
+import pokecube.core.impl.capabilities.TextureableCaps.PokemobCap;
 import thut.api.AnimatedCaps;
 import thut.api.ModelHolder;
 import thut.api.Tracker;
@@ -83,7 +81,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public void modifiyRGBA(final String part, final int[] rgbaIn)
         {
             IPokemob mob = null;
-            if (this.mob instanceof PokemobCap) mob = ((PokemobCap) this.mob).pokemob;
+            if (this.mob instanceof PokemobCap poke) mob = poke.pokemob;
             holders:
             if (mob != null)
             {
@@ -112,7 +110,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public boolean isHidden(final String part)
         {
             IPokemob mob = null;
-            if (this.mob instanceof PokemobCap) mob = ((PokemobCap) this.mob).pokemob;
+            if (this.mob instanceof PokemobCap poke) mob = poke.pokemob;
             if (mob == null) return false;
             final FormeHolder holder = mob.getCustomHolder();
             if (holder == null || holder.loaded_from == null) return false;
@@ -197,7 +195,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             final IAnimationHolder holder = this.getAnimationHolder();
             if (holder != null && holder.isFixed()) return holder.getAnimation(entityIn);
             if (this.overrideAnim) return this.anim;
-            final String phase = this.getPhase((Mob) entityIn, CapabilityPokemob.getPokemobFor(entityIn));
+            final String phase = this.getPhase((Mob) entityIn, PokemobCaps.getPokemobFor(entityIn));
             return phase;
         }
 
@@ -287,28 +285,19 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
         public void init()
         {
+            if (this.wrapper != null && this.wrapper.lastInit > Tracker.instance().getTick()) return;
             RenderPokemob.holders.put(this.entry, this);
             this.toRun.clear();
             this.toRunNames.clear();
             this.parts.clear();
             this.initModel(new ModelWrapper<>(this, this));
-            this.wrapper.lastInit = Tracker.instance().getTick() + 20;
+            this.wrapper.lastInit = Tracker.instance().getTick() + 50;
         }
 
         public void initModel(final ModelWrapper<Mob> model)
         {
             this.wrapper = model;
             model.imodel = ModelFactory.create(model.model, m -> {
-                // Check if an animation file exists.
-                try
-                {
-                    Minecraft.getInstance().getResourceManager().getResource(this.animation);
-                }
-                catch (final IOException e)
-                {
-                    // No animation here, lets try to use the base one.
-                }
-
                 AnimationLoader.parse(this, model, this);
             });
         }
@@ -316,7 +305,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         @Override
         public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
         {
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             float s = 1;
             if (pokemob != null) s = pokemob.getEntity().getScale();
             float sx = (float) this.getScale().x;
@@ -389,7 +378,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
     public static void register()
     {
-        PokecubeCore.LOGGER.info("Registering Models to the renderer.");
+        PokecubeAPI.LOGGER.info("Registering Models to the renderer.");
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
             if (!entry.stock) continue;
@@ -435,7 +424,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     public void render(final Mob entity, final float entityYaw, final float partialTicks, final PoseStack matrixStackIn,
             final MultiBufferSource bufferIn, final int packedLightIn)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return;
         Holder holder = RenderPokemob.holders.getOrDefault(pokemob.getPokedexEntry(), this.holder);
         if (pokemob.getCustomHolder() != null)
@@ -457,7 +446,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         if (holder.wrapper == null || !holder.wrapper.isLoaded())
         {
             holder.init();
-            if (ThutCore.conf.debug) PokecubeMod.LOGGER.debug("Reloaded model for " + pokemob.getPokedexEntry());
+            if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Reloaded model for " + pokemob.getPokedexEntry());
         }
         if (holder.wrapper != null && !holder.wrapper.isLoaded())
         {
@@ -506,7 +495,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     {
         ResourceLocation texture = Database.missingno.texture;
         Holder holder = this.holder;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return texture;
         holder = RenderPokemob.holders.getOrDefault(pokemob.getPokedexEntry(), this.holder);
         if (pokemob.getCustomHolder() != null)

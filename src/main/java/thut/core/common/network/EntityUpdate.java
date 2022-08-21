@@ -19,6 +19,7 @@ import net.minecraftforge.common.capabilities.CapabilityDispatcher;
 import net.minecraftforge.common.capabilities.CapabilityProvider;
 import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 
 public class EntityUpdate extends NBTPacket
 {
@@ -74,7 +75,7 @@ public class EntityUpdate extends NBTPacket
         {
             // If we got to here then it means the above mob needs to be added
             // to the tag!
-            ThutCore.LOGGER.error("Error loading " + mob.getType().getRegistryName() + " on client side!");
+            ThutCore.LOGGER.error("Error loading " + RegHelper.getKey(mob)+ " on client side!");
             EntityUpdate.errorSet.add(mob.getType());
         }
 
@@ -100,7 +101,7 @@ public class EntityUpdate extends NBTPacket
         }
         catch (final Exception e)
         {
-            ThutCore.LOGGER.error("Error Loading Caps for: {}", mob.getType().getRegistryName());
+            ThutCore.LOGGER.error("Error Loading Caps for: {}", RegHelper.getKey(mob));
             ThutCore.LOGGER.error(e);
         }
         mob.refreshDimensions();

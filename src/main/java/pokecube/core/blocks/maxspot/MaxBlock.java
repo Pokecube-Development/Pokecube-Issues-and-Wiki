@@ -32,10 +32,10 @@ import thut.api.block.ITickTile;
 
 public class MaxBlock extends InteractableDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock
 {
-    private static final Map<Direction, VoxelShape> DYNAMAX  = new HashMap<>();
-    private static final Map<Direction, VoxelShape> DYNAMAX_COLLISION  = new HashMap<>();
-    protected static final DirectionProperty        FACING      = DirectionalBlock.FACING;
-    protected static final BooleanProperty          WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    private static final Map<Direction, VoxelShape> DYNAMAX = new HashMap<>();
+    private static final Map<Direction, VoxelShape> DYNAMAX_COLLISION = new HashMap<>();
+    protected static final DirectionProperty FACING = DirectionalBlock.FACING;
+    protected static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     static
     {// @formatter:off
@@ -75,21 +75,21 @@ public class MaxBlock extends InteractableDirectionalBlock implements SimpleWate
     public MaxBlock(final Properties properties)
     {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(MaxBlock.FACING, Direction.UP).setValue(
-                MaxBlock.WATERLOGGED, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(MaxBlock.FACING, Direction.UP)
+                .setValue(MaxBlock.WATERLOGGED, false));
     }
 
     // Precise selection box
     @Override
     public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
-                               final CollisionContext context)
+            final CollisionContext context)
     {
         return MaxBlock.DYNAMAX.get(state.getValue(MaxBlock.FACING));
     }
 
     @Override
     public VoxelShape getCollisionShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
-                                        final CollisionContext context)
+            final CollisionContext context)
     {
         return MaxBlock.DYNAMAX_COLLISION.get(state.getValue(MaxBlock.FACING));
     }
@@ -105,20 +105,22 @@ public class MaxBlock extends InteractableDirectionalBlock implements SimpleWate
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        final BlockState state = context.getLevel().getBlockState(context.getClickedPos().relative(context.getClickedFace().getOpposite()));
+        final BlockState state = context.getLevel()
+                .getBlockState(context.getClickedPos().relative(context.getClickedFace().getOpposite()));
         final Direction direction = context.getClickedFace();
-        return state.is(this) && state.getValue(MaxBlock.FACING) == direction ? (BlockState)this.defaultBlockState()
-                .setValue(MaxBlock.FACING, direction.getOpposite()) : (BlockState)this.defaultBlockState()
-                .setValue(MaxBlock.FACING, direction)
-                .setValue(MaxBlock.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate.getAmount() == 8);
+        return state.is(this) && state.getValue(MaxBlock.FACING) == direction
+                ? (BlockState) this.defaultBlockState().setValue(MaxBlock.FACING, direction.getOpposite())
+                : (BlockState) this.defaultBlockState().setValue(MaxBlock.FACING, direction).setValue(
+                        MaxBlock.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate.getAmount() == 8);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final LevelAccessor world, final BlockPos currentPos,
-                                  final BlockPos facingPos)
+    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState,
+            final LevelAccessor world, final BlockPos currentPos, final BlockPos facingPos)
     {
-        if (state.getValue(MaxBlock.WATERLOGGED)) world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        if (state.getValue(MaxBlock.WATERLOGGED))
+            world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
@@ -149,8 +151,7 @@ public class MaxBlock extends InteractableDirectionalBlock implements SimpleWate
     {
         final int power = worldIn.getBestNeighborSignal(pos);
         final BlockEntity tile = worldIn.getBlockEntity(pos);
-        if (tile == null || !(tile instanceof MaxTile)) return;
-        final MaxTile repel = (MaxTile) tile;
+        if (!(tile instanceof MaxTile repel)) return;
         if (power != 0)
         {
             repel.enabled = false;

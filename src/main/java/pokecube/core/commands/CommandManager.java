@@ -7,7 +7,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
-import pokecube.core.utils.Tools;
+import pokecube.core.utils.Permissions;
 
 public class CommandManager
 {
@@ -16,8 +16,8 @@ public class CommandManager
         final String perm = "command.pokecube";
         PermNodes.registerNode(perm, DefaultPermissionLevel.ALL,
                 "Is the player allowed to use the root pokecube command.");
-        final LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("pokecube").requires(Tools.hasPerm(
-                perm));
+        final LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("pokecube")
+                .requires(Permissions.hasPerm(perm));
 
         Kill.register(command);
         Count.register(command);

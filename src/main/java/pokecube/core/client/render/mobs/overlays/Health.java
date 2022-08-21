@@ -21,25 +21,25 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.entity.PartEntity;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.stats.StatsCollector;
-import pokecube.core.handlers.Config;
+import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.init.Config;
 import pokecube.core.utils.Tools;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
+import thut.lib.TComponent;
 
 /**
  * This health renderer is directly based on Neat by Vaziki, which can be found
@@ -90,7 +90,7 @@ public class Health
             }
         }
         val = new String(chars);
-        return new TextComponent(val).setStyle(compIn.getStyle());
+        return TComponent.literal(val).setStyle(compIn.getStyle());
     }
 
     public static Entity getEntityLookedAt(final Entity e)
@@ -119,7 +119,7 @@ public class Health
 
         LivingEntity entity = passedEntity;
 
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null || !entity.isAddedToWorld() || !pokemob.getPokedexEntry().stock) return;
         if (entity.distanceTo(viewPoint) > PokecubeCore.getConfig().maxDistance) return;
         final Config config = PokecubeCore.getConfig();
@@ -137,11 +137,8 @@ public class Health
 
         ridingStack.push(entity);
 
-        while (entity.getVehicle() != null && entity.getVehicle() instanceof LivingEntity)
-        {
-            entity = (LivingEntity) entity.getVehicle();
-            ridingStack.push(entity);
-        }
+        while (entity.getVehicle() != null && entity.getVehicle() instanceof LivingEntity living)
+            ridingStack.push(living);
 
         VertexConsumer buffer;
         Matrix4f pos;
@@ -189,8 +186,8 @@ public class Health
             MutableComponent nameComp = (MutableComponent) pokemob.getDisplayName();
             final boolean obfuscated = Health.obfuscateName(pokemob);
             if (obfuscated) nameComp = Health.obfuscate(nameComp);
-            if (entity instanceof Mob && ((Mob) entity).hasCustomName())
-                nameComp = (MutableComponent) ((Mob) entity).getCustomName();
+            if (entity instanceof Mob mob && mob.hasCustomName())
+                nameComp = (MutableComponent) mob.getCustomName();
 
             final float s = 0.5F;
             final String name = nameComp.getString();

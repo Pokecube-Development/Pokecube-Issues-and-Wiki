@@ -4,7 +4,7 @@
   <phase name="global" scale="3"/>
   <phase axis="0" name="snakeWalk" parts="l1:l2:l3:l4:l5"/>
   <phase duration="10" leftArm="" leftLeg="arm2" legAngle="15" name="biWalk" rightArm="" rightLeg="arm1"/>
-  <customTex default="gengargigantamax">
+  <customTex default="gengar_gigantamax">
    <part name="Head" tex="gengargeye"/>
    <part name="Mark" tex="gengarmark"/>
   </customTex>

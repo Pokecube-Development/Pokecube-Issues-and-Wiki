@@ -12,17 +12,16 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.commands.arguments.NbtTagArgument;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
-import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
-import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.Rewards.RewardOption;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.ListPage;
 import pokecube.adventures.network.PacketTrainer;
+import pokecube.api.entity.trainers.IHasRewards;
+import pokecube.api.entity.trainers.IHasRewards.Reward;
 import pokecube.core.client.gui.helper.INotifiedEntry;
 import pokecube.core.client.gui.helper.ScrollGui;
+import thut.lib.TComponent;
 
 public class Rewards extends ListPage<RewardOption>
 {
@@ -59,8 +58,8 @@ public class Rewards extends ListPage<RewardOption>
 
             this.index = index;
 
-            this.reward = new EditBox(parent.font, 0, 0, 150, 10, new TextComponent(""));
-            this.chance = new EditBox(parent.font, 0, 0, 25, 10, new TextComponent(""));
+            this.reward = new EditBox(parent.font, 0, 0, 150, 10, TComponent.literal(""));
+            this.chance = new EditBox(parent.font, 0, 0, 25, 10, TComponent.literal(""));
 
             this.chance.setValue("1.0");
 
@@ -87,12 +86,12 @@ public class Rewards extends ListPage<RewardOption>
                 this.chance.setValue(r.chance + "");
             }
 
-            this.confirm = new Button(0, 0, 10, 10, new TextComponent("Y"), b -> {
+            this.confirm = new Button(0, 0, 10, 10, TComponent.literal("Y"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.reward.setValue("");
                 this.onUpdated();
             });
-            this.delete = new Button(0, 0, 10, 10, new TextComponent("x"), b -> {
+            this.delete = new Button(0, 0, 10, 10, TComponent.literal("x"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.confirm.active = !this.confirm.active;
             });
@@ -100,7 +99,7 @@ public class Rewards extends ListPage<RewardOption>
             if (index == this.rewards.getRewards().size()) this.delete.active = false;
             this.confirm.active = false;
 
-            this.apply = new Button(0, 0, 45, 10, new TextComponent("Apply"), b -> {
+            this.apply = new Button(0, 0, 45, 10, TComponent.literal("Apply"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.onUpdated();
             });
@@ -191,7 +190,7 @@ public class Rewards extends ListPage<RewardOption>
             }
             catch (final Exception e)
             {
-                Minecraft.getInstance().player.displayClientMessage(new TextComponent("Errored format for reward!"),
+                Minecraft.getInstance().player.displayClientMessage(TComponent.literal("Errored format for reward!"),
                         true);
             }
             final Tag tag = this.rewards.serializeNBT();
@@ -205,7 +204,7 @@ public class Rewards extends ListPage<RewardOption>
 
     public Rewards(final EditorGui parent)
     {
-        super(new TextComponent(""), parent);
+        super(TComponent.literal(""), parent);
     }
 
     @Override
@@ -225,7 +224,7 @@ public class Rewards extends ListPage<RewardOption>
         x = this.width / 2;
         y = this.height / 2;
         this.addRenderableWidget(
-                new Button(x + 73, y + 64, 50, 12, new TranslatableComponent("traineredit.button.home"), b ->
+                new Button(x + 73, y + 64, 50, 12, TComponent.translatable("traineredit.button.home"), b ->
                 {
                     this.closeCallback.run();
                 }));

@@ -1,9 +1,7 @@
 package pokecube.legends.conditions.data;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.Collection;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -12,7 +10,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.resources.ResourceLocation;
-import pokecube.core.PokecubeCore;
+import net.minecraft.server.packs.resources.Resource;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.ResourceData;
@@ -52,12 +51,12 @@ public class ConditionLoader extends ResourceData
     {
         this.validLoad = false;
         final String path = new ResourceLocation(this.tagPath).getPath();
-        final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
+        final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(path);
         this.validLoad = !resources.isEmpty();
         this.conditions.clear();
         LegendarySpawn.data_spawns.clear();
         this.preLoad();
-        resources.forEach(l -> this.loadFile(l));
+        resources.forEach((l, r) -> this.loadFile(l, r));
         if (this.validLoad) valid.set(true);
     }
 
@@ -69,7 +68,7 @@ public class ConditionLoader extends ResourceData
         this.conditions.clear();
     }
 
-    private void loadFile(final ResourceLocation l)
+    private void loadFile(final ResourceLocation l, Resource r)
     {
         try
         {
@@ -79,8 +78,8 @@ public class ConditionLoader extends ResourceData
             // wants to edit an existing one, it means they are most likely
             // trying to remove default behaviour. They can add new things by
             // just adding another json file to the correct package.
-            InputStream res = PackFinder.getStream(l);
-            final Reader reader = new InputStreamReader(res);
+            final BufferedReader reader = PackFinder.getReader(r);
+            if (reader == null) throw new FileNotFoundException(l.toString());
             try
             {
                 final Conditions temp = JsonUtil.gson.fromJson(reader, Conditions.class);
@@ -95,8 +94,8 @@ public class ConditionLoader extends ResourceData
             catch (final Exception e)
             {
                 // Might not be valid, so log and skip in that case.
-                PokecubeCore.LOGGER.error("Malformed Json for Mutations in {}", l);
-                PokecubeCore.LOGGER.error(e);
+                PokecubeAPI.LOGGER.error("Malformed Json for Mutations in {}", l);
+                PokecubeAPI.LOGGER.error(e);
             }
             reader.close();
 
@@ -109,7 +108,7 @@ public class ConditionLoader extends ResourceData
                     final Class<? extends PresetCondition> preset_class = ConditionLoader.__presets__.get(preset);
                     if (preset_class == null)
                     {
-                        PokecubeCore.LOGGER.error("No preset found for {}", preset);
+                        PokecubeAPI.LOGGER.error("No preset found for {}", preset);
                         continue;
                     }
                     try
@@ -124,8 +123,8 @@ public class ConditionLoader extends ResourceData
                     catch (final Exception e)
                     {
                         // Might not be valid, so log and skip in that case.
-                        PokecubeCore.LOGGER.error("Error processing a preset in {}", l);
-                        PokecubeCore.LOGGER.error(e);
+                        PokecubeAPI.LOGGER.error("Error processing a preset in {}", l);
+                        PokecubeAPI.LOGGER.error(e);
                     }
                 }
             }
@@ -133,8 +132,8 @@ public class ConditionLoader extends ResourceData
         catch (final Exception e)
         {
             // Might not be valid, so log and skip in that case.
-            PokecubeCore.LOGGER.error("Error with resources in {}", l);
-            PokecubeCore.LOGGER.error(e);
+            PokecubeAPI.LOGGER.error("Error with resources in {}", l);
+            PokecubeAPI.LOGGER.error(e);
         }
 
     }

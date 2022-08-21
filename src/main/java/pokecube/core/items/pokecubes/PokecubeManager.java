@@ -10,7 +10,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -19,18 +18,21 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.utils.TagNames;
 import thut.api.item.ItemList;
 import thut.core.common.network.EntityUpdate;
+import thut.lib.RegHelper;
+import thut.lib.TComponent;
 
 public class PokecubeManager
 {
@@ -46,7 +48,7 @@ public class PokecubeManager
 
     public static void addToCube(final ItemStack cube, final LivingEntity mob)
     {
-        final ResourceLocation id = mob.getType().getRegistryName();
+        final ResourceLocation id = RegHelper.getKey(mob.getType());
         if (!cube.hasTag()) cube.setTag(new CompoundTag());
         cube.getTag().putString(TagNames.MOBID, id.toString());
         final CompoundTag tag = new CompoundTag();
@@ -137,7 +139,7 @@ public class PokecubeManager
 
     public static CompoundTag getSealTag(final Entity pokemob)
     {
-        final IPokemob poke = CapabilityPokemob.getPokemobFor(pokemob);
+        final IPokemob poke = PokemobCaps.getPokemobFor(pokemob);
         ItemStack cube;
         if ((cube = poke.getPokecube()).isEmpty()) return null;
         return cube.getTagElement(TagNames.POKESEAL);
@@ -180,14 +182,14 @@ public class PokecubeManager
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.warn("Error getting UUID from cube! " + stack + " " + pokeTag);
+            PokecubeAPI.LOGGER.warn("Error getting UUID from cube! " + stack + " " + pokeTag);
             return null;
         }
     }
 
     public static void heal(final LivingEntity mob)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         float maxHP = mob.getMaxHealth();
         if (pokemob != null)
         {
@@ -232,11 +234,11 @@ public class PokecubeManager
         if (world == null)
         {
             world = PokecubeCore.proxy.getWorld();
-            PokecubeCore.LOGGER.catching(new NullPointerException("World null when itemToMob!"));
+            PokecubeAPI.LOGGER.catching(new NullPointerException("World null when itemToMob!"));
         }
         if (world == null)
         {
-            PokecubeCore.LOGGER.catching(new NullPointerException("World Still null when itemToMob!"));
+            PokecubeAPI.LOGGER.catching(new NullPointerException("World Still null when itemToMob!"));
             return null;
         }
         final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(new ResourceLocation(id));
@@ -253,8 +255,8 @@ public class PokecubeManager
             // Nope, some mobs can't read from this on clients.
             if (world instanceof ServerLevel)
             {
-                PokecubeCore.LOGGER.error("Error reading cube: {}", stack.getTag());
-                PokecubeCore.LOGGER.error(e);
+                PokecubeAPI.LOGGER.error("Error reading cube: {}", stack.getTag());
+                PokecubeAPI.LOGGER.error(e);
             }
         }
         return mob;
@@ -264,7 +266,7 @@ public class PokecubeManager
     {
         final Entity mob = PokecubeManager.itemToMob(itemStack, world);
         if (mob == null) return null;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob == null) return null;
         ItemStack cubeStack = pokemob.getPokecube();
         if (cubeStack.isEmpty())
@@ -279,7 +281,7 @@ public class PokecubeManager
     public static ItemStack pokemobToItem(final IPokemob pokemob)
     {
         ItemStack itemStack = pokemob.getPokecube();
-        if (itemStack.isEmpty()) itemStack = new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE),
+        if (itemStack.isEmpty()) itemStack = new ItemStack(PokecubeItems.getFilledCube(PokecubeBehaviour.DEFAULTCUBE),
                 1);
         itemStack = itemStack.copy();
         PokecubeManager.addToCube(itemStack, pokemob.getEntity());
@@ -289,12 +291,12 @@ public class PokecubeManager
         final int status = pokemob.getStatus();
         PokecubeManager.setStatus(itemStack, pokemob.getStatus());
         Component name = pokemob.getDisplayName();
-        if (status == IMoveConstants.STATUS_BRN) name = new TranslatableComponent("pokecube.filled.brn", name);
-        else if (status == IMoveConstants.STATUS_FRZ) name = new TranslatableComponent("pokecube.filled.frz", name);
-        else if (status == IMoveConstants.STATUS_PAR) name = new TranslatableComponent("pokecube.filled.par", name);
-        else if (status == IMoveConstants.STATUS_SLP) name = new TranslatableComponent("pokecube.filled.slp", name);
+        if (status == IMoveConstants.STATUS_BRN) name = TComponent.translatable("pokecube.filled.brn", name);
+        else if (status == IMoveConstants.STATUS_FRZ) name = TComponent.translatable("pokecube.filled.frz", name);
+        else if (status == IMoveConstants.STATUS_PAR) name = TComponent.translatable("pokecube.filled.par", name);
+        else if (status == IMoveConstants.STATUS_SLP) name = TComponent.translatable("pokecube.filled.slp", name);
         else if (status == IMoveConstants.STATUS_PSN || status == IMoveConstants.STATUS_PSN2)
-            name = new TranslatableComponent("pokecube.filled.psn", name);
+            name = TComponent.translatable("pokecube.filled.psn", name);
         itemStack.setHoverName(name);
         return itemStack;
     }

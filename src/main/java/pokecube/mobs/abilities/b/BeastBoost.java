@@ -1,12 +1,12 @@
 package pokecube.mobs.abilities.b;
 
 import net.minecraft.world.entity.LivingEntity;
-import pokecube.core.database.abilities.Ability;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.api.data.abilities.Ability;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.IMoveConstants;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.EntityTools;
 
@@ -17,7 +17,7 @@ public class BeastBoost extends Ability
     {
         final LivingEntity target = EntityTools.getCoreLiving(move.attacked);
         if (target == null) return;
-        final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
         if (targetMob == null) return;
         if (mob == move.attacked) if (!targetMob.inCombat())
         {

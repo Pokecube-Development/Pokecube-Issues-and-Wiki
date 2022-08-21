@@ -36,7 +36,6 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -71,6 +70,7 @@ import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.IBotAI;
+import thut.lib.TComponent;
 
 @Mod(value = "thutbot")
 public class ThutBot
@@ -127,10 +127,10 @@ public class ThutBot
     public static final String PERMBOTKILL = "thutbot.perm.kill";
 
     private static final SimpleCommandExceptionType NO_SUMMON_2 = new SimpleCommandExceptionType(
-            new TranslatableComponent("Cannot summon a second bot of the same name!"));
+            TComponent.translatable("Cannot summon a second bot of the same name!"));
 
     private static final SimpleCommandExceptionType NO_KILL = new SimpleCommandExceptionType(
-            new TranslatableComponent("No bot by that name to kill!"));
+            TComponent.translatable("No bot by that name to kill!"));
 
     private static void onCommandRegister(final RegisterCommandsEvent event)
     {
@@ -390,8 +390,8 @@ public class ThutBot
         server.invalidateStatus();
         MutableComponent mutablecomponent;
         if (player.getGameProfile().getName().equalsIgnoreCase(s))
-            mutablecomponent = new TranslatableComponent("multiplayer.player.joined", player.getDisplayName());
-        else mutablecomponent = new TranslatableComponent("multiplayer.player.joined.renamed", player.getDisplayName(),
+            mutablecomponent = TComponent.translatable("multiplayer.player.joined", player.getDisplayName());
+        else mutablecomponent = TComponent.translatable("multiplayer.player.joined.renamed", player.getDisplayName(),
                 s);
 
         list.broadcastMessage(mutablecomponent.withStyle(ChatFormatting.YELLOW), ChatType.SYSTEM, Util.NIL_UUID);

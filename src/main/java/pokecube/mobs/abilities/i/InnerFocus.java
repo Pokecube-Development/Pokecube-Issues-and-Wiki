@@ -1,6 +1,6 @@
 package pokecube.mobs.abilities.i;
 
-import pokecube.core.database.abilities.Ability;
+import pokecube.api.data.abilities.Ability;
 
 public class InnerFocus extends Ability
 {

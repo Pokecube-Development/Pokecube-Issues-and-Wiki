@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
@@ -38,7 +39,7 @@ public class PacketDataSync extends Packet
         final PlayerData data = manager.getData(dataType);
         if (data == null)
         {
-            PokecubeCore.LOGGER.error("No datatype for " + dataType);
+            PokecubeAPI.LOGGER.error("No datatype for " + dataType);
             return;
         }
         PacketDataSync.syncData(data, player.getUUID(), (ServerPlayer) player, true);

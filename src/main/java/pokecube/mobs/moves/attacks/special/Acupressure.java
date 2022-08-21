@@ -2,8 +2,8 @@ package pokecube.mobs.moves.attacks.special;
 
 import java.util.Random;
 
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.IMoveConstants;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.templates.Move_Basic;
 

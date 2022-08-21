@@ -3,10 +3,8 @@ package thut.core.proxy;
 import java.util.Locale;
 import java.util.stream.Stream;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -31,6 +29,7 @@ import thut.core.common.Proxy;
 import thut.core.common.ThutCore;
 import thut.core.common.ThutCore.MobEvents;
 import thut.core.common.world.mobs.data.SyncHandler;
+import thut.lib.TComponent;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CommonProxy implements Proxy
@@ -101,7 +100,7 @@ public class CommonProxy implements Proxy
                     TerrainManager.getInstance().getTerrain(worldIn, p).setBiome(p, subbiome);
                 });
                 final String message = "msg.subbiome.set";
-                playerIn.sendMessage(new TranslatableComponent(message, subbiome.name), Util.NIL_UUID);
+                thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message, subbiome.name));
             }
             itemstack.getTag().remove("min");
             evt.setCanceled(true);
@@ -113,7 +112,7 @@ public class CommonProxy implements Proxy
             new Vector3().set(pos).writeToNBT(min, "");
             itemstack.getTag().put("min", min);
             final String message = "msg.subbiome.setcorner";
-            if (!worldIn.isClientSide) playerIn.sendMessage(new TranslatableComponent(message, pos), Util.NIL_UUID);
+            if (!worldIn.isClientSide) thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message, pos));
             evt.setCanceled(true);
             itemstack.getTag().putLong("time", Tracker.instance().getTick());
         }
@@ -149,7 +148,7 @@ public class CommonProxy implements Proxy
                     TerrainManager.getInstance().getTerrain(worldIn, p).setBiome(p, subbiome);
                 });
                 final String message = "msg.subbiome.set";
-                playerIn.sendMessage(new TranslatableComponent(message, subbiome.name), Util.NIL_UUID);
+                thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message, subbiome.name));
             }
             itemstack.getTag().remove("min");
         }

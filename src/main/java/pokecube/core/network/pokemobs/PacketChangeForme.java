@@ -3,11 +3,12 @@ package pokecube.core.network.pokemobs;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.core.common.network.Packet;
 
 public class PacketChangeForme extends Packet
@@ -38,8 +39,8 @@ public class PacketChangeForme extends Packet
     public void handleClient()
     {
         final Player player = PokecubeCore.proxy.getPlayer();
-        final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), this.entityId, true);
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final Entity mob = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), this.entityId, true);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob == null) return;
         pokemob.setPokedexEntry(this.forme);
     }

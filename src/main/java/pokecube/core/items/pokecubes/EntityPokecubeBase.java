@@ -17,7 +17,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -43,17 +42,17 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.PokemobTracker;
-import pokecube.core.utils.TagNames;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
@@ -62,21 +61,19 @@ public abstract class EntityPokecubeBase extends LivingEntity
 {
     public static final String CUBETIMETAG = "lastCubeTime";
 
-    public static SoundEvent POKECUBESOUND;
-
-    static final EntityDataAccessor<Integer>   ENTITYID;
+    static final EntityDataAccessor<Integer> ENTITYID;
     static final EntityDataAccessor<ItemStack> ITEM;
-    static final EntityDataAccessor<Boolean>   RELEASING;
-    static final EntityDataAccessor<Integer>   TIME;
+    static final EntityDataAccessor<Boolean> RELEASING;
+    static final EntityDataAccessor<Integer> TIME;
 
     public static boolean SEEKING = true;
 
     static
     {
-        ENTITYID = SynchedEntityData.<Integer> defineId(EntityPokecubeBase.class, EntityDataSerializers.INT);
-        ITEM = SynchedEntityData.<ItemStack> defineId(EntityPokecubeBase.class, EntityDataSerializers.ITEM_STACK);
-        RELEASING = SynchedEntityData.<Boolean> defineId(EntityPokecubeBase.class, EntityDataSerializers.BOOLEAN);
-        TIME = SynchedEntityData.<Integer> defineId(EntityPokecubeBase.class, EntityDataSerializers.INT);
+        ENTITYID = SynchedEntityData.<Integer>defineId(EntityPokecubeBase.class, EntityDataSerializers.INT);
+        ITEM = SynchedEntityData.<ItemStack>defineId(EntityPokecubeBase.class, EntityDataSerializers.ITEM_STACK);
+        RELEASING = SynchedEntityData.<Boolean>defineId(EntityPokecubeBase.class, EntityDataSerializers.BOOLEAN);
+        TIME = SynchedEntityData.<Integer>defineId(EntityPokecubeBase.class, EntityDataSerializers.INT);
     }
 
     public static boolean canCaptureBasedOnConfigs(final IPokemob pokemob)
@@ -92,8 +89,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public static void setNoCaptureBasedOnConfigs(final IPokemob pokemob)
     {
         if (PokecubeCore.getConfig().captureDelayTillAttack) pokemob.setCombatState(CombatStates.NOITEMUSE, true);
-        else pokemob.getEntity().getPersistentData().putLong(EntityPokecubeBase.CUBETIMETAG, Tracker.instance()
-                .getTick() + PokecubeCore.getConfig().captureDelayTicks);
+        else pokemob.getEntity().getPersistentData().putLong(EntityPokecubeBase.CUBETIMETAG,
+                Tracker.instance().getTick() + PokecubeCore.getConfig().captureDelayTicks);
     }
 
     public boolean canBePickedUp = true;
@@ -101,8 +98,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
      * This gets decremented each tick, and will auto release if it hits 0, ie
      * will not auto release if below 0 to start with.
      */
-    public int     autoRelease   = -1;
-    public boolean isLoot        = false;
+    public int autoRelease = -1;
+    public boolean isLoot = false;
 
     public boolean isCapturing = false;
 
@@ -110,25 +107,25 @@ public abstract class EntityPokecubeBase extends LivingEntity
 
     public ResourceLocation lootTable = null;
 
-    protected int       inData;
-    protected boolean   inGround;
-    public UUID         shooter;
+    protected int inData;
+    protected boolean inGround;
+    public UUID shooter;
     public LivingEntity shootingEntity;
 
-    public double       speed          = 2;
+    public double speed = 2;
     public LivingEntity targetEntity;
-    public Vector3      targetLocation = new Vector3();
+    public Vector3 targetLocation = new Vector3();
 
-    protected Block    tile;
+    protected Block tile;
     protected BlockPos tilePos;
-    private int        tilt = -1;
-    public Vector3     v0   = new Vector3();
-    protected Vector3  v1   = new Vector3();
+    private int tilt = -1;
+    public Vector3 v0 = new Vector3();
+    protected Vector3 v1 = new Vector3();
 
     public Vector3 capturePos = new Vector3();
 
     private Entity ignoreEntity;
-    private int    ignoreTime;
+    private int ignoreTime;
     public boolean seeking = EntityPokecubeBase.SEEKING;
 
     NonNullList<ItemStack> stuff = NonNullList.create();
@@ -146,10 +143,9 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public boolean hurt(final DamageSource source, final float damage)
     {
         if (this.isLoot || this.isReleasing() || !this.canBePickedUp) return false;
-        if (source.getDirectEntity() instanceof ServerPlayer && (this.tilt <= 0 || ((Player) source.getDirectEntity())
-                .getAbilities().instabuild))
+        if (source.getDirectEntity() instanceof ServerPlayer player
+                && (this.tilt <= 0 || player.getAbilities().instabuild))
         {
-            final ServerPlayer player = (ServerPlayer) source.getDirectEntity();
             this.interact(player, InteractionHand.MAIN_HAND);
             return false;
         }
@@ -157,7 +153,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
         {
             if (PokecubeManager.isFilled(this.getItem()))
             {
-                final IPokemob mob = CapabilityPokemob.getPokemobFor(SendOutManager.sendOut(this, true));
+                final IPokemob mob = PokemobCaps.getPokemobFor(SendOutManager.sendOut(this, true));
                 if (mob != null) mob.onRecall();
             }
             this.discard();
@@ -168,7 +164,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
     @Override
     protected void outOfWorld()
     {
-        final IPokemob mob = CapabilityPokemob.getPokemobFor(SendOutManager.sendOut(this, true, false));
+        final IPokemob mob = PokemobCaps.getPokemobFor(SendOutManager.sendOut(this, true, false));
         if (mob != null && mob.getOwnerId() != null) mob.onRecall();
     }
 
@@ -200,10 +196,10 @@ public abstract class EntityPokecubeBase extends LivingEntity
         case ENTITY:
             final EntityHitResult hit = (EntityHitResult) result;
             final Entity hitEntity = EntityTools.getCoreEntity(hit.getEntity());
-            final IPokemob hitMob = CapabilityPokemob.getPokemobFor(hitEntity);
+            final IPokemob hitMob = PokemobCaps.getPokemobFor(hitEntity);
 
-            final boolean invalidStick = hitEntity instanceof Player || !capturing || hitMob == null || hitMob
-                    .getOwnerId() != null;
+            final boolean invalidStick = hitEntity instanceof Player || !capturing || hitMob == null
+                    || hitMob.getOwnerId() != null;
 
             // Set us to the location, but not stick to players.
             if (!invalidStick) this.setPos(result.getLocation().x, result.getLocation().y, result.getLocation().z);
@@ -214,10 +210,10 @@ public abstract class EntityPokecubeBase extends LivingEntity
             if (PokecubeManager.isFilled(this.getItem()))
             {
                 final LivingEntity sent = SendOutManager.sendOut(this, true);
-                if (sent instanceof Mob && hit.getEntity() instanceof LivingEntity) BrainUtils.initiateCombat(
-                        (Mob) sent, (LivingEntity) hit.getEntity());
+                if (sent instanceof Mob mob && hit.getEntity() instanceof LivingEntity living)
+                    BrainUtils.initiateCombat(mob, living);
             }
-            else CaptureManager.captureAttempt(this, this.random, hitEntity);
+            else CaptureManager.captureAttempt(this, hitEntity);
             break;
         case MISS:
             break;
@@ -263,11 +259,11 @@ public abstract class EntityPokecubeBase extends LivingEntity
         final AABB axisalignedbb = this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(.2D);
         if (this.shootingEntity != null) this.ignoreEntity = this.shootingEntity;
 
-        final Predicate<Entity> valid = (mob) ->
-        {
+        final Predicate<Entity> valid = (mob) -> {
             final Entity e = EntityTools.getCoreEntity(mob);
-            if (this.ignoreEntity != null && (e.isPassengerOfSameVehicle(this.ignoreEntity) || e.hasPassenger(
-                    this.ignoreEntity))) return false;
+            if (this.ignoreEntity != null
+                    && (e.isPassengerOfSameVehicle(this.ignoreEntity) || e.hasPassenger(this.ignoreEntity)))
+                return false;
             if (!AITools.shouldBeAbleToAgro(this.shootingEntity, e)) return false;
             return !e.isSpectator() && mob.isPickable() && !(e instanceof EntityPokecubeBase)
                     && e instanceof LivingEntity && e != this.ignoreEntity && e != this;
@@ -298,12 +294,11 @@ public abstract class EntityPokecubeBase extends LivingEntity
         trace:
         if (raytraceresult.getType() != HitResult.Type.MISS)
         {
-            if (raytraceresult.getType() == HitResult.Type.BLOCK && this.level.getBlockState(
-                    ((BlockHitResult) raytraceresult).getBlockPos()).getBlock() == Blocks.NETHER_PORTAL) this
-                            .handleInsidePortal(((BlockHitResult) raytraceresult).getBlockPos());
-            if (raytraceresult instanceof BlockHitResult)
+            if (raytraceresult.getType() == HitResult.Type.BLOCK && this.level
+                    .getBlockState(((BlockHitResult) raytraceresult).getBlockPos()).getBlock() == Blocks.NETHER_PORTAL)
+                this.handleInsidePortal(((BlockHitResult) raytraceresult).getBlockPos());
+            if (raytraceresult instanceof BlockHitResult result)
             {
-                final BlockHitResult result = (BlockHitResult) raytraceresult;
                 final BlockState hit = this.getLevel().getBlockState(result.getBlockPos());
                 final VoxelShape shape = hit.getCollisionShape(this.getLevel(), result.getBlockPos());
                 if (!shape.isEmpty() && !shape.bounds().move(result.getBlockPos()).intersects(axisalignedbb))
@@ -316,8 +311,9 @@ public abstract class EntityPokecubeBase extends LivingEntity
             return;
         }
         if (this.isReleasing()) return;
-        if (this.shootingEntity != null && this.tilt < 0 && this.getDeltaMovement().lengthSqr() == 0 && this
-                .isEffectiveAi() && PokecubeManager.isFilled(this.getItem())) SendOutManager.sendOut(this, true);
+        if (this.shootingEntity != null && this.tilt < 0 && this.getDeltaMovement().lengthSqr() == 0
+                && this.isEffectiveAi() && PokecubeManager.isFilled(this.getItem()))
+            SendOutManager.sendOut(this, true);
         else if (!this.getNoCollisionRelease() && this.isInWater() && PokecubeManager.isFilled(this.getItem()))
             SendOutManager.sendOut(this, true);
     }
@@ -365,12 +361,9 @@ public abstract class EntityPokecubeBase extends LivingEntity
                 ;
         }
         else this.xRot = 0;
-        while (this.xRot - this.xRotO >= 180.0F)
-            this.xRotO += 360.0F;
-        while (this.yRot - this.yRotO < -180.0F)
-            this.yRotO -= 360.0F;
-        while (this.yRot - this.yRotO >= 180.0F)
-            this.yRotO += 360.0F;
+        while (this.xRot - this.xRotO >= 180.0F) this.xRotO += 360.0F;
+        while (this.yRot - this.yRotO < -180.0F) this.yRotO -= 360.0F;
+        while (this.yRot - this.yRotO >= 180.0F) this.yRotO += 360.0F;
         this.yBodyRot = this.yRot;
         this.yBodyRotO = this.yRotO;
         this.yHeadRot = this.yRot;
@@ -384,9 +377,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
         float f1;
         if (this.isInWater())
         {
-            for (int i = 0; i < 4; ++i)
-                this.level.addParticle(ParticleTypes.BUBBLE, this.getX() - vec3d.x * 0.25D, this.getY() - vec3d.y
-                        * 0.25D, this.getZ() - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
+            for (int i = 0; i < 4; ++i) this.level.addParticle(ParticleTypes.BUBBLE, this.getX() - vec3d.x * 0.25D,
+                    this.getY() - vec3d.y * 0.25D, this.getZ() - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
             f1 = 0.8F;
         }
         else f1 = 0.99F;
@@ -455,8 +447,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
     }
 
     /**
-     * (abstract) Protected helper method to read subclass entity data from
-     * NBT.
+     * (abstract) Protected helper method to read subclass entity data from NBT.
      */
     @Override
     public void readAdditionalSaveData(final CompoundTag compound)
@@ -497,8 +488,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
 
     @Override
     public void setItemSlot(final EquipmentSlot slotIn, final ItemStack stack)
-    {
-    }
+    {}
 
     @Override
     public void setDeltaMovement(final Vec3 velocity)
@@ -557,7 +547,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
         this.isCapturing = true;
         this.canBePickedUp = false;
 
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob != null && pokemob.getBossInfo() != null)
         {
             pokemob.getBossInfo().removeAllPlayers();
@@ -578,8 +568,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
     }
 
     /**
-     * Gets the amount of gravity to apply to the thrown entity with each
-     * tick.
+     * Gets the amount of gravity to apply to the thrown entity with each tick.
      */
     protected float getGravityVelocity()
     {
@@ -629,10 +618,9 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public static HitResult rayTrace(final Entity projectile, final boolean checkEntityCollision,
             final boolean includeShooter, @Nullable final Entity shooter, final ClipContext.Block blockModeIn)
     {
-        final Predicate<Entity> valid = (target) ->
-        {
-            return !target.isSpectator() && target.isPickable() && (includeShooter || !target.is(
-                    shooter)) && !target.noPhysics;
+        final Predicate<Entity> valid = (target) -> {
+            return !target.isSpectator() && target.isPickable() && (includeShooter || !target.is(shooter))
+                    && !target.noPhysics;
         };
         return ProjectileUtil.getHitResult(projectile, valid);
     }

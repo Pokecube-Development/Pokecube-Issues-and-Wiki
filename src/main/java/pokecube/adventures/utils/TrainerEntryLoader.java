@@ -1,8 +1,7 @@
 package pokecube.adventures.utils;
 
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Collection;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
 
@@ -11,13 +10,14 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.resources.PackFinder;
-import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.utils.Tools;
 import thut.api.util.JsonUtil;
@@ -75,13 +75,13 @@ public class TrainerEntryLoader
     private static XMLDatabase loadDatabase()
     {
         final XMLDatabase full = new XMLDatabase();
-        final Collection<ResourceLocation> resources = PackFinder.getJsonResources(NpcType.DATALOC);
-        for (final ResourceLocation file : resources)
-        {
+        final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(NpcType.DATALOC);
+        resources.forEach((file, resource) -> {
             JsonObject loaded;
             try
             {
-                final BufferedReader reader = new BufferedReader(new InputStreamReader(PackFinder.getStream(file)));
+                final BufferedReader reader = PackFinder.getReader(file);
+                if (reader == null) throw new FileNotFoundException(file.toString());
                 loaded = JsonUtil.gson.fromJson(reader, JsonObject.class);
                 reader.close();
                 if (loaded.has("trainers"))
@@ -99,9 +99,9 @@ public class TrainerEntryLoader
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.error("Error loading trainer database from {}", file, e);
+                PokecubeAPI.LOGGER.error("Error loading trainer database from {}", file, e);
             }
-        }
+        });
         return full;
     }
 
@@ -111,7 +111,7 @@ public class TrainerEntryLoader
         for (final TrainerEntry entry : TrainerEntryLoader.database.trainers)
         {
             final String name = entry.type;
-            PokecubeCore.LOGGER.debug("Loaded Type: " + name);
+            PokecubeAPI.LOGGER.debug("Loaded Type: " + name);
             final TypeTrainer type = TypeTrainer.typeMap.containsKey(name) ? TypeTrainer.typeMap.get(name)
                     : new TypeTrainer(name);
             type.spawns.clear();
@@ -134,7 +134,7 @@ public class TrainerEntryLoader
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.warn(
+                    PokecubeAPI.LOGGER.warn(
                             "Error with weight for " + type.getName() + " " + rule.values + " " + entry.spawns, e);
                     return;
                 }

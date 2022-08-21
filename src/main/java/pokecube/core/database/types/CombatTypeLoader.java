@@ -1,17 +1,17 @@
 package pokecube.core.database.types;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
-import pokecube.core.utils.PokeType;
 
 public class CombatTypeLoader
 {
@@ -28,8 +28,8 @@ public class CombatTypeLoader
             {
                 final JsonType type = type2;
                 type.init();
-                if (PokeType.getType(type.name) == PokeType.unknown && !type.name.equals("???")) PokeType.create(
-                        type.name, type.colour, type.name);
+                if (PokeType.getType(type.name) == PokeType.unknown && !type.name.equals("???"))
+                    PokeType.create(type.name, type.colour, type.name);
             }
 
             for (int i = 0; i < this.types.length; i++)
@@ -37,18 +37,17 @@ public class CombatTypeLoader
                 final float[] arr = new float[this.types.length];
                 PokeType.typeTable[i] = arr;
                 final JsonType current = this.types[i];
-                for (int j = 0; j < this.types.length; j++)
-                    arr[j] = current.effect(this.types[j].name);
+                for (int j = 0; j < this.types.length; j++) arr[j] = current.effect(this.types[j].name);
             }
         }
     }
 
     public static class JsonType
     {
-        public String       name;
-        public int          colour;
+        public String name;
+        public int colour;
         public TypeEffect[] outgoing;
-        Map<String, Float>  effects = Maps.newHashMap();
+        Map<String, Float> effects = Maps.newHashMap();
 
         float effect(final String type)
         {
@@ -58,15 +57,14 @@ public class CombatTypeLoader
 
         void init()
         {
-            for (final TypeEffect e : this.outgoing)
-                this.effects.put(e.type, e.amount);
+            for (final TypeEffect e : this.outgoing) this.effects.put(e.type, e.amount);
         }
     }
 
     public static class TypeEffect
     {
         public String type;
-        public float  amount;
+        public float amount;
     }
 
     public static ResourceLocation TYPES = new ResourceLocation(PokecubeCore.MODID, "database/types.json");
@@ -77,15 +75,15 @@ public class CombatTypeLoader
     {
         try
         {
-            final InputStream res = PackFinder.getStream(CombatTypeLoader.TYPES);
-            final Reader reader = new InputStreamReader(res);
+            final BufferedReader reader = PackFinder.getReader(CombatTypeLoader.TYPES);
+            if (reader == null) throw new FileNotFoundException(CombatTypeLoader.TYPES.toString());
             final CombatTypes types = CombatTypeLoader.gson.fromJson(reader, CombatTypes.class);
             types.init();
             reader.close();
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error loading types.json", e);
+            PokecubeAPI.LOGGER.error("Error loading types.json", e);
             throw new RuntimeException(e);
         }
     }

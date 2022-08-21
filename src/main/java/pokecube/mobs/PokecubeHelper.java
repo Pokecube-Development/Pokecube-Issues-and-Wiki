@@ -2,6 +2,7 @@ package pokecube.mobs;
 
 import java.util.List;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -9,18 +10,19 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.spawns.SpawnBiomeMatcher;
+import pokecube.api.data.spawns.SpawnCheck;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.HappinessType;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
-import pokecube.core.database.spawns.SpawnBiomeMatcher;
-import pokecube.core.database.spawns.SpawnCheck;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.HappinessType;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.utils.PokeType;
 import thut.api.entity.IBreedingMob;
 import thut.api.maths.Vector3;
 
@@ -76,7 +78,7 @@ public class PokecubeHelper
         final int level = mob.getLevel();
         int otherLevel = 0;
         final LivingEntity target = BrainUtils.getAttackTarget(entity);
-        final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
         if (targetMob == null || (otherLevel = targetMob.getLevel()) <= level) return 1;
         if (otherLevel <= 2 * level) return 2;
         if (otherLevel <= 4 * level) return 4;
@@ -87,7 +89,7 @@ public class PokecubeHelper
     {
         final Mob entity = mob.getEntity();
         final LivingEntity target = BrainUtils.getAttackTarget(entity);
-        final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
         if (targetMob == null || !(target instanceof Animal) || !(mob instanceof IBreedingMob)) return 1;
         if (((IBreedingMob) mob).canMate((Animal) target)) return 8;
         return 1;
@@ -118,10 +120,13 @@ public class PokecubeHelper
 
     public double moon(final IPokemob mob)
     {
+        if (!(mob.getEntity().getLevel() instanceof ServerLevel level))
+        {
+            PokecubeAPI.LOGGER.error("moon cube catch rate called wrong side!");
+            return 1;
+        }
         if (mob.getPokedexEntry().canEvolve(1, PokecubeItems.getStack("moonstone"))) return 4;
-        if (PokecubeHelper.moonMatcher.matches(
-                new SpawnCheck(new Vector3().set(mob.getEntity()), mob.getEntity().getLevel())))
-            return 4;
+        if (PokecubeHelper.moonMatcher.matches(new SpawnCheck(new Vector3().set(mob.getEntity()), level))) return 4;
         return 1;
     }
 

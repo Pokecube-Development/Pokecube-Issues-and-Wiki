@@ -1,10 +1,10 @@
 package pokecube.mobs.moves.attacks.ongoing;
 
 import net.minecraft.world.entity.LivingEntity;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.entity.IOngoingAffected;
-import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
+import pokecube.api.entity.IOngoingAffected;
+import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.moves.templates.Move_Ongoing;
 
 public class Leechseed extends Move_Ongoing
@@ -19,7 +19,7 @@ public class Leechseed extends Move_Ongoing
     public void doOngoingEffect(final LivingEntity user, final IOngoingAffected mob, final IOngoingEffect effect)
     {
         final LivingEntity living = mob.getEntity();
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(living);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(living);
         float factor = 0.0625f;
         if (pokemob != null) factor *= pokemob.getMoveStats().TOXIC_COUNTER + 1;
         final float thisMaxHP = living.getMaxHealth();

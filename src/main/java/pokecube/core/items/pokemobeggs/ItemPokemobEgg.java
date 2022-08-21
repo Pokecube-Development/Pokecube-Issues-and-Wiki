@@ -7,7 +7,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 
-import net.minecraft.Util;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -15,7 +14,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -37,23 +35,25 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.events.EggEvent;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
-import pokecube.core.events.EggEvent;
-import pokecube.core.handlers.Config;
-import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.init.Config;
+import pokecube.core.init.EntityTypes;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
-import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
@@ -63,6 +63,7 @@ import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.genetics.DefaultGenetics;
+import thut.lib.TComponent;
 
 /** @author Manchou */
 public class ItemPokemobEgg extends Item
@@ -123,7 +124,7 @@ public class ItemPokemobEgg extends Item
         IPokemob pokemob = ItemPokemobEgg.fakeMobs.get(entry);
         if (pokemob == null)
         {
-            pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, world));
+            pokemob = PokemobCaps.getPokemobFor(PokecubeCore.createPokemob(entry, world));
             if (pokemob == null) return null;
             ItemPokemobEgg.fakeMobs.put(entry, pokemob);
         }
@@ -158,7 +159,7 @@ public class ItemPokemobEgg extends Item
     {
         final PokedexEntry entry = ItemPokemobEgg.getEntry(stack);
         if (entry == null) return null;
-        final IPokemob ret = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, world));
+        final IPokemob ret = PokemobCaps.getPokemobFor(PokecubeCore.createPokemob(entry, world));
         return ret;
     }
 
@@ -180,8 +181,8 @@ public class ItemPokemobEgg extends Item
                 ItemPokemobEgg.MOBDIST);
         if (owner == null)
         {
-            final List<LivingEntity> list = mob.getEntity().getLevel().getEntitiesOfClass(
-                    LivingEntity.class, box, (Predicate<LivingEntity>) input -> !(input instanceof EntityPokemobEgg));
+            final List<LivingEntity> list = mob.getEntity().getLevel().getEntitiesOfClass(LivingEntity.class, box,
+                    (Predicate<LivingEntity>) input -> !(input instanceof EntityPokemobEgg));
             final LivingEntity closestTo = mob.getEntity();
             LivingEntity t = null;
             double d0 = Double.MAX_VALUE;
@@ -197,13 +198,14 @@ public class ItemPokemobEgg extends Item
             }
             owner = t;
         }
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(owner);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(owner);
         final IOwnable ownable = OwnableCaps.getOwnable(owner);
         if (owner == null || pokemob != null || ownable != null)
         {
-            if (pokemob != null && pokemob.getOwner() instanceof Player) player = (Player) pokemob.getOwner();
-            else if (ownable != null && ownable.getOwner() instanceof Player) player = (Player) ownable.getOwner();
-            owner = player;
+            // Prioritise owned pokemobs first
+            if (pokemob != null && pokemob.getOwner() instanceof Player) owner = pokemob.getOwner();
+            // Then select other owned mob types if present.
+            else if (ownable != null && ownable.getOwner() instanceof Player) owner = ownable.getOwner();
         }
         return owner;
     }
@@ -224,7 +226,7 @@ public class ItemPokemobEgg extends Item
         {
             mob.setOwner(owner.getUUID());
             mob.setGeneralState(GeneralStates.TAMED, true);
-            mob.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
+            mob.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehaviour.DEFAULTCUBE)));
             mob.setHeldItem(ItemStack.EMPTY);
         }
         else mob.getEntity().getPersistentData().remove(TagNames.HATCHED);
@@ -246,7 +248,7 @@ public class ItemPokemobEgg extends Item
     public static void initStack(final Entity mother, final IPokemob father, final ItemStack stack)
     {
         if (!stack.hasTag()) stack.setTag(new CompoundTag());
-        final IPokemob mob = CapabilityPokemob.getPokemobFor(mother);
+        final IPokemob mob = PokemobCaps.getPokemobFor(mother);
         if (mob != null && father != null) ItemPokemobEgg.getGenetics(mob, father, stack.getTag());
     }
 
@@ -256,7 +258,7 @@ public class ItemPokemobEgg extends Item
         final Mob entity = PokecubeCore.createPokemob(entry, world);
         if (entity != null)
         {
-            final IPokemob mob = CapabilityPokemob.getPokemobFor(entity);
+            final IPokemob mob = PokemobCaps.getPokemobFor(entity);
             mob.setGeneralState(GeneralStates.EXITINGCUBE, true);
             mob.setHealth(mob.getMaxHealth());
             int exp = Tools.levelToXp(mob.getExperienceMode(), 1);
@@ -269,7 +271,7 @@ public class ItemPokemobEgg extends Item
             if (stack.hasTag()) ItemPokemobEgg.initPokemobGenetics(mob, stack.getTag(), !hasNest);
             mob.spawnInit();
         }
-        return CapabilityPokemob.getPokemobFor(entity);
+        return PokemobCaps.getPokemobFor(entity);
     }
 
     public static void spawn(final IPokemob mob, final ItemStack stack, final Level world, final EntityPokemobEgg egg)
@@ -280,13 +282,13 @@ public class ItemPokemobEgg extends Item
         if (mob.getOwner() != null)
         {
             final LivingEntity owner = mob.getOwner();
-            owner.sendMessage(new TranslatableComponent("pokemob.hatch", mob.getDisplayName().getString()),
-                    Util.NIL_UUID);
+            if (owner instanceof Player player) thut.lib.ChatHelper.sendSystemMessage(player,
+                    TComponent.translatable("pokemob.hatch", mob.getDisplayName().getString()));
             if (world.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) world.addFreshEntity(new ExperienceOrb(world,
                     entity.getX(), entity.getY(), entity.getZ(), entity.getRandom().nextInt(7) + 1));
         }
         final EggEvent.Hatch evt = new EggEvent.Hatch(egg);
-        PokecubeCore.POKEMOB_BUS.post(evt);
+        PokecubeAPI.POKEMOB_BUS.post(evt);
         if (nbt.contains("nestLoc"))
         {
             final BlockPos pos = NbtUtils.readBlockPos(nbt.getCompound("nestLoc"));
@@ -315,7 +317,7 @@ public class ItemPokemobEgg extends Item
     {
         final PokedexEntry entry = ItemPokemobEgg.getEntry(stack);
         if (entry != null) tooltip.add(1,
-                new TranslatableComponent("item.pokecube.pokemobegg.named", I18n.get(entry.getUnlocalizedName())));
+                TComponent.translatable("item.pokecube.pokemobegg.named", I18n.get(entry.getUnlocalizedName())));
     }
 
     /**
@@ -334,7 +336,7 @@ public class ItemPokemobEgg extends Item
     {
         if (this.hasCustomEntity(itemstack))
         {
-            final EntityPokemobEgg egg = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world).setStack(itemstack)
+            final EntityPokemobEgg egg = new EntityPokemobEgg(EntityTypes.getEgg(), world).setStack(itemstack)
                     .setToPos(oldItem.getX(), oldItem.getY(), oldItem.getZ());
             egg.setDeltaMovement(oldItem.getDeltaMovement());
             return egg;
@@ -349,7 +351,7 @@ public class ItemPokemobEgg extends Item
         final ItemStack eggItemStack = new ItemStack(ItemPokemobEgg.EGG, 1);
         if (stack.hasTag()) eggItemStack.setTag(stack.getTag());
         else eggItemStack.setTag(new CompoundTag());
-        final EntityPokemobEgg entity = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world).setToPos(location)
+        final EntityPokemobEgg entity = new EntityPokemobEgg(EntityTypes.getEgg(), world).setToPos(location)
                 .setStack(eggItemStack);
         final EggEvent.Place event = new EggEvent.Place(entity);
         MinecraftForge.EVENT_BUS.post(event);

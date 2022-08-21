@@ -35,12 +35,12 @@ import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import pokecube.adventures.blocks.siphon.SiphonTickEvent;
 import pokecube.adventures.blocks.siphon.SiphonTile;
 import pokecube.adventures.blocks.warp_pad.WarpPadTile;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.interfaces.capabilities.PokemobCaps;
-import pokecube.core.utils.PokeType;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.utils.PokeType;
+import pokecube.core.eventhandlers.EventsHandler;
 import thut.api.maths.Vector3;
 
 public class EnergyHandler
@@ -51,7 +51,7 @@ public class EnergyHandler
 
     public static class EnergyStore implements IEnergyStorage, ICapabilityProvider
     {
-        private final IEnergyStorage               tile;
+        private final IEnergyStorage tile;
         private final LazyOptional<IEnergyStorage> holder = LazyOptional.of(() -> this);
 
         public EnergyStore(final IEnergyStorage tile)
@@ -158,24 +158,23 @@ public class EnergyHandler
         }
         int ret = 0;
         power = Math.min(power, PokecubeAdv.config.maxOutput);
-        for (final Entity entity : l)
-            if (entity != null && entity.isAddedToWorld() && entity.isAlive())
+        for (final Entity entity : l) if (entity != null && entity.isAddedToWorld() && entity.isAlive())
+        {
+            final IEnergyStorage producer = entity.getCapability(CapabilityEnergy.ENERGY).orElse(null);
+            if (producer != null)
             {
-                final IEnergyStorage producer = entity.getCapability(CapabilityEnergy.ENERGY).orElse(null);
-                if (producer != null)
+                final double dSq = Math.max(1, entity.distanceToSqr(tile.getBlockPos().getX() + 0.5,
+                        tile.getBlockPos().getY() + 0.5, tile.getBlockPos().getZ() + 0.5));
+                final int extract = producer.extractEnergy(PokecubeAdv.config.maxOutput, simulated);
+                final int input = (int) (extract / dSq);
+                ret += input;
+                if (ret >= power)
                 {
-                    final double dSq = Math.max(1, entity.distanceToSqr(tile.getBlockPos().getX() + 0.5, tile
-                            .getBlockPos().getY() + 0.5, tile.getBlockPos().getZ() + 0.5));
-                    final int extract = producer.extractEnergy(PokecubeAdv.config.maxOutput, simulated);
-                    final int input = (int) (extract / dSq);
-                    ret += input;
-                    if (ret >= power)
-                    {
-                        ret = power;
-                        break;
-                    }
+                    ret = power;
+                    break;
                 }
             }
+        }
         ret = Math.min(ret, PokecubeAdv.config.maxOutput);
         return ret;
     }
@@ -183,8 +182,7 @@ public class EnergyHandler
     @SubscribeEvent
     public static void SiphonEvent(final SiphonTickEvent event)
     {
-        if (!(event.getTile().getLevel() instanceof ServerLevel)) return;
-        final ServerLevel world = (ServerLevel) event.getTile().getLevel();
+        if (!(event.getTile().getLevel() instanceof ServerLevel world)) return;
 
         final Map<IEnergyStorage, Integer> tiles = Maps.newHashMap();
         Integer output = (int) EnergyHandler.getOutput(event.getTile(), PokecubeAdv.config.maxOutput, true);
@@ -197,8 +195,8 @@ public class EnergyHandler
         {
             final BlockEntity te = v.getTileEntity(world, side);
             IEnergyStorage cap;
-            if (te != null && (cap = te.getCapability(CapabilityEnergy.ENERGY, side.getOpposite()).orElse(
-                    null)) != null)
+            if (te != null
+                    && (cap = te.getCapability(CapabilityEnergy.ENERGY, side.getOpposite()).orElse(null)) != null)
             {
                 if (!cap.canReceive()) continue;
                 final Integer toSend = cap.receiveEnergy(output, true);
@@ -218,15 +216,15 @@ public class EnergyHandler
             sides:
             for (final Direction side : Direction.values())
                 if ((cap = te.getCapability(CapabilityEnergy.ENERGY, side.getOpposite()).orElse(null)) != null)
+            {
+                if (!cap.canReceive()) continue;
+                final Integer toSend = cap.receiveEnergy(output, true);
+                if (toSend > 0)
                 {
-                    if (!cap.canReceive()) continue;
-                    final Integer toSend = cap.receiveEnergy(output, true);
-                    if (toSend > 0)
-                    {
-                        tiles.put(cap, toSend);
-                        break sides;
-                    }
+                    tiles.put(cap, toSend);
+                    break sides;
                 }
+            }
         }
         for (final Map.Entry<IEnergyStorage, Integer> entry : tiles.entrySet())
         {
@@ -246,10 +244,11 @@ public class EnergyHandler
     /** Priority low, so that the IPokemob capability is added first. */
     public static void onEntityCapabilityAttach(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (!event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP) || event.getCapabilities().containsKey(
-                EnergyHandler.ENERGYCAP) || event.getObject().getLevel() == null) return;
-        final IPokemob pokemob = event.getCapabilities().get(EventsHandler.POKEMOBCAP).getCapability(
-                PokemobCaps.POKEMOB_CAP).orElse(null);
+        if (!event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP)
+                || event.getCapabilities().containsKey(EnergyHandler.ENERGYCAP) || event.getObject().getLevel() == null)
+            return;
+        final IPokemob pokemob = event.getCapabilities().get(EventsHandler.POKEMOBCAP)
+                .getCapability(PokemobCaps.POKEMOB_CAP).orElse(null);
         if (pokemob != null) event.addCapability(EnergyHandler.ENERGYCAP, new ProviderPokemob(pokemob));
     }
 
@@ -258,17 +257,17 @@ public class EnergyHandler
     {
         if (event.getCapabilities().containsKey(EnergyHandler.ENERGYCAP)) return;
 
-        if (event.getObject() instanceof SiphonTile)
+        if (event.getObject() instanceof SiphonTile tile)
         {
-            ((SiphonTile) event.getObject()).energy = new SiphonTile.EnergyStore();
-            event.addCapability(EnergyHandler.ENERGYCAP, ((SiphonTile) event.getObject()).energy);
+            tile.energy = new SiphonTile.EnergyStore();
+            event.addCapability(EnergyHandler.ENERGYCAP, tile.energy);
         }
-        if (event.getObject() instanceof BaseGeneticsTile) event.addCapability(EnergyHandler.ENERGYCAP, new EnergyStore(
-                (IEnergyStorage) event.getObject()));
-        if (event.getObject() instanceof WarpPadTile) event.addCapability(EnergyHandler.ENERGYCAP, new EnergyStore(
-                (IEnergyStorage) event.getObject()));
-        if (event.getObject() instanceof AfaTile) event.addCapability(EnergyHandler.ENERGYCAP, new EnergyStore(
-                (IEnergyStorage) event.getObject()));
+        if (event.getObject() instanceof BaseGeneticsTile tile)
+            event.addCapability(EnergyHandler.ENERGYCAP, new EnergyStore(tile));
+        if (event.getObject() instanceof WarpPadTile tile)
+            event.addCapability(EnergyHandler.ENERGYCAP, new EnergyStore(tile));
+        if (event.getObject() instanceof AfaTile tile)
+            event.addCapability(EnergyHandler.ENERGYCAP, new EnergyStore(tile));
     }
 
     public static class ProviderPokemob extends EnergyStorage implements ICapabilityProvider
@@ -331,8 +330,8 @@ public class EnergyHandler
                 if (dE > 0)
                 {
                     this.energy += dE;
-                    this.pokemob.applyHunger((int) (Config.instance.energyHungerCost + regen
-                            * Config.instance.energyHungerCost));
+                    this.pokemob.applyHunger(
+                            (int) (Config.instance.energyHungerCost + regen * Config.instance.energyHungerCost));
                     living.getPersistentData().putInt("pokecube:energy", this.energy);
                 }
             }

@@ -14,13 +14,13 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.compat.jei.ingredients.Pokemob;
 import pokecube.core.PokecubeItems;
-import pokecube.core.database.PokedexEntry.EvolutionData;
+import thut.lib.TComponent;
 
 public class Category implements IRecipeCategory<Evolution>
 {
@@ -46,7 +46,7 @@ public class Category implements IRecipeCategory<Evolution>
     @Override
     public Component getTitle()
     {
-        return new TextComponent(this.localizedName);
+        return TComponent.literal(this.localizedName);
     }
 
     @Override

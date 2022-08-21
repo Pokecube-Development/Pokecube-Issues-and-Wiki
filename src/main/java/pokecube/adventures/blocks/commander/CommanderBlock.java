@@ -6,8 +6,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.blocks.InteractableHorizontalBlock;
-import pokecube.core.interfaces.PokecubeMod;
 
 public class CommanderBlock extends InteractableHorizontalBlock implements EntityBlock
 {
@@ -29,8 +29,7 @@ public class CommanderBlock extends InteractableHorizontalBlock implements Entit
     {
         final int power = world.getBestNeighborSignal(pos);
         final BlockEntity tile = world.getBlockEntity(pos);
-        if (!(tile instanceof CommanderTile)) return;
-        final CommanderTile commander = (CommanderTile) tile;
+        if (!(tile instanceof CommanderTile commander)) return;
         // Trigger on rising signal
         if (power > 0 && commander.power == 0) try
         {
@@ -39,7 +38,7 @@ public class CommanderBlock extends InteractableHorizontalBlock implements Entit
         }
         catch (final Exception e)
         {
-            PokecubeMod.LOGGER.warn("Invalid Commander Block use at " + pos + " " + e.getMessage());
+            PokecubeAPI.LOGGER.warn("Invalid Commander Block use at " + pos + " " + e.getMessage());
         }
         commander.power = power;
     }

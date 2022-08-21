@@ -19,11 +19,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.IItemRenderProperties;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.statue.StatueEntity;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.database.Database;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 
@@ -151,14 +151,14 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItem
             stack.getOrCreateTagElement("__id_cache__").putUUID("id", uuid);
         }
 
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (initMob && pokemob != null)
         {
             float mobScale = 1;
             if (transform == TransformType.GUI)
             {
                 final Float value = GuiPokemobBase.sizeMap.get(pokemob.getPokedexEntry());
-                if (value != null) mobScale = value * 2.0f;
+                if (value != null) mobScale = value * 8.0f;
                 else
                 {
                     final boolean stock = pokemob.getPokedexEntry().stock;

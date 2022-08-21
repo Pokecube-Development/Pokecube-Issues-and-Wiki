@@ -5,7 +5,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,19 +12,20 @@ import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
-import pokecube.core.PokecubeCore;
-import pokecube.core.handlers.Config;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.core.init.Config;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
-import pokecube.core.utils.Tools;
+import pokecube.core.utils.Permissions;
+import thut.lib.TComponent;
 
 public class Kill
 {
     @Cancelable
     /**
-     * This is fired on the PokecubeCore.POKEMOB_BUS. If cancelled, the kill
+     * This is fired on the PokecubeAPI.POKEMOB_BUS. If cancelled, the kill
      * command will not apply to the requested pokemob!
      */
     public static class KillCommandEvent extends LivingEvent
@@ -44,7 +44,7 @@ public class Kill
         int count1 = 0;
         for (final Object o : mobs.getAll())
         {
-            final IPokemob e = CapabilityPokemob.getPokemobFor((ICapabilityProvider) o);
+            final IPokemob e = PokemobCaps.getPokemobFor((ICapabilityProvider) o);
             if (e != null && !e.getEntity().isInvulnerable())
             {
                 try
@@ -53,17 +53,17 @@ public class Kill
                         continue;
                     if (!tame && e.getOwnerId() != null) continue;
                     final KillCommandEvent event = new KillCommandEvent(e.getEntity());
-                    if (PokecubeCore.POKEMOB_BUS.post(event)) continue;
+                    if (PokecubeAPI.POKEMOB_BUS.post(event)) continue;
                     e.onRecall();
                     count1++;
                 }
                 catch (Exception e1)
                 {
-                    PokecubeCore.LOGGER.error("Error in kill command!", e1);
+                    PokecubeAPI.LOGGER.error("Error in kill command!", e1);
                 }
             }
         }
-        source.sendSuccess(new TranslatableComponent("pokecube.command." + (cull ? "cull" : "kill"), count1), true);
+        source.sendSuccess(TComponent.translatable("pokecube.command." + (cull ? "cull" : "kill"), count1), true);
         return 0;
     }
 
@@ -78,11 +78,11 @@ public class Kill
         PermNodes.registerNode(killAllPerm, DefaultPermissionLevel.OP,
                 "Is the player allowed to force all pokemobs to recall");
 
-        command.then(Commands.literal("kill").requires(Tools.hasPerm(killPerm))
+        command.then(Commands.literal("kill").requires(Permissions.hasPerm(killPerm))
                 .executes((ctx) -> Kill.execute(ctx.getSource(), false, false)));
-        command.then(Commands.literal("kill_all").requires(Tools.hasPerm(killAllPerm))
+        command.then(Commands.literal("kill_all").requires(Permissions.hasPerm(killAllPerm))
                 .executes((ctx) -> Kill.execute(ctx.getSource(), true, false)));
-        command.then(Commands.literal("cull").requires(Tools.hasPerm(cullPerm))
+        command.then(Commands.literal("cull").requires(Permissions.hasPerm(cullPerm))
                 .executes((ctx) -> Kill.execute(ctx.getSource(), false, true)));
     }
 }

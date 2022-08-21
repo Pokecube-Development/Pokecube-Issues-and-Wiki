@@ -18,14 +18,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.events.pokemobs.SpawnEvent;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.events.pokemob.SpawnEvent;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.FormeHolder;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.utils.PokeType;
 import thut.api.ThutCaps;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -33,6 +34,7 @@ import thut.api.entity.ICopyMob;
 import thut.api.entity.IMobColourable;
 import thut.api.maths.Vector3;
 import thut.core.common.network.TileUpdate;
+import thut.lib.RegHelper;
 
 public class StatueEntity extends BlockEntity
 {
@@ -62,7 +64,7 @@ public class StatueEntity extends BlockEntity
             if (before == null)
             {
                 copy.setCopiedMob(before = PokecubeCore.createPokemob(Database.missingno, this.level));
-                if (copy.getCopiedID() == null) copy.setCopiedID(before.getType().getRegistryName());
+                if (copy.getCopiedID() == null) copy.setCopiedID(RegHelper.getKey(before.getType()));
                 if (!copy.getCopiedNBT().isEmpty()) before.deserializeNBT(copy.getCopiedNBT());
                 before = null;
             }
@@ -127,7 +129,7 @@ public class StatueEntity extends BlockEntity
         super.onLoad();
         if (!level.isClientSide)
         {
-            PokecubeCore.POKEMOB_BUS.register(this);
+            PokecubeAPI.POKEMOB_BUS.register(this);
         }
     }
 
@@ -137,7 +139,7 @@ public class StatueEntity extends BlockEntity
         super.onChunkUnloaded();
         if (!level.isClientSide)
         {
-            PokecubeCore.POKEMOB_BUS.unregister(this);
+            PokecubeAPI.POKEMOB_BUS.unregister(this);
         }
     }
 
@@ -148,7 +150,7 @@ public class StatueEntity extends BlockEntity
 
         if (copy == null || !(this.level instanceof ServerLevel slevel))
         {
-            PokecubeCore.POKEMOB_BUS.unregister(this);
+            PokecubeAPI.POKEMOB_BUS.unregister(this);
             return;
         }
 
@@ -166,7 +168,7 @@ public class StatueEntity extends BlockEntity
 
         if (copy.getCopiedMob() != null)
         {
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(copy.getCopiedMob());
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(copy.getCopiedMob());
 
             boolean powered = level.hasNeighborSignal(getBlockPos());
             double d = PokecubeCore.getConfig().maxSpawnRadius;
@@ -231,7 +233,7 @@ public class StatueEntity extends BlockEntity
             copy.setCopiedMob(null);
         }
         initMob.run();
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(copy.getCopiedMob());
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(copy.getCopiedMob());
         if (tex != null && pokemob != null)
         {
             final ResourceLocation texRes = new ResourceLocation(tex);

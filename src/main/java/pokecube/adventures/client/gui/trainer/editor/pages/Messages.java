@@ -8,18 +8,17 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
-import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
-import pokecube.adventures.capabilities.utils.Action;
 import pokecube.adventures.capabilities.utils.BattleAction;
-import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.Messages.MessageOption;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.ListPage;
 import pokecube.adventures.network.PacketTrainer;
+import pokecube.api.entity.trainers.IHasMessages;
+import pokecube.api.entity.trainers.actions.Action;
+import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.core.client.gui.helper.INotifiedEntry;
 import pokecube.core.client.gui.helper.ScrollGui;
+import thut.lib.TComponent;
 
 public class Messages extends ListPage<MessageOption>
 {
@@ -54,8 +53,8 @@ public class Messages extends ListPage<MessageOption>
 
             this.index = index;
 
-            this.message = new EditBox(parent.font, 0, 0, 170, 10, new TextComponent(""));
-            this.action = new EditBox(parent.font, 0, 0, 170, 10, new TextComponent(""));
+            this.message = new EditBox(parent.font, 0, 0, 170, 10, TComponent.literal(""));
+            this.action = new EditBox(parent.font, 0, 0, 170, 10, TComponent.literal(""));
 
             final MessageState state = MessageState.values()[this.index];
             this.message.setValue(this.messages.getMessage(state));
@@ -70,7 +69,7 @@ public class Messages extends ListPage<MessageOption>
             this.message.setMaxLength(1024);
             this.action.setMaxLength(1024);
 
-            this.apply = new Button(0, 0, 50, 10, new TextComponent("Apply"), b -> {
+            this.apply = new Button(0, 0, 50, 10, TComponent.literal("Apply"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.onUpdated();
             });
@@ -142,7 +141,7 @@ public class Messages extends ListPage<MessageOption>
 
     public Messages(final EditorGui parent)
     {
-        super(new TextComponent(""), parent);
+        super(TComponent.literal(""), parent);
     }
 
     @Override
@@ -162,7 +161,7 @@ public class Messages extends ListPage<MessageOption>
         x = this.width / 2;
         y = this.height / 2;
         this.addRenderableWidget(
-                new Button(x + 73, y + 64, 50, 12, new TranslatableComponent("traineredit.button.home"), b ->
+                new Button(x + 73, y + 64, 50, 12, TComponent.translatable("traineredit.button.home"), b ->
                 {
                     this.closeCallback.run();
                 }));

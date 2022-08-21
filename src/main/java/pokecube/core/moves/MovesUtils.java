@@ -12,10 +12,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -24,33 +21,35 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.entity.PartEntity;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.CapabilityAffected;
+import pokecube.api.entity.IOngoingAffected;
+import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.entity.pokemob.stats.DefaultModifiers;
+import pokecube.api.entity.pokemob.stats.StatModifiers;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.Move_Base;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.database.moves.MoveEntry.Category;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.capabilities.CapabilityAffected;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.entity.IOngoingAffected;
-import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
-import pokecube.core.interfaces.entity.impl.NonPersistantStatusEffect;
-import pokecube.core.interfaces.entity.impl.NonPersistantStatusEffect.Effect;
-import pokecube.core.interfaces.entity.impl.PersistantStatusEffect;
-import pokecube.core.interfaces.entity.impl.PersistantStatusEffect.Status;
-import pokecube.core.interfaces.entity.impl.StatEffect;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
-import pokecube.core.interfaces.pokemob.stats.DefaultModifiers;
-import pokecube.core.interfaces.pokemob.stats.StatModifiers;
+import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
+import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;
+import pokecube.core.impl.entity.impl.PersistantStatusEffect;
+import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
+import pokecube.core.impl.entity.impl.StatEffect;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
-import pokecube.core.utils.PokeType;
 import thut.api.boom.ExplosionCustom;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainSegment;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 public class MovesUtils implements IMoveConstants
 {
@@ -76,16 +75,15 @@ public class MovesUtils implements IMoveConstants
     public static void sendPairedMessages(final Entity target, final IPokemob attacker, final String baseKey)
     {
         String key = baseKey + ".user";
-        final IPokemob attacked = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob attacked = PokemobCaps.getPokemobFor(target);
         final Component targName = target != null ? target.getDisplayName()
-                : attacker != null ? attacker.getDisplayName() : new TextComponent("ERR PLS REPORT");
-        if (attacker != null) attacker.displayMessageToOwner(new TranslatableComponent(key, targName));
+                : attacker != null ? attacker.getDisplayName() : TComponent.literal("ERR PLS REPORT");
+        if (attacker != null) attacker.displayMessageToOwner(TComponent.translatable(key, targName));
         key = baseKey + ".target";
         if (target != attacker.getEntity() && target != null)
         {
-            final Component message = new TranslatableComponent(key, targName);
+            final Component message = TComponent.translatable(key, targName);
             if (attacked != null) attacked.displayMessageToOwner(message);
-            else target.sendMessage(message, Util.NIL_UUID);
         }
     }
 
@@ -93,22 +91,21 @@ public class MovesUtils implements IMoveConstants
             final Object otherArg)
     {
         String key = baseKey + ".user";
-        final IPokemob attacked = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob attacked = PokemobCaps.getPokemobFor(target);
         final Component targName = attacker != null ? attacker.getDisplayName() : target.getDisplayName();
-        if (attacker != null) attacker.displayMessageToOwner(new TranslatableComponent(key, targName, otherArg));
+        if (attacker != null) attacker.displayMessageToOwner(TComponent.translatable(key, targName, otherArg));
         key = baseKey + ".target";
         if (target != attacker.getEntity() && target != null)
         {
-            final Component message = new TranslatableComponent(key, targName, otherArg);
+            final Component message = TComponent.translatable(key, targName, otherArg);
             if (attacked != null) attacked.displayMessageToOwner(message);
-            else if (target instanceof Player) PacketPokemobMessage.sendMessage((Player) target, message);
-            else target.sendMessage(message, Util.NIL_UUID);
+            else if (target instanceof Player player) PacketPokemobMessage.sendMessage(player, message);
         }
     }
 
     public static void addChange(final Entity target, final IPokemob attacker, final byte change)
     {
-        final IPokemob attacked = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob attacked = PokemobCaps.getPokemobFor(target);
         final boolean effect = CapabilityAffected.addEffect(target,
                 new NonPersistantStatusEffect(Effect.getStatus(change)));
         if (attacked != null) if (change == IMoveConstants.CHANGE_CONFUSED) if (effect)
@@ -262,7 +259,7 @@ public class MovesUtils implements IMoveConstants
             if (amount > 0) message += ".fall" + amount;
             else message += ".rise" + -amount;
             final String statName = "pokemob.move.stat" + stat;
-            MovesUtils.sendPairedMessages(attacked, attacker, message, new TranslatableComponent(statName));
+            MovesUtils.sendPairedMessages(attacked, attacker, message, TComponent.translatable(statName));
         }
     }
 
@@ -273,16 +270,15 @@ public class MovesUtils implements IMoveConstants
         if (baseKey != null)
         {
             String key = baseKey + ".user";
-            final IPokemob attacked = CapabilityPokemob.getPokemobFor(target);
+            final IPokemob attacked = PokemobCaps.getPokemobFor(target);
             final Component targName = target.getDisplayName();
-            if (attacked != null) attacked.displayMessageToOwner(new TranslatableComponent(key, targName));
+            if (attacked != null) attacked.displayMessageToOwner(TComponent.translatable(key, targName));
             key = baseKey + ".target";
             if (attacker != target)
             {
-                final Component message = new TranslatableComponent(key, targName);
+                final Component message = TComponent.translatable(key, targName);
                 if (attacker != null) attacker.displayMessageToOwner(message);
-                else if (target instanceof Player) PacketPokemobMessage.sendMessage((Player) target, message);
-                else target.sendMessage(message, Util.NIL_UUID);
+                else if (target instanceof Player player) PacketPokemobMessage.sendMessage(player, message);
             }
         }
     }
@@ -379,7 +375,7 @@ public class MovesUtils implements IMoveConstants
 
     public static Component getMoveName(final String attack)
     {
-        return new TranslatableComponent("pokemob.move." + attack);
+        return TComponent.translatable("pokemob.move." + attack);
     }
 
     protected static String getStatusMessage(final byte status, final boolean onMove)
@@ -446,7 +442,7 @@ public class MovesUtils implements IMoveConstants
             final boolean attacked)
     {
         final int[] stats = attacked ? atk.attackedStatModification : atk.attackerStatModification;
-        final IPokemob affected = attacked ? CapabilityPokemob.getPokemobFor(target) : attacker;
+        final IPokemob affected = attacked ? PokemobCaps.getPokemobFor(target) : attacker;
         float[] mods;
         float[] old;
         if (affected != null)
@@ -553,7 +549,7 @@ public class MovesUtils implements IMoveConstants
     {
         final ExplosionCustom var11 = new ExplosionCustom((ServerLevel) entity.getLevel(), entity, x, y, z, power)
                 .setMaxRadius(PokecubeCore.getConfig().blastRadius);
-        final IPokemob poke = CapabilityPokemob.getPokemobFor(entity);
+        final IPokemob poke = PokemobCaps.getPokemobFor(entity);
         if (poke != null) if (poke.getOwner() instanceof Player) var11.owner = (Player) poke.getOwner();
         else var11.owner = null;
         return var11;
@@ -571,7 +567,7 @@ public class MovesUtils implements IMoveConstants
 
     public static boolean setStatus(final Entity attacked, byte status)
     {
-        final IPokemob attackedPokemob = CapabilityPokemob.getPokemobFor(attacked);
+        final IPokemob attackedPokemob = PokemobCaps.getPokemobFor(attacked);
 
         boolean applied = false;
         final boolean[] statuses = new boolean[Status.values().length];
@@ -605,7 +601,7 @@ public class MovesUtils implements IMoveConstants
 
     public static Predicate<Entity> targetMatcher(final Entity attacker)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(attacker);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(attacker);
         return e -> {
             if (pokemob == null || e == attacker) return false;
             if (!(e instanceof LivingEntity)) return false;
@@ -613,8 +609,7 @@ public class MovesUtils implements IMoveConstants
             if (attacker.is(e)) return false;
             if (!PokecubeCore.getConfig().pokemobsDamagePlayers && e instanceof Player) return false;
             if (!PokecubeCore.getConfig().pokemobsDamageOwner && e.getUUID().equals(pokemob.getOwnerId())) return false;
-            if (PokecubeCore.getEntityProvider().getEntity(attacker.getLevel(), e.getId(),
-                    true) == attacker)
+            if (PokecubeAPI.getEntityProvider().getEntity(attacker.getLevel(), e.getId(), true) == attacker)
                 return false;
             return true;
         };
@@ -624,8 +619,8 @@ public class MovesUtils implements IMoveConstants
     {
         final Vector3 source = new Vector3().set(attacker, false);
         final boolean ignoreAllies = false;
-        return MovesUtils.targetHit(source, dest.subtract(source), 16, attacker.getLevel(), attacker,
-                ignoreAllies, MovesUtils.targetMatcher(attacker));
+        return MovesUtils.targetHit(source, dest.subtract(source), 16, attacker.getLevel(), attacker, ignoreAllies,
+                MovesUtils.targetMatcher(attacker));
     }
 
     public static Entity targetHit(final Vector3 source, final Vector3 dir, final int distance, final Level world,
@@ -658,8 +653,7 @@ public class MovesUtils implements IMoveConstants
     public static List<LivingEntity> targetsHit(final Entity attacker, final Vector3 dest, final double area)
     {
         final Vector3 source = new Vector3().set(attacker);
-        final List<Entity> targets = attacker.getLevel().getEntities(attacker,
-                source.getAABB().inflate(area));
+        final List<Entity> targets = attacker.getLevel().getEntities(attacker, source.getAABB().inflate(area));
         final List<LivingEntity> ret = new ArrayList<>();
         if (targets != null) for (final Entity e : targets) if (e instanceof LivingEntity) ret.add((LivingEntity) e);
         return ret;

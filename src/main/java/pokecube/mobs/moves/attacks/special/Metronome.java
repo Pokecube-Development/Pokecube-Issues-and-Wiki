@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.Iterator;
 
 import net.minecraft.world.entity.Entity;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.database.moves.MoveEntry;
-import pokecube.core.interfaces.Move_Base;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.templates.Move_Basic;
 import thut.api.maths.Vector3;
@@ -32,6 +32,6 @@ public class Metronome extends Move_Basic
             toUse = MovesUtils.getMoveFromName(move.name);
         }
         if (toUse != null) toUse.ActualMoveUse(user, target, start, end);
-        else PokecubeCore.LOGGER.warn("Failed to find a move for metronome to use by " + user + " on " + target);
+        else PokecubeAPI.LOGGER.warn("Failed to find a move for metronome to use by " + user + " on " + target);
     }
 }

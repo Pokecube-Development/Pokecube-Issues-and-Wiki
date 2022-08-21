@@ -9,8 +9,6 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -26,14 +24,16 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.Nature;
+import pokecube.api.moves.IMoveConstants;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Nature;
 import pokecube.core.items.UsableItemEffects.BerryUsable.BerryEffect;
+import thut.lib.TComponent;
 
 /**
  * @author Oracion
@@ -61,15 +61,15 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
     public static void registerBerryType(final String name, final BerryEffect effect, final int index,
             final int... flavours)
     {
-        if (BerryManager.berryItems.containsKey(index))
+        if (BerryManager.berryTypes.containsKey(index))
         {
-            PokecubeCore.LOGGER.error("Duplicate Berry Index for " + index, new IllegalStateException());
+            PokecubeAPI.LOGGER.error("Duplicate Berry Index for " + index, new IllegalStateException());
             return;
         }
         BerryType type = new BerryType(name, effect, index, flavours);
-        final ItemBerry berry = new ItemBerry(type);
-        BerryManager.berryItems.put(index, berry);
-        if (index == 0) PokecubeItems.POKECUBE_BERRIES = new ItemStack(berry);
+        BerryManager.berryNames.put(type.index, type.name);
+        BerryManager.berryTypes.put(type.index, type);
+        BerryManager.indexByName.put(type.name, type.index);
     }
 
     public final BerryType type;
@@ -102,20 +102,19 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
             final TooltipFlag advanced)
     {
         Component info = null;
-        if (advanced.isAdvanced()) tooltip.add(new TextComponent("ID: " + this.type.index));
-        tooltip.add(new TranslatableComponent("item.pokecube.berry.desc"));
+        if (advanced.isAdvanced()) tooltip.add(TComponent.literal("ID: " + this.type.index));
+        tooltip.add(TComponent.translatable("item.pokecube.berry.desc"));
         final String berryName = this.type.name;
-        info = new TranslatableComponent("item.pokecube.berry_" + berryName + ".desc");
+        info = TComponent.translatable("item.pokecube.berry_" + berryName + ".desc");
         tooltip.add(info);
         if (BerryGenManager.isTree(this.type.index))
         {
-            info = new TranslatableComponent("item.berry.istree.desc");
+            info = TComponent.translatable("item.berry.istree.desc");
             tooltip.add(info);
         }
         if (PokecubeCore.proxy.getPlayer() == null) return;
-        if (PokecubeCore.proxy.getPlayer().containerMenu instanceof ContainerPokemob)
+        if (PokecubeCore.proxy.getPlayer().containerMenu instanceof ContainerPokemob container)
         {
-            final ContainerPokemob container = (ContainerPokemob) PokecubeCore.proxy.getPlayer().containerMenu;
             final IPokemob pokemob = container.getPokemob();
             if (pokemob == null || pokemob.getEntity() == null) return;
             final Nature nature = pokemob.getNature();
@@ -124,38 +123,38 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
             {
                 final String tooltips = I18n.get("item.berry.favourite.desc", ChatFormatting.GOLD, ChatFormatting.RESET,
                         pokemob.getDisplayName().getString());
-                info = new TranslatableComponent(tooltips);
+                info = TComponent.translatable(tooltips);
                 tooltip.add(info);
                 info = null;
             }
             final int weight = Nature.getBerryWeight(this.type.index, nature);
             String tooltips = I18n.get("item.berry.nomind.desc", ChatFormatting.YELLOW, ChatFormatting.RESET,
                     pokemob.getDisplayName().getString());
-            if (weight == 0) info = new TranslatableComponent(tooltips);
+            if (weight == 0) info = TComponent.translatable(tooltips);
 
             tooltips = I18n.get("item.berry.like1.desc", ChatFormatting.GREEN, ChatFormatting.RESET,
                     pokemob.getDisplayName().getString());
-            if (weight >= 10) info = new TranslatableComponent(tooltips);
+            if (weight >= 10) info = TComponent.translatable(tooltips);
 
             tooltips = I18n.get("item.berry.like2.desc", ChatFormatting.DARK_GREEN, ChatFormatting.RESET,
                     pokemob.getDisplayName().getString());
-            if (weight >= 20) info = new TranslatableComponent(tooltips);
+            if (weight >= 20) info = TComponent.translatable(tooltips);
 
             tooltips = I18n.get("item.berry.like3.desc", ChatFormatting.DARK_GREEN, ChatFormatting.RESET,
                     pokemob.getDisplayName().getString());
-            if (weight >= 30) info = new TranslatableComponent(tooltips);
+            if (weight >= 30) info = TComponent.translatable(tooltips);
 
             tooltips = I18n.get("item.berry.hate1.desc", ChatFormatting.RED, ChatFormatting.RESET,
                     pokemob.getDisplayName().getString());
-            if (weight <= -10) info = new TranslatableComponent(tooltips);
+            if (weight <= -10) info = TComponent.translatable(tooltips);
 
             tooltips = I18n.get("item.berry.hate2.desc", ChatFormatting.RED, ChatFormatting.RESET,
                     pokemob.getDisplayName().getString());
-            if (weight <= -20) info = new TranslatableComponent(tooltips);
+            if (weight <= -20) info = TComponent.translatable(tooltips);
 
             tooltips = I18n.get("item.berry.hate3.desc", ChatFormatting.DARK_RED, ChatFormatting.RESET,
                     pokemob.getDisplayName().getString());
-            if (weight <= -30) info = new TranslatableComponent(tooltips);
+            if (weight <= -30) info = TComponent.translatable(tooltips);
 
             if (info != null) tooltip.add(info);
         }

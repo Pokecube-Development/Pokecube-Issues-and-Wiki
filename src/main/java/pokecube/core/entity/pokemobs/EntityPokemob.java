@@ -50,30 +50,32 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.network.NetworkHooks;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.PokedexEntry.SpawnData;
+import pokecube.api.data.spawns.SpawnBiomeMatcher;
+import pokecube.api.data.spawns.SpawnCheck;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.events.pokemobs.FaintEvent;
+import pokecube.api.events.pokemobs.SpawnEvent;
+import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
+import pokecube.api.events.pokemobs.SpawnEvent.Variance;
+import pokecube.api.utils.PokeType;
+import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntry.SpawnData;
-import pokecube.core.database.spawns.SpawnBiomeMatcher;
-import pokecube.core.database.spawns.SpawnCheck;
 import pokecube.core.entity.pokemobs.helper.PokemobRidable;
-import pokecube.core.events.pokemob.FaintEvent;
-import pokecube.core.events.pokemob.SpawnEvent;
-import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
-import pokecube.core.events.pokemob.SpawnEvent.Variance;
-import pokecube.core.handlers.Config;
-import pokecube.core.handlers.events.SpawnHandler;
+import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.impl.PokecubeMod;
+import pokecube.core.init.Config;
+import pokecube.core.init.EntityTypes;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
-import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokemobTracker;
-import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.IMobGenetics;
@@ -119,9 +121,9 @@ public class EntityPokemob extends PokemobRidable
     @Override
     public AgeableMob getBreedOffspring(final ServerLevel p_241840_1_, final AgeableMob ageable)
     {
-        final IPokemob other = CapabilityPokemob.getPokemobFor(ageable);
+        final IPokemob other = PokemobCaps.getPokemobFor(ageable);
         if (other == null) return null;
-        final EntityPokemobEgg egg = EntityPokemobEgg.TYPE.create(this.getLevel());
+        final EntityPokemobEgg egg = EntityTypes.getEgg().create(this.getLevel());
         egg.setStackByParents(this, other);
         return egg;
     }
@@ -169,7 +171,7 @@ public class EntityPokemob extends PokemobRidable
         if (this.deathTime >= PokecubeCore.getConfig().deadDespawnTimer)
         {
             final FaintEvent event = new FaintEvent(this.pokemobCap);
-            PokecubeCore.POKEMOB_BUS.post(event);
+            PokecubeAPI.POKEMOB_BUS.post(event);
             final Result res = event.getResult();
             despawn = res == Result.DEFAULT ? despawn : res == Result.ALLOW;
             if (despawn && !noPoof) this.pokemobCap.onRecall(true);
@@ -221,8 +223,7 @@ public class EntityPokemob extends PokemobRidable
                 this.setDeltaMovement(motion.x * 0.5, motion.y, motion.z * 0.5);
                 return;
             }
-            final LivingEntity livingentity = (LivingEntity) this.getControllingPassenger();
-            if (livingentity == null) break ridden;
+            if (!(this.getControllingPassenger() instanceof LivingEntity livingentity)) break ridden;
             this.pokemobCap.setHeading(livingentity.yRot);
             this.yRotO = this.yRot;
             this.xRot = livingentity.xRot * 0.5F;
@@ -313,7 +314,7 @@ public class EntityPokemob extends PokemobRidable
     public SpawnGroupData finalizeSpawn(final ServerLevelAccessor worldIn, final DifficultyInstance difficultyIn,
             final MobSpawnType reason, final SpawnGroupData spawnDataIn, final CompoundTag dataTag)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(this);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(this);
         if (pokemob == null || !(worldIn instanceof Level))
             return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
         final PokedexEntry pokeEntry = pokemob.getPokedexEntry();
@@ -340,7 +341,7 @@ public class EntityPokemob extends PokemobRidable
             else
             {
                 final SpawnEvent.PickLevel event = new SpawnEvent.PickLevel(context, overrideLevel, variance);
-                PokecubeCore.POKEMOB_BUS.post(event);
+                PokecubeAPI.POKEMOB_BUS.post(event);
                 level = event.getLevel();
             }
             maxXP = Tools.levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), level);
@@ -349,7 +350,7 @@ public class EntityPokemob extends PokemobRidable
             if (PokecubeMod.debug && dt > 100)
             {
                 final String toLog = "location: %1$s took: %2$s\u00B5s to spawn Init for %3$s";
-                PokecubeCore.LOGGER.info(String.format(toLog, loc.getPos(), dt, pokemob.getDisplayName().getString()));
+                PokecubeAPI.LOGGER.info(String.format(toLog, loc.getPos(), dt, pokemob.getDisplayName().getString()));
             }
         }
         return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
@@ -374,7 +375,7 @@ public class EntityPokemob extends PokemobRidable
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error reading synced data value", e);
+                    PokecubeAPI.LOGGER.error("Error reading synced data value", e);
                 }
             }
             this.pokemobCap.dataSync().update(data_list);
@@ -513,6 +514,7 @@ public class EntityPokemob extends PokemobRidable
     @Override
     public boolean requiresCustomPersistence()
     {
+        if (isPersistenceRequired() || super.requiresCustomPersistence()) return true;
         if (!(level instanceof ServerLevel level)) return true;
 
         final boolean despawns = Config.Rules.doDespawn(level);
@@ -603,7 +605,7 @@ public class EntityPokemob extends PokemobRidable
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error recovering old owner!");
+            PokecubeAPI.LOGGER.error("Error recovering old owner!");
         }
     }
 
@@ -683,7 +685,7 @@ public class EntityPokemob extends PokemobRidable
     {
         if (this.isInvulnerable())
         {
-            PokecubeCore.LOGGER.info("Not deleting {} from /kill, as is marked as invulnerable!", this);
+            PokecubeAPI.LOGGER.info("Not deleting {} from /kill, as is marked as invulnerable!", this);
             return;
         }
         super.kill();

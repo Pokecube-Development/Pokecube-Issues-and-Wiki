@@ -44,11 +44,15 @@ public class BerryCrop extends CropBlock
     }
 
     @Override
-    public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final Random random)
+    public void randomTick(BlockState state, final ServerLevel worldIn, final BlockPos pos, final Random random)
     {
         super.randomTick(state, worldIn, pos, random);
         if (!worldIn.isPositionEntityTicking(pos)) return;
-        final int age = this.getAge(worldIn.getBlockState(pos));
+        state = worldIn.getBlockState(pos);
+        // This can happen if the super randomTick call invalidates this block,
+        // like growing, event, etc.
+        if (state.getBlock() != this) return;
+        final int age = this.getAge(state);
         if (age == this.getMaxAge())
         {
             final Supplier<AbstractTreeGrower> grower = BerryGenManager.getTree(worldIn, random, this.index);

@@ -2,7 +2,7 @@ package pokecube.core.client.gui;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Collections;
@@ -34,33 +34,33 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import net.minecraftforge.fml.loading.FMLPaths;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.Pokedex;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.client.render.mobs.RenderPokemob.Holder;
 import pokecube.core.database.Database;
-import pokecube.core.database.Pokedex;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.FormeHolder;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.capabilities.DefaultPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.interfaces.pokemob.ai.LogicStates;
+import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.EntityTools;
-import thut.api.entity.IMobColourable;
 import thut.api.maths.vecmath.Vec3f;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
+import thut.lib.RegHelper;
+import thut.lib.TComponent;
 
 public class AnimationGui extends Screen
 {
@@ -75,7 +75,7 @@ public class AnimationGui extends Screen
         if (ret == null)
         {
             final Mob mob = PokecubeCore.createPokemob(entry, PokecubeCore.proxy.getWorld());
-            ret = CapabilityPokemob.getPokemobFor(mob);
+            ret = PokemobCaps.getPokemobFor(mob);
             AnimationGui.renderMobs.put(entry, ret);
         }
         return ret;
@@ -98,12 +98,8 @@ public class AnimationGui extends Screen
                 ret.getEntity().setUUID(realMob.getEntity().getUUID());
                 ret.read(realMob.write());
                 ret.onGenesChanged();
-                if (ret instanceof DefaultPokemob && realMob instanceof DefaultPokemob)
-                {
-                    final DefaultPokemob from = (DefaultPokemob) realMob;
-                    final DefaultPokemob to = (DefaultPokemob) ret;
+                if (ret instanceof DefaultPokemob to && realMob instanceof DefaultPokemob from)
                     to.genes.deserializeNBT(from.genes.serializeNBT());
-                }
                 if (!realMob.getPokedexEntry().stock)
                 {
                     final CompoundTag tag = new CompoundTag();
@@ -114,8 +110,8 @@ public class AnimationGui extends Screen
                     }
                     catch (final Exception e)
                     {
-                        PokecubeCore.LOGGER
-                                .error("Error with syncing tag for " + realMob.getEntity().getType().getRegistryName());
+                        PokecubeAPI.LOGGER
+                                .error("Error with syncing tag for " + RegHelper.getKey(realMob.getEntity().getType()));
                         e.printStackTrace();
                     }
                 }
@@ -139,9 +135,9 @@ public class AnimationGui extends Screen
             entries.forEach(e -> main.add(e, new JsonPrimitive(sizeMap.get(e))));
             final String json = JsonUtil.gson.toJson(main);
             final File dir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("sizes.json").toFile();
-            final FileWriter out = new FileWriter(dir);
-            out.write(json);
-            out.close();
+            FileOutputStream outS = new FileOutputStream(dir);
+            outS.write(json.getBytes());
+            outS.close();
         }
         catch (final IOException e1)
         {
@@ -207,7 +203,7 @@ public class AnimationGui extends Screen
 
     public AnimationGui()
     {
-        super(new TranslatableComponent("pokecube.model_reloader"));
+        super(TComponent.translatable("pokecube.model_reloader"));
     }
 
     void onUpdated()
@@ -257,7 +253,7 @@ public class AnimationGui extends Screen
         this.renderHolder = RenderPokemob.holders.get(AnimationGui.entry);
         if (this.holder != null)
             this.renderHolder = RenderPokemob.customs.getOrDefault(this.holder.key, this.renderHolder);
-        this.renderHolder.init();
+
         PacketPokedex.updateWatchEntry(AnimationGui.entry);
 
         this.forme.moveCursorToStart();
@@ -408,7 +404,7 @@ public class AnimationGui extends Screen
         dy = maxY - minY;
 
         boolean scaled = false;
-        if (dx <= 0 || dy <= 0) PokecubeCore.LOGGER.error("Error with " + AnimationGui.entry);
+        if (dx <= 0 || dy <= 0) PokecubeAPI.LOGGER.error("Error with " + AnimationGui.entry);
         else
         {
             final float target = ow / 3f;
@@ -495,10 +491,7 @@ public class AnimationGui extends Screen
 
             final float yaw = 0;
 
-            final IMobColourable colourable = pokemob.getEntity() instanceof IMobColourable
-                    ? (IMobColourable) pokemob.getEntity()
-                    : pokemob instanceof IMobColourable ? (IMobColourable) pokemob : null;
-            if (colourable != null) colourable.setRGBA(255, 255, 255, 255);
+            pokemob.setRGBA(255, 255, 255, 255);
             // Reset some things that add special effects to rendered mobs.
             pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
             pokemob.setGeneralState(GeneralStates.EVOLVING, false);
@@ -566,12 +559,12 @@ public class AnimationGui extends Screen
                         dims.z = dims.y;
                         dims.x = dims.y;
                     }
-                    PokecubeCore.LOGGER.error("borked: {}", AnimationGui.entry);
+                    PokecubeAPI.LOGGER.error("borked: {}", AnimationGui.entry);
                     AnimationGui.tries++;
                     if (AnimationGui.tries > 20)
                     {
                         this.took = true;
-                        PokecubeCore.LOGGER.error("Skipping image for {}", AnimationGui.entry);
+                        PokecubeAPI.LOGGER.error("Skipping image for {}", AnimationGui.entry);
                     }
                 }
                 this.transitTime = System.currentTimeMillis() + (this.took ? 0 : 10);
@@ -592,7 +585,7 @@ public class AnimationGui extends Screen
         if (AnimationGui.entry == null) AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
         if (AnimationGui.entry != null) AnimationGui.mob = AnimationGui.entry.getName();
 
-        final Component blank = new TextComponent("");
+        final Component blank = TComponent.literal("");
 
         this.anim = new EditBox(this.font, this.width - 101, yOffset + 43 - yOffset / 2, 100, 10, blank);
         this.state_g = new EditBox(this.font, this.width - 101, yOffset - 33 - yOffset / 2, 100, 10, blank);
@@ -614,19 +607,19 @@ public class AnimationGui extends Screen
         this.addRenderableWidget(this.rngValue);
         this.addRenderableWidget(this.dyeColour);
 
-        final Component icons = new TextComponent("Icons");
-        final Component up = new TextComponent("\u25bc");
-        final Component down = new TextComponent("\u25b2");
-        final Component right = new TextComponent("\u25b6");
-        final Component left = new TextComponent("\u25c0");
-        final Component next = new TextComponent("next");
-        final Component prev = new TextComponent("prev");
-        final Component plus = new TextComponent("+");
-        final Component minus = new TextComponent("-");
+        final Component icons = TComponent.literal("Icons");
+        final Component up = TComponent.literal("\u25bc");
+        final Component down = TComponent.literal("\u25b2");
+        final Component right = TComponent.literal("\u25b6");
+        final Component left = TComponent.literal("\u25c0");
+        final Component next = TComponent.literal("next");
+        final Component prev = TComponent.literal("prev");
+        final Component plus = TComponent.literal("+");
+        final Component minus = TComponent.literal("-");
 
-        final Component reset = new TextComponent("reset");
-        final Component f5 = new TextComponent("f5");
-        final Component bg = new TextComponent("bg");
+        final Component reset = TComponent.literal("reset");
+        final Component f5 = TComponent.literal("f5");
+        final Component bg = TComponent.literal("bg");
 
         int dy = -120;
 
@@ -697,26 +690,26 @@ public class AnimationGui extends Screen
         }));
         dy += 20;
         this.addRenderableWidget(
-                new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, new TextComponent("normal"), b ->
+                new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, TComponent.literal("normal"), b ->
                 {
                     this.shiny = !this.shiny;
-                    b.setMessage(new TextComponent(this.shiny ? "shiny" : "normal"));
+                    b.setMessage(TComponent.literal(this.shiny ? "shiny" : "normal"));
                     this.onUpdated();
                 }));
         dy += 20;
         this.addRenderableWidget(
-                new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, new TextComponent("sexe:M"), b ->
+                new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, TComponent.literal("sexe:M"), b ->
                 {
                     final String[] gender = b.getMessage().getString().split(":");
                     if (gender[1].equalsIgnoreCase("f"))
                     {
                         this.sexe = IPokemob.MALE;
-                        b.setMessage(new TextComponent("sexe:M"));
+                        b.setMessage(TComponent.literal("sexe:M"));
                     }
                     else if (gender[1].equalsIgnoreCase("m"))
             {
                 this.sexe = IPokemob.FEMALE;
-                b.setMessage(new TextComponent("sexe:F"));
+                b.setMessage(TComponent.literal("sexe:F"));
             }
                     this.holder = AnimationGui.entry.getModel(this.sexe);
                     this.forme_alt.setValue("");
@@ -727,6 +720,8 @@ public class AnimationGui extends Screen
             AnimationGui.renderMobs.clear();
             RenderPokemob.reloadModel(AnimationGui.entry);
             this.onUpdated();
+            this.renderHolder.wrapper.lastInit = Long.MIN_VALUE;
+            this.renderHolder.init();
         }));
         dy += 20;
         this.addRenderableWidget(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, bg, b -> {
@@ -734,7 +729,7 @@ public class AnimationGui extends Screen
         }));
         dy += 40;
         this.addRenderableWidget(
-                new Button(this.width / 2 - xOffset, yOffset + dy, 40, 10, new TextComponent("WRTSIZE"), b ->
+                new Button(this.width / 2 - xOffset, yOffset + dy, 40, 10, TComponent.literal("WRTSIZE"), b ->
                 {
                     AnimationGui.printSizes();
                 }));
@@ -797,7 +792,7 @@ public class AnimationGui extends Screen
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error cycling forme holder!");
+                    PokecubeAPI.LOGGER.error("Error cycling forme holder!");
                     this.forme_alt.setValue("");
                 }
                 else this.forme_alt.setValue("");
@@ -822,7 +817,7 @@ public class AnimationGui extends Screen
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error("Error cycling forme holder!");
+                    PokecubeAPI.LOGGER.error("Error cycling forme holder!");
                     this.forme_alt.setValue("");
                 }
                 else this.forme_alt.setValue("");

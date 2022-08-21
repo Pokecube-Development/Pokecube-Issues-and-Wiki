@@ -15,10 +15,10 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.LogicStates;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.LogicStates;
+import pokecube.api.moves.IMoveConstants;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.entity.ai.ITask;
 import thut.api.entity.ai.RootTask;
@@ -55,7 +55,7 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
         public boolean run(final Level world)
         {
             final Entity e = world.getEntity(this.entity);
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(e);
             if (e == null || pokemob == null) return false;
             if (this.slot > 0) pokemob.getInventory().setItem(this.slot, this.stack);
             else if (!ItemStackTools.addItemStackToInventory(this.stack, pokemob.getInventory(), this.minSlot))

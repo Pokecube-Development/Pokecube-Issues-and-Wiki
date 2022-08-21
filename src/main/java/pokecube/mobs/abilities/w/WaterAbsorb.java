@@ -1,10 +1,10 @@
 package pokecube.mobs.abilities.w;
 
 import net.minecraft.world.entity.LivingEntity;
-import pokecube.core.database.abilities.Ability;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
-import pokecube.core.utils.PokeType;
+import pokecube.api.data.abilities.Ability;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.utils.PokeType;
 
 public class WaterAbsorb extends Ability
 {

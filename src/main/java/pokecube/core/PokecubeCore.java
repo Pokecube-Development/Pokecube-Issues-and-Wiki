@@ -4,9 +4,6 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 
@@ -19,19 +16,17 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.SensorType;
-import net.minecraft.world.entity.animal.ShoulderRidingEntity;
 import net.minecraft.world.entity.decoration.Motive;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.entity.schedule.Schedule;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.BusBuilder;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -39,52 +34,41 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.events.init.InitDatabase;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.npc.Schedules;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.blocks.berries.BerryGenManager;
-import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.database.Database;
-import pokecube.core.database.Pokedex;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
-import pokecube.core.entity.npc.NpcMob;
-import pokecube.core.entity.pokemobs.ContainerPokemob;
-import pokecube.core.entity.pokemobs.GenericPokemob;
-import pokecube.core.entity.pokemobs.PokemobType;
-import pokecube.core.events.onload.InitDatabase;
-import pokecube.core.events.onload.RegisterPokemobsEvent;
-import pokecube.core.handlers.Config;
-import pokecube.core.handlers.ItemGenerator;
-import pokecube.core.handlers.ItemHandler;
+import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.handlers.PaintingsHandler;
 import pokecube.core.handlers.RecipeHandler;
 import pokecube.core.handlers.data.Drops;
 import pokecube.core.handlers.data.Recipes;
-import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import pokecube.core.handlers.playerdata.PokecubePlayerData;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
-import pokecube.core.interfaces.IEntityProvider;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.inventory.healer.HealerContainer;
-import pokecube.core.inventory.pc.PCContainer;
-import pokecube.core.inventory.tms.TMContainer;
-import pokecube.core.inventory.trade.TradeContainer;
-import pokecube.core.items.pokecubes.EntityPokecube;
-import pokecube.core.items.pokecubes.EntityPokecubeBase;
-import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import pokecube.core.impl.PokecubeMod;
+import pokecube.core.init.Config;
+import pokecube.core.init.EntityTypes;
+import pokecube.core.init.ItemGenerator;
+import pokecube.core.init.ItemInit;
+import pokecube.core.init.MenuTypes;
+import pokecube.core.init.Sounds;
+import pokecube.core.items.berries.BerryManager;
 import pokecube.core.moves.Battle;
-import pokecube.core.moves.animations.EntityMoveUse;
-import pokecube.core.network.EntityProvider;
 import pokecube.core.proxy.CommonProxy;
-import pokecube.core.world.dimension.SecretBaseDimension;
+import pokecube.nbtedit.NBTEdit;
 import pokecube.world.PokecubeWorld;
+import pokecube.world.dimension.SecretBaseDimension;
 import thut.api.entity.CopyCaps;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
@@ -100,44 +84,26 @@ public class PokecubeCore
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
     public static class RegistryEvents
     {
-        public static final DeferredRegister<RecipeType<?>> RECIPETYPE = DeferredRegister
-                .create(Registry.RECIPE_TYPE_REGISTRY, PokecubeCore.MODID);
-        public static final DeferredRegister<Codec<? extends ChunkGenerator>> CHUNKGENTYPE = DeferredRegister
-                .create(Registry.CHUNK_GENERATOR_REGISTRY, PokecubeCore.MODID);
-
         @SubscribeEvent
         public static void registerRegistry(final NewRegistryEvent event)
         {
+            if (PokecubeCore.proxy == null)
+            {
+                PokecubeCore.proxy = new CommonProxy();
+                NBTEdit.proxy = new pokecube.nbtedit.forge.CommonProxy();
+            }
             // Register these before items and blocks, as some items might need
             // them
             final InitDatabase.Pre pre = new InitDatabase.Pre();
-            PokecubeCore.POKEMOB_BUS.post(pre);
+            PokecubeAPI.POKEMOB_BUS.post(pre);
             pre.modIDs.add(PokecubeCore.MODID);
             Database.preInit();
-        }
+            Sounds.initMoveSounds();
+            Sounds.initConfigSounds();
+            EntityTypes.registerPokemobs();
 
-        @SubscribeEvent
-        public static void registerActivities(final RegistryEvent.Register<Activity> event)
-        {
-            Activities.register(event);
-        }
-
-        @SubscribeEvent
-        public static void registerSchedules(final RegistryEvent.Register<Schedule> event)
-        {
-            Schedules.register(event);
-        }
-
-        @SubscribeEvent
-        public static void registerMemories(final RegistryEvent.Register<MemoryModuleType<?>> event)
-        {
-            MemoryModules.register(event);
-        }
-
-        @SubscribeEvent
-        public static void registerSensors(final RegistryEvent.Register<SensorType<?>> event)
-        {
-            Sensors.register(event);
+            // Now we can initialise some of the custom items.
+            ItemInit.init();
         }
 
         @SubscribeEvent
@@ -147,114 +113,47 @@ public class PokecubeCore
             gen.addProvider(new Recipes(gen));
             gen.addProvider(new Drops(gen));
         }
-
-        @SubscribeEvent
-        public static void registerBlocks(final RegistryEvent.Register<Block> event)
-        {
-            // register a new block here
-            PokecubeCore.LOGGER.debug("Registering Blocks");
-            ItemHandler.registerBlocks(event.getRegistry());
-        }
-
-        @SubscribeEvent
-        public static void registerContainers(final RegistryEvent.Register<MenuType<?>> event)
-        {
-            // register a new container here
-            PokecubeCore.LOGGER.debug("Registering Pokecube Containers");
-            event.getRegistry().register(ContainerPokemob.TYPE.setRegistryName(PokecubeCore.MODID, "pokemob"));
-            event.getRegistry().register(HealerContainer.TYPE.setRegistryName(PokecubeCore.MODID, "healer"));
-            event.getRegistry().register(PCContainer.TYPE.setRegistryName(PokecubeCore.MODID, "pc"));
-            event.getRegistry().register(TMContainer.TYPE.setRegistryName(PokecubeCore.MODID, "tm_machine"));
-            event.getRegistry().register(TradeContainer.TYPE.setRegistryName(PokecubeCore.MODID, "trade_machine"));
-        }
-
-        @SubscribeEvent
-        public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event)
-        {
-            // register a new mob here
-            PokecubeCore.LOGGER.debug("Registering Pokecube Mobs");
-
-            // Register the non-pokemobs first
-            event.getRegistry().register(EntityPokecube.TYPE.setRegistryName(PokecubeCore.MODID, "pokecube"));
-            event.getRegistry().register(EntityPokemobEgg.TYPE.setRegistryName(PokecubeCore.MODID, "egg"));
-            event.getRegistry().register(NpcMob.TYPE.setRegistryName(PokecubeCore.MODID, "npc"));
-            event.getRegistry().register(EntityMoveUse.TYPE.setRegistryName(PokecubeCore.MODID, "move_use"));
-            Database.init();
-            PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Pre());
-            PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Register());
-            PokedexEntryLoader.postInit();
-            for (final PokedexEntry entry : Database.getSortedFormes())
-            {
-                if (entry.dummy) continue;
-                if (!entry.stock) continue;
-                try
-                {
-                    final PokemobType<ShoulderRidingEntity> type = new PokemobType<>(GenericPokemob::new, entry);
-                    type.setRegistryName(PokecubeCore.MODID, entry.getTrimmedName());
-                    event.getRegistry().register(type);
-                    Pokedex.getInstance().registerPokemon(entry);
-                    PokecubeCore.typeMap.put(type, entry);
-                    CopyCaps.register(type);
-                }
-                catch (final Exception e)
-                {
-                    throw new RuntimeException(e);
-                }
-            }
-            PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Post());
-            Database.postInit();
-            PokecubeCore.POKEMOB_BUS.post(new InitDatabase.Post());
-
-            CopyCaps.register(NpcMob.TYPE);
-            CopyCaps.register(EntityType.ARMOR_STAND);
-        }
-
-        @SubscribeEvent
-        public static void registerItems(final RegistryEvent.Register<Item> event)
-        {
-            // register a new item here
-            PokecubeCore.LOGGER.debug("Registering Pokecube Items");
-            ItemHandler.registerItems(event.getRegistry());
-        }
-
-        @SubscribeEvent
-        public static void registerSounds(final RegistryEvent.Register<SoundEvent> event)
-        {
-            // register a new mob here
-            PokecubeCore.LOGGER.debug("Registering Pokecube Sounds");
-            Database.initSounds(event.getRegistry());
-
-            ResourceLocation sound = new ResourceLocation(PokecubeCore.MODID + ":pokecube_caught");
-            event.getRegistry()
-                    .register((EntityPokecubeBase.POKECUBESOUND = new SoundEvent(sound)).setRegistryName(sound));
-            sound = new ResourceLocation(PokecubeCore.MODID + ":pokecenter");
-            event.getRegistry().register((HealerContainer.HEAL_SOUND = new SoundEvent(sound)).setRegistryName(sound));
-            sound = new ResourceLocation(PokecubeCore.MODID + ":pokecenterloop");
-            event.getRegistry().register((HealerTile.MUSICLOOP = new SoundEvent(sound)).setRegistryName(sound));
-        }
-
-        @SubscribeEvent
-        public static void registerTileEntities(final RegistryEvent.Register<BlockEntityType<?>> event)
-        {
-            // register a new TE here
-            PokecubeCore.LOGGER.debug("Registering Pokecube TEs");
-            ItemHandler.registerTiles(event.getRegistry());
-        }
     }
 
-    // Directly reference a log4j logger.
-    public static final Logger LOGGER = LogManager.getLogger(PokecubeCore.MODID);
-    public static final String MODID = "pokecube";
+    public static final DeferredRegister<RecipeType<?>> RECIPETYPE;
+    public static final DeferredRegister<Codec<? extends ChunkGenerator>> CHUNKGENTYPE;
+    public static final DeferredRegister<Activity> ACTIVITIES;
+    public static final DeferredRegister<Schedule> SCHEDULES;
+    public static final DeferredRegister<MemoryModuleType<?>> MEMORIES;
+    public static final DeferredRegister<SensorType<?>> SENSORS;
+    public static final DeferredRegister<Block> BERRIES_TAB;
+    public static final DeferredRegister<Block> BLOCKS;
+    public static final DeferredRegister<Item> ITEMS;
+    public static final DeferredRegister<BlockEntityType<?>> TILES;
+    public static final DeferredRegister<EntityType<?>> ENTITIES;
+    public static final DeferredRegister<MenuType<?>> MENU;
+    public static final DeferredRegister<SoundEvent> SOUNDS;
+    public static final DeferredRegister<Motive> PAINTINGS;
+
+    static
+    {
+        RECIPETYPE = DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, PokecubeCore.MODID);
+        CHUNKGENTYPE = DeferredRegister.create(Registry.CHUNK_GENERATOR_REGISTRY, PokecubeCore.MODID);
+        ACTIVITIES = DeferredRegister.create(Registry.ACTIVITY_REGISTRY, PokecubeCore.MODID);
+        SCHEDULES = DeferredRegister.create(Registry.SCHEDULE_REGISTRY, PokecubeCore.MODID);
+        MEMORIES = DeferredRegister.create(Registry.MEMORY_MODULE_TYPE_REGISTRY, PokecubeCore.MODID);
+        SENSORS = DeferredRegister.create(Registry.SENSOR_TYPE_REGISTRY, PokecubeCore.MODID);
+        BERRIES_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
+        BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
+        ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, PokecubeCore.MODID);
+        TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, PokecubeCore.MODID);
+        ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, PokecubeCore.MODID);
+        MENU = DeferredRegister.create(ForgeRegistries.CONTAINERS, PokecubeCore.MODID);
+        SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, PokecubeCore.MODID);
+        PAINTINGS = DeferredRegister.create(ForgeRegistries.PAINTING_TYPES, PokecubeCore.MODID);
+    }
+
+    public static final String MODID = PokecubeAPI.MODID;
 
     private static final String NETVERSION = "1.0.2";
     // Handler for network stuff.
     public static final PacketHandler packets = new PacketHandler(new ResourceLocation(PokecubeCore.MODID, "comms"),
             PokecubeCore.NETVERSION);
-    // Bus for move events
-    public static final IEventBus MOVE_BUS = BusBuilder.builder().build();
-
-    // Bus for Pokemob Events
-    public static final IEventBus POKEMOB_BUS = BusBuilder.builder().build();
 
     // Holder for our config options
     private static final Config config = new Config();
@@ -267,9 +166,6 @@ public class PokecubeCore
 
     // Map to store the registered mobs in.
     public static Map<EntityType<? extends Mob>, PokedexEntry> typeMap = Maps.newHashMap();
-
-    // Provider for entities.
-    public static IEntityProvider provider = new EntityProvider(null);
 
     /**
      * Generates the mobEntity for the given pokedex entry.
@@ -299,17 +195,6 @@ public class PokecubeCore
     }
 
     /**
-     * Allows for dealing with cases like pokeplayer, where the entity that the
-     * world stores is not necessarily the one wanted for pokemob interaction.
-     *
-     * @return
-     */
-    public static IEntityProvider getEntityProvider()
-    {
-        return PokecubeCore.provider;
-    }
-
-    /**
      * For pokemob type mobs, this returns the pokedex entry for the
      * corresponding entity type, for other mobs it returns null.
      *
@@ -332,7 +217,7 @@ public class PokecubeCore
 
     public PokecubeCore()
     {
-        PokecubeMod.setLogger(PokecubeCore.LOGGER);
+        PokecubeMod.setLogger(PokecubeAPI.LOGGER);
 
         // Initialize the items and blocks.
         PokecubeItems.init();
@@ -342,23 +227,28 @@ public class PokecubeCore
 
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        PokecubeItems.ITEMS.register(bus);
-        PokecubeItems.BLOCKS.register(bus);
-        PokecubeItems.BERRIES_TAB.register(bus);
-        PokecubeItems.TILES.register(bus);
-        PokecubeItems.MENU.register(bus);
+        PokecubeCore.BERRIES_TAB.register(bus);
+        PokecubeCore.ITEMS.register(bus);
+        PokecubeCore.BLOCKS.register(bus);
+        PokecubeCore.TILES.register(bus);
+        PokecubeCore.ENTITIES.register(bus);
+        PokecubeCore.MENU.register(bus);
+        PokecubeCore.CHUNKGENTYPE.register(bus);
+        PokecubeCore.RECIPETYPE.register(bus);
+        PokecubeCore.ACTIVITIES.register(bus);
+        PokecubeCore.SENSORS.register(bus);
+        PokecubeCore.SCHEDULES.register(bus);
+        PokecubeCore.MEMORIES.register(bus);
+        PokecubeCore.SOUNDS.register(bus);
+        PokecubeCore.PAINTINGS.register(bus);
 
-        RegistryEvents.CHUNKGENTYPE.register(bus);
-        RegistryEvents.RECIPETYPE.register(bus);
-        
         PokecubeWorld.init(bus);
 
         bus.addListener(this::loadComplete);
-        bus.addGenericListener(Motive.class, PaintingsHandler::registerPaintings);
 
         RecipeHandler.init(bus);
         PointsOfInterest.REG.register(bus);
-        
+
         new BerryGenManager();
         SecretBaseDimension.onConstruct(bus);
 
@@ -370,6 +260,16 @@ public class PokecubeCore
 
         // Initialize advancement triggers
         Triggers.init();
+
+        // Init some more things that register stuff
+        Activities.init();
+        Schedules.init();
+        MemoryModules.init();
+        Sensors.init();
+        MenuTypes.init();
+        EntityTypes.init();
+        Sounds.init();
+        PaintingsHandler.init();
 
         // Register the battle managers
         Battle.register();
@@ -383,6 +283,17 @@ public class PokecubeCore
 
         event.enqueueWork(() -> {
             PointsOfInterest.postInit();
+            ItemInit.postInit();
+
+            CopyCaps.register(EntityTypes.getNpc());
+            CopyCaps.register(EntityType.ARMOR_STAND);
+
+            if (PokecubeItems.POKECUBE_ITEMS.isEmpty())
+                PokecubeItems.POKECUBE_ITEMS = new ItemStack(PokecubeItems.POKEDEX.get());
+            if (PokecubeItems.POKECUBE_BERRIES.isEmpty())
+                PokecubeItems.POKECUBE_BERRIES = new ItemStack(BerryManager.berryFruits.get(0));
+            if (PokecubeItems.POKECUBE_CUBES.isEmpty())
+                PokecubeItems.POKECUBE_CUBES = PokecubeItems.getStack("pokecube");
         });
     }
 }

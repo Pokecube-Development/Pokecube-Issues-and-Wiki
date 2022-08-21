@@ -6,13 +6,13 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraftforge.common.MinecraftForge;
-import pokecube.core.PokecubeCore;
-import pokecube.core.database.Pokedex;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.stats.ISpecialCaptureCondition;
-import pokecube.core.database.stats.ISpecialSpawnCondition;
-import pokecube.core.database.stats.SpecialCaseRegister;
-import pokecube.core.interfaces.PokecubeMod;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.Pokedex;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.stats.ISpecialCaptureCondition;
+import pokecube.api.stats.ISpecialSpawnCondition;
+import pokecube.api.stats.SpecialCaseRegister;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.legends.conditions.AbstractCondition;
 import pokecube.legends.conditions.data.ConditionLoader;
 import pokecube.legends.handlers.GeneProtector;
@@ -42,7 +42,7 @@ public class LegendaryConditions
         // Register the thng that prevents genetic modification of protected
         // mobs
         MinecraftForge.EVENT_BUS.register(new GeneProtector());
-        PokecubeCore.POKEMOB_BUS.register(new GeneProtector());
+        PokecubeAPI.POKEMOB_BUS.register(new GeneProtector());
         MinecraftForge.EVENT_BUS.register(LegendarySpawn.class);
 
         List<Class<?>> foundClasses;
@@ -60,7 +60,7 @@ public class LegendaryConditions
                     num++;
                 }
             }
-            if (PokecubeMod.debug) PokecubeMod.LOGGER.info("Detected " + num + " Legendary Conditions.");
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.info("Detected " + num + " Legendary Conditions.");
         }
         catch (final Exception e)
         {
@@ -83,6 +83,6 @@ public class LegendaryConditions
             {
                 e.printStackTrace();
             }
-        PokecubeMod.LOGGER.info("Registered " + num + " Legendary Conditions.");
+        PokecubeAPI.LOGGER.info("Registered " + num + " Legendary Conditions.");
     }
 }

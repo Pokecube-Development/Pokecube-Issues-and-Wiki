@@ -8,7 +8,6 @@ import java.util.function.Predicate;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -28,19 +27,20 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.items.IPokecube;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.Move_Base;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IPokecube;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.moves.MovesUtils;
 import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
-import thut.core.common.commands.CommandTools;
+import thut.lib.RegHelper;
 
 public class Tools
 {
@@ -212,10 +212,9 @@ public class Tools
         double cubeBonus = 0;
         int additionalBonus = 0;
         final Item cube = PokecubeItems.getFilledCube(pokecubeId);
-        if (cube instanceof IPokecube) cubeBonus = ((IPokecube) cube).getCaptureModifier(pokemob, pokecubeId);
-        if (IPokecube.PokecubeBehavior.BEHAVIORS.get().containsKey(pokecubeId))
-            additionalBonus = IPokecube.PokecubeBehavior.BEHAVIORS.get().getValue(pokecubeId)
-                    .getAdditionalBonus(pokemob);
+        if (cube instanceof IPokecube pokecube) cubeBonus = pokecube.getCaptureModifier(pokemob, pokecubeId);
+        if (IPokecube.PokecubeBehaviour.BEHAVIORS.containsKey(pokecubeId))
+            additionalBonus = IPokecube.PokecubeBehaviour.BEHAVIORS.get(pokecubeId).getAdditionalBonus(pokemob);
         return Tools.computeCatchRate(pokemob, cubeBonus, additionalBonus);
     }
 
@@ -287,7 +286,7 @@ public class Tools
         final Move_Base attack = MovesUtils.getMoveFromName(move);
         if (attack == null) return 0;
         int pwr = attack.getPWR(user, target);
-        final IPokemob mob = CapabilityPokemob.getPokemobFor(target);
+        final IPokemob mob = PokemobCaps.getPokemobFor(target);
         if (mob != null)
         {
             pwr *= PokeType.getAttackEfficiency(attack.getType(user), mob.getType1(), mob.getType2());
@@ -355,7 +354,7 @@ public class Tools
                 if (!itemstack.isEmpty())
             {
                 final ItemStack stack = itemstack.copy();
-                if (stack.getItem().getRegistryName().equals(new ResourceLocation("pokecube", "candy")))
+                if (RegHelper.getKey(stack).equals(new ResourceLocation("pokecube", "candy")))
                     PokecubeItems.makeStackValid(stack);
                 return stack;
             }
@@ -378,7 +377,7 @@ public class Tools
 
         if (item == null && stack.isEmpty())
         {
-            PokecubeCore.LOGGER.error(id + " not found!");
+            PokecubeAPI.LOGGER.error(id + " not found!");
             return ItemStack.EMPTY;
         }
         if (stack.isEmpty()) stack = new ItemStack(item, 1);
@@ -389,7 +388,7 @@ public class Tools
         }
         catch (final CommandSyntaxException e)
         {
-            PokecubeCore.LOGGER.error("Error parsing items for " + values, e);
+            PokecubeAPI.LOGGER.error("Error parsing items for " + values, e);
         }
         return stack;
     }
@@ -421,7 +420,7 @@ public class Tools
          * slow-then-very-fast - 0 6 - fast-then-very-slow - 5 5 3 2 4 1 6 { 52,
          * 21, 27, 57, 33, 13, 3 },
          */
-        PokecubeCore.LOGGER.error(new IllegalArgumentException("Error parsing EXP Type for " + name));
+        PokecubeAPI.LOGGER.error(new IllegalArgumentException("Error parsing EXP Type for " + name));
         return 0;
     }
 
@@ -450,33 +449,6 @@ public class Tools
     public static boolean hasMove(final String move, final IPokemob mob)
     {
         for (final String s : mob.getMoves()) if (s != null && s.equalsIgnoreCase(move)) return true;
-        return false;
-    }
-
-    public static boolean isAnyPlayerInRange(final double rangeHorizontal, final double rangeVertical,
-            final Entity entity)
-    {
-        return Tools.isAnyPlayerInRange(rangeHorizontal, rangeVertical, entity.getLevel(), new Vector3().set(entity));
-    }
-
-    public static boolean isAnyPlayerInRange(final double rangeHorizontal, final double rangeVertical,
-            final Level world, final Vector3 location)
-    {
-        final double dhm = rangeHorizontal * rangeHorizontal;
-        final double dvm = rangeVertical * rangeVertical;
-        for (int i = 0; i < world.players().size(); ++i)
-        {
-            final Player PlayerEntity = world.players().get(i);
-            if (EntitySelector.NO_SPECTATORS.test(PlayerEntity) || PokecubeCore.getConfig().debug)
-            {
-                final double d0 = PlayerEntity.getX() - location.x;
-                final double d1 = PlayerEntity.getZ() - location.z;
-                final double d2 = PlayerEntity.getY() - location.y;
-                final double dh = d0 * d0 + d1 * d1;
-                final double dv = d2 * d2;
-                if (dh < dhm && dv < dvm) return true;
-            }
-        }
         return false;
     }
 
@@ -532,10 +504,5 @@ public class Tools
             index++;
         }
         return Tools.getLevelFromTable(index, exp);
-    }
-
-    public static Predicate<CommandSourceStack> hasPerm(final String perm)
-    {
-        return cs -> CommandTools.hasPerm(cs, perm);
     }
 }

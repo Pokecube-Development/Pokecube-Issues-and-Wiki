@@ -22,7 +22,7 @@ public class ConfiguredFeatureHolder implements Holder<ConfiguredFeature<?, ?>>
     Holder<ConfiguredFeature<?, ?>> when_loaded;
     String name;
     MinecraftServer server = null;
-    Supplier<ConfiguredFeature<?, ?>> dummy_getter = FeaturesInit.ORE_FOSSIL_SMALL_FEATURE;
+    Supplier<ConfiguredFeature<?, ?>> dummy_getter = FeaturesInit.DUMMY_CONFF;
 
     public ConfiguredFeatureHolder(String name)
     {

@@ -24,11 +24,11 @@ import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.items.IPokemobUseable;
 import pokecube.core.PokecubeItems;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemobUseable;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.vitamins.ItemCandy;
@@ -77,17 +77,19 @@ public class UsableItemEffects
          * @return something happened
          */
         @Override
-        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
+        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack,
+                final LivingEntity user)
         {
             final LivingEntity mob = pokemob.getEntity();
             final float health = pokemob.getHealth();
             if ((int) health <= 0) return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
             final float maxHealth = pokemob.getMaxHealth();
-            if (user == mob) if (health >= maxHealth / 3) return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
+            if (user == mob)
+                if (health >= maxHealth / 3) return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
             if (health + 20 < maxHealth) pokemob.setHealth(health + 20);
             else pokemob.setHealth(maxHealth);
             boolean useStack = true;
-            if (user instanceof Player && ((Player) user).getAbilities().instabuild) useStack = false;
+            if (user instanceof Player player && player.getAbilities().instabuild) useStack = false;
             if (useStack) stack.split(1);
             return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
         }
@@ -97,8 +99,7 @@ public class UsableItemEffects
     public static class BerryUsable extends BaseUseable
     {
         public static interface BerryEffect extends IPokemobUseable
-        {
-        }
+        {}
 
         public static Int2ObjectArrayMap<BerryEffect> effects = new Int2ObjectArrayMap<>();
 
@@ -111,11 +112,11 @@ public class UsableItemEffects
         public InteractionResultHolder<ItemStack> onMoveTick(final IPokemob pokemob, final ItemStack stack,
                 final MovePacket moveuse)
         {
-            if (stack.getItem() instanceof ItemBerry)
+            if (stack.getItem() instanceof ItemBerry berry)
             {
-                final int berryId = ((ItemBerry) stack.getItem()).type.index;
-                if (!BerryManager.berryNames.containsKey(berryId)) return new InteractionResultHolder<>(InteractionResult.FAIL,
-                        stack);
+                final int berryId = berry.type.index;
+                if (!BerryManager.berryNames.containsKey(berryId))
+                    return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
                 final BerryEffect effect = BerryUsable.effects.get(berryId);
                 if (effect != null) return effect.onMoveTick(pokemob, stack, moveuse);
             }
@@ -133,11 +134,11 @@ public class UsableItemEffects
         @Override
         public InteractionResultHolder<ItemStack> onTick(final IPokemob pokemob, final ItemStack stack)
         {
-            if (stack.getItem() instanceof ItemBerry)
+            if (stack.getItem() instanceof ItemBerry berry)
             {
-                final int berryId = ((ItemBerry) stack.getItem()).type.index;
-                if (!BerryManager.berryNames.containsKey(berryId)) return new InteractionResultHolder<>(InteractionResult.FAIL,
-                        stack);
+                final int berryId = berry.type.index;
+                if (!BerryManager.berryNames.containsKey(berryId))
+                    return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
                 final BerryEffect effect = BerryUsable.effects.get(berryId);
                 if (effect != null) return effect.onTick(pokemob, stack);
             }
@@ -155,13 +156,14 @@ public class UsableItemEffects
          * @return something happened
          */
         @Override
-        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
+        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack,
+                final LivingEntity user)
         {
-            if (stack.getItem() instanceof ItemBerry)
+            if (stack.getItem() instanceof ItemBerry berry)
             {
-                final int berryId = ((ItemBerry) stack.getItem()).type.index;
-                if (!BerryManager.berryNames.containsKey(berryId)) return new InteractionResultHolder<>(InteractionResult.FAIL,
-                        stack);
+                final int berryId = berry.type.index;
+                if (!BerryManager.berryNames.containsKey(berryId))
+                    return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
                 final BerryEffect effect = BerryUsable.effects.get(berryId);
                 if (effect != null) return effect.onUse(pokemob, stack, user);
             }
@@ -183,13 +185,14 @@ public class UsableItemEffects
          * @return something happened
          */
         @Override
-        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
+        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack,
+                final LivingEntity user)
         {
-            if (user != pokemob.getEntity() && user != pokemob.getOwner()) return new InteractionResultHolder<>(
-                    InteractionResult.FAIL, stack);
+            if (user != pokemob.getEntity() && user != pokemob.getOwner())
+                return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
             final boolean used = true;
-            final int xp = Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel() + (PokecubeItems.isValid(
-                    stack) ? 1 : -1));
+            final int xp = Tools.levelToXp(pokemob.getExperienceMode(),
+                    pokemob.getLevel() + (PokecubeItems.isValid(stack) ? 1 : -1));
             pokemob.setExp(xp, true);
             if (used)
             {
@@ -204,14 +207,15 @@ public class UsableItemEffects
     public static class PotionUse extends BaseUseable
     {
         @Override
-        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, ItemStack stack, final LivingEntity user)
+        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, ItemStack stack,
+                final LivingEntity user)
         {
             final Mob mob = pokemob.getEntity();
             boolean applied = false;
             for (final MobEffectInstance potioneffect : PotionUtils.getMobEffects(stack))
             {
-                if (potioneffect.getEffect().isInstantenous()) potioneffect.getEffect().applyInstantenousEffect(mob, mob, mob,
-                        potioneffect.getAmplifier(), 1.0D);
+                if (potioneffect.getEffect().isInstantenous())
+                    potioneffect.getEffect().applyInstantenousEffect(mob, mob, mob, potioneffect.getAmplifier(), 1.0D);
                 else mob.addEffect(new MobEffectInstance(potioneffect));
                 applied = true;
             }
@@ -243,10 +247,11 @@ public class UsableItemEffects
          * @return something happened
          */
         @Override
-        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
+        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack,
+                final LivingEntity user)
         {
-            if (user != pokemob.getEntity() && user != pokemob.getOwner()) return new InteractionResultHolder<>(
-                    InteractionResult.FAIL, stack);
+            if (user != pokemob.getEntity() && user != pokemob.getOwner())
+                return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
             final boolean used = ItemTM.applyEffect(pokemob.getEntity(), stack);
             if (used) stack.split(1);
             return new InteractionResultHolder<>(used ? InteractionResult.SUCCESS : InteractionResult.FAIL, stack);
@@ -256,8 +261,7 @@ public class UsableItemEffects
     public static class VitaminUsable extends BaseUseable
     {
         public static interface VitaminEffect extends IPokemobUseable
-        {
-        }
+        {}
 
         public static Map<String, VitaminEffect> effects = Maps.newHashMap();
 
@@ -272,7 +276,8 @@ public class UsableItemEffects
          * @return something happened
          */
         @Override
-        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
+        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack,
+                final LivingEntity user)
         {
             if (user != pokemob.getEntity() && user != pokemob.getOwner() && !(stack.getItem() instanceof ItemVitamin))
                 return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
@@ -286,7 +291,9 @@ public class UsableItemEffects
         }
     }
 
-    public static final Capability<IPokemobUseable> USABLEITEM_CAP = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<IPokemobUseable> USABLEITEM_CAP = CapabilityManager.get(new CapabilityToken<>()
+    {
+    });
 
     public static final ResourceLocation USABLE = new ResourceLocation(PokecubeMod.ID, "usables");
 

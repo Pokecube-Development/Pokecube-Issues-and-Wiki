@@ -4,21 +4,22 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IHasCommands;
+import pokecube.api.entity.pokemob.IHasCommands.Command;
+import pokecube.api.entity.pokemob.IHasCommands.IMobCommandHandler;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.commandhandlers.AttackEntityHandler;
+import pokecube.api.entity.pokemob.commandhandlers.AttackLocationHandler;
+import pokecube.api.entity.pokemob.commandhandlers.AttackNothingHandler;
+import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
+import pokecube.api.entity.pokemob.commandhandlers.MoveIndexHandler;
+import pokecube.api.entity.pokemob.commandhandlers.MoveToHandler;
+import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
+import pokecube.api.entity.pokemob.commandhandlers.SwapMovesHandler;
+import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.IHasCommands;
-import pokecube.core.interfaces.pokemob.IHasCommands.Command;
-import pokecube.core.interfaces.pokemob.IHasCommands.IMobCommandHandler;
-import pokecube.core.interfaces.pokemob.commandhandlers.AttackEntityHandler;
-import pokecube.core.interfaces.pokemob.commandhandlers.AttackLocationHandler;
-import pokecube.core.interfaces.pokemob.commandhandlers.AttackNothingHandler;
-import pokecube.core.interfaces.pokemob.commandhandlers.ChangeFormHandler;
-import pokecube.core.interfaces.pokemob.commandhandlers.MoveIndexHandler;
-import pokecube.core.interfaces.pokemob.commandhandlers.MoveToHandler;
-import pokecube.core.interfaces.pokemob.commandhandlers.StanceHandler;
-import pokecube.core.interfaces.pokemob.commandhandlers.SwapMovesHandler;
-import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
 import thut.core.common.network.Packet;
 
 public class PacketCommand extends Packet
@@ -113,7 +114,7 @@ public class PacketCommand extends Packet
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error handling a command to a pokemob", e);
+            PokecubeAPI.LOGGER.error("Error handling a command to a pokemob", e);
             this.handler = new DefaultHandler();
         }
     }
@@ -121,9 +122,9 @@ public class PacketCommand extends Packet
     @Override
     public void handleServer(final ServerPlayer player)
     {
-        final Entity user = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), this.entityId,
+        final Entity user = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), this.entityId,
                 true);
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(user);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(user);
         if (pokemob == null) return;
         pokemob.handleCommand(this.command, this.handler);
     }

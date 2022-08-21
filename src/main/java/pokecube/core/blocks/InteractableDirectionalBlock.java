@@ -25,8 +25,7 @@ public abstract class InteractableDirectionalBlock extends DirectionalBlock
     public InteractableDirectionalBlock(final Properties properties)
     {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(DirectionalBlock.FACING,
-                Direction.UP));
+        this.registerDefaultState(this.stateDefinition.any().setValue(DirectionalBlock.FACING, Direction.UP));
     }
 
     @Override
@@ -36,11 +35,11 @@ public abstract class InteractableDirectionalBlock extends DirectionalBlock
     }
 
     @Override
-    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos,
-            final Player player, final InteractionHand hand, final BlockHitResult hit)
+    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player player,
+            final InteractionHand hand, final BlockHitResult hit)
     {
         final BlockEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof InteractableTile) return ((InteractableTile) tile).onInteract(pos, player, hand, hit);
+        if (tile instanceof InteractableTile interact) return interact.onInteract(pos, player, hand, hit);
         return InteractionResult.PASS;
     }
 
@@ -48,7 +47,7 @@ public abstract class InteractableDirectionalBlock extends DirectionalBlock
     public void stepOn(final Level worldIn, final BlockPos pos, final BlockState state, final Entity entityIn)
     {
         final BlockEntity tile = worldIn.getBlockEntity(pos);
-        if (tile instanceof InteractableTile) ((InteractableTile) tile).onWalkedOn(entityIn);
+        if (tile instanceof InteractableTile interact) interact.onWalkedOn(entityIn);
     }
 
     @Override
@@ -59,14 +58,14 @@ public abstract class InteractableDirectionalBlock extends DirectionalBlock
         if (state.getBlock() != newState.getBlock())
         {
             final BlockEntity tileentity = worldIn.getBlockEntity(pos);
-            if (tileentity instanceof InteractableTile) ((InteractableTile) tileentity).onBroken();
+            if (tileentity instanceof InteractableTile interact) interact.onBroken();
             if (tileentity == null)
             {
 
             }
-            else if (tileentity instanceof Container)
+            else if (tileentity instanceof Container container)
             {
-                Containers.dropContents(worldIn, pos, (Container) tileentity);
+                Containers.dropContents(worldIn, pos, container);
                 worldIn.updateNeighbourForOutputSignal(pos, this);
             }
             else
@@ -81,13 +80,11 @@ public abstract class InteractableDirectionalBlock extends DirectionalBlock
 
                         @Override
                         public void clearContent()
-                        {
-                        }
+                        {}
 
                         @Override
                         public void setItem(final int index, final ItemStack stack)
-                        {
-                        }
+                        {}
 
                         @Override
                         public ItemStack removeItemNoUpdate(final int index)
@@ -97,8 +94,7 @@ public abstract class InteractableDirectionalBlock extends DirectionalBlock
 
                         @Override
                         public void setChanged()
-                        {
-                        }
+                        {}
 
                         @Override
                         public boolean stillValid(final Player player)

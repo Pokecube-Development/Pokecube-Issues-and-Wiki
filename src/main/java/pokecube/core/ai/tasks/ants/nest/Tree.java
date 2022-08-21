@@ -35,12 +35,12 @@ public class Tree implements INBTSerializable<CompoundTag>, IPathHelper
 
     // This list has order of when the rooms were added.
     public List<Node> allRooms = Lists.newArrayList();
-    public Set<Edge>  allEdges = Sets.newHashSet();
+    public Set<Edge> allEdges = Sets.newHashSet();
 
     public AABB bounds;
 
     NodeEvaluator pather;
-    PathFinder    finder;
+    PathFinder finder;
 
     long regionSetTimer = 0;
 
@@ -50,8 +50,7 @@ public class Tree implements INBTSerializable<CompoundTag>, IPathHelper
 
     public Tree()
     {
-        for (final AntRoom room : AntRoom.values())
-            this.rooms.put(room, Lists.newArrayList());
+        for (final AntRoom room : AntRoom.values()) this.rooms.put(room, Lists.newArrayList());
     }
 
     public List<Node> get(final AntRoom type)
@@ -69,8 +68,8 @@ public class Tree implements INBTSerializable<CompoundTag>, IPathHelper
         // entrance, then pathing the rest of the way.
         // Also, if a path is found from one node to another, save it in the
         // edgePaths map, and re-use that later if needed.
-        return this.getBounds().contains(from.getX(), from.getY(), from.getZ()) && this.getBounds().contains(to.getX(),
-                to.getY(), to.getZ());
+        return this.getBounds().contains(from.getX(), from.getY(), from.getZ())
+                && this.getBounds().contains(to.getX(), to.getY(), to.getZ());
     }
 
     @Override
@@ -101,8 +100,7 @@ public class Tree implements INBTSerializable<CompoundTag>, IPathHelper
     {
         final CompoundTag tag = new CompoundTag();
         final ListTag list = new ListTag();
-        this.allRooms.forEach(n ->
-        {
+        this.allRooms.forEach(n -> {
             final CompoundTag nbt = n.serializeNBT();
             list.add(nbt);
         });
@@ -113,8 +111,7 @@ public class Tree implements INBTSerializable<CompoundTag>, IPathHelper
     @Override
     public void deserializeNBT(final CompoundTag tag)
     {
-        for (final AntRoom room : AntRoom.values())
-            this.rooms.put(room, Lists.newArrayList());
+        for (final AntRoom room : AntRoom.values()) this.rooms.put(room, Lists.newArrayList());
         this.allRooms.clear();
         this.map.clear();
         this.allEdges.clear();
@@ -135,18 +132,15 @@ public class Tree implements INBTSerializable<CompoundTag>, IPathHelper
 
         // Now we need to re-build the tree from the loaded nodes. Edges
         // need to be replaced such that nodes share the same edges.
-        this.allRooms.forEach(n ->
-        {
-            n.edges.forEach(edge ->
-            {
+        this.allRooms.forEach(n -> {
+            n.edges.forEach(edge -> {
                 this.allEdges.add(edge);
                 final Node n1 = edge.node1;
                 final Node n2 = edge.node2;
                 if (n1 != n)
                 {
                     final AtomicBoolean had = new AtomicBoolean(false);
-                    n1.edges.replaceAll(e ->
-                    {
+                    n1.edges.replaceAll(e -> {
                         if (edge.areSame(e))
                         {
                             had.set(true);
@@ -159,8 +153,7 @@ public class Tree implements INBTSerializable<CompoundTag>, IPathHelper
                 if (n2 != n)
                 {
                     final AtomicBoolean had = new AtomicBoolean(false);
-                    n2.edges.replaceAll(e ->
-                    {
+                    n2.edges.replaceAll(e -> {
                         if (edge.areSame(e))
                         {
                             had.set(true);
@@ -176,19 +169,15 @@ public class Tree implements INBTSerializable<CompoundTag>, IPathHelper
 
     public boolean shouldCheckBuild(final BlockPos pos, final long time)
     {
-        for (final Part part : this.allRooms)
-            if (part.shouldCheckBuild(pos, time)) return true;
-        for (final Part part : this.allEdges)
-            if (part.shouldCheckBuild(pos, time)) return true;
+        for (final Part part : this.allRooms) if (part.shouldCheckBuild(pos, time)) return true;
+        for (final Part part : this.allEdges) if (part.shouldCheckBuild(pos, time)) return true;
         return false;
     }
 
     public boolean shouldCheckDig(final BlockPos pos, final long time)
     {
-        for (final Part part : this.allRooms)
-            if (part.shouldCheckDig(pos, time)) return true;
-        for (final Part part : this.allEdges)
-            if (part.shouldCheckDig(pos, time)) return true;
+        for (final Part part : this.allRooms) if (part.shouldCheckDig(pos, time)) return true;
+        for (final Part part : this.allEdges) if (part.shouldCheckDig(pos, time)) return true;
         return false;
     }
 
@@ -228,7 +217,7 @@ public class Tree implements INBTSerializable<CompoundTag>, IPathHelper
 
     public Node getEffectiveNode(final BlockPos pos, final Part from)
     {
-        if (from instanceof Node) return (Node) from;
+        if (from instanceof Node n) return n;
         for (final Node room : this.allRooms)
         {
             final BlockPos mid = room.getCenter();
@@ -239,9 +228,8 @@ public class Tree implements INBTSerializable<CompoundTag>, IPathHelper
                 if (from == null) return room;
             }
         }
-        if (from instanceof Edge)
+        if (from instanceof Edge e)
         {
-            final Edge e = (Edge) from;
             if (e.node2.isOnShell(pos)) return e.node2;
             return e.node1;
         }
@@ -265,10 +253,8 @@ public class Tree implements INBTSerializable<CompoundTag>, IPathHelper
     public boolean isInside(final BlockPos pos)
     {
         if (!this.bounds.contains(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)) return false;
-        for (final Node room : this.allRooms)
-            if (room.isInside(pos)) return true;
-        for (final Edge room : this.allEdges)
-            if (room.isInside(pos)) return true;
+        for (final Node room : this.allRooms) if (room.isInside(pos)) return true;
+        for (final Edge room : this.allEdges) if (room.isInside(pos)) return true;
         return false;
     }
 

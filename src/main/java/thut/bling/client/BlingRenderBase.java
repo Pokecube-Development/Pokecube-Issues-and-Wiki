@@ -20,6 +20,7 @@ import thut.bling.client.render.Util;
 import thut.bling.client.render.Waist;
 import thut.bling.client.render.Wrist;
 import thut.core.client.render.model.IModel;
+import thut.lib.RegHelper;
 import thut.wearables.EnumWearable;
 
 public abstract class BlingRenderBase
@@ -61,7 +62,7 @@ public abstract class BlingRenderBase
         if (stack.hasTag() && stack.getTag().contains("gemTag") && !stack.getTag().contains("gem"))
         {
             final ItemStack gem = ItemStack.of(stack.getTag().getCompound("gemTag"));
-            final ResourceLocation id = gem.getItem().getRegistryName();
+            final ResourceLocation id = RegHelper.getKey(gem);
             // TODO better way to do this.
             final String tex = id.getNamespace() + ":textures/item/" + id.getPath() + ".png";
             stack.getTag().putString("gem", tex);

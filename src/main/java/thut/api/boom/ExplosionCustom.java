@@ -8,6 +8,7 @@ import it.unimi.dsi.fastutil.objects.Object2FloatMap.Entry;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -19,10 +20,12 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Explosion;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -42,16 +45,19 @@ public class ExplosionCustom extends Explosion
 {
     public static class BlastResult
     {
-        public final Object2FloatOpenHashMap<BlockPos> results;
+        public final Object2FloatOpenHashMap<BlockPos> destroyedBlocks;
+        public final Object2FloatOpenHashMap<BlockPos> damagedBlocks;
         public final Set<ChunkPos> affectedChunks;
 
         public final List<HitEntity> hit;
         public final boolean done;
 
-        public BlastResult(final Object2FloatOpenHashMap<BlockPos> results, final List<HitEntity> hit,
+        public BlastResult(final Object2FloatOpenHashMap<BlockPos> results,
+                final Object2FloatOpenHashMap<BlockPos> remaining, final List<HitEntity> hit,
                 final Set<ChunkPos> affectedChunks, final boolean done)
         {
-            this.results = results;
+            this.destroyedBlocks = results;
+            this.damagedBlocks = remaining;
             this.hit = hit;
             this.done = done;
             this.affectedChunks = affectedChunks;
@@ -97,16 +103,72 @@ public class ExplosionCustom extends Explosion
             return to;
         }
 
-        default void breakBlocks(final BlastResult result, final ExplosionCustom boom)
+        default BlockState onAbsorbed(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
+                boolean canEffect, ServerLevel level)
         {
-            for (final Entry<BlockPos> entry : result.results.object2FloatEntrySet())
+            return state;
+        }
+
+        default void destroyBlocks(final BlastResult result, final ExplosionCustom boom)
+        {
+            for (final Entry<BlockPos> entry : result.destroyedBlocks.object2FloatEntrySet())
             {
                 BlockPos pos = entry.getKey();
-                final BlockState destroyed = boom.level.getBlockState(pos);
-                boom.getToBlow().add(pos);
                 float power = entry.getFloatValue();
-                applyBreak(boom, pos, destroyed, power, shouldBreak(pos, destroyed, power, boom.level), boom.level);
+                final BlockState state = boom.level.getBlockState(pos);
+                BlockState broken = applyBreak(boom, pos, state, power, shouldBreak(pos, state, power, boom.level),
+                        boom.level);
+                if (broken != state) boom.getToBlow().add(pos);
             }
+        }
+
+        default void damageBlocks(final BlastResult result, final ExplosionCustom boom)
+        {
+            for (final Entry<BlockPos> entry : result.damagedBlocks.object2FloatEntrySet())
+            {
+                BlockPos pos = entry.getKey();
+                float power = entry.getFloatValue();
+                final BlockState state = boom.level.getBlockState(pos);
+                BlockState broken = onAbsorbed(boom, pos, state, power, shouldBreak(pos, state, power, boom.level),
+                        boom.level);
+                if (broken != state) boom.getToBlow().add(pos);
+            }
+        }
+    }
+
+    public static class DefaultBreaker implements BlockBreaker
+    {
+        public static final ResourceLocation DAMAGE_LIST = new ResourceLocation("thutcore:absorption_damage");
+
+        final ServerLevel level;
+        final StructureProcessorList list;
+        final StructurePlaceSettings settings;
+
+        public DefaultBreaker(ServerLevel level)
+        {
+            this.level = level;
+            list = level.registryAccess().registryOrThrow(Registry.PROCESSOR_LIST_REGISTRY).get(DAMAGE_LIST);
+            settings = new StructurePlaceSettings();
+        }
+
+        @Override
+        public BlockState onAbsorbed(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
+                boolean canEffect, ServerLevel level)
+        {
+            if (!canEffect) return state;
+
+            StructureBlockInfo info = new StructureBlockInfo(pos, state, null);
+            StructureBlockInfo processed = info;
+            for (var list : this.list.list())
+            {
+                info = list.process(level, pos, pos, info, processed, settings, null);
+            }
+            if (state != info.state)
+            {
+                state = info.state;
+                level.setBlock(pos, state, 3);
+            }
+            return state;
         }
     }
 
@@ -114,10 +176,6 @@ public class ExplosionCustom extends Explosion
     public static int MAXPERTICK = 25;
     public static float MINBLASTDAMAGE = 0.1f;
     public static boolean AFFECTINAIR = true;
-
-    public static Block melt;
-    public static Block solidmelt;
-    public static Block dust;
 
     public static final ResourceLocation EXPLOSION_BLOCKING = new ResourceLocation("thutcore:explosion_blocking");
     public static final ResourceLocation EXPLOSION_TRANSPARENT = new ResourceLocation("thutcore:explosion_transparent");
@@ -143,9 +201,7 @@ public class ExplosionCustom extends Explosion
 
     final float strength;
 
-    public BlockBreaker breaker = new BlockBreaker()
-    {
-    };
+    public BlockBreaker breaker;
 
     public ResistProvider resistProvider = new ResistProvider()
     {
@@ -184,12 +240,14 @@ public class ExplosionCustom extends Explosion
         this.strength = factor * power;
 
         boomApplier = new SphereMaskChecker(this);
+        this.breaker = new DefaultBreaker(world);
     }
 
     private void applyBlockEffects(final BlastResult result)
     {
         this.getToBlow().clear();
-        this.breaker.breakBlocks(result, this);
+        this.breaker.destroyBlocks(result, this);
+        this.breaker.damageBlocks(result, this);
     }
 
     private void applyEntityEffects(final BlastResult result)
@@ -275,6 +333,7 @@ public class ExplosionCustom extends Explosion
             hitLocation = hitLocation.subtract(velocity.normalize());
             final ExplosionCustom boo = new ExplosionCustom(world, this.exploder, hitLocation, blast * factor);
             boo.setMaxRadius(this.radius);
+            boo.breaker = this.breaker;
             boo.owner = this.owner;
             boo.doExplosion();
             return;
@@ -312,6 +371,7 @@ public class ExplosionCustom extends Explosion
             {
                 final ExplosionCustom boo = new ExplosionCustom(world, this.exploder, source, strength * factor);
                 boo.setMaxRadius(this.radius);
+                boo.breaker = this.breaker;
                 boo.owner = this.owner;
                 this.subBooms.add(boo);
                 hasSubBooms = true;
@@ -323,6 +383,7 @@ public class ExplosionCustom extends Explosion
             final ExplosionCustom boo = new ExplosionCustom(world, this.exploder, absorbedLoc,
                     remainingEnergy * factor);
             boo.setMaxRadius(this.radius);
+            boo.breaker = this.breaker;
             boo.owner = this.owner;
             this.subBooms.add(boo);
             hasSubBooms = true;

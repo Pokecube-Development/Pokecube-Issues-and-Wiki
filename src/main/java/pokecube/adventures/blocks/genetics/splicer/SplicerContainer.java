@@ -19,17 +19,15 @@ public class SplicerContainer extends PoweredContainer<SplicerTile>
 
     public SplicerContainer(final int id, final Inventory invIn, final ContainerLevelAccess pos)
     {
-        super(PokecubeAdv.SPLICER_CONT.get(), id, (c) ->
-        {
-            pos.execute((w, p) ->
-            {
+        super(PokecubeAdv.SPLICER_CONT.get(), id, (c) -> {
+            pos.execute((w, p) -> {
                 final BlockEntity temp = w.getBlockEntity(p);
                 // Server side
-                if (temp instanceof SplicerTile) c.tile = (SplicerTile) temp;
+                if (temp instanceof SplicerTile tile) c.tile = tile;
             });
             // Client side
-            if (c.tile == null) c.tile = new SplicerTile(invIn.player.blockPosition(), PokecubeAdv.SPLICER.get()
-                    .defaultBlockState());
+            if (c.tile == null)
+                c.tile = new SplicerTile(invIn.player.blockPosition(), PokecubeAdv.SPLICER.get().defaultBlockState());
             return c.tile;
         });
 

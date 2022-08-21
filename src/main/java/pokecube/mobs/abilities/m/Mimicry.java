@@ -1,10 +1,10 @@
 package pokecube.mobs.abilities.m;
 
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.abilities.Ability;
-import pokecube.core.interfaces.IPokemob;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.abilities.Ability;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.utils.PokeType;
 import pokecube.core.moves.PokemobTerrainEffects;
-import pokecube.core.utils.PokeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
 

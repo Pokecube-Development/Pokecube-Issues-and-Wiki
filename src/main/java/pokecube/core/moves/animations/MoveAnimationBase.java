@@ -5,8 +5,8 @@ import java.util.Random;
 import net.minecraft.world.item.DyeColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.core.interfaces.IMoveAnimation;
-import pokecube.core.interfaces.Move_Base;
+import pokecube.api.moves.IMoveAnimation;
+import pokecube.api.moves.Move_Base;
 
 public abstract class MoveAnimationBase implements IMoveAnimation
 {

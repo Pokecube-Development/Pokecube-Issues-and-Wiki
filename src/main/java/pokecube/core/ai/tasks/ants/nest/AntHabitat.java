@@ -16,6 +16,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,8 +33,14 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.blocks.IInhabitable;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
@@ -41,15 +48,12 @@ import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor.AntNest;
 import pokecube.core.blocks.nests.NestTile;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.handlers.Config;
-import pokecube.core.handlers.events.SpawnHandler;
-import pokecube.core.handlers.events.SpawnHandler.AABBRegion;
-import pokecube.core.handlers.events.SpawnHandler.ForbidRegion;
-import pokecube.core.interfaces.IInhabitable;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.database.Database;
+import pokecube.core.eventhandlers.SpawnHandler;
+import pokecube.core.eventhandlers.SpawnHandler.AABBRegion;
+import pokecube.core.eventhandlers.SpawnHandler.ForbidRegion;
+import pokecube.core.impl.PokecubeMod;
+import pokecube.core.init.Config;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
@@ -111,7 +115,6 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     @Override
     public void onTickEnd(final ServerLevel world)
     {
-
         // Checks of if the tile entity is here, if not anger all ants
         // Possibly update a set of paths between nodes, so that we can speed up
         // path finding in the nest.
@@ -128,13 +131,13 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 });
                 if (this.ants.isEmpty() && this.eggs.isEmpty())
                 {
-                    PokecubeCore.LOGGER.debug("Dead Nest!");
+                    PokecubeAPI.LOGGER.debug("Dead Nest!");
                     WorldTickManager.removeWorldData(world.dimension(), this);
                     return;
                 }
                 else
                 {
-                    PokecubeCore.LOGGER.debug("Reviving Nest!");
+                    PokecubeAPI.LOGGER.debug("Reviving Nest!");
                     this.world.setBlockAndUpdate(this.here, PokecubeItems.NEST.get().defaultBlockState());
                     tile = this.world.getBlockEntity(this.here);
                     if (!(tile instanceof NestTile)) return;
@@ -152,17 +155,15 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     public void updateRepelledRegion(final BlockEntity tile, final ServerLevel world)
     {
         final AABB box = this.rooms.getBounds().inflate(10, 0, 10);
-        NestTile nest = null;
+        this.repelled = new AABBRegion(box);
         this.tile = tile;
-        if (this.tile instanceof NestTile)
+        if (this.tile instanceof NestTile nest)
         {
-            nest = (NestTile) this.tile;
             this.removing = true;
             if (this.repelled != null) SpawnHandler.removeForbiddenSpawningCoord(this.repelled.getPos(), world);
             this.removing = false;
+            nest.addForbiddenSpawningCoord();
         }
-        this.repelled = new AABBRegion(box);
-        if (nest != null) nest.addForbiddenSpawningCoord();
     }
 
     @Override
@@ -347,14 +348,35 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         // This also removes hatched/removed eggs
         this.eggs.removeIf(uuid -> {
             final Entity mob = world.getEntity(uuid);
-            if (!(mob instanceof EntityPokemobEgg) || !mob.isAddedToWorld()) return true;
-            final EntityPokemobEgg egg = (EntityPokemobEgg) mob;
+            if (!(mob instanceof EntityPokemobEgg egg) || !mob.isAddedToWorld()) return true;
             if (ants > PokecubeCore.getConfig().antNestMobNumber || !playerNear) egg.setAge(-100);
             else if (egg.getAge() < -100) egg.setAge(-rng.nextInt(100));
             return false;
         });
 
         if (!playerNear) return;
+
+        boolean revive_nest = this.eggs.isEmpty() && world.getRandom().nextDouble() < 0.01;
+
+        if (revive_nest)
+        {
+            Optional<BlockPos> room = this.getFreeEggRoom();
+            if (this.here != null)
+            {
+                if (!room.isPresent()) room = Optional.of(this.here);
+                final PokedexEntry entry = Database.getEntry("durant");
+                if (world.isEmptyBlock(room.get().above()))
+                {
+                    final EntityPokemobEgg egg = NestTile.spawnEgg(entry, room.get().above(), world, false);
+                    if (egg != null)
+                    {
+                        final CompoundTag nest = NbtUtils.writeBlockPos(this.here);
+                        egg.getMainHandItem().getTag().put("nestLoc", nest);
+                        this.eggs.add(egg.getUUID());
+                    }
+                }
+            }
+        }
 
         this.world = world;
         // Here we need to release ants every so often as needed
@@ -383,9 +405,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 for (int i = 0; i < handler.getSlots(); i++)
                 {
                     final ItemStack stack = handler.getStackInSlot(i);
-                    if (!stack.isEmpty() && stack.getItem() instanceof BlockItem)
+                    if (!stack.isEmpty() && stack.getItem() instanceof BlockItem item)
                     {
-                        final BlockItem item = (BlockItem) stack.getItem();
                         if (!item.getBlock().defaultBlockState().canOcclude()) continue;
                         this.hasItems = true;
                         break;
@@ -417,15 +438,21 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         }));
     }
 
+    private void updateJob(Mob mob, CompoundTag tag, BlockPos pos)
+    {
+        mob.getBrain().setMemory(MemoryModules.JOB_INFO.get(), tag);
+        mob.getBrain().setMemory(MemoryModules.WORK_POS.get(), GlobalPos.of(this.world.dimension(), pos));
+    }
+
     private void assignJob(final AntJob j, final Mob mob)
     {
-        final int timer = mob.getBrain().getMemory(AntTasks.NO_WORK_TIME).orElse(0);
-        mob.getBrain().setMemory(AntTasks.NO_WORK_TIME, timer + 1);
+        final int timer = mob.getBrain().getMemory(MemoryModules.NO_WORK_TIMER.get()).orElse(0);
+        mob.getBrain().setMemory(MemoryModules.NO_WORK_TIMER.get(), timer + 1);
         if (timer < 0) return;
         final long time = Tracker.instance().getTick();
         // Only assign the job if no work pos, the job should remove this
         // task if done or undoable
-        if (mob.getBrain().hasMemoryValue(AntTasks.WORK_POS)) return;
+        if (mob.getBrain().hasMemoryValue(MemoryModules.WORK_POS.get())) return;
 
         switch (j)
         {
@@ -441,12 +468,11 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                         if (!n.shouldBuild(time)) continue;
                         final BlockPos pos = n.getCenter();
                         if (PokecubeMod.debug)
-                            PokecubeCore.LOGGER.debug("Node Build Order for {} {} {}", pos, mob.getId(), n.type);
+                            PokecubeAPI.LOGGER.debug("Node Build Order for {} {} {}", pos, mob.getId(), n.type);
                         final CompoundTag tag = new CompoundTag();
                         tag.putString("type", "node");
                         tag.put("data", n.serializeNBT());
-                        mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
-                        mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), pos));
+                        updateJob(mob, tag, pos);
                         break build;
                     }
                     final Node n = this.rooms.allRooms.get(this.world.random.nextInt(this.rooms.allRooms.size()));
@@ -463,12 +489,11 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                     final BlockPos pos = n == a.node1 ? a.getEnd1() : a.getEnd2();
                     final String info = a.node1.type + "<->" + a.node2.type;
                     if (PokecubeMod.debug)
-                        PokecubeCore.LOGGER.debug("Edge Build Order for {} {} {}", pos, mob.getId(), info);
+                        PokecubeAPI.LOGGER.debug("Edge Build Order for {} {} {}", pos, mob.getId(), info);
                     final CompoundTag tag = new CompoundTag();
                     tag.putString("type", "node");
                     tag.put("data", n.serializeNBT());
-                    mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
-                    mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), pos));
+                    updateJob(mob, tag, pos);
                 }
             }
             break;
@@ -483,13 +508,12 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                     if (n.dug.size() < 10)
                     {
                         final BlockPos pos = n.getCenter();
-                        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Node Dig Finish Order for {} {} {} {}", pos,
+                        if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Node Dig Finish Order for {} {} {} {}", pos,
                                 mob.getId(), n.type, n.dug.size());
                         final CompoundTag tag = new CompoundTag();
                         tag.putString("type", "node");
                         tag.put("data", n.serializeNBT());
-                        mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
-                        mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), pos));
+                        updateJob(mob, tag, pos);
                         break dig;
                     }
                 }
@@ -499,12 +523,11 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 {
                     final BlockPos pos = n.getCenter();
                     if (PokecubeMod.debug)
-                        PokecubeCore.LOGGER.debug("Node Dig Order for {} {} {}", pos, mob.getId(), n.type);
+                        PokecubeAPI.LOGGER.debug("Node Dig Order for {} {} {}", pos, mob.getId(), n.type);
                     final CompoundTag tag = new CompoundTag();
                     tag.putString("type", "node");
                     tag.put("data", n.serializeNBT());
-                    mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
-                    mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), pos));
+                    updateJob(mob, tag, pos);
                     break dig;
                 }
                 else
@@ -522,12 +545,11 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                     final BlockPos pos = n == a.node1 ? a.getEnd1() : a.getEnd2();
                     final String info = a.node1.type + "<->" + a.node2.type;
                     if (PokecubeMod.debug)
-                        PokecubeCore.LOGGER.debug("Edge Dig Order for {} {} {}", pos, mob.getId(), info);
+                        PokecubeAPI.LOGGER.debug("Edge Dig Order for {} {} {}", pos, mob.getId(), info);
                     final CompoundTag tag = new CompoundTag();
                     tag.putString("type", "edge");
                     tag.put("data", a.serializeNBT());
-                    mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
-                    mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), pos));
+                    updateJob(mob, tag, pos);
                     break dig;
                 }
             }
@@ -550,7 +572,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 final boolean valid = BlockPos.betweenClosedStream(box).anyMatch(b -> this.world.isEmptyBlock(b));
                 if (valid)
                 {
-                    mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), x0.getPos()));
+                    mob.getBrain().setMemory(MemoryModules.WORK_POS.get(),
+                            GlobalPos.of(this.world.dimension(), x0.getPos()));
                     break nodes;
                 }
             }
@@ -615,18 +638,18 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         AntJob job = AntTasks.getJob(mob);
         // Remove the old work pos for now, we will decide which ones need
         // to keep it stored
-        mob.getBrain().eraseMemory(AntTasks.WORK_POS);
-        mob.getBrain().eraseMemory(AntTasks.GOING_HOME);
-        mob.getBrain().eraseMemory(AntTasks.NO_WORK_TIME);
+        mob.getBrain().eraseMemory(MemoryModules.WORK_POS.get());
+        mob.getBrain().eraseMemory(MemoryModules.GOING_HOME.get());
+        mob.getBrain().eraseMemory(MemoryModules.NO_WORK_TIMER.get());
         this.workers.get(job).remove(mob.getUUID());
         job = this.getNextJob(job);
         this.workers.get(job).add(mob.getUUID());
         this.ants.add(mob.getUUID());
         AntTasks.setJob(mob, job);
         mob.restrictTo(this.here, 64);
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Ant Left Nest, with Job {}", job);
+        if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Ant Left Nest, with Job {}", job);
 
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob != null)
         {
             pokemob.healStatus();
@@ -645,9 +668,17 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     }
 
     @Override
+    public void addResident(Mob mob)
+    {
+        if (!this.canEnterHabitat(mob)) return;
+        this.ants.add(mob.getUUID());
+        mob.setPersistenceRequired();
+    }
+
+    @Override
     public boolean onEnterHabitat(final Mob mob)
     {
-        if (!this.canEnterHabitat(mob)) return false;
+        if (!this.canEnterHabitat(mob) || !(mob.getLevel() instanceof ServerLevel level)) return false;
 
         final int ants = this.ants_in.size() + this.ants.size();
 
@@ -656,17 +687,21 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
 
         if (this.eggs.size() < Math.max(10, ants / 2))
         {
-            final IPokemob poke = CapabilityPokemob.getPokemobFor(mob);
+            final IPokemob poke = PokemobCaps.getPokemobFor(mob);
             Optional<BlockPos> room = this.getFreeEggRoom();
             if (poke != null && this.here != null)
             {
                 if (!room.isPresent()) room = Optional.of(this.here);
                 final PokedexEntry entry = poke.getPokedexEntry();
-                final ServerLevel world = (ServerLevel) mob.getLevel();
-                if (world.isEmptyBlock(room.get().above()))
+                if (level.isEmptyBlock(room.get().above()))
                 {
-                    final EntityPokemobEgg egg = NestTile.spawnEgg(entry, room.get().above(), world, false);
-                    if (egg != null) this.eggs.add(egg.getUUID());
+                    final EntityPokemobEgg egg = NestTile.spawnEgg(entry, room.get().above(), level, false);
+                    if (egg != null)
+                    {
+                        final CompoundTag nest = NbtUtils.writeBlockPos(this.here);
+                        egg.getMainHandItem().getTag().put("nestLoc", nest);
+                        this.eggs.add(egg.getUUID());
+                    }
                 }
             }
         }
@@ -679,13 +714,13 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 mob.getPersistentData().putUUID("spectated_by", player.getUUID());
                 player.setCamera(null);
             }
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Ant Entered Nest");
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Ant Entered Nest");
 
             mob.stopRiding();
             mob.ejectPassengers();
             final CompoundTag tag = new CompoundTag();
 
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
             final Optional<AntNest> nest = NestSensor.getNest(mob);
             drop:
             if (pokemob != null && nest.isPresent())

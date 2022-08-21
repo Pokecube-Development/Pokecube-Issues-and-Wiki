@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[31,)"
+loaderVersion="[40,)"
 issueTrackerURL="https://github.com/Pokecube-Development/Pokecube-Issues-and-Wiki/issues"
 license="All rights reserved"
 
@@ -86,5 +86,12 @@ license="All rights reserved"
     modId="minecraft"
     mandatory=true
     versionRange="version_mc"
+    ordering="NONE"
+    side="BOTH"
+    
+[[dependencies.pokecube]]
+    modId="forge"
+    mandatory=true
+    versionRange="version_forge"
     ordering="NONE"
     side="BOTH"

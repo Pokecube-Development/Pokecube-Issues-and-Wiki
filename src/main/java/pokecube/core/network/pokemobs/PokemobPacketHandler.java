@@ -6,9 +6,9 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import thut.core.common.network.Packet;
 
 /**
@@ -61,8 +61,8 @@ public class PokemobPacketHandler
             final byte channel = this.buffer.readByte();
             final int id = this.buffer.readInt();
             final ServerLevel world = player.getLevel();
-            final Entity entity = PokecubeCore.getEntityProvider().getEntity(world, id, true);
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+            final Entity entity = PokecubeAPI.getEntityProvider().getEntity(world, id, true);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             if (pokemob == null || !player.getUUID().equals(pokemob.getOwnerId())) return;
             if (channel == MessageServer.RETURN) pokemob.onRecall();
             else if (channel == MessageServer.CANCELEVOLVE) pokemob.cancelEvolve();

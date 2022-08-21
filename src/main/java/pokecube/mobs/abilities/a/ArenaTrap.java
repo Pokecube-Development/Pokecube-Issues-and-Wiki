@@ -1,10 +1,10 @@
 package pokecube.mobs.abilities.a;
 
 import net.minecraft.server.level.ServerLevel;
+import pokecube.api.data.abilities.Ability;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.abilities.Ability;
-import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
-import pokecube.core.interfaces.IPokemob;
 
 public class ArenaTrap extends Ability
 {

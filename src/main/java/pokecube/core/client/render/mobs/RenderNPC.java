@@ -23,8 +23,8 @@ import net.minecraft.client.renderer.entity.layers.SpinAttackEffectLayer;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.npc.NpcMob;
-import pokecube.core.interfaces.capabilities.TextureableCaps;
-import pokecube.core.interfaces.capabilities.TextureableCaps.NPCCap;
+import pokecube.core.impl.capabilities.TextureableCaps;
+import pokecube.core.impl.capabilities.TextureableCaps.NPCCap;
 import thut.api.entity.IMobTexturable;
 
 public class RenderNPC<T extends NpcMob> extends LivingEntityRenderer<T, PlayerModel<T>>
@@ -32,7 +32,7 @@ public class RenderNPC<T extends NpcMob> extends LivingEntityRenderer<T, PlayerM
     final PlayerModel<T> slim;
     final PlayerModel<T> normal;
 
-    protected final List<RenderLayer<T, PlayerModel<T>>> layers_slim   = Lists.newArrayList();
+    protected final List<RenderLayer<T, PlayerModel<T>>> layers_slim = Lists.newArrayList();
     protected final List<RenderLayer<T, PlayerModel<T>>> layers_normal = Lists.newArrayList();
 
     public RenderNPC(final EntityRendererProvider.Context context)
@@ -41,13 +41,13 @@ public class RenderNPC<T extends NpcMob> extends LivingEntityRenderer<T, PlayerM
         this.normal = this.getModel();
         this.slim = new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER_SLIM), true);
 
-        this.layers_slim.add(new HumanoidArmorLayer<>(this, new HumanoidModel<>(context.bakeLayer(
-                ModelLayers.PLAYER_SLIM_INNER_ARMOR)), new HumanoidModel<>(context.bakeLayer(
-                        ModelLayers.PLAYER_SLIM_OUTER_ARMOR))));
+        this.layers_slim.add(new HumanoidArmorLayer<>(this,
+                new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_SLIM_INNER_ARMOR)),
+                new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_SLIM_OUTER_ARMOR))));
 
-        this.layers_normal.add(new HumanoidArmorLayer<>(this, new HumanoidModel<>(context.bakeLayer(
-                ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidModel<>(context.bakeLayer(
-                        ModelLayers.PLAYER_OUTER_ARMOR))));
+        this.layers_normal.add(
+                new HumanoidArmorLayer<>(this, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
+                        new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
 
         this.addLayer(new ItemInHandLayer<>(this));
         this.addLayer(new ArrowLayer<>(context, this));
@@ -64,7 +64,7 @@ public class RenderNPC<T extends NpcMob> extends LivingEntityRenderer<T, PlayerM
             final MultiBufferSource bufferIn, final int packedLightIn)
     {
         final IMobTexturable mob = TextureableCaps.forMob(entityIn);
-        if (mob instanceof NPCCap<?>) this.model = ((NPCCap<?>) mob).slim.apply(entityIn) ? this.slim : this.normal;
+        if (mob instanceof NPCCap<?> npc) this.model = npc.slim.apply(entityIn) ? this.slim : this.normal;
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 
@@ -72,7 +72,7 @@ public class RenderNPC<T extends NpcMob> extends LivingEntityRenderer<T, PlayerM
     public ResourceLocation getTextureLocation(final T entity)
     {
         final IMobTexturable mob = TextureableCaps.forMob(entity);
-        if (mob instanceof NPCCap) return ((NPCCap<?>) mob).texGetter.apply(entity);
+        if (mob instanceof NPCCap<?> npc) return npc.texGetter.apply(entity);
         return new ResourceLocation("empty");
     }
 

@@ -3,7 +3,7 @@
   <model>
    <phase name="global" scale="0.25"/>
    <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1" headDir2="-1"/>
-   <customTex default="linoonegalar">
+   <customTex default="linoone_galar">
    <part name="Eye" tex="linoonegalarhead"/>
    <animation diffs="0,0.5" part="Eye" trigger="random:0.005:5"/>
   </customTex>

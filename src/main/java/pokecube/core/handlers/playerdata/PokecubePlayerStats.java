@@ -11,10 +11,10 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
-import pokecube.core.interfaces.IPokemob;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 
 /** Player capture/hatch/kill stats */
@@ -23,8 +23,8 @@ public class PokecubePlayerStats extends PlayerData
     private Map<PokedexEntry, Integer> hatches;
     private Map<PokedexEntry, Integer> captures;
     private Map<PokedexEntry, Integer> kills;
-    private Set<PokedexEntry>          inspected;
-    protected boolean                  hasFirst = false;
+    private Set<PokedexEntry> inspected;
+    protected boolean hasFirst = false;
 
     public PokecubePlayerStats()
     {
@@ -101,7 +101,7 @@ public class PokecubePlayerStats extends PlayerData
     public boolean inspect(final Player player, final IPokemob pokemob)
     {
         if (this.inspected == null) this.initMaps();
-        if (player instanceof ServerPlayer) Triggers.INSPECTPOKEMOB.trigger((ServerPlayer) player, pokemob);
+        if (player instanceof ServerPlayer splayer) Triggers.INSPECTPOKEMOB.trigger(splayer, pokemob);
         return this.inspected.add(pokemob.getPokedexEntry());
     }
 
@@ -115,22 +115,19 @@ public class PokecubePlayerStats extends PlayerData
         for (final String s : temp.getAllKeys())
         {
             final int num = temp.getInt(s);
-            if (num > 0 && (entry = Database.getEntry(s)) != null) for (int i = 0; i < num; i++)
-                this.addKill(entry);
+            if (num > 0 && (entry = Database.getEntry(s)) != null) for (int i = 0; i < num; i++) this.addKill(entry);
         }
         temp = tag.getCompound("captures");
         for (final String s : temp.getAllKeys())
         {
             final int num = temp.getInt(s);
-            if (num > 0 && (entry = Database.getEntry(s)) != null) for (int i = 0; i < num; i++)
-                this.addCapture(entry);
+            if (num > 0 && (entry = Database.getEntry(s)) != null) for (int i = 0; i < num; i++) this.addCapture(entry);
         }
         temp = tag.getCompound("hatches");
         for (final String s : temp.getAllKeys())
         {
             final int num = temp.getInt(s);
-            if (num > 0 && (entry = Database.getEntry(s)) != null) for (int i = 0; i < num; i++)
-                this.addHatch(entry);
+            if (num > 0 && (entry = Database.getEntry(s)) != null) for (int i = 0; i < num; i++) this.addHatch(entry);
         }
         if (tag.contains("inspected"))
         {
@@ -161,20 +158,16 @@ public class PokecubePlayerStats extends PlayerData
     public void writeToNBT(final CompoundTag tag_)
     {
         CompoundTag tag = new CompoundTag();
-        for (final PokedexEntry e : this.getKills().keySet())
-            tag.putInt(e.getName(), this.getKills().get(e));
+        for (final PokedexEntry e : this.getKills().keySet()) tag.putInt(e.getName(), this.getKills().get(e));
         tag_.put("kills", tag);
         tag = new CompoundTag();
-        for (final PokedexEntry e : this.getCaptures().keySet())
-            tag.putInt(e.getName(), this.getCaptures().get(e));
+        for (final PokedexEntry e : this.getCaptures().keySet()) tag.putInt(e.getName(), this.getCaptures().get(e));
         tag_.put("captures", tag);
         tag = new CompoundTag();
-        for (final PokedexEntry e : this.getHatches().keySet())
-            tag.putInt(e.getName(), this.getHatches().get(e));
+        for (final PokedexEntry e : this.getHatches().keySet()) tag.putInt(e.getName(), this.getHatches().get(e));
         tag_.put("hatches", tag);
         final ListTag list = new ListTag();
-        for (final PokedexEntry e : this.inspected)
-            list.add(StringTag.valueOf(e.getName()));
+        for (final PokedexEntry e : this.inspected) list.add(StringTag.valueOf(e.getName()));
         tag_.put("inspected", list);
         tag_.putBoolean("F", this.hasFirst);
     }

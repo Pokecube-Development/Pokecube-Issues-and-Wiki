@@ -17,9 +17,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.blocks.InteractableTile;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Tools;
 import thut.api.block.ITickTile;
@@ -118,7 +118,7 @@ public class DaycareTile extends InteractableTile implements ITickTile
         EntityTools.getNearMobsFast(list, this.getLevel(), this.getBlockPos(), 16, e -> true);
         for (final Entity mob : list)
         {
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+            final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
             if (pokemob == null) continue;
             int level = pokemob.getLevel();
             final boolean gainExp = level < 100;

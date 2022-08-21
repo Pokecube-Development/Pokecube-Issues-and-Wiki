@@ -23,12 +23,14 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.RegistryObject;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.world.PokecubeWorld;
 import pokecube.world.gen.features.register.PlacedFeatureHolder;
 import thut.api.terrain.BiomeDatabase;
+import thut.core.common.ThutCore;
 
 public class FeaturesInit
 {
@@ -54,6 +56,9 @@ public class FeaturesInit
     public static final RegistryObject<PlacedFeature> PLACED_LARGE_FOSSIL;
     public static final RegistryObject<PlacedFeature> PLACED_BURIED_FOSSIL;
 
+    public static final RegistryObject<ConfiguredFeature<?, ?>> DUMMY_CONFF;
+    public static final RegistryObject<PlacedFeature> DUMMY_PF;
+
     static
     {
         ORE_FOSSIL_SMALL_FEATURE = PokecubeWorld.CONFIGURED_FEATURES.register("fossil_ore",
@@ -66,15 +71,23 @@ public class FeaturesInit
         PLACED_SMALL_FOSSIL = PokecubeWorld.PLACED_FEATURES.register("fossil_ore",
                 () -> new PlacedFeature(ORE_FOSSIL_SMALL_FEATURE.getHolder().get(),
                         List.of(CountPlacement.of(5), InSquarePlacement.spread(), HeightRangePlacement
-                                .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)),
+                                        .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)),
                                 BiomeFilter.biome())));
         PLACED_LARGE_FOSSIL = PokecubeWorld.PLACED_FEATURES.register("fossil_ore_large",
                 () -> new PlacedFeature(ORE_FOSSIL_LARGE_FEATURE.getHolder().get(),
                         List.of(RarityFilter.onAverageOnceEvery(8), InSquarePlacement.spread(), HeightRangePlacement
-                                .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)),
+                                        .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)),
                                 BiomeFilter.biome())));
         PLACED_BURIED_FOSSIL = PokecubeWorld.PLACED_FEATURES.register("fossil_ore_buried",
                 () -> new PlacedFeature(ORE_FOSSIL_BURIED_FEATURE.getHolder().get(),
+                        List.of(CountPlacement.of(3), InSquarePlacement.spread(), HeightRangePlacement
+                                        .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)),
+                                BiomeFilter.biome())));
+
+        DUMMY_CONFF = PokecubeWorld.CONFIGURED_FEATURES.register("__dummy__",
+                () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(getOres(), 8, 1.0f)));
+        DUMMY_PF = PokecubeWorld.PLACED_FEATURES.register("__dummy__",
+                () -> new PlacedFeature(DUMMY_CONFF.getHolder().get(),
                         List.of(CountPlacement.of(3), InSquarePlacement.spread(), HeightRangePlacement
                                 .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(380)),
                                 BiomeFilter.biome())));
@@ -82,14 +95,14 @@ public class FeaturesInit
 
     private static final Predicate<ResourceKey<Biome>> make_ores_check = k -> PokecubeCore.getConfig().generateFossils
             && (BiomeDatabase.contains(k, "mesa") || BiomeDatabase.contains(k, "ocean")
-                    || BiomeDatabase.contains(k, "river") || BiomeDatabase.contains(k, "sandy"));
+            || BiomeDatabase.contains(k, "river") || BiomeDatabase.contains(k, "sandy"));
 
     private static void onBiomeLoading(BiomeLoadingEvent event)
     {
         ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
         if (make_ores_check.test(key))
         {
-            PokecubeCore.LOGGER.info("Adding Fossils to " + event.getName());
+            if (ThutCore.conf.debug) PokecubeAPI.LOGGER.info("Adding Fossils to " + event.getName());
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
                     PLACED_SMALL_FOSSIL.getHolder().get());
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
@@ -97,14 +110,18 @@ public class FeaturesInit
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
                     PLACED_BURIED_FOSSIL.getHolder().get());
         }
-        if (PokecubeCore.getConfig().generateBerries) BerryGenManager.list.locations.forEach(config -> {
-            if (config.matches(event))
-            {
-                PokecubeCore.LOGGER.info("Adding " + config.placement + " to " + event.getName());
-                event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                        new PlacedFeatureHolder(config.placement));
-            }
-        });
+        if (PokecubeCore.getConfig().generateBerries)
+        {
+            if (BerryGenManager.list.locations.isEmpty()) BerryGenManager.parseConfig();
+            BerryGenManager.list.locations.forEach(config -> {
+                if (config.matches(event))
+                {
+//                    if (ThutCore.conf.debug)
+                        PokecubeAPI.LOGGER.info("Adding " + config.placement + " to " + event.getName());
+                    event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
+                            new PlacedFeatureHolder(config.placement));
+                }
+            });
+        }
     }
-
 }

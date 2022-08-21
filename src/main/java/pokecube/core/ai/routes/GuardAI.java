@@ -3,7 +3,7 @@ package pokecube.core.ai.routes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
-import pokecube.core.PokecubeCore;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.ai.routes.IGuardAICapability.GuardState;
 import pokecube.core.ai.routes.IGuardAICapability.IGuardTask;
 import pokecube.core.utils.CapHolders;
@@ -98,7 +98,7 @@ public class GuardAI extends Goal
     {
         if (this.capability == null)
         {
-            PokecubeCore.LOGGER.error(this.entity.getCapability(CapHolders.GUARDAI_CAP, null));
+            PokecubeAPI.LOGGER.error(this.entity.getCapability(CapHolders.GUARDAI_CAP, null));
             return false;
         }
         // TODO find some way to determine actual length of day

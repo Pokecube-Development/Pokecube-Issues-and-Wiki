@@ -11,7 +11,6 @@ import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -24,26 +23,27 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.ICanEvolve;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.IPokemob.HappinessType;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.entity.pokemob.ai.LogicStates;
+import pokecube.api.entity.pokemob.stats.IStatsModifiers;
+import pokecube.api.entity.pokemob.stats.StatModifiers;
+import pokecube.api.items.IPokecube;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
+import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.IMoveConstants.AIRoutine;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.blocks.nests.NestTile;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
-import pokecube.core.interfaces.IMoveConstants;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import pokecube.core.interfaces.IPokecube;
-import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.HappinessType;
-import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.pokemob.ICanEvolve;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.interfaces.pokemob.ai.LogicStates;
-import pokecube.core.interfaces.pokemob.stats.IStatsModifiers;
-import pokecube.core.interfaces.pokemob.stats.StatModifiers;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.utils.PokemobTracker;
@@ -54,6 +54,7 @@ import thut.api.entity.IAnimated;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 /**
  * Mostly does visuals updates, such as particle effects, checking that shearing
@@ -120,13 +121,17 @@ public class LogicMiscUpdate extends LogicBase
 
     UUID prevID = null;
 
+    final IAnimated animationHolder;
+
     public LogicMiscUpdate(final IPokemob pokemob)
     {
         super(pokemob);
         this.lastCache = this.entity.blockPosition();
+
+        animationHolder = AnimatedCaps.getAnimated(this.entity);
     }
 
-    private void checkAIStates()
+    private void checkAIStates(UUID ownerID)
     {
         final boolean angry = this.pokemob.inCombat();
 
@@ -140,7 +145,7 @@ public class LogicMiscUpdate extends LogicBase
                 this.dynatime = this.pokemob.getEntity().getPersistentData().getLong("pokecube:dynatime");
             if (!this.de_dyna && time - PokecubeCore.getConfig().dynamax_duration > this.dynatime)
             {
-                Component mess = new TranslatableComponent("pokemob.dynamax.timeout.revert",
+                Component mess = TComponent.translatable("pokemob.dynamax.timeout.revert",
                         this.pokemob.getDisplayName());
                 this.pokemob.displayMessageToOwner(mess);
 
@@ -149,10 +154,10 @@ public class LogicMiscUpdate extends LogicBase
                     ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry, mess, true);
 
                 pokemob.setCombatState(CombatStates.MEGAFORME, false);
-                mess = new TranslatableComponent("pokemob.dynamax.revert", this.pokemob.getDisplayName());
+                mess = TComponent.translatable("pokemob.dynamax.revert", this.pokemob.getDisplayName());
                 ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry, mess, true);
 
-                PokecubeCore.LOGGER.debug("Reverting Dynamax");
+                PokecubeAPI.LOGGER.debug("Reverting Dynamax");
 
                 this.de_dyna = true;
             }
@@ -199,28 +204,28 @@ public class LogicMiscUpdate extends LogicBase
         /**
          * Angry pokemobs shouldn't decide that walking is better than flying.
          */
-        if (angry)
+        else
         {
             this.pokemob.setRoutineState(AIRoutine.AIRBORNE, true);
             // Much longer cooldown if actually, really in combat
             this.combatTimer = 50;
         }
 
-        boolean noMotion = this.pokemob.getLogicState(LogicStates.SLEEPING);
-        boolean sitting = this.pokemob.getLogicState(LogicStates.SITTING);
-        noMotion |= sitting;
-
         this.inCombat = angry;
         this.pokemob.tickBreedDelay(PokecubeCore.getConfig().mateMultiplier);
 
         // Reset tamed state for things with no owner.
-        if (this.pokemob.getGeneralState(GeneralStates.TAMED) && this.pokemob.getOwnerId() == null)
+        if (ownerID == null && this.pokemob.getGeneralState(GeneralStates.TAMED))
             this.pokemob.setGeneralState(GeneralStates.TAMED, false);
 
         // Check exit cube state.
         if (this.entity.tickCount > LogicMiscUpdate.EXITCUBEDURATION
                 && this.pokemob.getGeneralState(GeneralStates.EXITINGCUBE))
             this.pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
+
+        boolean noMotion = this.pokemob.getLogicState(LogicStates.SLEEPING);
+        boolean sitting = this.pokemob.getLogicState(LogicStates.SITTING);
+        noMotion |= sitting;
 
         // Ensure sitting things don't have a path.
         if (sitting && !this.entity.getNavigation().isDone())
@@ -243,9 +248,9 @@ public class LogicMiscUpdate extends LogicBase
         if (ownedSleepCheck) this.pokemob.setLogicState(LogicStates.SLEEPING, false);
 
         // Ensure sitting status is synced for TameableEntities
-        if (this.entity instanceof TamableAnimal)
+        if (this.entity instanceof TamableAnimal animal)
         {
-            final boolean tameSitting = ((TamableAnimal) this.entity).isOrderedToSit();
+            final boolean tameSitting = animal.isOrderedToSit();
             this.pokemob.setLogicState(LogicStates.SITTING, tameSitting);
         }
     }
@@ -263,8 +268,8 @@ public class LogicMiscUpdate extends LogicBase
             }
             this.pokemob.setTraded(false);
         }
-        final int num = this.pokemob.getEvolutionTicks();
-        if (num > 0) this.pokemob.setEvolutionTicks(this.pokemob.getEvolutionTicks() - 1);
+        final int evo_ticks = this.pokemob.getEvolutionTicks();
+        if (evo_ticks > 0) this.pokemob.setEvolutionTicks(evo_ticks - 1);
         if (!this.checkedEvol && this.pokemob.traded())
         {
             this.pokemob.evolve(true, false, this.pokemob.getHeldItem());
@@ -273,12 +278,12 @@ public class LogicMiscUpdate extends LogicBase
         }
         if (evolving)
         {
-            if (num <= 0)
+            if (evo_ticks <= 0)
             {
                 this.pokemob.setGeneralState(GeneralStates.EVOLVING, false);
                 this.pokemob.setEvolutionTicks(-1);
             }
-            if (num <= 50)
+            if (evo_ticks <= 50)
             {
                 this.pokemob.evolve(false, false, this.pokemob.getEvolutionStack());
                 this.pokemob.setGeneralState(GeneralStates.EVOLVING, false);
@@ -347,7 +352,7 @@ public class LogicMiscUpdate extends LogicBase
         if (!world.isClientSide)
         {
             // Check that AI states are correct
-            this.checkAIStates();
+            this.checkAIStates(ownerID);
             // Check evolution
             this.checkEvolution();
             // Check and tick inventory
@@ -371,7 +376,7 @@ public class LogicMiscUpdate extends LogicBase
 
             final ItemStack pokecube = this.pokemob.getPokecube();
             final ResourceLocation id = PokecubeItems.getCubeId(pokecube);
-            final PokecubeBehavior behaviour = IPokecube.PokecubeBehavior.BEHAVIORS.get().getValue(id);
+            final PokecubeBehaviour behaviour = IPokecube.PokecubeBehaviour.BEHAVIORS.get(id);
             if (behaviour != null) behaviour.onUpdate(this.pokemob);
         }
 
@@ -385,9 +390,8 @@ public class LogicMiscUpdate extends LogicBase
             if (this.pokemob.getHome() != null)
             {
                 final BlockEntity te = world.getBlockEntity(this.pokemob.getHome());
-                if (te != null && te instanceof NestTile)
+                if (te instanceof NestTile nest)
                 {
-                    final NestTile nest = (NestTile) te;
                     nest.addResident(this.pokemob);
                 }
             }
@@ -413,8 +417,9 @@ public class LogicMiscUpdate extends LogicBase
 
         // Everything below here is client side only!
 
-        if (id >= 0 && targ == null)
-            this.entity.setTarget((LivingEntity) PokecubeCore.getEntityProvider().getEntity(world, id, false));
+        if (id >= 0 && targ == null
+                && PokecubeAPI.getEntityProvider().getEntity(world, id, false) instanceof LivingEntity living)
+            this.entity.setTarget(living);
         if (id < 0 && targ != null) this.entity.setTarget(null);
         if (targ != null && !targ.isAlive()) this.entity.setTarget(null);
 
@@ -555,9 +560,8 @@ public class LogicMiscUpdate extends LogicBase
 
     private void checkAnimationStates()
     {
-        final IAnimated holder = AnimatedCaps.getAnimated(this.entity);
-        if (holder == null) return;
-        final List<String> anims = holder.getChoices();
+        if (animationHolder == null) return;
+        final List<String> anims = animationHolder.getChoices();
         anims.clear();
         final Vec3 velocity = this.entity.getDeltaMovement();
         final float dStep = this.entity.animationSpeed - this.entity.animationSpeedOld;

@@ -9,7 +9,6 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Maps;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -19,7 +18,8 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeItems;
-import pokecube.core.interfaces.PokecubeMod;
+import thut.lib.RegHelper;
+import thut.lib.TComponent;
 
 public class ItemMegawearable extends Item
 {
@@ -50,12 +50,11 @@ public class ItemMegawearable extends Item
     public final String name;
     public final String slot;
 
-    public ItemMegawearable(String name, String slot)
+    public ItemMegawearable(String name)
     {
         super(new Properties().tab(PokecubeItems.TAB_ITEMS).stacksTo(1));
         this.name = name;
-        this.slot = slot;
-        this.setRegistryName(PokecubeMod.ID, "mega_" + name);
+        this.slot = wearables.get(name);
 
     }
 
@@ -72,14 +71,14 @@ public class ItemMegawearable extends Item
         {
             final int damage = stack.getTag().getInt("dyeColour");
             final DyeColor colour = DyeColor.byId(damage);
-            tooltip.add(new TranslatableComponent(colour.getName()));
+            tooltip.add(TComponent.translatable(colour.getName()));
         }
     }
 
     @Override
     public EquipmentSlot getEquipmentSlot(ItemStack stack)
     {
-        final String name = this.getRegistryName().getPath().replace("mega_", "");
+        final String name = RegHelper.getKey(this).getPath().replace("mega_", "");
         if (name.equals("megahat")) return EquipmentSlot.HEAD;
         return super.getEquipmentSlot(stack);
     }

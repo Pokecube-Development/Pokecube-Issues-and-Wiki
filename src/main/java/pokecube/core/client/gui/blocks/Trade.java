@@ -8,20 +8,20 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.network.packets.PacketTrade;
+import thut.lib.TComponent;
 
 public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
 {
@@ -58,7 +58,7 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
     public void init()
     {
         super.init();
-        final Component trade = new TranslatableComponent("block.trade_machine.trade");
+        final Component trade = TComponent.translatable("block.trade_machine.trade");
         this.addRenderableWidget(new Button(this.width / 2 - 70, this.height / 2 - 22, 40, 20, trade, b ->
         {
             final PacketTrade packet = new PacketTrade();
@@ -107,7 +107,7 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
 
         final float size = 0.5f;
 
-        final IPokemob poke = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob poke = PokemobCaps.getPokemobFor(mob);
         switch (index)
         {
         case 0:

@@ -10,13 +10,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
 import pokecube.core.ai.tasks.utility.GatherTask.ReplantTask;
-import pokecube.core.handlers.events.MoveEventsHandler;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import pokecube.core.eventhandlers.MoveEventsHandler;
+import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 

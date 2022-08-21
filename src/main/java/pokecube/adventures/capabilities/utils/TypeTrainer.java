@@ -17,7 +17,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -42,32 +41,34 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.tasks.Tasks;
 import pokecube.adventures.ai.tasks.battle.CaptureMob;
 import pokecube.adventures.ai.tasks.battle.agro.AgroTargets;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
-import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.adventures.utils.TrainerTracker;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.spawns.SpawnBiomeMatcher;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.trainers.IHasPokemobs;
+import pokecube.api.entity.trainers.TrainerCaps;
+import pokecube.api.events.pokemobs.SpawnEvent.Variance;
+import pokecube.api.items.IPokecube.PokecubeBehaviour;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
-import pokecube.core.events.pokemob.SpawnEvent.Variance;
-import pokecube.core.handlers.events.SpawnHandler;
-import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.eventhandlers.SpawnHandler;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+import thut.lib.ResourceHelper;
 
 @SuppressWarnings("unchecked")
 public class TypeTrainer extends NpcType
@@ -138,9 +139,8 @@ public class TypeTrainer extends NpcType
                 return TypeTrainer.merchant;
             }
             else if (mob instanceof NpcMob) return TypeTrainer.merchant;
-            else if (mob instanceof Villager && Config.instance.npcsAreTrainers)
+            else if (Config.instance.npcsAreTrainers && mob instanceof Villager villager)
             {
-                final Villager villager = (Villager) mob;
                 final String type = villager.getVillagerData().getProfession().toString();
                 return TypeTrainer.getTrainer(type, true);
             }
@@ -158,18 +158,16 @@ public class TypeTrainer extends NpcType
             };
             final Predicate<LivingEntity> noRunWhileRest = e -> {
                 if (npc instanceof LeaderNpc) return true;
-                if (e instanceof Villager)
+                if (e instanceof Villager villager)
                 {
-                    final Villager villager = (Villager) e;
                     if (villager.isSleeping()) return false;
                 }
                 return noRunIfCrowded.test(e);
             };
             final Predicate<LivingEntity> noRunWhileMeet = e -> {
                 if (npc instanceof LeaderNpc) return true;
-                if (e instanceof Villager)
+                if (e instanceof Villager villager)
                 {
-                    final Villager villager = (Villager) e;
                     final Schedule s = villager.getBrain().getSchedule();
                     final Activity a = s.getActivityAt((int) (e.level.getDayTime() % 24000L));
                     if (a == Activity.MEET) return false;
@@ -210,7 +208,7 @@ public class TypeTrainer extends NpcType
             // 5% chance of battling a random nearby pokemob if they see it.
             if (Config.instance.trainersBattlePokemobs)
             {
-                task = new AgroTargets(npc, 0.005f, 1200, z -> CapabilityPokemob.getPokemobFor(z) != null)
+                task = new AgroTargets(npc, 0.005f, 1200, z -> PokemobCaps.getPokemobFor(z) != null)
                         .setRunCondition(noRunWhileRest);
                 list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
                 task = new CaptureMob(npc, 1);
@@ -300,7 +298,7 @@ public class TypeTrainer extends NpcType
                     this._uses, this._maxUses, this._exp, this._multiplier, this._demand);
             if (newTrade._output.isEmpty() || (newTrade._input_a.isEmpty() && newTrade._input_b.isEmpty()))
             {
-                PokecubeCore.LOGGER.error("Warning, invalid trade! " + debug_string);
+                PokecubeAPI.LOGGER.error("Warning, invalid trade! " + debug_string);
                 return null;
             }
             return newTrade.randomise(random);
@@ -365,9 +363,9 @@ public class TypeTrainer extends NpcType
         final TypeTrainer type = trainer.getType();
         final List<PokedexEntry> values = Lists.newArrayList();
         if (type.pokemon != null) values.addAll(type.pokemon);
-        else PokecubeCore.LOGGER.warn("No mobs for " + type);
+        else PokecubeAPI.LOGGER.warn("No mobs for " + type);
         if (type.overrideLevel != -1) level = type.overrideLevel;
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Initializing team for " + owner);
+        if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Initializing team for " + owner);
         TypeTrainer.getRandomTeam(trainer, owner, level, world, values);
     }
 
@@ -406,7 +404,7 @@ public class TypeTrainer extends NpcType
     public static ItemStack makeStack(final PokedexEntry entry, final LivingEntity trainer, final LevelAccessor world,
             final int level)
     {
-        IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getLevel()));
+        IPokemob pokemob = PokemobCaps.getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getLevel()));
         if (pokemob != null)
         {
             final double x = trainer.getX();
@@ -417,7 +415,7 @@ public class TypeTrainer extends NpcType
             pokemob.getEntity().getPersistentData().putBoolean("__need_init_evos__", true);
             pokemob = pokemob.setPokedexEntry(entry);
             pokemob.setOwner(trainer.getUUID());
-            pokemob.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
+            pokemob.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehaviour.DEFAULTCUBE)));
             final int exp = Tools.levelToXp(pokemob.getExperienceMode(), level);
             pokemob = pokemob.setForSpawn(exp, false);
             final ItemStack item = PokecubeManager.pokemobToItem(pokemob);
@@ -438,7 +436,7 @@ public class TypeTrainer extends NpcType
             {
                 final PokedexEntry e = Database.getEntry(s);
                 if (e != null && !t.pokemon.contains(e)) t.pokemon.add(e);
-                else if (e == null) PokecubeCore.LOGGER.error("Error in reading of " + s);
+                else if (e == null) PokecubeAPI.LOGGER.error("Error in reading of " + s);
             }
                 else
             {
@@ -458,7 +456,7 @@ public class TypeTrainer extends NpcType
             t.pokemon.removeIf(e -> (e.length > 8 || e.height > 8 || e.width > 8));
             if (t.pokemon.size() == 0 && t != TypeTrainer.merchant) toRemove.add(t);
         }
-        if (!toRemove.isEmpty()) PokecubeCore.LOGGER.debug("Removing Trainer Types: " + toRemove);
+        if (!toRemove.isEmpty()) PokecubeAPI.LOGGER.debug("Removing Trainer Types: " + toRemove);
         for (final TypeTrainer t : toRemove) TypeTrainer.typeMap.remove(t.getName());
         TypeTrainer.initSpawns();
     }
@@ -578,16 +576,7 @@ public class TypeTrainer extends NpcType
     @OnlyIn(Dist.CLIENT)
     private boolean texExists(final ResourceLocation texture)
     {
-        try
-        {
-            final Resource res = Minecraft.getInstance().getResourceManager().getResource(texture);
-            res.close();
-            return true;
-        }
-        catch (final Exception e)
-        {
-            return false;
-        }
+        return ResourceHelper.exists(texture, Minecraft.getInstance().getResourceManager());
     }
 
     @Override

@@ -1,6 +1,6 @@
 package pokecube.mobs.abilities.n;
 
-import pokecube.core.database.abilities.Ability;
+import pokecube.api.data.abilities.Ability;
 
 public class NeutralizingGas extends Ability
 {
