@@ -8,12 +8,13 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ModelHolder
 {
-    public ResourceLocation       model;
-    public ResourceLocation       texture;
-    public ResourceLocation       animation;
+    public ResourceLocation model;
+    public ResourceLocation texture;
+    public ResourceLocation animation;
+    public String name;
+
     public List<ResourceLocation> backupAnimations = Lists.newArrayList();
-    public List<ResourceLocation> backupModels     = Lists.newArrayList();
-    public String                 name;
+    public List<ResourceLocation> backupModels = Lists.newArrayList();
     // This is set by the model factory.
     public String extension = "";
 

@@ -25,7 +25,7 @@ public class WorldTickManager
         private final ServerLevel world;
 
         private final List<IWorldTickListener> pendingRemove = Lists.newArrayList();
-        private final List<IWorldTickListener> pendingAdd    = Lists.newArrayList();
+        private final List<IWorldTickListener> pendingAdd = Lists.newArrayList();
 
         private boolean ticking = false;
 
@@ -37,13 +37,10 @@ public class WorldTickManager
         public void onWorldTickEnd()
         {
             this.ticking = true;
-            for (final IWorldTickListener data : this.data)
-                data.onTickEnd(this.world);
+            for (final IWorldTickListener data : this.data) data.onTickEnd(this.world);
             this.ticking = false;
-            for (final IWorldTickListener data : this.pendingRemove)
-                this.removeData(data);
-            for (final IWorldTickListener data : this.pendingAdd)
-                this.addData(data);
+            for (final IWorldTickListener data : this.pendingRemove) this.removeData(data);
+            for (final IWorldTickListener data : this.pendingAdd) this.addData(data);
             this.pendingRemove.clear();
             this.pendingAdd.clear();
         }
@@ -51,13 +48,10 @@ public class WorldTickManager
         public void onWorldTickStart()
         {
             this.ticking = true;
-            for (final IWorldTickListener data : this.data)
-                data.onTickStart(this.world);
+            for (final IWorldTickListener data : this.data) data.onTickStart(this.world);
             this.ticking = false;
-            for (final IWorldTickListener data : this.pendingRemove)
-                this.removeData(data);
-            for (final IWorldTickListener data : this.pendingAdd)
-                this.addData(data);
+            for (final IWorldTickListener data : this.pendingRemove) this.removeData(data);
+            for (final IWorldTickListener data : this.pendingAdd) this.addData(data);
             this.pendingRemove.clear();
             this.pendingAdd.clear();
         }
@@ -82,8 +76,7 @@ public class WorldTickManager
 
         public void detach()
         {
-            for (final IWorldTickListener data : this.data)
-                data.onDetach(this.world);
+            for (final IWorldTickListener data : this.data) data.onDetach(this.world);
         }
     }
 
@@ -137,14 +130,12 @@ public class WorldTickManager
     public static void onWorldLoad(final WorldEvent.Load event)
     {
         if (event.getWorld().isClientSide()) return;
-        if (!(event.getWorld() instanceof ServerLevel)) return;
-        final ServerLevel world = (ServerLevel) event.getWorld();
-        final ResourceKey<Level> key = world.dimension();
+        if (!(event.getWorld() instanceof ServerLevel level)) return;
+        final ResourceKey<Level> key = level.dimension();
         if (WorldTickManager.dataMap.containsKey(key)) WorldTickManager.dataMap.get(key).detach();
-        final WorldData data = new WorldData(world);
+        final WorldData data = new WorldData(level);
         WorldTickManager.dataMap.put(key, data);
-        WorldTickManager.staticData.forEach(s ->
-        {
+        WorldTickManager.staticData.forEach(s -> {
             if (s.valid.test(key)) data.addData(s.data.get());
         });
         WorldTickManager.pathHelpers.put(key, Lists.newArrayList());
@@ -153,9 +144,8 @@ public class WorldTickManager
     public static void onWorldUnload(final WorldEvent.Unload event)
     {
         if (event.getWorld().isClientSide()) return;
-        if (!(event.getWorld() instanceof ServerLevel)) return;
-        final ServerLevel world = (ServerLevel) event.getWorld();
-        final ResourceKey<Level> key = world.dimension();
+        if (!(event.getWorld() instanceof ServerLevel level)) return;
+        final ResourceKey<Level> key = level.dimension();
         if (WorldTickManager.dataMap.containsKey(key)) WorldTickManager.dataMap.remove(key).detach();
         WorldTickManager.pathHelpers.remove(key);
     }

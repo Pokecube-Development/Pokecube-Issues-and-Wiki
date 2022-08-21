@@ -17,7 +17,7 @@ public class SaveStates
 
     public static final class SaveState
     {
-        public String      name;
+        public String name;
         public CompoundTag tag;
 
         public SaveState(String name)
@@ -35,8 +35,7 @@ public class SaveStates
     {
         this.file = file;
         this.tags = new SaveState[7];
-        for (int i = 0; i < 7; ++i)
-            this.tags[i] = new SaveState("Slot " + (i + 1));
+        for (int i = 0; i < 7; ++i) this.tags[i] = new SaveState("Slot " + (i + 1));
     }
 
     public SaveState getSaveState(int index)

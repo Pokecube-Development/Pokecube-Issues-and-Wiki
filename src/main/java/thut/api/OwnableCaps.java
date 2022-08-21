@@ -72,8 +72,8 @@ public class OwnableCaps
         @Override
         public void deserializeNBT(final Tag nbt)
         {
-            if (nbt instanceof ByteTag) this.playerOwned = ((ByteTag) nbt).getAsByte() != 0;
-            else if (nbt instanceof CompoundTag) this.playerOwned = ((CompoundTag) nbt).getBoolean("p");
+            if (nbt instanceof ByteTag tag) this.playerOwned = tag.getAsByte() != 0;
+            else if (nbt instanceof CompoundTag tag) this.playerOwned = tag.getBoolean("p");
         }
     }
 
@@ -92,8 +92,8 @@ public class OwnableCaps
         public LivingEntity getOwner()
         {
             if (this.getOwnerId() == null) this.owner = null;
-            if (this.getOwnerId() != null && this.owner == null && this.wrapped.getLevel() instanceof ServerLevel)
-                return this.owner = this.getOwner((ServerLevel) this.wrapped.getLevel(), this.owner);
+            if (this.getOwnerId() != null && this.owner == null && this.wrapped.getLevel() instanceof ServerLevel level)
+                return this.owner = this.getOwner(level, this.owner);
             return this.owner;
         }
 
@@ -142,8 +142,8 @@ public class OwnableCaps
         {
             if (this.getOwnerId() == null) this.owner = null;
             if (this.getOwnerId() != null) this.owner = this.wrapped.getOwner();
-            if (this.getOwnerId() != null && this.wrapped.getLevel() instanceof ServerLevel)
-                return this.owner = this.getOwner((ServerLevel) this.wrapped.getLevel(), this.owner);
+            if (this.getOwnerId() != null && this.wrapped.getLevel() instanceof ServerLevel level)
+                return this.owner = this.getOwner(level, this.owner);
             return this.owner;
         }
 
@@ -272,8 +272,8 @@ public class OwnableCaps
 
     public static ICapabilitySerializable<?> makeMobOwnable(final Entity mob, final boolean nonNull)
     {
-        if (mob instanceof TamableAnimal) return new TameWrapper((TamableAnimal) mob);
-        else if (mob instanceof AbstractHorse) return new HorseWrapper((AbstractHorse) mob);
+        if (mob instanceof TamableAnimal animal) return new TameWrapper(animal);
+        else if (mob instanceof AbstractHorse horse) return new HorseWrapper(horse);
         else if (OwnableCaps.MOBS.contains(mob.getType())) return new Impl();
         return nonNull ? new Impl() : null;
     }
@@ -317,11 +317,11 @@ public class OwnableCaps
     public static void onblockPlace(final BlockEvent.EntityPlaceEvent event)
     {
         final BlockEntity tile = event.getWorld().getBlockEntity(event.getPos());
-        if (tile != null && event.getEntity() instanceof LivingEntity)
+        if (tile != null && event.getEntity() instanceof LivingEntity living)
         {
             final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
-            if (ownable instanceof IOwnableTE) ((IOwnableTE) ownable).setPlacer((LivingEntity) event.getEntity());
-            else if (ownable != null) ownable.setOwner((LivingEntity) event.getEntity());
+            if (ownable instanceof IOwnableTE te) te.setPlacer(living);
+            else if (ownable != null) ownable.setOwner(living);
         }
     }
 
@@ -332,9 +332,8 @@ public class OwnableCaps
         if (tile != null && tile.getLevel() instanceof ServerLevel level)
         {
             final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
-            if (ownable instanceof IOwnableTE && ((IOwnableTE) ownable).canEdit(event.getEntityLiving())
-                    && ItemList.is(OwnableCaps.STICKTAG, event.getItemStack())
-                    && ((IOwnableTE) ownable).getOwnerId() != null)
+            if (ownable instanceof IOwnableTE te && te.canEdit(event.getEntityLiving())
+                    && ItemList.is(OwnableCaps.STICKTAG, event.getItemStack()) && te.getOwnerId() != null)
             {
                 BlockState state = level.getBlockState(event.getPos());
                 List<ItemStack> drops = Block.getDrops(state, level, event.getPos(), tile, event.getPlayer(),
@@ -354,8 +353,7 @@ public class OwnableCaps
         if (tile != null)
         {
             final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
-            if (ownable instanceof IOwnableTE && !((IOwnableTE) ownable).canEdit(event.getPlayer()))
-                event.setCanceled(true);
+            if (ownable instanceof IOwnableTE te && !te.canEdit(event.getPlayer())) event.setCanceled(true);
         }
     }
 }

@@ -21,8 +21,7 @@ public class NBTTree
     public static String repeat(String c, int i)
     {
         final StringBuilder b = new StringBuilder(i + 1);
-        for (int j = 0; j < i; ++j)
-            b.append(c);
+        for (int j = 0; j < i; ++j) b.append(c);
         return b.toString();
     }
 
@@ -82,9 +81,9 @@ public class NBTTree
     public void addChildrenToTree(Node<NamedNBT> parent)
     {
         final Tag tag = parent.getObject().getNBT();
-        if (tag instanceof CompoundTag)
+        if (tag instanceof CompoundTag comp)
         {
-            final Map<String, Tag> map = NBTHelper.getMap((CompoundTag) tag);
+            final Map<String, Tag> map = NBTHelper.getMap(comp);
             for (final Entry<String, Tag> entry : map.entrySet())
             {
                 final Tag base = entry.getValue();
@@ -94,9 +93,8 @@ public class NBTTree
             }
 
         }
-        else if (tag instanceof ListTag)
+        else if (tag instanceof ListTag list)
         {
-            final ListTag list = (ListTag) tag;
             for (int i = 0; i < list.size(); ++i)
             {
                 final Tag base = NBTHelper.getTagAt(list, i);
@@ -154,15 +152,13 @@ public class NBTTree
     private void print(Node<NamedNBT> n, int i)
     {
         PokecubeAPI.LOGGER.info(NBTTree.repeat("\t", i) + NBTStringHelper.getNBTName(n.getObject()));
-        for (final Node<NamedNBT> child : n.getChildren())
-            this.print(child, i + 1);
+        for (final Node<NamedNBT> child : n.getChildren()) this.print(child, i + 1);
     }
 
     public void sort(Node<NamedNBT> node)
     {
         Collections.sort(node.getChildren(), NBTEdit.SORTER);
-        for (final Node<NamedNBT> c : node.getChildren())
-            this.sort(c);
+        for (final Node<NamedNBT> c : node.getChildren()) this.sort(c);
     }
 
     public CompoundTag toCompoundNBT()
@@ -182,7 +178,6 @@ public class NBTTree
     private void toStrings(List<String> s, Node<NamedNBT> n, int i)
     {
         s.add(NBTTree.repeat("   ", i) + NBTStringHelper.getNBTName(n.getObject()));
-        for (final Node<NamedNBT> child : n.getChildren())
-            this.toStrings(s, child, i + 1);
+        for (final Node<NamedNBT> child : n.getChildren()) this.toStrings(s, child, i + 1);
     }
 }

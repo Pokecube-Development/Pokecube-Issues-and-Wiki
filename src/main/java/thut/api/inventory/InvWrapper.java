@@ -13,7 +13,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 
 public class InvWrapper implements Container
 {
-    final IItemHandlerModifiable  wrapped;
+    final IItemHandlerModifiable wrapped;
     final Predicate<Player> usable;
 
     private List<ContainerListener> listeners;
@@ -30,8 +30,8 @@ public class InvWrapper implements Container
     }
 
     /**
-     * Add a listener that will be notified when any item in this inventory
-     * is modified.
+     * Add a listener that will be notified when any item in this inventory is
+     * modified.
      */
     public void addListener(final ContainerListener listener)
     {
@@ -50,8 +50,7 @@ public class InvWrapper implements Container
     @Override
     public void clearContent()
     {
-        for (int i = 0; i < this.wrapped.getSlots(); i++)
-            this.wrapped.setStackInSlot(i, ItemStack.EMPTY);
+        for (int i = 0; i < this.wrapped.getSlots(); i++) this.wrapped.setStackInSlot(i, ItemStack.EMPTY);
     }
 
     @Override
@@ -96,8 +95,8 @@ public class InvWrapper implements Container
     @Override
     public void setChanged()
     {
-        if (this.listeners != null) for (final ContainerListener iinventorychangedlistener : this.listeners)
-            iinventorychangedlistener.containerChanged(this);
+        if (this.listeners != null)
+            for (final ContainerListener listener : this.listeners) listener.containerChanged(this);
     }
 
     @Override

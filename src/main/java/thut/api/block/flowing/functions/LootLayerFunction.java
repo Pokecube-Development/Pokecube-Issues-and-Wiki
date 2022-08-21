@@ -2,7 +2,6 @@ package thut.api.block.flowing.functions;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -56,15 +55,10 @@ public class LootLayerFunction extends LootItemConditionalFunction
 
     public static class Serializer extends LootItemConditionalFunction.Serializer<LootLayerFunction>
     {
-        public void serialize(JsonObject p_80097_, LootLayerFunction p_80098_, JsonSerializationContext p_80099_)
+        public LootLayerFunction deserialize(JsonObject object, JsonDeserializationContext context,
+                LootItemCondition[] conditions)
         {
-            super.serialize(p_80097_, p_80098_, p_80099_);
-        }
-
-        public LootLayerFunction deserialize(JsonObject p_80093_, JsonDeserializationContext p_80094_,
-                LootItemCondition[] p_80095_)
-        {
-            return new LootLayerFunction(p_80095_);
+            return new LootLayerFunction(conditions);
         }
     }
 }

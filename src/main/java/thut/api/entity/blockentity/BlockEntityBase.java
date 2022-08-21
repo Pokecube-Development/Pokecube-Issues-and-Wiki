@@ -265,9 +265,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                         BlockEntityBase.FAKEBLOCK.defaultBlockState().setValue(TempBlock.WATERLOGGED, flag));
             }
             final BlockEntity te = world.getBlockEntity(p);
-            if (te instanceof TempTile)
+            if (te instanceof TempTile tile)
             {
-                final TempTile tile = (TempTile) te;
                 tile.blockEntity = this;
                 tile.getShape();
             }

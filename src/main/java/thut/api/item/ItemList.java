@@ -22,9 +22,8 @@ public class ItemList extends Items
 {
     public static Map<ResourceLocation, Set<Item>> pendingTags = Maps.newHashMap();
 
-    public static boolean is(final ResourceLocation tag, final EntityType<?> toCheck)
+    public static boolean is(final ResourceLocation tag, final EntityType<?> type)
     {
-        final EntityType<?> type = (EntityType<?>) toCheck;
         TagKey<EntityType<?>> tagkey = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, tag);
         final boolean tagged = type.is(tagkey);
         if (!tagged) return RegHelper.getKey(type).equals(tag);
@@ -38,10 +37,9 @@ public class ItemList extends Items
 
     public static boolean is(final ResourceLocation tag, final BlockState toCheck)
     {
-        final Block block = toCheck.getBlock();
         TagKey<Block> tagkey = TagKey.create(Registry.BLOCK_REGISTRY, tag);
         final boolean tagged = toCheck.is(tagkey);
-        if (!tagged) return RegHelper.getKey(block).equals(tag);
+        if (!tagged) return RegHelper.getKey(toCheck.getBlock()).equals(tag);
         return tagged;
     }
 
@@ -50,9 +48,8 @@ public class ItemList extends Items
         return is(tag, toCheck.defaultBlockState());
     }
 
-    public static boolean is(final ResourceLocation tag, final ItemStack toCheck)
+    public static boolean is(final ResourceLocation tag, final ItemStack stack)
     {
-        ItemStack stack = (ItemStack) toCheck;
         TagKey<Item> tagkey = TagKey.create(Registry.ITEM_REGISTRY, tag);
         boolean tagged = stack.is(tagkey);
         tagged = tagged || ItemList.pendingTags.getOrDefault(tag, Collections.emptySet()).contains(stack.getItem());

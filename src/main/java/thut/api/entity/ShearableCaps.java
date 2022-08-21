@@ -83,12 +83,11 @@ public class ShearableCaps
 
         @Override
         public void shear()
-        {
-        }
+        {}
 
     }
 
-    public static final ResourceLocation       LOC        = new ResourceLocation("thutcore:shearable");
+    public static final ResourceLocation LOC = new ResourceLocation("thutcore:shearable");
 
     public static IShearable get(final ICapabilityProvider in)
     {
@@ -98,8 +97,7 @@ public class ShearableCaps
     private static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
     {
         if (event.getCapabilities().containsKey(ShearableCaps.LOC)) return;
-        if (event.getObject() instanceof Sheep) event.addCapability(ShearableCaps.LOC, new SheepImpl((Sheep) event
-                .getObject()));
+        if (event.getObject() instanceof Sheep sheep) event.addCapability(ShearableCaps.LOC, new SheepImpl(sheep));
     }
 
     public static void setup()

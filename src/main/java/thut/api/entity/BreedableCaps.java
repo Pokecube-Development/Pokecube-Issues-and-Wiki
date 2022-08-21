@@ -59,8 +59,7 @@ public class BreedableCaps
         {
             try
             {
-                if (this.wrapped instanceof Animal && other instanceof Animal)
-                    return ((Animal) this.wrapped).canMate((Animal) other);
+                if (this.wrapped instanceof Animal a && other instanceof Animal b) return a.canMate(b);
             }
             catch (final Exception e)
             {
@@ -75,33 +74,33 @@ public class BreedableCaps
         @Override
         public boolean canBreed()
         {
-            if (this.wrapped instanceof Animal) return ((Animal) this.wrapped).canBreed();
+            if (this.wrapped instanceof Animal animal) return animal.canBreed();
             return super.canBreed();
         }
 
         @Override
         public boolean isBreeding()
         {
-            if (this.wrapped instanceof Animal) return ((Animal) this.wrapped).isInLove();
+            if (this.wrapped instanceof Animal animal) return animal.isInLove();
             return super.isBreeding();
         }
 
         @Override
         public void setReadyToMate(@Nullable final Player cause)
         {
-            if (this.wrapped instanceof Animal) ((Animal) this.wrapped).setInLove(cause);
+            if (this.wrapped instanceof Animal animal) animal.setInLove(cause);
         }
 
         @Override
         public void resetLoveStatus()
         {
-            if (this.wrapped instanceof Animal) ((Animal) this.wrapped).resetLove();
+            if (this.wrapped instanceof Animal animal) animal.resetLove();
         }
 
         @Override
         public ServerPlayer getCause()
         {
-            if (this.wrapped instanceof Animal) return ((Animal) this.wrapped).getLoveCause();
+            if (this.wrapped instanceof Animal animal) return animal.getLoveCause();
             return super.getCause();
         }
     }
@@ -113,8 +112,8 @@ public class BreedableCaps
         // Check if someone else adds this first (like say an IPokemob
         for (final ICapabilityProvider p : event.getCapabilities().values())
             if (p.getCapability(ThutCaps.BREEDS).isPresent()) return;
-        if (event.getObject() instanceof AgeableMob)
-            event.addCapability(BreedableCaps.WRAP, new AgeableWrapper((AgeableMob) event.getObject()));
+        if (event.getObject() instanceof AgeableMob mob)
+            event.addCapability(BreedableCaps.WRAP, new AgeableWrapper(mob));
     }
 
     public static IBreedingMob getBreedable(final ICapabilityProvider in)

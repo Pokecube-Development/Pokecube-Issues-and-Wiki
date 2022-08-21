@@ -9,7 +9,7 @@ public class Node<T>
     private List<Node<T>> children;
 
     private Node<T> parent;
-    private T       obj;
+    private T obj;
 
     private boolean drawChildren;
 
