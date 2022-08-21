@@ -32171,7 +32171,8 @@
         },
         "types": {
           "values": {
-            "type1": "dark"
+            "type1": "normal",
+			"type2": "ghost"
           }
         },
         "abilities": {
