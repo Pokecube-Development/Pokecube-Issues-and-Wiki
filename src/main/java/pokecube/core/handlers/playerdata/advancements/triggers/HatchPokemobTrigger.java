@@ -47,7 +47,6 @@ public class HatchPokemobTrigger extends SimpleCriterionTrigger<HatchPokemobTrig
 
     public void trigger(final ServerPlayer player, final IPokemob pokemob)
     {
-
         this.trigger(player, (instance) -> {
             return instance.test(player, pokemob);
         });
