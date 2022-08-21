@@ -64,10 +64,6 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         worldIn.destroyBlock(pos, false);
     }
 
-    Vector3 v = new Vector3();
-
-    Vector3 v1 = new Vector3();
-
     /**
      * Constructor for a Pokemob move. <br/>
      * The attack category defines the way the mob will move in order to make

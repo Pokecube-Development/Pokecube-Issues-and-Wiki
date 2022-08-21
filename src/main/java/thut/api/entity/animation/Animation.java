@@ -10,6 +10,7 @@ import javax.xml.namespace.QName;
 
 import com.google.common.collect.Ordering;
 
+import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationXML.Phase;
 
 public class Animation
@@ -28,19 +29,21 @@ public class Animation
 
     public UUID _uuid = UUID.randomUUID();
 
-    public String name       = "";
+    public String name = "";
     public String identifier = "";
-    public int    length     = -1;
+    public int length = -1;
     /**
      * This is used for sorting animations for determining which components
      * should take priority when multiple animations are specified for a single
      * part.
      */
-    public int    priority   = 10;
+    public int priority = 10;
 
     public boolean loops = true;
 
     public boolean hasLimbBased = false;
+
+    public Vector3 _shift = new Vector3();
 
     public TreeMap<String, ArrayList<AnimationComponent>> sets = new TreeMap<>(Ordering.natural());
 
@@ -76,10 +79,10 @@ public class Animation
         this.hasLimbBased = false;
         for (final Entry<String, ArrayList<AnimationComponent>> entry : this.sets.entrySet())
             for (final AnimationComponent component : entry.getValue())
-            {
-                this.length = Math.max(this.length, component.startKey + component.length);
-                this.hasLimbBased = this.hasLimbBased || component.limbBased;
-            }
+        {
+            this.length = Math.max(this.length, component.startKey + component.length);
+            this.hasLimbBased = this.hasLimbBased || component.limbBased;
+        }
     }
 
     @Override

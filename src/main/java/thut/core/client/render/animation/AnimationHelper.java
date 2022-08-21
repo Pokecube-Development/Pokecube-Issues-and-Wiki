@@ -30,13 +30,15 @@ public class AnimationHelper
 {
     private final static Map<UUID, IAnimationHolder> holderMap = Maps.newHashMap();
 
+    private static final Vector4 _rot = new Vector4();
+
     public static boolean animate(final Animation animation, final IAnimationHolder animate, final String partName,
             final IExtendedModelPart part, final float partialTick, final float limbSwing, final int tick)
     {
         final ArrayList<AnimationComponent> components = animation.getComponents(partName);
         if (components == null) return false;
         boolean animated = false;
-        final Vector3 temp = new Vector3();
+        final Vector3 temp = animation._shift.clear();
         float x = 0, y = 0, z = 0;
         float sx = 1, sy = 1, sz = 1;
         int aniTick = tick;
@@ -59,8 +61,9 @@ public class AnimationHelper
                 if (componentTimer > component.length) componentTimer = component.length;
                 final int length = component.length == 0 ? 1 : component.length;
                 final float ratio = componentTimer / length;
-                temp.addTo(component.posChange[0] * ratio + component.posOffset[0], component.posChange[1] * ratio
-                        + component.posOffset[1], component.posChange[2] * ratio + component.posOffset[2]);
+                temp.addTo(component.posChange[0] * ratio + component.posOffset[0],
+                        component.posChange[1] * ratio + component.posOffset[1],
+                        component.posChange[2] * ratio + component.posOffset[2]);
                 x += (float) (component.rotChange[0] * ratio + component.rotOffset[0]);
                 y += (float) (component.rotChange[1] * ratio + component.rotOffset[1]);
                 z += (float) (component.rotChange[2] * ratio + component.rotOffset[2]);
@@ -82,7 +85,7 @@ public class AnimationHelper
             if (z != 0) quat.mul(Vector3f.YN.rotationDegrees(z));
             if (x != 0) quat.mul(Vector3f.XP.rotationDegrees(x));
             if (y != 0) quat.mul(Vector3f.ZP.rotationDegrees(y));
-            part.setPreRotations(new Vector4(quat));
+            part.setPreRotations(_rot.set(quat));
         }
         return animated;
     }
@@ -100,9 +103,8 @@ public class AnimationHelper
                 limbSwing = 0;
             }
             list = Lists.newArrayList(holder.getPlaying());
-            for (final Animation animation : list)
-                animate = AnimationHelper.animate(animation, holder, partName, part, partialTick, limbSwing,
-                        entity.tickCount) || animate;
+            for (final Animation animation : list) animate = AnimationHelper.animate(animation, holder, partName, part,
+                    partialTick, limbSwing, entity.tickCount) || animate;
         }
         return animate;
     }

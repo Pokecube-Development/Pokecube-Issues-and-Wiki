@@ -1,5 +1,7 @@
 package pokecube.core.handlers.playerdata.advancements.triggers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -70,8 +72,10 @@ public class UseMoveTrigger implements CriterionTrigger<UseMoveTrigger.Instance>
 
         public void trigger(final ServerPlayer player, final MovePacket packet)
         {
+            List<Listener<Instance>> toTrigger = new ArrayList<>();
             for (var listener : this.listeners)
-                if (listener.getTriggerInstance().test(player, packet)) listener.run(this.playerAdvancements);
+                if (listener.getTriggerInstance().test(player, packet)) toTrigger.add(listener);
+            toTrigger.forEach(l -> l.run(playerAdvancements));
         }
     }
 

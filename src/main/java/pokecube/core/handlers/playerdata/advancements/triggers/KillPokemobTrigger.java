@@ -1,5 +1,7 @@
 package pokecube.core.handlers.playerdata.advancements.triggers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -66,8 +68,10 @@ public class KillPokemobTrigger implements CriterionTrigger<KillPokemobTrigger.I
 
         public void trigger(final ServerPlayer player, final IPokemob pokemob)
         {
+            List<Listener<Instance>> toTrigger = new ArrayList<>();
             for (var listener : this.listeners)
-                if (listener.getTriggerInstance().test(player, pokemob)) listener.run(this.playerAdvancements);
+                if (listener.getTriggerInstance().test(player, pokemob)) toTrigger.add(listener);
+            toTrigger.forEach(l -> l.run(playerAdvancements));
         }
     }
 

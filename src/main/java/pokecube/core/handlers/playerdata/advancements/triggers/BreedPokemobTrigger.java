@@ -1,5 +1,7 @@
 package pokecube.core.handlers.playerdata.advancements.triggers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -86,8 +88,10 @@ public class BreedPokemobTrigger implements CriterionTrigger<BreedPokemobTrigger
 
         public void trigger(final ServerPlayer player, final IPokemob first, final IPokemob second)
         {
-            for (final var listener : this.listeners)
-                if (listener.getTriggerInstance().test(player, first, second)) listener.run(this.playerAdvancements);
+            List<Listener<Instance>> toTrigger = new ArrayList<>();
+            for (var listener : this.listeners)
+                if (listener.getTriggerInstance().test(player, first, second)) toTrigger.add(listener);
+            toTrigger.forEach(l -> l.run(playerAdvancements));
         }
     }
 

@@ -103,13 +103,14 @@ public abstract class Mesh
 
     private final com.mojang.math.Vector3f dummy3 = new com.mojang.math.Vector3f();
     private final Vector4f dummy4 = new Vector4f();
+    private final TextureCoordinate dummyTex = new TextureCoordinate(0, 0);
 
     protected void doRender(final PoseStack mat, final VertexConsumer buffer, final IPartTexturer texturer)
     {
         Vertex vertex;
         Vertex normal;
 
-        TextureCoordinate textureCoordinate = new TextureCoordinate(0, 0);
+        TextureCoordinate textureCoordinate = dummyTex;
         final boolean flat = this.material.flat;
         final float red = this.rgbabro[0] / 255f;
         final float green = this.rgbabro[1] / 255f;

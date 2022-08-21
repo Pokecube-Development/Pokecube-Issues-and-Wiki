@@ -169,8 +169,8 @@ public class Battle
         if (this.valid)
         {
             final IPokemob poke = PokemobCaps.getPokemobFor(mob);
-            if (!(mob instanceof Mob)) return;
-            BrainUtils.initiateCombat((Mob) mob, target);
+            if (!(mob instanceof Mob mob2)) return;
+            BrainUtils.initiateCombat(mob2, target);
             if (poke != null && poke.getAbility() != null) poke.getAbility().startCombat(poke);
         }
     }

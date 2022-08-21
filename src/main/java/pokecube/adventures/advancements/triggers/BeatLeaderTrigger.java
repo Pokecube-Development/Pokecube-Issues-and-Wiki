@@ -1,5 +1,7 @@
 package pokecube.adventures.advancements.triggers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -64,8 +66,10 @@ public class BeatLeaderTrigger implements CriterionTrigger<BeatLeaderTrigger.Ins
 
         public void trigger(final ServerPlayer player, final TrainerBase defeated)
         {
+            List<Listener<Instance>> toTrigger = new ArrayList<>();
             for (var listener : this.listeners)
-                if (listener.getTriggerInstance().test(player, defeated)) listener.run(this.playerAdvancements);
+                if (listener.getTriggerInstance().test(player, defeated)) toTrigger.add(listener);
+            toTrigger.forEach(l -> l.run(playerAdvancements));
         }
     }
 

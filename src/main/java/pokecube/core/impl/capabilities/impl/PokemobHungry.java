@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -104,12 +105,20 @@ public abstract class PokemobHungry extends PokemobMoves
         return this.dataSync().get(this.params.HUNGERDW);
     }
 
+    private float _last_size = 0;
+
     @Override
     public Vector3 getMobSizes()
     {
-        return this.sizes
-                .set(this.getPokedexEntry().width, this.getPokedexEntry().height, this.getPokedexEntry().length)
-                .scalarMult(this.getSize());
+        float size = this.getSize();
+        if (size != _last_size)
+        {
+            _last_size = size;
+            PokedexEntry entry = this.getPokedexEntry();
+            this.sizes.set(entry.width, entry.height, entry.length);
+            this.sizes.scalarMultBy(size);
+        }
+        return this.sizes;
     }
 
     /** @return does this pokemon hunt for food */

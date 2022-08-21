@@ -160,20 +160,20 @@ public class Move_Explode extends Move_Basic
         if (!evt.isCanceled())
         {
             final boolean explodeDamage = mob.getLevel() instanceof ServerLevel level && Config.Rules.doBoom(level);
-            final boolean damagePerms = MoveEventsHandler.canAffectBlock(pokemob, this.v.set(mob), this.getName());
+            final boolean damagePerms = MoveEventsHandler.canAffectBlock(pokemob, new Vector3().set(mob),
+                    this.getName());
             // If these, we let the explosion handle the damage.
             if (explodeDamage && damagePerms) boom.doExplosion();
             else
             {
                 // Otherwise spawn in some effects
-                mob.getLevel().playSound((Player) null, mob.getX(), mob.getY(), mob.getZ(),
-                        SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F,
-                        (1.0F + (mob.getLevel().random.nextFloat()
-                                - mob.getLevel().random.nextFloat()) * 0.2F) * 0.7F);
-                if (this.getPWR() > 200) mob.getLevel().addParticle(ParticleTypes.EXPLOSION, mob.getX(),
-                        mob.getY(), mob.getZ(), 1.0D, 0.0D, 0.0D);
-                else mob.getLevel().addParticle(ParticleTypes.EXPLOSION, mob.getX(), mob.getY(),
+                mob.getLevel().playSound((Player) null, mob.getX(), mob.getY(), mob.getZ(), SoundEvents.GENERIC_EXPLODE,
+                        SoundSource.BLOCKS, 4.0F,
+                        (1.0F + (mob.getLevel().random.nextFloat() - mob.getLevel().random.nextFloat()) * 0.2F) * 0.7F);
+                if (this.getPWR() > 200) mob.getLevel().addParticle(ParticleTypes.EXPLOSION, mob.getX(), mob.getY(),
                         mob.getZ(), 1.0D, 0.0D, 0.0D);
+                else mob.getLevel().addParticle(ParticleTypes.EXPLOSION, mob.getX(), mob.getY(), mob.getZ(), 1.0D, 0.0D,
+                        0.0D);
                 // and hit nearby targets normally.
                 this.actualAttack(pokemob, new Vector3().set(pokemob.getEntity()).add(0,
                         pokemob.getSize() * pokemob.getPokedexEntry().height / 2, 0));

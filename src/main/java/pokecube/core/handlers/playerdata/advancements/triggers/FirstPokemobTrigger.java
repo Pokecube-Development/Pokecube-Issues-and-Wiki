@@ -1,5 +1,7 @@
 package pokecube.core.handlers.playerdata.advancements.triggers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -60,8 +62,10 @@ public class FirstPokemobTrigger implements CriterionTrigger<FirstPokemobTrigger
 
         public void trigger(final ServerPlayer player)
         {
+            List<Listener<Instance>> toTrigger = new ArrayList<>();
             for (var listener : this.listeners)
-                if (listener.getTriggerInstance().test()) listener.run(this.playerAdvancements);
+                if (listener.getTriggerInstance().test()) toTrigger.add(listener);
+            toTrigger.forEach(l -> l.run(playerAdvancements));
         }
     }
 
