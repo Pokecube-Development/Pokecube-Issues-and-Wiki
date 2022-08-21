@@ -37,7 +37,7 @@ public class NearBlocks extends Sensor<LivingEntity>
     public static class NearBlock
     {
         private final BlockState state;
-        private final BlockPos   pos;
+        private final BlockPos pos;
 
         public NearBlock(final BlockState state, final BlockPos pos)
         {
@@ -79,23 +79,21 @@ public class NearBlocks extends Sensor<LivingEntity>
         this.tick++;
         if (this.tick % PokecubeCore.getConfig().nearBlockUpdateRate != 0) return;
         final IPokemob pokemob = PokemobCaps.getPokemobFor(entityIn);
-        final boolean gathering = pokemob != null && pokemob.isPlayerOwned() && pokemob.isRoutineEnabled(
-                AIRoutine.GATHER) && this.tameCheck(pokemob);
+        final boolean gathering = pokemob != null && pokemob.isPlayerOwned()
+                && pokemob.isRoutineEnabled(AIRoutine.GATHER) && this.tameCheck(pokemob);
         final int size = gathering ? 15 : 8;
         if (!TerrainManager.isAreaLoaded(entityIn.getLevel(), entityIn.blockPosition(), size + 8)) return;
 
-        final Vector3 r = new Vector3(), rAbs = new Vector3();
+        final Vector3 rAbs = new Vector3();
         final Vector3 origin = new Vector3();
         origin.set(entityIn);
         final List<NearBlock> list = Lists.newArrayList();
 
         final Vec3 start = entityIn.getEyePosition(1);
 
-        final Predicate<BlockPos> visible = input ->
-        {
+        final Predicate<BlockPos> visible = input -> {
             final Vec3 end = new Vec3(input.getX() + 0.5, input.getY() + 0.5, input.getZ() + 0.5);
-            final ClipContext context = new ClipContext(start, end, Block.COLLIDER, Fluid.NONE,
-                    entityIn);
+            final ClipContext context = new ClipContext(start, end, Block.COLLIDER, Fluid.NONE, entityIn);
             final HitResult result = worldIn.clip(context);
             if (result.getType() == Type.MISS) return true;
             final BlockHitResult hit = (BlockHitResult) result;
@@ -106,8 +104,7 @@ public class NearBlocks extends Sensor<LivingEntity>
         {
             final byte[] pos = Tools.indexArr[i];
             if (pos[1] > 4 || pos[1] < -4) continue;
-            r.set(pos);
-            rAbs.set(r).addTo(origin);
+            rAbs.set(pos).addTo(origin);
             if (rAbs.isAir(worldIn)) continue;
             if (!visible.apply(rAbs.getPos())) continue;
             final BlockPos bpos = new BlockPos(rAbs.getPos());

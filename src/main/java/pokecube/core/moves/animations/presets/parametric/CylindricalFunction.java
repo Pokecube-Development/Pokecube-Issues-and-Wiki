@@ -14,9 +14,6 @@ public class CylindricalFunction extends MoveAnimationBase
     JEP radial;
     JEP angular;
 
-    Vector3 v  = new Vector3();
-    Vector3 v1 = new Vector3();
-
     public CylindricalFunction()
     {
     }

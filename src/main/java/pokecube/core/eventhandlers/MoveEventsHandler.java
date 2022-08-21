@@ -1,6 +1,5 @@
 package pokecube.core.eventhandlers;
 
-import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
@@ -9,23 +8,17 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.ClipContext.Fluid;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -126,68 +119,8 @@ public class MoveEventsHandler
             if (this.custom != null) this.custom.init();
         }
     }
-
-    public static int WATERSTRONG = 100;
-
-    public static int FIRESTRONG = 100;
-
-    public static int ELECTRICSTRONG = 100;
-
+    
     public static final Map<String, IMoveAction> customActions = Maps.newHashMap();
-
-    public static boolean attemptSmelt(final IPokemob attacker, final Vector3 pos)
-    {
-        final Level world = attacker.getEntity().getLevel();
-        final List<ItemEntity> items = world.getEntitiesOfClass(ItemEntity.class, pos.getAABB().inflate(1));
-        if (!items.isEmpty())
-        {
-            boolean smelt = false;
-            final AbstractFurnaceBlockEntity tile = new FurnaceBlockEntity(pos.getPos(), pos.getBlockState(world));
-            tile.setLevel(world);
-            for (final ItemEntity item2 : items)
-            {
-                final ItemEntity item = item2;
-                final ItemStack stack = item.getItem();
-                final int num = stack.getCount();
-                tile.setItem(0, stack);
-                tile.setItem(1, stack);
-                var recipe = world.getRecipeManager().getRecipeFor(RecipeType.SMELTING, tile, world).orElse(null);
-                if (recipe == null) continue;
-                ItemStack newstack = recipe.getResultItem();
-                if (newstack != null)
-                {
-                    newstack = newstack.copy();
-                    newstack.setCount(num);
-                    int i1 = num;
-                    float f = recipe.getExperience();
-                    if (f == 0.0F) i1 = 0;
-                    else if (f < 1.0F)
-                    {
-                        int j = Mth.floor(i1 * f);
-                        if (j < Mth.ceil(i1 * f) && Math.random() < i1 * f - j) ++j;
-
-                        i1 = j;
-                    }
-                    f = i1;
-                    while (i1 > 0)
-                    {
-                        final int k = ExperienceOrb.getExperienceValue(i1);
-                        i1 -= k;
-                        world.addFreshEntity(new ExperienceOrb(world, pos.x, pos.y + 1.5D, pos.z + 0.5D, k));
-                    }
-                    int hunger = PokecubeCore.getConfig().baseSmeltingHunger * num;
-                    hunger = (int) Math.max(1, hunger / (float) attacker.getLevel());
-                    if (f > 0) hunger *= f;
-                    attacker.applyHunger(hunger);
-                    item.setItem(newstack);
-                    item.lifespan += 6000;
-                    smelt = true;
-                }
-            }
-            return smelt;
-        }
-        return false;
-    }
 
     public static boolean canAffectBlock(final IPokemob user, final Vector3 location, final String move)
     {

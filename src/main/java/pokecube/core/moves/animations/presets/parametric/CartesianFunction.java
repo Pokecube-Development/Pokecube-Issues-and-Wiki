@@ -14,11 +14,9 @@ public class CartesianFunction extends MoveAnimationBase
     JEP x;
     JEP y;
     JEP z;
-
-    Vector3 v        = new Vector3();
+    
     boolean reverse  = false;
     boolean absolute = false;
-    Vector3 v1       = new Vector3();
 
     public CartesianFunction()
     {

@@ -13,6 +13,8 @@ import thut.api.maths.Vector3;
 public class DefaultElectricAction extends DefaultAction
 {
 
+    public static int ELECTRICSTRONG = 100;
+
     public DefaultElectricAction(Move_Base move)
     {
         super(move);
@@ -25,8 +27,7 @@ public class DefaultElectricAction extends DefaultAction
      */
     public boolean applyEffect(IPokemob user, Vector3 location)
     {
-        if (move.getPWR() < MoveEventsHandler.ELECTRICSTRONG || !PokecubeCore.getConfig().defaultElectricActions)
-            return false;
+        if (move.getPWR() < ELECTRICSTRONG || !PokecubeCore.getConfig().defaultElectricActions) return false;
         // Things below here all actually damage blocks, so check this.
         if (!MoveEventsHandler.canAffectBlock(user, location, move.getName())) return false;
 

@@ -930,7 +930,7 @@ public class PokemobEventsHandler
         }
     }
 
-    private static boolean handleHmAndSaddle(final Player PlayerEntity, final IPokemob pokemob)
+    private static boolean tryStartRiding(final Player PlayerEntity, final IPokemob pokemob)
     {
         if (PokemobEventsHandler.isRidable(PlayerEntity, pokemob))
         {
@@ -945,7 +945,7 @@ public class PokemobEventsHandler
         final PokedexEntry entry = pokemob.getPokedexEntry();
         if (entry == null)
         {
-            System.err.println("Null Entry for " + pokemob);
+            PokecubeAPI.LOGGER.error("Null Entry for " + pokemob);
             return false;
         }
         if (!entry.ridable || pokemob.getCombatState(CombatStates.GUARDING)) return false;
@@ -1093,7 +1093,7 @@ public class PokemobEventsHandler
 
         boolean fits = isOwner;
         if (!fits && pokemob.getEntity() instanceof EntityPokemob mob) fits = mob.canAddPassenger(player);
-        final boolean saddled = PokemobEventsHandler.handleHmAndSaddle(player, pokemob);
+        final boolean saddled = PokemobEventsHandler.tryStartRiding(player, pokemob);
 
         final boolean guiAllowed = pokemob.getPokedexEntry().stock || held.getItem() == PokecubeItems.POKEDEX.get();
 
