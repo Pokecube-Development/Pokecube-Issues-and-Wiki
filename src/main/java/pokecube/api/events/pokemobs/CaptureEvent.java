@@ -1,6 +1,5 @@
 package pokecube.api.events.pokemobs;
 
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.Cancelable;
@@ -16,8 +15,7 @@ public class CaptureEvent extends Event
     @Cancelable
     /**
      * Post is sent after the capture is completed, canceling it will prevent
-     * the capture from being recorded, and will destroy the cube and the
-     * mob.
+     * the capture from being recorded, and will destroy the cube and the mob.
      */
     public static class Post extends CaptureEvent
     {
@@ -47,7 +45,7 @@ public class CaptureEvent extends Event
 
     private ItemStack filledCube = ItemStack.EMPTY;
 
-    public final Entity pokecube;
+    public final EntityPokecubeBase pokecube;
 
     private IPokemob caught;
 
@@ -73,8 +71,7 @@ public class CaptureEvent extends Event
     public void setFilledCube(final ItemStack filledCube, final boolean replaceMob)
     {
         this.filledCube = filledCube;
-        if (replaceMob) this.setCaught(PokecubeManager.itemToPokemob(filledCube, this.pokecube
-                .getLevel()));
+        if (replaceMob) this.setCaught(PokecubeManager.itemToPokemob(filledCube, this.pokecube.getLevel()));
     }
 
     public IPokemob getCaught()

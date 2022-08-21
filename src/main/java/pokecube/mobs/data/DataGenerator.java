@@ -1,4 +1,4 @@
-package pokecube.mobs;
+package pokecube.mobs.data;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,7 +35,7 @@ import thut.lib.RegHelper;
 import thut.lib.ResourceHelper;
 import thut.lib.TComponent;;
 
-public class CommandGenStuff
+public class DataGenerator
 {
 
     public static class AdvancementGenerator
@@ -163,7 +163,7 @@ public class CommandGenStuff
         for (final PokedexEntry e : Database.getSortedFormes())
         {
             if (e == Database.missingno || e.dummy || e.isMega()) continue;
-            CommandGenStuff.registerAchievements(e);
+            DataGenerator.registerAchievements(e);
         }
         thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Advancements Done"));
         final File dir = new File("./mods/pokecube/assets/pokecube_mobs/");
@@ -186,8 +186,8 @@ public class CommandGenStuff
             e.printStackTrace();
         }
         thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Sounds Done"));
-        CommandGenStuff.generateBlockAndItemJsons();
-        CommandGenStuff.generateMobsLang();
+        DataGenerator.generateBlockAndItemJsons();
+        DataGenerator.generateMobsLang();
 
         thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Finished File Output"));
     }
@@ -250,24 +250,24 @@ public class CommandGenStuff
         final boolean fossils = true;
 
         if (badges) for (final PokeType type : PokeType.values())
-            CommandGenStuff.generateItemJson(type.name, "badge_", "pokecube_adventures", "pokecube_adventures");
+            DataGenerator.generateItemJson(type.name, "badge_", "pokecube_adventures", "pokecube_adventures");
         if (fossils) for (final String type : ItemGenerator.fossilVariants)
-            CommandGenStuff.generateItemJson(type, "fossil_", "pokecube_mobs", "pokecube");
+            DataGenerator.generateItemJson(type, "fossil_", "pokecube_mobs", "pokecube");
         if (megastones) for (final String type : ItemGenerator.variants)
-            CommandGenStuff.generateItemJson(type, "", "pokecube_mobs", "pokecube");
+            DataGenerator.generateItemJson(type, "", "pokecube_mobs", "pokecube");
         if (vitamins) for (final String type : ItemVitamin.vitamins)
-            CommandGenStuff.generateItemJson(type, "vitamin_", "pokecube_mobs", "pokecube");
+            DataGenerator.generateItemJson(type, "vitamin_", "pokecube_mobs", "pokecube");
         if (megawearables) for (final String type : ItemMegawearable.getWearables())
         {
             final String dir = type.equals("ring") || type.equals("hat") || type.equals("belt") ? "pokecube"
                     : "pokecube_mobs";
-            CommandGenStuff.generateItemJson(type, "mega_", dir, "pokecube");
+            DataGenerator.generateItemJson(type, "mega_", dir, "pokecube");
         }
 
         if (berries) for (final String name : BerryManager.berryNames.values())
         {
             final String dir = name.equals("null") ? "pokecube" : "pokecube_mobs";
-            CommandGenStuff.generateItemJson(name, "berry_", dir, "pokecube");
+            DataGenerator.generateItemJson(name, "berry_", dir, "pokecube");
         }
 
         if (cubes) for (final ResourceLocation l : IPokecube.PokecubeBehaviour.BEHAVIORS.keySet())
@@ -344,7 +344,7 @@ public class CommandGenStuff
         for (final Block b : ForgeRegistries.BLOCKS.getValues())
         {
             if (RegHelper.getKey(b).toString().startsWith("minecraft")) continue;
-            CommandGenStuff.generateBlockDropJson(b);
+            DataGenerator.generateBlockDropJson(b);
         }
 
         // Generate the berry log recipes
@@ -575,8 +575,8 @@ public class CommandGenStuff
     /** Comment these out to re-generate advancements. */
     public static void registerAchievements(final PokedexEntry entry)
     {
-        CommandGenStuff.make(entry, "catch", "pokecube_mobs:capture/get_first_pokemob", "capture");
-        CommandGenStuff.make(entry, "kill", "pokecube_mobs:kill/root", "kill");
-        CommandGenStuff.make(entry, "hatch", "pokecube_mobs:hatch/root", "hatch");
+        DataGenerator.make(entry, "catch", "pokecube_mobs:capture/get_first_pokemob", "capture");
+        DataGenerator.make(entry, "kill", "pokecube_mobs:kill/root", "kill");
+        DataGenerator.make(entry, "hatch", "pokecube_mobs:hatch/root", "hatch");
     }
 }

@@ -1,4 +1,4 @@
-package thut.crafts.proxy;
+package thut.crafts.init;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -38,7 +38,7 @@ import thut.crafts.entity.EntityCraft;
 import thut.crafts.network.PacketCraftControl;
 
 @Mod.EventBusSubscriber(bus = Bus.FORGE, value = Dist.CLIENT)
-public class ClientProxy
+public class ClientInit
 {
     static KeyMapping UP;
     static KeyMapping DOWN;
@@ -57,24 +57,24 @@ public class ClientProxy
         @SubscribeEvent
         public static void setupClient(final FMLClientSetupEvent event)
         {
-            ClientProxy.UP = new KeyMapping("crafts.key.up", InputConstants.UNKNOWN.getValue(), "keys.crafts");
-            ClientProxy.DOWN = new KeyMapping("crafts.key.down", InputConstants.UNKNOWN.getValue(), "keys.crafts");
+            ClientInit.UP = new KeyMapping("crafts.key.up", InputConstants.UNKNOWN.getValue(), "keys.crafts");
+            ClientInit.DOWN = new KeyMapping("crafts.key.down", InputConstants.UNKNOWN.getValue(), "keys.crafts");
 
             final KeyConflictContext inGame = KeyConflictContext.IN_GAME;
-            ClientProxy.UP.setKeyConflictContext(inGame);
-            ClientProxy.DOWN.setKeyConflictContext(inGame);
+            ClientInit.UP.setKeyConflictContext(inGame);
+            ClientInit.DOWN.setKeyConflictContext(inGame);
 
-            ClientProxy.ROTATERIGHT = new KeyMapping("crafts.key.left", InputConstants.UNKNOWN.getValue(),
+            ClientInit.ROTATERIGHT = new KeyMapping("crafts.key.left", InputConstants.UNKNOWN.getValue(),
                     "keys.crafts");
-            ClientProxy.ROTATELEFT = new KeyMapping("crafts.key.right", InputConstants.UNKNOWN.getValue(),
+            ClientInit.ROTATELEFT = new KeyMapping("crafts.key.right", InputConstants.UNKNOWN.getValue(),
                     "keys.crafts");
-            ClientProxy.ROTATELEFT.setKeyConflictContext(inGame);
-            ClientProxy.ROTATERIGHT.setKeyConflictContext(inGame);
+            ClientInit.ROTATELEFT.setKeyConflictContext(inGame);
+            ClientInit.ROTATERIGHT.setKeyConflictContext(inGame);
 
-            ClientRegistry.registerKeyBinding(ClientProxy.UP);
-            ClientRegistry.registerKeyBinding(ClientProxy.DOWN);
-            ClientRegistry.registerKeyBinding(ClientProxy.ROTATELEFT);
-            ClientRegistry.registerKeyBinding(ClientProxy.ROTATERIGHT);
+            ClientRegistry.registerKeyBinding(ClientInit.UP);
+            ClientRegistry.registerKeyBinding(ClientInit.DOWN);
+            ClientRegistry.registerKeyBinding(ClientInit.ROTATELEFT);
+            ClientRegistry.registerKeyBinding(ClientInit.ROTATERIGHT);
         }
     }
 
@@ -95,13 +95,13 @@ public class ClientProxy
                 controller.forwardInputDown = player.input.up;
                 controller.leftInputDown = player.input.left;
                 controller.rightInputDown = player.input.right;
-                controller.upInputDown = ClientProxy.UP.isDown();
-                controller.downInputDown = ClientProxy.DOWN.isDown();
+                controller.upInputDown = ClientInit.UP.isDown();
+                controller.downInputDown = ClientInit.DOWN.isDown();
 
                 if (ThutCrafts.conf.canRotate)
                 {
-                    controller.rightRotateDown = ClientProxy.ROTATERIGHT.isDown();
-                    controller.leftRotateDown = ClientProxy.ROTATELEFT.isDown();
+                    controller.rightRotateDown = ClientInit.ROTATERIGHT.isDown();
+                    controller.leftRotateDown = ClientInit.ROTATELEFT.isDown();
                 }
                 PacketCraftControl.sendControlPacket(e, controller);
             }

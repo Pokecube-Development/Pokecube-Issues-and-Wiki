@@ -495,10 +495,10 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
             passenger.setOnGround(true);
             passenger.causeFallDamage(passenger.fallDistance, 0, DamageSource.GENERIC);
             passenger.fallDistance = 0;
-            if (passenger instanceof ServerPlayer)
+            if (passenger instanceof ServerPlayer player)
             {
-                ((ServerPlayer) passenger).connection.aboveGroundVehicleTickCount = 0;
-                ((ServerPlayer) passenger).connection.aboveGroundTickCount = 0;
+                player.connection.aboveGroundVehicleTickCount = 0;
+                player.connection.aboveGroundTickCount = 0;
             }
         }
     }

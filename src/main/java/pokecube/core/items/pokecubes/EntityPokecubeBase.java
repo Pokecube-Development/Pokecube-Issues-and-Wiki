@@ -669,4 +669,6 @@ public abstract class EntityPokecubeBase extends LivingEntity
 
         return entity == null ? null : new EntityHitResult(entity);
     }
+
+    public abstract EntityPokecubeBase copy();
 }

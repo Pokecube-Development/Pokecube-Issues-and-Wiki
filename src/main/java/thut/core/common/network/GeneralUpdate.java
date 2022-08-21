@@ -23,14 +23,14 @@ public class GeneralUpdate extends NBTPacket
 
     private static void onTick(final PlayerTickEvent event)
     {
-        if (event.player instanceof ServerPlayer && event.player.tickCount % 1000 == 0
-                && event.phase == Phase.END) GeneralUpdate.sendUpdate((ServerPlayer) event.player);
+        if (event.player instanceof ServerPlayer player && event.player.tickCount % 1000 == 0
+                && event.phase == Phase.END)
+            GeneralUpdate.sendUpdate(player);
     }
 
     private static void onLogin(final PlayerLoggedInEvent event)
     {
-        if (event.getPlayer() instanceof ServerPlayer) GeneralUpdate.sendUpdate((ServerPlayer) event
-                .getPlayer());
+        if (event.getPlayer() instanceof ServerPlayer player) GeneralUpdate.sendUpdate(player);
     }
 
     private static void sendUpdate(final ServerPlayer player)

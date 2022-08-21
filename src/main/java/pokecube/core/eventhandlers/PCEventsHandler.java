@@ -240,11 +240,8 @@ public class PCEventsHandler
             else
             {
                 player.getInventory().add(evt.getFilledCube());
-                if (player instanceof ServerPlayer)
-                {
-                    player.inventoryMenu.sendAllDataToRemote();
-                    ((ServerPlayer) player).resetSentInfo();
-                }
+                player.inventoryMenu.sendAllDataToRemote();
+                player.resetSentInfo();
             }
 
             // Apply the same code that StatsHandler does, as it does not

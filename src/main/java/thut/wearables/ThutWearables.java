@@ -198,7 +198,7 @@ public class ThutWearables
         }
         final PacketSyncWearables packet = new PacketSyncWearables(player);
         ThutWearables.packets.sendToTracking(packet, player);
-        if (player instanceof ServerPlayer) ThutWearables.packets.sendTo(packet, (ServerPlayer) player);
+        if (player instanceof ServerPlayer splayer) ThutWearables.packets.sendTo(packet, splayer);
     }
 
     private final boolean overworldRules = true;

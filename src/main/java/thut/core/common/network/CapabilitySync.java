@@ -27,8 +27,8 @@ import thut.lib.RegHelper;
 public class CapabilitySync extends NBTPacket
 {
     private static Method GETMOBCAPS;
-    private static Field  CAPWRITERS;
-    private static Field  CAPNAMES;
+    private static Field CAPWRITERS;
+    private static Field CAPNAMES;
 
     static
     {
@@ -51,8 +51,8 @@ public class CapabilitySync extends NBTPacket
 
     public static final Set<String> TO_SYNC = Sets.newHashSet();
 
-    public static final PacketAssembly<CapabilitySync> ASSEMBLER = PacketAssembly.registerAssembler(
-            CapabilitySync.class, CapabilitySync::new, ThutCore.packets);
+    public static final PacketAssembly<CapabilitySync> ASSEMBLER = PacketAssembly
+            .registerAssembler(CapabilitySync.class, CapabilitySync::new, ThutCore.packets);
 
     private static CapabilitySync makePacket(final Entity entity, final Set<String> toSync)
     {
@@ -93,8 +93,7 @@ public class CapabilitySync extends NBTPacket
         if (message != null)
         {
             CapabilitySync.ASSEMBLER.sendToTracking(message, entity);
-            if (entity instanceof ServerPlayer) CapabilitySync.ASSEMBLER.sendTo(message,
-                    (ServerPlayer) entity);
+            if (entity instanceof ServerPlayer player) CapabilitySync.ASSEMBLER.sendTo(message, player);
         }
     }
 
@@ -106,10 +105,10 @@ public class CapabilitySync extends NBTPacket
 
     private static void onStartTracking(final StartTracking event)
     {
-        if (event.getPlayer() instanceof ServerPlayer)
+        if (event.getPlayer() instanceof ServerPlayer player)
         {
             final CapabilitySync message = CapabilitySync.makePacket(event.getTarget(), CapabilitySync.TO_SYNC);
-            if (message != null) CapabilitySync.ASSEMBLER.sendTo(message, (ServerPlayer) event.getPlayer());
+            if (message != null) CapabilitySync.ASSEMBLER.sendTo(message, player);
         }
     }
 

@@ -12,9 +12,9 @@ public interface IWearableChecker
     {
         if (stack.isEmpty()) return null;
         IActiveWearable wearable;
-        if ((wearable = stack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null)) != null) return wearable
-                .getSlot(stack);
-        if (stack.getItem() instanceof IWearable) return ((IWearable) stack.getItem()).getSlot(stack);
+        if ((wearable = stack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null)) != null)
+            return wearable.getSlot(stack);
+        if (stack.getItem() instanceof IWearable w) return w.getSlot(stack);
         return null;
     }
 
