@@ -31,7 +31,7 @@ public class RecipeSelector extends CustomRecipe
     public static class ItemBasedSelector implements IGeneSelector
     {
         final ItemStack selector;
-        final int       arrIndex;
+        final int arrIndex;
 
         public ItemBasedSelector(final ItemStack selector)
         {
@@ -92,9 +92,8 @@ public class RecipeSelector extends CustomRecipe
         @Override
         public boolean equals(final Object obj)
         {
-            if (obj instanceof SelectorValue)
-                return ((SelectorValue) obj).selectorDestructChance == this.selectorDestructChance
-                        && ((SelectorValue) obj).dnaDestructChance == this.dnaDestructChance;
+            if (obj instanceof SelectorValue sel) return sel.selectorDestructChance == this.selectorDestructChance
+                    && sel.dnaDestructChance == this.dnaDestructChance;
             return false;
         }
 
@@ -130,20 +129,20 @@ public class RecipeSelector extends CustomRecipe
     public static SelectorValue getSelectorValue(final ItemStack stack)
     {
         SelectorValue value = RecipeSelector.defaultSelector;
-        if (!stack.isEmpty()) for (final Ingredient stack1 : RecipeSelector.selectorValues.keySet())
-            if (stack1.test(stack))
-            {
-                value = RecipeSelector.selectorValues.get(stack1);
-                break;
-            }
+        if (!stack.isEmpty())
+            for (final Ingredient stack1 : RecipeSelector.selectorValues.keySet()) if (stack1.test(stack))
+        {
+            value = RecipeSelector.selectorValues.get(stack1);
+            break;
+        }
         return value;
     }
 
     public static boolean isSelector(final ItemStack stack)
     {
         if (!ClonerHelper.getGeneSelectors(stack).isEmpty()) return true;
-        if (!stack.isEmpty()) for (final Ingredient stack1 : RecipeSelector.selectorValues.keySet())
-            if (stack1.test(stack)) return true;
+        if (!stack.isEmpty())
+            for (final Ingredient stack1 : RecipeSelector.selectorValues.keySet()) if (stack1.test(stack)) return true;
         return false;
     }
 

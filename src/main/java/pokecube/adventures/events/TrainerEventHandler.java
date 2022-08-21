@@ -249,8 +249,7 @@ public class TrainerEventHandler
         try
         {
             drop = JsonUtil.gson.fromJson(arg, Drop.class);
-            return Tools.getStack(drop.getValues(),
-                    sender.getLevel() instanceof ServerLevel ? (ServerLevel) sender.getLevel() : null);
+            return Tools.getStack(drop.getValues(), sender.getLevel() instanceof ServerLevel level ? level : null);
         }
         catch (final JsonSyntaxException e)
         {

@@ -23,8 +23,8 @@ public abstract class PoweredRecipe extends CustomRecipe implements IPoweredReci
     @Override
     public boolean matches(final CraftingContainer inv, final Level worldIn)
     {
-        if (!(inv instanceof PoweredCraftingInventory)) return false;
-        final int energy = ((PoweredCraftingInventory) inv).getEnergy();
+        if (!(inv instanceof PoweredCraftingInventory pinv)) return false;
+        final int energy = pinv.getEnergy();
         final ItemStack result = this.assemble(inv);
         if (result.isEmpty()) return false;
         final int needed = this.getCostFunction().apply(result);

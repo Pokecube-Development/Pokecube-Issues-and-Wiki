@@ -131,7 +131,7 @@ public class TrainerSpawnHandler
                     final TypeTrainer type = TypeTrainer.typeMap.get(typeName);
                     // TODO some of these should handle from IHasPokemobs
                     // instead!
-                    if (type != null && mob instanceof NpcMob) ((NpcMob) mob).setNpcType(type);
+                    if (type != null && mob instanceof NpcMob npc) npc.setNpcType(type);
                     else PokecubeAPI.LOGGER.error("No trainer type registerd for {}", typeName);
                 }
             }
@@ -201,13 +201,13 @@ public class TrainerSpawnHandler
         int level = SpawnHandler.getSpawnLevel(
                 new SpawnContext((ServerLevel) trainer.level, Pokedex.getInstance().getFirstEntry(), loc));
 
-        if (trainer instanceof LeaderNpc)
+        if (trainer instanceof LeaderNpc npc)
         {
             // Gym leaders are 10 lvls higher than others.
             level += 10;
             // Randomize badge for leader.
 
-            final IHasRewards rewardsCap = ((LeaderNpc) trainer).rewardsCap;
+            final IHasRewards rewardsCap = npc.rewardsCap;
             final PokeType type = PokeType.values()[ThutCore.newRandom().nextInt(PokeType.values().length)];
             final Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(PokecubeAdv.MODID, ":badge_" + type));
             if (item != null)
@@ -215,13 +215,12 @@ public class TrainerSpawnHandler
                 final ItemStack badge = new ItemStack(item);
                 if (!rewardsCap.getRewards().isEmpty()) rewardsCap.getRewards().set(0, new Reward(badge));
                 else rewardsCap.getRewards().add(new Reward(badge));
-                ((LeaderNpc) trainer).setItemInHand(InteractionHand.OFF_HAND, rewardsCap.getRewards().get(0).stack);
+                npc.setItemInHand(InteractionHand.OFF_HAND, rewardsCap.getRewards().get(0).stack);
             }
         }
         // Randomize team.
-        if (trainer instanceof TrainerNpc)
+        if (trainer instanceof TrainerNpc t)
         {
-            final TrainerNpc t = (TrainerNpc) trainer;
             t.setNPCName("");
             // Reset their trades, as this will randomize them when trades are
             // needed later.
@@ -292,11 +291,11 @@ public class TrainerSpawnHandler
     @SubscribeEvent
     public static void tickEvent(final WorldTickEvent evt)
     {
-        if (Config.instance.trainerSpawn && evt.phase == Phase.END && evt.world instanceof ServerLevel
+        if (Config.instance.trainerSpawn && evt.phase == Phase.END && evt.world instanceof ServerLevel level
                 && evt.world.getGameTime() % PokecubeCore.getConfig().spawnRate == 0)
         {
             final long time = System.nanoTime();
-            TrainerSpawnHandler.tick((ServerLevel) evt.world);
+            TrainerSpawnHandler.tick(level);
             final double dt = (System.nanoTime() - time) / 1000000D;
             if (dt > 50) PokecubeAPI.LOGGER.warn("Trainer Spawn Tick took " + dt + "ms");
         }

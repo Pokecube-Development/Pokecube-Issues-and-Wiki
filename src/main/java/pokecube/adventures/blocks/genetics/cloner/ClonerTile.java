@@ -44,7 +44,7 @@ public class ClonerTile extends GeneticsTileParentable<ClonerTile>
         if (state.getValue(ClonerBlock.HALF) == ClonerBlockPart.TOP)
         {
             final BlockEntity down = this.getLevel().getBlockEntity(this.getBlockPos().below());
-            if (down instanceof ClonerTile) return (ClonerTile) down;
+            if (down instanceof ClonerTile tile) return tile;
         }
         return null;
     }

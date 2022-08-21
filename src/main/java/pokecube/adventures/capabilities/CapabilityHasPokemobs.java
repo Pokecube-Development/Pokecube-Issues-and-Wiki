@@ -243,10 +243,10 @@ public class CapabilityHasPokemobs
 
         public void checkDefeatAchievement(final Player player)
         {
-            if (!(this.user instanceof TrainerBase)) return;
+            if (!(this.user instanceof TrainerBase trainer)) return;
             final boolean leader = this.user instanceof LeaderNpc;
-            if (leader) Triggers.BEATLEADER.trigger((ServerPlayer) player, (TrainerBase) this.user);
-            else Triggers.BEATTRAINER.trigger((ServerPlayer) player, (TrainerBase) this.user);
+            if (leader) Triggers.BEATLEADER.trigger((ServerPlayer) player, trainer);
+            else Triggers.BEATTRAINER.trigger((ServerPlayer) player, trainer);
         }
 
         @Override
@@ -348,9 +348,9 @@ public class CapabilityHasPokemobs
         @Override
         public UUID getOutID()
         {
-            if (this.outID != null && this.outMob == null && this.user.level instanceof ServerLevel)
+            if (this.outID != null && this.outMob == null && this.user.level instanceof ServerLevel level)
             {
-                this.outMob = PokemobCaps.getPokemobFor(((ServerLevel) this.user.level).getEntity(this.outID));
+                this.outMob = PokemobCaps.getPokemobFor(level.getEntity(this.outID));
                 if (this.outMob == null) this.outID = null;
             }
             if (this.outMob != null
@@ -477,8 +477,8 @@ public class CapabilityHasPokemobs
                 this.defeated.validate(lost);
 
                 // If available, we will increase reputation out of pity
-                if (this.user instanceof Villager)
-                    ((Villager) this.user).getGossips().add(lost.getUUID(), GossipType.MINOR_POSITIVE, 10);
+                if (this.user instanceof Villager villager)
+                    villager.getGossips().add(lost.getUUID(), GossipType.MINOR_POSITIVE, 10);
             }
             if (lost == this.getTarget()) this.onSetTarget(null);
         }
@@ -511,34 +511,33 @@ public class CapabilityHasPokemobs
             if (!reward) return;
 
             // Only store for players
-            if (won instanceof Player)
+            if (won instanceof Player player)
             {
 
                 this.defeatedBy.validate(won);
                 if (this.rewards.getRewards() != null)
                 {
-                    final Player player = (Player) won;
                     this.rewards.giveReward(player, this.user);
                     this.checkDefeatAchievement(player);
                 }
 
                 // If applicable, increase reputation for winning the battle.
-                if (this.user instanceof Villager)
-                    ((Villager) this.user).getGossips().add(won.getUUID(), GossipType.MINOR_POSITIVE, 20);
+                if (this.user instanceof Villager villager)
+                    villager.getGossips().add(won.getUUID(), GossipType.MINOR_POSITIVE, 20);
             }
 
             if (won != null)
             {
                 this.messages.sendMessage(MessageState.DEFEAT, won, this.user.getDisplayName(), won.getDisplayName());
-                if (this.notifyDefeat && won instanceof ServerPlayer)
+                if (this.notifyDefeat && won instanceof ServerPlayer player)
                 {
                     final PacketTrainer packet = new PacketTrainer(PacketTrainer.NOTIFYDEFEAT);
                     packet.getTag().putInt("I", this.user.getId());
                     packet.getTag().putLong("L", Tracker.instance().getTick() + this.resetTimeLose);
-                    PacketTrainer.ASSEMBLER.sendTo(packet, (ServerPlayer) won);
+                    PacketTrainer.ASSEMBLER.sendTo(packet, player);
                 }
-                if (won instanceof LivingEntity) this.messages.doAction(MessageState.DEFEAT,
-                        new ActionContext((LivingEntity) won, this.getTrainer()));
+                if (won instanceof LivingEntity living)
+                    this.messages.doAction(MessageState.DEFEAT, new ActionContext(living, this.getTrainer()));
             }
         }
 

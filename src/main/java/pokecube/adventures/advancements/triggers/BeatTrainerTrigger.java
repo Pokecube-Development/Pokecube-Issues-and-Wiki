@@ -1,10 +1,8 @@
 package pokecube.adventures.advancements.triggers;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
@@ -41,8 +39,8 @@ public class BeatTrainerTrigger implements CriterionTrigger<BeatTrainerTrigger.I
 
     static class Listeners
     {
-        private final PlayerAdvancements                                           playerAdvancements;
-        private final Set<CriterionTrigger.Listener<BeatTrainerTrigger.Instance>> listeners = Sets.<CriterionTrigger.Listener<BeatTrainerTrigger.Instance>> newHashSet();
+        private final PlayerAdvancements playerAdvancements;
+        private final Set<CriterionTrigger.Listener<Instance>> listeners = Sets.newHashSet();
 
         public Listeners(final PlayerAdvancements playerAdvancementsIn)
         {
@@ -54,38 +52,27 @@ public class BeatTrainerTrigger implements CriterionTrigger<BeatTrainerTrigger.I
             return this.listeners.isEmpty();
         }
 
-        public void add(final CriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener)
+        public void add(final CriterionTrigger.Listener<Instance> listener)
         {
             this.listeners.add(listener);
         }
 
-        public void remove(final CriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener)
+        public void remove(final CriterionTrigger.Listener<Instance> listener)
         {
             this.listeners.remove(listener);
         }
 
         public void trigger(final ServerPlayer player, final TrainerBase defeated)
         {
-            List<CriterionTrigger.Listener<BeatTrainerTrigger.Instance>> list = null;
-
-            for (final CriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener : this.listeners)
-                if (listener.getTriggerInstance().test(player, defeated))
-                {
-                    if (list == null)
-                        list = Lists.<CriterionTrigger.Listener<BeatTrainerTrigger.Instance>> newArrayList();
-
-                    list.add(listener);
-                }
-            if (list != null) for (final CriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener1 : list)
-                listener1.run(this.playerAdvancements);
+            for (var listener : this.listeners)
+                if (listener.getTriggerInstance().test(player, defeated)) listener.run(this.playerAdvancements);
         }
     }
 
-    private final Map<PlayerAdvancements, BeatTrainerTrigger.Listeners> listeners = Maps.<PlayerAdvancements, BeatTrainerTrigger.Listeners> newHashMap();
+    private final Map<PlayerAdvancements, Listeners> listeners = Maps.newHashMap();
 
     public BeatTrainerTrigger()
-    {
-    }
+    {}
 
     @Override
     public ResourceLocation getId()
@@ -95,30 +82,28 @@ public class BeatTrainerTrigger implements CriterionTrigger<BeatTrainerTrigger.I
 
     @Override
     public void addPlayerListener(final PlayerAdvancements playerAdvancementsIn,
-            final CriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener)
+            final CriterionTrigger.Listener<Instance> listener)
     {
-        BeatTrainerTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
+        Listeners listeners = this.listeners.get(playerAdvancementsIn);
 
-        if (bredanimalstrigger$listeners == null)
+        if (listeners == null)
         {
-            bredanimalstrigger$listeners = new BeatTrainerTrigger.Listeners(playerAdvancementsIn);
-            this.listeners.put(playerAdvancementsIn, bredanimalstrigger$listeners);
+            listeners = new Listeners(playerAdvancementsIn);
+            this.listeners.put(playerAdvancementsIn, listeners);
         }
-
-        bredanimalstrigger$listeners.add(listener);
+        listeners.add(listener);
     }
 
     @Override
     public void removePlayerListener(final PlayerAdvancements playerAdvancementsIn,
-            final CriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener)
+            final CriterionTrigger.Listener<Instance> listener)
     {
-        final BeatTrainerTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
+        final Listeners listeners = this.listeners.get(playerAdvancementsIn);
 
-        if (bredanimalstrigger$listeners != null)
+        if (listeners != null)
         {
-            bredanimalstrigger$listeners.remove(listener);
-
-            if (bredanimalstrigger$listeners.isEmpty()) this.listeners.remove(playerAdvancementsIn);
+            listeners.remove(listener);
+            if (listeners.isEmpty()) this.listeners.remove(playerAdvancementsIn);
         }
     }
 
@@ -132,12 +117,12 @@ public class BeatTrainerTrigger implements CriterionTrigger<BeatTrainerTrigger.I
     public Instance createInstance(final JsonObject json, final DeserializationContext conditions)
     {
         final EntityPredicate.Composite pred = EntityPredicate.Composite.fromJson(json, "player", conditions);
-        return new BeatTrainerTrigger.Instance(pred);
+        return new Instance(pred);
     }
 
     public void trigger(final ServerPlayer player, final TrainerBase defeated)
     {
-        final BeatTrainerTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(player.getAdvancements());
-        if (bredanimalstrigger$listeners != null) bredanimalstrigger$listeners.trigger(player, defeated);
+        final Listeners listeners = this.listeners.get(player.getAdvancements());
+        if (listeners != null) listeners.trigger(player, defeated);
     }
 }

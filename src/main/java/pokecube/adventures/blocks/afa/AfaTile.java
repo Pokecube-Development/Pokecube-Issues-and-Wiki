@@ -348,7 +348,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
             final BlockHitResult hit)
     {
-        if (player instanceof ServerPlayer) PacketAFA.openGui((ServerPlayer) player, this);
+        if (player instanceof ServerPlayer splayer) PacketAFA.openGui(splayer, this);
         return InteractionResult.SUCCESS;
     }
 

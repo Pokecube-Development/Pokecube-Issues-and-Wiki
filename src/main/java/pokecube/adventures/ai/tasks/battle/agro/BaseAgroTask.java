@@ -72,12 +72,11 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
     {
         if (this.trainer.getCooldown() > gameTimeIn) return;
         if (worldIn.getRandom().nextDouble() > this.chance) return;
-        final NearestVisibleLivingEntities mobs = this.entity.getBrain().getMemory(
-                MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
+        final NearestVisibleLivingEntities mobs = this.entity.getBrain()
+                .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
 
         // Count tame mobs as their owners, rather than seperately mobs
-        final Predicate<LivingEntity> tameChecker = mob ->
-        {
+        final Predicate<LivingEntity> tameChecker = mob -> {
             final IOwnable owned = OwnableCaps.getOwnable(mob);
             LivingEntity owner;
             // If there is an owner, divert the check to it, rather than mob
@@ -96,10 +95,9 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
 
         for (LivingEntity mob : mobs.findAll(mob -> this.isValidTarget(mob) && tameChecker.test(mob)))
         {
-            if (mob instanceof Player && this.entity instanceof Villager)
+            if (mob instanceof Player player && this.entity instanceof Villager villager)
             {
-                final Villager villager = (Villager) this.entity;
-                final int rep = villager.getPlayerReputation((Player) mob) + rep_base;
+                final int rep = villager.getPlayerReputation(player) + rep_base;
                 double s1 = s;
                 if (rep > rep_cap) s1 = 0;
                 else if (rep < rep_base) s1 *= 2;

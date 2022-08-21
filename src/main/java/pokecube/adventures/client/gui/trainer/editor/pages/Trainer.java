@@ -60,12 +60,9 @@ public class Trainer extends Page
 
         this.type = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, TComponent.literal(""));
         this.name = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, TComponent.literal(""));
-        this.tradeList = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, TComponent.literal(
-                ""));
-        this.playerName = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, TComponent.literal(
-                ""));
-        this.customTex = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, TComponent.literal(
-                ""));
+        this.tradeList = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, TComponent.literal(""));
+        this.playerName = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, TComponent.literal(""));
+        this.customTex = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, TComponent.literal(""));
         this.copyMob = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, TComponent.literal(""));
 
         this.copyMob.maxLength = 255;
@@ -81,9 +78,8 @@ public class Trainer extends Page
             types.addAll(NpcType.typeMap.keySet());
             types.sort((s1, s2) -> s1.compareTo(s2));
         }
-        if (this.parent.entity instanceof NpcMob)
+        if (this.parent.entity instanceof NpcMob mob)
         {
-            final NpcMob mob = (NpcMob) this.parent.entity;
             String name = mob.getNPCName();
             this.male = mob.isMale();
             this.typename = false;
@@ -94,12 +90,11 @@ public class Trainer extends Page
             }
             this.name.setValue(name);
             this.type.setValue(mob.getNpcType().getName());
-            for (i = 0; i < types.size(); i++)
-                if (NpcType.typeMap.get(types.get(0)) == mob.getNpcType())
-                {
-                    this.index = i;
-                    break;
-                }
+            for (i = 0; i < types.size(); i++) if (NpcType.typeMap.get(types.get(0)) == mob.getNpcType())
+            {
+                this.index = i;
+                break;
+            }
             this.playerName.setValue(mob.playerName);
             this.customTex.setValue(mob.customTex);
         }
@@ -114,7 +109,7 @@ public class Trainer extends Page
         this.addRenderableWidget(this.customTex);
         this.addRenderableWidget(this.copyMob);
 
-        if (this.parent.entity instanceof NpcMob) this.tradeList.setValue(((NpcMob) this.parent.entity).customTrades);
+        if (this.parent.entity instanceof NpcMob mob) this.tradeList.setValue(mob.customTrades);
         else this.tradeList.setEditable(false);
 
         // this.addRenderableWidget(this.urlSkin);
@@ -131,13 +126,11 @@ public class Trainer extends Page
             if (Trainer.lastMobIndex != -1)
             {
                 this.parent.changePage(pokemobIndex);
-                if (!(this.parent.current_page instanceof Pokemob)) return;
-                final Pokemob page = (Pokemob) this.parent.current_page;
+                if (!(this.parent.current_page instanceof Pokemob page)) return;
                 page.pokemob = PokecubeManager.itemToPokemob(this.parent.trainer.getPokemob(Trainer.lastMobIndex),
                         this.parent.entity.getLevel());
                 page.index = Trainer.lastMobIndex;
-                page.deleteCallback = () ->
-                {
+                page.deleteCallback = () -> {
                     final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATEMOB);
                     message.getTag().putInt("I", this.parent.entity.getId());
                     message.getTag().putInt("__trainers__", page.index);
@@ -147,8 +140,7 @@ public class Trainer extends Page
                     // have changed
                     PacketTrainer.requestEdit(this.parent.entity);
                 };
-                page.closeCallback = () ->
-                {
+                page.closeCallback = () -> {
                     this.parent.changePage(ourIndex);
                 };
                 // Re-call this to init the gui properly
@@ -160,17 +152,15 @@ public class Trainer extends Page
             for (i = 0; i < this.parent.trainer.countPokemon(); i++)
             {
                 final int i2 = i;
-                this.addRenderableWidget(new Button(x + 20 + 50 * (i / 3), y - 10 + 20 * (i % 3), 50, 20, TComponent.literal(
-                        "mob " + (i + 1)), b ->
+                this.addRenderableWidget(new Button(x + 20 + 50 * (i / 3), y - 10 + 20 * (i % 3), 50, 20,
+                        TComponent.literal("mob " + (i + 1)), b ->
                         {
                             this.parent.changePage(pokemobIndex);
-                            if (!(this.parent.current_page instanceof Pokemob)) return;
-                            final Pokemob page = (Pokemob) this.parent.current_page;
+                            if (!(this.parent.current_page instanceof Pokemob page)) return;
                             page.pokemob = PokecubeManager.itemToPokemob(this.parent.trainer.getPokemob(i2),
                                     this.parent.entity.getLevel());
                             page.index = i2;
-                            page.deleteCallback = () ->
-                            {
+                            page.deleteCallback = () -> {
                                 final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATEMOB);
                                 message.getTag().putInt("I", this.parent.entity.getId());
                                 message.getTag().putInt("__trainers__", page.index);
@@ -180,8 +170,7 @@ public class Trainer extends Page
                                 // have changed
                                 PacketTrainer.requestEdit(this.parent.entity);
                             };
-                            page.closeCallback = () ->
-                            {
+                            page.closeCallback = () -> {
                                 this.parent.changePage(ourIndex);
                             };
                             // Re-call this to init the gui properly
@@ -195,11 +184,9 @@ public class Trainer extends Page
                         TComponent.literal("mob +"), b ->
                         {
                             this.parent.changePage(pokemobIndex);
-                            if (!(this.parent.current_page instanceof Pokemob)) return;
-                            final Pokemob page = (Pokemob) this.parent.current_page;
+                            if (!(this.parent.current_page instanceof Pokemob page)) return;
                             page.index = i2;
-                            page.deleteCallback = () ->
-                            {
+                            page.deleteCallback = () -> {
                                 this.parent.trainer.setPokemob(0, ItemStack.EMPTY);
                                 final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATEMOB);
                                 message.getTag().putInt("I", this.parent.entity.getId());
@@ -207,8 +194,7 @@ public class Trainer extends Page
                                 PacketTrainer.ASSEMBLER.sendToServer(message);
                                 this.parent.changePage(ourIndex);
                             };
-                            page.closeCallback = () ->
-                            {
+                            page.closeCallback = () -> {
                                 this.parent.changePage(ourIndex);
                             };
                             // Re-call this to init the gui properly
@@ -217,48 +203,43 @@ public class Trainer extends Page
             }
         }
 
-        this.addRenderableWidget(new Button(x - 9, y + dy - 1, 10, 10, TComponent.literal(">"), b ->
-        {
+        this.addRenderableWidget(new Button(x - 9, y + dy - 1, 10, 10, TComponent.literal(">"), b -> {
             this.index++;
             this.index = this.index % types.size();
             this.type.setValue(types.get(this.index));
             this.onUpdated();
 
         }));
-        this.addRenderableWidget(new Button(x - 19, y + dy - 1, 10, 10, TComponent.literal("<"), b ->
-        {
+        this.addRenderableWidget(new Button(x - 19, y + dy - 1, 10, 10, TComponent.literal("<"), b -> {
             this.index--;
             if (this.index < 0) this.index = types.size() - 1;
             this.type.setValue(types.get(this.index));
             this.onUpdated();
         }));
-        this.addRenderableWidget(new Button(x - 123, y + 55, 40, 20, TComponent.literal("Delete"), b ->
-        {
+        this.addRenderableWidget(new Button(x - 123, y + 55, 40, 20, TComponent.literal("Delete"), b -> {
             final PacketTrainer message = new PacketTrainer(PacketTrainer.KILLTRAINER);
             message.getTag().putInt("I", this.parent.entity.getId());
             PacketTrainer.ASSEMBLER.sendToServer(message);
             this.onClose();
         }));
-        this.addRenderableWidget(new Button(x - 19, y + dy + 9, 10, 10, TComponent.literal(this.male ? "\u2642" : "\u2640"),
-                b ->
+        this.addRenderableWidget(
+                new Button(x - 19, y + dy + 9, 10, 10, TComponent.literal(this.male ? "\u2642" : "\u2640"), b ->
                 {
                     this.male = !this.male;
                     b.setMessage(TComponent.literal(this.male ? "\u2642" : "\u2640"));
                     this.onUpdated();
                 }));
-        this.addRenderableWidget(new Button(x + 60, y - 53, 60, 10, TComponent.literal(this.typename ? "Name Prefix"
-                : "No Prefix"), b ->
+        this.addRenderableWidget(
+                new Button(x + 60, y - 53, 60, 10, TComponent.literal(this.typename ? "Name Prefix" : "No Prefix"), b ->
                 {
                     this.typename = !this.typename;
                     b.setMessage(TComponent.literal(this.typename ? "Name Prefix" : "No Prefix"));
                     this.onUpdated();
                 }));
-        this.addRenderableWidget(new Button(x + 80, y - 73, 40, 20, TComponent.literal("Apply"), b ->
-        {
+        this.addRenderableWidget(new Button(x + 80, y - 73, 40, 20, TComponent.literal("Apply"), b -> {
             this.onUpdated();
         }));
-        this.addRenderableWidget(new Button(x + 80, y + 55, 40, 20, TComponent.literal("Exit"), b ->
-        {
+        this.addRenderableWidget(new Button(x + 80, y + 55, 40, 20, TComponent.literal("Exit"), b -> {
             this.onUpdated();
             this.onClose();
         }));
@@ -267,14 +248,11 @@ public class Trainer extends Page
             if (EditorGui.PAGELIST.get(index) == Rewards.class) break;
         final int rewardIndex = index;
         final int yOff = 15;
-        this.addRenderableWidget(new Button(x - 123, y + yOff, 60, 20, TComponent.literal("rewards"), b ->
-        {
+        this.addRenderableWidget(new Button(x - 123, y + yOff, 60, 20, TComponent.literal("rewards"), b -> {
             // Change to a rewards page
             this.parent.changePage(rewardIndex);
-            if (!(this.parent.current_page instanceof Rewards)) return;
-            final Rewards page = (Rewards) this.parent.current_page;
-            page.closeCallback = () ->
-            {
+            if (!(this.parent.current_page instanceof Rewards page)) return;
+            page.closeCallback = () -> {
                 this.parent.changePage(ourIndex);
             };
             page.onPageOpened();
@@ -282,15 +260,12 @@ public class Trainer extends Page
         for (index = 0; index < EditorGui.PAGELIST.size(); index++)
             if (EditorGui.PAGELIST.get(index) == Messages.class) break;
         final int messIndex = index;
-        this.addRenderableWidget(new Button(x - 123, y + yOff - 20, 60, 20, TComponent.literal("messages"), b ->
-        {
+        this.addRenderableWidget(new Button(x - 123, y + yOff - 20, 60, 20, TComponent.literal("messages"), b -> {
             // Change to a messages page
             // Change to a ai page
             this.parent.changePage(messIndex);
-            if (!(this.parent.current_page instanceof Messages)) return;
-            final Messages page = (Messages) this.parent.current_page;
-            page.closeCallback = () ->
-            {
+            if (!(this.parent.current_page instanceof Messages page)) return;
+            page.closeCallback = () -> {
                 this.parent.changePage(ourIndex);
             };
             page.onPageOpened();
@@ -298,14 +273,11 @@ public class Trainer extends Page
         for (index = 0; index < EditorGui.PAGELIST.size(); index++)
             if (EditorGui.PAGELIST.get(index) == AI.class) break;
         final int aiIndex = index;
-        this.addRenderableWidget(new Button(x - 123, y + yOff + 20, 60, 20, TComponent.literal("ai"), b ->
-        {
+        this.addRenderableWidget(new Button(x - 123, y + yOff + 20, 60, 20, TComponent.literal("ai"), b -> {
             // Change to a ai page
             this.parent.changePage(aiIndex);
-            if (!(this.parent.current_page instanceof AI)) return;
-            final AI page = (AI) this.parent.current_page;
-            page.closeCallback = () ->
-            {
+            if (!(this.parent.current_page instanceof AI page)) return;
+            page.closeCallback = () -> {
                 this.parent.changePage(ourIndex);
             };
             page.onPageOpened();

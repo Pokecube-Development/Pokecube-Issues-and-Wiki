@@ -40,11 +40,12 @@ public class DaycareBlock extends InteractableHorizontalBlock implements EntityB
     }
 
     @Override
-    public int getSignal(final BlockState blockState, final BlockGetter blockAccess, final BlockPos pos, final Direction side)
+    public int getSignal(final BlockState blockState, final BlockGetter blockAccess, final BlockPos pos,
+            final Direction side)
     {
         if (side == Direction.UP || side == Direction.DOWN) return 0;
         final BlockEntity tile = blockAccess.getBlockEntity(pos);
-        if (tile instanceof DaycareTile) return ((DaycareTile) tile).redstonePower;
+        if (tile instanceof DaycareTile daycare) return daycare.redstonePower;
         return 0;
     }
 
@@ -54,7 +55,7 @@ public class DaycareBlock extends InteractableHorizontalBlock implements EntityB
     {
         if (side == Direction.UP || side == Direction.DOWN) return 0;
         final BlockEntity tile = blockAccess.getBlockEntity(pos);
-        if (tile instanceof DaycareTile) return ((DaycareTile) tile).redstonePower;
+        if (tile instanceof DaycareTile daycare) return daycare.redstonePower;
         return 0;
     }
 

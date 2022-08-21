@@ -22,7 +22,7 @@ import pokecube.api.data.PokedexEntry;
 
 public class RecipeSplice extends PoweredRecipe
 {
-    public static int                          ENERGYCOST = 10000;
+    public static int ENERGYCOST = 10000;
     public static Function<ItemStack, Integer> ENERGYNEED = (s) -> RecipeSplice.ENERGYCOST;
 
     public RecipeSplice(final ResourceLocation location)
@@ -60,10 +60,8 @@ public class RecipeSplice extends PoweredRecipe
     @Override
     public ItemStack assemble(final CraftingContainer inv)
     {
-        if (!(inv instanceof PoweredCraftingInventory)) return ItemStack.EMPTY;
-        final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
-        if (!(inv_p.inventory instanceof SplicerTile)) return ItemStack.EMPTY;
-        final SplicerTile tile = (SplicerTile) inv_p.inventory;
+        if (!(inv instanceof PoweredCraftingInventory inv_p)) return ItemStack.EMPTY;
+        if (!(inv_p.inventory instanceof SplicerTile tile)) return ItemStack.EMPTY;
 
         ItemStack output = ItemStack.EMPTY;
         ItemStack dna = inv.getItem(0);
@@ -95,10 +93,8 @@ public class RecipeSplice extends PoweredRecipe
     public NonNullList<ItemStack> getRemainingItems(final CraftingContainer inv)
     {
         final NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getContainerSize(), ItemStack.EMPTY);
-        if (!(inv instanceof PoweredCraftingInventory)) return nonnulllist;
-        final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
-        if (!(inv_p.inventory instanceof SplicerTile)) return nonnulllist;
-        final SplicerTile tile = (SplicerTile) inv_p.inventory;
+        if (!(inv instanceof PoweredCraftingInventory inv_p)) return nonnulllist;
+        if (!(inv_p.inventory instanceof SplicerTile tile)) return nonnulllist;
         final ItemStack selector = tile.override_selector.isEmpty() ? inv.getItem(1) : tile.override_selector;
         boolean keepDNA = false;
         boolean keepSelector = false;

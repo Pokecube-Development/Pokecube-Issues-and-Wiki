@@ -185,12 +185,11 @@ public class CommanderTile extends InteractableTile
     public void sendCommand() throws Exception
     {
         final Level w = this.getLevel();
-        if (!(w instanceof ServerLevel)) return;
+        if (!(w instanceof ServerLevel level)) return;
         if (this.command != null && this.handler == null) this.initCommand();
         if (this.handler == null) throw new Exception("No CommandHandler has been set");
         if (this.pokeID == null) throw new Exception("No Pokemob Set, please set a UUID first.");
-        final ServerLevel world = (ServerLevel) w;
-        final IPokemob pokemob = PokemobCaps.getPokemobFor(world.getEntity(this.pokeID));
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(level.getEntity(this.pokeID));
         if (pokemob == null) throw new Exception("Pokemob for given ID is not found.");
         try
         {

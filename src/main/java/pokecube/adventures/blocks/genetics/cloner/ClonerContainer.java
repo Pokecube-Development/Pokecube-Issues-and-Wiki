@@ -19,17 +19,15 @@ public class ClonerContainer extends PoweredContainer<ClonerTile>
 
     public ClonerContainer(final int id, final Inventory invIn, final ContainerLevelAccess pos)
     {
-        super(PokecubeAdv.CLONER_CONT.get(), id, (c) ->
-        {
-            pos.execute((w, p) ->
-            {
+        super(PokecubeAdv.CLONER_CONT.get(), id, (c) -> {
+            pos.execute((w, p) -> {
                 final BlockEntity temp = w.getBlockEntity(p);
                 // Server side
-                if (temp instanceof ClonerTile) c.tile = (ClonerTile) temp;
+                if (temp instanceof ClonerTile tile) c.tile = tile;
             });
             // Client side
-            if (c.tile == null) c.tile = new ClonerTile(invIn.player.blockPosition(), PokecubeAdv.CLONER.get()
-                    .defaultBlockState());
+            if (c.tile == null)
+                c.tile = new ClonerTile(invIn.player.blockPosition(), PokecubeAdv.CLONER.get().defaultBlockState());
             return c.tile;
         });
 
@@ -50,11 +48,10 @@ public class ClonerContainer extends PoweredContainer<ClonerTile>
 
         int i = 0;
         int j = 0;
-        this.addSlot(new TexturedSlot(this.inv, 0, dj - 21 + j * 18, di + i * 18,
-                "pokecube_adventures:gui/slot_bottle"));
+        this.addSlot(
+                new TexturedSlot(this.inv, 0, dj - 21 + j * 18, di + i * 18, "pokecube_adventures:gui/slot_bottle"));
         i = 2;
-        this.addSlot(new TexturedSlot(this.inv, 1, dj - 21 + j * 18, di + i * 18,
-                "pokecube_adventures:gui/slot_egg"));
+        this.addSlot(new TexturedSlot(this.inv, 1, dj - 21 + j * 18, di + i * 18, "pokecube_adventures:gui/slot_egg"));
 
         i = 0;
         this.addSlot(new Slot(this.inv, 2, dj + j * 18, di + di2 + i * 18));

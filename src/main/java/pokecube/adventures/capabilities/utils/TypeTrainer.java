@@ -139,9 +139,8 @@ public class TypeTrainer extends NpcType
                 return TypeTrainer.merchant;
             }
             else if (mob instanceof NpcMob) return TypeTrainer.merchant;
-            else if (mob instanceof Villager && Config.instance.npcsAreTrainers)
+            else if (Config.instance.npcsAreTrainers && mob instanceof Villager villager)
             {
-                final Villager villager = (Villager) mob;
                 final String type = villager.getVillagerData().getProfession().toString();
                 return TypeTrainer.getTrainer(type, true);
             }
@@ -159,18 +158,16 @@ public class TypeTrainer extends NpcType
             };
             final Predicate<LivingEntity> noRunWhileRest = e -> {
                 if (npc instanceof LeaderNpc) return true;
-                if (e instanceof Villager)
+                if (e instanceof Villager villager)
                 {
-                    final Villager villager = (Villager) e;
                     if (villager.isSleeping()) return false;
                 }
                 return noRunIfCrowded.test(e);
             };
             final Predicate<LivingEntity> noRunWhileMeet = e -> {
                 if (npc instanceof LeaderNpc) return true;
-                if (e instanceof Villager)
+                if (e instanceof Villager villager)
                 {
-                    final Villager villager = (Villager) e;
                     final Schedule s = villager.getBrain().getSchedule();
                     final Activity a = s.getActivityAt((int) (e.level.getDayTime() % 24000L));
                     if (a == Activity.MEET) return false;

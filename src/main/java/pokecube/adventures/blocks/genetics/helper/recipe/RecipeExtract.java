@@ -30,7 +30,7 @@ import thut.core.common.genetics.DefaultGenetics;
 public class RecipeExtract extends PoweredRecipe
 {
 
-    public static int                          ENERGYCOST = 10000;
+    public static int ENERGYCOST = 10000;
     public static Function<ItemStack, Integer> ENERGYNEED = (s) -> RecipeExtract.ENERGYCOST;
 
     public RecipeExtract(final ResourceLocation location)
@@ -77,10 +77,8 @@ public class RecipeExtract extends PoweredRecipe
     @Override
     public ItemStack assemble(final CraftingContainer inv)
     {
-        if (!(inv instanceof PoweredCraftingInventory)) return ItemStack.EMPTY;
-        final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
-        if (!(inv_p.inventory instanceof ExtractorTile)) return ItemStack.EMPTY;
-        final ExtractorTile tile = (ExtractorTile) inv_p.inventory;
+        if (!(inv instanceof PoweredCraftingInventory inv_p)) return ItemStack.EMPTY;
+        if (!(inv_p.inventory instanceof ExtractorTile tile)) return ItemStack.EMPTY;
 
         IMobGenetics genes;
         final ItemStack destination = inv.getItem(0);
@@ -93,16 +91,15 @@ public class RecipeExtract extends PoweredRecipe
         {
             final List<Ingredient> stacks = Lists.newArrayList(ClonerHelper.DNAITEMS.keySet());
             Collections.shuffle(stacks);
-            if (!source.isEmpty()) for (final Ingredient stack : stacks)
-                if (stack.test(source))
-                {
-                    final DNAPack pack = ClonerHelper.DNAITEMS.get(stack);
-                    final Alleles<?, ?> alleles = pack.alleles;
-                    genes = new DefaultGenetics();
-                    genes.getAlleles().put(alleles.getExpressed().getKey(), alleles);
-                    forcedGenes = true;
-                    if (pack.chance > Math.random()) break source;
-                }
+            if (!source.isEmpty()) for (final Ingredient stack : stacks) if (stack.test(source))
+            {
+                final DNAPack pack = ClonerHelper.DNAITEMS.get(stack);
+                final Alleles<?, ?> alleles = pack.alleles;
+                genes = new DefaultGenetics();
+                genes.getAlleles().put(alleles.getExpressed().getKey(), alleles);
+                forcedGenes = true;
+                if (pack.chance > Math.random()) break source;
+            }
             source = ItemStack.EMPTY;
         }
         final ItemStack output = destination.copy();
@@ -130,10 +127,8 @@ public class RecipeExtract extends PoweredRecipe
     public NonNullList<ItemStack> getRemainingItems(final CraftingContainer inv)
     {
         final NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getContainerSize(), ItemStack.EMPTY);
-        if (!(inv instanceof PoweredCraftingInventory)) return nonnulllist;
-        final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
-        if (!(inv_p.inventory instanceof ExtractorTile)) return nonnulllist;
-        final ExtractorTile tile = (ExtractorTile) inv_p.inventory;
+        if (!(inv instanceof PoweredCraftingInventory inv_p)) return nonnulllist;
+        if (!(inv_p.inventory instanceof ExtractorTile tile)) return nonnulllist;
         final ItemStack selector = tile.override_selector.isEmpty() ? inv.getItem(1) : tile.override_selector;
         boolean keepDNA = false;
         boolean keepSelector = false;

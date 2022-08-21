@@ -229,9 +229,9 @@ public abstract class TrainerBase extends NpcMob
     public void setNpcType(final NpcType type)
     {
         super.setNpcType(type);
-        if (this.pokemobsCap != null && type instanceof TypeTrainer)
+        if (this.pokemobsCap != null && type instanceof TypeTrainer ttype)
         {
-            this.pokemobsCap.setType((TypeTrainer) type);
+            this.pokemobsCap.setType(ttype);
             this.pokemobsCap.getType().initTrainerItems(this);
         }
     }

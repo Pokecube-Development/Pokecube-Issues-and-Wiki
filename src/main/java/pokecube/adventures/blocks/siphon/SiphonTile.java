@@ -180,18 +180,16 @@ public class SiphonTile extends InteractableTile implements ITickTile
         {
             if (this.wirelessLinks.remove(pos))
             {
-                if (user != null && user instanceof ServerPlayer)
+                if (user != null && user instanceof ServerPlayer player)
                 {
-                    final Player player = (Player) user;
                     player.displayClientMessage(TComponent.translatable("block.pokecube_adventures.siphon.unlink",
                             new ThutTeleporter.TeleDest().setPos(pos).getInfoName()), true);
                 }
                 return true;
             }
             this.wirelessLinks.add(pos);
-            if (user != null && user instanceof ServerPlayer)
+            if (user != null && user instanceof ServerPlayer player)
             {
-                final Player player = (Player) user;
                 player.displayClientMessage(TComponent.translatable("block.pokecube_adventures.siphon.link",
                         new ThutTeleporter.TeleDest().setPos(pos).getInfoName()), true);
             }

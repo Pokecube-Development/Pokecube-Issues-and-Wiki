@@ -23,7 +23,7 @@ public class AfaContainer extends BaseContainer
         }
     }
 
-    Container  inv;
+    Container inv;
     IOwnableTE ownable;
 
     public AfaTile tile;
@@ -36,15 +36,14 @@ public class AfaContainer extends BaseContainer
     public AfaContainer(final int id, final Inventory invIn, final ContainerLevelAccess pos)
     {
         super(PokecubeAdv.AFA_CONT.get(), id);
-        pos.execute((w, p) ->
-        {
+        pos.execute((w, p) -> {
             final BlockEntity tile = w.getBlockEntity(p);
             // Server side
-            if (tile instanceof AfaTile)
+            if (tile instanceof AfaTile afa)
             {
                 this.ownable = (IOwnableTE) tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
-                this.tile = (AfaTile) tile;
-                this.inv = ((AfaTile) tile).inventory;
+                this.tile = afa;
+                this.inv = afa.inventory;
             }
         });
         // Client side
@@ -60,7 +59,7 @@ public class AfaContainer extends BaseContainer
         final int dj = 36;
         final int i = 0;
         final int j = 0;
-		
+
         this.addSlot(new TexturedSlot(this.inv, 0, dj - 21 + j * 18, di + i * 18, "pokecube:gui/slot_cube"));
         this.bindPlayerInventory(invIn, -19);
         this.addDataSlots(this.tile.syncValues);

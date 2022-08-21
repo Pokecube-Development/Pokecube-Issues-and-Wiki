@@ -42,13 +42,13 @@ public class Count
         final Map<PokedexEntry, Integer> counts = Maps.newHashMap();
         final double threshold = PokecubeCore.getConfig().maxSpawnRadius * PokecubeCore.getConfig().maxSpawnRadius;
         final Set<UUID> found = Sets.newHashSet();
-        for (final Object o : mobs.getAll())
+        for (final Entity o : mobs.getAll())
         {
             final IPokemob e = PokemobCaps.getPokemobFor((ICapabilityProvider) o);
             if (e != null)
             {
                 if (!found.add(e.getEntity().getUUID())) continue;
-                if (((Entity) o).distanceToSqr(pos.x, pos.y, pos.z) > threshold) count2++;
+                if (o.distanceToSqr(pos.x, pos.y, pos.z) > threshold) count2++;
                 else count1++;
                 Integer i = counts.get(e.getPokedexEntry());
                 if (i == null) i = 0;
@@ -59,8 +59,7 @@ public class Count
         Collections.sort(entries, (o1, o2) -> o2.getValue() - o1.getValue());
         source.sendSuccess(TComponent.translatable("pokecube.command.count", count1, count2), true);
         source.sendSuccess(TComponent.literal(entries.toString()), true);
-        if (RootTask.doLoadThrottling) source.sendSuccess(TComponent.literal("Load Factor: " + RootTask.runRate),
-                true);
+        if (RootTask.doLoadThrottling) source.sendSuccess(TComponent.literal("Load Factor: " + RootTask.runRate), true);
         return 0;
     }
 
@@ -69,7 +68,7 @@ public class Count
         final String perm = "command.pokecube.count";
         PermNodes.registerNode(perm, DefaultPermissionLevel.OP,
                 "Is the player allowed to check the number of pokemobs in the world");
-        command.then(Commands.literal("count").requires(Tools.hasPerm(perm)).executes((ctx) -> Count.execute(ctx
-                .getSource())));
+        command.then(Commands.literal("count").requires(Tools.hasPerm(perm))
+                .executes((ctx) -> Count.execute(ctx.getSource())));
     }
 }

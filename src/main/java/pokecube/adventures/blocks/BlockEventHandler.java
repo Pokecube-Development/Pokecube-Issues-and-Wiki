@@ -57,8 +57,8 @@ public class BlockEventHandler
         public boolean setLinkedPos(GlobalPos pos, final Entity user)
         {
             final IOwnable own = OwnableCaps.getOwnable(this.tile);
-            if (user instanceof LivingEntity && own instanceof IOwnableTE
-                    && !((IOwnableTE) own).canEdit((LivingEntity) user) || pos == null)
+            if (pos == null
+                    || user instanceof LivingEntity living && own instanceof IOwnableTE ownTe && !ownTe.canEdit(living))
                 return false;
             // Assume that we right clicked the top of the block.
             pos = GlobalPos.of(pos.dimension(), pos.pos().above());

@@ -103,10 +103,8 @@ public class AI extends Page
         this.faceDirection.setValue(this.parent.aiStates.getDirection() + "");
         this.addRenderableWidget(this.faceDirection);
 
-        if (this.parent.trainer instanceof DefaultPokemobs)
+        if (this.parent.trainer instanceof DefaultPokemobs trainer)
         {
-            final DefaultPokemobs trainer = (DefaultPokemobs) this.parent.trainer;
-
             this.resetTimeLose.setValue(trainer.resetTimeLose + "");
             this.resetTimeWin.setValue(trainer.resetTimeWin + "");
             this.battleCooldown.setValue(trainer.battleCooldown + "");
@@ -184,10 +182,8 @@ public class AI extends Page
         PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
         message.getTag().putInt("I", this.parent.entity.getId());
         message.getTag().put("__ai__", tag);
-        if (this.parent.trainer instanceof DefaultPokemobs)
+        if (this.parent.trainer instanceof DefaultPokemobs trainer)
         {
-            final DefaultPokemobs trainer = (DefaultPokemobs) this.parent.trainer;
-
             try
             {
                 trainer.resetTimeLose = Integer.parseInt(this.resetTimeLose.getValue());

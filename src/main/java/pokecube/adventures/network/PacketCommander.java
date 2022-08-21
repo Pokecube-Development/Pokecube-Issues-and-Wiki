@@ -29,8 +29,7 @@ public class PacketCommander extends Packet
     public CompoundTag data = new CompoundTag();
 
     public PacketCommander()
-    {
-    }
+    {}
 
     public PacketCommander(final BlockPos pos)
     {
@@ -68,8 +67,7 @@ public class PacketCommander extends Packet
         final Level world = player.getLevel();
         final BlockPos pos = new BlockPos(this.data.getInt("x"), this.data.getInt("y"), this.data.getInt("z"));
         final BlockEntity te = world.getBlockEntity(pos);
-        if (!(te instanceof CommanderTile)) return;
-        final CommanderTile tile = (CommanderTile) te;
+        if (!(te instanceof CommanderTile tile)) return;
         final String command = this.data.getString("C");
         final String args = this.data.getString("A");
         Command command_ = null;
@@ -80,10 +78,10 @@ public class PacketCommander extends Packet
         }
         catch (final Exception e)
         {
-            if (PokecubeCore.getConfig().debug) PokecubeAPI.LOGGER.warn("Invalid Commander Block use at " + tile
-                    .getBlockPos(), e);
-            tile.getLevel().playSound(null, tile.getBlockPos(), SoundEvents.NOTE_BLOCK_BASEDRUM, SoundSource.BLOCKS,
-                    1, 1);
+            if (PokecubeCore.getConfig().debug)
+                PokecubeAPI.LOGGER.warn("Invalid Commander Block use at " + tile.getBlockPos(), e);
+            tile.getLevel().playSound(null, tile.getBlockPos(), SoundEvents.NOTE_BLOCK_BASEDRUM, SoundSource.BLOCKS, 1,
+                    1);
         }
         TileUpdate.sendUpdate(tile);
     }

@@ -161,8 +161,7 @@ public class RecipeClone extends PoweredRecipe
 
     public static PokedexEntry getEntry(final ReviveMatcher matcher, final IPoweredProgress tile)
     {
-        if (!(tile instanceof ClonerTile)) return Database.missingno;
-        final ClonerTile cloner = (ClonerTile) tile;
+        if (!(tile instanceof ClonerTile cloner)) return Database.missingno;
         PokedexEntry entry = matcher.getEntry(tile.getCraftMatrix(), cloner.getLevel());
         final CloneEvent.Pick pick = new CloneEvent.Pick(cloner, entry);
         if (PokecubeAPI.POKEMOB_BUS.post(pick)) entry = Database.missingno;
@@ -271,10 +270,8 @@ public class RecipeClone extends PoweredRecipe
     public NonNullList<ItemStack> getRemainingItems(final CraftingContainer inv)
     {
         final NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getContainerSize(), ItemStack.EMPTY);
-        if (!(inv instanceof PoweredCraftingInventory)) return nonnulllist;
-        final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
-        if (!(inv_p.inventory instanceof ClonerTile)) return nonnulllist;
-        final ClonerTile tile = (ClonerTile) inv_p.inventory;
+        if (!(inv instanceof PoweredCraftingInventory inv_p)) return nonnulllist;
+        if (!(inv_p.inventory instanceof ClonerTile tile)) return nonnulllist;
         ReviveMatcher matcher = RecipeClone.ANYMATCHER;
         for (final ReviveMatcher matcher2 : RecipeClone.getMatchers())
             if (matcher2.getEntry(inv, tile.getLevel()) != Database.missingno)

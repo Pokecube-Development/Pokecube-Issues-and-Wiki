@@ -29,8 +29,7 @@ public class CommanderBlock extends InteractableHorizontalBlock implements Entit
     {
         final int power = world.getBestNeighborSignal(pos);
         final BlockEntity tile = world.getBlockEntity(pos);
-        if (!(tile instanceof CommanderTile)) return;
-        final CommanderTile commander = (CommanderTile) tile;
+        if (!(tile instanceof CommanderTile commander)) return;
         // Trigger on rising signal
         if (power > 0 && commander.power == 0) try
         {

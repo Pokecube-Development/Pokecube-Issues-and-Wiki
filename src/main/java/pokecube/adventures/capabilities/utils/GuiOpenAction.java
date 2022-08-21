@@ -23,8 +23,7 @@ public class GuiOpenAction extends Action
     @Override
     public boolean doAction(final ActionContext action)
     {
-        if (!(action.target instanceof ServerPlayer)) return false;
-        final ServerPlayer target = (ServerPlayer) action.target;
+        if (!(action.target instanceof ServerPlayer target)) return false;
         final Entity holder = action.holder;
         final IHasPokemobs trainer = TrainerCaps.getHasPokemobs(holder);
         if (trainer == null) return false;
@@ -32,10 +31,9 @@ public class GuiOpenAction extends Action
         final ServerPlayer player = target;
         final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
         buffer.writeInt(holder.getId());
-        final SimpleMenuProvider provider = new SimpleMenuProvider((i, p,
-                e) -> new ContainerTrainer(i, p, buffer), holder.getDisplayName());
-        NetworkHooks.openGui(player, provider, buf ->
-        {
+        final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new ContainerTrainer(i, p, buffer),
+                holder.getDisplayName());
+        NetworkHooks.openGui(player, provider, buf -> {
             buf.writeInt(holder.getId());
         });
         return true;

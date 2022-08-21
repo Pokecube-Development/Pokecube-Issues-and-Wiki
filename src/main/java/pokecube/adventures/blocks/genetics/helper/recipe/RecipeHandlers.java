@@ -108,7 +108,7 @@ public class RecipeHandlers
                     final Direction dir = world.getBlockState(pos).getValue(HorizontalDirectionalBlock.FACING);
                     entity.moveTo(pos.getX() + 0.5 + dir.getStepX(), pos.getY() + 1, pos.getZ() + 0.5 + dir.getStepZ(),
                             world.random.nextFloat() * 360F, 0.0F);
-                    
+
                     // Mark as cloned for preventing drops, etc
                     entity.getPersistentData().putBoolean("cloned", true);
 
@@ -334,8 +334,7 @@ public class RecipeHandlers
 
     private static void onCrafted(final ItemCraftedEvent event)
     {
-        if (!(event.getInventory() instanceof CraftingContainer)) return;
-        final CraftingContainer inv = (CraftingContainer) event.getInventory();
+        if (!(event.getInventory() instanceof CraftingContainer inv)) return;
         final BookCloningRecipe test = new BookCloningRecipe(new ResourceLocation("dummy"));
 
         if (!test.matches(inv, event.getEntity().getLevel())) return;
