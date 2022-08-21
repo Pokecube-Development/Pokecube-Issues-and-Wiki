@@ -1,27 +1,20 @@
 package pokecube.core.handlers.playerdata.advancements.triggers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 
-import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
 import net.minecraft.advancements.critereon.DeserializationContext;
 import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.EntityPredicate.Composite;
+import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayer;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.database.Database;
 import pokecube.core.impl.PokecubeMod;
 
-public class BreedPokemobTrigger implements CriterionTrigger<BreedPokemobTrigger.Instance>
+public class BreedPokemobTrigger extends SimpleCriterionTrigger<BreedPokemobTrigger.Instance>
 {
     public static class Instance extends AbstractCriterionTriggerInstance
     {
@@ -58,62 +51,12 @@ public class BreedPokemobTrigger implements CriterionTrigger<BreedPokemobTrigger
 
             return firstMatch && secondMatch;
         }
-
-    }
-
-    static class Listeners
-    {
-        private final PlayerAdvancements playerAdvancements;
-        private final Set<CriterionTrigger.Listener<Instance>> listeners = Sets.<CriterionTrigger.Listener<Instance>>newHashSet();
-
-        public Listeners(final PlayerAdvancements playerAdvancementsIn)
-        {
-            this.playerAdvancements = playerAdvancementsIn;
-        }
-
-        public void add(final CriterionTrigger.Listener<Instance> listener)
-        {
-            this.listeners.add(listener);
-        }
-
-        public boolean isEmpty()
-        {
-            return this.listeners.isEmpty();
-        }
-
-        public void remove(final CriterionTrigger.Listener<Instance> listener)
-        {
-            this.listeners.remove(listener);
-        }
-
-        public void trigger(final ServerPlayer player, final IPokemob first, final IPokemob second)
-        {
-            List<Listener<Instance>> toTrigger = new ArrayList<>();
-            for (var listener : this.listeners)
-                if (listener.getTriggerInstance().test(player, first, second)) toTrigger.add(listener);
-            toTrigger.forEach(l -> l.run(playerAdvancements));
-        }
     }
 
     public static ResourceLocation ID = new ResourceLocation(PokecubeMod.ID, "breed");
 
-    private final Map<PlayerAdvancements, Listeners> listeners = Maps.newHashMap();
-
     public BreedPokemobTrigger()
     {}
-
-    @Override
-    public void addPlayerListener(final PlayerAdvancements playerAdvancementsIn,
-            final CriterionTrigger.Listener<Instance> listener)
-    {
-        Listeners listeners = this.listeners.get(playerAdvancementsIn);
-        if (listeners == null)
-        {
-            listeners = new Listeners(playerAdvancementsIn);
-            this.listeners.put(playerAdvancementsIn, listeners);
-        }
-        listeners.add(listener);
-    }
 
     @Override
     public ResourceLocation getId()
@@ -121,32 +64,15 @@ public class BreedPokemobTrigger implements CriterionTrigger<BreedPokemobTrigger
         return BreedPokemobTrigger.ID;
     }
 
-    @Override
-    public void removePlayerListeners(final PlayerAdvancements playerAdvancementsIn)
-    {
-        this.listeners.remove(playerAdvancementsIn);
-    }
-
-    @Override
-    public void removePlayerListener(final PlayerAdvancements playerAdvancementsIn,
-            final CriterionTrigger.Listener<Instance> listener)
-    {
-        final Listeners listeners = this.listeners.get(playerAdvancementsIn);
-        if (listeners != null)
-        {
-            listeners.remove(listener);
-            if (listeners.isEmpty()) this.listeners.remove(playerAdvancementsIn);
-        }
-    }
-
     public void trigger(final ServerPlayer player, final IPokemob first, final IPokemob second)
     {
-        final Listeners listeners = this.listeners.get(player.getAdvancements());
-        if (listeners != null) listeners.trigger(player, first, second);
+        this.trigger(player, (instance) -> {
+            return instance.test(player, first, second);
+        });
     }
 
     @Override
-    public Instance createInstance(final JsonObject json, final DeserializationContext conditions)
+    protected Instance createInstance(JsonObject json, Composite composite, DeserializationContext conditions)
     {
         final EntityPredicate.Composite pred = EntityPredicate.Composite.fromJson(json, "player", conditions);
         final String mate1 = json.has("mate1") ? json.get("mate1").getAsString() : "";
