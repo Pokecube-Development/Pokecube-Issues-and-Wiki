@@ -79,15 +79,12 @@ public abstract class PokemobMoves extends PokemobStats
 
         if (target != this.getEntity())
         {
-            if (target instanceof Mob)
+            if (target instanceof Mob mob && BrainUtils.getAttackTarget(mob) != this.getEntity())
+                BrainUtils.initiateCombat(mob, this.getEntity());
+            if (target instanceof LivingEntity entity && entity.getLastHurtByMob() != this.getEntity())
             {
-                final Mob t = (Mob) target;
-                if (BrainUtils.getAttackTarget(t) != this.getEntity()) BrainUtils.initiateCombat(t, this.getEntity());
-            }
-            if (target instanceof LivingEntity) if (((LivingEntity) target).getLastHurtByMob() != this.getEntity())
-            {
-                ((LivingEntity) target).setLastHurtByMob(this.getEntity());
-                this.getEntity().setLastHurtByMob((LivingEntity) target);
+                entity.setLastHurtByMob(this.getEntity());
+                this.getEntity().setLastHurtByMob(entity);
             }
         }
         final int statusChange = this.getChanges();
@@ -157,7 +154,7 @@ public abstract class PokemobMoves extends PokemobStats
         if (this.activeMove == null || this.activeMove.getId() != id)
         {
             final Entity move = this.getEntity().getLevel().getEntity(id);
-            if (move instanceof EntityMoveUse) this.activeMove = (EntityMoveUse) move;
+            if (move instanceof EntityMoveUse movee) this.activeMove = movee;
         }
         return this.activeMove;
     }

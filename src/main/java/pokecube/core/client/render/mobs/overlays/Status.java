@@ -87,7 +87,7 @@ public class Status
             final MultiBufferSource buf, final IPokemob pokemob, final float partialTicks, final int light)
     {
         byte status = pokemob.getStatus();
-        if (status == IMoveConstants.STATUS_NON) return;
+        if (status == IMoveConstants.STATUS_NON || !(renderer.getModel() instanceof ModelWrapper<?> wrap)) return;
 
         final Mob mob = pokemob.getEntity();
 
@@ -95,8 +95,6 @@ public class Status
                 : (status & IMoveConstants.STATUS_FRZ) > 0 ? IMoveConstants.STATUS_FRZ : 0;
         if (status == 0) return;
         final boolean frz = status == IMoveConstants.STATUS_FRZ;
-
-        final ModelWrapper<?> wrap = (ModelWrapper<?>) renderer.getModel();
 
         mat.pushPose();
 

@@ -122,8 +122,8 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
                 Math.max(this.getPokedexEntry().height * this.getSize() / 4, 0.5f), 0);
         if (pos.isClearOfBlocks(this.getEntity().getLevel()))
         {
-            Entity eggItem = new EntityPokemobEgg(EntityTypes.getEgg(), this.getEntity().getLevel())
-                    .setToPos(this.here).setStackByParents(this.getEntity(), male);
+            Entity eggItem = new EntityPokemobEgg(EntityTypes.getEgg(), this.getEntity().getLevel()).setToPos(this.here)
+                    .setStackByParents(this.getEntity(), male);
             EggEvent.Lay event;
             event = new EggEvent.Lay(eggItem);
             MinecraftForge.EVENT_BUS.post(event);
@@ -188,8 +188,8 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
         if (this.loveCause == null) return null;
         else
         {
-            final Player playerentity = this.getEntity().getLevel().getPlayerByUUID(this.loveCause);
-            return playerentity instanceof ServerPlayer ? (ServerPlayer) playerentity : null;
+            final Player player = this.getEntity().getLevel().getPlayerByUUID(this.loveCause);
+            return player instanceof ServerPlayer splayer ? splayer : null;
         }
     }
 

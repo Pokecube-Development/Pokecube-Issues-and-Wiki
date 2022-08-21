@@ -9,7 +9,7 @@ public class Mutations
     public static class Mutation
     {
         public String result;
-        public float  weight = 1;
+        public float weight = 1;
 
         float _cutoff = 0;
 
@@ -17,7 +17,7 @@ public class Mutations
         public boolean equals(final Object obj)
         {
             if (obj == this) return true;
-            if (obj instanceof Mutation) return ((Mutation) obj).result.equals(this.result);
+            if (obj instanceof Mutation mut) return mut.result.equals(this.result);
             return false;
         }
 
@@ -78,8 +78,7 @@ public class Mutations
                 m._cutoff = this._total;
                 this._sorted.add(m);
             }
-            for (final Mutation m : this.options)
-                m._cutoff /= this._total;
+            for (final Mutation m : this.options) m._cutoff /= this._total;
         }
     }
 

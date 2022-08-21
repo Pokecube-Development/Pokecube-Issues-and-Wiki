@@ -311,11 +311,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
 
     default IPokemob megaEvolve(final PokedexEntry newEntry)
     {
-        if (this.getEntity().getLevel() instanceof ServerLevel)
-        {
-            final ServerLevel world = (ServerLevel) this.getEntity().getLevel();
-            return this.megaEvolve(newEntry, !world.isHandlingTick());
-        }
+        if (this.getEntity().getLevel() instanceof ServerLevel level)
+            return this.megaEvolve(newEntry, !level.isHandlingTick());
         return this.megaEvolve(newEntry, true);
     }
 

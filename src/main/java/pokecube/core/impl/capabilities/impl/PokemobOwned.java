@@ -60,12 +60,12 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     {
         final Entity owner = this.getOwner();
         // Ensure this is actually client side before sending this.
-        if (owner instanceof ServerPlayer && this.getEntity().isAlive())
+        if (owner instanceof ServerPlayer player && this.getEntity().isAlive())
         {
             if (PokecubeMod.debug) PokecubeAPI.LOGGER.info(message.getString());
             final MoveMessageEvent event = new MoveMessageEvent(this, message);
             PokecubeAPI.MOVE_BUS.post(event);
-            PacketPokemobMessage.sendMessage((Player) owner, event.message);
+            PacketPokemobMessage.sendMessage(player, event.message);
         }
     }
 
@@ -151,11 +151,9 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         {
             animalchest.removeListener(this);
             final int i = Math.min(animalchest.getContainerSize(), this.pokeChest.getContainerSize());
-
             for (int j = 0; j < i; ++j)
             {
                 final ItemStack itemstack = animalchest.getItem(j);
-
                 if (itemstack != ItemStack.EMPTY) this.pokeChest.setItem(j, itemstack.copy());
             }
             animalchest = null;
@@ -302,10 +300,9 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
 
         boolean added = false;
         toPlayer:
-        if (owner instanceof Player)
+        if (owner instanceof Player player)
         {
             final ItemStack itemstack = PokecubeManager.pokemobToItem(this);
-            final Player player = (Player) owner;
             boolean noRoom = false;
             final boolean ownerDead = player.getHealth() <= 0;
             if (ownerDead || player.getInventory().getFreeSlot() == -1) noRoom = true;
@@ -451,8 +448,8 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         /*
          * Trigger vanilla event for taming a mob.
          */
-        if (e instanceof ServerPlayer && this.getEntity() instanceof Animal)
-            CriteriaTriggers.TAME_ANIMAL.trigger((ServerPlayer) e, (Animal) this.getEntity());
+        if (e instanceof ServerPlayer player && this.getEntity() instanceof Animal animal)
+            CriteriaTriggers.TAME_ANIMAL.trigger(player, animal);
     }
 
     @Override
@@ -463,7 +460,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         this.getOwnerHolder().setOwner(owner);
         // Clear team, it will refresh it whenever it is actually checked.
         this.setPokemobTeam("");
-        if (this.getEntity() instanceof TamableAnimal) ((TamableAnimal) this.getEntity()).setOwnerUUID(owner);
+        if (this.getEntity() instanceof TamableAnimal animal) animal.setOwnerUUID(owner);
         if (owner != null) PlayerPokemobCache.UpdateCache(this);
     }
 
@@ -506,7 +503,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             {
                 // Only set this if we haven't had one set yet already
                 if (pokemob.getHeldItem().isEmpty()) pokemob.setHeldItem(pokemob.wildHeldItem(pokemob.getEntity()));
-                if (pokemob instanceof PokemobOwned) ((PokemobOwned) pokemob).updateHealth();
+                if (pokemob instanceof PokemobOwned mob) mob.updateHealth();
                 pokemob.setHealth(pokemob.getMaxHealth());
                 return pokemob;
             }
@@ -526,7 +523,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         if (pokemob.getHeldItem().isEmpty()) pokemob.setHeldItem(pokemob.wildHeldItem(pokemob.getEntity()));
 
         // Make sure heath is valid numbers.
-        if (pokemob instanceof PokemobOwned) ((PokemobOwned) pokemob).updateHealth();
+        if (pokemob instanceof PokemobOwned mob) mob.updateHealth();
         pokemob.getEntity().setHealth(pokemob.getEntity().getMaxHealth());
 
         // If we have some spawn info, lets process it.

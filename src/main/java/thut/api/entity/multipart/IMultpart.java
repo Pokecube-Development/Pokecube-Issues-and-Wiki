@@ -37,6 +37,12 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         public String effective_pose = "";
 
         int tick = -1;
+
+        public void clear()
+        {
+            allParts = null;
+            parts = null;
+        }
     }
 
     public static record PartHolder<E extends GenericPartEntity<?>> (List<E> allParts, Map<String, E[]> partMap,
@@ -61,6 +67,13 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         public void setParts(E[] parts)
         {
             holder.parts = parts;
+        }
+
+        public void clear()
+        {
+            allParts.clear();
+            partMap.clear();
+            holder.clear();
         }
     };
 

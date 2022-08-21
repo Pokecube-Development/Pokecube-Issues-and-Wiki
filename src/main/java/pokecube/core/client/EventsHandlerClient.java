@@ -319,9 +319,8 @@ public class EventsHandlerClient
     {
         try
         {
-            if (!(event.getScreen() instanceof AbstractContainerScreen)) return;
             if (!Screen.hasAltDown()) return;
-            final AbstractContainerScreen<?> gui = (AbstractContainerScreen<?>) event.getScreen();
+            if (!(event.getScreen() instanceof AbstractContainerScreen<?> gui)) return;
             final List<Slot> slots = gui.getMenu().slots;
             for (final Slot slot : slots) if (slot.hasItem() && PokecubeManager.isFilled(slot.getItem()))
             {

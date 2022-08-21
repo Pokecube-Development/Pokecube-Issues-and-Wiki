@@ -1,6 +1,7 @@
 package pokecube.core.impl.capabilities.impl;
 
 import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
@@ -95,7 +96,8 @@ public abstract class PokemobStats extends PokemobGenes
     @Override
     public IPokemob setExp(int exp, final boolean notifyLevelUp)
     {
-        if (!this.getEntity().isAlive()) return this;
+        Mob mob = this.getEntity();
+        if (!mob.isAlive()) return this;
         final int old = this.getMoveStats().exp;
         this.getMoveStats().oldLevel = this.getLevel();
         final int lvl100xp = Tools.maxXPs[this.getExperienceMode()];
@@ -115,19 +117,18 @@ public abstract class PokemobStats extends PokemobGenes
                 {
                     this.updateHealth();
                     final ItemStack held = this.getHeldItem();
-                    if (this.getEntity().isAlive() && (this.canEvolve(ItemStack.EMPTY) || this.canEvolve(held)))
+                    if (mob.isAlive() && (this.canEvolve(ItemStack.EMPTY) || this.canEvolve(held)))
                     {
                         this.levelUp(newLvl);
                         final IPokemob evo = this.evolve(true, false, held);
                         if (evo != null) ret = evo;
                     }
                     ret.levelUp(newLvl);
-                    if (this.getEntity().isAddedToWorld() && ret.getOwner() instanceof Player && this.getEntity()
-                            .getLevel().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT) && !this.getEntity()
-                                    .getLevel().isClientSide) this.getEntity().getLevel().addFreshEntity(
-                                            new ExperienceOrb(this.getEntity().getLevel(), this.getEntity()
-                                                    .getX(), this.getEntity().getY(), this.getEntity().getZ(),
-                                                    1));
+                    if (mob.isAddedToWorld() && ret.getOwner() instanceof Player
+                            && mob.getLevel().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)
+                            && !mob.getLevel().isClientSide)
+                        mob.getLevel().addFreshEntity(
+                                new ExperienceOrb(mob.getLevel(), mob.getX(), mob.getY(), mob.getZ(), 1));
                 }
             }
             else this.getMoveStats().exp = old;
@@ -161,13 +162,13 @@ public abstract class PokemobStats extends PokemobGenes
         final boolean oldName = this.getPokedexEntry().getName().equals(nickname) || nickname.trim().isEmpty();
         if (!this.getEntity().isEffectiveAi())
         {
-            if (!nickname.equals(this.getPokemonNickname()) && this.getEntity().isAddedToWorld()) PacketNickname.sendPacket(
-                    this.getEntity(), nickname);
+            if (!nickname.equals(this.getPokemonNickname()) && this.getEntity().isAddedToWorld())
+                PacketNickname.sendPacket(this.getEntity(), nickname);
         }
         else if (oldName) this.dataSync().set(this.params.NICKNAMEDW, "");
         else this.dataSync().set(this.params.NICKNAMEDW, nickname);
-        if (!this.getPokedexEntry().stock && this.getEntity().isAddedToWorld()) this.getEntity().setCustomName(oldName
-                ? null : TComponent.literal(nickname));
+        if (!this.getPokedexEntry().stock && this.getEntity().isAddedToWorld())
+            this.getEntity().setCustomName(oldName ? null : TComponent.literal(nickname));
     }
 
     @Override

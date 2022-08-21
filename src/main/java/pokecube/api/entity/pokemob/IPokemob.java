@@ -78,12 +78,15 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
         // This key is used for unique identifier for lookup in renderer for
         // initialization.
-        public ResourceLocation   key;
+        public ResourceLocation key;
         public DefaultFormeHolder loaded_from;
 
         // Icons for the entry, ordering is male/maleshiny, female/female shiny.
         // genderless fills the male slot.
-        private final ResourceLocation[][] icons = { { null, null }, { null, null } };
+        private final ResourceLocation[][] icons =
+        {
+                { null, null },
+                { null, null } };
 
         private FormeHolder(final ResourceLocation model, final ResourceLocation texture,
                 final ResourceLocation animation, final ResourceLocation name)
@@ -136,7 +139,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         @Override
         public boolean equals(final Object obj)
         {
-            if (obj instanceof FormeHolder) return this.key.equals(((FormeHolder) obj).key);
+            if (obj instanceof FormeHolder holder) return this.key.equals(holder.key);
             return false;
         }
 
@@ -186,12 +189,12 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         HP, ATTACK, DEFENSE, SPATTACK, SPDEFENSE, VIT, ACCURACY, EVASION,
     }
 
-    static final UUID              FLYSPEEDFACTOR_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1235-96EA6097278D");
-    static final AttributeModifier FLYSPEEDFACTOR    = new AttributeModifier(IPokemob.FLYSPEEDFACTOR_ID,
+    static final UUID FLYSPEEDFACTOR_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1235-96EA6097278D");
+    static final AttributeModifier FLYSPEEDFACTOR = new AttributeModifier(IPokemob.FLYSPEEDFACTOR_ID,
             "following speed boost", 1F, AttributeModifier.Operation.MULTIPLY_TOTAL);
 
-    static final UUID              SWIMSPEEDFACTOR_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1236-96EA6097278D");
-    static final AttributeModifier SWIMSPEEDFACTOR    = new AttributeModifier(IPokemob.FLYSPEEDFACTOR_ID,
+    static final UUID SWIMSPEEDFACTOR_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1236-96EA6097278D");
+    static final AttributeModifier SWIMSPEEDFACTOR = new AttributeModifier(IPokemob.FLYSPEEDFACTOR_ID,
             "following speed boost", 0.25F, AttributeModifier.Operation.MULTIPLY_TOTAL);
 
     /*
@@ -257,8 +260,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     // TODO also include effects from external float reasons here
     default boolean flys()
     {
-        return (this.getPokedexEntry().flys() || this.canUseFly() && this.getEntity().isVehicle()) && !this
-                .isGrounded();
+        return (this.getPokedexEntry().flys() || this.canUseFly() && this.getEntity().isVehicle())
+                && !this.isGrounded();
     }
 
     /** If this is larger than 0, the pokemob shouldn't be allowed to attack. */
@@ -286,8 +289,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     }
 
     /**
-     * The evolution tick will be set when the mob evolves and then is
-     * decreased each tick. It is used to render a special effect.
+     * The evolution tick will be set when the mob evolves and then is decreased
+     * each tick. It is used to render a special effect.
      *
      * @return the evolutionTicks
      */
@@ -355,8 +358,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     default double getMovementSpeed()
     {
         final AttributeInstance iattributeinstance = this.getEntity().getAttribute(Attributes.MOVEMENT_SPEED);
-        final boolean swimming = this.getEntity().isInWater() || this.getEntity().isInLava() && this.getEntity()
-                .fireImmune();
+        final boolean swimming = this.getEntity().isInWater()
+                || this.getEntity().isInLava() && this.getEntity().fireImmune();
         final boolean flying = !swimming && !this.getEntity().isOnGround();
 
         final boolean hasFlyBoost = iattributeinstance.getModifier(IPokemob.FLYSPEEDFACTOR_ID) != null;
@@ -383,8 +386,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     int getPokemonUID();
 
     /**
-     * The personality value for the pokemob, used to determine nature,
-     * ability, etc.<br>
+     * The personality value for the pokemob, used to determine nature, ability,
+     * etc.<br>
      * http://bulbapedia.bulbagarden.net/wiki/Personality_value
      *
      * @return
@@ -449,8 +452,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     default boolean moveToShoulder(final Player player)
     {
-        if (this.getEntity() instanceof ShoulderRidingEntity) if (player instanceof ServerPlayer)
-            return ((ShoulderRidingEntity) this.getEntity()).setEntityOnShoulder((ServerPlayer) player);
+        if (this.getEntity() instanceof ShoulderRidingEntity mob)
+            if (player instanceof ServerPlayer splayer) return mob.setEntityOnShoulder(splayer);
         return false;
     }
 
@@ -508,9 +511,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      * Sets the experience.
      *
      * @param exp
-     * @param notifyLevelUp
-     *            should be false in an initialize step and true in a true exp
-     *            earning
+     * @param notifyLevelUp should be false in an initialize step and true in a
+     *                      true exp earning
      */
     default IPokemob setForSpawn(final int exp)
     {
@@ -525,8 +527,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     }
 
     /**
-     * Sets the default home location and roam distance. This is probably
-     * better managed via the IGuardAICapability.
+     * Sets the default home location and roam distance. This is probably better
+     * managed via the IGuardAICapability.
      *
      * @param x
      * @param y
@@ -541,16 +543,14 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     /**
      * {@link #MALE} or {@link #FEMALE} or {@link #NOSEXE}
      *
-     * @param sexe
-     *            the byte sexe
+     * @param sexe the byte sexe
      */
     void setSexe(byte sexe);
 
     void setShiny(boolean shiny);
 
     /**
-     * Called when the mob spawns naturally. Used to set held item for
-     * example.
+     * Called when the mob spawns naturally. Used to set held item for example.
      */
     default IPokemob spawnInit()
     {

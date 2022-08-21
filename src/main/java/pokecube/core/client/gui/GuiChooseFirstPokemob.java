@@ -31,7 +31,6 @@ import pokecube.core.client.Resources;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketChoose;
-import thut.api.entity.IMobColourable;
 import thut.lib.TComponent;
 
 public class GuiChooseFirstPokemob extends Screen
@@ -281,8 +280,7 @@ public class GuiChooseFirstPokemob extends Screen
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             pokemob.setShiny(false);
             pokemob.setSize(1);
-
-            if (entity instanceof IMobColourable) ((IMobColourable) entity).setRGBA(255, 255, 255, 255);
+            pokemob.setRGBA(255, 255, 255, 255);
             //@formatter:off
             final int dx =-50 + (this.width - this.xSize)/2;
             final int dy = 50 + (this.height - this.ySize)/2;

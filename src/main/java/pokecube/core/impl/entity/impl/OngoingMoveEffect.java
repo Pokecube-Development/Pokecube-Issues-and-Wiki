@@ -40,7 +40,7 @@ public class OngoingMoveEffect extends BaseEffect
     @Override
     public AddType canAdd(final IOngoingAffected affected, final IOngoingEffect toAdd)
     {
-        if (toAdd instanceof OngoingMoveEffect && ((OngoingMoveEffect) toAdd).move == this.move) return AddType.DENY;
+        if (toAdd instanceof OngoingMoveEffect move && move.move == this.move) return AddType.DENY;
         return AddType.ACCEPT;
     }
 

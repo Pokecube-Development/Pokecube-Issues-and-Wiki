@@ -1,10 +1,8 @@
 package pokecube.core.handlers.playerdata.advancements.triggers;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
@@ -26,10 +24,10 @@ public class UseMoveTrigger implements CriterionTrigger<UseMoveTrigger.Instance>
 {
     public static class Instance extends AbstractCriterionTriggerInstance
     {
-        String   attack;
+        String attack;
         PokeType type;
-        int      power;
-        float    damage;
+        int power;
+        float damage;
 
         public Instance(final Composite pred, final MovePacket move)
         {
@@ -43,20 +41,19 @@ public class UseMoveTrigger implements CriterionTrigger<UseMoveTrigger.Instance>
         {
             return packet.attack.equals(this.attack);
         }
-
     }
 
     static class Listeners
     {
-        private final PlayerAdvancements                                       playerAdvancements;
-        private final Set<CriterionTrigger.Listener<UseMoveTrigger.Instance>> listeners = Sets.<CriterionTrigger.Listener<UseMoveTrigger.Instance>> newHashSet();
+        private final PlayerAdvancements playerAdvancements;
+        private final Set<CriterionTrigger.Listener<Instance>> listeners = Sets.newHashSet();
 
         public Listeners(final PlayerAdvancements playerAdvancementsIn)
         {
             this.playerAdvancements = playerAdvancementsIn;
         }
 
-        public void add(final CriterionTrigger.Listener<UseMoveTrigger.Instance> listener)
+        public void add(final CriterionTrigger.Listener<Instance> listener)
         {
             this.listeners.add(listener);
         }
@@ -66,50 +63,37 @@ public class UseMoveTrigger implements CriterionTrigger<UseMoveTrigger.Instance>
             return this.listeners.isEmpty();
         }
 
-        public void remove(final CriterionTrigger.Listener<UseMoveTrigger.Instance> listener)
+        public void remove(final CriterionTrigger.Listener<Instance> listener)
         {
             this.listeners.remove(listener);
         }
 
         public void trigger(final ServerPlayer player, final MovePacket packet)
         {
-            List<CriterionTrigger.Listener<UseMoveTrigger.Instance>> list = null;
-
-            for (final CriterionTrigger.Listener<UseMoveTrigger.Instance> listener : this.listeners)
-                if (listener.getTriggerInstance().test(player, packet))
-                {
-                    if (list == null) list = Lists.<CriterionTrigger.Listener<UseMoveTrigger.Instance>> newArrayList();
-
-                    list.add(listener);
-                }
-            if (list != null) for (final CriterionTrigger.Listener<UseMoveTrigger.Instance> listener1 : list)
-                listener1.run(this.playerAdvancements);
+            for (var listener : this.listeners)
+                if (listener.getTriggerInstance().test(player, packet)) listener.run(this.playerAdvancements);
         }
     }
 
     public static ResourceLocation ID = new ResourceLocation(PokecubeMod.ID, "use_move");
 
-    private final Map<PlayerAdvancements, UseMoveTrigger.Listeners> listeners = Maps.<PlayerAdvancements, UseMoveTrigger.Listeners> newHashMap();
+    private final Map<PlayerAdvancements, Listeners> listeners = Maps.newHashMap();
 
     public UseMoveTrigger()
-    {
-    }
+    {}
 
     @Override
     public void addPlayerListener(final PlayerAdvancements playerAdvancementsIn,
-            final CriterionTrigger.Listener<UseMoveTrigger.Instance> listener)
+            final CriterionTrigger.Listener<Instance> listener)
     {
-        UseMoveTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
-
-        if (bredanimalstrigger$listeners == null)
+        Listeners listeners = this.listeners.get(playerAdvancementsIn);
+        if (listeners == null)
         {
-            bredanimalstrigger$listeners = new UseMoveTrigger.Listeners(playerAdvancementsIn);
-            this.listeners.put(playerAdvancementsIn, bredanimalstrigger$listeners);
+            listeners = new Listeners(playerAdvancementsIn);
+            this.listeners.put(playerAdvancementsIn, listeners);
         }
-
-        bredanimalstrigger$listeners.add(listener);
+        listeners.add(listener);
     }
-
 
     @Override
     public Instance createInstance(final JsonObject json, final DeserializationContext conditions)
@@ -118,7 +102,7 @@ public class UseMoveTrigger implements CriterionTrigger<UseMoveTrigger.Instance>
         final String attack = json.get("move").getAsString();
         // TODO get this done better.
         final MovePacket packet = new MovePacket(null, null, MovesUtils.getMoveFromName(attack));
-        return new UseMoveTrigger.Instance(pred, packet);
+        return new Instance(pred, packet);
     }
 
     @Override
@@ -135,21 +119,19 @@ public class UseMoveTrigger implements CriterionTrigger<UseMoveTrigger.Instance>
 
     @Override
     public void removePlayerListener(final PlayerAdvancements playerAdvancementsIn,
-            final CriterionTrigger.Listener<UseMoveTrigger.Instance> listener)
+            final CriterionTrigger.Listener<Instance> listener)
     {
-        final UseMoveTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
-
-        if (bredanimalstrigger$listeners != null)
+        final Listeners listeners = this.listeners.get(playerAdvancementsIn);
+        if (listeners != null)
         {
-            bredanimalstrigger$listeners.remove(listener);
-
-            if (bredanimalstrigger$listeners.isEmpty()) this.listeners.remove(playerAdvancementsIn);
+            listeners.remove(listener);
+            if (listeners.isEmpty()) this.listeners.remove(playerAdvancementsIn);
         }
     }
 
     public void trigger(final ServerPlayer player, final MovePacket packet)
     {
-        final UseMoveTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(player.getAdvancements());
-        if (bredanimalstrigger$listeners != null) bredanimalstrigger$listeners.trigger(player, packet);
+        final Listeners listeners = this.listeners.get(player.getAdvancements());
+        if (listeners != null) listeners.trigger(player, packet);
     }
 }

@@ -42,9 +42,8 @@ public abstract class PokemobHungry extends PokemobMoves
                 else e = this.cast(result.getObject());
             }
             if (ItemList.is(PokemobHungry.LEPPABERRY, item)) hungerValue *= 2;
-            if (item.getItem() instanceof ItemBerry)
+            if (item.getItem() instanceof ItemBerry berry)
             {
-                final ItemBerry berry = (ItemBerry) item.getItem();
                 int weight = Nature.getBerryWeight(berry.type.index, this.getNature());
                 final int current = this.getHappiness();
                 final HappinessType type = HappinessType.BERRY;
@@ -108,8 +107,9 @@ public abstract class PokemobHungry extends PokemobMoves
     @Override
     public Vector3 getMobSizes()
     {
-        return this.sizes.set(this.getPokedexEntry().width, this.getPokedexEntry().height, this
-                .getPokedexEntry().length).scalarMult(this.getSize());
+        return this.sizes
+                .set(this.getPokedexEntry().width, this.getPokedexEntry().height, this.getPokedexEntry().length)
+                .scalarMult(this.getSize());
     }
 
     /** @return does this pokemon hunt for food */

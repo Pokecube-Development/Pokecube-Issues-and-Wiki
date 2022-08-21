@@ -9,15 +9,25 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 public class TrainerCaps
 {
 
-    public static final Capability<IHasNPCAIStates> AISTATES_CAP = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<IHasNPCAIStates> AISTATES_CAP = CapabilityManager.get(new CapabilityToken<>()
+    {
+    });
 
-    public static final Capability<IHasPokemobs> HASPOKEMOBS_CAP = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<IHasPokemobs> HASPOKEMOBS_CAP = CapabilityManager.get(new CapabilityToken<>()
+    {
+    });
 
-    public static final Capability<IHasMessages> MESSAGES_CAP = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<IHasMessages> MESSAGES_CAP = CapabilityManager.get(new CapabilityToken<>()
+    {
+    });
 
-    public static final Capability<IHasRewards> REWARDS_CAP = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<IHasRewards> REWARDS_CAP = CapabilityManager.get(new CapabilityToken<>()
+    {
+    });
 
-    public static final Capability<IHasTrades> TRADES_CAP = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<IHasTrades> TRADES_CAP = CapabilityManager.get(new CapabilityToken<>()
+    {
+    });
 
     public static void registerCapabilities(final RegisterCapabilitiesEvent event)
     {
@@ -32,7 +42,7 @@ public class TrainerCaps
     {
         if (entityIn == null) return null;
         final IHasPokemobs holder = entityIn.getCapability(TrainerCaps.HASPOKEMOBS_CAP, null).orElse(null);
-        if (holder == null && entityIn instanceof IHasPokemobs) return (IHasPokemobs) entityIn;
+        if (holder == null && entityIn instanceof IHasPokemobs cap) return cap;
         return holder;
     }
 
@@ -41,7 +51,7 @@ public class TrainerCaps
         IHasRewards holder = null;
         if (entityIn == null) return null;
         holder = entityIn.getCapability(TrainerCaps.REWARDS_CAP, null).orElse(null);
-        if (holder == null && entityIn instanceof IHasRewards) return (IHasRewards) entityIn;
+        if (holder == null && entityIn instanceof IHasRewards cap) return cap;
         return holder;
     }
 
@@ -49,7 +59,7 @@ public class TrainerCaps
     {
         if (entityIn == null) return null;
         final IHasTrades holder = entityIn.getCapability(TrainerCaps.TRADES_CAP, null).orElse(null);
-        if (holder == null && entityIn instanceof IHasTrades) return (IHasTrades) entityIn;
+        if (holder == null && entityIn instanceof IHasTrades cap) return cap;
         return holder;
     }
 
@@ -58,7 +68,7 @@ public class TrainerCaps
         IHasMessages holder = null;
         if (entityIn == null) return null;
         holder = entityIn.getCapability(TrainerCaps.MESSAGES_CAP, null).orElse(null);
-        if (holder == null && entityIn instanceof IHasMessages) return (IHasMessages) entityIn;
+        if (holder == null && entityIn instanceof IHasMessages cap) return cap;
         return holder;
     }
 
@@ -67,7 +77,7 @@ public class TrainerCaps
         IHasNPCAIStates holder = null;
         if (entityIn == null) return null;
         holder = entityIn.getCapability(TrainerCaps.AISTATES_CAP, null).orElse(null);
-        if (holder == null && entityIn instanceof IHasNPCAIStates) return (IHasNPCAIStates) entityIn;
+        if (holder == null && entityIn instanceof IHasNPCAIStates cap) return cap;
         return holder;
     }
 }

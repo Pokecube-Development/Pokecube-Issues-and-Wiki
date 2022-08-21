@@ -246,9 +246,8 @@ public class Pokemake
         }
         final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
 
-        if (!args.isEmpty() && args.get(0) instanceof LivingEntity)
+        if (!args.isEmpty() && args.get(0) instanceof LivingEntity owner)
         {
-            final LivingEntity owner = (LivingEntity) args.remove(0);
             pokemob.setOwner(owner.getUUID());
             PokecubeAPI.LOGGER.debug("Creating " + pokemob.getPokedexEntry() + " for " + owner.getName());
             pokemob.setGeneralState(GeneralStates.TAMED, true);

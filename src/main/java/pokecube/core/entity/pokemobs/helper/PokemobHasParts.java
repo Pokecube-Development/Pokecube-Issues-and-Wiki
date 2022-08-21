@@ -89,7 +89,9 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
             part.remove(RemovalReason.DISCARDED);
         }
 
-        getHolder().allParts().clear();
+        if (this.isAddedToWorld() && !this.getHolder().allParts().isEmpty()) PartSync.sendUpdate(this, true);
+
+        getHolder().clear();
 
         if (entry.poseShapes != null)
         {
@@ -172,7 +174,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         this.firstTick = true;
         this.refreshDimensions();
         this.firstTick = first;
-        PartSync.sendUpdate(weSelf());
+        if (this.isAddedToWorld()) PartSync.sendUpdate(weSelf());
     }
 
     @Override

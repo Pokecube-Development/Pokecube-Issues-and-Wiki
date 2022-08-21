@@ -30,7 +30,7 @@ public class Breeding extends ListPage<LineEntry>
     public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
             "textures/gui/pokewatchgui_breeding_nm.png");
 
-    int                   last = 0;
+    int last = 0;
     final PokemobInfoPage parent;
 
     public Breeding(final PokemobInfoPage parent)
@@ -63,8 +63,8 @@ public class Breeding extends ListPage<LineEntry>
             if (clickevent != null) if (clickevent.getAction() == Action.CHANGE_PAGE)
             {
                 final PokedexEntry entry = Database.getEntry(clickevent.getValue());
-                if (entry != null && entry != this.parent.pokemob.getPokedexEntry()) this.parent.initPages(
-                        EventsHandlerClient.getRenderMob(entry, this.watch.player.getLevel()));
+                if (entry != null && entry != this.parent.pokemob.getPokedexEntry())
+                    this.parent.initPages(EventsHandlerClient.getRenderMob(entry, this.watch.player.getLevel()));
                 return true;
             }
         }
@@ -113,8 +113,8 @@ public class Breeding extends ListPage<LineEntry>
             final PokedexEntry entry = Database.getEntry(name);
             if (entry == null) continue;
             main = TComponent.translatable(entry.getUnlocalizedName());
-            main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN)).withClickEvent(
-                    new ClickEvent(Action.CHANGE_PAGE, entry.getName())));
+            main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
+                    .withClickEvent(new ClickEvent(Action.CHANGE_PAGE, entry.getName())));
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
         }
     }

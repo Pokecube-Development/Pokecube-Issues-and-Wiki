@@ -63,7 +63,7 @@ public class StatsCollector
     {
         if (killer == null || killed == null || killer.getOwner() instanceof FakePlayer) return;
         String owner;
-        if (killer.getOwner() instanceof ServerPlayer player )
+        if (killer.getOwner() instanceof ServerPlayer player)
         {
             owner = player.getStringUUID();
             final PokedexEntry dbe = Database.getEntry(killed);

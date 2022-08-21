@@ -16,7 +16,6 @@ import pokecube.core.client.render.mobs.overlays.Evolution;
 import pokecube.core.client.render.mobs.overlays.ExitCube;
 import pokecube.core.client.render.mobs.overlays.Health;
 import pokecube.core.client.render.mobs.overlays.Status;
-import thut.core.client.render.wrappers.ModelWrapper;
 
 public class RenderMobOverlays
 {
@@ -41,12 +40,12 @@ public class RenderMobOverlays
             {
                 int br = event.getPackedLight();
                 if (PokecubeCore.getConfig().brightbars) br = OverlayTexture.pack(15, false);
-                if (PokecubeCore.getConfig().renderInF1 || Minecraft.renderNames()) Health.renderHealthBar(event
-                        .getEntity(), mat, buf, partialTicks, cameraEntity, br);
+                if (PokecubeCore.getConfig().renderInF1 || Minecraft.renderNames())
+                    Health.renderHealthBar(event.getEntity(), mat, buf, partialTicks, cameraEntity, br);
             }
 
-            if (pokemob != null) if (event.getRenderer().getModel() instanceof ModelWrapper<?>) Status.render(event
-                    .getRenderer(), mat, buf, pokemob, partialTicks, event.getPackedLight());
+            if (pokemob != null)
+                Status.render(event.getRenderer(), mat, buf, pokemob, partialTicks, event.getPackedLight());
         }
     }
 

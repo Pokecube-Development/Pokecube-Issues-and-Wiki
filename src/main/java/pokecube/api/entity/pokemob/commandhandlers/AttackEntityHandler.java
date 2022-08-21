@@ -20,8 +20,7 @@ public class AttackEntityHandler extends DefaultHandler
     public int targetId;
 
     public AttackEntityHandler()
-    {
-    }
+    {}
 
     public AttackEntityHandler(final Integer targetId)
     {
@@ -33,12 +32,10 @@ public class AttackEntityHandler extends DefaultHandler
     {
         final Level world = pokemob.getEntity().getLevel();
         final Entity target = PokecubeAPI.getEntityProvider().getEntity(world, this.targetId, true);
-        if (target == null || !(target instanceof LivingEntity))
+        if (!(target instanceof LivingEntity living))
         {
-            if (PokecubeMod.debug) if (target == null) PokecubeAPI.LOGGER.error("Target Mob cannot be null!",
-                    new IllegalArgumentException(pokemob.getEntity().toString()));
-            else PokecubeAPI.LOGGER.error("Invalid Target!", new IllegalArgumentException(pokemob.getEntity() + " "
-                    + target));
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.error("Invalid Target!",
+                    new IllegalArgumentException(pokemob.getEntity() + " " + target));
             return;
         }
         final int currentMove = pokemob.getMoveIndex();
@@ -50,11 +47,11 @@ public class AttackEntityHandler extends DefaultHandler
             if (move.isSelfMove()) pokemob.executeMove(pokemob.getEntity(), null, 0);
             else
             {
-                final Component mess = TComponent.translatable("pokemob.command.attack", pokemob
-                        .getDisplayName(), target.getDisplayName(), TComponent.translatable(MovesUtils
-                                .getUnlocalizedMove(move.getName())));
+                final Component mess = TComponent.translatable("pokemob.command.attack", pokemob.getDisplayName(),
+                        target.getDisplayName(),
+                        TComponent.translatable(MovesUtils.getUnlocalizedMove(move.getName())));
                 if (this.fromOwner()) pokemob.displayMessageToOwner(mess);
-                BrainUtils.initiateCombat(pokemob.getEntity(), (LivingEntity) target);
+                BrainUtils.initiateCombat(pokemob.getEntity(), living);
             }
         }
     }

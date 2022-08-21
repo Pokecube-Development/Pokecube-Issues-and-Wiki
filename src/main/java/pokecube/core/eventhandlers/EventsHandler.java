@@ -587,11 +587,11 @@ public class EventsHandler
         if (event.getObject() instanceof TMTile te) event.addCapability(key, new TMInventory(te));
         if (event.getObject() instanceof TraderTile te) event.addCapability(key, new TradeInventory(te));
         if (event.getObject() instanceof PCTile te) event.addCapability(key, new PCWrapper(te));
-        if (event.getObject() instanceof NestTile)
+        if (event.getObject() instanceof NestTile te)
         {
             final ResourceLocation nestCap = new ResourceLocation("pokecube:nest");
             event.addCapability(key, new ItemCap(54, 64));
-            event.addCapability(nestCap, new SaveableHabitatProvider(event.getObject()));
+            event.addCapability(nestCap, new SaveableHabitatProvider(te));
         }
     }
 

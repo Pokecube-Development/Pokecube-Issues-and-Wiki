@@ -18,8 +18,8 @@ public class CubeMaskChecker extends ShadowMaskChecker
     }
 
     @Override
-    protected boolean apply(Object2FloatOpenHashMap<BlockPos> ret, List<HitEntity> entityAffected,
-            HashSet<ChunkPos> seen)
+    protected boolean apply(Object2FloatOpenHashMap<BlockPos> destroyed, Object2FloatOpenHashMap<BlockPos> remaining,
+            List<HitEntity> entityAffected, HashSet<ChunkPos> seen)
     {
         int num = (int) Math.sqrt(this.boom.strength / 0.5);
         final int max = this.boom.radius * 2 + 1;
@@ -40,7 +40,7 @@ public class CubeMaskChecker extends ShadowMaskChecker
                 break;
             }
             Cruncher.indexToVals(this.currentIndex, this.r, false);
-            done = this.run(radSq, num, seen, ret, entityAffected);
+            done = this.run(radSq, num, seen, destroyed, remaining, entityAffected);
             if (done) break;
         }
         // Increment the boom index for next pass.
