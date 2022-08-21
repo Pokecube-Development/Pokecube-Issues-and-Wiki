@@ -15,10 +15,10 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.FeaturesInit;
@@ -63,7 +63,7 @@ public class PortalActiveFunction
         }
         catch (final IllegalArgumentException e)
         {
-            PokecubeMod.LOGGER.warn("Error finding subforms for " + ret, e);
+            PokecubeAPI.LOGGER.warn("Error finding subforms for " + ret, e);
         }
 
         return ret;

@@ -1,13 +1,16 @@
 package pokecube.core.utils;
 
 import java.util.Map;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.commands.CommandSourceStack;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.database.Database;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
+import thut.core.common.commands.CommandTools;
 
 /**
  * This is a list of permissions nodes, as well as information about what they
@@ -138,6 +141,11 @@ public class Permissions
             final String move = "move.action." + s;
             PermNodes.registerNode(move, DefaultPermissionLevel.ALL, "can use " + move + " out of battle?");
         }
+    }
+
+    public static Predicate<CommandSourceStack> hasPerm(final String perm)
+    {
+        return cs -> CommandTools.hasPerm(cs, perm);
     }
 
 }

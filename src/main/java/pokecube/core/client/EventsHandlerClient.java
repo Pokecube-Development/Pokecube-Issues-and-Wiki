@@ -222,8 +222,9 @@ public class EventsHandlerClient
         // We only handle these ingame anyway.
         if (player == null) return;
         //
-        if (evt.getAction() == GLFW.GLFW_PRESS && evt.getButton() == GLFW.GLFW_MOUSE_BUTTON_RIGHT)
-            if (Minecraft.getInstance().hitResult == null || Minecraft.getInstance().hitResult.getType() == Type.MISS)
+        if (evt.getAction() == GLFW.GLFW_PRESS && evt.getButton() == GLFW.GLFW_MOUSE_BUTTON_RIGHT
+                && Minecraft.getInstance().hitResult == null
+                || Minecraft.getInstance().hitResult.getType() == Type.MISS)
         {
             final Entity entity = Tools.getPointedEntity(player, 6);
             if (entity != null) hands:
@@ -245,13 +246,13 @@ public class EventsHandlerClient
                 && evt.getKey() == GLFW.GLFW_KEY_D)
             GuiInfoMessages.clear();
 
-        if (evt.getKey() == GLFW.GLFW_KEY_F5)
-            if (AnimationGui.entry != null && Minecraft.getInstance().screen instanceof AnimationGui)
+        if (evt.getKey() == GLFW.GLFW_KEY_F5 && AnimationGui.entry != null
+                && Minecraft.getInstance().screen instanceof AnimationGui)
         {
             PokedexEntryLoader.updateEntry(AnimationGui.entry);
             RenderPokemob.reloadModel(AnimationGui.entry);
         }
-            else if (player.getVehicle() != null && Minecraft.getInstance().screen != null)
+        else if (player.getVehicle() != null && Minecraft.getInstance().screen != null)
         {
             final IPokemob pokemob = PokemobCaps.getPokemobFor(player.getVehicle());
             if (pokemob != null) PokedexEntryLoader.updateEntry(pokemob.getPokedexEntry());
@@ -311,8 +312,8 @@ public class EventsHandlerClient
 
     private static void onCapabilityAttach(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (event.getObject() instanceof Player) event.addCapability(new ResourceLocation("pokecube:shouldermobs"),
-                new ShoulderHolder((Player) event.getObject()));
+        if (event.getObject() instanceof Player player)
+            event.addCapability(new ResourceLocation("pokecube:shouldermobs"), new ShoulderHolder(player));
     }
 
     private static void onRenderGUIScreenPre(final DrawScreenEvent.Post event)

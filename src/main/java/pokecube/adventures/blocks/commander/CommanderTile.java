@@ -17,13 +17,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.network.PacketCommander;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IHasCommands;
 import pokecube.api.entity.pokemob.IHasCommands.Command;
 import pokecube.api.entity.pokemob.IHasCommands.IMobCommandHandler;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.blocks.InteractableTile;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
@@ -197,7 +197,7 @@ public class CommanderTile extends InteractableTile
         }
         catch (final Exception e)
         {
-            PokecubeMod.LOGGER.error("Error executing a command for a pokemob", e);
+            PokecubeAPI.LOGGER.error("Error executing a command for a pokemob", e);
             throw new Exception("Error handling the command", e);
         }
     }

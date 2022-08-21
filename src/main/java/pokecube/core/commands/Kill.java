@@ -18,7 +18,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.init.Config;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
-import pokecube.core.utils.Tools;
+import pokecube.core.utils.Permissions;
 import thut.lib.TComponent;
 
 public class Kill
@@ -78,11 +78,11 @@ public class Kill
         PermNodes.registerNode(killAllPerm, DefaultPermissionLevel.OP,
                 "Is the player allowed to force all pokemobs to recall");
 
-        command.then(Commands.literal("kill").requires(Tools.hasPerm(killPerm))
+        command.then(Commands.literal("kill").requires(Permissions.hasPerm(killPerm))
                 .executes((ctx) -> Kill.execute(ctx.getSource(), false, false)));
-        command.then(Commands.literal("kill_all").requires(Tools.hasPerm(killAllPerm))
+        command.then(Commands.literal("kill_all").requires(Permissions.hasPerm(killAllPerm))
                 .executes((ctx) -> Kill.execute(ctx.getSource(), true, false)));
-        command.then(Commands.literal("cull").requires(Tools.hasPerm(cullPerm))
+        command.then(Commands.literal("cull").requires(Permissions.hasPerm(cullPerm))
                 .executes((ctx) -> Kill.execute(ctx.getSource(), false, true)));
     }
 }

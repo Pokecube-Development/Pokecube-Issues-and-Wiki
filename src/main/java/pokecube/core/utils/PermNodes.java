@@ -86,8 +86,6 @@ public class PermNodes
         NODES.put(node.getNodeName(), node);
     }
 
-    public static long test = 0;
-
     @SubscribeEvent
     public static void gatherPerms(PermissionGatherEvent.Nodes event)
     {

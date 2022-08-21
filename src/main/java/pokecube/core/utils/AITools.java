@@ -39,7 +39,7 @@ public class AITools
 
     public static final ResourceLocation AGRESSIVE = new ResourceLocation("pokecube", "aggressive");
 
-    public static class AgroCheck implements Predicate<IPokemob>
+    private static class AgroCheck implements Predicate<IPokemob>
     {
         @Override
         public boolean test(final IPokemob input)
@@ -104,10 +104,6 @@ public class AITools
             return t instanceof IPokedamage;
         }
     }
-
-    public static boolean handleDamagedTargets = true;
-
-    public static int DEAGROTIMER = 50;
 
     public static Set<ResourceLocation> invalidIDs = Sets.newHashSet();
 

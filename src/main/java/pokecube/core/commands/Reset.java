@@ -11,8 +11,8 @@ import pokecube.api.PokecubeAPI;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
+import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokecubeSerializer;
-import pokecube.core.utils.Tools;
 import thut.lib.TComponent;
 
 public class Reset
@@ -33,7 +33,7 @@ public class Reset
         final String perm = "command.pokecube.reset";
         PermNodes.registerNode(perm, DefaultPermissionLevel.OP,
                 "Is the player allowed to reset the starter status of a player");
-        command.then(Commands.literal("reset").requires(Tools.hasPerm(perm))
+        command.then(Commands.literal("reset").requires(Permissions.hasPerm(perm))
                 .then(Commands.argument("target_player", EntityArgument.player()).executes(
                         (ctx) -> Reset.execute(ctx.getSource(), EntityArgument.getPlayer(ctx, "target_player")))));
     }

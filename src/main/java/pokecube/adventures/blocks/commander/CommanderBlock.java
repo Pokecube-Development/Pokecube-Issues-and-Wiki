@@ -6,8 +6,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.blocks.InteractableHorizontalBlock;
-import pokecube.core.impl.PokecubeMod;
 
 public class CommanderBlock extends InteractableHorizontalBlock implements EntityBlock
 {
@@ -38,7 +38,7 @@ public class CommanderBlock extends InteractableHorizontalBlock implements Entit
         }
         catch (final Exception e)
         {
-            PokecubeMod.LOGGER.warn("Invalid Commander Block use at " + pos + " " + e.getMessage());
+            PokecubeAPI.LOGGER.warn("Invalid Commander Block use at " + pos + " " + e.getMessage());
         }
         commander.power = power;
     }

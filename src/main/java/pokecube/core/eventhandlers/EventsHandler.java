@@ -314,13 +314,6 @@ public class EventsHandler
      */
     public static boolean COOLDOWN_BASED = true;
 
-    static int count = 0;
-
-    static int countAbove = 0;
-    static double mean = 0;
-    static long starttime = 0;
-    static boolean notified = false;
-
     // 4 = 1 per 10mins, 2 = 1 per 10s, 5 = 1 per 48 hours
     public static double candyChance = 4.5;
 
@@ -748,7 +741,7 @@ public class EventsHandler
         final ResourceKey<Level> newDim = evt.getDimension();
         if (newDim == world.dimension() || entity.getPersistentData().contains("thutcore:dimtp")) return;
         final List<Entity> pokemobs = new ArrayList<>(
-                world.getEntities(EntityTypeTest.forClass(Entity.class), e -> EventsHandler.validFollowing(entity, e)));
+                world.getEntities(EntityTypeTest.forClass(Entity.class), e -> EventsHandler.shouldRecallOnChangeDimension(entity, e)));
         PCEventsHandler.recallAll(pokemobs, false);
     }
 
@@ -826,7 +819,7 @@ public class EventsHandler
      * @param toRecall
      * @return
      */
-    public static boolean validFollowing(final Entity owner, final Entity toRecall)
+    public static boolean shouldRecallOnChangeDimension(final Entity owner, final Entity toRecall)
     {
         if (!toRecall.isAlive()) return false;
         if (!toRecall.isAddedToWorld()) return false;

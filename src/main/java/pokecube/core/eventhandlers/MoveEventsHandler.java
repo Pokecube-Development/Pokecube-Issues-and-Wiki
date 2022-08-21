@@ -24,12 +24,6 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.ClipContext.Fluid;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseFireBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FarmBlock;
-import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -64,6 +58,11 @@ import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.init.Config;
 import pokecube.core.init.ItemGenerator;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.moves.world.DefaultAction;
+import pokecube.core.moves.world.DefaultElectricAction;
+import pokecube.core.moves.world.DefaultFireAction;
+import pokecube.core.moves.world.DefaultIceAction;
+import pokecube.core.moves.world.DefaultWaterAction;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 import thut.api.maths.Vector3;
@@ -125,38 +124,6 @@ public class MoveEventsHandler
         {
             this.wrapped.init();
             if (this.custom != null) this.custom.init();
-        }
-    }
-
-    private static class DefaultAction implements IMoveAction
-    {
-        Move_Base move;
-
-        public DefaultAction(final Move_Base move)
-        {
-            this.move = move;
-        }
-
-        @Override
-        public boolean applyEffect(final IPokemob attacker, final Vector3 location)
-        {
-            if (this.move.getType(attacker) == PokeType.getType("water"))
-                return MoveEventsHandler.doDefaultWater(attacker, this.move, location);
-            if (this.move.getType(attacker) == PokeType.getType("ice")
-                    && (this.move.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0
-                    && this.move.move.power > 0)
-                return MoveEventsHandler.doDefaultIce(attacker, this.move, location);
-            if (this.move.getType(attacker) == PokeType.getType("electric"))
-                MoveEventsHandler.doDefaultElectric(attacker, this.move, location);
-            if (this.move.getType(attacker) == PokeType.getType("fire"))
-                return MoveEventsHandler.doDefaultFire(attacker, this.move, location);
-            return false;
-        }
-
-        @Override
-        public String getMoveName()
-        {
-            return this.move.name;
         }
     }
 
@@ -269,237 +236,6 @@ public class MoveEventsHandler
             return false;
         }
         return true;
-    }
-
-    /**
-     * This will have the following effects, for "Strong" electric type moves:
-     * Melt sand to glass
-     */
-    public static boolean doDefaultElectric(final IPokemob attacker, final Move_Base move, final Vector3 location)
-    {
-        if (move.getPWR() < MoveEventsHandler.ELECTRICSTRONG || !PokecubeCore.getConfig().defaultElectricActions)
-            return false;
-        // Things below here all actually damage blocks, so check this.
-        if (!MoveEventsHandler.canAffectBlock(attacker, location, move.getName())) return false;
-
-        final Level world = attacker.getEntity().getLevel();
-        final BlockState state = location.getBlockState(world);
-        final Block block = state.getBlock();
-        final Vector3 nextBlock = new Vector3().set(attacker.getEntity()).subtractFrom(location).reverse().norm()
-                .addTo(location);
-        final BlockState nextState = nextBlock.getBlockState(world);
-        if (block == Blocks.SAND)
-        {
-            location.setBlock(world, Blocks.GLASS.defaultBlockState());
-            return true;
-        }
-        else if (state.canBeReplaced(
-                MoveEventsHandler.getContext(world, attacker, Blocks.GLASS.defaultBlockState(), location))
-                && nextState.getBlock() == Blocks.SAND)
-        {
-            nextBlock.setBlock(world, Blocks.GLASS.defaultBlockState());
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * This will have the following effects, for fire type moves: Ignite
-     * flamable blocks Melt snow If strong, melt obsidian to lava If none of the
-     * above, attempt to cook items nearby
-     */
-    public static boolean doDefaultFire(final IPokemob attacker, final Move_Base move, final Vector3 location)
-    {
-        if (move.getPWR() <= 0 || !PokecubeCore.getConfig().defaultFireActions) return false;
-        final Level world = attacker.getEntity().getLevel();
-        final UseContext context = MoveEventsHandler.getContext(world, attacker, Blocks.LAVA.defaultBlockState(),
-                location);
-        final BlockState state = context.getHitState();
-        Block block = state.getBlock();
-        final BlockPos hitPos = context.getHitPos();
-        final BlockPos prevPos = context.getClickedPos();
-        final BlockPos placePos = prevPos;
-        final boolean light = BaseFireBlock.canBePlacedAt(world, placePos, context.getHorizontalDirection());
-        final BlockState prev = world.getBlockState(prevPos);
-
-        final boolean smelted = MoveEventsHandler.attemptSmelt(attacker, location);
-        // First try to smelt items
-        if (smelted) return true;
-
-        // Things below here all actually damage blocks, so check this.
-        if (!MoveEventsHandler.canAffectBlock(attacker, location, move.getName())) return false;
-
-        // Melt Snow
-        if (block == Blocks.SNOW_BLOCK)
-        {
-            world.setBlockAndUpdate(hitPos, Blocks.WATER.defaultBlockState());
-            return true;
-        }
-        // Melt Snow
-        else if (block == Blocks.SNOW)
-        {
-            final int level = state.getValue(SnowLayerBlock.LAYERS);
-            world.setBlockAndUpdate(hitPos, Blocks.WATER.defaultBlockState().setValue(LiquidBlock.LEVEL, level));
-            return true;
-        }
-        // Melt Ice
-        else if (block == Blocks.ICE)
-        {
-            world.setBlockAndUpdate(hitPos, Blocks.WATER.defaultBlockState());
-            return true;
-        }
-        block = prev.getBlock();
-
-        // Melt Snow
-        if (block == Blocks.SNOW_BLOCK)
-        {
-            world.setBlockAndUpdate(prevPos, Blocks.WATER.defaultBlockState());
-            return true;
-        }
-        // Melt Snow
-        else if (block == Blocks.SNOW)
-        {
-            final int level = prev.getValue(SnowLayerBlock.LAYERS);
-            world.setBlockAndUpdate(prevPos, Blocks.WATER.defaultBlockState().setValue(LiquidBlock.LEVEL, level));
-            return true;
-        }
-        // Melt Ice
-        else if (block == Blocks.ICE)
-        {
-            world.setBlockAndUpdate(prevPos, Blocks.WATER.defaultBlockState());
-            return true;
-        }
-
-        // Start fires
-        if (light && move.getPWR() < MoveEventsHandler.FIRESTRONG)
-        {
-            final BlockState fire = BaseFireBlock.getState(world, placePos);
-            world.setBlockAndUpdate(placePos, fire);
-            return true;
-        }
-        if (move.getPWR() < MoveEventsHandler.FIRESTRONG) return false;
-
-        block = state.getBlock();
-        // Melt obsidian
-        if (block == Blocks.OBSIDIAN)
-        {
-            world.setBlockAndUpdate(hitPos, Blocks.LAVA.defaultBlockState());
-            return true;
-        }
-        // Evapourate water
-        else if (block == Blocks.WATER)
-        {
-            world.setBlockAndUpdate(hitPos, Blocks.AIR.defaultBlockState());
-            return true;
-        }
-        block = prev.getBlock();
-        if (block == Blocks.OBSIDIAN)
-        {
-            world.setBlockAndUpdate(hitPos, Blocks.LAVA.defaultBlockState());
-            return true;
-        }
-        // Evapourate water
-        else if (block == Blocks.WATER)
-        {
-            world.setBlockAndUpdate(hitPos, Blocks.AIR.defaultBlockState());
-            return true;
-        }
-        // Start fires
-        else if (light)
-        {
-            final BlockState fire = BaseFireBlock.getState(world, placePos);
-            world.setBlockAndUpdate(placePos, fire);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * This will have the following effects, for ice type moves: Place snow
-     * Freeze water
-     */
-    public static boolean doDefaultIce(final IPokemob attacker, final Move_Base move, final Vector3 location)
-    {
-        if (!PokecubeCore.getConfig().defaultIceActions) return false;
-
-        // Things below here all actually damage blocks, so check this.
-        if (!MoveEventsHandler.canAffectBlock(attacker, location, move.getName())) return false;
-
-        final Level world = attacker.getEntity().getLevel();
-        final UseContext context = MoveEventsHandler.getContext(world, attacker, Blocks.SNOW.defaultBlockState(),
-                location);
-        final BlockState state = context.getHitState();
-        final Block block = state.getBlock();
-        // // First attempt to freeze the water
-        if (block == Blocks.WATER && state.getValue(LiquidBlock.LEVEL) == 0)
-        {
-            world.setBlockAndUpdate(context.getClickedPos(), Blocks.ICE.defaultBlockState());
-            return true;
-        }
-        final InteractionResult result = context.getItemInHand().useOn(context);
-        return result == InteractionResult.SUCCESS;
-    }
-
-    /**
-     * This will have the following effects, for water type moves: Extinguish
-     * fires if strong: turn lava to obsidian water farmland
-     */
-    public static boolean doDefaultWater(final IPokemob attacker, final Move_Base move, final Vector3 location)
-    {
-        if (!PokecubeCore.getConfig().defaultWaterActions) return false;
-        if (move.isSelfMove()) return false;
-        final Level world = attacker.getEntity().getLevel();
-        final UseContext context = MoveEventsHandler.getContext(world, attacker, Blocks.WATER.defaultBlockState(),
-                location);
-        final BlockState state = context.getHitState();
-        final Block block = state.getBlock();
-        final BlockPos hitPos = context.getHitPos();
-        // Put out fires
-        if (block == Blocks.FIRE)
-        {
-            location.setAir(world);
-            return true;
-        }
-        if (state.getProperties().contains(FarmBlock.MOISTURE))
-        {
-            final int level = state.getValue(FarmBlock.MOISTURE);
-            if (level < 7)
-            {
-                world.setBlockAndUpdate(hitPos, state.setValue(FarmBlock.MOISTURE, 7));
-                return true;
-            }
-        }
-        if (move.getPWR() < MoveEventsHandler.WATERSTRONG) return false;
-
-        // Things below here all actually damage blocks, so check this.
-        if (!MoveEventsHandler.canAffectBlock(attacker, location, move.getName())) return false;
-
-        // Freeze lava
-        if (block == Blocks.LAVA)
-        {
-            final int level = state.getValue(LiquidBlock.LEVEL);
-            final BlockState replacement = level == 0 ? Blocks.OBSIDIAN.defaultBlockState()
-                    : Blocks.STONE.defaultBlockState();
-            world.setBlockAndUpdate(hitPos, replacement);
-            return true;
-        }
-        final BlockPos prevPos = context.getClickedPos();
-        final BlockState prev = world.getBlockState(prevPos);
-
-        // Freeze lava
-        if (prev.getBlock() == Blocks.LAVA)
-        {
-            final int level = state.getValue(LiquidBlock.LEVEL);
-            final BlockState replacement = level == 0 ? Blocks.OBSIDIAN.defaultBlockState()
-                    : Blocks.STONE.defaultBlockState();
-            world.setBlockAndUpdate(prevPos, replacement);
-            return true;
-        }
-
-        // Attempt to place some water
-        if (prev.canBeReplaced(context))
-            world.setBlockAndUpdate(prevPos, Blocks.WATER.defaultBlockState().setValue(LiquidBlock.LEVEL, 2));
-        return false;
     }
 
     public static UseContext getContext(final Level world, final IPokemob user, final BlockState toPlace,
@@ -706,7 +442,14 @@ public class MoveEventsHandler
         IMoveAction action = MoveEventsHandler.actionMap.get(move.name);
         if (action == null)
         {
-            MoveEventsHandler.register(action = new DefaultAction(move));
+            boolean doesDamage = (move.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0
+                    && move.move.power > 0;
+            if (move.getType(attacker) == PokeType.getType("water")) action = new DefaultWaterAction(move);
+            if (move.getType(attacker) == PokeType.getType("ice") && doesDamage) action = new DefaultIceAction(move);
+            if (move.getType(attacker) == PokeType.getType("electric")) action = new DefaultElectricAction(move);
+            if (move.getType(attacker) == PokeType.getType("fire")) action = new DefaultFireAction(move);
+            else action = new DefaultAction(move);
+            MoveEventsHandler.register(action);
             action.init();
         }
         if (PokecubeCore.getConfig().permsMoveAction && attacker.getOwner() instanceof ServerPlayer player)

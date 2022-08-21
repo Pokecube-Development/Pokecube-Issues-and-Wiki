@@ -25,7 +25,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
-import pokecube.core.utils.Tools;
+import pokecube.core.utils.Permissions;
 import thut.api.entity.ai.RootTask;
 import thut.lib.TComponent;
 
@@ -68,7 +68,7 @@ public class Count
         final String perm = "command.pokecube.count";
         PermNodes.registerNode(perm, DefaultPermissionLevel.OP,
                 "Is the player allowed to check the number of pokemobs in the world");
-        command.then(Commands.literal("count").requires(Tools.hasPerm(perm))
+        command.then(Commands.literal("count").requires(Permissions.hasPerm(perm))
                 .executes((ctx) -> Count.execute(ctx.getSource())));
     }
 }

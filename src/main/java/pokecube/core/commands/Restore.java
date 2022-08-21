@@ -31,6 +31,7 @@ import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
+import pokecube.core.utils.Permissions;
 import pokecube.core.utils.Tools;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
@@ -46,7 +47,7 @@ public class Restore
                 "Is the player allowed use the restore feature to recover mobs");
 
         final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("restore")
-                .requires(Tools.hasPerm(perm));
+                .requires(Permissions.hasPerm(perm));
 
         // This one does the actual restoration
         final LiteralArgumentBuilder<CommandSourceStack> restore = Commands.literal("restore")

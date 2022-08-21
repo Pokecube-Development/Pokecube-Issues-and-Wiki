@@ -8,7 +8,6 @@ import java.util.function.Predicate;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -36,13 +35,11 @@ import pokecube.api.items.IPokecube;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.Move_Base;
 import pokecube.api.utils.PokeType;
-import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.moves.MovesUtils;
 import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
-import thut.core.common.commands.CommandTools;
 import thut.lib.RegHelper;
 
 public class Tools
@@ -455,33 +452,6 @@ public class Tools
         return false;
     }
 
-    public static boolean isAnyPlayerInRange(final double rangeHorizontal, final double rangeVertical,
-            final Entity entity)
-    {
-        return Tools.isAnyPlayerInRange(rangeHorizontal, rangeVertical, entity.getLevel(), new Vector3().set(entity));
-    }
-
-    public static boolean isAnyPlayerInRange(final double rangeHorizontal, final double rangeVertical,
-            final Level world, final Vector3 location)
-    {
-        final double dhm = rangeHorizontal * rangeHorizontal;
-        final double dvm = rangeVertical * rangeVertical;
-        for (int i = 0; i < world.players().size(); ++i)
-        {
-            final Player PlayerEntity = world.players().get(i);
-            if (EntitySelector.NO_SPECTATORS.test(PlayerEntity) || PokecubeCore.getConfig().debug)
-            {
-                final double d0 = PlayerEntity.getX() - location.x;
-                final double d1 = PlayerEntity.getZ() - location.z;
-                final double d2 = PlayerEntity.getY() - location.y;
-                final double dh = d0 * d0 + d1 * d1;
-                final double dv = d2 * d2;
-                if (dh < dhm && dv < dvm) return true;
-            }
-        }
-        return false;
-    }
-
     public static boolean isAnyPlayerInRange(final double range, final Entity entity)
     {
         final Level world = entity.getLevel();
@@ -534,10 +504,5 @@ public class Tools
             index++;
         }
         return Tools.getLevelFromTable(index, exp);
-    }
-
-    public static Predicate<CommandSourceStack> hasPerm(final String perm)
-    {
-        return cs -> CommandTools.hasPerm(cs, perm);
     }
 }

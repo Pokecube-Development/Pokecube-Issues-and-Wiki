@@ -8,7 +8,7 @@ import net.minecraft.commands.Commands;
 import pokecube.core.database.Database;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
-import pokecube.core.utils.Tools;
+import pokecube.core.utils.Permissions;
 import thut.lib.TComponent;
 
 public class Reload
@@ -19,7 +19,7 @@ public class Reload
         final String perm = "command.pokecube.reload";
         PermNodes.registerNode(perm, DefaultPermissionLevel.OP,
                 "Is the player allowed to reload pokecube datapacks");
-        command.then(Commands.literal("reload").requires(Tools.hasPerm(perm)).executes((ctx) -> Reload.execute(ctx
+        command.then(Commands.literal("reload").requires(Permissions.hasPerm(perm)).executes((ctx) -> Reload.execute(ctx
                 .getSource())));
     }
 

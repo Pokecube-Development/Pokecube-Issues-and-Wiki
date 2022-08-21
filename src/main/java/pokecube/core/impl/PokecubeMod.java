@@ -21,24 +21,12 @@ import net.minecraftforge.fml.loading.FMLPaths;
 
 public abstract class PokecubeMod
 {
-
-    public final static String ID              = "pokecube";
-    public final static String VERSION         = "@VERSION";
-    public final static String MCVERSIONS      = "@MCVERSION";
-    public final static String MINVERSION      = "@MINVERSION";
-    public final static String MINFORGEVERSION = "@FORGEVERSION";
-
-    public final static String DEPSTRING = ";required-after:thutcore@@THUTCORE";
-    public final static String GIST      = "https://gist.githubusercontent.com/Thutmose/4d7320c36696cd39b336/raw/";
-    public final static String UPDATEURL = "https://raw.githubusercontent.com/Pokecube-Development/Pokecube-Core/master/versions.json";
-
-    public final static String GIFTURL = PokecubeMod.GIST + "gift";
+    public final static String ID = "pokecube";
 
     private static HashMap<Level, FakePlayer> fakePlayers = new HashMap<>();
 
     public static final UUID fakeUUID = new UUID(1234, 4321);
 
-    public static Logger  LOGGER = null;
     public static boolean debug;
 
     private static FakePlayer makeNewFakePlayer(final ServerLevel world)
@@ -48,8 +36,8 @@ public abstract class PokecubeMod
 
     public static FakePlayer getFakePlayer(final Level world)
     {
-        if (!(world instanceof ServerLevel)) throw new IllegalArgumentException("Must be called server side!");
-        return PokecubeMod.getFakePlayer((ServerLevel) world);
+        if (!(world instanceof ServerLevel level)) throw new IllegalArgumentException("Must be called server side!");
+        return PokecubeMod.getFakePlayer(level);
     }
 
     public static FakePlayer getFakePlayer(final ServerLevel world)
@@ -59,9 +47,9 @@ public abstract class PokecubeMod
         player.setLevel(world);
         return player;
     }
+
     public static void setLogger(final Logger logger_in)
     {
-        PokecubeMod.LOGGER = logger_in;
         final String log = PokecubeMod.ID;
         final File logfile = FMLPaths.GAMEDIR.get().resolve("logs").resolve(log + ".log").toFile();
         if (logfile.exists())
@@ -70,9 +58,9 @@ public abstract class PokecubeMod
             try
             {
                 final DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-                Files.move(FMLPaths.GAMEDIR.get().resolve("logs").resolve(log + ".log"), FMLPaths.GAMEDIR.get().resolve(
-                        "logs").resolve("old").resolve(String.format("%s_%s%s", log, LocalDateTime.now().format(dtf)
-                                .replace(":", "-"), ".log")));
+                Files.move(FMLPaths.GAMEDIR.get().resolve("logs").resolve(log + ".log"),
+                        FMLPaths.GAMEDIR.get().resolve("logs").resolve("old").resolve(String.format("%s_%s%s", log,
+                                LocalDateTime.now().format(dtf).replace(":", "-"), ".log")));
             }
             catch (final IOException e)
             {
@@ -80,8 +68,8 @@ public abstract class PokecubeMod
             }
         }
         final org.apache.logging.log4j.core.Logger logger = (org.apache.logging.log4j.core.Logger) logger_in;
-        final FileAppender appender = FileAppender.newBuilder().withFileName(logfile.getAbsolutePath()).setName(
-                PokecubeMod.ID).build();
+        final FileAppender appender = FileAppender.newBuilder().withFileName(logfile.getAbsolutePath())
+                .setName(PokecubeMod.ID).build();
         logger.addAppender(appender);
         appender.start();
     }
