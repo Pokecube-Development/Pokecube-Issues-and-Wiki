@@ -12,10 +12,13 @@ import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.eventhandlers.MoveEventsHandler.UseContext;
+import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 
 public class DefaultWaterAction extends DefaultAction
 {
+
+    public static int WATERSTRONG = 100;
 
     public DefaultWaterAction(Move_Base move)
     {
@@ -38,10 +41,23 @@ public class DefaultWaterAction extends DefaultAction
         final Block block = state.getBlock();
         final BlockPos hitPos = context.getHitPos();
         // Put out fires
-        if (block == Blocks.FIRE)
+
+        // check fires
+        int size = 3;
+        boolean applied = false;
+        final Vector3 rAbs = new Vector3();
+        final Vector3 origin = new Vector3();
+        origin.set(hitPos);
+        for (int i = 0; i < size * size * size; i++)
         {
-            location.setAir(world);
-            return true;
+            final byte[] pos = Tools.indexArr[i];
+            rAbs.set(pos).addTo(origin);
+            BlockState test = world.getBlockState(hitPos);
+            if (test.is(Blocks.FIRE))
+            {
+                location.setAir(world);
+                applied = true;
+            }
         }
         if (state.getProperties().contains(FarmBlock.MOISTURE))
         {
@@ -52,10 +68,10 @@ public class DefaultWaterAction extends DefaultAction
                 return true;
             }
         }
-        if (move.getPWR() < MoveEventsHandler.WATERSTRONG) return false;
+        if (move.getPWR() < WATERSTRONG) return applied;
 
         // Things below here all actually damage blocks, so check this.
-        if (!MoveEventsHandler.canAffectBlock(user, location, move.getName())) return false;
+        if (!MoveEventsHandler.canAffectBlock(user, location, move.getName())) return applied;
 
         // Freeze lava
         if (block == Blocks.LAVA)
@@ -82,7 +98,7 @@ public class DefaultWaterAction extends DefaultAction
         // Attempt to place some water
         if (prev.canBeReplaced(context))
             world.setBlockAndUpdate(prevPos, Blocks.WATER.defaultBlockState().setValue(LiquidBlock.LEVEL, 2));
-        return false;
+        return applied;
     }
 
 }
