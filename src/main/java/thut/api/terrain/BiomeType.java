@@ -143,7 +143,7 @@ public class BiomeType
     @Override
     public boolean equals(final Object o)
     {
-        if (o instanceof BiomeType) return ((BiomeType) o).id == this.id;
+        if (o instanceof BiomeType t) return t.id == this.id;
         return false;
     }
 

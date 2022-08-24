@@ -13,6 +13,7 @@ import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.core.client.gui.helper.ListHelper;
@@ -41,9 +42,8 @@ public class SpawnListEntry
         }
 
         final List<Component> biomes = Lists.newArrayList();
-// TODO biome entry in watch
-//        for (final ResourceLocation b : matcher.clientBiomes)
-//            biomes.add(TComponent.translatable(String.format("biome.%s.%s", b.getNamespace(), b.getPath())));
+        for (final ResourceLocation b : matcher.clientBiomes)
+            biomes.add(TComponent.translatable(String.format("biome.%s.%s", b.getNamespace(), b.getPath())));
 
         final String ind = entry != null ? "  " : "";
         if (!biomes.isEmpty())
@@ -57,11 +57,11 @@ public class SpawnListEntry
         }
 
         final List<String> types = Lists.newArrayList();
-//        if (matcher.clientTypes.size() > 1)
-//        {
-//            matcher.clientTypes.remove("all");
-//        }
-//        for (final String s : matcher.clientTypes) types.add(I18n.get("thutcore.biometype." + s));
+        if (matcher.clientTypes.size() > 1)
+        {
+            matcher.clientTypes.remove("all");
+        }
+        for (final String s : matcher.clientTypes) types.add(I18n.get("thutcore.biometype." + s));
         if (!types.isEmpty())
         {
             String typeString = I18n.get("pokewatch.spawns.types") + " ";
@@ -99,8 +99,8 @@ public class SpawnListEntry
             if (day || night || dawn) times = times + ", ";
             times = times + I18n.get("pokewatch.spawns.dawn");
         }
-        for (final MutableComponent line : ListHelper.splitText(TComponent.literal(times), width - fontRender.width(ind),
-                fontRender, false))
+        for (final MutableComponent line : ListHelper.splitText(TComponent.literal(times),
+                width - fontRender.width(ind), fontRender, false))
             output.add(TComponent.literal(ind + line.getString()));
         String rate = "";
         if (matcher.spawnRule.values.containsKey("Local_Rate"))

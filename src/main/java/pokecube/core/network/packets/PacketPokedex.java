@@ -392,24 +392,15 @@ public class PacketPokedex extends NBTPacket
 
     private String serialize(final SpawnBiomeMatcher matcher)
     {
-        // TODO syncing matchers over.
-//        // First ensure the client side stuff is cleared.
-//        matcher.clientBiomes.clear();
-//        matcher.clientTypes.clear();
-//        // Then populate it for serialisation
-//        matcher.parse();
-//
-//        List<ResourceLocation> biomes = Lists.newArrayList();
-//        List<String> types = Lists.newArrayList();
-//
-//        SpawnBiomeMatcher.addForMatcher(biomes, types, matcher);
-//
-//        matcher.clientBiomes.addAll(biomes);
-//        matcher.clientTypes.addAll(types);
+        // Initialise the client lists of biomes/types
+        SpawnBiomeMatcher.populateClientValues(matcher);
+        // If no biomes or subbiomes, just throw null string, usually means this
+        // spawn is not possible due to settings, etc.
+        if (matcher.clientBiomes.isEmpty() && matcher.clientTypes.isEmpty() || !matcher._valid) return null;
+        // Then serialise it
         final String ret = PacketPokedex.gson.toJson(matcher);
         // Then clear afterwards
-//        matcher.clientBiomes.clear();
-//        matcher.clientTypes.clear();
+        SpawnBiomeMatcher.clearClientValues(matcher);
         return ret;
     }
 
@@ -455,8 +446,11 @@ public class PacketPokedex extends NBTPacket
                 for (final SpawnBiomeMatcher matcher : entry.getSpawnData().matchers.keySet())
             {
                 SpawnEntry sentry = entry.getSpawnData().matchers.get(matcher);
+                String serialised = this.serialize(matcher);
+                // This is null in the case that the spawn is not valid.
+                if (serialised == null) continue;
                 matcher.spawnRule.values.put(PokedexEntryLoader.RATE, sentry.rate + "");
-                spawns.putString("" + n, this.serialize(matcher));
+                spawns.putString("" + n, serialised);
                 matcher.spawnRule.values.remove(PokedexEntryLoader.RATE);
                 n++;
             }
