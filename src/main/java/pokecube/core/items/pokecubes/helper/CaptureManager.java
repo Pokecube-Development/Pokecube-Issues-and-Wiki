@@ -112,9 +112,11 @@ public class CaptureManager
             int n = 0;
             rate:
             {
-                final int catchRate = 250;// TODO configs for this?
+                // If they want these to differ, they can add a pokedex entry
+                // for the specfic mob.
+                final int catchRate = 250;
                 final double cubeBonus = modifier;
-                final double statusbonus = 1;// TODO statuses for mobs?
+                final double statusbonus = 1;
                 final double a = Tools.getCatchRate(mob.getMaxHealth(), mob.getHealth(), catchRate, cubeBonus,
                         statusbonus);
                 if (a > 255)
@@ -154,9 +156,6 @@ public class CaptureManager
         if (pokemob != null)
         {
             EntityPokecubeBase.setNoCaptureBasedOnConfigs(pokemob);
-
-            // FIXME See if AI need init?
-
             pokemob.setLogicState(LogicStates.SITTING, false);
             pokemob.setGeneralState(GeneralStates.TAMED, false);
             pokemob.setOwner((UUID) null);

@@ -6,6 +6,7 @@ import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.templates.Move_Basic;
 
 public class Whirlwind extends Move_Basic
@@ -29,12 +30,11 @@ public class Whirlwind extends Move_Basic
         final IPokemob attacked = PokemobCaps.getPokemobFor(packet.attacked);
         if (attacked != null)
         {
-            if (attacked.getLevel() > packet.attacker.getLevel()) // TODO
-                                                                  // message
-                                                                  // here for
-                                                                  // move
-                                                                  // failing;
+            if (attacked.getLevel() > packet.attacker.getLevel())
+            {
+                MovesUtils.displayEfficiencyMessages(packet.attacker, packet.attacked, -2, 0);
                 return;
+            }
             if (attacked.getGeneralState(GeneralStates.TAMED)) attacked.onRecall();
             attacked.setCombatState(CombatStates.ANGRY, false);
         }

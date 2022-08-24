@@ -144,10 +144,8 @@ public class TerrainSegment
 
         String getIdentifier();
 
-        // TODO call this
         void readFromNBT(CompoundTag nbt);
 
-        // TODO call this
         void writeToNBT(CompoundTag nbt);
     }
 
@@ -160,7 +158,12 @@ public class TerrainSegment
     public static ISubBiomeChecker defaultChecker = new DefaultChecker();
     public static List<ISubBiomeChecker> biomeCheckers = Lists.newArrayList();
 
-    public static Set<Class<? extends ITerrainEffect>> terrainEffectClasses = Sets.newHashSet();
+    private static Set<Class<? extends ITerrainEffect>> terrainEffectClasses = Sets.newHashSet();
+
+    public static void registerTerrainEffect(Class<? extends ITerrainEffect> effect)
+    {
+        terrainEffectClasses.add(effect);
+    }
 
     public static boolean noLoad = false;
 
@@ -238,6 +241,19 @@ public class TerrainSegment
         {
             biomes[i] = t.idReplacements.get(biomes[i]);
             replacements = true;
+        }
+        if (nbt.contains("effects"))
+        {
+            CompoundTag effects = nbt.getCompound("effects");
+            for (var key : effects.getAllKeys())
+            {
+                CompoundTag load = effects.getCompound(key);
+                ITerrainEffect effect = t.effects.get(key);
+                if (effect != null)
+                {
+                    effect.readFromNBT(load);
+                }
+            }
         }
         if (replacements && ThutCore.conf.debug)
             ThutCore.LOGGER.info("Replacement subbiomes found for " + t.chunkX + " " + t.chunkY + " " + t.chunkZ);
@@ -493,6 +509,18 @@ public class TerrainSegment
         nbt.putInt("y", this.chunkY);
         nbt.putInt("z", this.chunkZ);
         nbt.putBoolean("toSave", this.toSave);
+
+        if (!this.effects.isEmpty())
+        {
+            CompoundTag effects = new CompoundTag();
+            for (var entry : this.effects.entrySet())
+            {
+                CompoundTag tag = new CompoundTag();
+                entry.getValue().writeToNBT(tag);
+                if (!tag.isEmpty()) effects.put(entry.getKey(), tag);
+            }
+            if (!effects.isEmpty()) nbt.put("effects", effects);
+        }
     }
 
     public void setBiome(final BlockPos p, final BiomeType type)

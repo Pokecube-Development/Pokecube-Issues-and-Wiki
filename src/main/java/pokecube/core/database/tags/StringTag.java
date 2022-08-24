@@ -57,7 +57,7 @@ public class StringTag implements IResourceData
 
         public void checkIncludes(final StringTag parent, final Set<String> checked)
         {
-            // TODO possible speedup by adding the included tags to our list,
+            // DOLATER possible speedup by adding the included tags to our list,
             // instead of referencing the included tags.
 
             for (final String s : this.values) if (s.startsWith("#"))
@@ -177,7 +177,6 @@ public class StringTag implements IResourceData
             }
             catch (final Exception e)
             {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         });

@@ -1,5 +1,7 @@
 package pokecube.core.utils;
 
+import net.minecraft.world.level.Level;
+
 /**
  * Represents a time period within the (Minecraftian) day.
  * <p>
@@ -16,8 +18,8 @@ public final class TimePeriod
 
     public final static TimePeriod never = new TimePeriod(0, 0);
 
-    public final int    startTick;
-    public final int    endTick;
+    public final int startTick;
+    public final int endTick;
     public final double startTime;
 
     public final double endTime;
@@ -81,6 +83,11 @@ public final class TimePeriod
     {
         if (null != other) return this.startTick < other.endTick && this.endTick > other.startTick;
         return false;
+    }
+
+    public static double getTime(Level level)
+    {// TODO better way to choose current time, such as other day lengths
+        return level.getDayTime() % 24000 / 24000d;
     }
 
 }

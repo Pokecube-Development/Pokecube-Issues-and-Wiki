@@ -153,7 +153,6 @@ public class Util
         }
         else if (part != null && !gem.isEmpty())
         {
-            // TODO confirm this works
             final VertexConsumer buf0 = buff.getBuffer(ItemBlockRenderTypes.getRenderType(gem, false));
             renderable.renderPart(mat, buf0, itempart);
         }

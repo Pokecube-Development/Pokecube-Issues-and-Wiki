@@ -304,9 +304,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
                 if (!shape.isEmpty() && !shape.bounds().move(result.getBlockPos()).intersects(axisalignedbb))
                     break trace;
             }
-            // if TODO maybe do an event here?
-            // (!net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this,
-            // raytraceresult))
+            // TODO maybe do an event here?
             this.onImpact(raytraceresult);
             return;
         }

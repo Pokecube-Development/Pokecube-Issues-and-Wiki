@@ -682,8 +682,9 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
     }
 
     private void saveConfig()
-    {// TODO save the configs
-     // PokecubeCore.getConfig().setSettings();
+    {
+        PokecubeCore.getConfig().onUpdated();
+        PokecubeCore.getConfig().write();
     }
 
     /**

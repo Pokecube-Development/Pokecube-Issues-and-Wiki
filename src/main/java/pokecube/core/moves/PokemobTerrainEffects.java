@@ -417,7 +417,6 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
             final MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
 
-            // FIXME decide on shader
             final RenderType effectType = RenderType.create("pokecube:terrain_effects",
                     DefaultVertexFormat.POSITION_COLOR, Mode.QUADS, 256, RenderType.CompositeState.builder()
                             .setShaderState(RenderStateShard.POSITION_COLOR_SHADER).createCompositeState(false));

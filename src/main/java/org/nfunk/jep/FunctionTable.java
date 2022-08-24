@@ -10,7 +10,8 @@ import java.util.Hashtable;
 
 import org.nfunk.jep.function.PostfixMathCommandI;
 
-@SuppressWarnings({ "serial", "rawtypes", "unchecked" })
+@SuppressWarnings(
+{ "serial", "rawtypes", "unchecked" })
 public class FunctionTable extends Hashtable
 {
     public FunctionTable()
@@ -19,10 +20,9 @@ public class FunctionTable extends Hashtable
     }
 
     /**
-     * overrides the standard hashtable method.
-     * If the argument is of the wrong type (i.e. not a String)
-     * then throws ClassCastException
-     * RJM addition Oct 03
+     * overrides the standard hashtable method. If the argument is of the wrong
+     * type (i.e. not a String) then throws ClassCastException RJM addition Oct
+     * 03
      */
 
     @Override
@@ -32,8 +32,8 @@ public class FunctionTable extends Hashtable
     }
 
     /**
-     * returns the PostfixMathCommandI for function with name s.
-     * RJM addition Oct 03
+     * returns the PostfixMathCommandI for function with name s. RJM addition
+     * Oct 03
      */
     public PostfixMathCommandI get(String s)
     {
@@ -41,11 +41,8 @@ public class FunctionTable extends Hashtable
     }
 
     /**
-     * overrides the standard hashtable method.
-     * If the arguments are of the wrong type then throws
-     * ClassCastException
-     * RJM addition Oct 03
-     * TODO is Hashtable always index by Strings?
+     * overrides the standard hashtable method. If the arguments are of the
+     * wrong type then throws ClassCastException RJM addition Oct 03
      */
     @Override
     public Object put(Object o, Object p)
@@ -54,8 +51,8 @@ public class FunctionTable extends Hashtable
     }
 
     /**
-     * adds the PostfixMathCommandI for the function with name s.
-     * RJM addition Oct 03
+     * adds the PostfixMathCommandI for the function with name s. RJM addition
+     * Oct 03
      */
     public Object put(String s, PostfixMathCommandI pfmc)
     {

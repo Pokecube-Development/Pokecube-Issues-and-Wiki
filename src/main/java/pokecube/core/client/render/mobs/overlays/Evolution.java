@@ -34,7 +34,6 @@ public class Evolution
             });
 
     private static final float sqrt3_2 = (float) (Math.sqrt(3.0D) / 2.0D);
-    // FIXME decide on shader
     private static final RenderType EFFECT = RenderType.create("pokemob:evo_effect", DefaultVertexFormat.POSITION_COLOR,
             Mode.QUADS, 256, false, true,
             RenderType.CompositeState.builder().setShaderState(RenderType.POSITION_COLOR_SHADER)

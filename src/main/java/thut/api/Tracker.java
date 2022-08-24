@@ -88,7 +88,6 @@ public class Tracker
         }
         catch (final IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

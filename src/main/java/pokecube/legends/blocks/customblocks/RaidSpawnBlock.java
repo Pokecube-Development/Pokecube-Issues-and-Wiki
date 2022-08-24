@@ -141,7 +141,6 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements Simpl
     @Override
     public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
     {
-        // TODO Auto-generated method stub
         return new RaidSpawn(pos, state);
     }
 

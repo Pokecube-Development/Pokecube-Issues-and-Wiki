@@ -27,22 +27,22 @@ public class ModelRing extends EntityModel<Entity>
 {
     public static RenderType getType(final ResourceLocation loc, final boolean alpha)
     {
-        // FIXME shaders
-        return alpha ? RenderType.create("thutbling:bling_a", DefaultVertexFormat.NEW_ENTITY, Mode.QUADS, 256, true,
-                false, RenderType.CompositeState.builder().setShaderState(
-                        RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER).setTextureState(
-                                new RenderStateShard.TextureStateShard(loc, true, false)).setCullState(
-                                        new RenderStateShard.CullStateShard(false)).setLightmapState(
-                                                new RenderStateShard.LightmapStateShard(true)).setOverlayState(
-                                                        new RenderStateShard.OverlayStateShard(true))
-                        .createCompositeState(false))
+        return alpha
+                ? RenderType.create("thutbling:bling_a", DefaultVertexFormat.NEW_ENTITY, Mode.QUADS, 256, true, false,
+                        RenderType.CompositeState.builder()
+                                .setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
+                                .setTextureState(new RenderStateShard.TextureStateShard(loc, true, false))
+                                .setCullState(new RenderStateShard.CullStateShard(false))
+                                .setLightmapState(new RenderStateShard.LightmapStateShard(true))
+                                .setOverlayState(new RenderStateShard.OverlayStateShard(true))
+                                .createCompositeState(false))
                 : RenderType.create("thutbling:bling_b", DefaultVertexFormat.NEW_ENTITY, Mode.QUADS, 256, true, false,
-                        RenderType.CompositeState.builder().setShaderState(
-                                RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER).setTextureState(
-                                        new RenderStateShard.TextureStateShard(loc, true, false)).setCullState(
-                                                new RenderStateShard.CullStateShard(false)).setLightmapState(
-                                                        new RenderStateShard.LightmapStateShard(true)).setOverlayState(
-                                                                new RenderStateShard.OverlayStateShard(true))
+                        RenderType.CompositeState.builder()
+                                .setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
+                                .setTextureState(new RenderStateShard.TextureStateShard(loc, true, false))
+                                .setCullState(new RenderStateShard.CullStateShard(false))
+                                .setLightmapState(new RenderStateShard.LightmapStateShard(true))
+                                .setOverlayState(new RenderStateShard.OverlayStateShard(true))
                                 .createCompositeState(false));
     }
 
@@ -131,8 +131,7 @@ public class ModelRing extends EntityModel<Entity>
     @Override
     public void setupAnim(final Entity entityIn, final float limbSwing, final float limbSwingAmount,
             final float ageInTicks, final float netHeadYaw, final float headPitch)
-    {
-    }
+    {}
 
     @Override
     public void renderToBuffer(final PoseStack matrixStackIn, final VertexConsumer bufferIn, final int packedLightIn,
@@ -156,14 +155,14 @@ public class ModelRing extends EntityModel<Entity>
                 ret = DyeColor.byId(damage);
             }
             final Color colour = new Color(ret.getTextColor() + 0xFF000000);
-            this.Shape1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f, colour
-                    .getGreen() / 255f, colour.getBlue() / 255f, 1);
-            this.Shape3.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f, colour
-                    .getGreen() / 255f, colour.getBlue() / 255f, 1);
-            this.Shape4.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f, colour
-                    .getGreen() / 255f, colour.getBlue() / 255f, 1);
-            this.Shape5.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f, colour
-                    .getGreen() / 255f, colour.getBlue() / 255f, 1);
+            this.Shape1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f,
+                    colour.getGreen() / 255f, colour.getBlue() / 255f, 1);
+            this.Shape3.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f,
+                    colour.getGreen() / 255f, colour.getBlue() / 255f, 1);
+            this.Shape4.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f,
+                    colour.getGreen() / 255f, colour.getBlue() / 255f, 1);
+            this.Shape5.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f,
+                    colour.getGreen() / 255f, colour.getBlue() / 255f, 1);
             matrixStackIn.popPose();
         }
     }

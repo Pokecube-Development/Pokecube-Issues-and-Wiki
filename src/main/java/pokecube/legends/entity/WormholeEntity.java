@@ -154,7 +154,6 @@ public class WormholeEntity extends LivingEntity
                 PokecubeAPI.LOGGER.error("error loading wormhole energy, this is probably from a version update!");
                 return;
             }
-            // TODO Auto-generated method stub
             super.deserializeNBT(nbt);
         }
     }

@@ -54,7 +54,7 @@ public class SetupHandler
         EventsHandler.register();
 
         // Register terrain effects
-        TerrainSegment.terrainEffectClasses.add(PokemobTerrainEffects.class);
+        TerrainSegment.registerTerrainEffect(PokemobTerrainEffects.class);
 
         // Registers the packets.
         PokecubePacketHandler.init();

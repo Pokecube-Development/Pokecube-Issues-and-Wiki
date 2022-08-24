@@ -1,6 +1,5 @@
 package pokecube.core.ai.tasks.bees;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +20,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.ai.IInhabitor;
 import pokecube.api.ai.TaskAdders;
@@ -166,13 +166,13 @@ public class BeeTasks
 
     public static class BeeHabitat implements IInhabitable
     {
-        // This list is copied from BeehiveBlockEntity,
-        // TODO automatically sync that list to here.
-        public static List<String> IGNORED_BEE_TAGS = Arrays.asList("Air", "ArmorDropChances", "ArmorItems", "Brain",
-                "CanPickUpLoot", "DeathTime", "FallDistance", "FallFlying", "Fire", "HandDropChances", "HandItems",
-                "HurtByTimestamp", "HurtTime", "LeftHanded", "Motion", "NoGravity", "OnGround", "PortalCooldown", "Pos",
-                "Rotation", "CannotEnterHiveTicks", "TicksSincePollination", "CropsGrownSincePollination", "HivePos",
-                "Passengers", "Leash", "UUID");
+        private static final List<String> IGNORED_BEE_TAGS;
+        static
+        {
+            // We copy IGNORED_BEE_TAGS from BeehiveBlockEntity
+            IGNORED_BEE_TAGS = ObfuscationReflectionHelper.getPrivateValue(BeehiveBlockEntity.class, null,
+                    "f_155129_");
+        }
 
         final BeehiveBlockEntity hive;
 

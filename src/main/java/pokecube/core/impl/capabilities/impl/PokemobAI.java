@@ -72,7 +72,7 @@ public abstract class PokemobAI extends PokemobEvolves
     }
 
     @Override
-    public float getDirectionPitch()
+    public float getPitch()
     {
         return this.dataSync().get(this.params.DIRECTIONPITCHDW);
     }

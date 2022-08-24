@@ -20,7 +20,6 @@ public class Config extends ConfigData
     @Configure(category = Config.client, comment = "Render blacklist for wearables.")
     public List<Integer> renderBlacklist = Lists.newArrayList();
 
-    // TODO decide on how to do these.
     public Map<Integer, float[]> renderOffsets      = Maps.newHashMap();
     public Map<Integer, float[]> renderOffsetsSneak = Maps.newHashMap();
 

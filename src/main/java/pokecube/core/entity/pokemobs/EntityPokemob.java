@@ -77,7 +77,9 @@ import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.Tools;
+import thut.api.AnimatedCaps;
 import thut.api.ThutCaps;
+import thut.api.entity.IAnimated;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
@@ -726,11 +728,18 @@ public class EntityPokemob extends PokemobRidable
         this.entityData.set(EntityPokemob.CLIMBING, b0);
     }
 
+    private IAnimated animationHolder;
+    private boolean checkedAnim = false;
+
     @Override
     public boolean isFlying()
     {
-        // TODO hook into what is used for animations, and put it in here for if
-        // is flying!
+        if (!checkedAnim)
+        {
+            animationHolder = AnimatedCaps.getAnimated(this);
+            checkedAnim = true;
+        }
+        if (animationHolder != null) return animationHolder.getChoices().contains("flying");
         return false;
     }
 }

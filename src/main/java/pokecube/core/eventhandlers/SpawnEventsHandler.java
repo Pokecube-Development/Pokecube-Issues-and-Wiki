@@ -3,6 +3,7 @@ package pokecube.core.eventhandlers;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -19,6 +20,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.SectionPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
@@ -107,23 +109,22 @@ public class SpawnEventsHandler
         Vector3 v = event.getLocation();
         final ServerLevel world = event.level();
         final List<PokedexEntry> entries = Lists.newArrayList(Database.spawnables);
-        Collections.shuffle(entries);
+
+        SectionPos pos = SectionPos.of(v.getPos());
+        // This gives us a fixed random value for the location
+        long seedA = pos.asLong() ^ world.getSeed();
+        // This now makes it also depend on the hour of the day.
+        seedA ^= world.dayTime() / 2400;
+        Random rand = new Random(seedA);
+        Collections.shuffle(entries, rand);
+
+        double random = rand.nextDouble();
         int index = 0;
         PokedexEntry dbe = entries.get(index);
         SpawnCheck checker = new SpawnCheck(v, world);
         SpawnContext context = event.context();
         context = new SpawnContext(context, dbe);
         float weight = dbe.getSpawnData().getWeight(context, checker, true);
-
-        /**
-         * TODO instead of completely random spawns: <br>
-         * <br>
-         * Have the spawn picked based on exact subchunk and server tick. This
-         * will then allow possibly later adding advanced scanning blocks which
-         * can help predict what will spawn where.
-         */
-
-        final double random = Math.random();
         final int max = entries.size();
         final Vector3 vbak = v.copy();
         while (weight <= random && index++ < max)
