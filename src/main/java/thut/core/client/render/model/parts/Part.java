@@ -66,6 +66,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     private final Set<Material> matcache = Sets.newHashSet();
 
     private Set<String> parentNames = Sets.newHashSet();
+    private Set<String> childNames = Sets.newHashSet();
 
     public Part(final String name)
     {
@@ -146,9 +147,16 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         subPart.setParent(this);
     }
 
+    @Override
     public Set<String> getParentNames()
     {
         return parentNames;
+    }
+    
+    @Override
+    public Set<String> getRecursiveChildNames()
+    {
+        return this.childNames;
     }
 
     @Override
@@ -234,8 +242,13 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     public void render(final PoseStack mat, final VertexConsumer buffer)
     {
+        if (this.isHidden())
+        {
+            ThutCore.LOGGER.error(new IllegalStateException("Should not be calling render if hidden!"));
+            return;
+        }
         this.preRender(mat);
-        if (!this.hidden) for (final Mesh s : this.shapes)
+        for (final Mesh s : this.shapes)
         {
             // Fill the int array in here, as the rendering can adjust it.
             s.rgbabro = this.getRGBABrO();
@@ -315,13 +328,17 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     {
         this.changer = changer;
         for (final IExtendedModelPart part : this.parts.values())
-            if (part instanceof IRetexturableModel) ((IRetexturableModel) part).setAnimationChanger(changer);
+            if (part instanceof IRetexturableModel tex) tex.setAnimationChanger(changer);
     }
 
     @Override
     public void setHidden(final boolean hidden)
     {
         this.hidden = hidden;
+        for (final IExtendedModelPart part : this.parts.values())
+        {
+            part.setHidden(hidden);
+        }
     }
 
     @Override
@@ -384,7 +401,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     {
         this.texturer = texturer;
         for (final IExtendedModelPart part : this.parts.values())
-            if (part instanceof IRetexturableModel) ((IRetexturableModel) part).setTexturer(texturer);
+            if (part instanceof IRetexturableModel tex) tex.setTexturer(texturer);
     }
 
     @Override
