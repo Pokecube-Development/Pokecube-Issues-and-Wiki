@@ -3,11 +3,13 @@ package pokecube.nbtedit.packets;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.entity.PartEntity;
 import pokecube.nbtedit.NBTEdit;
 import thut.core.common.network.Packet;
 
@@ -16,12 +18,10 @@ public class MouseOverPacket extends Packet
 
     /** Required default constructor. */
     public MouseOverPacket()
-    {
-    }
+    {}
 
     public MouseOverPacket(FriendlyByteBuf buf)
-    {
-    }
+    {}
 
     @Override
     @OnlyIn(value = Dist.CLIENT)
@@ -37,7 +37,9 @@ public class MouseOverPacket extends Packet
                 ret = new TileRequestPacket(((BlockHitResult) pos).getBlockPos());
                 break;
             case ENTITY:
-                ret = new EntityRequestPacket(((EntityHitResult) pos).getEntity().getId());
+                Entity entity = ((EntityHitResult) pos).getEntity();
+                if (entity instanceof PartEntity<?> part) entity = part.getParent();
+                ret = new EntityRequestPacket(entity.getId());
                 break;
             case MISS:
                 NBTEdit.proxy.sendMessage(null, "Error - No tile or entity selected", ChatFormatting.RED);
@@ -52,7 +54,6 @@ public class MouseOverPacket extends Packet
 
     @Override
     public void write(FriendlyByteBuf buf)
-    {
-    }
+    {}
 
 }

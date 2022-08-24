@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.PartEntity;
+import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerEvent.StopTracking;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import thut.api.entity.multipart.IMultpart;
@@ -24,6 +25,7 @@ public class PartSync extends NBTPacket
     static
     {
         MinecraftForge.EVENT_BUS.addListener(PartSync::onStopTracking);
+        MinecraftForge.EVENT_BUS.addListener(PartSync::onStartTracking);
     }
 
     public static void sendUpdate(final Entity mob)
@@ -84,9 +86,16 @@ public class PartSync extends NBTPacket
         }
     }
 
-    public static void onStopTracking(StopTracking event)
+    private static void onStopTracking(StopTracking event)
     {
         CompoundTag tag = makePacket(event.getTarget(), true);
+        if (tag != null && event.getPlayer() instanceof ServerPlayer player)
+            PartSync.ASSEMBLER.sendTo(new PartSync(tag), player);
+    }
+
+    private static void onStartTracking(StartTracking event)
+    {
+        CompoundTag tag = makePacket(event.getTarget(), false);
         if (tag != null && event.getPlayer() instanceof ServerPlayer player)
             PartSync.ASSEMBLER.sendTo(new PartSync(tag), player);
     }

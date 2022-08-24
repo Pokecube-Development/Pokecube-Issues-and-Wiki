@@ -186,7 +186,14 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         float rotY = weSelf() instanceof LivingEntity e ? e.yBodyRot : weSelf().yRot;
 
         rot.rotY((float) Math.toRadians(180 - rotY));
-        if (weSelf().isAddedToWorld()) for (final T p : getHolder().holder().parts) p.update(rot, r, dr);
-        else for (final T p : getHolder().allParts()) p.update(rot, r, dr);
+        if (weSelf().isAddedToWorld())
+        {
+            for (final T p : getHolder().holder().parts) p.update(rot, r, dr);
+            if (weSelf().tickCount % 20 == 0) PartSync.sendUpdate(weSelf());
+        }
+        else
+        {
+            for (final T p : getHolder().allParts()) p.update(rot, r, dr);
+        }
     }
 }

@@ -8,7 +8,6 @@ import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -38,7 +37,6 @@ import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 import thut.api.terrain.StructureManager;
 import thut.api.terrain.StructureManager.StructureInfo;
-import thut.core.client.render.json.JsonModel;
 import thut.core.common.commands.CommandTools;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.TerrainUpdate;
@@ -84,7 +82,6 @@ public class ItemPokedex extends Item
         if (!world.isClientSide) SpawnHandler.refreshTerrain(new Vector3().set(player), player.getLevel(), true);
         if (!player.isCrouching())
         {
-            new JsonModel(new ResourceLocation("thut_bling", "models/worn/bag.json"));
             final Entity entityHit = Tools.getPointedEntity(player, 16);
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entityHit);
             this.showGui(player, entityHit, pokemob);
