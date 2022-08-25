@@ -82,10 +82,10 @@ public class GatherTask extends UtilTask
     private static final Predicate<BlockState> sweetBerry = input -> input.getBlock() instanceof SweetBerryBushBlock
             && input.getValue(SweetBerryBushBlock.AGE) > 1;
 
-    private static final Predicate<ItemEntity> deaditemmatcher = input -> !input.isAlive() || !input.isAddedToWorld();
+    public static final Predicate<ItemEntity> deaditemmatcher = input -> !input.isAlive() || !input.isAddedToWorld();
 
     // Matcher used to determine if a block is a fruit or crop to be picked.
-    private static final Predicate<BlockState> harvestMatcher = input -> {
+    public static final Predicate<BlockState> harvestMatcher = input -> {
         final boolean blacklisted = ItemList.is(GatherTask.BLACKLIST, input);
         if (blacklisted) return false;
         final boolean fullCrop = GatherTask.fullCropNormal.test(input) || GatherTask.fullCropBeet.test(input)

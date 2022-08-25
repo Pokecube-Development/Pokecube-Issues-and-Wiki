@@ -611,6 +611,8 @@ public class EntityPokemob extends PokemobRidable
         }
     }
 
+    private int climbDelay = 0;
+
     /**
      * Called to update the entity's position/logic.
      */
@@ -621,11 +623,12 @@ public class EntityPokemob extends PokemobRidable
         if (!this.level.isClientSide)
         {
             boolean climb = this.horizontalCollision && this.getNavigation().isInProgress();
-            if (climb)
+            if (climb && climbDelay-- < 0)
             {
                 final Path p = this.getNavigation().getPath();
                 climb = p.getNextNodePos().getY() >= this.getY();
             }
+            else climbDelay = 5;
             this.setBesideClimbableBlock(climb);
         }
     }

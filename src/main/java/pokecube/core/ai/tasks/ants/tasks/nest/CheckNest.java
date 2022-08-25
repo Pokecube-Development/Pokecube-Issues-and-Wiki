@@ -53,9 +53,23 @@ public class CheckNest extends BaseIdleTask
         final int time = hiveTimer.orElseGet(() -> 0) - 1;
         brain.setMemory(BeeTasks.OUT_OF_HIVE_TIMER.get(), time);
         if (this.nest == null) this.nest = NestSensor.getNest(this.entity).orElse(null);
-        if (this.new_hive_cooldown++ > 60)
+
+        if (this.new_hive_cooldown % 10 == 0)
         {
-            this.new_hive_cooldown = 0;
+            // Lets sync items with other ants in the nest.
+            if (brain.hasMemoryValue(MemoryModules.VISIBLE_ITEMS.get()))
+            {
+                var seen = brain.getMemory(MemoryModules.VISIBLE_ITEMS.get());
+                if (seen.isPresent())
+                {
+                    var list = seen.get();
+                    for (var item : list) if (!nest.hab.items.contains(item)) nest.hab.items.add(item);
+                }
+            }
+        }
+
+        if (this.new_hive_cooldown++ % 60 == 0)
+        {
             final Optional<GlobalPos> pos_opt = brain.getMemory(MemoryModules.NEST_POS.get());
             if (pos_opt.isPresent())
             {
@@ -89,7 +103,6 @@ public class CheckNest extends BaseIdleTask
                         }
                     }
                 }
-
                 // If we should clear the hive, remove the memory, the
                 // HiveSensor will find a new hive.
                 if (clearHive) this.entity.getBrain().eraseMemory(MemoryModules.NEST_POS.get());

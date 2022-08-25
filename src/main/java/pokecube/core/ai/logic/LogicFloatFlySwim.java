@@ -254,6 +254,9 @@ public class LogicFloatFlySwim extends LogicBase
         this.walkPather.setCanOpenDoors(false);
         this.walkPather.setCanFloat(true);
 
+        this.climbPather.setCanOpenDoors(false);
+        this.climbPather.setCanFloat(true);
+
         this.flyController = new FlyController(entity);
         this.walkController = new WalkController(entity);
         this.swimController = new SwimController(entity);

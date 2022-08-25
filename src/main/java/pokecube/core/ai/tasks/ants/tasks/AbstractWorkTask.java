@@ -55,8 +55,8 @@ public abstract class AbstractWorkTask extends AbstractAntTask
         final BlockState state = this.world.getBlockState(pos);
         if (breakOnly)
         {
-            if (UtilTask.diggable.test(state) && MoveEventsHandler.canAffectBlock(this.pokemob, v.set(pos), "nest_dig",
-                    false, false))
+            if (UtilTask.diggable.test(state)
+                    && MoveEventsHandler.canAffectBlock(this.pokemob, v.set(pos), "nest_dig", false, false))
             {
                 this.world.destroyBlock(pos, true, this.entity);
                 // attempt to collect the drops
@@ -86,12 +86,13 @@ public abstract class AbstractWorkTask extends AbstractAntTask
     @Override
     public final boolean doTask()
     {
+        if (!this.validJob.test(this.job)) return false;
         if (AntTasks.shouldAntBeInNest(this.world, this.nest.nest.getBlockPos())) return false;
         final Brain<?> brain = this.entity.getBrain();
         if (!brain.hasMemoryValue(MemoryModules.WORK_POS.get())) return false;
-
-        if (this.storage == null) for (final IAIRunnable run : this.pokemob.getTasks())
-            if (run instanceof StoreTask storage)
+        if (this.storage == null)
+        {
+            for (final IAIRunnable run : this.pokemob.getTasks()) if (run instanceof StoreTask storage)
             {
                 this.storage = storage;
                 this.pokemob.setRoutineState(AIRoutine.STORE, true);
@@ -99,8 +100,8 @@ public abstract class AbstractWorkTask extends AbstractAntTask
                 this.storage.berryLoc = this.nest.nest.getBlockPos();
                 break;
             }
+        }
         if (this.storage == null) return false;
-        if (!this.validJob.test(this.job)) return false;
         return this.shouldWork();
     }
 }

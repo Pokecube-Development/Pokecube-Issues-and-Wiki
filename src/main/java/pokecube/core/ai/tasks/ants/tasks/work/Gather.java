@@ -29,15 +29,17 @@ public class Gather extends AbstractWorkTask
     {
         if (this.task == null)
         {
-            for (final IAIRunnable run : this.pokemob.getTasks()) if (run instanceof GatherTask task)
+            for (final IAIRunnable run : this.pokemob.getTasks())
             {
-                this.task = task;
-                break;
+                if (run instanceof GatherTask task)
+                {
+                    this.task = task;
+                    break;
+                }
             }
         }
-        else if (this.gather_timer++ > 100 && this.task.targetItem == null)
+        else if (this.task.targetItem == null && this.gather_timer++ % 20 == 0)
         {
-            this.gather_timer = 0;
             if (!this.nest.hab.items.isEmpty()) this.task.targetItem = this.nest.hab.items
                     .get(ThutCore.newRandom().nextInt(this.nest.hab.items.size()));
         }
