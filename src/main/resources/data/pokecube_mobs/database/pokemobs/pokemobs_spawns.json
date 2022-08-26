@@ -1,24 +1,6 @@
 {
   "pokemon": [
     {
-      "name": "zubat",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "maxLight": "0.5",
-              "types": "all",
-              "biomesBlacklist": "pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands",
-              "min": "3",
-              "rate": "0.25",
-              "max": "8",
-              "day": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "articuno",
       "stats": {
         "spawnRules": [
@@ -170,51 +152,6 @@
       }
     },
     {
-      "name": "latias",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "biomes": "beach",
-              "min": "2",
-              "rate": "0.01",
-              "max": "2"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "latios",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "biomes": "stone_shore",
-              "min": "2",
-              "rate": "0.01",
-              "max": "2"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "rayquaza",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "sky",
-              "min": "1",
-              "rate": "0.002",
-              "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "giratina_origin",
       "stats": {
         "spawnRules": [
@@ -231,22 +168,6 @@
               "structures": "pokecube_legends:space_temple",
               "min": "1",
               "rate": "0.005",
-              "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "cresselia",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "all",
-              "biomesBlacklist": "pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands",
-              "min": "1",
-              "rate": "0.001",
               "max": "1"
             }
           }
@@ -280,36 +201,6 @@
               "rate": "0.02",
               "max": "1",
               "air": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "darkrai",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "all",
-              "biomesBlacklist": "pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands",
-              "min": "1",
-              "rate": "0.002",
-              "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "woobat",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "all",
-              "rate": "0.05",
-              "day": "false"
             }
           }
         ]
@@ -446,35 +337,6 @@
       }
     },
     {
-      "name": "scatterbug",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "all",
-              "biomesBlacklist": "pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands",
-              "rate": "0.05",
-              "night": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "noibat",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "all",
-              "rate": "0.01",
-              "day": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "zygarde_10",
       "stats": {
         "spawnRules": [
@@ -501,14 +363,6 @@
       "name": "cosmog",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "biomes": "the_end",
-              "min": "1",
-              "rate": "0.005",
-              "max": "1"
-            }
-          },
           {
             "values": {
               "biomes": "pokecube_legends:fungal_forest,pokecube_legends:temporal_jungle,pokecube_legends:mirage_desert,pokecube_legends:tainted_barrens,pokecube_legends:blinding_deltas,pokecube_legends:forbidden_taiga",
@@ -665,21 +519,6 @@
               "min": "1",
               "rate": "0.2",
               "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "eternatus",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "the_end",
-              "min": "1",
-              "max": "1",
-              "rate": "0.002"
             }
           }
         ]
