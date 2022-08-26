@@ -19,7 +19,7 @@
     "size": 12,
     "avoidances":{
       "flags": ["team_bases", "team_magma"],
-      "avoidances": [{"name":"team_bases","distance":12}, {"name":"team_magma","distance":80}]
+      "avoidances": [{"name":"team_bases","distance":12}, {"name":"temple","distance":2}, {"name":"team_magma","distance":80}]
     }
   },
   "biomes": "#pokecube_world:has_structure/team_magma",
