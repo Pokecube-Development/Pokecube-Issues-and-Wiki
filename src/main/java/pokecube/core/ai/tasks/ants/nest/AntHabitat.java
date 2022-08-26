@@ -359,7 +359,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
 
         if (!playerNear) return;
 
-        boolean revive_nest = this.eggs.isEmpty() && world.getRandom().nextDouble() < 0.01;
+        boolean revive_nest = this.eggs.isEmpty() && world.getRandom().nextDouble() < 0.001;
 
         if (revive_nest)
         {
