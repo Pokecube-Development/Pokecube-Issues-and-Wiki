@@ -694,7 +694,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         this.ants.remove(mob.getUUID());
         this.workers.get(AntTasks.getJob(mob)).remove(mob.getUUID());
 
-        if (this.eggs.size() < Math.max(10, ants / 2))
+        if (this.eggs.size() < Math.min(Math.max(PokecubeCore.getConfig().antNestMobNumber / 2, ants / 2),
+                PokecubeCore.getConfig().antNestMobNumber / 2))
         {
             final IPokemob poke = PokemobCaps.getPokemobFor(mob);
             Optional<BlockPos> room = this.getFreeEggRoom();
