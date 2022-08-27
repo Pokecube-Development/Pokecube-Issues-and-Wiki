@@ -29,7 +29,6 @@ import net.minecraft.world.entity.npc.Npc;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
@@ -53,6 +52,7 @@ import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
+import thut.crafts.ThutCrafts;
 
 public abstract class BlockEntityBase extends Entity implements IEntityAdditionalSpawnData, IBlockEntity
 {
@@ -103,8 +103,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     public static final EntityDataSerializer<Vec3> VEC3DSER = new VecSer();
-
-    public static Block FAKEBLOCK = null;
 
     static final EntityDataAccessor<Vec3> velocity = SynchedEntityData.<Vec3>defineId(BlockEntityBase.class,
             BlockEntityBase.VEC3DSER);
@@ -257,12 +255,12 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
             boolean isReplaceable = air || ItemList.is(replaceable, block);
 
-            if (isReplaceable && block.getBlock() != BlockEntityBase.FAKEBLOCK)
+            if (isReplaceable && block.getBlock() != ThutCrafts.CRAFTBLOCK.get())
             {
                 final boolean flag = world.getFluidState(p).getType() == Fluids.WATER;
                 if (!air) world.destroyBlock(p, true);
                 world.setBlockAndUpdate(p,
-                        BlockEntityBase.FAKEBLOCK.defaultBlockState().setValue(TempBlock.WATERLOGGED, flag));
+                        ThutCrafts.CRAFTBLOCK.get().defaultBlockState().setValue(TempBlock.WATERLOGGED, flag));
             }
             final BlockEntity te = world.getBlockEntity(p);
             if (te instanceof TempTile tile)
