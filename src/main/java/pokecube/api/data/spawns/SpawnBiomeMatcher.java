@@ -156,6 +156,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                     matcher.clientBiomes.add(test);
                 }
             }
+            if (matcher.clientBiomes.size() == ForgeRegistries.BIOMES.getKeys().size()) matcher.clientBiomes.clear();
         }
         catch (Exception e)
         {
