@@ -321,8 +321,8 @@ public class Pokecube extends Item implements IPokecube
                 if (pokemob == null) return true;
                 return pokemob.getOwner() != player;
             };
-            Entity target = Tools.getPointedEntity(player, 32, selector);
-            final Vector3 direction = new Vector3().set(player.getViewVector(0));
+            Entity target = Tools.getPointedEntity(player, 32, selector, 1);
+            final Vector3 direction = new Vector3().set(player.getViewVector(1));
             final Vector3 targetLocation = Tools.getPointedLocation(player, 32);
             if (target instanceof EntityPokecube) target = null;
             final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
@@ -333,7 +333,7 @@ public class Pokecube extends Item implements IPokecube
                     && this.getCaptureModifier(target, PokecubeItems.getCubeId(stack)) == 0)
                 target = null;
             boolean used = false;
-            final boolean filledOrSneak = filled || player.isShiftKeyDown() || dt > 5;
+            final boolean filledOrSneak = filled || player.isShiftKeyDown() || dt > 10;
             if (target != null && EntityPokecubeBase.SEEKING)
                 used = this.throwPokecubeAt(worldIn, player, stack, targetLocation, target) != null;
             else if (filledOrSneak || !EntityPokecubeBase.SEEKING)
@@ -459,7 +459,7 @@ public class Pokecube extends Item implements IPokecube
         if (target instanceof LivingEntity || PokecubeManager.isFilled(cube) || thrower.isShiftKeyDown()
                 || thrower instanceof FakePlayer)
         {
-            if (target instanceof LivingEntity) entity.targetEntity = (LivingEntity) target;
+            if (target instanceof LivingEntity living) entity.targetEntity = living;
             if (target == null && targetLocation == null && PokecubeManager.isFilled(cube))
                 targetLocation = Vector3.secondAxisNeg;
             entity.targetLocation.set(targetLocation);

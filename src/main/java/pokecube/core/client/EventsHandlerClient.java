@@ -14,13 +14,18 @@ import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -34,11 +39,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
 import net.minecraftforge.client.event.InputEvent.RawMouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.ScreenEvent.DrawScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -58,6 +67,7 @@ import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.client.gui.AnimationGui;
@@ -128,6 +138,9 @@ public class EventsHandlerClient
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, GuiInfoMessages::draw);
         // Register the handler for drawing things like evolution, etc
         MinecraftForge.EVENT_BUS.addListener(RenderMobOverlays::renderSpecial);
+        // Register the handler for drawing selected box around targeted
+        // entities for throwing cubes at
+        MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::renderBounds);
 
         // Initialise this gui
         GuiDisplayPokecubeInfo.instance();
@@ -233,6 +246,31 @@ public class EventsHandlerClient
             {
                 evt.setCanceled(true);
                 break hands;
+            }
+        }
+    }
+
+    private static void renderBounds(final RenderLevelStageEvent event)
+    {
+        if (event.getStage() != Stage.AFTER_SOLID_BLOCKS) return;
+        ItemStack held;
+        final Player player = Minecraft.getInstance().player;
+        if ((held = player.getMainHandItem()).isEmpty() && (held = player.getOffhandItem()).isEmpty()) return;
+        if (Screen.hasControlDown() && PokecubeItems.getCubeId(held) != null)
+        {
+            Entity entity = Tools.getPointedEntity(player, 16, null, 0.75);
+            if (entity != null)
+            {
+                AABB box = entity.getBoundingBox();
+                final PoseStack matrix = event.getPoseStack();
+                MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+                VertexConsumer builder = buffer.getBuffer(RenderType.LINES);
+                Vec3 camera = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+                matrix.pushPose();
+                matrix.translate(-camera.x, -camera.y, -camera.z);
+                LevelRenderer.renderLineBox(matrix, builder, box, 1.0F, 0.0F, 0.0F, 1.0F);
+                matrix.popPose();
+                buffer.endBatch(RenderType.LINES);
             }
         }
     }

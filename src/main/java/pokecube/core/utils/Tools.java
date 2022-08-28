@@ -3,8 +3,11 @@ package pokecube.core.utils;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
+
+import javax.annotation.Nullable;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
@@ -20,11 +23,14 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
@@ -254,29 +260,85 @@ public class Tools
 
     public static Entity getPointedEntity(final Entity entity, double distance, final Predicate<Entity> selector)
     {
+        return getPointedEntity(entity, distance, selector, 0);
+    }
+
+    public static Entity getPointedEntity(final Entity entity, double distance, final Predicate<Entity> selector,
+            double extraSize)
+    {
         final Vector3 pos = new Vector3().set(entity, true);
         final Vector3 loc = Tools.getPointedLocation(entity, distance);
-        if (loc != null) distance = loc.distanceTo(pos);
-        final Vec3 vec31 = entity.getViewVector(0);
+        if (loc != null) distance = Math.min(loc.distanceTo(pos) + 1, distance);
+
+        float f = 1.0F;
+
+        Vec3 vec3 = entity.getEyePosition(f);
+        Vec3 vec31 = entity.getViewVector(f);
+        Vec3 vec32 = vec3.add(vec31.x * distance, vec31.y * distance, vec31.z * distance);
+
+        AABB aabb = entity.getBoundingBox().expandTowards(vec31.scale(distance)).inflate(f, f, f);
         Predicate<Entity> predicate = EntitySelector.NO_SPECTATORS.and(c -> entity.isPickable());
         if (selector != null) predicate = predicate.and(selector);
         predicate = predicate
                 .and(c -> !c.isSpectator() && c.isAlive() && c.isPickable() && !Tools.isRidingOrRider(entity, c));
-        Entity hit = pos.firstEntityExcluding(distance, vec31, entity.getLevel(), entity, predicate);
+        EntityHitResult hitResult = Tools.getEntityHitResult(entity, vec3, vec32, aabb, predicate, 0, extraSize);
+        Entity hit = hitResult != null ? hitResult.getEntity() : null;
         if (hit != null) hit = EntityTools.getCoreEntity(hit);
         return hit;
     }
 
+    @Nullable
+    public static EntityHitResult getEntityHitResult(Entity source, Vec3 start, Vec3 end, AABB volume,
+            Predicate<Entity> valid, double minDistance, double extraSize)
+    {
+        Level level = source.level;
+        double d0 = minDistance;
+        Entity entity = null;
+        Vec3 vec3 = null;
+
+        for (Entity entity1 : level.getEntities(source, volume, valid))
+        {
+            AABB aabb = entity1.getBoundingBox().inflate(entity1.getPickRadius() + extraSize);
+            Optional<Vec3> optional = aabb.clip(start, end);
+            if (aabb.contains(start))
+            {
+                if (d0 >= 0.0D)
+                {
+                    entity = entity1;
+                    vec3 = optional.orElse(start);
+                    d0 = 0.0D;
+                }
+            }
+            else if (optional.isPresent())
+            {
+                Vec3 vec31 = optional.get();
+                double d1 = start.distanceToSqr(vec31);
+                if (d1 < d0 || d0 == 0.0D)
+                {
+                    if (entity1.getRootVehicle() == source.getRootVehicle() && !entity1.canRiderInteract())
+                    {
+                        if (d0 == 0.0D)
+                        {
+                            entity = entity1;
+                            vec3 = vec31;
+                        }
+                    }
+                    else
+                    {
+                        entity = entity1;
+                        vec3 = vec31;
+                        d0 = d1;
+                    }
+                }
+            }
+        }
+        return entity == null ? null : new EntityHitResult(entity, vec3);
+    }
+
     public static Vector3 getPointedLocation(final Entity entity, final double distance)
     {
-        final Vec3 vec3 = new Vec3(entity.getX(), entity.getY() + entity.getEyeHeight(), entity.getZ());
-        final double d0 = distance;
-        final Vec3 vec31 = entity.getViewVector(0);
-        final Vec3 vec32 = vec3.add(vec31.x * d0, vec31.y * d0, vec31.z * d0);
-        final Level world = entity.getLevel();
-        final BlockHitResult result = world
-                .clip(new ClipContext(vec3, vec32, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
-        if (result == null || result.getBlockPos() == null) return null;
+        final HitResult hit = entity.pick(distance, 1.0f, false);
+        if (hit == null || hit.getType() != Type.BLOCK || !(hit instanceof BlockHitResult result)) return null;
         final Vector3 vec = new Vector3().set(result.getLocation());
         return vec;
     }
