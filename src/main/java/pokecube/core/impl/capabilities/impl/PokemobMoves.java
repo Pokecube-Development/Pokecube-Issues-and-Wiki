@@ -77,7 +77,7 @@ public abstract class PokemobMoves extends PokemobStats
         // graphical indicator of move cooldowns
         PacketSyncMoveUse.sendUpdate(this);
 
-        if (target != this.getEntity())
+        if (target != this.getEntity() && target != null)
         {
             if (target instanceof Mob mob && BrainUtils.getAttackTarget(mob) != this.getEntity())
                 BrainUtils.initiateCombat(mob, this.getEntity());
