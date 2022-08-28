@@ -360,7 +360,7 @@ public class ItemGenerator
             // Leaves
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(0).apply(name),
                     () -> new BerryLeaf(BlockBehaviour.Properties
-                            .of(Material.LEAVES, ItemGenerator.berryLeaves.get(name)).strength(0.2F).randomTicks()
+                            .of(Material.LEAVES, ItemGenerator.onlyBerryLeaves.get(name)).strength(0.2F).randomTicks()
                             .noOcclusion().sound(SoundType.GRASS).isSuffocating((s, r, p) -> false)
                             .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false), index),
                     block ->
