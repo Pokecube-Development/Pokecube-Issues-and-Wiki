@@ -13,7 +13,7 @@ public interface IHasMobAIStates extends IMoveConstants
     /** the value of the AI state state. */
     default boolean getCombatState(CombatStates state)
     {
-        return (this.getTotalGeneralState() & state.getMask()) != 0;
+        return (this.getTotalCombatState() & state.getMask()) != 0;
     }
 
     /** the value of the AI state state. */
