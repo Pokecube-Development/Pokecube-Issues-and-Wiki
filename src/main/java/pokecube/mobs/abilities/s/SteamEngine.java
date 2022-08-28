@@ -48,4 +48,10 @@ public class SteamEngine extends Ability
         for (final EntityPokemobEgg egg : eggs)
             egg.incubateEgg();
     }
+
+    @Override
+    public boolean singleton()
+    {
+        return false;
+    }
 }

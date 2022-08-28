@@ -11,13 +11,22 @@ import pokecube.core.ai.logic.Logic;
 public interface IHasMobAIStates extends IMoveConstants
 {
     /** the value of the AI state state. */
-    boolean getCombatState(CombatStates state);
+    default boolean getCombatState(CombatStates state)
+    {
+        return (this.getTotalGeneralState() & state.getMask()) != 0;
+    }
 
     /** the value of the AI state state. */
-    boolean getGeneralState(GeneralStates state);
+    default boolean getGeneralState(final GeneralStates state)
+    {
+        return (this.getTotalGeneralState() & state.getMask()) != 0;
+    }
 
     /** the value of the AI state state. */
-    boolean getLogicState(LogicStates state);
+    default boolean getLogicState(LogicStates state)
+    {
+        return (this.getTotalLogicState() & state.getMask()) != 0;
+    }
 
     ////////////////////////////////////////////////////////////
     List<Logic> getTickLogic();
@@ -59,13 +68,31 @@ public interface IHasMobAIStates extends IMoveConstants
     boolean isRoutineEnabled(AIRoutine routine);
 
     /** Sets AI state state to flag. */
-    void setCombatState(CombatStates state, boolean flag);
+    default void setCombatState(CombatStates state, boolean flag)
+    {
+        final int byte0 = this.getTotalCombatState();
+        if (flag == ((byte0 & state.getMask()) != 0)) return;
+        final int newState = flag ? byte0 | state.getMask() : byte0 & -state.getMask() - 1;
+        this.setTotalCombatState(newState);
+    }
 
     /** Sets AI state state to flag. */
-    void setGeneralState(GeneralStates state, boolean flag);
+    default void setGeneralState(GeneralStates state, boolean flag)
+    {
+        final int byte0 = this.getTotalGeneralState();
+        if (flag == ((byte0 & state.getMask()) != 0)) return;
+        final int newState = flag ? byte0 | state.getMask() : byte0 & -state.getMask() - 1;
+        this.setTotalGeneralState(newState);
+    }
 
     /** Sets AI state state to flag. */
-    void setLogicState(LogicStates state, boolean flag);
+    default void setLogicState(final LogicStates state, final boolean flag)
+    {
+        final int byte0 = this.getTotalLogicState();
+        if (flag == ((byte0 & state.getMask()) != 0)) return;
+        final int newState = flag ? byte0 | state.getMask() : byte0 & -state.getMask() - 1;
+        this.setTotalLogicState(newState);
+    }
 
     /**
      * @param routine

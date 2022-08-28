@@ -52,6 +52,11 @@ public abstract class Ability
     public void destroy()
     {}
 
+    public boolean singleton()
+    {
+        return true;
+    }
+
     public String getName()
     {
         return "ability." + this.toString() + ".name";

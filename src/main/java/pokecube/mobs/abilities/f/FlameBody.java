@@ -47,4 +47,10 @@ public class FlameBody extends Ability
             egg.incubateEgg();
     }
 
+    @Override
+    public boolean singleton()
+    {
+        return false;
+    }
+
 }

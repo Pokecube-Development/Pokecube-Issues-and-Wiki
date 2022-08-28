@@ -34,4 +34,10 @@ public class ArenaTrap extends Ability
             PokecubeCore.spawner.doSpawnForContext(context);
         }
     }
+
+    @Override
+    public boolean singleton()
+    {
+        return false;
+    }
 }

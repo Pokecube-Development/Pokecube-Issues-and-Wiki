@@ -71,4 +71,10 @@ public class Synchronize extends Ability
         this.location.set(mob.getEntity());
         this.pokemob = mob;
     }
+
+    @Override
+    public boolean singleton()
+    {
+        return false;
+    }
 }

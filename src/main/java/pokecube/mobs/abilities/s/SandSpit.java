@@ -15,7 +15,6 @@ import thut.core.common.ThutCore;
 
 public class SandSpit extends Ability
 {
-    public int duration = 300 + ThutCore.newRandom().nextInt(600);
 
     @Override
     public void onMoveUse(final IPokemob mob, final MovePacket move)
@@ -30,12 +29,12 @@ public class SandSpit extends Ability
         if (move.hit)
         {
             // terrain.doWorldAction(mob, location);
+            int duration = 300 + ThutCore.newRandom().nextInt(600);
+            teffect.setEffectDuration(PokemobTerrainEffects.WeatherEffectType.SAND,
+                    duration + Tracker.instance().getTick(), mob);
 
-            teffect.setEffectDuration(PokemobTerrainEffects.WeatherEffectType.SAND, this.duration + Tracker.instance()
-                    .getTick(), mob);
-
-            if (world instanceof ServerLevel) PacketSyncTerrain.sendTerrainEffects((ServerLevel) world, segment.chunkX,
-                    segment.chunkY, segment.chunkZ, teffect);
+            if (world instanceof ServerLevel level)
+                PacketSyncTerrain.sendTerrainEffects(level, segment.chunkX, segment.chunkY, segment.chunkZ, teffect);
         }
     }
 }

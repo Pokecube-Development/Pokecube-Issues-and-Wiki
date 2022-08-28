@@ -64,11 +64,9 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public boolean getCombatState(final CombatStates state)
     {
-        if (this.getEntity().getLevel().isClientSide)
-            this.cachedCombatState = this.dataSync().get(this.params.COMBATSTATESDW);
         if (state == CombatStates.GIGANTAMAX && this.getGenesDynamax() != null)
             return this.getGenesDynamax().getExpressed().getValue().gigantamax;
-        return (this.cachedCombatState & state.getMask()) != 0;
+        return super.getCombatState(state);
     }
 
     @Override
@@ -78,22 +76,12 @@ public abstract class PokemobAI extends PokemobEvolves
     }
 
     @Override
-    public boolean getGeneralState(final GeneralStates state)
+    public boolean getGeneralState(GeneralStates state)
     {
         // Read tamed status based on if we have an owner, rather than flag in
         // the bitmask.
         if (state == GeneralStates.TAMED) return this.getOwnerId() != null;
-        if (this.getEntity().getLevel().isClientSide)
-            this.cachedGeneralState = this.dataSync().get(this.params.GENERALSTATESDW);
-        return (this.cachedGeneralState & state.getMask()) != 0;
-    }
-
-    @Override
-    public boolean getLogicState(final LogicStates state)
-    {
-        if (this.getEntity().getLevel().isClientSide)
-            this.cachedLogicState = this.dataSync().get(this.params.LOGICSTATESDW);
-        return (this.cachedLogicState & state.getMask()) != 0;
+        return super.getGeneralState(state);
     }
 
     @Override
@@ -119,19 +107,25 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public int getTotalCombatState()
     {
-        return this.dataSync().get(this.params.COMBATSTATESDW);
+        if (this.getEntity().getLevel().isClientSide)
+            this.cachedCombatState = this.dataSync().get(this.params.COMBATSTATESDW);
+        return this.cachedCombatState;
     }
 
     @Override
     public int getTotalGeneralState()
     {
-        return this.dataSync().get(this.params.GENERALSTATESDW);
+        if (this.getEntity().getLevel().isClientSide)
+            this.cachedGeneralState = this.dataSync().get(this.params.GENERALSTATESDW);
+        return this.cachedGeneralState;
     }
 
     @Override
     public int getTotalLogicState()
     {
-        return this.dataSync().get(this.params.LOGICSTATESDW);
+        if (this.getEntity().getLevel().isClientSide)
+            this.cachedLogicState = this.dataSync().get(this.params.LOGICSTATESDW);
+        return this.cachedLogicState;
     }
 
     @Override
@@ -191,36 +185,15 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public void setCombatState(final CombatStates state, final boolean flag)
     {
-        final int byte0 = this.dataSync().get(this.params.COMBATSTATESDW);
-        if (flag == ((byte0 & state.getMask()) != 0)) return;
-        final int newState = flag ? byte0 | state.getMask() : byte0 & -state.getMask() - 1;
         if (state == CombatStates.GIGANTAMAX && this.getGenesDynamax() != null)
             this.getGenesDynamax().getExpressed().getValue().gigantamax = flag;
-        this.setTotalCombatState(newState);
+        super.setCombatState(state, flag);
     }
 
     @Override
     public void setDirectionPitch(final float pitch)
     {
         this.dataSync().set(this.params.DIRECTIONPITCHDW, pitch);
-    }
-
-    @Override
-    public void setGeneralState(final GeneralStates state, final boolean flag)
-    {
-        final int byte0 = this.dataSync().get(this.params.GENERALSTATESDW);
-        if (flag == ((byte0 & state.getMask()) != 0)) return;
-        final int newState = flag ? byte0 | state.getMask() : byte0 & -state.getMask() - 1;
-        this.setTotalGeneralState(newState);
-    }
-
-    @Override
-    public void setLogicState(final LogicStates state, final boolean flag)
-    {
-        final int byte0 = this.dataSync().get(this.params.LOGICSTATESDW);
-        if (flag == ((byte0 & state.getMask()) != 0)) return;
-        final int newState = flag ? byte0 | state.getMask() : byte0 & -state.getMask() - 1;
-        this.setTotalLogicState(newState);
     }
 
     @Override

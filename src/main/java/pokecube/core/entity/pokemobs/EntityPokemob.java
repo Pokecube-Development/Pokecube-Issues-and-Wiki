@@ -150,15 +150,6 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public boolean causeFallDamage(final float distance, final float damageMultiplier, final DamageSource source)
-    {
-        // TODO maybe do something here?
-        // Vanilla plays sound and does damage, but only plays the sound if
-        // damage occurred, maybe we should just play the sound instead?
-        return super.causeFallDamage(distance, damageMultiplier, source);
-    }
-
-    @Override
     protected void tickDeath()
     {
         ++this.deathTime;
@@ -397,6 +388,15 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
+    public boolean causeFallDamage(final float distance, final float damageMultiplier, final DamageSource source)
+    {
+        // TODO maybe do something here?
+        // Vanilla plays sound and does damage, but only plays the sound if
+        // damage occurred, maybe we should just play the sound instead?
+        return super.causeFallDamage(distance, damageMultiplier, source);
+    }
+
+    @Override
     protected void checkFallDamage(final double y, final boolean onGroundIn, final BlockState state, final BlockPos pos)
     {}
 
@@ -434,12 +434,6 @@ public class EntityPokemob extends PokemobRidable
     public int getAmbientSoundInterval()
     {
         return PokecubeCore.getConfig().idleSoundRate;
-    }
-
-    @Override
-    public void onAddedToWorld()
-    {
-        super.onAddedToWorld();
     }
 
     @Override
