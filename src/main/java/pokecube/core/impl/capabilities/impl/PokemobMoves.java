@@ -368,7 +368,6 @@ public abstract class PokemobMoves extends PokemobStats
             final IPokemob pokemob = PokemobCaps.getPokemobFor(to);
             if (pokemob != null) newEntry = pokemob.getPokedexEntry();
         }
-        this.getMoveStats().transformedTo = to;
         this.setType1(newEntry.getType1());
         this.setType2(newEntry.getType2());
         if (!this.getEntity().level.isClientSide())

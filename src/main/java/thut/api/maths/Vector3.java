@@ -26,7 +26,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.ClipContext.Fluid;
@@ -202,14 +201,6 @@ public class Vector3
         return true;
     }
 
-    public static boolean isVisibleEntityFromEntity(final Entity looker, final Entity target)
-    {
-        if (looker == null || target == null) return false;
-        if (looker instanceof LivingEntity) return ((LivingEntity) looker).hasLineOfSight(target);
-        // TODO consider other raytrace here.
-        return false;
-    }
-
     /**
      * determines whether the source can see out as far as range in the
      * givenhasLineOfSight direction.
@@ -225,13 +216,13 @@ public class Vector3
     {
         direction = direction.normalize();
 
-        if (world instanceof ServerLevel)
+        if (world instanceof ServerLevel level)
         {
             final Vec3 start = source.toVec3d();
             final Vec3 end = direction.scalarMultBy(range).addTo(source).toVec3d();
             if (Vector3.USEDFORRAYTRACECONTEXT == null)
-                Vector3.USEDFORRAYTRACECONTEXT = FakePlayerFactory.get((ServerLevel) world, Vector3.FAKEPLAYER);
-            else Vector3.USEDFORRAYTRACECONTEXT.setLevel((ServerLevel) world);
+                Vector3.USEDFORRAYTRACECONTEXT = FakePlayerFactory.get(level, Vector3.FAKEPLAYER);
+            else Vector3.USEDFORRAYTRACECONTEXT.setLevel(level);
             final ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, Fluid.NONE,
                     Vector3.USEDFORRAYTRACECONTEXT);
             final BlockHitResult result = world.clip(context);
@@ -273,19 +264,8 @@ public class Vector3
         return ret;
     }
 
-    @Deprecated
-    /*
-     * Do not use, use new Vector3() instead!
-     */
-    public static Vector3 getNewVector()
-    {
-        return new Vector3();
-    }
-
     public double x;
-
     public double y;
-
     public double z;
 
     MutableBlockPos pos;
@@ -537,10 +517,8 @@ public class Vector3
     @Override
     public boolean equals(final Object vec)
     {
-        if (!(vec instanceof Vector3)) return false;
-        final Vector3 v = (Vector3) vec;
-
-        return v.x == this.x && v.y == this.y && v.z == this.z;// sameBlock(v);
+        if (!(vec instanceof Vector3 v)) return false;
+        return v.x == this.x && v.y == this.y && v.z == this.z;
     }
 
     public Vector3 findNextSolidBlock(final BlockGetter world, final Vector3 direction, final double range)
@@ -1052,7 +1030,7 @@ public class Vector3
         {
             this.set(p[0], p[1], p[2]);
         }
-        else if (o instanceof Double) this.x = this.y = this.z = (double) o;
+        else if (o instanceof Double d) this.x = this.y = this.z = d;
         return this;
     }
 

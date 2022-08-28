@@ -774,7 +774,6 @@ public class PokecubeItems extends ItemList
         final ResourceLocation loc = PokecubeItems.toPokecubeResource(name);
         final TagKey<Item> old = TagKey.create(Registry.ITEM_REGISTRY, loc);
         final Item item = ForgeRegistries.ITEMS.getValue(loc);
-        // TODO confirm this works
         return old != null || ItemList.pendingTags.containsKey(loc) || item != null;
     }
 

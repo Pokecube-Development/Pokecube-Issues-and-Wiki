@@ -30,8 +30,8 @@ public abstract class Manager<T extends BigInventory>
     protected Map<UUID, T> _map = Maps.newHashMap();
 
     private final Predicate<ItemStack> valid;
-    private final NewFactory<T>        new_factory;
-    private final LoadFactory<T>       load_factory;
+    private final NewFactory<T> new_factory;
+    private final LoadFactory<T> load_factory;
 
     public Manager(final Predicate<ItemStack> valid, final NewFactory<T> new_factory, final LoadFactory<T> load_factory)
     {
@@ -60,19 +60,16 @@ public abstract class Manager<T extends BigInventory>
             }
         }
         catch (final FileNotFoundException e)
-        {
-        }
+        {}
         catch (final Exception e)
-        {
-        }
+        {}
     }
 
     protected void loadNBT(final CompoundTag nbt)
     {
         final Tag temp = nbt.get(this.tagID());
-        if (temp instanceof ListTag)
+        if (temp instanceof ListTag tagListPC)
         {
-            final ListTag tagListPC = (ListTag) temp;
             for (int i = 0; i < tagListPC.size(); i++)
             {
                 final CompoundTag items = tagListPC.getCompound(i);

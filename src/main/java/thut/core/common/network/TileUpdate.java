@@ -33,8 +33,8 @@ public class TileUpdate extends NBTPacket
         tag.put("tag", mobtag);
         final TileUpdate message = new TileUpdate(tag);
         final ChunkAccess chunk = tile.getLevel().getChunk(tile.getBlockPos());
-        if (chunk instanceof LevelChunk && ((LevelChunk) chunk).getLevel().getChunkSource() instanceof ServerChunkCache)
-            TileUpdate.ASSEMBLER.sendTo(message, PacketDistributor.TRACKING_CHUNK.with(() -> (LevelChunk) chunk));
+        if (chunk instanceof LevelChunk lchunk && lchunk.getLevel().getChunkSource() instanceof ServerChunkCache)
+            TileUpdate.ASSEMBLER.sendTo(message, PacketDistributor.TRACKING_CHUNK.with(() -> lchunk));
     }
 
     public TileUpdate()

@@ -23,7 +23,6 @@ public class TexButton extends Button
             final Minecraft minecraft = Minecraft.getInstance();
             final Font fontrenderer = minecraft.font;
             final int j = button.getFGColor();
-            // TODO decide if we want alpha as well?
             GuiComponent.drawCenteredString(matrixStack, fontrenderer, button.getMessage(), button.x + button.getWidth()
                     / 2, button.y + (button.getHeight() - 8) / 2, j | Mth.ceil(255.0F) << 24);
         }

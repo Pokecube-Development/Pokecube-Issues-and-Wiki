@@ -201,7 +201,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             if (part.isHidden())
             {
                 excluded.add(partName);
-                excluded.addAll(part.getRenderOrder());
+                excluded.addAll(part.getRecursiveChildNames());
             }
             if (part.getParent() == null)
             {

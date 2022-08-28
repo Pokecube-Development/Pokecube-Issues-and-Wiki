@@ -12,6 +12,7 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.Material;
 import pokecube.api.data.PokedexEntry;
+import pokecube.core.utils.TimePeriod;
 import pokecube.mixin.features.WorldGenRegionAccessor;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
@@ -94,8 +95,7 @@ public class SpawnCheck
         this.chunk = ITerrainProvider.getChunk(level.dimension(), new ChunkPos(location.getPos()));
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
         this.type = t.getBiome(location);
-        // TODO better way to choose current time.
-        final double time = (level.getDayTime() % 24000L) / 24000.0;
+        final double time = TimePeriod.getTime(level);
         final int lightBlock = world.getMaxLocalRawBrightness(location.getPos());
         this.light = lightBlock / 15f;
         this.weather = Weather.getForWorld(level, location);

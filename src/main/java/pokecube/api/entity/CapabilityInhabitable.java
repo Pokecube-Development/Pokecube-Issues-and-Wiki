@@ -20,7 +20,6 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.api.blocks.IInhabitable;
-import pokecube.api.utils.TagNames;
 
 public class CapabilityInhabitable
 {
@@ -58,14 +57,14 @@ public class CapabilityInhabitable
         {
             if (this.tile.getBlockPos() != null) this.wrapped.setPos(this.tile.getBlockPos());
             this.getWrapped().onExitHabitat(mob);
-            mob.getPersistentData().putBoolean(TagNames.NOPOOF, true);
+            mob.setPersistenceRequired();
         }
 
         @Override
         public boolean onEnterHabitat(final Mob mob)
         {
             if (this.tile.getBlockPos() != null) this.wrapped.setPos(this.tile.getBlockPos());
-            mob.getPersistentData().putBoolean(TagNames.NOPOOF, true);
+            mob.setPersistenceRequired();
             return this.getWrapped().onEnterHabitat(mob);
         }
 

@@ -473,7 +473,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     protected RenderType getRenderType(final Mob entity, final boolean bool_a, final boolean bool_b,
             final boolean bool_c)
     {
-        // FIXME decide on shader
         final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder()
                 .setTextureState(new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
                 .setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () ->

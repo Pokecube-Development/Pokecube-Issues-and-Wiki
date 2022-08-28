@@ -41,14 +41,14 @@ public class NBTEdit
     }
 
     public static final String MODID = "pceditmod";
-    public static final String NAME  = "NBTEdit - Pokecube Edition";
+    public static final String NAME = "NBTEdit - Pokecube Edition";
 
-    public static final String        VERSION = "1.0.0";
-    public static final NBTNodeSorter SORTER  = new NBTNodeSorter();
+    public static final String VERSION = "1.0.0";
+    public static final NBTNodeSorter SORTER = new NBTNodeSorter();
 
     public static final PacketHandler NETWORK = new PacketHandler();
 
-    public static Logger   LOGGER    = LogManager.getLogger();
+    public static Logger LOGGER = LogManager.getLogger();
     public static NamedNBT clipboard = null;
 
     public static boolean opOnly = true;
@@ -75,8 +75,7 @@ public class NBTEdit
     {
         final NBTTree tree = new NBTTree(tag);
         String sb = "";
-        for (final String s : tree.toStrings())
-            sb += NBTEdit.SEP + "\t\t\t" + s;
+        for (final String s : tree.toStrings()) sb += NBTEdit.SEP + "\t\t\t" + s;
         NBTEdit.log(Level.TRACE, sb);
     }
 

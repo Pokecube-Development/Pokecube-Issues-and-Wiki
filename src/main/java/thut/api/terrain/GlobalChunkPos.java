@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 public class GlobalChunkPos
 {
     private final ResourceKey<Level> world;
-    private final ChunkPos      pos;
+    private final ChunkPos pos;
 
     private final int hash;
 
@@ -24,11 +24,8 @@ public class GlobalChunkPos
     public boolean equals(final Object obj)
     {
         if (this == obj) return true;
-        else if (obj != null && this.getClass() == obj.getClass())
-        {
-            final GlobalChunkPos globalpos = (GlobalChunkPos) obj;
-            return Objects.equals(this.world, globalpos.world) && Objects.equals(this.pos, globalpos.pos);
-        }
+        else if (obj instanceof GlobalChunkPos pos)
+            return Objects.equals(this.world, pos.world) && Objects.equals(this.pos, pos.pos);
         else return false;
     }
 

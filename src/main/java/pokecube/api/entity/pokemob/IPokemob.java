@@ -269,12 +269,11 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     int getAttackCooldown();
 
     /**
-     * See IMultiplePassengerEntity.getPitch() TODO remove this infavour of the
-     * IMultiplePassengerentity implementation
+     * See IMultiplePassengerEntity.getPitch()
      *
      * @return
      */
-    float getDirectionPitch();
+    float getPitch();
 
     /**
      * Returns the name to display in any GUI. Can be the nickname or the

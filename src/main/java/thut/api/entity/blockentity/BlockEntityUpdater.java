@@ -317,11 +317,6 @@ public class BlockEntityUpdater
         return collided;
     }
 
-    @Deprecated
-    public void applyEntityCollision(final Entity entity)
-    {
-    }
-
     public AABB getBoundingBox()
     {
         double xMin, yMin, zMin, xMax, yMax, zMax;
@@ -362,8 +357,7 @@ public class BlockEntityUpdater
         final int sizeY = dims.getY();
         final int sizeZ = dims.getZ();
 
-        final Level world = this.blockEntity.getFakeWorld() instanceof Level ? (Level) this.blockEntity.getFakeWorld()
-                : this.theEntity.getLevel();
+        final Level world = this.blockEntity.getFakeWorld() instanceof Level level ? level : this.theEntity.getLevel();
 
         for (int i = 0; i < sizeX; i++) for (int j = 0; j < sizeY; j++) for (int k = 0; k < sizeZ; k++)
         {

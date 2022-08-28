@@ -91,27 +91,6 @@ public class CapabilityTerrain
                 }
 
             }
-            // TODO remove legacy support
-            else for (int i = 0; i < 16; i++)
-            {
-                CompoundTag terrainTag = null;
-                terrainTag = nbt.getCompound(i + "");
-                TerrainSegment t = null;
-                if (!terrainTag.isEmpty() && !TerrainSegment.noLoad)
-                {
-                    t = new TerrainSegment(x, i, z);
-                    if (hasReplacements) t.idReplacements = toUpdate;
-                    TerrainSegment.readFromNBT(t, terrainTag);
-                    this.setTerrainSegment(t, i);
-                    t.idReplacements = null;
-                    this.reals.put(i, true);
-                }
-                if (t == null)
-                {
-                    t = new TerrainSegment(x, i, z);
-                    this.setTerrainSegment(t, i);
-                }
-            }
         }
 
         @Override

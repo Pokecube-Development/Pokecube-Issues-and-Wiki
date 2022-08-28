@@ -127,7 +127,8 @@ public class EntityPokecube extends EntityPokecubeBase
         return false;
     }
 
-    public EntityPokecube copy()
+    @Override
+    public EntityPokecubeBase copy()
     {
         final EntityPokecube copy = new EntityPokecube(EntityTypes.getPokecube(), this.getLevel());
         copy.copyPosition(this);

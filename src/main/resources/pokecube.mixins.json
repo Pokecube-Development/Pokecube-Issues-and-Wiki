@@ -14,7 +14,7 @@
     "features.NoBasaltColumnsInStructuresMixin",
     "features.NoDeltasInStructuresMixin",
     "features.NoLakesInStructuresMixin",
-    "features.NoLavaFallsInStructuresMixin",
+    "features.NoFluidFallsInStructuresMixin",
     "features.WorldGenRegionAccessor"
   ],
   "client": [

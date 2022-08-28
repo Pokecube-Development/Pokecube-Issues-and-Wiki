@@ -173,18 +173,17 @@ public class ClientInit
     }
 
     @SubscribeEvent
-    public static void RenderBounds(final RenderLevelStageEvent event)
+    public static void renderBounds(final RenderLevelStageEvent event)
     {
-        if (event.getStage() != Stage.AFTER_TRANSLUCENT_BLOCKS) return;
+        if (event.getStage() != Stage.AFTER_SOLID_BLOCKS) return;
 
         ItemStack held;
         final Player player = Minecraft.getInstance().player;
         if (!(held = player.getMainHandItem()).isEmpty() || !(held = player.getOffhandItem()).isEmpty())
         {
-            if (ClientInit.getSubbiome(held) == null) return;
-            if (held.getTag() != null && held.getTag().contains("min"))
+            final Minecraft mc = Minecraft.getInstance();
+            if (ClientInit.getSubbiome(held) != null && held.getTag() != null && held.getTag().contains("min"))
             {
-                final Minecraft mc = Minecraft.getInstance();
                 final Vec3 projectedView = mc.gameRenderer.getMainCamera().getPosition();
                 Vec3 pointed = new Vec3(projectedView.x, projectedView.y, projectedView.z)
                         .add(mc.player.getViewVector(event.getPartialTick()));
@@ -217,7 +216,6 @@ public class ClientInit
                 LevelRenderer.renderLineBox(matrix, builder, box, 1.0F, 0.0F, 0.0F, 1.0F);
                 matrix.popPose();
                 buffer.endBatch(RenderType.LINES);
-
             }
         }
     }

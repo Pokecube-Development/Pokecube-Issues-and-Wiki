@@ -27,15 +27,15 @@ import thut.api.maths.Vector3;
 
 public abstract class Move_Base
 {
-    public final int       index;
-    public final String    name;
+    public final int index;
+    public final String name;
     private IMoveAnimation animation;
-    public boolean         aoe              = false;
-    public boolean         fixedDamage      = false;
-    protected SoundEvent   soundUser;
-    protected SoundEvent   soundTarget;
-    public boolean         hasStatModSelf   = false;
-    public boolean         hasStatModTarget = false;
+    public boolean aoe = false;
+    public boolean fixedDamage = false;
+    protected SoundEvent soundUser;
+    protected SoundEvent soundTarget;
+    public boolean hasStatModSelf = false;
+    public boolean hasStatModTarget = false;
     public final MoveEntry move;
 
     /**
@@ -43,12 +43,10 @@ public abstract class Move_Base
      * The attack category defines the way the mob will move in order to make
      * its attack.
      *
-     * @param name
-     *            the English name of the attack, used as identifier and
-     *            translation key
-     * @param attackCategory
-     *            can be either {@link MovesUtils#CATEGORY_CONTACT} or
-     *            {@link MovesUtils#CATEGORY_DISTANCE}
+     * @param name           the English name of the attack, used as identifier
+     *                       and translation key
+     * @param attackCategory can be either {@link MovesUtils#CATEGORY_CONTACT}
+     *                       or {@link MovesUtils#CATEGORY_DISTANCE}
      */
     public Move_Base(final String name)
     {
@@ -57,20 +55,18 @@ public abstract class Move_Base
         this.index = this.move.index;
         this.fixedDamage = this.move.fixed;
         boolean mod = false;
-        for (final int i : this.move.attackedStatModification)
-            if (i != 0)
-            {
-                mod = true;
-                break;
-            }
+        for (final int i : this.move.attackedStatModification) if (i != 0)
+        {
+            mod = true;
+            break;
+        }
         if (!mod) this.move.attackedStatModProb = 0;
         mod = false;
-        for (final int i : this.move.attackerStatModification)
-            if (i != 0)
-            {
-                mod = true;
-                break;
-            }
+        for (final int i : this.move.attackerStatModification) if (i != 0)
+        {
+            mod = true;
+            break;
+        }
         if (!mod) this.move.attackerStatModProb = 0;
 
         if (this.move.attackedStatModProb > 0) this.hasStatModTarget = true;
@@ -107,12 +103,11 @@ public abstract class Move_Base
     {
         final IPokemob pokemob = PokemobCaps.getPokemobFor(user);
         if (pokemob == null) return;
-        // TODO add an error message here?
         if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, this, target))) return;
         final EntityMoveUse moveUse = EntityMoveUse.Builder.make(user, this, start).setEnd(end).setTarget(target)
                 .build();
-        if (GZMoveManager.zmoves_map.containsValue(this.move.baseEntry.name)) pokemob.setCombatState(
-                CombatStates.USEDZMOVE, true);
+        if (GZMoveManager.zmoves_map.containsValue(this.move.baseEntry.name))
+            pokemob.setCombatState(CombatStates.USEDZMOVE, true);
         pokemob.setActiveMove(moveUse);
         MoveQueuer.queueMove(moveUse);
     }
@@ -139,10 +134,8 @@ public abstract class Move_Base
     /**
      * Applys world effects of the move
      *
-     * @param attacker
-     *            - mob using the move
-     * @param location
-     *            - locaton move hits
+     * @param attacker - mob using the move
+     * @param location - locaton move hits
      */
     public abstract void doWorldAction(IPokemob attacker, Vector3 location);
 
@@ -168,8 +161,8 @@ public abstract class Move_Base
     }
 
     /**
-     * Attack category getter. Can be {@link IMoveConstants#CATEGORY_CONTACT}
-     * or {@link IMoveConstants#CATEGORY_DISTANCE}. Set by the constructor.
+     * Attack category getter. Can be {@link IMoveConstants#CATEGORY_CONTACT} or
+     * {@link IMoveConstants#CATEGORY_DISTANCE}. Set by the constructor.
      *
      * @return the attack category
      */
@@ -230,8 +223,8 @@ public abstract class Move_Base
     }
 
     /**
-     * PP getter PP is not used normally, so this mostly just scaled hunger
-     * cost or cooldowns
+     * PP getter PP is not used normally, so this mostly just scaled hunger cost
+     * or cooldowns
      *
      * @return the number of Power points of this move
      */
@@ -345,25 +338,25 @@ public abstract class Move_Base
         {
             if (this.move.baseEntry.soundEffectSource != null)
             {
-                this.soundUser = ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
-                        this.move.baseEntry.soundEffectSource));
+                this.soundUser = ForgeRegistries.SOUND_EVENTS
+                        .getValue(new ResourceLocation(this.move.baseEntry.soundEffectSource));
                 if (this.soundUser == null) PokecubeAPI.LOGGER.error("No Sound found for `"
                         + this.move.baseEntry.soundEffectSource + "` for attack " + this.getName());
                 this.move.baseEntry.soundEffectSource = null;
             }
             pos.set(attacker);
-            if (this.soundUser != null) world.playLocalSound(pos.x, pos.y, pos.z, this.soundUser, SoundSource.HOSTILE,
-                    volume, pitch, true);
+            if (this.soundUser != null)
+                world.playLocalSound(pos.x, pos.y, pos.z, this.soundUser, SoundSource.HOSTILE, volume, pitch, true);
         }
         if (attacked != null)
         {
-            if (this.soundTarget != null || this.move.baseEntry.soundEffectTarget != null) if (this.soundTarget != null
-                    || this.move.baseEntry.soundEffectTarget != null)
+            if (this.soundTarget != null || this.move.baseEntry.soundEffectTarget != null)
+                if (this.soundTarget != null || this.move.baseEntry.soundEffectTarget != null)
             {
                 if (this.move.baseEntry.soundEffectTarget != null)
                 {
-                    this.soundTarget = ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
-                            this.move.baseEntry.soundEffectTarget));
+                    this.soundTarget = ForgeRegistries.SOUND_EVENTS
+                            .getValue(new ResourceLocation(this.move.baseEntry.soundEffectTarget));
                     if (this.soundTarget == null) PokecubeAPI.LOGGER.error("No Sound found for `"
                             + this.move.baseEntry.soundEffectTarget + "` for attack " + this.getName());
                     this.move.baseEntry.soundEffectTarget = null;
@@ -373,20 +366,20 @@ public abstract class Move_Base
                         SoundSource.HOSTILE, volume, pitch, true);
             }
         }
-        else if (attacker != null && targetPos != null) if (this.soundTarget != null
-                || this.move.baseEntry.soundEffectTarget != null)
+        else if (attacker != null && targetPos != null)
+            if (this.soundTarget != null || this.move.baseEntry.soundEffectTarget != null)
         {
             if (this.move.baseEntry.soundEffectTarget != null)
             {
-                this.soundTarget = ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
-                        this.move.baseEntry.soundEffectTarget));
+                this.soundTarget = ForgeRegistries.SOUND_EVENTS
+                        .getValue(new ResourceLocation(this.move.baseEntry.soundEffectTarget));
                 if (this.soundTarget == null) PokecubeAPI.LOGGER.error("No Sound found for `"
                         + this.move.baseEntry.soundEffectTarget + "` for attack " + this.getName());
                 this.move.baseEntry.soundEffectTarget = null;
             }
             pos.set(targetPos);
-            if (this.soundTarget != null) world.playLocalSound(pos.x, pos.y, pos.z, this.soundTarget, SoundSource.HOSTILE,
-                    volume, pitch, true);
+            if (this.soundTarget != null)
+                world.playLocalSound(pos.x, pos.y, pos.z, this.soundTarget, SoundSource.HOSTILE, volume, pitch, true);
         }
     }
 
@@ -419,9 +412,9 @@ public abstract class Move_Base
     }
 
     /**
-     * Sets if the attack hits all targets in the area, this area is default
-     * 4x4 around the mob, but should be specified via Overriding the
-     * doFinalAttack method, see Earthquake for an example.
+     * Sets if the attack hits all targets in the area, this area is default 4x4
+     * around the mob, but should be specified via Overriding the doFinalAttack
+     * method, see Earthquake for an example.
      *
      * @return
      */
@@ -432,8 +425,8 @@ public abstract class Move_Base
     }
 
     /**
-     * Sets if the attack hits all targets in the direction it is fired,
-     * example being flamethrower, that should hit all things in front.
+     * Sets if the attack hits all targets in the direction it is fired, example
+     * being flamethrower, that should hit all things in front.
      *
      * @return
      */
@@ -444,8 +437,8 @@ public abstract class Move_Base
     }
 
     /**
-     * Sets if the attack hits all targets in the direction it is fired,
-     * example being flamethrower, that should hit all things in front.
+     * Sets if the attack hits all targets in the direction it is fired, example
+     * being flamethrower, that should hit all things in front.
      *
      * @return
      */

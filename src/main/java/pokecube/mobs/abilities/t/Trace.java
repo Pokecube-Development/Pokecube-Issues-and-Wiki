@@ -41,4 +41,10 @@ public class Trace extends Ability
         else if (this.traced != null) this.traced.onUpdate(mob);
     }
 
+    @Override
+    public boolean singleton()
+    {
+        return false;
+    }
+
 }

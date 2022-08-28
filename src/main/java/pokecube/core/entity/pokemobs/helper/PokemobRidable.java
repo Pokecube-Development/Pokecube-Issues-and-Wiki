@@ -265,7 +265,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     @Override
     public float getPitch()
     {
-        return this.pokemobCap.getDirectionPitch();
+        return this.pokemobCap.getPitch();
     }
 
     // We do our own rendering, so don't need this.

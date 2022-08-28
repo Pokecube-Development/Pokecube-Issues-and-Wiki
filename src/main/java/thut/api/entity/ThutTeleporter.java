@@ -90,8 +90,7 @@ public class ThutTeleporter
         public int version = 0;
 
         public TeleDest()
-        {
-        }
+        {}
 
         public TeleDest setLoc(final GlobalPos loc, final Vector3 subLoc)
         {
@@ -106,8 +105,8 @@ public class ThutTeleporter
             if (pos != null)
             {
                 this.loc = pos;
-                this.subLoc = new Vector3().set(this.loc.pos().getX() + 0.5, this.loc.pos().getY(), this.loc
-                        .pos().getZ() + 0.5);
+                this.subLoc = new Vector3().set(this.loc.pos().getX() + 0.5, this.loc.pos().getY(),
+                        this.loc.pos().getZ() + 0.5);
                 this.name = "";
             }
             return this;
@@ -165,8 +164,8 @@ public class ThutTeleporter
 
         public Component getInfoName()
         {
-            return TComponent.translatable("teledest.location", this.loc.pos().getX(), this.loc.pos().getY(), this.loc
-                    .pos().getZ(), this.loc.dimension().location());
+            return TComponent.translatable("teledest.location", this.loc.pos().getX(), this.loc.pos().getY(),
+                    this.loc.pos().getZ(), this.loc.dimension().location());
         }
 
         public boolean withinDist(final TeleDest other, final double dist)
@@ -181,7 +180,7 @@ public class ThutTeleporter
         private final ServerLevel overworld;
 
         private final Entity entity;
-        private final long   start;
+        private final long start;
 
         public InvulnTicker(final Entity entity)
         {
@@ -208,10 +207,10 @@ public class ThutTeleporter
 
     private static class TransferTicker
     {
-        private final Entity      entity;
+        private final Entity entity;
         private final ServerLevel destWorld;
-        private final TeleDest    dest;
-        private final boolean     sound;
+        private final TeleDest dest;
+        private final boolean sound;
 
         public TransferTicker(final ServerLevel destWorld, final Entity entity, final TeleDest dest,
                 final boolean sound)
@@ -220,12 +219,10 @@ public class ThutTeleporter
             this.dest = dest;
             this.sound = sound;
             this.destWorld = destWorld;
-            final boolean inTick = destWorld.isHandlingTick() || ((ServerLevel) entity.getLevel())
-                    .isHandlingTick();
+            final boolean inTick = destWorld.isHandlingTick();
             if (inTick) MinecraftForge.EVENT_BUS.register(this);
-            else if (entity instanceof ServerPlayer)
+            else if (entity instanceof ServerPlayer player)
             {
-                final ServerPlayer player = (ServerPlayer) entity;
                 player.isChangingDimension = true;
                 player.teleportTo(destWorld, dest.subLoc.x, dest.subLoc.y, dest.subLoc.z, entity.yRot, entity.xRot);
                 if (sound)
@@ -249,14 +246,13 @@ public class ThutTeleporter
         }
 
         @SubscribeEvent
-        public void TickEvent(final WorldTickEvent event)
+        public void tickEvent(final WorldTickEvent event)
         {
             if (event.world == this.entity.getLevel() && event.phase == Phase.END)
             {
                 MinecraftForge.EVENT_BUS.unregister(this);
-                if (this.entity instanceof ServerPlayer)
+                if (this.entity instanceof ServerPlayer player)
                 {
-                    final ServerPlayer player = (ServerPlayer) this.entity;
                     player.isChangingDimension = true;
                     player.teleportTo(this.destWorld, this.dest.subLoc.x, this.dest.subLoc.y, this.dest.subLoc.z,
                             this.entity.yRot, this.entity.xRot);
@@ -394,12 +390,12 @@ public class ThutTeleporter
 
     private static void moveMob(final Entity entity, TeleDest dest)
     {
-        if (entity instanceof LivingEntity)
+        if (entity instanceof LivingEntity living)
         {
             double targetX = dest.getLoc().x;
             double targetY = dest.getLoc().y;
             double targetZ = dest.getLoc().z;
-            final TeleEvent event = TeleEvent.onUseTeleport((LivingEntity) entity, targetX, targetY, targetZ);
+            final TeleEvent event = TeleEvent.onUseTeleport(living, targetX, targetY, targetZ);
 
             if (event.isCanceled()) return;
 
@@ -407,17 +403,16 @@ public class ThutTeleporter
             targetY = event.getTargetY();
             targetZ = event.getTargetZ();
 
-            dest = new TeleDest().setLoc(GlobalPos.of(dest.getPos().dimension(), new BlockPos(targetX, targetY,
-                    targetZ)), new Vector3().set(targetX, targetY, targetZ));
+            dest = new TeleDest().setLoc(
+                    GlobalPos.of(dest.getPos().dimension(), new BlockPos(targetX, targetY, targetZ)),
+                    new Vector3().set(targetX, targetY, targetZ));
         }
 
-        if (entity instanceof ServerPlayer)
+        if (entity instanceof ServerPlayer player)
         {
-            final ServerPlayer player = (ServerPlayer) entity;
             player.isChangingDimension = true;
-            ((ServerPlayer) entity).connection.teleport(dest.subLoc.x, dest.subLoc.y, dest.subLoc.z, entity.yRot,
-                    entity.xRot);
-            ((ServerPlayer) entity).connection.resetPosition();
+            player.connection.teleport(dest.subLoc.x, dest.subLoc.y, dest.subLoc.z, entity.yRot, entity.xRot);
+            player.connection.resetPosition();
             player.isChangingDimension = false;
         }
         else entity.teleportTo(dest.subLoc.x, dest.subLoc.y, dest.subLoc.z);

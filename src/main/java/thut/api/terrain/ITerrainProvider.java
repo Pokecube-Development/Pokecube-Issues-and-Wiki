@@ -130,11 +130,10 @@ public interface ITerrainProvider
      */
     default TerrainSegment getTerrain(final LevelAccessor world, final BlockPos p)
     {
-        if (!(world instanceof Level)) return new TerrainSegment(p);
-        final Level rworld = (Level) world;
+        if (!(world instanceof Level level)) return new TerrainSegment(p);
         // Convert the pos to a chunk pos
         ChunkPos temp = null;
-        final ResourceKey<Level> dim = rworld.dimension();
+        final ResourceKey<Level> dim = level.dimension();
         final ChunkAccess chunk = world.isClientSide() ? world.getChunk(p)
                 : ITerrainProvider.getChunk(dim, temp = new ChunkPos(p));
         // final ChunkAccess chunk = world.getChunk(p);

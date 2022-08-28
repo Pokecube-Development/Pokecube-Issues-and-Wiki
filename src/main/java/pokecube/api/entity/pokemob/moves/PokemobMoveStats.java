@@ -8,7 +8,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.moves.IMoveConstants;
 
@@ -61,9 +60,6 @@ public class PokemobMoveStats
      * probably causes creeper animation to go weird)
      */
     public int lastActiveTime;
-
-    /** Mob transformed into */
-    public LivingEntity transformedTo;
 
     /**
      * The amount of time since the creeper was close enough to the player to

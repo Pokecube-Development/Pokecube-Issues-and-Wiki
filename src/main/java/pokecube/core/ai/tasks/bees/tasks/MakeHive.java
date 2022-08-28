@@ -26,7 +26,9 @@ import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
+import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.world.terrain.PokecubeTerrainChecker;
+import thut.api.maths.Vector3;
 
 public class MakeHive extends BaseIdleTask
 {
@@ -123,6 +125,7 @@ public class MakeHive extends BaseIdleTask
         if (!leaves.isEmpty())
         {
             final NearBlock validLeaf = leaves.get(0);
+            if (!MoveEventsHandler.canAffectBlock(pokemob, new Vector3(validLeaf.getPos()), "nest_building")) return;
             this.placeHive(validLeaf, Direction.DOWN);
             return;
         }
@@ -166,7 +169,8 @@ public class MakeHive extends BaseIdleTask
         if (!tameCheck) return false;
         final Brain<?> brain = this.entity.getBrain();
         int timer = 0;
-        if (brain.hasMemoryValue(BeeTasks.NO_HIVE_TIMER.get())) timer = brain.getMemory(BeeTasks.NO_HIVE_TIMER.get()).get();
+        if (brain.hasMemoryValue(BeeTasks.NO_HIVE_TIMER.get()))
+            timer = brain.getMemory(BeeTasks.NO_HIVE_TIMER.get()).get();
         // This timer is in ticks of the HiveSensor, which is only once per
         // second or so!
         return timer > 60;

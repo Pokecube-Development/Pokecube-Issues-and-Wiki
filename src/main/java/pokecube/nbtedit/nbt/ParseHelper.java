@@ -30,7 +30,7 @@ public class ParseHelper
             throw new NumberFormatException("Not a valid byte array");
         }
     }
-
+//
     public static double parseDouble(String s) throws NumberFormatException
     {
         try

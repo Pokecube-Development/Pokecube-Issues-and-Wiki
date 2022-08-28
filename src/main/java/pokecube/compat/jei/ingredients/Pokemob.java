@@ -74,8 +74,7 @@ public class Pokemob implements IIngredientType<PokedexEntry>
         @Override
         public IIngredientType<Pokemob> getIngredientType()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return TYPE;
         }
 
     }

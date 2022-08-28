@@ -20,7 +20,6 @@ import pokecube.api.stats.ISpecialCaptureCondition;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.init.Config;
-import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.utils.PermNodes;
@@ -57,17 +56,17 @@ public class StatsHandler
             final PokecubeBehaviour cube = IPokecube.PokecubeBehaviour.BEHAVIORS.get(id);
             cube.onPreCapture(evt);
         }
-        if (evt.getCaught() == null || !(evt.pokecube instanceof EntityPokecube cube)) return;
+        if (evt.getCaught() == null || !(evt.pokecube == null)) return;
         final PokedexEntry entry = evt.getCaught().getPokedexEntry();
         if (evt.getCaught().getGeneralState(GeneralStates.TAMED)) evt.setResult(Result.DENY);
         if (evt.getCaught().getGeneralState(GeneralStates.DENYCAPTURE)) evt.setResult(Result.DENY);
-        final Entity catcher = cube.shootingEntity;
+        final Entity catcher = evt.pokecube.shootingEntity;
         if (!EntityPokecubeBase.canCaptureBasedOnConfigs(evt.getCaught()))
         {
             evt.setCanceled(true);
             if (catcher instanceof Player player)
                 thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
-            CaptureManager.onCaptureDenied(cube);
+            CaptureManager.onCaptureDenied(evt.pokecube);
             return;
         }
         final Config config = PokecubeCore.getConfig();
@@ -83,7 +82,7 @@ public class StatsHandler
             {
                 evt.setCanceled(true);
                 thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
-                CaptureManager.onCaptureDenied(cube);
+                CaptureManager.onCaptureDenied(evt.pokecube);
                 return;
             }
         }
@@ -107,7 +106,7 @@ public class StatsHandler
                 if (catcher instanceof Player player)
                     thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
                 condition.onCaptureFail(catcher, evt.getCaught());
-                CaptureManager.onCaptureDenied(cube);
+                CaptureManager.onCaptureDenied(evt.pokecube);
                 return;
             }
         }

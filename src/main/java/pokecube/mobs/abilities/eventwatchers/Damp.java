@@ -67,4 +67,10 @@ public class Damp extends Ability
         this.mob = mob;
     }
 
+    @Override
+    public boolean singleton()
+    {
+        return false;
+    }
+
 }

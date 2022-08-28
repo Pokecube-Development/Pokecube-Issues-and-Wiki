@@ -74,9 +74,8 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         {
             final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(this.getCopiedID());
             final Entity entity = type.create(level);
-            if (entity instanceof LivingEntity)
+            if (entity instanceof LivingEntity mob)
             {
-                final LivingEntity mob = (LivingEntity) entity;
                 if (MinecraftForge.EVENT_BUS.post(new CopySetEvent(holder, null, mob)))
                 {
                     this.setCopiedID(null);

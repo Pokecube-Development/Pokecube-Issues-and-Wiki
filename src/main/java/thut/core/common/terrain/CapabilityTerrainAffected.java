@@ -25,9 +25,9 @@ public class CapabilityTerrainAffected
     public static class DefaultAffected implements ITerrainAffected, ICapabilityProvider
     {
         private final LazyOptional<ITerrainAffected> holder = LazyOptional.of(() -> this);
-        private LivingEntity                         theMob;
-        private TerrainSegment                       terrain;
-        private Collection<ITerrainEffect>           effects;
+        private LivingEntity theMob;
+        private TerrainSegment terrain;
+        private Collection<ITerrainEffect> effects;
 
         @Override
         public void attach(final LivingEntity mob)
@@ -96,10 +96,11 @@ public class CapabilityTerrainAffected
 
     private static void onEntityCapabilityAttach(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (!(event.getObject() instanceof LivingEntity) || event.getCapabilities().containsKey(
-                CapabilityTerrainAffected.TERRAINEFFECTCAP)) return;
+        if (!(event.getObject() instanceof LivingEntity living)
+                || event.getCapabilities().containsKey(CapabilityTerrainAffected.TERRAINEFFECTCAP))
+            return;
         final DefaultAffected effects = new DefaultAffected();
-        effects.attach((LivingEntity) event.getObject());
+        effects.attach(living);
         event.addCapability(CapabilityTerrainAffected.TERRAINEFFECTCAP, effects);
     }
 }

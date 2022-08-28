@@ -77,7 +77,9 @@ import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.Tools;
+import thut.api.AnimatedCaps;
 import thut.api.ThutCaps;
+import thut.api.entity.IAnimated;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
@@ -148,15 +150,6 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public boolean causeFallDamage(final float distance, final float damageMultiplier, final DamageSource source)
-    {
-        // TODO maybe do something here?
-        // Vanilla plays sound and does damage, but only plays the sound if
-        // damage occurred, maybe we should just play the sound instead?
-        return super.causeFallDamage(distance, damageMultiplier, source);
-    }
-
-    @Override
     protected void tickDeath()
     {
         ++this.deathTime;
@@ -187,7 +180,7 @@ public class EntityPokemob extends PokemobRidable
                         d1);
             }
         }
-        if (this.deathTime >= PokecubeCore.getConfig().deadReviveTimer)
+        if (this.deathTime >= PokecubeCore.getConfig().deadReviveTimer && PokecubeCore.getConfig().deadReviveTimer > 0)
         {
             this.pokemobCap.revive();
             // If we revive naturally, we remove this tag, it only applies for
@@ -395,6 +388,15 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
+    public boolean causeFallDamage(final float distance, final float damageMultiplier, final DamageSource source)
+    {
+        // TODO maybe do something here?
+        // Vanilla plays sound and does damage, but only plays the sound if
+        // damage occurred, maybe we should just play the sound instead?
+        return super.causeFallDamage(distance, damageMultiplier, source);
+    }
+
+    @Override
     protected void checkFallDamage(final double y, final boolean onGroundIn, final BlockState state, final BlockPos pos)
     {}
 
@@ -432,12 +434,6 @@ public class EntityPokemob extends PokemobRidable
     public int getAmbientSoundInterval()
     {
         return PokecubeCore.getConfig().idleSoundRate;
-    }
-
-    @Override
-    public void onAddedToWorld()
-    {
-        super.onAddedToWorld();
     }
 
     @Override
@@ -609,6 +605,8 @@ public class EntityPokemob extends PokemobRidable
         }
     }
 
+    private int climbDelay = 0;
+
     /**
      * Called to update the entity's position/logic.
      */
@@ -619,11 +617,12 @@ public class EntityPokemob extends PokemobRidable
         if (!this.level.isClientSide)
         {
             boolean climb = this.horizontalCollision && this.getNavigation().isInProgress();
-            if (climb)
+            if (climb && climbDelay-- < 0)
             {
                 final Path p = this.getNavigation().getPath();
                 climb = p.getNextNodePos().getY() >= this.getY();
             }
+            else climbDelay = 5;
             this.setBesideClimbableBlock(climb);
         }
     }
@@ -726,11 +725,18 @@ public class EntityPokemob extends PokemobRidable
         this.entityData.set(EntityPokemob.CLIMBING, b0);
     }
 
+    private IAnimated animationHolder;
+    private boolean checkedAnim = false;
+
     @Override
     public boolean isFlying()
     {
-        // TODO hook into what is used for animations, and put it in here for if
-        // is flying!
+        if (!checkedAnim)
+        {
+            animationHolder = AnimatedCaps.getAnimated(this);
+            checkedAnim = true;
+        }
+        if (animationHolder != null) return animationHolder.getChoices().contains("flying");
         return false;
     }
 }

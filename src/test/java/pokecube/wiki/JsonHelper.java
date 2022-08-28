@@ -411,7 +411,6 @@ public class JsonHelper
         }
         catch (final Exception e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -473,12 +472,10 @@ public class JsonHelper
             }
             catch (final FileNotFoundException e1)
             {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
             catch (final IOException e1)
             {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         }
@@ -501,12 +498,10 @@ public class JsonHelper
             }
             catch (final FileNotFoundException e1)
             {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
             catch (final IOException e1)
             {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         }
@@ -544,12 +539,10 @@ public class JsonHelper
         }
         catch (final FileNotFoundException e1)
         {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         catch (final IOException e1)
         {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
 
@@ -583,7 +576,6 @@ public class JsonHelper
             }
             catch (final Exception e1)
             {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         }
@@ -599,7 +591,6 @@ public class JsonHelper
         }
         catch (final Exception e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

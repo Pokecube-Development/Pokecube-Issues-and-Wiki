@@ -24,7 +24,9 @@ import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.nest.AntHabitat;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.blocks.nests.NestTile;
+import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.world.terrain.PokecubeTerrainChecker;
+import thut.api.maths.Vector3;
 
 public class MakeNest extends BaseIdleTask
 {
@@ -47,6 +49,7 @@ public class MakeNest extends BaseIdleTask
     private boolean placeNest(final NearBlock b)
     {
         final BlockPos pos = b.getPos();
+        if (!MoveEventsHandler.canAffectBlock(pokemob, new Vector3(pos), "nest_building")) return false;
         final PoiManager pois = this.world.getPoiManager();
         final long num = pois.getCountInRange(p -> p == PointsOfInterest.NEST.get(), pos,
                 PokecubeCore.getConfig().nestSpacing, PoiManager.Occupancy.ANY);

@@ -2,7 +2,6 @@ package pokecube.api.entity.pokemob.commandhandlers;
 
 import java.util.List;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -159,17 +158,4 @@ public class ChangeFormHandler extends DefaultHandler
         else thut.lib.ChatHelper.sendSystemMessage(player,
                 TComponent.translatable("pokemob.megaevolve.failed", pokemob.getDisplayName()));
     }
-
-    @Override
-    public void readFromBuf(final ByteBuf buf)
-    {
-        super.readFromBuf(buf);
-    }
-
-    @Override
-    public void writeToBuf(final ByteBuf buf)
-    {
-        super.writeToBuf(buf);
-    }
-
 }

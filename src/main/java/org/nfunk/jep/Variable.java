@@ -104,7 +104,6 @@ public class Variable// extends Observable
     public boolean setValue(final Object object)
     {
         if (!this.setValueRaw(object)) return false;
-        // TODO see if we actually wanted to know about observers?
         return true;
     }
 

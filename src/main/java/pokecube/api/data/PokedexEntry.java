@@ -334,8 +334,7 @@ public class PokedexEntry
             boolean rightTime = !this.dayOnly && !this.nightOnly && !this.dawnOnly && !this.duskOnly;
             if (!rightTime)
             {
-                // TODO better way to choose current time.
-                final double time = mob.getEntity().getLevel().getDayTime() % 24000 / 24000d;
+                final double time = TimePeriod.getTime(mob.getEntity().getLevel());
                 rightTime = this.dayOnly ? PokedexEntry.day.contains(time)
                         : this.nightOnly ? PokedexEntry.night.contains(time)
                                 : this.duskOnly ? PokedexEntry.dusk.contains(time) : PokedexEntry.dawn.contains(time);

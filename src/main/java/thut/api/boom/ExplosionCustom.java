@@ -312,7 +312,6 @@ public class ExplosionCustom extends Explosion
         ThutCore.LOGGER.error("This should not be run anymore", new Exception());
     }
 
-    // TODO Revisit this to make blast energy more conserved
     public void doKineticImpactor(final ServerLevel world, final Vector3 velocity, Vector3 hitLocation,
             Vector3 acceleration, float density, float energy)
     {

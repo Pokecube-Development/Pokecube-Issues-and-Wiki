@@ -44,8 +44,7 @@ public class Config
         public Map<Field, ConfigValue<?>> serverValues = Maps.newHashMap();
 
         /**
-         * @param MODID
-         *            modid of the mod we are made for.
+         * @param MODID modid of the mod we are made for.
          */
         public ConfigData(final String MODID)
         {
@@ -116,66 +115,63 @@ public class Config
         {
             ThutCore.LOGGER.info("Reading {}", config.getFileName());
             boolean changed = false;
-            for (final Field f : values.keySet())
-                try
-                {
-                    f.setAccessible(true);
-                    final Object ours = f.get(this);
-                    final Object o = values.get(f).get();
-                    if (ours.equals(o)) continue;
-                    ThutCore.LOGGER.info("Set {} to {}", f.getName(), o);
-                    f.set(this, o);
-                    changed = true;
-                }
-                catch (final Exception e)
-                {
-                    ThutCore.LOGGER.error("Error updating config value for " + f, e);
-                }
+            for (final Field f : values.keySet()) try
+            {
+                f.setAccessible(true);
+                final Object ours = f.get(this);
+                final Object o = values.get(f).get();
+                if (ours.equals(o)) continue;
+                ThutCore.LOGGER.info("Set {} to {}", f.getName(), o);
+                f.set(this, o);
+                changed = true;
+            }
+            catch (final Exception e)
+            {
+                ThutCore.LOGGER.error("Error updating config value for " + f, e);
+            }
             return changed;
         }
 
         public void updateField(final Field field, final Object update) throws Exception
         {
             field.getAnnotation(Configure.class);
-            if (field.getType() == Long.TYPE || field.getType() == Long.class) field.set(this, Long.parseLong(
-                    (String) update));
+            if (field.getType() == Long.TYPE || field.getType() == Long.class)
+                field.set(this, Long.parseLong((String) update));
             else if (field.getType() == String.class) field.set(this, update);
-            else if (field.getType() == Integer.TYPE || field.getType() == Integer.class) field.set(this, Integer
-                    .parseInt((String) update));
-            else if (field.getType() == Float.TYPE || field.getType() == Float.class) field.set(this, Float.parseFloat(
-                    (String) update));
-            else if (field.getType() == Double.TYPE || field.getType() == Double.class) field.set(this, Double
-                    .parseDouble((String) update));
-            else if (field.getType() == Boolean.TYPE || field.getType() == Boolean.class) field.set(this, Boolean
-                    .parseBoolean((String) update));
+            else if (field.getType() == Integer.TYPE || field.getType() == Integer.class)
+                field.set(this, Integer.parseInt((String) update));
+            else if (field.getType() == Float.TYPE || field.getType() == Float.class)
+                field.set(this, Float.parseFloat((String) update));
+            else if (field.getType() == Double.TYPE || field.getType() == Double.class)
+                field.set(this, Double.parseDouble((String) update));
+            else if (field.getType() == Boolean.TYPE || field.getType() == Boolean.class)
+                field.set(this, Boolean.parseBoolean((String) update));
             else
             {
                 final Object o = field.get(this);
                 if (o instanceof String[])
                 {
-                    final String[] vars = update instanceof String ? ((String) update).split("``") : (String[]) update;
+                    final String[] vars = update instanceof String s ? s.split("``") : (String[]) update;
                     field.set(this, vars);
                 }
                 else if (o instanceof List<?> && !((List<?>) o).isEmpty() && ((List<?>) o).get(0) instanceof String)
                 {
                     @SuppressWarnings("unchecked")
                     final List<String> list = (List<String>) o;
-                    final String[] vars = update instanceof String ? ((String) update).split("``") : (String[]) update;
+                    final String[] vars = update instanceof String s ? s.split("``") : (String[]) update;
                     list.clear();
-                    for (final String s : vars)
-                        list.add(s);
+                    for (final String s : vars) list.add(s);
                 }
                 else if (o instanceof int[])
                 {
-                    final String[] vars = update instanceof String ? ((String) update).split("``")
-                            : update instanceof String[] ? (String[]) update : null;
+                    final String[] vars = update instanceof String s ? s.split("``")
+                            : update instanceof String[] s ? s : null;
                     int[] toSet = null;
                     if (vars == null) toSet = (int[]) update;
                     else
                     {
                         toSet = new int[vars.length];
-                        for (int i = 0; i < vars.length; i++)
-                            toSet[i] = Integer.parseInt(vars[i].trim());
+                        for (int i = 0; i < vars.length; i++) toSet[i] = Integer.parseInt(vars[i].trim());
                     }
                     field.set(this, toSet);
                 }
@@ -196,19 +192,18 @@ public class Config
         private boolean write(final ModConfig config, final Map<Field, ConfigValue<?>> values)
         {
             boolean ret = false;
-            for (final Field f : values.keySet())
-                try
-                {
-                    final Object ours = f.get(this);
-                    final Object val = values.get(f).get();
-                    if (ours.equals(val)) continue;
-                    config.getConfigData().set(values.get(f).getPath(), ours);
-                    ret = true;
-                }
-                catch (final Exception e)
-                {
-                    ThutCore.LOGGER.error("Error saving config value for " + f, e);
-                }
+            for (final Field f : values.keySet()) try
+            {
+                final Object ours = f.get(this);
+                final Object val = values.get(f).get();
+                if (ours.equals(val)) continue;
+                config.getConfigData().set(values.get(f).getPath(), ours);
+                ret = true;
+            }
+            catch (final Exception e)
+            {
+                ThutCore.LOGGER.error("Error saving config value for " + f, e);
+            }
             return ret;
         }
     }
@@ -265,8 +260,7 @@ public class Config
             }
         }
 
-        final Comparator<Field> comp = (o1, o2) ->
-        {
+        final Comparator<Field> comp = (o1, o2) -> {
             final Configure conf1 = o1.getAnnotation(Configure.class);
             final Configure conf2 = o2.getAnnotation(Configure.class);
             int diff = conf1.category().compareTo(conf2.category());
@@ -285,7 +279,8 @@ public class Config
         final ForgeConfigSpec CLIENT_CONFIG_SPEC = clientList.isEmpty() ? null : CLIENT_BUILDER.pop().build();
         final ForgeConfigSpec SERVER_CONFIG_SPEC = serverList.isEmpty() ? null : SERVER_BUILDER.pop().build();
 
-        return new ForgeConfigSpec[] { COMMON_CONFIG_SPEC, CLIENT_CONFIG_SPEC, SERVER_CONFIG_SPEC };
+        return new ForgeConfigSpec[]
+        { COMMON_CONFIG_SPEC, CLIENT_CONFIG_SPEC, SERVER_CONFIG_SPEC };
     }
 
     private static void addComment(final Builder builder, final String input)
@@ -296,8 +291,7 @@ public class Config
         if (input.contains("\n"))
         {
             final String[] vars = input.split("\n");
-            for (int i = 0; i < vars.length; i++)
-                vars[i] = " " + vars[i];
+            for (int i = 0; i < vars.length; i++) vars[i] = " " + vars[i];
             builder.comment(vars);
         }
         else builder.comment(" " + input);
@@ -329,50 +323,46 @@ public class Config
             }
         }
         String cat = "";
-        for (final Field field : fields)
-            try
+        for (final Field field : fields) try
+        {
+            if (Modifier.isStatic(field.getModifiers())) continue;
+            final Configure conf = field.getAnnotation(Configure.class);
+            if (!cat.equals(conf.category()))
             {
-                if (Modifier.isStatic(field.getModifiers())) continue;
-                final Configure conf = field.getAnnotation(Configure.class);
-                if (!cat.equals(conf.category()))
-                {
-                    // Empty the first time, otherwise we pop off
-                    if (!cat.isEmpty()) builder.pop();
-                    cat = conf.category();
-                    // Push the category
-                    builder.push(cat);
-                    builder.translation(ModLoadingContext.get().getActiveNamespace() + ".config." + cat);
-                    if (cat_comments.containsKey(cat)) Config.addComment(builder, cat_comments.get(cat));
-                }
-                if (!conf.comment().isEmpty()) Config.addComment(builder, conf.comment());
-                else  Config.addComment(builder, "sets "+field.getName());
-                builder.translation(ModLoadingContext.get().getActiveNamespace() + ".config." + field.getName()
-                        + ".tooltip");
-                final Object o = field.get(holder);
-                holder.init(type, field, builder.define(field.getName(), o));
+                // Empty the first time, otherwise we pop off
+                if (!cat.isEmpty()) builder.pop();
+                cat = conf.category();
+                // Push the category
+                builder.push(cat);
+                builder.translation(ModLoadingContext.get().getActiveNamespace() + ".config." + cat);
+                if (cat_comments.containsKey(cat)) Config.addComment(builder, cat_comments.get(cat));
             }
-            catch (final Exception e)
-            {
-                ThutCore.LOGGER.error("Error getting field " + field, e);
-            }
+            if (!conf.comment().isEmpty()) Config.addComment(builder, conf.comment());
+            else Config.addComment(builder, "sets " + field.getName());
+            builder.translation(
+                    ModLoadingContext.get().getActiveNamespace() + ".config." + field.getName() + ".tooltip");
+            final Object o = field.get(holder);
+            holder.init(type, field, builder.define(field.getName(), o));
+        }
+        catch (final Exception e)
+        {
+            ThutCore.LOGGER.error("Error getting field " + field, e);
+        }
     }
 
     private static void loadConfig(final IConfigHolder holder, final ForgeConfigSpec spec, final Path path)
     {
         ThutCore.LOGGER.debug("Loading config file {}", path);
-        final CommentedFileConfig configData = CommentedFileConfig.builder(path).sync().autosave().writingMode(
-                WritingMode.REPLACE).build();
+        final CommentedFileConfig configData = CommentedFileConfig.builder(path).sync().autosave()
+                .writingMode(WritingMode.REPLACE).build();
         configData.load();
         spec.setConfig(configData);
     }
 
     /**
-     * @param holder
-     *            the object to store the configs.
-     * @param subfolder
-     *            the folder that this config is in.
-     * @param prefix
-     *            prefix for these config files.
+     * @param holder    the object to store the configs.
+     * @param subfolder the folder that this config is in.
+     * @param prefix    prefix for these config files.
      */
     public static void setupConfigs(final IConfigHolder holder, final String subfolder, final String prefix)
     {
@@ -402,12 +392,12 @@ public class Config
         if (COMMON_CONFIG_SPEC != null || CLIENT_CONFIG_SPEC != null) common.toFile().getParentFile().mkdirs();
 
         // Register the configs
-        if (COMMON_CONFIG_SPEC != null) ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON,
-                COMMON_CONFIG_SPEC, commonfile.toString());
-        if (CLIENT_CONFIG_SPEC != null) ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT,
-                CLIENT_CONFIG_SPEC, clientfile.toString());
-        if (SERVER_CONFIG__SPEC != null) ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER,
-                SERVER_CONFIG__SPEC, serverfile.toString());
+        if (COMMON_CONFIG_SPEC != null)
+            ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, COMMON_CONFIG_SPEC, commonfile.toString());
+        if (CLIENT_CONFIG_SPEC != null)
+            ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CLIENT_CONFIG_SPEC, clientfile.toString());
+        if (SERVER_CONFIG__SPEC != null)
+            ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_CONFIG__SPEC, serverfile.toString());
 
         // Load configs
         if (COMMON_CONFIG_SPEC != null) Config.loadConfig(holder, COMMON_CONFIG_SPEC, common);

@@ -90,8 +90,8 @@ public class PokecubeHelper
         final Mob entity = mob.getEntity();
         final LivingEntity target = BrainUtils.getAttackTarget(entity);
         final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
-        if (targetMob == null || !(target instanceof Animal) || !(mob instanceof IBreedingMob)) return 1;
-        if (((IBreedingMob) mob).canMate((Animal) target)) return 8;
+        if (targetMob == null || !(target instanceof Animal animal) || !(mob instanceof IBreedingMob breed)) return 1;
+        if (breed.canMate(animal)) return 8;
         return 1;
     }
 

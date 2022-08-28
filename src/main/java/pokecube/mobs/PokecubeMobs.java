@@ -54,7 +54,7 @@ import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.init.ItemGenerator;
 import pokecube.core.items.berries.BerryManager;
-import pokecube.core.items.pokecubes.EntityPokecube;
+import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
 import pokecube.mobs.abilities.AbilityRegister;
@@ -228,8 +228,7 @@ public class PokecubeMobs
     @SubscribeEvent
     public void makeShedinja(final EvolveEvent.Post evt)
     {
-        Entity owner;
-        if ((owner = evt.mob.getOwner()) instanceof ServerPlayer) this.makeShedinja(evt.mob, (Player) owner);
+        if (evt.mob.getOwner() instanceof ServerPlayer player) this.makeShedinja(evt.mob, player);
     }
 
     void makeShedinja(final IPokemob evo, final Player player)
@@ -635,7 +634,7 @@ public class PokecubeMobs
 
                 if (evt.getCaught().isShadow())
                 {
-                    final EntityPokecube cube = (EntityPokecube) evt.pokecube;
+                    final EntityPokecubeBase cube = evt.pokecube;
                     final IPokemob mob = PokemobCaps.getPokemobFor(
                             PokecubeCore.createPokemob(evt.getCaught().getPokedexEntry(), cube.getLevel()));
                     cube.setTilt(Tools.computeCatchRate(mob, 1));
@@ -671,9 +670,7 @@ public class PokecubeMobs
             public void onPreCapture(final Pre evt)
             {
                 if (evt.getResult() == Result.DENY) return;
-
-                final EntityPokecube cube = (EntityPokecube) evt.pokecube;
-
+                final EntityPokecubeBase cube = evt.pokecube;
                 final IPokemob mob = PokemobCaps
                         .getPokemobFor(PokecubeCore.createPokemob(evt.getCaught().getPokedexEntry(), cube.getLevel()));
                 final Vector3 v = new Vector3();

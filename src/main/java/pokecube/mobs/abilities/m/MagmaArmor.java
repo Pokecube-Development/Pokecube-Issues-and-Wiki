@@ -45,4 +45,10 @@ public class MagmaArmor extends Ability
             egg.incubateEgg();
     }
 
+    @Override
+    public boolean singleton()
+    {
+        return false;
+    }
+
 }

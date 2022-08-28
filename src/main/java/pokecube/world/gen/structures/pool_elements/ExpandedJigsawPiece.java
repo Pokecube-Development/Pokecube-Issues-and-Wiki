@@ -44,7 +44,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event;
@@ -255,18 +254,12 @@ public class ExpandedJigsawPiece extends SinglePoolElement
             BlockPos blockpos = structuretemplate$structureblockinfo.pos;
             if (box == null || box.isInside(blockpos))
             {
-                FluidState old = level.getFluidState(blockpos);
                 @SuppressWarnings("deprecation")
                 BlockState to_place = structuretemplate$structureblockinfo.state.mirror(placementsettings.getMirror())
                         .rotate(placementsettings.getRotation());
-                boolean water_loggable = to_place.hasProperty(BlockStateProperties.WATERLOGGED);
-                LiquidBlockContainer cont = to_place.getBlock() instanceof LiquidBlockContainer
-                        ? (LiquidBlockContainer) to_place.getBlock()
-                        : null;
-                if (old.is(Fluids.WATER) && to_place.getFluidState().isEmpty() && (water_loggable || cont != null))
-                {
+                if (!(to_place.hasProperty(BlockStateProperties.WATERLOGGED)
+                        && to_place.getValue(BlockStateProperties.WATERLOGGED)))
                     unWaterlog.put(blockpos, level.getBlockState(blockpos));
-                }
             }
         }
     }
@@ -296,19 +289,13 @@ public class ExpandedJigsawPiece extends SinglePoolElement
             {
                 unWaterlog.forEach((pos, state) -> {
                     BlockState newState = level.getBlockState(pos);
-                    boolean water_loggable = newState.hasProperty(BlockStateProperties.WATERLOGGED);
-                    LiquidBlockContainer cont = newState.getBlock() instanceof LiquidBlockContainer
-                            ? (LiquidBlockContainer) newState.getBlock()
-                            : null;
-                    if (cont != null || water_loggable)
+                    LiquidBlockContainer cont = newState.getBlock() instanceof LiquidBlockContainer c ? c : null;
+                    boolean worked = cont != null
+                            && cont.placeLiquid(level, pos, newState, Fluids.EMPTY.defaultFluidState());
+                    if (!worked && newState.hasProperty(BlockStateProperties.WATERLOGGED))
                     {
-                        boolean worked = cont != null
-                                && cont.placeLiquid(level, pos, newState, Fluids.EMPTY.defaultFluidState());
-                        if (!worked && newState.hasProperty(BlockStateProperties.WATERLOGGED))
-                        {
-                            worked = level.setBlock(pos, newState.setValue(BlockStateProperties.WATERLOGGED, false),
-                                    placeFlags & -2 | 16);
-                        }
+                        worked = level.setBlock(pos, newState.setValue(BlockStateProperties.WATERLOGGED, false),
+                                placeFlags & -2 | 16);
                     }
                 });
             }

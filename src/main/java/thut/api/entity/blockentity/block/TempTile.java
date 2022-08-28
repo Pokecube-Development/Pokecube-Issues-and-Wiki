@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -15,10 +14,10 @@ import net.minecraftforge.common.util.LazyOptional;
 import thut.api.block.ITickTile;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.maths.Vector3;
+import thut.crafts.ThutCrafts;
 
 public class TempTile extends BlockEntity implements ITickTile
 {
-    public static BlockEntityType<TempTile> TYPE;
 
     public BlockEntityBase blockEntity;
 
@@ -26,7 +25,7 @@ public class TempTile extends BlockEntity implements ITickTile
 
     public TempTile(final BlockPos pos, final BlockState state)
     {
-        super(TempTile.TYPE, pos, state);
+        super(ThutCrafts.CRAFTTE.get(), pos, state);
     }
 
     public TempTile(final BlockEntityBase blockEntity, final BlockPos pos, final BlockState state)

@@ -339,18 +339,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     }
 
     @Override
-    public AABB getLocalBoundsForPose(final Pose pose)
-    {
-        return super.getLocalBoundsForPose(pose);
-    }
-
-    @Override
-    public void setPose(final Pose poseIn)
-    {
-        super.setPose(poseIn);
-    }
-
-    @Override
     public EntityDimensions getDimensions(final Pose poseIn)
     {
         return this.dimensions;

@@ -70,8 +70,7 @@ public class TerrainManager
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
         ResourceKey<Level> dim = null;
-        if (evt.getWorld() instanceof Level && !evt.getWorld().isClientSide())
-            dim = ((Level) evt.getWorld()).dimension();
+        if (evt.getWorld() instanceof Level level && !evt.getWorld().isClientSide()) dim = level.dimension();
         // This is null when this is loaded off-thread, IE before the chunk is
         // finished
         if (dim != null) ITerrainProvider.addChunk(dim, evt.getChunk());
@@ -81,8 +80,7 @@ public class TerrainManager
     public static void onChunkUnload(final ChunkEvent.Unload evt)
     {
         ResourceKey<Level> dim = null;
-        if (evt.getWorld() instanceof Level && !evt.getWorld().isClientSide())
-            dim = ((Level) evt.getWorld()).dimension();
+        if (evt.getWorld() instanceof Level level && !evt.getWorld().isClientSide()) dim = level.dimension();
         if (dim != null) ITerrainProvider.removeChunk(dim, evt.getChunk().getPos());
     }
 

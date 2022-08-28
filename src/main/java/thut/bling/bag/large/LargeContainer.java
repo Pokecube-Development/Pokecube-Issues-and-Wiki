@@ -26,8 +26,7 @@ public class LargeContainer extends BaseContainer
     /**
      * Returns true if the item is valid for the bag
      *
-     * @param itemstack
-     *            the itemstack to test
+     * @param itemstack the itemstack to test
      * @return true if the item is valid
      */
     public static boolean isItemValid(final ItemStack itemstack)
@@ -65,13 +64,10 @@ public class LargeContainer extends BaseContainer
     protected void bindBagInventory()
     {
         final int n = this.inv.getPage() * 54;
-        for (int i = 0; i < 6; i++)
-            for (int j = 0; j < 9; j++)
-                this.addSlot(new BagSlot(this.inv, n + j + i * 9, 8 + j * 18 + LargeContainer.xOffset, 18 + i * 18
-                        + LargeContainer.yOffset));
+        for (int i = 0; i < 6; i++) for (int j = 0; j < 9; j++) this.addSlot(new BagSlot(this.inv, n + j + i * 9,
+                8 + j * 18 + LargeContainer.xOffset, 18 + i * 18 + LargeContainer.yOffset));
         // int k = 0;
-        for (final Object o : this.slots)
-            if (o instanceof Slot) ((Slot) o).setChanged();
+        for (final Slot o : this.slots) o.setChanged();
     }
 
     @Override

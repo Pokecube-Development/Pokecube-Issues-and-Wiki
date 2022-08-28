@@ -33,13 +33,14 @@ import thut.api.block.ITickTile;
 
 public class TempBlock extends AirBlock implements EntityBlock
 {
-    public static final IntegerProperty LIGHTLEVEL  = IntegerProperty.create("light", 0, 15);
+    public static final IntegerProperty LIGHTLEVEL = IntegerProperty.create("light", 0, 15);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public static TempBlock make()
     {
-        return new TempBlock(BlockBehaviour.Properties.of(Material.STRUCTURAL_AIR).noDrops().isRedstoneConductor(
-                TempBlock::solidCheck).dynamicShape().noOcclusion().lightLevel(s -> s.getValue(TempBlock.LIGHTLEVEL)));
+        return new TempBlock(BlockBehaviour.Properties.of(Material.STRUCTURAL_AIR).noDrops()
+                .isRedstoneConductor(TempBlock::solidCheck).dynamicShape().noOcclusion()
+                .lightLevel(s -> s.getValue(TempBlock.LIGHTLEVEL)));
     }
 
     private static boolean solidCheck(final BlockState state, final BlockGetter reader, final BlockPos pos)
@@ -50,8 +51,8 @@ public class TempBlock extends AirBlock implements EntityBlock
     public TempBlock(final Properties properties)
     {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(TempBlock.LIGHTLEVEL, 0).setValue(
-                TempBlock.WATERLOGGED, false));
+        this.registerDefaultState(
+                this.stateDefinition.any().setValue(TempBlock.LIGHTLEVEL, 0).setValue(TempBlock.WATERLOGGED, false));
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::onPlayerInteract);
     }
 
@@ -74,15 +75,14 @@ public class TempBlock extends AirBlock implements EntityBlock
         if (trace == null) return;
         final Level world = event.getPlayer().getLevel();
         final BlockEntity tile = world.getBlockEntity(event.getPos());
-        if (tile instanceof TempTile)
+        if (tile instanceof TempTile temp)
         {
-            final TempTile temp = (TempTile) tile;
             final Player player = event.getPlayer();
             final InteractionHand hand = event.getHand();
             InteractionResult result = temp.blockEntity.interact(player, hand);
             // Otherwise forward the interaction to the block entity;
-            if (result != InteractionResult.PASS && event.getPlayer().isShiftKeyDown()) result = temp.blockEntity
-                    .interactAtFromTile(player, trace.getLocation(), hand);
+            if (result != InteractionResult.PASS && event.getPlayer().isShiftKeyDown())
+                result = temp.blockEntity.interactAtFromTile(player, trace.getLocation(), hand);
             if (result != InteractionResult.PASS)
             {
                 event.setCanceled(true);
@@ -94,8 +94,8 @@ public class TempBlock extends AirBlock implements EntityBlock
 
     /**
      * The type of render function called. MODEL for mixed tesr and static
-     * model, MODELBLOCK_ANIMATED for TESR-only,
-     * LIQUID for vanilla liquids, INVISIBLE to skip all rendering
+     * model, MODELBLOCK_ANIMATED for TESR-only, LIQUID for vanilla liquids,
+     * INVISIBLE to skip all rendering
      *
      * @deprecated call via {@link BlockState#getRenderType()} whenever
      *             possible. Implementing/overriding is fine.
@@ -112,9 +112,8 @@ public class TempBlock extends AirBlock implements EntityBlock
             final InteractionHand hand, final BlockHitResult hit)
     {
         final BlockEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof TempTile)
+        if (tile instanceof TempTile temp)
         {
-            final TempTile temp = (TempTile) tile;
             final BlockState eff = temp.getEffectiveState();
             if (eff != null)
             {
@@ -145,7 +144,7 @@ public class TempBlock extends AirBlock implements EntityBlock
             final CollisionContext context)
     {
         final BlockEntity te = worldIn.getBlockEntity(pos);
-        if (te instanceof TempTile) return ((TempTile) te).getShape();
+        if (te instanceof TempTile temp) return temp.getShape();
         return Shapes.empty();
     }
 }

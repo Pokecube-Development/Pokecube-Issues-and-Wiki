@@ -64,13 +64,20 @@ public interface IExtendedModelPart extends IModelCustom
 
     default void preProcess()
     {
-        for (final IExtendedModelPart o : this.getSubParts().values()) o.preProcess();
-        IExtendedModelPart parent = this.getParent();
+        var parent = this.getParent();
+        var child = this;
+        child.getRecursiveChildNames().addAll(this.getSubParts().keySet());
+        String name = child.getName();
         while (parent != null)
         {
             this.getParentNames().add(parent.getName());
+            parent.getRecursiveChildNames().add(name);
+            parent.getRecursiveChildNames().addAll(child.getRecursiveChildNames());
+            child = parent;
+            name = child.getName();
             parent = parent.getParent();
         }
+        for (final IExtendedModelPart o : this.getSubParts().values()) o.preProcess();
     }
 
     default void sort(final List<String> order)
@@ -131,6 +138,11 @@ public interface IExtendedModelPart extends IModelCustom
     }
 
     default Set<String> getParentNames()
+    {
+        return Sets.newHashSet();
+    }
+
+    default Set<String> getRecursiveChildNames()
     {
         return Sets.newHashSet();
     }

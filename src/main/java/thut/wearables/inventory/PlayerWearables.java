@@ -25,7 +25,7 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
 {
     private static class WearableSlot
     {
-        final EnumWearable    type;
+        final EnumWearable type;
         final List<ItemStack> slots;
 
         WearableSlot(final EnumWearable type)
@@ -36,19 +36,17 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
 
         boolean addStack(final ItemStack stack)
         {
-            for (int i = 0; i < this.slots.size(); i++)
-                if (this.slots.get(i).isEmpty())
-                {
-                    this.setStack(i, stack);
-                    return true;
-                }
+            for (int i = 0; i < this.slots.size(); i++) if (this.slots.get(i).isEmpty())
+            {
+                this.setStack(i, stack);
+                return true;
+            }
             return false;
         }
 
         ItemStack getStack()
         {
-            for (final ItemStack element : this.slots)
-                if (!element.isEmpty()) return element;
+            for (final ItemStack element : this.slots) if (!element.isEmpty()) return element;
             return ItemStack.EMPTY;
         }
 
@@ -62,11 +60,7 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
             for (int n = 0; n < this.slots.size(); n++)
             {
                 final Tag temp = tag.get("slot" + n);
-                if (temp instanceof CompoundTag)
-                {
-                    final CompoundTag tag1 = (CompoundTag) temp;
-                    this.setStack(n, ItemStack.of(tag1));
-                }
+                if (temp instanceof CompoundTag tag1) this.setStack(n, ItemStack.of(tag1));
             }
         }
 
@@ -110,8 +104,7 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
 
     public PlayerWearables()
     {
-        for (final EnumWearable type : EnumWearable.values())
-            this.slots.put(type, new WearableSlot(type));
+        for (final EnumWearable type : EnumWearable.values()) this.slots.put(type, new WearableSlot(type));
     }
 
     public String dataFileName()
@@ -174,8 +167,7 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
     {
         final Set<ItemStack> ret = Sets.newHashSet();
         for (final WearableSlot slot : this.slots.values())
-            for (final ItemStack element : slot.slots)
-                if (!element.isEmpty()) ret.add(element);
+            for (final ItemStack element : slot.slots) if (!element.isEmpty()) ret.add(element);
         return ret;
     }
 
@@ -201,8 +193,7 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
 
     public void readFromNBT(final CompoundTag tag)
     {
-        for (final EnumWearable type : EnumWearable.values())
-            this.slots.put(type, new WearableSlot(type));
+        for (final EnumWearable type : EnumWearable.values()) this.slots.put(type, new WearableSlot(type));
         for (final EnumWearable slot : this.slots.keySet())
         {
             final CompoundTag compound = tag.getCompound(slot.ordinal() + "");

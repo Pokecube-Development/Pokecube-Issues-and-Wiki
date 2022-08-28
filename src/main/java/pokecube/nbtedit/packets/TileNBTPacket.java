@@ -58,8 +58,8 @@ public class TileNBTPacket extends NBTPacket
         {
             te.load(this.getTag());
             te.setChanged();// Ensures changes gets saved to disk later on.
-            if (te.hasLevel() && te.getLevel() instanceof ServerLevel) ((ServerLevel) te.getLevel()).getChunkSource()
-                    .blockChanged(this.pos);
+            if (te.hasLevel() && te.getLevel() instanceof ServerLevel level)
+                level.getChunkSource().blockChanged(this.pos);
             NBTEdit.log(Level.TRACE, player.getName().getString() + " edited a tag -- Tile Entity at " + this.pos.getX()
                     + ", " + this.pos.getY() + ", " + this.pos.getZ());
             NBTEdit.logTag(this.getTag());

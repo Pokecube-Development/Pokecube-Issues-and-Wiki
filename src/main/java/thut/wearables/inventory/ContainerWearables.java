@@ -104,7 +104,7 @@ public class ContainerWearables extends AbstractContainerMenu
         LivingEntity wearer = player.player;
         final int num = extraData.readInt();
         final Entity mob = wearer.getLevel().getEntity(num);
-        if (mob instanceof LivingEntity) wearer = (LivingEntity) mob;
+        if (mob instanceof LivingEntity living) wearer = living;
 
         this.wearer = wearer;
         this.wearables = ThutWearables.getWearables(wearer);

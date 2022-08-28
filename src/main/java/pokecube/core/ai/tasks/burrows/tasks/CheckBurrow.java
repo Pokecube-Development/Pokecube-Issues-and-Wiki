@@ -28,8 +28,10 @@ import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor.Burrow;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.blocks.nests.NestTile;
+import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.entity.ai.IAIRunnable;
+import thut.api.maths.Vector3;
 
 public class CheckBurrow extends BaseIdleTask
 {
@@ -116,6 +118,7 @@ public class CheckBurrow extends BaseIdleTask
     private boolean placeNest(final NearBlock block)
     {
         BlockPos pos = block.getPos();
+        if (!MoveEventsHandler.canAffectBlock(pokemob, new Vector3(pos), "nest_building")) return false;
         // Then pick and make a new burrow.
         final BurrowHab hab = BurrowHab.makeFor(this.pokemob, pos);
         if (hab == null) return false;

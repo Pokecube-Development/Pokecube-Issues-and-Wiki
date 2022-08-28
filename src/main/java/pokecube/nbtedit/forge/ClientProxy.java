@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -15,6 +16,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.nbtedit.NBTEdit;
@@ -46,7 +48,9 @@ public class ClientProxy extends CommonProxy
                     ret = new TileRequestPacket(((BlockHitResult) pos).getBlockPos());
                     break;
                 case ENTITY:
-                    ret = new EntityRequestPacket(((EntityHitResult) pos).getEntity().getId());
+                    Entity entity = ((EntityHitResult) pos).getEntity();
+                    if (entity instanceof PartEntity<?> part) entity = part.getParent();
+                    ret = new EntityRequestPacket(entity.getId());
                     break;
                 case MISS:
                     NBTEdit.proxy.sendMessage(null, "Error - No tile or entity selected", ChatFormatting.RED);

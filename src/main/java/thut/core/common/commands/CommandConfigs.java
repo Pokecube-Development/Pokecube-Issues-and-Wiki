@@ -57,29 +57,25 @@ public class CommandConfigs
         if (val.equals("!set"))
         {
             CommandConfigs.handleSet(data, args, value, f);
-            source.sendSuccess(TComponent.translatable("thutcore.command.settings.array.set", field, value),
-                    true);
+            source.sendSuccess(TComponent.translatable("thutcore.command.settings.array.set", field, value), true);
             return 0;
         }
 
         if (val.equals("!add"))
         {
             CommandConfigs.handleAdd(data, args, value, f);
-            source.sendSuccess(TComponent.translatable("thutcore.command.settings.array.add", field, value),
-                    true);
+            source.sendSuccess(TComponent.translatable("thutcore.command.settings.array.add", field, value), true);
             return 0;
         }
 
         if (val.equals("!remove"))
         {
             CommandConfigs.handleRemove(data, args, value, f);
-            source.sendSuccess(TComponent.translatable("thutcore.command.settings.array.remove", field, value),
-                    true);
+            source.sendSuccess(TComponent.translatable("thutcore.command.settings.array.remove", field, value), true);
             return 0;
         }
 
-        if (args.length > 1) for (int i = 1; i < args.length; i++)
-            val = val + " " + args[i];
+        if (args.length > 1) for (int i = 1; i < args.length; i++) val = val + " " + args[i];
         try
         {
             data.updateField(f, val);
@@ -98,8 +94,7 @@ public class CommandConfigs
             throws CommandRuntimeException
     {
         String value = args[1];
-        for (int i = 3; i < args.length; i++)
-            value = value + " " + args[i];
+        for (int i = 3; i < args.length; i++) value = value + " " + args[i];
         Object toSet = null;
         if (o instanceof String[])
         {
@@ -128,29 +123,24 @@ public class CommandConfigs
             throws CommandRuntimeException
     {
         String value = args[1];
-        for (int i = 3; i < args.length; i++)
-            value = value + " " + args[i];
+        for (int i = 3; i < args.length; i++) value = value + " " + args[i];
         Object toSet = null;
-        if (o instanceof String[])
+        if (o instanceof String[] arr)
         {
-            final String[] arr = (String[]) o;
             final List<String> values = Lists.newArrayList(arr);
             final int index = values.indexOf(value);
             if (index != -1) values.remove(index);
             toSet = values.toArray(new String[values.size()]);
         }
-        else if (o instanceof int[])
+        else if (o instanceof int[] arr)
         {
-            int[] arr = (int[]) o;
             final int arg = CommandConfigs.parseInt(value);
             final List<Integer> values = Lists.newArrayList();
-            for (final int element : arr)
-                values.add(element);
+            for (final int element : arr) values.add(element);
             final int index = values.indexOf(arg);
             if (index != -1) values.remove(index);
             toSet = arr = new int[values.size()];
-            for (int i = 0; i < values.size(); i++)
-                arr[i] = values.get(i);
+            for (int i = 0; i < values.size(); i++) arr[i] = values.get(i);
         }
         else throw new CommandRuntimeException(TComponent.literal("This can only by done for arrays."));
         try
@@ -168,18 +158,17 @@ public class CommandConfigs
     {
         final int num = CommandConfigs.parseInt(args[1]);
         String value = args[2];
-        for (int i = 4; i < args.length; i++)
-            value = value + " " + args[i];
+        for (int i = 4; i < args.length; i++) value = value + " " + args[i];
         Object toSet = null;
-        if (o instanceof String[])
+        if (o instanceof String[] arr)
         {
-            ((String[]) o)[num] = value;
-            toSet = ((String[]) o).clone();
+            arr[num] = value;
+            toSet = arr.clone();
         }
-        else if (o instanceof int[])
+        else if (o instanceof int[] arr)
         {
-            ((int[]) o)[num] = CommandConfigs.parseInt(value);
-            toSet = ((int[]) o).clone();
+            arr[num] = CommandConfigs.parseInt(value);
+            toSet = arr.clone();
         }
         else throw new CommandRuntimeException(TComponent.literal("This can only by done for arrays."));
         try
@@ -195,12 +184,9 @@ public class CommandConfigs
     public static SuggestionProvider<CommandSourceStack> MakeProvider(final ConfigData data)
     {
         final List<String> values = Lists.newArrayList();
-        for (final Field f : data.commonValues.keySet())
-            values.add(f.getName());
-        for (final Field f : data.serverValues.keySet())
-            values.add(f.getName());
-        for (final Field f : data.clientValues.keySet())
-            values.add(f.getName());
+        for (final Field f : data.commonValues.keySet()) values.add(f.getName());
+        for (final Field f : data.serverValues.keySet()) values.add(f.getName());
+        for (final Field f : data.clientValues.keySet()) values.add(f.getName());
         return (ctx, sb) -> net.minecraft.commands.SharedSuggestionProvider.suggest(values, sb);
     }
 
@@ -212,8 +198,8 @@ public class CommandConfigs
         }
         catch (final NumberFormatException var2)
         {
-            throw new CommandRuntimeException(TComponent.translatable("commands.generic.num.invalid", new Object[] {
-                    input }));
+            throw new CommandRuntimeException(TComponent.translatable("commands.generic.num.invalid", new Object[]
+            { input }));
         }
     }
 
@@ -223,24 +209,28 @@ public class CommandConfigs
         String name = "";
         name = prefix;
         final String perm1 = "command." + name + ".check";
-        PermNodes.registerNode(perm1, DefaultPermissionLevel.ALL, "Is the player allowed to check configs for "
-                + data.MODID);
+        PermNodes.registerNode(perm1, DefaultPermissionLevel.ALL,
+                "Is the player allowed to check configs for " + data.MODID);
 
-        LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal(name).requires(cs -> CommandTools.hasPerm(cs,
-                perm1)).then(Commands.argument("option", StringArgumentType.string()).suggests(CommandConfigs
-                        .MakeProvider(data)).executes(ctx -> CommandConfigs.execute(data, ctx.getSource(),
-                                StringArgumentType.getString(ctx, "option"))));
+        LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal(name)
+                .requires(cs -> CommandTools.hasPerm(cs, perm1))
+                .then(Commands.argument("option", StringArgumentType.string())
+                        .suggests(CommandConfigs.MakeProvider(data)).executes(ctx -> CommandConfigs.execute(data,
+                                ctx.getSource(), StringArgumentType.getString(ctx, "option"))));
         commandDispatcher.register(command);
 
         final String perm2 = "command." + name + ".set";
-        PermNodes.registerNode(perm2, DefaultPermissionLevel.OP, "Is the player allowed to set configs for "
-                + data.MODID);
+        PermNodes.registerNode(perm2, DefaultPermissionLevel.OP,
+                "Is the player allowed to set configs for " + data.MODID);
 
-        command = Commands.literal(name).then(Commands.argument("option", StringArgumentType.string()).suggests(
-                CommandConfigs.MakeProvider(data)).then(Commands.argument("value", StringArgumentType.greedyString())
-                        .requires(cs -> CommandTools.hasPerm(cs, perm2)).executes(ctx -> CommandConfigs.execute(data,
-                                ctx.getSource(), StringArgumentType.getString(ctx, "option"), StringArgumentType
-                                        .getString(ctx, "value")))));
+        command = Commands.literal(name)
+                .then(Commands.argument("option", StringArgumentType.string())
+                        .suggests(CommandConfigs.MakeProvider(data))
+                        .then(Commands.argument("value", StringArgumentType.greedyString())
+                                .requires(cs -> CommandTools.hasPerm(cs, perm2))
+                                .executes(ctx -> CommandConfigs.execute(data, ctx.getSource(),
+                                        StringArgumentType.getString(ctx, "option"),
+                                        StringArgumentType.getString(ctx, "value")))));
         commandDispatcher.register(command);
     }
 }

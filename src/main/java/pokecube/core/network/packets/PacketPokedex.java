@@ -1,7 +1,6 @@
 package pokecube.core.network.packets;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,7 +35,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.data.PokedexEntry.SpawnData;
 import pokecube.api.data.PokedexEntry.SpawnData.SpawnEntry;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
@@ -62,8 +60,6 @@ import pokecube.world.dimension.SecretBaseDimension;
 import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.api.maths.Cruncher.SquareLoopCruncher;
 import thut.api.maths.Vector3;
-import thut.api.terrain.BiomeType;
-import thut.api.terrain.TerrainManager;
 import thut.api.util.UnderscoreIgnore;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.NBTPacket;
@@ -329,11 +325,6 @@ public class PacketPokedex extends NBTPacket
                     .setScreen(new GuiPokeWatch(player, mob instanceof LivingEntity ? (LivingEntity) mob : null));
             else net.minecraft.client.Minecraft.getInstance().setScreen(new GuiPokedex(pokemob, player));
             return;
-        case REQUEST:
-            PacketPokedex.values.clear();
-            n = this.getTag().getAllKeys().size();
-            for (int i = 0; i < n; i++) PacketPokedex.values.add(this.getTag().getString("" + i));
-            return;
         case BASERADAR:
             pokecube.core.client.gui.watch.SecretBaseRadarPage.updateRadar(this.getTag());
             return;
@@ -392,24 +383,15 @@ public class PacketPokedex extends NBTPacket
 
     private String serialize(final SpawnBiomeMatcher matcher)
     {
-        // TODO syncing matchers over.
-//        // First ensure the client side stuff is cleared.
-//        matcher.clientBiomes.clear();
-//        matcher.clientTypes.clear();
-//        // Then populate it for serialisation
-//        matcher.parse();
-//
-//        List<ResourceLocation> biomes = Lists.newArrayList();
-//        List<String> types = Lists.newArrayList();
-//
-//        SpawnBiomeMatcher.addForMatcher(biomes, types, matcher);
-//
-//        matcher.clientBiomes.addAll(biomes);
-//        matcher.clientTypes.addAll(types);
+        // Initialise the client lists of biomes/types
+        SpawnBiomeMatcher.populateClientValues(matcher);
+        // If no biomes or subbiomes, just throw null string, usually means this
+        // spawn is not possible due to settings, etc.
+        if (matcher.clientBiomes.isEmpty() && matcher.clientTypes.isEmpty() || !matcher._valid) return null;
+        // Then serialise it
         final String ret = PacketPokedex.gson.toJson(matcher);
         // Then clear afterwards
-//        matcher.clientBiomes.clear();
-//        matcher.clientTypes.clear();
+        SpawnBiomeMatcher.clearClientValues(matcher);
         return ret;
     }
 
@@ -427,9 +409,7 @@ public class PacketPokedex extends NBTPacket
         ArrayList<PokedexEntry> names = new ArrayList<>();
         float total = 0;
         int n = 0;
-        List<String> biomes;
         PokedexEntry entry;
-        SpawnData data;
         final CompoundTag spawns = new CompoundTag();
 
         ServerLevel level = player.getLevel();
@@ -455,8 +435,11 @@ public class PacketPokedex extends NBTPacket
                 for (final SpawnBiomeMatcher matcher : entry.getSpawnData().matchers.keySet())
             {
                 SpawnEntry sentry = entry.getSpawnData().matchers.get(matcher);
+                String serialised = this.serialize(matcher);
+                // This is null in the case that the spawn is not valid.
+                if (serialised == null) continue;
                 matcher.spawnRule.values.put(PokedexEntryLoader.RATE, sentry.rate + "");
-                spawns.putString("" + n, this.serialize(matcher));
+                spawns.putString("" + n, serialised);
                 matcher.spawnRule.values.remove(PokedexEntryLoader.RATE);
                 n++;
             }
@@ -517,90 +500,6 @@ public class PacketPokedex extends NBTPacket
             if (entry != null) packet.getTag().putString("E", entry.getName());
             PacketPokedex.ASSEMBLER.sendTo(packet, player);
             return;
-        case REQUEST:
-            final boolean mode = this.getTag().getBoolean("M");
-            packet = new PacketPokedex(PacketPokedex.REQUEST);
-            if (!mode)
-            {
-                rates = Maps.newHashMap();
-                names = new ArrayList<>();
-                for (final PokedexEntry e : Database.spawnables)
-                    if (e.getSpawnData().getMatcher(new SpawnContext(player, e), checker, false) != null) names.add(e);
-                Collections.sort(names, (o1, o2) -> {
-                    float rate1 = o1.getSpawnData().getWeight(new SpawnContext(player, o1), checker, false) * 10e5f;
-                    float rate2 = o2.getSpawnData().getWeight(new SpawnContext(player, o2), checker, false) * 10e5f;
-                    return (int) (-rate1 + rate2);
-                });
-                for (final PokedexEntry e : names)
-                {
-                    final SpawnBiomeMatcher matcher = e.getSpawnData().getMatcher(new SpawnContext(player, e), checker,
-                            false);
-                    float val = e.getSpawnData().getWeight(new SpawnContext(player, e), checker, false);
-                    final float min = e.getSpawnData().getMin(matcher);
-                    final float num = min + (e.getSpawnData().getMax(matcher) - min) / 2;
-                    val *= num;
-                    total += val;
-                    rates.put(e, val);
-                }
-                if (total != 0) for (final PokedexEntry e : names)
-                {
-                    final float val = rates.get(e) * 100 / total;
-                    rates.put(e, val);
-                }
-                final BiomeType biome = TerrainManager.getInstance().getTerrainForEntity(player).getBiome(pos);
-                packet.getTag().putString("0", "" + biome.getType());
-                packet.getTag().putString("1", biome.readableName);
-                for (int i = 0; i < names.size(); i++)
-                {
-                    final PokedexEntry e = names.get(i);
-                    packet.getTag().putString("" + (i + 2), e.getUnlocalizedName() + "`" + rates.get(e));
-                }
-            }
-            else
-            {
-                biomes = Lists.newArrayList();
-                entry = Database.getEntry(this.getTag().getString("F"));
-                if (entry.getSpawnData() == null && entry.getChild() != entry)
-                {
-                    PokedexEntry child;
-                    if ((child = entry.getChild()).getSpawnData() != null) entry = child;
-                }
-                data = entry.getSpawnData();
-                if (data != null)
-                {
-                    boolean hasBiomes = false;
-                    for (final SpawnBiomeMatcher matcher : data.matchers.keySet())
-                    {
-                        final String biomeString = matcher.spawnRule.values.get(SpawnBiomeMatcher.BIOMES);
-                        final String typeString = matcher.spawnRule.values.get(SpawnBiomeMatcher.TYPES);
-                        if (biomeString != null) hasBiomes = true;
-                        else if (typeString != null)
-                        {
-                            final String[] args = typeString.split(",");
-                            BiomeType subBiome = null;
-                            for (final String s : args)
-                            {
-                                for (final BiomeType b : BiomeType.values())
-                                    if (b.name.replaceAll(" ", "").equalsIgnoreCase(s))
-                                {
-                                    subBiome = b;
-                                    break;
-                                }
-                                if (subBiome == null) hasBiomes = true;
-                                subBiome = null;
-                                if (hasBiomes) break;
-                            }
-                        }
-                        if (hasBiomes) break;
-                    }
-                    // TODO biome syncing
-//                    if (hasBiomes) for (final ResourceLocation b : SpawnBiomeMatcher.getAllBiomeKeys())
-//                        if (b != null) if (data.isValid(b)) biomes.add(b.toString());
-                    for (final BiomeType b : BiomeType.values()) if (data.isValid(b)) biomes.add(b.readableName);
-                    for (int i = 0; i < biomes.size(); i++) packet.getTag().putString("" + i, biomes.get(i));
-                }
-            }
-            PacketPokedex.ASSEMBLER.sendTo(packet, player);
         case REORDER:
             final int index1 = this.getTag().getInt("1");
             final int index2 = this.getTag().getInt("2");

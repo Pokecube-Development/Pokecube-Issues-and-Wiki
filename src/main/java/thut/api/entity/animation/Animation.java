@@ -93,7 +93,7 @@ public class Animation
             if (this.identifier.isEmpty()) this.identifier = this.name;
             this.id = new UUID(this.identifier.hashCode(), (this.identifier.hashCode() << 16) + this.getLength());
         }
-        if (obj instanceof Animation) return ((Animation) obj).id.equals(this.id);
+        if (obj instanceof Animation anim) return anim.id.equals(this.id);
         return super.equals(obj);
     }
 

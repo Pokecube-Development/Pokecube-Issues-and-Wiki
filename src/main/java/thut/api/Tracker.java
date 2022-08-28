@@ -88,16 +88,14 @@ public class Tracker
         }
         catch (final IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
     private static void onWorldSave(final WorldEvent.Save event)
     {
-        if (!(event.getWorld() instanceof ServerLevel)) return;
-        final ServerLevel world = (ServerLevel) event.getWorld();
-        if (world.dimension() != Level.OVERWORLD) return;
+        if (!(event.getWorld() instanceof ServerLevel level)) return;
+        if (level.dimension() != Level.OVERWORLD) return;
 
         final MinecraftServer server = ThutCore.proxy.getServer();
         Path path = server.getWorldPath(new LevelResource("thutcore"));

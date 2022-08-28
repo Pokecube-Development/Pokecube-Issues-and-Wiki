@@ -49,8 +49,7 @@ public class WearablesRenderer<T extends LivingEntity, M extends HumanoidModel<T
         if (wearer.getEffect(MobEffects.INVISIBILITY) != null) return;
         // Only applies to bipeds, anyone else needs to write their own render
         // layer.
-        if (!(this.parent.getModel() instanceof HumanoidModel<?>)) return;
-        final HumanoidModel<?> theModel = (HumanoidModel<?>) this.parent.getModel();
+        if (!(this.parent.getModel() instanceof HumanoidModel<?> theModel)) return;
 
         final PlayerWearables worn = ThutWearables.getWearables(wearer);
         if (worn == null) return;
@@ -58,9 +57,8 @@ public class WearablesRenderer<T extends LivingEntity, M extends HumanoidModel<T
 
         final int overlay = LivingEntityRenderer.getOverlayCoords(wearer, 0);
 
-        if (wearer instanceof AbstractClientPlayer)
-            thin = ((AbstractClientPlayer) wearer).getModelName().equals("slim");
-        else if (theModel instanceof PlayerModel<?>) thin = ((PlayerModel<?>) theModel).slim;
+        if (wearer instanceof AbstractClientPlayer player) thin = player.getModelName().equals("slim");
+        else if (theModel instanceof PlayerModel<?> model) thin = model.slim;
 
         for (int i = 0; i < worn.getSlots(); i++)
         {

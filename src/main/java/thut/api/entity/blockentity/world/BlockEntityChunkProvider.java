@@ -55,9 +55,6 @@ public class BlockEntityChunkProvider extends ChunkSource
         final AABB chunkBox = new AABB(chunkX * 16, 0, chunkZ * 16, chunkX * 16 + 15,
                 this.world.getWorld().getMaxBuildHeight(), chunkZ * 16 + 15);
         if (!this.intersects(chunkBox)) return this.world.getWorld().getChunk(chunkX, chunkZ);
-
-        // TODO improvements to this.
-
         final Entity entity = (Entity) this.world.getBlockEntity();
         if (this.lastOrigin == null || !this.lastOrigin.equals(entity.blockPosition()))
         {
@@ -129,6 +126,6 @@ public class BlockEntityChunkProvider extends ChunkSource
     @Override
     public void tick(BooleanSupplier p_202162_, boolean p_202163_)
     {
-        
+
     }
 }

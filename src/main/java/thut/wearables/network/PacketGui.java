@@ -102,7 +102,7 @@ public class PacketGui extends Packet
             if (this.data.contains("w_open_target_"))
             {
                 final Entity mob = player.getLevel().getEntity(this.data.getInt("w_open_target_"));
-                if (mob instanceof LivingEntity) target = (LivingEntity) mob;
+                if (mob instanceof LivingEntity targ) target = targ;
             }
             final LivingEntity t = target;
             final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));

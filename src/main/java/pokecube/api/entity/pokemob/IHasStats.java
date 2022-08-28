@@ -14,24 +14,21 @@ public interface IHasStats extends IHasEntry
     /**
      * At the end of a fight as a XP. {HP, ATT, DEF, ATTSPE, DEFSPE, VIT}
      *
-     * @param evsToAdd
-     *            the Effort Values to add
+     * @param evsToAdd the Effort Values to add
      */
     default void addEVs(final byte[] evsToAdd)
     {
         final byte[] evs = this.getEVs().clone();
 
         // Assign the values, cap the EVs at Byte.MAX_VALUE
-        for (int i = 0; i < 6; i++)
-            if (evs[i] + 128 + evsToAdd[i] <= 255 && evs[i] + 128 + evsToAdd[i] >= 0) evs[i] = (byte) (evs[i]
-                    + evsToAdd[i]);
-            else evs[i] = Byte.MAX_VALUE;
+        for (int i = 0; i < 6; i++) if (evs[i] + 128 + evsToAdd[i] <= 255 && evs[i] + 128 + evsToAdd[i] >= 0)
+            evs[i] = (byte) (evs[i] + evsToAdd[i]);
+        else evs[i] = Byte.MAX_VALUE;
 
         int sum = 0;
 
         // Cap to 510 EVs
-        for (final byte ev : evs)
-            sum += ev + 128;
+        for (final byte ev : evs) sum += ev + 128;
 
         if (sum < 510) this.setEVs(evs);
     }
@@ -94,7 +91,6 @@ public interface IHasStats extends IHasEntry
      */
     default int getCatchRate()
     {
-        // boolean ownable = true;// TODO check a capability for this.
         return this.getPokedexEntry().isShadowForme ? 0
                 : this.getGeneralState(GeneralStates.DENYCAPTURE) ? 0 : this.getPokedexEntry().getCatchRate();
     }
@@ -250,8 +246,7 @@ public interface IHasStats extends IHasEntry
     /**
      * {HP, ATT, DEF, ATTSPE, DEFSPE, VIT}
      *
-     * @param evs
-     *            the Effort Values
+     * @param evs the Effort Values
      */
     void setEVs(byte[] evs);
 
@@ -259,9 +254,8 @@ public interface IHasStats extends IHasEntry
      * Sets the experience.
      *
      * @param exp
-     * @param notifyLevelUp
-     *            should be false in an initialize step and true in a true exp
-     *            earning
+     * @param notifyLevelUp should be false in an initialize step and true in a
+     *                      true exp earning
      */
     IPokemob setExp(int exp, boolean notifyLevelUp);
 
@@ -273,8 +267,7 @@ public interface IHasStats extends IHasEntry
     /**
      * {HP, ATT, DEF, ATTSPE, DEFSPE, VIT}
      *
-     * @param evs
-     *            the Individual Values
+     * @param evs the Individual Values
      */
     void setIVs(byte[] ivs);
 
@@ -282,8 +275,8 @@ public interface IHasStats extends IHasEntry
     void setMoves(String[] moves);
 
     /**
-     * Sets the pokemobs's nature {@link IMoveConstants#HARDY} for an example
-     * of a nature byte
+     * Sets the pokemobs's nature {@link IMoveConstants#HARDY} for an example of
+     * a nature byte
      *
      * @param nature
      */

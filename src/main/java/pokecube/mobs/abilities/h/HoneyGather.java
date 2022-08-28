@@ -71,4 +71,10 @@ public class HoneyGather extends Ability
         // Attempt to plant it.
         Items.BONE_MEAL.useOn(context);
     }
+
+    @Override
+    public boolean singleton()
+    {
+        return false;
+    }
 }

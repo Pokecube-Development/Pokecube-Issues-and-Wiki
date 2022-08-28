@@ -33,8 +33,7 @@ public class DefaultPokemob extends PokemobSexed implements ICapabilitySerializa
 
     public DefaultPokemob()
     {
-        for (final AIRoutine routine : AIRoutine.values())
-            this.setRoutineState(routine, routine.getDefault());
+        for (final AIRoutine routine : AIRoutine.values()) this.setRoutineState(routine, routine.getDefault());
     }
 
     public DefaultPokemob(final Mob mob)
@@ -145,8 +144,7 @@ public class DefaultPokemob extends PokemobSexed implements ICapabilitySerializa
                 }
                 ret.add(toAdd);
             }
-            for (final ItemStack stack : ret)
-                this.getEntity().spawnAtLocation(stack);
+            for (final ItemStack stack : ret) this.getEntity().spawnAtLocation(stack);
             this.getEntity().playSound(SoundEvents.SHEEP_SHEAR, 1.0F, 1.0F);
         }
 

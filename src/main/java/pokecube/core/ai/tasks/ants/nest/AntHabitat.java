@@ -47,6 +47,7 @@ import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor.AntNest;
+import pokecube.core.ai.tasks.utility.GatherTask;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.SpawnHandler;
@@ -113,37 +114,39 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     }
 
     @Override
-    public void onTickEnd(final ServerLevel world)
+    public void onTickEnd(final ServerLevel level)
     {
         // Checks of if the tile entity is here, if not anger all ants
         // Possibly update a set of paths between nodes, so that we can speed up
         // path finding in the nest.
-        if (world.getGameTime() % 100 == 0)
+        if (level.getGameTime() % 100 == 0)
         {
-            BlockEntity tile = world.getBlockEntity(this.here);
+            BlockEntity tile = level.getBlockEntity(this.here);
             if (tile == null)
             {
-                this.onTick(world);
+                this.onTick(level);
                 this.ants.removeIf(uuid -> {
-                    final Entity mob = world.getEntity(uuid);
+                    final Entity mob = level.getEntity(uuid);
                     if (AntTasks.isValid(mob)) return false;
                     return true;
                 });
                 if (this.ants.isEmpty() && this.eggs.isEmpty())
                 {
                     PokecubeAPI.LOGGER.debug("Dead Nest!");
-                    WorldTickManager.removeWorldData(world.dimension(), this);
+                    WorldTickManager.removeWorldData(level.dimension(), this);
                     return;
                 }
                 else
                 {
-                    PokecubeAPI.LOGGER.debug("Reviving Nest!");
-                    this.world.setBlockAndUpdate(this.here, PokecubeItems.NEST.get().defaultBlockState());
-                    tile = this.world.getBlockEntity(this.here);
-                    if (!(tile instanceof NestTile)) return;
-                    final NestTile nest = (NestTile) tile;
-                    // Copy over the old habitat info.
-                    nest.setWrappedHab(this);
+                    if (Config.Rules.canAffectBlocks(level))
+                    {
+                        PokecubeAPI.LOGGER.debug("Reviving Nest!");
+                        this.world.setBlockAndUpdate(this.here, PokecubeItems.NEST.get().defaultBlockState());
+                        tile = this.world.getBlockEntity(this.here);
+                        if (!(tile instanceof NestTile nest)) return;
+                        // Copy over the old habitat info.
+                        nest.setWrappedHab(this);
+                    }
                 }
             }
         }
@@ -356,7 +359,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
 
         if (!playerNear) return;
 
-        boolean revive_nest = this.eggs.isEmpty() && world.getRandom().nextDouble() < 0.01;
+        boolean revive_nest = this.eggs.isEmpty() && world.getRandom().nextDouble() < 0.001;
 
         if (revive_nest)
         {
@@ -423,6 +426,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             }
         }
 
+        this.items.removeIf(GatherTask.deaditemmatcher);
         // Workers should only contain actual live ants! so if they are not
         // found here, remove them from the list
         this.workers.forEach((j, s) -> s.removeIf(uuid -> {
@@ -555,7 +559,12 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             }
             break;
         case GATHER:
-
+            if (!this.items.isEmpty())
+            {
+                var item = this.items.get(mob.getRandom().nextInt(this.items.size()));
+                mob.getBrain().setMemory(MemoryModules.WORK_POS.get(),
+                        GlobalPos.of(this.world.dimension(), item.blockPosition()));
+            }
             break;
         case GUARD:
             /**
@@ -685,7 +694,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         this.ants.remove(mob.getUUID());
         this.workers.get(AntTasks.getJob(mob)).remove(mob.getUUID());
 
-        if (this.eggs.size() < Math.max(10, ants / 2))
+        if (this.eggs.size() < Math.min(Math.max(PokecubeCore.getConfig().antNestMobNumber / 2, ants / 2),
+                PokecubeCore.getConfig().antNestMobNumber / 2))
         {
             final IPokemob poke = PokemobCaps.getPokemobFor(mob);
             Optional<BlockPos> room = this.getFreeEggRoom();

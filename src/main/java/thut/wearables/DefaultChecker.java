@@ -15,22 +15,22 @@ public class DefaultChecker implements IWearableChecker
     {
         if (itemstack.isEmpty()) return true;
         IActiveWearable wearable;
-        if ((wearable = itemstack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null)) != null) return wearable
-                .canRemove(player, itemstack, slot, subIndex);
-        if (itemstack.getItem() instanceof IActiveWearable) return ((IActiveWearable) itemstack.getItem()).canRemove(
-                player, itemstack, slot, subIndex);
+        if ((wearable = itemstack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null)) != null)
+            return wearable.canRemove(player, itemstack, slot, subIndex);
+        if (itemstack.getItem() instanceof IActiveWearable worn)
+            return worn.canRemove(player, itemstack, slot, subIndex);
         return true;
     }
 
     @Override
-    public void onInteract(final LivingEntity player, final ItemStack itemstack, final EnumWearable slot,
+    public void onInteract(final LivingEntity wearer, final ItemStack itemstack, final EnumWearable slot,
             final int subIndex, final UseOnContext context)
     {
         if (!itemstack.isEmpty())
         {
             final InteractionResult result = itemstack.getItem().useOn(context);
-            if (result == InteractionResult.PASS && player instanceof Player) itemstack.use(player
-                    .getLevel(), (Player) player, InteractionHand.MAIN_HAND);
+            if (result == InteractionResult.PASS && wearer instanceof Player player)
+                itemstack.use(wearer.getLevel(), player, InteractionHand.MAIN_HAND);
         }
     }
 
@@ -45,8 +45,7 @@ public class DefaultChecker implements IWearableChecker
             wearable.onPutOn(player, itemstack, slot, subIndex);
             return;
         }
-        if (itemstack.getItem() instanceof IActiveWearable) ((IActiveWearable) itemstack.getItem()).onPutOn(player,
-                itemstack, slot, subIndex);
+        if (itemstack.getItem() instanceof IActiveWearable worn) worn.onPutOn(player, itemstack, slot, subIndex);
     }
 
     @Override
@@ -60,23 +59,19 @@ public class DefaultChecker implements IWearableChecker
             wearable.onTakeOff(player, itemstack, slot, subIndex);
             return;
         }
-        if (itemstack.getItem() instanceof IActiveWearable) ((IActiveWearable) itemstack.getItem()).onTakeOff(player,
-                itemstack, slot, subIndex);
+        if (itemstack.getItem() instanceof IActiveWearable worn) worn.onTakeOff(player, itemstack, slot, subIndex);
     }
 
     @Override
-    public void onUpdate(final LivingEntity player, final ItemStack itemstack, final EnumWearable slot,
+    public void onUpdate(final LivingEntity wearer, final ItemStack itemstack, final EnumWearable slot,
             final int subIndex)
     {
         if (itemstack == null) return;
         IActiveWearable wearable;
-        if ((wearable = itemstack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null)) != null) wearable
-                .onUpdate(player, itemstack, slot, subIndex);
-        if (itemstack.getItem() instanceof IActiveWearable) ((IActiveWearable) itemstack.getItem()).onUpdate(player,
-                itemstack, slot, subIndex);
-        else if (player instanceof Player) itemstack.getItem().onArmorTick(itemstack, player.getLevel(),
-                (Player) player);
-        else itemstack.getItem().inventoryTick(itemstack, player.getLevel(), player, slot.index + subIndex,
-                false);
+        if ((wearable = itemstack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null)) != null)
+            wearable.onUpdate(wearer, itemstack, slot, subIndex);
+        if (itemstack.getItem() instanceof IActiveWearable worn) worn.onUpdate(wearer, itemstack, slot, subIndex);
+        else if (wearer instanceof Player player) itemstack.getItem().onArmorTick(itemstack, wearer.getLevel(), player);
+        else itemstack.getItem().inventoryTick(itemstack, wearer.getLevel(), wearer, slot.index + subIndex, false);
     }
 }

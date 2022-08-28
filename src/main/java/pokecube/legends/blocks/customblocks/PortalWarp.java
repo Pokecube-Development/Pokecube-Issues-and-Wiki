@@ -596,7 +596,6 @@ public class PortalWarp extends Rotates implements SimpleWaterloggedBlock, Entit
     @Override
     public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
     {
-        // TODO Auto-generated method stub
         return new RingTile(pos, state);
     }
 

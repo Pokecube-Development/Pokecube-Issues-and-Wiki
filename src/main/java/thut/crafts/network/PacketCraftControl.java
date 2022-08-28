@@ -15,13 +15,13 @@ public class PacketCraftControl extends Packet
 {
 
     private static final short FORWARD = 1;
-    private static final short BACK    = 2;
-    private static final short LEFT    = 4;
-    private static final short RIGHT   = 8;
-    private static final short UP      = 16;
-    private static final short DOWN    = 32;
-    private static final short RLEFT   = 64;
-    private static final short RRIGHT  = 128;
+    private static final short BACK = 2;
+    private static final short LEFT = 4;
+    private static final short RIGHT = 8;
+    private static final short UP = 16;
+    private static final short DOWN = 32;
+    private static final short RLEFT = 64;
+    private static final short RRIGHT = 128;
 
     public static void sendControlPacket(final Entity pokemob, final CraftController controller)
     {
@@ -57,13 +57,12 @@ public class PacketCraftControl extends Packet
     @Override
     public void handle(final Supplier<NetworkEvent.Context> ctx)
     {
-        ctx.get().enqueueWork(() ->
-        {
+        ctx.get().enqueueWork(() -> {
             final Player player = ctx.get().getSender();
             final Entity mob = player.getLevel().getEntity(this.entityId);
-            if (mob != null && mob instanceof EntityCraft)
+            if (mob != null && mob instanceof EntityCraft craft)
             {
-                final CraftController controller = ((EntityCraft) mob).controller;
+                final CraftController controller = craft.controller;
                 controller.forwardInputDown = (this.message & PacketCraftControl.FORWARD) > 0;
                 controller.backInputDown = (this.message & PacketCraftControl.BACK) > 0;
                 controller.leftInputDown = (this.message & PacketCraftControl.LEFT) > 0;

@@ -13,9 +13,8 @@ public interface ITickTile
     static <T extends BlockEntity> BlockEntityTicker<T> getTicker(final Level world, final BlockState state,
             final BlockEntityType<T> type)
     {
-        return (l, p, s, tile) ->
-        {
-            if (tile instanceof ITickTile) ((ITickTile) tile).tick();
+        return (l, p, s, tile) -> {
+            if (tile instanceof ITickTile tick) tick.tick();
         };
     }
 }

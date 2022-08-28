@@ -90,7 +90,10 @@
         
         {"key": "piplup","min": 1,"max": 2,"rate": 0.01},
         {"key": "popplio","min": 1,"max": 2,"rate": 0.01},
-        {"key": "sobble","min": 1,"max": 2,"rate": 0.01}
+        {"key": "sobble","min": 1,"max": 2,"rate": 0.01},
+
+        {"key": "latios","min": 2,"max": 2,"rate": 0.005},
+        {"key": "latias","min": 2,"max": 2,"rate": 0.005}
       ]
     },
     {
@@ -143,7 +146,7 @@
       "and_preset": "beach_water,night_time",
       "entries": [
         {"key": "inkay","min": 2,"max": 4,"rate": 1},
-		{"key": "basculin_hisui","min": 2,"max": 4,"rate": 0.7}
+		    {"key": "basculin_hisui","min": 2,"max": 4,"rate": 0.7}
       ]
     }
   ]
