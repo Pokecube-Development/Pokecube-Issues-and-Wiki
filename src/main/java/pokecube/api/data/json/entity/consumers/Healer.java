@@ -1,7 +1,7 @@
-package pokecube.api.data.abilities.json.entity.consumers;
+package pokecube.api.data.json.entity.consumers;
 
 import net.minecraft.world.entity.LivingEntity;
-import pokecube.api.data.abilities.json.common.BaseConsumer;
+import pokecube.api.data.json.common.BaseConsumer;
 
 public class Healer extends BaseConsumer<LivingEntity>
 {

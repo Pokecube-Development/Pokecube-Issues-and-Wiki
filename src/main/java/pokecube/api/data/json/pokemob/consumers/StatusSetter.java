@@ -1,6 +1,6 @@
-package pokecube.api.data.abilities.json.pokemob.consumers;
+package pokecube.api.data.json.pokemob.consumers;
 
-import pokecube.api.data.abilities.json.common.BaseConsumer;
+import pokecube.api.data.json.common.BaseConsumer;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.IMoveConstants;
 

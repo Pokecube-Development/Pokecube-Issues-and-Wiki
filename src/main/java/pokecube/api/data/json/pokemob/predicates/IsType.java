@@ -1,13 +1,12 @@
-package pokecube.api.data.abilities.json.pokemob.predicates;
+package pokecube.api.data.json.pokemob.predicates;
 
-import pokecube.api.data.abilities.json.common.BasePredicate;
+import pokecube.api.data.json.common.BasePredicate;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 
 public class IsType extends BasePredicate<IPokemob>
 {
     String type;
-    boolean reversed = false;
     PokeType _type = null;
 
     @Override
@@ -19,7 +18,6 @@ public class IsType extends BasePredicate<IPokemob>
     @Override
     public boolean test(IPokemob t)
     {
-        boolean check = t.isType(_type);
-        return reversed ? !check : check;
+        return t.isType(_type);
     }
 }

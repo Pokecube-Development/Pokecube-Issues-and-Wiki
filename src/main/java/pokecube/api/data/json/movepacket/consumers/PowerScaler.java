@@ -1,6 +1,6 @@
-package pokecube.api.data.abilities.json.movepacket.consumers;
+package pokecube.api.data.json.movepacket.consumers;
 
-import pokecube.api.data.abilities.json.common.BaseConsumer;
+import pokecube.api.data.json.common.BaseConsumer;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 
 public class PowerScaler extends BaseConsumer<MovePacket>

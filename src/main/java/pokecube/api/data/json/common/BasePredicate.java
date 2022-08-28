@@ -1,4 +1,4 @@
-package pokecube.api.data.abilities.json.common;
+package pokecube.api.data.json.common;
 
 import java.util.function.Predicate;
 

@@ -1,13 +1,12 @@
-package pokecube.api.data.abilities.json.movepacket.predicates;
+package pokecube.api.data.json.movepacket.predicates;
 
-import pokecube.api.data.abilities.json.common.BasePredicate;
+import pokecube.api.data.json.common.BasePredicate;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.utils.PokeType;
 
 public class IsType extends BasePredicate<MovePacket>
 {
     String type;
-    boolean reversed = false;
     PokeType _type = null;
 
     @Override
@@ -19,6 +18,6 @@ public class IsType extends BasePredicate<MovePacket>
     @Override
     public boolean test(MovePacket t)
     {
-        return reversed ? t.attackType != _type : t.attackType == _type;
+        return t.attackType == _type;
     }
 }
