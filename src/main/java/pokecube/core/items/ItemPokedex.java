@@ -82,7 +82,7 @@ public class ItemPokedex extends Item
         if (!world.isClientSide) SpawnHandler.refreshTerrain(new Vector3().set(player), player.getLevel(), true);
         if (!player.isCrouching())
         {
-            final Entity entityHit = Tools.getPointedEntity(player, 16);
+            final Entity entityHit = Tools.getPointedEntity(player, 16, 0.5);
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entityHit);
             this.showGui(player, entityHit, pokemob);
             return new InteractionResultHolder<>(InteractionResult.SUCCESS, itemstack);
@@ -135,7 +135,7 @@ public class ItemPokedex extends Item
 
         if (!playerIn.isCrouching())
         {
-            final Entity entityHit = Tools.getPointedEntity(playerIn, 16);
+            final Entity entityHit = Tools.getPointedEntity(playerIn, 16, 0.5);
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entityHit);
             this.showGui(playerIn, entityHit, pokemob);
         }

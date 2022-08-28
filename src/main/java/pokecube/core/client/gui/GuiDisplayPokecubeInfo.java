@@ -553,7 +553,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             if (pokemob == null) return true;
             return pokemob.getOwner() != GuiDisplayPokecubeInfo.this.getCurrentPokemob().getOwner();
         };
-        Entity target = Tools.getPointedEntity(player, 32, selector);
+        Entity target = Tools.getPointedEntity(player, 32, selector, 1);
         target = EntityTools.getCoreEntity(target);
         if (target == null && Minecraft.getInstance().crosshairPickEntity != null
                 && selector.test(Minecraft.getInstance().crosshairPickEntity))

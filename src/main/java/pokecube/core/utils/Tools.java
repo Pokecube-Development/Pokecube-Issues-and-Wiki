@@ -246,9 +246,14 @@ public class Tools
         return level;
     }
 
-    public static Entity getPointedEntity(final Entity entity, final double distance)
+    public static Entity getPointedEntity(Entity entity, double distance)
     {
         return Tools.getPointedEntity(entity, distance, null);
+    }
+
+    public static Entity getPointedEntity(Entity entity, double distance, double extraSize)
+    {
+        return Tools.getPointedEntity(entity, distance, null, extraSize);
     }
 
     public static boolean isRidingOrRider(final Entity a, final Entity b)

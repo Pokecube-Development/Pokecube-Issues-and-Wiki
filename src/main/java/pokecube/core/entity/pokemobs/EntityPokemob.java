@@ -189,7 +189,7 @@ public class EntityPokemob extends PokemobRidable
                         d1);
             }
         }
-        if (this.deathTime >= PokecubeCore.getConfig().deadReviveTimer)
+        if (this.deathTime >= PokecubeCore.getConfig().deadReviveTimer && PokecubeCore.getConfig().deadReviveTimer > 0)
         {
             this.pokemobCap.revive();
             // If we revive naturally, we remove this tag, it only applies for
