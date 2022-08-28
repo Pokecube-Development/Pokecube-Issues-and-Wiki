@@ -3,7 +3,7 @@ package pokecube.core.moves.templates;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -21,7 +21,7 @@ public class Move_MultiHit extends Move_Basic
     }
 
     @Override
-    public void ActualMoveUse(@Nonnull final Entity user, @Nullable final Entity target, @Nonnull final Vector3 start,
+    public void ActualMoveUse(@Nonnull final LivingEntity user, @Nullable final LivingEntity target, @Nonnull final Vector3 start,
             @Nonnull final Vector3 end)
     {
         final IPokemob pokemob = PokemobCaps.getPokemobFor(user);
@@ -44,7 +44,7 @@ public class Move_MultiHit extends Move_Basic
         }
     }
 
-    public int getCount(@Nonnull final IPokemob user, @Nullable final Entity target)
+    public int getCount(@Nonnull final IPokemob user, @Nullable final LivingEntity target)
     {
         final int random = ThutCore.newRandom().nextInt(6);
         switch (random)

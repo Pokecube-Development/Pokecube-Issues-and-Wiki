@@ -1,7 +1,6 @@
 package pokecube.adventures.ai.tasks.battle;
 
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -18,16 +17,13 @@ public class ChooseAttacks extends BaseBattleTask
     }
 
     /**
-     * @param move
-     *            - the attack to check
-     * @param user
-     *            - the user of the sttack
-     * @param target
-     *            - the target of the attack
+     * @param move   - the attack to check
+     * @param user   - the user of the sttack
+     * @param target - the target of the attack
      * @return - the damage that will be dealt by the attack (before reduction
      *         due to armour)
      */
-    private int getPower(final String move, final IPokemob user, final Entity target)
+    private int getPower(final String move, final IPokemob user, final LivingEntity target)
     {
         final Move_Base attack = MovesUtils.getMoveFromName(move);
         if (attack == null) return 0;
@@ -46,7 +42,7 @@ public class ChooseAttacks extends BaseBattleTask
         final IPokemob outMob = this.trainer.getOutMob();
         int index = outMob.getMoveIndex();
         int max = 0;
-        final Entity target = BrainUtils.getAttackTarget(outMob.getEntity());
+        final LivingEntity target = BrainUtils.getAttackTarget(outMob.getEntity());
         final String[] moves = outMob.getMoves();
         for (int i = 0; i < 4; i++)
         {
@@ -83,8 +79,7 @@ public class ChooseAttacks extends BaseBattleTask
     }
 
     @Override
-    protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn,
-            final long gameTimeIn)
+    protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         return this.trainer.getOutMob() != null;
     }

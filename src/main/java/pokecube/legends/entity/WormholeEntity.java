@@ -77,10 +77,10 @@ public class WormholeEntity extends LivingEntity
 
     private static int lastCheck = 0;
 
-    public static int maxWormholeEnergy     = 1000000;
+    public static int maxWormholeEnergy = 1000000;
     public static int wormholeEnergyPerTick = 1000;
-    public static int wormholeEntityPerTP   = 100000;
-    public static int wormholeReUseDelay    = 100;
+    public static int wormholeEntityPerTP = 100000;
+    public static int wormholeReUseDelay = 100;
 
     public static void clear()
     {
@@ -208,13 +208,13 @@ public class WormholeEntity extends LivingEntity
             EntityDataSerializers.BYTE);
 
     private TeleDest dest = null;
-    private TeleDest pos  = null;
-    private Vec3     dir  = null;
+    private TeleDest pos = null;
+    private Vec3 dir = null;
 
     public EnergyStore energy;
 
     int timer = 0;
-    int uses  = 0;
+    int uses = 0;
 
     public WormholeEntity(final EntityType<? extends LivingEntity> type, final Level level)
     {
@@ -276,8 +276,7 @@ public class WormholeEntity extends LivingEntity
         final ServerLevel dest = this.getServer().getLevel(key);
         final IWormholeWorld holes = this.level.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
         this.makingDest = true;
-        EventsHandler.Schedule(dest, w ->
-        {
+        EventsHandler.Schedule(dest, w -> {
             this.dest = d;
             final WormholeEntity wormhole = EntityInit.WORMHOLE.get().create(dest);
             wormhole.moveTo(this.dest.getPos().pos(), 0, 0);
@@ -294,8 +293,8 @@ public class WormholeEntity extends LivingEntity
     {
         if (this.dest == null) if (this.level instanceof ServerLevel)
         {
-            if (this.makingDest) return new TeleDest().setPos(GlobalPos.of(this.level != null ? this.level.dimension()
-                    : Level.OVERWORLD, this.getOnPos().above(20)));
+            if (this.makingDest) return new TeleDest().setPos(GlobalPos
+                    .of(this.level != null ? this.level.dimension() : Level.OVERWORLD, this.getOnPos().above(20)));
             final Random rng = this.getRandom();
             final ResourceKey<Level> key = WormholeEntity.getTargetWorld((ServerLevel) this.level, rng.nextFloat());
             ServerLevel dest = this.getServer().getLevel(key);
@@ -307,13 +306,12 @@ public class WormholeEntity extends LivingEntity
             final WorldBorder border = dest.getWorldBorder();
             final IWormholeWorld holes = this.level.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
             this.makingDest = true;
-            EventsHandler.Schedule(dest, w ->
-            {
+            EventsHandler.Schedule(dest, w -> {
                 final int x = (int) ((border.getMaxX() - border.getMinX()) * rng.nextDouble() + border.getMinX());
                 final int z = (int) ((border.getMaxZ() - border.getMinZ()) * rng.nextDouble() + border.getMinZ());
                 final ServerLevel world = (ServerLevel) w;
-                this.dest = new TeleDest().setPos(GlobalPos.of(key, WormholeSpawns.getWormholePos(world, new BlockPos(x,
-                        0, z))));
+                this.dest = new TeleDest()
+                        .setPos(GlobalPos.of(key, WormholeSpawns.getWormholePos(world, new BlockPos(x, 0, z))));
 
                 final WormholeEntity wormhole = EntityInit.WORMHOLE.get().create(world);
                 wormhole.moveTo(this.dest.getPos().pos(), 0, 0);
@@ -326,15 +324,15 @@ public class WormholeEntity extends LivingEntity
                 return true;
             });
         }
-        else this.dest = new TeleDest().setPos(GlobalPos.of(this.level != null ? this.level.dimension()
-                : Level.OVERWORLD, this.getOnPos().above(20)));
+        else this.dest = new TeleDest().setPos(
+                GlobalPos.of(this.level != null ? this.level.dimension() : Level.OVERWORLD, this.getOnPos().above(20)));
         return this.dest;
     }
 
     public TeleDest getPos()
     {
-        if (this.pos == null) this.pos = new TeleDest().setPos(GlobalPos.of(this.level != null ? this.level.dimension()
-                : Level.OVERWORLD, this.getOnPos()));
+        if (this.pos == null) this.pos = new TeleDest()
+                .setPos(GlobalPos.of(this.level != null ? this.level.dimension() : Level.OVERWORLD, this.getOnPos()));
         return this.pos;
     }
 
@@ -362,12 +360,12 @@ public class WormholeEntity extends LivingEntity
 
         this.setNoGravity(true);
 
-        if (!this.isIdle() && !this.isClosing() && !this.isOpening()) this.entityData.set(WormholeEntity.ACTIVE_STATE,
-                (byte) 1);
+        if (!this.isIdle() && !this.isClosing() && !this.isOpening())
+            if (this.getLevel() instanceof ServerLevel) this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 1);
 
         if (this.isOpening()) if (this.timer++ > 300)
         {
-            this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 2);
+            if (this.getLevel() instanceof ServerLevel) this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 2);
             this.timer = 0;
         }
 
@@ -380,14 +378,14 @@ public class WormholeEntity extends LivingEntity
                 holes.getWormholes().clear();
 
                 final ServerLevel dest = this.getServer().getLevel(this.getDest().getPos().dimension());
-                EventsHandler.Schedule(dest, w ->
-                {
+                EventsHandler.Schedule(dest, w -> {
                     dest.getChunk(this.dest.getPos().pos());
                     final AABB box = new AABB(this.getDest().getPos().pos()).inflate(10);
                     final List<WormholeEntity> list = w.getEntitiesOfClass(WormholeEntity.class, box);
                     for (final WormholeEntity e : list)
                     {
-                        e.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 4);
+                        if (this.getLevel() instanceof ServerLevel)
+                            e.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 4);
                         e.energy.receiveEnergy(this.energy.getEnergyStored(), false);
                         e.timer = 0;
                     }
@@ -413,7 +411,7 @@ public class WormholeEntity extends LivingEntity
         // Collapse at full energy
         if (this.energy.getEnergyStored() >= WormholeEntity.maxWormholeEnergy && !this.isClosing())
         {
-            this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 4);
+            if (this.getLevel() instanceof ServerLevel) this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 4);
             this.timer = 0;
         }
 
@@ -424,8 +422,8 @@ public class WormholeEntity extends LivingEntity
     {
         if (!this.isIdle()) return;
 
-        final List<Entity> list = this.level.getEntities(this, this.getBoundingBox(), e -> (e.getVehicle() == null
-                && !e.level.isClientSide()));
+        final List<Entity> list = this.level.getEntities(this, this.getBoundingBox(),
+                e -> (e.getVehicle() == null && !e.level.isClientSide()));
         final Set<UUID> tpd = Sets.newHashSet();
         if (!list.isEmpty()) for (Entity entity : list)
         {
@@ -523,8 +521,7 @@ public class WormholeEntity extends LivingEntity
 
     @Override
     public void setItemSlot(final EquipmentSlot p_184201_1_, final ItemStack p_184201_2_)
-    {
-    }
+    {}
 
     @Override
     public HumanoidArm getMainArm()

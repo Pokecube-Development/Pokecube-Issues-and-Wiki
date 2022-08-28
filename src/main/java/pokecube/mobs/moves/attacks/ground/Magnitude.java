@@ -1,6 +1,6 @@
 package pokecube.mobs.moves.attacks.ground;
 
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.moves.templates.Move_AOE;
 import thut.core.common.ThutCore;
@@ -14,7 +14,7 @@ public class Magnitude extends Move_AOE
     }
 
     @Override
-    public int getPWR(IPokemob attacker, Entity attacked)
+    public int getPWR(IPokemob attacker, LivingEntity attacked)
     {
         int PWR = 0;
         final int rand = ThutCore.newRandom().nextInt(20);

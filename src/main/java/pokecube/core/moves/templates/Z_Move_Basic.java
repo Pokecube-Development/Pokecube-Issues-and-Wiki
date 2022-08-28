@@ -1,6 +1,6 @@
 package pokecube.core.moves.templates;
 
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.Move_Base;
 import pokecube.core.moves.MovesUtils;
@@ -17,7 +17,7 @@ public class Z_Move_Basic extends Move_Basic
     // TODO handle status effect moves in here as well somehow.
 
     @Override
-    public int getPWR(final IPokemob user, final Entity target)
+    public int getPWR(final IPokemob user, final LivingEntity target)
     {
         final int index = user.getMoveIndex();
         Move_Base base = this;

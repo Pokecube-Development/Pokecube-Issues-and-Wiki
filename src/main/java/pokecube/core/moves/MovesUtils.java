@@ -283,7 +283,7 @@ public class MovesUtils implements IMoveConstants
         }
     }
 
-    public static void doAttack(final String attackName, final IPokemob attacker, final Entity attacked)
+    public static void doAttack(final String attackName, final IPokemob attacker, final LivingEntity attacked)
     {
         final Move_Base move = MovesUtils.moves.get(attackName);
         if (move != null) move.attack(attacker, attacked);
@@ -544,8 +544,8 @@ public class MovesUtils implements IMoveConstants
     }
 
     /** creates an ExplosionCustom */
-    public static ExplosionCustom newExplosion(final Entity entity, final double x, final double y, final double z,
-            final float power)
+    public static ExplosionCustom newExplosion(final LivingEntity entity, final double x, final double y,
+            final double z, final float power)
     {
         final ExplosionCustom var11 = new ExplosionCustom((ServerLevel) entity.getLevel(), entity, x, y, z, power)
                 .setMaxRadius(PokecubeCore.getConfig().blastRadius);
@@ -565,7 +565,7 @@ public class MovesUtils implements IMoveConstants
         if (move.move.baseEntry.protectionMoves) MoveEntry.protectionMoves.add(move.name);
     }
 
-    public static boolean setStatus(final Entity attacked, byte status)
+    public static boolean setStatus(final LivingEntity attacked, byte status)
     {
         final IPokemob attackedPokemob = PokemobCaps.getPokemobFor(attacked);
 
@@ -599,7 +599,7 @@ public class MovesUtils implements IMoveConstants
         return applied;
     }
 
-    public static Predicate<Entity> targetMatcher(final Entity attacker)
+    public static Predicate<Entity> targetMatcher(final LivingEntity attacker)
     {
         final IPokemob pokemob = PokemobCaps.getPokemobFor(attacker);
         return e -> {
@@ -615,7 +615,7 @@ public class MovesUtils implements IMoveConstants
         };
     }
 
-    public static Entity targetHit(final Entity attacker, final Vector3 dest)
+    public static Entity targetHit(final LivingEntity attacker, final Vector3 dest)
     {
         final Vector3 source = new Vector3().set(attacker, false);
         final boolean ignoreAllies = false;
@@ -624,7 +624,7 @@ public class MovesUtils implements IMoveConstants
     }
 
     public static Entity targetHit(final Vector3 source, final Vector3 dir, final int distance, final Level world,
-            final Entity attacker, final boolean ignoreAllies, final Predicate<Entity> matcher)
+            final LivingEntity attacker, final boolean ignoreAllies, final Predicate<Entity> matcher)
     {
         Entity target = null;
 
@@ -640,7 +640,7 @@ public class MovesUtils implements IMoveConstants
         return target;
     }
 
-    public static List<LivingEntity> targetsHit(final Entity attacker, final Vector3 dest)
+    public static List<LivingEntity> targetsHit(final LivingEntity attacker, final Vector3 dest)
     {
         final Vector3 source = new Vector3().set(attacker);
         final List<Entity> targets = source.allEntityLocationExcluding(16, 0.5, dest.subtract(source), source,
@@ -650,7 +650,7 @@ public class MovesUtils implements IMoveConstants
         return ret;
     }
 
-    public static List<LivingEntity> targetsHit(final Entity attacker, final Vector3 dest, final double area)
+    public static List<LivingEntity> targetsHit(final LivingEntity attacker, final Vector3 dest, final double area)
     {
         final Vector3 source = new Vector3().set(attacker);
         final List<Entity> targets = attacker.getLevel().getEntities(attacker, source.getAABB().inflate(area));
@@ -659,8 +659,8 @@ public class MovesUtils implements IMoveConstants
         return ret;
     }
 
-    public static void useMove(@Nonnull final Move_Base move, @Nonnull final Entity user, @Nullable final Entity target,
-            @Nonnull final Vector3 start, @Nonnull final Vector3 end)
+    public static void useMove(@Nonnull final Move_Base move, @Nonnull final LivingEntity user,
+            @Nullable final LivingEntity target, @Nonnull final Vector3 start, @Nonnull final Vector3 end)
     {
         move.ActualMoveUse(user, target, start, end);
     }

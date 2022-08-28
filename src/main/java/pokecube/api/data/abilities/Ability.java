@@ -7,6 +7,13 @@ import pokecube.api.entity.pokemob.moves.MovePacket;
 
 public abstract class Ability
 {
+    String name = "";
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
     /**
      * Called when combat is started for this pokemob
      * 
@@ -119,6 +126,6 @@ public abstract class Ability
     @Override
     public String toString()
     {
-        return AbilityManager.getNameForAbility(this);
+        return name;
     }
 }

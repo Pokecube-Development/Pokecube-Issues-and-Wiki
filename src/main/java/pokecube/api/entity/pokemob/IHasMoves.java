@@ -1,7 +1,6 @@
 package pokecube.api.entity.pokemob;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.eventbus.api.Event;
 import pokecube.api.PokecubeAPI;
@@ -106,7 +105,7 @@ public interface IHasMoves extends IHasStats
      * @param f
      *            the float parameter of the attackEntity method
      */
-    void executeMove(Entity target, Vector3 targetLocation, float f);
+    void executeMove(LivingEntity target, Vector3 targetLocation, float f);
 
     /** @return Current move we have being executed. */
     EntityMoveUse getActiveMove();

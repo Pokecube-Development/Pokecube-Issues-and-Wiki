@@ -8,7 +8,6 @@ import java.util.Random;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
@@ -89,7 +88,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
     }
 
     @Override
-    public void attack(final IPokemob attacker, final Entity attacked)
+    public void attack(final IPokemob attacker, final LivingEntity attacked)
     {
         final IPokemob attackedMob = PokemobCaps.getPokemobFor(attacked);
         if ((attacker.getStatus() & IMoveConstants.STATUS_SLP) > 0)
@@ -182,7 +181,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
 
         final IPokemob attacker = packet.attacker;
         final LivingEntity attackerMob = attacker.getEntity();
-        final Entity attacked = packet.attacked;
+        final LivingEntity attacked = packet.attacked;
 
         final LivingEntity attackedHp = EntityTools.getCoreLiving(attacked);
 

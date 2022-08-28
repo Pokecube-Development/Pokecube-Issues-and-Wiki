@@ -4,7 +4,7 @@ import java.util.Random;
 
 import org.apache.logging.log4j.Level;
 
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -21,7 +21,7 @@ import thut.core.common.ThutCore;
 
 public class SelectMoveTask extends CombatTask implements IAICombat
 {
-    Entity      target;
+    LivingEntity target;
     private int moveIndexCounter = 0;
 
     public SelectMoveTask(final IPokemob mob)
@@ -91,9 +91,10 @@ public class SelectMoveTask extends CombatTask implements IAICombat
         // Update index if it changed.
         if (index != this.pokemob.getMoveIndex())
         {
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.log(Level.TRACE, "Move Swap to Highest Damage, " + this.pokemob
-                    .getEntity() + " g:" + this.pokemob.getCombatState(CombatStates.GUARDING) + " h:" + this.pokemob
-                            .getCombatState(CombatStates.HUNTING));
+            if (PokecubeMod.debug) PokecubeAPI.LOGGER.log(Level.TRACE,
+                    "Move Swap to Highest Damage, " + this.pokemob.getEntity() + " g:"
+                            + this.pokemob.getCombatState(CombatStates.GUARDING) + " h:"
+                            + this.pokemob.getCombatState(CombatStates.HUNTING));
             this.pokemob.setMoveIndex(index);
             return true;
         }
@@ -122,9 +123,10 @@ public class SelectMoveTask extends CombatTask implements IAICombat
             this.moveIndexCounter = 0;
             if (index != this.pokemob.getMoveIndex())
             {
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.log(Level.TRACE, "Move Swap to Random Move, " + this.pokemob
-                        .getEntity() + " g:" + this.pokemob.getCombatState(CombatStates.GUARDING) + " h:" + this.pokemob
-                                .getCombatState(CombatStates.HUNTING));
+                if (PokecubeMod.debug) PokecubeAPI.LOGGER.log(Level.TRACE,
+                        "Move Swap to Random Move, " + this.pokemob.getEntity() + " g:"
+                                + this.pokemob.getCombatState(CombatStates.GUARDING) + " h:"
+                                + this.pokemob.getCombatState(CombatStates.HUNTING));
                 this.pokemob.setMoveIndex(index);
                 return true;
             }
@@ -143,7 +145,7 @@ public class SelectMoveTask extends CombatTask implements IAICombat
         // Should not swap moves if this is set.
         if (this.pokemob.getCombatState(CombatStates.NOMOVESWAP)) return false;
         // Only swap moves during combat.
-        return this.pokemob.getCombatState(CombatStates.ANGRY) && (this.target = BrainUtils.getAttackTarget(
-                this.entity)) != null;
+        return this.pokemob.getCombatState(CombatStates.ANGRY)
+                && (this.target = BrainUtils.getAttackTarget(this.entity)) != null;
     }
 }

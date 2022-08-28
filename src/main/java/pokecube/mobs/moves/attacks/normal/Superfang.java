@@ -1,6 +1,5 @@
 package pokecube.mobs.moves.attacks.normal;
 
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.moves.templates.Move_Basic;
@@ -15,7 +14,7 @@ public class Superfang extends Move_Basic
     }
 
     @Override
-    public int getPWR(IPokemob attacker, Entity attacked)
+    public int getPWR(IPokemob attacker, LivingEntity attacked)
     {
         if (!(attacked instanceof LivingEntity)) return 0;
         return (int) Math.ceil(((LivingEntity) attacked).getHealth() / 2);

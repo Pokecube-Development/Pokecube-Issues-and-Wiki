@@ -217,7 +217,7 @@ public class EntityMoveUse extends ThrowableProjectile
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
-    private void doMoveUse(final Entity target)
+    private void doMoveUse(final LivingEntity target)
     {
         final Move_Base attack = this.getMove();
         final Entity user = this.getUser();
@@ -520,12 +520,13 @@ public class EntityMoveUse extends ThrowableProjectile
             }
             if (!hit) return true;
             if (!e.isMultipartEntity()) return false;
+            if (!(e instanceof LivingEntity || EntityTools.getCoreEntity(e) instanceof LivingEntity)) return true;
             final PartEntity<?>[] parts = e.getParts();
             for (final PartEntity<?> part : parts) if (part.getBoundingBox().intersects(hitBox)) return false;
             return true;
         });
 
-        for (final Entity e : hits) this.doMoveUse(e);
+        for (final Entity e : hits) if (e instanceof LivingEntity living) this.doMoveUse(living);
 
         if (this.getMove() != null && userMob != null && !this.applied && !this.level.isClientSide)
         {

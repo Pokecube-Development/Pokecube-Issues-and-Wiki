@@ -147,8 +147,8 @@ public class EnergyHandler
     public static int getOutput(final SiphonTile tile, int power, final boolean simulated)
     {
         if (tile.getLevel() == null || power == 0) return 0;
-        final Vector3 v = new Vector3().set(tile);
-        final AABB box = tile.box != null ? tile.box : (tile.box = v.getAABB().inflate(10, 10, 10));
+        final AABB box = tile.box != null ? tile.box
+                : (tile.box = new Vector3().set(tile).getAABB().inflate(10, 10, 10));
         List<Entity> l = tile.mobs;
         if (tile.updateTime == -1 || tile.updateTime < tile.getLevel().getGameTime())
         {
@@ -157,7 +157,6 @@ public class EnergyHandler
             tile.updateTime = tile.getLevel().getGameTime() + PokecubeAdv.config.siphonUpdateRate;
         }
         int ret = 0;
-        power = Math.min(power, PokecubeAdv.config.maxOutput);
         for (final Entity entity : l) if (entity != null && entity.isAddedToWorld() && entity.isAlive())
         {
             final IEnergyStorage producer = entity.getCapability(CapabilityEnergy.ENERGY).orElse(null);
@@ -185,11 +184,11 @@ public class EnergyHandler
         if (!(event.getTile().getLevel() instanceof ServerLevel world)) return;
 
         final Map<IEnergyStorage, Integer> tiles = Maps.newHashMap();
-        Integer output = (int) EnergyHandler.getOutput(event.getTile(), PokecubeAdv.config.maxOutput, true);
+        int output = EnergyHandler.getOutput(event.getTile(), PokecubeAdv.config.maxOutput, true);
         event.getTile().energy.theoreticalOutput = output;
         event.getTile().energy.currentOutput = output;
         final IEnergyStorage producer = event.getTile().getCapability(CapabilityEnergy.ENERGY).orElse(null);
-        final Integer start = output;
+        final int start = output;
         final Vector3 v = new Vector3().set(event.getTile());
         for (final Direction side : Direction.values())
         {
@@ -199,7 +198,7 @@ public class EnergyHandler
                     && (cap = te.getCapability(CapabilityEnergy.ENERGY, side.getOpposite()).orElse(null)) != null)
             {
                 if (!cap.canReceive()) continue;
-                final Integer toSend = cap.receiveEnergy(output, true);
+                final int toSend = cap.receiveEnergy(output, true);
                 if (toSend > 0) tiles.put(cap, toSend);
             }
         }
@@ -218,7 +217,7 @@ public class EnergyHandler
                 if ((cap = te.getCapability(CapabilityEnergy.ENERGY, side.getOpposite()).orElse(null)) != null)
             {
                 if (!cap.canReceive()) continue;
-                final Integer toSend = cap.receiveEnergy(output, true);
+                final int toSend = cap.receiveEnergy(output, true);
                 if (toSend > 0)
                 {
                     tiles.put(cap, toSend);
@@ -228,16 +227,22 @@ public class EnergyHandler
         }
         for (final Map.Entry<IEnergyStorage, Integer> entry : tiles.entrySet())
         {
-            final Integer fraction = output / tiles.size();
-            Integer request = entry.getValue();
+            final int fraction = output / tiles.size();
+            int request = entry.getValue();
             if (request > fraction) request = fraction;
             if (fraction == 0 || output <= 0) continue;
             final IEnergyStorage h = entry.getKey();
             output -= request;
             h.receiveEnergy(request, false);
         }
-        producer.extractEnergy(start - output, false);
-        EnergyHandler.getOutput(event.getTile(), start - output, false);
+        boolean powered = world.getDirectSignalTo(event.getTile().getBlockPos()) >= 15;
+        int extract = start - output;
+        // If we are powered, try to extract all of the energy, this still
+        // limits it to PokecubeAdv.config.maxOutput per mob, but allows
+        // extracting that much from multiples.
+        if (powered) extract = Integer.MAX_VALUE;
+        producer.extractEnergy(extract, false);
+        EnergyHandler.getOutput(event.getTile(), extract, false);
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)

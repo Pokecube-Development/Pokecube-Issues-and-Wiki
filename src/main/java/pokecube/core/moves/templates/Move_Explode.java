@@ -58,7 +58,7 @@ public class Move_Explode extends Move_Basic
         public void hitEntity(final Entity e, final float power, final Explosion boom)
         {
             // Dont hit twice, and only hit living entities.
-            if (this.hit.get(e.getId()) || !(e instanceof LivingEntity)) return;
+            if (this.hit.get(e.getId()) || !(e instanceof LivingEntity living)) return;
             // Dont hit self, that is taken care of elsewhere.
             if (e == this.user.getEntity()) return;
             // Flag as already hit.
@@ -72,8 +72,8 @@ public class Move_Explode extends Move_Basic
             if (this.move.move.change != IMoveConstants.CHANGE_NONE
                     && MovesUtils.rand.nextFloat() <= this.move.move.chanceChance)
                 changeAddition = this.move.move.change;
-            final MovePacket packet = new MovePacket(this.user, e, this.move.name, this.move.getType(this.user),
-                    this.move.getPWR(this.user, e), this.move.move.crit, statusChange, changeAddition);
+            final MovePacket packet = new MovePacket(this.user, living, this.move.name, this.move.getType(this.user),
+                    this.move.getPWR(this.user, living), this.move.move.crit, statusChange, changeAddition);
             this.move.onAttack(packet);
         }
 
@@ -108,11 +108,10 @@ public class Move_Explode extends Move_Basic
         final int n = targets.size();
         if (n > 0)
         {
-            for (final Entity e : targets) if (e != null)
+            for (final Entity e : targets) if (e instanceof LivingEntity living)
             {
-                final Entity attacked = e;
-                final MovePacket packet = new MovePacket(attacker, attacked, this.name, this.getType(attacker),
-                        this.getPWR(attacker, attacked), this.move.crit, IMoveConstants.STATUS_NON,
+                final MovePacket packet = new MovePacket(attacker, living, this.name, this.getType(attacker),
+                        this.getPWR(attacker, living), this.move.crit, IMoveConstants.STATUS_NON,
                         IMoveConstants.CHANGE_NONE);
                 packet.applyOngoing = false;
                 this.onAttack(packet);
@@ -123,7 +122,7 @@ public class Move_Explode extends Move_Basic
     }
 
     @Override
-    public void attack(final IPokemob attacker, final Entity attacked)
+    public void attack(final IPokemob attacker, final LivingEntity attacked)
     {
         if (!attacker.getEntity().isAlive()) return;
         final Mob mob = attacker.getEntity();

@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
@@ -98,8 +99,8 @@ public abstract class Move_Base
      * @param start
      * @param end
      */
-    public void ActualMoveUse(@Nonnull final Entity user, @Nullable final Entity target, @Nonnull final Vector3 start,
-            @Nonnull final Vector3 end)
+    public void ActualMoveUse(@Nonnull final LivingEntity user, @Nullable final LivingEntity target,
+            @Nonnull final Vector3 start, @Nonnull final Vector3 end)
     {
         final IPokemob pokemob = PokemobCaps.getPokemobFor(user);
         if (pokemob == null) return;
@@ -129,7 +130,7 @@ public abstract class Move_Base
      * @param attacker
      * @param attacked
      */
-    public abstract void attack(IPokemob attacker, Entity attacked);
+    public abstract void attack(IPokemob attacker, LivingEntity attacked);
 
     /**
      * Applys world effects of the move
@@ -248,7 +249,7 @@ public abstract class Move_Base
      *
      * @return the precision of this move
      */
-    public int getPRE(final IPokemob user, final Entity target)
+    public int getPRE(final IPokemob user, final LivingEntity target)
     {
         return this.move.accuracy;
     }
@@ -268,7 +269,7 @@ public abstract class Move_Base
      *
      * @return the power of this move
      */
-    public int getPWR(final IPokemob user, final Entity target)
+    public int getPWR(final IPokemob user, final LivingEntity target)
     {
         return this.move.power;
     }
@@ -327,7 +328,8 @@ public abstract class Move_Base
      * @param attacked
      * @param targetPos
      */
-    public void playSounds(final Entity attacker, @Nullable final Entity attacked, @Nullable final Vector3 targetPos)
+    public void playSounds(final LivingEntity attacker, @Nullable final Entity attacked,
+            @Nullable final Vector3 targetPos)
     {
         final Vector3 pos = new Vector3();
         final float scale = (float) PokecubeCore.getConfig().moveVolumeCry;

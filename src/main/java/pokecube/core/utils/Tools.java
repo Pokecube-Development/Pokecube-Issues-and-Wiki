@@ -19,6 +19,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -348,7 +349,7 @@ public class Tools
         return vec;
     }
 
-    public static int getPower(final String move, final IPokemob user, final Entity target)
+    public static int getPower(final String move, final IPokemob user, final LivingEntity target)
     {
         final Move_Base attack = MovesUtils.getMoveFromName(move);
         if (attack == null) return 0;

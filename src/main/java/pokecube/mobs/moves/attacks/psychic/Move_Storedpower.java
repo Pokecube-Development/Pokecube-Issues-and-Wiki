@@ -1,6 +1,6 @@
 package pokecube.mobs.moves.attacks.psychic;
 
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.stats.DefaultModifiers;
@@ -15,7 +15,7 @@ public class Move_Storedpower extends Move_Basic
     }
 
     @Override
-    public int getPWR(IPokemob user, Entity target)
+    public int getPWR(IPokemob user, LivingEntity target)
     {
         int pwr = 20;
         final DefaultModifiers mods = user.getModifiers().getDefaultMods();

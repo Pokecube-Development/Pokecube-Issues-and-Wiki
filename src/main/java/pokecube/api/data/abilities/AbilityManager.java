@@ -1,5 +1,6 @@
 package pokecube.api.data.abilities;
 
+import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,17 +18,12 @@ public class AbilityManager
 
     private static Map<String, Class<? extends Ability>> nameMap = Maps.newHashMap();
     private static Map<Class<? extends Ability>, String> nameMap2 = Maps.newHashMap();
-    private static Map<Class<? extends Ability>, Ability> singltons = Maps.newHashMap();
+    private static Map<String, Ability> singltons = Maps.newHashMap();
     private static Set<Package> packages = Sets.newHashSet();
 
     public static void registerAbilityPackage(Package pack)
     {
         packages.add(pack);
-    }
-
-    static
-    {
-        registerAbilityPackage(AbilityManager.class.getPackage());
     }
 
     private static Map<String, String> fixed = Maps.newHashMap();
@@ -67,12 +63,8 @@ public class AbilityManager
         if (name == null) return null;
         if (name.startsWith("ability.")) name = name.substring(7);
         if (name.endsWith(".name")) name = name.substring(0, name.length() - 5);
-        return AbilityManager.makeAbility(AbilityManager.getAbilityName(name), args);
-    }
-
-    public static String getNameForAbility(final Ability ability)
-    {
-        return AbilityManager.nameMap2.get(ability.getClass());
+        Ability ability = AbilityManager.makeAbility(AbilityManager.getAbilityName(name), args);
+        return ability;
     }
 
     public static boolean hasAbility(final String abilityName, final IPokemob pokemob)
@@ -94,7 +86,7 @@ public class AbilityManager
                 if (pack == null) continue;
                 foundClasses = ClassFinder.find(pack.getName());
                 for (final Class<?> candidateClass : foundClasses) if (Ability.class.isAssignableFrom(candidateClass)
-                        && !candidateClass.getName().equals(Ability.class.getName()))
+                        && !Modifier.isAbstract(candidateClass.getModifiers()))
                 {
                     num++;
                     AbilityManager.addAbility((Class<? extends Ability>) candidateClass);
@@ -108,29 +100,27 @@ public class AbilityManager
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public static Ability makeAbility(final Object val, final Object... args)
+    public static Ability makeAbility(final String name, final Object... args)
     {
-        Class<? extends Ability> abil = null;
-        if (val instanceof String) abil = AbilityManager.nameMap.get(val);
-        else if (val instanceof Class) abil = (Class<? extends Ability>) val;
-        if (abil == null) return null;
-        Ability ret = null;
+        if (AbilityManager.singltons.containsKey(name))
+        {
+            return AbilityManager.singltons.get(name);
+        }
+        Class<? extends Ability> clazz = AbilityManager.nameMap.get(name);
+        if (clazz == null) clazz = DummyAbility.class;
+        Ability ability = null;
         try
         {
-            if (AbilityManager.singltons.containsKey(abil))
-            {
-                return AbilityManager.singltons.get(abil);
-            }
-            ret = abil.getConstructor().newInstance().init(args);
-            ret.init(args);
-            if (ret.singleton()) AbilityManager.singltons.put(abil, ret);
+            ability = clazz.getConstructor().newInstance().init(args);
+            ability.setName(name);
+            ability.init(args);
+            if (ability.singleton()) AbilityManager.singltons.put(name, ability);
         }
         catch (final Exception e)
         {
             e.printStackTrace();
         }
-        return ret;
+        return ability;
     }
 
     public static void replaceAbility(final Class<? extends Ability> ability, String name)

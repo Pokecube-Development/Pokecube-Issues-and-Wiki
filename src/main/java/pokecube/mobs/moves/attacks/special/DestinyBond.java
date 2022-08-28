@@ -92,7 +92,7 @@ public class DestinyBond extends Move_Basic
 
         final IPokemob attacker = packet.attacker;
         final LivingEntity attackerMob = attacker.getEntity();
-        final Entity attacked = packet.attacked;
+        final LivingEntity attacked = packet.attacked;
         final String attack = packet.attack;
         final PokeType type = packet.attackType;
         final int PWR = packet.PWR;

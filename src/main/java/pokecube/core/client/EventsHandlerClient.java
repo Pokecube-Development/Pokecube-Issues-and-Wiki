@@ -40,13 +40,13 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.HitResult.Type;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
 import net.minecraftforge.client.event.InputEvent.RawMouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.ScreenEvent.DrawScreenEvent;
@@ -179,7 +179,7 @@ public class EventsHandlerClient
         IPokemob pokemob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
         if (pokemob != null && PokecubeCore.getConfig().autoSelectMoves)
         {
-            final Entity target = BrainUtils.getAttackTarget(pokemob.getEntity());
+            LivingEntity target = BrainUtils.getAttackTarget(pokemob.getEntity());
             if (target != null && !pokemob.getGeneralState(GeneralStates.MATING))
                 EventsHandlerClient.setMostDamagingMove(pokemob, target);
         }
@@ -529,7 +529,7 @@ public class EventsHandlerClient
         pokemob.onGenesChanged();
     }
 
-    private static void setMostDamagingMove(final IPokemob outMob, final Entity target)
+    private static void setMostDamagingMove(final IPokemob outMob, final LivingEntity target)
     {
         int index = outMob.getMoveIndex();
         int max = 0;

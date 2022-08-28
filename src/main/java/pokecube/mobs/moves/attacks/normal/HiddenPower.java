@@ -1,6 +1,6 @@
 package pokecube.mobs.moves.attacks.normal;
 
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 import pokecube.core.moves.templates.Move_Basic;
@@ -20,7 +20,7 @@ public class HiddenPower extends Move_Basic
      * @return the power of this move
      */
     @Override
-    public int getPWR(IPokemob user, Entity target)
+    public int getPWR(IPokemob user, LivingEntity target)
     {
         final byte[] ivs = user.getIVs();
         final int u = (ivs[0] & 2) / 2;

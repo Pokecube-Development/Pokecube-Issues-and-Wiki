@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.moves.Move_Base;
 import pokecube.core.database.moves.MoveEntry;
@@ -20,7 +20,7 @@ public class Metronome extends Move_Basic
     }
 
     @Override
-    public void ActualMoveUse(Entity user, Entity target, Vector3 start, Vector3 end)
+    public void ActualMoveUse(LivingEntity user, LivingEntity target, Vector3 start, Vector3 end)
     {
         Move_Base toUse = null;
         final ArrayList<MoveEntry> moves = new ArrayList<>(MoveEntry.values());

@@ -1,6 +1,6 @@
 package pokecube.mobs.moves.attacks.rock;
 
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.core.moves.templates.Move_Basic;
@@ -19,7 +19,7 @@ public class Rollout extends Move_Basic
     }
 
     @Override
-    public int getPWR(IPokemob attacker, Entity attacked)
+    public int getPWR(IPokemob attacker, LivingEntity attacked)
     {
         final double defCurl = attacker.getMoveStats().DEFENSECURLCOUNTER > 0 ? 2 : 1;
         double rollOut = attacker.getMoveStats().ROLLOUTCOUNTER;

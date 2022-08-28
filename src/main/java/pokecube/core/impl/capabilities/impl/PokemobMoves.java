@@ -45,7 +45,7 @@ public abstract class PokemobMoves extends PokemobStats
     private static final Set<String> TO_SYNC = Sets.newHashSet("thutcore:copymob");
 
     @Override
-    public void executeMove(final Entity target, Vector3 targetLocation, final float f)
+    public void executeMove(final LivingEntity target, Vector3 targetLocation, final float f)
     {
         String attack = this.getMove(this.getMoveIndex());
         BrainUtils.clearMoveUseTarget(this.getEntity());
@@ -81,10 +81,10 @@ public abstract class PokemobMoves extends PokemobStats
         {
             if (target instanceof Mob mob && BrainUtils.getAttackTarget(mob) != this.getEntity())
                 BrainUtils.initiateCombat(mob, this.getEntity());
-            if (target instanceof LivingEntity entity && entity.getLastHurtByMob() != this.getEntity())
+            if (target.getLastHurtByMob() != this.getEntity())
             {
-                entity.setLastHurtByMob(this.getEntity());
-                this.getEntity().setLastHurtByMob(entity);
+                target.setLastHurtByMob(this.getEntity());
+                this.getEntity().setLastHurtByMob(target);
             }
         }
         final int statusChange = this.getChanges();

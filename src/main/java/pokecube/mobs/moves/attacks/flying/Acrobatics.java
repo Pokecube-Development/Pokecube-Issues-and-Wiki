@@ -1,6 +1,6 @@
 package pokecube.mobs.moves.attacks.flying;
 
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.moves.templates.Move_Basic;
 
@@ -13,7 +13,7 @@ public class Acrobatics extends Move_Basic
     }
 
     @Override
-    public int getPWR(IPokemob attacker, Entity attacked)
+    public int getPWR(IPokemob attacker, LivingEntity attacked)
     {
         int bonus = 1;
         if (attacker.getHeldItem().isEmpty()) bonus = 2;
