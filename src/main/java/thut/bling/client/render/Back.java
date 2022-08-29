@@ -21,9 +21,8 @@ public class Back
             final ItemStack stack, final IModel model, final ResourceLocation[] textures, final int brightness,
             final int overlay)
     {
-        if (!(model instanceof IModelCustom)) return;
+        if (!(model instanceof IModelCustom renderable)) return;
         if (!model.isLoaded() || !model.isValid()) return;
-        final IModelCustom renderable = (IModelCustom) model;
 
         DyeColor ret;
         Color colour;

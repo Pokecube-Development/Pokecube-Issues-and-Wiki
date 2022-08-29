@@ -33,6 +33,9 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     protected GenericPartEntity.Factory<PokemobPart, PokemobHasParts> factory;
     private PartHolder<PokemobPart> parts;
 
+    private List<PokemobPart> lowerList = Lists.newArrayList();
+    private List<PokemobPart> upperList = Lists.newArrayList();
+
     public PokemobHasParts(final EntityType<? extends ShoulderRidingEntity> type, final Level worldIn)
     {
         super(type, worldIn);
@@ -92,6 +95,8 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         if (this.isAddedToWorld() && !this.getHolder().allParts().isEmpty()) PartSync.sendUpdate(this, true);
 
         getHolder().clear();
+        upperList.clear();
+        lowerList.clear();
 
         if (entry.poseShapes != null)
         {
@@ -272,11 +277,11 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     }
 
     @Override
-    public void move(final MoverType typeIn, Vec3 pos)
+    public void move(final MoverType typeIn, Vec3 velocity)
     {
         if (getHolder().holder().parts.length == 0)
         {
-            super.move(typeIn, pos);
+            super.move(typeIn, velocity);
             return;
         }
         final EntityDimensions backup = this.dimensions;
@@ -292,18 +297,32 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         boolean onGround = false;
         boolean verticalCollision = false;
 
-        if (getHolder().holder().parts.length < 10) for (PokemobPart part : getHolder().holder().parts)
+        // Check lower parts first (ground most likely to hit first and stop
+        // motion)
+        for (PokemobPart part : lowerList)
         {
             Vec3 before = part.position();
-            part.move(typeIn, pos);
-            pos = part.position().subtract(before);
+            part.move(typeIn, velocity);
+            velocity = part.position().subtract(before);
+            horizontalCollision |= part.horizontalCollision;
+            minorHorizontalCollision |= part.minorHorizontalCollision;
+            onGround |= part.onGround;
+            verticalCollision |= part.verticalCollision;
+        }
+        // Then check upper parts
+        for (PokemobPart part : upperList)
+        {
+            Vec3 before = part.position();
+            part.move(typeIn, velocity);
+            velocity = part.position().subtract(before);
             horizontalCollision |= part.horizontalCollision;
             minorHorizontalCollision |= part.minorHorizontalCollision;
             onGround |= part.onGround;
             verticalCollision |= part.verticalCollision;
         }
 
-        super.move(typeIn, pos);
+        // Finally apply it to us to actually shift hitbox.
+        super.move(typeIn, velocity);
 
         this.horizontalCollision = horizontalCollision;
         this.minorHorizontalCollision = minorHorizontalCollision;
@@ -314,6 +333,32 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         this.firstTick = true;
         this.refreshDimensions();
         this.firstTick = first;
+    }
+
+    @Override
+    public void updatePartsPos()
+    {
+        PokemobPart[] parts = getHolder().holder().parts;
+        IMultpart.super.updatePartsPos();
+        if (parts != getHolder().holder().parts || (parts.length > 0 && lowerList.isEmpty()))
+        {
+            this.upperList.clear();
+            this.lowerList.clear();
+            float minY = Float.MAX_VALUE;
+            float maxY = Float.MIN_VALUE;
+            for (PokemobPart part : getHolder().holder().parts)
+            {
+                minY = Math.min(minY, part.r0.y);
+                maxY = Math.max(maxY, part.r0.y);
+            }
+            for (PokemobPart part : getHolder().holder().parts)
+            {
+                if (Math.abs(part.r0.y - minY) < 0.5) this.lowerList.add(part);
+                // Only allow it to be in one list, prioritsing lower, these are
+                // just used for ordered collision checks anyway.
+                else if (Math.abs(part.r0.y - maxY) < 0.5) this.upperList.add(part);
+            }
+        }
     }
 
     @Override
