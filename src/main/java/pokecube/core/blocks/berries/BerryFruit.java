@@ -1,6 +1,7 @@
 package pokecube.core.blocks.berries;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -9,8 +10,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -174,8 +178,29 @@ public class BerryFruit extends BushBlock
     @Override
     protected boolean mayPlaceOn(final BlockState state, final BlockGetter worldIn, final BlockPos pos)
     {
-        return state.getBlock() instanceof BerryCrop || worldIn.getBlockState(pos.above(2))
-                .getBlock() instanceof BerryLeaf;
+        if (state.getBlock() instanceof BerryCrop)
+            return state.getValue(BerryCrop.AGE) == 7;
+        return worldIn.getBlockState(pos.above()).getBlock() instanceof BerryLeaf;
+    }
+
+    @Override
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos)
+    {
+        BlockPos posBelow = pos.below();
+        BlockPos posAbove = pos.above();
+
+        if (state.getBlock() == this && world.getBlockState(posBelow).getBlock() instanceof BerryCrop)
+            return world.getBlockState(posBelow).getValue(BerryCrop.AGE) == 7;
+        else if (state.getBlock() == this && world.getBlockState(posAbove).getBlock() instanceof BerryLeaf)
+            return world.getBlockState(posAbove).getBlock() instanceof BerryLeaf;
+        else return false;
+
+//        return this.mayPlaceOn(world.getBlockState(posBelow), world, posBelow);
+    }
+
+    @Override
+    public BlockState updateShape(BlockState state, Direction direction, BlockState state1, LevelAccessor world, BlockPos pos, BlockPos pos1) {
+        return !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, state1, world, pos, pos1);
     }
 
     @Override
