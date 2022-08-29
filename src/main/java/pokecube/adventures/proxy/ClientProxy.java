@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.adventures.PokecubeAdv;
 import thut.bling.client.render.Back;
+import thut.core.client.render.json.JsonModel;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.x3d.X3dModel;
 import thut.wearables.EnumWearable;
@@ -35,8 +36,8 @@ public class ClientProxy extends CommonProxy
         IModel bag;
 
         // One Texture for each layer.
-        private final ResourceLocation BAG_1 = new ResourceLocation(PokecubeAdv.MODID, "textures/worn/bag_1.png");
-        private final ResourceLocation BAG_2 = new ResourceLocation(PokecubeAdv.MODID, "textures/worn/bag_2.png");
+        private final ResourceLocation BAG_1 = new ResourceLocation(PokecubeAdv.MODID, "textures/worn/bag_overlay.png");
+        private final ResourceLocation BAG_2 = new ResourceLocation(PokecubeAdv.MODID, "textures/worn/bag_main.png");
 
         private final ResourceLocation[] BAG_TEXS = { this.BAG_1, this.BAG_2 };
 
@@ -45,8 +46,8 @@ public class ClientProxy extends CommonProxy
                 final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
                 final int brightness, final int overlay)
         {
-            if (this.bag == null) this.bag = new X3dModel(new ResourceLocation(PokecubeAdv.MODID,
-                    "models/worn/bag.x3d"));
+            if (this.bag == null) this.bag = new JsonModel(new ResourceLocation(PokecubeAdv.MODID,
+                    "models/worn/bag.json"));
             Back.renderBack(mat, buff, wearer, stack, this.bag, this.BAG_TEXS, brightness, overlay);
         }
     }
