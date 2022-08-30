@@ -38,15 +38,11 @@ public class ClientProxy extends CommonProxy
     }
 
     protected static class RenderWearable extends Wearable
-    { // One model for each layer.
+    { // We render layers based on material!
         IModel bag;
 
-        // One Texture for each layer.
-        private final ResourceLocation BAG_1 = new ResourceLocation(PokecubeAdv.MODID, "textures/worn/bag_overlay.png");
-        private final ResourceLocation BAG_2 = new ResourceLocation(PokecubeAdv.MODID, "textures/worn/bag_main.png");
-
-        private final ResourceLocation[] BAG_TEXS =
-        { this.BAG_1, this.BAG_2 };
+        // This is just a dummy texture for getting a fake initial renderer
+        private final ResourceLocation BAG_1 = new ResourceLocation(PokecubeAdv.MODID, "textures/hologram.png");
 
         @Override
         public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
@@ -77,6 +73,7 @@ public class ClientProxy extends CommonProxy
             colour = new Color(ret.getTextColor() + 0xFF000000);
             for (final IExtendedModelPart part1 : bag.getParts().values())
             {
+                // Overlay texture is the fixed one, the rest can be recoloured.
                 if (!part1.getMaterials().get(0).name.contains("overlay"))
                     part1.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
                 else part1.setRGBABrO(255, 255, 255, 255, brightness, overlay);
