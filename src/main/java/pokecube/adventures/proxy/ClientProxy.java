@@ -39,7 +39,7 @@ public class ClientProxy extends CommonProxy
 
     protected static class RenderWearable extends Wearable
     { // We render layers based on material!
-        IModel bag;
+        static IModel bag;
 
         // This is just a dummy texture for getting a fake initial renderer
         private final ResourceLocation BAG_1 = new ResourceLocation(PokecubeAdv.MODID, "textures/hologram.png");
@@ -49,8 +49,7 @@ public class ClientProxy extends CommonProxy
                 final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
                 final int brightness, final int overlay)
         {
-            if (this.bag == null)
-                this.bag = new JsonModel(new ResourceLocation(PokecubeAdv.MODID, "models/worn/bag.json"));
+            if (bag == null) bag = new JsonModel(new ResourceLocation(PokecubeAdv.MODID, "models/worn/bag.json"));
 
             if (!(bag instanceof IModelCustom renderable)) return;
             if (!bag.isLoaded() || !bag.isValid()) return;

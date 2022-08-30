@@ -60,7 +60,7 @@ public class CheckNest extends BaseIdleTask
             if (brain.hasMemoryValue(MemoryModules.VISIBLE_ITEMS.get()))
             {
                 var seen = brain.getMemory(MemoryModules.VISIBLE_ITEMS.get());
-                if (seen.isPresent())
+                if (seen.isPresent() && this.nest != null && this.nest.hab != null)
                 {
                     var list = seen.get();
                     for (var item : list) if (!nest.hab.items.contains(item)) nest.hab.items.add(item);
