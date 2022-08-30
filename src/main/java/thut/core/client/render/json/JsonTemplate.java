@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.gson.JsonObject;
+
 import thut.api.util.JsonUtil;
 
 public class JsonTemplate
 {
     public String credit = "";
+    public JsonObject textures = null;
+    public int[] texture_size =
+    { 16, 16 };
     public List<JsonBlock> elements = new ArrayList<>();
     public List<JsonGroup> groups = new ArrayList<>();
 
@@ -38,7 +43,7 @@ public class JsonTemplate
             return name + " " + Arrays.toString(from) + " " + Arrays.toString(to) + " " + color + " " + faces;
         }
     }
-    
+
     public static class JsonRotation
     {
         public float angle;
@@ -83,7 +88,7 @@ public class JsonTemplate
             {
                 if (o instanceof Double)
                 {
-                    newChildren.add((int) ((double)o));
+                    newChildren.add((int) ((double) o));
                 }
                 else
                 {

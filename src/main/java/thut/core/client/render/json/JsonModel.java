@@ -61,7 +61,7 @@ public class JsonModel extends BaseModel
         for (int i = 0; i < t.elements.size(); i++)
         {
             JsonBlock b = t.elements.get(i);
-            parts.addAll(JsonPart.makeParts(b, i));
+            parts.addAll(JsonPart.makeParts(t, b, i));
         }
         for (JsonPart p : parts)
         {

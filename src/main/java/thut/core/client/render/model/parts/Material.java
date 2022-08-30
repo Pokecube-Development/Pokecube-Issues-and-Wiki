@@ -10,6 +10,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
@@ -153,6 +154,7 @@ public class Material
 
     public VertexConsumer preRender(final PoseStack mat, final VertexConsumer buffer, Mode mode)
     {
+        if (Material.lastImpl == null) Material.lastImpl = Minecraft.getInstance().renderBuffers().bufferSource();
         if (this.tex == null || Material.lastImpl == null) return buffer;
         final RenderType type = this.makeRenderType(this.tex, mode);
         VertexConsumer newBuffer = Material.lastImpl.getBuffer(type);
