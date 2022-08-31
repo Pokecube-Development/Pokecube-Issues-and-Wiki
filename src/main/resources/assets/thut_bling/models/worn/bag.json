@@ -117,8 +117,7 @@
 			"from": [4, 0, 0],
 			"to": [12, 10, 0],
 			"faces": {
-				"north": {"uv": [0.5, 11, 2.5, 16], "texture": "#overlay"},
-				"south": {"uv": [0.5, 11, 2.5, 16], "texture": "#overlay"}
+				"north": {"uv": [0.5, 11, 2.5, 16], "texture": "#overlay"}
 			}
 		},
 		{
@@ -126,7 +125,6 @@
 			"from": [4, 0, 0],
 			"to": [12, 0, 5],
 			"faces": {
-				"up": {"uv": [3.75, 6, 5.75, 8.5], "texture": "#overlay"},
 				"down": {"uv": [7, 9.5, 9, 12], "texture": "#overlay"}
 			}
 		},
@@ -135,8 +133,7 @@
 			"from": [4, 10, 0],
 			"to": [12, 10, 5],
 			"faces": {
-				"up": {"uv": [3.75, 6, 5.75, 8.5], "texture": "#overlay"},
-				"down": {"uv": [7, 9.5, 9, 12], "texture": "#overlay"}
+				"up": {"uv": [3.75, 6, 5.75, 8.5], "texture": "#overlay"}
 			}
 		},
 		{
@@ -146,6 +143,24 @@
 			"faces": {
 				"north": {"uv": [2.5, 12.5, 4, 13.5], "texture": "#overlay"},
 				"south": {"uv": [2.5, 12.5, 4, 13.5], "texture": "#overlay"}
+			}
+		},
+		{
+			"name": "strap_left",
+			"from": [3.9, 0, 0],
+			"to": [4.9, 10, 5],
+			"faces": {
+				"north": {"uv": [2.25, 11, 2.5, 16], "texture": "#overlay"},
+				"west": {"uv": [3.25, 0, 4.5, 5], "texture": "#overlay"}
+			}
+		},
+		{
+			"name": "strap_right",
+			"from": [11.1, 0, 0],
+			"to": [12.1, 10, 5],
+			"faces": {
+				"north": {"uv": [0.5, 11, 0.75, 16], "texture": "#overlay"},
+				"east": {"uv": [8.25, 0, 9.5, 5], "texture": "#overlay"}
 			}
 		}
 	],
@@ -180,7 +195,7 @@
 					"name": "straps",
 					"origin": [0, 0, 0],
 					"color": 0,
-					"children": [8, 9, 10, 11]
+					"children": [8, 9, 10, 11, 12, 13]
 				}
 			]
 		}

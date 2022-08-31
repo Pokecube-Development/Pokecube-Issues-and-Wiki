@@ -57,10 +57,10 @@ public class ClientProxy extends CommonProxy
 
             float s;
             mat.pushPose();
-            s = 0.85f;
+            s = 1.0f;
             mat.scale(s, -s, -s);
             mat.mulPose(Vector3f.YP.rotationDegrees(180));
-            mat.translate(-0.5, -.65, -0.17);
+            mat.translate(-0.5, -.6, -0.16);
 
             DyeColor ret;
             Color colour;
