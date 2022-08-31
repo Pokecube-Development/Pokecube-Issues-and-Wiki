@@ -62,11 +62,7 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
     {
         for (final String s : BlingItem.names)
         {
-            ThutBling.ITEMS.register("bling_" + s, () -> {
-                final BlingItem bling = new BlingItem(s, BlingItem.wearables.get(s));
-                BlingItem.bling.add(bling);
-                return bling;
-            });
+            ThutBling.ITEMS.register("bling_" + s, () -> new BlingItem(s, BlingItem.wearables.get(s)));
         }
     }
 
@@ -79,6 +75,7 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
         this.name = name;
         this.slot = slot;
         BlingItem.defaults.put(this, slot);
+        BlingItem.bling.add(this);
     }
 
     /**

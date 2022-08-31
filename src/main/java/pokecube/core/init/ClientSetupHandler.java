@@ -13,6 +13,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DyeableLeatherItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -54,6 +56,7 @@ import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.berries.BerryManager;
+import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.nbtedit.NBTEdit;
@@ -255,6 +258,14 @@ public class ClientSetupHandler
             if (entry != null) return tintIndex == 0 ? entry.getType1().colour : entry.getType2().colour;
             return tintIndex == 0 ? type.colour : 0xFFFFFFFF;
         }, PokecubeItems.EGG.get());
+
+        for (Item i : ItemMegawearable.INSTANCES)
+        {
+            event.getItemColors().register((stack, tintIndex) -> {
+                if (!(stack.getItem() instanceof DyeableLeatherItem item)) return 0xFFFFFFFF;
+                return tintIndex == 0 ? item.getColor(stack) : 0xFFFFFFFF;
+            }, i);
+        }
     }
 
     @SubscribeEvent

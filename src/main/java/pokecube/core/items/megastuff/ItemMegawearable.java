@@ -4,24 +4,18 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import org.apache.commons.compress.utils.Lists;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeItems;
 import thut.lib.RegHelper;
-import thut.lib.TComponent;
 
-public class ItemMegawearable extends Item
+public class ItemMegawearable extends Item implements DyeableLeatherItem
 {
     private static Map<String, String> wearables = Maps.newHashMap();
 
@@ -47,6 +41,8 @@ public class ItemMegawearable extends Item
         ItemMegawearable.wearables.put(name, slot);
     }
 
+    public static List<ItemMegawearable> INSTANCES = Lists.newArrayList();
+
     public final String name;
     public final String slot;
 
@@ -55,24 +51,7 @@ public class ItemMegawearable extends Item
         super(new Properties().tab(PokecubeItems.TAB_ITEMS).stacksTo(1));
         this.name = name;
         this.slot = wearables.get(name);
-
-    }
-
-    /**
-     * allows items to add custom lines of information to the mouseover
-     * description
-     */
-    @OnlyIn(Dist.CLIENT)
-    @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level playerIn, List<Component> tooltip,
-            TooltipFlag advanced)
-    {
-        if (stack.hasTag() && stack.getTag().contains("dyeColour"))
-        {
-            final int damage = stack.getTag().getInt("dyeColour");
-            final DyeColor colour = DyeColor.byId(damage);
-            tooltip.add(TComponent.translatable(colour.getName()));
-        }
+        INSTANCES.add(this);
     }
 
     @Override

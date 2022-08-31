@@ -6,11 +6,15 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.DyeableLeatherItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import thut.bling.BlingItem;
 import thut.bling.ThutBling;
 import thut.bling.bag.large.LargeContainer;
 import thut.bling.client.gui.Bag;
@@ -24,6 +28,18 @@ public class ClientSetupHandler
     {
         MenuScreens.register(ThutBling.BIG_BAG.get(), Bag<LargeContainer>::new);
         MenuScreens.register(ThutBling.SMALL_BAG.get(), ContainerScreen::new);
+    }
+
+    @SubscribeEvent
+    public static void colourItems(final ColorHandlerEvent.Item event)
+    {
+        for (Item i : BlingItem.bling)
+        {
+            event.getItemColors().register((stack, tintIndex) -> {
+                if (!(stack.getItem() instanceof DyeableLeatherItem item)) return 0xFFFFFFFF;
+                return tintIndex == 0 ? item.getColor(stack) : 0xFFFFFFFF;
+            }, i);
+        }
     }
 
     public static void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
