@@ -18,11 +18,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ClientRegistry;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -200,15 +202,18 @@ public class ClientSetupHandler
         ItemBlockRenderTypes.setRenderLayer(PokecubeAdv.SPLICER.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(PokecubeAdv.LAB_GLASS.get(), RenderType.translucent());
 
-        // Register config gui
-        // ModList.get().getModContainerById(PokecubeAdv.MODID).ifPresent(c ->
-        // c.registerExtensionPoint(
-        // ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new
-        // ConfigGui(PokecubeAdv.config, parent)));
-
         ClientSetupHandler.trainerEditKey = new KeyMapping("EditTrainer", InputConstants.UNKNOWN.getValue(),
                 "Pokecube");
         ClientRegistry.registerKeyBinding(ClientSetupHandler.trainerEditKey);
+    }
+
+    @SubscribeEvent
+    public static void colourItems(final ColorHandlerEvent.Item event)
+    {
+        event.getItemColors().register((stack, tintIndex) -> {
+            if (!(stack.getItem() instanceof DyeableLeatherItem item)) return 0xFFFFFFFF;
+            return tintIndex == 0 ? item.getColor(stack) : 0xFFFFFFFF;
+        }, PokecubeAdv.BAG.get());
     }
 
 }

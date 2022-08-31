@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
 import thut.api.ModelHolder;
 import thut.api.maths.vecmath.Vec3f;
@@ -112,18 +113,26 @@ public class Util
             final ItemStack stack, final String colorpart, final String itempart, final IModel model,
             final ResourceLocation[] tex, final Vec3f dr, final Vec3f ds, final int brightness, final int overlay)
     {
-        if (!(model instanceof IModelCustom)) return;
+        if (!(model instanceof IModelCustom renderable)) return;
         ResourceLocation tex0 = tex[0];
         final ResourceLocation tex1 = tex[1];
         ItemStack gem = ItemStack.EMPTY;
-        final IModelCustom renderable = (IModelCustom) model;
-        DyeColor ret = DyeColor.YELLOW;
-        if (stack.hasTag() && stack.getTag().contains("dyeColour"))
+
+        Color colour;
+        if (stack.getItem() instanceof DyeableLeatherItem dyed)
         {
-            final int damage = stack.getTag().getInt("dyeColour");
-            ret = DyeColor.byId(damage);
+            colour = new Color(dyed.getColor(stack) + 0xFF000000);
         }
-        final Color colour = new Color(ret.getTextColor() + 0xFF000000);
+        else
+        {
+            DyeColor ret = DyeColor.YELLOW;
+            if (stack.hasTag() && stack.getTag().contains("dyeColour"))
+            {
+                final int damage = stack.getTag().getInt("dyeColour");
+                ret = DyeColor.byId(damage);
+            }
+            colour = new Color(ret.getTextColor() + 0xFF000000);
+        }
         IExtendedModelPart part = model.getParts().get(colorpart);
         if (stack.hasTag() && stack.getTag().contains("gemTag"))
         {

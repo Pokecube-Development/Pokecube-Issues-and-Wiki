@@ -285,11 +285,11 @@ public class JsonPart extends Part
             Material mat = new Material(key);
             m.setMaterial(mat);
 
-            if (t.textures != null && key.contains("#"))
+            if (t.textures != null && key.contains("#") && t.textures.has(key = key.replace("#", "")))
             {
                 try
                 {
-                    String texture = t.textures.get(key.replace("#", "")).getAsString();
+                    String texture = t.textures.get(key).getAsString();
                     mat.tex = new ResourceLocation(texture);
                     if (!mat.tex.toString().contains("textures/"))
                         mat.tex = new ResourceLocation(mat.tex.getNamespace(), "textures/" + mat.tex.getPath());
@@ -299,6 +299,8 @@ public class JsonPart extends Part
                 catch (Exception e)
                 {
                     ThutCore.LOGGER.error("Error loading Json Model Texture!", e);
+                    ThutCore.LOGGER.error(t.textures);
+                    ThutCore.LOGGER.error(key);
                 }
             }
             shapes.add(m);
