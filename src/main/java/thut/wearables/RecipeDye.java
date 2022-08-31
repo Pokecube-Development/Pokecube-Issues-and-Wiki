@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CustomRecipe;
@@ -29,8 +30,8 @@ public class RecipeDye extends CustomRecipe
 {
     private static Map<DyeColor, TagKey<Item>> DYETAGS = Maps.newHashMap();
 
-    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(
-            ForgeRegistries.RECIPE_SERIALIZERS, ThutWearables.MODID);
+    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister
+            .create(ForgeRegistries.RECIPE_SERIALIZERS, ThutWearables.MODID);
 
     public static final RegistryObject<SimpleRecipeSerializer<RecipeDye>> SERIALIZER = RecipeDye.RECIPE_SERIALIZERS
             .register("dye", RecipeDye.special(RecipeDye::new));
@@ -91,12 +92,11 @@ public class RecipeDye extends CustomRecipe
         DyeColor dyeColour = null;
 
         final Map<DyeColor, TagKey<Item>> tags = RecipeDye.getDyeTagMap();
-        for (final DyeColor colour : DyeColor.values())
-            if (dye.is(tags.get(colour)))
-            {
-                dyeColour = colour;
-                break;
-            }
+        for (final DyeColor colour : DyeColor.values()) if (dye.is(tags.get(colour)))
+        {
+            dyeColour = colour;
+            break;
+        }
         output.getTag().putInt("dyeColour", dyeColour.getId());
         return output;
     }
@@ -104,7 +104,7 @@ public class RecipeDye extends CustomRecipe
     @Override
     public NonNullList<ItemStack> getRemainingItems(final CraftingContainer inv)
     {
-        final NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack> withSize(inv.getContainerSize(),
+        final NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>withSize(inv.getContainerSize(),
                 ItemStack.EMPTY);
         for (int i = 0; i < nonnulllist.size(); ++i)
         {
@@ -130,7 +130,9 @@ public class RecipeDye extends CustomRecipe
             final ItemStack stack = inv.getItem(i);
             if (stack.isEmpty()) continue;
             IWearable wear = stack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null);
-            if (wear == null && stack.getItem() instanceof IWearable) wear = (IWearable) stack.getItem();
+            if (wear == null && stack.getItem() instanceof IWearable w) wear = w;
+            // Let vanilla recipe handle this one.
+            if (stack.getItem() instanceof DyeableLeatherItem) return false;
             if (wear != null && wear.dyeable(stack))
             {
                 if (wearable) return false;

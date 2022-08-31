@@ -11,6 +11,7 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -18,6 +19,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -32,7 +34,7 @@ import thut.lib.TComponent;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
 
-public class BlingItem extends Item implements IWearable
+public class BlingItem extends Item implements IWearable, DyeableLeatherItem
 {
 
     public static Map<String, EnumWearable> wearables = Maps.newHashMap();
@@ -152,5 +154,13 @@ public class BlingItem extends Item implements IWearable
     public boolean dyeable(final ItemStack stack)
     {
         return true;
+    }
+
+    @Override
+    public int getColor(ItemStack stack)
+    {
+        CompoundTag compoundtag = stack.getTagElement("display");
+        return compoundtag != null && compoundtag.contains("color", 99) ? compoundtag.getInt("color")
+                : this.slot == EnumWearable.BACK ? 0xB02E26 : 0xFED83D;
     }
 }

@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -61,15 +62,15 @@ public class ClientProxy extends CommonProxy
             mat.mulPose(Vector3f.YP.rotationDegrees(180));
             mat.translate(-0.5, -.6, -0.16);
 
-            DyeColor ret;
             Color colour;
-            ret = DyeColor.RED;
-            if (stack.hasTag() && stack.getTag().contains("dyeColour"))
+            if (stack.getItem() instanceof DyeableLeatherItem dyed)
             {
-                final int damage = stack.getTag().getInt("dyeColour");
-                ret = DyeColor.byId(damage);
+                colour = new Color(dyed.getColor(stack) + 0xFF000000);
             }
-            colour = new Color(ret.getTextColor() + 0xFF000000);
+            else
+            {
+                colour = new Color(DyeColor.RED.getTextColor() + 0xFF000000);
+            }
             for (final IExtendedModelPart part1 : bag.getParts().values())
             {
                 // Overlay texture is the fixed one, the rest can be recoloured.

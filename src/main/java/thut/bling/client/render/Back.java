@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
@@ -40,13 +41,22 @@ public class Back
         mat.popPose();
         mat.pushPose();
         mat.scale(s, -s, -s);
-        ret = DyeColor.RED;
-        if (stack.hasTag() && stack.getTag().contains("dyeColour"))
+
+        if (stack.getItem() instanceof DyeableLeatherItem dyed)
         {
-            final int damage = stack.getTag().getInt("dyeColour");
-            ret = DyeColor.byId(damage);
+            colour = new Color(dyed.getColor(stack) + 0xFF000000);
         }
-        colour = new Color(ret.getTextColor() + 0xFF000000);
+        else
+        {
+            ret = DyeColor.RED;
+            if (stack.hasTag() && stack.getTag().contains("dyeColour"))
+            {
+                final int damage = stack.getTag().getInt("dyeColour");
+                ret = DyeColor.byId(damage);
+            }
+            colour = new Color(ret.getTextColor() + 0xFF000000);
+        }
+        
         for (final IExtendedModelPart part1 : model.getParts().values())
             part1.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
         mat.mulPose(Vector3f.YP.rotationDegrees(180));

@@ -1,9 +1,11 @@
 package pokecube.adventures.items.bag;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -13,14 +15,14 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.network.PacketBag;
 import thut.wearables.ThutWearables;
 
-public class BagItem extends Item
+public class BagItem extends Item implements DyeableLeatherItem
 {
     @SubscribeEvent
     public static void attachCaps(final AttachCapabilitiesEvent<ItemStack> event)
     {
         if (event.getCapabilities().containsKey(ThutWearables.WEARABLES_ITEM_TAG)) return;
-        if (event.getObject().getItem() instanceof BagItem) event.addCapability(ThutWearables.WEARABLES_ITEM_TAG,
-                PokecubeAdv.proxy.getWearable());
+        if (event.getObject().getItem() instanceof BagItem)
+            event.addCapability(ThutWearables.WEARABLES_ITEM_TAG, PokecubeAdv.proxy.getWearable());
     }
 
     public BagItem(final Properties properties)
@@ -29,9 +31,17 @@ public class BagItem extends Item
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(final Level worldIn, final Player playerIn, final InteractionHand handIn)
+    public InteractionResultHolder<ItemStack> use(final Level worldIn, final Player playerIn,
+            final InteractionHand handIn)
     {
         if (!worldIn.isClientSide) PacketBag.sendOpenPacket(playerIn, playerIn.getUUID());
         return new InteractionResultHolder<>(InteractionResult.SUCCESS, playerIn.getItemInHand(handIn));
+    }
+
+    @Override
+    public int getColor(ItemStack stack)
+    {
+        CompoundTag compoundtag = stack.getTagElement("display");
+        return compoundtag != null && compoundtag.contains("color", 99) ? compoundtag.getInt("color") : 0xB02E26;
     }
 }
