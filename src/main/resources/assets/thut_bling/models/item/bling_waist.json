@@ -1,6 +1,7 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "thut_bling:item/waist"
+		"layer0": "thut_bling:item/waist",
+		"layer1": "thut_bling:item/waist_overlay"
 	}
 }
