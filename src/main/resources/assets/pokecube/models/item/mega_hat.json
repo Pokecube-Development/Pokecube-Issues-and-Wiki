@@ -1,6 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "pokecube:item/mega_hat"
+    "layer0": "pokecube:item/mega_hat",
+    "layer1": "pokecube:item/mega_hat_overlay"
   }
 }
