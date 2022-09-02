@@ -37,6 +37,7 @@ import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import thut.api.util.JsonUtil;
+import thut.core.client.render.model.parts.Mesh;
 import thut.lib.ResourceHelper;
 import thut.lib.TComponent;
 
@@ -137,7 +138,12 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
         final MultiBufferSource.BufferSource irendertypebuffer$impl = Minecraft.getInstance().renderBuffers()
                 .bufferSource();
         RenderMobOverlays.enabled = false;
+        // Disable the face culling that occurs if too far away
+        double bak = Mesh.CULLTHRESHOLD;
+        bak = Double.MAX_VALUE;
         entityrenderermanager.render(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, mat, irendertypebuffer$impl, 15728880);
+        // Re-enable the face culling that occurs if too far away
+        Mesh.CULLTHRESHOLD = bak;
         RenderMobOverlays.enabled = true;
         irendertypebuffer$impl.endBatch();
         entityrenderermanager.setRenderShadow(true);
