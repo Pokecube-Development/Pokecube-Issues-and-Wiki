@@ -107,7 +107,9 @@ public class BBModelTemplate
                 }
                 else
                 {
-                    JsonGroup g = JsonUtil.gson.fromJson(o.toString(), JsonGroup.class);
+                    String json = o.toString();
+                    json = json.replace("bedrock_binding=, ", "");
+                    JsonGroup g = JsonUtil.gson.fromJson(json, JsonGroup.class);
                     g.init(template);
                     newChildren.add(g);
                 }

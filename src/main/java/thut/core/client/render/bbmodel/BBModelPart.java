@@ -45,6 +45,7 @@ public class BBModelPart extends Part
                 i++;
             }
         }
+
         offsets[0] = -group.origin[0];
         offsets[2] = -group.origin[2];
         offsets[1] = -group.origin[1];
@@ -54,7 +55,7 @@ public class BBModelPart extends Part
             if (o instanceof JsonGroup g)
             {
                 makeParts(t, g, parts, children, offsets.clone());
-                children.forEach(root::addChild);
+                if (root != null) children.forEach(root::addChild);
                 System.out.println("Added children for " + group.name + " " + children.size());
             }
         }
@@ -68,10 +69,10 @@ public class BBModelPart extends Part
         part.index = index;
         shapes.forEach(part::addShape);
         float[] offsets = b.origin.clone();
-        
-        offsets[0] += offsets2[0];// + offsets[0];
-        offsets[1] += offsets2[1];// + offsets[1];
-        offsets[2] += offsets2[2];// + offsets[2];
+
+        offsets[0] += offsets2[0];
+        offsets[1] += offsets2[1];
+        offsets[2] += offsets2[2];
         if (b.rotation != null)
         {
             float x = b.rotation[0];
@@ -84,13 +85,12 @@ public class BBModelPart extends Part
         offsets[0] /= 16;
         offsets[1] /= 16;
         offsets[2] /= 16;
-        
-        
+
         float[] use = offsets.clone();
         use[0] = -offsets[0];
         use[1] = -offsets[2];
         use[2] = offsets[1];
-        
+
         part.offset.set(use);
         return part;
     }
