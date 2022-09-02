@@ -489,9 +489,11 @@ public class PacketPokedex extends NBTPacket
             for (final PokedexEntry e : names)
             {
                 final SpawnBiomeMatcher matcher = matchers.get(e);
+                String match = this.serialize(matcher);
+                if (match == null) continue;
                 matcher.spawnRule.values.put("Local_Rate", rates.get(e) + "");
                 spawns.putString("e" + n, e.getName());
-                spawns.putString("" + n, this.serialize(matcher));
+                spawns.putString("" + n, match);
                 n++;
             }
             packet.getTag().put("V", spawns);
