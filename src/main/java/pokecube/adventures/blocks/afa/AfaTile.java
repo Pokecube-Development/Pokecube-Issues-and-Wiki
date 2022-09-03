@@ -191,7 +191,6 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     public void tick()
     {
         if (!(this.getLevel() instanceof ServerLevel)) return;
-        if (this.tick++ % PokecubeAdv.config.afaTickRate != 0) return;
 
         int levelFactor = 0;
         if (this.pokemob != null) levelFactor = this.pokemob.getLevel();
@@ -218,6 +217,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
             return;
         }
         else this.energy -= this.cost;
+        if (this.tick++ % PokecubeAdv.config.afaTickRate != 0) return;
 
         final boolean hasEnergy = !shouldUseEnergy || this.energy >= 0;
 

@@ -2,6 +2,7 @@ package pokecube.adventures.utils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.nfunk.jep.JEP;
 
@@ -144,7 +145,7 @@ public class EnergyHandler
         EnergyHandler.parser.parseExpression(PokecubeAdv.config.powerFunction);
     }
 
-    public static int getOutput(final SiphonTile tile, int power, final boolean simulated)
+    public static int getOutput(final SiphonTile tile, int power, final boolean simulated, Map<UUID, Integer> energyMap)
     {
         if (tile.getLevel() == null || power == 0) return 0;
         final AABB box = tile.box != null ? tile.box
@@ -164,9 +165,12 @@ public class EnergyHandler
             {
                 final double dSq = Math.max(1, entity.distanceToSqr(tile.getBlockPos().getX() + 0.5,
                         tile.getBlockPos().getY() + 0.5, tile.getBlockPos().getZ() + 0.5));
-                final int extract = producer.extractEnergy(PokecubeAdv.config.maxOutput, simulated);
-                final int input = (int) (extract / dSq);
-                ret += input;
+                int toExtract = (int) (PokecubeAdv.config.maxOutput / dSq);
+                toExtract = energyMap.getOrDefault(entity.getUUID(), toExtract);
+                energyMap.put(entity.getUUID(), toExtract);
+                if (toExtract <= 0) continue;
+                final int extract = producer.extractEnergy(toExtract, simulated);
+                ret += extract;
                 if (ret >= power)
                 {
                     ret = power;
@@ -184,7 +188,8 @@ public class EnergyHandler
         if (!(event.getTile().getLevel() instanceof ServerLevel world)) return;
 
         final Map<IEnergyStorage, Integer> tiles = Maps.newHashMap();
-        int output = EnergyHandler.getOutput(event.getTile(), PokecubeAdv.config.maxOutput, true);
+        Map<UUID, Integer> mobs = Maps.newHashMap();
+        int output = EnergyHandler.getOutput(event.getTile(), PokecubeAdv.config.maxOutput, true, mobs);
         event.getTile().energy.theoreticalOutput = output;
         event.getTile().energy.currentOutput = output;
         final IEnergyStorage producer = event.getTile().getCapability(CapabilityEnergy.ENERGY).orElse(null);
@@ -225,12 +230,19 @@ public class EnergyHandler
                 }
             }
         }
+        final int fraction = output / tiles.size();
+        int rem = output % tiles.size();
         for (final Map.Entry<IEnergyStorage, Integer> entry : tiles.entrySet())
         {
-            final int fraction = output / tiles.size();
+            int avail = fraction;
+            if (rem > 0)
+            {
+                avail++;
+                rem--;
+            }
             int request = entry.getValue();
-            if (request > fraction) request = fraction;
-            if (fraction == 0 || output <= 0) continue;
+            if (request > fraction) request = avail;
+            if (avail == 0 || output <= 0) continue;
             final IEnergyStorage h = entry.getKey();
             output -= request;
             h.receiveEnergy(request, false);
@@ -242,7 +254,7 @@ public class EnergyHandler
         // extracting that much from multiples.
         if (powered) extract = Integer.MAX_VALUE;
         producer.extractEnergy(extract, false);
-        EnergyHandler.getOutput(event.getTile(), extract, false);
+        EnergyHandler.getOutput(event.getTile(), extract, false, mobs);
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
