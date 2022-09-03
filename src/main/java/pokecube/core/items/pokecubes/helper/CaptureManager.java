@@ -54,11 +54,12 @@ public class CaptureManager
         if (e.isInvulnerable()) return;
         if (e.getPersistentData().contains(TagNames.CAPTURING)) return;
         if (!(cube.getItem().getItem() instanceof IPokecube cubeItem)) return;
-        if (!((IPokecube) cube.getItem().getItem()).canCapture(e, cube.getItem())) return;
+        if (!cubeItem.canCapture(e, cube.getItem())) return;
         if (cube.isCapturing) return;
         if (mob.deathTime > 0) return;
 
         final IPokemob hitten = PokemobCaps.getPokemobFor(e);
+        if ((hitten.getOwnerId() != null && !PokecubeManager.isFilled(cube.getItem()))) return;
         final ResourceLocation cubeId = PokecubeItems.getCubeId(cube.getItem());
         final double modifier = cubeItem.getCaptureModifier(mob, cubeId);
         final Vector3 v = new Vector3();
