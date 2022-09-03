@@ -15,13 +15,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerListener;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.MinecraftForge;
@@ -168,7 +168,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         }
     }
 
-    private BlockPos checkDir(final BlockGetter world, final Direction dir, BlockPos centre, final Direction side)
+    private BlockPos checkDir(final ServerLevel world, final Direction dir, BlockPos centre, final Direction side)
     {
         if (centre == null) return null;
         if (dir != null) centre = centre.relative(dir);
@@ -444,7 +444,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         return "store_stuff";
     }
 
-    public Pair<IItemHandlerModifiable, WorldlyContainer> getInventory(final BlockGetter world, final BlockPos pos,
+    public Pair<IItemHandlerModifiable, WorldlyContainer> getInventory(final ServerLevel world, final BlockPos pos,
             final Direction side)
     {
         if (pos == null) return null;
@@ -452,7 +452,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         final BlockEntity tile = world.getBlockEntity(pos);
         if (tile == null) return null;
 
-        WorldlyContainer container = tile instanceof WorldlyContainer ? (WorldlyContainer) tile : null;
+        WorldlyContainer container = tile instanceof WorldlyContainer cont ? cont : null;
         IItemHandlerModifiable inventory = null;
         if ((tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side)
                 .orElse(null)) instanceof IItemHandlerModifiable inv)
@@ -461,8 +461,10 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         return Pair.of(inventory, container);
     }
 
-    private boolean canBreak(final BlockGetter world, final BlockPos pos)
+    @SuppressWarnings("deprecation")
+    private boolean canBreak(final ServerLevel world, final BlockPos pos)
     {
+        if (!world.hasChunkAt(pos)) return false;
         if (!this.pokemob.isPlayerOwned()) return true;
         if (this.knownValid.contains(pos)) return true;
         // TODO decide on what to do here later, for now, only let this run if
