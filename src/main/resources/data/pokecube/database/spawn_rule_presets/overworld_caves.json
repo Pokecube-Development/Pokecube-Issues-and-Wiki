@@ -3,8 +3,44 @@
     {
       "values": {
         "preset": "desert_caves",
-        "or_preset": "underground,cave_subbiome",
-        "and_preset": "deserts"
+        "types": "#forge:is_sandy,all",
+        "and_preset": "caves"
+      }
+    },
+    {
+      "values": {
+        "preset": "forest_caves",
+        "types": "#minecraft:is_forest,all",
+        "and_preset": "caves"
+      }
+    },
+    {
+      "values": {
+        "preset": "mountain_caves",
+        "types": "#minecraft:is_mountain,all",
+        "or_preset": "peaks_caves",
+        "and_preset": "caves"
+      }
+    },
+    {
+      "values": {
+        "preset": "peaks_caves",
+        "types": "#forge:is_peak,all",
+        "and_preset": "caves"
+      }
+    },
+    {
+      "values": {
+        "preset": "jungle_caves",
+        "types": "#minecraft:is_jungle,all",
+        "and_preset": "caves"
+      }
+    },
+    {
+      "values": {
+        "preset": "plains_caves",
+        "types": "#forge:is_plains,all",
+        "and_preset": "caves"
       }
     },
     {

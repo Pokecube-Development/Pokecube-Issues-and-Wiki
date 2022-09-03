@@ -42,7 +42,7 @@
       ]
     },
     {
-      "and_preset": "forests,caves",
+      "and_preset": "forest_caves",
       "entries": [
         {"key": "burmy","min": 2,"max": 5,"rate": 0.2},
         {"key": "druddigon","min": 2,"max": 5,"rate": 0.2}
@@ -55,14 +55,14 @@
       ]
     },
     {
-      "and_preset": "plains,caves",
+      "and_preset": "plains_caves",
       "entries": [
         {"key": "bunnelby","min": 2,"max": 4,"rate": 0.3},
         {"key": "foongus","min": 2,"max": 4,"rate": 0.3}
       ]
     },
     {
-      "and_preset": "mountains,caves",
+      "and_preset": "mountain_caves",
       "entries": [
         {"key": "durant","min": 2,"max": 4,"rate": 0.5},
         

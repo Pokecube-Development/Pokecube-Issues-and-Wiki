@@ -485,13 +485,18 @@ public class PacketPokedex extends NBTPacket
                 final float val = rates.get(e) / total;
                 rates.put(e, val);
             }
+
+            SpawnContext base = new SpawnContext(player, Database.missingno);
+            SpawnContext context = SpawnHandler.getSpawnForLoc(base);
+            if (context != null && context.entry() != null) rates.put(context.entry(), 1f);
+
             packet = new PacketPokedex(PacketPokedex.REQUESTLOC);
             for (final PokedexEntry e : names)
             {
                 final SpawnBiomeMatcher matcher = matchers.get(e);
+                matcher.spawnRule.values.put("Local_Rate", rates.get(e) + "");
                 String match = this.serialize(matcher);
                 if (match == null) continue;
-                matcher.spawnRule.values.put("Local_Rate", rates.get(e) + "");
                 spawns.putString("e" + n, e.getName());
                 spawns.putString("" + n, match);
                 n++;

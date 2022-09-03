@@ -4,45 +4,45 @@
       "values": {
         "preset": "wet_areas",
         "typesBlacklist": "#forge:is_cold,#forge:is_dry",
-        "types": "#forge:is_wet"
+        "types": "#forge:is_wet,all"
       }
     },
     {
       "values": {
         "preset": "dry_areas",
         "typesBlacklist": "#forge:is_cold,#forge:is_wet",
-        "types": "#forge:is_dry"
+        "types": "#forge:is_dry,all"
       }
     },
     {
       "values": {
         "preset": "hot_areas",
         "typesBlacklist": "#forge:is_cold,#forge:is_wet",
-        "types": "#forge:is_hot"
+        "types": "#forge:is_hot,all"
       }
     },
     {
       "values": {
         "preset": "cold_areas",
-        "types": "#forge:is_cold"
+        "types": "#forge:is_cold,all"
       }
     },
     {
       "values": {
         "preset": "snowy_areas",
-        "types": "#forge:is_snowy"
+        "types": "#forge:is_snowy,all"
       }
     },
     {
       "values": {
         "preset": "spooky_areas",
-        "types": "#forge:is_spooky"
+        "types": "#forge:is_spooky,all"
       }
     },
     {
       "values": {
         "preset": "underground",
-        "types": "#forge:is_underground"
+        "types": "#forge:is_underground,all"
       }
     }
   ]

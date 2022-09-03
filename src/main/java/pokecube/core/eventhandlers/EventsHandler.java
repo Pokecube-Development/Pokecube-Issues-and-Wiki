@@ -740,8 +740,8 @@ public class EventsHandler
         // Recall the pokemobs if the player changes dimension.
         final ResourceKey<Level> newDim = evt.getDimension();
         if (newDim == world.dimension() || entity.getPersistentData().contains("thutcore:dimtp")) return;
-        final List<Entity> pokemobs = new ArrayList<>(
-                world.getEntities(EntityTypeTest.forClass(Entity.class), e -> EventsHandler.shouldRecallOnChangeDimension(entity, e)));
+        final List<Entity> pokemobs = new ArrayList<>(world.getEntities(EntityTypeTest.forClass(Entity.class),
+                e -> EventsHandler.shouldRecallOnChangeDimension(entity, e)));
         PCEventsHandler.recallAll(pokemobs, false);
     }
 

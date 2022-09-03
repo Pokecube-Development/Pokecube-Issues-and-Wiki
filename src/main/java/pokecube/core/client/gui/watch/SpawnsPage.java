@@ -17,6 +17,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
@@ -88,8 +89,16 @@ public class SpawnsPage extends ListPage<LineEntry>
         this.list = new ScrollGui<>(this, this.minecraft, 151, height, max, offsetX, offsetY);
         for (final PokedexEntry e : names)
         {
-            final Float value = Float.parseFloat(PacketPokedex.selectedLoc.get(e).spawnRule.values.get(local));
-            rates.put(e, value);
+            try
+            {
+                final Float value = Float.parseFloat(PacketPokedex.selectedLoc.get(e).spawnRule.values.get(local));
+                rates.put(e, value);
+            }
+            catch (Exception e1)
+            {
+                rates.put(e, 0f);
+                PokecubeAPI.LOGGER.error("Error with rate sent for " + e);
+            }
         }
         Collections.sort(names, (o1, o2) -> {
             final float rate1 = rates.get(o1);

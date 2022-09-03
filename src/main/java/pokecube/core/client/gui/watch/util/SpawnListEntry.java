@@ -114,7 +114,7 @@ public class SpawnListEntry
             {
 
             }
-            if (val > 10e-4) val = (int) (val * 1000) / 10f;
+            if (val > 1e-3) val = (int) (val * 1000) / 10f;
             else if (val != 0)
             {
                 float denom = 1000f;

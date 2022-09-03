@@ -113,14 +113,27 @@ public class SpawnEventsHandler
         SectionPos pos = SectionPos.of(v.getPos());
         // This gives us a fixed random value for the location
         long seedA = pos.asLong() ^ world.getSeed();
-        // This now makes it also depend on the hour of the day.
-        seedA ^= world.dayTime() / 2400;
+        // This now makes it also depend on the time of the day.
+        seedA ^= world.dayTime() / 600;
         Random rand = new Random(seedA);
+
+        SpawnCheck filter = new SpawnCheck(v, world);
+        // Filter out entries which are not even valid options here.
+        entries.removeIf(dbe -> {
+            SpawnContext toUse = new SpawnContext(event.context(), dbe);
+            float weight = dbe.getSpawnData().getWeight(toUse, filter, true);
+            return weight <= 0;
+        });
+
+        if (entries.size() == 0) return;
+
+        // Now we shuffle it
         Collections.shuffle(entries, rand);
 
         double random = rand.nextDouble();
         int index = 0;
         PokedexEntry dbe = entries.get(index);
+
         SpawnCheck checker = new SpawnCheck(v, world);
         SpawnContext context = event.context();
         context = new SpawnContext(context, dbe);
