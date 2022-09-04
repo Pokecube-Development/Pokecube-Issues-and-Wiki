@@ -376,7 +376,6 @@ public class Move_Basic extends Move_Base implements IMoveConstants
                         .setType(type);
                 final DamageSource source2 = new PokemobDamageSource(attackerMob, MovesUtils.getMoveFromName(attack))
                         .setType(type);
-                source2.bypassArmor();
                 source2.setMagic();
                 float d1, d2;
                 if (wild)

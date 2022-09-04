@@ -244,6 +244,12 @@ public class EntityMoveUse extends ThrowableProjectile
             final IPokemob userMob = PokemobCaps.getPokemobFor(user);
             MovesUtils.doAttack(attack.name, userMob, target);
             this.applied = true;
+
+            // Don't penetrate through blocking mobs.
+            if (living.isBlocking() && !this.getMove().aoe)
+            {
+                this.discard();
+            }
         }
     }
 
@@ -520,7 +526,7 @@ public class EntityMoveUse extends ThrowableProjectile
             }
             if (!hit) return true;
             if (!e.isMultipartEntity()) return false;
-            if (!(e instanceof LivingEntity || EntityTools.getCoreEntity(e) instanceof LivingEntity)) return true;
+            if (!(EntityTools.getCoreEntity(e) instanceof LivingEntity)) return true;
             final PartEntity<?>[] parts = e.getParts();
             for (final PartEntity<?> part : parts) if (part.getBoundingBox().intersects(hitBox)) return false;
             return true;
