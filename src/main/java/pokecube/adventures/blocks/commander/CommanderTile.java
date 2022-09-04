@@ -180,6 +180,7 @@ public class CommanderTile extends InteractableTile
         final Constructor<? extends IMobCommandHandler> constructor = clazz.getConstructor(argTypes);
         this.handler = constructor.newInstance(args);
         this.prev_args = this.args;
+        this.setChanged();
     }
 
     public void sendCommand() throws Exception

@@ -116,6 +116,7 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
         this.getLevel().playSound(null, link.getX() + 0.5, link.getY() + 0.5, link.getZ() + 0.5,
                 SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1, 1);
         WarpPadTile.warp(entityIn, dest, true);
+        this.setChanged();
     }
 
     @Override

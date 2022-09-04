@@ -229,6 +229,8 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
             this.pokemob.getEntity().tickCount++;
             // Do not call ability update on client.
             this.ability.onUpdate(this.pokemob);
+            // Mark has having changed something
+            this.setChanged();
         }
         shouldUseEnergy = shouldUseEnergy || this.shiny;
     }
@@ -271,8 +273,6 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     @Override
     public void saveAdditional(final CompoundTag nbt)
     {
-        final CompoundTag tag = new CompoundTag();
-        nbt.put("dest", tag);
         nbt.putInt("energy", this.energy);
         nbt.putBoolean("noEnergyNeed", this.noEnergyNeed);
         nbt.putIntArray("shift", this.shift);
@@ -380,5 +380,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     public void containerChanged(final Container invBasic)
     {
         this.refreshAbility(true);
+        // Mark has having changed something
+        this.setChanged();
     }
 }

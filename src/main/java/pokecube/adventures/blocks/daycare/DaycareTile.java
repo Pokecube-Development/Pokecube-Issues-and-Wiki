@@ -116,6 +116,9 @@ public class DaycareTile extends InteractableTile implements ITickTile
         }
         final List<Entity> list = Lists.newArrayList();
         EntityTools.getNearMobsFast(list, this.getLevel(), this.getBlockPos(), 16, e -> true);
+
+        int n = 0;
+
         for (final Entity mob : list)
         {
             final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
@@ -137,6 +140,7 @@ public class DaycareTile extends InteractableTile implements ITickTile
             DaycareTile.pwrPerExp.setVarValue("n", exp_diff);
             final int needed = Mth.ceil(DaycareTile.pwrPerExp.getValue() * exp_out);
 
+            n++;
             this.checkPower(needed);
             if (this.power < needed)
             {
@@ -147,6 +151,7 @@ public class DaycareTile extends InteractableTile implements ITickTile
             if (gainExp) pokemob.setExp(pokemob.getExp() + exp_out, true);
             if (PokecubeAdv.config.dayCareBreedSpeedup) pokemob.tickBreedDelay(PokecubeAdv.config.dayCareBreedAmount);
         }
+        if (n > 0) this.setChanged();
         final int power = this.power == 0 ? 0 : 15;
         if (power != this.redstonePower)
         {
