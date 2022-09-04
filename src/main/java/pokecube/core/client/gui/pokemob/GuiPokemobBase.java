@@ -140,7 +140,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
         RenderMobOverlays.enabled = false;
         // Disable the face culling that occurs if too far away
         double bak = Mesh.CULLTHRESHOLD;
-        bak = Double.MAX_VALUE;
+        Mesh.CULLTHRESHOLD = Double.MAX_VALUE;
         entityrenderermanager.render(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, mat, irendertypebuffer$impl, 15728880);
         // Re-enable the face culling that occurs if too far away
         Mesh.CULLTHRESHOLD = bak;

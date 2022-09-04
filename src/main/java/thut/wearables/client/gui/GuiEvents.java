@@ -43,14 +43,16 @@ public class GuiEvents
     {
         if (!ThutWearables.config.hasButton) return;
         if (ThutWearables.config.noButton) return;
+
         if (event.getScreen() instanceof InventoryScreen || event.getScreen() instanceof GuiWearables)
         {
             this.active = event.getScreen() instanceof GuiWearables;
             final EffectRenderingInventoryScreen<?> gui = (EffectRenderingInventoryScreen<?>) event.getScreen();
             final GuiWearableButton button;
-            event.getScreen().addRenderableWidget(
-                    button = new GuiWearableButton(gui.getGuiLeft() + ThutWearables.config.buttonPos.get(0),
-                            gui.getGuiTop() + ThutWearables.config.buttonPos.get(1), 9, 9,
+            int x = gui.getGuiLeft() + ThutWearables.config.buttonPos.get(0);
+            int y = gui.getGuiTop() + ThutWearables.config.buttonPos.get(1);
+            event.getScreen()
+                    .addRenderableWidget(button = new GuiWearableButton(x, y, 9, 9,
                             TComponent.translatable(this.active ? "button.wearables.off" : "button.wearables.on"),
                             b -> this.pressButton(gui)));
             button.setFGColor(0xFFFF00FF);
@@ -63,8 +65,8 @@ public class GuiEvents
                     .addRenderableWidget(button = new GuiWearableButton(gui.getGuiLeft() + 43, gui.getGuiTop() + 9, 9,
                             9, TComponent.translatable(this.active ? "button.wearables.off" : "button.wearables.on"),
                             b -> this.pressButton(gui)));
+            button.gui = gui;
             button.setFGColor(0xFFFF00FF);
-            button.visible = button.active = gui.getSelectedTab() == 11;
         }
     }
 

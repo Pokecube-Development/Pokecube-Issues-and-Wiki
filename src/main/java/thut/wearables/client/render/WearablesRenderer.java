@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import thut.core.client.render.model.parts.Mesh;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
 import thut.wearables.ThutWearables;
@@ -59,6 +60,9 @@ public class WearablesRenderer<T extends LivingEntity, M extends HumanoidModel<T
 
         if (wearer instanceof AbstractClientPlayer player) thin = player.getModelName().equals("slim");
         else if (theModel instanceof PlayerModel<?> model) thin = model.slim;
+
+        double bak = Mesh.CULLTHRESHOLD;
+        Mesh.CULLTHRESHOLD = Double.MAX_VALUE;
 
         for (int i = 0; i < worn.getSlots(); i++)
         {
@@ -111,5 +115,6 @@ public class WearablesRenderer<T extends LivingEntity, M extends HumanoidModel<T
 
             }
         }
+        Mesh.CULLTHRESHOLD = bak;
     }
 }
