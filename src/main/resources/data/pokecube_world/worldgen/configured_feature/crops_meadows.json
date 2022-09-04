@@ -62,12 +62,6 @@
                 }
               },
               {
-                "Name": "pokecube:crop_pomeg",
-                "Properties": {
-                  "age": "5"
-                }
-              },
-              {
                 "Name": "pokecube:crop_rawst",
                 "Properties": {
                   "age": "5"
