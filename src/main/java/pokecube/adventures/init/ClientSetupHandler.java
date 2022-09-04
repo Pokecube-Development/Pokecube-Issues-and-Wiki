@@ -28,6 +28,7 @@ import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -70,6 +71,7 @@ public class ClientSetupHandler
                 {
                 case ENTITY:
                     target = ((EntityHitResult) pos).getEntity();
+                    if (target instanceof PartEntity<?> part) target = part.getParent();
                     break;
                 default:
                     break;
