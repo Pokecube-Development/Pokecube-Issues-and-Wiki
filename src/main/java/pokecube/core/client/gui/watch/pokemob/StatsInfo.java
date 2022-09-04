@@ -73,16 +73,18 @@ public class StatsInfo extends PokeInfoPage
         final int[] colours = new int[6];
         for (int n = 0; n < 6; n++)
         {
-            nat[n] = "";
+            nat[n] = " ";
             colours[n] = 0;
             if (nature[n] == -1)
             {
-                nat[n] = "-";
+                // up arrow
+                nat[n] = "\u2b07";
                 colours[n] = 0x4400FF00;
             }
             if (nature[n] == 1)
             {
-                nat[n] = "+";
+                // down arrow
+                nat[n] = "\u2b06";
                 colours[n] = 0x44FF0000;
             }
         }
@@ -111,13 +113,13 @@ public class StatsInfo extends PokeInfoPage
         GuiComponent.drawString(mat, this.font, DS, x + dx, statYOffSet + 54, 0x78C850);
         GuiComponent.drawString(mat, this.font, S, x + dx, statYOffSet + 63, 0xF85888);
 
-        dx = 60 + offsetX;
-        GuiComponent.drawString(mat, this.font, ": " + HP, x + dx, statYOffSet + 18, 0xFF0000);
-        GuiComponent.drawString(mat, this.font, ": " + ATT, x + dx, statYOffSet + 27, 0xF08030);
-        GuiComponent.drawString(mat, this.font, ": " + DEF, x + dx, statYOffSet + 36, 0xF8D030);
-        GuiComponent.drawString(mat, this.font, ": " + ATTSPE, x + dx, statYOffSet + 45, 0x6890F0);
-        GuiComponent.drawString(mat, this.font, ": " + DEFSPE, x + dx, statYOffSet + 54, 0x78C850);
-        GuiComponent.drawString(mat, this.font, ": " + VIT, x + dx, statYOffSet + 63, 0xF85888);
+        dx = 56 + offsetX;
+        GuiComponent.drawString(mat, this.font, nat[0] + ": " + HP, x + dx, statYOffSet + 18, 0xFF0000);
+        GuiComponent.drawString(mat, this.font, nat[1] + ": " + ATT, x + dx, statYOffSet + 27, 0xF08030);
+        GuiComponent.drawString(mat, this.font, nat[2] + ": " + DEF, x + dx, statYOffSet + 36, 0xF8D030);
+        GuiComponent.drawString(mat, this.font, nat[3] + ": " + ATTSPE, x + dx, statYOffSet + 45, 0x6890F0);
+        GuiComponent.drawString(mat, this.font, nat[4] + ": " + DEFSPE, x + dx, statYOffSet + 54, 0x78C850);
+        GuiComponent.drawString(mat, this.font, nat[5] + ": " + VIT, x + dx, statYOffSet + 63, 0xF85888);
 
         dx = 20 + offsetX;
         byte[] stats2 = this.parent.pokemob.getIVs();
