@@ -19,6 +19,7 @@ import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.texturing.TextureCoordinate;
+import thut.core.common.ThutCore;
 
 public class BBModelPart extends Part
 {
@@ -294,8 +295,8 @@ public class BBModelPart extends Part
             List<Object> tex = lists.get(2);
             Mesh m = new JsonMesh(order.toArray(new Integer[0]), verts.toArray(new Vertex[0]),
                     tex.toArray(new TextureCoordinate[0]));
-            m.name = key;
-            Material mat = new Material(key);
+            m.name = ThutCore.trim(key);
+            Material mat = new Material(m.name);
             m.setMaterial(mat);
             shapes.add(m);
         });
