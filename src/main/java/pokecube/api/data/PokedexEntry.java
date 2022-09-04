@@ -22,7 +22,6 @@ import com.google.common.collect.Sets;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -1095,7 +1094,7 @@ public class PokedexEntry
     /** Cached trimmed name. */
     private String trimmedName;
 
-    private Component description;
+    private MutableComponent description;
 
     // "" for automatic assignment
     public String modelExt = "";
@@ -1539,7 +1538,7 @@ public class PokedexEntry
     }
 
     @OnlyIn(Dist.CLIENT)
-    public Component getDescription()
+    public MutableComponent getDescription()
     {
         if (this.description == null)
         {

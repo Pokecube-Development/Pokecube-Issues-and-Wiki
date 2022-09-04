@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.Component;
@@ -21,6 +22,7 @@ import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
+import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.lib.TComponent;
@@ -103,13 +105,35 @@ public class Description extends ListPage<LineEntry>
                 Description.this.renderComponentHoverEffect(mat, component, x, y);
             }
         };
-        MutableComponent line;
-        final MutableComponent page = (MutableComponent) this.parent.pokemob.getPokedexEntry().getDescription();
-        this.list = new ScrollGui<>(this, this.minecraft, 107, height, this.font.lineHeight, offsetX, offsetY);
-        final List<MutableComponent> list = ListHelper.splitText(page, 100, this.font, false);
-        for (final Component element : list)
+        MutableComponent page;
+
+        final PokedexEntry pokedexEntry = this.parent.pokemob.getPokedexEntry();
+        boolean fullColour = StatsCollector.getCaptured(pokedexEntry, Minecraft.getInstance().player) > 0
+                || StatsCollector.getHatched(pokedexEntry, Minecraft.getInstance().player) > 0
+                || this.minecraft.player.getAbilities().instabuild;
+
+        // Megas Inherit colouring from the base form.
+        if (!fullColour && pokedexEntry.isMega())
+            fullColour = StatsCollector.getCaptured(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0
+                    || StatsCollector.getHatched(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0;
+        final List<MutableComponent> list;
+        if (fullColour)
         {
-            line = (MutableComponent) element;
+            page = TComponent.translatable("entity.pokecube." + pokedexEntry.getTrimmedName() + ".dexDesc");
+            list = ListHelper.splitText(page, 100, this.font, false);
+            list.add(TComponent.literal(""));
+            page = pokedexEntry.getDescription();
+            list.addAll(ListHelper.splitText(page, 100, this.font, false));
+        }
+        else
+        {
+            page = pokedexEntry.getDescription();
+            list = ListHelper.splitText(page, 100, this.font, false);
+        }
+
+        this.list = new ScrollGui<>(this, this.minecraft, 107, height, this.font.lineHeight, offsetX, offsetY);
+        for (final MutableComponent line : list)
+        {
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, textColour).setClickListner(listen));
         }
     }
