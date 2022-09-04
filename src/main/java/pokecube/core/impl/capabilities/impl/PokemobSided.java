@@ -79,7 +79,7 @@ public abstract class PokemobSided extends PokemobBase
         if (this.isShiny()) if (!this.shinyTexs.containsKey(texture))
         {
             String texName = texture.toString();
-            texName = texName.replace(".png", "s.png");
+            texName = texName.replace(".png", "_s.png");
             final ResourceLocation modified = new ResourceLocation(texName);
             this.shinyTexs.put(texture, modified);
             return modified;
