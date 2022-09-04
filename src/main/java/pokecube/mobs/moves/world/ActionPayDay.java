@@ -18,32 +18,29 @@ public class ActionPayDay implements IMoveAction
     public static ResourceLocation lootTable = new ResourceLocation("pokecube_mobs", "moves/payday");
 
     public ActionPayDay()
-    {
-    }
+    {}
 
     @Override
     public boolean applyEffect(final IPokemob user, final Vector3 location)
     {
         if (!user.inCombat()) return false;
         final LivingEntity poke = user.getEntity();
-        final LootTable loottable = poke.getLevel().getServer().getLootTables().get(
-                ActionPayDay.lootTable);
+        final LootTable loottable = poke.getLevel().getServer().getLootTables().get(ActionPayDay.lootTable);
         final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) poke.getLevel())
                 .withRandom(poke.getRandom());
         // Generate the loot list.
         final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
         int num = 0;
-        for (final ItemStack itemstack : list)
-            if (!itemstack.isEmpty())
+        for (final ItemStack itemstack : list) if (!itemstack.isEmpty())
+        {
+            final ItemStack stack = itemstack.copy();
+            final ItemEntity item = poke.spawnAtLocation(stack);
+            if (item != null)
             {
-                final ItemStack stack = itemstack.copy();
-                final ItemEntity item = poke.spawnAtLocation(stack);
-                if (item != null)
-                {
-                    location.moveEntity(item);
-                    num++;
-                }
+                location.moveEntity(item);
+                num++;
             }
+        }
         return num > 0;
     }
 

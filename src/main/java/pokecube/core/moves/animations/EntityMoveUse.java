@@ -241,10 +241,16 @@ public class EntityMoveUse extends ThrowableProjectile
         {
             final IPokemob userMob = PokemobCaps.getPokemobFor(user);
             MovesUtils.doAttack(attack.name, userMob, target);
-            this.applied = true;
 
-            // Don't penetrate through blocking mobs.
-            if (living.isBlocking() && !this.getMove().aoe) this.discard();
+            // Don't penetrate through blocking mobs, so end the move here.
+            if (living.isBlocking() && !this.getMove().aoe)
+            {
+                this.applied = true;
+                // We only apply this to do block effects, not for damage. For
+                // damage. we use the call above to doMoveUse(entity)
+                this.getMove().doWorldAction(userMob, this.end);
+                this.discard();
+            }
         }
     }
 
@@ -386,7 +392,7 @@ public class EntityMoveUse extends ThrowableProjectile
         if (move.getAnimation(user) != null)
         {
             this.setDuration(move.getAnimation(user).getDuration() + 1);
-            this.setApplicationTick(this.getDuration() - move.getAnimation(user).getApplicationTick());
+            this.setApplicationTick(move.getAnimation(user).getApplicationTick());
         }
         else this.setDuration(1);
         return this;
@@ -532,19 +538,19 @@ public class EntityMoveUse extends ThrowableProjectile
 
         if (this.getMove() != null && userMob != null && !this.applied && !this.level.isClientSide)
         {
-            boolean canApply = false;
+            boolean canApply = age == 0;
             this.getEnd();
             if (this.contact)
             {
                 final double range = userMob.inCombat() ? 0.5 : 4;
                 final AABB endPos = new AABB(this.end.getPos()).inflate(range);
-                canApply = endPos.intersects(this.getBoundingBox());
+                canApply |= endPos.intersects(this.getBoundingBox());
             }
             else
             {
                 final EntityHitResult hit = ProjectileUtil.getEntityHitResult(this.level, this, this.here.toVec3d(),
                         this.end.toVec3d(), this.getBoundingBox(), this.valid);
-                canApply = hit == null || hit.getType() == Type.MISS;
+                canApply |= hit == null || hit.getType() == Type.MISS;
             }
             if (canApply)
             {
