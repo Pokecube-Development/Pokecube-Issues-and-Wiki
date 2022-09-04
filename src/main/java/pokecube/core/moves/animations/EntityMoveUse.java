@@ -139,8 +139,9 @@ public class EntityMoveUse extends ThrowableProjectile
     private final Vector3 size = new Vector3();
 
     Predicate<Entity> valid = e -> {
-        if (EntityTools.getCoreLiving(e) == null) return false;
-        final UUID targetID = EntityTools.getCoreEntity(e).getUUID();
+        LivingEntity living = EntityTools.getCoreLiving(e);
+        if (living == null) return false;
+        final UUID targetID = living.getUUID();
         return !this.alreadyHit.contains(targetID);
     };
 
@@ -221,16 +222,13 @@ public class EntityMoveUse extends ThrowableProjectile
     {
         final Move_Base attack = this.getMove();
         final Entity user = this.getUser();
-        final LivingEntity living = EntityTools.getCoreLiving(target);
-        if (!this.valid.test(target) || living == null || !target.isPickable()) return;
         if (user == null || !this.isAlive() || !user.isAlive()) return;
-        // We only want to hit living entities, but non-living ones can be
-        // detected as parts of other mobs, like ender dragons.
-        final UUID targetID = living.getUUID();
-        // If it is null here, it means that the target was not a living entity,
-        // or a part of one.
-        if (targetID == null) return;
 
+        final LivingEntity living = EntityTools.getCoreLiving(target);
+        // If the core living is not valid, we just quit there.
+        if (!this.valid.test(living)) return;
+
+        final UUID targetID = living.getUUID();
         final Entity targ = this.getTarget();
         final UUID targId = targ == null ? null : targ.getUUID();
 
@@ -514,6 +512,7 @@ public class EntityMoveUse extends ThrowableProjectile
         testBox = testBox.expandTowards(v.x, v.y, v.z);
         final List<Entity> hits = this.level.getEntities(this, testBox, this.valid);
         final AABB hitBox = testBox;
+
         hits.removeIf(e -> {
             boolean hit = hitboxes.size() > 1;
             if (!hit) for (final AABB box : hitboxes) if (box.intersects(e.getBoundingBox()))
