@@ -170,6 +170,10 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
     @Override
     public void onTickEnd(final ServerLevel world)
     {
+        @SuppressWarnings("deprecation")
+        boolean canTick = world.hasChunkAt(this.burrow.getCenter());
+        if (!canTick) return;
+
         IWorldTickListener.super.onTickEnd(world);
     }
 
@@ -195,6 +199,10 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
     @Override
     public void onTick(final ServerLevel world)
     {
+        @SuppressWarnings("deprecation")
+        boolean canTick = world.hasChunkAt(this.burrow.getCenter());
+        if (!canTick) return;
+
         final long time = Tracker.instance().getTick();
 
         int x, y, z;
