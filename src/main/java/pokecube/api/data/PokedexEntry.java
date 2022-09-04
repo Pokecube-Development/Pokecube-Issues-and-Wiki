@@ -617,6 +617,8 @@ public class PokedexEntry
         {
             public int max = 4;
             public int min = 2;
+            public int minY = Integer.MIN_VALUE;
+            public int maxY = Integer.MAX_VALUE;
             public float rate = 0.0f;
             public int level = -1;
             public Variance variance = null;
@@ -703,6 +705,11 @@ public class PokedexEntry
         {
             final SpawnEntry entry = this.matchers.get(getMatcher(context, checker, forSpawn));
             float rate = entry == null ? 0 : entry.rate;
+            if (entry != null)
+            {
+                if (context.location().y > entry.maxY) rate = 0;
+                if (context.location().y < entry.minY) rate = 0;
+            }
             SpawnEvent.Check.Rate event = new SpawnEvent.Check.Rate(context, forSpawn, rate);
             PokecubeAPI.POKEMOB_BUS.post(event);
             return event.getRate();

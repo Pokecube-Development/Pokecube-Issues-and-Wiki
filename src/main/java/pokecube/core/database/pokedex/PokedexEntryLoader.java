@@ -683,6 +683,8 @@ public class PokedexEntryLoader
     public static final String RATE = new String("rate");
     public static final String LEVEL = new String("level");
     public static final String VARIANCE = new String("variance");
+    public static final String MINY = new String("minY");
+    public static final String MAXY = new String("maxY");
 
     /**
      * This is safe to run before tags are loaded.
@@ -699,6 +701,8 @@ public class PokedexEntryLoader
         SpawnRule rule = matcher.spawnRule.copy();
         if ((val = rule.values.remove(MIN)) != null) spawnEntry.min = Integer.parseInt(val);
         if ((val = rule.values.remove(MAX)) != null) spawnEntry.max = Integer.parseInt(val);
+        if ((val = rule.values.remove(MINY)) != null) spawnEntry.minY = Integer.parseInt(val);
+        if ((val = rule.values.remove(MAXY)) != null) spawnEntry.maxY = Integer.parseInt(val);
         if ((val = rule.values.remove(RATE)) != null) spawnEntry.rate = Float.parseFloat(val);
         if ((val = rule.values.remove(LEVEL)) != null) spawnEntry.level = Integer.parseInt(val);
         if ((val = rule.values.remove(VARIANCE)) != null) spawnEntry.variance = new FunctionVariance(val);
