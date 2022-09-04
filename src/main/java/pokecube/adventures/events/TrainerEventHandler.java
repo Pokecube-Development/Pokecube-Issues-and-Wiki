@@ -81,7 +81,6 @@ import pokecube.api.entity.trainers.actions.ActionContext;
 import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.api.events.CustomInteractEvent;
 import pokecube.api.events.PCEvent;
-import pokecube.api.events.init.InitDatabase;
 import pokecube.api.events.npcs.NpcBreedEvent;
 import pokecube.api.events.npcs.NpcEvent;
 import pokecube.api.events.npcs.NpcSpawn;
@@ -571,13 +570,9 @@ public class TrainerEventHandler
         }
     }
 
-    public static void onPostDatabaseLoad(final InitDatabase.Post event)
-    {
-        DBLoader.load();
-    }
-
     public static void onPostServerStart(final ServerAboutToStartEvent event)
     {
+        DBLoader.load();
         TypeTrainer.postInitTrainers();
     }
 

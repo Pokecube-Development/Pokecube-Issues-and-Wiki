@@ -470,8 +470,8 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     }
 
     @Override
-    protected RenderType getRenderType(final Mob entity, final boolean bool_a, final boolean bool_b,
-            final boolean bool_c)
+    protected RenderType getRenderType(final Mob entity, final boolean regular, final boolean model,
+            final boolean glowing)
     {
         final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder()
                 .setTextureState(new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
@@ -485,8 +485,8 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
                 .setCullState(new RenderStateShard.CullStateShard(false))
                 .setLightmapState(new RenderStateShard.LightmapStateShard(true))
                 .setOverlayState(new RenderStateShard.OverlayStateShard(true)).createCompositeState(false);
-        return RenderType.create("pokecube:pokemob", DefaultVertexFormat.NEW_ENTITY, Mode.TRIANGLES, 256, bool_a,
-                bool_b, rendertype$state);
+        return RenderType.create("pokecube:pokemob", DefaultVertexFormat.NEW_ENTITY, Mode.TRIANGLES, 256, true, true,
+                rendertype$state);
     }
 
     @Override

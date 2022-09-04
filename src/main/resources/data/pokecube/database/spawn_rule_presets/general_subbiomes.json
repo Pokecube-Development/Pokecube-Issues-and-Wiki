@@ -20,6 +20,13 @@
     },
     {
       "values": {
+        "preset": "all_not_caves",
+        "and_preset": "all",
+        "not_preset": "cave_subbiome"
+      }
+    },
+    {
+      "values": {
         "preset": "sky",
         "types": "sky"
       }

@@ -30,7 +30,7 @@ public class Material
                 RenderSystem.disableBlend();
             });
 
-    private static final RenderType WATER_MASK = RenderType.create("water_mask_", DefaultVertexFormat.POSITION,
+    static final RenderType WATER_MASK = RenderType.create("water_mask_", DefaultVertexFormat.POSITION,
             VertexFormat.Mode.TRIANGLES, 256,
             RenderType.CompositeState.builder().setShaderState(RenderStateShard.RENDERTYPE_WATER_MASK_SHADER)
                     .setTextureState(RenderStateShard.NO_TEXTURE).setWriteMaskState(RenderStateShard.DEPTH_WRITE)
@@ -48,7 +48,7 @@ public class Material
     public static final DepthTestStateShard LESSTHAN = new DepthTestStateShard("<", 513);
 
     public final String name;
-    private final String render_name;
+    final String render_name;
 
     public String texture;
     public Vec3f diffuseColor;
@@ -67,9 +67,11 @@ public class Material
 
     public String shader = "";
 
+    public RenderTypeProvider renderType = RenderTypeProvider.NORMAL;
+
     static MultiBufferSource.BufferSource lastImpl = null;
 
-    private final Map<ResourceLocation, RenderType> types = Maps.newHashMap();
+    final Map<ResourceLocation, RenderType> types = Maps.newHashMap();
 
     public Material(final String name)
     {
@@ -103,47 +105,7 @@ public class Material
 
     private RenderType makeRenderType(final ResourceLocation tex, Mode mode)
     {
-        this.tex = tex;
-        if (this.types.containsKey(tex)) return this.types.get(tex);
-        RenderType type = null;
-        if (this.render_name.contains("water_mask_"))
-        {
-            type = WATER_MASK;
-            this.cull = false;
-            this.types.put(tex, type);
-            return type;
-        }
-
-        final String id = this.render_name + tex;
-        final RenderType.CompositeState.CompositeStateBuilder builder = RenderType.CompositeState.builder();
-        // No blur, No MipMap
-        builder.setTextureState(new RenderStateShard.TextureStateShard(tex, false, false));
-
-        builder.setTransparencyState(Material.DEFAULTTRANSP);
-
-        RenderStateShard.ShaderStateShard shard = SHADERS.getOrDefault(shader,
-                RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER);
-
-        builder.setShaderState(shard);
-
-        // These are needed in general for world lighting
-        builder.setLightmapState(RenderStateShard.LIGHTMAP);
-        builder.setOverlayState(RenderStateShard.OVERLAY);
-
-        final boolean transp = this.alpha < 1 || this.transluscent;
-        if (transp)
-        {
-            // These act like masking
-            builder.setWriteMaskState(RenderStateShard.COLOR_WRITE);
-            builder.setDepthTestState(Material.LESSTHAN);
-        }
-        // Otheerwise disable culling entirely
-        else builder.setCullState(RenderStateShard.NO_CULL);
-
-        final RenderType.CompositeState rendertype$state = builder.createCompositeState(true);
-        type = RenderType.create(id, DefaultVertexFormat.NEW_ENTITY, mode, 256, true, false, rendertype$state);
-
-        this.types.put(tex, type);
+        RenderType type = renderType.makeRenderType(this, tex, mode);
         return type;
     }
 

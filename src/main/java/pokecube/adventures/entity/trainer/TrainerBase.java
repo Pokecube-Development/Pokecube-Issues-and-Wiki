@@ -26,6 +26,7 @@ import pokecube.api.entity.trainers.IHasRewards;
 import pokecube.api.entity.trainers.IHasTrades;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
+import pokecube.core.PokecubeItems;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.eventhandlers.EventsHandler;
@@ -34,6 +35,9 @@ import pokecube.core.utils.Tools;
 import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
+import thut.wearables.EnumWearable;
+import thut.wearables.ThutWearables;
+import thut.wearables.inventory.PlayerWearables;
 
 public abstract class TrainerBase extends NpcMob
 {
@@ -233,6 +237,21 @@ public abstract class TrainerBase extends NpcMob
         {
             this.pokemobsCap.setType(ttype);
             this.pokemobsCap.getType().initTrainerItems(this);
+
+            if (this.getItemInHand(InteractionHand.OFF_HAND).isEmpty() && !this.pokemobsCap.getType().held.isEmpty())
+                this.setItemInHand(InteractionHand.OFF_HAND, this.pokemobsCap.getType().held.copy());
+            if (this.pokemobsCap.getType().hasBag)
+            {
+                final PlayerWearables worn = ThutWearables.getWearables(this);
+                if (worn.getWearable(EnumWearable.BACK).isEmpty())
+                    worn.setWearable(EnumWearable.BACK, this.pokemobsCap.getType().bag.copy());
+            }
+            if (this.pokemobsCap.getType().hasBelt)
+            {
+                final PlayerWearables worn = ThutWearables.getWearables(this);
+                if (worn.getWearable(EnumWearable.WAIST).isEmpty())
+                    worn.setWearable(EnumWearable.WAIST, PokecubeItems.getStack("mega_belt"));
+            }
         }
     }
 

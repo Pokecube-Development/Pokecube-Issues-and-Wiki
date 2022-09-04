@@ -6,7 +6,6 @@ import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,9 +26,6 @@ import pokecube.core.utils.TimePeriod;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
-import thut.wearables.EnumWearable;
-import thut.wearables.ThutWearables;
-import thut.wearables.inventory.PlayerWearables;
 
 public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnData
 {
@@ -164,14 +160,6 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     @Override
     public void addAdditionalSaveData(final CompoundTag compound)
     {
-        if (this.getItemInHand(InteractionHand.OFF_HAND).isEmpty() && !this.pokemobsCap.getType().held.isEmpty())
-            this.setItemInHand(InteractionHand.OFF_HAND, this.pokemobsCap.getType().held.copy());
-        if (!this.pokemobsCap.getType().bag.isEmpty())
-        {
-            final PlayerWearables worn = ThutWearables.getWearables(this);
-            if (worn.getWearable(EnumWearable.BACK).isEmpty())
-                worn.setWearable(EnumWearable.BACK, this.pokemobsCap.getType().bag.copy());
-        }
         this.setTypes(); // Ensure types are valid before saving.
         super.addAdditionalSaveData(compound);
         compound.putBoolean("fixedMobs", this.fixedMobs);

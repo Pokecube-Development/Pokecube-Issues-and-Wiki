@@ -135,7 +135,7 @@ public class TrainerSpawnHandler
                     else PokecubeAPI.LOGGER.error("No trainer type registerd for {}", typeName);
                 }
             }
-            if (mob instanceof TrainerBase) ((TrainerBase) mob).initTeam(level);
+            if (mob instanceof TrainerBase trainer) trainer.initTeam(level);
         });
     }
 
@@ -282,6 +282,8 @@ public class TrainerSpawnHandler
             {
                 w.addFreshEntity(t);
                 TrainerSpawnHandler.randomizeTrainerTeam(t, cap);
+                // Force a re-fresh of the type for fixing bag, belt, etc.
+                t.setNpcType(t.getNpcType());
                 PokecubeAPI.LOGGER.debug("Spawned Trainer: " + t + " " + count);
             }
             else t.remove(RemovalReason.DISCARDED);
@@ -348,6 +350,8 @@ public class TrainerSpawnHandler
                 EventsHandler.Schedule(event.worldActual, w -> {
                     SpawnEventsHandler.applyFunction(mob, apply);
                     w.addFreshEntity(mob);
+                    // Force a re-fresh of the type for fixing bag, belt, etc.
+                    mob.setNpcType(mob.getNpcType());
                     return true;
                 });
             }

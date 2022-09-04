@@ -61,8 +61,6 @@ public class SetupHandler
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onNpcTick);
         // This initializes the mob's brain for use.
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onBrainInit);
-        // Loads the trainer databases for types.
-        PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.LOWEST, TrainerEventHandler::onPostDatabaseLoad);
         // Loads the trades for the trainers.
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, TrainerEventHandler::onPostServerStart);
         // Prevent trainer's pokemobs going to the PC
