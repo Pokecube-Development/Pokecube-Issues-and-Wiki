@@ -230,6 +230,9 @@ public class EnergyHandler
                 }
             }
         }
+        // Nowhere to send power to, so return early.
+        if (tiles.isEmpty()) return;
+
         final int fraction = output / tiles.size();
         int rem = output % tiles.size();
         for (final Map.Entry<IEnergyStorage, Integer> entry : tiles.entrySet())
