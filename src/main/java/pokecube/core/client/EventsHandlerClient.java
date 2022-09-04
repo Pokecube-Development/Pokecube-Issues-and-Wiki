@@ -358,28 +358,31 @@ public class EventsHandlerClient
     {
         try
         {
-            if (!Screen.hasAltDown()) return;
             if (!(event.getScreen() instanceof AbstractContainerScreen<?> gui)) return;
-            final List<Slot> slots = gui.getMenu().slots;
-            for (final Slot slot : slots) if (slot.hasItem() && PokecubeManager.isFilled(slot.getItem()))
+            boolean alt = Screen.hasAltDown();
+            boolean ctrl = Screen.hasControlDown();
+            if (alt || ctrl)
             {
-                final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(slot.getItem(),
-                        gui.getMinecraft().level);
-                if (pokemob == null) continue;
-
-                int i, j;
-                i = slot.x;
-                j = slot.y;
-                final int x = i + gui.getGuiLeft();
-                final int y = j + gui.getGuiTop();
-                if (Screen.hasControlDown())
+                final List<Slot> slots = gui.getMenu().slots;
+                for (final Slot slot : slots) if (slot.hasItem() && PokecubeManager.isFilled(slot.getItem()))
                 {
-                    final float z = Minecraft.getInstance().getItemRenderer().blitOffset;
-                    Minecraft.getInstance().getItemRenderer().blitOffset += 200;
-                    Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y - 2);
-                    Minecraft.getInstance().getItemRenderer().blitOffset = z;
+                    final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(slot.getItem(),
+                            gui.getMinecraft().level);
+                    if (pokemob == null) continue;
+                    int i, j;
+                    i = slot.x;
+                    j = slot.y;
+                    final int x = i + gui.getGuiLeft();
+                    final int y = j + gui.getGuiTop();
+                    if (ctrl)
+                    {
+                        final float z = Minecraft.getInstance().getItemRenderer().blitOffset;
+                        Minecraft.getInstance().getItemRenderer().blitOffset += 200;
+                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y - 2);
+                        Minecraft.getInstance().getItemRenderer().blitOffset = z;
+                    }
+                    else EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
                 }
-                else EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
             }
         }
         catch (final Exception e)
