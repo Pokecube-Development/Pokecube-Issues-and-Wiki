@@ -31,7 +31,6 @@ import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.events.init.InitDatabase;
 import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.api.events.init.RegisterPokecubes;
@@ -60,7 +59,6 @@ import pokecube.core.utils.Tools;
 import pokecube.mobs.abilities.AbilityRegister;
 import pokecube.mobs.init.PokemobSounds;
 import pokecube.mobs.moves.MoveRegister;
-import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
@@ -629,26 +627,14 @@ public class PokecubeMobs
                 // The below processing is for pokemobs only
                 if (evt.getCaught() == null) return;
 
-                final boolean tameSnag = !evt.getCaught().isPlayerOwned()
-                        && evt.getCaught().getGeneralState(GeneralStates.TAMED);
-
                 if (evt.getCaught().isShadow())
                 {
                     final EntityPokecubeBase cube = evt.pokecube;
                     final IPokemob mob = PokemobCaps.getPokemobFor(
                             PokecubeCore.createPokemob(evt.getCaught().getPokedexEntry(), cube.getLevel()));
                     cube.setTilt(Tools.computeCatchRate(mob, 1));
-                    cube.setTime(cube.getTilt() * 20 + 5);
-                    if (!tameSnag) evt.getCaught().setPokecube(evt.getFilledCube());
-                    cube.setItem(PokecubeManager.pokemobToItem(evt.getCaught()));
-                    PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
-                    new Vector3().set(evt.pokecube).moveEntity(cube);
-                    evt.getCaught().getEntity().discard();
-                    cube.setDeltaMovement(0, 0.1, 0);
-                    cube.getLevel().addFreshEntity(cube.copy());
-                    evt.pokecube.discard();
+                    evt.setCanceled(true);
                 }
-                evt.setCanceled(true);
             }
         };
 
@@ -657,7 +643,7 @@ public class PokecubeMobs
             @Override
             public double getCaptureModifier(final IPokemob mob)
             {
-                return 0;
+                return 1;
             }
 
             @Override
@@ -669,27 +655,16 @@ public class PokecubeMobs
             @Override
             public void onPreCapture(final Pre evt)
             {
-                if (evt.getResult() == Result.DENY) return;
+                if (evt.getResult() == Result.DENY || evt.getCaught() == null) return;
                 final EntityPokecubeBase cube = evt.pokecube;
-                final IPokemob mob = PokemobCaps
-                        .getPokemobFor(PokecubeCore.createPokemob(evt.getCaught().getPokedexEntry(), cube.getLevel()));
-                final Vector3 v = new Vector3();
                 final Entity thrower = cube.shootingEntity;
-                int has = CaptureStats.getTotalNumberOfPokemobCaughtBy(thrower.getUUID(), mob.getPokedexEntry());
-                has = has + EggStats.getTotalNumberOfPokemobHatchedBy(thrower.getUUID(), mob.getPokedexEntry());
+                int has = CaptureStats.getTotalNumberOfPokemobCaughtBy(thrower.getUUID(),
+                        evt.getCaught().getPokedexEntry());
+                has = has + EggStats.getTotalNumberOfPokemobHatchedBy(thrower.getUUID(),
+                        evt.getCaught().getPokedexEntry());
                 final double rate = has > 0 ? 3 : 1;
-                cube.setTilt(Tools.computeCatchRate(mob, rate));
-                cube.setTime(cube.getTilt() * 20 + 5);
-                evt.getCaught().setPokecube(evt.getFilledCube());
-                cube.setItem(PokecubeManager.pokemobToItem(evt.getCaught()));
-                PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
-                v.set(evt.pokecube).moveEntity(cube);
-                v.moveEntity(mob.getEntity());
-                evt.getCaught().getEntity().discard();
-                cube.setDeltaMovement(0, 0.1, 0);
-                cube.getLevel().addFreshEntity(cube.copy());
+                cube.setTilt(Tools.computeCatchRate(evt.getCaught(), rate));
                 evt.setCanceled(true);
-                evt.pokecube.discard();
             }
 
         };

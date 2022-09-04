@@ -77,29 +77,23 @@ public class CaptureManager
 
         if (hitten != null)
         {
-            final int tiltBak = cube.getTilt();
             if (capturePre.isCanceled() || capturePre.getResult() == Result.DENY)
             {
-                if (cube.getTilt() != tiltBak)
-                {
-                    if (cube.getTilt() == 5) cube.setTime(10);
-                    else cube.setTime(20 * cube.getTilt() + 5);
-                    hitten.setPokecube(cube.getItem());
-                    cube.setItem(PokecubeManager.pokemobToItem(hitten));
-                    PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
-                    v.set(cube).addTo(0, mob.getBbHeight() / 2, 0).moveEntity(cube);
-                    removeMob = true;
-                    cube.setCapturing(mob);
-                }
+                if (cube.getTilt() == 5) cube.setTime(10);
+                else cube.setTime(20 * cube.getTilt() + 5);
+                hitten.setPokecube(cube.getItem());
+                cube.setItem(PokecubeManager.pokemobToItem(hitten));
+                PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
+                v.set(cube).addTo(0, mob.getBbHeight() / 2, 0).moveEntity(cube);
+                removeMob = true;
+                cube.setCapturing(mob);
             }
             else
             {
                 final int n = Tools.computeCatchRate(hitten, cubeId);
                 cube.setTilt(n);
-
                 if (n == 5) cube.setTime(10);
                 else cube.setTime(20 * n + 5);
-
                 hitten.setPokecube(cube.getItem());
                 cube.setItem(PokecubeManager.pokemobToItem(hitten));
                 PokecubeManager.setTilt(cube.getItem(), n);
