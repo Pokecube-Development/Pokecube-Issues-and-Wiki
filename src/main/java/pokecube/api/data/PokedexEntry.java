@@ -2144,7 +2144,7 @@ public class PokedexEntry
             if (this.isGenderForme)
             {
                 this.icons[0][0] = new ResourceLocation(texture + ".png");
-                this.icons[0][1] = new ResourceLocation(texture + "_s.png";
+                this.icons[0][1] = new ResourceLocation(texture + "_s.png");
                 this.icons[1][0] = new ResourceLocation(texture + ".png");
                 this.icons[1][1] = new ResourceLocation(texture + "_s.png");
             }
