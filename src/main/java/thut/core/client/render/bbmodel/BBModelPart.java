@@ -56,7 +56,6 @@ public class BBModelPart extends Part
             {
                 makeParts(t, g, parts, children, offsets.clone());
                 if (root != null) children.forEach(root::addChild);
-                System.out.println("Added children for " + group.name + " " + children.size());
             }
         }
         children.clear();

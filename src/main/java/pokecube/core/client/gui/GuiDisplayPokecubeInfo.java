@@ -271,13 +271,27 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             v = 97;
             this.blit(evt.getMat(), x, y, u, v, width, height);
 
+            // Render Hunger before status (Status will render over it)
+            final float full_hunger = PokecubeCore.getConfig().pokemobLifeSpan / 4
+                    + PokecubeCore.getConfig().pokemobLifeSpan;
+            float current_hunger = -(pokemob.getHungerTime() - PokecubeCore.getConfig().pokemobLifeSpan);
+
+            final float scale = 100f / full_hunger;
+            current_hunger *= scale / 100f;
+            current_hunger = Math.min(1, current_hunger);
+            if (current_hunger < 0.5)
+            {
+                int dv = -1 * 14;
+                this.blit(evt.getMat(), statusOffsetX, statusOffsetY, 0, 138 + dv, 15, 15);
+            }
+
             // Render Status
             final byte status = pokemob.getStatus();
             if (status != IMoveConstants.STATUS_NON)
             {
                 int dv = 0;
-                if ((status & IMoveConstants.STATUS_BRN) != 0) dv = 2 * 14;
                 if ((status & IMoveConstants.STATUS_FRZ) != 0) dv = 1 * 14;
+                if ((status & IMoveConstants.STATUS_BRN) != 0) dv = 2 * 14;
                 if ((status & IMoveConstants.STATUS_PAR) != 0) dv = 3 * 14;
                 if ((status & IMoveConstants.STATUS_PSN) != 0) dv = 4 * 14;
                 this.blit(evt.getMat(), statusOffsetX, statusOffsetY, 0, 138 + dv, 15, 15);

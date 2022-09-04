@@ -42,7 +42,6 @@ public class BBModel extends BaseModel
                 return;
             }
             BBModelTemplate t = JsonUtil.gson.fromJson(reader, BBModelTemplate.class);
-            System.out.println(t.name);
             reader.close();
             t.init();
             this.makeObjects(t);
