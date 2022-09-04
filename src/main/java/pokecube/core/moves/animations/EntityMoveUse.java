@@ -246,10 +246,7 @@ public class EntityMoveUse extends ThrowableProjectile
             this.applied = true;
 
             // Don't penetrate through blocking mobs.
-            if (living.isBlocking() && !this.getMove().aoe)
-            {
-                this.discard();
-            }
+            if (living.isBlocking() && !this.getMove().aoe) this.discard();
         }
     }
 

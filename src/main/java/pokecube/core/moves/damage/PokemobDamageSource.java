@@ -12,6 +12,7 @@ import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -35,11 +36,10 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
     // TODO use this for damage stuff
     public Move_Base move;
     /**
-     * This is the type of the used move, can be different from
-     * move.getType()
+     * This is the type of the used move, can be different from move.getType()
      */
     private PokeType moveType = null;
-    public IPokemob  user;
+    public IPokemob user;
 
     /**
      * @param par1Str
@@ -58,15 +58,16 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
     {
         final ItemStack localObject = this.damageSourceEntity != null ? this.damageSourceEntity.getMainHandItem()
                 : ItemStack.EMPTY;
-        if (!localObject.isEmpty() && localObject.hasCustomHoverName()) return TComponent.translatable("death.attack."
-                + this.msgId, new Object[] { par1PlayerEntity.getDisplayName(), this.damageSourceEntity
-                        .getDisplayName(), localObject.getDisplayName() });
+        if (!localObject.isEmpty() && localObject.hasCustomHoverName())
+            return TComponent.translatable("death.attack." + this.msgId, new Object[]
+            { par1PlayerEntity.getDisplayName(), this.damageSourceEntity.getDisplayName(),
+                    localObject.getDisplayName() });
         final IPokemob sourceMob = PokemobCaps.getPokemobFor(this.damageSourceEntity);
         if (sourceMob != null && sourceMob.getOwner() != null)
         {
             final MutableComponent message = TComponent.translatable("pokemob.killed.tame",
-                    par1PlayerEntity.getDisplayName(), sourceMob.getOwner().getDisplayName(), this.damageSourceEntity
-                            .getDisplayName());
+                    par1PlayerEntity.getDisplayName(), sourceMob.getOwner().getDisplayName(),
+                    this.damageSourceEntity.getDisplayName());
             return message;
         }
         else if (sourceMob != null && sourceMob.getOwner() == null && !sourceMob.getGeneralState(GeneralStates.TAMED))
@@ -75,8 +76,8 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
                     par1PlayerEntity.getDisplayName(), this.damageSourceEntity.getDisplayName());
             return message;
         }
-        return TComponent.translatable("death.attack." + this.msgId, new Object[] { par1PlayerEntity
-                .getDisplayName(), this.damageSourceEntity.getDisplayName() });
+        return TComponent.translatable("death.attack." + this.msgId, new Object[]
+        { par1PlayerEntity.getDisplayName(), this.damageSourceEntity.getDisplayName() });
     }
 
     public float getEffectiveness(final IPokemob pokemobCap)
@@ -89,6 +90,12 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
     public Entity getDirectEntity()
     {
         return this.damageSourceEntity;
+    }
+
+    @Override
+    public Vec3 getSourcePosition()
+    {
+        return this.getDirectEntity().position();
     }
 
     @Override
