@@ -788,6 +788,7 @@ public class PokemobEventsHandler
     private static void onMobTick(final LivingUpdateEvent evt)
     {
         final LivingEntity living = evt.getEntityLiving();
+        if (living.isRemoved()) return;
 
         // This prevents double ticking when a mob is both a copy and ticking
         // elsewhere, say in a custom pokeplayer like implementation

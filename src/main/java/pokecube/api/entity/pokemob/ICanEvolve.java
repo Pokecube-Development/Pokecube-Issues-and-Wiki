@@ -109,8 +109,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
      */
     default IPokemob evolve(final boolean delayed, final boolean init)
     {
-        final LivingEntity thisEntity = this.getEntity();
-        final IPokemob thisMob = PokemobCaps.getPokemobFor(thisEntity);
+        final IPokemob thisMob = (IPokemob) this;
         return this.evolve(delayed, init, thisMob.getHeldItem());
     }
 
@@ -126,7 +125,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     default IPokemob evolve(final boolean delayed, final boolean init, final ItemStack stack)
     {
         final LivingEntity thisEntity = this.getEntity();
-        final IPokemob thisMob = PokemobCaps.getPokemobFor(thisEntity);
+        final IPokemob thisMob = (IPokemob) this;
+        if (thisEntity == null) return null;
 
         boolean neededItem = false;
         PokedexEntry evol = null;
@@ -148,7 +148,6 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 neededItem = true;
             }
         }
-        if (thisMob.isPlayerOwned()) System.out.println(valid + " " + stack);
 
         if (select_from.isEmpty()) select_from = valid;
 
@@ -166,7 +165,6 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         // such, just evolve directly.
         if (init)
         {
-
             // Send evolve event.
             EvolveEvent evt = new EvolveEvent.Pre(thisMob, evol, data);
             PokecubeAPI.POKEMOB_BUS.post(evt);
@@ -270,7 +268,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     default IPokemob levelUp(final int level)
     {
         final LivingEntity theEntity = this.getEntity();
-        final IPokemob theMob = PokemobCaps.getPokemobFor(theEntity);
+        final IPokemob theMob = (IPokemob) this;
         final List<String> moves = Database.getLevelUpMoves(theMob.getPokedexEntry(), level,
                 theMob.getMoveStats().oldLevel);
         Collections.shuffle(moves);
@@ -305,7 +303,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                         if (!theMob.getMoveStats().newMoves.contains(s))
                         {
                             theMob.getMoveStats().newMoves.add(s);
-                            PacketSyncNewMoves.sendUpdatePacket((IPokemob) this);
+                            PacketSyncNewMoves.sendUpdatePacket(theMob);
                         }
                     }
                     EntityUpdate.sendEntityUpdate(this.getEntity());
@@ -354,6 +352,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     {
         final LivingEntity thisEntity = this.getEntity();
         final IPokemob thisMob = (IPokemob) this;
+        if (thisEntity == null) return thisMob;
         LivingEntity evolution = thisEntity;
         IPokemob evoMob = thisMob;
         final PokedexEntry oldEntry = this.getPokedexEntry();
