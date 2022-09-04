@@ -206,6 +206,7 @@ public class ItemPokemobEgg extends Item
             if (pokemob != null && pokemob.getOwner() instanceof Player) owner = pokemob.getOwner();
             // Then select other owned mob types if present.
             else if (ownable != null && ownable.getOwner() instanceof Player) owner = ownable.getOwner();
+            else owner = null;
         }
         return owner;
     }
