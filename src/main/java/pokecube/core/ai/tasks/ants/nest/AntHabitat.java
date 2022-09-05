@@ -116,8 +116,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     @Override
     public void onTickEnd(final ServerLevel level)
     {
-        @SuppressWarnings("deprecation")
-        boolean canTick = world.hasChunkAt(this.here);
+        boolean canTick = world.isLoaded(this.here);
         if (!canTick) return;
 
         // Checks of if the tile entity is here, if not anger all ants
@@ -340,8 +339,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     {
         if (!this.attached) WorldTickManager.addWorldData(world.dimension(), this);
 
-        @SuppressWarnings("deprecation")
-        boolean canTick = world.hasChunkAt(this.here);
+        boolean canTick = world.isLoaded(this.here);
         if (!canTick) return;
 
         int x, y, z;
