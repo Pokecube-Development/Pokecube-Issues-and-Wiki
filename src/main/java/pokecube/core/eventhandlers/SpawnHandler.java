@@ -739,7 +739,7 @@ public final class SpawnHandler
         Vector3 v = context.location();
         ServerLevel world = context.level();
         if (!SpawnHandler.checkNoSpawnerInArea(world, v.intX(), v.intY(), v.intZ())) return ret;
-        if (v.y <= world.getMinBuildHeight() || v.y >= world.dimensionType().logicalHeight()) return ret;
+        if (!world.isLoaded(v.getPos())) return ret;
         if (!world.isPositionEntityTicking(v.getPos())) return ret;
         SpawnHandler.refreshTerrain(v, world, true);
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, v);
