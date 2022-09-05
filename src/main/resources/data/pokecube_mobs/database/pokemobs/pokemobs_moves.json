@@ -23925,7 +23925,7 @@
           }
         },
         "misc": {
-          "moves": "bodyslam,flamethrower,hydropump,surf,thunderbolt,thunder,agility,fireblast,triattack,substitute,outrage,endure,sleeptalk,batonpass,shadowball,dragonclaw,dragondance,dragonpulse,allyswitch,scald,psychicfangs,fly,hyperbeam,gigaimpact,solarbeam,thunderwave,lightscreen,reflect,rest,thief,snore,protect,steelwing,attract,beatup,willowisp,facade,swift,helpinghand,dive,brine,uturn,assurance,round,hex,acrobatics,phantomforce,breakingswipe,dracometeor,suckerpunch,grudge,dragontail,doubleteam,disable,curse,confuseray"
+          "moves": "bodyslam,flamethrower,hydropump,surf,thunderbolt,thunder,agility,fireblast,triattack,substitute,outrage,endure,sleeptalk,batonpass,shadowball,dragonclaw,dragondance,dragonpulse,allyswitch,scald,psychicfangs,fly,hyperbeam,gigaimpact,solarbeam,thunderwave,lightscreen,reflect,rest,thief,snore,protect,steelwing,attract,beatup,willowisp,facade,swift,helpinghand,dive,brine,uturn,assurance,round,hex,acrobatics,phantomforce,breakingswipe,dracometeor,suckerpunch,grudge,dragontail,doubleteam,disable,curse,confuseray,dracometeor"
         },
         "evolutionMoves": "dragondarts"
       }

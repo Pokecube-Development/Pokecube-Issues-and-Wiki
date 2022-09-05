@@ -421,7 +421,7 @@ public class Pokemob extends Page
         }
         catch (Exception e)
         {
-            this.parent.mc.player.displayClientMessage(TComponent.translatable("traineredit.error.pokemob", e), true);
+            this.parent.mc.player.displayClientMessage(TComponent.translatable("traineredit.error.pokemob", e), false);
         }
     }
 
