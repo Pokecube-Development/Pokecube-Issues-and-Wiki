@@ -4,9 +4,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -53,16 +56,13 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     Vector3 min = new Vector3();
     Vector3 max = new Vector3();
 
-    public int red = 255, green = 255, blue = 255, alpha = 255;
-
     public int brightness = 15728640;
     public int overlay = 655360;
-
-    private final int[] rgbabro = new int[6];
 
     private boolean hidden = false;
 
     private final List<Material> materials = Lists.newArrayList();
+    private final Map<String, Material> namedMaterials = Maps.newHashMap();
     private final Set<Material> matcache = Sets.newHashSet();
 
     private Set<String> parentNames = Sets.newHashSet();
@@ -114,7 +114,11 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     {
         this.shapes.add(shape);
         if (shape.material == null) return;
-        if (this.matcache.add(shape.material)) this.materials.add(shape.material);
+        if (this.matcache.add(shape.material))
+        {
+            this.materials.add(shape.material);
+            this.namedMaterials.put(shape.material.name, shape.material);
+        }
     }
 
     public void setShapes(final List<Mesh> shapes)
@@ -124,7 +128,11 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         for (final Mesh shape : shapes)
         {
             if (shape.material == null) continue;
-            if (this.matcache.add(shape.material)) this.materials.add(shape.material);
+            if (this.matcache.add(shape.material))
+            {
+                this.materials.add(shape.material);
+                this.namedMaterials.put(shape.material.name, shape.material);
+            }
         }
     }
 
@@ -152,7 +160,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     {
         return parentNames;
     }
-    
+
     @Override
     public Set<String> getRecursiveChildNames()
     {
@@ -187,18 +195,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public IExtendedModelPart getParent()
     {
         return this.parent;
-    }
-
-    @Override
-    public int[] getRGBABrO()
-    {
-        this.rgbabro[0] = this.red;
-        this.rgbabro[1] = this.green;
-        this.rgbabro[2] = this.blue;
-        this.rgbabro[3] = this.alpha;
-        this.rgbabro[4] = this.brightness;
-        this.rgbabro[5] = this.overlay;
-        return this.rgbabro;
     }
 
     @Override
@@ -242,16 +238,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     public void render(final PoseStack mat, final VertexConsumer buffer)
     {
-        if (this.isHidden())
-        {
-            ThutCore.LOGGER.error(new IllegalStateException("Should not be calling render if hidden!"));
-            return;
-        }
         this.preRender(mat);
         for (final Mesh s : this.shapes)
         {
-            // Fill the int array in here, as the rendering can adjust it.
-            s.rgbabro = this.getRGBABrO();
             // Render each Shape
             s.renderShape(mat, buffer, this.texturer);
         }
@@ -386,14 +375,22 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void setRGBABrO(final int r, final int g, final int b, final int a, final int br, final int o)
+    public void setRGBABrO(Predicate<Material> material, final int r, final int g, final int b, final int a,
+            final int br, final int o)
     {
-        this.red = r;
-        this.green = g;
-        this.blue = b;
-        this.alpha = a;
         this.brightness = br;
         this.overlay = o;
+        this.materials.forEach(m -> {
+            if (material.test(m))
+            {
+                m.rgbabro[0] = r;
+                m.rgbabro[1] = g;
+                m.rgbabro[2] = b;
+                m.rgbabro[3] = a;
+                m.rgbabro[4] = br;
+                m.rgbabro[5] = o;
+            }
+        });
     }
 
     @Override
@@ -417,6 +414,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         {
             this.matcache.remove(m);
             this.materials.remove(m);
+            this.namedMaterials.remove(m.name);
             break;
         }
         if (material == null)
@@ -426,6 +424,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         }
         this.matcache.add(material);
         this.materials.add(material);
+        this.namedMaterials.put(material.name, material);
     }
 
     @Override

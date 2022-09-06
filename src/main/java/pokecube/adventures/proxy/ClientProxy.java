@@ -12,9 +12,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.adventures.PokecubeAdv;
+import thut.api.ModelHolder;
 import thut.bling.client.render.Back;
-import thut.core.client.render.json.JsonModel;
 import thut.core.client.render.model.IModel;
+import thut.core.client.render.model.ModelFactory;
 import thut.wearables.EnumWearable;
 
 @OnlyIn(value = Dist.CLIENT)
@@ -39,8 +40,9 @@ public class ClientProxy extends CommonProxy
                 final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
                 final int brightness, final int overlay)
         {
-            if (bag == null) bag = new JsonModel(new ResourceLocation(PokecubeAdv.MODID, "models/worn/bag.json"));
-            Back.renderBack(mat, buff, wearer, stack, bag, null, brightness, overlay);
+            if (bag == null)
+                bag = ModelFactory.create(new ModelHolder(new ResourceLocation(PokecubeAdv.MODID, "models/worn/bag")));
+            Back.renderBack(mat, buff, wearer, stack, bag, brightness, overlay);
         }
     }
 

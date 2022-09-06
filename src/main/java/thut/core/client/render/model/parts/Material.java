@@ -64,6 +64,7 @@ public class Material
     public boolean transluscent = false;
     public boolean cull = true;
     public boolean flat = true;
+    public int[] rgbabro = new int[6];
 
     public String shader = "";
 

@@ -18,7 +18,7 @@
 		<Transform DEF="strap_TRANSFORM"
 		           translation="0.000000 0.000000 0.000000"
 		           scale="1.000000 1.000000 1.000000"
-		           rotation="0.000000 0.707107 0.707107 3.141593"
+		           rotation="1.000000 0.000000 0.000000 0.000000"
 		           >
 			<Transform DEF="strap_ifs_TRANSFORM"
 			           translation="0.000000 0.000000 0.000000"
@@ -56,20 +56,20 @@
 					</Shape>
 				</Group>
 			</Transform>
-			<Transform DEF="watch_TRANSFORM"
+			<Transform DEF="watch_overlay_TRANSFORM"
 			           translation="0.000000 0.000000 0.000000"
 			           scale="1.000000 1.000000 1.000000"
 			           rotation="1.000000 0.000000 0.000000 0.000000"
 			           >
-				<Transform DEF="watch_ifs_TRANSFORM"
+				<Transform DEF="watch_overlay_ifs_TRANSFORM"
 				           translation="0.000000 0.000000 0.000000"
 				           scale="1.000000 1.000000 1.000000"
 				           rotation="1.000000 0.000000 0.000000 0.000000"
 				           >
-					<Group DEF="group_ME_watch">
+					<Group DEF="group_ME_watch_overlay">
 						<Shape>
 							<Appearance>
-								<Material DEF="MA_Material_002"
+								<Material DEF="MA_watch_overlay"
 								          diffuseColor="0.800 0.800 0.800"
 								          specularColor="0.000 0.000 0.000"
 								          emissiveColor="0.000 0.000 0.000"

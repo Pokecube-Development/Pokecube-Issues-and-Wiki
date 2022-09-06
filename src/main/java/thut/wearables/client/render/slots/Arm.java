@@ -1,6 +1,7 @@
 package thut.wearables.client.render.slots;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -22,13 +23,13 @@ public class Arm
 
         if (wearable.customOffsets())
         {
+            mat.scale(1, -1, -1);
+            mat.mulPose(Vector3f.YP.rotationDegrees(180));
             wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
             return;
         }
         float[] offsetArr;
         final boolean sneak = wearer.isCrouching();
-        mat.pushPose();
-
         boolean render = false;
         // Right side
         if (index == 0) switch (slot)
@@ -106,7 +107,11 @@ public class Arm
             }
             Utils.mirror(1, 0, 0, mat);
         }
-        if (render) wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
-        mat.popPose();
+        if (render)
+        {
+            mat.scale(1, -1, -1);
+            mat.mulPose(Vector3f.YP.rotationDegrees(180));
+            wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
+        }
     }
 }

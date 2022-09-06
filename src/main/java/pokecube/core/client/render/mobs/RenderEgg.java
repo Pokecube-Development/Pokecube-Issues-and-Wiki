@@ -42,7 +42,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
         implements IModelRenderer<EntityPokemobEgg>
 {
     static final ResourceLocation TEXTURE = new ResourceLocation(PokecubeCore.MODID, "entity/textures/egg.png");
-    static final ResourceLocation MODEL = new ResourceLocation(PokecubeCore.MODID, "entity/models/egg.x3d");
+    static final ResourceLocation MODEL = new ResourceLocation(PokecubeCore.MODID, "entity/models/egg");
     static final ResourceLocation ANIM = new ResourceLocation(PokecubeCore.MODID, "entity/animations/egg.xml");
 
     private static class EggColourer implements IAnimationChanger

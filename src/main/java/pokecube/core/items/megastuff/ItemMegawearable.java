@@ -7,12 +7,12 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import pokecube.core.PokecubeItems;
-import thut.lib.RegHelper;
 
 public class ItemMegawearable extends Item implements DyeableLeatherItem
 {
@@ -56,8 +56,20 @@ public class ItemMegawearable extends Item implements DyeableLeatherItem
     @Override
     public EquipmentSlot getEquipmentSlot(ItemStack stack)
     {
-        final String name = RegHelper.getKey(this).getPath().replace("mega_", "");
-        if (name.equals("megahat")) return EquipmentSlot.HEAD;
+        if (name.equals("hat")) return EquipmentSlot.HEAD;
         return super.getEquipmentSlot(stack);
+    }
+
+    @Override
+    public int getColor(ItemStack stack)
+    {
+        CompoundTag compoundtag = stack.getTagElement("display");
+        if (compoundtag != null && compoundtag.contains("color", 99)) return compoundtag.getInt("color");
+        if (name.equals("pendant")) return 0xFED83D;
+        if (name.equals("tiara")) return 0x3c44aa;
+        if (name.equals("earring")) return 0xFED83D;
+        if (name.equals("ring")) return 0xFED83D;
+        if (name.equals("ankletzinnia")) return 0x169c9c;
+        return 10511680;
     }
 }

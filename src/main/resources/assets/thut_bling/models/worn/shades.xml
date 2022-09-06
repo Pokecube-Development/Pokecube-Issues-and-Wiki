@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" scale="1.0, 1.0, 1.0" offset="0.0,0.0,0.005" rotation=""/>
+  <customTex default="textures/worn/glasses.png"/>
+ </model>
+</ModelAnimator>

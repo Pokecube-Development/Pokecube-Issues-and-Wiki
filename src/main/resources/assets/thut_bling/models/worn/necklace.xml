@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" scale="0.475" offset="0.0,-0.15,0.0" rotation="x:-90"/>
+  <customTex default="textures/worn/belt.png"/>
+ </model>
+</ModelAnimator>

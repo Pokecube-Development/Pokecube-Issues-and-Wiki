@@ -21,7 +21,6 @@ public abstract class Mesh
     public Vertex[] normals;
     public TextureCoordinate[] textureCoordinates;
     public Integer[] order;
-    public int[] rgbabro;
     Material material;
     public String name;
     private final double[] uvShift =
@@ -112,12 +111,12 @@ public abstract class Mesh
 
         TextureCoordinate textureCoordinate = dummyTex;
         final boolean flat = this.material.flat;
-        final float red = this.rgbabro[0] / 255f;
-        final float green = this.rgbabro[1] / 255f;
-        final float blue = this.rgbabro[2] / 255f;
-        final float alpha = this.material.alpha * this.rgbabro[3] / 255f;
-        final int lightmapUV = this.rgbabro[4];
-        final int overlayUV = this.rgbabro[5];
+        final float red = material.rgbabro[0] / 255f;
+        final float green = material.rgbabro[1] / 255f;
+        final float blue = material.rgbabro[2] / 255f;
+        final float alpha = this.material.alpha * material.rgbabro[3] / 255f;
+        final int lightmapUV = material.rgbabro[4];
+        final int overlayUV = material.rgbabro[5];
         final PoseStack.Pose matrixstack$entry = mat.last();
         final Matrix4f pos = matrixstack$entry.pose();
         final Matrix3f norms = matrixstack$entry.normal();
@@ -208,14 +207,14 @@ public abstract class Mesh
             texturer.shiftUVs(this.material.name, this.uvShift);
             if (texturer.isHidden(this.material.name)) return;
             if (!same_mat && texturer.isHidden(this.name)) return;
-            texturer.modifiyRGBA(this.material.name, this.rgbabro);
-            if (!same_mat) texturer.modifiyRGBA(this.name, this.rgbabro);
+            texturer.modifiyRGBA(this.material.name, material.rgbabro);
+            if (!same_mat) texturer.modifiyRGBA(this.name, material.rgbabro);
         }
         buffer = this.material.preRender(mat, buffer, this.vertexMode);
         if (this.material.emissiveMagnitude > 0)
         {
             final int j = (int) (this.material.emissiveMagnitude * 15);
-            this.rgbabro[4] = j << 20 | j << 4;
+            material.rgbabro[4] = j << 20 | j << 4;
         }
         this.doRender(mat, buffer, texturer);
     }

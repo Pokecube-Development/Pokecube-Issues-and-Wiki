@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -32,31 +33,30 @@ import thut.wearables.inventory.PlayerWearables;
 public class WearableWrapper
 {
 
-    static final String helm_ident  = "__helm__";
+    static final String helm_ident = "__helm__";
     static final String chest_ident = "__chest__";
-    static final String legs_ident  = "__legs__";
+    static final String legs_ident = "__legs__";
     static final String boots_ident = "__boots__";
 
     static final List<String> addedNames = Lists.newArrayList("__helm__", "__chest__", "__legs__", "__boots__");
 
     static
     {
-        for (final EnumWearable wearable : EnumWearable.values())
-            if (wearable.slots == 2)
-            {
-                WearableWrapper.addedNames.add("__" + wearable + "_right__");
-                WearableWrapper.addedNames.add("__" + wearable + "_left__");
-            }
-            else WearableWrapper.addedNames.add("__" + wearable + "__");
+        for (final EnumWearable wearable : EnumWearable.values()) if (wearable.slots == 2)
+        {
+            WearableWrapper.addedNames.add("__" + wearable + "_right__");
+            WearableWrapper.addedNames.add("__" + wearable + "_left__");
+        }
+        else WearableWrapper.addedNames.add("__" + wearable + "__");
     }
 
     private static class WearableRenderWrapper extends X3dPart
     {
-        public IWearable    wrapped;
+        public IWearable wrapped;
         public EnumWearable slot;
-        public int          subIndex;
+        public int subIndex;
         public LivingEntity wearer;
-        public ItemStack    stack;
+        public ItemStack stack;
 
         private final Vector4 angle;
 
@@ -88,6 +88,8 @@ public class WearableWrapper
             mat.pushPose();
             this.angle.glRotate(mat);
             mat.translate(this.translate.x, this.translate.y, this.translate.z);
+            mat.scale(1, -1, -1);
+            mat.mulPose(Vector3f.YP.rotationDegrees(180));
             this.wrapped.renderWearable(mat, buff, this.slot, this.subIndex, this.wearer, this.stack, pt, br, ol);
             mat.popPose();
         }
@@ -102,7 +104,7 @@ public class WearableWrapper
 
     private static IWearable getWearable(final ItemStack stack)
     {
-        if (stack.getItem() instanceof IWearable) return (IWearable) stack.getItem();
+        if (stack.getItem() instanceof IWearable wearable) return wearable;
         return stack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null);
     }
 
@@ -126,7 +128,7 @@ public class WearableWrapper
             final IModel imodel, final String identifier)
     {
         final IAnimationChanger temp = renderer.getAnimationChanger();
-        if (temp instanceof AnimationChanger) return ((AnimationChanger) temp).wornOffsets.get(identifier);
+        if (temp instanceof AnimationChanger changer) return changer.wornOffsets.get(identifier);
         return null;
     }
 
@@ -135,22 +137,15 @@ public class WearableWrapper
     {
         final EntityModel<?> model = event.getRenderer().getModel();
 
-        if (model instanceof ModelWrapper)
-        {
-            final ModelWrapper<?> renderer = (ModelWrapper<?>) model;
-            WearableWrapper.removeWearables(renderer.renderer, renderer);
-        }
+        if (model instanceof ModelWrapper<?> renderer) WearableWrapper.removeWearables(renderer.renderer, renderer);
     }
 
     @SubscribeEvent
     public static void preRender(final RenderLivingEvent.Pre<?, ?> event)
     {
         final EntityModel<?> model = event.getRenderer().getModel();
-        if (model instanceof ModelWrapper)
-        {
-            final ModelWrapper<?> renderer = (ModelWrapper<?>) model;
+        if (model instanceof ModelWrapper<?> renderer)
             WearableWrapper.applyWearables(event.getEntity(), renderer.renderer, renderer);
-        }
     }
 
     public static void applyWearables(final LivingEntity wearer, final IModelRenderer<?> renderer, final IModel imodel)

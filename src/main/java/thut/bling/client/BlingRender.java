@@ -3,6 +3,7 @@ package thut.bling.client;
 import net.minecraft.resources.ResourceLocation;
 import thut.api.ModelHolder;
 import thut.bling.ThutBling;
+import thut.bling.client.render.Util;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.ModelFactory;
 import thut.wearables.EnumWearable;
@@ -14,44 +15,51 @@ public class BlingRender extends BlingRenderBase
     @Override
     protected void initModels()
     {
-        if (!this.defaultModels.isEmpty()) return;
+        boolean reload = Util.shouldReloadModel();
+        if (!reload && !this.defaultModels.isEmpty()) return;
         for (final EnumWearable slot : EnumWearable.values())
         {
             IModel model = this.defaultModels.get(slot);
-            ResourceLocation[] tex = this.defaultTextures.get(slot);
-            if (model == null)
+            if (model == null || reload)
             {
                 ModelHolder holder = null;
-                if (slot == EnumWearable.WAIST || slot == EnumWearable.WRIST || slot == EnumWearable.ANKLE
-                        || slot == EnumWearable.FINGER || slot == EnumWearable.EAR || slot == EnumWearable.NECK)
+
+                switch (slot)
                 {
-                    tex = new ResourceLocation[2];
-                    tex[0] = new ResourceLocation("minecraft", "textures/item/diamond.png");
-                    tex[1] = new ResourceLocation(ThutBling.MODID, "textures/worn/belt.png");
-                    holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/belt.x3d"), tex[1],
-                            null, "belt");
-                }
-                if (slot == EnumWearable.HAT)
-                {
-                    tex = new ResourceLocation[2];
-                    tex[0] = new ResourceLocation(ThutBling.MODID, "textures/worn/hat.png");
-                    tex[1] = new ResourceLocation(ThutBling.MODID, "textures/worn/hat2.png");
-                    holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/hat.x3d"), tex[0], null,
-                            "belt");
-                }
-                if (slot == EnumWearable.BACK)
-                {
-                    tex = new ResourceLocation[2];
-                    tex[0] = new ResourceLocation(ThutBling.MODID, "textures/worn/bag1.png");
-                    tex[1] = new ResourceLocation(ThutBling.MODID, "textures/worn/bag2.png");
-                    holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/bag.x3d"), tex[0], null,
-                            "belt");
+                case ANKLE:
+                    holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/anklet"));
+                    break;
+                case BACK:
+                    holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/bag"));
+                    break;
+                case EAR:
+                    holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/earring"));
+                    break;
+                case EYE:
+                    holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/shades"));
+                    break;
+                case FINGER:
+                    holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/ring"));
+                    break;
+                case HAT:
+                    holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/hat"));
+                    break;
+                case NECK:
+                    holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/necklace"));
+                    break;
+                case WAIST:
+                    holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/belt"));
+                    break;
+                case WRIST:
+                    holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/bracelet"));
+                    break;
+                default:
+                    break;
                 }
                 if (holder != null) model = ModelFactory.create(holder);
-                if (model != null && tex != null)
+                if (model != null)
                 {
                     this.defaultModels.put(slot, model);
-                    this.defaultTextures.put(slot, tex);
                 }
             }
         }

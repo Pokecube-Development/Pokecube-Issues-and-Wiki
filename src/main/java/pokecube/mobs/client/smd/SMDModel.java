@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -96,10 +97,6 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     IPartTexturer texturer;
     IAnimationChanger changer;
 
-    public int red = 255, green = 255, blue = 255, alpha = 255;
-
-    public int brightness = 15728640;
-    public int overlay = 655360;
     private final int[] rgbabro = new int[6];
 
     IAnimationHolder currentHolder = null;
@@ -317,7 +314,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
                 }
             }
             this.wrapped.animate();
-            this.wrapped.renderAll(mat, buffer, this.getRGBABrO());
+            this.wrapped.renderAll(mat, buffer, rgbabro);
         }
     }
 
@@ -350,26 +347,26 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public int[] getRGBABrO()
+    public void setRGBABrO(Predicate<Material> material, final int r, final int g, final int b, final int a,
+            final int br, final int o)
     {
-        this.rgbabro[0] = this.red;
-        this.rgbabro[1] = this.green;
-        this.rgbabro[2] = this.blue;
-        this.rgbabro[3] = this.alpha;
-        this.rgbabro[4] = this.brightness;
-        this.rgbabro[5] = this.overlay;
-        return this.rgbabro;
-    }
-
-    @Override
-    public void setRGBABrO(final int r, final int g, final int b, final int a, final int br, final int o)
-    {
-        this.red = r;
-        this.green = g;
-        this.blue = b;
-        this.alpha = a;
-        this.brightness = br;
-        this.overlay = o;
+        this.rgbabro[0] = r;
+        this.rgbabro[1] = g;
+        this.rgbabro[2] = b;
+        this.rgbabro[3] = a;
+        this.rgbabro[4] = br;
+        this.rgbabro[5] = o;
+        this.wrapped.body.namesToMats.forEach((n, m) -> {
+            if (material.test(m))
+            {
+                m.rgbabro[0] = r;
+                m.rgbabro[1] = g;
+                m.rgbabro[2] = b;
+                m.rgbabro[3] = a;
+                m.rgbabro[4] = br;
+                m.rgbabro[5] = o;
+            }
+        });
     }
 
     @Override

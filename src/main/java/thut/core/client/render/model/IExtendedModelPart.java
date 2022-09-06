@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -107,8 +108,6 @@ public interface IExtendedModelPart extends IModelCustom
 
     IExtendedModelPart getParent();
 
-    int[] getRGBABrO();
-
     <T extends IExtendedModelPart> HashMap<String, T> getSubParts();
 
     List<String> getRenderOrder();
@@ -163,5 +162,21 @@ public interface IExtendedModelPart extends IModelCustom
 
     void setPreTranslations(Vector3 translations);
 
-    void setRGBABrO(int r, int g, int b, int a, int br, int o);
+    /**
+     * Sets the colour for this part
+     * 
+     * @param material - predicate to check if material is valid
+     * @param r
+     * @param g
+     * @param b
+     * @param a
+     * @param br
+     * @param o
+     */
+    void setRGBABrO(Predicate<Material> material, int r, int g, int b, int a, int br, int o);
+
+    default void setRGBABrO(int r, int g, int b, int a, int br, int o)
+    {
+        setRGBABrO(m -> true, r, g, b, a, br, o);
+    }
 }

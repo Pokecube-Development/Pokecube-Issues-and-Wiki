@@ -25,21 +25,22 @@ import thut.lib.ResourceHelper;
 /** Body, Made of Bones, Faces, and Materials. */
 public class Body implements IRetexturableModel
 {
-    public final Model              parent;
-    public ArrayList<Face>          faces = Lists.newArrayList();
+    public final Model parent;
+    public ArrayList<Face> faces = Lists.newArrayList();
     public ArrayList<MutableVertex> verts = Lists.newArrayList();
-    public ArrayList<Bone>          bones = Lists.newArrayList();
+    public ArrayList<Bone> bones = Lists.newArrayList();
     // Used to idenfify which bones are the neck.
-    public HashMap<String, Bone>              namesToBones = Maps.newHashMap();
-    public HashMap<String, Material>          namesToMats;
+    public HashMap<String, Bone> namesToBones = Maps.newHashMap();
+    public HashMap<String, Material> namesToMats;
     public HashMap<Material, ArrayList<Face>> matsToFaces;
-    public Animation                          currentAnim;
-    private int                               nextVertexID = 0;
-    protected boolean                         partOfGroup;
-    public Bone                               root;
-    IPartTexturer                             texturer;
-    IAnimationChanger                         changer;
-    private final double[]                    uvShift      = { 0, 0 };
+    public Animation currentAnim;
+    private int nextVertexID = 0;
+    protected boolean partOfGroup;
+    public Bone root;
+    IPartTexturer texturer;
+    IAnimationChanger changer;
+    private final double[] uvShift =
+    { 0, 0 };
 
     public Body(final Body body, final Model parent)
     {
@@ -55,8 +56,7 @@ public class Body implements IRetexturableModel
                 this.verts.set(d.ID, d);
             }
         }
-        for (final Face face : body.faces)
-            this.faces.add(new Face(face, this.verts));
+        for (final Face face : body.faces) this.faces.add(new Face(face, this.verts));
         for (int i = 0; i < body.bones.size(); i++)
         {
             final Bone b = body.bones.get(i);
@@ -83,18 +83,16 @@ public class Body implements IRetexturableModel
 
     private void determineRoot()
     {
-        for (final Bone b : this.bones)
-            if (b.parent == null && !b.children.isEmpty())
-            {
-                this.root = b;
-                break;
-            }
-        if (this.root == null) for (final Bone b : this.bones)
-            if (!b.name.equals("blender_implicit"))
-            {
-                this.root = b;
-                break;
-            }
+        for (final Bone b : this.bones) if (b.parent == null && !b.children.isEmpty())
+        {
+            this.root = b;
+            break;
+        }
+        if (this.root == null) for (final Bone b : this.bones) if (!b.name.equals("blender_implicit"))
+        {
+            this.root = b;
+            break;
+        }
     }
 
     public Bone getBone(final int id)
@@ -104,8 +102,7 @@ public class Body implements IRetexturableModel
 
     public Bone getBone(final String name)
     {
-        for (final Bone b : this.bones)
-            if (b.name.equals(name)) return b;
+        for (final Bone b : this.bones) if (b.name.equals(name)) return b;
         return null;
     }
 
@@ -116,8 +113,7 @@ public class Body implements IRetexturableModel
 
     private MutableVertex getExisting(final float x, final float y, final float z)
     {
-        for (final MutableVertex v : this.verts)
-            if (v.equals(x, y, z)) return v;
+        for (final MutableVertex v : this.verts) if (v.equals(x, y, z)) return v;
         return null;
     }
 
@@ -127,8 +123,7 @@ public class Body implements IRetexturableModel
         for (int i = 0; i < this.bones.size(); i++)
         {
             theBone = this.bones.get(i);
-            for (final Bone child : this.bones)
-                if (child.parent == theBone) theBone.addChild(child);
+            for (final Bone child : this.bones) if (child.parent == theBone) theBone.addChild(child);
         }
     }
 
@@ -274,8 +269,8 @@ public class Body implements IRetexturableModel
     public void render(final PoseStack mat, final VertexConsumer buffer, final int[] rgbabro)
     {
         this.uvShift[0] = this.uvShift[1] = 0;
-        if (!this.parent.usesMaterials) for (final Face f : this.faces)
-            f.addForRender(mat, buffer, rgbabro, this.uvShift, false);
+        if (!this.parent.usesMaterials)
+            for (final Face f : this.faces) f.addForRender(mat, buffer, rgbabro, this.uvShift, false);
         else for (final Map.Entry<Material, ArrayList<Face>> entry : this.matsToFaces.entrySet())
         {
             Material material;
@@ -287,7 +282,7 @@ public class Body implements IRetexturableModel
                     this.texturer.shiftUVs(tex, this.uvShift);
                     this.texturer.shiftUVs(tex, this.uvShift);
                 }
-                this.render(mat, material.preRender(mat, buffer), rgbabro, entry, !material.flat);
+                this.render(mat, material.preRender(mat, buffer), material.rgbabro, entry, !material.flat);
                 this.uvShift[0] = this.uvShift[1] = 0;
             }
         }
@@ -296,14 +291,12 @@ public class Body implements IRetexturableModel
     private void render(final PoseStack mat, final VertexConsumer buffer, final int[] rgbabro,
             final Map.Entry<Material, ArrayList<Face>> entry, final boolean smooth)
     {
-        for (final Face face : entry.getValue())
-            face.addForRender(mat, buffer, rgbabro, this.uvShift, smooth);
+        for (final Face face : entry.getValue()) face.addForRender(mat, buffer, rgbabro, this.uvShift, smooth);
     }
 
     public void resetVerts()
     {
-        for (final MutableVertex v : this.verts)
-            v.reset();
+        for (final MutableVertex v : this.verts) v.reset();
     }
 
     public void setAnimation(final Animation anim)
@@ -329,8 +322,7 @@ public class Body implements IRetexturableModel
         final int id = Integer.parseInt(params[0]);
 
         final float[] locRots = new float[6];
-        for (int i = 1; i < 7; i++)
-            locRots[i - 1] = Float.parseFloat(params[i]);
+        for (int i = 1; i < 7; i++) locRots[i - 1] = Float.parseFloat(params[i]);
         final Bone theBone = this.bones.get(id);
         /**
          * The negative signs are for differences in default coordinate systems

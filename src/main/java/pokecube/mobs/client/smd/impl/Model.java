@@ -21,13 +21,13 @@ import thut.core.common.ThutCore;
  */
 public class Model
 {
-    public Body                       body;
-    public HashMap<String, Animation> anims         = new HashMap<>();
-    public Bone                       root;
-    public ArrayList<Bone>            allBones;
-    public Animation                  currentAnimation;
-    public boolean                    hasAnimations = true;
-    public boolean                    usesMaterials = true;
+    public Body body;
+    public HashMap<String, Animation> anims = new HashMap<>();
+    public Bone root;
+    public ArrayList<Bone> allBones;
+    public Animation currentAnimation;
+    public boolean hasAnimations = true;
+    public boolean usesMaterials = true;
 
     public Model(final Model model)
     {
@@ -55,16 +55,14 @@ public class Model
         this.resetVerts(this.body);
         if (this.body.currentAnim == null) this.setAnimation("idle");
         this.root.prepareTransform();
-        for (final Bone b : this.allBones)
-            b.applyTransform();
+        for (final Bone b : this.allBones) b.applyTransform();
         this.applyVertChange(this.body);
     }
 
     private void applyVertChange(final Body body)
     {
         if (body == null) return;
-        for (final MutableVertex v : body.verts)
-            v.apply();
+        for (final MutableVertex v : body.verts) v.apply();
     }
 
     public boolean hasAnimations()
@@ -96,7 +94,7 @@ public class Model
                 catch (final FileNotFoundException | NullPointerException e1)
                 {
                     // Ignore these, we don't really care about them
-                    if (ThutCore.conf.debug)PokecubeAPI.LOGGER.debug("No animation of {} for {}", s, resloc);
+                    if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("No animation of {} for {}", s, resloc);
                 }
                 catch (final Exception e)
                 {
@@ -112,15 +110,13 @@ public class Model
 
     private void precalculateAnims()
     {
-        for (final Animation anim : this.anims.values())
-            anim.precalculateAnimation(this.body);
+        for (final Animation anim : this.anims.values()) anim.precalculateAnimation(this.body);
     }
 
     private void reformBones()
     {
         this.root.applyChildrenToRest();
-        for (final Bone b : this.allBones)
-            b.invertRestMatrix();
+        for (final Bone b : this.allBones) b.invertRestMatrix();
     }
 
     public void renderAll(final PoseStack mat, final VertexConsumer buffer, final int[] rgbbro)
@@ -131,8 +127,7 @@ public class Model
     private void resetVerts(final Body body)
     {
         if (body == null) return;
-        for (final MutableVertex v : body.verts)
-            v.reset();
+        for (final MutableVertex v : body.verts) v.reset();
     }
 
     public void setAnimation(final String name)
@@ -142,8 +137,7 @@ public class Model
         else this.currentAnimation = this.anims.get("idle");
         this.body.setAnimation(this.currentAnimation);
         if (old != this.currentAnimation)
-        {
-        }
+        {}
     }
 
     void syncBones(final Body body)

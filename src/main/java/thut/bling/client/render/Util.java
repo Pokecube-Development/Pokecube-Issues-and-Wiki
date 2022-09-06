@@ -1,7 +1,10 @@
 package thut.bling.client.render;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -10,7 +13,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -19,7 +22,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
 import thut.api.ModelHolder;
-import thut.api.maths.vecmath.Vec3f;
+import thut.bling.ThutBling;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelCustom;
@@ -29,6 +32,11 @@ import thut.wearables.EnumWearable;
 
 public class Util
 {
+
+    // This is just a dummy texture for getting a fake initial renderer when we
+    // have a json model
+    public final static ResourceLocation DUMMY = new ResourceLocation(ThutBling.MODID, "textures/hologram.png");
+
     public static RenderType getType(final ResourceLocation loc, final boolean alpha)
     {
         final String id = loc + (alpha ? "alpha" : "none");
@@ -109,15 +117,61 @@ public class Util
         return buff.getBuffer(Util.getType(loc, alpha));
     }
 
-    public static void renderStandardModelWithGem(final PoseStack mat, final MultiBufferSource buff,
-            final ItemStack stack, final String colorpart, final String itempart, final IModel model,
-            final ResourceLocation[] tex, final Vec3f dr, final Vec3f ds, final int brightness, final int overlay)
+    public static void renderModel(PoseStack mat, MultiBufferSource buff, ItemStack stack, IModel model, int brightness,
+            int overlay)
+    {
+        renderModel(mat, buff, stack, model, brightness, overlay, m -> false);
+    }
+
+    public static void renderModel(PoseStack mat, MultiBufferSource buff, ItemStack stack, IModel model, int brightness,
+            int overlay, Predicate<Material> notColurable)
+    {
+        renderModel(mat, buff, stack, "main", "gem", model, brightness, overlay, notColurable);
+    }
+
+    public static void renderModel(final PoseStack mat, final MultiBufferSource buff, final ItemStack stack,
+            final String colorpart, final String itempart, final IModel model, final int brightness, final int overlay,
+            Predicate<Material> notColurable)
     {
         if (!(model instanceof IModelCustom renderable)) return;
-        ResourceLocation tex0 = tex[0];
-        final ResourceLocation tex1 = tex[1];
-        ItemStack gem = ItemStack.EMPTY;
+        if (!model.isLoaded() || !model.isValid()) return;
+        if (model.getParts().containsKey("gem"))
+        {
+            Util.renderStandardModelWithGem(mat, buff, stack, colorpart, itempart, model, brightness, overlay);
+        }
+        else
+        {
+            Color colour;
+            if (stack.getItem() instanceof DyeableLeatherItem dyed)
+            {
+                colour = new Color(dyed.getColor(stack) + 0xFF000000);
+            }
+            else
+            {
+                DyeColor ret = DyeColor.GRAY;
+                if (stack.hasTag() && stack.getTag().contains("dyeColour"))
+                {
+                    final int damage = stack.getTag().getInt("dyeColour");
+                    ret = DyeColor.byId(damage);
+                }
+                colour = new Color(ret.getTextColor() + 0xFF000000);
+            }
+            for (final IExtendedModelPart part1 : model.getParts().values())
+            {
+                part1.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
+                part1.setRGBABrO(notColurable, 255, 255, 255, 255, brightness, overlay);
+            }
+            renderable.renderAll(mat, Util.makeBuilder(buff, Util.DUMMY));
+        }
+    }
 
+    public static void renderStandardModelWithGem(final PoseStack mat, final MultiBufferSource buff,
+            final ItemStack stack, final String colorpart, final String itempart, final IModel model,
+            final int brightness, final int overlay)
+    {
+        if (!(model instanceof IModelCustom renderable)) return;
+        ResourceLocation tex0 = null;
+        ItemStack gem = ItemStack.EMPTY;
         Color colour;
         if (stack.getItem() instanceof DyeableLeatherItem dyed)
         {
@@ -133,7 +187,7 @@ public class Util
             }
             colour = new Color(ret.getTextColor() + 0xFF000000);
         }
-        IExtendedModelPart part = model.getParts().get(colorpart);
+
         if (stack.hasTag() && stack.getTag().contains("gemTag"))
         {
             gem = ItemStack.of(stack.getTag().getCompound("gemTag"));
@@ -145,26 +199,34 @@ public class Util
             tex0 = new ResourceLocation(namespace, val + ".png");
         }
         else tex0 = null;
-        mat.pushPose();
-        mat.translate(dr.x, dr.y, dr.z);
-        mat.scale(ds.x, ds.y, ds.z);
-        if (part != null)
+
+        Map<Material, ResourceLocation> toReset = Maps.newHashMap();
+        List<Material> toClear = new ArrayList<>();
+        for (final IExtendedModelPart part : model.getParts().values())
         {
-            part.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
-            final VertexConsumer buf1 = Util.makeBuilder(buff, tex1);
-            renderable.renderPart(mat, buf1, colorpart);
+            boolean isGem = false;
+            if (tex0 != null && (isGem = part.getName().contains(itempart))) for (Material m : part.getMaterials())
+            {
+                if (m.tex != null) toReset.put(m, m.tex);
+                else toClear.add(m);
+                m.tex = tex0;
+            }
+            // Overlay texture is the fixed one, the rest can be
+            // recoloured.
+            if (!isGem) part.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
+            else part.setRGBABrO(255, 255, 255, 255, brightness, overlay);
         }
-        part = model.getParts().get(itempart);
-        if (part != null && tex0 != null)
+        renderable.renderAll(mat, Util.makeBuilder(buff, Util.DUMMY));
+
+        for (var entry : toReset.entrySet())
         {
-            final VertexConsumer buf0 = Util.makeBuilder(buff, tex0);
-            renderable.renderPart(mat, buf0, itempart);
+            entry.getKey().tex = entry.getValue();
         }
-        else if (part != null && !gem.isEmpty())
-        {
-            final VertexConsumer buf0 = buff.getBuffer(ItemBlockRenderTypes.getRenderType(gem, false));
-            renderable.renderPart(mat, buf0, itempart);
-        }
-        mat.popPose();
+        for (var material : toClear) material.tex = null;
+    }
+
+    public static boolean shouldReloadModel()
+    {
+        return Screen.hasAltDown() && Screen.hasControlDown() && Screen.hasShiftDown();
     }
 }

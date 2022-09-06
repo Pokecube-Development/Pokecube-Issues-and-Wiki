@@ -9,6 +9,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.resources.ResourceLocation;
 import thut.api.ModelHolder;
+import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.bbmodel.BBModel;
 import thut.core.client.render.json.JsonModel;
 import thut.core.client.render.model.IModel.IModelCallback;
@@ -81,7 +82,9 @@ public class ModelFactory
 
     public static IModel create(final ModelHolder model)
     {
-        return ModelFactory.create(model, m -> {});
+        return ModelFactory.create(model, m -> {
+            AnimationLoader.parse(model, m, null);
+        });
     }
 
     public static Set<String> getValidExtensions()

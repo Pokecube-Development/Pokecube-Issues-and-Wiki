@@ -1,32 +1,34 @@
 package thut.bling.client.render;
 
+import java.util.function.Predicate;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.model.IModel;
+import thut.core.client.render.model.parts.Material;
 
 public class Waist
 {
     public static void renderWaist(final PoseStack mat, final MultiBufferSource buff, final LivingEntity wearer,
-            final ItemStack stack, final IModel model, final ResourceLocation[] textures, final int brightness,
-            final int overlay)
+            final ItemStack stack, final IModel model, final int brightness, final int overlay)
     {
-        if (!model.isLoaded() || !model.isValid()) return;
-        float s, dx, dy, dz;
-        dx = 0;
-        dy = -.0f;
-        dz = -0.6f;
-        s = 0.525f;
-        if (wearer.getItemBySlot(EquipmentSlot.LEGS).isEmpty()) s = 0.465f;
-        final Vec3f dr = new Vec3f(dx, dy, dz);
-        final Vec3f ds = new Vec3f(s, s, s);
-        mat.mulPose(com.mojang.math.Vector3f.XP.rotationDegrees(90));
-        mat.mulPose(com.mojang.math.Vector3f.ZP.rotationDegrees(180));
-        Util.renderStandardModelWithGem(mat, buff, stack, "main", "gem", model, textures, dr, ds, brightness, overlay);
+        renderWaist(mat, buff, wearer, stack, model, brightness, overlay, m -> false);
+    }
+
+    public static void renderWaist(PoseStack mat, MultiBufferSource buff, LivingEntity wearer, ItemStack stack,
+            IModel model, int brightness, int overlay, Predicate<Material> notColourable)
+    {
+
+        if (!wearer.getItemBySlot(EquipmentSlot.LEGS).isEmpty())
+        {
+            mat.translate(0, -0.55, 0);
+            mat.scale(1.15f, 1.15f, 1.15f);
+        }
+        else mat.translate(0, -0.65, 0);
+        Util.renderModel(mat, buff, stack, model, brightness, overlay, notColourable);
     }
 }

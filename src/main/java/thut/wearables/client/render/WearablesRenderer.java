@@ -72,6 +72,7 @@ public class WearablesRenderer<T extends LivingEntity, M extends HumanoidModel<T
             if (stack.isEmpty()) continue;
             final IWearable wearable = this.getWearable(stack);
             if (wearable == null) continue;
+            mat.pushPose();
             switch (slot)
             {
             case ANKLE:
@@ -112,8 +113,8 @@ public class WearablesRenderer<T extends LivingEntity, M extends HumanoidModel<T
                 break;
             default:
                 break;
-
             }
+            mat.popPose();
         }
         Mesh.CULLTHRESHOLD = bak;
     }

@@ -52,6 +52,7 @@ public class X3dModel extends BaseModel
 
     private Material getMaterial(final X3dXML.Appearance appearance)
     {
+        if (appearance == null) return null;
         final X3dXML.Material mat = appearance.material;
         if (mat == null) return null;
         String matName = mat.DEF;

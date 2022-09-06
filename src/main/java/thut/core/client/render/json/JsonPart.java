@@ -53,13 +53,12 @@ public class JsonPart extends Part
         part.index = index;
         part.addShape(mesh);
         float[] offsets = b.from.clone();
-        offsets = new float[]
-        { 0, 0, 0 };
+
         if (b.rotation != null)
         {
-            offsets[0] += b.rotation.origin[0];
-            offsets[1] += b.rotation.origin[1];
-            offsets[2] += b.rotation.origin[2];
+            offsets[0] -= b.rotation.origin[0];
+            offsets[1] -= b.rotation.origin[1];
+            offsets[2] -= b.rotation.origin[2];
 
             float x = 0;
             float y = 0;
@@ -109,6 +108,23 @@ public class JsonPart extends Part
 
         float[] from = b.from.clone();
         float[] to = b.to.clone();
+
+        from[0] -= b.from[0];
+        from[1] -= b.from[1];
+        from[2] -= b.from[2];
+        to[0] -= b.from[0];
+        to[1] -= b.from[1];
+        to[2] -= b.from[2];
+
+        if (b.rotation != null)
+        {
+            from[0] += b.rotation.origin[0];
+            from[1] += b.rotation.origin[1];
+            from[2] += b.rotation.origin[2];
+            to[0] += b.rotation.origin[0];
+            to[1] += b.rotation.origin[1];
+            to[2] += b.rotation.origin[2];
+        }
 
         float[][] coords = new float[4][3];
 

@@ -26,4 +26,9 @@ public class ModelHolder
         this.animation = animation;
         this.name = name;
     }
+
+    public ModelHolder(ResourceLocation model)
+    {
+        this(model, null, new ResourceLocation(model.getNamespace(), model.getPath() + ".xml"), model.getPath());
+    }
 }

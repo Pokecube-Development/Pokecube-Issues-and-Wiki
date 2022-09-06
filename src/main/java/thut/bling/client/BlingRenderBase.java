@@ -27,7 +27,6 @@ public abstract class BlingRenderBase
 {
 
     Map<EnumWearable, IModel> defaultModels = Maps.newHashMap();
-    Map<EnumWearable, ResourceLocation[]> defaultTextures = Maps.newHashMap();
 
     protected IModel getModel(final EnumWearable slot, final ItemStack stack)
     {
@@ -35,14 +34,6 @@ public abstract class BlingRenderBase
         if (imodel != null) return imodel;
         imodel = this.defaultModels.get(slot);
         return imodel;
-    }
-
-    protected ResourceLocation[] getTextures(final EnumWearable slot, final ItemStack stack)
-    {
-        ResourceLocation[] textures = Util.getCustomTextures(slot, stack);
-        if (textures != null) return textures;
-        textures = this.defaultTextures.get(slot);
-        return textures;
     }
 
     /**
@@ -58,7 +49,6 @@ public abstract class BlingRenderBase
     {
         this.initModels();
         final IModel model = this.getModel(slot, stack);
-        final ResourceLocation[] textures = this.getTextures(slot, stack);
         if (stack.hasTag() && stack.getTag().contains("gemTag") && !stack.getTag().contains("gem"))
         {
             final ItemStack gem = ItemStack.of(stack.getTag().getCompound("gemTag"));
@@ -67,36 +57,35 @@ public abstract class BlingRenderBase
             final String tex = id.getNamespace() + ":textures/item/" + id.getPath() + ".png";
             stack.getTag().putString("gem", tex);
         }
-
         if (model == null && slot != EnumWearable.EYE) return;
         switch (slot)
         {
         case ANKLE:
-            Ankle.renderAnkle(mat, buff, wearer, stack, model, textures, brightness, overlay);
+            Ankle.renderAnkle(mat, buff, wearer, stack, model, brightness, overlay);
             break;
         case BACK:
-            Back.renderBack(mat, buff, wearer, stack, model, textures, brightness, overlay);
+            Back.renderBack(mat, buff, wearer, stack, model, brightness, overlay);
             break;
         case EAR:
-            Ear.renderEar(mat, buff, wearer, stack, model, textures, brightness, overlay);
+            Ear.renderEar(mat, buff, wearer, stack, model, brightness, overlay);
             break;
         case EYE:
-            Eye.renderEye(mat, buff, wearer, stack, model, textures, brightness, overlay);
+            Eye.renderEye(mat, buff, wearer, stack, model, brightness, overlay);
             break;
         case FINGER:
-            Finger.renderFinger(mat, buff, wearer, stack, model, textures, brightness, overlay);
+            Finger.renderFinger(mat, buff, wearer, stack, model, brightness, overlay);
             break;
         case HAT:
-            Hat.renderHat(mat, buff, wearer, stack, model, textures, brightness, overlay);
+            Hat.renderHat(mat, buff, wearer, stack, model, brightness, overlay);
             break;
         case NECK:
-            Neck.renderNeck(mat, buff, wearer, stack, model, textures, brightness, overlay);
+            Neck.renderNeck(mat, buff, wearer, stack, model, brightness, overlay);
             break;
         case WAIST:
-            Waist.renderWaist(mat, buff, wearer, stack, model, textures, brightness, overlay);
+            Waist.renderWaist(mat, buff, wearer, stack, model, brightness, overlay);
             break;
         case WRIST:
-            Wrist.renderWrist(mat, buff, wearer, stack, model, textures, brightness, overlay);
+            Wrist.renderWrist(mat, buff, wearer, stack, model, brightness, overlay);
             break;
         default:
             break;

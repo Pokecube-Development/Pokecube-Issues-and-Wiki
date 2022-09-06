@@ -50,7 +50,7 @@
 			</Transform>
 		</Transform>
 		<Transform DEF="gem_TRANSFORM"
-		           translation="0.000000 0.00000 -0.000100"
+		           translation="0.000000 0.00000 -0.000500"
 		           scale="0.600000 0.300000 0.150000"
 		           rotation="0.000000 0.000000 -0.000000 0.000000"
 		           >

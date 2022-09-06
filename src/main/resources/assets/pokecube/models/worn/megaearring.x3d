@@ -18,7 +18,7 @@
 		<Transform DEF="earing_TRANSFORM"
 		           translation="0.000000 -0.000000 -0.001399"
 		           scale="1.000000 1.000000 1.000000"
-		           rotation="1.000000 0.000000 0.000000 1.570796"
+		           rotation="1.000000 0.000000 0.000000 0.000000"
 		           >
 			<Transform DEF="earing_ifs_TRANSFORM"
 			           translation="0.000000 0.000000 0.000000"
