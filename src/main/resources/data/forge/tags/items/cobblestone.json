@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:cobbled_dusk_dolerite",
-    "pokecube_legends:ultra_cobblestone",
-    "pokecube_legends:ultra_dark_cobblestone"
+    "#forge:cobblestone/dusk_dolerite",
+    "#forge:cobblestone/ultra_stone",
+    "#forge:cobblestone/ultra_darkstone"
   ]
 }

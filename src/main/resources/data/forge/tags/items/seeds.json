@@ -1,0 +1,28 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:seeds/aspear",
+    "#forge:seeds/cheri",
+    "#forge:seeds/chesto",
+    "#forge:seeds/cornn",
+    "#forge:seeds/enigma",
+    "#forge:seeds/grepa",
+    "#forge:seeds/hondew",
+    "#forge:seeds/jaboca",
+    "#forge:seeds/kelpsy",
+    "#forge:seeds/leppa",
+    "#forge:seeds/lum",
+    "#forge:seeds/nanab",
+    "#forge:seeds/null",
+    "#forge:seeds/oran",
+    "#forge:seeds/pecha",
+    "#forge:seeds/persim",
+    "#forge:seeds/pinap",
+    "#forge:seeds/pomeg",
+    "#forge:seeds/qualot",
+    "#forge:seeds/rawst",
+    "#forge:seeds/rowap",
+    "#forge:seeds/sitrus",
+    "#forge:seeds/tamato"
+  ]
+}
