@@ -13,6 +13,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Matrix3f;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 
@@ -127,7 +128,12 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
         mat.translate(j + 55, k + 60, 50.0F);
         mat.scale(scale, scale, scale);
         final Quaternion quaternion = Vector3f.ZP.rotationDegrees(180.0F);
-        final Quaternion quaternion1 = Vector3f.YP.rotationDegrees(yaw);
+        final Quaternion quaternion1 = Vector3f.YP.rotationDegrees(180-yaw);
+        
+        final Matrix3f norms = mat.last().normal().copy();
+        mat.scale(1, 1, -1);
+        mat.last().normal().load(norms);
+        
         quaternion.mul(quaternion1);
         quaternion.mul(Vector3f.XP.rotationDegrees(pitch));
         mat.mulPose(quaternion);

@@ -503,8 +503,8 @@ public class AnimationGui extends Screen
             entity.yRot = yaw;
             entity.yRotO = entity.yRot;
             entity.xRot = this.yHeadRenderAngle;
-            entity.yHeadRot = -this.xHeadRenderAngle;
-            entity.yHeadRotO = entity.yHeadRot;
+            entity.yHeadRot = this.xHeadRenderAngle;
+            entity.yHeadRotO = -entity.yHeadRot;
             entity.xRotO = entity.xRot;
             entity.tickCount = Minecraft.getInstance().player.tickCount;
             entity.animationPosition += 0.0125;
@@ -514,7 +514,7 @@ public class AnimationGui extends Screen
                 this.renderHolder.overrideAnim = true;
                 this.renderHolder.anim = ThutCore.trim(this.anim.getValue());
             }
-            RenderSystem.setShaderLights(com.mojang.math.Vector3f.YN, com.mojang.math.Vector3f.ZP);
+            RenderSystem.setShaderLights(com.mojang.math.Vector3f.YN, com.mojang.math.Vector3f.ZN);
             final float l = AnimationGui.entry.getModelSize().lengthSquared();
             // Sometimes things go bad and this happens
             if (l <= 0.0001 || l > 1e10) AnimationGui.entry.getModelSize().set(1, 1, 1);
