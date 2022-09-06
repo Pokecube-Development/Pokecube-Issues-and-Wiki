@@ -2151,9 +2151,9 @@ public class PokedexEntry
             if (this.isGenderForme)
             {
                 this.icons[0][0] = new ResourceLocation(texture + ".png");
-                this.icons[0][1] = new ResourceLocation(texture + "s.png");
+                this.icons[0][1] = new ResourceLocation(texture + "_s.png");
                 this.icons[1][0] = new ResourceLocation(texture + ".png");
-                this.icons[1][1] = new ResourceLocation(texture + "s.png");
+                this.icons[1][1] = new ResourceLocation(texture + "_s.png");
             }
             else
             {
@@ -2167,9 +2167,9 @@ public class PokedexEntry
                 if (noGender) male_ = female_ = "";
 
                 this.icons[0][0] = new ResourceLocation(texture + male_ + ".png");
-                this.icons[0][1] = new ResourceLocation(texture + male_ + "s.png");
+                this.icons[0][1] = new ResourceLocation(texture + male_ + "_s.png");
                 this.icons[1][0] = new ResourceLocation(texture + female_ + ".png");
-                this.icons[1][1] = new ResourceLocation(texture + female_ + "s.png");
+                this.icons[1][1] = new ResourceLocation(texture + female_ + "_s.png");
             }
         }
         final int i = male ? 0 : 1;
