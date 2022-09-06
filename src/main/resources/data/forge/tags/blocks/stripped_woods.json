@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:stripped_enigma_wood",
+    "pokecube:stripped_leppa_wood",
+    "pokecube:stripped_nanab_wood",
+    "pokecube:stripped_oran_wood",
+    "pokecube:stripped_pecha_wood",
+    "pokecube:stripped_sitrus_wood",
+    "pokecube_legends:stripped_aged_wood",
+    "pokecube_legends:stripped_concrete_wood",
+    "pokecube_legends:stripped_corrupted_wood",
+    "pokecube_legends:stripped_distortic_wood",
+    "pokecube_legends:stripped_inverted_wood",
+    "pokecube_legends:stripped_mirage_wood",
+    "pokecube_legends:stripped_temporal_wood"
+  ]
+}

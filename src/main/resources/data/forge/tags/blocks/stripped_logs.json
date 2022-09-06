@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:stripped_enigma_log",
+    "pokecube:stripped_leppa_log",
+    "pokecube:stripped_nanab_log",
+    "pokecube:stripped_oran_log",
+    "pokecube:stripped_pecha_log",
+    "pokecube:stripped_sitrus_log",
+    "pokecube_legends:stripped_aged_log",
+    "pokecube_legends:stripped_concrete_log",
+    "pokecube_legends:stripped_corrupted_log",
+    "pokecube_legends:stripped_distortic_log",
+    "pokecube_legends:stripped_inverted_log",
+    "pokecube_legends:stripped_mirage_log",
+    "pokecube_legends:stripped_temporal_log"
+  ]
+}
