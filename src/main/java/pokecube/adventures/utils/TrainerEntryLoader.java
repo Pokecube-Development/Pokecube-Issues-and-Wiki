@@ -2,6 +2,7 @@ package pokecube.adventures.utils;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,14 +23,18 @@ import pokecube.core.entity.npc.NpcType;
 import pokecube.core.utils.Tools;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
+import thut.wearables.EnumWearable;
 
 public class TrainerEntryLoader
 {
-    public static class Bag extends Drop
-    {}
-
     public static class Held extends Drop
     {}
+
+    public static class Worn
+    {
+        public String key;
+        public List<Drop> options = Lists.newArrayList();
+    }
 
     public static class TrainerEntry
     {
@@ -37,7 +42,6 @@ public class TrainerEntryLoader
         String type;
         String pokemon;
         String gender;
-        Bag bag;
         boolean belt = true;
         Held held;
         Held reward;
@@ -45,6 +49,7 @@ public class TrainerEntryLoader
 
         List<SpawnRule> spawns = Lists.newArrayList();
         List<String> tags = Lists.newArrayList();
+        List<Worn> worn = Lists.newArrayList();
 
         @Override
         public String toString()
@@ -116,15 +121,22 @@ public class TrainerEntryLoader
                     : new TypeTrainer(name);
             type.spawns.clear();
             type.pokemon.clear();
+            type.wornItems.clear();
             final byte male = 1;
             final byte female = 2;
             type.tradeTemplate = entry.tradeTemplate;
-            type.hasBag = entry.bag != null;
             if (entry.tags != null) entry.tags.forEach(s -> type.tags.add(new ResourceLocation(s)));
-            if (type.hasBag)
+
+            for (Worn w : entry.worn)
             {
-                final ItemStack bag = Tools.getStack(entry.bag.getValues());
-                type.bag = bag;
+                var list = new ArrayList<ItemStack>();
+                for (Drop d : w.options)
+                {
+                    ItemStack stack = Tools.getStack(d.getValues());
+                    list.add(stack);
+                }
+                if (EnumWearable.slotsNames.containsKey(w.key)) type.wornItems.put(w.key, list);
+                else PokecubeAPI.LOGGER.warn("Invalid key {} for worn items for {}", w.key, name);
             }
             if (entry.spawns != null) entry.spawns.forEach(rule -> {
                 Float weight;

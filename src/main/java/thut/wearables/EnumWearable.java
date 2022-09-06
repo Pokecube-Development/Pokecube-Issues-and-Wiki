@@ -1,7 +1,9 @@
 package thut.wearables;
 
+import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.world.entity.LivingEntity;
@@ -14,7 +16,7 @@ public enum EnumWearable
 
     FINGER(2, 0), WRIST(2, 2), ANKLE(2, 4), NECK(6), BACK(7), WAIST(8), EAR(2, 9), EYE(11), HAT(12);
 
-    static EnumWearable[]        BYINDEX  = new EnumWearable[13];
+    static EnumWearable[] BYINDEX = new EnumWearable[13];
     static Set<IWearableChecker> checkers = Sets.newHashSet();
     static
     {
@@ -33,6 +35,25 @@ public enum EnumWearable
         EnumWearable.BYINDEX[12] = HAT;
 
         EnumWearable.checkers.add(new DefaultChecker());
+    }
+
+    public static final Map<String, EnumWearable> wearableNames = Maps.newHashMap();
+    public static final Map<String, Integer> slotsNames = Maps.newHashMap();
+
+    static
+    {
+        for (final EnumWearable w : EnumWearable.values()) if (w.slots == 2)
+        {
+            wearableNames.put("__" + w + "_right__", w);
+            slotsNames.put("__" + w + "_right__", 0);
+            wearableNames.put("__" + w + "_left__", w);
+            slotsNames.put("__" + w + "_left__", 1);
+        }
+        else
+        {
+            wearableNames.put("__" + w + "__", w);
+            slotsNames.put("__" + w + "__", 0);
+        }
     }
 
     public static boolean canTakeOff(final LivingEntity wearer, final ItemStack stack, final int index)
@@ -106,8 +127,7 @@ public enum EnumWearable
         return EnumWearable.BYINDEX[index];
     }
 
-    public static void interact(final Player player, final ItemStack item, final int index,
-            final UseOnContext context)
+    public static void interact(final Player player, final ItemStack item, final int index, final UseOnContext context)
     {
         if (item.isEmpty()) return;
         final EnumWearable slot = EnumWearable.getWearable(index);
@@ -121,8 +141,7 @@ public enum EnumWearable
         if (stack.isEmpty()) return;
         final EnumWearable slot = EnumWearable.getWearable(index);
         final int subIndex = EnumWearable.getSubIndex(index);
-        for (final IWearableChecker checker : EnumWearable.checkers)
-            checker.onPutOn(wearer, stack, slot, subIndex);
+        for (final IWearableChecker checker : EnumWearable.checkers) checker.onPutOn(wearer, stack, slot, subIndex);
     }
 
     public static void registerWearableChecker(final IWearableChecker checker)
@@ -135,8 +154,7 @@ public enum EnumWearable
         if (stack.isEmpty()) return;
         final EnumWearable slot = EnumWearable.getWearable(index);
         final int subIndex = EnumWearable.getSubIndex(index);
-        for (final IWearableChecker checker : EnumWearable.checkers)
-            checker.onTakeOff(wearer, stack, slot, subIndex);
+        for (final IWearableChecker checker : EnumWearable.checkers) checker.onTakeOff(wearer, stack, slot, subIndex);
     }
 
     public static void tick(final LivingEntity wearer, final ItemStack stack, final int index)
@@ -144,8 +162,7 @@ public enum EnumWearable
         if (stack.isEmpty()) return;
         final EnumWearable slot = EnumWearable.getWearable(index);
         final int subIndex = EnumWearable.getSubIndex(index);
-        for (final IWearableChecker checker : EnumWearable.checkers)
-            checker.onUpdate(wearer, stack, slot, subIndex);
+        for (final IWearableChecker checker : EnumWearable.checkers) checker.onUpdate(wearer, stack, slot, subIndex);
     }
 
     public final int slots;

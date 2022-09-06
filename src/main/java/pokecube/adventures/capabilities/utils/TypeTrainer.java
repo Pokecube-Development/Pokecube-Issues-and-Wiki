@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.function.Predicate;
 
@@ -464,9 +465,9 @@ public class TypeTrainer extends NpcType
     /** 1 = male, 2 = female, 3 = both */
     public byte genders = 1;
 
-    public boolean hasBag = false;
-    public ItemStack bag = ItemStack.EMPTY;
     public boolean hasBelt = false;
+
+    public Map<String, List<ItemStack>> wornItems = Maps.newHashMap();
 
     public String tradeTemplate = "default";
     public List<PokedexEntry> pokemon = Lists.newArrayList();

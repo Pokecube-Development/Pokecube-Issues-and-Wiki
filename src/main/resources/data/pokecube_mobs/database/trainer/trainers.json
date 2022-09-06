@@ -52,10 +52,17 @@
         }
       ],
       "gender": "Male",
-      "bag": {
-        "id": "pokecube_adventures:bag",
-        "tag": "{\"display\": {\"color\":6192150}}"
-      }
+      "worn": [
+       {
+          "key": "__BACK__",
+      	  "options":[
+	      {
+	        "id": "pokecube_adventures:bag",
+	        "tag": "{\"display\": {\"color\":6192150}}"
+	      }
+	      ]
+	    }
+      ]
     },
     {
       "type": "fisherman_trainer",
@@ -409,9 +416,16 @@
         }
       ],
       "gender": "Male",
-      "bag": {
-        "id": "pokecube_adventures:bag"
-      }
+      "worn": [
+       {
+          "key": "__BACK__",
+      	  "options":[
+	      {
+	        "id": "pokecube_adventures:bag"
+	      }
+	      ]
+	    }
+      ]
     }
   ]
 }

@@ -40,12 +40,7 @@ public class WearableWrapper
 
     static
     {
-        for (final EnumWearable wearable : EnumWearable.values()) if (wearable.slots == 2)
-        {
-            WearableWrapper.addedNames.add("__" + wearable + "_right__");
-            WearableWrapper.addedNames.add("__" + wearable + "_left__");
-        }
-        else WearableWrapper.addedNames.add("__" + wearable + "__");
+        addedNames.addAll(EnumWearable.wearableNames.keySet());
     }
 
     private static class WearableRenderWrapper extends X3dPart

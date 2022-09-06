@@ -240,17 +240,22 @@ public abstract class TrainerBase extends NpcMob
 
             if (this.getItemInHand(InteractionHand.OFF_HAND).isEmpty() && !this.pokemobsCap.getType().held.isEmpty())
                 this.setItemInHand(InteractionHand.OFF_HAND, this.pokemobsCap.getType().held.copy());
-            if (this.pokemobsCap.getType().hasBag)
-            {
-                final PlayerWearables worn = ThutWearables.getWearables(this);
-                if (worn.getWearable(EnumWearable.BACK).isEmpty())
-                    worn.setWearable(EnumWearable.BACK, this.pokemobsCap.getType().bag.copy());
-            }
+            final PlayerWearables worn = ThutWearables.getWearables(this);
             if (this.pokemobsCap.getType().hasBelt)
             {
-                final PlayerWearables worn = ThutWearables.getWearables(this);
                 if (worn.getWearable(EnumWearable.WAIST).isEmpty())
                     worn.setWearable(EnumWearable.WAIST, PokecubeItems.getStack("mega_belt"));
+            }
+            for (var entry : this.pokemobsCap.getType().wornItems.entrySet())
+            {
+                var key = entry.getKey();
+                var stack = entry.getValue().get(0);
+                if (entry.getValue().size() > 1)
+                    stack = entry.getValue().get(this.getRandom().nextInt(entry.getValue().size()));
+                var slot = EnumWearable.wearableNames.get(key);
+                var subSlot = EnumWearable.slotsNames.get(key);
+                ItemStack old = worn.getWearable(slot, subSlot);
+                if (old.isEmpty()) worn.setWearable(slot, stack, subSlot);
             }
         }
     }

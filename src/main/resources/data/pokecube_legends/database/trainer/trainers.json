@@ -75,7 +75,17 @@
     {
       "type": "zinnia",
       "pokemon": "whismur,goodra,tyrantrum,altaria,noivern,salamence,rayquaza",
-      "gender": "Female"
+      "gender": "Female",
+      "worn": [
+       {
+          "key": "__ANKLE_right__",
+      	  "options":[
+          {
+            "id": "pokecube:mega_ankletzinnia"
+          }
+	      ]
+	    }
+      ]
     },
     {
       "type": "jessie",

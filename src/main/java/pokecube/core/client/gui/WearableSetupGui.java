@@ -176,26 +176,14 @@ public class WearableSetupGui extends Screen
 
     List<String> components;
 
-    Map<String, EnumWearable> wearableNames = Maps.newHashMap();
-    Map<String, Integer> slots = Maps.newHashMap();
+    Map<String, EnumWearable> wearableNames = EnumWearable.wearableNames;
+    Map<String, Integer> slots = EnumWearable.slotsNames;
     List<String> sortedSlots = Lists.newArrayList();
     int worn_index = 0;
 
     public WearableSetupGui()
     {
         super(TComponent.translatable("pokecube.model_reloader"));
-        for (final EnumWearable w : EnumWearable.values()) if (w.slots == 2)
-        {
-            wearableNames.put("__" + w + "_right__", w);
-            slots.put("__" + w + "_right__", 0);
-            wearableNames.put("__" + w + "_left__", w);
-            slots.put("__" + w + "_left__", 1);
-        }
-        else
-        {
-            wearableNames.put("__" + w + "__", w);
-            slots.put("__" + w + "__", 0);
-        }
         sortedSlots.addAll(slots.keySet());
         sortedSlots.sort(null);
     }
