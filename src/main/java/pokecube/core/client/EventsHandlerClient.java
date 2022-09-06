@@ -75,6 +75,7 @@ import pokecube.core.client.gui.GuiArranger;
 import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
 import pokecube.core.client.gui.GuiInfoMessages;
 import pokecube.core.client.gui.GuiTeleport;
+import pokecube.core.client.gui.WearableSetupGui;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.client.render.mobs.ShoulderLayer;
@@ -296,7 +297,7 @@ public class EventsHandlerClient
             if (pokemob != null) PokedexEntryLoader.updateEntry(pokemob.getPokedexEntry());
         }
         if (ClientSetupHandler.animateGui.consumeClick() && Minecraft.getInstance().screen == null)
-            Minecraft.getInstance().setScreen(new AnimationGui());
+            Minecraft.getInstance().setScreen(Screen.hasAltDown() ? new WearableSetupGui() : new AnimationGui());
         if (ClientSetupHandler.mobMegavolve.consumeClick())
         {
             final IPokemob current = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();

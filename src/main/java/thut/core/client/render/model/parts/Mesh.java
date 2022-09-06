@@ -134,7 +134,7 @@ public abstract class Mesh
             dp.set(centre.x(), centre.y(), centre.z(), 1);
             dp.transform(pos);
             double dr2 = Math.abs(dp.dot(METRIC));
-            if (dr2 < CULLTHRESHOLD)
+            if (dr2 < CULLTHRESHOLD || dr2 > 6e2)
             {
                 cull = false;
             }
