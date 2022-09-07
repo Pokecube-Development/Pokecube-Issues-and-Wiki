@@ -458,7 +458,7 @@ public class Pokemob extends Page
             final int dx = -50;
             final int dy = +20;
             // Draw the actual pokemob
-            GuiPokemobBase.renderMob(this.pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 0.75f);
+            GuiPokemobBase.renderMob(this.pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 0.75f, partialTicks);
         }
     }
 }

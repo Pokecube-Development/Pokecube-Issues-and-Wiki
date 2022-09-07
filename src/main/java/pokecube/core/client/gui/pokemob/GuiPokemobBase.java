@@ -81,13 +81,14 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
     }
 
     public static void renderMob(final LivingEntity entity, final int dx, final int dy, final float pitch,
-            final float yaw, final float headPitch, final float headYaw, final float scale)
+            final float yaw, final float headPitch, final float headYaw, final float scale, float partialTicks)
     {
-        GuiPokemobBase.renderMob(new PoseStack(), entity, dx, dy, pitch, yaw, headPitch, headYaw, scale);
+        GuiPokemobBase.renderMob(new PoseStack(), entity, dx, dy, pitch, yaw, headPitch, headYaw, scale, partialTicks);
     }
 
     public static void renderMob(final PoseStack mat, final LivingEntity entity, final int dx, final int dy,
-            final float pitch, final float yaw, final float headPitch, final float headYaw, float scale)
+            final float pitch, final float yaw, final float headPitch, final float headYaw, float scale,
+            float partialTicks)
     {
         IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         LivingEntity renderMob = entity;
@@ -128,12 +129,12 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
         mat.translate(j + 55, k + 60, 50.0F);
         mat.scale(scale, scale, scale);
         final Quaternion quaternion = Vector3f.ZP.rotationDegrees(180.0F);
-        final Quaternion quaternion1 = Vector3f.YP.rotationDegrees(180-yaw);
-        
+        final Quaternion quaternion1 = Vector3f.YP.rotationDegrees(180 - yaw);
+
         final Matrix3f norms = mat.last().normal().copy();
         mat.scale(1, 1, -1);
         mat.last().normal().load(norms);
-        
+
         quaternion.mul(quaternion1);
         quaternion.mul(Vector3f.XP.rotationDegrees(pitch));
         mat.mulPose(quaternion);
@@ -147,7 +148,8 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
         // Disable the face culling that occurs if too far away
         double bak = Mesh.CULLTHRESHOLD;
         Mesh.CULLTHRESHOLD = Double.MAX_VALUE;
-        entityrenderermanager.render(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, mat, irendertypebuffer$impl, 15728880);
+        entityrenderermanager.render(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, mat, irendertypebuffer$impl,
+                15728880);
         // Re-enable the face culling that occurs if too far away
         Mesh.CULLTHRESHOLD = bak;
         RenderMobOverlays.enabled = true;
@@ -203,7 +205,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
         if (this.menu.mode == 0) this.blit(mat, k + 79, l + 17, 0, this.imageHeight, 90, 18);
         this.blit(mat, k + 7, l + 35, 0, this.imageHeight + 54, 18, 18);
         if (this.menu.pokemob != null)
-            GuiPokemobBase.renderMob(mat, this.menu.pokemob.getEntity(), k, l, 0, 0, 0, 0, 1);
+            GuiPokemobBase.renderMob(mat, this.menu.pokemob.getEntity(), k, l, 0, 0, 0, 0, 1, partialTicks);
     }
 
     /**

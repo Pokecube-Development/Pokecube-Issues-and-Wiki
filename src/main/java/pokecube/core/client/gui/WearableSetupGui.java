@@ -306,7 +306,7 @@ public class WearableSetupGui extends Screen
     }
 
     @Override
-    public void render(final PoseStack mat, final int unk1, final int unk2, final float partialTicks)
+    public void render(final PoseStack mat, final int unk1, final int unk2, float partialTicks)
     {
         if (this.bg)
         {
@@ -366,8 +366,10 @@ public class WearableSetupGui extends Screen
             // Sometimes things go bad and this happens
             if (l <= 0.0001 || l > 1e10) WearableSetupGui.entry.getModelSize().set(1, 1, 1);
             GuiPokemobBase.autoScale = false;
+            if (this.isPauseScreen()) partialTicks = 0;
+            else partialTicks = Minecraft.getInstance().getFrameTime();
             GuiPokemobBase.renderMob(mat, entity, j, k, this.yRenderAngle, this.xRenderAngle, this.yHeadRenderAngle,
-                    this.xHeadRenderAngle, zoom);
+                    this.xHeadRenderAngle, zoom, partialTicks);
             GuiPokemobBase.autoScale = true;
             if (this.renderHolder != null) this.renderHolder.overrideAnim = false;
             mat.popPose();

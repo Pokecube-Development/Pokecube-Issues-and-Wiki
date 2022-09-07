@@ -308,12 +308,10 @@ public class Trainer extends Page
         final int dy = 10;
         int i = 0;
 
-        LivingEntity mob;
-        if (this.parent.entity instanceof LivingEntity)
+        if (this.parent.entity instanceof LivingEntity mob)
         {
-            mob = (LivingEntity) this.parent.entity;
             final float yaw = Util.getMillis() / 40;
-            GuiPokemobBase.renderMob(mob, x - 60, y + 80, 0, yaw, 0, yaw, 1f);
+            GuiPokemobBase.renderMob(mob, x - 60, y + 80, 0, yaw, 0, yaw, 1f, partialTicks);
         }
 
         this.font.draw(matrixStack, I18n.get("Trainer Type"), x + 20, y + dy * i++, 0xFFFFFFFF);

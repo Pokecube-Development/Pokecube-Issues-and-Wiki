@@ -389,7 +389,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             this.blit(evt.getMat(), mobOffsetX, mobOffsetY, 0, 0, 42, 42);
 
             GuiPokemobBase.renderMob(evt.getMat(), pokemob.getEntity(), mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0,
-                    0.75f);
+                    0.75f, Minecraft.getInstance().getFrameTime());
             evt.getMat().popPose();
         }
     }
@@ -468,7 +468,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             final int mobBoxOffsetY = 0;
             this.blit(evt.getMat(), mobBoxOffsetX, mobBoxOffsetY, 0, 0, 42, 42);
             // Render Mob
-            GuiPokemobBase.renderMob(evt.getMat(), entity, mobBoxOffsetX - 30, mobBoxOffsetY - 25, 0, 0, 0, 0, 0.75f);
+            GuiPokemobBase.renderMob(evt.getMat(), entity, mobBoxOffsetX - 30, mobBoxOffsetY - 25, 0, 0, 0, 0, 0.75f,
+                    Minecraft.getInstance().getFrameTime());
             evt.getMat().popPose();
         }
     }

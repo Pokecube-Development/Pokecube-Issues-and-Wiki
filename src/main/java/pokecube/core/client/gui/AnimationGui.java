@@ -452,7 +452,7 @@ public class AnimationGui extends Screen
     }
 
     @Override
-    public void render(final PoseStack mat, final int unk1, final int unk2, final float partialTicks)
+    public void render(final PoseStack mat, final int unk1, final int unk2, float partialTicks)
     {
         if (this.bg)
         {
@@ -462,6 +462,8 @@ public class AnimationGui extends Screen
             mat.popPose();
         }
         super.render(mat, unk1, unk2, partialTicks);
+
+        if (this.isPauseScreen()) partialTicks = 0;
 
         final int yOffset = this.height / 2;
         this.font.draw(mat, "State-General", this.width - 101, yOffset - 42 - yOffset / 2, 0xFFFFFF);
@@ -514,7 +516,7 @@ public class AnimationGui extends Screen
             if (l <= 0.0001 || l > 1e10) AnimationGui.entry.getModelSize().set(1, 1, 1);
             GuiPokemobBase.autoScale = false;
             GuiPokemobBase.renderMob(mat, entity, j, k, this.yRenderAngle, this.xRenderAngle, this.yHeadRenderAngle,
-                    this.xHeadRenderAngle, zoom);
+                    this.xHeadRenderAngle, zoom, partialTicks);
             GuiPokemobBase.autoScale = true;
             if (this.renderHolder != null) this.renderHolder.overrideAnim = false;
             mat.popPose();

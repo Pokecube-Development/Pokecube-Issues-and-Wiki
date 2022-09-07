@@ -42,16 +42,16 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
     }
 
     /**
-     * Draw the foreground layer for the ContainerScreen (everything in front
-     * of the items)
+     * Draw the foreground layer for the ContainerScreen (everything in front of
+     * the items)
      */
     @Override
     protected void renderLabels(final PoseStack mat, final int p_146979_1_, final int p_146979_2_)
     {
         ItemStack stack = this.menu.getInv().getItem(0);
-        if (PokecubeManager.isFilled(stack)) this.renderMob(0);
+        if (PokecubeManager.isFilled(stack)) this.renderMob(0, 0);
         stack = this.menu.getInv().getItem(1);
-        if (PokecubeManager.isFilled(stack)) this.renderMob(1);
+        if (PokecubeManager.isFilled(stack)) this.renderMob(1, 0);
     }
 
     @Override
@@ -59,14 +59,12 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
     {
         super.init();
         final Component trade = TComponent.translatable("block.trade_machine.trade");
-        this.addRenderableWidget(new Button(this.width / 2 - 70, this.height / 2 - 22, 40, 20, trade, b ->
-        {
+        this.addRenderableWidget(new Button(this.width / 2 - 70, this.height / 2 - 22, 40, 20, trade, b -> {
             final PacketTrade packet = new PacketTrade();
             packet.data.putByte("s", (byte) 0);
             PokecubeCore.packets.sendToServer(packet);
         }));
-        this.addRenderableWidget(new Button(this.width / 2 + 30, this.height / 2 - 22, 40, 20, trade, b ->
-        {
+        this.addRenderableWidget(new Button(this.width / 2 + 30, this.height / 2 - 22, 40, 20, trade, b -> {
             final PacketTrade packet = new PacketTrade();
             packet.data.putByte("s", (byte) 1);
             PokecubeCore.packets.sendToServer(packet);
@@ -95,10 +93,10 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
         this.renderTooltip(mat, i, j);
     }
 
-    protected void renderMob(final int index)
+    protected void renderMob(final int index, float partialTicks)
     {
-        final LivingEntity mob = PokecubeManager.itemToMob(this.menu.getInv().getItem(index), PokecubeCore.proxy
-                .getWorld());
+        final LivingEntity mob = PokecubeManager.itemToMob(this.menu.getInv().getItem(index),
+                PokecubeCore.proxy.getWorld());
         int dx = 0;
         float rotX = 0;
         float rotY = 50;
@@ -124,7 +122,7 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
             break;
         }
 
-        GuiPokemobBase.renderMob(mob, dx, dy, 0, rotX, rotY, rotZ, size);
+        GuiPokemobBase.renderMob(mob, dx, dy, 0, rotX, rotY, rotZ, size, partialTicks);
 
         switch (index)
         {
@@ -142,8 +140,8 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
             break;
         }
 
-        if (poke != null && poke.getOwner() instanceof Player) GuiPokemobBase.renderMob(poke.getOwner(), dx, dy, 0,
-                rotX, rotY, rotZ, size);
+        if (poke != null && poke.getOwner() instanceof Player)
+            GuiPokemobBase.renderMob(poke.getOwner(), dx, dy, 0, rotX, rotY, rotZ, size, partialTicks);
     }
 
 }

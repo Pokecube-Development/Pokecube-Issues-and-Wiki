@@ -37,8 +37,8 @@ public class GuiChooseFirstPokemob extends Screen
 {
 
     public final static float POKEDEX_RENDER = 1.5f;
-    public static boolean     special        = false;
-    public static boolean     pick           = false;
+    public static boolean special = false;
+    public static boolean pick = false;
 
     public static PokedexEntry[] starters;
 
@@ -47,9 +47,9 @@ public class GuiChooseFirstPokemob extends Screen
 
     private boolean gotSpecial = true;
 
-    protected Player       player       = null;
+    protected Player player = null;
     protected PokedexEntry pokedexEntry = null;
-    int                    index        = 0;
+    int index = 0;
 
     Button next;
 
@@ -94,23 +94,23 @@ public class GuiChooseFirstPokemob extends Screen
         if (GuiChooseFirstPokemob.starters.length > 0)
         {
             final Component next = TComponent.translatable("block.pc.next");
-            this.addRenderableWidget(this.next = new Button(this.width / 2 - xOffset + 65, this.height / 2 - yOffset,
-                    50, 20, next, b ->
+            this.addRenderableWidget(
+                    this.next = new Button(this.width / 2 - xOffset + 65, this.height / 2 - yOffset, 50, 20, next, b ->
                     {
                         this.index++;
                         if (this.index >= GuiChooseFirstPokemob.starters.length) this.index = 0;
                     }));
             final Component prev = TComponent.translatable("block.pc.previous");
-            this.addRenderableWidget(this.prev = new Button(this.width / 2 - xOffset - 115, this.height / 2 - yOffset,
-                    50, 20, prev, b ->
+            this.addRenderableWidget(
+                    this.prev = new Button(this.width / 2 - xOffset - 115, this.height / 2 - yOffset, 50, 20, prev, b ->
                     {
                         if (this.index > 0) this.index--;
                         else this.index = GuiChooseFirstPokemob.starters.length - 1;
                     }));
         }
 
-        this.addRenderableWidget(this.choose = new Button(this.width / 2 - xOffset - 25, this.height / 2 - yOffset
-                + 160, 50, 20, TComponent.translatable("gui.pokemob.select"), b ->
+        this.addRenderableWidget(this.choose = new Button(this.width / 2 - xOffset - 25,
+                this.height / 2 - yOffset + 160, 50, 20, TComponent.translatable("gui.pokemob.select"), b ->
                 {
                     this.sendMessage(this.pokedexEntry);
                     this.player.closeContainer();
@@ -171,7 +171,8 @@ public class GuiChooseFirstPokemob extends Screen
             return;
         }
         if (GuiChooseFirstPokemob.starters == null || GuiChooseFirstPokemob.starters.length == 0)
-            GuiChooseFirstPokemob.starters = new PokedexEntry[] { Pokedex.getInstance().getFirstEntry() };
+            GuiChooseFirstPokemob.starters = new PokedexEntry[]
+            { Pokedex.getInstance().getFirstEntry() };
 
         this.pokedexEntry = GuiChooseFirstPokemob.starters[this.index % GuiChooseFirstPokemob.starters.length];
 
@@ -185,8 +186,8 @@ public class GuiChooseFirstPokemob extends Screen
         GuiComponent.drawCenteredString(mat, this.font, I18n.get("gui.pokemob.choose1st"), this.width / 2, 17,
                 0xffffff);
 
-        GuiComponent.drawCenteredString(mat, this.font, I18n.get(this.pokedexEntry.getUnlocalizedName()), this.width
-                / 2, 45, 0xffffff);
+        GuiComponent.drawCenteredString(mat, this.font, I18n.get(this.pokedexEntry.getUnlocalizedName()),
+                this.width / 2, 45, 0xffffff);
 
         int n = 0;
         int m = 0;
@@ -195,9 +196,9 @@ public class GuiChooseFirstPokemob extends Screen
         final int l = 40;
         final int k = 150;
 
-        if (this.pokedexEntry.getType2() == PokeType.unknown) GuiComponent.drawCenteredString(mat, this.font, PokeType
-                .getTranslatedName(this.pokedexEntry.getType1()), this.width / 2, 65, this.pokedexEntry
-                        .getType1().colour);
+        if (this.pokedexEntry.getType2() == PokeType.unknown)
+            GuiComponent.drawCenteredString(mat, this.font, PokeType.getTranslatedName(this.pokedexEntry.getType1()),
+                    this.width / 2, 65, this.pokedexEntry.getType1().colour);
         else
         {
             GuiComponent.drawCenteredString(mat, this.font, PokeType.getTranslatedName(this.pokedexEntry.getType1()),
@@ -241,7 +242,7 @@ public class GuiChooseFirstPokemob extends Screen
         GuiComponent.drawCenteredString(mat, this.font, DS + ": ", n + k - 18, m + l + 55, 0x57933A);
         GuiComponent.drawCenteredString(mat, this.font, S + ": ", n + k - 10, m + l + 67, 0xB44062);
 
-        this.renderMob(mat);
+        this.renderMob(mat, f);
         this.renderItem(n + 00, m + 75, 40);
     }
 
@@ -271,7 +272,7 @@ public class GuiChooseFirstPokemob extends Screen
         }
     }
 
-    private void renderMob(final PoseStack stack)
+    private void renderMob(final PoseStack stack, float partialTicks)
     {
         try
         {
@@ -291,7 +292,7 @@ public class GuiChooseFirstPokemob extends Screen
             //@formatter:on
             stack.pushPose();
             stack.translate(0, 0, 100);
-            GuiPokemobBase.renderMob(entity, dx, dy, 0, yaw, hx, hy, size);
+            GuiPokemobBase.renderMob(entity, dx, dy, 0, yaw, hx, hy, size, partialTicks);
             stack.popPose();
         }
         catch (final Throwable e)

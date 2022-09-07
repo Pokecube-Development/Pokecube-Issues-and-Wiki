@@ -43,15 +43,17 @@ public interface RenderTypeProvider
             builder.setOverlayState(RenderStateShard.OVERLAY);
 
             final boolean transp = material.alpha < 1 || material.transluscent;
+            // disable culling entirely
+            if (material.alpha >= 1)
+            {
+                builder.setCullState(RenderStateShard.NO_CULL);
+            }
             if (transp)
             {
                 // These act like masking
                 builder.setWriteMaskState(RenderStateShard.COLOR_WRITE);
-                builder.setDepthTestState(Material.LESSTHAN);
+                builder.setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST);
             }
-            // Otheerwise disable culling entirely
-            else builder.setCullState(RenderStateShard.NO_CULL);
-
             final RenderType.CompositeState rendertype$state = builder.createCompositeState(true);
             type = RenderType.create(id, DefaultVertexFormat.NEW_ENTITY, mode, 256, true, false, rendertype$state);
 

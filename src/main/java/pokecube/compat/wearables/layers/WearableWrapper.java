@@ -78,6 +78,7 @@ public class WearableWrapper
             mat.pushPose();
             this.preRender(mat);
             mat.translate(this.offsets.offset.x, this.offsets.offset.y, this.offsets.offset.z);
+
             mat.scale(1, -1, -1);
             mat.mulPose(Vector3f.YP.rotationDegrees(180));
 
@@ -163,6 +164,7 @@ public class WearableWrapper
                 if (offsets != null && imodel.getParts().containsKey(offsets.parent))
                 {
                     WearableRenderWrapper wrapper;
+                    final IExtendedModelPart part = imodel.getParts().get(offsets.parent);
                     if (imodel.getParts().get(ident) instanceof WearableRenderWrapper wrap)
                     {
                         wrapper = wrap;
@@ -170,11 +172,11 @@ public class WearableWrapper
                     else
                     {
                         wrapper = new WearableRenderWrapper(ident, offsets);
-                        final IExtendedModelPart part = imodel.getParts().get(offsets.parent);
                         wrapper.setParent(part);
                         part.addChild(wrapper);
                         part.getRenderOrder().add(ident);
                         imodel.getParts().put(ident, wrapper);
+                        imodel.getRenderOrder().add(ident);
                     }
                     wrapper.setOffsets(offsets);
                     wrapper.slot = wearable;
@@ -182,6 +184,9 @@ public class WearableWrapper
                     wrapper.stack = worn.getWearable(wearable);
                     wrapper.wrapped = w;
                     wrapper.subIndex = i;
+                    imodel.getRenderOrder().remove(ident);
+                    imodel.getRenderOrder().add(ident);
+                    part.preProcess();
                 }
             }
         }

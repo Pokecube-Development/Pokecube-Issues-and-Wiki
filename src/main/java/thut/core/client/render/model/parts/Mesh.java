@@ -127,7 +127,7 @@ public abstract class Mesh
 
         com.mojang.math.Vector3f camera_view = com.mojang.math.Vector3f.ZP;
 
-        boolean cull = material.cull && alpha >= 1;
+        boolean cull = material.cull && alpha >= 1 && !material.transluscent;
 
         if (cull)
         {

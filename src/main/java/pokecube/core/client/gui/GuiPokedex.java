@@ -334,7 +334,7 @@ public class GuiPokedex extends Screen
         final float pitch = 0;
         final float hx = 0;
         final float hy = yaw;
-        GuiPokemobBase.renderMob(renderMob.getEntity(), j2, k2 + 40, pitch, yaw, hx, hy, 1);
+        GuiPokemobBase.renderMob(renderMob.getEntity(), j2, k2 + 40, pitch, yaw, hx, hy, 1, partialTick);
 
         // Draw info about mob
         final int yOffset = this.height / 2 - 80;

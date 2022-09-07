@@ -41,7 +41,6 @@ public class CommandGui
             packet.handleServer(user);
         }
         return 0;
-
     }
 
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)

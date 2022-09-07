@@ -133,7 +133,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     @Override
     public List<String> getRenderOrder()
     {
-        if ((this.order.isEmpty() || this.order.size() != this.parts.size()) && this.loaded)
+        if ((this.order.isEmpty()) && this.loaded)
         {
             if (this.callback != null) this.callback.run(this);
             this.callback = null;
