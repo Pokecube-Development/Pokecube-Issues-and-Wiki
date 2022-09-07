@@ -43,7 +43,7 @@ public class ChangeFormHandler extends DefaultHandler
 
         if (pokemob.getGeneralState(GeneralStates.EVOLVING) || server == null || owner == null) return;
 
-        final boolean hasRing = player != null || MegaCapability.canMegaEvolve(owner, pokemob);
+        final boolean hasRing = player == null || MegaCapability.canMegaEvolve(owner, pokemob);
         if (!hasRing)
         {
             thut.lib.ChatHelper.sendSystemMessage(player,
