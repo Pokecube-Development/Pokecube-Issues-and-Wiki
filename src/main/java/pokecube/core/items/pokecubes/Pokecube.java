@@ -144,6 +144,10 @@ public class Pokecube extends Item implements IPokecube
                 list.add(TComponent.translatable("pokecube.tooltip.evs", arg));
                 list.add(TComponent.translatable("pokecube.tooltip.nature", pokemob.getNature()));
                 list.add(TComponent.translatable("pokecube.tooltip.ability", pokemob.getAbility()));
+
+                byte sexe = pokemob.getEntity().getPersistentData().getByte(TagNames.SEXE);
+                final String gender = sexe == IPokemob.MALE ? "\u2642" : sexe == IPokemob.FEMALE ? "\u2640" : "";
+                if (!gender.isBlank()) list.add(TComponent.literal(gender));
             }
             else list.add(TComponent.translatable("pokecube.tooltip.advanced"));
         }
