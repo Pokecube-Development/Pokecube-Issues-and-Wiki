@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -375,31 +377,37 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void setRGBABrO(Predicate<Material> material, final int r, final int g, final int b, final int a,
+    public void setRGBABrO(@Nullable Predicate<Material> material, final int r, final int g, final int b, final int a,
             final int br, final int o)
     {
-        this.brightness = br;
-        this.overlay = o;
-        this.materials.forEach(m -> {
-            if (material.test(m))
-            {
-                m.rgbabro[0] = r;
-                m.rgbabro[1] = g;
-                m.rgbabro[2] = b;
-                m.rgbabro[3] = a;
-                m.rgbabro[4] = br;
-                m.rgbabro[5] = o;
-            }
-        });
-        if (Mesh.debug)
+        if (br != Integer.MIN_VALUE)
+        {
+            this.brightness = br;
+            this.overlay = o;
+        }
+        if (material != null && !Mesh.debug)
+        {
+            this.materials.forEach(m -> {
+                if (material.test(m))
+                {
+                    m.rgbabro[0] = r;
+                    m.rgbabro[1] = g;
+                    m.rgbabro[2] = b;
+                    m.rgbabro[3] = a;
+                    m.rgbabro[4] = this.brightness;
+                    m.rgbabro[5] = this.overlay;
+                }
+            });
+        }
+        else
         {
             shapes.forEach(m -> {
                 m.rgbabro[0] = r;
                 m.rgbabro[1] = g;
                 m.rgbabro[2] = b;
                 m.rgbabro[3] = a;
-                m.rgbabro[4] = br;
-                m.rgbabro[5] = o;
+                m.rgbabro[4] = this.brightness;
+                m.rgbabro[5] = this.overlay;
             });
         }
     }

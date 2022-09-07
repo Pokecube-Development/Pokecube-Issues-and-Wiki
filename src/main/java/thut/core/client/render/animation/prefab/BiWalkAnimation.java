@@ -74,22 +74,18 @@ public class BiWalkAnimation extends Animation
     public BiWalkAnimation init(final Set<String> hl, final Set<String> hr, final Set<String> fl, final Set<String> fr,
             int duration, final float legAngle, final float armAngle, final int legAxis, final int armAxis)
     {
-        String phase1 = "%f*cos(0.05*t*%d)";
-        String phase2 = "-%f*cos(0.05*t*%d)";
-        String phase3 = "%f*sin(0.05*t*%d)";
-        String phase4 = "-%f*sin(0.05*t*%d)";
+        String phase1 = "x:%f*cos(0.05*t*%d)";
+        String phase2 = "x:-%f*cos(0.05*t*%d)";
+        String phase3 = "x:%f*sin(0.05*t*%d)";
+        String phase4 = "x:-%f*sin(0.05*t*%d)";
         
         for (final String s : hr)
         {
-            JEP[] rots = new JEP[3];
-            rots[0] = new JEP();
-            rots[0].addStandardFunctions();
-            rots[0].addStandardConstants();
-            rots[0].addVariable("t", 0);
             try
             {
+                JEP[] rots = new JEP[3];
                 String exp = phase1.formatted(legAngle, duration);
-                rots[0].parseExpression(exp);
+                FunctionAnimation.fillJEPs(rots, exp);
                 this.sets.put(s, new FunctionAnimation(rots));
                 continue;
             }
@@ -100,14 +96,11 @@ public class BiWalkAnimation extends Animation
         }
         for (final String s : hl)
         {
-            JEP[] rots = new JEP[3];
-            rots[0] = new JEP();
-            rots[0].addStandardFunctions();
-            rots[0].addStandardConstants();
-            rots[0].addVariable("t", 0);
             try
             {
-                rots[0].parseExpression(phase2.formatted(legAngle, duration));
+                JEP[] rots = new JEP[3];
+                String exp = phase2.formatted(legAngle, duration);
+                FunctionAnimation.fillJEPs(rots, exp);
                 this.sets.put(s, new FunctionAnimation(rots));
                 continue;
             }
@@ -118,14 +111,11 @@ public class BiWalkAnimation extends Animation
         }
         for (final String s : fr)
         {
-            JEP[] rots = new JEP[3];
-            rots[0] = new JEP();
-            rots[0].addStandardFunctions();
-            rots[0].addStandardConstants();
-            rots[0].addVariable("t", 0);
             try
             {
-                rots[0].parseExpression(phase3.formatted(legAngle, duration));
+                JEP[] rots = new JEP[3];
+                String exp = phase3.formatted(legAngle, duration);
+                FunctionAnimation.fillJEPs(rots, exp);
                 this.sets.put(s, new FunctionAnimation(rots));
                 continue;
             }
@@ -136,14 +126,11 @@ public class BiWalkAnimation extends Animation
         }
         for (final String s : fl)
         {
-            JEP[] rots = new JEP[3];
-            rots[0] = new JEP();
-            rots[0].addStandardFunctions();
-            rots[0].addStandardConstants();
-            rots[0].addVariable("t", 0);
             try
             {
-                rots[0].parseExpression(phase4.formatted(legAngle, duration));
+                JEP[] rots = new JEP[3];
+                String exp = phase4.formatted(legAngle, duration);
+                FunctionAnimation.fillJEPs(rots, exp);
                 this.sets.put(s, new FunctionAnimation(rots));
                 continue;
             }

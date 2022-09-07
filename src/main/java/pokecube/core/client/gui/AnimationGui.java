@@ -20,6 +20,7 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -45,6 +46,8 @@ import pokecube.core.database.Database;
 import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.EntityTools;
+import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.Animators.FunctionAnimation;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.lib.RegHelper;
@@ -153,6 +156,8 @@ public class AnimationGui extends Screen
 
     List<AnimModule> modules = Lists.newArrayList();
     int moduleIndex = -1;
+
+    public String testAnimation = "";
 
     public AnimationGui()
     {
@@ -328,6 +333,37 @@ public class AnimationGui extends Screen
             {
                 this.renderHolder.overrideAnim = true;
                 this.renderHolder.anim = ThutCore.trim(this.anim.getValue());
+
+                if (this.testAnimation.startsWith("f::")) try
+                {
+                    String[] args = testAnimation.split("::");
+
+                    String part = ThutCore.trim(args[1]);
+                    String function = args[2];
+                    this.renderHolder.anim = "test_anim";
+
+                    FunctionAnimation animation;
+
+                    if (function.startsWith("d")) animation = FunctionAnimation.makeOffsetTest(function);
+                    else animation = FunctionAnimation.makeRotationTest(function);
+
+                    Animation anim = new Animation();
+                    anim.sets.put(part, animation);
+                    anim.sets.put("test_anim", animation);
+                    anim.name = "test_anim";
+
+                    EntityRenderDispatcher manager = Minecraft.getInstance().getEntityRenderDispatcher();
+                    Object ren = manager.getRenderer(toRender.getEntity());
+                    if (ren instanceof RenderPokemob renderer)
+                    {
+                        renderer.getModel().preProcessAnimations(Lists.newArrayList(anim));
+                        renderer.getModel().renderer.getAnimations().put("test_anim", Lists.newArrayList(anim));
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
             RenderSystem.setShaderLights(com.mojang.math.Vector3f.YN, com.mojang.math.Vector3f.ZN);
             final float l = AnimationGui.entry.getModelSize().lengthSquared();
@@ -372,6 +408,7 @@ public class AnimationGui extends Screen
         this.forme.setValue(AnimationGui.mob);
         this.dyeColour.setValue(AnimationGui.entry.defaultSpecial + "");
         this.anim.setValue("idle");
+        this.anim.maxLength = 999;
         this.addRenderableWidget(this.anim);
         this.addRenderableWidget(this.state_g);
         this.addRenderableWidget(this.state_c);

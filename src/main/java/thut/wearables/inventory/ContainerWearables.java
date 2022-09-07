@@ -138,10 +138,10 @@ public class ContainerWearables extends AbstractContainerMenu
         this.addSlot(new WornSlot(wearer, wrapper, 7, xOffset - xWidth, yOffset + yHeight * 3));
 
         this.hasPlayerSlots = player != null;
-        if (this.hasPlayerSlots) this.bindVanillaInventory(player);
+        if (this.hasPlayerSlots) this.bindVanillaInventory(player, wearer);
     }
 
-    private void bindVanillaInventory(final Inventory playerInventory)
+    private void bindVanillaInventory(final Inventory playerInventory, LivingEntity wearer)
     {
         // Player armour slots.
         for (int k = 0; k < 4; ++k)

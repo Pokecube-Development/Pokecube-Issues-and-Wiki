@@ -45,6 +45,8 @@ public class WornOffsetModule extends AnimModule
     EditBox dZ;
     EditBox scaleS;
 
+    EditBox test_animation;
+
     Map<String, EnumWearable> wearableNames = EnumWearable.wearableNames;
     Map<String, Integer> slots = EnumWearable.slotsNames;
     List<String> sortedSlots = Lists.newArrayList();
@@ -178,6 +180,7 @@ public class WornOffsetModule extends AnimModule
     @Override
     public void onUpdated()
     {
+        if (test_animation.isFocused()) return;
         if (!slots.containsKey(worn_slot.getValue()))
         {
             worn_slot.setValue(sortedSlots.get(worn_index));
@@ -239,6 +242,16 @@ public class WornOffsetModule extends AnimModule
             upDownPressed(code);
             return true;
         }
+        if ((code == GLFW.GLFW_KEY_ENTER || code == GLFW.GLFW_KEY_KP_ENTER) && test_animation.isFocused()
+                && !worn_part.getValue().isBlank())
+        {
+            if (test_animation.getValue().isBlank()) parent.testAnimation = "";
+            else
+            {
+                String args = "f::" + worn_part.getValue() + "::" + test_animation.getValue();
+                parent.testAnimation = args;
+            }
+        }
         return false;
     }
 
@@ -262,6 +275,8 @@ public class WornOffsetModule extends AnimModule
         this.worn_item = new EditBox(parent.font, dx, yOffset - 90, 100, 10, blank);
         this.worn_slot = new EditBox(parent.font, dx, yOffset - 80, 100, 10, blank);
         this.worn_part = new EditBox(parent.font, dx, yOffset - 70, 100, 10, blank);
+
+        this.test_animation = new EditBox(parent.font, dx, yOffset - 00, 100, 10, blank);
 
         yOffset += 10;
         this.scaleS = new EditBox(parent.font, dx, yOffset - 50, 100, 10, one);
@@ -410,6 +425,7 @@ public class WornOffsetModule extends AnimModule
         this.addRenderableWidget(this.dY);
         this.addRenderableWidget(this.dZ);
         this.addRenderableWidget(this.scaleS);
+        this.addRenderableWidget(this.test_animation);
 
         this.setEnabled(false);
     }

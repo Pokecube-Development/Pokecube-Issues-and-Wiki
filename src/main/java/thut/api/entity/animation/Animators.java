@@ -11,6 +11,7 @@ import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.model.IExtendedModelPart;
+import thut.core.common.ThutCore;
 
 public class Animators
 {
@@ -18,6 +19,9 @@ public class Animators
     {
         boolean animate(Animation animation, IAnimationHolder holder, IExtendedModelPart part, float partialTick,
                 float limbSwing, int tick);
+
+        default void setColours(int... rgba)
+        {}
 
         int getLength();
 
@@ -138,9 +142,74 @@ public class Animators
 
     public static class FunctionAnimation implements IAnimator
     {
-        private JEP[] rotFunctions;
-        private JEP[] posFunctions;
-        private JEP[] scaleFunctions;
+
+        public static void fillJEPs(JEP[] jeps, String _funcs)
+        {
+            String[] funcs = _funcs.split(",");
+            func:
+            for (String s : funcs)
+            {
+                String[] args = s.split(":");
+                int i;
+                switch (args[0])
+                {
+                case ("x"):
+                    i = 0;
+                    break;
+                case ("y"):
+                    i = 1;
+                    break;
+                case ("z"):
+                    i = 2;
+                    break;
+                case ("rx"):
+                    i = 0;
+                    break;
+                case ("ry"):
+                    i = 1;
+                    break;
+                case ("rz"):
+                    i = 2;
+                    break;
+                case ("dx"):
+                    i = 0;
+                    break;
+                case ("dy"):
+                    i = 1;
+                    break;
+                case ("dz"):
+                    i = 2;
+                    break;
+                default:
+                    ThutCore.LOGGER.error("Malformed function animation {}", s);
+                    continue func;
+                }
+                jeps[i] = new JEP();
+                jeps[i].addStandardFunctions();
+                jeps[i].addStandardConstants();
+                jeps[i].addVariable("t", 0);
+                jeps[i].addVariable("l", 0);
+                jeps[i].parseExpression(args[1]);
+            }
+        }
+
+        public static FunctionAnimation makeRotationTest(String rotations)
+        {
+            JEP[] rots = new JEP[3];
+            FunctionAnimation.fillJEPs(rots, rotations);
+            return new FunctionAnimation(rots);
+        }
+
+        public static FunctionAnimation makeOffsetTest(String offsets)
+        {
+            JEP[] offs = new JEP[3];
+            FunctionAnimation.fillJEPs(offs, offsets);
+            return new FunctionAnimation(new JEP[3], offs);
+        }
+
+        public JEP[] rotFunctions;
+        public JEP[] posFunctions;
+        public JEP[] scaleFunctions;
 
         private boolean hidden;
         private boolean limbBased;
@@ -149,11 +218,14 @@ public class Animators
         float[] ds = new float[3];
         float[] dx = new float[3];
 
+        private int[] colours =
+        { -1, -1, -1, -1 };
+
         public FunctionAnimation(JEP[] rotFunctions)
         {
             this.rotFunctions = rotFunctions;
-            this.posFunctions = new JEP[3];;
-            this.scaleFunctions = new JEP[3];;
+            this.posFunctions = new JEP[3];
+            this.scaleFunctions = new JEP[3];
         }
 
         public FunctionAnimation(JEP[] rotFunctions, JEP[] posFunctions)
@@ -186,10 +258,12 @@ public class Animators
             time1 = (time1 + partialTick);
             time2 = limbSwing * limbSpeedFactor;
             aniTick = (int) time1;
-            float time = limbBased ? time2 : time1;
 
             final Vector3 temp = animation._shift.clear();
-
+            if (colours[0] != -1)
+            {
+                part.setRGBABrO(null, colours[0], colours[1], colours[2], colours[3], Integer.MIN_VALUE, -1);
+            }
             for (int i = 0; i < 3; i++)
             {
                 dr[i] = 0;
@@ -197,20 +271,21 @@ public class Animators
                 dx[i] = 0;
                 if (rotFunctions[i] != null)
                 {
-                    rotFunctions[i].setVarValue("t", time);
+                    rotFunctions[i].setVarValue("t", time1);
+                    rotFunctions[i].setVarValue("l", time2);
                     dr[i] = (float) rotFunctions[i].getValue();
                 }
-
                 if (scaleFunctions[i] != null)
                 {
-                    scaleFunctions[i].setVarValue("t", time);
+                    scaleFunctions[i].setVarValue("t", time1);
+                    scaleFunctions[i].setVarValue("l", time2);
                     ds[i] = (float) scaleFunctions[i].getValue();
                 }
-
                 if (posFunctions[i] != null)
                 {
-                    posFunctions[i].setVarValue("t", time);
-                    dx[i] = (float) posFunctions[i].getValue();
+                    posFunctions[i].setVarValue("t", time1);
+                    posFunctions[i].setVarValue("l", time2);
+                    dx[i] = (float) posFunctions[i].getValue() / 16f;
                 }
             }
             part.setPreTranslations(temp.set(dx));

@@ -356,7 +356,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         this.rgbabro[3] = a;
         this.rgbabro[4] = br;
         this.rgbabro[5] = o;
-        this.wrapped.body.namesToMats.forEach((n, m) -> {
+        if (material != null) this.wrapped.body.namesToMats.forEach((n, m) -> {
             if (material.test(m))
             {
                 m.rgbabro[0] = r;

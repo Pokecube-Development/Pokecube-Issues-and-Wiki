@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -173,7 +175,7 @@ public interface IExtendedModelPart extends IModelCustom
      * @param br
      * @param o
      */
-    void setRGBABrO(Predicate<Material> material, int r, int g, int b, int a, int br, int o);
+    void setRGBABrO(@Nullable Predicate<Material> material, int r, int g, int b, int a, int br, int o);
 
     default void setRGBABrO(int r, int g, int b, int a, int br, int o)
     {

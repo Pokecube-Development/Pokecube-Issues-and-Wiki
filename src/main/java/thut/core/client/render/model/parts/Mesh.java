@@ -25,6 +25,7 @@ public abstract class Mesh
     public Integer[] order;
     Material material;
     public String name;
+    public boolean overrideColour = false;
     private final double[] uvShift =
     { 0, 0 };
     final int GL_FORMAT;
@@ -122,7 +123,7 @@ public abstract class Mesh
         int lightmapUV = material.rgbabro[4];
         int overlayUV = material.rgbabro[5];
 
-        if (debug)
+        if (debug || overrideColour)
         {
             red = this.rgbabro[0] / 255f;
             green = this.rgbabro[1] / 255f;

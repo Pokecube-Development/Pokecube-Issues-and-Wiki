@@ -94,9 +94,9 @@ public class AnimationBuilder
                         JEP[] pos = new JEP[3];
                         JEP[] scale = new JEP[3];
 
-                        if (!component.rotFuncs.isBlank()) fillJEPs(rots, component.rotFuncs);
-                        if (!component.posFuncs.isBlank()) fillJEPs(rots, component.posFuncs);
-                        if (!component.scaleFuncs.isBlank()) fillJEPs(rots, component.scaleFuncs);
+                        if (!component.rotFuncs.isBlank()) FunctionAnimation.fillJEPs(rots, component.rotFuncs);
+                        if (!component.posFuncs.isBlank()) FunctionAnimation.fillJEPs(rots, component.posFuncs);
+                        if (!component.scaleFuncs.isBlank()) FunctionAnimation.fillJEPs(rots, component.scaleFuncs);
 
                         FunctionAnimation anim = new FunctionAnimation(rots, pos, scale);
                         anim.setHidden(component.hidden);
@@ -158,37 +158,6 @@ public class AnimationBuilder
             }
         }
         return ret;
-    }
-
-    private static void fillJEPs(JEP[] jeps, String _funcs)
-    {
-        String[] funcs = _funcs.split(",");
-        func:
-        for (String s : funcs)
-        {
-            String[] args = s.split(":");
-            int i;
-            switch (args[0])
-            {
-            case ("x"):
-                i = 0;
-                break;
-            case ("y"):
-                i = 1;
-                break;
-            case ("z"):
-                i = 2;
-                break;
-            default:
-                ThutCore.LOGGER.error("Malformed function animation {}", s);
-                continue func;
-            }
-            jeps[i] = new JEP();
-            jeps[i].addStandardFunctions();
-            jeps[i].addStandardConstants();
-            jeps[i].addVariable("t", 0);
-            jeps[i].parseExpression(args[1]);
-        }
     }
 
     private static String get(final Phase node, final String string)
