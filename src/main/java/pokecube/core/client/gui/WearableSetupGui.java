@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -649,39 +650,34 @@ public class WearableSetupGui extends Screen
             String key = this.worn_slot.getValue();
             String part = this.worn_part.getValue();
 
-            dX.setValue(dX.value.trim());
-            while (dX.value.endsWith("0") && dX.value.contains("."))
-            {
-                dX.setValue(dX.value.substring(0, dX.value.length() - 1));
-            }
-            dY.setValue(dY.value.trim());
-            while (dY.value.endsWith("0") && dY.value.contains("."))
-            {
-                dY.setValue(dY.value.substring(0, dY.value.length() - 1));
-            }
-            dZ.setValue(dZ.value.trim());
-            while (dZ.value.endsWith("0") && dZ.value.contains("."))
-            {
-                dZ.setValue(dZ.value.substring(0, dZ.value.length() - 1));
-            }
+            Function<String, String> trim = e -> {
+                String var = e;
+                while (var.endsWith("0") && var.contains("."))
+                {
+                    var = var.substring(0, var.length() - 1);
+                }
+                if (var.endsWith(".")) var = var.substring(0, var.length() - 1);
+                return var;
+            };
+            String dX = trim.apply(this.dX.getValue());
+            String dY = trim.apply(this.dY.getValue());
+            String dZ = trim.apply(this.dZ.getValue());
 
-            rX.setValue(rX.value.trim());
-            while (rX.value.endsWith("0") && rX.value.contains("."))
-            {
-                rX.setValue(rX.value.substring(0, rX.value.length() - 1));
-            }
-            rY.setValue(rY.value.trim());
-            while (rY.value.endsWith("0") && rY.value.contains("."))
-            {
-                rY.setValue(rY.value.substring(0, rY.value.length() - 1));
-            }
-            rZ.setValue(rZ.value.trim());
-            while (rZ.value.endsWith("0") && rZ.value.contains("."))
-            {
-                rZ.setValue(rZ.value.substring(0, rZ.value.length() - 1));
-            }
+            String rX = trim.apply(this.rX.getValue());
+            String rY = trim.apply(this.rY.getValue());
+            String rZ = trim.apply(this.rZ.getValue());
 
-            xml = xml.formatted(key, part, dX.value, dY.value, dZ.value, rX.value, rY.value, rZ.value, scaleS.value);
+            String scale = scaleS.value;
+            Vector3 v = AnimationLoader.getVector3(scale, Vector3.empty);
+            if (v.x == v.y && v.y == v.z) scale = trim.apply("%.3f".formatted(v.x));
+            else
+            {
+                String xs = trim.apply("%.3f".formatted(v.x));
+                String ys = trim.apply("%.3f".formatted(v.y));
+                String zs = trim.apply("%.3f".formatted(v.z));
+                scale = "%s,%s,%s".formatted(xs, ys, zs);
+            }
+            xml = xml.formatted(key, part, dX, dY, dZ, rX, rY, rZ, scale);
             Minecraft.getInstance().keyboardHandler.setClipboard(xml);
             Minecraft.getInstance().player.displayClientMessage(TComponent.literal("Copied XML to clipboard"), true);
         }));
