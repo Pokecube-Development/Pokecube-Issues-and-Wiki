@@ -6,8 +6,8 @@
   <worn id="__ANKLE_left__" parent="leftthigh" offset="0,0.063,0" angles="98.0,7.0,-180.0" scale="0.720,0.720,1.0"/>
   <worn id="__ANKLE_right__" parent="rightthigh" offset="0,0.063,0" angles="98.0,-7.0,-180.0" scale="0.720,0.720,1.0"/>
   <worn id="__BACK__" parent="body" offset="0,-0.130,0.310" angles="-102.0,0.0,0.0" scale="0.670"/>
-  <worn id="__EAR_left__" parent="head" offset="-0.215,0,0.090" angles="0.0,180.0,90.0" scale="0.500"/>
-  <worn id="__EAR_right__" parent="head" offset="0.215,0,0.090" angles="0.0,180.0,-90.0" scale="0.500"/>
+  <worn id="__EAR_left__" parent="head" offset="-0.225,0,0.35" angles="0,180,90" scale="0.5"/>
+  <worn id="__EAR_right__" parent="head" offset="0.225,0,0.35" angles="0,180,-90" scale="0.5"/>
   <worn id="__EYE__" parent="head" offset="0,0,0.255" angles="-90.0,0.0,0.0" scale="0.860"/>
   <worn id="__FINGER_left__" parent="tail8" offset="0.010,0.322,-0.031" angles="-36.9,-236.6,-12.0" scale="0.500,0.5,1.0"/>
   <worn id="__FINGER_right__" parent="tail7" offset="0,0.318,-0.018" angles="-29.4,-226.3,-4.5" scale="0.500,0.500,1.000"/>
