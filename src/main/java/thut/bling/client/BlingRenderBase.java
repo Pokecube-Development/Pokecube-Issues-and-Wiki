@@ -30,7 +30,7 @@ public abstract class BlingRenderBase
 
     protected IModel getModel(final EnumWearable slot, final ItemStack stack)
     {
-        IModel imodel = Util.getCustomModel(slot, stack);
+        IModel imodel = Util.getCustomModel(stack);
         if (imodel != null) return imodel;
         imodel = this.defaultModels.get(slot);
         return imodel;

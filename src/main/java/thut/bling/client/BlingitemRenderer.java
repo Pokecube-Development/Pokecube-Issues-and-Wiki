@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.IItemRenderProperties;
+import thut.core.common.ThutCore;
 import thut.wearables.IWearable;
 import thut.wearables.ThutWearables;
 
@@ -32,10 +33,9 @@ public class BlingitemRenderer extends BlockEntityWithoutLevelRenderer implement
             int overlay)
     {
         IWearable wearable = this.getWearable(item);
-        if (wearable == null)// || Util.getCustomModel(wearable.getSlot(item),
-                             // item) == null)
+        if (wearable == null)
         {
-            IItemRenderProperties.super.getItemStackRenderer().renderByItem(item, transform, mat, bufs, light, overlay);
+            ThutCore.LOGGER.error(new IllegalStateException("Not a wearable???"));
             return;
         }
         BlingRender.INSTANCE.initModels();

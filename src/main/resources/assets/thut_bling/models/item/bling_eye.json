@@ -8,5 +8,13 @@
 			"translation": [0, 0, 1],
 			"scale": [0.55, 0.55, 0.55]
 		}
-	}
+	},
+  "overrides": [
+    {
+      "predicate": {
+        "thut_bling:has_model": 0.5
+      },
+      "model": "thut_bling:item/bling_hat_model"
+    }
+  ]
 }

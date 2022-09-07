@@ -5,6 +5,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
@@ -18,6 +20,8 @@ import thut.bling.BlingItem;
 import thut.bling.ThutBling;
 import thut.bling.bag.large.LargeContainer;
 import thut.bling.client.gui.Bag;
+import thut.bling.client.render.Util;
+import thut.core.client.render.model.IModel;
 import thut.wearables.EnumWearable;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = ThutBling.MODID, value = Dist.CLIENT)
@@ -28,6 +32,18 @@ public class ClientSetupHandler
     {
         MenuScreens.register(ThutBling.BIG_BAG.get(), Bag<LargeContainer>::new);
         MenuScreens.register(ThutBling.SMALL_BAG.get(), ContainerScreen::new);
+
+        event.enqueueWork(() -> {
+            for (Item i : BlingItem.bling)
+            {
+                ItemProperties.register(i, new ResourceLocation(ThutBling.MODID, "has_model"),
+                        (stack, level, living, id) ->
+                        {
+                            IModel model = Util.getCustomModel(stack);
+                            return model != null && model.isLoaded() && model.isValid() ? 1.0F : 0.0F;
+                        });
+            }
+        });
     }
 
     @SubscribeEvent

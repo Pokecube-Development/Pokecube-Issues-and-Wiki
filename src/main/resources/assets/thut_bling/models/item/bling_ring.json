@@ -3,5 +3,13 @@
 	"textures": {
 		"layer0": "thut_bling:item/ring",
 		"layer1": "thut_bling:item/ring_overlay"
-	}
+	},
+  "overrides": [
+    {
+      "predicate": {
+        "thut_bling:has_model": 0.5
+      },
+      "model": "thut_bling:item/bling_hat_model"
+    }
+  ]
 }

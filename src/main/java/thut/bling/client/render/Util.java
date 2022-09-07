@@ -63,9 +63,8 @@ public class Util
     static Map<String, IModel> customModels = Maps.newHashMap();
     static Map<String, ResourceLocation[]> customTextures = Maps.newHashMap();
 
-    public static IModel getCustomModel(final EnumWearable slot, final ItemStack stack)
+    public static IModel getCustomModel(final ItemStack stack)
     {
-
         if (stack.hasTag() && stack.getTag().contains("model"))
         {
             final String model = stack.getTag().getString("model");
@@ -73,7 +72,7 @@ public class Util
             if (imodel == null)
             {
                 final ResourceLocation loc = new ResourceLocation(model);
-                imodel = ModelFactory.create(new ModelHolder(loc, null, null, model));
+                imodel = ModelFactory.create(new ModelHolder(loc));
                 if (model != null)
                 {
                     Util.customModels.put(model, imodel);
