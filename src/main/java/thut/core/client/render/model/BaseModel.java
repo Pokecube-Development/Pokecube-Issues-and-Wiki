@@ -271,7 +271,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         }
         else if (anim) anims.addAll(renderer.getAnimations().get(currentPhase));
 
-        if (anim) AnimationHelper.doAnimation(anims, entity, parent.getName(), parent, partialTick, limbSwing);
+        if (anim) AnimationHelper.doAnimation(anims, entity, parent, partialTick, limbSwing);
         if (this.isHead(parent.getName()))
         {
             float ang;

@@ -16,6 +16,8 @@ import thut.core.client.render.texturing.TextureCoordinate;
 
 public abstract class Mesh
 {
+    public static boolean debug = false;
+
     protected final boolean hasTextures;
     public Vertex[] vertices;
     public Vertex[] normals;
@@ -28,6 +30,8 @@ public abstract class Mesh
     final int GL_FORMAT;
     final Vertex[] normalList;
     Vector4f centre = new Vector4f();
+
+    public int[] rgbabro = new int[6];
 
     private boolean same_mat = false;
 
@@ -111,12 +115,23 @@ public abstract class Mesh
 
         TextureCoordinate textureCoordinate = dummyTex;
         final boolean flat = this.material.flat;
-        final float red = material.rgbabro[0] / 255f;
-        final float green = material.rgbabro[1] / 255f;
-        final float blue = material.rgbabro[2] / 255f;
-        final float alpha = this.material.alpha * material.rgbabro[3] / 255f;
-        final int lightmapUV = material.rgbabro[4];
-        final int overlayUV = material.rgbabro[5];
+        float red = material.rgbabro[0] / 255f;
+        float green = material.rgbabro[1] / 255f;
+        float blue = material.rgbabro[2] / 255f;
+        float alpha = this.material.alpha * material.rgbabro[3] / 255f;
+        int lightmapUV = material.rgbabro[4];
+        int overlayUV = material.rgbabro[5];
+
+        if (debug)
+        {
+            red = this.rgbabro[0] / 255f;
+            green = this.rgbabro[1] / 255f;
+            blue = this.rgbabro[2] / 255f;
+            alpha = this.material.alpha * this.rgbabro[3] / 255f;
+            lightmapUV = this.rgbabro[4];
+            overlayUV = this.rgbabro[5];
+        }
+
         final PoseStack.Pose matrixstack$entry = mat.last();
         final Matrix4f pos = matrixstack$entry.pose();
         final Matrix3f norms = matrixstack$entry.normal();

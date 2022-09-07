@@ -21,40 +21,23 @@
    <part name="tail0">
     <component length="10" name="up" rotOffset="-25,55,0," startKey="0"/>
    </part>
+   <part name="tail9">
+    <component rotFuncs="x:10*sin(t)"/>
+   </part>
    <part name="tail8">
-    <component length="2" name="1" rotChange="10.0,0.0,0.0," startKey="0"/>
-    <component length="6" name="2" rotChange="-20.0,0.0,0.0," startKey="2"/>
-    <component length="2" name="3" rotChange="10.0,0.0,0.0," startKey="8"/>
+    <component rotFuncs="x:10*sin(t)"/>
    </part>
-   <part name="tail7">
-    <component length="10" name="1" rotOffset="30.0,0.0,0.0" startKey="0"/>
-   </part>
-   <part name="tail6">
-    <component length="10" name="1" rotOffset="30.0,0.0,0.0" startKey="0"/>
-   </part>
-   <part name="tail5">
-    <component length="10" name="1" rotOffset="30.0,0.0,0.0" startKey="0"/>
-   </part>
-   <part name="tail4">
-    <component length="10" name="1" rotOffset="30.0,0.0,0.0" startKey="0"/>
-   </part>
-   <part name="tail3">
-    <component length="10" name="1" rotOffset="30.0,0.0,0.0" startKey="0"/>
-   </part>
-   <part name="tail2">
-    <component length="10" name="1" rotOffset="30.0,0.0,0.0" startKey="0"/>
-   </part>
-   <part name="tail1">
-    <component length="10" name="1" rotOffset="30.0,0.0,0.0" startKey="0"/>
+   <part name="tail1:tail2:tail3:tail4:tail5:tail6:tail7">
+    <component rotFuncs="x:30"/>
    </part>
    <part name="tail0">
-    <component length="10" name="1" rotOffset="30.0,60.0,0.0" startKey="0"/>
+    <component rotFuncs="x:30,y:60"/>
    </part>
    <part name="leftLeg">
-    <component length="10" name="leg" rotOffset="-68.0,0.0,0.0," startKey="0"/>
+    <component rotFuncs="x:-68"/>
    </part>
    <part name="rightLeg">
-    <component length="10" name="leg" rotOffset="-68.0,0.0,0.0," startKey="0"/>
+    <component rotFuncs="x:-68"/>
    </part>
   </phase>
  </model>

@@ -1,7 +1,5 @@
 package thut.api.entity.animation;
 
-import java.util.ArrayList;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.UUID;
 
@@ -10,6 +8,7 @@ import javax.xml.namespace.QName;
 
 import com.google.common.collect.Ordering;
 
+import thut.api.entity.animation.Animators.IAnimator;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationXML.Phase;
 
@@ -45,9 +44,9 @@ public class Animation
 
     public Vector3 _shift = new Vector3();
 
-    public TreeMap<String, ArrayList<AnimationComponent>> sets = new TreeMap<>(Ordering.natural());
+    public TreeMap<String, IAnimator> sets = new TreeMap<>(Ordering.natural());
 
-    public ArrayList<AnimationComponent> getComponents(final String key)
+    public IAnimator getComponents(final String key)
     {
         return this.sets.get(key);
     }
@@ -77,11 +76,10 @@ public class Animation
     {
         this.length = -1;
         this.hasLimbBased = false;
-        for (final Entry<String, ArrayList<AnimationComponent>> entry : this.sets.entrySet())
-            for (final AnimationComponent component : entry.getValue())
+        for (var entry : this.sets.entrySet())
         {
-            this.length = Math.max(this.length, component.startKey + component.length);
-            this.hasLimbBased = this.hasLimbBased || component.limbBased;
+            this.length = Math.max(this.length, entry.getValue().getLength());
+            this.hasLimbBased = this.hasLimbBased || entry.getValue().hasLimbBased();
         }
     }
 

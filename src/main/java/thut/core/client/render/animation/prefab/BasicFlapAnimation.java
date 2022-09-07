@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.AnimationComponent;
+import thut.api.entity.animation.Animators.KeyframeAnimator;
 import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.common.ThutCore;
 
@@ -124,7 +125,7 @@ public class BasicFlapAnimation extends Animation
             set.add(component1);
             set.add(component2);
             set.add(component3);
-            this.sets.put(s, set);
+            this.sets.put(s, new KeyframeAnimator(set));
         }
         // Angles and timing are same numbers for Right Wings, but angles are
         // reversed, as are opposite sides.
@@ -161,7 +162,7 @@ public class BasicFlapAnimation extends Animation
             set.add(component1);
             set.add(component2);
             set.add(component3);
-            this.sets.put(s, set);
+            this.sets.put(s, new KeyframeAnimator(set));
         }
         return this;
     }

@@ -63,6 +63,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     protected float rotateAngleX = 0, rotateAngleY = 0, rotateAngleZ = 0, rotateAngle = 0;
 
     public long lastInit = -1;
+    public boolean debugMode = false;
 
     private final int[] tmp = new int[4];
 
@@ -129,6 +130,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
 
     private void initColours(final IExtendedModelPart parent, final T entity, final int brightness, final int overlay)
     {
+        if (debugMode) return;
         int red = 255, green = 255, blue = 255;
         int alpha = 255;
         final IMobColourable poke = entity == null ? null

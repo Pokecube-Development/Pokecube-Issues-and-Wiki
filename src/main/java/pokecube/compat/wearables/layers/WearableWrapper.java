@@ -150,6 +150,9 @@ public class WearableWrapper
         WornOffsets offsets = null;
         final PlayerWearables worn = ThutWearables.getWearables(wearer);
         if (worn == null) return;
+
+        boolean debug = imodel instanceof ModelWrapper<?> wr && wr.debugMode;
+
         for (final EnumWearable wearable : EnumWearable.values())
         {
             final int num = wearable.slots;
@@ -174,9 +177,18 @@ public class WearableWrapper
                         wrapper = new WearableRenderWrapper(ident, offsets);
                         wrapper.setParent(part);
                         part.addChild(wrapper);
-                        part.getRenderOrder().add(ident);
-                        imodel.getParts().put(ident, wrapper);
-                        imodel.getRenderOrder().add(ident);
+                        if (debug)
+                        {
+                            part.getRenderOrder().add(0, ident);
+                            imodel.getParts().put(ident, wrapper);
+                            imodel.getRenderOrder().add(0, ident);
+                        }
+                        else
+                        {
+                            part.getRenderOrder().add(ident);
+                            imodel.getParts().put(ident, wrapper);
+                            imodel.getRenderOrder().add(ident);
+                        }
                     }
                     wrapper.setOffsets(offsets);
                     wrapper.slot = wearable;
@@ -185,7 +197,18 @@ public class WearableWrapper
                     wrapper.wrapped = w;
                     wrapper.subIndex = i;
                     imodel.getRenderOrder().remove(ident);
-                    imodel.getRenderOrder().add(ident);
+
+                    if (debug)
+                    {
+                        imodel.getParts().put(ident, wrapper);
+                        imodel.getRenderOrder().add(0, ident);
+                    }
+                    else
+                    {
+                        imodel.getParts().put(ident, wrapper);
+                        imodel.getRenderOrder().add(ident);
+                    }
+
                     part.preProcess();
                 }
             }

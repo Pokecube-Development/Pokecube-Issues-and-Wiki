@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
+
+import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -16,6 +17,9 @@ import com.google.common.collect.Maps;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.Animation.IPartRenamer;
 import thut.api.entity.animation.AnimationComponent;
+import thut.api.entity.animation.Animators.FunctionAnimation;
+import thut.api.entity.animation.Animators.IAnimator;
+import thut.api.entity.animation.Animators.KeyframeAnimator;
 import thut.core.client.render.animation.AnimationXML.Component;
 import thut.core.client.render.animation.AnimationXML.Part;
 import thut.core.client.render.animation.AnimationXML.Phase;
@@ -23,8 +27,7 @@ import thut.core.common.ThutCore;
 
 public class AnimationBuilder
 {
-    private static void addTo(final Animation animation, final int priority, final String part,
-            final ArrayList<AnimationComponent> parts)
+    private static void addTo(final Animation animation, final int priority, final String part, final IAnimator parts)
     {
         if (animation.sets.containsKey(part) && animation.priority > priority)
             ThutCore.LOGGER.warn("Already have " + part + ", Skipping.");
@@ -63,21 +66,43 @@ public class AnimationBuilder
             }
             else
             {
-                String partName = ThutCore.trim(part.name);
-                if (renamer != null)
+                String[] subParts = part.name.split(":");
+                for (String s : subParts)
                 {
-                    final String[] names =
-                    { partName };
-                    renamer.convertToIdents(names);
-                    partName = names[0];
+                    String partName = ThutCore.trim(s);
+                    if (renamer != null)
+                    {
+                        final String[] names =
+                        { partName };
+                        renamer.convertToIdents(names);
+                        partName = names[0];
+                    }
+                    partNames.add(partName);
                 }
-                partNames.add(partName);
             }
+
+            outer:
             for (final String partName : partNames)
             {
                 final ArrayList<AnimationComponent> set = Lists.newArrayList();
                 for (final Component component : part.components)
                 {
+                    if (!(component.rotFuncs.isBlank() && component.posFuncs.isBlank()
+                            && component.scaleFuncs.isBlank()))
+                    {
+                        JEP[] rots = new JEP[3];
+                        JEP[] pos = new JEP[3];
+                        JEP[] scale = new JEP[3];
+
+                        if (!component.rotFuncs.isBlank()) fillJEPs(rots, component.rotFuncs);
+                        if (!component.posFuncs.isBlank()) fillJEPs(rots, component.posFuncs);
+                        if (!component.scaleFuncs.isBlank()) fillJEPs(rots, component.scaleFuncs);
+
+                        FunctionAnimation anim = new FunctionAnimation(rots, pos, scale);
+                        anim.setHidden(component.hidden);
+                        ret.sets.put(partName, anim);
+                        continue outer;
+                    }
                     final AnimationComponent comp = new AnimationComponent();
                     if (component.name != null) comp.name = component.name;
                     if (component.rotChange != null)
@@ -129,22 +154,46 @@ public class AnimationBuilder
                     comp.hidden = component.hidden;
                     set.add(comp);
                 }
-                if (!set.isEmpty()) ret.sets.put(partName, set);
+                if (!set.isEmpty()) ret.sets.put(partName, new KeyframeAnimator(set));
             }
         }
         return ret;
     }
 
+    private static void fillJEPs(JEP[] jeps, String _funcs)
+    {
+        String[] funcs = _funcs.split(",");
+        func:
+        for (String s : funcs)
+        {
+            String[] args = s.split(":");
+            int i;
+            switch (args[0])
+            {
+            case ("x"):
+                i = 0;
+                break;
+            case ("y"):
+                i = 1;
+                break;
+            case ("z"):
+                i = 2;
+                break;
+            default:
+                ThutCore.LOGGER.error("Malformed function animation {}", s);
+                continue func;
+            }
+            jeps[i] = new JEP();
+            jeps[i].addStandardFunctions();
+            jeps[i].addStandardConstants();
+            jeps[i].addVariable("t", 0);
+            jeps[i].parseExpression(args[1]);
+        }
+    }
+
     private static String get(final Phase node, final String string)
     {
         return node.values.get(new QName(string));
-    }
-
-    private static int length(final List<AnimationComponent> comps)
-    {
-        int length = 0;
-        for (final AnimationComponent comp : comps) length = Math.max(length, comp.startKey + comp.length);
-        return length;
     }
 
     private static Animation mergeAnimations(final List<Animation> list)
@@ -175,11 +224,11 @@ public class AnimationBuilder
         {
             return;
         }
-        for (final Entry<String, ArrayList<AnimationComponent>> entry : animIn.sets.entrySet())
+        for (final var entry : animIn.sets.entrySet())
         {
             final String key = entry.getKey();
-            final ArrayList<AnimationComponent> comps = entry.getValue();
-            final int length = AnimationBuilder.length(comps);
+            final IAnimator comps = entry.getValue();
+            final int length = comps.getLength();
             List<Animation> anims = fill.get(length);
             if (anims == null) fill.put(length, anims = Lists.newArrayList());
             final Animation newAnim = new Animation();

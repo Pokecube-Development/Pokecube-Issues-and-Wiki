@@ -391,6 +391,17 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 m.rgbabro[5] = o;
             }
         });
+        if (Mesh.debug)
+        {
+            shapes.forEach(m -> {
+                m.rgbabro[0] = r;
+                m.rgbabro[1] = g;
+                m.rgbabro[2] = b;
+                m.rgbabro[3] = a;
+                m.rgbabro[4] = br;
+                m.rgbabro[5] = o;
+            });
+        }
     }
 
     @Override

@@ -288,8 +288,7 @@ public class AnimationLoader
                         newAnim.loops = anim.loops;
                         newAnim.priority = 20;
                         newAnim.length = -1;
-                        for (final String s : anim.sets.keySet())
-                            newAnim.sets.put(s, Lists.newArrayList(anim.sets.get(s)));
+                        for (final String s : anim.sets.keySet()) newAnim.sets.put(s, anim.sets.get(s));
                         fromSet.add(newAnim);
                     }
                     toSet.addAll(fromSet);

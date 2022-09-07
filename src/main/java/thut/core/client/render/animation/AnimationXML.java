@@ -32,21 +32,29 @@ public class AnimationXML
         public double opacityChange = 0.0D;
         @XmlAttribute(name = "opacityOffset")
         public double opacityOffset = 0.0D;
+        @XmlAttribute(name = "opacFuncs")
+        public String opacFuncs = "";
 
         @XmlAttribute(name = "posChange")
         public String posChange = "0,0,0";
         @XmlAttribute(name = "posOffset")
         public String posOffset = "0,0,0";
+        @XmlAttribute(name = "posFuncs")
+        public String posFuncs = "";
 
         @XmlAttribute(name = "rotChange")
         public String rotChange = "0,0,0";
         @XmlAttribute(name = "rotOffset")
         public String rotOffset = "0,0,0";
+        @XmlAttribute(name = "rotFuncs")
+        public String rotFuncs = "";
 
         @XmlAttribute(name = "scaleChange")
         public String scaleChange = "0,0,0";
         @XmlAttribute(name = "scaleOffset")
         public String scaleOffset = "0,0,0";
+        @XmlAttribute(name = "scaleFuncs")
+        public String scaleFuncs = "";
 
         @XmlAttribute(name = "startKey")
         public int startKey = 0;

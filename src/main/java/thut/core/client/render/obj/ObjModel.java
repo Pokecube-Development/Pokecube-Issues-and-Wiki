@@ -23,6 +23,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.Animators.KeyframeAnimator;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.animation.IAnimationChanger;
@@ -209,27 +210,31 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
     public void preProcessAnimations(final Collection<Animation> animations)
     {
         // a: animation, comps: component lists
-        animations.forEach(a -> a.sets.forEach((s, comps) -> comps.forEach(comp -> {
-            double d0, d1, d2;
-            // These get adjusted so the coordinate system is
-            // consistant with the older versions.
-            d0 = comp.posOffset[0] / 16;
-            d1 = comp.posOffset[1] / 16;
-            d2 = comp.posOffset[2] / 16;
-            //
-            comp.posOffset[0] = -d0;
-            comp.posOffset[1] = d2;
-            comp.posOffset[2] = -d1;
-            //
-            d0 = comp.posChange[0] / 16;
-            d1 = comp.posChange[1] / 16;
-            d2 = comp.posChange[2] / 16;
-            //
-            comp.posChange[0] = -d0;
-            comp.posChange[1] = d2;
-            comp.posChange[2] = -d1;
-
-        })));
+        animations.forEach(a -> a.sets.forEach((s, anim) -> {
+            if (anim instanceof KeyframeAnimator a2)
+            {
+                a2.components.forEach(comp -> {
+                    double d0, d1, d2;
+                    // These get adjusted so the coordinate system is
+                    // consistant with the older versions.
+                    d0 = comp.posOffset[0] / 16;
+                    d1 = comp.posOffset[1] / 16;
+                    d2 = comp.posOffset[2] / 16;
+                    //
+                    comp.posOffset[0] = -d0;
+                    comp.posOffset[1] = d2;
+                    comp.posOffset[2] = -d1;
+                    //
+                    d0 = comp.posChange[0] / 16;
+                    d1 = comp.posChange[1] / 16;
+                    d2 = comp.posChange[2] / 16;
+                    //
+                    comp.posChange[0] = -d0;
+                    comp.posChange[1] = d2;
+                    comp.posChange[2] = -d1;
+                });
+            }
+        }));
     }
 
     @Override
@@ -305,8 +310,8 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
 
         parent.resetToInit();
         final boolean anim = renderer.getAnimations().containsKey(currentPhase);
-        if (anim) if (AnimationHelper.doAnimation(renderer.getAnimations().get(currentPhase), entity, parent.getName(),
-                parent, partialTick, limbSwing))
+        if (anim) if (AnimationHelper.doAnimation(renderer.getAnimations().get(currentPhase), entity, parent,
+                partialTick, limbSwing))
         {}
         if (this.isHead(parent.getName()))
         {

@@ -1,15 +1,14 @@
 package thut.core.client.render.animation.prefab;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.Lists;
+import org.nfunk.jep.JEP;
 
 import thut.api.entity.animation.Animation;
-import thut.api.entity.animation.AnimationComponent;
+import thut.api.entity.animation.Animators.FunctionAnimation;
 import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.common.ThutCore;
 
@@ -43,14 +42,10 @@ public class BiWalkAnimation extends Animation
             renamer.convertToIdents(lf);
             renamer.convertToIdents(rf);
         }
-        for (final String s : lh)
-            if (s != null) hl.add(ThutCore.trim(s));
-        for (final String s : rh)
-            if (s != null) hr.add(ThutCore.trim(s));
-        for (final String s : rf)
-            if (s != null) fr.add(ThutCore.trim(s));
-        for (final String s : lf)
-            if (s != null) fl.add(ThutCore.trim(s));
+        for (final String s : lh) if (s != null) hl.add(ThutCore.trim(s));
+        for (final String s : rh) if (s != null) hr.add(ThutCore.trim(s));
+        for (final String s : rf) if (s != null) fr.add(ThutCore.trim(s));
+        for (final String s : lf) if (s != null) fl.add(ThutCore.trim(s));
         biwalkdur = Integer.parseInt(this.get(map, "duration"));
         int armAxis = 0;
         int legAxis = 0;
@@ -67,165 +62,97 @@ public class BiWalkAnimation extends Animation
      * childed to the body need to be added to these sets, any parts childed to
      * them will also be swung by the parent/child system.
      *
-     * @param hl
-     *            - left legs
-     * @param hr
-     *            - right legs
-     * @param fl
-     *            - left arms
-     * @param fr
-     *            - right arms
-     * @param duration
-     *            - time taken for animation
-     * @param legAngle
-     *            - half - angle covered by legs.
-     * @param armAngle
-     *            - half - angle covered by arms.
+     * @param hl       - left legs
+     * @param hr       - right legs
+     * @param fl       - left arms
+     * @param fr       - right arms
+     * @param duration - time taken for animation
+     * @param legAngle - half - angle covered by legs.
+     * @param armAngle - half - angle covered by arms.
      * @return
      */
     public BiWalkAnimation init(final Set<String> hl, final Set<String> hr, final Set<String> fl, final Set<String> fr,
             int duration, final float legAngle, final float armAngle, final int legAxis, final int armAxis)
     {
-        duration = duration + duration % 4;
+        String phase1 = "%f*cos(0.05*t*%d)";
+        String phase2 = "-%f*cos(0.05*t*%d)";
+        String phase3 = "%f*sin(0.05*t*%d)";
+        String phase4 = "-%f*sin(0.05*t*%d)";
+        
         for (final String s : hr)
         {
-            final String ident = "hr";
-            final AnimationComponent component1 = new AnimationComponent();
-            component1.length = duration / 4;
-            component1.name = ident + "1";
-            component1.identifier = ident + "1";
-            component1.startKey = 0;
-            component1.rotChange[legAxis] = legAngle;
-
-            final AnimationComponent component2 = new AnimationComponent();
-            component2.length = duration / 2;
-            component2.name = ident + "2";
-            component2.identifier = ident + "2";
-            component2.startKey = duration / 4;
-            component2.rotChange[legAxis] = -2 * legAngle;
-
-            final AnimationComponent component3 = new AnimationComponent();
-            component3.length = duration / 4;
-            component3.name = ident + "3";
-            component3.identifier = ident + "3";
-            component3.startKey = 3 * duration / 4;
-            component3.rotChange[legAxis] = legAngle;
-
-            final ArrayList<AnimationComponent> set = Lists.newArrayList();
-
-            component1.limbBased = true;
-            component2.limbBased = true;
-            component3.limbBased = true;
-            set.add(component1);
-            set.add(component2);
-            set.add(component3);
-            this.sets.put(s, set);
+            JEP[] rots = new JEP[3];
+            rots[0] = new JEP();
+            rots[0].addStandardFunctions();
+            rots[0].addStandardConstants();
+            rots[0].addVariable("t", 0);
+            try
+            {
+                String exp = phase1.formatted(legAngle, duration);
+                rots[0].parseExpression(exp);
+                this.sets.put(s, new FunctionAnimation(rots));
+                continue;
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
         for (final String s : hl)
         {
-            final String ident = "hl";
-            final AnimationComponent component1 = new AnimationComponent();
-            component1.length = duration / 4;
-            component1.name = ident + "1";
-            component1.identifier = ident + "1";
-            component1.startKey = 0;
-            component1.rotChange[legAxis] = -legAngle;
-
-            final AnimationComponent component2 = new AnimationComponent();
-            component2.length = duration / 2;
-            component2.name = ident + "2";
-            component2.identifier = ident + "2";
-            component2.startKey = duration / 4;
-            component2.rotChange[legAxis] = 2 * legAngle;
-
-            final AnimationComponent component3 = new AnimationComponent();
-            component3.length = duration / 4;
-            component3.name = ident + "3";
-            component3.identifier = ident + "3";
-            component3.startKey = 3 * duration / 4;
-            component3.rotChange[legAxis] = -legAngle;
-
-            final ArrayList<AnimationComponent> set = Lists.newArrayList();
-
-            component1.limbBased = true;
-            component2.limbBased = true;
-            component3.limbBased = true;
-            set.add(component1);
-            set.add(component2);
-            set.add(component3);
-            this.sets.put(s, set);
+            JEP[] rots = new JEP[3];
+            rots[0] = new JEP();
+            rots[0].addStandardFunctions();
+            rots[0].addStandardConstants();
+            rots[0].addVariable("t", 0);
+            try
+            {
+                rots[0].parseExpression(phase2.formatted(legAngle, duration));
+                this.sets.put(s, new FunctionAnimation(rots));
+                continue;
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
         for (final String s : fr)
         {
-            final String ident = "fr";
-            final AnimationComponent component1 = new AnimationComponent();
-            component1.length = duration / 4;
-            component1.name = ident + "1";
-            component1.identifier = ident + "1";
-            component1.startKey = 0;
-            component1.rotChange[armAxis] = armAngle;
-
-            final AnimationComponent component2 = new AnimationComponent();
-            component2.length = duration / 2;
-            component2.name = ident + "2";
-            component2.identifier = ident + "2";
-            component2.startKey = duration / 4;
-            component2.rotChange[armAxis] = -2 * armAngle;
-
-            final AnimationComponent component3 = new AnimationComponent();
-            component3.length = duration / 4;
-            component3.name = ident + "3";
-            component3.identifier = ident + "3";
-            component3.startKey = 3 * duration / 4;
-            component3.rotChange[armAxis] = armAngle;
-
-            final ArrayList<AnimationComponent> set = Lists.newArrayList();
-
-            component1.limbBased = true;
-            component2.limbBased = true;
-            component3.limbBased = true;
-            set.add(component1);
-            set.add(component2);
-            set.add(component3);
-            this.sets.put(s, set);
+            JEP[] rots = new JEP[3];
+            rots[0] = new JEP();
+            rots[0].addStandardFunctions();
+            rots[0].addStandardConstants();
+            rots[0].addVariable("t", 0);
+            try
+            {
+                rots[0].parseExpression(phase3.formatted(legAngle, duration));
+                this.sets.put(s, new FunctionAnimation(rots));
+                continue;
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
         for (final String s : fl)
         {
-            final String ident = "fl";
-            final AnimationComponent component1 = new AnimationComponent();
-            component1.length = duration / 4;
-            component1.name = ident + "1";
-            component1.identifier = ident + "1";
-            component1.startKey = 0;
-            component1.rotChange[armAxis] = -armAngle;
-
-            final AnimationComponent component2 = new AnimationComponent();
-            component2.length = duration / 2;
-            component2.name = ident + "2";
-            component2.identifier = ident + "2";
-            component2.startKey = duration / 4;
-            component2.rotChange[armAxis] = 2 * armAngle;
-
-            final AnimationComponent component3 = new AnimationComponent();
-            component3.length = duration / 4;
-            component3.name = ident + "3";
-            component3.identifier = ident + "3";
-            component3.startKey = 3 * duration / 4;
-            component3.rotChange[armAxis] = -armAngle;
-
-            final ArrayList<AnimationComponent> set = Lists.newArrayList();
-
-            component1.limbBased = true;
-            component2.limbBased = true;
-            component3.limbBased = true;
-            set.add(component1);
-            set.add(component2);
-            set.add(component3);
-            this.sets.put(s, set);
+            JEP[] rots = new JEP[3];
+            rots[0] = new JEP();
+            rots[0].addStandardFunctions();
+            rots[0].addStandardConstants();
+            rots[0].addVariable("t", 0);
+            try
+            {
+                rots[0].parseExpression(phase4.formatted(legAngle, duration));
+                this.sets.put(s, new FunctionAnimation(rots));
+                continue;
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
-        for (final ArrayList<AnimationComponent> set : this.sets.values())
-            for (final AnimationComponent c : set)
-                c.limbBased = true;
+        for (final var set : this.sets.values()) set.setLimbBased();
         return this;
     }
 }

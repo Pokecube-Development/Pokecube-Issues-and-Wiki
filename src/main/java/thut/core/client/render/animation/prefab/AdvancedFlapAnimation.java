@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.AnimationComponent;
+import thut.api.entity.animation.Animators.KeyframeAnimator;
 import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.common.ThutCore;
 
@@ -37,7 +38,8 @@ public class AdvancedFlapAnimation extends Animation
             if (this.get(map, "leftWing" + i).isEmpty()) break;
 
             int flapaxis = 2;
-            final float[] walkAngle1 = { 20, 20 };
+            final float[] walkAngle1 =
+            { 20, 20 };
             final HashSet<String> hl = new HashSet<>();
             final HashSet<String> hr = new HashSet<>();
             final String[] lh = this.get(map, "leftWing" + i).split(":");
@@ -47,10 +49,8 @@ public class AdvancedFlapAnimation extends Animation
                 renamer.convertToIdents(lh);
                 renamer.convertToIdents(rh);
             }
-            for (final String s : lh)
-                if (s != null) hl.add(ThutCore.trim(s));
-            for (final String s : rh)
-                if (s != null) hr.add(ThutCore.trim(s));
+            for (final String s : lh) if (s != null) hl.add(ThutCore.trim(s));
+            for (final String s : rh) if (s != null) hr.add(ThutCore.trim(s));
             if (this.get(map, "angle" + i) != null)
             {
                 final String[] args = this.get(map, "angle" + i).split(",");
@@ -65,26 +65,19 @@ public class AdvancedFlapAnimation extends Animation
     }
 
     /**
-     * Moves the wings to angle of start, then flaps up to angle, down to
-     * -angle and back to start. Only the parts directly childed to the body
-     * need to be added to these sets, any parts childed to them will also be
-     * swung by the parent/child system. This is the first segment of the wing
+     * Moves the wings to angle of start, then flaps up to angle, down to -angle
+     * and back to start. Only the parts directly childed to the body need to be
+     * added to these sets, any parts childed to them will also be swung by the
+     * parent/child system. This is the first segment of the wing
      *
-     * @param lw
-     *            - set of left wings
-     * @param rw
-     *            - set of right wings
-     * @param duration
-     *            - time taken for entire flap.
-     * @param angle
-     *            - angle[0] = first stage movement, angle[1] = second stage
-     *            movement.
-     * @param start
-     *            - initial angle moved to to start flapping
-     * @param axis
-     *            - axis used for flapping around.
-     * @param reverse
-     *            - should only be false for the first section of the wing.
+     * @param lw       - set of left wings
+     * @param rw       - set of right wings
+     * @param duration - time taken for entire flap.
+     * @param angle    - angle[0] = first stage movement, angle[1] = second
+     *                 stage movement.
+     * @param start    - initial angle moved to to start flapping
+     * @param axis     - axis used for flapping around.
+     * @param reverse  - should only be false for the first section of the wing.
      * @return
      */
     public AdvancedFlapAnimation init(final Set<String> lw, final Set<String> rw, int duration, final float[] angle,
@@ -130,7 +123,7 @@ public class AdvancedFlapAnimation extends Animation
             set.add(component1);
             set.add(component2);
             set.add(component3);
-            this.sets.put(s, set);
+            this.sets.put(s, new KeyframeAnimator(set));
         }
         // Angles and timing are same numbers for Right Wings, but angles are
         // reversed, as are opposite sides.
@@ -167,7 +160,7 @@ public class AdvancedFlapAnimation extends Animation
             set.add(component1);
             set.add(component2);
             set.add(component3);
-            this.sets.put(s, set);
+            this.sets.put(s, new KeyframeAnimator(set));
         }
         return this;
     }
