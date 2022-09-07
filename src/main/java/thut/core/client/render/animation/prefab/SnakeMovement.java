@@ -20,7 +20,8 @@ public class SnakeMovement extends Animation
     public SnakeMovement init(final ArrayList<String> parts, int duration, final float maxAngle, final int axis)
     {
         final int num = parts.size();
-        double dphi = Math.PI / num;
+        final int mod = num > 6 ? 3 : 2;
+        double dphi = mod * Math.PI / num;
         String phase = "0.5*%f*sin(t*0.001*%d + %f)";
 
         for (int i = 0; i < parts.size(); i++)
