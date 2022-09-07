@@ -36,7 +36,7 @@ public class ChangeFormHandler extends DefaultHandler
         final LivingEntity owner = pokemob.getOwner();
 
         final Entity mob = pokemob.getEntity();
-        Player player = owner instanceof Player ? (Player) owner : null;
+        Player player = owner instanceof Player p ? p : null;
         final Level world = mob.getLevel();
         final BlockPos pos = mob.blockPosition();
         final MinecraftServer server = mob.getServer();

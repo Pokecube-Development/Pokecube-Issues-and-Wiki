@@ -2,6 +2,7 @@ package thut.wearables.network;
 
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -45,7 +46,15 @@ public class PacketGui extends Packet
         {
             super(player.getLevel(), player, InteractionHand.MAIN_HAND, heldItem, WearableContext.fromNBT(player, nbt));
         }
+    }
 
+    @OnlyIn(value = Dist.CLIENT)
+    public static Screen previous = null;
+
+    public static void sendOpenGui(PacketGui packet)
+    {
+        previous = Minecraft.getInstance().screen;
+        ThutWearables.packets.sendToServer(packet);
     }
 
     public CompoundTag data;
@@ -64,7 +73,8 @@ public class PacketGui extends Packet
     @OnlyIn(value = Dist.CLIENT)
     public void handleClient()
     {
-        Minecraft.getInstance().setScreen(new InventoryScreen(Minecraft.getInstance().player));
+        if (previous != null) Minecraft.getInstance().setScreen(previous);
+        else Minecraft.getInstance().setScreen(new InventoryScreen(Minecraft.getInstance().player));
     }
 
     @Override

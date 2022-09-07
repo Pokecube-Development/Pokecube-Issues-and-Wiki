@@ -1,6 +1,7 @@
 package pokecube.compat.wearables.layers;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -11,10 +12,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.client.event.ScreenEvent.InitScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.core.client.gui.pokemob.GuiPokemob;
+import pokecube.core.network.pokemobs.PacketPokemobGui;
 import thut.core.client.render.animation.AnimationChanger;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.animation.IAnimationChanger.WornOffsets;
@@ -23,10 +31,14 @@ import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.wrappers.ModelWrapper;
 import thut.core.client.render.x3d.X3dPart;
+import thut.lib.TComponent;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
 import thut.wearables.ThutWearables;
+import thut.wearables.client.gui.GuiWearableButton;
+import thut.wearables.client.gui.GuiWearables;
 import thut.wearables.inventory.PlayerWearables;
+import thut.wearables.network.PacketGui;
 
 public class WearableWrapper
 {
@@ -141,6 +153,70 @@ public class WearableWrapper
         final EntityModel<?> model = event.getRenderer().getModel();
         if (model instanceof ModelWrapper<?> renderer)
             WearableWrapper.applyWearables(event.getEntity(), renderer.renderer, renderer);
+    }
+
+    private static int lastID = -1;
+    private static UUID lastUUID = null;
+
+    @OnlyIn(value = Dist.CLIENT)
+    @SubscribeEvent
+    public static void guiPostInit(final InitScreenEvent.Post event)
+    {
+        final GuiWearableButton button;
+        if (event.getScreen() instanceof GuiPokemob pokegui)
+        {
+            int x = pokegui.getGuiLeft() + ThutWearables.config.buttonPos.get(0);
+            int y = pokegui.getGuiTop() + ThutWearables.config.buttonPos.get(1) + 10;
+            event.getScreen().addRenderableWidget(button = new GuiWearableButton(x, y, 9, 9,
+                    TComponent.translatable("button.wearables.on"), b -> openPokemobWearables(pokegui)));
+            button.setFGColor(0xFFFF00FF);
+        }
+        else if (event.getScreen() instanceof GuiWearables wear)
+        {
+            if (wear.getMenu().wearer.getUUID() == lastUUID)
+            {
+                int x = wear.getGuiLeft() + ThutWearables.config.buttonPos.get(0);
+                int y = wear.getGuiTop() + ThutWearables.config.buttonPos.get(1);
+                event.getScreen().addRenderableWidget(button = new GuiWearableButton(x, y, 9, 9,
+                        TComponent.translatable("button.wearables.off"), b -> openPokemobGui()));
+                button.setFGColor(0xFFFF00FF);
+            }
+            else
+            {
+                lastID = -1;
+                lastUUID = null;
+            }
+        }
+    }
+
+    @OnlyIn(value = Dist.CLIENT)
+    private static void openPokemobWearables(final GuiPokemob pokegui)
+    {
+        IPokemob pokemob = pokegui.getMenu().pokemob;
+        final PacketGui packet = new PacketGui();
+        packet.data.putInt("w_open_target_", lastID = pokemob.getEntity().getId());
+        lastUUID = pokemob.getEntity().getUUID();
+        PacketGui.sendOpenGui(packet);
+    }
+
+    @OnlyIn(value = Dist.CLIENT)
+    private static void openPokemobGui()
+    {
+        Entity e = null;
+        if (lastID != -1 && lastUUID != null)
+        {
+            e = Minecraft.getInstance().level.getEntity(lastID);
+            if (e == null || e.getUUID() != lastUUID)
+            {
+                lastID = -1;
+                lastUUID = null;
+                return;
+            }
+        }
+        else return;
+        PacketPokemobGui.sendPagePacket(PacketPokemobGui.MAIN, e.getId());
+        lastID = -1;
+        lastUUID = null;
     }
 
     public static void applyWearables(final LivingEntity wearer, final IModelRenderer<?> renderer, final IModel imodel)

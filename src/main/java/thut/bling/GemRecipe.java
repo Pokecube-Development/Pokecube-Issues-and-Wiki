@@ -21,12 +21,12 @@ import thut.api.item.ItemList;
 public class GemRecipe extends CustomRecipe
 {
     public static final ResourceLocation BLINGTAG = new ResourceLocation("thut_bling", "bling");
-    public static final ResourceLocation GEMTAG   = new ResourceLocation("thut_bling", "gems");
+    public static final ResourceLocation GEMTAG = new ResourceLocation("thut_bling", "gems");
 
     public static final ResourceLocation IDTAG = new ResourceLocation("thut_bling:apply_gem");
 
-    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(
-            ForgeRegistries.RECIPE_SERIALIZERS, ThutBling.MODID);
+    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister
+            .create(ForgeRegistries.RECIPE_SERIALIZERS, ThutBling.MODID);
 
     public static final RegistryObject<SimpleRecipeSerializer<GemRecipe>> SERIALIZER = GemRecipe.RECIPE_SERIALIZERS
             .register("apply_gem", GemRecipe.special(GemRecipe::new));

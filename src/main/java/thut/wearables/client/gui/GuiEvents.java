@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
@@ -12,6 +13,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ScreenEvent.InitScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.lib.TComponent;
 import thut.wearables.ThutWearables;
@@ -29,53 +31,54 @@ public class GuiEvents
 
     public static void init()
     {
-        MinecraftForge.EVENT_BUS.register(new GuiEvents());
+        MinecraftForge.EVENT_BUS.register(GuiEvents.class);
     }
 
-    public boolean active;
-
-    public GuiEvents()
-    {}
+    public static boolean active;
 
     @OnlyIn(value = Dist.CLIENT)
-    @SubscribeEvent
-    public void guiPostInit(final InitScreenEvent.Post event)
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void guiPostInit(final InitScreenEvent.Post event)
     {
         if (!ThutWearables.config.hasButton) return;
         if (ThutWearables.config.noButton) return;
 
         if (event.getScreen() instanceof InventoryScreen || event.getScreen() instanceof GuiWearables)
         {
-            this.active = event.getScreen() instanceof GuiWearables;
+            GuiEvents.active = false;
+            if (event.getScreen() instanceof GuiWearables wear)
+            {
+                if (wear.getMenu().wearer != Minecraft.getInstance().player) return;
+                GuiEvents.active = true;
+            }
             final EffectRenderingInventoryScreen<?> gui = (EffectRenderingInventoryScreen<?>) event.getScreen();
             final GuiWearableButton button;
             int x = gui.getGuiLeft() + ThutWearables.config.buttonPos.get(0);
             int y = gui.getGuiTop() + ThutWearables.config.buttonPos.get(1);
             event.getScreen()
                     .addRenderableWidget(button = new GuiWearableButton(x, y, 9, 9,
-                            TComponent.translatable(this.active ? "button.wearables.off" : "button.wearables.on"),
-                            b -> this.pressButton(gui)));
+                            TComponent.translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"),
+                            b -> pressButton(gui)));
             button.setFGColor(0xFFFF00FF);
         }
         else if (event.getScreen() instanceof CreativeModeInventoryScreen gui)
         {
-            this.active = event.getScreen() instanceof GuiWearables;
+            GuiEvents.active = event.getScreen() instanceof GuiWearables;
             GuiWearableButton button;
-            event.getScreen()
-                    .addRenderableWidget(button = new GuiWearableButton(gui.getGuiLeft() + 43, gui.getGuiTop() + 9, 9,
-                            9, TComponent.translatable(this.active ? "button.wearables.off" : "button.wearables.on"),
-                            b -> this.pressButton(gui)));
+            event.getScreen().addRenderableWidget(
+                    button = new GuiWearableButton(gui.getGuiLeft() + 43, gui.getGuiTop() + 9, 9, 9,
+                            TComponent.translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"),
+                            b -> pressButton(gui)));
             button.gui = gui;
             button.setFGColor(0xFFFF00FF);
         }
     }
 
-    private void pressButton(final Screen gui)
+    private static void pressButton(final Screen gui)
     {
         final boolean close = gui instanceof GuiWearables;
         final PacketGui packet = new PacketGui();
         packet.data.putBoolean("close", close);
         ThutWearables.packets.sendToServer(packet);
     }
-
 }
