@@ -139,6 +139,8 @@ public class AnimationLoader
             final float[] headCaps1 =
             { -30, 70 };
 
+            if (file.model.customTex != null) file.model.customTex.init();
+
             Vector5 noRotation = new Vector5();
 
             // Global model transforms
@@ -247,8 +249,8 @@ public class AnimationLoader
                 if (file.model.customTex != null)
                 {
                     texturer.init(file.model.customTex);
-                    if (file.model.customTex.defaults != null) holder.texture = new ResourceLocation(holder.texture
-                            .toString().replace(holder.name, ThutCore.trim(file.model.customTex.defaults)));
+                    if (file.model.customTex.defaults != null) holder.texture = new ResourceLocation(
+                            holder.texture.toString().replace(holder.name, file.model.customTex.defaults));
                 }
 
                 // Apply texture phases (ie texture animations)
@@ -340,19 +342,18 @@ public class AnimationLoader
                 // Handle customTextures
                 if (file.model.customTex != null)
                     if (file.model.customTex.defaults != null) holder.texture = holder.texture != null
-                            ? new ResourceLocation(holder.texture.toString().replace(holder.name,
-                                    ThutCore.trim(file.model.customTex.defaults)))
+                            ? new ResourceLocation(
+                                    holder.texture.toString().replace(holder.name, file.model.customTex.defaults))
                             : new ResourceLocation(holder.model.getNamespace(), file.model.customTex.defaults);
-//                System.out.println(holder.name);
+
                 for (IExtendedModelPart p : model.getParts().values())
                 {
-//                    System.out.println("     "+p.getName());
                     // Handle customTextures
                     if (file.model.customTex != null)
                     {
                         if (file.model.customTex.defaults != null) holder.texture = holder.texture != null
-                                ? new ResourceLocation(holder.texture.toString().replace(holder.name,
-                                        ThutCore.trim(file.model.customTex.defaults)))
+                                ? new ResourceLocation(
+                                        holder.texture.toString().replace(holder.name, file.model.customTex.defaults))
                                 : new ResourceLocation(holder.model.getNamespace(), file.model.customTex.defaults);
                         List<String> matNames = Lists.newArrayList();
                         for (TexPart part : file.model.customTex.parts)

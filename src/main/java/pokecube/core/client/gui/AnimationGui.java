@@ -281,9 +281,6 @@ public class AnimationGui extends Screen
         }
         super.render(mat, unk1, unk2, partialTicks);
 
-        if (this.isPauseScreen()) partialTicks = 0;
-        else partialTicks = minecraft.getFrameTime();
-
         final int yOffset = this.height / 2;
         this.font.draw(mat, "State-General", this.width - 101, yOffset - 42 - yOffset / 2, 0xFFFFFF);
         this.font.draw(mat, "State-Combat", this.width - 101, yOffset - 22 - yOffset / 2, 0xFFFFFF);
@@ -328,6 +325,15 @@ public class AnimationGui extends Screen
             entity.xRotO = entity.xRot;
             entity.tickCount = Minecraft.getInstance().player.tickCount;
             entity.animationPosition += 0.0125;
+
+            partialTicks = minecraft.getFrameTime();
+            if (this.isPauseScreen())
+            {
+                entity.tickCount = 0;
+                entity.animationPosition = 0;
+                partialTicks = 0;
+            }
+
             final float zoom = this.scale;
             if (this.renderHolder != null)
             {
@@ -390,7 +396,6 @@ public class AnimationGui extends Screen
         final int xOffset = this.width / 2;
         this.sexe = IPokemob.MALE;
         this.bg = true;
-        if (GuiPokedex.pokedexEntry != null) AnimationGui.mob = GuiPokedex.pokedexEntry.getName();
         AnimationGui.entry = Database.getEntry(AnimationGui.mob);
         if (AnimationGui.entry == null) AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
         if (AnimationGui.entry != null) AnimationGui.mob = AnimationGui.entry.getName();

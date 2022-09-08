@@ -32,22 +32,21 @@ import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
 
-public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<WormholeEntity>> implements
-        IModelRenderer<WormholeEntity>
+public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<WormholeEntity>>
+        implements IModelRenderer<WormholeEntity>
 {
     static final ResourceLocation TEXTURE = new ResourceLocation(Reference.ID, "entity/textures/wormhole.png");
-    static final ResourceLocation MODEL   = new ResourceLocation(Reference.ID, "entity/models/wormhole.x3d");
-    static final ResourceLocation ANIM    = new ResourceLocation(Reference.ID, "entity/animations/wormhole.xml");
+    static final ResourceLocation MODEL = new ResourceLocation(Reference.ID, "entity/models/wormhole");
 
     private final HashMap<String, List<Animation>> anims = Maps.newHashMap();
 
     private IAnimationChanger changer = null;
-    private IPartTexturer     texer   = null;
-    private IAnimationHolder  holder  = null;
+    private IPartTexturer texer = null;
+    private IAnimationHolder holder = null;
 
-    final Vector3   rotPoint  = new Vector3();
-    private Vector3 offset    = new Vector3();
-    private Vector3 scale     = new Vector3();
+    final Vector3 rotPoint = new Vector3();
+    private Vector3 offset = new Vector3();
+    private Vector3 scale = new Vector3();
     private Vector5 rotations = new Vector5();
 
     public Wormhole(final EntityRendererProvider.Context renderManager)
@@ -58,10 +57,9 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
 
     private ModelWrapper<WormholeEntity> makeModel()
     {
-        final ModelHolder holder = new ModelHolder(Wormhole.MODEL, Wormhole.TEXTURE, Wormhole.ANIM, "ultra_wormhole");
+        final ModelHolder holder = new ModelHolder(Wormhole.MODEL);
         final ModelWrapper<WormholeEntity> model = new ModelWrapper<>(holder, this);
-        ModelFactory.create(model.model, m ->
-        {
+        ModelFactory.create(model.model, m -> {
             model.imodel = m;
             AnimationLoader.parse(holder, model, this);
         });
@@ -80,19 +78,18 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     protected RenderType getRenderType(final WormholeEntity entity, final boolean bool_a, final boolean bool_b,
             final boolean bool_c)
     {
-        final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder().setTextureState(
-                new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
+        final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder()
+                .setTextureState(new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
                 .setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () ->
                 {
                     RenderSystem.enableBlend();
                     RenderSystem.defaultBlendFunc();
-                }, () ->
-                {
+                }, () -> {
                     RenderSystem.disableBlend();
-                })).setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER).setCullState(
-                        new RenderStateShard.CullStateShard(false)).setLightmapState(
-                                new RenderStateShard.LightmapStateShard(true)).setOverlayState(
-                                        new RenderStateShard.OverlayStateShard(true)).createCompositeState(false);
+                })).setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
+                .setCullState(new RenderStateShard.CullStateShard(false))
+                .setLightmapState(new RenderStateShard.LightmapStateShard(true))
+                .setOverlayState(new RenderStateShard.OverlayStateShard(true)).createCompositeState(false);
         return RenderType.create("pokecube_legends:wormhole", DefaultVertexFormat.NEW_ENTITY, Mode.TRIANGLES, 256,
                 bool_a, bool_b, rendertype$state);
     }
@@ -234,8 +231,7 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
 
     @Override
     public void updateModel(final HashMap<String, ArrayList<Vector5>> phaseList, final ModelHolder model)
-    {
-    }
+    {}
 
     @Override
     public HeadInfo getHeadInfo()

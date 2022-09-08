@@ -598,8 +598,8 @@ public class Config extends ConfigData
     public boolean autoSelectMoves = false;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs will be to auto recalled. [Default: false]")
     public boolean autoRecallPokemobs = false;
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs will turn in the direction the rider is facing. [Default: true]")
-    public boolean riddenMobsTurnWithLook = true;
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs will fly up or down if the player is looking sufficiently vertically. [Default: true]")
+    public boolean riddenMobsAscendWithLook = true;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs may try to automatically path while ridden. [Default: true]")
     public boolean riddenMobsTryPathing = false;
     @Configure(category = Config.client, type = Type.CLIENT)

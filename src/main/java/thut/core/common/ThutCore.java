@@ -230,7 +230,7 @@ public class ThutCore
         // ROOT locale to prevent issues with turkish letters.
         trim = trim.toLowerCase(Locale.ROOT).trim();
         // Replace all not-resourcelocation chars
-        trim = trim.replaceAll("([^a-zA-Z0-9 _-])", "");
+        trim = trim.replaceAll("([^a-z0-9 /_-])", "");
         // Replace these too.
         trim = trim.replaceAll(" ", "_");
         return trim;

@@ -149,6 +149,23 @@ public class AnimationXML
         public List<ColourTex> colours = Lists.newArrayList();
         @XmlElement(name = "rngfixed")
         public List<RNGFixed> rngfixeds = Lists.newArrayList();
+
+        public void init()
+        {
+            if (this.defaults != null && !this.defaults.endsWith(".png"))
+            {
+                this.defaults = ThutCore.trim(this.defaults) + ".png";
+            }
+            this.parts.forEach(part -> {
+                if (part.tex != null && !part.tex.endsWith(".png")) part.tex = ThutCore.trim(part.tex) + ".png";
+            });
+            this.forme.forEach(part -> {
+                if (part.tex != null && !part.tex.endsWith(".png")) part.tex = ThutCore.trim(part.tex) + ".png";
+            });
+            this.custom.forEach(part -> {
+                if (part.tex != null && !part.tex.endsWith(".png")) part.tex = ThutCore.trim(part.tex) + ".png";
+            });
+        }
     }
 
     @XmlRootElement(name = "metadata")

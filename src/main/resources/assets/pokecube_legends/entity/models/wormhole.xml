@@ -3,13 +3,13 @@
 	<model>
 		<phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.17" />
 		<customTex>
-			<part name="wormhole" tex="wormhole"/>
-			<part name="back" tex="blackhole"/>
-			<part name="black" tex="black_base"/>
-			<part name="stars" tex="stars"/>
-			<part name="anel_1" tex="white_base"/>
-			<part name="anel_2" tex="yellow_base"/>
-			<part name="end" tex="wormhole_off"/>
+			<part name="wormhole" tex="entity/textures/wormhole"/>
+			<part name="back" tex="entity/textures/blackhole"/>
+			<part name="black" tex="entity/textures/black_base"/>
+			<part name="stars" tex="entity/textures/stars"/>
+			<part name="anel_1" tex="entity/textures/white_base"/>
+			<part name="anel_2" tex="entity/textures/yellow_base"/>
+			<part name="end" tex="entity/textures/wormhole_off"/>
 		</customTex>
         <material name="end" alpha="1"  light="1" smooth="false" transluscent="false"/>
         <material name="wormhole" light="1" transluscent="false"/>

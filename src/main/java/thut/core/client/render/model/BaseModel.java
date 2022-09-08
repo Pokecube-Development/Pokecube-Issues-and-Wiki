@@ -45,14 +45,17 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         @Override
         public void run()
         {
+            // Load the model possibly async, this should be most of the time.
             this.toLoad.loadModel(this.res);
-            // Flag as loaded before running the callback
-            this.toLoad.loaded = true;
             synchronized (this.toLoad)
             {
+                // Flag as loaded before running the callback
+                this.toLoad.loaded = true;
+                // Then if we have a callback, run that
                 if (this.toLoad.callback != null) this.toLoad.callback.run(this.toLoad);
+                // Then clear the callback
+                this.toLoad.callback = null;
             }
-            this.toLoad.callback = null;
         }
 
         public void start()

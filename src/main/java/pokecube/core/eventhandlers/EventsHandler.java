@@ -468,6 +468,7 @@ public class EventsHandler
         // them to try to figure out what might be spawning where they currently
         // are.
         boolean isSpawnPresetDebug = evt.getItemStack().getDisplayName().getString().contains("spawn_preset_debug");
+        boolean isEvoLocDebug = evt.getItemStack().getDisplayName().getString().contains("evolution_location_debug");
         boolean isSubbiomeDebug = evt.getItemStack().getDisplayName().getString().contains("subbiome_debug");
 
         Vector3 v = new Vector3().set(player);
@@ -489,6 +490,25 @@ public class EventsHandler
             }
             else thut.lib.ChatHelper.sendSystemMessage(player,
                     TComponent.literal("No matching presets for this location"));
+        }
+        if (isEvoLocDebug)
+        {
+            for (var entry : Database.getSortedFormes())
+            {
+                for (var d : entry.evolutions)
+                {
+                    if (d.matcher != null)
+                    {
+                        d.matcher.reset();
+                        d.matcher.parse();
+                        if (!d.matcher._valid)
+                        {
+                            System.out.println("Invalid! " + entry + " " + d.evolution + " " + d.matcher.spawnRule);
+                        }
+                    }
+                }
+            }
+
         }
         if (isSubbiomeDebug)
         {

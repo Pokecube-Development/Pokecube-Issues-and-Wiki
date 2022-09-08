@@ -210,7 +210,7 @@ public class EventsHandlerClient
 
                 controller.upInputDown = up;
                 controller.downInputDown = down;
-                controller.followOwnerLook = PokecubeCore.getConfig().riddenMobsTurnWithLook;
+                controller.followOwnerLook = PokecubeCore.getConfig().riddenMobsAscendWithLook;
                 controller.canPathWhileRidden = PokecubeCore.getConfig().riddenMobsTryPathing;
 
                 if (ClientSetupHandler.throttleDown.isDown())

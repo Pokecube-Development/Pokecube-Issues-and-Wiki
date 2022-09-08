@@ -11,10 +11,8 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import thut.api.ThutCaps;
 import thut.api.entity.IMobTexturable;
 import thut.core.client.render.animation.AnimationXML.ColourTex;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
@@ -136,10 +134,6 @@ public class TextureHelper implements IPartTexturer
         }
     }
 
-    public static final Capability<IMobTexturable> CAPABILITY = CapabilityManager.get(new CapabilityToken<>()
-    {
-    });
-
     protected IMobTexturable mob;
     /** Map of part/material name -> texture name */
     Map<String, String> texNames = Maps.newHashMap();
@@ -183,7 +177,7 @@ public class TextureHelper implements IPartTexturer
     public void init(final CustomTex customTex)
     {
         if (customTex == null) return;
-        if (customTex.defaults != null) this.default_path = ThutCore.trim(customTex.defaults);
+        if (customTex.defaults != null) this.default_path = customTex.defaults;
         if (customTex.smoothing != null)
         {
             final boolean flat = !customTex.smoothing.equalsIgnoreCase("smooth");
@@ -202,20 +196,20 @@ public class TextureHelper implements IPartTexturer
         for (final TexPart anim : customTex.parts)
         {
             final String name = ThutCore.trim(anim.name);
-            final String partTex = ThutCore.trim(anim.tex);
+            final String partTex = anim.tex;
             this.addMapping(name, partTex);
         }
         for (final TexCustom anim : customTex.custom)
         {
             final String name = ThutCore.trim(anim.part);
             final String state = ThutCore.trim(anim.state);
-            final String partTex = ThutCore.trim(anim.tex);
+            final String partTex = anim.tex;
             this.addCustomMapping(name, state, partTex);
         }
         for (final TexForm anim : customTex.forme)
         {
             final String name = ThutCore.trim(anim.name);
-            final String tex = ThutCore.trim(anim.tex);
+            final String tex = anim.tex;
             this.formeMap.put(name, tex);
         }
         for (final RNGFixed state : customTex.rngfixeds)
@@ -281,7 +275,7 @@ public class TextureHelper implements IPartTexturer
         ResourceLocation tex = this.bindPerState(part);
         if (tex != null) return tex;
         final String defaults = this.formeMap.getOrDefault(this.mob.getForm(), this.default_path);
-        final String texName = ThutCore.trim(this.texNames.containsKey(part) ? this.texNames.get(part) : defaults);
+        final String texName = this.texNames.containsKey(part) ? this.texNames.get(part) : defaults;
         if (texName == null || texName.trim().isEmpty()) this.texNames.put(part, defaults);
         tex = this.getResource(texName);
         TexState state;
@@ -296,8 +290,7 @@ public class TextureHelper implements IPartTexturer
     public void bindObject(final Object thing)
     {
         this.mob = null;
-        if (thing != null)
-            this.mob = ((ICapabilityProvider) thing).getCapability(TextureHelper.CAPABILITY).orElse(null);
+        if (thing instanceof ICapabilityProvider cap) this.mob = cap.getCapability(ThutCaps.MOBTEX_CAP).orElse(null);
         if (this.mob == null && thing instanceof Entity e) this.mob = new IMobTexturable()
         {
             Entity entity = e;
@@ -333,8 +326,10 @@ public class TextureHelper implements IPartTexturer
 
         if (this.mob != null)
         {
-            final String defaults = this.formeMap.getOrDefault(this.mob.getForm(), this.default_path);
+            String form = mob.getForm();
+            final String defaults = this.formeMap.getOrDefault(form, this.default_path);
             this.default_tex = this.getResource(defaults);
+            this.default_path = this.default_tex.getPath();
         }
     }
 
