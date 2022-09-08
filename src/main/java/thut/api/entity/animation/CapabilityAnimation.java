@@ -70,12 +70,11 @@ public class CapabilityAnimation
                 this.playingList = this.anims.getOrDefault(this.pending, DefaultImpl.EMPTY);
                 this.playing = this.pending;
                 this.non_static.clear();
-                for (final Animation a : this.playingList)
-                    if (a.getLength() > 0)
-                    {
-                        this.non_static.put(a._uuid, 0);
-                        this.keys.add(a);
-                    }
+                for (final Animation a : this.playingList) if (a.getLength() > 0)
+                {
+                    this.non_static.put(a._uuid, 0);
+                    this.keys.add(a);
+                }
             }
             return this.playingList;
         }
@@ -83,9 +82,21 @@ public class CapabilityAnimation
         @Override
         public void setPendingAnimations(final List<Animation> list, final String name)
         {
+            if (name.equals(this.playing) || name.equals(this.pending)) return;
             this.anims.put(name, Lists.newArrayList(list));
-            if (this.fixed) this.pending = this.playing;
-            else this.pending = name;
+            if (this.fixed)
+            {
+                this.pending = this.playing;
+            }
+            else
+            {
+                String transitionKey = "%s->%s".formatted(this.playing, name);
+                if (!this.anims.containsKey(transitionKey))
+                {
+                    this.clean();
+                }
+                this.pending = name;
+            }
             this.getPlaying();
         }
 
@@ -95,8 +106,8 @@ public class CapabilityAnimation
             // Only reset if we have a pending animation.
             final int l = animation.getLength();
             final boolean finished = l != 0 && step > l || animation.hasLimbBased;
-            if (finished && (!animation.loops || !this.pending.equals(this.playing))) this.non_static.put(
-                    animation._uuid, 0);
+            if (finished && (!animation.loops || !this.pending.equals(this.playing)))
+                this.non_static.put(animation._uuid, 0);
             else this.non_static.put(animation._uuid, l != 0 ? l : 10);
         }
 
@@ -115,8 +126,7 @@ public class CapabilityAnimation
         @Override
         public void postRun()
         {
-            this.keys.removeIf(a ->
-            {
+            this.keys.removeIf(a -> {
                 final int i = this.non_static.getInt(a._uuid);
                 if (i <= 0)
                 {

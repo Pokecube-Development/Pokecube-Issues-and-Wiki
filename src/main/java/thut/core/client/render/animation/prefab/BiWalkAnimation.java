@@ -74,10 +74,10 @@ public class BiWalkAnimation extends Animation
     public BiWalkAnimation init(final Set<String> hl, final Set<String> hr, final Set<String> fl, final Set<String> fr,
             int duration, final float legAngle, final float armAngle, final int legAxis, final int armAxis)
     {
-        String phase1 = "x:%f*cos(0.05*t*%d)";
-        String phase2 = "x:-%f*cos(0.05*t*%d)";
-        String phase3 = "x:%f*sin(0.05*t*%d)";
-        String phase4 = "x:-%f*sin(0.05*t*%d)";
+        String phase1 = "x:%f*cos(0.05*l*%d)";
+        String phase2 = "x:-%f*cos(0.05*l*%d)";
+        String phase3 = "x:%f*sin(0.05*l*%d)";
+        String phase4 = "x:-%f*sin(0.05*l*%d)";
         
         for (final String s : hr)
         {

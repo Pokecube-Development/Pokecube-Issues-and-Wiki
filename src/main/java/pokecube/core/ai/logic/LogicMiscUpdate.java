@@ -121,14 +121,14 @@ public class LogicMiscUpdate extends LogicBase
 
     UUID prevID = null;
 
-    final IAnimated animationHolder;
+    final IAnimated animated;
 
     public LogicMiscUpdate(final IPokemob pokemob)
     {
         super(pokemob);
         this.lastCache = this.entity.blockPosition();
 
-        animationHolder = AnimatedCaps.getAnimated(this.entity);
+        animated = AnimatedCaps.getAnimated(this.entity);
     }
 
     private void checkAIStates(UUID ownerID)
@@ -553,23 +553,23 @@ public class LogicMiscUpdate extends LogicBase
         if (this.entity.deathTime > 0 || this.entity.isDeadOrDying()) next = Pose.DYING;
         else if (sleeping) next = Pose.SLEEPING;
         else if (this.entity.isInWater() || this.entity.isInLava()) next = Pose.SWIMMING;
-        else if (this.floatTimer < 5) next = Pose.STANDING;
+        else if (this.floatTimer < 2) next = Pose.STANDING;
         else next = Pose.FALL_FLYING;
         if (next != old) this.entity.setPose(next);
     }
 
     private void checkAnimationStates()
     {
-        if (animationHolder == null) return;
-        final List<String> anims = animationHolder.getChoices();
+        if (animated == null) return;
+        final List<String> anims = animated.getChoices();
         anims.clear();
         final Vec3 velocity = this.entity.getDeltaMovement();
-        final float dStep = this.entity.animationSpeed - this.entity.animationSpeedOld;
+        final float dStep = this.entity.animationSpeed;
         final float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z + dStep * dStep);
         final float stationary = 1e-5f;
         final boolean moving = walkspeed > stationary;
         final Pose pose = this.entity.getPose();
-        final boolean walking = this.floatTimer < 5 && moving;
+        final boolean walking = this.floatTimer < 2 && moving;
         if (pose == Pose.DYING) anims.add("dead");
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
         {
@@ -586,7 +586,6 @@ public class LogicMiscUpdate extends LogicBase
             final String anim = ThutCore.trim(state.toString());
             if (this.pokemob.getLogicState(state)) anims.add(anim);
         }
-        if (walking) anims.add("walking");
         switch (pose)
         {
         case DYING:
@@ -610,6 +609,7 @@ public class LogicMiscUpdate extends LogicBase
         default:
             break;
         }
+        if (walking) anims.add("walking");
         for (final CombatStates state : CombatStates.values())
         {
             final String anim = ThutCore.trim(state.toString());
