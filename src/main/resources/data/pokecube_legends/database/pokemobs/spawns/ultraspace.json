@@ -1,0 +1,28 @@
+{
+  "rules": [
+    {
+      "and_preset": "dark_valley",
+      "entries": [
+        {"key": "zubat","min": 2,"max": 5,"rate": 1.0},
+        
+        {"key": "duskull","min": 1,"max": 2,"rate": 0.5},
+        {"key": "rattata_alola","min": 1,"max": 2,"rate": 0.5},
+        {"key": "ekans","min": 1,"max": 2,"rate": 0.5},
+        {"key": "gastly","min": 1,"max": 2,"rate": 0.5},
+        {"key": "spinarak","min": 1,"max": 2,"rate": 0.5},
+        {"key": "murkrow","min": 1,"max": 2,"rate": 0.5},
+        {"key": "misdreavus","min": 1,"max": 2,"rate": 0.5},
+        {"key": "banette","min": 1,"max": 2,"rate": 0.5},
+        {"key": "skorupi","min": 1,"max": 2,"rate": 0.5},
+        {"key": "snover","min": 1,"max": 2,"rate": 0.5},
+        {"key": "darumaka_galar","min": 1,"max": 2,"rate": 0.5},
+        {"key": "gothita","min": 1,"max": 2,"rate": 0.5},
+        {"key": "vanillite","min": 1,"max": 2,"rate": 0.5},
+        {"key": "pawniard","min": 1,"max": 2,"rate": 0.5},
+        {"key": "pumpkaboo","min": 1,"max": 2,"rate": 0.5},
+        
+        {"key": "guzzlord","min": 1,"max": 1,"rate": 0.2}
+      ]
+    }
+  ]
+}

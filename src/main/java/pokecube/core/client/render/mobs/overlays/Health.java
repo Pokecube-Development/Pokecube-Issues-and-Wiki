@@ -149,7 +149,6 @@ public class Health
         {
 
             float scale = .02f;
-            if (pokemob.getCombatState(CombatStates.DYNAMAX)) scale *= 5;
 
             final float maxHealth = entity.getMaxHealth();
             final float health = Math.min(maxHealth, entity.getHealth());
@@ -164,6 +163,12 @@ public class Health
                 for (final PartEntity<?> part : entity.getParts())
                     dy = Math.max(dy, part.getBoundingBox().getYsize() + part.getY() - entity.getY());
             }
+            if (pokemob.getCombatState(CombatStates.DYNAMAX))
+            {
+                scale *= 5;
+                dy += 1;
+            }
+
             mat.translate(0, dy + config.heightAbove, 0);
             Quaternion quaternion;
             quaternion = viewer.rotation();
