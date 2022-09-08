@@ -184,7 +184,9 @@ public class PokedexEntry
                     .translatable("pokemob.description.evolve.move", MovesUtils.getMoveName(this.move).getString()));
             if (this.matcher != null)
             {
+                SpawnBiomeMatcher.populateClientValues(matcher);
                 comps.addAll(SpawnListEntry.makeDescription(null, matcher, null, 100));
+                SpawnBiomeMatcher.clearClientValues(matcher);
             }
             return comps;
         }
@@ -1382,7 +1384,6 @@ public class PokedexEntry
     {
         for (final EvolutionData d : this.evolutions)
         {
-
             boolean itemCheck = d.item == ItemStack.EMPTY;
             if (!itemCheck && stack != ItemStack.EMPTY) itemCheck = stack.sameItem(d.item);
             if (d.level >= 0 && level >= d.level && itemCheck) return true;

@@ -360,9 +360,7 @@
           {
             "name": "Raichu Alola",
             "location": {
-              "values": {
-                "preset": "beaches"
-              }
+              "and_preset": "beaches"
             },
             "item_preset": "thunderstone",
             "evoMoves": "psychic"
@@ -1569,9 +1567,7 @@
           {
             "name": "Magnezone",
             "location": {
-              "values": {
-                "preset": "caves"
-              }
+              "and_preset": "caves"
             },
             "evoMoves": "triattack"
           }
@@ -1778,9 +1774,7 @@
           {
             "name": "Exeggutor Alola",
             "location": {
-              "values": {
-                "preset": "beaches"
-              }
+              "and_preset": "beaches"
             },
             "item_preset": "leafstone",
             "evoMoves": "dragonhammer"
@@ -1833,9 +1827,7 @@
             "name": "Weezing Galar",
             "level": 35,
             "location": {
-              "values": {
-                "preset": "industrial"
-              }
+              "and_preset": "industrial"
             },
             "evoMoves": "doublehit"
           }
@@ -2221,15 +2213,13 @@
             "name": "Typhlosion",
             "level": 36
           },
-		  {
+		      {
             "name": "Typhlosion Hisui",
             "level": 35,
-			"location": {
-              "values": {
-                "preset": "spooky_areas"
-              }
+			      "location": {
+              "and_preset": "spooky_areas"
             },
-			"evoMoves": "hex"
+			      "evoMoves": "hex"
           }
         ]
       }
@@ -2798,10 +2788,8 @@
         "evolutions": [
           {
             "name": "overqwil",
-			"location": {
-              "values": {
-                "preset": "cave_water"
-              }
+			      "location": {
+              "and_preset": "cave_water"
             }
           }
         ]
@@ -3086,9 +3074,7 @@
             "name": "wyrdeer",
             "level": "20",
             "location": {
-              "values": {
-                "preset": "snowy_areas"
-              }
+              "and_preset": "snowy_areas"
             }
           }
         ],
@@ -3820,9 +3806,7 @@
           {
             "name": "Probopass",
             "location": {
-              "values": {
-                "preset": "industrial"
-              }
+              "and_preset": "industrial"
             },
             "evoMoves": "Tri Attack"
           }
@@ -5539,9 +5523,7 @@
           {
             "name": "Mr. Mime Galar",
             "location": {
-              "values": {
-                "preset": "snowy_areas"
-              }
+              "and_preset": "snowy_areas"
             },
             "move": "mimic"
           }
@@ -5953,13 +5935,11 @@
             "level": 36,
             "evoMoves": "slash"
           },
-		  {
+		      {
             "name": "Samurott Hisui",
             "level": 35,
-			"location": {
-              "values": {
-                "preset": "beach_ground"
-              }
+			      "location": {
+              "and_preset": "beach_ground"
             },
             "evoMoves": "nightslash"
           }
@@ -6503,11 +6483,9 @@
 		  {
             "name": "lilligant_hisui",
             "item_preset": "sunstone",
-			"time": "day",
-			"location": {
-              "values": {
-                "preset": "deserts"
-              }
+            "time": "day",
+            "location": {
+              "and_preset": "deserts"
             }
           }
         ]
@@ -6520,12 +6498,12 @@
           {
             "name": "Basculegion_male",
             "level": 25,
-			"sexe": "male"
+			      "sexe": "male"
           },
-		  {
+		      {
             "name": "Basculegion_female",
             "level": 25,
-			"sexe": "female"
+			      "sexe": "female"
           }
         ]
       }
@@ -6617,11 +6595,9 @@
           {
             "name": "Runerigus",
             "level": 34,
-			"time": "night",
+			      "time": "night",
             "location": {
-              "values": {
-                "preset": "extreme_hills"
-              }
+              "and_preset": "extreme_hills"
             },
             "evoMoves": "shadowclaw"
           }
@@ -7239,13 +7215,11 @@
             "level": 54,
             "evoMoves": "superpower"
           },
-		  {
+		      {
             "name": "braviary_hisui",
             "level": 54,
-			"location": {
-              "values": {
-                "preset": "snowy_areas"
-              }
+			      "location": {
+              "and_preset": "snowy_areas"
             }
 		  }
         ]
@@ -7736,7 +7710,7 @@
             "level": 12,
             "location": {
               "values": {
-                "biomes": "ice_spikes"
+                "types": "#pokecube_mobs:vivillon_polar"
               }
             },
             "evoMoves": "gust",
@@ -7748,9 +7722,7 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
-              "values": {
-                "preset": "cold_areas"
-              }
+              "and_preset": "cold_areas"
             },
             "evoMoves": "gust",
             "model": {
@@ -7761,9 +7733,7 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
-              "values": {
-                "preset": "wet_areas"
-              }
+              "and_preset": "wet_areas"
             },
             "evoMoves": "gust",
             "model": {
@@ -7774,9 +7744,7 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
-              "values": {
-                "preset": "savannas"
-              }
+              "and_preset": "savannas"
             },
             "evoMoves": "gust",
             "model": {
@@ -7787,9 +7755,7 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
-              "values": {
-                "preset": "villages"
-              }
+              "and_preset": "villages"
             },
             "evoMoves": "gust",
             "model": {
@@ -8325,11 +8291,9 @@
 		  {
             "name": "Avalugg_hisui",
             "level": 37,
-			"time": "night",
-			"location": {
-              "values": {
-                "preset": "extreme_hills"
-              }
+            "time": "night",
+            "location": {
+              "and_preset": "extreme_hills"
             }
           }
         ]
@@ -8493,10 +8457,8 @@
 		  {
             "name": "Decidueye Hisui",
             "level": 33,
-			"location": {
-              "values": {
-                "preset": "savanna"
-              }
+			      "location": {
+              "and_preset": "savannas"
             },
             "evoMoves": "rocksmash"
           }
@@ -8637,9 +8599,7 @@
           {
             "name": "Vikavolt",
             "location": {
-              "values": {
-                "preset": "industrial"
-              }
+              "and_preset": "industrial"
             },
             "evoMoves": "thunderbolt"
           }
@@ -8653,9 +8613,7 @@
           {
             "name": "Crabominable",
             "location": {
-              "values": {
-                "preset": "caves"
-              }
+              "and_preset": "caves"
             },
             "evoMoves": "icepunch"
           }

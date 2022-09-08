@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -167,6 +168,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         {
             if (matcher.checkSubBiome(type)) matcher.clientTypes.add(type.name);
         }
+        if (matcher.clientTypes.size() == BiomeType.values().size()) matcher.clientTypes.clear();
     }
 
     public static void clearClientValues(SpawnBiomeMatcher matcher)
@@ -249,6 +251,9 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         if (!rules.and_preset.isBlank()) rules.values.put(ANDPRESET, rules.and_preset);
         if (!rules.or_preset.isBlank()) rules.values.put(ORPRESET, rules.or_preset);
         if (!rules.not_preset.isBlank()) rules.values.put(NOTPRESET, rules.not_preset);
+
+        for (String s : Lists.newArrayList(rules.values.keySet()))
+            if (rules.values.get(s).isBlank()) rules.values.remove(s);
 
         if (this.spawnRule.values.isEmpty())
             PokecubeAPI.LOGGER.error("No rules found!", new IllegalArgumentException());

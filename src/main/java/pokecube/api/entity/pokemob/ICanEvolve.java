@@ -11,12 +11,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
+import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -32,6 +34,7 @@ import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.EntityTools;
 import thut.api.item.ItemList;
+import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
 import thut.lib.TComponent;
 
@@ -148,9 +151,19 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 neededItem = true;
             }
         }
+        if (select_from.isEmpty()) select_from.addAll(valid);
 
-        if (select_from.isEmpty()) select_from = valid;
-
+        valid.clear();
+        // Now from ones left, lets filter by location requirements
+        SpawnCheck check = new SpawnCheck(new Vector3(thisEntity), (ServerLevelAccessor) thisEntity.level);
+        for (final EvolutionData d : select_from)
+        {
+            if (d.matcher != null && d.matcher.matches(check))
+            {
+                valid.add(d);
+            }
+        }
+        if (!valid.isEmpty()) select_from = valid;
         if (select_from.isEmpty()) return null;
 
         int index = 0;
