@@ -20,6 +20,13 @@
     },
     {
       "values": {
+        "preset": "all_overworld_water",
+        "and_preset": "all,overworld",
+        "air": "false"
+      }
+    },
+    {
+      "values": {
         "preset": "all_not_caves",
         "and_preset": "all",
         "not_preset": "cave_subbiome"

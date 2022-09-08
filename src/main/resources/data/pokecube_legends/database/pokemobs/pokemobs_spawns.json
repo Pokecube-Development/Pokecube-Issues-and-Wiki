@@ -45,7 +45,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:legendy_tree",
+              "structures": "pokecube_legends:legendary_tree",
               "rate": "0.0"
             }
           }
@@ -58,7 +58,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:legendy_tree",
+              "structures": "pokecube_legends:legendary_tree",
               "rate": "0.0"
             }
           }
@@ -71,7 +71,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:legendy_tree",
+              "structures": "pokecube_legends:legendary_tree",
               "rate": "0.0"
             }
           }
@@ -161,8 +161,8 @@
       "stats": {
         "spawnRules": [
           {
+            "and_preset": "beaches",
             "values": {
-              "biomes": "stone_shore",
               "rate": "0.0"
             }
           }
@@ -174,8 +174,8 @@
       "stats": {
         "spawnRules": [
           {
+            "and_preset": "beaches",
             "values": {
-              "biomes": "beach",
               "rate": "0.0"
             }
           }
@@ -343,8 +343,8 @@
       "stats": {
         "spawnRules": [
           {
+            "and_preset": "nether",
             "values": {
-              "category": "nether",
               "rate": "0.0"
             }
           }
@@ -434,8 +434,8 @@
       "stats": {
         "spawnRules": [
           {
+            "and_preset": "villages",
             "values": {
-              "types": "village",
               "rate": "0.0"
             }
           }
@@ -447,8 +447,8 @@
       "stats": {
         "spawnRules": [
           {
+            "and_preset": "villages",
             "values": {
-              "types": "village",
               "rate": "0.0"
             }
           }
@@ -460,8 +460,8 @@
       "stats": {
         "spawnRules": [
           {
+            "and_preset": "villages",
             "values": {
-              "types": "village",
               "rate": "0.0"
             }
           }
@@ -525,8 +525,8 @@
       "stats": {
         "spawnRules": [
           {
+            "and_preset": "snowy_areas",
             "values": {
-              "types": "snowy",
               "rate": "0.0"
             }
           }
@@ -538,8 +538,8 @@
       "stats": {
         "spawnRules": [
           {
+            "and_preset": "ruins",
             "values": {
-              "types": "ruin",
               "rate": "0.0"
             }
           }
@@ -551,8 +551,8 @@
       "stats": {
         "spawnRules": [
           {
+            "and_preset": "extreme_hills",
             "values": {
-              "category": "extreme_hills",
               "rate": "0.0"
             }
           }
@@ -830,8 +830,8 @@
       "stats": {
         "spawnRules": [
           {
+            "and_preset": "snowy_areas",
             "values": {
-              "types": "snowy",
               "rate": "0.0"
             }
           }
@@ -843,8 +843,8 @@
       "stats": {
         "spawnRules": [
           {
+            "and_preset": "spooky_areas",
             "values": {
-              "types": "spooky",
               "rate": "0.0"
             }
           }
@@ -856,8 +856,8 @@
       "stats": {
         "spawnRules": [
           {
+            "and_preset": "taigas",
             "values": {
-              "category": "taiga",
               "rate": "0.0"
             }
           }

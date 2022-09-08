@@ -15,6 +15,12 @@
       ]
     },
     {
+      "and_preset": "all_overworld_water",
+      "entries": [
+        {"key": "magikarp","min": 2,"max": 4,"rate": 0.25}
+      ]
+    },
+    {
       "and_preset": "night_time,all_overworld",
       "entries": [
         {"key": "zubat","min": 4,"max": 8,"rate": 0.5},

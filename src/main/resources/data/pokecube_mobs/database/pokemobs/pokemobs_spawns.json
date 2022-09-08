@@ -21,7 +21,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:legendy_tree",
+              "structures": "pokecube_legends:legendary_tree",
               "min": "1",
               "rate": "0.02",
               "max": "1"
@@ -51,7 +51,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:legendy_tree",
+              "structures": "pokecube_legends:legendary_tree",
               "min": "1",
               "rate": "0.02",
               "max": "1"
@@ -81,7 +81,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:legendy_tree",
+              "structures": "pokecube_legends:legendary_tree",
               "min": "1",
               "rate": "0.02",
               "max": "1"
@@ -96,7 +96,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands",
+              "types": "#pokecube_legends:can_spawn/unown",
               "rate": "0.3"
             },
             "model": {
@@ -157,7 +157,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands",
+              "types": "#pokecube_legends:can_spawn/giratina",
               "min": "1",
               "rate": "0.002",
               "max": "1"
@@ -179,12 +179,11 @@
       "stats": {
         "spawnRules": [
           {
+            "and_preset": "ocean_monument",
             "values": {
-              "structures": "monument",
               "min": "1",
               "rate": "1.0",
-              "max": "1",
-              "air": "false"
+              "max": "1"
             }
           }
         ]
@@ -195,12 +194,11 @@
       "stats": {
         "spawnRules": [
           {
+            "and_preset": "ocean_monument",
             "values": {
-              "structures": "monument",
               "min": "1",
-              "rate": "0.02",
-              "max": "1",
-              "air": "false"
+              "rate": "0.01",
+              "max": "1"
             }
           }
         ]
@@ -211,10 +209,9 @@
       "stats": {
         "spawnRules": [
           {
+            "and_preset": "beach_water",
             "values": {
-              "types": "beach",
-              "rate": "0.15",
-              "air": "false"
+              "rate": "0.15"
             },
             "model": {
               "key": "basculin_red",
@@ -224,10 +221,9 @@
             }
           },
           {
+            "and_preset": "river_water",
             "values": {
-              "category": "river",
-              "rate": "0.15",
-              "air": "false"
+              "rate": "0.15"
             },
             "model": {
               "key": "basculin_red",
@@ -237,10 +233,9 @@
             }
           },
           {
+            "and_preset": "lake_water",
             "values": {
-              "types": "lake",
-              "rate": "0.15",
-              "air": "false"
+              "rate": "0.15"
             },
             "model": {
               "key": "basculin_red",
@@ -250,10 +245,9 @@
             }
           },
           {
+            "and_preset": "beach_water",
             "values": {
-              "types": "beach",
-              "rate": "0.15",
-              "air": "false"
+              "rate": "0.15"
             },
             "model": {
               "key": "basculin_blue",
@@ -263,10 +257,9 @@
             }
           },
           {
+            "and_preset": "river_water",
             "values": {
-              "category": "river",
-              "rate": "0.15",
-              "air": "false"
+              "rate": "0.15"
             },
             "model": {
               "key": "basculin_blue",
@@ -276,10 +269,9 @@
             }
           },
           {
+            "and_preset": "lake_water",
             "values": {
-              "types": "lake",
-              "rate": "0.15",
-              "air": "false"
+              "rate": "0.15"
             },
             "model": {
               "key": "basculin_blue",
@@ -365,7 +357,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:fungal_forest,pokecube_legends:temporal_jungle,pokecube_legends:mirage_desert,pokecube_legends:tainted_barrens,pokecube_legends:blinding_deltas,pokecube_legends:forbidden_taiga",
+              "types": "#pokecube_legends:can_spawn/cosmog",
               "min": "1",
               "rate": "0.007",
               "max": "1"
@@ -380,7 +372,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:fungal_forest",
+              "types": "#pokecube_legends:can_spawn/nihilego",
               "min": "1",
               "rate": "0.2",
               "max": "1"
@@ -395,7 +387,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:temporal_jungle",
+              "types": "#pokecube_legends:can_spawn/buzzwole",
               "min": "1",
               "rate": "0.2",
               "max": "1"
@@ -410,7 +402,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:mirage_desert",
+              "types": "#pokecube_legends:can_spawn/pheromosa",
               "min": "1",
               "rate": "0.2",
               "max": "1"
@@ -425,7 +417,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:tainted_barrens",
+              "types": "#pokecube_legends:can_spawn/xurkitree",
               "min": "1",
               "rate": "0.2",
               "max": "1"
@@ -440,7 +432,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:mirage_desert",
+              "types": "#pokecube_legends:can_spawn/celesteela",
               "min": "1",
               "rate": "0.1",
               "max": "1"
@@ -455,7 +447,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:forbidden_taiga",
+              "types": "#pokecube_legends:can_spawn/kartana",
               "min": "1",
               "rate": "0.2",
               "max": "1"
@@ -470,7 +462,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:blinding_deltas",
+              "types": "#pokecube_legends:can_spawn/guzzlord",
               "min": "1",
               "rate": "0.2",
               "max": "1"
@@ -485,7 +477,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:temporal_jungle",
+              "types": "#pokecube_legends:can_spawn/poipole",
               "min": "1",
               "rate": "0.2",
               "max": "1"
@@ -500,7 +492,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:tainted_barrens",
+              "types": "#pokecube_legends:can_spawn/stakataka",
               "min": "1",
               "rate": "0.2",
               "max": "1"
@@ -515,7 +507,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:fungal_forest",
+              "types": "#pokecube_legends:can_spawn/blacephalon",
               "min": "1",
               "rate": "0.2",
               "max": "1"

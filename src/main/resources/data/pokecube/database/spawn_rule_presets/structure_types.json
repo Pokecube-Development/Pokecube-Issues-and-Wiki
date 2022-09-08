@@ -6,6 +6,14 @@
         "types": "#minecraft:is_deep_ocean,#pokecube_world:is_ultraspace/is_deep_ocean",
         "and_preset": "overworld"
       }
+    },
+    {
+      "values": {
+        "preset": "ocean_monument",
+        "air": "false",
+        "structures": "minecraft:monument",
+        "types": "all"
+      }
     }
   ]
 }
