@@ -19,6 +19,7 @@ import net.minecraft.world.entity.ai.memory.NearestVisibleLivingEntities;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.AABB;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -77,6 +78,7 @@ public class InterestingMobs extends Sensor<LivingEntity>
 
         final List<AgeableMob> mates = Lists.newArrayList();
         final List<ItemEntity> items = Lists.newArrayList();
+        final List<Projectile> projectiles = Lists.newArrayList();
         final List<LivingEntity> mobs = Lists.newArrayList();
         final List<LivingEntity> visible = Lists.newArrayList();
         EntityPokemobEgg egg = null;
@@ -85,15 +87,14 @@ public class InterestingMobs extends Sensor<LivingEntity>
         final AABB mateBox = entityIn.getBoundingBox().inflate(dh, dv, dh);
         final AABB checkBox = entityIn.getBoundingBox().inflate(s, s, s);
         final List<Entity> list = worldIn.getEntitiesOfClass(Entity.class, checkBox, (hit) -> {
-            return hit != entityIn && (hit instanceof LivingEntity || hit instanceof ItemEntity) && hit.isAlive();
+            return hit != entityIn && hit.isAlive();
         });
         list.sort(Comparator.comparingDouble(entityIn::distanceToSqr));
         final Brain<?> brain = entityIn.getBrain();
         final IPokemob us = PokemobCaps.getPokemobFor(entityIn);
         final boolean canMate = entityIn instanceof AgeableMob && (us == null || InterestingMobs.canPokemobMate(us));
-        for (final Entity e : list) if (e instanceof LivingEntity)
+        for (final Entity e : list) if (e instanceof LivingEntity living)
         {
-            final LivingEntity living = (LivingEntity) e;
             mobs.add(living);
             if (living instanceof EntityPokemobEgg newEgg && entityIn.getUUID().equals(newEgg.getMotherId()))
             {
@@ -103,13 +104,13 @@ public class InterestingMobs extends Sensor<LivingEntity>
             else if (InterestingMobs.VISIBLE.test(entityIn, living))
             {
                 visible.add(living);
-                final boolean validMate = canMate && e instanceof AgeableMob
-                        && mateBox.intersects(living.getBoundingBox())
-                        && this.isValid((AgeableMob) entityIn, (AgeableMob) living);
+                final boolean validMate = canMate && e instanceof AgeableMob mob
+                        && mateBox.intersects(living.getBoundingBox()) && this.isValid((AgeableMob) entityIn, mob);
                 if (validMate) mates.add((AgeableMob) living);
             }
         }
-        else if (e instanceof ItemEntity) items.add((ItemEntity) e);
+        else if (e instanceof ItemEntity item) items.add(item);
+        else if (e instanceof Projectile item) projectiles.add(item);
         if (!mates.isEmpty()) brain.setMemory(MemoryModules.POSSIBLE_MATES.get(), mates);
         else brain.eraseMemory(MemoryModules.POSSIBLE_MATES.get());
         if (!visible.isEmpty()) brain.setMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
@@ -119,6 +120,8 @@ public class InterestingMobs extends Sensor<LivingEntity>
         else brain.eraseMemory(MemoryModuleType.NEAREST_LIVING_ENTITIES);
         if (!items.isEmpty()) brain.setMemory(MemoryModules.VISIBLE_ITEMS.get(), items);
         else brain.eraseMemory(MemoryModules.VISIBLE_ITEMS.get());
+        if (!projectiles.isEmpty()) brain.setMemory(MemoryModules.VISIBLE_PROJECTILES.get(), projectiles);
+        else brain.eraseMemory(MemoryModules.VISIBLE_PROJECTILES.get());
         if (brain.checkMemory(MemoryModules.EGG.get(), MemoryStatus.REGISTERED))
         {
             if (egg != null) brain.setMemory(MemoryModules.EGG.get(), egg);
@@ -131,7 +134,7 @@ public class InterestingMobs extends Sensor<LivingEntity>
     {
         return ImmutableSet.of(MemoryModuleType.NEAREST_LIVING_ENTITIES, MemoryModules.POSSIBLE_MATES.get(),
                 MemoryModules.HERD_MEMBERS.get(), MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
-                MemoryModules.VISIBLE_ITEMS.get());
+                MemoryModules.VISIBLE_ITEMS.get(), MemoryModules.VISIBLE_PROJECTILES.get());
     }
 
 }

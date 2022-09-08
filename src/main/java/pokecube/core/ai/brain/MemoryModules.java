@@ -12,6 +12,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
@@ -43,10 +44,11 @@ public class MemoryModules extends MemoryModuleTypes
 
     public static final RegistryObject<MemoryModuleType<List<NearBlock>>> VISIBLE_BLOCKS;
     public static final RegistryObject<MemoryModuleType<List<ItemEntity>>> VISIBLE_ITEMS;
+    public static final RegistryObject<MemoryModuleType<List<Projectile>>> VISIBLE_PROJECTILES;
 
     public static final RegistryObject<MemoryModuleType<List<AgeableMob>>> POSSIBLE_MATES;
     public static final RegistryObject<MemoryModuleType<List<LivingEntity>>> HERD_MEMBERS;
-    
+
     // Used to decide if we want to do the mixin for brain activation
     public static final RegistryObject<MemoryModuleType<Boolean>> DUMMY;// Boolean
 
@@ -84,11 +86,13 @@ public class MemoryModules extends MemoryModuleTypes
         VISIBLE_BLOCKS = PokecubeCore.MEMORIES.register("visible_blocks",
                 () -> new MemoryModuleType<>(Optional.empty()));
         VISIBLE_ITEMS = PokecubeCore.MEMORIES.register("visible_items", () -> new MemoryModuleType<>(Optional.empty()));
+        VISIBLE_PROJECTILES = PokecubeCore.MEMORIES.register("visible_projectiles",
+                () -> new MemoryModuleType<>(Optional.empty()));
 
         POSSIBLE_MATES = PokecubeCore.MEMORIES.register("mate_options", () -> new MemoryModuleType<>(Optional.empty()));
 
         HERD_MEMBERS = PokecubeCore.MEMORIES.register("herd_members", () -> new MemoryModuleType<>(Optional.empty()));
-        
+
         DUMMY = PokecubeCore.MEMORIES.register("dummy", () -> new MemoryModuleType<>(Optional.empty()));
 
     }

@@ -11,6 +11,7 @@ import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -162,6 +163,14 @@ public class BrainUtils extends BrainUtil
     {
         final Brain<?> brain = mobIn.getBrain();
         final Optional<List<ItemEntity>> pos = brain.getMemory(MemoryModules.VISIBLE_ITEMS.get());
+        if (pos == null || !pos.isPresent()) return null;
+        return pos.get();
+    }
+
+    public static List<Projectile> getNearProjectiles(final LivingEntity mobIn)
+    {
+        final Brain<?> brain = mobIn.getBrain();
+        final Optional<List<Projectile>> pos = brain.getMemory(MemoryModules.VISIBLE_PROJECTILES.get());
         if (pos == null || !pos.isPresent()) return null;
         return pos.get();
     }

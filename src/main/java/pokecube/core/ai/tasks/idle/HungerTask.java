@@ -1,5 +1,6 @@
 package pokecube.core.ai.tasks.idle;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -12,9 +13,9 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.projectile.FishingHook;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -133,9 +134,9 @@ public class HungerTask extends BaseIdleTask
     {
         if (this.pokemob.getPokedexEntry().swims())
         {
-            final AABB bb = this.v.set(this.entity).addTo(0, this.entity.getEyeHeight(), 0).getAABB()
-                    .inflate(PokecubeCore.getConfig().fishHookBaitRange);
-            final List<FishingHook> hooks = this.entity.getLevel().getEntitiesOfClass(FishingHook.class, bb);
+            final List<FishingHook> hooks = new ArrayList<>();
+            List<Projectile> projectiles = BrainUtils.getNearProjectiles(entity);
+            if (projectiles != null) for (var p : projectiles) if (p instanceof FishingHook hook) hooks.add(hook);
             if (!hooks.isEmpty())
             {
                 final double moveSpeed = 1.5;
