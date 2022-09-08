@@ -364,7 +364,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
                         else if ((lastMove = MovesUtils.getMoveFromName(pokemob.getLastMoveUsed())) != null)
                             timer -= pokemob.getAttackCooldown() / (float) MovesUtils.getAttackDelay(pokemob,
                                     pokemob.getLastMoveUsed(),
-                                    (lastMove.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0, false);
+                                    (lastMove.getAttackCategory(pokemob) & IMoveConstants.CATEGORY_DISTANCE) > 0,
+                                    false);
                         timer = Math.max(0, Math.min(timer, 1));
                         RenderSystem.enableBlend();
                         this.blit(evt.getMat(), movesOffsetX, movesOffsetY + 13 * index + h, 43, 35, (int) (91 * timer),

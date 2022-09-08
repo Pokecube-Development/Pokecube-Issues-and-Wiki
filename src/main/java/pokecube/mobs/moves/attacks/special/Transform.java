@@ -3,6 +3,7 @@
  */
 package pokecube.mobs.moves.attacks.special;
 
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -68,6 +69,14 @@ public class Transform extends Move_Basic
             final MovePacket packet = new MovePacket(attacker, attacked, this.name, this.move.type, 25, 1,
                     IMoveConstants.STATUS_NON, IMoveConstants.CHANGE_NONE);
             this.onAttack(packet);
+            if (attacker.getTransformedTo() != null) attacker.getTransformedTo().swing(InteractionHand.MAIN_HAND);
         }
+    }
+
+    @Override
+    public byte getAttackCategory(IPokemob user)
+    {
+        if (user.getTransformedTo() != null) return IMoveConstants.CATEGORY_CONTACT;
+        return super.getAttackCategory();
     }
 }

@@ -172,6 +172,19 @@ public abstract class Move_Base
         return (byte) this.move.attackCategory;
     }
 
+    /**
+     * Attack category getter. Can be {@link IMoveConstants#CATEGORY_CONTACT} or
+     * {@link IMoveConstants#CATEGORY_DISTANCE}. Set by the constructor. <br>
+     * <br>
+     * This version is user aware
+     *
+     * @return the attack category
+     */
+    public byte getAttackCategory(final IPokemob user)
+    {
+        return (byte) this.move.attackCategory;
+    }
+
     /** @return Move category for this move. */
     public Category getCategory()
     {

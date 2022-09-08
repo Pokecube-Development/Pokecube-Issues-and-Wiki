@@ -3,8 +3,8 @@ package pokecube.mobs.abilities.simple;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.Move_Base;
+import pokecube.core.database.moves.MoveEntry.Category;
 
 public class IceScales extends Ability
 {
@@ -15,6 +15,6 @@ public class IceScales extends Ability
 
         final IPokemob attacker = move.attacker;
         if (attacker == mob || move.pre || attacker == move.attacked) return;
-        if (move.hit && attack.getAttackCategory() == IMoveConstants.SPECIAL) move.PWR = move.PWR / 2;
+        if (move.hit && attack.getCategory(move.attacker) == Category.SPECIAL) move.PWR = move.PWR / 2;
     }
 }

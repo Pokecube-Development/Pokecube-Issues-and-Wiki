@@ -88,9 +88,12 @@ public class MovePacket
             }
         }
 
-        _CUSTOMFLAGS.put("is_contact", t -> (t.getMove().getAttackCategory() & IMoveConstants.CATEGORY_CONTACT) != 0);
-        _CUSTOMFLAGS.put("is_self", t -> (t.getMove().getAttackCategory() & IMoveConstants.CATEGORY_SELF) != 0);
-        _CUSTOMFLAGS.put("is_distance", t -> (t.getMove().getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) != 0);
+        _CUSTOMFLAGS.put("is_contact",
+                t -> (t.getMove().getAttackCategory(t.attacker) & IMoveConstants.CATEGORY_CONTACT) != 0);
+        _CUSTOMFLAGS.put("is_self",
+                t -> (t.getMove().getAttackCategory(t.attacker) & IMoveConstants.CATEGORY_SELF) != 0);
+        _CUSTOMFLAGS.put("is_distance",
+                t -> (t.getMove().getAttackCategory(t.attacker) & IMoveConstants.CATEGORY_DISTANCE) != 0);
 
         _CUSTOMFLAGS.put("causes_brn", t -> (t.statusChange & IMoveConstants.STATUS_BRN) != 0);
         _CUSTOMFLAGS.put("causes_psn", t -> (t.statusChange & IMoveConstants.STATUS_PSN) != 0);

@@ -119,7 +119,7 @@ public class MoveEventsHandler
             if (this.custom != null) this.custom.init();
         }
     }
-    
+
     public static final Map<String, IMoveAction> customActions = Maps.newHashMap();
 
     public static boolean canAffectBlock(final IPokemob user, final Vector3 location, final String move)
@@ -375,7 +375,7 @@ public class MoveEventsHandler
         IMoveAction action = MoveEventsHandler.actionMap.get(move.name);
         if (action == null)
         {
-            boolean doesDamage = (move.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0
+            boolean doesDamage = (move.getAttackCategory(attacker) & IMoveConstants.CATEGORY_DISTANCE) > 0
                     && move.move.power > 0;
             if (move.getType(attacker) == PokeType.getType("water")) action = new DefaultWaterAction(move);
             if (move.getType(attacker) == PokeType.getType("ice") && doesDamage) action = new DefaultIceAction(move);

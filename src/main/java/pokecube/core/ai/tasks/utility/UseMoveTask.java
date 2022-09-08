@@ -34,7 +34,7 @@ public class UseMoveTask extends UtilTask
         UseMoveTask.MEMS.put(MemoryModules.MOVE_TARGET.get(), MemoryStatus.VALUE_PRESENT);
     }
 
-    private boolean running    = false;
+    private boolean running = false;
     private boolean checkRange = false;
 
     PositionTracker pos = null;
@@ -70,14 +70,14 @@ public class UseMoveTask extends UtilTask
         {
             this.speed = 1;
 
-            final boolean self = (move.getAttackCategory() & IMoveConstants.CATEGORY_SELF) != 0;
+            final boolean self = (move.getAttackCategory(this.pokemob) & IMoveConstants.CATEGORY_SELF) != 0;
             // Apply self moves directly.
             if (self)
             {
                 this.pokemob.executeMove(null, this.destination, 0);
                 return;
             }
-            final boolean ranged = (move.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) != 0;
+            final boolean ranged = (move.getAttackCategory(this.pokemob) & IMoveConstants.CATEGORY_DISTANCE) != 0;
             if (ranged && !this.checkRange)
             {
                 final double dist = this.destination.distToEntity(this.entity);
@@ -97,7 +97,7 @@ public class UseMoveTask extends UtilTask
         final double dist = loc.distToSq(this.destination);
         double var1 = 4;
 
-        final boolean rangedMove = (move.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0;
+        final boolean rangedMove = (move.getAttackCategory(this.pokemob) & IMoveConstants.CATEGORY_DISTANCE) > 0;
 
         if (!this.checkRange && rangedMove)
         {
@@ -132,8 +132,9 @@ public class UseMoveTask extends UtilTask
         // move, otherwise path to location.
         if (this.checkRange)
         {
-            ClipContext context = new ClipContext(this.entity.position(), new Vec3(this.destination.x,
-                    this.destination.y, this.destination.z), Block.COLLIDER, Fluid.NONE, this.entity);
+            ClipContext context = new ClipContext(this.entity.position(),
+                    new Vec3(this.destination.x, this.destination.y, this.destination.z), Block.COLLIDER, Fluid.NONE,
+                    this.entity);
             HitResult trace = this.world.clip(context);
             BlockHitResult result = null;
 
@@ -150,8 +151,8 @@ public class UseMoveTask extends UtilTask
                 if (loc.y % 1 == 0.5) loc.y += dir.getY() * 0.49;
                 if (loc.z % 1 == 0.5) loc.z += dir.getZ() * 0.49;
                 result = null;
-                context = new ClipContext(this.entity.position(), new Vec3(loc.x, loc.y, loc.z),
-                        Block.COLLIDER, Fluid.NONE, this.entity);
+                context = new ClipContext(this.entity.position(), new Vec3(loc.x, loc.y, loc.z), Block.COLLIDER,
+                        Fluid.NONE, this.entity);
                 // Raytrace against shifted location.
                 trace = this.world.clip(context);
                 if (trace.getType() == Type.BLOCK) result = (BlockHitResult) trace;

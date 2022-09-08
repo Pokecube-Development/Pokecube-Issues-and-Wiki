@@ -75,6 +75,7 @@ import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.events.CustomInteractEvent;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.utils.PokeType;
+import pokecube.compat.wearables.sided.Common;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.routes.IGuardAICapability;
@@ -102,7 +103,6 @@ import pokecube.core.inventory.tms.TMInventory;
 import pokecube.core.inventory.trade.TradeInventory;
 import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.megastuff.MegaCapability;
-import pokecube.core.items.megastuff.WearablesCompat;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.MoveQueue.MoveQueuer;
@@ -586,7 +586,7 @@ public class EventsHandler
     {
         UsableItemEffects.registerCapabilities(event);
         GeneticsManager.registerCapabilities(event);
-        WearablesCompat.registerCapabilities(event);
+        Common.registerCapabilities(event);
         if (!MegaCapability.isStoneOrWearable(event.getObject())) return;
         final ResourceLocation key = new ResourceLocation("pokecube:megawearable");
         if (event.getCapabilities().containsKey(key)) return;

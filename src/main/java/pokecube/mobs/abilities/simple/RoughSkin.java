@@ -12,7 +12,7 @@ public class RoughSkin extends Ability
     @Override
     public int beforeDamage(IPokemob mob, MovePacket move, int damage)
     {
-        if ((move.getMove().getAttackCategory() & IMoveConstants.CATEGORY_CONTACT) > 0)
+        if ((move.getMove().getAttackCategory(move.attacker) & IMoveConstants.CATEGORY_CONTACT) > 0)
         {
             final LivingEntity entity = move.attacker.getEntity();
             final float maxHp = entity.getMaxHealth();

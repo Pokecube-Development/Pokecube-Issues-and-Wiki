@@ -577,8 +577,10 @@ public class LogicMiscUpdate extends LogicBase
             Move_Base move;
             if (index < 4 && (move = MovesUtils.getMoveFromName(this.pokemob.getMove(index))) != null)
             {
-                if ((move.getAttackCategory() & IMoveConstants.CATEGORY_CONTACT) > 0) anims.add("attack_contact");
-                if ((move.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0) anims.add("attack_ranged");
+                if ((move.getAttackCategory(pokemob) & IMoveConstants.CATEGORY_CONTACT) > 0)
+                    anims.add("attack_contact");
+                if ((move.getAttackCategory(pokemob) & IMoveConstants.CATEGORY_DISTANCE) > 0)
+                    anims.add("attack_ranged");
             }
         }
         for (final LogicStates state : LogicStates.values())

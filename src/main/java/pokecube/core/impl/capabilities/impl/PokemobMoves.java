@@ -10,6 +10,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -28,8 +29,10 @@ import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.database.moves.MoveEntry;
+import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
+import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.moves.zmoves.GZMoveManager;
@@ -71,7 +74,7 @@ public abstract class PokemobMoves extends PokemobStats
         }
 
         // Check ranged vs contact and set cooldown accordinly.
-        final boolean distanced = (move.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0;
+        final boolean distanced = (move.getAttackCategory(this) & IMoveConstants.CATEGORY_DISTANCE) > 0;
         this.setAttackCooldown(MovesUtils.getAttackDelay(this, attack, distanced, target instanceof Player));
         // Syncs that the move has at least been attempted, this is used for the
         // graphical indicator of move cooldowns
@@ -359,9 +362,19 @@ public abstract class PokemobMoves extends PokemobStats
     }
 
     @Override
-    public void setTransformedTo(final LivingEntity to)
+    public void setTransformedTo(LivingEntity to)
     {
         final int id = to == null ? -1 : to.getId();
+
+        if (to instanceof ServerPlayer player)
+        {
+            NpcMob npc = EntityTypes.getNpc().create(to.level);
+            npc.playerName = player.getGameProfile().getName();
+            npc.setCustomNameVisible(false);
+            npc.setCustomName(player.getDisplayName());
+            to = npc;
+        }
+
         PokedexEntry newEntry = this.getPokedexEntry();
         if (id != -1)
         {
@@ -370,6 +383,7 @@ public abstract class PokemobMoves extends PokemobStats
         }
         this.setType1(newEntry.getType1());
         this.setType2(newEntry.getType2());
+
         if (!this.getEntity().level.isClientSide())
         {
             final CompoundTag tag = new CompoundTag();
@@ -377,7 +391,12 @@ public abstract class PokemobMoves extends PokemobStats
             this.setCopiedNBT(tag);
         }
         final LivingEntity old = this.getCopiedMob();
+
         this.setCopiedID(id == -1 ? null : RegHelper.getKey(to));
+//        this.setCopiedMob(to);
+
+        System.out.println(this.getCopy().getCopiedMob());
+
         this.getCopy().onBaseTick(this.getEntity().level, this.getEntity());
         if (to != old && !this.getEntity().level.isClientSide())
             CapabilitySync.sendUpdate(this.getEntity(), PokemobMoves.TO_SYNC);

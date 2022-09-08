@@ -19,7 +19,7 @@ public class Aftermath extends Ability
     {
         if (mob != move.attacked || move.pre || move.attacker == move.attacked) return;
         final Move_Base attack = move.getMove();
-        if (attack == null || (attack.getAttackCategory() & IMoveConstants.CATEGORY_CONTACT) == 0) return;
+        if (attack == null || (attack.getAttackCategory(move.attacker) & IMoveConstants.CATEGORY_CONTACT) == 0) return;
 
         if (mob.getEntity().getHealth() <= 0)
         {

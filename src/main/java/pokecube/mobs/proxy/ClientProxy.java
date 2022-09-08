@@ -14,9 +14,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.events.init.RegisterMiscItems;
+import pokecube.compat.wearables.sided.Client;
+import pokecube.compat.wearables.sided.Common.WearablesRenderer;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.items.megastuff.WearablesCompat;
-import pokecube.core.items.megastuff.WearablesCompat.WearablesRenderer;
 import pokecube.mobs.PokecubeMobs;
 import thut.bling.client.render.Ankle;
 import thut.bling.client.render.Eye;
@@ -38,7 +38,7 @@ public class ClientProxy
     {
         // Tiara like worn by Lisia, but rotated to be centered on head instead
         // of at angle.
-        WearablesCompat.renderers.put("tiara",
+        Client.renderers.put("tiara",
                 new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megatiara"))
                 {
                     @OnlyIn(Dist.CLIENT)
@@ -49,13 +49,12 @@ public class ClientProxy
                     {
                         if (slot != EnumWearable.HAT) return;
                         super.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
-                        Hat.renderHat(mat, buff, wearer, stack, this.model, brightness, overlay,
-                                WearablesCompat.IS_KEYSTONE);
+                        Hat.renderHat(mat, buff, wearer, stack, this.model, brightness, overlay, Client.IS_KEYSTONE);
                     }
                 });
 
         // Mega Anklet like one worn by Zinnia
-        WearablesCompat.renderers.put("ankletzinnia",
+        Client.renderers.put("ankletzinnia",
                 new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megaankletzinnia"))
                 {
                     @Override
@@ -65,12 +64,11 @@ public class ClientProxy
                     {
                         if (slot != EnumWearable.ANKLE) return;
                         super.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
-                        Ankle.renderAnkle(mat, buff, wearer, stack, model, brightness, overlay,
-                                WearablesCompat.IS_KEYSTONE);
+                        Ankle.renderAnkle(mat, buff, wearer, stack, model, brightness, overlay, Client.IS_KEYSTONE);
                     }
                 });
         // a Pendant
-        WearablesCompat.renderers.put("pendant",
+        Client.renderers.put("pendant",
                 new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megapendant"))
                 {
                     @OnlyIn(Dist.CLIENT)
@@ -81,13 +79,12 @@ public class ClientProxy
                     {
                         if (slot != EnumWearable.NECK) return;
                         super.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
-                        Neck.renderNeck(mat, buff, wearer, stack, model, brightness, overlay,
-                                WearablesCompat.IS_KEYSTONE);
+                        Neck.renderNeck(mat, buff, wearer, stack, model, brightness, overlay, Client.IS_KEYSTONE);
 
                     }
                 });
         // Earrings
-        WearablesCompat.renderers.put("earring",
+        Client.renderers.put("earring",
                 new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megaearring"))
                 {
                     @OnlyIn(Dist.CLIENT)
@@ -98,12 +95,11 @@ public class ClientProxy
                     {
                         if (slot != EnumWearable.EAR) return;
                         super.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
-                        Finger.renderFinger(mat, buff, wearer, stack, model, brightness, overlay,
-                                WearablesCompat.IS_KEYSTONE);
+                        Finger.renderFinger(mat, buff, wearer, stack, model, brightness, overlay, Client.IS_KEYSTONE);
                     }
                 });
         // Glasses
-        WearablesCompat.renderers.put("glasses",
+        Client.renderers.put("glasses",
                 new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megaglasses"))
                 {
                     @OnlyIn(Dist.CLIENT)
@@ -114,8 +110,7 @@ public class ClientProxy
                     {
                         if (slot != EnumWearable.EYE) return;
                         super.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
-                        Eye.renderEye(mat, buff, wearer, stack, model, brightness, overlay,
-                                WearablesCompat.IS_KEYSTONE);
+                        Eye.renderEye(mat, buff, wearer, stack, model, brightness, overlay, Client.IS_KEYSTONE);
                     }
                 });
     }

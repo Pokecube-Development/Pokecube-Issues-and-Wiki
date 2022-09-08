@@ -79,6 +79,7 @@ public class RenderNPC<T extends NpcMob> extends LivingEntityRenderer<T, PlayerM
     @Override
     protected boolean shouldShowName(final T entity)
     {
+        if (!entity.isCustomNameVisible()) return false;
         final Minecraft minecraft = Minecraft.getInstance();
         return PokecubeCore.getConfig().npcNameTags && entity.hasLineOfSight(minecraft.getCameraEntity())
                 && super.shouldShowName(entity);

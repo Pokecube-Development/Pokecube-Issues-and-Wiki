@@ -80,7 +80,7 @@ public class SelectMoveTask extends CombatTask implements IAICombat
                 final Move_Base m = MovesUtils.getMoveFromName(s);
                 if (m == null) continue;
                 int temp = Tools.getPower(s, this.pokemob, this.target);
-                if (dist > 5 && (m.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0) temp *= 1.5;
+                if (dist > 5 && (m.getAttackCategory(this.pokemob) & IMoveConstants.CATEGORY_DISTANCE) > 0) temp *= 1.5;
                 if (temp > max)
                 {
                     index = i;

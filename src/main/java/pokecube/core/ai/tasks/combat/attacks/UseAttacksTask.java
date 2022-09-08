@@ -101,7 +101,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
 
         if (!this.waitingToStart)
         {
-            if (!((this.attack.getAttackCategory() & IMoveConstants.CATEGORY_SELF) != 0)
+            if (!((this.attack.getAttackCategory(this.pokemob) & IMoveConstants.CATEGORY_SELF) != 0)
                     && !this.pokemob.getGeneralState(GeneralStates.CONTROLLED))
                 this.setWalkTo(this.entityTarget.position(), this.speed, 0);
             this.targetLoc.set(this.entityTarget);
@@ -147,11 +147,11 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         if (move == null) move = MovesUtils.getMoveFromName(IMoveConstants.DEFAULT_MOVE);
         double var1 = (this.entity.getBbWidth() + 0.75) * (this.entity.getBbWidth() + 0.75);
         boolean distanced = false;
-        final boolean self = (move.getAttackCategory() & IMoveConstants.CATEGORY_SELF) > 0;
+        final boolean self = (move.getAttackCategory(this.pokemob) & IMoveConstants.CATEGORY_SELF) > 0;
         final double dist = this.entity.distanceToSqr(this.entityTarget.getX(), this.entityTarget.getY(),
                 this.entityTarget.getZ());
 
-        distanced = (move.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0;
+        distanced = (move.getAttackCategory(this.pokemob) & IMoveConstants.CATEGORY_DISTANCE) > 0;
         // Check to see if the move is ranged, contact or self.
         if (distanced)
             var1 = PokecubeCore.getConfig().rangedAttackDistance * PokecubeCore.getConfig().rangedAttackDistance;

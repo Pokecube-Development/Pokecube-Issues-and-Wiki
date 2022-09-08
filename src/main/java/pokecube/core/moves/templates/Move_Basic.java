@@ -315,9 +315,9 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         // Apply configs for scaling attack damage by category.
         if (finalAttackStrength > 0)
         {
-            final double damageRatio = (packet.getMove().getAttackCategory() & IMoveConstants.CATEGORY_CONTACT) > 0
-                    ? PokecubeCore.getConfig().contactAttackDamageScale
-                    : PokecubeCore.getConfig().rangedAttackDamageScale;
+            final double damageRatio = (packet.getMove().getAttackCategory(packet.attacker)
+                    & IMoveConstants.CATEGORY_CONTACT) > 0 ? PokecubeCore.getConfig().contactAttackDamageScale
+                            : PokecubeCore.getConfig().rangedAttackDamageScale;
             finalAttackStrength = (int) Math.max(1, finalAttackStrength * damageRatio);
         }
 
@@ -362,12 +362,13 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         if (targetPokemob != null) if (targetPokemob.getAbility() != null)
             finalAttackStrength = targetPokemob.getAbility().beforeDamage(targetPokemob, packet, finalAttackStrength);
 
-        if ((this.getAttackCategory() & IMoveConstants.CATEGORY_SELF) == 0 && this.move.defrosts
-                && targetPokemob != null && (targetPokemob.getStatus() & IMoveConstants.STATUS_FRZ) > 0)
+        boolean self = (this.getAttackCategory(packet.attacker) & IMoveConstants.CATEGORY_SELF) == 0;
+
+        if (self && this.move.defrosts && targetPokemob != null
+                && (targetPokemob.getStatus() & IMoveConstants.STATUS_FRZ) > 0)
             targetPokemob.healStatus();
 
-        if (!((this.getAttackCategory() & IMoveConstants.CATEGORY_SELF) > 0 && PWR == 0) && finalAttackStrength > 0
-                && !attacked.isInvulnerable())
+        if (!(self && PWR == 0) && finalAttackStrength > 0 && !attacked.isInvulnerable())
         {
             // Apply attack damage to players.
             if (attacked instanceof Player)
@@ -434,8 +435,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
             }
         }
 
-        if ((efficiency > 0 || packet.getMove().getAttackCategory() == IMoveConstants.CATEGORY_SELF)
-                && statusChange != IMoveConstants.STATUS_NON)
+        if ((efficiency > 0 || self) && statusChange != IMoveConstants.STATUS_NON)
             if (MovesUtils.setStatus(attacked, statusChange))
                 MovesUtils.displayStatusMessages(attacker, attacked, statusChange, true);
             else MovesUtils.displayEfficiencyMessages(attacker, attacked, -2, 0);
