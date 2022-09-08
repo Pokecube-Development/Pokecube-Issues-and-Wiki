@@ -1,12 +1,17 @@
 {
-  "type": "minecraft:crafting_shapeless",
   "group": "pokecube_legends",
-  "ingredients": [
-    {
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "0",
+    "0"
+  ],
+  "key": {
+    "0": {
       "item": "pokecube_legends:aquamarine_block"
     }
-  ],
+  },
   "result": {
-    "item": "pokecube_legends:aquamarine_button"
+    "item": "pokecube_legends:aquamarine_button",
+    "count": 2
   }
 }
