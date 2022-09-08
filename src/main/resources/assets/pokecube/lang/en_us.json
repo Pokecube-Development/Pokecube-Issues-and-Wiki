@@ -105,6 +105,7 @@
     "pokewatch.spawns.water_optional": "In water or on land",
     "pokewatch.spawns.biomes": "Biomes:",
     "pokewatch.spawns.types": "Subbiomes:",
+    "pokewatch.spawns.structures": "Structures:",
     "pokewatch.spawns.rate_local": "Adjusted Rate: %s",
     "pokewatch.spawns.rate_single": "Non Adj Rate: %s",
     "pokewatch.spawns.info": "Spawns for here:",
@@ -288,13 +289,6 @@
     "achievement.pokecube.kill.root": "Time for Battle",
     "achievement.pokecube.kill.root.desc": "Defeat all of the Pokémobs!",
 
-    "achievement.pokecube.catch.root": "Gotta Catchem All!",
-    "achievement.pokecube.catch.root.desc": "Capture all of the Pokémobs!",
-    "achievement.pokecube.hatch.root": "Breeding Time",
-    "achievement.pokecube.hatch.root.desc": "Hatch all of the Pokémobs!",
-    "achievement.pokecube.kill.root": "Time for Battle",
-    "achievement.pokecube.kill.root.desc": "Defeat all of the Pokémobs!",
-
     "achievement.pokecube.catch": "Catch a %1$s",
     "achievement.pokecube.catch.desc": "Catch a %1$s",
     "achievement.pokecube.hatch": "Hatch a %1$s",
@@ -327,7 +321,6 @@
     "block.pokecube.table": "Pokécube Table",
     "block.pc.next": ">",
     "block.pc.previous": "<",
-    "block.pc.public": "Public PC",
 
     "block.pokecube.tm_machine": "TM Machine",
     "block.tm_machine.nomoves": "Put Pokémobs in PC",

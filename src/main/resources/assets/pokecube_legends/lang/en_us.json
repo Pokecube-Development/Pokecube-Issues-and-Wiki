@@ -135,6 +135,10 @@
     "filled_map.maps/unown_temple_overworld": "Exploration Map: Unown Temple",
     "filled_map.maps/unown_temple_distortic": "Exploration Map: Unown Temple",
     "filled_map.maps/unown_temple_ultraspace": "Exploration Map: Unown Temple",
+
+    "spawn.structure.pokecube_legends.kubfu_dark": "Kubfu Dark Tower",
+    "spawn.structure.pokecube_legends.kubfu_water": "Kubfu Water Tower",
+    "spawn.structure.pokecube_legends.kubfu_dojo": "Kubfu Dojo",
     
     "filled_map.maps/ocean_town": "Exploration Map: Ocean Village",
     "filled_map.maps/team_rocket": "Rocket Hideout",

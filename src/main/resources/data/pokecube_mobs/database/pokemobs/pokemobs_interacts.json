@@ -7670,9 +7670,7 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
-              "values": {
-                "types": "deserts"
-              }
+              "and_preset": "deserts"
             },
             "evoMoves": "gust",
             "model": {
@@ -7683,9 +7681,7 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
-              "values": {
-                "types": "nether"
-              }
+              "and_preset": "nether"
             },
             "evoMoves": "gust",
             "model": {
@@ -7696,9 +7692,7 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
-              "values": {
-                "types": "end"
-              }
+              "and_preset": "end"
             },
             "evoMoves": "gust",
             "model": {

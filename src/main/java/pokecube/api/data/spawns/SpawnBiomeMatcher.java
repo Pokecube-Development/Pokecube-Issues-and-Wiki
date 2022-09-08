@@ -169,12 +169,14 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             if (matcher.checkSubBiome(type)) matcher.clientTypes.add(type.name);
         }
         if (matcher.clientTypes.size() == BiomeType.values().size()) matcher.clientTypes.clear();
+        matcher.clientStructures.addAll(matcher._validStructures);
     }
 
     public static void clearClientValues(SpawnBiomeMatcher matcher)
     {
         matcher.clientBiomes.clear();
         matcher.clientTypes.clear();
+        matcher.clientStructures.clear();
     }
 
     public static Set<TagKey<Biome>> SOFTBLACKLIST = Sets.newHashSet();
@@ -238,6 +240,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
     public List<ResourceLocation> clientBiomes = new ArrayList<>();
     public List<String> clientTypes = new ArrayList<>();
+    public List<String> clientStructures = new ArrayList<>();
 
     /**
      * Do not call this, use the static method instead!
@@ -946,6 +949,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         if (!_or_children.isEmpty()) return ret;
         if (!_validBiomes.isEmpty()) ret += header + "biomes: " + this._validBiomes;
         if (!_validSubBiomes.isEmpty()) ret += header + "subbiomes: " + this._validSubBiomes;
+        if (!_validStructures.isEmpty()) ret += header + "structures: " + this._validStructures;
         if (!_blackListBiomes.isEmpty()) ret += header + "not-biomes: " + this._blackListBiomes;
         if (!_blackListSubBiomes.isEmpty()) ret += header + "not-subbiomes: " + this._blackListSubBiomes;
         return ret;

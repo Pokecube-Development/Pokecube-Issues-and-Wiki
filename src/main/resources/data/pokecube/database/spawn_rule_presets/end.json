@@ -2,6 +2,12 @@
   "rules": [
     {
       "values": {
+        "preset": "end",
+        "or_preset": "end_surface,end_caves"
+      }
+    },
+    {
+      "values": {
         "preset": "end_surface",
         "types": "#forge:is_end"
       }

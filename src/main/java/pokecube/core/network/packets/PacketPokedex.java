@@ -381,13 +381,15 @@ public class PacketPokedex extends NBTPacket
         }
     }
 
-    private String serialize(final SpawnBiomeMatcher matcher)
+    public static String serialize(final SpawnBiomeMatcher matcher)
     {
         // Initialise the client lists of biomes/types
         SpawnBiomeMatcher.populateClientValues(matcher);
         // If no biomes or subbiomes, just throw null string, usually means this
         // spawn is not possible due to settings, etc.
-        if (matcher.clientBiomes.isEmpty() && matcher.clientTypes.isEmpty() || !matcher._valid) return null;
+        if (!matcher._valid || matcher.clientBiomes.isEmpty() && matcher.clientTypes.isEmpty()
+                && matcher.clientStructures.isEmpty())
+            return null;
         // Then serialise it
         final String ret = PacketPokedex.gson.toJson(matcher);
         // Then clear afterwards
@@ -435,7 +437,7 @@ public class PacketPokedex extends NBTPacket
                 for (final SpawnBiomeMatcher matcher : entry.getSpawnData().matchers.keySet())
             {
                 SpawnEntry sentry = entry.getSpawnData().matchers.get(matcher);
-                String serialised = this.serialize(matcher);
+                String serialised = PacketPokedex.serialize(matcher);
                 // This is null in the case that the spawn is not valid.
                 if (serialised == null) continue;
                 matcher.spawnRule.values.put(PokedexEntryLoader.RATE, sentry.rate + "");
@@ -495,7 +497,7 @@ public class PacketPokedex extends NBTPacket
             {
                 final SpawnBiomeMatcher matcher = matchers.get(e);
                 matcher.spawnRule.values.put("Local_Rate", rates.get(e) + "");
-                String match = this.serialize(matcher);
+                String match = PacketPokedex.serialize(matcher);
                 if (match == null) continue;
                 spawns.putString("e" + n, e.getName());
                 spawns.putString("" + n, match);

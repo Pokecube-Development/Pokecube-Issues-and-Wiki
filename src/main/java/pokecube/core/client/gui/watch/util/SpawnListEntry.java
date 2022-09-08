@@ -64,9 +64,21 @@ public class SpawnListEntry
         for (final String s : matcher.clientTypes) types.add(I18n.get("thutcore.biometype." + s));
         if (!types.isEmpty())
         {
-            String typeString = I18n.get("pokewatch.spawns.types") + " ";
+            String typeString = I18n.get("pokewatch.spawns.types") + "\n";
             for (final String s : types) typeString = typeString + s + ", ";
             for (final MutableComponent line : ListHelper.splitText(TComponent.literal(typeString),
+                    width - fontRender.width(ind), fontRender, false))
+                output.add(TComponent.literal(ind + line.getString()));
+        }
+
+        if (!matcher.clientStructures.isEmpty())
+        {
+            String msg = I18n.get("pokewatch.spawns.structures") + "\n";
+            for (String s : matcher.clientStructures)
+            {
+                msg = msg + I18n.get("spawn.structure." + s.replace(":", ".")) + ", ";
+            }
+            for (final MutableComponent line : ListHelper.splitText(TComponent.literal(msg),
                     width - fontRender.width(ind), fontRender, false))
                 output.add(TComponent.literal(ind + line.getString()));
         }
