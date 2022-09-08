@@ -24,7 +24,6 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
@@ -38,7 +37,6 @@ import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.StructureManager;
 import thut.api.terrain.StructureManager.StructureInfo;
-import thut.lib.TComponent;
 
 public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 {
@@ -148,7 +146,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         try
         {
             var reg = ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
-            for (final ResourceLocation test : ForgeRegistries.BIOMES.getKeys())
+            for (final ResourceLocation test : reg.keySet())
             {
                 var holder = reg.getHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, test));
                 final boolean valid = matcher.checkBiome(holder);
@@ -157,7 +155,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                     matcher.clientBiomes.add(test);
                 }
             }
-            if (matcher.clientBiomes.size() == ForgeRegistries.BIOMES.getKeys().size()) matcher.clientBiomes.clear();
+            if (matcher.clientBiomes.size() == reg.keySet().size()) matcher.clientBiomes.clear();
         }
         catch (Exception e)
         {
@@ -645,24 +643,6 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                     PokecubeAPI.LOGGER.error("No preset found for and_preset {} in {}", s, and_presets);
             }
         }
-    }
-
-    public MutableComponent getMatchDescription()
-    {
-        if (this._description != null) return this._description;
-        final List<String> biomeNames = new ArrayList<>();
-        for (final ResourceLocation test : ForgeRegistries.BIOMES.getKeys())
-        {
-            var holder = ForgeRegistries.BIOMES.getHolder(test);
-            if (!holder.isPresent()) continue;
-            final boolean valid = this.checkBiome(holder.get());
-            if (valid)
-            {
-                final String key = String.format("biome.%s.%s", test.getNamespace(), test.getPath());
-                biomeNames.add(TComponent.translatable(key).getString());
-            }
-        }
-        return this._description = TComponent.translatable("pokemob.description.evolve.locations", biomeNames);
     }
 
     private boolean initRawLists()
