@@ -30,6 +30,7 @@ import net.minecraftforge.entity.PartEntity;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
@@ -147,7 +148,9 @@ public class Health
         processing:
         {
 
-            final float scale = .02f;
+            float scale = .02f;
+            if (pokemob.getCombatState(CombatStates.DYNAMAX)) scale *= 5;
+
             final float maxHealth = entity.getMaxHealth();
             final float health = Math.min(maxHealth, entity.getHealth());
 
@@ -186,8 +189,7 @@ public class Health
             MutableComponent nameComp = (MutableComponent) pokemob.getDisplayName();
             final boolean obfuscated = Health.obfuscateName(pokemob);
             if (obfuscated) nameComp = Health.obfuscate(nameComp);
-            if (entity instanceof Mob mob && mob.hasCustomName())
-                nameComp = (MutableComponent) mob.getCustomName();
+            if (entity instanceof Mob mob && mob.hasCustomName()) nameComp = (MutableComponent) mob.getCustomName();
 
             final float s = 0.5F;
             final String name = nameComp.getString();
