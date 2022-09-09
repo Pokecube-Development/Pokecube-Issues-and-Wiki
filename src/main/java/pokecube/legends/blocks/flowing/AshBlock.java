@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.Random;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -52,7 +54,7 @@ public class AshBlock extends FlowingBlock
     }
 
     public static final BooleanProperty WET = BooleanProperty.create("wet");
-    
+
     public int dustColour = 3816264;
 
     protected AshBlock(Properties properties)
@@ -72,7 +74,15 @@ public class AshBlock extends FlowingBlock
         }
         super.tick(state, level, pos, random);
     }
-    
+
+    @Override
+    public boolean flows(BlockState state)
+    {
+        if (state.getBlock() != this) super.flows(state);
+        boolean wet = state.getValue(WET);
+        return !wet;
+    }
+
     @Override
     public void animateTick(BlockState state, Level world, BlockPos pos, Random random)
     {
@@ -89,6 +99,28 @@ public class AshBlock extends FlowingBlock
                 world.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state), d0, d1, d2, 0.0D, 0.0D,
                         0.0D);
             }
+        }
+    }
+
+    @Override
+    public boolean canSurvive(BlockState p_60525_, LevelReader world, BlockPos pos)
+    {
+        BlockState stateBelow = world.getBlockState(pos.below());
+        if (!stateBelow.is(Blocks.BARRIER))
+        {
+            if (!stateBelow.is(Blocks.HONEY_BLOCK))
+            {
+                return Block.isFaceFull(stateBelow.getCollisionShape(world, pos.below()), Direction.UP)
+                        || stateBelow.is(this) && stateBelow.getValue(LAYERS) == 16;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else
+        {
+            return false;
         }
     }
 
