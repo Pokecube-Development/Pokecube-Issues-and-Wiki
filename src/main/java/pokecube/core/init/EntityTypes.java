@@ -2,7 +2,7 @@ package pokecube.core.init;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.animal.ShoulderRidingEntity;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
@@ -13,7 +13,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.entity.npc.NpcMob;
-import pokecube.core.entity.pokemobs.GenericPokemob;
+import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
@@ -50,9 +50,9 @@ public class EntityTypes
     public static void init()
     {}
 
-    private static PokemobType<ShoulderRidingEntity> makePokemobEntityType(PokedexEntry entry)
+    private static PokemobType<TamableAnimal> makePokemobEntityType(PokedexEntry entry)
     {
-        final PokemobType<ShoulderRidingEntity> type = new PokemobType<>(GenericPokemob::new, entry);
+        final PokemobType<TamableAnimal> type = new PokemobType<>(EntityPokemob::new, entry);
         PokecubeCore.typeMap.put(type, entry);
         CopyCaps.register(type);
         return type;

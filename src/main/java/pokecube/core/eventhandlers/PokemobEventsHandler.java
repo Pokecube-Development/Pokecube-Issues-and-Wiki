@@ -99,6 +99,7 @@ import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.moves.damage.IPokedamage;
 import pokecube.core.moves.damage.PokemobDamageSource;
+import pokecube.core.network.packets.PacketDataSync;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketSyncGene;
 import pokecube.core.utils.AITools;
@@ -790,6 +791,35 @@ public class PokemobEventsHandler
         final LivingEntity living = evt.getEntityLiving();
         if (living.isRemoved()) return;
 
+        // Server side check if still have a rider, sync that.
+        if (living instanceof ServerPlayer player)
+        {
+            CompoundTag tag = PokecubePlayerDataHandler.getCustomDataTag(player);
+            int[] rid = tag.getIntArray("rider");
+            for (int i : rid)
+            {
+                Entity e = player.level.getEntity(i);
+                if (e == null || e.getVehicle() != player)
+                {
+                    tag.remove("rider");
+                    PacketDataSync.syncData(player, "pokecube-custom");
+                }
+            }
+        }
+        else if (living instanceof Player player)
+        {
+            CompoundTag tag = PokecubePlayerDataHandler.getCustomDataTag(player);
+            int[] rid = tag.getIntArray("rider");
+            for (int i : rid)
+            {
+                Entity e = player.level.getEntity(i);
+                if (e != null && e.getVehicle() != player)
+                {
+                    e.startRiding(player);
+                }
+            }
+        }
+
         // This prevents double ticking when a mob is both a copy and ticking
         // elsewhere, say in a custom pokeplayer like implementation
         long tick = living.getPersistentData().getLong("__i__");
@@ -845,6 +875,50 @@ public class PokemobEventsHandler
                 return;
             }
 
+            if (living.getVehicle() instanceof Player player)
+            {
+                if (!pokemob.getLogicState(LogicStates.SITTING))
+                {
+                    living.getPersistentData().remove("__on_shoulder__");
+                    living.stopRiding();
+                }
+            }
+
+            if (living.getVehicle() instanceof ServerPlayer player)
+            {
+                CompoundTag tag = PokecubePlayerDataHandler.getCustomDataTag(player);
+                int[] rid = tag.getIntArray("rider");
+                boolean alreadyKnown = false;
+                for (int i : rid) alreadyKnown |= i == living.getId();
+                if (!alreadyKnown)
+                {
+                    int[] rid2 = new int[rid.length + 1];
+                    for (int i = 0; i < rid.length; i++) rid2[i] = rid[i];
+                    rid2[rid.length] = living.getId();
+                    tag.putIntArray("rider", rid2);
+                    PacketDataSync.syncData(player, "pokecube-custom");
+                }
+            }
+            else if (living.getLevel() instanceof ServerLevel
+                    && living.getPersistentData().getBoolean("__on_shoulder__"))
+            {
+                int remountTimer = living.getPersistentData().getInt("__on_shoulder_timer__");
+                if (pokemob.getOwner() instanceof Player player)
+                {
+                    pokemob.moveToShoulder(player);
+                    living.getPersistentData().remove("__on_shoulder_timer__");
+                }
+                else if (remountTimer > 10)
+                {
+                    pokemob.setLogicState(LogicStates.SITTING, false);
+                    living.getPersistentData().remove("__on_shoulder__");
+                    living.getPersistentData().remove("__on_shoulder_timer__");
+                }
+                else
+                {
+                    living.getPersistentData().putInt("__on_shoulder_timer__", remountTimer + 1);
+                }
+            }
             if (pokemob.getBossInfo() != null)
                 pokemob.getBossInfo().setProgress(living.getHealth() / living.getMaxHealth());
             else if (pokemob.getOwnerId() == null && pokemob.getCombatState(CombatStates.DYNAMAX)
@@ -1024,12 +1098,20 @@ public class PokemobEventsHandler
             {
                 if (player.isShiftKeyDown())
                 {
-                    if (pokemob.getEntity().isAlive()) pokemob.moveToShoulder(player);
+                    pokemob.moveToShoulder(player);
                     return;
                 }
-                final Vector3 look = new Vector3().set(player.getLookAngle()).scalarMultBy(1);
-                look.y = 0.2;
-                look.addVelocities(target);
+                else if (pokemob.getEntity().isPassenger())
+                {
+                    pokemob.getEntity().stopRiding();
+                    return;
+                }
+                if (held.getDisplayName().getContents().contains("poke"))
+                {
+                    final Vector3 look = new Vector3().set(player.getLookAngle()).scalarMultBy(1);
+                    look.y = 0.2;
+                    look.addVelocities(target);
+                }
                 return;
             }
             // Debug thing to maximize happiness

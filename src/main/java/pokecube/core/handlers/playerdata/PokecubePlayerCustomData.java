@@ -36,7 +36,7 @@ public class PokecubePlayerCustomData extends PlayerData
     @Override
     public boolean shouldSync()
     {
-        return false;
+        return true;
     }
 
     @Override

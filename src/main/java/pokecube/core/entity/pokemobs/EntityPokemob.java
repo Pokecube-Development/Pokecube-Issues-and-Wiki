@@ -21,7 +21,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
@@ -37,7 +36,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.animal.ShoulderRidingEntity;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -93,7 +92,7 @@ public class EntityPokemob extends PokemobRidable
     private static final EntityDataAccessor<Byte> CLIMBING = SynchedEntityData.defineId(EntityPokemob.class,
             EntityDataSerializers.BYTE);
 
-    public EntityPokemob(final EntityType<? extends ShoulderRidingEntity> type, final Level world)
+    public EntityPokemob(final EntityType<? extends TamableAnimal> type, final Level world)
     {
         super(type, world);
     }
@@ -103,21 +102,6 @@ public class EntityPokemob extends PokemobRidable
     {
         super.defineSynchedData();
         this.entityData.define(EntityPokemob.CLIMBING, (byte) 0);
-    }
-
-    @Override
-    public boolean setEntityOnShoulder(final ServerPlayer p_213439_1_)
-    {
-        final CompoundTag compoundnbt = new CompoundTag();
-        compoundnbt.putString("id", this.getEncodeId());
-        compoundnbt.putInt("pokemob:uid", this.pokemobCap.getPokemonUID());
-        this.saveWithoutId(compoundnbt);
-        if (p_213439_1_.setEntityOnShoulder(compoundnbt))
-        {
-            this.remove(RemovalReason.DISCARDED);
-            return true;
-        }
-        else return false;
     }
 
     @Override
@@ -408,11 +392,6 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public void handleInsidePortal(final BlockPos pos)
-    {// Nope, no nether portal for us.
-    }
-
-    @Override
     protected SoundEvent getAmbientSound()
     {
         return this.pokemobCap.getSound();
@@ -614,6 +593,11 @@ public class EntityPokemob extends PokemobRidable
     public void tick()
     {
         super.tick();
+        if (!this.isOrderedToSit())
+        {
+            this.stopRiding();
+        }
+
         if (!this.level.isClientSide)
         {
             boolean climb = this.horizontalCollision && this.getNavigation().isInProgress();

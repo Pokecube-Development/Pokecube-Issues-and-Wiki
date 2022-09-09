@@ -28,6 +28,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
@@ -452,7 +453,19 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     default boolean moveToShoulder(final Player player)
     {
         if (this.getEntity() instanceof ShoulderRidingEntity mob)
+        {
             if (player instanceof ServerPlayer splayer) return mob.setEntityOnShoulder(splayer);
+        }
+        else
+        {
+            if (this.getEntity().isAlive() && !this.getEntity().isPassenger() && player.getPassengers().isEmpty())
+            {
+                this.getEntity().getPersistentData().putBoolean("__on_shoulder__", true);
+                this.setLogicState(LogicStates.SITTING, true);
+                this.getEntity().startRiding(player, true);
+                return true;
+            }
+        }
         return false;
     }
 

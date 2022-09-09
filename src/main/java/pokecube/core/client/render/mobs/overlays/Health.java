@@ -138,8 +138,8 @@ public class Health
 
         ridingStack.push(entity);
 
-        while (entity.getVehicle() != null && entity.getVehicle() instanceof LivingEntity living)
-            ridingStack.push(living);
+//        while (entity.getVehicle() != null && entity.getVehicle() instanceof LivingEntity living)
+//            ridingStack.push(living);
 
         VertexConsumer buffer;
         Matrix4f pos;

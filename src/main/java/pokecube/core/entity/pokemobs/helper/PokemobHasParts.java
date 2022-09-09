@@ -14,7 +14,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.animal.ShoulderRidingEntity;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -36,7 +36,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     private List<PokemobPart> lowerList = Lists.newArrayList();
     private List<PokemobPart> upperList = Lists.newArrayList();
 
-    public PokemobHasParts(final EntityType<? extends ShoulderRidingEntity> type, final Level worldIn)
+    public PokemobHasParts(final EntityType<? extends TamableAnimal> type, final Level worldIn)
     {
         super(type, worldIn);
     }

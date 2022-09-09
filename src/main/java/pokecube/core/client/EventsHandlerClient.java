@@ -3,11 +3,9 @@ package pokecube.core.client;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.google.common.collect.Sets;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.Lighting;
@@ -26,7 +24,6 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -48,12 +45,11 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
-import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.ScreenEvent.DrawScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickEmpty;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.api.data.PokedexEntry;
@@ -77,8 +73,6 @@ import pokecube.core.client.gui.GuiInfoMessages;
 import pokecube.core.client.gui.GuiTeleport;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.client.render.mobs.RenderPokemob;
-import pokecube.core.client.render.mobs.ShoulderLayer;
-import pokecube.core.client.render.mobs.ShoulderLayer.ShoulderHolder;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.impl.capabilities.DefaultPokemob;
@@ -95,8 +89,6 @@ import pokecube.core.utils.Tools;
 public class EventsHandlerClient
 {
     public static HashMap<PokedexEntry, IPokemob> renderMobs = new HashMap<>();
-
-    private static final Set<PlayerRenderer> addedLayers = Sets.newHashSet();
 
     static long lastSetTime = 0;
 
@@ -118,14 +110,6 @@ public class EventsHandlerClient
         // Here we handle the various keybindings for the mod
         MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onKeyInput);
 
-        // This adds the "ShoulderLayer" to player renderer for rendering
-        // pokemobs on shoulders.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onPlayerRender);
-
-        // Here we add the ShoulderHolder capability for the above mentioned
-        // render layer
-        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EventsHandlerClient::onCapabilityAttach);
-
         // This renders the pokemob's icons over the pokecubes when alt is held
         // in an inventory.
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, EventsHandlerClient::onRenderGUIScreenPre);
@@ -141,6 +125,8 @@ public class EventsHandlerClient
         // Register the handler for drawing selected box around targeted
         // entities for throwing cubes at
         MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::renderBounds);
+        // Used to dismount shoulder mobs
+        MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onLeftClickEmpty);
 
         // Initialise this gui
         GuiDisplayPokecubeInfo.instance();
@@ -250,6 +236,22 @@ public class EventsHandlerClient
         }
     }
 
+    private static void onLeftClickEmpty(final LeftClickEmpty event)
+    {
+        if (Screen.hasShiftDown() && !Minecraft.getInstance().player.getPassengers().isEmpty())
+        {
+            for (Entity e : Minecraft.getInstance().player.getPassengers())
+            {
+                IPokemob poke = PokemobCaps.getPokemobFor(e);
+                if (poke != null)
+                {
+                    PacketCommand.sendCommand(poke, Command.STANCE,
+                            new StanceHandler(false, StanceHandler.SIT).setFromOwner(true));
+                }
+            }
+        }
+    }
+
     private static void renderBounds(final RenderLevelStageEvent event)
     {
         if (event.getStage() != Stage.AFTER_SOLID_BLOCKS) return;
@@ -339,19 +341,6 @@ public class EventsHandlerClient
                     new StanceHandler(!current.getCombatState(CombatStates.USINGGZMOVE), StanceHandler.GZMOVE)
                             .setFromOwner(true));
         }
-    }
-
-    private static void onPlayerRender(final RenderPlayerEvent.Post event)
-    {
-        if (EventsHandlerClient.addedLayers.contains(event.getRenderer())) return;
-        event.getRenderer().addLayer(new ShoulderLayer<>(event.getRenderer()));
-        EventsHandlerClient.addedLayers.add(event.getRenderer());
-    }
-
-    private static void onCapabilityAttach(final AttachCapabilitiesEvent<Entity> event)
-    {
-        if (event.getObject() instanceof Player player)
-            event.addCapability(new ResourceLocation("pokecube:shouldermobs"), new ShoulderHolder(player));
     }
 
     private static void onRenderGUIScreenPre(final DrawScreenEvent.Post event)

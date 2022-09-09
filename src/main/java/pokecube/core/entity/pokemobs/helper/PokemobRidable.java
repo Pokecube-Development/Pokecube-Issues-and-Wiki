@@ -14,11 +14,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PlayerRideableJumping;
 import net.minecraft.world.entity.Saddleable;
-import net.minecraft.world.entity.animal.ShoulderRidingEntity;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -29,13 +30,14 @@ import pokecube.api.data.PokedexEntry;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.entity.multipart.GenericPartEntity.BodyPart;
+import thut.api.maths.vecmath.Mat3f;
 import thut.api.maths.vecmath.Vec3f;
 
 public abstract class PokemobRidable extends PokemobHasParts
         implements IMultiplePassengerEntity, PlayerRideableJumping, Saddleable
 {
 
-    public PokemobRidable(final EntityType<? extends ShoulderRidingEntity> type, final Level worldIn)
+    public PokemobRidable(final EntityType<? extends TamableAnimal> type, final Level worldIn)
     {
         super(type, worldIn);
     }
@@ -337,4 +339,36 @@ public abstract class PokemobRidable extends PokemobHasParts
         return this.getPassengers().size() < this.seatCount;
     }
 
+    @Override
+    public void setPos(double x, double y, double z)
+    {
+        if (this.getVehicle() instanceof Player player)
+        {
+            final float yaw = -player.yBodyRot * 0.017453292F;
+            final float pitch = 0;
+            final float sinYaw = Mth.sin(yaw);
+            final float cosYaw = Mth.cos(yaw);
+            final float sinPitch = Mth.sin(pitch);
+            final float cosPitch = Mth.cos(pitch);
+            final Mat3f matrixYaw = new Mat3f(cosYaw, 0, sinYaw, 0, 1, 0, -sinYaw, 0, cosYaw);
+            final Mat3f matrixPitch = new Mat3f(cosPitch, -sinPitch, 0, sinPitch, cosPitch, 0, 0, 0, 1);
+            final Mat3f transform = new Mat3f();
+            transform.mul(matrixYaw, matrixPitch);
+
+            float dx = this == player.getPassengers().get(0) ? 0.2f + this.getBbWidth() / 2
+                    : -(0.4f + this.getBbWidth() / 2);
+
+            this.setOrderedToSit(true);
+
+            Vec3f v = new Vec3f(dx, -0.1f, 0);
+            transform.transform(v);
+            x += v.x;
+            y += v.y;
+            z += v.z;
+
+            this.yBodyRot = player.yBodyRot;
+            this.yBodyRotO = player.yBodyRotO;
+        }
+        super.setPos(x, y, z);
+    }
 }

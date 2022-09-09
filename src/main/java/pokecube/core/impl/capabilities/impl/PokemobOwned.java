@@ -177,12 +177,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         boolean rightSize = width < 1 && height < 1 && length < 1;
         rightSize |= this.getPokedexEntry().canSitShoulder;
         if (!rightSize) return false;
-        if (super.moveToShoulder(player))
-        {
-            this.returning = true;
-            return true;
-        }
-        return false;
+        return super.moveToShoulder(player);
     }
 
     @Override

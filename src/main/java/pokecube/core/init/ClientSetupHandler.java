@@ -23,7 +23,6 @@ import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -48,7 +47,6 @@ import pokecube.core.client.render.mobs.RenderEgg;
 import pokecube.core.client.render.mobs.RenderNPC;
 import pokecube.core.client.render.mobs.RenderPokecube;
 import pokecube.core.client.render.mobs.RenderPokemob;
-import pokecube.core.client.render.mobs.ShoulderLayer.IShoulderHolder;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.inventory.healer.HealerContainer;
@@ -210,12 +208,6 @@ public class ClientSetupHandler
         ItemBlockRenderTypes.setRenderLayer(PokecubeItems.DYNAMAX.get(), RenderType.cutoutMipped());
 
         // FIXME Register config gui
-    }
-
-    @SubscribeEvent
-    public static void registerCapabilities(final RegisterCapabilitiesEvent event)
-    {
-        event.register(IShoulderHolder.class);
     }
 
     @SubscribeEvent

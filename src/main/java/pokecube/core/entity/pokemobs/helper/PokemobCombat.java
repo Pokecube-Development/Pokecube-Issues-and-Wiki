@@ -4,8 +4,8 @@ import net.minecraft.world.damagesource.CombatRules;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.animal.ShoulderRidingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -16,7 +16,7 @@ import pokecube.core.moves.damage.PokemobDamageSource;
 public abstract class PokemobCombat extends PokemobBase
 {
 
-    public PokemobCombat(final EntityType<? extends ShoulderRidingEntity> type, final Level worldIn)
+    public PokemobCombat(final EntityType<? extends TamableAnimal> type, final Level worldIn)
     {
         super(type, worldIn);
     }
