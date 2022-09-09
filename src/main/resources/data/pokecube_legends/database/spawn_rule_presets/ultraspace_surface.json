@@ -2,8 +2,8 @@
   "rules": [
     {
       "values": {
-        "preset": "dark_valley",
-        "types": "#pokecube_legends:can_spawn/dark_valley"
+        "preset": "is_deltas",
+        "types": "#pokecube_legends:can_spawn/is_deltas"
       }
     }
   ]
