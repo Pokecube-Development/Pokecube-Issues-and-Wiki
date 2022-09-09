@@ -24,6 +24,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.entity.PartEntity;
@@ -138,8 +139,7 @@ public class Health
 
         ridingStack.push(entity);
 
-//        while (entity.getVehicle() != null && entity.getVehicle() instanceof LivingEntity living)
-//            ridingStack.push(living);
+        if (entity.getVehicle() instanceof Player) return;
 
         VertexConsumer buffer;
         Matrix4f pos;
