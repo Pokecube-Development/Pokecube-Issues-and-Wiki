@@ -31,7 +31,6 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.npc.Npc;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.trading.Merchant;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -48,7 +47,6 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -321,9 +319,6 @@ public class EventsHandler
 
     public static void register()
     {
-        // Allows mining properly while riding dive pokemobs.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onBreakSpeedCheck);
-
         // This adds: AffectCapability, PokemobCapability + supporting (data,
         // genetics, textures, shearable) as well as NPCMob capabilities for
         // textures.
@@ -527,19 +522,6 @@ public class EventsHandler
         {
             if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
             return;
-        }
-    }
-
-    private static void onBreakSpeedCheck(final PlayerEvent.BreakSpeed evt)
-    {
-        final Entity ridden = evt.getEntity().getVehicle();
-        final IPokemob pokemob = PokemobCaps.getPokemobFor(ridden);
-        if (pokemob != null)
-        {
-            boolean aqua = evt.getEntity().isInWater();
-            if (aqua) aqua = !EnchantmentHelper.hasAquaAffinity((LivingEntity) evt.getEntity());
-            if (aqua) evt.setNewSpeed(evt.getOriginalSpeed() / 0.04f);
-            else evt.setNewSpeed(evt.getOriginalSpeed() / 0.2f);
         }
     }
 
