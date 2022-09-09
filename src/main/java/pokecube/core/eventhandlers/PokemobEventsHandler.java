@@ -880,6 +880,7 @@ public class PokemobEventsHandler
                 if (!pokemob.getLogicState(LogicStates.SITTING))
                 {
                     living.getPersistentData().remove("__on_shoulder__");
+                    living.getPersistentData().remove("__on_shoulder_timer__");
                     living.stopRiding();
                 }
             }
@@ -900,7 +901,8 @@ public class PokemobEventsHandler
                 }
             }
             else if (living.getLevel() instanceof ServerLevel
-                    && living.getPersistentData().getBoolean("__on_shoulder__"))
+                    && living.getPersistentData().getBoolean("__on_shoulder__")
+                    && pokemob.getLogicState(LogicStates.SITTING))
             {
                 int remountTimer = living.getPersistentData().getInt("__on_shoulder_timer__");
                 if (pokemob.getOwner() instanceof Player player)

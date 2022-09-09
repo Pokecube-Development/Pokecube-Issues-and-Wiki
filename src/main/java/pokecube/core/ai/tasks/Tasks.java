@@ -39,6 +39,7 @@ import pokecube.core.ai.tasks.combat.movement.LeapTask;
 import pokecube.core.ai.tasks.idle.ForgetHuntedByTask;
 import pokecube.core.ai.tasks.idle.GuardEggTask;
 import pokecube.core.ai.tasks.idle.HungerTask;
+import pokecube.core.ai.tasks.idle.IdleJumpOnShoulderTask;
 import pokecube.core.ai.tasks.idle.IdleRestTask;
 import pokecube.core.ai.tasks.idle.IdleWalkTask;
 import pokecube.core.ai.tasks.idle.MateTask;
@@ -103,7 +104,10 @@ public class Tasks
             // Wander around
             aiList.add(new IdleWalkTask(pokemob).setPriority(10));
             // ocassionally sit down
-            aiList.add(new IdleRestTask(pokemob).setPriority(10));
+            aiList.add(new IdleRestTask(pokemob).setPriority(20));
+            // Jump on shoulder if able to
+            if (pokemob.getPokedexEntry().canSitShoulder)
+                aiList.add(new IdleJumpOnShoulderTask(pokemob).setPriority(15));
         }
         // Owner related tasks
         if (!pokemob.getPokedexEntry().isStationary) // Follow owner around
