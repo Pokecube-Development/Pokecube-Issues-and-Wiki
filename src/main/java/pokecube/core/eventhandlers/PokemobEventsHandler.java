@@ -1100,7 +1100,7 @@ public class PokemobEventsHandler
             {
                 if (player.isShiftKeyDown())
                 {
-                    pokemob.moveToShoulder(player);
+                    if (held.getDisplayName().getContents().contains("poke")) pokemob.moveToShoulder(player);
                     return;
                 }
                 else if (pokemob.getEntity().isPassenger())
@@ -1110,7 +1110,7 @@ public class PokemobEventsHandler
                 }
                 if (held.getDisplayName().getContents().contains("poke"))
                 {
-                    final Vector3 look = new Vector3().set(player.getLookAngle()).scalarMultBy(1);
+                    final Vector3 look = new Vector3().set(player.getLookAngle()).scalarMultBy(0.5);
                     look.y = 0.2;
                     look.addVelocities(target);
                 }
