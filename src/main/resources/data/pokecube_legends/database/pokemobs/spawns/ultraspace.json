@@ -37,6 +37,33 @@
       ]
     },
     {
+      "and_preset": "is_burnt",
+      "entries": [
+        { "key": "blaziken", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "braixen", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "camerupt", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "centiskorch", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "charizard", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "charmeleon", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "cinderace", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "heatmor", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "infernape", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "magby", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "magcargo", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "magmar", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "quilava", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "rapidash", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "simisear", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "skorupi", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "slugma", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "torkoal", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "torracat", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "turtonator", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "typhlosion", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "volcanion", "min": 1, "max": 2, "rate": 0.5 }
+      ]
+    },
+    {
       "and_preset": "is_crystallized",
       "entries": [
         { "key": "cryogonal", "min": 1, "max": 2, "rate": 0.5 },
