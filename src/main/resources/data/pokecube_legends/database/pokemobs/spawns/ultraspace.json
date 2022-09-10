@@ -3,27 +3,26 @@
     {
       "and_preset": "is_barrens",
       "entries": [
-        { "key": "corsola_galar", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "croagunk", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "elgyem", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "garbodor", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "ghastly", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "gastly", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "glameow", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "grimer", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "grimer_alola", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "guzzlord", "min": 1, "max": 1, "rate": 0.15 },
+        { "key": "hydreigon", "min": 1, "max": 1, "rate": 0.15 },
         { "key": "litwick", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "magnemite", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "malamar", "min": 1, "max": 2, "rate": 0.15 },
         { "key": "mawile", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "meowth_galar", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "muk", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "nincada", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "paras", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "muk_alola", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "salandit", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "sigilyph", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "solosis", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "spiritomb", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "spoink", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "trubbish", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "venipede", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "zubat", "min": 2, "max": 5, "rate": 1.0 }
+        { "key": "yveltal", "min": 1, "max": 3, "rate": 0.15 },
+        { "key": "zubat", "min": 2, "max": 5, "rate": 0.5 },
+        { "key": "zweilous", "min": 1, "max": 3, "rate": 0.25 }
       ]
     },
     {
@@ -31,6 +30,7 @@
       "entries": [
         { "key": "clamperl", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "corsola", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "corsola_galar", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "exeggutor", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "tympole", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "pelipper", "min": 1, "max": 2, "rate": 0.5 },
@@ -69,7 +69,9 @@
       "entries": [
         { "key": "cryogonal", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "carbink", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "diancie", "min": 1, "max": 2, "rate": 0.5 }
+        { "key": "diancie", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "sableye", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "spiritomb", "min": 1, "max": 2, "rate": 0.5 }
       ]
     },
     {
@@ -163,9 +165,11 @@
         { "key": "oddish", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "onix", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "paras", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "parasect", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "pidove", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "pineco", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "shroomish", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "spoink", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "vileplume", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "zigzagoon_galar", "min": 1, "max": 2, "rate": 0.5 }
       ]
@@ -186,11 +190,13 @@
         { "key": "exeggcute_alola", "min": 1, "max": 2, "rate": 0.25 },
         { "key": "gloom", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "hoppip", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "nincada", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "oddish", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "pansage", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "roggenrola", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "sewaddle", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "skiddo", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "solosis", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "sunflora", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "sunkern", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "tangela", "min": 1, "max": 2, "rate": 0.5 },
