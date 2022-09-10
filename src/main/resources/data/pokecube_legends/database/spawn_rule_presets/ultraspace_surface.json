@@ -14,7 +14,7 @@
     },
     {
       "values": {
-        "preset": "is_beach",
+        "preset": "is_burnt",
         "types": "#pokecube_legends:can_spawn/is_burnt"
       }
     },
@@ -46,6 +46,12 @@
       "values": {
         "preset": "is_jungle",
         "types": "#pokecube_legends:can_spawn/is_jungle"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_snowy",
+        "types": "#pokecube_legends:can_spawn/is_snowy"
       }
     }
   ]
