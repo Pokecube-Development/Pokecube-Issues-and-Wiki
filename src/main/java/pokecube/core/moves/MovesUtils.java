@@ -358,12 +358,20 @@ public class MovesUtils implements IMoveConstants
      */
     public static float getDelayMultiplier(final IPokemob attacker, final String moveName)
     {
-        float statusMultiplier = PokecubeCore.getConfig().attackCooldown / 20F;
-        if (attacker.getStatus() == IMoveConstants.STATUS_PAR) statusMultiplier *= 4F;
+        float moveCooldownFactor = PokecubeCore.getConfig().attackCooldown / 20F;
+        if (attacker.getStatus() == IMoveConstants.STATUS_PAR) moveCooldownFactor *= 4F;
         final Move_Base move = MovesUtils.getMoveFromName(moveName);
         if (move == null) return 1;
-        statusMultiplier *= move.getPostDelayFactor(attacker);
-        return statusMultiplier;
+        if ((move.getAttackCategory(attacker) & IMoveConstants.CATEGORY_CONTACT) > 0)
+        {
+            moveCooldownFactor *= PokecubeCore.getConfig().attackCooldownContactScale;
+        }
+        if ((move.getAttackCategory(attacker) & IMoveConstants.CATEGORY_DISTANCE) > 0)
+        {
+            moveCooldownFactor *= PokecubeCore.getConfig().attackCooldownRangedScale;
+        }
+        moveCooldownFactor *= move.getPostDelayFactor(attacker);
+        return moveCooldownFactor;
     }
 
     public static Move_Base getMoveFromName(final String moveName)
