@@ -251,7 +251,7 @@ public class LogicMiscUpdate extends LogicBase
         if (this.entity instanceof TamableAnimal animal)
         {
             final boolean tameSitting = animal.isOrderedToSit();
-            this.pokemob.setLogicState(LogicStates.SITTING, tameSitting);
+            if (tameSitting != sitting) this.pokemob.setLogicState(LogicStates.SITTING, tameSitting);
         }
     }
 

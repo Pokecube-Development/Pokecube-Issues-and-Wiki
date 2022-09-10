@@ -880,6 +880,7 @@ public class PokemobEventsHandler
                 if (!pokemob.getLogicState(LogicStates.SITTING))
                 {
                     living.getPersistentData().remove("__on_shoulder__");
+                    living.getPersistentData().remove("__on_shoulder_timer__");
                     living.stopRiding();
                 }
             }
@@ -900,7 +901,8 @@ public class PokemobEventsHandler
                 }
             }
             else if (living.getLevel() instanceof ServerLevel
-                    && living.getPersistentData().getBoolean("__on_shoulder__"))
+                    && living.getPersistentData().getBoolean("__on_shoulder__")
+                    && pokemob.getLogicState(LogicStates.SITTING))
             {
                 int remountTimer = living.getPersistentData().getInt("__on_shoulder_timer__");
                 if (pokemob.getOwner() instanceof Player player)
@@ -1098,7 +1100,7 @@ public class PokemobEventsHandler
             {
                 if (player.isShiftKeyDown())
                 {
-                    pokemob.moveToShoulder(player);
+                    if (held.getDisplayName().getContents().contains("poke")) pokemob.moveToShoulder(player);
                     return;
                 }
                 else if (pokemob.getEntity().isPassenger())
@@ -1108,7 +1110,7 @@ public class PokemobEventsHandler
                 }
                 if (held.getDisplayName().getContents().contains("poke"))
                 {
-                    final Vector3 look = new Vector3().set(player.getLookAngle()).scalarMultBy(1);
+                    final Vector3 look = new Vector3().set(player.getLookAngle()).scalarMultBy(0.5);
                     look.y = 0.2;
                     look.addVelocities(target);
                 }

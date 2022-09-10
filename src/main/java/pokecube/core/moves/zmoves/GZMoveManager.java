@@ -2,6 +2,8 @@ package pokecube.core.moves.zmoves;
 
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -18,10 +20,12 @@ import thut.core.common.ThutCore;
 
 public class GZMoveManager
 {
-    public static Map<String, String>       zmoves_map      = Maps.newHashMap();
+    public static Map<String, String> zmoves_map = Maps.newHashMap();
     public static Map<String, List<String>> z_sig_moves_map = Maps.newHashMap();
-    private static Map<String, String>      gmoves_map      = Maps.newHashMap();
-    private static Map<String, String>      g_max_moves_map = Maps.newHashMap();
+    private static Map<String, String> gmoves_map = Maps.newHashMap();
+    private static Map<String, String> g_max_moves_map = Maps.newHashMap();
+
+    static final Pattern GMAXENTRY = Pattern.compile("(that_gigantamax_)(\\w+)(_use)");
 
     public static boolean isGZDMove(final MoveJsonEntry entry)
     {
@@ -67,11 +71,18 @@ public class GZMoveManager
                 final PokeType type = PokeType.getType(entry.type);
                 if (g)
                 {
-                    if (entry.gmaxEntry != null) num2++;
+                    final String battleEffect = ThutCore.trim(entry.battleEffect);
+                    Matcher match = GMAXENTRY.matcher(battleEffect);
+                    if (match.find()) entry.gmaxEntry = match.group(2);
                     if (entry.gmaxEntry != null)
                     {
+                        num2++;
                         g_max_moves.add(entry.name);
                         GZMoveManager.g_max_moves_map.put(entry.name, ThutCore.trim(entry.gmaxEntry));
+                    }
+                    else
+                    {
+                        PokecubeAPI.LOGGER.error("No pokedex entry specified for " + entry.name);
                     }
                 }
                 else g_type_map.put(type, entry.name);
@@ -99,8 +110,9 @@ public class GZMoveManager
         for (final MoveJsonEntry entry : moves.moves)
         {
             // Do not map these onto anything.
-            if (g_type_map.containsValue(entry.name) || g_max_moves.contains(entry.name) || z_moves.containsValue(
-                    entry.name)) continue;
+            if (g_type_map.containsValue(entry.name) || g_max_moves.contains(entry.name)
+                    || z_moves.containsValue(entry.name))
+                continue;
             final String name = ThutCore.trim(entry.name);
             String z_to = ThutCore.trim(entry.zMovesTo);
             String g_to = ThutCore.trim(entry.gMoveTo);
@@ -132,8 +144,7 @@ public class GZMoveManager
      * is on cooldown for zmoves, then this will return null.
      *
      * @param user
-     * @param index
-     *            - move index to check
+     * @param index - move index to check
      * @return
      */
     public static String getZMove(final IPokemob user, final String base_move)
@@ -150,8 +161,7 @@ public class GZMoveManager
         if (GZMoveManager.z_sig_moves_map.containsKey(name))
         {
             final List<String> moves = GZMoveManager.z_sig_moves_map.get(name);
-            for (final String zmove : moves)
-                if (checker.canZMove(user, zmove)) return zmove;
+            for (final String zmove : moves) if (checker.canZMove(user, zmove)) return zmove;
         }
         // Otherwise just pick the one from the map.
         return GZMoveManager.zmoves_map.get(base_move);
@@ -164,8 +174,7 @@ public class GZMoveManager
      *
      * @param user
      * @param gigant
-     * @param index
-     *            - move index to check
+     * @param index  - move index to check
      * @return
      */
     public static String getGMove(final IPokemob user, final String base_move, boolean gigant)
