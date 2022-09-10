@@ -178,6 +178,7 @@
         { "key": "budew", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "carnivine", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "cherubi", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "celebi", "min": 1, "max": 2, "rate": 0.15 },
         { "key": "cottonee", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "dhelmise", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "exeggcute", "min": 1, "max": 2, "rate": 0.5 },
@@ -203,7 +204,34 @@
     {
       "and_preset": "is_snowy",
       "entries": [
-        { "key": "vanillite", "min": 1, "max": 2, "rate": 0.5 }
+        { "key": "abomasnow", "min": 1, "max": 2, "rate": 0.25 },
+        { "key": "aron", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "avalugg", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "beartic", "min": 1, "max": 2, "rate": 0.25 },
+        { "key": "castform", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "castform_snow", "min": 1, "max": 2, "rate": 0.25 },
+        { "key": "cryogonal", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "delibird", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "darmanitan", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "eiscue", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "eiscue_noice", "min": 1, "max": 2, "rate": 0.25 },
+        { "key": "forretress", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "froslass", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "glaceon", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "glalie", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "glastrier", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "lairon", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "mamoswine", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "piloswine", "min": 1, "max": 2, "rate": 0.25 },
+        { "key": "sealeo", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "smoochum", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "snorunt", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "snover", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "spheal", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "swinub", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "vanillish", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "vanilluxe", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "vulpix_alola", "min": 1, "max": 2, "rate": 0.25 }
       ]
     }
   ]
