@@ -69,10 +69,13 @@
     {
       "and_preset": "is_fungal",
       "entries": [
+        { "key": "amoonguss", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "breloom", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "buneary", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "bunnelby", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "deerling", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "espurr", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "foongus", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "gligar", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "hatenna", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "hoothoot", "min": 1, "max": 2, "rate": 0.5 },
@@ -85,6 +88,8 @@
         { "key": "paras", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "pidove", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "pineco", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "shroomish", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "vileplume", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "zigzagoon_galar", "min": 1, "max": 2, "rate": 0.5 }
       ]
     },
