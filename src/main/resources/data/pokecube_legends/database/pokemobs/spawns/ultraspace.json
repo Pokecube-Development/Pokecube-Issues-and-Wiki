@@ -7,6 +7,7 @@
         { "key": "croagunk", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "elgyem", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "garbodor", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "ghastly", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "glameow", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "litwick", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "magnemite", "min": 1, "max": 2, "rate": 0.5 },
@@ -152,6 +153,7 @@
         { "key": "espurr", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "foongus", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "gligar", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "gloom", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "hatenna", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "hoothoot", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "kecleon", "min": 1, "max": 2, "rate": 0.5 },
@@ -171,8 +173,7 @@
     {
       "and_preset": "is_jungle",
       "entries": [
-        { "key": "bellossom", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "bellsprout", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "bellossom", "min": 1, "max": 2, "rate": 0.25 },
         { "key": "bellsprout", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "bounsweet", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "budew", "min": 1, "max": 2, "rate": 0.5 },
@@ -182,7 +183,7 @@
         { "key": "cottonee", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "dhelmise", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "exeggcute", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "exeggcute", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "exeggcute_alola", "min": 1, "max": 2, "rate": 0.25 },
         { "key": "gloom", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "hoppip", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "oddish", "min": 1, "max": 2, "rate": 0.5 },
@@ -193,12 +194,12 @@
         { "key": "sunflora", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "sunkern", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "tangela", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "tangela", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "tropius", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "victreebel", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "victreebel", "min": 1, "max": 2, "rate": 0.25 },
         { "key": "vileplum", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "weepinbell", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "wormadam", "min": 1, "max": 2, "rate": 0.5 }
+        { "key": "wormadam", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "vileplume", "min": 1, "max": 2, "rate": 0.5 }
       ]
     },
     {
