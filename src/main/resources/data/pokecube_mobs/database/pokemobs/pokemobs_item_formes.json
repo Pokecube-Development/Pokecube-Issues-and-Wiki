@@ -1,6 +1,31 @@
 {
   "pokemon": [
     {
+      "name": "rotom",
+      "formeItems":[ 
+        {
+          "forme": "rotom_fan",
+          "item": "minecraft:shears"
+	      },
+        {
+          "forme": "rotom_frost",
+          "item": "minecraft:chest"
+	      },
+        {
+          "forme": "rotom_heat",
+          "item": "minecraft:furnace"
+	      },
+        {
+          "forme": "rotom_mow",
+          "item": "minecraft:stone_hoe"
+	      },
+        {
+          "forme": "rotom_wash",
+          "item": "minecraft:cauldron"
+	      }
+      ]
+    },
+    {
       "name": "giratina",
       "formeItems":[ 
         {
@@ -9,16 +34,16 @@
 	    }
       ]
     },
-	{
-      "name": "dialga",
-      "formeItems":[ 
-        {
-          "forme": "Dialga Origin",
-          "item": "pokecube_legends:adamantorb"
-	    }
-      ]
-    },
-	{
+    {
+        "name": "dialga",
+        "formeItems":[ 
+          {
+            "forme": "Dialga Origin",
+            "item": "pokecube_legends:adamantorb"
+        }
+        ]
+      },
+    {
       "name": "palkia",
       "formeItems":[ 
         {
