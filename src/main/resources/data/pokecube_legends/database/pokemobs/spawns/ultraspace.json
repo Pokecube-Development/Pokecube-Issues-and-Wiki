@@ -26,6 +26,14 @@
       ]
     },
     {
+      "and_preset": "is_crystallized",
+      "entries": [
+        { "key": "cryogonal", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "carbink", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "diancie", "min": 1, "max": 2, "rate": 0.5 }
+      ]
+    },
+    {
       "and_preset": "is_deltas",
       "entries": [
         { "key": "banette", "min": 1, "max": 2, "rate": 0.5 },

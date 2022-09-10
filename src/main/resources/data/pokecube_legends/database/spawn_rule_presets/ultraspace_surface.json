@@ -8,6 +8,12 @@
     },
     {
       "values": {
+        "preset": "is_crystallized",
+        "types": "#pokecube_legends:can_spawn/is_crystallized"
+      }
+    },
+    {
+      "values": {
         "preset": "is_deltas",
         "types": "#pokecube_legends:can_spawn/is_deltas"
       }
