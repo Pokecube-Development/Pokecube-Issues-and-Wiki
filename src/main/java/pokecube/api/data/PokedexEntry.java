@@ -5,6 +5,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -660,7 +661,9 @@ public class PokedexEntry
         public SpawnBiomeMatcher getMatcher(final SpawnContext context, final SpawnCheck checker,
                 final boolean forSpawn)
         {
-            for (final SpawnBiomeMatcher matcher : this.matchers.keySet())
+            List<SpawnBiomeMatcher> matchers = Lists.newArrayList(this.matchers.keySet());
+            Collections.shuffle(matchers);
+            for (var matcher : matchers)
             {
                 final SpawnEvent.Check evt = new SpawnEvent.Check(context, forSpawn);
                 PokecubeAPI.POKEMOB_BUS.post(evt);

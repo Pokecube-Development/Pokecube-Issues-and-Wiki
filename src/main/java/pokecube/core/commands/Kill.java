@@ -1,5 +1,8 @@
 package pokecube.core.commands;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
@@ -8,8 +11,6 @@ import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.entity.LevelEntityGetter;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
 import pokecube.api.PokecubeAPI;
@@ -40,11 +41,11 @@ public class Kill
             throws CommandSyntaxException
     {
         final ServerLevel world = source.getLevel();
-        final LevelEntityGetter<Entity> mobs = world.getEntities();
+        List<Entity> mobs = Lists.newArrayList(world.getEntities().getAll());
         int count1 = 0;
-        for (final Object o : mobs.getAll())
+        for (final Entity o : mobs)
         {
-            final IPokemob e = PokemobCaps.getPokemobFor((ICapabilityProvider) o);
+            final IPokemob e = PokemobCaps.getPokemobFor(o);
             if (e != null && !e.getEntity().isInvulnerable())
             {
                 try
