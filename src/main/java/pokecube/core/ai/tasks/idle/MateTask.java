@@ -25,9 +25,9 @@ import thut.api.entity.IBreedingMob;
 import thut.api.entity.ai.PosWrapWrap;
 
 /**
- * This IAIRunnable is responsible for most of the breeding AI for the
- * pokemobs. It finds the mates, initiates the fighting over a mate (if
- * applicable), then tells the mobs to breed if they should.
+ * This IAIRunnable is responsible for most of the breeding AI for the pokemobs.
+ * It finds the mates, initiates the fighting over a mate (if applicable), then
+ * tells the mobs to breed if they should.
  */
 public class MateTask extends BaseIdleTask
 {
@@ -88,8 +88,7 @@ public class MateTask extends BaseIdleTask
             return;
 
         // Flag them all as valid mates
-        for (final AgeableMob mob : this.mates)
-            BrainUtils.setMateTarget(mob, this.entity);
+        for (final AgeableMob mob : this.mates) BrainUtils.setMateTarget(mob, this.entity);
 
         // Battle between the first two on the list.
         this.mobA = this.mates.get(0);
@@ -150,7 +149,7 @@ public class MateTask extends BaseIdleTask
         if (other != null) other.setGeneralState(GeneralStates.MATING, true);
         if (this.spawnBabyDelay <= 0) this.spawnBabyDelay = this.entity.tickCount + 100;
         if (this.spawnBabyDelay > this.entity.tickCount) return;
-        if (other instanceof IBreedingMob) this.pokemob.mateWith((IBreedingMob) other);
+        if (other instanceof IBreedingMob mate) this.pokemob.mateWith(mate);
         this.reset();
         other.resetLoveStatus();
         this.pokemob.resetLoveStatus();
