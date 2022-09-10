@@ -45,6 +45,28 @@
       ]
     },
     {
+      "and_preset": "is_desert",
+      "entries": [
+        { "key": "aron", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "blitzle", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "drampa", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "drifloon", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "druddigon", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "gible", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "karrablast", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "lotad", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "pancham", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "pikachu", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "roggenrola", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "shinx", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "solrock", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "spearow", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "sunkern", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "tynamo", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "vulpix_alola", "min": 1, "max": 2, "rate": 0.5 }
+      ]
+    },
+    {
       "and_preset": "is_fungal",
       "entries": [
         { "key": "buneary", "min": 1, "max": 2, "rate": 0.5 },
