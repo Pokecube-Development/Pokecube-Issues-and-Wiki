@@ -26,6 +26,17 @@
       ]
     },
     {
+      "and_preset": "is_beach",
+      "entries": [
+        { "key": "clamperl", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "corsola", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "exeggutor", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "tympole", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "pelipper", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "wingull", "min": 1, "max": 2, "rate": 0.5 }
+      ]
+    },
+    {
       "and_preset": "is_crystallized",
       "entries": [
         { "key": "cryogonal", "min": 1, "max": 2, "rate": 0.5 },

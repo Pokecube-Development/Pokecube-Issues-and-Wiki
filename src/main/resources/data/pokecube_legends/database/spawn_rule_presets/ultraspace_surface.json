@@ -8,6 +8,12 @@
     },
     {
       "values": {
+        "preset": "is_beach",
+        "types": "#pokecube_legends:can_spawn/is_beach"
+      }
+    },
+    {
+      "values": {
         "preset": "is_crystallized",
         "types": "#pokecube_legends:can_spawn/is_crystallized"
       }
