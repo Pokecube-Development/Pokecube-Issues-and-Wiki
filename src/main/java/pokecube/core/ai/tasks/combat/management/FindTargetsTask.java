@@ -28,7 +28,6 @@ import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.TaskBase;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.Battle;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.utils.AITools;
@@ -258,13 +257,10 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     protected void checkSwitchedMob()
     {
         final boolean switched = this.target != null && !this.target.isAlive();
-        if (PokecubeMod.debug)
-            PokecubeAPI.LOGGER.debug("Checking for swapped pokemob? {} {}", this.target, this.targetOwner);
         if (!switched) return;
         // This means it either fainted, or died.
         if (this.targetOwner != null)
         {
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Checking for swapped pokemob! {}", this.switchTargetTimer);
             // Give some time to look for a new pokemob
             if (this.switchTargetTimer++ < 2 * FindTargetsTask.DEAGROTIMER)
             {
@@ -297,9 +293,9 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         // case, then the UUID is still the same, but the entity itself has
         // changed.
         final Entity newMob = this.world.getEntity(this.targetId);
-        if (newMob instanceof LivingEntity)
+        if (newMob instanceof LivingEntity living)
         {
-            this.initiateBattle((LivingEntity) newMob);
+            this.initiateBattle(living);
             this.clear();
             return;
         }

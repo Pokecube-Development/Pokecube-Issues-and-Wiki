@@ -10,14 +10,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
-import pokecube.core.impl.PokecubeMod;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
@@ -62,8 +60,7 @@ public class LeapTask extends TaskBase implements IAICombat
 
     @Override
     public void reset()
-    {
-    }
+    {}
 
     @Override
     public void run()
@@ -84,6 +81,8 @@ public class LeapTask extends TaskBase implements IAICombat
 
         // Wait till it is a bit closer than this...
         if (dist >= 16.0D) return;
+
+        this.leapSpeed = 1.0;
 
         final Vector3 dir = diff.normalize();
         dir.scalarMultBy(this.leapSpeed * PokecubeCore.getConfig().leapSpeedFactor);
@@ -113,13 +112,11 @@ public class LeapTask extends TaskBase implements IAICombat
          */
         dir.addVelocities(this.entity);
 
-        if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Leap: " + this.entity + " " + diff + " " + dir);
-
         // Set the timer so we don't leap again rapidly
         this.leapTick = this.entity.tickCount + PokecubeCore.getConfig().attackCooldown / 2;
 
-        new PlaySound(this.entity.getLevel().dimension(), new Vector3().set(this.entity), this
-                .getLeapSound(), SoundSource.HOSTILE, 1, 1).run(this.world);
+        new PlaySound(this.entity.getLevel().dimension(), new Vector3().set(this.entity), this.getLeapSound(),
+                SoundSource.HOSTILE, 1, 1).run(this.world);
         BrainUtils.setLeapTarget(this.entity, null);
     }
 
