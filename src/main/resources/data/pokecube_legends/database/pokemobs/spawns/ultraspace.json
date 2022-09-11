@@ -33,7 +33,7 @@
       ]
     },
     {
-      "and_preset": "is_barrens",
+      "and_preset": "is_corrupted",
       "entries": [
         { "key": "croagunk", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "elgyem", "min": 1, "max": 2, "rate": 0.5 },
