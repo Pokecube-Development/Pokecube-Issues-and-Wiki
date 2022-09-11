@@ -79,8 +79,7 @@ public class AshBlock extends FlowingBlock
     public boolean flows(BlockState state)
     {
         if (state.getBlock() != this) super.flows(state);
-        boolean wet = state.getValue(WET);
-        return !wet || state.getValue(WATERLOGGED);
+        return super.flows(state);
     }
 
     @Override
@@ -171,6 +170,13 @@ public class AshBlock extends FlowingBlock
         public boolean isFullBlock()
         {
             return true;
+        }
+
+        @Override
+        public boolean flows(BlockState state)
+        {
+            if (state.getBlock() != this) super.flows(state);
+            return !state.getValue(WET);
         }
 
         @Override
