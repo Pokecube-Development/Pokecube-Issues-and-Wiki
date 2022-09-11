@@ -80,7 +80,13 @@ public class AshBlock extends FlowingBlock
     {
         if (state.getBlock() != this) super.flows(state);
         boolean wet = state.getValue(WET);
-        return !wet;
+        return !wet || state.getValue(WATERLOGGED);
+    }
+
+    @Override
+    public boolean isRandomlyTicking(BlockState state)
+    {
+        return true;
     }
 
     @Override
@@ -103,8 +109,10 @@ public class AshBlock extends FlowingBlock
     }
 
     @Override
-    public boolean canSurvive(BlockState p_60525_, LevelReader world, BlockPos pos)
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos)
     {
+        if (!this.flows(state)) return true;
+
         BlockState stateBelow = world.getBlockState(pos.below());
         if (!stateBelow.is(Blocks.BARRIER))
         {
@@ -175,8 +183,16 @@ public class AshBlock extends FlowingBlock
 
         protected void initStateDefinition()
         {
-            this.registerDefaultState(
-                    this.stateDefinition.any().setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(WET, false));
+            this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.valueOf(false))
+                    .setValue(VISCOSITY, Integer.valueOf(4)).setValue(WET, false));
+        }
+
+        @Override
+        public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos)
+        {
+            // Let the full block always report true here, it will then fall
+            // when placed!
+            return true;
         }
 
         @Override

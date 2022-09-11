@@ -15,6 +15,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -178,15 +179,19 @@ public abstract class FlowingBlock extends Block implements IFlowingBlock
     @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext context)
     {
-        BlockState blockstate = context.getLevel().getBlockState(context.getClickedPos());
-        if (blockstate.is(this) && blockstate.hasProperty(LAYERS))
+        BlockState oldState = context.getLevel().getBlockState(context.getClickedPos());
+
+        if (oldState.is(this) && oldState.hasProperty(LAYERS))
         {
-            int i = blockstate.getValue(LAYERS);
-            return blockstate.setValue(LAYERS, Integer.valueOf(Math.min(16, i + 1)));
+            int i = oldState.getValue(LAYERS);
+            return oldState.setValue(LAYERS, Integer.valueOf(Math.min(16, i + 1)));
         }
         else
         {
-            return super.getStateForPlacement(context);
+            LevelAccessor levelaccessor = context.getLevel();
+            BlockPos blockpos = context.getClickedPos();
+            boolean flag = levelaccessor.getFluidState(blockpos).getType() == Fluids.WATER;
+            return super.getStateForPlacement(context).setValue(WATERLOGGED, Boolean.valueOf(flag));
         }
     }
 
@@ -194,7 +199,7 @@ public abstract class FlowingBlock extends Block implements IFlowingBlock
     {
         if (!this.flows(state)) return false;
         int i = this.getAmount(state);
-        return i < 3;
+        return i < 16;
     }
 
     public boolean useShapeForLightOcclusion(BlockState p_56630_)
