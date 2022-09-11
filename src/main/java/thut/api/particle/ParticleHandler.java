@@ -39,7 +39,7 @@ public class ParticleHandler
 
     public static void addParticle(final Vector3 location, final IParticle particle)
     {
-        if (particle == null || location == null || Minecraft.getInstance().options.particles == ParticleStatus.MINIMAL)
+        if (particle == null || location == null || Minecraft.getInstance().options.particles().get() == ParticleStatus.MINIMAL)
             return;
         synchronized (ParticleHandler.particles)
         {

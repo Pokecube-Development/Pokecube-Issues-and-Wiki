@@ -39,8 +39,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
-import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.LevelTickEvent;
+import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages.SpawnEntity;
@@ -53,8 +53,6 @@ import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.crafts.ThutCrafts;
-
-import net.minecraft.world.entity.Entity.RemovalReason;
 
 public abstract class BlockEntityBase extends Entity implements IEntityAdditionalSpawnData, IBlockEntity
 {
@@ -585,21 +583,24 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         // this.setBoundingBox(this.collider.getBoundingBox());
     }
 
-    @Override
-    public AABB getBoundingBox()
+    public AABB _getBoundingBox()
     {
+        // TODO see if this was needed, if so AT getBoundingBox to not be final!
         AABB box = super.getBoundingBox();
         final BlockPos size = this.getSize();
         if (this.collider != null && (box.getXsize() != size.getX() + 1 || box.getYsize() != size.getY() + 1
                 || box.getZsize() != size.getZ() + 1))
+        {
             box = this.collider.getBoundingBox();
+            this.setBoundingBox(box);
+        }
         return box;
     }
 
     @Override
     protected AABB getBoundingBoxForPose(final Pose pose)
     {
-        return this.getBoundingBox();
+        return this._getBoundingBox();
     }
 
     @Override

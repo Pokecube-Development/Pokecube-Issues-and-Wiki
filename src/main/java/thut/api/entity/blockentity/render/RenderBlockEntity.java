@@ -8,17 +8,17 @@ import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -29,12 +29,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.ModelData;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.IBlockEntity;
-import thut.core.common.ThutCore;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer<T>
@@ -43,11 +40,11 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
 
     static final Tesselator t = new Tesselator(2097152);
 
-    float         pitch = 0.0f;
-    float         yaw   = 0.0f;
-    long          time  = 0;
-    boolean       up    = true;
-    BufferBuilder b     = RenderBlockEntity.t.getBuilder();
+    float pitch = 0.0f;
+    float yaw = 0.0f;
+    long time = 0;
+    boolean up = true;
+    BufferBuilder b = RenderBlockEntity.t.getBuilder();
 
     ResourceLocation texture;
 
@@ -89,21 +86,19 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
                 mat.mulPose(new Quaternion(0, yaw, pitch, true));
             }
 
-            for (int i = xMin; i <= xMax; i++)
-                for (int j = yMin; j <= yMax; j++)
-                    for (int k = zMin; k <= zMax; k++)
-                    {
-                        pos.set(i - xMin, j - yMin, k - zMin);
-                        if (!blockEntity.shouldHide(pos))
-                        {
-                            mat.pushPose();
-                            mat.translate(pos.getX(), pos.getY(), pos.getZ());
-                            this.drawTileAt(pos, blockEntity, partialTicks, mat, bufferIn, packedLightIn);
-                            this.drawBlockAt(pos, blockEntity, mat, bufferIn, packedLightIn);
-                            mat.popPose();
-                        }
-                        else this.drawCrateAt(pos, blockEntity, mat, bufferIn, packedLightIn);
-                    }
+            for (int i = xMin; i <= xMax; i++) for (int j = yMin; j <= yMax; j++) for (int k = zMin; k <= zMax; k++)
+            {
+                pos.set(i - xMin, j - yMin, k - zMin);
+                if (!blockEntity.shouldHide(pos))
+                {
+                    mat.pushPose();
+                    mat.translate(pos.getX(), pos.getY(), pos.getZ());
+                    this.drawTileAt(pos, blockEntity, partialTicks, mat, bufferIn, packedLightIn);
+                    this.drawBlockAt(pos, blockEntity, mat, bufferIn, packedLightIn);
+                    mat.popPose();
+                }
+                else this.drawCrateAt(pos, blockEntity, mat, bufferIn, packedLightIn);
+            }
             mat.popPose();
 
         }
@@ -148,8 +143,8 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
             final PoseStack mat, final MultiBufferSource bufferIn, final int packedLightIn)
     {
         final BlockEntity tile = entity.getTiles()[pos.getX()][pos.getY()][pos.getZ()];
-        if (tile != null) Minecraft.getInstance().getBlockEntityRenderDispatcher().render(tile, packedLightIn, mat,
-                bufferIn);
+        if (tile != null)
+            Minecraft.getInstance().getBlockEntityRenderDispatcher().render(tile, packedLightIn, mat, bufferIn);
     }
 
     private BakedModel getCrateModel()
@@ -173,18 +168,13 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
             final BlockPos real_pos, final BlockPos relPos, final PoseStack mat, final MultiBufferSource bufferIn,
             final int packedLightIn)
     {
-        final ModelData data = Minecraft.getInstance().getBlockRenderer().getBlockModel(state).getModelData(
-                (BlockAndTintGetter) world, real_pos, state, EmptyModelData.INSTANCE);
         final BlockPos rpos = relPos.offset(entity.getOriginalPos());
-        for (final RenderType type : RenderType.chunkBufferLayers())
-            if (ItemBlockRenderTypes.canRenderInLayer(state, type))
-            {
-                final BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
-                final BakedModel model = blockRenderer.getBlockModel(state);
-
-                blockRenderer.getModelRenderer().tesselateBlock((BlockAndTintGetter) world, model, state, real_pos, mat,
-                        bufferIn.getBuffer(type), false, ThutCore.newRandom(), state.getSeed(rpos), packedLightIn,
-                        data);
-            }
+        BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
+        var model = dispatcher.getBlockModel(state);
+        for (var renderType : model.getRenderTypes(state, RandomSource.create(state.getSeed(rpos)),
+                net.minecraftforge.client.model.data.ModelData.EMPTY))
+            dispatcher.getModelRenderer().tesselateBlock((BlockAndTintGetter) world, model, state, rpos, mat,
+                    bufferIn.getBuffer(renderType), false, RandomSource.create(), state.getSeed(rpos),
+                    OverlayTexture.NO_OVERLAY, net.minecraftforge.client.model.data.ModelData.EMPTY, renderType);
     }
 }

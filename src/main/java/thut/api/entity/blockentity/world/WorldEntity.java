@@ -1,7 +1,6 @@
 package thut.api.entity.blockentity.world;
 
 import java.util.List;
-import java.util.Random;
 import java.util.function.Predicate;
 
 import net.minecraft.core.BlockPos;
@@ -12,6 +11,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -30,12 +30,14 @@ import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.gameevent.GameEvent.Context;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.storage.LevelData;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.ticks.LevelTickAccess;
 import thut.api.entity.blockentity.IBlockEntity;
 
@@ -150,7 +152,7 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public Random getRandom()
+    public RandomSource getRandom()
     {
         return this.world.getRandom();
     }
@@ -321,5 +323,11 @@ public class WorldEntity implements IBlockEntityWorld
     public LevelTickAccess<Fluid> getFluidTicks()
     {
         return this.world.getFluidTicks();
+    }
+
+    @Override
+    public void gameEvent(GameEvent p_220404_, Vec3 p_220405_, Context p_220406_)
+    {
+       this.world.gameEvent(p_220404_, p_220405_, p_220406_);
     }
 }

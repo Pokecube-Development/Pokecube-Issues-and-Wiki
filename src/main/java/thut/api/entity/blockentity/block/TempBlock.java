@@ -38,9 +38,9 @@ public class TempBlock extends AirBlock implements EntityBlock
 
     public static TempBlock make()
     {
-        return new TempBlock(BlockBehaviour.Properties.of(Material.STRUCTURAL_AIR).noDrops()
-                .isRedstoneConductor(TempBlock::solidCheck).dynamicShape().noOcclusion()
-                .lightLevel(s -> s.getValue(TempBlock.LIGHTLEVEL)));
+        return new TempBlock(
+                BlockBehaviour.Properties.of(Material.STRUCTURAL_AIR).isRedstoneConductor(TempBlock::solidCheck)
+                        .dynamicShape().noOcclusion().lightLevel(s -> s.getValue(TempBlock.LIGHTLEVEL)));
     }
 
     private static boolean solidCheck(final BlockState state, final BlockGetter reader, final BlockPos pos)

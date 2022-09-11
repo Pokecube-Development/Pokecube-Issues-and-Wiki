@@ -1,7 +1,5 @@
 package thut.api.particle;
 
-import java.util.Arrays;
-
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceLocation;
@@ -141,8 +139,6 @@ public class ThutParticles
             final ParticleType<?> type = ForgeRegistries.PARTICLE_TYPES.getValue(location);
             if (type instanceof ParticleOptions opts) return opts;
             else if (type.getDeserializer() instanceof ParticleOptions opts) return opts;
-            else ThutCore.LOGGER.warn("Warning for particle {}, it isn't an options? {} {}", name,
-                    type.getRegistryName(), Arrays.toString(type.getDeserializer().getClass().getInterfaces()));
         }
 
         if (ret == null)

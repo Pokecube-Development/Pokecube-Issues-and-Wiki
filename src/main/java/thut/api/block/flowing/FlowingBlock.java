@@ -2,7 +2,6 @@ package thut.api.block.flowing;
 
 import java.lang.reflect.Array;
 import java.util.Map;
-import java.util.Random;
 import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
@@ -12,6 +11,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -146,7 +146,7 @@ public abstract class FlowingBlock extends Block implements IFlowingBlock
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random)
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
     {
         if (this.flows(state)) this.doTick(state, level, pos, random);
     }

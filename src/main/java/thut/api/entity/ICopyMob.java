@@ -158,6 +158,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         to.yRotO = from.yRotO;
     }
 
+    @SuppressWarnings("deprecation")
     public static void copyEntityTransforms(final LivingEntity to, final LivingEntity from)
     {
         ICopyMob.copyRotations(to, from);

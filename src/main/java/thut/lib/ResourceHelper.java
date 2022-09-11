@@ -3,8 +3,6 @@ package thut.lib;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 
 import javax.annotation.Nullable;
 
@@ -19,8 +17,7 @@ public class ResourceHelper
     {
         try
         {
-            return new BufferedReader(
-                    new InputStreamReader(source.getResource(l).getInputStream(), StandardCharsets.UTF_8));
+            return source.openAsReader(l);
         }
         catch (IOException e)
         {
@@ -33,7 +30,7 @@ public class ResourceHelper
     {
         try
         {
-            return source.getResource(l).getInputStream();
+            return source.open(l);
         }
         catch (IOException e)
         {
@@ -46,7 +43,7 @@ public class ResourceHelper
     {
         try
         {
-            return source.getResource(l);
+            return source.getResourceOrThrow(l);
         }
         catch (IOException e)
         {
@@ -58,8 +55,7 @@ public class ResourceHelper
     {
         try
         {
-            Resource res = source.getResource(l);
-            res.close();
+            source.getResourceOrThrow(l);
             return true;
         }
         catch (Exception e)

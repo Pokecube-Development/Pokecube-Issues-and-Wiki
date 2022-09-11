@@ -1080,7 +1080,7 @@ public class Vector3
         int j = chunk.getSectionIndex(QuartPos.toBlock(l));
 
         LevelChunkSection section = chunk.getSections()[j];
-        PalettedContainer<Holder<Biome>> biomes = section.getBiomes();
+        PalettedContainer<Holder<Biome>> biomes = (PalettedContainer<Holder<Biome>>) section.getBiomes();
 
         Biome old = biomes.get(qx & 3, l & 3, qz & 3).value();
         // No need to run this if we are already the same biome...

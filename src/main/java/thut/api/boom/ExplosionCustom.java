@@ -28,8 +28,8 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.LevelTickEvent;
+import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.level.BlockEvent.BreakEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.event.level.LevelEvent.Unload;
@@ -40,8 +40,6 @@ import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 import thut.core.common.ThutCore;
-
-import net.minecraft.world.level.Explosion.BlockInteraction;
 
 public class ExplosionCustom extends Explosion
 {

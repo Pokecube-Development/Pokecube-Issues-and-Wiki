@@ -33,8 +33,6 @@ import thut.api.entity.blockentity.BlockEntityInteractHandler;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
 
-import thut.api.entity.IMultiplePassengerEntity.Seat;
-
 public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEntity
 {
     public static class DismountTicker

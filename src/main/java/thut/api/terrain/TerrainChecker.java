@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.material.Material;
 import thut.api.item.ItemList;
 import thut.api.util.JsonUtil;
@@ -43,7 +43,7 @@ public class TerrainChecker
 
     public static List<String> manualStructureSubbiomes = new ArrayList<>();
 
-    public static Map<String, List<TagKey<ConfiguredStructureFeature<?, ?>>>> struct_config_map = Maps.newHashMap();
+    public static Map<String, List<TagKey<Structure>>> struct_config_map = Maps.newHashMap();
 
     public static void initStructMap()
     {
@@ -62,8 +62,7 @@ public class TerrainChecker
                 key = ThutCore.trim(key);
             }
             ResourceLocation loc = new ResourceLocation(key);
-            TagKey<ConfiguredStructureFeature<?, ?>> tagkey = TagKey
-                    .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, loc);
+            TagKey<Structure> tagkey = TagKey.create(Registry.STRUCTURE_REGISTRY, loc);
 
             struct_config_map.compute(info.subbiome, (name, list) -> {
                 if (list == null) list = new ArrayList<>();
@@ -75,8 +74,7 @@ public class TerrainChecker
         {
             final StructInfo info = JsonUtil.gson.fromJson(s, StructInfo.class);
             String key = info.struct.replace("#", "");
-            TagKey<ConfiguredStructureFeature<?, ?>> tagkey = TagKey
-                    .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, new ResourceLocation(key));
+            TagKey<Structure> tagkey = TagKey.create(Registry.STRUCTURE_REGISTRY, new ResourceLocation(key));
             struct_config_map.compute(info.subbiome, (name, list) -> {
                 if (list == null) list = new ArrayList<>();
                 list.add(tagkey);
