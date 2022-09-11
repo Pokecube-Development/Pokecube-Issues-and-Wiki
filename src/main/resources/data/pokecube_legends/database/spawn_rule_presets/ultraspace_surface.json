@@ -62,6 +62,12 @@
     },
     {
       "values": {
+        "preset": "is_meteorite",
+        "types": "#pokecube_legends:can_spawn/is_meteorite"
+      }
+    },
+    {
+      "values": {
         "preset": "is_snowy",
         "types": "#pokecube_legends:can_spawn/is_snowy"
       }

@@ -306,6 +306,27 @@
       ]
     },
     {
+      "and_preset": "is_meteorite",
+      "entries": [
+        { "key": "arceus", "min": 1, "max": 1, "rate": 0.05 },
+        { "key": "beheeyam", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "cleffa", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "deoxys", "min": 1, "max": 2, "rate": 0.15 },
+        { "key": "dialga", "min": 1, "max": 1, "rate": 0.15 },
+        { "key": "dusknoir", "min": 1, "max": 2, "rate": 0.15 },
+        { "key": "elgyem", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "eternatus", "min": 1, "max": 1, "rate": 0.15 },
+        { "key": "giratina", "min": 1, "max": 1, "rate": 0.15 },
+        { "key": "kyurem", "min": 1, "max": 1, "rate": 0.15 },
+        { "key": "lunatone", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "palkia", "min": 1, "max": 1, "rate": 0.15 },
+        { "key": "solrock", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "starmie", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "staryu", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "unown", "min": 1, "max": 5, "rate": 0.5 }
+      ]
+    },
+    {
       "and_preset": "is_snowy",
       "entries": [
         { "key": "abomasnow", "min": 1, "max": 2, "rate": 0.25 },
