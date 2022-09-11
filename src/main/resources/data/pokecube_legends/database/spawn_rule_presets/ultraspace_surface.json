@@ -2,6 +2,12 @@
   "rules": [
     {
       "values": {
+        "preset": "is_badlands",
+        "types": "#pokecube_legends:can_spawn/is_badlands"
+      }
+    },
+    {
+      "values": {
         "preset": "is_barrens",
         "types": "#pokecube_legends:can_spawn/is_barrens"
       }
