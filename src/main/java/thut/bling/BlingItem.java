@@ -38,8 +38,6 @@ import thut.lib.TComponent;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
 
-import net.minecraft.world.item.Item.Properties;
-
 public class BlingItem extends Item implements IWearable, DyeableLeatherItem
 {
 

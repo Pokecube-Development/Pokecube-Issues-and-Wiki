@@ -25,7 +25,7 @@ public class Action
             editedCommand = editedCommand.replace("'y'", target.getY() + 1 + "");
             editedCommand = editedCommand.replace("'z'", target.getZ() + "");
             final Commands c = target.getServer().getCommands();
-            c.performCommand(target.getServer().createCommandSourceStack(), editedCommand);
+            c.performPrefixedCommand(target.getServer().createCommandSourceStack(), editedCommand);
         }
         return commands.length > 0;
     }

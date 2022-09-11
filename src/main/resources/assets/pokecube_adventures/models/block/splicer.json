@@ -7,6 +7,7 @@
 		"4": "pokecube_adventures:block/splicer_details",
 		"particle": "pokecube_adventures:block/splicer_side"
 	},
+	"render_type": "transluscent",
 	"elements": [
 		{
 			"name": "main",

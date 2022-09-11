@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
@@ -18,6 +17,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -188,7 +188,7 @@ public class TypeTrainer extends NpcType
                 final ServerLevel world = (ServerLevel) npc.getLevel();
                 final BlockPos blockpos = e.blockPosition();
                 final PoiManager pois = world.getPoiManager();
-                final long num = pois.getCountInRange(p -> p == PointsOfInterest.HEALER.get(), blockpos,
+                final long num = pois.getCountInRange(PointsOfInterest.HEALER, blockpos,
                         PokecubeAdv.config.pokecenter_radius, Occupancy.ANY);
                 return num == 0;
             };
@@ -232,7 +232,7 @@ public class TypeTrainer extends NpcType
     {
         public static interface ResultModifier
         {
-            ItemStack apply(Entity user, Random random);
+            ItemStack apply(Entity user, RandomSource random);
         }
 
         public final ItemStack _input_a;
@@ -273,7 +273,7 @@ public class TypeTrainer extends NpcType
             this(buy1, buy2, sell, 0, trade.maxUses, trade.exp, trade.multiplier, trade.demand);
         }
 
-        public MerchantOffer randomise(Random rand)
+        public MerchantOffer randomise(RandomSource rand)
         {
             ItemStack buy1 = this.getBaseCostA();
             ItemStack buy2 = this.getCostB();
@@ -293,7 +293,7 @@ public class TypeTrainer extends NpcType
         }
 
         @Override
-        public MerchantOffer getOffer(Entity user, Random random)
+        public MerchantOffer getOffer(Entity user, RandomSource random)
         {
             TrainerTrade newTrade = new TrainerTrade(this._input_a, this._input_b, outputModifier.apply(user, random),
                     this._uses, this._maxUses, this._exp, this._multiplier, this._demand);
@@ -310,7 +310,7 @@ public class TypeTrainer extends NpcType
     {
         public List<TrainerTrade> tradesList = Lists.newArrayList();
 
-        public void addTrades(final Entity trader, final List<MerchantOffer> ret, final Random rand)
+        public void addTrades(final Entity trader, final List<MerchantOffer> ret, final RandomSource rand)
         {
             for (final TrainerTrade trade : this.tradesList) if (rand.nextFloat() < trade.chance)
             {
@@ -493,7 +493,7 @@ public class TypeTrainer extends NpcType
                 new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName()) + "_male.png"));
     }
 
-    public Collection<MerchantOffer> getRecipes(final Entity trader, final Random rand)
+    public Collection<MerchantOffer> getRecipes(final Entity trader, final RandomSource rand)
     {
         if (this.trades == null && this.tradeTemplate != null)
             this.trades = TypeTrainer.tradesMap.get(this.tradeTemplate);

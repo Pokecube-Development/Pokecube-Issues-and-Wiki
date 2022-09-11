@@ -8,8 +8,6 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -23,10 +21,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ClientRegistry;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -199,23 +197,22 @@ public class ClientSetupHandler
         MenuScreens.register(PokecubeAdv.BAG_CONT.get(), Bag<BagContainer>::new);
         MenuScreens.register(PokecubeAdv.TRAINER_CONT.get(), Trainer::new);
 
-        ItemBlockRenderTypes.setRenderLayer(PokecubeAdv.CLONER.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(PokecubeAdv.EXTRACTOR.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(PokecubeAdv.SPLICER.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(PokecubeAdv.LAB_GLASS.get(), RenderType.translucent());
+    }
 
+    @SubscribeEvent
+    public static void registetKeys(final RegisterKeyMappingsEvent event)
+    {
         ClientSetupHandler.trainerEditKey = new KeyMapping("EditTrainer", InputConstants.UNKNOWN.getValue(),
                 "Pokecube");
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.trainerEditKey);
+        event.register(ClientSetupHandler.trainerEditKey);
     }
 
     @SubscribeEvent
     public static void colourItems(final RegisterColorHandlersEvent.Item event)
     {
-        event.getItemColors().register((stack, tintIndex) -> {
+        event.register((stack, tintIndex) -> {
             if (!(stack.getItem() instanceof DyeableLeatherItem item)) return 0xFFFFFFFF;
             return tintIndex == 0 ? item.getColor(stack) : 0xFFFFFFFF;
         }, PokecubeAdv.BAG.get());
     }
-
 }

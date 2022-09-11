@@ -1,5 +1,6 @@
 {
    "parent": "block/cube_all",
+	"render_type": "transluscent",
    "textures": {
 	"all": "pokecube_adventures:block/laboratory_glass"
    }

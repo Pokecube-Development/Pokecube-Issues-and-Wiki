@@ -2,7 +2,6 @@ package pokecube.adventures.events;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -15,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
@@ -139,7 +139,7 @@ public class TrainerEventHandler
             // profession based trades have already been applied if they exist.
             if (!t.isEmpty()) return;
 
-            final Random rand = new Random(this.mob.getUUID().getLeastSignificantBits());
+            final RandomSource rand = this.mob.getRandom();
             final String type = this.mob.getNpcType() == NpcType.byType("professor") ? "professor" : "merchant";
 
             TrainerTrades trades = TypeTrainer.tradesMap.get(type);
