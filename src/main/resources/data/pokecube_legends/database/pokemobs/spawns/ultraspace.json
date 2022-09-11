@@ -20,7 +20,7 @@
         { "key": "indeedee", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "lunala", "min": 1, "max": 1, "rate": 0.15 },
         { "key": "meowstic", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "nagandel", "min": 1, "max": 1, "rate": 0.15 },
+        { "key": "naganadel", "min": 1, "max": 1, "rate": 0.15 },
         { "key": "phanpy", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "poipole", "min": 1, "max": 3, "rate": 0.15 },
         { "key": "riolu", "min": 1, "max": 2, "rate": 0.5 },
@@ -120,6 +120,7 @@
         { "key": "toxel", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "trubbish", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "weezing", "min": 1, "max": 3, "rate": 0.15 },
+        { "key": "xurkitree", "min": 1, "max": 1, "rate": 0.15 },
         { "key": "yveltal", "min": 1, "max": 3, "rate": 0.15 },
         { "key": "zubat", "min": 2, "max": 5, "rate": 0.5 },
         { "key": "zweilous", "min": 1, "max": 3, "rate": 0.25 }
@@ -174,6 +175,7 @@
         { "key": "slugma", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "snover", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "spinarak", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "stakataka", "min": 1, "max": 1, "rate": 0.15 },
         { "key": "torkoal", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "torracat", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "turtonator", "min": 1, "max": 2, "rate": 0.5 },
@@ -275,6 +277,7 @@
         { "key": "bunnelby", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "carnivine", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "celebi", "min": 1, "max": 2, "rate": 0.15 },
+        { "key": "celesteela", "min": 1, "max": 1, "rate": 0.15 },
         { "key": "cherubi", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "cottonee", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "deerling", "min": 1, "max": 2, "rate": 0.5 },
@@ -362,6 +365,17 @@
         { "key": "vanillish", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "vanilluxe", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "vulpix_alola", "min": 1, "max": 2, "rate": 0.25 }
+      ]
+    },
+    {
+      "and_preset": "is_ultraspace",
+      "entries": [
+        { "key": "blacephalon", "min": 1, "max": 5, "rate": 0.15 },
+        { "key": "buzzwole", "min": 1, "max": 1, "rate": 0.15 },
+        { "key": "kartana", "min": 1, "max": 3, "rate": 0.15 },
+        { "key": "nihilego", "min": 1, "max": 5, "rate": 0.15 },
+        { "key": "pheromsa", "min": 1, "max": 3, "rate": 0.15 },
+        { "key": "poipole", "min": 1, "max": 5, "rate": 0.15 }
       ]
     }
   ]

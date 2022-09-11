@@ -71,6 +71,12 @@
         "preset": "is_snowy",
         "types": "#pokecube_legends:can_spawn/is_snowy"
       }
+    },
+    {
+      "values": {
+        "preset": "is_ultraspace",
+        "types": "#pokecube_legends:can_spawn/is_ultraspace"
+      }
     }
   ]
 }
