@@ -28,7 +28,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
-public abstract class FlowingBlock extends Block implements IFlowingBlock
+public abstract class FlowingBlock extends Block implements IFlowingBlock, SimpleWaterloggedBlock
 {
     public static final Map<ResourceLocation, RegistryObject<FlowingBlock>> REGMAP = Maps.newHashMap();
 

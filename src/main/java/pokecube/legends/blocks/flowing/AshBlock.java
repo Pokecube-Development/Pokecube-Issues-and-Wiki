@@ -103,7 +103,7 @@ public class AshBlock extends FlowingBlock
     }
 
     @Override
-    public boolean canSurvive(BlockState p_60525_, LevelReader world, BlockPos pos)
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos)
     {
         BlockState stateBelow = world.getBlockState(pos.below());
         if (!stateBelow.is(Blocks.BARRIER))
