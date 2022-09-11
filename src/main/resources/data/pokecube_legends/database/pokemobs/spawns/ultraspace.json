@@ -151,6 +151,33 @@
       ]
     },
     {
+      "and_preset": "is_forest",
+      "entries": [
+        { "key": "bounsweet", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "budew", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "bunnelby", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "carnivine", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "celebi", "min": 1, "max": 2, "rate": 0.15 },
+        { "key": "cherubi", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "deerling", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "dhelmise", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "hoppip", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "nincada", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "oddish", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "pikachu", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "roggenrola", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "sawsbuck", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "sewaddle", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "skiddo", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "solosis", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "sunflora", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "sunkern", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "tropius", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "unfezant", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "vivillon", "min": 1, "max": 2, "rate": 0.5 }
+      ]
+    },
+    {
       "and_preset": "is_fungal",
       "entries": [
         { "key": "amoonguss", "min": 1, "max": 2, "rate": 0.5 },
@@ -178,8 +205,8 @@
         { "key": "budew", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "bunnelby", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "carnivine", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "cherubi", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "celebi", "min": 1, "max": 2, "rate": 0.15 },
+        { "key": "cherubi", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "cottonee", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "deerling", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "dhelmise", "min": 1, "max": 2, "rate": 0.5 },
@@ -201,10 +228,9 @@
         { "key": "tangela", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "tropius", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "victreebel", "min": 1, "max": 2, "rate": 0.25 },
-        { "key": "vileplum", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "vileplume", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "weepinbell", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "wormadam", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "vileplume", "min": 1, "max": 2, "rate": 0.5 }
+        { "key": "wormadam", "min": 1, "max": 2, "rate": 0.5 }
       ]
     },
     {
