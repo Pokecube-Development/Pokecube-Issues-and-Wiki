@@ -9,12 +9,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.init.MenuTypes;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.ThutCaps;
 import thut.api.inventory.BaseContainer;
 
 public class TradeContainer extends BaseContainer
@@ -40,7 +40,7 @@ public class TradeContainer extends BaseContainer
             {
                 this.tile = (TraderTile) tile;
                 final InvWrapper wrapper = (InvWrapper) this.tile
-                        .getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
+                        .getCapability(ThutCaps.ITEM_HANDLER).orElse(null);
                 this.inv = wrapper.getInv();
             }
         });
@@ -49,7 +49,7 @@ public class TradeContainer extends BaseContainer
         {
             this.tile = new TraderTile(inv.player.blockPosition(), PokecubeItems.TRADER.get().defaultBlockState());
             final InvWrapper wrapper = (InvWrapper) this.tile
-                    .getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
+                    .getCapability(ThutCaps.ITEM_HANDLER).orElse(null);
             this.inv = wrapper.getInv();
         }
 

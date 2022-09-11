@@ -10,10 +10,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.EmptyHandler;
+import thut.api.ThutCaps;
 
 public class BlockEntityInventory implements IItemHandlerModifiable, ICapabilityProvider
 {
@@ -35,7 +35,7 @@ public class BlockEntityInventory implements IItemHandlerModifiable, ICapability
     @Override
     public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
     {
-        return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, this.holder);
+        return ThutCaps.ITEM_HANDLER.orEmpty(cap, this.holder);
     }
 
     void init()
@@ -53,7 +53,7 @@ public class BlockEntityInventory implements IItemHandlerModifiable, ICapability
                     {
                         final BlockEntity tile = this.base.getTiles()[i][j][k];
                         LazyOptional<IItemHandler> opt;
-                        if (tile != null && (opt = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY))
+                        if (tile != null && (opt = tile.getCapability(ThutCaps.ITEM_HANDLER))
                                 .isPresent() && opt.orElse(null) instanceof IItemHandlerModifiable)
                         {
                             final IItemHandlerModifiable handler = (IItemHandlerModifiable) opt.orElse(null);

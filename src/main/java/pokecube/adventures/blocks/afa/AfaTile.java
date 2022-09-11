@@ -22,7 +22,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.network.PacketAFA;
@@ -145,7 +144,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     public AfaTile(final BlockPos pos, final BlockState state)
     {
         super(PokecubeAdv.AFA_TYPE.get(), pos, state);
-        this.itemstore = (IItemHandlerModifiable) this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+        this.itemstore = (IItemHandlerModifiable) this.getCapability(ThutCaps.ITEM_HANDLER)
                 .orElse(null);
         this.inventory = new AfaContainer.InvWrapper(this.itemstore,
                 (IOwnableTE) this.getCapability(ThutCaps.OWNABLE_CAP).orElse(null));

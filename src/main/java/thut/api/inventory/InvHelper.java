@@ -11,9 +11,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import thut.api.ThutCaps;
 import thut.api.item.ItemList;
 
 public class InvHelper
@@ -53,7 +53,7 @@ public class InvHelper
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
         {
-            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(capability, this.holder);
+            return ThutCaps.ITEM_HANDLER.orEmpty(capability, this.holder);
         }
     }
 

@@ -9,7 +9,6 @@ import com.mojang.serialization.Codec;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
@@ -32,7 +31,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
@@ -49,8 +47,6 @@ import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.handlers.PaintingsHandler;
 import pokecube.core.handlers.RecipeHandler;
-import pokecube.core.handlers.data.Drops;
-import pokecube.core.handlers.data.Recipes;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import pokecube.core.handlers.playerdata.PokecubePlayerData;
@@ -104,14 +100,6 @@ public class PokecubeCore
 
             // Now we can initialise some of the custom items.
             ItemInit.init();
-        }
-
-        @SubscribeEvent
-        public static void gatherData(final GatherDataEvent event)
-        {
-            final DataGenerator gen = event.getGenerator();
-            gen.addProvider(new Recipes(gen));
-            gen.addProvider(new Drops(gen));
         }
     }
 
