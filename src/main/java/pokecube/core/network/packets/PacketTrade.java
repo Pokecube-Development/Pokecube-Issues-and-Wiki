@@ -8,7 +8,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -19,6 +18,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.RecipePokeseals;
+import thut.api.ThutCaps;
 import thut.core.common.network.Packet;
 
 public class PacketTrade extends Packet
@@ -63,7 +63,7 @@ public class PacketTrade extends Packet
     {
         final AbstractContainerMenu cont = player.containerMenu;
         if (!(cont instanceof TradeContainer container)) return;
-        final InvWrapper inv = (InvWrapper) container.tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+        final InvWrapper inv = (InvWrapper) container.tile.getCapability(ThutCaps.ITEM_HANDLER)
                 .orElse(null);
         if (this.data.contains("r"))
         {

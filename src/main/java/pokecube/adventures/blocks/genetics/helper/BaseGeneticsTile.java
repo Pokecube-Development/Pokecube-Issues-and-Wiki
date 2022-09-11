@@ -16,7 +16,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
@@ -24,6 +23,7 @@ import pokecube.adventures.blocks.genetics.helper.recipe.IPoweredProgress;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredProcess;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.blocks.InteractableTile;
+import thut.api.ThutCaps;
 import thut.api.block.ITickTile;
 import thut.api.inventory.InvHelper;
 
@@ -230,7 +230,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     @Override
     public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
     {
-        if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+        if (facing != null && capability == ThutCaps.ITEM_HANDLER)
             return this.wrappers[facing.ordinal()].cast();
         return super.getCapability(capability, facing);
     }

@@ -15,8 +15,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import thut.api.ThutCaps;
 
 public abstract class InteractableBlock extends Block
 {
@@ -66,7 +66,7 @@ public abstract class InteractableBlock extends Block
             }
             else
             {
-                final IItemHandler items = tileentity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+                final IItemHandler items = tileentity.getCapability(ThutCaps.ITEM_HANDLER)
                         .orElse(null);
                 if (items != null)
                 {

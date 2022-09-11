@@ -22,7 +22,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.network.NetworkHooks;
@@ -41,6 +40,7 @@ import pokecube.core.eventhandlers.SpawnHandler.ForbidRegion;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
+import thut.api.ThutCaps;
 import thut.api.block.ITickTile;
 import thut.api.inventory.InvWrapper;
 import thut.core.common.ThutCore;
@@ -146,7 +146,7 @@ public class NestTile extends InteractableTile implements ITickTile
     public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
             final BlockHitResult hit)
     {
-        final IItemHandler handler = this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
+        final IItemHandler handler = this.getCapability(ThutCaps.ITEM_HANDLER).orElse(null);
         if (handler instanceof IItemHandlerModifiable)
         {
             if (player instanceof ServerPlayer sendTo)

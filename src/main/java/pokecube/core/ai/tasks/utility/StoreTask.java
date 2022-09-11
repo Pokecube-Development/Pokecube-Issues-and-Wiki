@@ -27,13 +27,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.ai.tasks.idle.HungerTask;
+import thut.api.ThutCaps;
 import thut.api.item.ItemList;
 import thut.lib.ItemStackTools;
 
@@ -454,7 +454,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
 
         WorldlyContainer container = tile instanceof WorldlyContainer cont ? cont : null;
         IItemHandlerModifiable inventory = null;
-        if ((tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side)
+        if ((tile.getCapability(ThutCaps.ITEM_HANDLER, side)
                 .orElse(null)) instanceof IItemHandlerModifiable inv)
             inventory = inv;
         if (inventory == null && container == null) return null;

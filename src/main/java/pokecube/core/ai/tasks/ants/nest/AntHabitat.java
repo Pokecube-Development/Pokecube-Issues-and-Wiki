@@ -29,7 +29,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -56,6 +55,7 @@ import pokecube.core.eventhandlers.SpawnHandler.ForbidRegion;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.init.Config;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.api.world.IWorldTickListener;
@@ -409,7 +409,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             this.hasItems = false;
             if (nest != null)
             {
-                final IItemHandler handler = nest.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+                final IItemHandler handler = nest.getCapability(ThutCaps.ITEM_HANDLER)
                         .orElse(null);
                 for (int i = 0; i < handler.getSlots(); i++)
                 {
@@ -742,7 +742,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             if (pokemob != null && nest.isPresent())
             {
                 final IItemHandler handler = nest.get().nest
-                        .getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
+                        .getCapability(ThutCaps.ITEM_HANDLER).orElse(null);
                 if (!(handler instanceof IItemHandlerModifiable)) break drop;
                 final IItemHandlerModifiable itemhandler = new InvWrapper(pokemob.getInventory());
                 for (int i = 2; i < itemhandler.getSlots(); i++)
