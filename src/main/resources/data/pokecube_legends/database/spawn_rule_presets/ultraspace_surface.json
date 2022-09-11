@@ -2,8 +2,80 @@
   "rules": [
     {
       "values": {
-        "preset": "dark_valley",
-        "types": "#pokecube_legends:can_spawn/dark_valley"
+        "preset": "is_badlands",
+        "types": "#pokecube_legends:can_spawn/is_badlands"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_corrupted",
+        "types": "#pokecube_legends:can_spawn/is_corrupted"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_beach",
+        "types": "#pokecube_legends:can_spawn/is_beach"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_burnt",
+        "types": "#pokecube_legends:can_spawn/is_burnt"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_crystallized",
+        "types": "#pokecube_legends:can_spawn/is_crystallized"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_deltas",
+        "types": "#pokecube_legends:can_spawn/is_deltas"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_desert",
+        "types": "#pokecube_legends:can_spawn/is_desert"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_forbidden",
+        "types": "#pokecube_legends:can_spawn/is_forbidden"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_fungal",
+        "types": "#pokecube_legends:can_spawn/is_fungal"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_jungle",
+        "types": "#pokecube_legends:can_spawn/is_jungle"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_meteorite",
+        "types": "#pokecube_legends:can_spawn/is_meteorite"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_snowy",
+        "types": "#pokecube_legends:can_spawn/is_snowy"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_ultraspace",
+        "types": "#pokecube_legends:can_spawn/is_ultraspace"
       }
     }
   ]
