@@ -32,7 +32,6 @@ import pokecube.core.entity.npc.NpcType;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.utils.Tools;
-import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.wearables.EnumWearable;
@@ -165,18 +164,6 @@ public abstract class TrainerBase extends NpcMob
     {
         super.aiStep();
         if (!this.isEffectiveAi()) return;
-
-        ItemStack cube = this.pokemobsCap.getNextPokemob();
-        ItemStack reward = this.rewardsCap.getRewards().isEmpty() ? ItemStack.EMPTY
-                : this.rewardsCap.getRewards().get(0).stack;
-        if (this.pokemobsCap.getCooldown() > Tracker.instance().getTick())
-        {
-            cube = ItemStack.EMPTY;
-            reward = ItemStack.EMPTY;
-        }
-        this.setItemInHand(InteractionHand.MAIN_HAND, cube);
-        this.setItemInHand(InteractionHand.OFF_HAND, reward);
-
         if (this.pokemobsCap.countPokemon() == 0 && !this.fixedMobs)
         {
             final TypeTrainer type = this.pokemobsCap.getType();
