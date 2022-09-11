@@ -51,7 +51,7 @@ public class ClientSetupHandler
     {
         for (Item i : BlingItem.bling)
         {
-            event.getItemColors().register((stack, tintIndex) -> {
+            event.register((stack, tintIndex) -> {
                 if (!(stack.getItem() instanceof DyeableLeatherItem item)) return 0xFFFFFFFF;
                 return tintIndex == 0 ? item.getColor(stack) : 0xFFFFFFFF;
             }, i);

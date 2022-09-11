@@ -28,7 +28,6 @@ import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.IMoveAction;
@@ -333,12 +332,7 @@ public class ActionNaturePower implements IMoveAction
             boolean mod = false;
             final Vector3 vec = new Vector3().set(pos);
 
-            ChunkGenerator generator = world.getChunkSource().getGenerator();
-            Climate.Sampler sampler = generator.climateSampler();
-
-            // 1.19:
-            // Climate.Sampler sampler =
-            // world.getChunkSource().randomState().sampler();
+            Climate.Sampler sampler = world.getChunkSource().randomState().sampler();
 
             for (int i = -8; i <= 8; i++) for (int j = -8; j <= 8; j++) for (int k = -8; k <= 8; k++)
             {

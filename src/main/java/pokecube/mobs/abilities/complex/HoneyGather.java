@@ -1,10 +1,10 @@
 package pokecube.mobs.abilities.complex;
 
 import java.util.Optional;
-import java.util.Random;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -44,7 +44,7 @@ public class HoneyGather extends Ability
 
         final LivingEntity entity = mob.getEntity();
         final Vector3 here = new Vector3().set(entity);
-        final Random rand = entity.getRandom();
+        final RandomSource rand = entity.getRandom();
 
         final Optional<GlobalPos> pos_opt = BeeTasks.getFlower(entity);
         if (pos_opt.isPresent())
