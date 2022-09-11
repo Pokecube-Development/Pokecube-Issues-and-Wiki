@@ -44,6 +44,12 @@
     },
     {
       "values": {
+        "preset": "is_forbidden",
+        "types": "#pokecube_legends:can_spawn/is_forbidden"
+      }
+    },
+    {
+      "values": {
         "preset": "is_fungal",
         "types": "#pokecube_legends:can_spawn/is_fungal"
       }
