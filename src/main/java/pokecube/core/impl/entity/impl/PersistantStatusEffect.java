@@ -65,20 +65,20 @@ public class PersistantStatusEffect extends BaseEffect
                 source.bypassMagic();
                 source.bypassArmor();
             }
-            else if (entity instanceof Player) scale = (float) (user != null && user.isPlayerOwned()
-                    ? PokecubeCore.getConfig().ownedPlayerDamageRatio
-                    : PokecubeCore.getConfig().wildPlayerDamageRatio);
+            else if (entity instanceof Player)
+                scale = (float) (user != null && user.isPlayerOwned() ? PokecubeCore.getConfig().ownedPlayerDamageRatio
+                        : PokecubeCore.getConfig().wildPlayerDamageRatio);
             else scale = (float) (entity instanceof Npc ? PokecubeCore.getConfig().pokemobToNPCDamageRatio
                     : PokecubeCore.getConfig().pokemobToOtherMobDamageRatio);
             if (scale <= 0) toRemove = true;
-
+            
             switch (this.status)
             {
             case BADPOISON:
                 if (pokemob != null)
                 {
-                    entity.hurt(source, scale * (pokemob.getMoveStats().TOXIC_COUNTER + 1) * entity
-                            .getMaxHealth() / 16f);
+                    entity.hurt(source,
+                            scale * (pokemob.getMoveStats().TOXIC_COUNTER + 1) * entity.getMaxHealth() / 16f);
                     this.spawnPoisonParticle(entity);
                     this.spawnPoisonParticle(entity);
                     pokemob.getMoveStats().TOXIC_COUNTER++;
@@ -90,7 +90,7 @@ public class PersistantStatusEffect extends BaseEffect
                 }
                 break;
             case BURN:
-                if (scale > 0) entity.setSecondsOnFire(duration);
+                if (scale > 0) entity.setSecondsOnFire(duration / 20);
                 entity.hurt(source, scale * entity.getMaxHealth() / 16f);
                 break;
             case FREEZE:
@@ -142,8 +142,7 @@ public class PersistantStatusEffect extends BaseEffect
             // final Vector3 vel = new Vector3().set(d0, d1, d2);
             for (int i = 0; i < 3; ++i)
             {
-                loc.set(entity.getX(), entity.getY() + 0.5D + rand.nextFloat() * entity.getBbHeight(), entity
-                        .getZ());
+                loc.set(entity.getX(), entity.getY() + 0.5D + rand.nextFloat() * entity.getBbHeight(), entity.getZ());
                 // PokecubeCore.spawnParticle(entity.getEntityWorld(),
                 // "mobSpell", particleLoc, vel);TODO figure out colouring
                 entity.getLevel().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
@@ -157,8 +156,7 @@ public class PersistantStatusEffect extends BaseEffect
             new Vector3();
             for (int i = 0; i < 3; ++i)
             {
-                loc.set(entity.getX(), entity.getY() + 0.5D + rand.nextFloat() * entity.getBbHeight(), entity
-                        .getZ());
+                loc.set(entity.getX(), entity.getY() + 0.5D + rand.nextFloat() * entity.getBbHeight(), entity.getZ());
                 entity.getLevel().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
             }
         }
@@ -173,8 +171,8 @@ public class PersistantStatusEffect extends BaseEffect
 
     public static enum Status implements IMoveConstants
     {
-        SLEEP(IMoveConstants.STATUS_SLP), FREEZE(IMoveConstants.STATUS_FRZ), PARALYSIS(IMoveConstants.STATUS_PAR), BURN(
-                IMoveConstants.STATUS_BRN), POISON(IMoveConstants.STATUS_PSN), BADPOISON(IMoveConstants.STATUS_PSN2);
+        SLEEP(IMoveConstants.STATUS_SLP), FREEZE(IMoveConstants.STATUS_FRZ), PARALYSIS(IMoveConstants.STATUS_PAR),
+        BURN(IMoveConstants.STATUS_BRN), POISON(IMoveConstants.STATUS_PSN), BADPOISON(IMoveConstants.STATUS_PSN2);
 
         public static Status getStatus(final byte mask)
         {
@@ -232,7 +230,7 @@ public class PersistantStatusEffect extends BaseEffect
         if (this.status == null)
         {
             final IPokemob pokemob = PokemobCaps.getPokemobFor(target.getEntity());
-            if (pokemob == null || pokemob.getStatus() == IMoveConstants.STATUS_NON) this.setDuration(0);
+            if (pokemob.getStatus() == IMoveConstants.STATUS_NON) this.setDuration(0);
             else if (pokemob != null) this.status = Status.getStatus(pokemob.getStatus());
         }
         final IStatusEffect effect = PersistantStatusEffect.EFFECTMAP.get(this.status);

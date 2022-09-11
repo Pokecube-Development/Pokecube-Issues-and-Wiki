@@ -1,5 +1,7 @@
 package thut.api.particle;
 
+import java.util.Arrays;
+
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceLocation;
@@ -10,11 +12,11 @@ import thut.core.common.ThutCore;
 
 public class ThutParticles
 {
-    public static final ParticleNoGravity  STRING = new ParticleNoGravity(8, 5);
-    public static final ParticleNoGravity  AURORA = new ParticleNoGravity(0, 0);
-    public static final ParticleNoGravity  MISC   = new ParticleNoGravity(0, 0);
-    public static final ParticleNoGravity  POWDER = new ParticleNoGravity(0, 0);
-    public static final ParticleOrientable LEAF   = new ParticleOrientable(2, 2);
+    public static final ParticleNoGravity STRING = new ParticleNoGravity(8, 5);
+    public static final ParticleNoGravity AURORA = new ParticleNoGravity(0, 0);
+    public static final ParticleNoGravity MISC = new ParticleNoGravity(0, 0);
+    public static final ParticleNoGravity POWDER = new ParticleNoGravity(0, 0);
+    public static final ParticleOrientable LEAF = new ParticleOrientable(2, 2);
 
     public static ParticleBase clone(final ParticleBase type)
     {
@@ -137,7 +139,10 @@ public class ThutParticles
         {
             final ResourceLocation location = new ResourceLocation(name);
             final ParticleType<?> type = ForgeRegistries.PARTICLE_TYPES.getValue(location);
-            if (type != null) return (ParticleOptions) type;
+            if (type instanceof ParticleOptions opts) return opts;
+            else if (type.getDeserializer() instanceof ParticleOptions opts) return opts;
+            else ThutCore.LOGGER.warn("Warning for particle {}, it isn't an options? {} {}", name,
+                    type.getRegistryName(), Arrays.toString(type.getDeserializer().getClass().getInterfaces()));
         }
 
         if (ret == null)

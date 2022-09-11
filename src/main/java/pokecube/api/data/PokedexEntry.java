@@ -5,6 +5,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +73,7 @@ import pokecube.core.database.pokedex.PokedexEntryLoader.Evolution;
 import pokecube.core.database.pokedex.PokedexEntryLoader.FormeItem;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Interact;
 import pokecube.core.database.pokedex.PokedexEntryLoader.MegaEvoRule;
+import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.pokedex.PokedexEntryLoader.XMLMegaRule;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokemobs.DispenseBehaviourInteract;
@@ -111,6 +113,8 @@ public class PokedexEntry
     public static class EvolutionData
     {
         public SpawnBiomeMatcher matcher = null;
+        public SpawnRule _match_rule = null;
+
         public Evolution data;
         public boolean dayOnly = false;
         public final PokedexEntry evolution;
@@ -184,9 +188,7 @@ public class PokedexEntry
                     .translatable("pokemob.description.evolve.move", MovesUtils.getMoveName(this.move).getString()));
             if (this.matcher != null)
             {
-                SpawnBiomeMatcher.populateClientValues(matcher);
                 comps.addAll(SpawnListEntry.makeDescription(null, matcher, null, 100));
-                SpawnBiomeMatcher.clearClientValues(matcher);
             }
             return comps;
         }
@@ -240,7 +242,7 @@ public class PokedexEntry
         {
             this.preset = null;
             if (data.level != null) this.level = data.level;
-            if (data.location != null) this.matcher = SpawnBiomeMatcher.get(data.location);
+            if (data.location != null) this.matcher = SpawnBiomeMatcher.get(_match_rule = data.location);
             if (data.animation != null) this.FX = data.animation;
             if (data.item != null) this.item = Tools.getStack(data.item.getValues());
             if (data.item_preset != null) this.preset = PokecubeItems.toPokecubeResource(data.item_preset);
@@ -660,7 +662,9 @@ public class PokedexEntry
         public SpawnBiomeMatcher getMatcher(final SpawnContext context, final SpawnCheck checker,
                 final boolean forSpawn)
         {
-            for (final SpawnBiomeMatcher matcher : this.matchers.keySet())
+            List<SpawnBiomeMatcher> matchers = Lists.newArrayList(this.matchers.keySet());
+            Collections.shuffle(matchers);
+            for (var matcher : matchers)
             {
                 final SpawnEvent.Check evt = new SpawnEvent.Check(context, forSpawn);
                 PokecubeAPI.POKEMOB_BUS.post(evt);

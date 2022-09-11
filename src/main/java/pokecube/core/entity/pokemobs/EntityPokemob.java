@@ -597,7 +597,6 @@ public class EntityPokemob extends PokemobRidable
         {
             this.stopRiding();
         }
-
         if (!this.level.isClientSide)
         {
             boolean climb = this.horizontalCollision && this.getNavigation().isInProgress();

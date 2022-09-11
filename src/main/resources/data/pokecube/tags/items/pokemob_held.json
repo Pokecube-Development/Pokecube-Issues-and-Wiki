@@ -20,6 +20,11 @@
     "pokecube:berryjuice",
     "pokecube:candy",
     "pokecube_adventures:exp_share",
-    "minecraft:written_book"
+    "minecraft:written_book",
+    "minecraft:cauldron",
+    "minecraft:stone_hoe",
+    "minecraft:furnace",
+    "minecraft:chest",
+    "minecraft:shears"
   ]
 }
