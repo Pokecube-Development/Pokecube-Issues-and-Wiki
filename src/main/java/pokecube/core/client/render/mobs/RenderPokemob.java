@@ -285,7 +285,9 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
         public void init()
         {
-            if (this.wrapper != null && this.wrapper.lastInit > Tracker.instance().getTick()) return;
+            boolean noUpdate = this.wrapper != null && this.wrapper.lastInit > Tracker.instance().getTick()
+                    && this.wrapper.lastInit - Tracker.instance().getTick() < 100;
+            if (noUpdate) return;
             RenderPokemob.holders.put(this.entry, this);
             this.toRun.clear();
             this.toRunNames.clear();
@@ -367,8 +369,17 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
     public static void reloadModel(final PokedexEntry entry)
     {
-        if (RenderPokemob.holders.containsKey(entry)) RenderPokemob.holders.get(entry).init();
-        for (final Holder custom : RenderPokemob.customs.values()) if (custom.entry == entry) custom.init();
+        if (RenderPokemob.holders.containsKey(entry))
+        {
+            var holder = RenderPokemob.holders.get(entry);
+            if (holder.wrapper != null) holder.wrapper.lastInit = Long.MIN_VALUE;
+            holder.init();
+        }
+        for (final Holder custom : RenderPokemob.customs.values()) if (custom.entry == entry)
+        {
+            if (custom.wrapper != null) custom.wrapper.lastInit = Long.MIN_VALUE;
+            custom.init();
+        }
     }
 
     public static final Map<ResourceLocation, Holder> customs = Maps.newHashMap();
@@ -395,7 +406,11 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
     private static Holder getMissingNo()
     {
-        if (RenderPokemob.MISSNGNO.wrapper == null) RenderPokemob.MISSNGNO.init();
+        if (RenderPokemob.MISSNGNO.wrapper == null || !RenderPokemob.MISSNGNO.wrapper.isLoaded())
+        {
+            if (RenderPokemob.MISSNGNO.wrapper != null) RenderPokemob.MISSNGNO.wrapper.lastInit = Long.MIN_VALUE;
+            RenderPokemob.MISSNGNO.init();
+        }
         return RenderPokemob.MISSNGNO;
     }
 
