@@ -1,10 +1,10 @@
 package pokecube.legends.blocks.normalblocks;
 
 import java.util.Iterator;
-import java.util.Random;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -44,13 +44,13 @@ public class DistorticStoneBlock extends Block implements BonemealableBlock
     }
 
     @Override
-    public boolean isBonemealSuccess(final Level world, final Random random, final BlockPos pos, final BlockState state)
+    public boolean isBonemealSuccess(final Level world, final RandomSource random, final BlockPos pos, final BlockState state)
     {
         return true;
     }
 
     @Override
-    public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos,
+    public void performBonemeal(final ServerLevel world, final RandomSource random, final BlockPos pos,
             final BlockState state)
     {
         boolean valid = false;

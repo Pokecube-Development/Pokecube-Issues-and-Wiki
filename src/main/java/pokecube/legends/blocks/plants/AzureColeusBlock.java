@@ -20,7 +20,7 @@ public class AzureColeusBlock extends FlowerBase
     
    public AzureColeusBlock(final MobEffect effects, int seconds, final BlockBehaviour.Properties properties)
    {
-      super(effects, seconds, properties);
+      super(effects, seconds, properties.offsetType(BlockBehaviour.OffsetType.XZ));
    }
 
    @Override
@@ -28,12 +28,6 @@ public class AzureColeusBlock extends FlowerBase
    {
        Vec3 vec3 = state.getOffset(block, pos);
        return SHAPE.move(vec3.x, vec3.y, vec3.z);
-   }
-
-   @Override
-   public BlockBehaviour.OffsetType getOffsetType()
-   {
-      return BlockBehaviour.OffsetType.XZ;
    }
 
    @Override

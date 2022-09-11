@@ -1,11 +1,11 @@
 package pokecube.legends.blocks.flowing;
 
 import java.lang.reflect.Array;
-import java.util.Random;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -54,7 +54,7 @@ public class MoltenMeteorBlock extends MoltenBlock
     }
 
     @Override
-    protected void onHarden(BlockState state, BlockState solidTo, ServerLevel level, BlockPos pos, Random random)
+    protected void onHarden(BlockState state, BlockState solidTo, ServerLevel level, BlockPos pos, RandomSource random)
     {
         super.onHarden(state, solidTo, level, pos, random);
     }

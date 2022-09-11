@@ -15,7 +15,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.SensorType;
-import net.minecraft.world.entity.decoration.Motive;
+import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.entity.schedule.Schedule;
 import net.minecraft.world.inventory.MenuType;
@@ -116,7 +116,7 @@ public class PokecubeCore
     public static final DeferredRegister<EntityType<?>> ENTITIES;
     public static final DeferredRegister<MenuType<?>> MENU;
     public static final DeferredRegister<SoundEvent> SOUNDS;
-    public static final DeferredRegister<Motive> PAINTINGS;
+    public static final DeferredRegister<PaintingVariant> PAINTINGS;
 
     static
     {
@@ -133,7 +133,7 @@ public class PokecubeCore
         ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, PokecubeCore.MODID);
         MENU = DeferredRegister.create(ForgeRegistries.MENU_TYPES, PokecubeCore.MODID);
         SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, PokecubeCore.MODID);
-        PAINTINGS = DeferredRegister.create(ForgeRegistries.PAINTING_TYPES, PokecubeCore.MODID);
+        PAINTINGS = DeferredRegister.create(ForgeRegistries.PAINTING_VARIANTS, PokecubeCore.MODID);
     }
 
     public static final String MODID = PokecubeAPI.MODID;

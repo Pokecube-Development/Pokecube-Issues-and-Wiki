@@ -20,7 +20,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.InteractionHand;
@@ -47,12 +46,13 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
-import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -626,7 +626,7 @@ public class PokemobEventsHandler
 
     private static void onLivingDeath(final LivingDeathEvent evt)
     {
-        if (!(evt.getEntity() instanceof LivingEntity living)) return;
+        LivingEntity living = evt.getEntity();
 
         // If the thing that died was a pokemob, ensure no boss bar left
         final IPokemob pokemob = PokemobCaps.getPokemobFor(living);
@@ -640,7 +640,7 @@ public class PokemobEventsHandler
         // Handle transferring the kill info over, This is in place for mod
         // support.
         if (damageSource instanceof PokemobDamageSource && living.getLevel() instanceof ServerLevel level)
-            damageSource.getDirectEntity().killed(level, living);
+            damageSource.getDirectEntity().wasKilled(level, living);
 
         // Handle exp gain for the mob.
         final IPokemob attacker = PokemobCaps.getPokemobFor(damageSource.getDirectEntity());
@@ -772,7 +772,7 @@ public class PokemobEventsHandler
         final IPokemob pokemob = PokemobCaps.getPokemobFor(mount);
         if (pokemob == null) return;
 
-        boolean inWater = evt.getEntity().isEyeInFluid(FluidTags.WATER)
+        boolean inWater = evt.getEntity().isEyeInFluidType(ForgeMod.WATER_TYPE.get())
                 && !EnchantmentHelper.hasAquaAffinity(evt.getEntity());
         boolean inAir = !evt.getEntity().onGround;
 
@@ -1100,7 +1100,7 @@ public class PokemobEventsHandler
             {
                 if (player.isShiftKeyDown())
                 {
-                    if (held.getDisplayName().getContents().contains("poke")) pokemob.moveToShoulder(player);
+                    if (held.getDisplayName().getString().contains("poke")) pokemob.moveToShoulder(player);
                     return;
                 }
                 else if (pokemob.getEntity().isPassenger())
@@ -1108,7 +1108,7 @@ public class PokemobEventsHandler
                     pokemob.getEntity().stopRiding();
                     return;
                 }
-                if (held.getDisplayName().getContents().contains("poke"))
+                if (held.getDisplayName().getString().contains("poke"))
                 {
                     final Vector3 look = new Vector3().set(player.getLookAngle()).scalarMultBy(0.5);
                     look.y = 0.2;

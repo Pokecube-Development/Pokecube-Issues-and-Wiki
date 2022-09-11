@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.texture.HttpTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -88,7 +89,7 @@ public class ClientProxy extends CommonProxy
                     .registerTexture(map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN);
             else
             {
-                final UUID uuid = Player.createPlayerUUID(profile);
+                final UUID uuid = UUIDUtil.getOrCreatePlayerUUID(profile);
                 resourcelocation = DefaultPlayerSkin.getDefaultSkin(uuid);
             }
             ClientProxy.players.put(name, resourcelocation);

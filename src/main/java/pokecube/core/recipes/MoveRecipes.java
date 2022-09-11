@@ -25,7 +25,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.IMoveAction;
@@ -84,6 +83,12 @@ public class MoveRecipes
             public boolean stillValid(final Player playerIn)
             {
                 return false;
+            }
+
+            @Override
+            public ItemStack quickMoveStack(Player p_38941_, int p_38942_)
+            {
+                return ItemStack.EMPTY;
             }
         };
 
@@ -231,8 +236,7 @@ public class MoveRecipes
         }
     }
 
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>>
-            implements RecipeSerializer<MoveRecipe>
+    public static class Serializer implements RecipeSerializer<MoveRecipe>
     {
 
         @Override

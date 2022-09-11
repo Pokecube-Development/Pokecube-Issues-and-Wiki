@@ -1,9 +1,8 @@
 package pokecube.legends.blocks.plants;
 
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.TallGrassBlock;
@@ -25,12 +24,12 @@ public class TallDistorticGrassBlock extends TallGrassBlock implements IForgeShe
    }
 
    @Override
-   public boolean isBonemealSuccess(Level world, Random random, BlockPos pos, BlockState state)
+   public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state)
    {
       return false;
    }
 
    @Override
-   public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos, final BlockState state)
+   public void performBonemeal(final ServerLevel world, final RandomSource random, final BlockPos pos, final BlockState state)
    {}
 }

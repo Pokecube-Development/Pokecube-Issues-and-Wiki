@@ -1,7 +1,6 @@
 package pokecube.legends.blocks.plants;
 
 import java.util.Optional;
-import java.util.Random;
 
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
@@ -10,6 +9,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -97,7 +97,7 @@ public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
         return super.updateShape(state, direction, state1, world, pos, pos1);
     }
 
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random)
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random)
     {
         if (!state.canSurvive(world, pos))
         {
@@ -123,7 +123,7 @@ public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state)
+    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state)
     {
         Optional<BlockPos> optional = BlockUtil.getTopConnectedBlock(world, pos, state.getBlock(), Direction.UP,
                 BlockInit.BIG_CONTAMINATED_DRIPLEAF.get());

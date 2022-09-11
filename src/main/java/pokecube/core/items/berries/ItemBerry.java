@@ -84,7 +84,7 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
     @Override
     public Block getBlock()
     {
-        return this.getBlockRaw() == null ? null : this.getBlockRaw().delegate.get();
+        return this.getBlockRaw() == null ? null : this.getBlockRaw();
     }
 
     public Block getBlockRaw()

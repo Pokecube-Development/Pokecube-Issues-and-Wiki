@@ -25,7 +25,7 @@ public class PottedCrystallizedBush extends ItemGenerator.GenericPottedPlant
 
     @Nullable
     @Override
-    public BlockPathTypes getAiPathNodeType(final BlockState state, final BlockGetter world, final BlockPos pos, @Nullable final Mob entity)
+    public BlockPathTypes getBlockPathType(final BlockState state, final BlockGetter world, final BlockPos pos, @Nullable final Mob entity)
     {
         return BlockPathTypes.DAMAGE_OTHER;
     }

@@ -1,6 +1,5 @@
 package pokecube.legends.blocks.plants;
 
-import java.util.Random;
 import java.util.function.ToIntFunction;
 
 import net.minecraft.core.BlockPos;
@@ -9,6 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -50,7 +50,7 @@ public class HangingTendrilsBlock extends GrowingPlantHeadBlock implements Bonem
    }
 
    @Override
-   public BlockState getGrowIntoState(BlockState state, Random random)
+   public BlockState getGrowIntoState(BlockState state, RandomSource random)
    {
       return super.getGrowIntoState(state, random).setValue(EYES, Boolean.valueOf(random.nextFloat() < 0.11F));
    }
@@ -83,13 +83,13 @@ public class HangingTendrilsBlock extends GrowingPlantHeadBlock implements Bonem
    }
 
    @Override
-   public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state)
+   public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state)
    {
        world.setBlock(pos, state.setValue(EYES, Boolean.valueOf(true)), 2);
    }
 
    @Override
-   public int getBlocksToGrowWhenBonemealed(Random random)
+   public int getBlocksToGrowWhenBonemealed(RandomSource random)
    {
        return 1;
    }

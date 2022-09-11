@@ -1,12 +1,12 @@
 package pokecube.legends.blocks.normalblocks;
 
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -93,7 +93,7 @@ public class DistorticGrassBlock extends DirectionalBlock implements Bonemealabl
     }
 
     @Override
-    public boolean isBonemealSuccess(final Level world, final Random random, final BlockPos pos, final BlockState state)
+    public boolean isBonemealSuccess(final Level world, final RandomSource random, final BlockPos pos, final BlockState state)
     {
         return true;
     }
@@ -148,7 +148,7 @@ public class DistorticGrassBlock extends DirectionalBlock implements Bonemealabl
     }
 
     @Override
-    public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos, final Random random)
+    public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos, final RandomSource random)
     {
         if (!DistorticGrassBlock.canBeGrass(state, world, pos))
             world.setBlockAndUpdate(pos, BlockInit.DISTORTIC_STONE
@@ -156,7 +156,7 @@ public class DistorticGrassBlock extends DirectionalBlock implements Bonemealabl
     }
     
     @Override
-    public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos,
+    public void performBonemeal(final ServerLevel world, final RandomSource random, final BlockPos pos,
             final BlockState state)
     {
         {

@@ -1,10 +1,10 @@
 package pokecube.legends.blocks;
 
-import java.util.Random;
 import java.util.function.Supplier;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -40,14 +40,14 @@ public class SaplingBase extends BushBlock implements BonemealableBlock
     }
 
     @Override
-    public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final Random rand)
+    public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final RandomSource rand)
     {
         if (!worldIn.isPositionEntityTicking(pos)) return;
         if (worldIn.getMaxLocalRawBrightness(pos.above()) >= 0 && rand.nextInt(7) == 0) this.performBonemeal(worldIn,
                 rand, pos, state);
     }
 
-    public void grow(final ServerLevel serverWorld, final BlockPos pos, final BlockState state, final Random rand)
+    public void grow(final ServerLevel serverWorld, final BlockPos pos, final BlockState state, final RandomSource rand)
     {
         if (state.getValue(SaplingBase.STAGE) == 0) serverWorld.setBlock(pos, state.cycle(SaplingBase.STAGE), 4);
         else
@@ -58,7 +58,7 @@ public class SaplingBase extends BushBlock implements BonemealableBlock
     }
 
     @Override
-    public void performBonemeal(final ServerLevel serverWorld, final Random rand, final BlockPos pos,
+    public void performBonemeal(final ServerLevel serverWorld, final RandomSource rand, final BlockPos pos,
             final BlockState state)
     {
         this.grow(serverWorld, pos, state, rand);
@@ -72,7 +72,7 @@ public class SaplingBase extends BushBlock implements BonemealableBlock
     }
 
     @Override
-    public boolean isBonemealSuccess(final Level worldIn, final Random rand, final BlockPos pos, final BlockState state)
+    public boolean isBonemealSuccess(final Level worldIn, final RandomSource rand, final BlockPos pos, final BlockState state)
     {
         return worldIn.random.nextFloat() < 0.45D;
     }

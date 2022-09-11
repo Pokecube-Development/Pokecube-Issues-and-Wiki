@@ -12,13 +12,13 @@ import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.PoiTypeTags;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.ai.village.poi.PoiRecord;
-import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.api.blocks.IInhabitable;
@@ -67,7 +67,7 @@ public class HiveSensor extends Sensor<Mob>
             final BlockPos blockpos = entityIn.blockPosition();
             final PoiManager pointofinterestmanager = ((ServerLevel) entityIn.level).getPoiManager();
             final Stream<PoiRecord> stream = pointofinterestmanager.getInRange((type) -> {
-                return type == PoiType.BEEHIVE || type == PoiType.BEE_NEST;
+                return type.is(PoiTypeTags.BEE_HOME);
             }, blockpos, 20, PoiManager.Occupancy.ANY);
             return stream.map(PoiRecord::getPos).filter((pos) -> {
                 return HiveSensor.doesHiveHaveSpace(entityIn, pos);

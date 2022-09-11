@@ -30,7 +30,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.api.PokecubeAPI;
@@ -205,16 +205,15 @@ public class PacketPokedex extends NBTPacket
         BlockPos testPos = searcher.getNext(pos, step);
 
         ResourceLocation resourcelocation1 = new ResourceLocation("pokecube_world:meteorites");
-        var registry = level.registryAccess().registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
-        var key = TagKey.create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, resourcelocation1);
-        HolderSet<ConfiguredStructureFeature<?, ?>> holderset = HolderSet
-                .direct(registry.getOrCreateTag(key).stream().toList());
+        var registry = level.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
+        var key = TagKey.create(Registry.STRUCTURE_REGISTRY, resourcelocation1);
+        HolderSet<Structure> holderset = HolderSet.direct(registry.getOrCreateTag(key).stream().toList());
 
         long time = System.nanoTime();
         while ((System.nanoTime() - time) < 5e5)
         {
-            Pair<BlockPos, Holder<ConfiguredStructureFeature<?, ?>>> thing = level.getChunkSource().getGenerator()
-                    .findNearestMapFeature(level, holderset, testPos, 1, false);
+            Pair<BlockPos, Holder<Structure>> thing = level.getChunkSource().getGenerator().findNearestMapStructure(level,
+                    holderset, testPos, 1, false);
             if (thing != null)
             {
                 BlockPos p2 = thing.getFirst();

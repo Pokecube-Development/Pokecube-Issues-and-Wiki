@@ -1,10 +1,9 @@
 package pokecube.legends.blocks.normalblocks;
 
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -39,13 +38,13 @@ public class CorruptedDirtBlock extends Block implements BonemealableBlock
     }
 
     @Override
-    public boolean isBonemealSuccess(final Level world, final Random random, final BlockPos pos, final BlockState state)
+    public boolean isBonemealSuccess(final Level world, final RandomSource random, final BlockPos pos, final BlockState state)
     {
         return true;
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state)
+    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state)
     {
         boolean flag1 = false;
 

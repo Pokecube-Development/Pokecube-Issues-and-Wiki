@@ -51,8 +51,8 @@ public class MakeNest extends BaseIdleTask
         final BlockPos pos = b.getPos();
         if (!MoveEventsHandler.canAffectBlock(pokemob, new Vector3(pos), "nest_building")) return false;
         final PoiManager pois = this.world.getPoiManager();
-        final long num = pois.getCountInRange(p -> p == PointsOfInterest.NEST.get(), pos,
-                PokecubeCore.getConfig().nestSpacing, PoiManager.Occupancy.ANY);
+        final long num = pois.getCountInRange(PointsOfInterest.NEST, pos, PokecubeCore.getConfig().nestSpacing,
+                PoiManager.Occupancy.ANY);
         if (num > 0) return false;
         final Brain<?> brain = this.entity.getBrain();
         this.world.setBlockAndUpdate(pos, PokecubeItems.NEST.get().defaultBlockState());

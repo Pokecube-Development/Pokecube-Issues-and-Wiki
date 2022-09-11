@@ -3,7 +3,6 @@ package pokecube.legends.blocks.customblocks;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import javax.annotation.Nullable;
 
@@ -15,6 +14,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -1173,7 +1173,7 @@ public class PortalWarp extends Rotates implements SimpleWaterloggedBlock, Entit
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void animateTick(final BlockState state, final Level world, final BlockPos pos, final Random random)
+    public void animateTick(final BlockState state, final Level world, final BlockPos pos, final RandomSource random)
     {
         super.animateTick(state, world, pos, random);
         final int x = pos.getX();

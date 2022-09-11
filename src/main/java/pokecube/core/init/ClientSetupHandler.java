@@ -19,9 +19,9 @@ import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ClientRegistry;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -118,12 +118,13 @@ public class ClientSetupHandler
         RenderPokemob.register();
     }
 
-    private static void registerKey(KeyMapping key, Object event)
+    private static void registerKey(KeyMapping key, RegisterKeyMappingsEvent event)
     {
-        ClientRegistry.registerKeyBinding(key);
+        event.register(key);
     }
 
-    public static void registerKeybinds(Object event)
+    @SubscribeEvent
+    public static void registerKeybinds(RegisterKeyMappingsEvent event)
     {
         PokecubeAPI.LOGGER.debug("Init Keybinds");
         registerKey(ClientSetupHandler.nextMob, event);
@@ -149,7 +150,7 @@ public class ClientSetupHandler
 
         ClientProxy.NBTEditKey = new KeyMapping("NBTEdit Shortcut", InputConstants.UNKNOWN.getValue(),
                 "key.categories.misc");
-        ClientRegistry.registerKeyBinding(ClientProxy.NBTEditKey);
+        event.register(ClientProxy.NBTEditKey);
     }
 
     @SubscribeEvent
@@ -159,9 +160,6 @@ public class ClientSetupHandler
 
         // Register event handlers
         EventsHandlerClient.register();
-
-        // Register keybinds
-        registerKeybinds(event);
 
         // Forward this to PCEdit mod:
         NBTEdit.setupClient(event);
@@ -229,7 +227,7 @@ public class ClientSetupHandler
     public static void colourBlocks(final RegisterColorHandlersEvent.Block event)
     {
         final Block qualotLeaves = BerryManager.berryLeaves.get(23);
-        event.getBlockColors().register((state, reader, pos, tintIndex) -> {
+        event.register((state, reader, pos, tintIndex) -> {
             return reader != null && pos != null ? BiomeColors.getAverageFoliageColor(reader, pos)
                     : FoliageColor.getDefaultColor();
         }, qualotLeaves);
@@ -239,12 +237,12 @@ public class ClientSetupHandler
     public static void colourItems(final RegisterColorHandlersEvent.Item event)
     {
         final Block qualotLeaves = BerryManager.berryLeaves.get(23);
-        event.getItemColors().register((stack, tintIndex) -> {
+        event.register((stack, tintIndex) -> {
             final BlockState blockstate = ((BlockItem) stack.getItem()).getBlock().defaultBlockState();
             return event.getBlockColors().getColor(blockstate, null, null, tintIndex);
         }, qualotLeaves);
 
-        event.getItemColors().register((stack, tintIndex) -> {
+        event.register((stack, tintIndex) -> {
             final PokeType type = PokeType.unknown;
             final PokedexEntry entry = ItemPokemobEgg.getEntry(stack);
             if (entry != null) return tintIndex == 0 ? entry.getType1().colour : entry.getType2().colour;
@@ -253,7 +251,7 @@ public class ClientSetupHandler
 
         for (Item i : ItemMegawearable.INSTANCES)
         {
-            event.getItemColors().register((stack, tintIndex) -> {
+            event.register((stack, tintIndex) -> {
                 if (!(stack.getItem() instanceof DyeableLeatherItem item)) return 0xFFFFFFFF;
                 return tintIndex == 0 ? item.getColor(stack) : 0xFFFFFFFF;
             }, i);

@@ -38,7 +38,8 @@ public class LogicInMaterials extends LogicBase
 
                     value = Float.parseFloat(this.pokemob.getPokedexEntry().hatedMaterial[1]);
                     final String action = this.pokemob.getPokedexEntry().hatedMaterial[2];
-                    final float f = this.entity.getBrightness();
+                    @SuppressWarnings("deprecation")
+                    final float f = this.entity.getLightLevelDependentMagicValue();
                     if (f > value && this.entity.getLevel().canSeeSkyFromBelowWater(this.entity.blockPosition())) if (action
                             .equalsIgnoreCase("despawn")) this.entity.discard();
                     else if (action.equalsIgnoreCase("hurt") && Math.random() < 0.1) this.entity.hurt(

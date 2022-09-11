@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.function.Supplier;
 
 import com.google.common.collect.ImmutableList;
@@ -21,6 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -130,7 +130,7 @@ public class BerryGenManager
         public List<ResourceLocation> trees = Lists.newArrayList();
         private ServerLevel level;
 
-        public void init(ServerLevel worldIn, Random random)
+        public void init(ServerLevel worldIn, RandomSource random)
         {
             this.level = worldIn;
         }
@@ -142,7 +142,7 @@ public class BerryGenManager
         }
 
         @Override
-        protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(Random rand, boolean has_flowers)
+        protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource rand, boolean has_flowers)
         {
             var reg = level.registryAccess().registryOrThrow(Registry.CONFIGURED_FEATURE_REGISTRY);
             int rng = rand.nextInt(trees.size());
@@ -248,7 +248,7 @@ public class BerryGenManager
         return trees.containsKey(index);
     }
 
-    public static Supplier<AbstractTreeGrower> getTree(ServerLevel worldIn, Random random, int index)
+    public static Supplier<AbstractTreeGrower> getTree(ServerLevel worldIn, RandomSource random, int index)
     {
         if (!isTree(index)) return null;
         TreeProvider prov = trees.get(index);
