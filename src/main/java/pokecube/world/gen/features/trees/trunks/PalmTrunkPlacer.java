@@ -1,7 +1,6 @@
 package pokecube.world.gen.features.trees.trunks;
 
 import java.util.List;
-import java.util.Random;
 import java.util.function.BiConsumer;
 
 import com.google.common.collect.Lists;
@@ -11,6 +10,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.ExtraCodecs;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.block.state.BlockState;
@@ -51,7 +51,7 @@ public class PalmTrunkPlacer extends TrunkPlacer
 
     @Override
     public List<FoliagePlacer.FoliageAttachment> placeTrunk(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
-                                                            Random random, int freeTreeHeight, BlockPos pos, TreeConfiguration config)
+            RandomSource random, int freeTreeHeight, BlockPos pos, TreeConfiguration config)
     {
         Direction direction = Direction.Plane.HORIZONTAL.getRandomDirection(random);
         int i = freeTreeHeight - 1;

@@ -6,17 +6,16 @@ import java.util.Set;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.QuartPos;
 import net.minecraft.core.Registry;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Climate;
-import net.minecraft.world.level.biome.TerrainShaper;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.NoiseRouter;
+import net.minecraft.world.level.levelgen.NoiseRouterData;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.material.Material;
 import pokecube.api.data.spawns.SpawnCheck.TerrainType;
 import pokecube.core.PokecubeCore;
@@ -40,27 +39,13 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
     public static TerrainType getTerrain(Vector3 v, LevelAccessor world)
     {
         if (!(world instanceof ServerLevel level)) return TerrainType.FLAT;
-
-        ChunkGenerator generator = level.getChunkSource().getGenerator();
         BlockPos pos = v.getPos();
-
-        int i = QuartPos.fromBlock(pos.getX());
-        int j = QuartPos.fromBlock(pos.getY());
-        int k = QuartPos.fromBlock(pos.getZ());
-        Climate.TargetPoint climate$targetpoint = generator.climateSampler().sample(i, j, k);
-        float f4 = Climate.unquantizeCoord(climate$targetpoint.weirdness());
-        double d0 = (double) TerrainShaper.peaksAndValleys(f4);
+        NoiseRouter noiserouter = level.getChunkSource().randomState().router();
+        DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(
+                pos.getX(), pos.getY(), pos.getZ());
+        double f4 = noiserouter.ridges().compute(densityfunction$singlepointcontext);
+        double d0 = (double) NoiseRouterData.peaksAndValleys((float) f4);
         return d0 > 0.5 ? TerrainType.HILLS : TerrainType.FLAT;
-
-// 1.19:
-//        if (!(world instanceof ServerLevel level)) return TerrainType.FLAT;
-//        BlockPos pos = v.getPos();
-//        NoiseRouter noiserouter = level.getChunkSource().randomState().router();
-//        DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(pos.getX(), pos.getY(), pos.getZ());
-//        double f4 = noiserouter.ridges().compute(densityfunction$singlepointcontext);
-//        double d0 = (double)NoiseRouterData.peaksAndValleys((float)f4);
-//        return d0 > 0.5 ? TerrainType.HILLS : TerrainType.FLAT;
-
     }
 
     @Override
@@ -77,14 +62,12 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
                 if (!name.contains(":")) name = "minecraft:" + name;
 
                 String subbiome = null;
-                Registry<ConfiguredStructureFeature<?, ?>> registry = world.registryAccess()
-                        .registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
-                Optional<Holder<ConfiguredStructureFeature<?, ?>>> opt_holder = registry
-                        .getHolder(registry.getId(info.feature));
+                Registry<Structure> registry = world.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
+                Optional<Holder<Structure>> opt_holder = registry.getHolder(registry.getId(info.feature));
                 opt_check:
                 if (!opt_holder.isEmpty())
                 {
-                    Holder<ConfiguredStructureFeature<?, ?>> holder = opt_holder.get();
+                    Holder<Structure> holder = opt_holder.get();
                     if (holder.value().config instanceof ExpandedJigsawConfiguration config)
                     {
                         if (!config.biome_type.equals("none"))
@@ -96,7 +79,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
                     for (var entry : TerrainChecker.struct_config_map.entrySet())
                     {
                         String key = entry.getKey();
-                        List<TagKey<ConfiguredStructureFeature<?, ?>>> list = entry.getValue();
+                        List<TagKey<Structure>> list = entry.getValue();
                         boolean matches = list.stream().anyMatch(holder::is);
                         if (matches)
                         {

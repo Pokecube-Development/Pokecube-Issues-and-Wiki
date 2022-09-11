@@ -15,7 +15,7 @@ public class CanyonCarver extends CanyonWorldCarver
     }
 
     @Override
-    protected boolean canReplaceBlock(final BlockState state)
+    protected boolean canReplaceBlock(CanyonCarverConfiguration config, final BlockState state)
     {
         return PokecubeTerrainChecker.isCave(state);
     }
