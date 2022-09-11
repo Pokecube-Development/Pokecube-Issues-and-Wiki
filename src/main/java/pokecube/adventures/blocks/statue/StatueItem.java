@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 public class StatueItem extends BlockItem
 {
@@ -16,13 +16,13 @@ public class StatueItem extends BlockItem
     }
 
     @Override
-    public void initializeClient(final Consumer<IItemRenderProperties> consumer) {
-        consumer.accept(new IItemRenderProperties() {
+    public void initializeClient(final Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(new IClientItemExtensions() {
 
             private final BlockEntityWithoutLevelRenderer renderer = new pokecube.adventures.client.render.StatueItem();
 
             @Override
-            public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 return this.renderer;
             }
         });

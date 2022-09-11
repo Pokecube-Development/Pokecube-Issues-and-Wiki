@@ -35,25 +35,25 @@ public class LegendsLootingRecipeManager
 
     public static void onPlayerClickBlock(final PlayerInteractEvent.RightClickBlock event)
     {
-        if (!event.getWorld().isClientSide && event.getPlayer() != null)
+        if (!event.getLevel().isClientSide && event.getEntity() != null)
         {
 
-            final ItemStack heldItem = event.getPlayer().getItemInHand(event.getHand());
+            final ItemStack heldItem = event.getEntity().getItemInHand(event.getHand());
 
             for (final Recipe<?> recipe : LegendsLootingRecipeManager.getRecipes(
-                    LegendsLootingRecipeManager.LEGENDS_LOOTING_RECIPE_TYPE.get(), event.getWorld().getRecipeManager())
+                    LegendsLootingRecipeManager.LEGENDS_LOOTING_RECIPE_TYPE.get(), event.getLevel().getRecipeManager())
                     .values())
                 if (recipe instanceof LegendsLootingRecipeSerializer)
             {
 
                 final LegendsLootingRecipeSerializer blockRecipe = (LegendsLootingRecipeSerializer) recipe;
 
-                if (blockRecipe.isValid(heldItem, event.getWorld().getBlockState(event.getPos()).getBlock()))
+                if (blockRecipe.isValid(heldItem, event.getLevel().getBlockState(event.getPos()).getBlock()))
                 {
 
                     final LootTable loottable = event.getEntity().getServer().getLootTables().get(blockRecipe.output);
                     final LootContext.Builder lootcontext$builder = new LootContext.Builder(
-                            (ServerLevel) event.getEntity().getLevel()).withRandom(event.getEntityLiving().getRandom());
+                            (ServerLevel) event.getEntity().getLevel()).withRandom(event.getEntity().getRandom());
 
                     final List<ItemStack> list = loottable
                             .getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
@@ -62,12 +62,12 @@ public class LegendsLootingRecipeManager
 
                     for (final ItemStack itemstack : list)
                     {
-                        ItemHandlerHelper.giveItemToPlayer(event.getPlayer(), itemstack);
+                        ItemHandlerHelper.giveItemToPlayer(event.getEntity(), itemstack);
                         break;
                     }
 
                     heldItem.shrink(1);
-                    ItemHandlerHelper.giveItemToPlayer(event.getPlayer(), blockRecipe.getResultItem());
+                    ItemHandlerHelper.giveItemToPlayer(event.getEntity(), blockRecipe.getResultItem());
                     break;
                 }
             }

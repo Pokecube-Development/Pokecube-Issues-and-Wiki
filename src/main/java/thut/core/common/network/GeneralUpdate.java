@@ -30,7 +30,7 @@ public class GeneralUpdate extends NBTPacket
 
     private static void onLogin(final PlayerLoggedInEvent event)
     {
-        if (event.getPlayer() instanceof ServerPlayer player) GeneralUpdate.sendUpdate(player);
+        if (event.getEntity() instanceof ServerPlayer player) GeneralUpdate.sendUpdate(player);
     }
 
     private static void sendUpdate(final ServerPlayer player)

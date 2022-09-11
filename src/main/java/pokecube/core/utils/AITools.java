@@ -135,7 +135,7 @@ public class AITools
 
     public static void initIDs()
     {
-        final Set<ResourceLocation> keys = ForgeRegistries.ENTITIES.getKeys();
+        final Set<ResourceLocation> keys = ForgeRegistries.ENTITY_TYPES.getKeys();
         for (String s : PokecubeCore.getConfig().aggroBlacklistIds) if (s.endsWith("*"))
         {
             s = s.substring(0, s.length() - 1);

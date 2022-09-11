@@ -22,8 +22,8 @@ import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.TickEvent.WorldTickEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.TickEvent.LevelTickEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
@@ -246,9 +246,9 @@ public class ThutTeleporter
         }
 
         @SubscribeEvent
-        public void tickEvent(final WorldTickEvent event)
+        public void tickEvent(final LevelTickEvent event)
         {
-            if (event.world == this.entity.getLevel() && event.phase == Phase.END)
+            if (event.level == this.entity.getLevel() && event.phase == Phase.END)
             {
                 MinecraftForge.EVENT_BUS.unregister(this);
                 if (this.entity instanceof ServerPlayer player)
@@ -299,9 +299,9 @@ public class ThutTeleporter
         }
 
         @SubscribeEvent
-        public void TickEvent(final WorldTickEvent event)
+        public void TickEvent(final LevelTickEvent event)
         {
-            if (event.world != this.world) return;
+            if (event.level != this.world) return;
             if (event.phase != Phase.END) return;
             if (this.n++ > 20) MinecraftForge.EVENT_BUS.unregister(this);
             final Entity mount = this.world.getEntity(this.mount);
@@ -376,7 +376,7 @@ public class ThutTeleporter
 
     private static void addMob(final ServerLevel world, final Entity entity)
     {
-        if (MinecraftForge.EVENT_BUS.post(new EntityJoinWorldEvent(entity, world))) return;
+        if (MinecraftForge.EVENT_BUS.post(new EntityJoinLevelEvent(entity, world))) return;
         final ChunkAccess ichunk = world.getChunk(Mth.floor(entity.getX() / 16.0D), Mth.floor(entity.getZ() / 16.0D),
                 ChunkStatus.FULL, true);
         if (ichunk instanceof LevelChunk) ichunk.addEntity(entity);

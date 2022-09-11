@@ -132,21 +132,21 @@ public class LegendarySpawn
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
     public static void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
     {
-        if (!(evt.getWorld() instanceof ServerLevel level)) return;
+        if (!(evt.getLevel() instanceof ServerLevel level)) return;
         final BlockState state = level.getBlockState(evt.getPos());
         final List<LegendarySpawn> matches = LegendarySpawn.getForBlock(state);
         if (matches.isEmpty()) return;
         final long now = Tracker.instance().getTick();
-        final boolean repeated = evt.getPlayer().getPersistentData().getLong("pokecube_legends:msgtick") != now;
-        if (!repeated || evt.getPlayer().isCrouching()) return;
-        evt.getPlayer().getPersistentData().putLong("pokecube_legends:msgtick", now);
+        final boolean repeated = evt.getEntity().getPersistentData().getLong("pokecube_legends:msgtick") != now;
+        if (!repeated || evt.getEntity().isCrouching()) return;
+        evt.getEntity().getPersistentData().putLong("pokecube_legends:msgtick", now);
 
         final Vector3 location = new Vector3().set(evt.getPos());
 
         ItemStack stack = evt.getItemStack();
         // Try both hands just incase.
-        if (stack.isEmpty()) stack = evt.getPlayer().getMainHandItem();
-        if (stack.isEmpty()) stack = evt.getPlayer().getOffhandItem();
+        if (stack.isEmpty()) stack = evt.getEntity().getMainHandItem();
+        if (stack.isEmpty()) stack = evt.getEntity().getOffhandItem();
 
         if (stack.isEmpty())
         {
@@ -159,12 +159,12 @@ public class LegendarySpawn
                 entry = match1.entry;
                 final ISpecialSpawnCondition spawnCondition = ISpecialSpawnCondition.spawnMap.get(entry);
                 if (spawnCondition == null) continue;
-                SpawnContext context = new SpawnContext((ServerPlayer) evt.getPlayer(), level, entry, location);
+                SpawnContext context = new SpawnContext((ServerPlayer) evt.getEntity(), level, entry, location);
                 if (spawnCondition.canSpawn(context, false).test()) break;
             }
-            evt.getPlayer().displayClientMessage(TComponent.translatable("msg.noitem.info",
+            evt.getEntity().displayClientMessage(TComponent.translatable("msg.noitem.info",
                     TComponent.translatable(match.entry.getUnlocalizedName())), true);
-            evt.getPlayer().getPersistentData().putLong("pokecube_legends:msgtick", Tracker.instance().getTick());
+            evt.getEntity().getPersistentData().putLong("pokecube_legends:msgtick", Tracker.instance().getTick());
             return;
         }
 
@@ -176,7 +176,7 @@ public class LegendarySpawn
 
         for (final LegendarySpawn match : matches)
         {
-            SpawnContext context = new SpawnContext((ServerPlayer) evt.getPlayer(), level, match.entry, location);
+            SpawnContext context = new SpawnContext((ServerPlayer) evt.getEntity(), level, match.entry, location);
             result = LegendarySpawn.trySpawn(match, stack, evt, context, false);
             worked = result == SpawnResult.SUCCESS;
             if (worked) break;
@@ -216,21 +216,21 @@ public class LegendarySpawn
         if (already_spawned.size() > 0)
         {
             Collections.shuffle(already_spawned);
-            evt.getPlayer().displayClientMessage(TComponent.translatable("msg.alreadyspawned.info",
+            evt.getEntity().displayClientMessage(TComponent.translatable("msg.alreadyspawned.info",
                     TComponent.translatable(already_spawned.get(0).getUnlocalizedName())), true);
             return;
         }
         if (wrong_items.size() > 0)
         {
             Collections.shuffle(wrong_items);
-            evt.getPlayer().displayClientMessage(TComponent.translatable("msg.wrongitem.info",
+            evt.getEntity().displayClientMessage(TComponent.translatable("msg.wrongitem.info",
                     TComponent.translatable(wrong_items.get(0).getUnlocalizedName())), true);
             return;
         }
         if (wrong_biomes.size() > 0)
         {
             Collections.shuffle(wrong_biomes);
-            evt.getPlayer().displayClientMessage(TComponent.translatable("msg.nohere.info",
+            evt.getEntity().displayClientMessage(TComponent.translatable("msg.nohere.info",
                     TComponent.translatable(matches.get(0).entry.getUnlocalizedName())), true);
             return;
         }

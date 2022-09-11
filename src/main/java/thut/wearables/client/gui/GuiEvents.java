@@ -11,7 +11,7 @@ import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ScreenEvent.InitScreenEvent;
+import net.minecraftforge.client.event.ScreenEvent.Init;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -38,7 +38,7 @@ public class GuiEvents
 
     @OnlyIn(value = Dist.CLIENT)
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void guiPostInit(final InitScreenEvent.Post event)
+    public static void guiPostInit(final Init.Post event)
     {
         if (!ThutWearables.config.hasButton) return;
         if (ThutWearables.config.noButton) return;

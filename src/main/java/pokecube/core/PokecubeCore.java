@@ -32,7 +32,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
@@ -141,9 +141,9 @@ public class PokecubeCore
         BERRIES_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
         BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
         ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, PokecubeCore.MODID);
-        TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, PokecubeCore.MODID);
-        ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, PokecubeCore.MODID);
-        MENU = DeferredRegister.create(ForgeRegistries.CONTAINERS, PokecubeCore.MODID);
+        TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, PokecubeCore.MODID);
+        ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, PokecubeCore.MODID);
+        MENU = DeferredRegister.create(ForgeRegistries.MENU_TYPES, PokecubeCore.MODID);
         SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, PokecubeCore.MODID);
         PAINTINGS = DeferredRegister.create(ForgeRegistries.PAINTING_TYPES, PokecubeCore.MODID);
     }

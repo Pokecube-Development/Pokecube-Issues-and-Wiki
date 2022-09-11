@@ -21,9 +21,9 @@ import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
-import net.minecraftforge.event.world.BlockEvent.BreakEvent;
-import net.minecraftforge.event.world.BlockEvent.EntityPlaceEvent;
-import net.minecraftforge.event.world.ExplosionEvent;
+import net.minecraftforge.event.level.BlockEvent.BreakEvent;
+import net.minecraftforge.event.level.BlockEvent.EntityPlaceEvent;
+import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.data.PokedexEntry;
@@ -96,7 +96,7 @@ public class ForgeEventHandlers
     @SubscribeEvent
     public void detonate(final ExplosionEvent.Detonate evt)
     {
-        if (!(evt.getWorld() instanceof ServerLevel level) || !PokecubeLegends.config.protectTemples) return;
+        if (!(evt.getLevel() instanceof ServerLevel level) || !PokecubeLegends.config.protectTemples) return;
         final List<BlockPos> toRemove = Lists.newArrayList();
 
         ServerPlayer player = evt.getExplosion().getSourceMob() instanceof ServerPlayer
@@ -137,7 +137,7 @@ public class ForgeEventHandlers
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void bucket(final FillBucketEvent evt)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayer player) || !PokecubeLegends.config.protectTemples) return;
+        if (!(evt.getEntity() instanceof ServerPlayer player) || !PokecubeLegends.config.protectTemples) return;
         final ServerLevel world = (ServerLevel) player.getLevel();
         BlockPos pos = player.blockPosition();
         if (evt.getTarget() instanceof BlockHitResult && evt.getTarget().getType() != Type.MISS)

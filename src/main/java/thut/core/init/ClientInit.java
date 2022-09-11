@@ -32,12 +32,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.event.world.WorldEvent.Load;
+import net.minecraftforge.event.level.LevelEvent.Load;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -98,7 +98,7 @@ public class ClientInit
     }
 
     @SubscribeEvent
-    public static void textOverlay(final RenderGameOverlayEvent.Text event)
+    public static void textOverlay(final RenderGuiOverlayEvent.DebugText event)
     {
         final boolean debug = Minecraft.getInstance().options.renderDebug;
         if (!debug) return;

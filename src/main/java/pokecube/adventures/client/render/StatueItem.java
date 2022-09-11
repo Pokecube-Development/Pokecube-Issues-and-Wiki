@@ -16,7 +16,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.statue.StatueEntity;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -27,7 +27,7 @@ import pokecube.core.database.Database;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 
-public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItemRenderProperties
+public class StatueItem extends BlockEntityWithoutLevelRenderer implements IClientItemExtensions
 {
     private static class InitMob implements Runnable
     {
@@ -191,7 +191,7 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItem
     }
 
     @Override
-    public BlockEntityWithoutLevelRenderer getItemStackRenderer()
+    public BlockEntityWithoutLevelRenderer getCustomRenderer()
     {
         return this;
     }

@@ -12,7 +12,7 @@ import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -47,7 +47,7 @@ public class ClientSetupHandler
     }
 
     @SubscribeEvent
-    public static void colourItems(final ColorHandlerEvent.Item event)
+    public static void colourItems(final RegisterColorHandlersEvent.Item event)
     {
         for (Item i : BlingItem.bling)
         {

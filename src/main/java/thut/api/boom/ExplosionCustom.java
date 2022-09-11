@@ -29,10 +29,10 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.TickEvent.WorldTickEvent;
-import net.minecraftforge.event.world.BlockEvent.BreakEvent;
-import net.minecraftforge.event.world.ExplosionEvent;
-import net.minecraftforge.event.world.WorldEvent.Unload;
+import net.minecraftforge.event.TickEvent.LevelTickEvent;
+import net.minecraftforge.event.level.BlockEvent.BreakEvent;
+import net.minecraftforge.event.level.ExplosionEvent;
+import net.minecraftforge.event.level.LevelEvent.Unload;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.boom.ShadowMaskChecker.ResistProvider;
@@ -40,6 +40,8 @@ import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 import thut.core.common.ThutCore;
+
+import net.minecraft.world.level.Explosion.BlockInteraction;
 
 public class ExplosionCustom extends Explosion
 {
@@ -391,9 +393,9 @@ public class ExplosionCustom extends Explosion
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void doRemoveBlocks(final WorldTickEvent evt)
+    public void doRemoveBlocks(final LevelTickEvent evt)
     {
-        if (evt.phase == Phase.START || evt.world != this.level) return;
+        if (evt.phase == Phase.START || evt.level != this.level) return;
 
         if (this.hasSubBooms)
         {
@@ -449,6 +451,6 @@ public class ExplosionCustom extends Explosion
     @SubscribeEvent
     public void WorldUnloadEvent(final Unload evt)
     {
-        if (evt.getWorld() == this.level) MinecraftForge.EVENT_BUS.unregister(this);
+        if (evt.getLevel() == this.level) MinecraftForge.EVENT_BUS.unregister(this);
     }
 }

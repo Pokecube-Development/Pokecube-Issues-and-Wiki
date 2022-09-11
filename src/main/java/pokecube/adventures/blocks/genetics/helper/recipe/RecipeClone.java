@@ -283,7 +283,7 @@ public class RecipeClone extends PoweredRecipe
         {
             final ItemStack item = inv.getItem(i);
             if (matcher.shouldKeep(item, i)) nonnulllist.set(i, item);
-            else if (item.hasContainerItem()) nonnulllist.set(i, item.getContainerItem());
+            else if (item.hasCraftingRemainingItem()) nonnulllist.set(i, item.getCraftingRemainingItem());
         }
         return nonnulllist;
     }

@@ -40,7 +40,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.TickEvent.WorldTickEvent;
+import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages.SpawnEntity;
@@ -53,6 +53,8 @@ import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.crafts.ThutCrafts;
+
+import net.minecraft.world.entity.Entity.RemovalReason;
 
 public abstract class BlockEntityBase extends Entity implements IEntityAdditionalSpawnData, IBlockEntity
 {
@@ -704,14 +706,14 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @SubscribeEvent
-    public void onTickServer(WorldTickEvent event)
+    public void onTickServer(LevelTickEvent event)
     {
         if (!this.isAddedToWorld())
         {
             ThutCore.LOGGER.error("Block Entity ticking when not in world!", new IllegalStateException());
             return;
         }
-        if (event.phase != Phase.END || event.world != level) return;
+        if (event.phase != Phase.END || event.level != level) return;
 //        System.out.println(event.world + " Test");
 //        this.checkCollision();
     }

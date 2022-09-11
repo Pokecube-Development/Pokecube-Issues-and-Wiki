@@ -11,9 +11,9 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.chunk.ChunkSource;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.world.ChunkEvent;
-import net.minecraftforge.event.world.ChunkWatchEvent;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.event.level.ChunkEvent;
+import net.minecraftforge.event.level.ChunkWatchEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import thut.api.maths.Vector3;
@@ -70,7 +70,7 @@ public class TerrainManager
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
         ResourceKey<Level> dim = null;
-        if (evt.getWorld() instanceof Level level && !evt.getWorld().isClientSide()) dim = level.dimension();
+        if (evt.getLevel() instanceof Level level && !evt.getLevel().isClientSide()) dim = level.dimension();
         // This is null when this is loaded off-thread, IE before the chunk is
         // finished
         if (dim != null) ITerrainProvider.addChunk(dim, evt.getChunk());
@@ -80,7 +80,7 @@ public class TerrainManager
     public static void onChunkUnload(final ChunkEvent.Unload evt)
     {
         ResourceKey<Level> dim = null;
-        if (evt.getWorld() instanceof Level level && !evt.getWorld().isClientSide()) dim = level.dimension();
+        if (evt.getLevel() instanceof Level level && !evt.getLevel().isClientSide()) dim = level.dimension();
         if (dim != null) ITerrainProvider.removeChunk(dim, evt.getChunk().getPos());
     }
 
@@ -92,7 +92,7 @@ public class TerrainManager
     }
 
     @SubscribeEvent
-    public static void onWorldUnload(final WorldEvent.Unload evt)
+    public static void onWorldUnload(final LevelEvent.Unload evt)
     {
 
     }

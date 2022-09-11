@@ -37,8 +37,8 @@ public class DebugInteractions
     @SubscribeEvent
     public static void onBlockRightClick(final PlayerInteractEvent.RightClickBlock evt)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayer player)
-                || !(evt.getPlayer().getLevel() instanceof ServerLevel level))
+        if (!(evt.getEntity() instanceof ServerPlayer player)
+                || !(evt.getEntity().getLevel() instanceof ServerLevel level))
             return;
         boolean isStructureMaker = evt.getItemStack().getDisplayName().getString().contains("structure_maker");
 
@@ -63,8 +63,8 @@ public class DebugInteractions
     @SubscribeEvent
     public static void onItemRightClick(final PlayerInteractEvent.RightClickItem evt)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayer player)
-                || !(evt.getPlayer().getLevel() instanceof ServerLevel level))
+        if (!(evt.getEntity() instanceof ServerPlayer player)
+                || !(evt.getEntity().getLevel() instanceof ServerLevel level))
             return;
         boolean isStructureDebug = evt.getItemStack().getDisplayName().getString().contains("structure_debug");
         Vector3 v = new Vector3().set(player);

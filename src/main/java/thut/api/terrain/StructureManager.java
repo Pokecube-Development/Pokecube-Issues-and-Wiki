@@ -23,7 +23,7 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
-import net.minecraftforge.event.world.ChunkEvent;
+import net.minecraftforge.event.level.ChunkEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.core.common.ThutCore;
 
@@ -197,7 +197,7 @@ public class StructureManager
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
         // The world is null when it is loaded off thread during worldgen!
-        if (!(evt.getWorld() instanceof Level w) || evt.getWorld().isClientSide()) return;
+        if (!(evt.getLevel() instanceof Level w) || evt.getLevel().isClientSide()) return;
         final ResourceKey<Level> dim = w.dimension();
         var reg = w.registryAccess().registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
         for (final Entry<ConfiguredStructureFeature<?, ?>, StructureStart> entry : evt.getChunk().getAllStarts()
@@ -227,8 +227,8 @@ public class StructureManager
     @SubscribeEvent
     public static void onChunkUnload(final ChunkEvent.Unload evt)
     {
-        if (!(evt.getWorld() instanceof Level) || evt.getWorld().isClientSide()) return;
-        final Level w = (Level) evt.getWorld();
+        if (!(evt.getLevel() instanceof Level) || evt.getLevel().isClientSide()) return;
+        final Level w = (Level) evt.getLevel();
         final ResourceKey<Level> dim = w.dimension();
         final GlobalChunkPos pos = new GlobalChunkPos(dim, evt.getChunk().getPos());
         StructureManager.map_by_pos.remove(pos);

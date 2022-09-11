@@ -18,7 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.ScreenEvent.InitScreenEvent;
+import net.minecraftforge.client.event.ScreenEvent.Init;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
@@ -160,7 +160,7 @@ public class WearableWrapper
 
     @OnlyIn(value = Dist.CLIENT)
     @SubscribeEvent
-    public static void guiPostInit(final InitScreenEvent.Post event)
+    public static void guiPostInit(final Init.Post event)
     {
         final GuiWearableButton button;
         if (event.getScreen() instanceof GuiPokemob pokegui)

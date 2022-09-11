@@ -18,7 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
+import net.minecraftforge.client.event.InputEvent.Key;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -50,7 +50,7 @@ public class WearableEventHandler
                 Field f = event.getClass().getDeclaredField("renderers");
                 f.setAccessible(true);
                 Map<EntityType<?>, EntityRenderer<?>> renderers = (Map<EntityType<?>, EntityRenderer<?>>) f.get(event);
-                for (EntityType<?> type : ForgeRegistries.ENTITIES.getValues())
+                for (EntityType<?> type : ForgeRegistries.ENTITY_TYPES.getValues())
                 {
                     EntityRenderer<?> render = renderers.get(type);
                     if (render instanceof LivingEntityRenderer livingRender
@@ -110,7 +110,7 @@ public class WearableEventHandler
     }
 
     @SubscribeEvent
-    public void keyPress(final KeyInputEvent event)
+    public void keyPress(final Key event)
     {
         for (byte i = 0; i < 13; i++)
         {

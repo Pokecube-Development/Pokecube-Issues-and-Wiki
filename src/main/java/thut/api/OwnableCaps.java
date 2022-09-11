@@ -30,7 +30,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -316,7 +316,7 @@ public class OwnableCaps
     @SubscribeEvent
     public static void onblockPlace(final BlockEvent.EntityPlaceEvent event)
     {
-        final BlockEntity tile = event.getWorld().getBlockEntity(event.getPos());
+        final BlockEntity tile = event.getLevel().getBlockEntity(event.getPos());
         if (tile != null && event.getEntity() instanceof LivingEntity living)
         {
             final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
@@ -328,19 +328,19 @@ public class OwnableCaps
     @SubscribeEvent
     public static void onBlockHit(final PlayerInteractEvent.LeftClickBlock event)
     {
-        final BlockEntity tile = event.getWorld().getBlockEntity(event.getPos());
+        final BlockEntity tile = event.getLevel().getBlockEntity(event.getPos());
         if (tile != null && tile.getLevel() instanceof ServerLevel level)
         {
             final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
-            if (ownable instanceof IOwnableTE te && te.canEdit(event.getEntityLiving())
+            if (ownable instanceof IOwnableTE te && te.canEdit(event.getEntity())
                     && ItemList.is(OwnableCaps.STICKTAG, event.getItemStack()) && te.getOwnerId() != null)
             {
                 BlockState state = level.getBlockState(event.getPos());
-                List<ItemStack> drops = Block.getDrops(state, level, event.getPos(), tile, event.getPlayer(),
+                List<ItemStack> drops = Block.getDrops(state, level, event.getPos(), tile, event.getEntity(),
                         event.getItemStack());
-                if (drops.isEmpty()) state.onDestroyedByPlayer(level, event.getPos(), event.getPlayer(), true,
+                if (drops.isEmpty()) state.onDestroyedByPlayer(level, event.getPos(), event.getEntity(), true,
                         level.getFluidState(event.getPos()));
-                else event.getWorld().destroyBlock(event.getPos(), true);
+                else event.getLevel().destroyBlock(event.getPos(), true);
                 event.setUseBlock(Result.DENY);
             }
         }
@@ -349,7 +349,7 @@ public class OwnableCaps
     @SubscribeEvent
     public static void onBlockBreak(final BlockEvent.BreakEvent event)
     {
-        final BlockEntity tile = event.getWorld().getBlockEntity(event.getPos());
+        final BlockEntity tile = event.getLevel().getBlockEntity(event.getPos());
         if (tile != null)
         {
             final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);

@@ -311,9 +311,9 @@ public class TradeEntryLoader
                 if (entry.profession != null)
                 {
                     ResourceLocation id = new ResourceLocation(entry.profession);
-                    if (ForgeRegistries.PROFESSIONS.containsKey(id))
+                    if (ForgeRegistries.VILLAGER_PROFESSIONS.containsKey(id))
                     {
-                        VillagerProfession profession = ForgeRegistries.PROFESSIONS.getValue(id);
+                        VillagerProfession profession = ForgeRegistries.VILLAGER_PROFESSIONS.getValue(id);
                         Professions.updateProfession(profession, level, arr, stage.clear_old);
                     }
                 }

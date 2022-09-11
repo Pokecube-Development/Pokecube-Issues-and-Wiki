@@ -11,7 +11,7 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
@@ -40,10 +40,10 @@ public class PokecubeStructures
         MinecraftForge.EVENT_BUS.addListener(PokecubeStructures::spawnVillageChecker);
     }
 
-    private static void spawnVillageChecker(final WorldEvent.Load event)
+    private static void spawnVillageChecker(final LevelEvent.Load event)
     {
-        if (event.getWorld().isClientSide()) return;
-        if (event.getWorld() instanceof ServerLevel serverWorld)
+        if (event.getLevel().isClientSide()) return;
+        if (event.getLevel() instanceof ServerLevel serverWorld)
         {
             final ResourceKey<Level> key = serverWorld.dimension();
             if (PokecubeCore.getConfig().doSpawnBuilding && !PokecubeSerializer.getInstance().hasPlacedSpawn()

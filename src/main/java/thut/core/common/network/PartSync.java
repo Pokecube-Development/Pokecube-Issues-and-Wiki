@@ -89,14 +89,14 @@ public class PartSync extends NBTPacket
     private static void onStopTracking(StopTracking event)
     {
         CompoundTag tag = makePacket(event.getTarget(), true);
-        if (tag != null && event.getPlayer() instanceof ServerPlayer player)
+        if (tag != null && event.getEntity() instanceof ServerPlayer player)
             PartSync.ASSEMBLER.sendTo(new PartSync(tag), player);
     }
 
     private static void onStartTracking(StartTracking event)
     {
         CompoundTag tag = makePacket(event.getTarget(), false);
-        if (tag != null && event.getPlayer() instanceof ServerPlayer player)
+        if (tag != null && event.getEntity() instanceof ServerPlayer player)
             PartSync.ASSEMBLER.sendTo(new PartSync(tag), player);
     }
 

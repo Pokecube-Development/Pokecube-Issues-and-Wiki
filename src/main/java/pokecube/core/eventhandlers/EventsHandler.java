@@ -43,9 +43,9 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
@@ -53,7 +53,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
@@ -404,7 +404,7 @@ public class EventsHandler
     private static void onEntityInteract(final PlayerInteractEvent.EntityInteract evt)
     {
         if (evt instanceof CustomInteractEvent) return;
-        if (!(evt.getPlayer() instanceof ServerPlayer player)) return;
+        if (!(evt.getEntity() instanceof ServerPlayer player)) return;
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
         if (time == Tracker.instance().getTick())
@@ -426,7 +426,7 @@ public class EventsHandler
 
     private static void onEntityInteractSpecific(final PlayerInteractEvent.EntityInteractSpecific evt)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayer player)) return;
+        if (!(evt.getEntity() instanceof ServerPlayer player)) return;
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
         if (time == Tracker.instance().getTick())
@@ -448,8 +448,8 @@ public class EventsHandler
 
     private static void onItemRightClick(final PlayerInteractEvent.RightClickItem evt)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayer player)
-                || !(evt.getPlayer().getLevel() instanceof ServerLevel level))
+        if (!(evt.getEntity() instanceof ServerPlayer player)
+                || !(evt.getEntity().getLevel() instanceof ServerLevel level))
             return;
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
@@ -515,7 +515,7 @@ public class EventsHandler
 
     private static void onEmptyRightClick(final PlayerInteractEvent.RightClickEmpty evt)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayer player)) return;
+        if (!(evt.getEntity() instanceof ServerPlayer player)) return;
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
         if (time == Tracker.instance().getTick())
@@ -596,7 +596,7 @@ public class EventsHandler
             PokecubeSerializer.newInstance(level);
     }
 
-    private static void onMobJoinWorld(final EntityJoinWorldEvent evt)
+    private static void onMobJoinWorld(final EntityJoinLevelEvent evt)
     {
         if (PokecubeCore.getConfig().disableVanillaMonsters && EventsHandler.MONSTERMATCHER.test(evt.getEntity()))
         {
@@ -641,7 +641,7 @@ public class EventsHandler
 
     private static void onPlayerWakeUp(final PlayerWakeUpEvent evt)
     {
-        if (!PokecubeCore.getConfig().bedsHeal || !(evt.getPlayer() instanceof ServerPlayer player)) return;
+        if (!PokecubeCore.getConfig().bedsHeal || !(evt.getEntity() instanceof ServerPlayer player)) return;
         for (int i = 0; i < player.getInventory().getContainerSize(); i++)
         {
             final ItemStack stack = player.getInventory().getItem(i);
@@ -649,7 +649,7 @@ public class EventsHandler
         }
     }
 
-    private static void onLivingUpdate(final LivingUpdateEvent evt)
+    private static void onLivingUpdate(final LivingTickEvent evt)
     {
         final IPokemob poke = PokemobCaps.getPokemobFor(evt.getEntity());
         if (poke != null)
@@ -674,7 +674,7 @@ public class EventsHandler
 
     private static void onPlayerLogin(final PlayerLoggedInEvent evt)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayer player)) return;
+        if (!(evt.getEntity() instanceof ServerPlayer player)) return;
         EventsHandler.sendInitInfo(player);
 
         if (PokecubeCore.getConfig().spawnInBuilding)
@@ -760,10 +760,10 @@ public class EventsHandler
         }
     }
 
-    private static void onWorldSave(final WorldEvent.Save evt)
+    private static void onWorldSave(final LevelEvent.Save evt)
     {
-        if (evt.getWorld().isClientSide()) return;
-        if (!(evt.getWorld() instanceof ServerLevel level)) return;
+        if (evt.getLevel().isClientSide()) return;
+        if (!(evt.getLevel() instanceof ServerLevel level)) return;
         // Save the pokecube data whenever the overworld saves.
         if (level.dimension().equals(Level.OVERWORLD))
         {

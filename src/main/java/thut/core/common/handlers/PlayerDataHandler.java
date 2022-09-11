@@ -20,8 +20,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.core.common.ThutCore;
 
@@ -48,7 +48,7 @@ public class PlayerDataHandler
 
         }
 
-        default void onPlayerUpdate(final LivingUpdateEvent event)
+        default void onPlayerUpdate(final LivingTickEvent event)
         {
 
         }
@@ -185,7 +185,7 @@ public class PlayerDataHandler
     }
 
     @SubscribeEvent
-    public void cleanupOfflineData(final WorldEvent.Save event)
+    public void cleanupOfflineData(final LevelEvent.Save event)
     {
         // Whenever overworld saves, check player list for any that are not
         // online, and remove them. This is done here, and not on logoff, as

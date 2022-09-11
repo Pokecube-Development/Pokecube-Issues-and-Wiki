@@ -186,9 +186,9 @@ public class NpcType
         this.maleTex = new ResourceLocation(PokecubeMod.ID + ":textures/entity/" + string + "_male.png");
         this.femaleTex = new ResourceLocation(PokecubeMod.ID + ":textures/entity/" + string + "_female.png");
 
-        if (ForgeRegistries.PROFESSIONS.containsKey(new ResourceLocation(string)))
+        if (ForgeRegistries.VILLAGER_PROFESSIONS.containsKey(new ResourceLocation(string)))
         {
-            profession = ForgeRegistries.PROFESSIONS.getValue(new ResourceLocation(string));
+            profession = ForgeRegistries.VILLAGER_PROFESSIONS.getValue(new ResourceLocation(string));
         }
         else
         {

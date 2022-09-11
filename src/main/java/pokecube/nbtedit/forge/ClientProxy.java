@@ -34,7 +34,7 @@ public class ClientProxy extends CommonProxy
     public static KeyMapping NBTEditKey;
 
     @SubscribeEvent
-    public void onKey(final InputEvent.KeyInputEvent event)
+    public void onKey(final InputEvent.Key event)
     {
         if (ClientProxy.NBTEditKey.consumeClick())
         {

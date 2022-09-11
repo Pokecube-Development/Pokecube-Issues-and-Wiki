@@ -20,7 +20,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.TickEvent.WorldTickEvent;
+import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import pokecube.api.PokecubeAPI;
@@ -231,9 +231,9 @@ public class WorldGenRarity
     }
 
     @SubscribeEvent
-    public static void onServerTick(final WorldTickEvent event)
+    public static void onServerTick(final LevelTickEvent event)
     {
-        if (LOG != null && event.world instanceof ServerLevel level && event.phase == Phase.END)
+        if (LOG != null && event.level instanceof ServerLevel level && event.phase == Phase.END)
         {
             boolean done = LOG.tick(level);
             if (done)

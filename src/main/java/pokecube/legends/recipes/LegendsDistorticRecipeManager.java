@@ -34,29 +34,29 @@ public class LegendsDistorticRecipeManager
     public static void onPlayerClickBlock(final PlayerInteractEvent.RightClickBlock event)
     {
 
-        final ResourceKey<Level> dim = event.getWorld().dimension();
+        final ResourceKey<Level> dim = event.getLevel().dimension();
 
-        if (!event.getWorld().isClientSide && event.getPlayer() != null)
+        if (!event.getLevel().isClientSide && event.getEntity() != null)
         {
 
-            final ItemStack heldItem = event.getPlayer().getItemInHand(event.getHand());
+            final ItemStack heldItem = event.getEntity().getItemInHand(event.getHand());
 
             for (final Recipe<?> recipe : LegendsDistorticRecipeManager
                     .getRecipes(LegendsDistorticRecipeManager.LEGENDS_DISTORTIC_RECIPE_TYPE.get(),
-                            event.getWorld().getRecipeManager())
+                            event.getLevel().getRecipeManager())
                     .values())
                 if (recipe instanceof LegendsDistorticRecipeSerializer)
             {
 
                 final LegendsDistorticRecipeSerializer blockRecipe = (LegendsDistorticRecipeSerializer) recipe;
 
-                if (blockRecipe.isValid(heldItem, event.getWorld().getBlockState(event.getPos()).getBlock())
+                if (blockRecipe.isValid(heldItem, event.getLevel().getBlockState(event.getPos()).getBlock())
                         && dim == blockRecipe.dimId)
                 {
 
                     heldItem.shrink(1);
 
-                    ItemHandlerHelper.giveItemToPlayer(event.getPlayer(), blockRecipe.getResultItem().copy());
+                    ItemHandlerHelper.giveItemToPlayer(event.getEntity(), blockRecipe.getResultItem().copy());
                     event.setCanceled(true);
                     break;
                 }

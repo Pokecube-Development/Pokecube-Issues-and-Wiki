@@ -20,7 +20,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.event.world.WorldEvent.Load;
+import net.minecraftforge.event.level.LevelEvent.Load;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
@@ -299,14 +299,14 @@ public class PokemobTracker
 
     public static void onWorldLoad(final Load evt)
     {
-        final PokemobTracker tracker = PokemobTracker.getFor(evt.getWorld());
-        if (evt.getWorld().isClientSide())
+        final PokemobTracker tracker = PokemobTracker.getFor(evt.getLevel());
+        if (evt.getLevel().isClientSide())
         {
             tracker.ownedCubes.clear();
             tracker.ownerMap.clear();
         }
         ResourceKey<Level> key = Level.OVERWORLD;
-        if (evt.getWorld() instanceof Level level) key = level.dimension();
+        if (evt.getLevel() instanceof Level level) key = level.dimension();
         // Reset the tracked map for this world
         tracker.liveMobs.put(key, new ArrayList<>());
         if (tracker == PokemobTracker.CLIENT) tracker.setDim(key);

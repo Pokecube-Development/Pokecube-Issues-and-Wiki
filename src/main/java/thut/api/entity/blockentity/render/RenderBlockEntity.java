@@ -30,7 +30,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.IBlockEntity;
@@ -173,7 +173,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
             final BlockPos real_pos, final BlockPos relPos, final PoseStack mat, final MultiBufferSource bufferIn,
             final int packedLightIn)
     {
-        final IModelData data = Minecraft.getInstance().getBlockRenderer().getBlockModel(state).getModelData(
+        final ModelData data = Minecraft.getInstance().getBlockRenderer().getBlockModel(state).getModelData(
                 (BlockAndTintGetter) world, real_pos, state, EmptyModelData.INSTANCE);
         final BlockPos rpos = relPos.offset(entity.getOriginalPos());
         for (final RenderType type : RenderType.chunkBufferLayers())

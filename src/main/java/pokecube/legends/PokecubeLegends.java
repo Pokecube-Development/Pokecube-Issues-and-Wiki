@@ -92,7 +92,7 @@ public class PokecubeLegends
     public static final DeferredRegister<Block> POKECUBE_BLOCKS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Reference.ID);
 
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES,
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES,
             Reference.ID);
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.ID);
@@ -101,8 +101,8 @@ public class PokecubeLegends
 
     // Barrels Inventory/Container
     public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister
-            .create(ForgeRegistries.BLOCK_ENTITIES, Reference.ID);
-    public static final DeferredRegister<MenuType<?>> MENU = DeferredRegister.create(ForgeRegistries.CONTAINERS,
+            .create(ForgeRegistries.BLOCK_ENTITY_TYPES, Reference.ID);
+    public static final DeferredRegister<MenuType<?>> MENU = DeferredRegister.create(ForgeRegistries.MENU_TYPES,
             Reference.ID);
 
     // Features, etc
@@ -585,12 +585,12 @@ public class PokecubeLegends
     @SubscribeEvent
     public void reactivate_raid(final RightClickBlock event)
     {
-        if (event.getWorld().isClientSide) return;
+        if (event.getLevel().isClientSide) return;
         if (event.getItemStack().getItem() != ItemInit.WISHING_PIECE.get()) return;
-        final BlockState hit = event.getWorld().getBlockState(event.getPos());
+        final BlockState hit = event.getLevel().getBlockState(event.getPos());
         if (hit.getBlock() != BlockInit.RAID_SPAWNER.get())
         {
-            if (hit.getBlock() == PokecubeItems.DYNAMAX.get()) thut.lib.ChatHelper.sendSystemMessage(event.getPlayer(),
+            if (hit.getBlock() == PokecubeItems.DYNAMAX.get()) thut.lib.ChatHelper.sendSystemMessage(event.getEntity(),
                     TComponent.translatable("msg.notaraidspot.info"));
             return;
         }
@@ -599,9 +599,9 @@ public class PokecubeLegends
         else
         {
             final State state = ThutCore.newRandom().nextInt(20) == 0 ? State.RARE : State.NORMAL;
-            event.getWorld().setBlockAndUpdate(event.getPos(), hit.setValue(RaidSpawnBlock.ACTIVE, state));
+            event.getLevel().setBlockAndUpdate(event.getPos(), hit.setValue(RaidSpawnBlock.ACTIVE, state));
             event.setUseItem(Result.ALLOW);
-            if (!event.getPlayer().isCreative()) event.getItemStack().grow(-1);
+            if (!event.getEntity().isCreative()) event.getItemStack().grow(-1);
         }
     }
 }

@@ -228,7 +228,7 @@ public class Pokecube extends Item implements IPokecube
     }
 
     @Override
-    public int getItemStackLimit(ItemStack stack)
+    public int getMaxStackSize(ItemStack stack)
     {
         return PokecubeManager.isFilled(stack) ? 1 : 64;
     }

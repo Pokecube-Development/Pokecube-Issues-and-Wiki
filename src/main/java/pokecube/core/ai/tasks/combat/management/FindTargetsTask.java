@@ -104,15 +104,15 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
 
         if (targetHasMobs)
         {
-            mobs.sort((o1, o2) -> (int) (o1.distanceToSqr(event.getEntityLiving())
-                    - o2.distanceToSqr(event.getEntityLiving())));
+            mobs.sort((o1, o2) -> (int) (o1.distanceToSqr(event.getEntity())
+                    - o2.distanceToSqr(event.getEntity())));
             final Entity mob = mobs.get(0);
             mobs = PokemobTracker.getMobs(mob, e -> true);
             // No loop diverting
             if (!mobs.isEmpty() || !(mob instanceof LivingEntity entity)) return;
 
             // Divert the target over.
-            Battle.createOrAddToBattle(event.getEntityLiving(), entity);
+            Battle.createOrAddToBattle(event.getEntity(), entity);
         }
     }
 
@@ -125,7 +125,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         // instead, so we manually do this first.
         if (source instanceof PokemobDamageSource)
         {
-            final LivingEntity hurt = event.getEntityLiving();
+            final LivingEntity hurt = event.getEntity();
             final Entity user = source.getDirectEntity();
             // Only divert target if no target already, and this is a valid
             // target, this prevents player's mobs fighting each other.

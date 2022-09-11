@@ -73,15 +73,15 @@ public class TempBlock extends AirBlock implements EntityBlock
     {
         final BlockHitResult trace = event.getHitVec();
         if (trace == null) return;
-        final Level world = event.getPlayer().getLevel();
+        final Level world = event.getEntity().getLevel();
         final BlockEntity tile = world.getBlockEntity(event.getPos());
         if (tile instanceof TempTile temp)
         {
-            final Player player = event.getPlayer();
+            final Player player = event.getEntity();
             final InteractionHand hand = event.getHand();
             InteractionResult result = temp.blockEntity.interact(player, hand);
             // Otherwise forward the interaction to the block entity;
-            if (result != InteractionResult.PASS && event.getPlayer().isShiftKeyDown())
+            if (result != InteractionResult.PASS && event.getEntity().isShiftKeyDown())
                 result = temp.blockEntity.interactAtFromTile(player, trace.getLocation(), hand);
             if (result != InteractionResult.PASS)
             {

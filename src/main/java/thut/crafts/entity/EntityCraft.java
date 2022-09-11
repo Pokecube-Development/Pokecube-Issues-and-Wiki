@@ -25,13 +25,15 @@ import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent.WorldTickEvent;
+import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
+
+import thut.api.entity.IMultiplePassengerEntity.Seat;
 
 public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEntity
 {
@@ -50,9 +52,9 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         }
 
         @SubscribeEvent
-        public void tick(final WorldTickEvent event)
+        public void tick(final LevelTickEvent event)
         {
-            if (event.world != this.craft.level) return;
+            if (event.level != this.craft.level) return;
             MinecraftForge.EVENT_BUS.unregister(this);
             final double x = this.craft.getX() + this.seat.seat.x;
             final double y = this.craft.getY() + this.seat.seat.y;

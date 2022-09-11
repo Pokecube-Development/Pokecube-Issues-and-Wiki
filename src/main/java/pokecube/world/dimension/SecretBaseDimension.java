@@ -47,9 +47,9 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
-import net.minecraftforge.event.TickEvent.WorldTickEvent;
+import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -366,18 +366,18 @@ public class SecretBaseDimension
     {
 
         @SubscribeEvent
-        public static void onWorldTick(final WorldTickEvent event)
+        public static void onWorldTick(final LevelTickEvent event)
         {
-            final Level world = event.world;
+            final Level world = event.level;
             if (world.getWorldBorder().getSize() != WORLDSIZE
                     && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
                 world.getWorldBorder().setSize(WORLDSIZE);
         }
 
         @SubscribeEvent
-        public static void onWorldLoad(final WorldEvent.Load event)
+        public static void onWorldLoad(final LevelEvent.Load event)
         {
-            final Level world = (Level) event.getWorld();
+            final Level world = (Level) event.getLevel();
             if (world.getWorldBorder().getSize() != WORLDSIZE
                     && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
                 world.getWorldBorder().setSize(WORLDSIZE);

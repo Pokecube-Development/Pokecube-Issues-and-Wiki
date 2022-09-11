@@ -30,10 +30,10 @@ import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
@@ -176,7 +176,7 @@ public class ThutWearables
 
     static
     {
-        CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, Reference.MODID);
+        CONTAINERS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, Reference.MODID);
         WEARABLES = CONTAINERS.register("wearables",
                 () -> new MenuType<>((IContainerFactory<ContainerWearables>) ContainerWearables::new));
     }
@@ -231,7 +231,7 @@ public class ThutWearables
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void dropLoot(final LivingDropsEvent event)
     {
-        final LivingEntity mob = event.getEntityLiving();
+        final LivingEntity mob = event.getEntity();
         final GameRules rules = this.overworldRules ? mob.getServer().getLevel(Level.OVERWORLD).getGameRules()
                 : mob.getLevel().getGameRules();
         final PlayerWearables cap = ThutWearables.getWearables(mob);
@@ -264,9 +264,9 @@ public class ThutWearables
      * @param event
      */
     @SubscribeEvent
-    public void joinWorld(final EntityJoinWorldEvent event)
+    public void joinWorld(final EntityJoinLevelEvent event)
     {
-        if (event.getWorld().isClientSide) return;
+        if (event.getLevel().isClientSide) return;
         if (event.getEntity() instanceof ServerPlayer player)
             ThutWearables.packets.sendTo(new PacketSyncWearables(player), player);
     }
@@ -292,11 +292,11 @@ public class ThutWearables
     @SubscribeEvent
     public void PlayerLoggedOutEvent(final PlayerLoggedOutEvent event)
     {
-        this.player_inventory_cache.remove(event.getPlayer().getUUID());
+        this.player_inventory_cache.remove(event.getEntity().getUUID());
     }
 
     @SubscribeEvent
-    public void playerTick(final LivingUpdateEvent event)
+    public void playerTick(final LivingTickEvent event)
     {
         if (event.getEntity().getLevel().isClientSide) return;
         if (event.getEntity() instanceof Player wearer && event.getEntity().isAlive())
@@ -325,7 +325,7 @@ public class ThutWearables
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void respawn(final PlayerRespawnEvent event)
     {
-        final Player wearer = event.getPlayer();
+        final Player wearer = event.getEntity();
         if (wearer instanceof ServerPlayer && (this.toKeep.contains(wearer.getUUID()) || event.isEndConquered())
                 && this.player_inventory_cache.containsKey(wearer.getUUID()))
         {
@@ -357,7 +357,7 @@ public class ThutWearables
     public void startTracking(final StartTracking event)
     {
         if (event.getTarget() instanceof LivingEntity mob && ThutWearables.getWearables(mob) != null
-                && event.getPlayer().isEffectiveAi())
-            ThutWearables.packets.sendTo(new PacketSyncWearables(mob), (ServerPlayer) event.getPlayer());
+                && event.getEntity().isEffectiveAi())
+            ThutWearables.packets.sendTo(new PacketSyncWearables(mob), (ServerPlayer) event.getEntity());
     }
 }

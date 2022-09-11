@@ -139,24 +139,24 @@ public class ThutCore
         public static void interact(final RightClickBlock event)
         {
             // Probably a block entity to interact with here.
-            if (event.getWorld().isEmptyBlock(event.getPos()))
+            if (event.getLevel().isEmptyBlock(event.getPos()))
             {
-                final Player player = event.getPlayer();
-                final Vec3 face = event.getPlayer().getEyePosition(0);
-                final Vec3 look = event.getPlayer().getLookAngle();
-                final AABB box = event.getPlayer().getBoundingBox().inflate(3, 3, 3);
+                final Player player = event.getEntity();
+                final Vec3 face = event.getEntity().getEyePosition(0);
+                final Vec3 look = event.getEntity().getLookAngle();
+                final AABB box = event.getEntity().getBoundingBox().inflate(3, 3, 3);
                 final EntityHitResult var = MobEvents.rayTraceEntities(player, face, look, box,
                         e -> e instanceof IBlockEntity, 3);
                 if (var != null && var.getType() == HitResult.Type.ENTITY)
                 {
                     final IBlockEntity entity = (IBlockEntity) var.getEntity();
-                    if (entity.getInteractor().processInitialInteract(event.getPlayer(), event.getItemStack(),
+                    if (entity.getInteractor().processInitialInteract(event.getEntity(), event.getItemStack(),
                             event.getHand()) != InteractionResult.PASS)
                     {
                         event.setCanceled(true);
                         return;
                     }
-                    if (entity.getInteractor().interactInternal(event.getPlayer(), event.getPos(), event.getItemStack(),
+                    if (entity.getInteractor().interactInternal(event.getEntity(), event.getPos(), event.getItemStack(),
                             event.getHand()) != InteractionResult.PASS)
                     {
                         event.setCanceled(true);
@@ -179,7 +179,7 @@ public class ThutCore
                 .create(Registry.LOOT_FUNCTION_REGISTRY, ThutCore.MODID);
         public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister
                 .create(ForgeRegistries.PARTICLE_TYPES, ThutCore.MODID);
-        public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.CONTAINERS,
+        public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES,
                 ThutCore.MODID);
 
         @SubscribeEvent

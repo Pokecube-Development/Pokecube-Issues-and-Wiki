@@ -32,7 +32,7 @@ public class PacketPokemobGui extends Packet
         buffer.writeByte(PacketPokemobGui.MAIN);
         final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new ContainerPokemob(i, p, buffer),
                 target.getDisplayName());
-        NetworkHooks.openGui(player, provider, buf -> {
+        NetworkHooks.openScreen(player, provider, buf -> {
             buf.writeInt(target.getId());
             buf.writeByte(PacketPokemobGui.MAIN);
         });
@@ -80,7 +80,7 @@ public class PacketPokemobGui extends Packet
         case ROUTES:
             provider = new SimpleMenuProvider((i, p, e) -> new ContainerPokemob(i, p, buffer), entity.getDisplayName());
             PacketSyncRoutes.sendUpdateClientPacket(entity, player, true);
-            NetworkHooks.openGui(player, provider, buf -> {
+            NetworkHooks.openScreen(player, provider, buf -> {
                 buf.writeInt(entity.getId());
                 buf.writeByte(mode);
             });
@@ -91,7 +91,7 @@ public class PacketPokemobGui extends Packet
             final StoreTask toSend = ai;
             buffer.writeNbt(toSend.serializeNBT());
             provider = new SimpleMenuProvider((i, p, e) -> new ContainerPokemob(i, p, buffer), entity.getDisplayName());
-            NetworkHooks.openGui(player, provider, buf -> {
+            NetworkHooks.openScreen(player, provider, buf -> {
                 buf.writeInt(entity.getId());
                 buf.writeByte(mode);
                 buf.writeNbt(toSend.serializeNBT());
@@ -99,7 +99,7 @@ public class PacketPokemobGui extends Packet
             return;
         }
         provider = new SimpleMenuProvider((i, p, e) -> new ContainerPokemob(i, p, buffer), entity.getDisplayName());
-        NetworkHooks.openGui(player, provider, buf -> {
+        NetworkHooks.openScreen(player, provider, buf -> {
             buf.writeInt(entity.getId());
             buf.writeByte(mode);
         });

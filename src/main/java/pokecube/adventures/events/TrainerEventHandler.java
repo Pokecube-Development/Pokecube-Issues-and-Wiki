@@ -40,9 +40,9 @@ import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -306,7 +306,7 @@ public class TrainerEventHandler
             {
                 messages.sendMessage(MessageState.HURT, mob, evt.getEntity().getDisplayName(),
                         evt.getSource().getEntity().getDisplayName());
-                messages.doAction(MessageState.HURT, new ActionContext(mob, evt.getEntityLiving(), evt.getSource()));
+                messages.doAction(MessageState.HURT, new ActionContext(mob, evt.getEntity(), evt.getSource()));
             }
             if (pokemobHolder != null && pokemobHolder.getTarget() == null) pokemobHolder.onSetTarget(mob);
         }
@@ -328,7 +328,7 @@ public class TrainerEventHandler
         final Entity user = source.getEntity();
         if (user instanceof ServerPlayer murderer)
         {
-            final LivingEntity mob = event.getEntityLiving();
+            final LivingEntity mob = event.getEntity();
             // Check if the target was a wild pokemob.
             final int repGain = TrainerEventHandler.goodKill.apply(mob);
             if (repGain != 0 && mob.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES))
@@ -353,10 +353,10 @@ public class TrainerEventHandler
      *
      * @param event
      */
-    public static void onJoinWorld(final EntityJoinWorldEvent event)
+    public static void onJoinWorld(final EntityJoinLevelEvent event)
     {
         if (!(event.getEntity() instanceof LivingEntity)) return;
-        if (!(event.getWorld() instanceof ServerLevel)) return;
+        if (!(event.getLevel() instanceof ServerLevel)) return;
         // Schedule the update for the next time this ticks, otherwise we can
         // get race conditions from block checks...
         event.getEntity().getPersistentData().putBoolean("__need__init___", true);
@@ -367,17 +367,17 @@ public class TrainerEventHandler
         TrainerEventHandler.initTrainer(event.getNpcMob(), event.getReason());
     }
 
-    public static void onNpcTick(final LivingUpdateEvent event)
+    public static void onNpcTick(final LivingTickEvent event)
     {
         if (event.getEntity().getPersistentData().contains("__need__init___"))
         {
             TrainerEventHandler.initTrainer((LivingEntity) event.getEntity(), MobSpawnType.NATURAL);
             event.getEntity().getPersistentData().remove("__need__init___");
         }
-        final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(event.getEntityLiving());
+        final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(event.getEntity());
         if (pokemobHolder != null)
         {
-            final LivingEntity npc = event.getEntityLiving();
+            final LivingEntity npc = event.getEntity();
             final Brain<?> brain = npc.getBrain();
             if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get()) && brain.isActive(Activities.BATTLE.get()))
                 brain.setActiveActivityIfPossible(Activity.IDLE);
@@ -387,10 +387,10 @@ public class TrainerEventHandler
 
     public static void onBrainInit(final BrainInitEvent event)
     {
-        final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(event.getEntityLiving());
+        final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(event.getEntity());
         if (pokemobHolder != null)
         {
-            final LivingEntity npc = event.getEntityLiving();
+            final LivingEntity npc = event.getEntity();
             // Add our task if the dummy not present, this can happen if the
             // brain has reset before
             if (npc instanceof Mob mob && npc.getLevel() instanceof ServerLevel)
@@ -441,7 +441,7 @@ public class TrainerEventHandler
     {
         if (!(target instanceof LivingEntity living)) return;
 
-        Player player = evt.getPlayer();
+        Player player = evt.getEntity();
         InteractionHand hand = evt.getHand();
 
         final IHasMessages messages = TrainerCaps.getMessages(target);
@@ -464,7 +464,7 @@ public class TrainerEventHandler
                     buffer.writeInt(vill.getId());
                     final SimpleMenuProvider provider = new SimpleMenuProvider(
                             (i, p, e) -> new NpcContainer(i, p, buffer), vill.getDisplayName());
-                    NetworkHooks.openGui(sp, provider, buf -> {
+                    NetworkHooks.openScreen(sp, provider, buf -> {
                         buf.writeInt(vill.getId());
                     });
                 }
@@ -543,7 +543,7 @@ public class TrainerEventHandler
             buffer.writeInt(player.getId());
             final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new ContainerTrainer(i, p, buffer),
                     player.getDisplayName());
-            NetworkHooks.openGui(player, provider, buf -> {
+            NetworkHooks.openScreen(player, provider, buf -> {
                 buf.writeInt(player.getId());
             });
         }
@@ -555,7 +555,7 @@ public class TrainerEventHandler
         IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(player);
         if (!ItemList.is(BELT, event.getToDrop())) return;
         if (pokemobs == null) return;
-        LivingEntity mob = event.getParent().getEntityLiving();
+        LivingEntity mob = event.getParent().getEntity();
         for (int i = 0; i < pokemobs.getContainerSize(); i++)
         {
             ItemStack stack = pokemobs.getItem(i);
@@ -652,7 +652,7 @@ public class TrainerEventHandler
         if (!(event.getTarget() instanceof TrainerNpc trainer)) return;
         final IHasPokemobs mobs = TrainerCaps.getHasPokemobs(event.getEntity());
         if (!(mobs instanceof DefaultPokemobs pokemobs)) return;
-        if (pokemobs.notifyDefeat && event.getPlayer() instanceof ServerPlayer player)
+        if (pokemobs.notifyDefeat && event.getEntity() instanceof ServerPlayer player)
         {
             final PacketTrainer packet = new PacketTrainer(PacketTrainer.NOTIFYDEFEAT);
             packet.getTag().putInt("I", trainer.getId());

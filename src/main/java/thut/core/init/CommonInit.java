@@ -85,13 +85,13 @@ public class CommonInit
 
     private static void trySubbiomeEditor(final PlayerInteractEvent.RightClickBlock evt)
     {
-        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayer player)
-                || evt.getItemStack().isEmpty() || !evt.getPlayer().isShiftKeyDown()
+        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getEntity() instanceof ServerPlayer player)
+                || evt.getItemStack().isEmpty() || !evt.getEntity().isShiftKeyDown()
                 || !CommonInit.isSubbiomeEditor(player, evt.getItemStack()))
             return;
         final ItemStack itemstack = evt.getItemStack();
-        final Player playerIn = evt.getPlayer();
-        final Level worldIn = evt.getWorld();
+        final Player playerIn = evt.getEntity();
+        final Level worldIn = evt.getLevel();
         final BlockPos pos = evt.getPos();
         if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min"))
         {
@@ -129,13 +129,13 @@ public class CommonInit
 
     private static void trySubbiomeEditor(final PlayerInteractEvent.RightClickItem evt)
     {
-        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayer player)
-                || evt.getItemStack().isEmpty() || !evt.getPlayer().isShiftKeyDown()
+        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getEntity() instanceof ServerPlayer player)
+                || evt.getItemStack().isEmpty() || !evt.getEntity().isShiftKeyDown()
                 || !CommonInit.isSubbiomeEditor(player, evt.getItemStack()))
             return;
         final ItemStack itemstack = evt.getItemStack();
-        final Player playerIn = evt.getPlayer();
-        final Level worldIn = evt.getWorld();
+        final Player playerIn = evt.getEntity();
+        final Level worldIn = evt.getLevel();
         final long now = Tracker.instance().getTick();
         if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min")
                 && itemstack.getTag().getLong("time") != now)
@@ -164,12 +164,12 @@ public class CommonInit
 
     private static void tryCraftMaker(final PlayerInteractEvent.RightClickBlock evt)
     {
-        if (evt.getHand() == InteractionHand.OFF_HAND || evt.getWorld().isClientSide || evt.getItemStack().isEmpty()
-                || !evt.getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER.get())
+        if (evt.getHand() == InteractionHand.OFF_HAND || evt.getLevel().isClientSide || evt.getItemStack().isEmpty()
+                || !evt.getEntity().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER.get())
             return;
         final ItemStack itemstack = evt.getItemStack();
-        final Player playerIn = evt.getPlayer();
-        final Level worldIn = evt.getWorld();
+        final Player playerIn = evt.getEntity();
+        final Level worldIn = evt.getLevel();
         final BlockPos pos = evt.getPos();
         if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min"))
         {
@@ -192,7 +192,7 @@ public class CommonInit
             }
             if (!worldIn.isClientSide)
             {
-                final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(evt.getWorld(), min, max, mid,
+                final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(evt.getLevel(), min, max, mid,
                         ThutCrafts.CRAFTTYPE.get());
                 final String message = craft != null ? "msg.craft.create" : "msg.craft.fail";
                 thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message));
@@ -216,12 +216,12 @@ public class CommonInit
 
     private static void tryCraftMaker(final PlayerInteractEvent.RightClickItem evt)
     {
-        if (evt.getHand() == InteractionHand.OFF_HAND || evt.getWorld().isClientSide || evt.getItemStack().isEmpty()
-                || !evt.getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER.get())
+        if (evt.getHand() == InteractionHand.OFF_HAND || evt.getLevel().isClientSide || evt.getItemStack().isEmpty()
+                || !evt.getEntity().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER.get())
             return;
         final ItemStack itemstack = evt.getItemStack();
-        final Player playerIn = evt.getPlayer();
-        final Level worldIn = evt.getWorld();
+        final Player playerIn = evt.getEntity();
+        final Level worldIn = evt.getLevel();
         final long now = Tracker.instance().getTick();
         if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min")
                 && itemstack.getTag().getLong("time") != now)
@@ -248,7 +248,7 @@ public class CommonInit
             }
             if (!worldIn.isClientSide)
             {
-                final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(evt.getWorld(), min, max, mid,
+                final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(evt.getLevel(), min, max, mid,
                         ThutCrafts.CRAFTTYPE.get());
                 final String message = craft != null ? "msg.craft.create" : "msg.craft.fail";
                 thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message));
@@ -274,8 +274,8 @@ public class CommonInit
     @SubscribeEvent
     public static void logout(final PlayerLoggedOutEvent event)
     {
-        if (event.getPlayer().isPassenger() && event.getPlayer().getRootVehicle() instanceof EntityCraft)
-            event.getPlayer().stopRiding();
+        if (event.getEntity().isPassenger() && event.getEntity().getRootVehicle() instanceof EntityCraft)
+            event.getEntity().stopRiding();
     }
 
     @SubscribeEvent

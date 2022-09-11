@@ -43,7 +43,7 @@ public class BeltLayerRender<T extends LivingEntity, M extends HumanoidModel<T>>
             Field f = event.getClass().getDeclaredField("renderers");
             f.setAccessible(true);
             Map<EntityType<?>, EntityRenderer<?>> renderers = (Map<EntityType<?>, EntityRenderer<?>>) f.get(event);
-            for (EntityType<?> type : ForgeRegistries.ENTITIES.getValues())
+            for (EntityType<?> type : ForgeRegistries.ENTITY_TYPES.getValues())
             {
                 EntityRenderer<?> render = renderers.get(type);
                 if (render instanceof LivingEntityRenderer livingRender

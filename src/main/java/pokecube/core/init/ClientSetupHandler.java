@@ -20,7 +20,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ClientRegistry;
-import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -226,7 +226,7 @@ public class ClientSetupHandler
     }
 
     @SubscribeEvent
-    public static void colourBlocks(final ColorHandlerEvent.Block event)
+    public static void colourBlocks(final RegisterColorHandlersEvent.Block event)
     {
         final Block qualotLeaves = BerryManager.berryLeaves.get(23);
         event.getBlockColors().register((state, reader, pos, tintIndex) -> {
@@ -236,7 +236,7 @@ public class ClientSetupHandler
     }
 
     @SubscribeEvent
-    public static void colourItems(final ColorHandlerEvent.Item event)
+    public static void colourItems(final RegisterColorHandlersEvent.Item event)
     {
         final Block qualotLeaves = BerryManager.berryLeaves.get(23);
         event.getItemColors().register((stack, tintIndex) -> {

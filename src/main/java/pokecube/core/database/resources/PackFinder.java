@@ -27,7 +27,7 @@ import net.minecraft.server.packs.repository.RepositorySource;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.resource.PathResourcePack;
+import net.minecraftforge.resource.PathPackResources;
 import net.minecraftforge.resource.ResourcePackLoader;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
@@ -173,7 +173,7 @@ public class PackFinder implements RepositorySource
     {
         try
         {
-            final List<PathResourcePack> packs = Lists.newArrayList();
+            final List<PathPackResources> packs = Lists.newArrayList();
             ModList.get().getModFiles().stream().forEach(mf -> packs.add(ResourcePackLoader.createPackForMod(mf)));
             this.allPacks.addAll(packs);
         }

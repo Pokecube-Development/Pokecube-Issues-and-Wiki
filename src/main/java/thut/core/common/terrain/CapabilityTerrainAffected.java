@@ -11,7 +11,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import thut.api.ThutCaps;
 import thut.api.terrain.ITerrainAffected;
 import thut.api.terrain.TerrainEffectEvent;
@@ -88,7 +88,7 @@ public class CapabilityTerrainAffected
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, CapabilityTerrainAffected::onEntityCapabilityAttach);
     }
 
-    private static void EntityUpdate(final LivingUpdateEvent evt)
+    private static void EntityUpdate(final LivingTickEvent evt)
     {
         final ITerrainAffected effects = evt.getEntity().getCapability(ThutCaps.TERRAIN_AFFECTED, null).orElse(null);
         if (effects != null) effects.onTerrainTick();

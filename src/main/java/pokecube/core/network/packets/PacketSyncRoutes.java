@@ -109,7 +109,7 @@ public class PacketSyncRoutes extends Packet
             buffer.writeByte(PacketPokemobGui.ROUTES);
             final SimpleMenuProvider provider = new SimpleMenuProvider((i, p,
                     a) -> new ContainerPokemob(i, p, buffer), e.getDisplayName());
-            NetworkHooks.openGui(player, provider, buf ->
+            NetworkHooks.openScreen(player, provider, buf ->
             {
                 buf.writeInt(e.getId());
                 buf.writeByte(PacketPokemobGui.ROUTES);
