@@ -18,7 +18,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -70,7 +70,7 @@ public class DebugInteractions
         Vector3 v = new Vector3().set(player);
         if (isStructureDebug)
         {
-            var registry = level.registryAccess().registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
+            var registry = level.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
             var list = registry.stream().toList();
             List<ResourceLocation> found = Lists.newArrayList();
             List<ResourceLocation> not_found = Lists.newArrayList();
@@ -82,12 +82,12 @@ public class DebugInteractions
                 if (name.toString().startsWith("pokecube"))
                 {
                     thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Checking " + name));
-                    final ResourceKey<ConfiguredStructureFeature<?, ?>> structure = ResourceKey
-                            .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, name);
+                    final ResourceKey<Structure> structure = ResourceKey
+                            .create(Registry.STRUCTURE_REGISTRY, name);
                     var holder = registry.getHolderOrThrow(structure);
-                    HolderSet<ConfiguredStructureFeature<?, ?>> holderset = HolderSet.direct(holder);
-                    Pair<BlockPos, Holder<ConfiguredStructureFeature<?, ?>>> thing = level.getChunkSource()
-                            .getGenerator().findNearestMapFeature(level, holderset, v.getPos(), 100, false);
+                    HolderSet<Structure> holderset = HolderSet.direct(holder);
+                    Pair<BlockPos, Holder<Structure>> thing = level.getChunkSource()
+                            .getGenerator().findNearestMapStructure(level, holderset, v.getPos(), 100, false);
                     if (thing != null)
                     {
                         found.add(name);

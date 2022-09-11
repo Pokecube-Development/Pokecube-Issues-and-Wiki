@@ -16,11 +16,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
 import thut.api.Tracker;
 import thut.api.maths.Cruncher.SquareLoopCruncher;
 import thut.api.terrain.StructureManager;
@@ -188,8 +185,7 @@ public class RouteMaker extends AbstractBot
     private Node findNearestVillageNode(final BlockPos mid, final boolean skipKnownStructures)
     {
         final ResourceLocation location = target;
-        final TagKey<ConfiguredStructureFeature<?, ?>> structure = TagKey
-                .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, location);
+        final TagKey<Structure> structure = TagKey.create(Registry.STRUCTURE_REGISTRY, location);
         final ServerLevel world = (ServerLevel) this.player.level;
 
         BlockPos village = null;
@@ -205,7 +201,7 @@ public class RouteMaker extends AbstractBot
         }
         while (time > System.currentTimeMillis())
         {
-            village = world.findNearestMapFeature(structure, testPoint, 1, false);
+            village = world.findNearestMapStructure(structure, testPoint, 1, false);
             if (village != null && village.getY() < world.getSeaLevel())
             {
                 world.getChunk(village);
@@ -293,10 +289,10 @@ public class RouteMaker extends AbstractBot
         int size = 32;
         final Set<StructureInfo> near = StructureManager.getNear(world.dimension(), next, 0);
         final ResourceLocation location = target;
-        final IForgeRegistry<StructureFeature<?>> reg = ForgeRegistries.STRUCTURE_FEATURES;
-        final StructureFeature<?> structure = reg.getValue(location);
+        final var reg = world.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
+        final Structure structure = reg.get(location);
         infos:
-        for (final StructureInfo i : near) if (i.start.getFeature().feature == structure)
+        for (final StructureInfo i : near) if (i.start.getStructure() == structure)
         {
             size = Math.max(i.start.getBoundingBox().getXSpan(), i.start.getBoundingBox().getZSpan());
             break infos;

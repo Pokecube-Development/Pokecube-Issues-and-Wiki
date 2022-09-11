@@ -89,7 +89,7 @@ public class MimicBot extends AbstractBot
         copy.setCopiedMob(null);
         copy.setCopiedNBT(new CompoundTag());
 
-        if (ForgeHooks.onLivingUpdate(this.player)) return;
+        if (ForgeHooks.onLivingTick(this.player)) return;
 
         copy.setCopiedID(id);
         copy.setCopiedMob(mob);
