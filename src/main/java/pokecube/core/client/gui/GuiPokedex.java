@@ -3,10 +3,9 @@
  */
 package pokecube.core.client.gui;
 
-import java.util.List;
-
 import org.lwjgl.glfw.GLFW;
 
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -31,7 +30,6 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.Resources;
-import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.client.gui.watch.util.LineEntry;
@@ -176,10 +174,10 @@ public class GuiPokedex extends Screen
         MutableComponent page;
 
         page = TComponent.translatable("entity.pokecube." + GuiPokedex.pokedexEntry.getTrimmedName() + ".dexDesc");
-        final List<MutableComponent> list = ListHelper.splitText(page, 100, this.font, false);
-        list.add(TComponent.literal(""));
-        page = GuiPokedex.pokedexEntry.getDescription();
-        list.addAll(ListHelper.splitText(page, 100, this.font, false));
+        var list = Lists.newArrayList(this.font.split(page, 100));
+        list.add(TComponent.literal("").getVisualOrderText());
+        page = pokedexEntry.getDescription();
+        list.addAll(this.font.split(page, 100));
 
         final IClickListener listen = new IClickListener()
         {
@@ -208,10 +206,9 @@ public class GuiPokedex extends Screen
             public void handleHovor(final PoseStack mat, final Style component, final int x, final int y)
             {}
         };
-        for (final MutableComponent line : list)
-        {
+        for (var line : list)
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, 0xFFFFFF).setClickListner(listen));
-        }
+
         this.children.add(this.list);
     }
 

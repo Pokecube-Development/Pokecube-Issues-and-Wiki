@@ -11,6 +11,7 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
@@ -23,7 +24,6 @@ import pokecube.api.stats.KillStats;
 import pokecube.api.stats.SpecialCaseRegister;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
-import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
@@ -31,11 +31,11 @@ import thut.lib.TComponent;
 public class PerTypeProgress extends Progress
 {
     private static final List<String> NAMES = Lists.newArrayList();
-    EditBox                   text;
-    PokeType                          type;
+    EditBox text;
+    PokeType type;
 
-    SuggestionProvider<CommandSourceStack> TYPESUGGESTER = (ctx, sb) -> net.minecraft.commands.SharedSuggestionProvider.suggest(
-            PerTypeProgress.NAMES, sb);
+    SuggestionProvider<CommandSourceStack> TYPESUGGESTER = (ctx, sb) -> net.minecraft.commands.SharedSuggestionProvider
+            .suggest(PerTypeProgress.NAMES, sb);
 
     public PerTypeProgress(final GuiPokeWatch watch)
     {
@@ -112,37 +112,34 @@ public class PerTypeProgress extends Progress
         this.killed0 = KillStats.getUniqueOfTypeKilledBy(player.getUUID(), this.type);
         this.killed1 = KillStats.getTotalOfTypeKilledBy(player.getUUID(), this.type);
 
-        final MutableComponent captureLine = TComponent.translatable("pokewatch.progress.type.caught",
-                this.caught1, this.caught0, this.type, total_of_type);
-        final MutableComponent killLine = TComponent.translatable("pokewatch.progress.type.killed",
-                this.killed1, this.killed0, this.type, total_of_type);
-        final MutableComponent hatchLine = TComponent.translatable("pokewatch.progress.type.hatched",
-                this.hatched1, this.hatched0, this.type, total_of_type);
+        final MutableComponent captureLine = TComponent.translatable("pokewatch.progress.type.caught", this.caught1,
+                this.caught0, this.type, total_of_type);
+        final MutableComponent killLine = TComponent.translatable("pokewatch.progress.type.killed", this.killed1,
+                this.killed0, this.type, total_of_type);
+        final MutableComponent hatchLine = TComponent.translatable("pokewatch.progress.type.hatched", this.hatched1,
+                this.hatched0, this.type, total_of_type);
 
         final AABB centre = this.watch.player.getBoundingBox();
-        final AABB bb = centre.inflate(PokecubeCore.getConfig().maxSpawnRadius, 5, PokecubeCore
-                .getConfig().maxSpawnRadius);
-        final List<Entity> otherMobs = this.watch.player.getLevel().getEntities(this.watch.player,
-                bb, input ->
-                {
-                    IPokemob pokemob;
-                    if (!(input instanceof Animal && (pokemob = PokemobCaps.getPokemobFor(input)) != null))
-                        return false;
-                    return pokemob.isType(PerTypeProgress.this.type);
-                });
+        final AABB bb = centre.inflate(PokecubeCore.getConfig().maxSpawnRadius, 5,
+                PokecubeCore.getConfig().maxSpawnRadius);
+        final List<Entity> otherMobs = this.watch.player.getLevel().getEntities(this.watch.player, bb, input -> {
+            IPokemob pokemob;
+            if (!(input instanceof Animal && (pokemob = PokemobCaps.getPokemobFor(input)) != null)) return false;
+            return pokemob.isType(PerTypeProgress.this.type);
+        });
         final MutableComponent nearbyLine = TComponent.translatable("pokewatch.progress.global.nearby",
                 otherMobs.size());
 
-        for (final MutableComponent line : ListHelper.splitText(captureLine, 190, this.font, false))
+        for (var line : this.font.getSplitter().splitLines(captureLine, 190, Style.EMPTY))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (final MutableComponent line : ListHelper.splitText(killLine, 190, this.font, false))
+        for (var line : this.font.getSplitter().splitLines(killLine, 190, Style.EMPTY))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (final MutableComponent line : ListHelper.splitText(hatchLine, 190, this.font, false))
+        for (var line : this.font.getSplitter().splitLines(hatchLine, 190, Style.EMPTY))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (final MutableComponent line : ListHelper.splitText(nearbyLine, 190, this.font, false))
+        for (var line : this.font.getSplitter().splitLines(nearbyLine, 190, Style.EMPTY))
             this.lines.add(line.getString());
     }
 

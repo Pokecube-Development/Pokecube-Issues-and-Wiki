@@ -13,7 +13,6 @@ import net.minecraft.network.chat.MutableComponent;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent.RenderMoveMessages;
-import pokecube.core.client.gui.helper.ListHelper;
 import thut.lib.TComponent;
 
 public class GuiInfoMessages
@@ -127,14 +126,14 @@ public class GuiInfoMessages
             if (index < 0) index = 0;
             if (index > size) break;
             final MutableComponent mess2 = TComponent.literal(toUse.get(index));
-            final List<MutableComponent> mess1 = ListHelper.splitText(mess2, trim, minecraft.font, true);
+            var mess1 = minecraft.font.split(mess2, 114);
             for (int j = mess1.size() - 1; j >= 0; j--)
             {
                 h = y + texH * shift;
                 w = x - trim;
                 final int ph = 6 * texH - h;
                 GuiComponent.fill(event.getMat(), w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
-                minecraft.font.draw(event.getMat(), mess1.get(j).getString(), x - trim, ph, 0xffffff);
+                minecraft.font.draw(event.getMat(), mess1.get(j), x - trim, ph, 0xffffff);
                 if (j != 0) shift++;
             }
             shift++;

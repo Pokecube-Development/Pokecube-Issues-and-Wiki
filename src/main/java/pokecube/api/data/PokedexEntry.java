@@ -188,7 +188,7 @@ public class PokedexEntry
                     .translatable("pokemob.description.evolve.move", MovesUtils.getMoveName(this.move).getString()));
             if (this.matcher != null)
             {
-                comps.addAll(SpawnListEntry.makeDescription(null, matcher, null, 100));
+                comps.addAll(SpawnListEntry.getGeneralDescription(matcher));
             }
             return comps;
         }

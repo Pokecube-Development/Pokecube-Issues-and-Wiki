@@ -19,7 +19,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
@@ -135,7 +134,8 @@ public class SpawnsPage extends ListPage<LineEntry>
             final LineEntry last1 = lines.get(lines.size() - 2);
             // Remove all, unless they specifiy water vs ground
             lines.removeIf(e -> {
-                final String string = e.line.getString().trim();
+                // FIXME fixme
+                final String string = e.line.toString();
                 final boolean isWater0 = water0.getString().equals(string);
                 final boolean isWater1 = water1.getString().equals(string);
                 return !(isWater0 || isWater1);
@@ -168,17 +168,17 @@ public class SpawnsPage extends ListPage<LineEntry>
         if (Minecraft.getInstance().level.getDifficulty() == Difficulty.PEACEFUL)
         {
             final MutableComponent comp = TComponent.translatable("pokewatch.spawns.peaceful");
-            final List<MutableComponent> list = ListHelper.splitText(comp, 120, this.font, false);
+            var list = this.font.split(comp, 120);
             int n = 0;
-            for (final MutableComponent entry : list)
+            for (var entry : list)
                 GuiComponent.drawCenteredString(mat, this.font, entry, x + 130, y + 100 + 10 * n++, 0);
         }
         else if (this.repel = PacketPokedex.repelled)
         {
             final MutableComponent comp = TComponent.translatable("pokewatch.spawns.repelled");
-            final List<MutableComponent> list = ListHelper.splitText(comp, 120, this.font, false);
+            var list = this.font.split(comp, 120);
             int n = 0;
-            for (final MutableComponent entry : list)
+            for (var entry : list)
                 GuiComponent.drawCenteredString(mat, this.font, entry, x + 130, y + 100 + 10 * n++, 0);
         }
 

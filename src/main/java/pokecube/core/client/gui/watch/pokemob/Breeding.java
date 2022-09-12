@@ -115,7 +115,8 @@ public class Breeding extends ListPage<LineEntry>
             main = TComponent.translatable(entry.getUnlocalizedName());
             main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
                     .withClickEvent(new ClickEvent(Action.CHANGE_PAGE, entry.getName())));
-            this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
+            this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(), colour)
+                    .setClickListner(listener));
         }
     }
 }
