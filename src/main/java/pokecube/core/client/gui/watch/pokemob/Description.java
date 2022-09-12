@@ -2,6 +2,7 @@ package pokecube.core.client.gui.watch.pokemob;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
@@ -11,9 +12,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.client.EventsHandlerClient;
-import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
@@ -116,26 +117,25 @@ public class Description extends ListPage<LineEntry>
         if (!fullColour && pokedexEntry.isMega())
             fullColour = StatsCollector.getCaptured(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0
                     || StatsCollector.getHatched(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0;
-        final List<MutableComponent> list;
+        final List<FormattedCharSequence> list;
         if (fullColour)
         {
             page = TComponent.translatable("entity.pokecube." + pokedexEntry.getTrimmedName() + ".dexDesc");
-            list = ListHelper.splitText(page, 100, this.font, false);
-            list.add(TComponent.literal(""));
+            list = Lists.newArrayList(this.font.split(page, 100));
+            list.add(TComponent.literal("").getVisualOrderText());
             page = pokedexEntry.getDescription();
-            list.addAll(ListHelper.splitText(page, 100, this.font, false));
+            list.addAll(this.font.split(page, 100));
         }
         else
         {
             page = pokedexEntry.getDescription();
-            list = ListHelper.splitText(page, 100, this.font, false);
+            list = this.font.split(page, 100);
         }
 
         this.list = new ScrollGui<>(this, this.minecraft, 107, height, this.font.lineHeight, offsetX, offsetY);
-        for (final MutableComponent line : list)
-        {
+        for (var line : list)
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, textColour).setClickListner(listen));
-        }
+
     }
 
     @Override

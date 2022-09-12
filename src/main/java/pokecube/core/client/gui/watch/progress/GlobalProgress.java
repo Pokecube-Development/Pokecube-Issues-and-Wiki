@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
@@ -14,7 +15,6 @@ import pokecube.api.stats.CaptureStats;
 import pokecube.api.stats.EggStats;
 import pokecube.api.stats.KillStats;
 import pokecube.core.PokecubeCore;
-import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
@@ -46,18 +46,18 @@ public class GlobalProgress extends Progress
         this.killed0 = KillStats.getNumberUniqueKilledBy(player.getUUID());
         this.killed1 = KillStats.getTotalNumberKilledBy(player.getUUID());
 
-        final MutableComponent captureLine = TComponent.translatable("pokewatch.progress.global.caught",
-                this.caught1, this.caught0);
-        final MutableComponent killLine = TComponent.translatable("pokewatch.progress.global.killed",
-                this.killed1, this.killed0);
-        final MutableComponent hatchLine = TComponent.translatable("pokewatch.progress.global.hatched",
-                this.hatched1, this.hatched0);
+        final MutableComponent captureLine = TComponent.translatable("pokewatch.progress.global.caught", this.caught1,
+                this.caught0);
+        final MutableComponent killLine = TComponent.translatable("pokewatch.progress.global.killed", this.killed1,
+                this.killed0);
+        final MutableComponent hatchLine = TComponent.translatable("pokewatch.progress.global.hatched", this.hatched1,
+                this.hatched0);
 
         final AABB centre = this.watch.player.getBoundingBox();
-        final AABB bb = centre.inflate(PokecubeCore.getConfig().maxSpawnRadius, 5, PokecubeCore
-                .getConfig().maxSpawnRadius);
-        final List<Entity> otherMobs = this.watch.player.getLevel().getEntities(this.watch.player,
-                bb, input -> input instanceof Animal && PokemobCaps.getPokemobFor(input) != null);
+        final AABB bb = centre.inflate(PokecubeCore.getConfig().maxSpawnRadius, 5,
+                PokecubeCore.getConfig().maxSpawnRadius);
+        final List<Entity> otherMobs = this.watch.player.getLevel().getEntities(this.watch.player, bb,
+                input -> input instanceof Animal && PokemobCaps.getPokemobFor(input) != null);
         final MutableComponent nearbyLine = TComponent.translatable("pokewatch.progress.global.nearby",
                 otherMobs.size());
 
@@ -66,26 +66,24 @@ public class GlobalProgress extends Progress
 
         final Component inspect = TComponent.translatable("pokewatch.progress.inspect");
 
-        final TexButton inspectBtn = this.addRenderableWidget(new TexButton(x - 50, y + 25, 100, 12, inspect, b ->
-        {
-            PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getSelected()
-                    .getCode());
+        final TexButton inspectBtn = this.addRenderableWidget(new TexButton(x - 50, y + 25, 100, 12, inspect, b -> {
+            PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getSelected().getCode());
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(0, 72, 100, 12)));
 
         inspectBtn.setFGColor(0x444444);
 
         if (player != this.watch.player) inspectBtn.visible = false;
 
-        for (final MutableComponent line : ListHelper.splitText(captureLine, 190, this.font, false))
+        for (var line : this.font.getSplitter().splitLines(captureLine, 190, Style.EMPTY))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (final MutableComponent line : ListHelper.splitText(killLine, 190, this.font, false))
+        for (var line : this.font.getSplitter().splitLines(killLine, 190, Style.EMPTY))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (final MutableComponent line : ListHelper.splitText(hatchLine, 190, this.font, false))
+        for (var line : this.font.getSplitter().splitLines(hatchLine, 190, Style.EMPTY))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (final MutableComponent line : ListHelper.splitText(nearbyLine, 190, this.font, false))
+        for (var line : this.font.getSplitter().splitLines(nearbyLine, 190, Style.EMPTY))
             this.lines.add(line.getString());
     }
 

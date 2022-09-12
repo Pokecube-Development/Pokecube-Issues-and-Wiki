@@ -70,8 +70,8 @@ public class Moves extends ListPage<LineEntry>
             final Move_Base move = MovesUtils.getMoveFromName(this.parent.pokemob.getMove(offset[3]));
             if (move != null)
             {
-                GuiComponent.drawString(mat, this.font, MovesUtils.getMoveName(move.getName()).getString(), x + dx, y
-                        + dy + offset[1] + offset[4], move.getType(this.parent.pokemob).colour);
+                GuiComponent.drawString(mat, this.font, MovesUtils.getMoveName(move.getName()).getString(), x + dx,
+                        y + dy + offset[1] + offset[4], move.getType(this.parent.pokemob).colour);
                 final int length = this.font.width(MovesUtils.getMoveName(move.getName()).getString());
                 if (mx > 0 && mx < length && my > offset[1] && my < offset[1] + this.font.lineHeight)
                 {
@@ -103,8 +103,8 @@ public class Moves extends ListPage<LineEntry>
             if (move != null)
             {
                 final int oy = 10;
-                GuiComponent.drawString(mat, this.font, MovesUtils.getMoveName(move.getName()).getString(), x + dx, y
-                        + dy + offset[1] + oy, move.getType(this.parent.pokemob).colour);
+                GuiComponent.drawString(mat, this.font, MovesUtils.getMoveName(move.getName()).getString(), x + dx,
+                        y + dy + offset[1] + oy, move.getType(this.parent.pokemob).colour);
             }
         }
     }
@@ -172,13 +172,12 @@ public class Moves extends ListPage<LineEntry>
                     added.add(s);
                     final MutableComponent moveName = (MutableComponent) MovesUtils.getMoveName(s);
                     moveName.setStyle(moveName.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.RED)));
-                    final MutableComponent main = TComponent.translatable("pokewatch.moves.lvl", i,
-                            moveName);
+                    final MutableComponent main = TComponent.translatable("pokewatch.moves.lvl", i, moveName);
                     main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
-                            .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s)).withHoverEvent(
-                                    new HoverEvent(HoverEvent.Action.SHOW_TEXT, TComponent.literal(s))));
-                    this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(
-                            listener));
+                            .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s))
+                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TComponent.literal(s))));
+                    this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(), colour)
+                            .setClickListner(listener));
                 }
             }
             for (final String s : entry.getMoves())
@@ -187,10 +186,11 @@ public class Moves extends ListPage<LineEntry>
                 final MutableComponent moveName = (MutableComponent) MovesUtils.getMoveName(s);
                 moveName.setStyle(moveName.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.RED)));
                 final MutableComponent main = TComponent.translatable("pokewatch.moves.tm", moveName);
-                main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN)).withClickEvent(
-                        new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s)).withHoverEvent(new HoverEvent(
-                                HoverEvent.Action.SHOW_TEXT, TComponent.literal(s))));
-                this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
+                main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s))
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TComponent.literal(s))));
+                this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(), colour)
+                        .setClickListner(listener));
             }
         }
     }
@@ -200,8 +200,7 @@ public class Moves extends ListPage<LineEntry>
     {
         if (mouseButton == 0)
         {
-            for (final int[] moveOffset : this.moveOffsets)
-                if (moveOffset[2] != 0) return true;
+            for (final int[] moveOffset : this.moveOffsets) if (moveOffset[2] != 0) return true;
 
             final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
             final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
@@ -248,12 +247,11 @@ public class Moves extends ListPage<LineEntry>
         if (mouseButton == 0)
         {
             int heldIndex = -1;
-            for (int i = 0; i < this.moveOffsets.length; i++)
-                if (this.moveOffsets[i][2] != 0)
-                {
-                    heldIndex = i;
-                    break;
-                }
+            for (int i = 0; i < this.moveOffsets.length; i++) if (this.moveOffsets[i][2] != 0)
+            {
+                heldIndex = i;
+                break;
+            }
             if (heldIndex != -1)
             {
                 final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
@@ -288,12 +286,11 @@ public class Moves extends ListPage<LineEntry>
         if (mouseButton == 0)
         {
             int oldIndex = -1;
-            for (int i = 0; i < this.moveOffsets.length; i++)
-                if (this.moveOffsets[i][2] != 0)
-                {
-                    oldIndex = i;
-                    this.moveOffsets[i][2] = 0;
-                }
+            for (int i = 0; i < this.moveOffsets.length; i++) if (this.moveOffsets[i][2] != 0)
+            {
+                oldIndex = i;
+                this.moveOffsets[i][2] = 0;
+            }
             if (oldIndex == -1) return false;
 
             final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
