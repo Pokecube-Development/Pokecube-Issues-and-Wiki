@@ -1,12 +1,12 @@
 package pokecube.legends.worldgen.trees.treedecorators;
 
 import java.util.List;
-import java.util.Random;
 import java.util.function.BiConsumer;
 
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.block.VineBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -31,7 +31,7 @@ public class LeavesStringOfPearlsDecorator extends TreeDecorator
 
     @Override
     public void place(final LevelSimulatedReader world, final BiConsumer<BlockPos, BlockState> blockPos,
-            final Random random, final List<BlockPos> listPos, final List<BlockPos> listPos1)
+            final RandomSource random, final List<BlockPos> listPos, final List<BlockPos> listPos1)
     {
         listPos1.forEach((listedPos) -> {
             if (random.nextInt(4) == 0)
@@ -62,7 +62,7 @@ public class LeavesStringOfPearlsDecorator extends TreeDecorator
     }
 
     public static void addHangingVine(final LevelSimulatedReader world, final BlockPos pos, final BooleanProperty b,
-            final BiConsumer<BlockPos, BlockState> blockPos, final Random random)
+            final BiConsumer<BlockPos, BlockState> blockPos, final RandomSource random)
     {
         LeavesStringOfPearlsDecorator.placeVine(blockPos, pos, b, random);
         int i = 4;
@@ -76,7 +76,7 @@ public class LeavesStringOfPearlsDecorator extends TreeDecorator
     }
 
     public static void placeVine(final BiConsumer<BlockPos, BlockState> blockPos, final BlockPos pos,
-            final BooleanProperty b, final Random random)
+            final BooleanProperty b, final RandomSource random)
     {
         blockPos.accept(pos, BlockInit.STRING_OF_PEARLS.get().defaultBlockState().setValue(b, Boolean.valueOf(true))
                 .setValue(StringOfPearlsBlock.FLOWERS, Boolean.valueOf(random.nextFloat() < 0.11F)));

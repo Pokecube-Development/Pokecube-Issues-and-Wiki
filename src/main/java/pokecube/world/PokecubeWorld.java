@@ -16,8 +16,6 @@ import pokecube.world.gen.carver.PokecubeCarvers;
 import pokecube.world.gen.features.FeaturesInit;
 import pokecube.world.gen.features.trees.foliage.FoliagePlacerTypes;
 import pokecube.world.gen.features.trees.trunks.TrunkPlacerTypes;
-import pokecube.world.gen.structures.PokecubeStructures;
-import pokecube.world.gen.structures.processors.PokecubeStructureProcessors;
 
 public class PokecubeWorld
 {
@@ -51,10 +49,10 @@ public class PokecubeWorld
         FOLIAGE_PLACERS.register(bus);
         TRUNK_PLACERS.register(bus);
 
-        PokecubeStructureProcessors.init(bus);
+//        PokecubeStructureProcessors.init(bus);
         FeaturesInit.init(bus);
         PokecubeCarvers.init(bus);
-        PokecubeStructures.init(bus);
+//        PokecubeStructures.init(bus);
         FoliagePlacerTypes.init();
         TrunkPlacerTypes.init();
 

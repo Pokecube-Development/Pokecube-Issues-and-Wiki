@@ -23,7 +23,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
-import net.minecraftforge.client.gui.overlay.GuiOverlayManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -178,18 +177,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
         if (GuiDisplayPokecubeInfo.instance != null)
             MinecraftForge.EVENT_BUS.unregister(GuiDisplayPokecubeInfo.instance);
         GuiDisplayPokecubeInfo.instance = this;
-        GuiOverlayManager.registerOverlayTop("Pokecube Info", this.infoOverlay);
         MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    public void disable()
-    {
-        GuiOverlayManager.enableOverlay(this.infoOverlay, false);
-    }
-
-    public void enable()
-    {
-        GuiOverlayManager.enableOverlay(this.infoOverlay, true);
     }
 
     @Override

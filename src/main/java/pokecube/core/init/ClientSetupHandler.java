@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,6 +34,7 @@ import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.EventsHandlerClient;
+import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
 import pokecube.core.client.gui.blocks.Healer;
 import pokecube.core.client.gui.blocks.PC;
 import pokecube.core.client.gui.blocks.TMs;
@@ -116,6 +118,12 @@ public class ClientSetupHandler
     public static void loaded(final FMLLoadCompleteEvent event)
     {
         RenderPokemob.register();
+    }
+
+    @SubscribeEvent
+    public static void registerGui(final RegisterGuiOverlaysEvent event)
+    {
+        event.registerAboveAll("pokecube_gui", GuiDisplayPokecubeInfo.instance());
     }
 
     private static void registerKey(KeyMapping key, RegisterKeyMappingsEvent event)

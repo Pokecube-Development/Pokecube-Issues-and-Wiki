@@ -109,8 +109,9 @@ public class Pokemake
             {
                 try
                 {
-                    final ItemInput item = ItemArgument.item().parse(new StringReader(val));
-                    itemstack = item.createItemStack(1, false);
+                    // FIXME pokemake held items
+//                    final ItemInput item = ItemArgument.item().parse(new StringReader(val));
+//                    itemstack = item.createItemStack(1, false);
                 }
                 catch (final Throwable e)
                 {

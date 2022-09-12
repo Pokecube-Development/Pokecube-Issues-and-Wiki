@@ -1,12 +1,12 @@
 package pokecube.legends.worldgen.trees.treedecorators;
 
 import java.util.List;
-import java.util.Random;
 import java.util.function.BiConsumer;
 
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -28,7 +28,7 @@ public class TrunkStringOfPearlsDecorator extends TreeDecorator
     }
 
     @Override
-    public void place(LevelSimulatedReader world, BiConsumer<BlockPos, BlockState> blockPos, Random random,
+    public void place(LevelSimulatedReader world, BiConsumer<BlockPos, BlockState> blockPos, RandomSource random,
             List<BlockPos> listPos, List<BlockPos> listPos1)
     {
         listPos.forEach((listedPos) -> {
@@ -72,7 +72,7 @@ public class TrunkStringOfPearlsDecorator extends TreeDecorator
     }
 
     public static void placeVine(BiConsumer<BlockPos, BlockState> blockPos, BlockPos pos, BooleanProperty b,
-            Random random)
+            RandomSource random)
     {
         blockPos.accept(pos, BlockInit.STRING_OF_PEARLS.get().defaultBlockState().setValue(b, Boolean.valueOf(true))
                 .setValue(StringOfPearlsBlock.FLOWERS, Boolean.valueOf(random.nextFloat() < 0.11F)));

@@ -49,12 +49,10 @@ public class RenderNPC<T extends NpcMob> extends LivingEntityRenderer<T, PlayerM
                 new HumanoidArmorLayer<>(this, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
                         new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
 
-        this.addLayer(new ItemInHandLayer<>(this));
+        this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
         this.addLayer(new ArrowLayer<>(context, this));
-        this.addLayer(new CustomHeadLayer<>(this, context.getModelSet()));
+        this.addLayer(new CustomHeadLayer<>(this, context.getModelSet(), 1, 1, 1, context.getItemInHandRenderer()));
         this.addLayer(new ElytraLayer<>(this, context.getModelSet()));
-        // this.addLayer(new ParrotOnShoulderLayer(this,
-        // context.getModelSet()));
         this.addLayer(new SpinAttackEffectLayer<>(this, context.getModelSet()));
         this.addLayer(new BeeStingerLayer<>(this));
     }

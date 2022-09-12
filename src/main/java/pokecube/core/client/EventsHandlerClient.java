@@ -39,10 +39,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.Key;
-import net.minecraftforge.client.event.InputEvent.RawMouseEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
 import net.minecraftforge.client.event.ScreenEvent.Render;
@@ -215,7 +214,7 @@ public class EventsHandlerClient
         EventsHandlerClient.lastSetTime = System.currentTimeMillis() + 500;
     }
 
-    private static void onMouseInput(final RawMouseEvent evt)
+    private static void onMouseInput(final InputEvent.MouseButton.Pre evt)
     {
         final Player player = Minecraft.getInstance().player;
         // We only handle these ingame anyway.
@@ -382,7 +381,7 @@ public class EventsHandlerClient
 
     private static void onRenderHotbar(final RenderGuiOverlayEvent.Post event)
     {
-        if (event.getType() == ElementType.LAYER)
+        if (event.getOverlay().id().toString().equals("minecraft:hotbar"))
         {
             if (!Screen.hasAltDown()) return;
             final Player player = Minecraft.getInstance().player;

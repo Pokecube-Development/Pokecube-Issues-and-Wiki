@@ -19,7 +19,6 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.material.Material;
 import pokecube.api.data.spawns.SpawnCheck.TerrainType;
 import pokecube.core.PokecubeCore;
-import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.StructureManager;
@@ -68,14 +67,14 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
                 if (!opt_holder.isEmpty())
                 {
                     Holder<Structure> holder = opt_holder.get();
-                    if (holder.value().config instanceof ExpandedJigsawConfiguration config)
-                    {
-                        if (!config.biome_type.equals("none"))
-                        {
-                            subbiome = config.biome_type;
-                            break opt_check;
-                        }
-                    }
+//                    if (holder.value().config instanceof ExpandedJigsawConfiguration config)
+//                    {
+//                        if (!config.biome_type.equals("none"))
+//                        {
+//                            subbiome = config.biome_type;
+//                            break opt_check;
+//                        }
+//                    }
                     for (var entry : TerrainChecker.struct_config_map.entrySet())
                     {
                         String key = entry.getKey();

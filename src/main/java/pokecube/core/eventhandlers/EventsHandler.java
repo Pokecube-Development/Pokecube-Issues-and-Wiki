@@ -51,9 +51,9 @@ import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
-import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
@@ -111,7 +111,6 @@ import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.nbtedit.NBTEdit;
-import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import thut.api.Tracker;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ShearableCaps;
@@ -722,7 +721,9 @@ public class EventsHandler
         // Reset this.
         PokecubeSerializer.clearInstance();
         EventsHandler.RUNNING = false;
-        ExpandedJigsawPiece.sent_events.clear();
+        
+        // FIXME worldgen
+//        ExpandedJigsawPiece.sent_events.clear();
         EventsHandler.scheduledTasks.clear();
     }
 
