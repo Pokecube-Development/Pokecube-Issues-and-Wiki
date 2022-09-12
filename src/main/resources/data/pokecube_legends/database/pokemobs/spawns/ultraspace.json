@@ -330,10 +330,25 @@
       ]
     },
     {
+      "and_preset": "is_mountain",
+      "entries": [
+        { "key": "aggron", "min": 1, "max": 5, "rate": 0.25 },
+        { "key": "altaria", "min": 1, "max": 5, "rate": 0.15 },
+        { "key": "gliscor", "min": 1, "max": 5, "rate": 0.5 },
+        { "key": "gogoat", "min": 1, "max": 5, "rate": 0.25 },
+        { "key": "golem", "min": 1, "max": 5, "rate": 0.25 },
+        { "key": "graveler", "min": 1, "max": 5, "rate": 0.5 },
+        { "key": "lairon", "min": 1, "max": 5, "rate": 0.5 },
+        { "key": "machamp", "min": 1, "max": 5, "rate": 0.5 },
+        { "key": "machoke", "min": 1, "max": 5, "rate": 0.5 },
+        { "key": "skiddo", "min": 1, "max": 5, "rate": 0.5 },
+        { "key": "swablu", "min": 1, "max": 5, "rate": 0.5 }
+      ]
+    },
+    {
       "and_preset": "is_snowy",
       "entries": [
         { "key": "abomasnow", "min": 1, "max": 2, "rate": 0.25 },
-        { "key": "aron", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "avalugg", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "beartic", "min": 1, "max": 2, "rate": 0.25 },
         { "key": "castform", "min": 1, "max": 2, "rate": 0.5 },
@@ -349,7 +364,6 @@
         { "key": "glaceon", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "glalie", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "glastrier", "min": 1, "max": 2, "rate": 0.5 },
-        { "key": "lairon", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "mamoswine", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "piloswine", "min": 1, "max": 2, "rate": 0.25 },
         { "key": "piplup", "min": 1, "max": 2, "rate": 0.25 },

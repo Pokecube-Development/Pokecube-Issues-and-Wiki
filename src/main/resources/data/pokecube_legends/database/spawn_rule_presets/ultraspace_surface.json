@@ -68,6 +68,12 @@
     },
     {
       "values": {
+        "preset": "is_mountain",
+        "types": "#pokecube_legends:can_spawn/is_mountain"
+      }
+    },
+    {
+      "values": {
         "preset": "is_snowy",
         "types": "#pokecube_legends:can_spawn/is_snowy"
       }
