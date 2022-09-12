@@ -29,22 +29,22 @@ import thut.lib.TComponent;
 public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implements INotifiedEntry
 {
 
-    final int                                index;
-    public final EditBox             location;
-    public final EditBox             timeperiod;
-    public final EditBox             variation;
-    final Screen                             parent;
-    final IGuardAICapability                 guard;
-    final Entity                             entity;
-    final Button                             delete;
-    final Button                             confirm;
-    final Button                             moveUp;
-    final Button                             moveDown;
-    final Button                             update;
+    final int index;
+    public final EditBox location;
+    public final EditBox timeperiod;
+    public final EditBox variation;
+    final Screen parent;
+    final IGuardAICapability guard;
+    final Entity entity;
+    final Button delete;
+    final Button confirm;
+    final Button moveUp;
+    final Button moveDown;
+    final Button update;
     final Function<CompoundTag, CompoundTag> function;
-    final int                                guiX;
-    final int                                guiY;
-    final int                                guiHeight;
+    final int guiX;
+    final int guiY;
+    final int guiHeight;
 
     public GuardEntry(final int index, final IGuardAICapability guard, final Entity entity, final Screen parent,
             final EditBox location, final EditBox timeperiod, final EditBox variation,
