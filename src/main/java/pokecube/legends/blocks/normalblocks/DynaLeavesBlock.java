@@ -73,6 +73,6 @@ public class DynaLeavesBlock extends LeavesBlock implements IForgeShearable
     @Override
     protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
     {
-        builder.add(DynaLeavesBlock.DISTANCE, DynaLeavesBlock.PERSISTENT, DynaLeavesBlock.SNOWY);
+        builder.add(DynaLeavesBlock.DISTANCE, DynaLeavesBlock.PERSISTENT, DynaLeavesBlock.SNOWY, DynaLeavesBlock.WATERLOGGED);
     }
 }
