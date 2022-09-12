@@ -107,6 +107,12 @@
         "preset": "is_ultraspace",
         "types": "#pokecube_legends:can_spawn/is_ultraspace"
       }
+    },
+    {
+      "values": {
+        "preset": "is_underground",
+        "types": "#pokecube_legends:can_spawn/is_underground"
+      }
     }
   ]
 }

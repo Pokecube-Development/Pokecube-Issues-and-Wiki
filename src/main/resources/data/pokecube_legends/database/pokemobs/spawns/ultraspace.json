@@ -513,6 +513,29 @@
         { "key": "pheromsa", "min": 1, "max": 3, "rate": 0.15 },
         { "key": "poipole", "min": 1, "max": 5, "rate": 0.15 }
       ]
+    },
+    {
+      "and_preset": "is_underground",
+      "entries": [
+        { "key": "crobat", "min": 1, "max": 5, "rate": 0.25 },
+        { "key": "diglett", "min": 1, "max": 5, "rate": 0.5 },
+        { "key": "dugtrio", "min": 1, "max": 5, "rate": 0.25 },
+        { "key": "dugtrio_alola", "min": 1, "max": 5, "rate": 0.25 },
+        { "key": "exploud", "min": 1, "max": 5, "rate": 0.25 },
+        { "key": "golbat", "min": 1, "max": 5, "rate": 0.5 },
+        { "key": "loudred", "min": 1, "max": 5, "rate": 0.5 },
+        { "key": "lunatone", "min": 1, "max": 5, "rate": 0.5 },
+        { "key": "nosepass", "min": 1, "max": 5, "rate": 0.5 },
+        { "key": "onix", "min": 1, "max": 5, "rate": 0.5 },
+        { "key": "regice", "min": 1, "max": 5, "rate": 0.15 },
+        { "key": "regirock", "min": 1, "max": 5, "rate": 0.15 },
+        { "key": "registeel", "min": 1, "max": 5, "rate": 0.15 },
+        { "key": "solrock", "min": 1, "max": 5, "rate": 0.5 },
+        { "key": "steelix", "min": 1, "max": 5, "rate": 0.25 },
+        { "key": "wobbuffet", "min": 1, "max": 5, "rate": 0.5 },
+        { "key": "wynaut", "min": 1, "max": 5, "rate": 0.5 },
+        { "key": "zubat", "min": 1, "max": 1, "rate": 0.5 }
+      ]
     }
   ]
 }
