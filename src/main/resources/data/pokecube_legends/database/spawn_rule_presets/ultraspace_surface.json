@@ -8,12 +8,6 @@
     },
     {
       "values": {
-        "preset": "is_corrupted",
-        "types": "#pokecube_legends:can_spawn/is_corrupted"
-      }
-    },
-    {
-      "values": {
         "preset": "is_beach",
         "types": "#pokecube_legends:can_spawn/is_beach"
       }
@@ -26,8 +20,20 @@
     },
     {
       "values": {
+        "preset": "is_corrupted",
+        "types": "#pokecube_legends:can_spawn/is_corrupted"
+      }
+    },
+    {
+      "values": {
         "preset": "is_crystallized",
         "types": "#pokecube_legends:can_spawn/is_crystallized"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_dead",
+        "types": "#pokecube_legends:can_spawn/is_dead"
       }
     },
     {
@@ -68,6 +74,30 @@
     },
     {
       "values": {
+        "preset": "is_mountain",
+        "types": "#pokecube_legends:can_spawn/is_mountain"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_ocean",
+        "types": "#pokecube_legends:can_spawn/is_ocean"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_polluted",
+        "types": "#pokecube_legends:can_spawn/is_polluted"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_river",
+        "types": "#pokecube_legends:can_spawn/is_river"
+      }
+    },
+    {
+      "values": {
         "preset": "is_snowy",
         "types": "#pokecube_legends:can_spawn/is_snowy"
       }
@@ -76,6 +106,12 @@
       "values": {
         "preset": "is_ultraspace",
         "types": "#pokecube_legends:can_spawn/is_ultraspace"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_underground",
+        "types": "#pokecube_legends:can_spawn/is_underground"
       }
     }
   ]

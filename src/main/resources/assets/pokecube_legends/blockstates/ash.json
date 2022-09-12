@@ -5,7 +5,7 @@
         "falling": "true"
       },
       "apply": {
-        "model": "pokecube_legends:block/ash_air"
+        "model": "pokecube_legends:block/ash_dust"
       }
     },
     {
