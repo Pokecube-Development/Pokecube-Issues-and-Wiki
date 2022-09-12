@@ -138,7 +138,9 @@ public class ThutParticles
             final ResourceLocation location = new ResourceLocation(name);
             final ParticleType<?> type = ForgeRegistries.PARTICLE_TYPES.getValue(location);
             if (type instanceof ParticleOptions opts) return opts;
-            else if (type.getDeserializer() instanceof ParticleOptions opts) return opts;
+            else if (type != null && type.getDeserializer() instanceof ParticleOptions opts) return opts;
+            else if (type != null) ThutCore.LOGGER.warn("Warning for particle {}, it isn't an options? {} {}", name,
+                    type.getClass(), Arrays.toString(type.getDeserializer().getClass().getInterfaces()));
         }
 
         if (ret == null)

@@ -26,9 +26,9 @@ public class GuiPokemobAI extends GuiPokemobBase
     private static class AIEntry extends Entry<AIEntry>
     {
         final IPokemob pokemob;
-        final Button   wrapped;
-        final int      index;
-        int            top;
+        final Button wrapped;
+        final int index;
+        int top;
 
         public AIEntry(final Button wrapped, final int index, final IPokemob pokemob)
         {
@@ -68,9 +68,9 @@ public class GuiPokemobAI extends GuiPokemobBase
     }
 
     final Inventory playerInventory;
-    final Container      pokeInventory;
-    final IPokemob        pokemob;
-    final Entity          entity;
+    final Container pokeInventory;
+    final IPokemob pokemob;
+    final Entity entity;
     ScrollGui<AIEntry> list;
 
     final List<TextFieldWidget2> textInputs = Lists.newArrayList();
@@ -91,12 +91,15 @@ public class GuiPokemobAI extends GuiPokemobBase
         super.init();
         int xOffset = this.width / 2 - 10;
         int yOffset = this.height / 2 - 77;
-        this.addRenderableWidget(new Button(xOffset + 60, yOffset, 30, 10, TComponent.translatable("pokemob.gui.inventory"),
-                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.MAIN, this.entity.getId())));
-        this.addRenderableWidget(new Button(xOffset + 30, yOffset, 30, 10, TComponent.translatable("pokemob.gui.storage"),
-                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.STORAGE, this.entity.getId())));
-        this.addRenderableWidget(new Button(xOffset + 00, yOffset, 30, 10, TComponent.translatable("pokemob.gui.routes"),
-                b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.ROUTES, this.entity.getId())));
+        this.addRenderableWidget(
+                new Button(xOffset + 60, yOffset, 30, 10, TComponent.translatable("pokemob.gui.inventory"),
+                        b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.MAIN, this.entity.getId())));
+        this.addRenderableWidget(
+                new Button(xOffset + 30, yOffset, 30, 10, TComponent.translatable("pokemob.gui.storage"),
+                        b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.STORAGE, this.entity.getId())));
+        this.addRenderableWidget(
+                new Button(xOffset + 00, yOffset, 30, 10, TComponent.translatable("pokemob.gui.routes"),
+                        b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.ROUTES, this.entity.getId())));
         yOffset += 9;
         xOffset += 2;
         this.list = new ScrollGui<>(this, this.minecraft, 90, 50, 10, xOffset, yOffset);
@@ -107,8 +110,7 @@ public class GuiPokemobAI extends GuiPokemobBase
             if (!AIRoutine.values()[i].isAllowed(this.pokemob)) continue;
             if (name.length() > 6) name = name.substring(0, 6);
             final int index = i;
-            final Button button = new Button(xOffset, yOffset, 40, 10, TComponent.literal(name), b ->
-            {
+            final Button button = new Button(xOffset, yOffset, 40, 10, TComponent.literal(name), b -> {
                 final AIRoutine routine = AIRoutine.values()[index];
                 final boolean state = !this.pokemob.isRoutineEnabled(routine);
                 this.pokemob.setRoutineState(routine, state);
@@ -124,8 +126,7 @@ public class GuiPokemobAI extends GuiPokemobBase
     public void render(final PoseStack mat, final int x, final int y, final float f)
     {
         super.render(mat, x, y, f);
-        for (int i = 3; i < this.renderables.size(); i++)
-            ((AbstractWidget) this.renderables.get(i)).visible = false;
+        for (int i = 3; i < this.renderables.size(); i++) ((AbstractWidget) this.renderables.get(i)).visible = false;
         this.list.render(mat, x, y, f);
         this.renderTooltip(mat, x, y);
     }
