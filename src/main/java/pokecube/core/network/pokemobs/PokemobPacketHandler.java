@@ -52,7 +52,7 @@ public class PokemobPacketHandler
 
         public MessageServer(final FriendlyByteBuf buffer)
         {
-            this.buffer = buffer;
+            this.buffer = new FriendlyByteBuf(Unpooled.copiedBuffer(buffer));
         }
 
         @Override
