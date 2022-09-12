@@ -17,7 +17,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -49,7 +49,6 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.client.Resources;
-import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.MovesUtils.AbleStatus;
@@ -59,7 +58,6 @@ import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
-import thut.lib.TComponent;
 
 public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
 {
@@ -233,7 +231,11 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
         final IPokemob pokemob = this.getCurrentPokemob();
         if (pokemob != null)
         {
-            String displayName = pokemob.getDisplayName().getString();
+            FormattedCharSequence displayName = pokemob.getDisplayName().getVisualOrderText();
+            if (this.fontRenderer.width(displayName) > 70)
+            {
+                displayName = this.fontRenderer.split(pokemob.getDisplayName(), 70).get(0);
+            }
             final int currentMoveIndex = pokemob.getMoveIndex();
             evt.getMat().pushPose();
             final float s = (float) PokecubeCore.getConfig().guiSize;
@@ -307,12 +309,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
             // Render Name
             if (currentMoveIndex == 5) RenderSystem.setShaderColor(0.0F, 1.0F, 0.4F, 1.0F);
             this.blit(evt.getMat(), nameOffsetX, nameOffsetY, 44, 0, 90, 13);
-            if (this.fontRenderer.width(displayName) > 70)
-            {
-                final List<MutableComponent> list = ListHelper.splitText(TComponent.literal(displayName), 70,
-                        this.fontRenderer, true);
-                displayName = list.get(0).getString();
-            }
+
             this.fontRenderer.draw(evt.getMat(), displayName, nameOffsetX + 3, nameOffsetY + 3,
                     GuiDisplayPokecubeInfo.lightGrey);
 

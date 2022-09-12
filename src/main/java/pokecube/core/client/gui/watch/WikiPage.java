@@ -20,8 +20,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.ItemStack;
-import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
@@ -43,7 +43,7 @@ public class WikiPage extends ListPage<LineEntry>
         final int page;
 
         public WikiLine(final ScrollGui<LineEntry> list, final int y0, final int y1, final Font fontRender,
-                final Component line, final int page)
+                final FormattedCharSequence line, final int page)
         {
             super(list, y0, y1, fontRender, line, 0);
             this.page = page;
@@ -174,14 +174,12 @@ public class WikiPage extends ListPage<LineEntry>
             if (!bookStack.hasTag()) return;
             final CompoundTag tag = bookStack.getTag();
             final ListTag bookPages = tag.getList("pages", 8);
-            Component line;
             for (int i = 0; i < bookPages.size(); i++)
             {
                 final MutableComponent page = Component.Serializer.fromJsonLenient(bookPages.getString(i));
-                final List<MutableComponent> list = ListHelper.splitText(page, 120, this.font, false);
-                for (final MutableComponent element : list)
+                var list = this.font.split(page, 120);
+                for (var line : list)
                 {
-                    line = element;
                     final LineEntry wikiline = new WikiLine(this.list, -5, 0, this.font, line, i)
                             .setClickListner(listener);
                     this.list.addEntry(wikiline);
@@ -199,7 +197,6 @@ public class WikiPage extends ListPage<LineEntry>
 
             int pagenum = 0;
 
-            MutableComponent entry;
             for (final Page page : pages.pages)
             {
                 for (String line : page.lines)
@@ -226,12 +223,26 @@ public class WikiPage extends ListPage<LineEntry>
                     }
 
                     final MutableComponent comp = TComponent.literal(line);
-                    final List<MutableComponent> list = ListHelper.splitText(comp, 120, this.font, false);
-                    for (final MutableComponent element : list)
+                    var list = this.font.getSplitter().splitLines(comp, 120, Style.EMPTY);
+                    Style style = Style.EMPTY;
+
+                    String fmt = "";
+
+                    String _text = comp.getString();
+
+                    for (var element : list)
                     {
-                        entry = element;
+                        MutableComponent entry;
+                        if (element instanceof MutableComponent e)
+                        {
+                            entry = e;
+                            style = entry.getStyle();
+                        }
+                        else entry = TComponent.literal(element.getString());
                         String text = entry.getString();
-                        Style style = entry.getStyle();
+
+                        if (element instanceof Component c) style = c.getStyle();
+
                         // We have a link
                         if (text.contains(linkin))
                         {
@@ -246,13 +257,26 @@ public class WikiPage extends ListPage<LineEntry>
                             entry = TComponent.literal(text);
                             this.refs.put(ref_val, this.list.getSize());
                         }
+                        if (text.contains("§"))
+                        {
+                            int index = _text.indexOf("§");
+                            fmt = "";
+                            while (index != -1)
+                            {
+                                fmt = fmt + _text.substring(index, index + 2);
+                                _text = _text.substring(index + 2);
+                                index = _text.indexOf("§");
+                            }
+                        }
+                        else entry = TComponent.literal(fmt + text);
                         entry.setStyle(style);
-                        final LineEntry wikiline = new WikiLine(this.list, -5, 0, this.font, entry, pagenum)
-                                .setClickListner(listener);
+                        final LineEntry wikiline = new WikiLine(this.list, -5, 0, this.font, entry.getVisualOrderText(),
+                                pagenum).setClickListner(listener);
                         this.list.addEntry(wikiline);
                     }
                 }
-                final LineEntry wikiline = new WikiLine(this.list, 0, 0, this.font, TComponent.literal(""), pagenum);
+                final LineEntry wikiline = new WikiLine(this.list, 0, 0, this.font,
+                        TComponent.literal("").getVisualOrderText(), pagenum);
                 this.list.addEntry(wikiline);
                 pagenum++;
             }

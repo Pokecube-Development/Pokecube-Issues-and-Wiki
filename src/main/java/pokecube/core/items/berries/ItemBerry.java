@@ -76,7 +76,7 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
 
     public ItemBerry(final BerryType type)
     {
-        super(BerryManager.berryFruits.get(type.index), type);
+        super(BerryManager.berryCrops.get(type.index), type);
         this.type = type;
         BerryManager.addBerry(this);
     }
@@ -89,7 +89,7 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
 
     public Block getBlockRaw()
     {
-        return BerryManager.berryFruits.get(this.type.index);
+        return BerryManager.berryCrops.get(this.type.index);
     }
 
     /**

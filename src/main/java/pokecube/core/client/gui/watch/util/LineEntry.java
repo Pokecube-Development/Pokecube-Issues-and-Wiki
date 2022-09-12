@@ -4,8 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.AbstractSelectionList;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.util.FormattedCharSequence;
 import pokecube.core.client.gui.helper.ScrollGui;
 
 public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
@@ -24,21 +24,23 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
 
     }
 
-    final Font          fontRender;
-    final int                   colour;
-    public final Component line;
-    public int                  x0;
-    public int                  y0;
-    private IClickListener      listener = new IClickListener()
-                                         {
-                                         };
+    final Font font;
+    final int colour;
+    public final FormattedCharSequence line;
+    public int x0;
+    public int y0;
+
+    private int x1 = 0;
+    private IClickListener listener = new IClickListener()
+    {
+    };
 
     @SuppressWarnings("deprecation")
     public LineEntry(final ScrollGui<LineEntry> parent, final int x0, final int y0, final Font fontRender,
-            final Component line, final int default_colour)
+            final FormattedCharSequence line, final int default_colour)
     {
         this.list = parent;
-        this.fontRender = fontRender;
+        this.font = fontRender;
         this.line = line;
         this.colour = default_colour;
         this.x0 = x0;
@@ -51,10 +53,7 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
         final boolean inBounds = this.isMouseOver(x, y);
         if (inBounds)
         {
-            if (this.listener.handleClick(this.line.getStyle())) return true;
-            for (final Component comp : this.line.getSiblings())
-                if (this.listener.handleClick(comp.getStyle())) return true;
-            return true;
+            if (this.listener.handleClick(this.getStyle(x))) return true;
         }
         return false;
     }
@@ -64,12 +63,22 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
             final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
             final float partialTicks)
     {
-        this.fontRender.draw(mat, this.line.getString(), x + this.x0, y + this.y0, this.colour);
-        final int dx = this.fontRender.width(this.line.getString());
+        this.font.draw(mat, this.line, x + this.x0, y + this.y0, this.colour);
+        x1 = x;
+        final int dx = this.font.width(this.line);
         final int relativeX = mouseX - x;
         final int relativeY = mouseY - y;
-        if (relativeY <= this.fontRender.lineHeight && relativeX >= 0 && relativeX <= dx && relativeY > 0)
-            this.listener.handleHovor(mat, this.line.getStyle(), x, y);
+        if (relativeY <= this.font.lineHeight && relativeX >= 0 && relativeX <= dx && relativeY > 0)
+            this.listener.handleHovor(mat, this.getStyle(mouseX), x, y);
+    }
+
+    private Style getStyle(double x)
+    {
+        int dx = (int) (x - x0 - x1);
+        if (dx < 0) return Style.EMPTY;
+        Style style = this.font.getSplitter().componentStyleAtWidth(line, dx);
+        if (style == null) style = Style.EMPTY;
+        return style;
     }
 
     public LineEntry setClickListner(IClickListener listener)
