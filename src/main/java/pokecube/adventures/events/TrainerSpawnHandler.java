@@ -14,7 +14,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.LivingEntity;
@@ -215,7 +214,6 @@ public class TrainerSpawnHandler
                 final ItemStack badge = new ItemStack(item);
                 if (!rewardsCap.getRewards().isEmpty()) rewardsCap.getRewards().set(0, new Reward(badge));
                 else rewardsCap.getRewards().add(new Reward(badge));
-                npc.setItemInHand(InteractionHand.OFF_HAND, rewardsCap.getRewards().get(0).stack);
             }
         }
         // Randomize team.

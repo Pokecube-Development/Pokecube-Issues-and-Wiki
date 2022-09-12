@@ -736,9 +736,9 @@ public class Config extends ConfigData
     public int attackCooldown = 20;
 
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor for cooldowns for ranged attacks. [Default: 1]")
-    public double attackCooldownRangedScale = 1;
+    public double attackCooldownRangedScale = 1.5;
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor for cooldowns for contact attacks. [Default: 1]")
-    public double attackCooldownContactScale = 1;
+    public double attackCooldownContactScale = 1.0;
 
     @Configure(category = Config.spawning, type = Type.SERVER, comment = "Pokemobs will not spawn further than this distance from a player. [Default: 32]")
     public int maxSpawnRadius = 32; // Synced for pokewatch

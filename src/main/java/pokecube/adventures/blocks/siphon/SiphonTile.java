@@ -24,11 +24,11 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.blocks.InteractableTile;
 import thut.api.LinkableCaps.ILinkStorage;
+import thut.api.ThutCaps;
 import thut.api.block.ITickTile;
 import thut.api.entity.ThutTeleporter;
 import thut.lib.TComponent;
@@ -44,7 +44,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return CapabilityEnergy.ENERGY.orEmpty(cap, this.holder);
+            return ThutCaps.ENERGY.orEmpty(cap, this.holder);
         }
 
         @Override

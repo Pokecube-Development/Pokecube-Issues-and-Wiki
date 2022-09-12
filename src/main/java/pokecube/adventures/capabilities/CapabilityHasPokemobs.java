@@ -94,7 +94,7 @@ public class CapabilityHasPokemobs
             @Override
             public boolean equals(final Object other)
             {
-                if (other instanceof DefeatEntry) return ((DefeatEntry) other).id.equals(this.id);
+                if (other instanceof DefeatEntry entry) return entry.id.equals(this.id);
                 return false;
             }
 

@@ -4,6 +4,8 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.items.IItemHandler;
 import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.LinkableCaps.ILinkable;
 import thut.api.entity.IAnimated;
@@ -48,6 +50,10 @@ public class ThutCaps
     public static final Capability<IMobGenetics> GENETICS_CAP = CapabilityManager.get(new CapabilityToken<>(){});
 
     public static final Capability<IMobTexturable> MOBTEX_CAP = CapabilityManager.get(new CapabilityToken<>(){});
+    
+    public static final Capability<IItemHandler> ITEM_HANDLER = CapabilityManager.get(new CapabilityToken<>(){});
+    
+    public static final Capability<IEnergyStorage> ENERGY = CapabilityManager.get(new CapabilityToken<>(){});
 
     public static void registerCapabilities(final RegisterCapabilitiesEvent event)
     {

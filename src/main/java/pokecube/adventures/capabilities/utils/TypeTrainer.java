@@ -133,9 +133,9 @@ public class TypeTrainer extends NpcType
                 return null;
             }
 
-            if (mob instanceof TrainerBase)
+            if (mob instanceof TrainerBase npc)
             {
-                final TypeTrainer type = ((TrainerBase) mob).pokemobsCap.getType();
+                final TypeTrainer type = npc.pokemobsCap.getType();
                 if (type != null) return type;
                 return TypeTrainer.merchant;
             }

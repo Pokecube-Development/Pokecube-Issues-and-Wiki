@@ -23,7 +23,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -42,6 +41,7 @@ import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.utils.PokeType;
 import pokecube.core.eventhandlers.EventsHandler;
+import thut.api.ThutCaps;
 import thut.api.maths.Vector3;
 
 public class EnergyHandler
@@ -99,7 +99,7 @@ public class EnergyHandler
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return CapabilityEnergy.ENERGY.orEmpty(cap, this.holder);
+            return ThutCaps.ENERGY.orEmpty(cap, this.holder);
         }
 
     }
@@ -160,7 +160,7 @@ public class EnergyHandler
         int ret = 0;
         for (final Entity entity : l) if (entity != null && entity.isAddedToWorld() && entity.isAlive())
         {
-            final IEnergyStorage producer = entity.getCapability(CapabilityEnergy.ENERGY).orElse(null);
+            final IEnergyStorage producer = entity.getCapability(ThutCaps.ENERGY).orElse(null);
             if (producer != null)
             {
                 final double dSq = Math.max(1, entity.distanceToSqr(tile.getBlockPos().getX() + 0.5,
@@ -192,7 +192,7 @@ public class EnergyHandler
         int output = EnergyHandler.getOutput(event.getTile(), PokecubeAdv.config.maxOutput, true, mobs);
         event.getTile().energy.theoreticalOutput = output;
         event.getTile().energy.currentOutput = output;
-        final IEnergyStorage producer = event.getTile().getCapability(CapabilityEnergy.ENERGY).orElse(null);
+        final IEnergyStorage producer = event.getTile().getCapability(ThutCaps.ENERGY).orElse(null);
         final int start = output;
         final Vector3 v = new Vector3().set(event.getTile());
         for (final Direction side : Direction.values())
@@ -200,7 +200,7 @@ public class EnergyHandler
             final BlockEntity te = v.getTileEntity(world, side);
             IEnergyStorage cap;
             if (te != null
-                    && (cap = te.getCapability(CapabilityEnergy.ENERGY, side.getOpposite()).orElse(null)) != null)
+                    && (cap = te.getCapability(ThutCaps.ENERGY, side.getOpposite()).orElse(null)) != null)
             {
                 if (!cap.canReceive()) continue;
                 final int toSend = cap.receiveEnergy(output, true);
@@ -219,7 +219,7 @@ public class EnergyHandler
             IEnergyStorage cap;
             sides:
             for (final Direction side : Direction.values())
-                if ((cap = te.getCapability(CapabilityEnergy.ENERGY, side.getOpposite()).orElse(null)) != null)
+                if ((cap = te.getCapability(ThutCaps.ENERGY, side.getOpposite()).orElse(null)) != null)
             {
                 if (!cap.canReceive()) continue;
                 final int toSend = cap.receiveEnergy(output, true);
@@ -307,7 +307,7 @@ public class EnergyHandler
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return CapabilityEnergy.ENERGY.orEmpty(cap, this.holder);
+            return ThutCaps.ENERGY.orEmpty(cap, this.holder);
         }
 
         @Override

@@ -103,9 +103,9 @@ public class DodgeTask extends CombatTask implements IAICombat
     }
 
     /**
-     * Check if the mob should dodge. It checks that the mob can dodge (ie is
-     * on ground if it can't float or fly), and then factors in evasion for
-     * whether or not the mob should be dodging now.
+     * Check if the mob should dodge. It checks that the mob can dodge (ie is on
+     * ground if it can't float or fly), and then factors in evasion for whether
+     * or not the mob should be dodging now.
      *
      * @return
      */

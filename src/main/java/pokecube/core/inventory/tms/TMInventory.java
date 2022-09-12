@@ -7,12 +7,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.ThutCaps;
 import thut.api.inventory.InvHelper;
 import thut.api.item.ItemList;
 
@@ -42,7 +42,7 @@ public class TMInventory extends SimpleContainer implements ICapabilitySerializa
     @Override
     public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
     {
-        return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, this.holder);
+        return ThutCaps.ITEM_HANDLER.orEmpty(cap, this.holder);
     }
 
     @Override

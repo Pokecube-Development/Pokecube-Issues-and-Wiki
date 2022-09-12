@@ -6,7 +6,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -14,6 +13,7 @@ import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.init.MenuTypes;
 import pokecube.core.inventory.TexturedSlot;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.ThutCaps;
 import thut.api.inventory.BaseContainer;
 
 public class TMContainer extends BaseContainer
@@ -41,7 +41,7 @@ public class TMContainer extends BaseContainer
             {
                 this.tile = (TMTile) tile;
                 final InvWrapper wrapper = (InvWrapper) this.tile.getCapability(
-                        CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
+                        ThutCaps.ITEM_HANDLER).orElse(null);
                 this.inv = wrapper.getInv();
             }
         });
@@ -51,7 +51,7 @@ public class TMContainer extends BaseContainer
             this.tile = new TMTile(inv.player.blockPosition(), PokecubeItems.TM_MACHINE.get().defaultBlockState());
             this.tile.setLevel(PokecubeCore.proxy.getWorld());
             final InvWrapper wrapper = (InvWrapper) this.tile.getCapability(
-                    CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
+                    ThutCaps.ITEM_HANDLER).orElse(null);
             this.inv = wrapper.getInv();
         }
 

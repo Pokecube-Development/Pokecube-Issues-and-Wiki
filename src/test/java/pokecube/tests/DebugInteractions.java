@@ -22,9 +22,9 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.api.PokecubeAPI;
+import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.api.world.WorldTickManager;
@@ -50,8 +50,8 @@ public class DebugInteractions
 
         if (te instanceof ChestBlockEntity chest && isStructureMaker)
         {
-            IItemHandlerModifiable itemSource = (IItemHandlerModifiable) chest
-                    .getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
+            IItemHandlerModifiable itemSource = (IItemHandlerModifiable) chest.getCapability(ThutCaps.ITEM_HANDLER)
+                    .orElse(null);
             BlockPos origin = evt.getPos();
             Direction orientation = level.getBlockState(origin).getValue(ChestBlock.FACING);
 

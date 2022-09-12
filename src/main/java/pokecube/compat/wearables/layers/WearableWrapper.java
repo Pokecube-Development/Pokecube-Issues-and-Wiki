@@ -196,7 +196,7 @@ public class WearableWrapper
         final PacketGui packet = new PacketGui();
         packet.data.putInt("w_open_target_", lastID = pokemob.getEntity().getId());
         lastUUID = pokemob.getEntity().getUUID();
-        PacketGui.sendOpenGui(packet);
+        ThutWearables.packets.sendToServer(packet);
     }
 
     @OnlyIn(value = Dist.CLIENT)

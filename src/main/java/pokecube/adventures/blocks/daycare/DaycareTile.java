@@ -14,7 +14,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -22,6 +21,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Tools;
+import thut.api.ThutCaps;
 import thut.api.block.ITickTile;
 
 public class DaycareTile extends InteractableTile implements ITickTile
@@ -73,7 +73,7 @@ public class DaycareTile extends InteractableTile implements ITickTile
     public DaycareTile(final BlockPos pos, final BlockState state)
     {
         this(PokecubeAdv.DAYCARE_TYPE.get(), pos, state);
-        this.itemstore = (IItemHandlerModifiable) this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+        this.itemstore = (IItemHandlerModifiable) this.getCapability(ThutCaps.ITEM_HANDLER)
                 .orElse(null);
     }
 

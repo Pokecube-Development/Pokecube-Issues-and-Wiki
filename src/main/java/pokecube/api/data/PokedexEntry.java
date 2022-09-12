@@ -771,9 +771,7 @@ public class PokedexEntry
 
     private static final PokedexEntry BLANK = new PokedexEntry(true);
 
-    public static final ResourceLocation MODELNO = new ResourceLocation(PokecubeCore.MODID,
-            "entity/models/missingno.x3d");
-
+    public static final ResourceLocation MODELNO = new ResourceLocation(PokecubeCore.MODID, "entity/models/missingno");
     public static final ResourceLocation TEXNO = new ResourceLocation(PokecubeCore.MODID,
             "entity/textures/missingno.png");
     public static final ResourceLocation ANIMNO = new ResourceLocation(PokecubeCore.MODID,

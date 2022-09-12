@@ -8,12 +8,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.api.items.IPokecube;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.ThutCaps;
 import thut.api.inventory.InvHelper;
 
 public class TradeInventory extends SimpleContainer implements ICapabilitySerializable<CompoundTag>
@@ -50,7 +50,7 @@ public class TradeInventory extends SimpleContainer implements ICapabilitySerial
     @Override
     public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
     {
-        return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, this.holder);
+        return ThutCaps.ITEM_HANDLER.orEmpty(cap, this.holder);
     }
 
     @Override

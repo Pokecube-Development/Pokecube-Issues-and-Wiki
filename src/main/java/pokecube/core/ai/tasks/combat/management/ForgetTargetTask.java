@@ -264,9 +264,6 @@ public class ForgetTargetTask extends CombatTask
 
             if (BrainUtils.canSee(this.entity, this.entityTarget)) this.ticksSinceSeen = 0;
 
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Seen Time: {}->{}, {}", this.entity.getName().getString(),
-                    this.entityTarget.getName().getString(), this.ticksSinceSeen);
-
             // If it has been too long since last seen the target, give up.
             if (this.ticksSinceSeen++ > giveUpTimer)
             {

@@ -41,7 +41,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
@@ -143,7 +142,7 @@ public class WormholeEntity extends LivingEntity
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return CapabilityEnergy.ENERGY.orEmpty(cap, this.holder);
+            return ThutCaps.ENERGY.orEmpty(cap, this.holder);
         }
 
         @Override
