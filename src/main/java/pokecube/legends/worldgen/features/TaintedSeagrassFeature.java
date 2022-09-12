@@ -1,10 +1,9 @@
 package pokecube.legends.worldgen.features;
 
-import java.util.Random;
-
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.TallSeagrassBlock;
@@ -27,7 +26,7 @@ public class TaintedSeagrassFeature extends Feature<ProbabilityFeatureConfigurat
    public boolean place(final FeaturePlaceContext<ProbabilityFeatureConfiguration> context)
    {
       boolean flag = false;
-      final Random random = context.random();
+      final RandomSource random = context.random();
       final WorldGenLevel world = context.level();
       final BlockPos pos = context.origin();
       final ProbabilityFeatureConfiguration probConfig = context.config();

@@ -1,7 +1,6 @@
 package pokecube.legends.worldgen.features;
 
 import java.util.Optional;
-import java.util.Random;
 
 import com.mojang.serialization.Codec;
 
@@ -10,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -32,7 +32,7 @@ public class AquamarineCrystalFeature extends Feature<PointedDripstoneConfigurat
    {
       LevelAccessor world = context.level();
       BlockPos pos = context.origin();
-      Random random = context.random();
+      RandomSource random = context.random();
       PointedDripstoneConfiguration aquamarineCrystalConfig = context.config();
       Optional<Direction> optional = getTipDirection(world, pos, random);
       if (optional.isEmpty())
@@ -49,7 +49,7 @@ public class AquamarineCrystalFeature extends Feature<PointedDripstoneConfigurat
       }
    }
 
-   public static Optional<Direction> getTipDirection(LevelAccessor world, BlockPos pos, Random random)
+   public static Optional<Direction> getTipDirection(LevelAccessor world, BlockPos pos, RandomSource random)
    {
       boolean flag = AquamarineUtils.isAquamarineBase(world.getBlockState(pos.above()));
       boolean flag1 = AquamarineUtils.isAquamarineBase(world.getBlockState(pos.below()));
@@ -65,7 +65,7 @@ public class AquamarineCrystalFeature extends Feature<PointedDripstoneConfigurat
       }
    }
 
-   public static void createPatchOfAquamarineBlocks(LevelAccessor world, Random random, BlockPos pos, PointedDripstoneConfiguration config)
+   public static void createPatchOfAquamarineBlocks(LevelAccessor world, RandomSource random, BlockPos pos, PointedDripstoneConfiguration config)
    {
        AquamarineUtils.placeAquamarineBlockIfPossible(world, pos);
 

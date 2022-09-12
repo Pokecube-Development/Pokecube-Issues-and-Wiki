@@ -1,12 +1,11 @@
 package pokecube.legends.worldgen.features;
 
-import java.util.Random;
-
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -25,7 +24,7 @@ public class DistortedIslandsFeature extends Feature<NoneFeatureConfiguration>
    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
    {
       WorldGenLevel worldLevel = context.level();
-      Random random = context.random();
+      RandomSource random = context.random();
       BlockPos pos = context.origin();
       float f = (float)(random.nextInt(4) + 4);
 

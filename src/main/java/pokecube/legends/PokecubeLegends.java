@@ -32,11 +32,13 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistries.Keys;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -73,7 +75,6 @@ import pokecube.legends.init.function.UsableItemZMoveEffects;
 import pokecube.legends.recipes.LegendsDistorticRecipeManager;
 import pokecube.legends.recipes.LegendsLootingRecipeManager;
 import pokecube.legends.worldgen.UltraSpaceSurfaceRules;
-import pokecube.legends.worldgen.WorldgenFeatures;
 import pokecube.legends.worldgen.trees.Trees;
 import thut.api.block.flowing.FlowingBlock;
 import thut.core.common.ThutCore;
@@ -95,6 +96,7 @@ public class PokecubeLegends
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES,
             Reference.ID);
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.ID);
+    public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(Keys.FLUID_TYPES, Reference.ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.ID);
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister
             .create(ForgeRegistries.PARTICLE_TYPES, Reference.ID);
@@ -156,6 +158,7 @@ public class PokecubeLegends
         PokecubeLegends.MENU.register(modEventBus);
         PokecubeLegends.ENTITIES.register(modEventBus);
         PokecubeLegends.FLUIDS.register(modEventBus);
+        PokecubeLegends.FLUID_TYPES.register(modEventBus);
         PokecubeLegends.ITEMS.register(modEventBus);
         PokecubeLegends.RECIPE_SERIALIZER.register(modEventBus);
         PokecubeLegends.RECIPE_TYPE.register(modEventBus);
@@ -171,7 +174,8 @@ public class PokecubeLegends
         PokecubeLegends.PLACED_FEATURES.register(modEventBus);
         PokecubeLegends.SURFACE_RULES.register(modEventBus);
 
-        WorldgenFeatures.init(modEventBus);
+        //FIXME worldgen features init
+       // WorldgenFeatures.init(modEventBus);
         BlockInit.init();
         ContainerInit.init();
         EntityInit.init();

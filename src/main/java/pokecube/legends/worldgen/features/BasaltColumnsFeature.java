@@ -1,7 +1,5 @@
 package pokecube.legends.worldgen.features;
 
-import java.util.Random;
-
 import javax.annotation.Nullable;
 
 import com.mojang.serialization.Codec;
@@ -11,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -42,7 +41,7 @@ public class BasaltColumnsFeature extends Feature<ColumnFeatureConfiguration>
         final int i = context.chunkGenerator().getSeaLevel();
         final BlockPos pos = context.origin();
         final WorldGenLevel world = context.level();
-        final Random random = context.random();
+        final RandomSource random = context.random();
         final ColumnFeatureConfiguration conlumnConfig = context.config();
         if (!BasaltColumnsFeature.canPlaceAt(world, i, pos.mutable())) return false;
         else

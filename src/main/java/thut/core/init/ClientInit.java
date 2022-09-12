@@ -96,6 +96,8 @@ public class ClientInit
     @SubscribeEvent
     public static void textOverlay(final CustomizeGuiOverlayEvent.DebugText event)
     {
+        final boolean debug = Minecraft.getInstance().options.renderDebug;
+        if (!debug) return;
         final TerrainSegment t = TerrainManager.getInstance().getTerrainForEntity(Minecraft.getInstance().player);
         final Vector3 v = new Vector3().set(Minecraft.getInstance().player);
         final BiomeType type = t.getBiome(v);

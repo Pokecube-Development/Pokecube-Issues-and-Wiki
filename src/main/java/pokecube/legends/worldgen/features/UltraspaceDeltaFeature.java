@@ -1,12 +1,11 @@
 package pokecube.legends.worldgen.features;
 
-import java.util.Random;
-
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -37,7 +36,7 @@ public class UltraspaceDeltaFeature extends Feature<DeltaFeatureConfiguration>
     public boolean place(final FeaturePlaceContext<DeltaFeatureConfiguration> context)
     {
         boolean flag = false;
-        final Random random = context.random();
+        final RandomSource random = context.random();
         final WorldGenLevel world = context.level();
         final DeltaFeatureConfiguration deltaConfig = context.config();
         final BlockPos pos = context.origin();

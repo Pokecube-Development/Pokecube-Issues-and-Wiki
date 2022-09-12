@@ -1,10 +1,9 @@
 package pokecube.legends.worldgen.features;
 
-import java.util.Random;
-
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.KelpBlock;
@@ -28,7 +27,7 @@ public class TaintedKelpFeature extends Feature<NoneFeatureConfiguration>
       int i = 0;
       WorldGenLevel world = context.level();
       BlockPos pos = context.origin();
-      Random random = context.random();
+      RandomSource random = context.random();
       int j = world.getHeight(Heightmap.Types.OCEAN_FLOOR, pos.getX(), pos.getZ());
       BlockPos posAbove = new BlockPos(pos.getX(), j, pos.getZ());
       if (world.getBlockState(posAbove).is(Blocks.WATER)) {

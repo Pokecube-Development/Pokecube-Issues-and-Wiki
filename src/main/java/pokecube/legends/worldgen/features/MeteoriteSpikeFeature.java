@@ -1,7 +1,5 @@
 package pokecube.legends.worldgen.features;
 
-import java.util.Random;
-
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
@@ -10,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -38,7 +37,7 @@ public class MeteoriteSpikeFeature extends Feature<NoneFeatureConfiguration>
    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
    {
       BlockPos pos = context.origin();
-      Random random = context.random();
+      RandomSource random = context.random();
       
       WorldGenLevel world;
       for(world = context.level(); world.isEmptyBlock(pos) && pos.getY() > world.getMinBuildHeight() + 2; pos = pos.below())

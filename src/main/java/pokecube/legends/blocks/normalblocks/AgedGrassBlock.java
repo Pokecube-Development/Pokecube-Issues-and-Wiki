@@ -148,7 +148,9 @@ public class AgedGrassBlock extends GrassBlock implements BonemealableBlock
 
                  placedFeature = ((RandomPatchConfiguration)list.get(0).config()).feature();
               } else {
-                 placedFeature = FeaturesInit.PlantPlacements.PATCH_GOLDEN_GRASS.getHolder().get();
+                  // FIXME aged grass
+                  return;
+                // placedFeature = FeaturesInit.PlantPlacements.PATCH_GOLDEN_GRASS.getHolder().get();
               }
 
               placedFeature.value().place(world, world.getChunkSource().getGenerator(), random, posAbove1);

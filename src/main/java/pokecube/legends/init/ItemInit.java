@@ -13,11 +13,11 @@ import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.PlaceOnWaterBlockItem;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
-import net.minecraft.world.item.WaterLilyBlockItem;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -441,10 +441,10 @@ public class ItemInit
                 () -> new ItemNameBlockItem(PlantsInit.GOLDEN_SWEET_BERRY_BUSH.get(),
                         new Item.Properties().food(FoodInit.GOLDEN_SWEET_BERRIES)));
         PINK_TAINTED_LILY_PAD = PokecubeLegends.ITEMS.register("pink_blossom_tainted_lily_pad",
-                () -> new WaterLilyBlockItem(PlantsInit.PINK_TAINTED_LILY_PAD.get(),
+                () -> new PlaceOnWaterBlockItem(PlantsInit.PINK_TAINTED_LILY_PAD.get(),
                         new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
         TAINTED_LILY_PAD = PokecubeLegends.ITEMS.register("tainted_lily_pad",
-                () -> new WaterLilyBlockItem(PlantsInit.TAINTED_LILY_PAD.get(),
+                () -> new PlaceOnWaterBlockItem(PlantsInit.TAINTED_LILY_PAD.get(),
                         new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
         TEMPORAL_BAMBOO = PokecubeLegends.ITEMS.register("temporal_bamboo",
                 () -> new TemporalBambooBlockItem(PlantsInit.TEMPORAL_BAMBOO.get(),

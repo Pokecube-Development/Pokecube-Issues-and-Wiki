@@ -196,7 +196,9 @@ public class DistorticGrassBlock extends DirectionalBlock implements Bonemealabl
 
                      placedFeature = ((RandomPatchConfiguration)list.get(0).config()).feature();
                   } else {
-                     placedFeature = FeaturesInit.Configs.DISTORTIC_GRASS_BONEMEAL.getHolder().get();
+                      //FIXME distorted grass
+                      return;
+//                     placedFeature = FeaturesInit.Configs.DISTORTIC_GRASS_BONEMEAL.getHolder().get();
                   }
 
                   placedFeature.value().place(world, world.getChunkSource().getGenerator(), random, posAbove1);

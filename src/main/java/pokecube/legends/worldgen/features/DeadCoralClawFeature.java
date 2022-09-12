@@ -2,7 +2,6 @@ package pokecube.legends.worldgen.features;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
@@ -10,6 +9,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
@@ -21,7 +21,7 @@ public class DeadCoralClawFeature extends DeadCoralFeature
       super(config);
    }
 
-   public boolean placeFeature(LevelAccessor world, Random random, BlockPos pos, BlockState state)
+   public boolean placeFeature(LevelAccessor world, RandomSource random, BlockPos pos, BlockState state)
    {
       if (!this.placeDeadCoralBlock(world, random, pos, state))
       {

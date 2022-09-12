@@ -2,7 +2,6 @@ package pokecube.legends.worldgen.features;
 
 import java.util.Optional;
 import java.util.OptionalInt;
-import java.util.Random;
 
 import com.mojang.serialization.Codec;
 
@@ -13,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.ClampedNormalFloat;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
@@ -44,7 +44,7 @@ public class AquamarineClusterFeature extends Feature<DripstoneClusterConfigurat
         WorldGenLevel world = context.level();
         BlockPos pos = context.origin();
         DripstoneClusterConfiguration aquamarineConfig = context.config();
-        Random random = context.random();
+        RandomSource random = context.random();
         if (!AquamarineUtils.isEmptyOrWater(world, pos))
         {
             return false;
@@ -70,7 +70,7 @@ public class AquamarineClusterFeature extends Feature<DripstoneClusterConfigurat
         }
     }
 
-    public void placeColumn(WorldGenLevel world, Random random, BlockPos pos, int x, int y, float a, double d, int z,
+    public void placeColumn(WorldGenLevel world, RandomSource random, BlockPos pos, int x, int y, float a, double d, int z,
             float b, DripstoneClusterConfiguration config)
     {
         Optional<Column> optional = Column.scan(world, pos, config.floorToCeilingSearchRange,
@@ -181,7 +181,7 @@ public class AquamarineClusterFeature extends Feature<DripstoneClusterConfigurat
         return world.getBlockState(pos).is(Blocks.LAVA);
     }
 
-    public int getDripstoneHeight(Random random, int x, int y, float a, int z, DripstoneClusterConfiguration config)
+    public int getDripstoneHeight(RandomSource random, int x, int y, float a, int z, DripstoneClusterConfiguration config)
     {
         if (random.nextFloat() > a)
         {
@@ -249,7 +249,7 @@ public class AquamarineClusterFeature extends Feature<DripstoneClusterConfigurat
                 config.chanceOfDripstoneColumnAtMaxDistanceFromCenter, 1.0F);
     }
 
-    public static float randomBetweenBiased(Random random, float a, float b, float c, float d)
+    public static float randomBetweenBiased(RandomSource random, float a, float b, float c, float d)
     {
         return ClampedNormalFloat.sample(random, c, d, a, b);
     }

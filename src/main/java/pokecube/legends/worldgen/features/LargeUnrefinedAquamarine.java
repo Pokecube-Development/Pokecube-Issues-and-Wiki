@@ -1,7 +1,6 @@
 package pokecube.legends.worldgen.features;
 
 import java.util.Optional;
-import java.util.Random;
 
 import javax.annotation.Nullable;
 
@@ -13,6 +12,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.FloatProvider;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -42,7 +42,7 @@ public class LargeUnrefinedAquamarine extends Feature<LargeDripstoneConfiguratio
       WorldGenLevel world = context.level();
       BlockPos pos = context.origin();
       LargeDripstoneConfiguration largeUnrefinedAquamarineConfig = context.config();
-      Random random = context.random();
+      RandomSource random = context.random();
       if (!AquamarineUtils.isEmptyOrWater(world, pos))
       {
          return false;
@@ -101,7 +101,7 @@ public class LargeUnrefinedAquamarine extends Feature<LargeDripstoneConfiguratio
       }
    }
 
-   public static LargeUnrefinedAquamarine.LargeUnrefineAquamarine makeAquamarine(BlockPos pos, boolean b, Random random, int i, FloatProvider floatProvider, FloatProvider floatProvider1)
+   public static LargeUnrefinedAquamarine.LargeUnrefineAquamarine makeAquamarine(BlockPos pos, boolean b, RandomSource random, int i, FloatProvider floatProvider, FloatProvider floatProvider1)
    {
       return new LargeUnrefinedAquamarine.LargeUnrefineAquamarine(pos, b, i, (double)floatProvider.sample(random), (double)floatProvider1.sample(random));
    }
@@ -175,7 +175,7 @@ public class LargeUnrefinedAquamarine extends Feature<LargeDripstoneConfiguratio
          return (int)AquamarineUtils.getAquamarineHeight((double)f, (double)this.radius, this.scale, this.bluntness);
       }
 
-      void placeBlocks(WorldGenLevel world, Random random, LargeUnrefinedAquamarine.WindOffsetter windOffsetter)
+      void placeBlocks(WorldGenLevel world, RandomSource random, LargeUnrefinedAquamarine.WindOffsetter windOffsetter)
       {
          for(int i = -this.radius; i <= this.radius; ++i)
          {
@@ -230,7 +230,7 @@ public class LargeUnrefinedAquamarine extends Feature<LargeDripstoneConfiguratio
       @Nullable
       private final Vec3 windSpeed;
 
-      WindOffsetter(int i, Random random, FloatProvider floatProvider)
+      WindOffsetter(int i, RandomSource random, FloatProvider floatProvider)
       {
          this.originY = i;
          float f = floatProvider.sample(random);

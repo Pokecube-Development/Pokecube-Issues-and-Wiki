@@ -1,6 +1,5 @@
 package pokecube.legends.worldgen.trees.treedecorators;
 
-import java.util.List;
 import java.util.function.BiConsumer;
 
 import com.mojang.serialization.Codec;
@@ -11,7 +10,6 @@ import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.block.VineBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import pokecube.legends.blocks.plants.StringOfPearlsBlock;
@@ -30,46 +28,48 @@ public class LeavesStringOfPearlsDecorator extends TreeDecorator
     }
 
     @Override
-    public void place(final LevelSimulatedReader world, final BiConsumer<BlockPos, BlockState> blockPos,
-            final RandomSource random, final List<BlockPos> listPos, final List<BlockPos> listPos1)
+    public void place(TreeDecorator.Context context)
     {
-        listPos1.forEach((listedPos) -> {
+        RandomSource random = context.random();
+        var world = context.level();
+        BiConsumer<BlockPos, BlockState> blockSetter = context::setBlock;
+        context.leaves().forEach((listedPos) -> {
             if (random.nextInt(4) == 0)
             {
                 final BlockPos pos = listedPos.west();
-                if (Feature.isAir(world, pos))
-                    LeavesStringOfPearlsDecorator.addHangingVine(world, pos, VineBlock.EAST, blockPos, random);
+                if (world.isStateAtPosition(pos, s -> s.isAir()))
+                    LeavesStringOfPearlsDecorator.addHangingVine(world, pos, VineBlock.EAST, blockSetter, random);
             }
             if (random.nextInt(4) == 0)
             {
-                final BlockPos pos1 = listedPos.east();
-                if (Feature.isAir(world, pos1))
-                    LeavesStringOfPearlsDecorator.addHangingVine(world, pos1, VineBlock.WEST, blockPos, random);
+                final BlockPos pos = listedPos.east();
+                if (world.isStateAtPosition(pos, s -> s.isAir()))
+                    LeavesStringOfPearlsDecorator.addHangingVine(world, pos, VineBlock.WEST, blockSetter, random);
             }
             if (random.nextInt(4) == 0)
             {
-                final BlockPos pos2 = listedPos.north();
-                if (Feature.isAir(world, pos2))
-                    LeavesStringOfPearlsDecorator.addHangingVine(world, pos2, VineBlock.SOUTH, blockPos, random);
+                final BlockPos pos = listedPos.north();
+                if (world.isStateAtPosition(pos, s -> s.isAir()))
+                    LeavesStringOfPearlsDecorator.addHangingVine(world, pos, VineBlock.SOUTH, blockSetter, random);
             }
             if (random.nextInt(4) == 0)
             {
-                final BlockPos pos3 = listedPos.south();
-                if (Feature.isAir(world, pos3))
-                    LeavesStringOfPearlsDecorator.addHangingVine(world, pos3, VineBlock.NORTH, blockPos, random);
+                final BlockPos pos = listedPos.south();
+                if (world.isStateAtPosition(pos, s -> s.isAir()))
+                    LeavesStringOfPearlsDecorator.addHangingVine(world, pos, VineBlock.NORTH, blockSetter, random);
             }
         });
     }
 
     public static void addHangingVine(final LevelSimulatedReader world, final BlockPos pos, final BooleanProperty b,
-            final BiConsumer<BlockPos, BlockState> blockPos, final RandomSource random)
+            final BiConsumer<BlockPos, BlockState> blockSetter, final RandomSource random)
     {
-        LeavesStringOfPearlsDecorator.placeVine(blockPos, pos, b, random);
+        LeavesStringOfPearlsDecorator.placeVine(blockSetter, pos, b, random);
         int i = 4;
 
-        for (BlockPos pos1 = pos.below(); Feature.isAir(world, pos1) && i > 0; --i)
+        for (BlockPos pos1 = pos.below(); world.isStateAtPosition(pos1, s -> s.isAir()) && i > 0; --i)
         {
-            LeavesStringOfPearlsDecorator.placeVine(blockPos, pos1, b, random);
+            LeavesStringOfPearlsDecorator.placeVine(blockSetter, pos1, b, random);
             pos1 = pos1.below();
         }
 
