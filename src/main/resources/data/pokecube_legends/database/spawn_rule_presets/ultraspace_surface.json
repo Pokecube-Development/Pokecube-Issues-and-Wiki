@@ -86,6 +86,12 @@
     },
     {
       "values": {
+        "preset": "is_polluted",
+        "types": "#pokecube_legends:can_spawn/is_polluted"
+      }
+    },
+    {
+      "values": {
         "preset": "is_snowy",
         "types": "#pokecube_legends:can_spawn/is_snowy"
       }
