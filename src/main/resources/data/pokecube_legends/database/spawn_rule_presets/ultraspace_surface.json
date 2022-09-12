@@ -32,6 +32,12 @@
     },
     {
       "values": {
+        "preset": "is_dead",
+        "types": "#pokecube_legends:can_spawn/is_dead"
+      }
+    },
+    {
+      "values": {
         "preset": "is_deltas",
         "types": "#pokecube_legends:can_spawn/is_deltas"
       }
