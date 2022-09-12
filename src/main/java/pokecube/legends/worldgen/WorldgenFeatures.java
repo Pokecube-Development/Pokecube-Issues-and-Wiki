@@ -8,7 +8,6 @@ import net.minecraft.world.level.levelgen.feature.configurations.ColumnFeatureCo
 import net.minecraft.world.level.levelgen.feature.configurations.DeltaFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.DiskConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.DripstoneClusterConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.LargeDripstoneConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NetherForestVegetationConfig;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
@@ -17,7 +16,6 @@ import net.minecraft.world.level.levelgen.feature.configurations.ProbabilityFeat
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.Reference;
 import pokecube.legends.worldgen.features.AquamarineClusterFeature;
@@ -45,7 +43,7 @@ import pokecube.legends.worldgen.features.TemporalBambooFeature;
 import pokecube.legends.worldgen.features.UltraspaceDeltaFeature;
 import pokecube.legends.worldgen.features.UltraspaceVegetationFeature;
 
-public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegistryEntry<Feature<?>>
+public class WorldgenFeatures
 {
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(
             ForgeRegistries.FEATURES, Reference.ID);
