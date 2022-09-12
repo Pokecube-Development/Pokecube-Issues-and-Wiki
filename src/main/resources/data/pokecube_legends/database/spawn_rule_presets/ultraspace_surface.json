@@ -92,6 +92,12 @@
     },
     {
       "values": {
+        "preset": "is_river",
+        "types": "#pokecube_legends:can_spawn/is_river"
+      }
+    },
+    {
+      "values": {
         "preset": "is_snowy",
         "types": "#pokecube_legends:can_spawn/is_snowy"
       }
