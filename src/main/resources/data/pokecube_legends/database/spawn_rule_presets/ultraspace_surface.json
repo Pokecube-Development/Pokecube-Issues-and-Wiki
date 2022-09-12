@@ -8,12 +8,6 @@
     },
     {
       "values": {
-        "preset": "is_corrupted",
-        "types": "#pokecube_legends:can_spawn/is_corrupted"
-      }
-    },
-    {
-      "values": {
         "preset": "is_beach",
         "types": "#pokecube_legends:can_spawn/is_beach"
       }
@@ -22,6 +16,12 @@
       "values": {
         "preset": "is_burnt",
         "types": "#pokecube_legends:can_spawn/is_burnt"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_corrupted",
+        "types": "#pokecube_legends:can_spawn/is_corrupted"
       }
     },
     {
@@ -70,6 +70,12 @@
       "values": {
         "preset": "is_mountain",
         "types": "#pokecube_legends:can_spawn/is_mountain"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_ocean",
+        "types": "#pokecube_legends:can_spawn/is_ocean"
       }
     },
     {

@@ -346,6 +346,36 @@
       ]
     },
     {
+      "and_preset": "is_ocean",
+      "entries": [
+        { "key": "carvanha", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "clamperl", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "cloyster", "min": 1, "max": 2, "rate": 0.25 },
+        { "key": "corsola", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "corsola_alola", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "dewgong", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "gorebyss", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "kyogre", "min": 1, "max": 1, "rate": 0.15 },
+        { "key": "lanturn", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "lapras", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "mantine", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "octillery", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "pelipper", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "sealeo", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "seel", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "sharpedo", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "shellder", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "starmie", "min": 1, "max": 2, "rate": 0.25 },
+        { "key": "staryu", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "tentacool", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "tentacruel", "min": 1, "max": 2, "rate": 0.25 },
+        { "key": "wailmer", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "wailord", "min": 1, "max": 2, "rate": 0.25 },
+        { "key": "walrein", "min": 1, "max": 2, "rate": 0.5 },
+        { "key": "wingull", "min": 1, "max": 2, "rate": 0.5 }
+      ]
+    },
+    {
       "and_preset": "is_snowy",
       "entries": [
         { "key": "abomasnow", "min": 1, "max": 2, "rate": 0.25 },

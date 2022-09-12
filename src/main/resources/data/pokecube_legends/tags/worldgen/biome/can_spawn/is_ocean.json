@@ -1,0 +1,9 @@
+{
+  "_comment": " This biome tag can specify the biome directly. Or specify another biome tag by starting with # ",
+  "replace": false,
+  "values": [
+    "pokecube_legends:deep_frozen_polluted_ocean",
+    "pokecube_legends:deep_polluted_ocean",
+    "pokecube_legends:polluted_ocean"
+  ]
+}
