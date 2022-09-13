@@ -34,6 +34,7 @@ public class PostProcessor implements BiConsumer<GenerationContext, List<PoolEle
         this.config = config;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void accept(GenerationContext context, List<PoolElementStructurePiece> parts)
     {

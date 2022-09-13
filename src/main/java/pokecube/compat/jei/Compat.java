@@ -37,6 +37,19 @@ public class Compat implements IModPlugin
 {
     private static final ResourceLocation UID = new ResourceLocation(PokecubeCore.MODID, "jei");
 
+    public static final RecipeType<Evolution> evoType;
+    public static final RecipeType<InteractRecipe> interactType;
+    public static final RecipeType<MoveRecipe> moveType;
+    public static final RecipeType<Wrapper> clonerType;
+
+    static
+    {
+        evoType = RecipeType.create(PokecubeAdv.MODID, "pokemob_evolution", Evolution.class);
+        interactType = RecipeType.create(PokecubeAdv.MODID, "pokemob_interaction", InteractRecipe.class);
+        moveType = RecipeType.create(PokecubeAdv.MODID, "pokemob_move", MoveRecipe.class);
+        clonerType = RecipeType.create(PokecubeAdv.MODID, "cloner", Wrapper.class);
+    }
+
     @Override
     public ResourceLocation getPluginUid()
     {
@@ -148,12 +161,6 @@ public class Compat implements IModPlugin
                 }
             }
         }
-
-        RecipeType<Evolution> evoType = RecipeType.create(PokecubeAdv.MODID, "pokemob_evolution", Evolution.class);
-        RecipeType<InteractRecipe> interactType = RecipeType.create(PokecubeAdv.MODID, "pokemob_interaction",
-                InteractRecipe.class);
-        RecipeType<MoveRecipe> moveType = RecipeType.create(PokecubeAdv.MODID, "pokemob_move", MoveRecipe.class);
-        RecipeType<Wrapper> clonerType = RecipeType.create(PokecubeAdv.MODID, "cloner", Wrapper.class);
 
         registration.addRecipes(clonerType, Wrapper.getWrapped());
         registration.addRecipes(evoType, evos);

@@ -9,9 +9,11 @@ import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
@@ -19,8 +21,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.compat.jei.Compat;
 import pokecube.compat.jei.ingredients.Pokemob;
-import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 public class Category implements IRecipeCategory<Wrapper>
@@ -39,7 +41,8 @@ public class Category implements IRecipeCategory<Wrapper>
     {
         this.guiHelper = guiHelper;
         this.background = guiHelper.createDrawable(Category.GUI, 29, 16, Category.width, Category.height);
-        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(PokecubeAdv.CLONER.get()));
+        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK,
+                new ItemStack(PokecubeAdv.CLONER.get()));
         this.localizedName = I18n.get("block.pokecube_adventures.cloner");
     }
 
@@ -62,19 +65,14 @@ public class Category implements IRecipeCategory<Wrapper>
     }
 
     @Override
-    public ResourceLocation getUid()
+    public RecipeType<Wrapper> getRecipeType()
     {
-        return RegHelper.getKey(PokecubeAdv.CLONER.get());
+        return Compat.clonerType;
     }
 
     @Override
-    public Class<? extends Wrapper> getRecipeClass()
-    {
-        return Wrapper.class;
-    }
-
-    @Override
-    public List<Component> getTooltipStrings(final Wrapper recipe, final double mouseX, final double mouseY)
+    public List<Component> getTooltipStrings(final Wrapper recipe, IRecipeSlotsView recipeSlotsView,
+            final double mouseX, final double mouseY)
     {
         final List<Component> tooltips = Lists.newArrayList();
         final Rectangle arrow = new Rectangle(44, 18, 32, 17);

@@ -287,8 +287,17 @@ public class GenericJigsawStructure extends Structure
         // Check if we need to avoid any structures.
         for (ResourceKey<StructureSet> key : this.structures_to_avoid)
         {
-            Holder<StructureSet> set = context.registryAccess().registryOrThrow(Registry.STRUCTURE_SET_REGISTRY)
-                    .getHolderOrThrow(key);
+            Holder<StructureSet> set;
+            try
+            {
+                // Skip if the key is null, this generally means the listed
+                // structure to avoid was removed via a datapack!
+                set = context.registryAccess().registryOrThrow(Registry.STRUCTURE_SET_REGISTRY).getHolderOrThrow(key);
+            }
+            catch (Exception e)
+            {
+                continue;
+            }
             if (generator.hasStructureChunkInRange(set, rng, context.seed(), pos.x, pos.z, this.avoid_range))
             {
                 if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Skipping generation of {} due to conflict with {}",
