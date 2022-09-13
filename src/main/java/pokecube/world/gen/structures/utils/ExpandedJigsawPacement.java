@@ -5,7 +5,6 @@ import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -25,6 +24,7 @@ import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.JigsawBlock;
@@ -34,19 +34,20 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
+import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.Structure.GenerationContext;
+import net.minecraft.world.level.levelgen.structure.Structure.GenerationStub;
 import net.minecraft.world.level.levelgen.structure.pools.EmptyPoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.JigsawJunction;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -55,7 +56,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.mixin.features.ChunkAccessAcessor;
 import pokecube.mixin.features.WorldGenRegionAccessor;
 import pokecube.world.gen.structures.GenericJigsawStructure;
-import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
+import pokecube.world.gen.structures.pieces.ExpandedPoolElementStructurePiece;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import thut.core.common.ThutCore;
 
@@ -68,7 +69,7 @@ public class ExpandedJigsawPacement
         ALWAYS_ADD.add(new ResourceLocation("pokecube:village/common/trainers"));
     }
 
-    public static ServerLevel getForGen(final PieceGeneratorSupplier.Context<?> context)
+    public static ServerLevel getForGen(final GenerationContext context)
     {
         // Try directly getting the level first
         if (context.heightAccessor() instanceof ServerLevel level) return level;
@@ -92,23 +93,22 @@ public class ExpandedJigsawPacement
         return server.overworld();
     }
 
-    public static Optional<PieceGenerator<ExpandedJigsawConfiguration>> addPieces(
-            PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration> context, PieceFactory factory, BlockPos centre,
-            boolean bound_checks, boolean on_surface)
+    public static Optional<GenerationStub> addPieces(GenericJigsawStructure config, GenerationContext context,
+            BlockPos centre, boolean bound_checks, boolean on_surface)
     {
         WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
         worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
+        RandomState rng = context.randomState();
         RegistryAccess registryaccess = context.registryAccess();
-        ExpandedJigsawConfiguration config = context.config();
         ChunkGenerator chunkgenerator = context.chunkGenerator();
-        StructureManager structuremanager = context.structureManager();
+        StructureTemplateManager structuremanager = context.structureTemplateManager();
         LevelHeightAccessor levelheightaccessor = context.heightAccessor();
         Predicate<Holder<Biome>> predicate = context.validBiome();
-        StructureFeature.bootstrap();
+
         Registry<StructureTemplatePool> registry = registryaccess.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
         Rotation rotation = Rotation.getRandom(worldgenrandom);
 
-        StructureTemplatePool root_pool = config.startPool().value();
+        StructureTemplatePool root_pool = config.startPool.value();
         // This one can be completely random, as is just the start pool, this
         // shouldn't have any requirements...
         StructurePoolElement root_element = root_pool.getRandomTemplate(worldgenrandom);
@@ -119,8 +119,8 @@ public class ExpandedJigsawPacement
         }
         else
         {
-            PoolElementStructurePiece root_piece = factory.create(structuremanager, root_element, centre,
-                    root_element.getGroundLevelDelta(), rotation,
+            PoolElementStructurePiece root_piece = new ExpandedPoolElementStructurePiece(structuremanager, root_element,
+                    centre, root_element.getGroundLevelDelta(), rotation,
                     root_element.getBoundingBox(structuremanager, centre, rotation));
             BoundingBox boundingbox = root_piece.getBoundingBox();
             int i = (boundingbox.maxX() + boundingbox.minX()) / 2;
@@ -131,27 +131,27 @@ public class ExpandedJigsawPacement
 
             if (config.air)
             {
-                ground_y = chunkgenerator.getFirstFreeHeight(i, j, config.height_type, levelheightaccessor);
+                ground_y = chunkgenerator.getFirstFreeHeight(i, j, config.height_type, levelheightaccessor, rng);
                 ground_y = Math.max(config.y_settings.min_y, ground_y);
                 if (config.y_settings.vertical_offset > 0)
                     root_dy = config.y_settings.dy_offset + worldgenrandom.nextInt(config.y_settings.vertical_offset);
             }
             else if (config.underground)
             {
-                ground_y = chunkgenerator.getFirstFreeHeight(i, j, config.height_type, levelheightaccessor);
+                ground_y = chunkgenerator.getFirstFreeHeight(i, j, config.height_type, levelheightaccessor, rng);
                 ground_y = Math.min(config.y_settings.max_y, ground_y);
                 if (config.y_settings.vertical_offset > 0)
                     root_dy = -config.y_settings.dy_offset - worldgenrandom.nextInt(config.y_settings.vertical_offset);
             }
             else if (on_surface)
             {
-                ground_y = chunkgenerator.getFirstFreeHeight(i, j, config.height_type, levelheightaccessor);
+                ground_y = chunkgenerator.getFirstFreeHeight(i, j, config.height_type, levelheightaccessor, rng);
                 root_dy = config.y_settings.vertical_offset;
             }
             int k = centre.getY() + root_dy + ground_y;
 
-            if (!predicate.test(
-                    chunkgenerator.getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j))))
+            if (!predicate.test(chunkgenerator.getBiomeSource().getNoiseBiome(QuartPos.fromBlock(i),
+                    QuartPos.fromBlock(k), QuartPos.fromBlock(j), rng.sampler())))
             {
                 return Optional.empty();
             }
@@ -159,110 +159,98 @@ public class ExpandedJigsawPacement
             {
                 int l = boundingbox.minY() + root_piece.getGroundLevelDelta();
                 root_piece.move(0, k - l, 0);
-                return Optional.of((builder, config_context) -> {
-                    if (config.maxDepth() > 0)
-                    {
-                        int max_box_size = 80;
-                        int max_box_height = 512;
-                        AABB aabb = new AABB((double) (i - max_box_size), (double) (k - max_box_height),
-                                (double) (j - max_box_size), (double) (i + max_box_size + 1),
-                                (double) (k + max_box_height + 1), (double) (j + max_box_size + 1));
 
-                        List<Placer> attempts = Lists.newArrayList();
+                BoundingBox pieceBoundingBox = root_piece.getBoundingBox();
+                int pieceCenterX = (pieceBoundingBox.maxX() + pieceBoundingBox.minX()) / 2;
+                int pieceCenterZ = (pieceBoundingBox.maxZ() + pieceBoundingBox.minZ()) / 2;
+                int pieceCenterY = l;
 
-                        if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Building: {}", root_pool.getName());
-                        tries:
-                        for (int n = 0; n < 10; n++)
+                return Optional.of(new Structure.GenerationStub(new BlockPos(pieceCenterX, pieceCenterY, pieceCenterZ),
+                        (builder) ->
                         {
-                            if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Starting Try: {}", n);
-                            List<PoolElementStructurePiece> list = Lists.newArrayList();
-                            list.add(root_piece);
-                            Placer placer = new Placer(config, registry, config.maxDepth(), factory, chunkgenerator,
-                                    structuremanager, list, worldgenrandom);
-                            attempts.add(placer);
-
-                            MutableObject<VoxelShape> bounds = new MutableObject<>(Shapes.join(Shapes.create(aabb),
-                                    Shapes.create(AABB.of(boundingbox)), BooleanOp.ONLY_FIRST));
-
-                            PieceState next_state = new PieceState(root_piece, bounds, 0);
-                            placer.placing.addLast(next_state);
-
-                            while (!placer.placing.isEmpty())
+                            if (config.max_depth > 0)
                             {
-                                next_state = placer.placing.removeFirst();
-                                placer.tryPlacingChildren(next_state, bound_checks, levelheightaccessor);
-                            }
+                                int max_box_size = 80;
+                                int max_box_height = 512;
+                                AABB aabb = new AABB((double) (i - max_box_size), (double) (k - max_box_height),
+                                        (double) (j - max_box_size), (double) (i + max_box_size + 1),
+                                        (double) (k + max_box_height + 1), (double) (j + max_box_size + 1));
 
-                            if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Ended Try: {}", n);
-                            if (placer.needed_once.isEmpty()) break;
-                            for (String s : placer.needed_once)
-                            {
-                                if (!placer.added_once.contains(s))
+                                List<Placer> attempts = Lists.newArrayList();
+
+                                if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Building: {}", root_pool.getName());
+                                tries:
+                                for (int n = 0; n < 10; n++)
                                 {
-                                    if (ThutCore.conf.debug)
-                                        PokecubeAPI.LOGGER.debug("Try: {} has failed. Missing {}", n, s);
-                                    continue tries;
+                                    if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Starting Try: {}", n);
+                                    List<PoolElementStructurePiece> list = Lists.newArrayList();
+                                    list.add(root_piece);
+                                    Placer placer = new Placer(config, context, registry, config.max_depth, list,
+                                            worldgenrandom);
+                                    attempts.add(placer);
+
+                                    MutableObject<VoxelShape> bounds = new MutableObject<>(
+                                            Shapes.join(Shapes.create(aabb), Shapes.create(AABB.of(boundingbox)),
+                                                    BooleanOp.ONLY_FIRST));
+
+                                    PieceState next_state = new PieceState(root_piece, bounds, 0);
+                                    placer.placing.addLast(next_state);
+
+                                    while (!placer.placing.isEmpty())
+                                    {
+                                        next_state = placer.placing.removeFirst();
+                                        placer.tryPlacingChildren(next_state, bound_checks, levelheightaccessor);
+                                    }
+
+                                    if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Ended Try: {}", n);
+                                    if (placer.needed_once.isEmpty()) break;
+                                    for (String s : placer.needed_once)
+                                    {
+                                        if (!placer.added_once.contains(s))
+                                        {
+                                            if (ThutCore.conf.debug)
+                                                PokecubeAPI.LOGGER.debug("Try: {} has failed. Missing {}", n, s);
+                                            continue tries;
+                                        }
+                                    }
+                                    break;
                                 }
-                            }
-                            break;
-                        }
 
-                        Placer most_complete = attempts.get(attempts.size() - 1);
-                        if (attempts.size() > 0)
-                        {
-                            int missing = 0;
-                            for (String s : most_complete.needed_once)
-                            {
-                                if (!most_complete.added_once.contains(s)) missing++;
-                            }
-
-                            for (Placer attempt : attempts)
-                            {
-                                int number = 0;
-                                for (String s : attempt.needed_once)
+                                Placer most_complete = attempts.get(attempts.size() - 1);
+                                if (attempts.size() > 0)
                                 {
-                                    if (!attempt.added_once.contains(s)) number++;
+                                    int missing = 0;
+                                    for (String s : most_complete.needed_once)
+                                    {
+                                        if (!most_complete.added_once.contains(s)) missing++;
+                                    }
+
+                                    for (Placer attempt : attempts)
+                                    {
+                                        int number = 0;
+                                        for (String s : attempt.needed_once)
+                                        {
+                                            if (!attempt.added_once.contains(s)) number++;
+                                        }
+                                        if (number < missing)
+                                        {
+                                            missing = number;
+                                            most_complete = attempt;
+                                        }
+                                    }
                                 }
-                                if (number < missing)
-                                {
-                                    missing = number;
-                                    most_complete = attempt;
-                                }
+                                @SuppressWarnings("unchecked")
+                                List<PoolElementStructurePiece> list = (List<PoolElementStructurePiece>) most_complete.pieces;
+
+                                if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Finshed: {}", root_pool.getName());
+
+                                new PostProcessor(config).accept(context, list);
+                                list.forEach(builder::addPiece);
+                                config.markPlaced(context);
                             }
-                        }
-                        @SuppressWarnings("unchecked")
-                        List<PoolElementStructurePiece> list = (List<PoolElementStructurePiece>) most_complete.pieces;
-
-                        if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Finshed: {}", root_pool.getName());
-                        PostProcessor.POSTPROCESS.accept(context, list);
-                        list.forEach(builder::addPiece);
-
-                        GenericJigsawStructure.markPlaced(context);
-                    }
-                });
+                        }));
             }
         }
-    }
-
-    public static void addPieces(RegistryAccess reg_access, PoolElementStructurePiece root_piece, int max_depth,
-            PieceFactory factory, ChunkGenerator chunk_gen, StructureManager structure_manager,
-            List<? super PoolElementStructurePiece> pieces, Random random, LevelHeightAccessor height_accessor)
-    {
-        Registry<StructureTemplatePool> registry = reg_access.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
-        Placer placer = new Placer(null, registry, max_depth, factory, chunk_gen, structure_manager, pieces, random);
-        placer.placing.addLast(new PieceState(root_piece, new MutableObject<>(Shapes.INFINITY), 0));
-
-        while (!placer.placing.isEmpty())
-        {
-            ExpandedJigsawPacement.PieceState piece = placer.placing.removeFirst();
-            placer.tryPlacingChildren(piece, false, height_accessor);
-        }
-    }
-
-    public interface PieceFactory
-    {
-        PoolElementStructurePiece create(StructureManager p_210301_, StructurePoolElement p_210302_, BlockPos p_210303_,
-                int p_210304_, Rotation p_210305_, BoundingBox p_210306_);
     }
 
     static final class PieceState
@@ -284,32 +272,33 @@ public class ExpandedJigsawPacement
     {
         final Registry<StructureTemplatePool> pools;
         final int maxDepth;
-        final ExpandedJigsawPacement.PieceFactory factory;
         final ChunkGenerator chunkGenerator;
-        final StructureManager structureManager;
+        final StructureTemplateManager structureManager;
+        final GenerationContext context;
         final List<? super PoolElementStructurePiece> pieces;
-        final Random random;
+        final RandomSource random;
         final Set<String> needed_once;
         final Set<String> added_once = Sets.newHashSet();
-        final ExpandedJigsawConfiguration config;
+        final GenericJigsawStructure config;
+        final RandomState rng;
         final Deque<ExpandedJigsawPacement.PieceState> placing = Queues.newArrayDeque();
         MutableObject<VoxelShape> rigid_bounds = new MutableObject<>();
         MutableObject<VoxelShape> non_rigid_bounds = new MutableObject<>();
 
         boolean logs = false;
 
-        Placer(ExpandedJigsawConfiguration config, Registry<StructureTemplatePool> pools, int max_depth,
-                ExpandedJigsawPacement.PieceFactory factory, ChunkGenerator chunkGenerator,
-                StructureManager structureManager, List<? super PoolElementStructurePiece> pieces, Random random)
+        Placer(GenericJigsawStructure config, GenerationContext context, Registry<StructureTemplatePool> pools,
+                int max_depth, List<? super PoolElementStructurePiece> pieces, RandomSource random)
         {
             this.pools = pools;
             this.maxDepth = max_depth;
-            this.factory = factory;
-            this.chunkGenerator = chunkGenerator;
-            this.structureManager = structureManager;
+            this.context = context;
+            this.chunkGenerator = context.chunkGenerator();
+            this.structureManager = context.structureTemplateManager();
             this.pieces = pieces;
             this.random = random;
             this.needed_once = Sets.newHashSet(config.required_parts);
+            this.rng = context.randomState();
             this.config = config;
         }
 
@@ -601,7 +590,7 @@ public class ExpandedJigsawPacement
                                             if (k == -1)
                                             {
                                                 k = this.chunkGenerator.getFirstFreeHeight(raw_jigsaw_pos.getX(),
-                                                        raw_jigsaw_pos.getZ(), heightmap$types, heightmap);
+                                                        raw_jigsaw_pos.getZ(), heightmap$types, heightmap, rng);
                                             }
                                             l1 = k - raw_pos_y;
                                         }
@@ -703,7 +692,7 @@ public class ExpandedJigsawPacement
                                             next_y_offset = next_picked_element.getGroundLevelDelta();
                                         }
 
-                                        PoolElementStructurePiece next_piece = this.factory.create(
+                                        PoolElementStructurePiece next_piece = new ExpandedPoolElementStructurePiece(
                                                 this.structureManager, next_picked_element, blockpos5, next_y_offset,
                                                 random_direction, next_pick_box_shifted_y);
 
@@ -721,7 +710,7 @@ public class ExpandedJigsawPacement
                                             if (k == -1)
                                             {
                                                 k = this.chunkGenerator.getFirstFreeHeight(raw_jigsaw_pos.getX(),
-                                                        raw_jigsaw_pos.getZ(), heightmap$types, heightmap);
+                                                        raw_jigsaw_pos.getZ(), heightmap$types, heightmap, rng);
                                             }
                                             root_junction_y_offset = k + jigsaw_block_dy / 2;
                                         }

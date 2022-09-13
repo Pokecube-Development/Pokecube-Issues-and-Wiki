@@ -1,9 +1,8 @@
 package pokecube.world.gen.structures.utils;
 
-import java.util.Random;
-
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
@@ -15,8 +14,8 @@ public class ExpandedPostPlacementProcessor implements PostPlacementProcessor
     public static final PostPlacementProcessor INSTANCE = new ExpandedPostPlacementProcessor();
 
     @Override
-    public void afterPlace(WorldGenLevel level, StructureFeatureManager manager, ChunkGenerator chunkGenerator,
-            Random random, BoundingBox box, ChunkPos pos, PiecesContainer pieces)
+    public void afterPlace(WorldGenLevel level, StructureManager manager, ChunkGenerator chunkGenerator,
+            RandomSource random, BoundingBox box, ChunkPos pos, PiecesContainer pieces)
     {
         
     }

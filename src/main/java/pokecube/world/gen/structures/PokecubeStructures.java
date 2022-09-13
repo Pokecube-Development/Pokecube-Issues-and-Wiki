@@ -7,8 +7,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.level.LevelEvent;
@@ -21,16 +21,13 @@ import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 
 public class PokecubeStructures
 {
-    public static final RegistryObject<StructureFeature<?>> SURFACE_STRUCTURES;
-    public static final RegistryObject<StructureFeature<?>> SUBSURFACE_STRUCTURES;
+    public static final RegistryObject<StructureType<GenericJigsawStructure>> STRUCTURES;
     public static final RegistryObject<StructurePoolElementType<ExpandedJigsawPiece>> EXPANDED_POOL_ELEMENT;
 
     static
     {
-        SURFACE_STRUCTURES = PokecubeWorld.STRUCTURE_TYPES.register("generic_surface_jigsaw",
-                GenericSurfaceJigsawStructure::new);
-        SUBSURFACE_STRUCTURES = PokecubeWorld.STRUCTURE_TYPES.register("generic_underground_jigsaw",
-                GenericSurfaceJigsawStructure::new);
+        STRUCTURES = PokecubeWorld.STRUCTURE_TYPES.register("generic_surface_jigsaw",
+                () -> () -> GenericJigsawStructure.CODEC);
         EXPANDED_POOL_ELEMENT = PokecubeWorld.POOL_ELEMENT_TYPES.register("expanded_pool_element",
                 () -> () -> ExpandedJigsawPiece.makeCodec());
     }
@@ -51,9 +48,8 @@ public class PokecubeStructures
             {
                 serverWorld.getServer().execute(() -> {
                     final ResourceLocation location = new ResourceLocation("pokecube_world:starting_town");
-                    TagKey<ConfiguredStructureFeature<?, ?>> tagkey = TagKey
-                            .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, location);
-                    serverWorld.findNearestMapFeature(tagkey, BlockPos.ZERO, 5, false);
+                    TagKey<Structure> tagkey = TagKey.create(Registry.STRUCTURE_REGISTRY, location);
+                    serverWorld.findNearestMapStructure(tagkey, BlockPos.ZERO, 5, false);
                 });
             }
         }

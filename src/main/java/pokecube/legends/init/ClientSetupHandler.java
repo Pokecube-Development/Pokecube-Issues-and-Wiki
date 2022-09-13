@@ -193,11 +193,9 @@ public class ClientSetupHandler
     @SubscribeEvent
     public static void registerParticleFactories(final RegisterParticleProvidersEvent event)
     {
-        Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_FIRE_FLAME.get(),
-                FlameParticle.Provider::new);
-        Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_SMOKE.get(), SmokeParticle.Provider::new);
-        Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_SOUL.get(), SoulParticle.Provider::new);
-        Minecraft.getInstance().particleEngine.register(ParticleInit.MUSHROOM.get(),
-                SuspendedTownParticle.Provider::new);
+        event.register(ParticleInit.INFECTED_FIRE_FLAME.get(), FlameParticle.Provider::new);
+        event.register(ParticleInit.INFECTED_SMOKE.get(), SmokeParticle.Provider::new);
+        event.register(ParticleInit.INFECTED_SOUL.get(), SoulParticle.Provider::new);
+        event.register(ParticleInit.MUSHROOM.get(), SuspendedTownParticle.Provider::new);
     }
 }

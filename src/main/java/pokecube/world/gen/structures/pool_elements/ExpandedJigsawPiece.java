@@ -3,7 +3,6 @@ package pokecube.world.gen.structures.pool_elements;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 import com.google.common.collect.Maps;
@@ -17,9 +16,10 @@ import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlockContainer;
@@ -39,11 +39,11 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool.
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.GravityProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.JigsawReplacementProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event;
@@ -243,7 +243,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
 
     public void checkWaterlogging(final WorldGenLevel level, StructureTemplate template,
             StructurePlaceSettings placementsettings, final BlockPos pos1, final BlockPos pos2, final Rotation rotation,
-            final BoundingBox box, final Random rng, Map<BlockPos, BlockState> unWaterlog)
+            final BoundingBox box, final RandomSource rng, Map<BlockPos, BlockState> unWaterlog)
     {
         List<StructureTemplate.StructureBlockInfo> list = placementsettings.getRandomPalette(template.palettes, pos1)
                 .blocks();
@@ -265,9 +265,9 @@ public class ExpandedJigsawPiece extends SinglePoolElement
     }
 
     @Override
-    public boolean place(final StructureManager templates, final WorldGenLevel level,
-            final StructureFeatureManager structureManager, final ChunkGenerator chunkGenerator, final BlockPos pos1,
-            final BlockPos pos2, final Rotation rotation, final BoundingBox box, final Random rng,
+    public boolean place(final StructureTemplateManager templates, final WorldGenLevel level,
+            final StructureManager structureManager, final ChunkGenerator chunkGenerator, final BlockPos pos1,
+            final BlockPos pos2, final Rotation rotation, final BoundingBox box, final RandomSource rng,
             final boolean notJigsaw)
     {
         final StructureTemplate template = this.getTemplate(templates);
@@ -360,7 +360,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
 
     @Override
     public void handleDataMarker(final LevelAccessor worldIn, final StructureBlockInfo info, final BlockPos pos,
-            final Rotation rotationIn, final Random rand, final BoundingBox box)
+            final Rotation rotationIn, final RandomSource rand, final BoundingBox box)
     {
 
         if (worldIn instanceof WorldGenRegionAccessor accessor)

@@ -7,11 +7,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.world.level.StructureFeatureManager;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.levelgen.feature.DeltaFeature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.DeltaFeatureConfiguration;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import pokecube.world.WorldgenTags;
 
 @Mixin(DeltaFeature.class)
@@ -27,10 +27,10 @@ public class NoDeltasInStructuresMixin
             return;
         }
 
-        Registry<ConfiguredStructureFeature<?, ?>> configuredStructureFeatureRegistry = context.level().registryAccess()
-                .registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
-        StructureFeatureManager structureFeatureManager = accessor.getStructureFeatureManager();
-        for (Holder<ConfiguredStructureFeature<?, ?>> configuredStructureFeature : configuredStructureFeatureRegistry
+        Registry<Structure> configuredStructureFeatureRegistry = context.level().registryAccess()
+                .registryOrThrow(Registry.STRUCTURE_REGISTRY);
+        StructureManager structureFeatureManager = accessor.getStructureManager();
+        for (Holder<Structure> configuredStructureFeature : configuredStructureFeatureRegistry
                 .getOrCreateTag(WorldgenTags.NO_BASALT))
         {
             if (structureFeatureManager.getStructureAt(context.origin(), configuredStructureFeature.value()).isValid())

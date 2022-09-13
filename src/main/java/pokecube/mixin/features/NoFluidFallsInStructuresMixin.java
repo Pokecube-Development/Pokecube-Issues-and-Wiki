@@ -7,11 +7,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.world.level.StructureFeatureManager;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.SpringFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.SpringConfiguration;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import pokecube.world.WorldgenTags;
 
 @Mixin(SpringFeature.class)
@@ -23,10 +23,10 @@ public class NoFluidFallsInStructuresMixin
             CallbackInfoReturnable<Boolean> cir)
     {
         if (!(context.level() instanceof WorldGenRegionAccessor accessor)) return;
-        Registry<ConfiguredStructureFeature<?, ?>> configuredStructureFeatureRegistry = context.level().registryAccess()
-                .registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
-        StructureFeatureManager structureFeatureManager = accessor.getStructureFeatureManager();
-        for (Holder<ConfiguredStructureFeature<?, ?>> configuredStructureFeature : configuredStructureFeatureRegistry
+        Registry<Structure> configuredStructureFeatureRegistry = context.level().registryAccess()
+                .registryOrThrow(Registry.STRUCTURE_REGISTRY);
+        StructureManager structureFeatureManager = accessor.getStructureManager();
+        for (Holder<Structure> configuredStructureFeature : configuredStructureFeatureRegistry
                 .getOrCreateTag(WorldgenTags.NO_FLUIDFALLS))
         {
             if (structureFeatureManager.getStructureAt(context.origin(), configuredStructureFeature.value()).isValid())

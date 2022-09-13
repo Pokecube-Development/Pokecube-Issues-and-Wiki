@@ -10,10 +10,10 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.SectionPos;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.levelgen.feature.BasaltColumnsFeature;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import pokecube.api.PokecubeAPI;
 import pokecube.world.WorldgenTags;
 
@@ -39,10 +39,10 @@ public class NoBasaltColumnsInStructuresMixin
             return;
         }
 
-        Registry<ConfiguredStructureFeature<?, ?>> configuredStructureFeatureRegistry = levelAccessor.registryAccess()
-                .registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
-        StructureFeatureManager structureFeatureManager = accessor.getStructureFeatureManager();
-        for (Holder<ConfiguredStructureFeature<?, ?>> configuredStructureFeature : configuredStructureFeatureRegistry
+        Registry<Structure> configuredStructureFeatureRegistry = levelAccessor.registryAccess()
+                .registryOrThrow(Registry.STRUCTURE_REGISTRY);
+        StructureManager structureFeatureManager = accessor.getStructureManager();
+        for (Holder<Structure> configuredStructureFeature : configuredStructureFeatureRegistry
                 .getOrCreateTag(WorldgenTags.NO_BASALT))
         {
             if (structureFeatureManager.getStructureAt(mutableBlockPos, configuredStructureFeature.value()).isValid())

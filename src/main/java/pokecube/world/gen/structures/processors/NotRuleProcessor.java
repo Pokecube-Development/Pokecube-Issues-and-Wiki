@@ -1,12 +1,12 @@
 package pokecube.world.gen.structures.processors;
 
 import java.util.List;
-import java.util.Random;
 
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -31,18 +31,19 @@ public class NotRuleProcessor extends RuleProcessor
 
     @Override
     public StructureBlockInfo processBlock(final LevelReader worldReaderIn, final BlockPos pos, final BlockPos pos2,
-            final StructureBlockInfo blockInfo1, final StructureBlockInfo blockInfo2, final StructurePlaceSettings placementSettingsIn)
+            final StructureBlockInfo blockInfo1, final StructureBlockInfo blockInfo2,
+            final StructurePlaceSettings placementSettingsIn)
     {
-        final Random random = new Random(Mth.getSeed(blockInfo2.pos));
+        RandomSource random = RandomSource.create(Mth.getSeed(blockInfo2.pos));
         final BlockState blockstate = worldReaderIn.getBlockState(blockInfo2.pos);
         if (blockstate != null && blockstate.getBlock() != Blocks.AIR) for (final ProcessorRule ruleentry : this.rules)
             if (!ruleentry.test(blockInfo2.state, blockstate, blockInfo1.pos, blockInfo2.pos, pos2, random))
-            {
-                final BlockState output = ruleentry.getOutputState();
-                if (output == null || output.getBlock() == Blocks.STRUCTURE_VOID) return null;
-                return new StructureTemplate.StructureBlockInfo(blockInfo2.pos, output, ruleentry.getOutputTag());
+        {
+            final BlockState output = ruleentry.getOutputState();
+            if (output == null || output.getBlock() == Blocks.STRUCTURE_VOID) return null;
+            return new StructureTemplate.StructureBlockInfo(blockInfo2.pos, output, ruleentry.getOutputTag());
 
-            }
+        }
         return blockInfo2;
     }
 
@@ -54,8 +55,7 @@ public class NotRuleProcessor extends RuleProcessor
 
     static
     {
-        CODEC = ProcessorRule.CODEC.listOf().fieldOf("rules").xmap(NotRuleProcessor::new, (p_237126_0_) ->
-        {
+        CODEC = ProcessorRule.CODEC.listOf().fieldOf("rules").xmap(NotRuleProcessor::new, (p_237126_0_) -> {
             return p_237126_0_.rules;
         }).codec();
     }

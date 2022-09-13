@@ -11,7 +11,7 @@ import net.minecraft.world.level.StructureManager;
 public interface WorldGenRegionAccessor
 {
     @Accessor("structureManager")
-    StructureManager getStructureFeatureManager();
+    StructureManager getStructureManager();
 
     @Accessor("level")
     ServerLevel getServerLevel();
