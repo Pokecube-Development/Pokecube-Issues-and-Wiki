@@ -1,0 +1,28 @@
+{
+    "feature": "minecraft:ore_iron_small",
+    "placement": [
+      {
+        "type": "minecraft:rarity_filter",
+        "chance": 8
+      },
+      {
+        "type": "minecraft:in_square"
+      },
+      {
+        "type": "minecraft:height_range",
+        "height": {
+          "type": "minecraft:trapezoid",
+          "min_inclusive": {
+            "absolute": -80
+          },
+          "max_inclusive": {
+            "absolute": 380
+          }
+        }
+      },
+      {
+        "type": "minecraft:biome"
+      }
+    ]
+  }
+  
