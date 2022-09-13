@@ -2,7 +2,7 @@
   "feature": "pokecube_legends:delta_volcanic",
   "placement": [
     {
-      "count": 50,
+      "count": 80,
       "type": "minecraft:count_on_every_layer"
     },
     {

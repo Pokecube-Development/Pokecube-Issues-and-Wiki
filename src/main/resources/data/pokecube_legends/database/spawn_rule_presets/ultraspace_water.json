@@ -1,0 +1,49 @@
+{
+  "rules": [
+    {
+      "values": {
+        "preset": "is_ultraspace_river_water",
+        "types": "#pokecube_world:is_ultraspace/is_river",
+        "air": "false",
+        "and_preset": "is_ultraspace"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_ultraspace_beach_water",
+        "types": "#pokecube_world:is_ultraspace/is_beach",
+        "air": "false",
+        "and_preset": "is_ultraspace"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_ultraspace_ocean_water",
+        "types": "#pokecube_world:is_ultraspace/is_ocean",
+        "air": "false",
+        "and_preset": "is_ultraspace"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_ultraspace_cave_water",
+        "types": "cavewater",
+        "air": "false",
+        "and_preset": "is_ultraspace"
+      }
+    },
+    {
+      "values": {
+        "preset": "is_ultraspace_cave_lake_shore",
+        "types": "cavewater",
+        "and_preset": "is_ultraspace"
+      }
+    },
+    {
+      "values": {
+        "preset": "any_water",
+        "or_preset": "is_ultraspace_ocean_water,is_ultraspace_beach_water,is_ultraspace_lake_water,is_ultraspace_river_water,is_ultraspace_cave_water"
+      }
+    }
+  ]
+}
