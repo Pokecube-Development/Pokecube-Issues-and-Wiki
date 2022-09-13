@@ -64,7 +64,7 @@ public class SpawnCheck
         FLAT, HILLS;
     }
 
-    private static final String FMT = "{time: %s, light: %d, material: %s, " + "biome: %s, type: %s, category: %s, "
+    private static final String FMT = "{time: %s, light: %d, material: %s, " + "biome: %s, type: %s, "
             + "weather: %s(%b), terrain: %s, location: %s }";
 
     public final boolean day;
