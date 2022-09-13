@@ -1,5 +1,5 @@
 {
-    "feature": "minecraft:ore_iron_small",
+    "feature": "pokecube_world:fossil_ore_large",
     "placement": [
       {
         "type": "minecraft:rarity_filter",
