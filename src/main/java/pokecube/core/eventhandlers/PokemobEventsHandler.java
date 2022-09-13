@@ -969,7 +969,7 @@ public class PokemobEventsHandler
                 && attacked.getPersistentData().getInt("lastDeathTick") != attacked.tickCount)
         {
             attacked.getPersistentData().putInt("lastDeathTick", attacked.tickCount);
-            boolean giveExp = !attackedMob.isShadow();
+            boolean giveExp = !attacker.isShadow();
             final boolean pvp = attackedMob.getGeneralState(GeneralStates.TAMED)
                     && attackedMob.getOwner() instanceof Player;
             if (pvp && !PokecubeCore.getConfig().pvpExp) giveExp = false;
