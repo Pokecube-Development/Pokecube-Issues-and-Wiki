@@ -27,14 +27,12 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.serialization.Dynamic;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Connection;
-import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
 import net.minecraft.resources.ResourceKey;
@@ -394,13 +392,14 @@ public class ThutBot
         else mutablecomponent = TComponent.translatable("multiplayer.player.joined.renamed", player.getDisplayName(),
                 s);
 
-        list.broadcastMessage(mutablecomponent.withStyle(ChatFormatting.YELLOW), ChatType.SYSTEM, Util.NIL_UUID);
+        list.broadcastSystemMessage(mutablecomponent.withStyle(ChatFormatting.YELLOW), false);
         servergamepacketlistenerimpl.teleport(player.getX(), player.getY(), player.getZ(), player.getYRot(),
                 player.getXRot());
-        list.addPlayer(player);
-
+        
+        List<ServerPlayer> players = ObfuscationReflectionHelper.getPrivateValue(PlayerList.class, list, "f_11196_");
         Map<UUID, ServerPlayer> playerMap = ObfuscationReflectionHelper.getPrivateValue(PlayerList.class, list,
                 "f_11197_");
+        players.add(player);
         playerMap.put(player.getUUID(), player);
 
         list.broadcastAll(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, player));

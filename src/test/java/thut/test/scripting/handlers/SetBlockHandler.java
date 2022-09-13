@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
+import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.arguments.blocks.BlockStateArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -20,8 +21,7 @@ public class SetBlockHandler implements ICmdHandler
 {
 
     public SetBlockHandler()
-    {
-    }
+    {}
 
     @Override
     public String handle(final MinecraftServer server, final String input)
@@ -33,15 +33,16 @@ public class SetBlockHandler implements ICmdHandler
         {
             final String worldName = thing.get("world").getAsString();
             final String[] posStr = thing.get("pos").getAsString().split(",");
-            final ResourceKey<Level> worldKey = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(
-                    worldName));
+            final ResourceKey<Level> worldKey = ResourceKey.create(Registry.DIMENSION_REGISTRY,
+                    new ResourceLocation(worldName));
             final ServerLevel world = server.getLevel(worldKey);
-            final BlockPos pos = new BlockPos(Integer.parseInt(posStr[0]), Integer.parseInt(posStr[1]), Integer
-                    .parseInt(posStr[2]));
+            final BlockPos pos = new BlockPos(Integer.parseInt(posStr[0]), Integer.parseInt(posStr[1]),
+                    Integer.parseInt(posStr[2]));
             final String block = thing.get("block").getAsString();
             try
             {
-                final BlockState state = BlockStateArgument.block().parse(new StringReader(block)).getState();
+                final BlockState state = BlockStateArgument.block(new CommandBuildContext(server.registryAccess()))
+                        .parse(new StringReader(block)).getState();
                 world.setBlockAndUpdate(pos, state);
             }
             catch (final CommandSyntaxException e)

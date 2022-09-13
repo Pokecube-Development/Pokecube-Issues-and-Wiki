@@ -75,6 +75,7 @@ import pokecube.legends.init.function.UsableItemZMoveEffects;
 import pokecube.legends.recipes.LegendsDistorticRecipeManager;
 import pokecube.legends.recipes.LegendsLootingRecipeManager;
 import pokecube.legends.worldgen.UltraSpaceSurfaceRules;
+import pokecube.legends.worldgen.WorldgenFeatures;
 import pokecube.legends.worldgen.trees.Trees;
 import thut.api.block.flowing.FlowingBlock;
 import thut.core.common.ThutCore;
@@ -174,8 +175,7 @@ public class PokecubeLegends
         PokecubeLegends.PLACED_FEATURES.register(modEventBus);
         PokecubeLegends.SURFACE_RULES.register(modEventBus);
 
-        //FIXME worldgen features init
-       // WorldgenFeatures.init(modEventBus);
+        WorldgenFeatures.init(modEventBus);
         BlockInit.init();
         ContainerInit.init();
         EntityInit.init();

@@ -66,7 +66,7 @@ public class WorldGenRarity
                 {
                     Set<Holder<Biome>> level_biomes = level.getChunkSource().getGenerator().getBiomeSource()
                             .possibleBiomes();
-                    HolderSet<Biome> struct_biomes = holder.value().biomes;
+                    HolderSet<Biome> struct_biomes = holder.value().biomes();
                     boolean valid = false;
                     for (var b : level_biomes)
                     {

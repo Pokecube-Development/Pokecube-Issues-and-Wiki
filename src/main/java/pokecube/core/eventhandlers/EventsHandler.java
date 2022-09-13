@@ -111,6 +111,7 @@ import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.nbtedit.NBTEdit;
+import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import thut.api.Tracker;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ShearableCaps;
@@ -721,9 +722,7 @@ public class EventsHandler
         // Reset this.
         PokecubeSerializer.clearInstance();
         EventsHandler.RUNNING = false;
-        
-        // FIXME worldgen
-//        ExpandedJigsawPiece.sent_events.clear();
+        ExpandedJigsawPiece.sent_events.clear();
         EventsHandler.scheduledTasks.clear();
     }
 
