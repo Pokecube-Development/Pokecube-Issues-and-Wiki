@@ -34,7 +34,7 @@
       ]
     },
     {
-      "and_preset": "is_beach,is_ultraspace_beach_water",
+      "or_preset": "is_beach,is_ultraspace_beach_water",
       "entries": [
         { "key": "buizel", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "clamperl", "min": 1, "max": 3, "rate": 0.5 },
@@ -417,7 +417,7 @@
       ]
     },
     {
-      "and_preset": "is_ocean,is_ultraspace_ocean_water",
+      "or_preset": "is_ocean,is_ultraspace_ocean_water",
       "entries": [
         { "key": "carvanha", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "clamperl", "min": 1, "max": 3, "rate": 0.5 },
@@ -473,7 +473,7 @@
       ]
     },
     {
-      "and_preset": "is_river,is_ultraspace_river_water",
+      "or_preset": "is_river,is_ultraspace_river_water",
       "entries": [
         { "key": "blastoise", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "croconaw", "min": 1, "max": 3, "rate": 0.35 },
