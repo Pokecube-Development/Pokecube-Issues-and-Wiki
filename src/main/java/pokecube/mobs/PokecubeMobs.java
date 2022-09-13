@@ -53,6 +53,7 @@ import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.init.ItemGenerator;
 import pokecube.core.items.berries.BerryManager;
+import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
@@ -445,6 +446,12 @@ public class PokecubeMobs
         ItemGenerator.fossilVariants.add("tirtouga");
         ItemGenerator.fossilVariants.add("tyrunt");
         BerryHelper.initBerries();
+        
+        ItemMegawearable.registerWearable("tiara", "HAT");
+        ItemMegawearable.registerWearable("ankletzinnia", "ANKLE");
+        ItemMegawearable.registerWearable("pendant", "NECK");
+        ItemMegawearable.registerWearable("earring", "EAR");
+        ItemMegawearable.registerWearable("glasses", "EYE");
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
