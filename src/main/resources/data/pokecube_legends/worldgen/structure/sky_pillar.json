@@ -1,0 +1,41 @@
+{
+  "avoid_range": 6,
+  "avoidances": {
+    "avoidances": [
+      {
+        "distance": 8,
+        "name": "temple"
+      },
+      {
+        "distance": 256,
+        "name": "sky_pillar"
+      }
+    ],
+    "flags": [
+      "temple",
+      "sky_pillar"
+    ]
+  },
+  "biome_room": 5,
+  "biomes": "#pokecube_world:has_structure/sky_pillar",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "size": 4,
+  "spawn_overrides": {},
+  "spawn_preset": "all",
+  "start_pool": "pokecube_legends:temples/surface/sky_pillar",
+  "step": "surface_structures",
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:towns",
+    "pokecube_legends:villages"
+  ],
+  "terrain_adaptation": "beard_thin",
+  "type": "pokecube:generic_surface_jigsaw",
+  "y_settings": {
+    "max_dy": 5,
+    "y_check_radius": 2
+  }
+}

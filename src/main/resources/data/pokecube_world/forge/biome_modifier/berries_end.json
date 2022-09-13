@@ -1,0 +1,6 @@
+{
+    "type": "forge:add_features",
+    "biomes": "#pokecube_world:has_berries/end",
+    "features": ["pokecube_world:trees_end_berries"],
+    "step": "vegetal_decoration"
+  }

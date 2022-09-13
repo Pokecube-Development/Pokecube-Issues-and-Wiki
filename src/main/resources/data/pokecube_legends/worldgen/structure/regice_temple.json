@@ -1,0 +1,45 @@
+{
+  "avoid_range": 6,
+  "avoidances": {
+    "avoidances": [
+      {
+        "distance": 8,
+        "name": "regi_temple"
+      },
+      {
+        "distance": 4,
+        "name": "temple"
+      },
+      {
+        "distance": 160,
+        "name": "regice_temple"
+      }
+    ],
+    "flags": [
+      "regi_temple",
+      "regice_temple"
+    ]
+  },
+  "biomes": "#pokecube_world:has_structure/regice_temple",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "size": 2,
+  "spawn_blacklist": "oceans,rivers,beaches,end_surface,deep_oceans",
+  "spawn_overrides": {},
+  "spawn_preset": "all",
+  "start_pool": "pokecube_legends:temples/surface/regice_temple",
+  "step": "surface_structures",
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:towns",
+    "pokecube_legends:villages"
+  ],
+  "terrain_adaptation": "beard_thin",
+  "type": "pokecube:generic_surface_jigsaw",
+  "y_settings": {
+    "max_dy": 5,
+    "y_check_radius": 1
+  }
+}

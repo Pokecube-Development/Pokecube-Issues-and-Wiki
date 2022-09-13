@@ -1,0 +1,6 @@
+{
+    "type": "forge:add_features",
+    "biomes": "#pokecube_world:has_berries/meadow",
+    "features": ["pokecube_world:crops_meadows"],
+    "step": "vegetal_decoration"
+  }

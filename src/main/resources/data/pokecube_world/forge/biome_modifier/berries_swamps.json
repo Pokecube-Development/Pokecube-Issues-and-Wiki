@@ -1,0 +1,6 @@
+{
+    "type": "forge:add_features",
+    "biomes": "#pokecube_world:has_berries/swamp",
+    "features": ["pokecube_world:crops_swamps"],
+    "step": "vegetal_decoration"
+  }

@@ -1,0 +1,21 @@
+{
+  "avoid_range": 6,
+  "biomes": "#pokecube_world:has_structure/village_ultraspace",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "required_parts": [
+    "pokecenter",
+    "pokecenter_path"
+  ],
+  "size": 3,
+  "spawn_blacklist": "oceans,beaches,rivers",
+  "spawn_overrides": {},
+  "start_pool": "pokecube_legends:village/ultraspace/small",
+  "step": "surface_structures",
+  "structures_to_avoid": [
+    "minecraft:villages",
+    "minecraft:pillager_outposts"
+  ],
+  "terrain_adaptation": "beard_thin",
+  "type": "pokecube:generic_surface_jigsaw",
+  "use_expansion_hack": true
+}

@@ -1,0 +1,6 @@
+{
+    "type": "forge:add_features",
+    "biomes": "#pokecube_world:has_berries/mushroom",
+    "features": ["pokecube_world:crops_mushrooms"],
+    "step": "vegetal_decoration"
+  }

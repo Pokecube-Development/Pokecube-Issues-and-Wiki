@@ -1,0 +1,6 @@
+{
+    "type": "forge:add_features",
+    "biomes": "#pokecube_world:has_berries/plains",
+    "features": ["pokecube_world:trees_plains_berries","pokecube_world:crops_plains"],
+    "step": "vegetal_decoration"
+  }

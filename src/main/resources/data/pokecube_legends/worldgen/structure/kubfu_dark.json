@@ -1,0 +1,37 @@
+{
+  "avoid_range": 6,
+  "avoidances": {
+    "avoidances": [
+      {
+        "distance": 8,
+        "name": "temple"
+      },
+      {
+        "distance": 256,
+        "name": "kubfu_dark"
+      }
+    ],
+    "flags": [
+      "temple",
+      "kubfu_dark"
+    ]
+  },
+  "biomes": "#pokecube_world:has_structure/kubfu_dark",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "size": 2,
+  "spawn_blacklist": "oceans,beaches,rivers",
+  "spawn_overrides": {},
+  "spawn_preset": "all",
+  "start_pool": "pokecube_legends:temples/surface/kubfu_dark",
+  "step": "surface_structures",
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:towns",
+    "pokecube_legends:villages"
+  ],
+  "terrain_adaptation": "beard_thin",
+  "type": "pokecube:generic_surface_jigsaw"
+}

@@ -1,0 +1,16 @@
+{
+  "avoid_range": 6,
+  "biomes": "#pokecube_world:has_structure/flipped_distorted_house",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "size": 1,
+  "spawn_blacklist": "beaches,oceans,rivers",
+  "spawn_overrides": {},
+  "spawn_preset": "all",
+  "start_pool": "pokecube_legends:distorted/flipped_distorted_house",
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_thin",
+  "type": "pokecube:generic_surface_jigsaw",
+  "y_settings": {
+    "min_y": 45
+  }
+}

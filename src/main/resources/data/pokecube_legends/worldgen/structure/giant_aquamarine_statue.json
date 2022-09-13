@@ -1,0 +1,24 @@
+{
+  "avoid_range": 6,
+  "biome_room": 5,
+  "biomes": "#pokecube_world:has_structure/giant_aquamarine_statue",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "size": 1,
+  "spawn_overrides": {},
+  "spawn_preset": "all",
+  "start_pool": "pokecube_legends:ultraspace/giant_aquamarine_statue",
+  "step": "surface_structures",
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:towns",
+    "pokecube_legends:villages"
+  ],
+  "terrain_adaptation": "beard_thin",
+  "type": "pokecube:generic_surface_jigsaw",
+  "y_settings": {
+    "min_y": 65
+  }
+}

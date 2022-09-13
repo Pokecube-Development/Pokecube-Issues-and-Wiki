@@ -1,0 +1,6 @@
+{
+    "type": "forge:add_features",
+    "biomes": "#pokecube_world:has_berries/mountains",
+    "features": ["pokecube_world:crops_mountains"],
+    "step": "vegetal_decoration"
+  }
