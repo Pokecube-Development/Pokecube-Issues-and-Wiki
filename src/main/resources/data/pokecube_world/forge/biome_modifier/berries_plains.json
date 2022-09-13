@@ -1,6 +1,23 @@
 {
     "type": "forge:add_features",
-    "biomes": "#pokecube_world:has_berries/plains",
+    "biomes": {
+	  "type": "forge:and",
+	  "values": [
+	    "#forge:is_plains",
+	    {
+	      "type": "forge:not",
+	      "value": "#forge:is_snowy"
+	    },
+	    {
+	      "type": "forge:not",
+	      "value": "#forge:is_cold"
+	    },
+	    {
+	      "type": "forge:not",
+	      "value": "#minecraft:is_savanna"
+	    }
+	  ]
+	},
     "features": ["pokecube_world:trees_plains_berries","pokecube_world:crops_plains"],
     "step": "vegetal_decoration"
   }
