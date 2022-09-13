@@ -13,6 +13,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
+import pokecube.world.dimension.SecretBaseDimension;
 import pokecube.world.gen.carver.PokecubeCarvers;
 import pokecube.world.gen.features.FeaturesInit;
 import pokecube.world.gen.features.trees.foliage.FoliagePlacerTypes;
@@ -56,6 +57,7 @@ public class PokecubeWorld
         TRUNK_PLACERS.register(bus);
 
         PokecubeStructureProcessors.init(bus);
+        SecretBaseDimension.onConstruct(bus);
         FeaturesInit.init(bus);
         PokecubeCarvers.init(bus);
         PokecubeStructures.init(bus);

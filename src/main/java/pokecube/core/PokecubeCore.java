@@ -64,7 +64,6 @@ import pokecube.core.moves.Battle;
 import pokecube.core.proxy.CommonProxy;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.world.PokecubeWorld;
-import pokecube.world.dimension.SecretBaseDimension;
 import thut.api.entity.CopyCaps;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
@@ -238,7 +237,6 @@ public class PokecubeCore
         PointsOfInterest.REG.register(bus);
 
         new BerryGenManager();
-        SecretBaseDimension.onConstruct(bus);
 
         // Register the player data we use with thutcore
         PlayerDataHandler.register(PokecubePlayerData.class);
