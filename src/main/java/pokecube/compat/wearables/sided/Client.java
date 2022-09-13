@@ -13,9 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.compat.wearables.sided.Common.WearablesRenderer;
@@ -31,8 +29,7 @@ import thut.wearables.EnumWearable;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
 public class Client
 {
-    @SubscribeEvent
-    public static void onStart(final NewRegistryEvent event)
+    static
     {
         PokecubeAPI.POKEMOB_BUS.addListener(EventPriority.LOW, Client::initWearables);
     }
