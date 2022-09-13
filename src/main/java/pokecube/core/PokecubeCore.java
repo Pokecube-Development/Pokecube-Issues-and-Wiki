@@ -279,7 +279,7 @@ public class PokecubeCore
             if (PokecubeItems.POKECUBE_ITEMS.isEmpty())
                 PokecubeItems.POKECUBE_ITEMS = new ItemStack(PokecubeItems.POKEDEX.get());
             if (PokecubeItems.POKECUBE_BERRIES.isEmpty())
-                PokecubeItems.POKECUBE_BERRIES = new ItemStack(BerryManager.berryFruits.get(0));
+                PokecubeItems.POKECUBE_BERRIES = new ItemStack(BerryManager.berryCrops.get(0));
             if (PokecubeItems.POKECUBE_CUBES.isEmpty())
                 PokecubeItems.POKECUBE_CUBES = PokecubeItems.getStack("pokecube");
         });
