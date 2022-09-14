@@ -27,6 +27,7 @@ import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
+import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.AnimationXML.Merge;
 import thut.core.client.render.animation.AnimationXML.Metadata;
@@ -251,6 +252,12 @@ public class AnimationLoader
                     texturer.init(file.model.customTex);
                     if (file.model.customTex.defaults != null) holder.texture = new ResourceLocation(
                             holder.texture.toString().replace(holder.name, file.model.customTex.defaults));
+                }
+                else
+                {
+                    CustomTex tex = new CustomTex();
+                    tex.defaults = holder.texture.toString();
+                    texturer.init(tex);
                 }
 
                 // Apply texture phases (ie texture animations)

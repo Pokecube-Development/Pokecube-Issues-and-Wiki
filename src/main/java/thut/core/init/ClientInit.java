@@ -13,9 +13,11 @@ import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -53,6 +55,7 @@ import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
 import thut.core.client.gui.NpcScreen;
 import thut.core.client.render.particle.ParticleFactories;
+import thut.core.client.render.wrappers.ModelWrapper;
 import thut.core.common.ThutCore;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
@@ -161,6 +164,14 @@ public class ClientInit
                     event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight());
             event.getRenderer().entityRenderDispatcher.setRenderShadow(backup);
             event.setCanceled(true);
+        }
+
+        @SuppressWarnings("unchecked")
+        var renderer = (LivingEntityRenderer<LivingEntity, EntityModel<LivingEntity>>) event.getRenderer();
+        if (renderer.getModel() instanceof ModelWrapper<LivingEntity> wrap)
+        {
+            var tex = renderer.getTextureLocation(living);
+            wrap.setMob(living, event.getMultiBufferSource(), tex);
         }
     }
 
