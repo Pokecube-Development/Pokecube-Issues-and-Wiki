@@ -2,8 +2,8 @@
   "feature": "pokecube_legends:disk_azure_sand",
   "placement": [
     {
-      "count": 3,
-      "type": "minecraft:count"
+      "type": "minecraft:count",
+      "count": 3
     },
     {
       "type": "minecraft:in_square"

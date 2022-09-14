@@ -1,7 +1,57 @@
 {
+  "type": "minecraft:disk",
   "config": {
-    "state": {
-      "Name": "pokecube_legends:turquoise_gravel"
+    "state_provider": {
+      "fallback": {
+        "type": "minecraft:simple_state_provider",
+        "state": {
+          "Name": "pokecube_legends:turquoise_gravel"
+        }
+      },
+      "rules": [
+        {
+          "if_true": {
+            "type": "minecraft:matching_blocks",
+            "offset": [
+              0,
+              -1,
+              0
+            ],
+            "blocks": "minecraft:air"
+          },
+          "then": {
+            "type": "minecraft:simple_state_provider",
+            "state": {
+              "Name": "pokecube_legends:ultra_stone"
+            }
+          }
+        }
+      ]
+    },
+    "target": {
+      "type": "minecraft:matching_blocks",
+      "blocks": [
+        "minecraft:basalt",
+        "minecraft:gravel",
+        "pokecube_legends:aged_coarse_dirt",
+        "pokecube_legends:aged_dirt",
+        "pokecube_legends:aged_grass_block",
+        "pokecube_legends:aged_podzol",
+        "pokecube_legends:azure_coarse_dirt",
+        "pokecube_legends:azure_dirt",
+        "pokecube_legends:azure_grass_block",
+        "pokecube_legends:corrupted_dirt",
+        "pokecube_legends:corrupted_grass_block",
+        "pokecube_legends:fungal_nylium",
+        "pokecube_legends:jungle_dirt",
+        "pokecube_legends:jungle_grass_block",
+        "pokecube_legends:mushroom_coarse_dirt",
+        "pokecube_legends:mushroom_dirt",
+        "pokecube_legends:mushroom_grass_block",
+        "pokecube_legends:rooted_corrupted_dirt",
+        "pokecube_legends:rooted_mushroom_dirt",
+        "pokecube_legends:ultra_darkstone"
+      ]
     },
     "radius": {
       "type": "minecraft:uniform",
@@ -10,96 +60,6 @@
         "max_inclusive": 5
       }
     },
-    "half_height": 2,
-    "targets": [
-      {
-        "Name": "minecraft:basalt",
-        "Properties": {
-          "axis": "y"
-        }
-      },
-      {
-        "Name": "minecraft:gravel"
-      },
-      {
-        "Name": "pokecube_legends:aged_coarse_dirt"
-      },
-      {
-        "Name": "pokecube_legends:aged_dirt"
-      },
-      {
-        "Name": "pokecube_legends:aged_grass_block",
-        "Properties": {
-          "snowy": "false"
-        }
-      },
-      {
-        "Name": "pokecube_legends:aged_podzol",
-        "Properties": {
-          "snowy": "false"
-        }
-      },
-      {
-        "Name": "pokecube_legends:azure_coarse_dirt"
-      },
-      {
-        "Name": "pokecube_legends:azure_dirt"
-      },
-      {
-        "Name": "pokecube_legends:azure_grass_block",
-        "Properties": {
-          "snowy": "false"
-        }
-      },
-      {
-        "Name": "pokecube_legends:corrupted_dirt"
-      },
-      {
-        "Name": "pokecube_legends:corrupted_grass_block",
-        "Properties": {
-          "snowy": "false"
-        }
-      },
-      {
-        "Name": "pokecube_legends:fungal_nylium",
-        "Properties": {
-          "snowy": "false"
-        }
-      },
-      {
-        "Name": "pokecube_legends:jungle_dirt"
-      },
-      {
-        "Name": "pokecube_legends:jungle_grass_block",
-        "Properties": {
-          "snowy": "false"
-        }
-      },
-      {
-        "Name": "pokecube_legends:mushroom_coarse_dirt"
-      },
-      {
-        "Name": "pokecube_legends:mushroom_dirt"
-      },
-      {
-        "Name": "pokecube_legends:mushroom_grass_block",
-        "Properties": {
-          "snowy": "false"
-        }
-      },
-      {
-        "Name": "pokecube_legends:rooted_corrupted_dirt"
-      },
-      {
-        "Name": "pokecube_legends:rooted_mushroom_dirt"
-      },
-      {
-        "Name": "pokecube_legends:turquoise_gravel"
-      },
-      {
-        "Name": "pokecube_legends:ultra_darkstone"
-      }
-    ]
-  },
-  "type": "pokecube_legends:disk_feature"
+    "half_height": 2
+  }
 }

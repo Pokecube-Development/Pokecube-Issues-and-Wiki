@@ -6,7 +6,6 @@ import net.minecraft.world.level.levelgen.feature.FossilFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.ColumnFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.DeltaFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.DiskConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.DripstoneClusterConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.LargeDripstoneConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NetherForestVegetationConfig;
@@ -24,14 +23,11 @@ import pokecube.legends.worldgen.features.CrystallizedSandstoneBouldersFeature;
 import pokecube.legends.worldgen.features.DeadCoralClawFeature;
 import pokecube.legends.worldgen.features.DeadCoralMushroomFeature;
 import pokecube.legends.worldgen.features.DeadCoralTreeFeature;
-import pokecube.legends.worldgen.features.DiskBaseFeature;
-import pokecube.legends.worldgen.features.DiskFeature;
 import pokecube.legends.worldgen.features.DistortedIslandsFeature;
 import pokecube.legends.worldgen.features.DistorticStoneBouldersFeature;
 import pokecube.legends.worldgen.features.DistorticVinesFeature;
 import pokecube.legends.worldgen.features.LargeUnrefinedAquamarine;
 import pokecube.legends.worldgen.features.MeteoriteSpikeFeature;
-import pokecube.legends.worldgen.features.PatchFeature;
 import pokecube.legends.worldgen.features.PollutedIcebergFeature;
 import pokecube.legends.worldgen.features.PollutedSnowAndFreezeFeature;
 import pokecube.legends.worldgen.features.RockFeature;
@@ -64,10 +60,6 @@ public class WorldgenFeatures
             () -> new DeadCoralTreeFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> ULTRASPACE_DELTA = WorldgenFeatures.FEATURES.register("delta_feature",
             () -> new UltraspaceDeltaFeature(DeltaFeatureConfiguration.CODEC));
-    public static final RegistryObject<Feature<?>> DISK = WorldgenFeatures.FEATURES.register("disk_feature",
-            () -> new DiskFeature(DiskConfiguration.CODEC));
-    public static final RegistryObject<Feature<?>> DISK_BASE = WorldgenFeatures.FEATURES.register("disk_base_feature",
-            () -> new DiskBaseFeature(DiskConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> DISTORTED_ISLANDS = WorldgenFeatures.FEATURES.register("distorted_islands_feature",
             () -> new DistortedIslandsFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> DISTORTIC_STONE_BOULDERS = WorldgenFeatures.FEATURES.register("distortic_stone_boulders_feature",
@@ -78,8 +70,6 @@ public class WorldgenFeatures
             () -> new LargeUnrefinedAquamarine(LargeDripstoneConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> METEORITE_SPIKES = WorldgenFeatures.FEATURES.register("meteorite_spike_feature",
             () -> new MeteoriteSpikeFeature(NoneFeatureConfiguration.CODEC));
-    public static final RegistryObject<Feature<?>> PATCH = WorldgenFeatures.FEATURES.register("patch_feature",
-            () -> new PatchFeature(DiskConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> POLLUTED_ICEBERG = WorldgenFeatures.FEATURES.register("polluted_iceberg_feature",
             () -> new PollutedIcebergFeature(BlockStateConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> POLLUTED_SNOW_FREEZE = WorldgenFeatures.FEATURES.register("freeze_top_layer_polluted_feature",

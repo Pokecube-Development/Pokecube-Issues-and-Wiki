@@ -5,41 +5,28 @@
       "fallback": {
         "type": "minecraft:simple_state_provider",
         "state": {
-          "Name": "pokecube_legends:blackened_sand"
+          "Name": "pokecube_legends:meteorite_block"
         }
       },
-      "rules": [
-        {
-          "if_true": {
-            "type": "minecraft:matching_blocks",
-            "offset": [
-              0,
-              -1,
-              0
-            ],
-            "blocks": "minecraft:air"
-          },
-          "then": {
-            "type": "minecraft:simple_state_provider",
-            "state": {
-              "Name": "pokecube_legends:blackened_sandstone"
-            }
-          }
-        }
-      ]
+      "rules": []
     },
     "target": {
       "type": "minecraft:matching_blocks",
       "blocks": [
         "minecraft:basalt",
         "minecraft:gravel",
+        "minecraft:ice",
+        "minecraft:snow_block",
         "pokecube_legends:aged_coarse_dirt",
         "pokecube_legends:aged_dirt",
         "pokecube_legends:aged_grass_block",
         "pokecube_legends:aged_podzol",
+        "pokecube_legends:ash_block",
         "pokecube_legends:azure_coarse_dirt",
         "pokecube_legends:azure_dirt",
         "pokecube_legends:azure_grass_block",
+        "pokecube_legends:blackened_sand",
+        "pokecube_legends:blackened_sandstone",
         "pokecube_legends:corrupted_dirt",
         "pokecube_legends:corrupted_grass_block",
         "pokecube_legends:fungal_nylium",
@@ -58,9 +45,9 @@
       "type": "minecraft:uniform",
       "value": {
         "min_inclusive": 2,
-        "max_inclusive": 4
+        "max_inclusive": 3
       }
     },
-    "half_height": 2
+    "half_height": 1
   }
 }
