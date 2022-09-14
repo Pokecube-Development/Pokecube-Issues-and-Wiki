@@ -7,6 +7,7 @@
 		"3": "pokecube:block/nest_details",
 		"particle": "pokecube:block/nest_side"
 	},
+	"render_type": "cutout_mipped",
 	"elements": [
 		{
 			"name": "nest",

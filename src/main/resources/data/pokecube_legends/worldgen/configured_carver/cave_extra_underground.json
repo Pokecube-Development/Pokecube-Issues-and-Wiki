@@ -1,5 +1,16 @@
 {
+  "type": "minecraft:cave",
   "config": {
+    "probability": 0.07,
+    "y": {
+      "type": "minecraft:uniform",
+      "min_inclusive": {
+        "above_bottom": 8
+      },
+      "max_inclusive": {
+        "absolute": 47
+      }
+    },
     "yScale": {
       "type": "minecraft:uniform",
       "value": {
@@ -10,39 +21,30 @@
     "lava_level": {
       "above_bottom": 8
     },
+    "replaceable": "#pokecube_world:carver_replaceable",
     "debug_settings": {
-      "water_state": {
+      "air_state": {
+        "Name": "minecraft:oak_button",
         "Properties": {
-          "waterlogged": "false",
+          "face": "wall",
+          "facing": "north",
+          "powered": "false"
+        }
+      },
+      "water_state": {
+        "Name": "minecraft:candle",
+        "Properties": {
+          "candles": "1",
           "lit": "false",
-          "candles": "1"
-        },
-        "Name": "minecraft:candle"
+          "waterlogged": "false"
+        }
       },
       "lava_state": {
         "Name": "minecraft:orange_stained_glass"
       },
       "barrier_state": {
         "Name": "minecraft:glass"
-      },
-      "air_state": {
-        "Properties": {
-          "powered": "false",
-          "facing": "north",
-          "face": "wall"
-        },
-        "Name": "minecraft:oak_button"
       }
-    },
-    "probability": 0.07,
-    "y": {
-      "min_inclusive": {
-        "above_bottom": 8
-      },
-      "max_inclusive": {
-        "absolute": 47
-      },
-      "type": "minecraft:uniform"
     },
     "horizontal_radius_multiplier": {
       "type": "minecraft:uniform",
@@ -61,10 +63,9 @@
     "floor_level": {
       "type": "minecraft:uniform",
       "value": {
-        "min_inclusive": -1.0,
+        "min_inclusive": -1,
         "max_exclusive": -0.4
       }
     }
-  },
-  "type": "pokecube:cave"
+  }
 }

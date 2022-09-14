@@ -4,6 +4,7 @@
 		"particle": "pokecube:block/oran_fruit",
 		"oran": "pokecube:block/oran_fruit"
 	},
+	"render_type": "cutout_mipped",
 	"elements": [
 		{
 			"name": "fruit",

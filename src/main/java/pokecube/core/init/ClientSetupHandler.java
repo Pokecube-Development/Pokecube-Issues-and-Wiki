@@ -7,8 +7,6 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.BiomeColors;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -193,27 +191,6 @@ public class ClientSetupHandler
         MenuScreens.register(MenuTypes.PC.get(), PC<PCContainer>::new);
         MenuScreens.register(MenuTypes.TRADE.get(), Trade<TradeContainer>::new);
         MenuScreens.register(MenuTypes.TMS.get(), TMs<TMContainer>::new);
-
-        // Register mob rendering
-        PokecubeAPI.LOGGER.debug("Init Mob Renderers");
-
-        // Register the render layers
-        for (final Block crop : BerryManager.berryCrops.values())
-            ItemBlockRenderTypes.setRenderLayer(crop, RenderType.cutoutMipped());
-        for (final Block fruit : BerryManager.berryFruits.values())
-            ItemBlockRenderTypes.setRenderLayer(fruit, RenderType.cutoutMipped());
-        for (final Block leaf : ItemGenerator.leaves.values())
-            ItemBlockRenderTypes.setRenderLayer(leaf, RenderType.cutoutMipped());
-        for (final Block trapdoor : ItemGenerator.trapdoors.values())
-            ItemBlockRenderTypes.setRenderLayer(trapdoor, RenderType.cutoutMipped());
-        for (final Block door : ItemGenerator.doors.values())
-            ItemBlockRenderTypes.setRenderLayer(door, RenderType.cutoutMipped());
-        for (final Block door : BerryManager.pottedBerries.values())
-            ItemBlockRenderTypes.setRenderLayer(door, RenderType.cutoutMipped());
-        ItemBlockRenderTypes.setRenderLayer(PokecubeItems.NEST.get(), RenderType.cutoutMipped());
-        ItemBlockRenderTypes.setRenderLayer(PokecubeItems.DYNAMAX.get(), RenderType.cutoutMipped());
-
-        // FIXME Register config gui
     }
 
     @SubscribeEvent

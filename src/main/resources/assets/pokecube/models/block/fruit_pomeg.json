@@ -4,6 +4,7 @@
 		"particle": "pokecube:block/pomeg_fruit",
 		"pomeg": "pokecube:block/pomeg_fruit"
 	},
+	"render_type": "cutout_mipped",
 	"elements": [
 		{
 			"name": "stem",

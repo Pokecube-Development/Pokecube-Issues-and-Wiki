@@ -78,7 +78,7 @@ public class ClonerBlock extends InteractableHorizontalBlock implements SimpleWa
         {
             final FluidState fluidState = world.getFluidState(pos.above());
             world.setBlock(pos.above(), state.setValue(ClonerBlock.HALF, ClonerBlockPart.TOP).setValue(
-                    ClonerBlock.WATERLOGGED, fluidState.getType() == Fluids.WATER), 1);
+                    ClonerBlock.WATERLOGGED, fluidState.getType() == Fluids.WATER), 3);
         }
         super.setPlacedBy(world, pos, state, placer, stack);
     }

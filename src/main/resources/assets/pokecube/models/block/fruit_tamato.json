@@ -4,6 +4,7 @@
 		"particle": "pokecube:block/tamato_fruit",
 		"tomato": "pokecube:block/tamato_fruit"
 	},
+	"render_type": "cutout_mipped",
 	"elements": [
 		{
 			"name": "fruit",

@@ -1,10 +1,6 @@
 {
+  "priority": 102,
   "types": [
-    {
-      "name": "???",
-      "colour": 0,
-      "outgoing": []
-    },
     {
       "name": "normal",
       "colour": 11053176,

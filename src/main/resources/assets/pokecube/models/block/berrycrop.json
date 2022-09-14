@@ -4,6 +4,7 @@
         "particle": "#cross",
         "cross": "pokecube:block/berryseed"
     },
+	"render_type": "cutout_mipped",
     "elements": [
         {   "from": [ 0.8, -1, 8 ],
             "to": [ 15.2, 16, 8 ],

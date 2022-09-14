@@ -4,6 +4,7 @@
 		"particle": "pokecube:block/leppa_fruit",
 		"leppa": "pokecube:block/leppa_fruit"
 	},
+	"render_type": "cutout_mipped",
 	"elements": [
 		{
 			"name": "stem",
