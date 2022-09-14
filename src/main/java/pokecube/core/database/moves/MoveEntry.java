@@ -1,8 +1,10 @@
 package pokecube.core.database.moves;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import pokecube.api.PokecubeAPI;
 import pokecube.api.moves.IMoveConstants;
@@ -62,9 +64,9 @@ public class MoveEntry implements IMoveConstants
         });
     }
 
-    public static Collection<MoveEntry> values()
+    public static List<MoveEntry> values()
     {
-        return MoveEntry.movesNames.values();
+        return Lists.newArrayList(MoveEntry.movesNames.values());
     }
 
     public final String name;
