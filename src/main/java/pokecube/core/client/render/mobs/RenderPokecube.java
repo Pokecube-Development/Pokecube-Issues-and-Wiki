@@ -1,7 +1,6 @@
 package pokecube.core.client.render.mobs;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -9,14 +8,10 @@ import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
@@ -37,11 +32,10 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
     {
 
         public ModelPokecube()
-        {
-        }
+        {}
 
-        EntityPokecube    cube;
-        float             ageInTicks;
+        EntityPokecube cube;
+        float ageInTicks;
         MultiBufferSource buffer;
 
         @Override
@@ -77,22 +71,12 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
             if (renderStack == null || !(renderStack.getItem() instanceof IPokecube))
                 renderStack = PokecubeItems.POKECUBE_CUBES;
 
-            final RenderType rendertype = ItemBlockRenderTypes.getRenderType(renderStack, true);
-            RenderType rendertype1;
-            if (Objects.equals(rendertype, Sheets.translucentCullBlockSheet())) rendertype1 = Sheets
-                    .translucentCullBlockSheet();
-            else rendertype1 = rendertype;
-            final MultiBufferSource.BufferSource irendertypebuffer$impl = Minecraft.getInstance().renderBuffers()
-                    .bufferSource();
-            final VertexConsumer ivertexbuilder = ItemRenderer.getFoilBuffer(irendertypebuffer$impl, rendertype1, true,
-                    renderStack.hasFoil());
-
             final Minecraft mc = Minecraft.getInstance();
+
+            if (this.buffer == null) this.buffer = mc.renderBuffers().bufferSource();
             final BakedModel ibakedmodel = mc.getItemRenderer().getModel(renderStack, this.cube.level, this.cube, 0);
-            if (this.buffer != null) mc.getItemRenderer().render(renderStack, ItemTransforms.TransformType.GROUND,
-                    false, mat, this.buffer, packedLightIn, OverlayTexture.NO_OVERLAY, ibakedmodel);
-            else mc.getItemRenderer().renderModelLists(ibakedmodel, renderStack, packedLightIn, packedOverlayIn, mat,
-                    ivertexbuilder);
+            mc.getItemRenderer().render(renderStack, ItemTransforms.TransformType.GROUND, false, mat, this.buffer,
+                    packedLightIn, OverlayTexture.NO_OVERLAY, ibakedmodel);
 
             mat.popPose();
         }
