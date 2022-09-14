@@ -2,7 +2,6 @@
   "type": "pokecube_legends:ultraspace",
   "generator": {
     "type": "minecraft:noise",
-    "seed": 1,
     "settings": "pokecube_legends:ultraspace_terrain",
     "biome_source": {
       "type": "minecraft:multi_noise",
