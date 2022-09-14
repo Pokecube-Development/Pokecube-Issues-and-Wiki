@@ -28,7 +28,6 @@ import thut.api.maths.Vector3;
 
 public abstract class Move_Base
 {
-    public final int index;
     public final String name;
     private IMoveAnimation animation;
     public boolean aoe = false;
@@ -53,7 +52,6 @@ public abstract class Move_Base
     {
         this.name = name;
         this.move = MoveEntry.get(name);
-        this.index = this.move.index;
         this.fixedDamage = this.move.fixed;
         boolean mod = false;
         for (final int i : this.move.attackedStatModification) if (i != 0)
@@ -200,16 +198,6 @@ public abstract class Move_Base
     public Category getCategory(final IPokemob user)
     {
         return this.getCategory();
-    }
-
-    /**
-     * Index getter.
-     *
-     * @return a int ID for this move
-     */
-    public int getIndex()
-    {
-        return this.index;
     }
 
     public abstract Move_Base getMove(String name);
