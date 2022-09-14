@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import pokecube.api.PokecubeAPI;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.utils.PokeType;
 import pokecube.core.database.moves.json.JsonMoves;
@@ -16,7 +17,7 @@ public class MoveEntry implements IMoveConstants
         OTHER, SPECIAL, PHYSICAL;
     }
 
-    private static HashMap<String, MoveEntry> movesNames = new HashMap<>();
+    protected static HashMap<String, MoveEntry> movesNames = new HashMap<>();
     public static HashSet<String> protectionMoves = new HashSet<>();
     public static HashSet<String> unBlockableMoves = new HashSet<>();
     public static HashSet<String> oneHitKos = new HashSet<>();
@@ -36,7 +37,7 @@ public class MoveEntry implements IMoveConstants
 
     static
     {
-        CONFUSED = new MoveEntry("pokemob.status.confusion", -1);
+        CONFUSED = new MoveEntry("pokemob.status.confusion");
         MoveEntry.CONFUSED.type = PokeType.unknown;
         MoveEntry.CONFUSED.category = IMoveConstants.PHYSICAL;
         MoveEntry.CONFUSED.attackCategory = IMoveConstants.CATEGORY_CONTACT + IMoveConstants.CATEGORY_SELF;
@@ -51,7 +52,10 @@ public class MoveEntry implements IMoveConstants
 
     public static MoveEntry get(final String name)
     {
-        return MoveEntry.movesNames.get(name);
+        return MoveEntry.movesNames.computeIfAbsent(name, n -> {
+            PokecubeAPI.LOGGER.warn("Warning, auto-generating a move entry for un-registered move " + n);
+            return new MoveEntry(n);
+        });
     }
 
     public static Collection<MoveEntry> values()
@@ -60,7 +64,6 @@ public class MoveEntry implements IMoveConstants
     }
 
     public final String name;
-    public final int index;
     public PokeType type;
 
     /** Distance, contact, etc. */
@@ -115,10 +118,9 @@ public class MoveEntry implements IMoveConstants
 
     public JsonMoves.MoveJsonEntry baseEntry;
 
-    public MoveEntry(final String name, final int index)
+    public MoveEntry(final String name)
     {
         this.name = name;
-        this.index = index;
         MoveEntry.movesNames.put(name, this);
     }
 
