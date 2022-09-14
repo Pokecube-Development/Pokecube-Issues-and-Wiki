@@ -48,7 +48,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.database.Database;
-import pokecube.core.database.types.CombatTypeLoader;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.init.ItemGenerator;
@@ -77,8 +76,6 @@ public class PokecubeMobs
     {
         MinecraftForge.EVENT_BUS.register(this);
         PokecubeAPI.POKEMOB_BUS.register(this);
-        // We override these so that they use ours instead of default ones.
-        CombatTypeLoader.TYPES = new ResourceLocation(PokecubeMobs.MODID, "database/types.json");
 
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         PokecubeMobs.SOUNDS.register(bus);

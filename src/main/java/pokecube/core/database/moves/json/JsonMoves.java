@@ -2,10 +2,10 @@ package pokecube.core.database.moves.json;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,10 +17,9 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.moves.Move_Base;
 import pokecube.core.database.moves.MovesParser;
 import pokecube.core.database.resources.PackFinder;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.moves.zmoves.GZMoveManager;
+import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 
 public class JsonMoves
@@ -166,28 +165,13 @@ public class JsonMoves
 
         public List<MoveJsonEntry> moves = new ArrayList<>();
 
-        public MoveJsonEntry getEntry(String name, final boolean create)
-        {
-            name = JsonMoves.convertMoveName(name);
-            MoveJsonEntry ret = JsonMoves.movesMap.get(name);
-            if (create && ret == null)
-            {
-                ret = new MoveJsonEntry();
-                ret.name = name;
-                this.moves.add(ret);
-                this.init();
-            }
-            return ret;
-        }
-
         public void init()
         {
-            JsonMoves.movesMap.clear();
-            for (final MoveJsonEntry e : this.moves)
-            {
-                e.name = JsonMoves.convertMoveName(e.name);
-                JsonMoves.movesMap.put(e.name, e);
-            }
+            this.moves.forEach(e -> e.name = JsonMoves.convertMoveName(e.name));
+        }
+
+        public void finish()
+        {
             this.moves.sort((o1, o2) -> o1.name.compareTo(o2.name));
             GZMoveManager.init(this);
         }
@@ -199,13 +183,11 @@ public class JsonMoves
         }
     }
 
-    private static Gson gson = new Gson();
+    private static Gson gson = JsonUtil.gson;
 
-    private static MovesJson moves;
+    public static MovesJson moves = new MovesJson();
 
-    private static Map<String, MoveJsonEntry> movesMap = new HashMap<>();
-
-    public static String convertMoveName(final String old)
+    private static String convertMoveName(final String old)
     {
         String ret = "";
         final String name = ThutCore.trim(old);
@@ -214,21 +196,16 @@ public class JsonMoves
         return ret;
     }
 
-    public static MovesJson getMoves(final ResourceLocation file)
-    {
-        if (JsonMoves.moves == null) JsonMoves.loadMoves(file);
-        return JsonMoves.moves;
-    }
-
-    public static void loadMoves(final ResourceLocation file)
+    private static MovesJson loadMoves(final ResourceLocation file)
     {
         try
         {
             final BufferedReader reader = PackFinder.getReader(file);
             if (reader == null) throw new FileNotFoundException(file.toString());
-            JsonMoves.moves = JsonMoves.gson.fromJson(reader, MovesJson.class);
-            JsonMoves.moves.init();
+            MovesJson moves = JsonMoves.gson.fromJson(reader, MovesJson.class);
+            moves.init();
             reader.close();
+            return moves;
         }
         catch (final FileNotFoundException e)
         {
@@ -238,11 +215,17 @@ public class JsonMoves
         {
             PokecubeAPI.LOGGER.error("Error reading moves file " + file, e);
         }
+        return null;
     }
 
-    public static void merge(final ResourceLocation animationFile, final ResourceLocation movesFile)
+    public static MovesJson merge(final ResourceLocation animationFile, final ResourceLocation movesFile)
     {
-        JsonMoves.loadMoves(movesFile);
+        MovesJson loaded = JsonMoves.loadMoves(movesFile);
+        if (loaded == null)
+        {
+            PokecubeAPI.LOGGER.error("Error reading moves file " + movesFile);
+            return null;
+        }
         try
         {
             final BufferedReader reader = PackFinder.getReader(animationFile);
@@ -258,47 +241,24 @@ public class JsonMoves
                 anim.defaultanimation = null;
                 anim.animations.add(animation);
             }
-
             animations.moves.sort((arg0, arg1) -> arg0.name.compareTo(arg1.name));
-            final Map<String, MoveJsonEntry> entryMap = Maps.newHashMap();
-            for (final MoveJsonEntry entry : JsonMoves.moves.moves)
+            final Map<String, AnimationsJson> animsMap = Maps.newHashMap();
+            for (final AnimationsJson anims : animations.moves)
             {
-                entryMap.put(entry.name, entry);
-                for (final AnimationsJson anims : animations.moves)
-                    if (JsonMoves.convertMoveName(anims.name).equals(JsonMoves.convertMoveName(entry.name)))
+                animsMap.put(JsonMoves.convertMoveName(anims.name), anims);
+            }
+            for (final MoveJsonEntry entry : loaded.moves)
+            {
+                String name = JsonMoves.convertMoveName(entry.name);
+                if (animsMap.containsKey(name))
                 {
+                    AnimationsJson anims = animsMap.get(name);
                     entry.defaultanimation = anims.defaultanimation;
                     entry.animations = anims.animations;
                     entry.soundEffectSource = anims.soundEffectSource;
                     entry.soundEffectTarget = anims.soundEffectTarget;
                     anims.name = entry.name;
-                    break;
                 }
-            }
-            MovesParser.load(JsonMoves.moves);
-            final Collection<Move_Base> moves = MovesUtils.getKnownMoves();
-            for (final Move_Base move : moves)
-            {
-                final MoveJsonEntry entry = entryMap.get(move.name);
-                if (entry != null) move.move.baseEntry = entry;
-                else if (!move.name.startsWith("pokemob.status")) PokecubeAPI.LOGGER.error("No Entry for " + move.name);
-            }
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.info("Processed " + moves.size() + " Moves.");
-            MovesAdder.postInitMoves();
-
-            final MovesJson cleaned = new MovesJson();
-            for (final MoveJsonEntry entry : JsonMoves.moves.moves)
-            {
-                final MoveJsonEntry newEntry = new MoveJsonEntry();
-                for (final Field f : MoveJsonEntry.class.getFields()) if (!f.getName().equals("animations")) try
-                {
-                    f.set(newEntry, f.get(entry));
-                }
-                catch (final Exception e)
-                {
-                    e.printStackTrace();
-                }
-                cleaned.moves.add(newEntry);
             }
         }
         catch (final FileNotFoundException e)
@@ -308,6 +268,33 @@ public class JsonMoves
         catch (final Exception e)
         {
             PokecubeAPI.LOGGER.error("Error reading moves animation file " + animationFile, e);
+        }
+        return loaded;
+    }
+
+    public static void postProcess()
+    {
+        try
+        {
+            JsonMoves.moves.finish();
+            MovesParser.load(JsonMoves.moves);
+            final Collection<Move_Base> moves = MovesUtils.getKnownMoves();
+            final Map<String, MoveJsonEntry> entryMap = Maps.newHashMap();
+            for (final MoveJsonEntry entry : JsonMoves.moves.moves)
+            {
+                entryMap.put(entry.name, entry);
+            }
+            for (final Move_Base move : moves)
+            {
+                final MoveJsonEntry entry = entryMap.get(move.name);
+                if (entry != null) move.move.baseEntry = entry;
+                else if (!move.name.startsWith("pokemob.status")) PokecubeAPI.LOGGER.error("No Entry for " + move.name);
+            }
+            PokecubeAPI.LOGGER.debug("Processed " + JsonMoves.moves.moves.size() + " Moves.");
+        }
+        catch (IOException e)
+        {
+            PokecubeAPI.LOGGER.error("Error processing moves", e);
         }
     }
 }

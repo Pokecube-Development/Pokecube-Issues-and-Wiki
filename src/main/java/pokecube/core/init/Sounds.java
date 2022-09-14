@@ -53,7 +53,7 @@ public class Sounds
     public static void initMoveSounds()
     {
         // null as it should have been populated already
-        final MovesJson moves = JsonMoves.getMoves(null);
+        final MovesJson moves = JsonMoves.moves;
         for (final MoveJsonEntry entry : moves.moves)
         {
             // Register sound on source
