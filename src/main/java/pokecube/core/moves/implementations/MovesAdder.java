@@ -14,8 +14,8 @@ import pokecube.api.moves.IMoveAction;
 import pokecube.api.moves.IMoveAnimation;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.Move_Base;
-import pokecube.core.database.Database;
 import pokecube.core.database.moves.MoveEntry;
+import pokecube.core.database.moves.MovesDatabases;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
@@ -142,13 +142,13 @@ public class MovesAdder implements IMoveConstants
     public static void registerMoves()
     {
         // Initialize the databases
-        Database.preInitMoves();
+        MovesDatabases.preInitLoad();
 
         MovesAdder.registerAutodetect();
         MovesAdder.registerRemainder();
         // Reload the moves databases to apply the animations to the newly added
         // moves.
-        Database.preInitMoves();
+        MovesDatabases.postInitLoad();
     }
 
     /**

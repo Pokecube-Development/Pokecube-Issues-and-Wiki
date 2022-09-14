@@ -46,7 +46,6 @@ import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.events.init.InitDatabase;
 import pokecube.api.utils.PokeType;
 import pokecube.core.blocks.berries.BerryGenManager;
-import pokecube.core.database.moves.MovesDatabases;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
@@ -913,11 +912,6 @@ public class Database
         AbilityManager.init();
 
         PokecubeAPI.LOGGER.debug("Loaded all databases");
-    }
-
-    public static void preInitMoves()
-    {
-        MovesDatabases.preInitLoad();
     }
 
     public static String trim_loose(String name)

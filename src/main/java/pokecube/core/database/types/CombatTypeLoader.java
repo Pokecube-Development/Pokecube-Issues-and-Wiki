@@ -99,9 +99,6 @@ public class CombatTypeLoader
             }
         });
         loaded.sort(null);
-
-        loaded.forEach(t -> System.out.println(t.types));
-
         CombatTypes compound = new CombatTypes();
         Map<String, JsonType> typesMap = new HashMap<>();
         loaded.forEach(l -> l.types.forEach(t -> typesMap.putIfAbsent(t.name, t)));
