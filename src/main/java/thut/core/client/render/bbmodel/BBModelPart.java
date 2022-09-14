@@ -253,11 +253,15 @@ public class BBModelPart extends Part
         float us = template.resolution.width;
         float vs = template.resolution.height;
 
-        for (int i = 0; i < 4; i++)
+        int di = face.rotation / 90;
+
+        for (int index = 0; index < 4; index++)
         {
+            int i = index;
             float[] c = coords[i];
             Vertex v = new Vertex(c[0] / 16f, -c[2] / 16f, c[1] / 16f);
             Integer o = order.size();
+            i = (index + di) % 4;
             int u0 = tex_order[i][0];
             int v0 = tex_order[i][1];
             TextureCoordinate t = new TextureCoordinate(face.uv[u0] / us, face.uv[v0] / vs);

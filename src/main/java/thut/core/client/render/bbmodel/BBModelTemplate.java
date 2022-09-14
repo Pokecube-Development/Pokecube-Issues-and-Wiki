@@ -78,6 +78,7 @@ public class BBModelTemplate
     {
         public float[] uv;
         public int texture;
+        public int rotation = 0;
     }
 
     public static class JsonGroup
