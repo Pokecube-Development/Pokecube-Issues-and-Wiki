@@ -1,8 +1,8 @@
 package pokecube.mobs.moves.attacks.special;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.PokecubeAPI;
@@ -23,7 +23,7 @@ public class Metronome extends Move_Basic
     public void ActualMoveUse(LivingEntity user, LivingEntity target, Vector3 start, Vector3 end)
     {
         Move_Base toUse = null;
-        final ArrayList<MoveEntry> moves = new ArrayList<>(MoveEntry.values());
+        final List<MoveEntry> moves = MoveEntry.values();
         Collections.shuffle(moves);
         final Iterator<MoveEntry> iter = moves.iterator();
         while (toUse == null && iter.hasNext())
