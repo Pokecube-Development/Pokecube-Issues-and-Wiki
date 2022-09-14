@@ -50,8 +50,12 @@ public class MoveEntry implements IMoveConstants
         MoveEntry.CONFUSED.baseEntry = new MoveJsonEntry();
     }
 
-    public static MoveEntry get(final String name)
+    public static MoveEntry get(String name)
     {
+        // Ensure the passed in name is correctly converted
+        name = JsonMoves.convertMoveName(name);
+        // Then return or add a new entry, make a warning if no json entry was
+        // present, but accept it anyway.
         return MoveEntry.movesNames.computeIfAbsent(name, n -> {
             PokecubeAPI.LOGGER.warn("Warning, auto-generating a move entry for un-registered move " + n);
             return new MoveEntry(n);

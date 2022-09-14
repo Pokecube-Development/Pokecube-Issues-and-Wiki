@@ -50,8 +50,8 @@ public abstract class Move_Base
      */
     public Move_Base(final String name)
     {
-        this.name = name;
         this.move = MoveEntry.get(name);
+        this.name = this.move.name;
         this.fixedDamage = this.move.fixed;
         boolean mod = false;
         for (final int i : this.move.attackedStatModification) if (i != 0)
