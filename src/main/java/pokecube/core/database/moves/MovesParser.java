@@ -97,8 +97,7 @@ public class MovesParser
             return;
         }
         final String yes = "Yes";
-        MoveEntry move = MoveEntry.movesNames.get(name);
-        move = move == null ? new MoveEntry(name) : move;
+        MoveEntry move = MoveEntry.movesNames.computeIfAbsent(name, n -> new MoveEntry(n));
         move.attackCategory = 0;
         move.power = power;
         move.pp = pp;

@@ -54,8 +54,10 @@ public class MoveEntry implements IMoveConstants
 
     public static MoveEntry get(String name)
     {
+        if (name.equals(CONFUSED.name)) return CONFUSED;
         // Ensure the passed in name is correctly converted
         name = JsonMoves.convertMoveName(name);
+        if (name.equals(CONFUSED.name)) return CONFUSED;
         // Then return or add a new entry, make a warning if no json entry was
         // present, but accept it anyway.
         return MoveEntry.movesNames.computeIfAbsent(name, n -> {
@@ -127,7 +129,6 @@ public class MoveEntry implements IMoveConstants
     public MoveEntry(final String name)
     {
         this.name = name;
-        MoveEntry.movesNames.put(name, this);
     }
 
     public boolean isMultiTarget()
