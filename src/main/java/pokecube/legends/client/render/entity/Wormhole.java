@@ -124,9 +124,8 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     @Override
     public String getAnimation(final Entity entityIn)
     {
-        if (entityIn instanceof WormholeEntity)
+        if (entityIn instanceof WormholeEntity wormhole)
         {
-            final WormholeEntity wormhole = (WormholeEntity) entityIn;
             final String state = wormhole.isIdle() ? "stable"
                     : wormhole.isClosing() ? "closing" : wormhole.isOpening() ? "opening" : "idle";
             return state;
