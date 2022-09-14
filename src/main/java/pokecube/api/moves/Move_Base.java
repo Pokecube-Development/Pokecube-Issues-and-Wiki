@@ -326,6 +326,17 @@ public abstract class Move_Base
         return (this.getAttackCategory() & IMoveConstants.CATEGORY_SELF) > 0;
     }
 
+    /** @return Does this move targer the user. */
+    public boolean isSelfMove(IPokemob user)
+    {
+        return (this.getAttackCategory(user) & IMoveConstants.CATEGORY_SELF) > 0;
+    }
+
+    public boolean isRanged(IPokemob user)
+    {
+        return (this.getAttackCategory(user) & IMoveConstants.CATEGORY_DISTANCE) > 0;
+    }
+
     /**
      * This is where the move's damage should be applied to the mob.
      *

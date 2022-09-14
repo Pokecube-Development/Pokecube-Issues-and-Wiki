@@ -44,7 +44,6 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
-import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.PokemobTracker.MobEntry;
@@ -574,8 +573,8 @@ public class LogicMiscUpdate extends LogicBase
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
         {
             final int index = this.pokemob.getMoveIndex();
-            Move_Base move;
-            if (index < 4 && (move = MovesUtils.getMoveFromName(this.pokemob.getMove(index))) != null)
+            Move_Base move = this.pokemob.getSelectedMove();
+            if (index < 4)
             {
                 if ((move.getAttackCategory(pokemob) & IMoveConstants.CATEGORY_CONTACT) > 0)
                     anims.add("attack_contact");

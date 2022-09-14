@@ -1,5 +1,7 @@
 package pokecube.api.entity.pokemob;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.eventbus.api.Event;
@@ -15,6 +17,7 @@ import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
 import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;
 import pokecube.core.moves.MovesUtils;
@@ -32,8 +35,7 @@ public interface IHasMoves extends IHasStats
      * fail because the mob is immune against this change or because it already
      * has the change. If so, the method returns false.
      *
-     * @param change
-     *            the change to add
+     * @param change the change to add
      * @return whether the change has actually been added
      */
     default boolean addChange(final int change)
@@ -46,10 +48,8 @@ public interface IHasMoves extends IHasStats
     /**
      * Used by Gui Pokedex. Exchange the two moves.
      *
-     * @param moveIndex0
-     *            index of 1st move
-     * @param moveIndex1
-     *            index of 2nd move
+     * @param moveIndex0 index of 1st move
+     * @param moveIndex1 index of 2nd move
      */
     default void exchangeMoves(final int moveIndex0, final int moveIndex1)
     {
@@ -59,8 +59,8 @@ public interface IHasMoves extends IHasStats
             if (moveIndex0 >= moves.length && moveIndex1 >= moves.length) this.getMoveStats().num++;
             try
             {
-                PacketCommand.sendCommand((IPokemob) this, Command.SWAPMOVES, new SwapMovesHandler((byte) moveIndex0,
-                        (byte) moveIndex1));
+                PacketCommand.sendCommand((IPokemob) this, Command.SWAPMOVES,
+                        new SwapMovesHandler((byte) moveIndex0, (byte) moveIndex1));
             }
             catch (final Exception ex)
             {
@@ -100,10 +100,8 @@ public interface IHasMoves extends IHasStats
      * supposed to do according to his trainer command or a random one if it's
      * wild.
      *
-     * @param target
-     *            the Entity to attack
-     * @param f
-     *            the float parameter of the attackEntity method
+     * @param target the Entity to attack
+     * @param f      the float parameter of the attackEntity method
      */
     void executeMove(LivingEntity target, Vector3 targetLocation, float f);
 
@@ -131,8 +129,7 @@ public interface IHasMoves extends IHasStats
     /**
      * If this is greater than 0, the move is considered disabled.
      *
-     * @param index
-     *            - The move index to check
+     * @param index - The move index to check
      * @return - ticks still disabled for
      */
     int getDisableTimer(int index);
@@ -144,10 +141,26 @@ public interface IHasMoves extends IHasStats
     }
 
     /**
+     * 
+     * @return a cached selected move to reduce number of times AI classes, etc
+     *         need to look this up.
+     */
+    @Nonnull
+    default Move_Base getSelectedMove()
+    {
+        if (this.getMoveStats().selectedMove == null)
+        {
+            this.getMoveStats().selectedMove = MovesUtils.getMoveFromName(this.getMove(this.getMoveIndex()));
+            if (this.getMoveStats().selectedMove == null)
+                this.getMoveStats().selectedMove = MovesUtils.getMoveFromName(IMoveConstants.DEFAULT_MOVE);
+        }
+        return this.getMoveStats().selectedMove;
+    }
+
+    /**
      * Gets the {@link String} id of the specified move.
      *
-     * @param i
-     *            from 0 to 3
+     * @param i from 0 to 3
      * @return the String name of the move
      */
     default String getMove(final int index)
@@ -168,8 +181,8 @@ public interface IHasMoves extends IHasStats
         }
 
         if (index >= 0 && index < 4) return moves[index];
-        if (index == 4 && moves[3] != null) if (!this.getMoveStats().newMoves.isEmpty()) return this
-                .getMoveStats().newMoves.get(this.getMoveStats().num % this.getMoveStats().newMoves.size());
+        if (index == 4 && moves[3] != null) if (!this.getMoveStats().newMoves.isEmpty())
+            return this.getMoveStats().newMoves.get(this.getMoveStats().num % this.getMoveStats().newMoves.size());
 
         if (index == 5) return IMoveConstants.MOVE_NONE;
         return null;
@@ -224,26 +237,22 @@ public interface IHasMoves extends IHasStats
      * The pokemob learns the specified move. It will be set to an available
      * position or erase an existing one if non are available.
      *
-     * @param moveName
-     *            an existing move (registered in {@link MovesUtils})
+     * @param moveName an existing move (registered in {@link MovesUtils})
      */
     default void learn(final String moveName)
     {
-        if (moveName == null || this.getEntity().getLevel() == null || this.getEntity().getLevel().isClientSide)
-            return;
+        if (moveName == null || this.getEntity().getLevel() == null || this.getEntity().getLevel().isClientSide) return;
         if (!MovesUtils.isMoveImplemented(moveName)) return;
         final String[] moves = this.getMoves();
         final LivingEntity thisEntity = this.getEntity();
         final IPokemob thisMob = PokemobCaps.getPokemobFor(thisEntity);
         // check it's not already known or forgotten
-        for (final String move : moves)
-            if (moveName.equals(move)) return;
+        for (final String move : moves) if (moveName.equals(move)) return;
 
         if (thisMob.getOwner() != null && thisEntity.isAlive())
         {
             final Component move = TComponent.translatable(MovesUtils.getUnlocalizedMove(moveName));
-            final Component mess = TComponent.translatable("pokemob.move.notify.learn", thisMob
-                    .getDisplayName(), move);
+            final Component mess = TComponent.translatable("pokemob.move.notify.learn", thisMob.getDisplayName(), move);
             thisMob.displayMessageToOwner(mess);
         }
         if (moves[0] == null) this.setMove(0, moveName);
@@ -259,9 +268,9 @@ public interface IHasMoves extends IHasStats
                     if (s == null) continue;
                     if (s.equals(moveName)) return;
                 }
-                final Component mess = CommandTools.makeTranslatedMessage("pokemob.move.notify.learn", "", thisMob
-                        .getDisplayName().getString(), TComponent.translatable(MovesUtils
-                                .getUnlocalizedMove(moveName)));
+                final Component mess = CommandTools.makeTranslatedMessage("pokemob.move.notify.learn", "",
+                        thisMob.getDisplayName().getString(),
+                        TComponent.translatable(MovesUtils.getUnlocalizedMove(moveName)));
                 thisMob.displayMessageToOwner(mess);
                 if (!this.getMoveStats().newMoves.contains(moveName))
                 {
@@ -308,14 +317,12 @@ public interface IHasMoves extends IHasStats
      * Called to notify the pokemob that a new target has been set.
      *
      * @param entity
-     * @param force
-     *            - if true will clear tracked target for ai.
+     * @param force  - if true will clear tracked target for ai.
      */
     void onSetTarget(LivingEntity entity, boolean force);
 
     /**
-     * @param change
-     *            the changes to set
+     * @param change the changes to set
      */
     default void removeChange(final int change)
     {
@@ -327,10 +334,10 @@ public interface IHasMoves extends IHasStats
             for (final IOngoingEffect effect : affected.getEffects(NonPersistantStatusEffect.ID))
                 if (effect instanceof NonPersistantStatusEffect
                         && ((NonPersistantStatusEffect) effect).effect == toRemove)
-                {
-                    affected.removeEffect(effect);
-                    break;
-                }
+            {
+                affected.removeEffect(effect);
+                break;
+            }
         }
     }
 
@@ -352,10 +359,8 @@ public interface IHasMoves extends IHasStats
     /**
      * Marks the move as disabled for a certain time.
      *
-     * @param index
-     *            - The move index to disable
-     * @param timer
-     *            - How many ticks to disable for
+     * @param index - The move index to disable
+     * @param timer - How many ticks to disable for
      */
     void setDisableTimer(int index, int timer);
 
@@ -373,8 +378,7 @@ public interface IHasMoves extends IHasStats
     /**
      * Sets the {@link String} id of the specified move.
      *
-     * @param i
-     *            from 0 to 3
+     * @param i        from 0 to 3
      * @param moveName
      */
     void setMove(int i, String moveName);
@@ -382,19 +386,17 @@ public interface IHasMoves extends IHasStats
     /**
      * Sets the move index.
      *
-     * @param i
-     *            must be a value from 0 to 3
+     * @param i must be a value from 0 to 3
      */
     public void setMoveIndex(int i);
 
     /**
-     * Statuses: {@link IMoveConstants#STATUS_PSN} for example. The set can
-     * fail because the mob is immune against this status (a fire-type Pokemon
-     * can't be burned for example) or because it already have a status. If so,
-     * the method returns false.
+     * Statuses: {@link IMoveConstants#STATUS_PSN} for example. The set can fail
+     * because the mob is immune against this status (a fire-type Pokemon can't
+     * be burned for example) or because it already have a status. If so, the
+     * method returns false.
      *
-     * @param status
-     *            the status to set
+     * @param status the status to set
      * @return whether the status has actually been set
      */
     default boolean setStatus(final byte status)
@@ -403,13 +405,11 @@ public interface IHasMoves extends IHasStats
     }
 
     /**
-     * Same as {@link IHasMoves#setStatus(byte)} but also specifies the
-     * duration for the effect.
+     * Same as {@link IHasMoves#setStatus(byte)} but also specifies the duration
+     * for the effect.
      *
-     * @param status
-     *            the status to set
-     * @param turns
-     *            How many times attackCooldown should the status apply.
+     * @param status the status to set
+     * @param turns  How many times attackCooldown should the status apply.
      * @return whether the status has actually been set
      */
     boolean setStatus(byte status, int turns);
@@ -418,20 +418,18 @@ public interface IHasMoves extends IHasStats
      * Sets the initial status timer. The timer will be decreased until 0. The
      * timer for SLP. When reach 0, the mob wakes up.
      *
-     * @param timer
-     *            the initial value to set
+     * @param timer the initial value to set
      */
     void setStatusTimer(short timer);
 
     /**
-     * @param id
-     *            - new entityId of target, -1 for no target.
+     * @param id - new entityId of target, -1 for no target.
      */
     void setTargetID(int id);
 
     /**
-     * The pokemob will render and have moves according to whatever is set
-     * here. If null is set, then it will use its own moves.
+     * The pokemob will render and have moves according to whatever is set here.
+     * If null is set, then it will use its own moves.
      *
      * @param to
      */
