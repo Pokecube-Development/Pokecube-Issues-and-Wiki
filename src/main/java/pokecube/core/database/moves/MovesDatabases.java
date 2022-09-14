@@ -12,7 +12,6 @@ import pokecube.core.database.moves.json.JsonMoves;
 import pokecube.core.database.moves.json.JsonMoves.MoveJsonEntry;
 import pokecube.core.database.moves.json.JsonMoves.MovesJson;
 import pokecube.core.database.resources.PackFinder;
-import pokecube.core.moves.implementations.MovesAdder;
 
 public class MovesDatabases
 {
@@ -40,10 +39,5 @@ public class MovesDatabases
         loaded.forEach(l -> l.moves.forEach(t -> typesMap.putIfAbsent(t.name, t)));
         JsonMoves.moves.moves.addAll(typesMap.values());
         JsonMoves.postProcess();
-    }
-
-    public static void postInitLoad()
-    {
-        MovesAdder.postInitMoves();
     }
 }
