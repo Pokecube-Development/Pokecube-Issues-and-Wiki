@@ -14,7 +14,6 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -98,13 +97,12 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         // Check if the pokemob has an active move being used, if so return
         if (this.pokemob.getActiveMove() != null) return;
 
-        this.attack = MovesUtils.getMoveFromName(this.pokemob.getMove(this.pokemob.getMoveIndex()));
-        if (this.attack == null) this.attack = MovesUtils.getMoveFromName(IMoveConstants.DEFAULT_MOVE);
+        this.attack = this.pokemob.getSelectedMove();
+        final boolean self = this.attack.isSelfMove(this.pokemob);
 
         if (!this.waitingToStart)
         {
-            if (!((this.attack.getAttackCategory(this.pokemob) & IMoveConstants.CATEGORY_SELF) != 0)
-                    && !this.pokemob.getGeneralState(GeneralStates.CONTROLLED))
+            if (!self && !this.pokemob.getGeneralState(GeneralStates.CONTROLLED))
                 this.setWalkTo(this.entityTarget.position(), this.speed, 0);
             this.targetLoc.set(this.entityTarget);
             this.waitingToStart = true;
@@ -144,16 +142,12 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         // No executing move state with no target location.
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE) && this.targetLoc.isEmpty()) this.clearUseMove();
 
-        Move_Base move = null;
-        move = MovesUtils.getMoveFromName(this.pokemob.getMove(this.pokemob.getMoveIndex()));
-        if (move == null) move = MovesUtils.getMoveFromName(IMoveConstants.DEFAULT_MOVE);
         double var1 = (this.entity.getBbWidth() + 0.75) * (this.entity.getBbWidth() + 0.75);
         boolean distanced = false;
-        final boolean self = (move.getAttackCategory(this.pokemob) & IMoveConstants.CATEGORY_SELF) > 0;
         final double dist = this.entity.distanceToSqr(this.entityTarget.getX(), this.entityTarget.getY(),
                 this.entityTarget.getZ());
 
-        distanced = (move.getAttackCategory(this.pokemob) & IMoveConstants.CATEGORY_DISTANCE) > 0;
+        distanced = this.attack.isRanged(this.pokemob);
         // Check to see if the move is ranged, contact or self.
         if (distanced)
             var1 = PokecubeCore.getConfig().rangedAttackDistance * PokecubeCore.getConfig().rangedAttackDistance;
@@ -211,7 +205,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
             else this.clearUseMove();
         }
 
-        if (!(distanced || self) && !inRange)
+        if (!self && (!inRange || !distanced))
         {
             this.setUseMove();
             if (BrainUtils.getLeapTarget(this.entity) == null && leapDelay-- < 0)

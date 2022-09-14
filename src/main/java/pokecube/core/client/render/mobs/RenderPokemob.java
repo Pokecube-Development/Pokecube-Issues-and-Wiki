@@ -480,7 +480,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         this.model = holder.wrapper;
         this.shadowRadius = entity.getBbWidth();
 
-        this.model.setMob(entity, bufferIn, this.getTextureLocation(entity));
         super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 

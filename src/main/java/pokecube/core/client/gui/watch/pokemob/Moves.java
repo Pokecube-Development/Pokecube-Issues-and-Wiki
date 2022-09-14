@@ -335,8 +335,8 @@ public class Moves extends ListPage<LineEntry>
         if (component.getHoverEvent() != null)
         {
             final Object var = component.getHoverEvent().getValue(component.getHoverEvent().getAction());
-            if (!(var instanceof Component)) break tooltip;
-            String text = ((Component) var).getString();
+            if (!(var instanceof Component comp)) break tooltip;
+            String text = comp.getString();
             final Move_Base move = MovesUtils.getMoveFromName(text);
             if (move == null) break tooltip;
             final int pwr = move.getPWR(this.parent.pokemob, this.watch.player);

@@ -4,6 +4,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.pathfinder.Node;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.TaskBase;
@@ -64,12 +65,27 @@ public class CicleTask extends CombatTask implements IAICombat
             f = Math.max(f, 0.5f);
             if (here.distTo(end) > f) return;
         }
+        Move_Base attack = this.pokemob.getSelectedMove();
 
         final Vector3 here = new Vector3().set(this.entity);
+
+        boolean meleeCombat = !attack.isRanged(this.pokemob) && !attack.isSelfMove(this.pokemob);
+        // melee mobs will instead try to be closer to the target, instead of
+        // centre of battlefield
+        if (meleeCombat) here.set(target);
+
         final Vector3 diff = here.subtract(this.centre);
         if (diff.magSq() < 1) diff.norm();
         int combatDistance = PokecubeCore.getConfig().combatDistance;
-        combatDistance = Math.max(combatDistance, 2);
+
+        // If we are using a melee move, try to stay closer to the target!
+        if (meleeCombat)
+        {
+            combatDistance = Math.min(combatDistance, 1);
+            meleeCombat = true;
+        }
+        combatDistance = Math.max(combatDistance, 1);
+
         final int combatDistanceSq = combatDistance * combatDistance;
         // If the mob has left the combat radius, try to return to the centre of
         // combat. Otherwise, find a random spot in a consistant direction
@@ -77,7 +93,8 @@ public class CicleTask extends CombatTask implements IAICombat
         // circling the middle, and reversing direction every 10 seconds or so.
         if (diff.magSq() > combatDistanceSq)
         {
-            this.setWalkTo(this.centre, this.movementSpeed, 0);
+            if (meleeCombat) this.setWalkTo(this.target, this.movementSpeed, 0);
+            else this.setWalkTo(this.centre, this.movementSpeed, 0);
         }
         else
         {

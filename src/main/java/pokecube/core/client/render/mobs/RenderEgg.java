@@ -108,7 +108,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
 
     private final HashMap<String, List<Animation>> anims = Maps.newHashMap();
 
-    private IAnimationChanger changer = null;
+    private IAnimationChanger changer = new EggColourer();
     private IPartTexturer texer = null;
 
     private final Vector3 scale = new Vector3();
@@ -125,9 +125,9 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     {
         final ModelHolder holder = new ModelHolder(RenderEgg.MODEL, RenderEgg.TEXTURE, RenderEgg.ANIM, "pokemob_egg");
         final ModelWrapper<EntityPokemobEgg> model = new ModelWrapper<>(holder, this);
-        model.imodel = ModelFactory.create(holder);
-        AnimationLoader.parse(model.model, model, this);
-        this.changer = new EggColourer();
+        model.imodel = ModelFactory.create(holder, m -> {
+            AnimationLoader.parse(model.model, model, this);
+        });
         return model;
     }
 
@@ -135,6 +135,11 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     protected RenderType getRenderType(final EntityPokemobEgg entity, final boolean bool_a, final boolean bool_b,
             final boolean bool_c)
     {
+        if (entity.tickCount % 100 == 0)
+        {
+            this.model = this.makeModel();
+            entity.tickCount++;
+        }
         final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder()
                 .setTextureState(new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
                 .setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () ->
@@ -196,7 +201,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     @Override
     public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
     {
-        final float s = 0.15f;
+        final float s = 1f;
         float sx = (float) this.getScale().x;
         float sy = (float) this.getScale().y;
         float sz = (float) this.getScale().z;
@@ -223,7 +228,9 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
 
     @Override
     public void setScale(final Vector3 scale)
-    {}
+    {
+        this.scale.set(scale);
+    }
 
     @Override
     public void setTexturer(final IPartTexturer texturer)

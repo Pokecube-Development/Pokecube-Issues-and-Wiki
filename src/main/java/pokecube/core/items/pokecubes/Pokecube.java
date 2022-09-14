@@ -168,7 +168,7 @@ public class Pokecube extends Item implements IPokecube
     public boolean canCapture(final Entity hit, final ItemStack cube)
     {
         final ResourceLocation id = PokecubeItems.getCubeId(cube);
-        if (id != null && id.getPath().equals("snag"))
+        if (id != null && id.getPath().equals("snagcube"))
         {
             if (this.getCaptureModifier(hit, id) <= 0) return false;
             return Pokecube.capturable.test(hit);
@@ -219,7 +219,7 @@ public class Pokecube extends Item implements IPokecube
     @Override
     public double getCaptureModifier(final Entity mob, final ResourceLocation pokecubeId)
     {
-        if (pokecubeId.getPath().equals("snag"))
+        if (pokecubeId.getPath().equals("snagcube"))
         {
             if (mob.isInvulnerable()) return 0;
             return 1;

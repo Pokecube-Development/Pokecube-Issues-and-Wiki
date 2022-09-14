@@ -3,7 +3,6 @@ package pokecube.core.moves.templates;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.Move_Base;
-import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.zmoves.GZMoveManager;
 
 public class Z_Move_Basic extends Move_Basic
@@ -23,8 +22,7 @@ public class Z_Move_Basic extends Move_Basic
         Move_Base base = this;
         if (index >= 0 && index < 4)
         {
-            final String base_name = user.getMoveStats().moves[user.getMoveIndex()];
-            final Move_Base tmp = MovesUtils.getMoveFromName(base_name);
+            final Move_Base tmp = user.getSelectedMove();
             if (tmp != null) base = tmp;
         }
         final int pwr = base.getPWR(user, target);
