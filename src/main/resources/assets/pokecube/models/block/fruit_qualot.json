@@ -4,6 +4,7 @@
 		"particle": "pokecube:block/qualot_fruit",
 		"qualot": "pokecube:block/qualot_fruit"
 	},
+	"render_type": "cutout_mipped",
 	"elements": [
 		{
 			"name": "stem",

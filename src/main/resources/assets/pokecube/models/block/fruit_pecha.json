@@ -4,6 +4,7 @@
 		"particle": "pokecube:block/pecha_fruit",
 		"pecha": "pokecube:block/pecha_fruit"
 	},
+	"render_type": "cutout_mipped",
 	"elements": [
 		{
 			"name": "fruit",

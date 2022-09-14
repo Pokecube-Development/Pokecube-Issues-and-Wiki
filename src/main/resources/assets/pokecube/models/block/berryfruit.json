@@ -1,3 +1,4 @@
 {
-    "parent": "block/cross"
+    "parent": "block/cross",
+	"render_type": "cutout_mipped"
 }
