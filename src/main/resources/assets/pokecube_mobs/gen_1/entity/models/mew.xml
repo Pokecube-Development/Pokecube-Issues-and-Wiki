@@ -9,8 +9,8 @@
   <worn id="__EAR_left__" parent="head" offset="-0.225,0,0.35" angles="0,180,90" scale="0.5"/>
   <worn id="__EAR_right__" parent="head" offset="0.225,0,0.35" angles="0,180,-90" scale="0.5"/>
   <worn id="__EYE__" parent="head" offset="0,0,0.255" angles="-90.0,0.0,0.0" scale="0.860"/>
-  <worn id="__FINGER_left__" parent="tail8" offset="0.010,0.322,-0.031" angles="-36.9,-236.6,-12.0" scale="0.500,0.5,1.0"/>
-  <worn id="__FINGER_right__" parent="tail7" offset="0,0.318,-0.018" angles="-29.4,-226.3,-4.5" scale="0.500,0.500,1.000"/>
+  <worn id="__FINGER_left__" parent="tail8" offset="0.01,0.322,-0.031" angles="-36.9,-236.6,-12" scale="1"/>
+  <worn id="__FINGER_right__" parent="tail7" offset="0,0.318,-0.018" angles="-29.4,-226.3,-4.5" scale="1"/>
   <worn id="__HAT__" parent="head" offset="0,0,0.320" angles="-90.0,0.0,0.0" scale="0.770"/>
   <worn id="__NECK__" parent="body" offset="0,-0.089,0.333" angles="-101.0,0.0,0.0" scale="0.61,0.61,1.11"/>
   <worn id="__WAIST__" parent="body" offset="0,-0.087,0.410" angles="-102.0,0.0,0.0" scale="0.650,0.650,1.100"/>

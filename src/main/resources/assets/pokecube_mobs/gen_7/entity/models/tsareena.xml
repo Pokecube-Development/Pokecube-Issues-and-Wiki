@@ -3,6 +3,18 @@
  <model>
   <phase name="global" scale="0.13"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-25,25" headCap1="-25,25" headDir="-1"/>
+  <worn id="__HAT__" parent="head" offset="0.5,0.3,2" angles="-85,-15,-10" scale="3.5"/>
+  <worn id="__EYE__" parent="head" offset="0,-0.1,0.65" angles="-90,0,0" scale="4"/>
+  <worn id="__ANKLE_left__" parent="cube_012" offset="0,-0.2,-0.7" angles="90,0,0" scale="4.1"/>
+  <worn id="__ANKLE_right__" parent="cube_074" offset="0,-0.2,-0.7" angles="83,0,0" scale="4.5"/>
+  <worn id="__WAIST__" parent="body" offset="-1.4,0,-5.5" angles="90,-20,0" scale="6"/>
+  <worn id="__NECK__" parent="body" offset="0,0.04,0.3" angles="80,20,0" scale="2.6"/>
+  <worn id="__EAR_right__" parent="head" offset="-0.5,-0.4,0.1" angles="0,-70,150" scale="5"/>
+  <worn id="__EAR_left__" parent="head" offset="0.7,-0.83,0.65" angles="180,120,0" scale="5"/>
+  <worn id="__FINGER_left__" parent="cube_039" offset="0.1,-0,-0.5" angles="-20,0,90" scale="3.5"/>
+  <worn id="__FINGER_right__" parent="cube_037" offset="-0.1,-0,-0.5" angles="20,0,90" scale="3.5"/>
+  <worn id="__WRIST_right__" parent="hand2" offset="0,0,-0.1" angles="0,0,90" scale="1.6"/>
+  <worn id="__WRIST_left__" parent="hand1" offset="0,0,-0.1" angles="0,0,90" scale="1.6"/>
   <phase duration="10" leftArm="" leftLeg="leg2" legAngle="15" name="biWalk" rightArm="" rightLeg="leg1"/>
   <customTex default="tsareena">
    <part name="Head" tex="tsareenaeye"/>

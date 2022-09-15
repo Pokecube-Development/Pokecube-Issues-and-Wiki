@@ -38,6 +38,10 @@ public class BBModelPart extends Part
             {
                 String name = i == 0 ? group.name : group.name + "_" + i;
                 float[] use = group.origin;
+
+                // This may cause problems later, we shall see.
+                b.origin = use;
+
                 List<Mesh> shapes = makeShapes(t, b, use);
                 BBModelPart part = make(shapes, name, b, i, offsets);
                 if (root == null) root = part;
@@ -48,8 +52,8 @@ public class BBModelPart extends Part
         }
 
         offsets[0] = -group.origin[0];
-        offsets[2] = -group.origin[2];
         offsets[1] = -group.origin[1];
+        offsets[2] = -group.origin[2];
         // then handle groups
         for (Object o : group.children)
         {
@@ -253,11 +257,15 @@ public class BBModelPart extends Part
         float us = template.resolution.width;
         float vs = template.resolution.height;
 
-        for (int i = 0; i < 4; i++)
+        int di = face.rotation / 90;
+
+        for (int index = 0; index < 4; index++)
         {
+            int i = index;
             float[] c = coords[i];
             Vertex v = new Vertex(c[0] / 16f, -c[2] / 16f, c[1] / 16f);
             Integer o = order.size();
+            i = (index + di) % 4;
             int u0 = tex_order[i][0];
             int v0 = tex_order[i][1];
             TextureCoordinate t = new TextureCoordinate(face.uv[u0] / us, face.uv[v0] / vs);
