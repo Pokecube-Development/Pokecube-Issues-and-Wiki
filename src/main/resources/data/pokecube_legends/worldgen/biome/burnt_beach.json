@@ -2,7 +2,6 @@
   "temperature": 1.5,
   "downfall": 0.2,
   "precipitation": "none",
-  "category": "beach",
   "effects": {
     "sky_color": 5127218,
     "fog_color": 5127218,
