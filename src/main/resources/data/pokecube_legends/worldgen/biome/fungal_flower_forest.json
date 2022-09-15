@@ -86,10 +86,10 @@
       "pokecube_legends:spring_water"
     ],
     [
-      "minecraft:mushroom_island_vegetation",
       "minecraft:patch_sugar_cane",
       "pokecube_legends:flower_flower_forest",
       "pokecube_legends:fungal_flower_forest_flowers",
+      "pokecube_legends:fungal_vegetation",
       "pokecube_legends:glow_lichen",
       "pokecube_legends:mushrooms_fungal",
       "pokecube_legends:patch_grass_flower_forest",

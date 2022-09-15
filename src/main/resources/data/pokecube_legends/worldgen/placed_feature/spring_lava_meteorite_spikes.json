@@ -1,8 +1,8 @@
 {
-  "feature": "pokecube_legends:ore_ash_block",
+  "feature": "pokecube_legends:spring_lava_ultraspace",
   "placement": [
     {
-      "count": 1,
+      "count": 35,
       "type": "minecraft:count"
     },
     {
@@ -11,12 +11,13 @@
     {
       "height": {
         "min_inclusive": {
-          "absolute": 32
+          "above_bottom": 0
         },
         "max_inclusive": {
-          "absolute": 63
+          "below_top": 8
         },
-        "type": "minecraft:uniform"
+        "inner": 8,
+        "type": "minecraft:very_biased_to_bottom"
       },
       "type": "minecraft:height_range"
     },

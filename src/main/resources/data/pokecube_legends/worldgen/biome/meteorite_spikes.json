@@ -51,7 +51,7 @@
     [
       "minecraft:underwater_magma",
       "pokecube_legends:disk_ash_block",
-      "pokecube_legends:disk_blackened_sand_inland",
+      "pokecube_legends:disk_blackened_sand",
       "pokecube_legends:disk_clay",
       "pokecube_legends:disk_turquoise_gravel",
       "pokecube_legends:ore_meteorite",
@@ -90,8 +90,7 @@
     ],
     [],
     [
-      "pokecube_legends:spring_lava",
-      "pokecube_legends:spring_water"
+      "pokecube_legends:spring_lava"
     ],
     [
       "minecraft:patch_sugar_cane",
