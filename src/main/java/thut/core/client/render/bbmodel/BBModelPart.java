@@ -38,6 +38,10 @@ public class BBModelPart extends Part
             {
                 String name = i == 0 ? group.name : group.name + "_" + i;
                 float[] use = group.origin;
+
+                // This may cause problems later, we shall see.
+                b.origin = use;
+
                 List<Mesh> shapes = makeShapes(t, b, use);
                 BBModelPart part = make(shapes, name, b, i, offsets);
                 if (root == null) root = part;
@@ -48,8 +52,8 @@ public class BBModelPart extends Part
         }
 
         offsets[0] = -group.origin[0];
-        offsets[2] = -group.origin[2];
         offsets[1] = -group.origin[1];
+        offsets[2] = -group.origin[2];
         // then handle groups
         for (Object o : group.children)
         {
