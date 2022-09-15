@@ -2,8 +2,11 @@
   "type": "minecraft:multiface_growth",
   "config": {
     "block": "minecraft:glow_lichen",
-    "can_place_on_wall": true,
+    "search_range": 20,
     "chance_of_spreading": 0.5,
+    "can_place_on_floor": false,
+    "can_place_on_ceiling": true,
+    "can_place_on_wall": true,
     "can_be_placed_on": [
       "minecraft:basalt",
       "minecraft:blackstone",
@@ -14,14 +17,11 @@
       "minecraft:powder_snow",
       "minecraft:snow_block",
       "minecraft:smooth_basalt",
-      "pokecube_legends:aquamarine_crystal_block",
+      "pokecube_legends:unrefined_aquamarine",
       "pokecube_legends:corrupted_dirt",
       "pokecube_legends:dusk_dolerite",
       "pokecube_legends:ultra_darkstone",
       "pokecube_legends:ultra_stone"
-    ],
-    "search_range": 20,
-    "can_place_on_floor": false,
-    "can_place_on_ceiling": true
+    ]
   }
 }
