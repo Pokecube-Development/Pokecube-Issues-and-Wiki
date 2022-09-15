@@ -2,7 +2,8 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/slab",
 	"textures": {
-		"bottom": "pokecube_legends:block/mirage_planks"
+		"bottom": "pokecube_legends:block/mirage_planks",
+		"particle": "pokecube_legends:block/mirage_planks"
 	},
 	"elements": [
 		{
