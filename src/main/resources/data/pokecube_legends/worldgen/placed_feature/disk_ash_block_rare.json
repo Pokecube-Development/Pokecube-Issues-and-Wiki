@@ -1,8 +1,8 @@
 {
-  "feature": "pokecube_legends:ash_patch",
+  "feature": "pokecube_legends:disk_ash_block_rare",
   "placement": [
     {
-      "count": 1,
+      "count": 2,
       "type": "minecraft:count"
     },
     {
