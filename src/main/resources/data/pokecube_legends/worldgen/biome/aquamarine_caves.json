@@ -2,7 +2,6 @@
   "temperature": 0.8,
   "downfall": 0.4,
   "precipitation": "rain",
-  "category": "underground",
   "effects": {
     "sky_color": 1323848,
     "fog_color": 1854829,
@@ -58,7 +57,7 @@
       "pokecube_legends:ore_meteorite",
       "pokecube_legends:ore_coal_lower",
       "pokecube_legends:ore_coal_upper",
-	  "pokecube_legends:ore_copper",
+      "pokecube_legends:ore_copper",
       "pokecube_legends:ore_cosmic",
       "pokecube_legends:ore_cosmic_buried",
       "pokecube_legends:ore_cosmic_large",

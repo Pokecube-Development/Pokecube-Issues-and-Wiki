@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/door_top",
-  "textures": {
-    "top": "pokecube_legends:block/aged_door_top",
-    "bottom": "pokecube_legends:block/aged_door_bottom"
-  }
-}

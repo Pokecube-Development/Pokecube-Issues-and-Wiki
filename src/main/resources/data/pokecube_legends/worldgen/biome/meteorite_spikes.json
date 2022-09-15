@@ -2,7 +2,6 @@
   "temperature": 2,
   "downfall": 0,
   "precipitation": "none",
-  "category": "plains",
   "creature_spawn_probability": 0.07,
   "effects": {
     "sky_color": 921110,
@@ -44,9 +43,9 @@
     ],
     [],
     [
-      "pokecube_legends:ash_patch",
-      "pokecube_legends:meteorite_spike",
-      "pokecube_legends:meteorite_patch"
+      "pokecube_legends:disk_ash_block_rare",
+      "pokecube_legends:disk_meteorite",
+      "pokecube_legends:meteorite_spike"
     ],
     [],
     [
@@ -91,8 +90,7 @@
     ],
     [],
     [
-      "pokecube_legends:spring_lava",
-      "pokecube_legends:spring_water"
+      "pokecube_legends:spring_lava"
     ],
     [
       "minecraft:patch_sugar_cane",

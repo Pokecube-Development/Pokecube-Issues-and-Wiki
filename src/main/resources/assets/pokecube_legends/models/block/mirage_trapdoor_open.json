@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/template_orientable_trapdoor_open",
+  "render_type": "cutout",
   "textures": {
     "texture": "pokecube_legends:block/mirage_trapdoor"
   }

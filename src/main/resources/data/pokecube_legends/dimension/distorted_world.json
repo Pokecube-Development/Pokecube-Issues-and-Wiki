@@ -2,7 +2,6 @@
   "type": "pokecube_legends:distorted_world",
   "generator": {
     "type": "minecraft:noise",
-    "seed": 286956243,
     "settings": "pokecube_legends:distorted_terrain",
     "biome_source": {
       "type": "minecraft:multi_noise",

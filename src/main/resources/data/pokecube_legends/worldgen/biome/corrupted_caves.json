@@ -2,7 +2,6 @@
   "temperature": 0.5,
   "downfall": 0.5,
   "precipitation": "rain",
-  "category": "underground",
   "effects": {
     "sky_color": 2499631,
     "fog_color": 3289147,

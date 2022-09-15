@@ -1,7 +1,7 @@
 {
-   "parent": "block/cube_all",
-	"render_type": "translucent",
-   "textures": {
-	"all": "pokecube_adventures:block/laboratory_glass"
-   }
+  "parent": "block/cube_all",
+  "render_type": "translucent",
+  "textures": {
+    "all": "pokecube_adventures:block/laboratory_glass"
+  }
 }
