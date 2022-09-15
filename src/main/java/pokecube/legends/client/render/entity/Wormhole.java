@@ -10,7 +10,6 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -64,14 +63,6 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
             AnimationLoader.parse(holder, model, this);
         });
         return model;
-    }
-
-    @Override
-    public void render(final WormholeEntity entity, final float p_225623_2_, final float p_225623_3_,
-            final PoseStack p_225623_4_, final MultiBufferSource bufferIn, final int p_225623_6_)
-    {
-        this.model.setMob(entity, bufferIn, this.getTextureLocation(entity));
-        super.render(entity, p_225623_2_, p_225623_3_, p_225623_4_, bufferIn, p_225623_6_);
     }
 
     @Override
@@ -133,9 +124,8 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     @Override
     public String getAnimation(final Entity entityIn)
     {
-        if (entityIn instanceof WormholeEntity)
+        if (entityIn instanceof WormholeEntity wormhole)
         {
-            final WormholeEntity wormhole = (WormholeEntity) entityIn;
             final String state = wormhole.isIdle() ? "stable"
                     : wormhole.isClosing() ? "closing" : wormhole.isOpening() ? "opening" : "idle";
             return state;

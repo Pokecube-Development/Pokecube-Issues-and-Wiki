@@ -79,7 +79,7 @@ public class MovesParser
         return rate;
     }
 
-    public static void initMoveEntry(final MoveJsonEntry entry, final int index)
+    public static void initMoveEntry(final MoveJsonEntry entry)
     {
         final String name = Database.convertMoveName(entry.name);
         int power;
@@ -97,8 +97,7 @@ public class MovesParser
             return;
         }
         final String yes = "Yes";
-        MoveEntry move = MoveEntry.get(name);
-        move = move == null ? new MoveEntry(name, index) : move;
+        MoveEntry move = MoveEntry.movesNames.computeIfAbsent(name, n -> new MoveEntry(n));
         move.attackCategory = 0;
         move.power = power;
         move.pp = pp;
@@ -193,7 +192,7 @@ public class MovesParser
             final MoveJsonEntry entry = moves.moves.get(i);
             try
             {
-                MovesParser.initMoveEntry(entry, i + 1);
+                MovesParser.initMoveEntry(entry);
             }
             catch (final Exception e)
             {

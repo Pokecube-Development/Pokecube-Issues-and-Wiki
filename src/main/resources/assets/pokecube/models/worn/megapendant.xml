@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" scale="1.0,1.0,1.0"/>
+  <phase name="global" scale="1.0"/>
   <customTex default="textures/worn/megapendant.png">
    <part name="stone" tex="textures/worn/keystone.png"/>
   </customTex>

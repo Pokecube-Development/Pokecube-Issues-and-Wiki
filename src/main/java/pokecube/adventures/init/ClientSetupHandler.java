@@ -1,5 +1,7 @@
 package pokecube.adventures.init;
 
+import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.Set;
 
 import com.mojang.blaze3d.platform.InputConstants;
@@ -8,6 +10,9 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -21,6 +26,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
@@ -45,6 +51,7 @@ import pokecube.adventures.client.gui.blocks.Splicer;
 import pokecube.adventures.client.gui.items.Bag;
 import pokecube.adventures.client.gui.trainer.Trainer;
 import pokecube.adventures.client.render.StatueBlock;
+import pokecube.adventures.client.render.layers.BeltLayerRender;
 import pokecube.adventures.items.bag.BagContainer;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.core.client.render.mobs.RenderNPC;
@@ -171,6 +178,45 @@ public class ClientSetupHandler
                 }
             }
         }
+    }
+
+    @SuppressWarnings(
+    { "rawtypes", "unchecked" })
+    @SubscribeEvent
+    public static void registerLayers(final EntityRenderersEvent.AddLayers event)
+    {
+        try
+        {
+            Field f = event.getClass().getDeclaredField("renderers");
+            f.setAccessible(true);
+            Map<EntityType<?>, EntityRenderer<?>> renderers = (Map<EntityType<?>, EntityRenderer<?>>) f.get(event);
+            for (EntityType<?> type : ForgeRegistries.ENTITY_TYPES.getValues())
+            {
+                EntityRenderer<?> render = renderers.get(type);
+                if (render instanceof LivingEntityRenderer livingRender
+                        && livingRender.getModel() instanceof HumanoidModel)
+                {
+                    livingRender.addLayer(new BeltLayerRender(livingRender));
+                }
+            }
+
+            EntityRenderer<? extends Player> renderer = event.getSkin("slim");
+            if (renderer instanceof LivingEntityRenderer livingRenderer)
+            {
+                livingRenderer.addLayer(new BeltLayerRender<>(livingRenderer));
+            }
+
+            renderer = event.getSkin("default");
+            if (renderer instanceof LivingEntityRenderer livingRenderer)
+            {
+                livingRenderer.addLayer(new BeltLayerRender<>(livingRenderer));
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
     @SubscribeEvent

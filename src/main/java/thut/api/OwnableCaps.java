@@ -144,6 +144,7 @@ public class OwnableCaps
             if (this.getOwnerId() != null) this.owner = this.wrapped.getOwner();
             if (this.getOwnerId() != null && this.wrapped.getLevel() instanceof ServerLevel level)
                 return this.owner = this.getOwner(level, this.owner);
+            this.playerOwned = this.owner instanceof Player;
             return this.owner;
         }
 

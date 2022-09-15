@@ -28,7 +28,6 @@ import thut.api.maths.Vector3;
 
 public abstract class Move_Base
 {
-    public final int index;
     public final String name;
     private IMoveAnimation animation;
     public boolean aoe = false;
@@ -51,9 +50,8 @@ public abstract class Move_Base
      */
     public Move_Base(final String name)
     {
-        this.name = name;
         this.move = MoveEntry.get(name);
-        this.index = this.move.index;
+        this.name = this.move.name;
         this.fixedDamage = this.move.fixed;
         boolean mod = false;
         for (final int i : this.move.attackedStatModification) if (i != 0)
@@ -202,16 +200,6 @@ public abstract class Move_Base
         return this.getCategory();
     }
 
-    /**
-     * Index getter.
-     *
-     * @return a int ID for this move
-     */
-    public int getIndex()
-    {
-        return this.index;
-    }
-
     public abstract Move_Base getMove(String name);
 
     /**
@@ -324,6 +312,17 @@ public abstract class Move_Base
     public boolean isSelfMove()
     {
         return (this.getAttackCategory() & IMoveConstants.CATEGORY_SELF) > 0;
+    }
+
+    /** @return Does this move targer the user. */
+    public boolean isSelfMove(IPokemob user)
+    {
+        return (this.getAttackCategory(user) & IMoveConstants.CATEGORY_SELF) > 0;
+    }
+
+    public boolean isRanged(IPokemob user)
+    {
+        return (this.getAttackCategory(user) & IMoveConstants.CATEGORY_DISTANCE) > 0;
     }
 
     /**

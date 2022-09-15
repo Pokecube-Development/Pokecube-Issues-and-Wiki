@@ -187,7 +187,7 @@ public class JsonMoves
 
     public static MovesJson moves = new MovesJson();
 
-    private static String convertMoveName(final String old)
+    public static String convertMoveName(final String old)
     {
         String ret = "";
         final String name = ThutCore.trim(old);

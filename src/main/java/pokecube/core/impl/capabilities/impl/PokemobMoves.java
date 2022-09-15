@@ -308,6 +308,7 @@ public abstract class PokemobMoves extends PokemobStats
             this.moveInfo.blocked = false;
             this.moveInfo.blockTimer = 0;
             this.dataSync().set(this.params.MOVEINDEXDW, (byte) moveIndex);
+            this.getMoveStats().selectedMove = null;
         }
     }
 

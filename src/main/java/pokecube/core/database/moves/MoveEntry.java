@@ -1,9 +1,12 @@
 package pokecube.core.database.moves;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
+import com.google.common.collect.Lists;
+
+import pokecube.api.PokecubeAPI;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.utils.PokeType;
 import pokecube.core.database.moves.json.JsonMoves;
@@ -16,7 +19,7 @@ public class MoveEntry implements IMoveConstants
         OTHER, SPECIAL, PHYSICAL;
     }
 
-    private static HashMap<String, MoveEntry> movesNames = new HashMap<>();
+    protected static HashMap<String, MoveEntry> movesNames = new HashMap<>();
     public static HashSet<String> protectionMoves = new HashSet<>();
     public static HashSet<String> unBlockableMoves = new HashSet<>();
     public static HashSet<String> oneHitKos = new HashSet<>();
@@ -36,7 +39,7 @@ public class MoveEntry implements IMoveConstants
 
     static
     {
-        CONFUSED = new MoveEntry("pokemob.status.confusion", -1);
+        CONFUSED = new MoveEntry("pokemob.status.confusion");
         MoveEntry.CONFUSED.type = PokeType.unknown;
         MoveEntry.CONFUSED.category = IMoveConstants.PHYSICAL;
         MoveEntry.CONFUSED.attackCategory = IMoveConstants.CATEGORY_CONTACT + IMoveConstants.CATEGORY_SELF;
@@ -49,18 +52,26 @@ public class MoveEntry implements IMoveConstants
         MoveEntry.CONFUSED.baseEntry = new MoveJsonEntry();
     }
 
-    public static MoveEntry get(final String name)
+    public static MoveEntry get(String name)
     {
-        return MoveEntry.movesNames.get(name);
+        if (name.equals(CONFUSED.name)) return CONFUSED;
+        // Ensure the passed in name is correctly converted
+        name = JsonMoves.convertMoveName(name);
+        if (name.equals(CONFUSED.name)) return CONFUSED;
+        // Then return or add a new entry, make a warning if no json entry was
+        // present, but accept it anyway.
+        return MoveEntry.movesNames.computeIfAbsent(name, n -> {
+            PokecubeAPI.LOGGER.warn("Warning, auto-generating a move entry for un-registered move " + n);
+            return new MoveEntry(n);
+        });
     }
 
-    public static Collection<MoveEntry> values()
+    public static List<MoveEntry> values()
     {
-        return MoveEntry.movesNames.values();
+        return Lists.newArrayList(MoveEntry.movesNames.values());
     }
 
     public final String name;
-    public final int index;
     public PokeType type;
 
     /** Distance, contact, etc. */
@@ -115,11 +126,9 @@ public class MoveEntry implements IMoveConstants
 
     public JsonMoves.MoveJsonEntry baseEntry;
 
-    public MoveEntry(final String name, final int index)
+    public MoveEntry(final String name)
     {
         this.name = name;
-        this.index = index;
-        MoveEntry.movesNames.put(name, this);
     }
 
     public boolean isMultiTarget()

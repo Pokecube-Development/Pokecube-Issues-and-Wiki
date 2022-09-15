@@ -1,8 +1,5 @@
 package pokecube.adventures.client.render.layers;
 
-import java.lang.reflect.Field;
-import java.util.Map;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 
@@ -10,68 +7,19 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.entity.trainers.IHasPokemobs;
 import pokecube.api.entity.trainers.TrainerCaps;
 import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.PlayerWearables;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class BeltLayerRender<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M>
 {
-    @SuppressWarnings(
-    { "rawtypes", "unchecked" })
-    @SubscribeEvent
-    public static void registerLayers(final EntityRenderersEvent.AddLayers event)
-    {
-        try
-        {
-            Field f = event.getClass().getDeclaredField("renderers");
-            f.setAccessible(true);
-            Map<EntityType<?>, EntityRenderer<?>> renderers = (Map<EntityType<?>, EntityRenderer<?>>) f.get(event);
-            for (EntityType<?> type : ForgeRegistries.ENTITY_TYPES.getValues())
-            {
-                EntityRenderer<?> render = renderers.get(type);
-                if (render instanceof LivingEntityRenderer livingRender
-                        && livingRender.getModel() instanceof HumanoidModel)
-                {
-                    livingRender.addLayer(new BeltLayerRender(livingRender));
-                }
-            }
-
-            EntityRenderer<? extends Player> renderer = event.getSkin("slim");
-            if (renderer instanceof LivingEntityRenderer livingRenderer)
-            {
-                livingRenderer.addLayer(new BeltLayerRender<>(livingRenderer));
-            }
-
-            renderer = event.getSkin("default");
-            if (renderer instanceof LivingEntityRenderer livingRenderer)
-            {
-                livingRenderer.addLayer(new BeltLayerRender<>(livingRenderer));
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-    }
-
     private final RenderLayerParent<?, ?> parent;
 
     public BeltLayerRender(RenderLayerParent<T, M> parent)

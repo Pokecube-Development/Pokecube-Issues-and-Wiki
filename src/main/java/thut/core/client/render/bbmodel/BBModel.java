@@ -59,8 +59,9 @@ public class BBModel extends BaseModel
         for (int i = 0; i < t.outliner.size(); i++)
         {
             JsonGroup b = t.outliner.get(i);
-            float[] offset =  new float[] {0,0,0};
-            BBModelPart.makeParts(t, b, parts, new ArrayList<>(),offset);
+            float[] offset = new float[]
+            { 0, 0, 0 };
+            BBModelPart.makeParts(t, b, parts, new ArrayList<>(), offset);
         }
         for (BBModelPart p : parts)
         {

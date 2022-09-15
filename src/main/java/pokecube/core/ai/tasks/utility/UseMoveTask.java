@@ -21,7 +21,6 @@ import pokecube.api.moves.Move_Base;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.moves.MovesUtils;
 import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.maths.Vector3;
 
@@ -58,13 +57,7 @@ public class UseMoveTask extends UtilTask
     public void run()
     {
         this.destination.set(this.pos.currentPosition());
-        final Move_Base move = MovesUtils.getMoveFromName(this.pokemob.getMove(this.pokemob.getMoveIndex()));
-
-        if (move == null)
-        {
-            BrainUtils.clearMoveUseTarget(this.entity);
-            return;
-        }
+        final Move_Base move = this.pokemob.getSelectedMove();
 
         if (!this.running)
         {
@@ -97,7 +90,7 @@ public class UseMoveTask extends UtilTask
         final double dist = loc.distToSq(this.destination);
         double var1 = 4;
 
-        final boolean rangedMove = (move.getAttackCategory(this.pokemob) & IMoveConstants.CATEGORY_DISTANCE) > 0;
+        final boolean rangedMove = move.isRanged(this.pokemob);
 
         if (!this.checkRange && rangedMove)
         {
