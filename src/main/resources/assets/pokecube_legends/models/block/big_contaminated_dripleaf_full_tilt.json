@@ -1,6 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
+	"render_type": "cutout",
 	"textures": {
 		"particle": "pokecube_legends:block/big_contaminated_dripleaf_top",
 		"top": "pokecube_legends:block/big_contaminated_dripleaf_top",
