@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -59,9 +60,9 @@ public class BBModel extends BaseModel
         for (int i = 0; i < t.outliner.size(); i++)
         {
             JsonGroup b = t.outliner.get(i);
-            float[] offset = new float[]
+            float[] parentOffsets = new float[]
             { 0, 0, 0 };
-            BBModelPart.makeParts(t, b, parts, new ArrayList<>(), offset);
+            BBModelPart.makeParts(t, b, parts, new ArrayList<>(), new HashSet<>(), parentOffsets);
         }
         for (BBModelPart p : parts)
         {

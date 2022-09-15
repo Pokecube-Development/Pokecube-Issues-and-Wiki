@@ -10,6 +10,13 @@ import thut.api.util.JsonUtil;
 
 public class BBModelTemplate
 {
+    public static interface IBBPart
+    {
+        float[] getOrigin();
+        float[] getRotation();
+        String getName();
+    }
+
     public String name = "";
     public List<Element> elements = new ArrayList<>();
     public List<JsonGroup> outliner = new ArrayList<>();
@@ -45,7 +52,7 @@ public class BBModelTemplate
         String uuid;
     }
 
-    public static class Element
+    public static class Element implements IBBPart
     {
         public String name;
         public String type;
@@ -61,6 +68,24 @@ public class BBModelTemplate
         public String toString()
         {
             return name + " " + Arrays.toString(from) + " " + Arrays.toString(to) + " " + color + " " + faces;
+        }
+
+        @Override
+        public float[] getOrigin()
+        {
+            return origin;
+        }
+
+        @Override
+        public float[] getRotation()
+        {
+            return rotation;
+        }
+
+        @Override
+        public String getName()
+        {
+            return name;
         }
     }
 
@@ -81,15 +106,19 @@ public class BBModelTemplate
         public int rotation = 0;
     }
 
-    public static class JsonGroup
+    public static class JsonGroup implements IBBPart
     {
         public String name;
         public float[] origin;
+        public float[] rotation;
         public int color;
         public String uuid;
         // This list can contain either uuid of parts, or groups.
         // Init converts this to either Elements or Groups
         public List<Object> children = new ArrayList<>();
+
+        public JsonGroup _parent = null;
+        public boolean _empty = true;
 
         @Override
         public String toString()
@@ -105,17 +134,36 @@ public class BBModelTemplate
                 if (o instanceof String)
                 {
                     newChildren.add(template._by_uuid.get(o));
+                    _empty = false;
                 }
                 else
                 {
-                    String json = o.toString();
-                    json = json.replace("bedrock_binding=, ", "");
+                    String json = JsonUtil.gson.toJson(o);
                     JsonGroup g = JsonUtil.gson.fromJson(json, JsonGroup.class);
+                    g._parent = this;
                     g.init(template);
                     newChildren.add(g);
                 }
             }
             this.children = newChildren;
+        }
+
+        @Override
+        public float[] getOrigin()
+        {
+            return origin;
+        }
+
+        @Override
+        public float[] getRotation()
+        {
+            return rotation;
+        }
+
+        @Override
+        public String getName()
+        {
+            return name;
         }
     }
 }
