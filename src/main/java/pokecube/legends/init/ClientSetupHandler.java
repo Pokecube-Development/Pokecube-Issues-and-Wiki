@@ -2,36 +2,20 @@ package pokecube.legends.init;
 
 import java.util.function.Predicate;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.client.particle.LavaParticle;
 import net.minecraft.client.particle.SmokeParticle;
 import net.minecraft.client.particle.SoulParticle;
 import net.minecraft.client.particle.SuspendedTownParticle;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.CampfireRenderer;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.registries.RegistryObject;
-import pokecube.core.init.ItemGenerator;
-import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
-import pokecube.legends.blocks.FlowerBase;
-import pokecube.legends.blocks.MushroomBase;
-import pokecube.legends.blocks.containers.GenericBookshelfEmpty;
-import pokecube.legends.blocks.normalblocks.InfectedFireBlock;
-import pokecube.legends.blocks.plants.TaintedKelpPlantBlock;
 import pokecube.legends.client.render.block.Raid;
 import pokecube.legends.client.render.entity.Wormhole;
 
@@ -45,13 +29,6 @@ public class ClientSetupHandler
     public static void setupClient(final FMLClientSetupEvent event)
     {
         event.enqueueWork(() -> {
-            // Register config gui
-            // FIXME config gui
-            // ModList.get().getModContainerById(Reference.ID).ifPresent(c ->
-            // c.registerExtensionPoint(
-            // ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new
-            // ConfigGui(PokecubeLegends.config, parent)));
-
             // Shields
             ItemInit.addItemModelProperties();
         });

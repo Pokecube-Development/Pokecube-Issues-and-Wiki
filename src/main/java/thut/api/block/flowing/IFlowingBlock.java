@@ -28,6 +28,7 @@ public interface IFlowingBlock
     public static final IntegerProperty VISCOSITY = IntegerProperty.create("viscosity", 0, 15);
 
     public static final ResourceLocation DUSTREPLACEABLE = new ResourceLocation("thutcore:dust_replace");
+    public static final ResourceLocation NOTDUSTREPLACEABLE = new ResourceLocation("thutcore:no_dust_replace");
 
     public static VoxelShape[] makeShapes()
     {
@@ -162,6 +163,26 @@ public interface IFlowingBlock
         int below = getExistingAmount(b, belowPos, level);
         boolean belowFalling = isFalling(b);
 
+        if (!this.canReplace(b))
+        {
+            boolean shouldBeFalling = !level.getFluidState(belowPos).isEmpty();
+            if (shouldBeFalling && !falling)
+            {
+                BlockState fall = makeFalling(state, true);
+                if (fall != state)
+                {
+                    level.setBlock(pos, state = fall, 2);
+                    level.scheduleTick(pos.immutable(), thisBlock(), getFallRate());
+                }
+            }
+            else if (!shouldBeFalling && falling)
+            {
+                BlockState fall = makeFalling(state, false);
+                if (fall != state) level.setBlock(pos, state = fall, 2);
+            }
+            return state;
+        }
+
         if (falling || !state.hasProperty(FALLING))
         {
             if ((below < 0 || below == 16))
@@ -226,7 +247,6 @@ public interface IFlowingBlock
         if (below >= 0 && below < 16)
         {
             BlockState fall = makeFalling(state, true);
-
             if (fall != state)
             {
                 level.setBlock(pos, state = fall, 2);
@@ -332,6 +352,7 @@ public interface IFlowingBlock
     default boolean canReplace(BlockState state)
     {
         if (state.isAir()) return true;
+        if (ItemList.is(NOTDUSTREPLACEABLE, state)) return false;
         if (state.canBeReplaced(Fluids.FLOWING_WATER)) return true;
         return ItemList.is(DUSTREPLACEABLE, state);
     }

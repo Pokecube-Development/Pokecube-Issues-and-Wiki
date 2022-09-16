@@ -49,8 +49,6 @@ public class DynaLeavesBlock extends LeavesBlock implements IForgeShearable
     {
         FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
         BlockState stateAbove = context.getLevel().getBlockState(context.getClickedPos().above());
-        BlockState state = this.defaultBlockState().setValue(PERSISTENT, Boolean.TRUE).setValue(WATERLOGGED,
-                fluidstate.getType() == Fluids.WATER);
 
         return DynaLeavesBlock.updateDistance(this.defaultBlockState()
             .setValue(DynaLeavesBlock.WATERLOGGED, fluidstate.getType() == Fluids.WATER)
