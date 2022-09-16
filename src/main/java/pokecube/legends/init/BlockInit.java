@@ -1709,13 +1709,13 @@ public class BlockInit
 
         SPECTRUM_BLOCK = PokecubeLegends.DECORATION_TAB.register("spectrum_block",
                 () -> new BlockBase(Material.METAL, MaterialColor.COLOR_ORANGE, 5.0f, 7, SoundType.METAL, true));
-        SPECTRUM_SLAB = PokecubeLegends.DECORATION_TAB.register("spectrum_slab",
-                () -> new SlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_ORANGE)
-                        .strength(2.0F, 3.0f).sound(SoundType.METAL).requiresCorrectToolForDrops()));
         SPECTRUM_STAIRS = PokecubeLegends.DECORATION_TAB.register("spectrum_stairs",
                 () -> new ItemGenerator.GenericStairs(SPECTRUM_BLOCK.get().defaultBlockState(),
                         BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_ORANGE).strength(2.0F, 3.0f)
                                 .sound(SoundType.METAL).requiresCorrectToolForDrops()));
+        SPECTRUM_SLAB = PokecubeLegends.DECORATION_TAB.register("spectrum_slab",
+                () -> new SlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_ORANGE)
+                        .strength(2.0F, 3.0f).sound(SoundType.METAL).requiresCorrectToolForDrops()));
 
         DISTORTIC_TERRACOTTA = PokecubeLegends.DECORATION_TAB.register("distortic_terracotta",
                 () -> new BlockBase(Material.STONE, MaterialColor.COLOR_ORANGE, 2.0f, 3.0f, SoundType.STONE, true));
