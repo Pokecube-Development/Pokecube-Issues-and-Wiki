@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#pokecube_world:is_ultraspace/is_corrupted",
+    "#pokecube_world:is_ultraspace/is_polluted"
+  ]
+}
