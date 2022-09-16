@@ -29,8 +29,8 @@ public abstract class PokemobSided extends PokemobBase
 
         String texName = entry.texturePath + entry.getTrimmedName();
 
-        if (this.getCustomHolder() != null && this.getCustomHolder().texture != null) texName = this
-                .getCustomHolder().texture.toString();
+        if (this.getCustomHolder() != null && this.getCustomHolder().texture != null)
+            texName = this.getCustomHolder().texture.toString();
         texName = texName.replace(".png", "");
 
         final String baseName = texName;
@@ -50,10 +50,14 @@ public abstract class PokemobSided extends PokemobBase
     public ResourceLocation modifyTexture(ResourceLocation texture)
     {
         if (texture == null) return this.getTexture();
+        // If texture is the same as root entry, then we might need to adjust
+        // it, so replace with out getter, which also checks the entry's root
+        // texture.
+        if (texture.equals(this.getPokedexEntry().texture())) texture = this.getTexture();
 
         if (this.getCustomHolder() != null && this.getCustomHolder().texture != null && !this.getCustomHolder().texture
-                .getNamespace().equals(this.getPokedexEntry().texture().getNamespace())) return this
-                        .getCustomHolder().texture;
+                .getNamespace().equals(this.getPokedexEntry().texture().getNamespace()))
+            return this.getCustomHolder().texture;
 
         if (!texture.getPath().contains("entity/"))
         {
@@ -76,15 +80,19 @@ public abstract class PokemobSided extends PokemobBase
             final ResourceLocation[] tex = this.texs.get(texture);
             texture = tex[texIndex];
         }
-        if (this.isShiny()) if (!this.shinyTexs.containsKey(texture))
+        String texName = texture.toString();
+        if (!texName.endsWith(".png")) texture = new ResourceLocation(texName = texName + ".png");
+        if (this.isShiny())
         {
-            String texName = texture.toString();
-            texName = texName.replace(".png", "_s.png");
-            final ResourceLocation modified = new ResourceLocation(texName);
-            this.shinyTexs.put(texture, modified);
-            return modified;
+            if (!this.shinyTexs.containsKey(texture))
+            {
+                texName = texName.replace(".png", "_s.png");
+                final ResourceLocation modified = new ResourceLocation(texName);
+                this.shinyTexs.put(texture, modified);
+                return modified;
+            }
+            else texture = this.shinyTexs.get(texture);
         }
-        else texture = this.shinyTexs.get(texture);
         return texture;
     }
 }

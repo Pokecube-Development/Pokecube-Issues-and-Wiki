@@ -106,8 +106,15 @@ public class IconModule extends AnimModule
     }
 
     @Override
+    public boolean isPauseScreen()
+    {
+        return true;
+    }
+
+    @Override
     public void postRender()
     {
+        boolean debug = false;
         if (this.cap)
         {
             parent.scale = 1;
@@ -116,13 +123,15 @@ public class IconModule extends AnimModule
             {
                 this.cylceUp();
                 this.took = false;
-                this.transitTime = System.currentTimeMillis() + 50;
+                int time = 50;
+                if (debug) time = 5;
+                this.transitTime = System.currentTimeMillis() + time;
             }
             else
             {
                 try
                 {
-                    this.took = this.capture(parent.sexe != IPokemob.FEMALE,
+                    this.took = debug || this.capture(parent.sexe != IPokemob.FEMALE,
                             IconModule.borked.contains(AnimationGui.entry));
                     IconModule.tries = 0;
                 }
@@ -149,7 +158,7 @@ public class IconModule extends AnimModule
                         PokecubeAPI.LOGGER.error("Skipping image for {}", AnimationGui.entry);
                     }
                 }
-                this.transitTime = System.currentTimeMillis() + (this.took ? 0 : 10);
+                this.transitTime = System.currentTimeMillis() + (this.took ? 0 : debug ? 1 : 10);
             }
         }
     }
