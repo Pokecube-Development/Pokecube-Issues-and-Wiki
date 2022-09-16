@@ -1,12 +1,29 @@
 {
   "replace": false,
   "values": [
-    "#pokecube_legends:ultra_dirts",
     "#pokecube_legends:ultra_sands",
+    "pokecube_legends:aged_coarse_dirt",
+    "pokecube_legends:aged_dirt",
+    "pokecube_legends:aged_grass_block",
+    "pokecube_legends:aged_podzol",
     "pokecube_legends:ash",
     "pokecube_legends:ash_block",
     "pokecube_legends:ash_iron_ore",
+    "pokecube_legends:azure_coarse_dirt",
+    "pokecube_legends:azure_dirt",
+    "pokecube_legends:azure_grass_block",
     "pokecube_legends:cosmic_dust_block",
+    "pokecube_legends:distortic_grass_block",
+    "pokecube_legends:fungal_nylium",
+    "pokecube_legends:jungle_coarse_dirt",
+    "pokecube_legends:jungle_dirt",
+    "pokecube_legends:jungle_grass_block",
+    "pokecube_legends:jungle_podzol",
+    "pokecube_legends:mushroom_coarse_dirt",
+    "pokecube_legends:mushroom_dirt",
+    "pokecube_legends:mushroom_grass_block",
+    "pokecube_legends:rooted_corrupted_dirt",
+    "pokecube_legends:rooted_mushroom_dirt",
     "pokecube_legends:turquoise_gravel"
   ]
 }
