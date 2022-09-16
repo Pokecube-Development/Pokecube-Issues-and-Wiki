@@ -82,12 +82,14 @@ import pokecube.legends.blocks.normalblocks.AquamarineCrystalBlock;
 import pokecube.legends.blocks.normalblocks.AshOre;
 import pokecube.legends.blocks.normalblocks.AzureGrassBlock;
 import pokecube.legends.blocks.normalblocks.BuddingAquamarineBlock;
+import pokecube.legends.blocks.normalblocks.CorruptedDirtBlock;
 import pokecube.legends.blocks.normalblocks.CorruptedGrassBlock;
 import pokecube.legends.blocks.normalblocks.CorruptedLeavesBlock;
 import pokecube.legends.blocks.normalblocks.CrackedDistorticStone;
 import pokecube.legends.blocks.normalblocks.DistorticGrassBlock;
 import pokecube.legends.blocks.normalblocks.DistorticStoneBlock;
 import pokecube.legends.blocks.normalblocks.DynaLeavesBlock;
+import pokecube.legends.blocks.normalblocks.FungalNyliumBlock;
 import pokecube.legends.blocks.normalblocks.InfectedCampfireBlock;
 import pokecube.legends.blocks.normalblocks.InfectedFireBlock;
 import pokecube.legends.blocks.normalblocks.InfectedTorch;
@@ -1009,14 +1011,14 @@ public class BlockInit
                 () -> new BlockBase(Material.DIRT, MaterialColor.COLOR_BLUE, 0.5F, 0.5F, SoundType.GRAVEL, false));
         CORRUPTED_GRASS_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_grass_block",
                 () -> new CorruptedGrassBlock(BlockBehaviour.Properties
-                        .of(Material.GRASS, MaterialColor.TERRACOTTA_BLUE).sound(SoundType.SCAFFOLDING).strength(4F, 5F)
+                        .of(Material.GRASS, MaterialColor.TERRACOTTA_BLUE).sound(SoundType.NYLIUM).strength(4F, 5F)
                         .randomTicks().requiresCorrectToolForDrops()));
         CORRUPTED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_dirt",
-                () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
-                        .sound(SoundType.METAL).strength(0.9F).requiresCorrectToolForDrops()));
+                () -> new CorruptedDirtBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
+                        .sound(SoundType.NETHERRACK).strength(3F, 4F).requiresCorrectToolForDrops()));
         CORRUPTED_COARSE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_coarse_dirt",
-                () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_PURPLE, 0.9F, 0.5F, SoundType.METAL,
-                        true));
+                () -> new CorruptedDirtBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
+                        .sound(SoundType.NETHERRACK).strength(3F, 4F).requiresCorrectToolForDrops()));
         ROOTED_CORRUPTED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("rooted_corrupted_dirt",
                 () -> new RootedDirtBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
                         .sound(SoundType.METAL).strength(0.9F).requiresCorrectToolForDrops()));
@@ -1034,7 +1036,7 @@ public class BlockInit
                 () -> new MushroomGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_RED)
                         .sound(SoundType.GRASS).strength(0.6F).randomTicks()));
         FUNGAL_NYLIUM = PokecubeLegends.DIMENSIONS_TAB.register("fungal_nylium",
-                () -> new MushroomGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_PINK)
+                () -> new FungalNyliumBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_PINK)
                         .sound(SoundType.NYLIUM).strength(0.6F).randomTicks()));
         MUSHROOM_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("mushroom_dirt",
                 () -> new BlockBase(Material.DIRT, MaterialColor.COLOR_PURPLE, 0.5F, 0.5F, SoundType.GRAVEL, false));
@@ -1225,9 +1227,8 @@ public class BlockInit
                                 .sound(SoundType.STONE).strength(3.0F, 3.0f).requiresCorrectToolForDrops(),
                         UniformInt.of(2, 7)));
         DISTORTIC_STONE = PokecubeLegends.DIMENSIONS_TAB.register("distortic_stone",
-                () -> new DistorticStoneBlock(
-                        BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLACK)
-                                .sound(SoundType.STONE).strength(1.5f).requiresCorrectToolForDrops()));
+                () -> new DistorticStoneBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLACK)
+                        .sound(SoundType.STONE).strength(1.5f).requiresCorrectToolForDrops()));
         DISTORTIC_STONE_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("distortic_stone_stairs",
                 () -> new ItemGenerator.GenericStairs(DISTORTIC_STONE.get().defaultBlockState(),
                         BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLACK)

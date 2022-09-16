@@ -3,7 +3,10 @@ package pokecube.legends.blocks.normalblocks;
 import java.util.Iterator;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -11,10 +14,14 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
 
 public class DistorticStoneBlock extends Block implements BonemealableBlock
 {
+    // Tag
+    public static final TagKey<Block> DISTORTIC_GRASS_SPREADABLE = TagKey.create(Registry.BLOCK_REGISTRY,
+            new ResourceLocation(Reference.ID, "distortic_grass_spreadable"));
     public DistorticStoneBlock(final Properties properties)
     {
         super(properties);
@@ -37,7 +44,7 @@ public class DistorticStoneBlock extends Block implements BonemealableBlock
 
                 blockpos = var5.next();
             }
-            while (!block.getBlockState(blockpos).is(BlockInit.DISTORTIC_GRASS_BLOCK.get()));
+            while (!block.getBlockState(blockpos).is(DISTORTIC_GRASS_SPREADABLE));
 
             return true;
         }
