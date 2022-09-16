@@ -16,8 +16,6 @@ public class Vertex extends Vec3f
 
     public Vertex(final float x, final float y, final float z)
     {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        super(x, y, z);
     }
 }

@@ -57,6 +57,17 @@ public class BBModel extends BaseModel
     private void makeObjects(BBModelTemplate t)
     {
         List<BBModelPart> parts = Lists.newArrayList();
+
+        if (t.outliner.isEmpty())
+        {
+            // We will make a single group, and just add everything to that.
+            JsonGroup main = new JsonGroup();
+            main.name = "root";
+            main.origin = new float[]
+            { 0, 0, 0 };
+            main.children.addAll(t.elements);
+        }
+
         for (int i = 0; i < t.outliner.size(); i++)
         {
             JsonGroup b = t.outliner.get(i);
