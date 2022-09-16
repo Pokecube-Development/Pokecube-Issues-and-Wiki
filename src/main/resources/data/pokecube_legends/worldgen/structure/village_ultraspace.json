@@ -12,6 +12,7 @@
   "start_pool": "pokecube_legends:village/ultraspace/small",
   "step": "surface_structures",
   "structures_to_avoid": [
+    "pokecube_legends:towns",
     "minecraft:villages",
     "minecraft:pillager_outposts"
   ],
