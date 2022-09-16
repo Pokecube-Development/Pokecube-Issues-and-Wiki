@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"render_type": "cutout",
 	"textures": {
 		"1": "pokecube_legends:block/yveltal_egg_top_front",
 		"2": "pokecube_legends:block/yveltal_egg_top",

@@ -148,7 +148,7 @@ public class AshBlock extends FlowingBlock
     protected void initStateDefinition()
     {
         this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, Integer.valueOf(1))
-                .setValue(VISCOSITY, Integer.valueOf(4)).setValue(WATERLOGGED, Boolean.valueOf(false))
+                .setValue(VISCOSITY, Integer.valueOf(7)).setValue(WATERLOGGED, Boolean.valueOf(false))
                 .setValue(FALLING, Boolean.valueOf(false)).setValue(WET, false));
     }
 
@@ -190,7 +190,7 @@ public class AshBlock extends FlowingBlock
         protected void initStateDefinition()
         {
             this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.valueOf(false))
-                    .setValue(VISCOSITY, Integer.valueOf(4)).setValue(WET, false));
+                    .setValue(VISCOSITY, Integer.valueOf(7)).setValue(WET, false));
         }
 
         @Override

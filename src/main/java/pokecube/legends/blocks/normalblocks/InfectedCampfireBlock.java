@@ -1,10 +1,9 @@
 package pokecube.legends.blocks.normalblocks;
 
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -69,7 +68,7 @@ public class InfectedCampfireBlock extends CampfireBlock
     }
 
     @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, Random random)
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random)
     {
         if (state.getValue(LIT))
         {

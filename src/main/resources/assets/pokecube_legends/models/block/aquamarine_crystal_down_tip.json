@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/pointed_dripstone",
+  "render_type": "cutout",
   "textures": {
     "cross": "pokecube_legends:block/aquamarine_crystal_down_tip"
   }

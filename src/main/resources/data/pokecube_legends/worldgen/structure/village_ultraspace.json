@@ -15,7 +15,7 @@
     "minecraft:villages",
     "minecraft:pillager_outposts"
   ],
-  "terrain_adaptation": "beard_thin",
+  "terrain_adaptation": "beard_box",
   "type": "pokecube:generic_surface_jigsaw",
   "use_expansion_hack": true
 }

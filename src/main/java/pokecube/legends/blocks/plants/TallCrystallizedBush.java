@@ -77,7 +77,7 @@ public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWate
         {
             final FluidState fluidState = world.getFluidState(pos.above());
             world.setBlock(pos.above(), state.setValue(TallCrystallizedBush.HALF, DoubleBlockHalf.UPPER)
-                .setValue(TallCrystallizedBush.WATERLOGGED, fluidState.getType() == Fluids.WATER), 1);
+                .setValue(TallCrystallizedBush.WATERLOGGED, fluidState.getType() == Fluids.WATER), 3);
         }
     }
 
@@ -87,13 +87,10 @@ public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWate
         final FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
         final BlockPos pos = context.getClickedPos();
         final Level world = context.getLevel();
-
-        final BlockPos tallBushPos = this.getTallBushTopPos(pos);
         
-        if (pos.getY() < world.getMaxBuildHeight() && tallBushPos.getY() < world.getMaxBuildHeight()
-                && context.getLevel().getBlockState(pos.above()).canBeReplaced(context))
+        if (pos.getY() < world.getMaxBuildHeight() - 1 && world.getBlockState(pos.above()).canBeReplaced(context))
             return this.defaultBlockState().setValue(HALF, DoubleBlockHalf.LOWER)
-                    .setValue(WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
+                    .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
 
         return null;
     }

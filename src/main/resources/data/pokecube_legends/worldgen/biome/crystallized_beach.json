@@ -150,9 +150,15 @@
     "creature": [
       {
         "type": "minecraft:turtle",
-        "weight": 5,
+        "weight": 15,
         "minCount": 2,
         "maxCount": 5
+      },
+      {
+        "type": "minecraft:allay",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 2
       }
     ],
     "ambient": [

@@ -146,11 +146,8 @@ public class ClonerBlock extends InteractableHorizontalBlock implements SimpleWa
         final Direction direction = context.getHorizontalDirection().getOpposite();
         final BlockPos pos = context.getClickedPos();
         final Level world = context.getLevel();
-
-        final BlockPos clonerPos = this.getClonerTopPos(pos, direction);
         
-        if (pos.getY() < world.getMaxBuildHeight() && clonerPos.getY() < world.getMaxBuildHeight()
-                && context.getLevel().getBlockState(pos.above()).canBeReplaced(context))
+        if (pos.getY() < world.getMaxBuildHeight() - 1 && world.getBlockState(pos.above()).canBeReplaced(context))
             return this.defaultBlockState().setValue(FACING, direction).setValue(HALF, ClonerBlockPart.BOTTOM)
                     .setValue(WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
         return null;

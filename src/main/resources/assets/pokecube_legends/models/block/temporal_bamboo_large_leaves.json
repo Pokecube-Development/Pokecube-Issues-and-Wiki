@@ -1,5 +1,6 @@
 {
     "ambientocclusion": false,
+    "render_type": "cutout",
     "textures": {
         "texture": "pokecube_legends:block/temporal_bamboo_large_leaves",
         "particle": "pokecube_legends:block/temporal_bamboo_large_leaves"

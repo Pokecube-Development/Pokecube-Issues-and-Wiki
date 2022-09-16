@@ -161,9 +161,15 @@
     "ambient": [
       {
         "type": "minecraft:bat",
-        "weight": 10,
-        "minCount": 8,
+        "weight": 20,
+        "minCount": 4,
         "maxCount": 8
+      },
+      {
+        "type": "minecraft:allay",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 3
       }
     ],
     "axolotls": [
