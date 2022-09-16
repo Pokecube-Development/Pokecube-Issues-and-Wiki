@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 10,
+          "data": {
+            "Name": "pokecube_legends:golden_grass"
+          }
+        },
+        {
+          "weight": 3,
+          "data": {
+            "Name": "pokecube_legends:golden_fern"
+          }
+        }
+      ]
+    }
+  }
+}
