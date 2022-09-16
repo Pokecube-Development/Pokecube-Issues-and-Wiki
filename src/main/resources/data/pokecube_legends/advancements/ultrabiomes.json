@@ -1,330 +1,687 @@
 {
+  "criteria": {
+    "biome_1": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:aquamarine_caves"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_10": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:deep_frozen_dead_ocean"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_11": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:deep_frozen_polluted_ocean"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_12": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:deep_polluted_ocean"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_13": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:dried_blinding_deltas"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_14": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:dripstone_caves"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_15": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:eroded_azure_badlands"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_16": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:forbidden_grove"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_17": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:forbidden_meadow"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_18": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:forbidden_taiga"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_19": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:frozen_dead_ocean"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_2": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:azure_badlands"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_20": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:frozen_dead_river"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_21": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:frozen_peaks"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_22": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:frozen_polluted_ocean"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_23": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:frozen_polluted_river"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_24": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:fungal_flower_forest"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_25": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:fungal_forest"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_26": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:fungal_plains"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_27": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:fungal_sunflower_plains"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_28": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:jagged_peaks"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_29": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:magmatic_blinding_deltas"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_3": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:blinding_deltas"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_30": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:meteorite_spikes"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_31": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:mirage_desert"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_32": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:old_growth_forbidden_taiga"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_33": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:polluted_ocean"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_34": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:polluted_river"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_35": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:rocky_mirage_desert"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_36": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:shattered_blinding_deltas"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_37": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:shattered_tainted_barrens"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_38": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:snowy_crystallized_beach"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_39": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:snowy_forbidden_taiga"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_4": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:burnt_beach"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_40": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:snowy_fungal_plains"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_41": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:snowy_slopes"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_42": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:sparse_temporal_jungle"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_43": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:tainted_barrens"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_44": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:temporal_bamboo_jungle"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_45": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:temporal_jungle"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_46": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:ultra_stony_peaks"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_47": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:ultra_stony_shore"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_48": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:volcanic_blinding_deltas"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_49": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:windswept_forbidden_taiga"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_5": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:corrupted_caves"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_50": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:windswept_temporal_jungle"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_51": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:wooded_azure_badlands"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_6": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:crystallized_beach"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_7": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:dead_ocean"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_8": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:dead_river"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "biome_9": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "pokecube_legends:deep_dead_ocean"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
   "display": {
+    "announce_to_chat": true,
     "background": "minecraft:textures/block/stone.png",
-    "icon": {
-      "item": "pokecube_legends:aged_grass_block"
-    },
-    "title": {
-      "translate": "advancements.intotespace.title"
-    },
     "description": {
       "translate": "advancements.intotespace.descr"
     },
     "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "pokecube_legends:aged_grass_block"
+    },
     "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
-  "criteria": {
-    "biome_1": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:aquamarine_caves"
-      }
-    },
-    "biome_2": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:azure_badlands"
-      }
-    },
-    "biome_3": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:blinding_deltas"
-      }
-    },
-    "biome_4": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:burnt_beach"
-      }
-    },
-    "biome_5": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:corrupted_caves"
-      }
-    },
-    "biome_6": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:crystallized_beach"
-      }
-    },
-    "biome_7": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:dead_ocean"
-      }
-    },
-    "biome_8": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:dead_river"
-      }
-    },
-    "biome_9": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:deep_dead_ocean"
-      }
-    },
-    "biome_10": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:deep_frozen_dead_ocean"
-      }
-    },
-    "biome_11": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:deep_frozen_polluted_ocean"
-      }
-    },
-    "biome_12": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:deep_polluted_ocean"
-      }
-    },
-    "biome_13": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:dried_blinding_deltas"
-      }
-    },
-    "biome_14": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:dripstone_caves"
-      }
-    },
-    "biome_15": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:eroded_azure_badlands"
-      }
-    },
-    "biome_16": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:forbidden_grove"
-      }
-    },
-    "biome_17": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:forbidden_meadow"
-      }
-    },
-    "biome_18": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:forbidden_taiga"
-      }
-    },
-    "biome_19": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:frozen_dead_ocean"
-      }
-    },
-    "biome_20": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:frozen_dead_river"
-      }
-    },
-    "biome_21": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:frozen_peaks"
-      }
-    },
-    "biome_22": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:frozen_polluted_ocean"
-      }
-    },
-    "biome_23": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:frozen_polluted_river"
-      }
-    },
-    "biome_24": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:fungal_flower_forest"
-      }
-    },
-    "biome_25": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:fungal_forest"
-      }
-    },
-    "biome_26": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:fungal_plains"
-      }
-    },
-    "biome_27": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:fungal_sunflower_plains"
-      }
-    },
-    "biome_28": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:jagged_peaks"
-      }
-    },
-    "biome_29": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:magmatic_blinding_deltas"
-      }
-    },
-    "biome_30": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:meteorite_spikes"
-      }
-    },
-    "biome_31": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:mirage_desert"
-      }
-    },
-    "biome_32": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:old_growth_forbidden_taiga"
-      }
-    },
-    "biome_33": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:polluted_ocean"
-      }
-    },
-    "biome_34": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:polluted_river"
-      }
-    },
-    "biome_35": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:rocky_mirage_desert"
-      }
-    },
-    "biome_36": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:shattered_blinding_deltas"
-      }
-    },
-    "biome_37": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:shattered_tainted_barrens"
-      }
-    },
-    "biome_38": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:snowy_crystallized_beach"
-      }
-    },
-    "biome_39": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:snowy_forbidden_taiga"
-      }
-    },
-    "biome_40": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:snowy_fungal_plains"
-      }
-    },
-    "biome_41": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:snowy_slopes"
-      }
-    },
-    "biome_42": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:sparse_temporal_jungle"
-      }
-    },
-    "biome_43": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:tainted_barrens"
-      }
-    },
-    "biome_44": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:temporal_bamboo_jungle"
-      }
-    },
-    "biome_45": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:temporal_jungle"
-      }
-    },
-    "biome_46": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:ultra_stony_peaks"
-      }
-    },
-    "biome_47": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:ultra_stony_shore"
-      }
-    },
-    "biome_48": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:volcanic_blinding_deltas"
-      }
-    },
-    "biome_49": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:windswept_forbidden_taiga"
-      }
-    },
-    "biome_50": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:windswept_temporal_jungle"
-      }
-    },
-    "biome_51": {
-      "trigger": "minecraft:location",
-      "conditions": {
-        "biome": "pokecube_legends:wooded_azure_badlands"
-      }
+    "title": {
+      "translate": "advancements.intotespace.title"
     }
   },
+  "parent": "pokecube_legends:ultradimension",
   "rewards": {
     "experience": 3
-  },
-  "parent": "pokecube_legends:ultradimension"
+  }
 }
