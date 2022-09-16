@@ -46,7 +46,7 @@ public class HangingTendrilsPlantBlock extends GrowingPlantBodyBlock implements 
    @Override
    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit)
    {
-       if (state.getValue(EYES) == true && player.isShiftKeyDown())
+       if (state.getValue(EYES) == true)
        {
            float f = Mth.randomBetween(world.random, 0.8F, 1.2F);
            world.playSound((Player)null, pos, SoundEvents.CAVE_VINES_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, f);
