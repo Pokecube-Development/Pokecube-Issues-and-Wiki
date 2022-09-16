@@ -330,8 +330,8 @@
     "block.trade_machine.trade": "Trade",
     "block.tm_machine.apply": "Apply",
 
-    "block.pokecube.pc_base": "PC Base",
-    "block.pokecube.pc_top": "PC Top",
+    "block.pokecube.pc_base": "PC Computer",
+    "block.pokecube.pc_top": "PC Screen",
     "block.pc.autoon": "Auto On",
     "block.pc.autooff": "Auto Off",
     "block.pc.rename": "Rename",
@@ -345,8 +345,8 @@
     "block.pc.option.release": "Release",
     "block.pc.option.confirm": "Confirm",
 
-    "msg.pokecube.pc_top.fail": "§cPC Base required below",
-    "msg.pokecube.pc_base.fail": "§cPC Top required above",
+    "msg.pokecube.pc_top.fail": "§cPC Computer required below",
+    "msg.pokecube.pc_base.fail": "§cPC Screen required above",
 
     "block.pokecube.deepslate_fossil_ore": "Deepslate Fossil Ore",
     "block.pokecube.fossil_ore": "Fossil Ore",
