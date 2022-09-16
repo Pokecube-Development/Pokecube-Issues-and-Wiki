@@ -362,8 +362,8 @@ public class WornOffsetModule extends AnimModule
             Object ren = manager.getRenderer(parent.toRender.getEntity());
             if (ren instanceof RenderPokemob renderer)
             {
-                renderer.getModel().getRenderOrder().forEach(s -> {
-                    if (!sortedSlots.contains(s)) renders.add(s);
+                renderer.getModel().getParts().forEach((s, p) -> {
+                    if (!sortedSlots.contains(s) && !p.getMaterials().isEmpty()) renders.add(s);
                 });
                 renders.sort(null);
                 int index = renders.indexOf(this.worn_part.getValue());
@@ -385,8 +385,8 @@ public class WornOffsetModule extends AnimModule
             Object ren = manager.getRenderer(parent.toRender.getEntity());
             if (ren instanceof RenderPokemob renderer)
             {
-                renderer.getModel().getRenderOrder().forEach(s -> {
-                    if (!sortedSlots.contains(s)) renders.add(s);
+                renderer.getModel().getParts().forEach((s, p) -> {
+                    if (!sortedSlots.contains(s) && !p.getMaterials().isEmpty()) renders.add(s);
                 });
                 renders.sort(null);
                 int index = renders.indexOf(this.worn_part.getValue());

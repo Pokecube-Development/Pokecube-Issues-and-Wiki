@@ -25,7 +25,7 @@ public class Z_Move_Basic extends Move_Basic
             final Move_Base tmp = user.getSelectedMove();
             if (tmp != null) base = tmp;
         }
-        final int pwr = base.getPWR(user, target);
+        final int pwr = base instanceof Z_Move_Basic ? 60 : base.getPWR(user, target);
         if (GZMoveManager.isZMove(this.move.baseEntry))
         {
             if (base.move.baseEntry.zMovePower > 0) return base.move.baseEntry.zMovePower;
