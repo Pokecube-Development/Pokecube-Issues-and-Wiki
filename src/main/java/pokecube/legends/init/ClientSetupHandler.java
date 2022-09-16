@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.FlameParticle;
+import net.minecraft.client.particle.LavaParticle;
 import net.minecraft.client.particle.SmokeParticle;
 import net.minecraft.client.particle.SoulParticle;
 import net.minecraft.client.particle.SuspendedTownParticle;
@@ -196,6 +197,7 @@ public class ClientSetupHandler
         event.register(ParticleInit.INFECTED_FIRE_FLAME.get(), FlameParticle.Provider::new);
         event.register(ParticleInit.INFECTED_SMOKE.get(), SmokeParticle.Provider::new);
         event.register(ParticleInit.INFECTED_SOUL.get(), SoulParticle.Provider::new);
+        event.register(ParticleInit.INFECTED_SPARK.get(), LavaParticle.Provider::new);
         event.register(ParticleInit.MUSHROOM.get(), SuspendedTownParticle.Provider::new);
     }
 }
