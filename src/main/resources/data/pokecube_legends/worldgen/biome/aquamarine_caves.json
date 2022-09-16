@@ -157,20 +157,19 @@
         "maxCount": 1
       }
     ],
-    "creature": [
-      {
-        "type": "minecraft:allay",
-        "weight": 10,
-        "minCount": 1,
-        "maxCount": 2
-      }
-    ],
+    "creature": [],
     "ambient": [
       {
         "type": "minecraft:bat",
         "weight": 10,
-        "minCount": 8,
+        "minCount": 4,
         "maxCount": 8
+      },
+      {
+        "type": "minecraft:allay",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 3
       }
     ],
     "axolotls": [
