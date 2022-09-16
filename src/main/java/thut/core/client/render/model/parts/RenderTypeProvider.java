@@ -44,7 +44,7 @@ public interface RenderTypeProvider
 
             final boolean transp = material.alpha < 1 || material.transluscent;
             // disable culling entirely
-            if (material.alpha >= 1)
+            if (!material.cull)
             {
                 builder.setCullState(RenderStateShard.NO_CULL);
             }
