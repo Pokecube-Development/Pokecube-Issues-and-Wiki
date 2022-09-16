@@ -151,12 +151,9 @@ public class AgedGrassBlock extends GrassBlock implements BonemealableBlock
 
                  placedFeature = ((RandomPatchConfiguration)list.get(0).config()).feature();
               } else {
-                  // FIXME aged grass
                   placedFeature = world.registryAccess().registryOrThrow(Registry.PLACED_FEATURE_REGISTRY)
-                          .getHolderOrThrow(ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
-                                  new ResourceLocation("pokecube_legends:aged_grass_bonemeal")));
+                          .getHolderOrThrow(ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, new ResourceLocation("pokecube_legends:aged_grass_bonemeal")));
               }
-
               placedFeature.value().place(world, world.getChunkSource().getGenerator(), random, posAbove1);
            }
         }

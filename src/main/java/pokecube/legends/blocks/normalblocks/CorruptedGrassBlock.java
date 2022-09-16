@@ -5,6 +5,9 @@ import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -147,9 +150,8 @@ public class CorruptedGrassBlock extends NyliumBlock implements BonemealableBloc
 
                  placedFeature = ((RandomPatchConfiguration)list.get(0).config()).feature();
               } else {
-                  // FIXME corrupted grass
-                  return;
-//                 placedFeature = FeaturesInit.PlantPlacements.PATCH_CORRUPTED_GRASS.getHolder().get();
+                  placedFeature = world.registryAccess().registryOrThrow(Registry.PLACED_FEATURE_REGISTRY)
+                          .getHolderOrThrow(ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, new ResourceLocation("pokecube_legends:corrupted_grass_bonemeal")));
               }
 
               placedFeature.value().place(world, world.getChunkSource().getGenerator(), random, posAbove1);
