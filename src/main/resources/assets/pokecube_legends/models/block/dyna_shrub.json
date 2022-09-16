@@ -1,7 +1,8 @@
 {
+	"ambientocclusion": false,
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
-	"ambientocclusion": false,
+	"render_type": "cutout",
 	"textures": {
 		"particle": "pokecube_legends:block/dyna_shrub",
 		"plant": "pokecube_legends:block/dyna_shrub",

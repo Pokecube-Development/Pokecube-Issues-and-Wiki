@@ -1,6 +1,7 @@
 {
-   "parent": "block/cube_all",
-   "textures": {
-	"all": "pokecube_legends:block/aged_leaves"
-   }
+  "parent": "block/cube_all",
+  "render_type": "cutout",
+  "textures": {
+    "all": "pokecube_legends:block/aged_leaves"
+  }
 }

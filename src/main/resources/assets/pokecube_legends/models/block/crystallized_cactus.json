@@ -1,5 +1,7 @@
-{   "parent": "block/block",
+{
     "ambientocclusion": false,
+    "parent": "block/block",
+    "render_type": "cutout",
     "textures": {
         "particle": "pokecube_legends:block/crystallized_cactus_side",
         "bottom": "pokecube_legends:block/crystallized_cactus_bottom",

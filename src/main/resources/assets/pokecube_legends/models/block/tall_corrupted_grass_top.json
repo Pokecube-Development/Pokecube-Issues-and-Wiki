@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/cross",
+  "render_type": "cutout",
   "textures": {
     "cross": "pokecube_legends:block/tall_corrupted_grass_top"
   }
