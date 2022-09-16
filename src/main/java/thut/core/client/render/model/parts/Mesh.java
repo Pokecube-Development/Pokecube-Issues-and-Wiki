@@ -191,12 +191,13 @@ public abstract class Mesh
         {
             dp.set(centre.x(), centre.y(), centre.z(), 1);
             dp.transform(pos);
+            int s = 500;
             double dr2 = Math.abs(dp.dot(METRIC));
-            if (dr2 < CULLTHRESHOLD || dr2 > 4e2)
+            if (dr2 < CULLTHRESHOLD || dr2 > s)
             {
                 cull = false;
             }
-            boolean size_cull = dr2 < 4e2 && dr2 > extent;
+            boolean size_cull = CULLTHRESHOLD < Double.MAX_VALUE && dr2 < s && dr2 > extent;
             if (size_cull) return;
         }
 
