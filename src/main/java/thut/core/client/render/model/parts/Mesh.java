@@ -140,7 +140,7 @@ public abstract class Mesh
         centre.mul(1.0f / order.length);
 
         maxs.sub(mins);
-        extent = maxs.lengthSquared() * 50;
+        extent = maxs.lengthSquared() * 20;
         extent = Math.max(20, extent);
 
         // Initialize a "default" material for us
@@ -183,23 +183,12 @@ public abstract class Mesh
 
         float x, y, z, nx, ny, nz, u, v;
 
-        com.mojang.math.Vector3f camera_view = com.mojang.math.Vector3f.ZP;
-
-        boolean cull = material.cull && alpha >= 1 && !material.transluscent;
-
-        if (cull)
-        {
-            dp.set(centre.x(), centre.y(), centre.z(), 1);
-            dp.transform(pos);
-            int s = 500;
-            double dr2 = Math.abs(dp.dot(METRIC));
-            if (dr2 < CULLTHRESHOLD || dr2 > s)
-            {
-                cull = false;
-            }
-            boolean size_cull = CULLTHRESHOLD < Double.MAX_VALUE && dr2 < s && dr2 > extent;
-            if (size_cull) return;
-        }
+        dp.set(centre.x(), centre.y(), centre.z(), 1);
+        dp.transform(pos);
+        int s = 500;
+        double dr2 = Math.abs(dp.dot(METRIC));
+        boolean size_cull = CULLTHRESHOLD < Double.MAX_VALUE && dr2 < s && dr2 > extent;
+        if (size_cull) return;
 
         // Loop over this rather than the array directly, so that we can skip by
         // more than 1 if culling.
@@ -217,20 +206,6 @@ public abstract class Mesh
 
             dn.set(nx, ny, nz);
             dn.transform(norms);
-
-            // flat vs smooth have slightly different cull criteria.
-            // Smooth must only cull on the first normal, otherwise we add a
-            // messed up thing to the render. I guess later we can check the
-            // other normals instead, but for now only checking first, and then
-            // a -0.2 for the threshold works.
-            final boolean tryCull = cull && (flat || i0 % iter == 0) && dn.dot(camera_view) < 0.0;
-
-            if (tryCull)
-            {
-                // Manually iterate a few to skip the entire face.
-                i0 += iter - 1;
-                continue;
-            }
 
             // Next we can pull out the coordinates if not culled.
             if (this.hasTextures) textureCoordinate = this.textureCoordinates[i];
