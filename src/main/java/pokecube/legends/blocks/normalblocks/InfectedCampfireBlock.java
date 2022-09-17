@@ -68,22 +68,22 @@ public class InfectedCampfireBlock extends CampfireBlock
     }
 
     @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random)
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource source)
     {
         if (state.getValue(LIT))
         {
-            if (random.nextInt(10) == 0)
+            if (source.nextInt(10) == 0)
             {
                 world.playLocalSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D,
-                        SoundEvents.CAMPFIRE_CRACKLE, SoundSource.BLOCKS, 0.5F + random.nextFloat(), random.nextFloat() * 0.7F + 0.6F, false);
+                        SoundEvents.CAMPFIRE_CRACKLE, SoundSource.BLOCKS, 0.5F + source.nextFloat(), source.nextFloat() * 0.7F + 0.6F, false);
             }
 
-            if (this.spawnParticles && random.nextInt(5) == 0)
+            if (this.spawnParticles && source.nextInt(5) == 0)
             {
-                for(int i = 0; i < random.nextInt(1) + 1; ++i)
+                for(int i = 0; i < source.nextInt(1) + 1; ++i)
                 {
                     world.addParticle(ParticleInit.INFECTED_SPARK.get(), (double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D,
-                            (double)pos.getZ() + 0.5D, (double)(random.nextFloat() / 2.0F), 5.0E-5D, (double)(random.nextFloat() / 2.0F));
+                            (double)pos.getZ() + 0.5D, (double)(source.nextFloat() / 2.0F), 5.0E-5D, (double)(source.nextFloat() / 2.0F));
                 }
             }
         }
