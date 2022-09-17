@@ -1,5 +1,7 @@
 package pokecube.legends;
 
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraftforge.fluids.DispenseFluidContainer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -205,6 +207,8 @@ public class PokecubeLegends
 
             SpawnHandler.MELT_GETTER = () -> BlockInit.METEORITE_MOLTEN_BLOCK.get().defaultBlockState();
             SpawnHandler.DUST_GETTER = () -> BlockInit.ASH.get().defaultBlockState().setValue(FlowingBlock.LAYERS, 5);
+
+            DispenserBlock.registerBehavior(ItemInit.DISTORTIC_WATER_BUCKET.get(), DispenseFluidContainer.getInstance());
         });
     }
 
