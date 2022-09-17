@@ -299,8 +299,10 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public void initModel(final ModelWrapper<Mob> model)
         {
             this.wrapper = model;
-            model.imodel = ModelFactory.create(model.model, m -> {
-                AnimationLoader.parse(this, model, this);
+            ModelFactory.create(model.model, m -> {
+                // Set this first in here, so that we can run parse properly.
+                this.wrapper.imodel = m;
+                AnimationLoader.parse(this, m, this);
             });
         }
 
