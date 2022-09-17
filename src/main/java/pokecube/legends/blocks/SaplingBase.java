@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.eventbus.api.Event.Result;
 
 public class SaplingBase extends BushBlock implements BonemealableBlock
 {
@@ -52,7 +53,7 @@ public class SaplingBase extends BushBlock implements BonemealableBlock
         if (state.getValue(SaplingBase.STAGE) == 0) serverWorld.setBlock(pos, state.cycle(SaplingBase.STAGE), 4);
         else
         {
-            if (!ForgeEventFactory.saplingGrowTree(serverWorld, rand, pos)) return;
+            if (ForgeEventFactory.blockGrowFeature(serverWorld, rand, pos, null).getResult().equals(Result.DENY)) return;
             this.tree.get().growTree(serverWorld, serverWorld.getChunkSource().getGenerator(), pos, state, rand);
         }
     }

@@ -1,12 +1,9 @@
 package pokecube.legends.blocks.normalblocks;
 
 import java.util.List;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
@@ -20,14 +17,11 @@ import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.lighting.LayerLightEngine;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.BlockInit;
-import pokecube.legends.init.PlantsInit;
 
 public class FungalNyliumBlock extends GrassBlock implements BonemealableBlock
 {
@@ -110,7 +104,6 @@ public class FungalNyliumBlock extends GrassBlock implements BonemealableBlock
     {
         BlockPos posAbove = pos.above();
 
-        label46:
         for(int i = 0; i < 128; ++i)
         {
            BlockState stateAbove = world.getBlockState(posAbove);

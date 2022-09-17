@@ -32,7 +32,6 @@ import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.BlockInit;
-import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.PlantsInit;
 
 public class DistorticGrassBlock extends DirectionalBlock implements BonemealableBlock

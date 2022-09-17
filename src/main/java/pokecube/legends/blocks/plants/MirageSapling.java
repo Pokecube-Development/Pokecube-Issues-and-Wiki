@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.PlantType;
 import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.legends.blocks.SaplingBase;
 
 public class MirageSapling extends SaplingBlock implements BonemealableBlock
@@ -38,7 +39,7 @@ public class MirageSapling extends SaplingBlock implements BonemealableBlock
         if (state.getValue(SaplingBase.STAGE) == 0) serverWorld.setBlock(pos, state.cycle(SaplingBase.STAGE), 4);
         else
         {
-            if (!ForgeEventFactory.saplingGrowTree(serverWorld, rand, pos)) return;
+            if (ForgeEventFactory.blockGrowFeature(serverWorld, rand, pos, null).getResult().equals(Result.DENY)) return;
             this.treeGrower.growTree(serverWorld, serverWorld.getChunkSource().getGenerator(), pos, state, rand);
         }
     }
