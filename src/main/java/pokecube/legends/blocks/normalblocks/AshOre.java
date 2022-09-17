@@ -38,9 +38,7 @@ public class AshOre extends FallingDirtBlockBase implements Fallable
         if (isFree(world.getBlockState(pos.below())) && pos.getY() >= world.getMinBuildHeight()
                 && state.getValue(WET) == false)
         {
-            FallingBlockEntity entity = FallingBlockEntity.fall(world, pos, world.getBlockState(pos));
-            this.falling(entity);
-            world.addFreshEntity(entity);
+            FallingBlockEntity.fall(world, pos, world.getBlockState(pos));
         }
     }
 
