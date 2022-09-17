@@ -171,7 +171,7 @@ public class ItemInit
     public static final RegistryObject<Item> ULTRAKEY;
     public static final RegistryObject<Item> COSMIC_DUST;
     public static final RegistryObject<Item> FRACTAL_SHARD;
-    public static final RegistryObject<Item> DISTORTED_WATER_BUCKET;
+    public static final RegistryObject<Item> DISTORTIC_WATER_BUCKET;
 
     // Giratina
     public static final RegistryObject<Item> GIRATINA_MIRROR;
@@ -469,9 +469,8 @@ public class ItemInit
         GIRATINA_MIRROR = PokecubeLegends.ITEMS.register("giratina_mirror",
                 () -> new DistortedMirror("giratina_mirror", PokecubeLegends.TAB_DIMENSIONS, 1));
 
-        DISTORTED_WATER_BUCKET = PokecubeLegends.ITEMS.register("distortic_water_bucket", () -> new BucketItem(
-                FluidInit.DISTORTED_WATER,
-                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
+        DISTORTIC_WATER_BUCKET = PokecubeLegends.ITEMS.register("distortic_water_bucket", () -> new BucketItem(
+                FluidInit.DISTORTIC_WATER.get(), new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).rarity(Rarity.RARE).tab(PokecubeLegends.TAB_DIMENSIONS)));
 
         // Decorations Creative Tab - Sorting depends on the order the items are
         // listed in
