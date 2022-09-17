@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
 import com.mojang.math.Vector4f;
 
 import thut.api.maths.vecmath.Vec3f;
@@ -38,7 +39,8 @@ public abstract class Mesh
 
     public final Mode vertexMode;
 
-    public float extent = 0;
+    Vertex min = new Vertex(0, 0);
+    Vertex max = new Vertex(0, 0);
 
     final int iter;
 
@@ -139,15 +141,21 @@ public abstract class Mesh
 
         centre.mul(1.0f / order.length);
 
-        maxs.sub(mins);
-        extent = maxs.lengthSquared() * 20;
-        extent = Math.max(20, extent);
+        min.set(mins);
+        max.set(maxs);
 
         // Initialize a "default" material for us
         this.material = new Material("auto:" + this.name);
     }
 
-    private final com.mojang.math.Vector3f dummy3 = new com.mojang.math.Vector3f();
+    public void scale(float scale)
+    {
+        for (Vertex v : this.vertices) v.scale(scale);
+    }
+
+    private final Vector3f dummy3 = new Vector3f();
+    private final Vector3f dummy_1 = new Vector3f();
+    private final Vector3f dummy_2 = new Vector3f();
     private final Vector4f dummy4 = new Vector4f();
     private final TextureCoordinate dummyTex = new TextureCoordinate(0, 0);
 
@@ -183,11 +191,24 @@ public abstract class Mesh
 
         float x, y, z, nx, ny, nz, u, v;
 
+        dummy_1.set(min.x, min.y, min.z);
+        dummy_2.set(max.x, max.y, max.z);
+
+        dummy_2.sub(dummy_1);
+        dummy_1.set(centre.x(), centre.y(), centre.z());
+        dummy_2.sub(dummy_1);
+
+        dp.set(dummy_2.x(), dummy_2.y(), dummy_2.z(), 1);
+
+        double dr2_us = Math.abs(dp.dot(METRIC));
+
         dp.set(centre.x(), centre.y(), centre.z(), 1);
         dp.transform(pos);
-        int s = 500;
-        double dr2 = Math.abs(dp.dot(METRIC));
-        boolean size_cull = CULLTHRESHOLD < Double.MAX_VALUE && dr2 < s && dr2 > extent;
+
+        double dr2_camera = Math.abs(dp.dot(METRIC));
+
+        boolean size_cull = Mesh.CULLTHRESHOLD < Double.MAX_VALUE && dr2_camera < 4e2 && dr2_us < dr2_camera / 50;
+
         if (size_cull) return;
 
         // Loop over this rather than the array directly, so that we can skip by
