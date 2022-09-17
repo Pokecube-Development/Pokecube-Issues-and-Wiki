@@ -470,7 +470,7 @@ public class ItemInit
                 () -> new DistortedMirror("giratina_mirror", PokecubeLegends.TAB_DIMENSIONS, 1));
 
         DISTORTIC_WATER_BUCKET = PokecubeLegends.ITEMS.register("distortic_water_bucket", () -> new BucketItem(
-                FluidInit.DISTORTIC_WATER.get(), new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
+                FluidInit.DISTORTIC_WATER.get(), new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).rarity(Rarity.RARE).tab(PokecubeLegends.TAB_DIMENSIONS)));
 
         // Decorations Creative Tab - Sorting depends on the order the items are
         // listed in
