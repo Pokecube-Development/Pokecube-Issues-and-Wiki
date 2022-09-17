@@ -1,6 +1,9 @@
 package pokecube.legends.blocks.flowing;
 
 import java.lang.reflect.Array;
+import java.util.Map;
+
+import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,12 +19,16 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FallingBlock;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.DeferredRegister;
@@ -67,12 +74,70 @@ public class AshBlock extends FlowingBlock
     {
         if (state.getBlock() != this) return;
         boolean wet = state.getValue(WET);
-        boolean shouldBeWet = level.isRainingAt(pos.above()) || isNearWater(level, pos);
+        Map<Direction, FluidState> nearFluids = getAdjacentFluids(level, pos);
+
+        int water = 0;
+        int lava = 0;
+
+        int amt = getAmount(state);
+
+        // First check for fluid above us, if that is the case, we wash away if
+        // not a full block.
+        FluidState f = nearFluids.get(Direction.UP);
+        boolean isWater = f.is(FluidTags.WATER);
+        boolean isLava = f.is(FluidTags.LAVA);
+        if ((isWater || isLava) && amt < 16)
+        {
+            BlockState newState = f.createLegacyBlock();
+            if (newState.hasProperty(LiquidBlock.LEVEL))
+                level.setBlock(pos, newState.setValue(LiquidBlock.LEVEL, amt), 3);
+            else level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            return;
+        }
+
+        for (Direction dir : Direction.Plane.HORIZONTAL)
+        {
+            // This loops in order down-up-etc, we want up-down-etc
+            Direction d = dir.getOpposite();
+            f = nearFluids.get(d);
+            isWater = f.is(FluidTags.WATER);
+            isLava = f.is(FluidTags.LAVA);
+            if (isWater)
+            {
+                water++;
+            }
+            if (isLava)
+            {
+                lava++;
+            }
+            // If the fluid level is greater than us, we break.
+            if (f.getAmount() - 2 > amt)
+            {
+                BlockState newState = f.createLegacyBlock();
+                if (newState.hasProperty(LiquidBlock.LEVEL))
+                    level.setBlock(pos, newState.setValue(LiquidBlock.LEVEL, amt), 3);
+                else level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+                return;
+            }
+        }
+        boolean nearWater = level.isRainingAt(pos.above()) || water > 0;
+        boolean shouldBeWet = nearWater;
+        boolean nearLava = lava > 0;
+        shouldBeWet = shouldBeWet && !nearLava;
         if (wet != shouldBeWet)
         {
             level.setBlock(pos, state = state.setValue(WET, shouldBeWet), 2);
+            return;
         }
         super.tick(state, level, pos, random);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public boolean canBeReplaced(BlockState state, Fluid fluid)
+    {
+        if (fluid == Fluids.LAVA && this.getAmount(state) < 16) return true;
+        return super.canBeReplaced(state, fluid);
     }
 
     @Override
@@ -131,17 +196,14 @@ public class AshBlock extends FlowingBlock
         }
     }
 
-    private static boolean isNearWater(LevelReader world, BlockPos pos)
+    private static Map<Direction, FluidState> getAdjacentFluids(LevelReader world, BlockPos pos)
     {
-        if (world.getFluidState(pos.above()).is(FluidTags.WATER) || world.getFluidState(pos.below()).is(FluidTags.WATER)
-                || world.getFluidState(pos.north()).is(FluidTags.WATER)
-                || world.getFluidState(pos.south()).is(FluidTags.WATER)
-                || world.getFluidState(pos.east()).is(FluidTags.WATER)
-                || world.getFluidState(pos.west()).is(FluidTags.WATER))
+        Map<Direction, FluidState> map = Maps.newHashMap();
+        for (Direction dir : Direction.values())
         {
-            return true;
+            map.put(dir, world.getFluidState(pos.relative(dir)));
         }
-        return false;
+        return map;
     }
 
     @Override
