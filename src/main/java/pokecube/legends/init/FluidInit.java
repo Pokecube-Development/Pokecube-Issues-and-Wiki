@@ -4,41 +4,32 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.PokecubeLegends;
-import pokecube.legends.fluids.DistorticWater;
+import pokecube.legends.fluids.DistorticWaterType;
 
 public class FluidInit
 {
-    public static RegistryObject<FluidType> DISTORTED_WATER_TYPE;
-    public static RegistryObject<FlowingFluid> DISTORTED_WATER;
-    public static RegistryObject<FlowingFluid> DISTORTED_WATER_FLOWING;
-    public static RegistryObject<LiquidBlock> DISTORTED_WATER_BLOCK;
-
-//  FluidAttributes.builder(DISTORTIC_WATER_STILL_TEXTURE, DISTORTIC_WATER_FLOWING_TEXTURE)
-//  .overlay(DISTORTIC_WATER_OVERLAY_TEXTURE)
-//  .density(-500)
-//  .temperature(20)
-//  .viscosity(20)
-//  .gaseous()
-//  .luminosity(10)
-//  .sound(SoundEvents.BUCKET_FILL, SoundEvents.BUCKET_EMPTY)
+    public static RegistryObject<FluidType> DISTORTIC_WATER_TYPE;
+    public static RegistryObject<FlowingFluid> DISTORTIC_WATER;
+    public static RegistryObject<FlowingFluid> DISTORTIC_WATER_FLOWING;
+    public static RegistryObject<LiquidBlock> DISTORTIC_WATER_BLOCK;
 
     static
     {
-        DISTORTED_WATER_TYPE = PokecubeLegends.FLUID_TYPES.register("distortic_water", () -> new FluidType(
-                FluidType.Properties.create().density(-500).temperature(20).viscosity(20).lightLevel(10)));
+        DISTORTIC_WATER_TYPE = PokecubeLegends.FLUID_TYPES.register("distortic_water", () -> new DistorticWaterType(
+                FluidType.Properties.create().density(-500).temperature(20).viscosity(20).lightLevel(0)));
 
-        DISTORTED_WATER = PokecubeLegends.FLUIDS.register("distortic_water",
-                () -> new ForgeFlowingFluid.Source(DistorticWater.makeProperties()));
-        DISTORTED_WATER_FLOWING = PokecubeLegends.FLUIDS.register("distortic_water_flowing",
-                () -> new ForgeFlowingFluid.Flowing(DistorticWater.makeProperties()));
-        DISTORTED_WATER_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("distortic_water_block",
-                () -> new LiquidBlock(FluidInit.DISTORTED_WATER, BlockBehaviour.Properties
-                        .of(Material.LAVA, MaterialColor.COLOR_LIGHT_BLUE).noCollission().strength(100f)));
+        DISTORTIC_WATER = PokecubeLegends.FLUIDS.register("distortic_water", () ->
+                        new ForgeFlowingFluid.Source(DistorticWaterType.makeProperties()));
+
+        DISTORTIC_WATER_FLOWING = PokecubeLegends.FLUIDS.register("distortic_water_flowing", () ->
+                        new ForgeFlowingFluid.Flowing(DistorticWaterType.makeProperties()));
+
+        DISTORTIC_WATER_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("distortic_water_block", () ->
+                        new LiquidBlock(DISTORTIC_WATER, BlockBehaviour.Properties.of(Material.WATER).noCollission().strength(100.0F).noLootTable()));
     }
 
     public static void init()
