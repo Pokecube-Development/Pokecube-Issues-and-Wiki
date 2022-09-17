@@ -37,7 +37,7 @@
     "ridges": 0,
     "initial_density_without_jaggedness": {
       "type": "minecraft:add",
-      "argument1": -0.234375,
+      "argument1": -0.25,
       "argument2": {
         "type": "minecraft:mul",
         "argument1": {
@@ -49,10 +49,10 @@
         },
         "argument2": {
           "type": "minecraft:add",
-          "argument1": 0.234375,
+          "argument1": 0.25,
           "argument2": {
             "type": "minecraft:add",
-            "argument1": -23.4375,
+            "argument1": -15,
             "argument2": {
               "type": "minecraft:mul",
               "argument1": {
@@ -64,10 +64,10 @@
               },
               "argument2": {
                 "type": "minecraft:add",
-                "argument1": 23.4375,
+                "argument1": 25,
                 "argument2": {
                   "type": "minecraft:add",
-                  "argument1": -0.703125,
+                  "argument1": -0.7,
                   "argument2": {
                     "type": "minecraft:cache_2d",
                     "argument": {
@@ -92,23 +92,37 @@
             "type": "minecraft:blend_density",
             "argument": {
               "type": "minecraft:add",
-              "argument1": 0.234375,
+              "argument1": -0.25,
               "argument2": {
-                "type": "minecraft:add",
-                "argument1": -23.4375,
+                "type": "minecraft:mul",
+                "argument1": {
+                  "type": "minecraft:y_clamped_gradient",
+                  "from_y": 0,
+                  "to_y": 16,
+                  "from_value": 0,
+                  "to_value": 1
+                },
                 "argument2": {
-                  "type": "minecraft:mul",
-                  "argument1": {
-                    "type": "minecraft:y_clamped_gradient",
-                    "from_y": 56,
-                    "to_y": 312,
-                    "from_value": 1,
-                    "to_value": 0
-                  },
+                  "type": "minecraft:add",
+                  "argument1": 0.25,
                   "argument2": {
                     "type": "minecraft:add",
-                    "argument1": 23.4375,
-                    "argument2": "minecraft:end/sloped_cheese"
+                    "argument1": -25,
+                    "argument2": {
+                      "type": "minecraft:mul",
+                      "argument1": {
+                        "type": "minecraft:y_clamped_gradient",
+                        "from_y": 56,
+                        "to_y": 312,
+                        "from_value": 1,
+                        "to_value": 0
+                      },
+                      "argument2": {
+                        "type": "minecraft:add",
+                        "argument1": 25,
+                        "argument2": "minecraft:end/sloped_cheese"
+                      }
+                    }
                   }
                 }
               }
@@ -128,25 +142,6 @@
       {
         "type": "minecraft:condition",
         "if_true": {
-          "type": "minecraft:vertical_gradient",
-          "random_name": "minecraft:deepslate",
-          "true_at_and_below": {
-            "absolute": 0
-          },
-          "false_at_and_above": {
-            "absolute": 8
-          }
-        },
-        "then_run": {
-          "type": "minecraft:block",
-          "result_state": {
-            "Name": "pokecube_legends:distortic_glowstone"
-          }
-        }
-      },
-      {
-        "type": "minecraft:condition",
-        "if_true": {
           "type": "minecraft:noise_threshold",
           "noise": "pokecube_legends:distortic_mirror",
           "min_threshold": -0.0125,
@@ -156,6 +151,25 @@
           "type": "minecraft:block",
           "result_state": {
             "Name": "pokecube_legends:distortic_mirror"
+          }
+        }
+      },
+      {
+        "type": "minecraft:condition",
+        "if_true": {
+          "type": "minecraft:vertical_gradient",
+          "random_name": "minecraft:deepslate",
+          "true_at_and_below": {
+            "absolute": 0
+          },
+          "false_at_and_above": {
+            "absolute": 16
+          }
+        },
+        "then_run": {
+          "type": "minecraft:block",
+          "result_state": {
+            "Name": "pokecube_legends:distortic_glowstone"
           }
         }
       },
