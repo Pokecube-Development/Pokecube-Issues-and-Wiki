@@ -224,6 +224,10 @@ public class PokecubeLegends
                 new FluidInteractionRegistry.InteractionInformation(FluidInit.DISTORTIC_WATER_TYPE.get(),
                         fluidState -> fluidState.isSource() ? Blocks.OBSIDIAN.defaultBlockState() : BlockInit.DISTORTIC_STONE.get().defaultBlockState()));
 
+        FluidInteractionRegistry.addInteraction(ForgeMod.WATER_TYPE.get(),
+                new FluidInteractionRegistry.InteractionInformation(FluidInit.DISTORTIC_WATER_TYPE.get(),
+                        fluidState -> fluidState.isSource() ? Blocks.PACKED_ICE.defaultBlockState() : Blocks.ICE.defaultBlockState()));
+
         FluidInteractionRegistry.addInteraction(FluidInit.DISTORTIC_WATER_TYPE.get(),
                 new FluidInteractionRegistry.InteractionInformation(
                         (level, currentPos, relativePos, currentState) ->
