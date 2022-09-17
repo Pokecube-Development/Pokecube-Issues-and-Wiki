@@ -224,6 +224,13 @@ public class PokecubeLegends
                 new FluidInteractionRegistry.InteractionInformation(FluidInit.DISTORTIC_WATER_TYPE.get(),
                         fluidState -> fluidState.isSource() ? Blocks.OBSIDIAN.defaultBlockState() : BlockInit.DISTORTIC_STONE.get().defaultBlockState()));
 
+        FluidInteractionRegistry.addInteraction(FluidInit.DISTORTIC_WATER_TYPE.get(),
+                new FluidInteractionRegistry.InteractionInformation(
+                        (level, currentPos, relativePos, currentState) ->
+                                !level.getFluidState(currentPos).isSource() && level.getBlockState(currentPos.below()).is(BlockInit.DISTORTIC_MIRROR.get())
+                                        && level.getBlockState(relativePos).is(BlockInit.DISTORTIC_GRASS_BLOCK.get()),
+                        BlockInit.CRACKED_DISTORTIC_STONE.get().defaultBlockState()));
+
         FluidInteractionRegistry.addInteraction(ForgeMod.WATER_TYPE.get(),
                 new FluidInteractionRegistry.InteractionInformation(
                         (level, currentPos, relativePos, currentState) ->
@@ -232,14 +239,6 @@ public class PokecubeLegends
                                                 level.getBlockState(currentPos.below()).is(BlockInit.CORRUPTED_COARSE_DIRT.get()))
                                         && level.getBlockState(relativePos).is(BlockInit.ULTRA_DARKSTONE.get()),
                         BlockInit.DUSK_DOLERITE.get().defaultBlockState()));
-
-        FluidInteractionRegistry.addInteraction(FluidInit.DISTORTIC_WATER_TYPE.get(),
-                new FluidInteractionRegistry.InteractionInformation(
-                        (level, currentPos, relativePos, currentState) ->
-                                !level.getFluidState(currentPos).isSource() && level.getBlockState(currentPos.below()).is(BlockInit.DISTORTIC_MIRROR.get())
-                                        && level.getBlockState(relativePos).is(BlockInit.DISTORTIC_GRASS_BLOCK.get()),
-                        BlockInit.CRACKED_DISTORTIC_STONE.get().defaultBlockState()
-        ));
     }
 
     @SubscribeEvent
