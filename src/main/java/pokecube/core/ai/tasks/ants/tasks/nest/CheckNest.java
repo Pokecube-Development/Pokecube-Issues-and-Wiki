@@ -85,7 +85,7 @@ public class CheckNest extends BaseIdleTask
                     final long n = pois.getCountInRange(PointsOfInterest.NEST, pos.pos(), 1, PoiManager.Occupancy.ANY);
                     clearHive = n == 0;
 
-                    if (clearHive && dist < 256 && this.nest != null)
+                    if (clearHive && dist < 256 && this.nest != null && this.world.isLoaded(pos.pos()))
                     {
                         // Lets remake the hive.
                         this.world.setBlockAndUpdate(pos.pos(), PokecubeItems.NEST.get().defaultBlockState());

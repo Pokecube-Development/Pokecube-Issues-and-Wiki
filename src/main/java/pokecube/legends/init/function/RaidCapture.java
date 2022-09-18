@@ -19,14 +19,26 @@ public class RaidCapture
         final ResourceLocation id = PokecubeItems.getCubeId(event.getFilledCube());
         final Entity catcher = event.pokecube.shootingEntity;
 
-        final boolean dynamaxCube = id.toString().equals("pokecube_legends:dyna");
+        final boolean dynamaxCube = id.toString().equals("pokecube:dynacube");
         final boolean raidMob = event.mob.getPersistentData().getBoolean("pokecube_legends:raid_mob");
 
+        System.out.println(dynamaxCube+" "+raidMob);
         // Catch Raids
-        if (raidMob) if (dynamaxCube)
+        if (raidMob)
         {
-            PokecubeAPI.LOGGER.debug("Life: " + event.mob.getHealth() + "Max Life: " + event.mob.getMaxHealth());
-            if (event.mob.getHealth() > event.mob.getMaxHealth() / 2)
+            if (dynamaxCube)
+            {
+                PokecubeAPI.LOGGER.debug("Life: " + event.mob.getHealth() + "Max Life: " + event.mob.getMaxHealth());
+                if (event.mob.getHealth() > event.mob.getMaxHealth() / 2)
+                {
+                    if (catcher instanceof Player player)
+                        thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
+                    event.setCanceled(true);
+                    event.setResult(Result.DENY);
+                    CaptureManager.onCaptureDenied(event.pokecube);
+                }
+            }
+            else
             {
                 if (catcher instanceof Player player)
                     thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
@@ -34,14 +46,6 @@ public class RaidCapture
                 event.setResult(Result.DENY);
                 CaptureManager.onCaptureDenied(event.pokecube);
             }
-        }
-        else
-        {
-            if (catcher instanceof Player player)
-                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
-            event.setCanceled(true);
-            event.setResult(Result.DENY);
-            CaptureManager.onCaptureDenied(event.pokecube);
         }
 
         // No Catch normal Pokemobs
@@ -60,7 +64,7 @@ public class RaidCapture
         final ResourceLocation id = PokecubeItems.getCubeId(event.getFilledCube());
 
         // Catch Raids
-        if (id.toString().equals("pokecube_legends:dyna"))
+        if (id.toString().equals("pokecube:dynacube"))
         {
             final IPokemob pokemob = event.getCaught();
             pokemob.setPokecube(PokecubeItems.getStack("pokecube"));

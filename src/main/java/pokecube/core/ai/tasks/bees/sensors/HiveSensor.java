@@ -91,6 +91,7 @@ public class HiveSensor extends Sensor<Mob>
 
     public static boolean doesHiveHaveSpace(final Mob entityIn, final BlockPos pos)
     {
+        if (!entityIn.level.isLoaded(pos)) return false;
         final BlockEntity tile = entityIn.getLevel().getBlockEntity(pos);
         if (tile != null) for (final IHiveSpaceCheck checker : HiveSensor.hiveSpaceCheckers)
             if (checker.canAddBee(entityIn, tile)) return true;
@@ -99,6 +100,7 @@ public class HiveSensor extends Sensor<Mob>
 
     public static boolean tryAddToBeeHive(final Mob entityIn, final BlockPos hive)
     {
+        if (!entityIn.level.isLoaded(hive)) return false;
         final BlockEntity tile = entityIn.getLevel().getBlockEntity(hive);
         if (tile != null)
             for (final IHiveEnterer checker : HiveSensor.hiveEnterers) if (checker.addBee(entityIn, tile)) return true;

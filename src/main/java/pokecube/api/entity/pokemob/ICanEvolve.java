@@ -185,7 +185,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             // change to new forme.
             final IPokemob evo = this.megaEvolve(((EvolveEvent.Pre) evt).forme);
             // Remove held item if it had one.
-            if (neededItem && stack == thisMob.getHeldItem()) evo.setHeldItem(ItemStack.EMPTY);
+            if (neededItem && ItemStack.isSame(stack, thisMob.getHeldItem())) evo.setHeldItem(ItemStack.EMPTY);
             // Init things like moves.
             evo.getMoveStats().oldLevel = data.level - 1;
             evo.levelUp(evo.getLevel());
@@ -229,7 +229,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             if (evo != null)
             {
                 // Clear held item if used for evolving.
-                if (neededItem) evo.setHeldItem(ItemStack.EMPTY);
+                if (neededItem && ItemStack.isSame(stack, thisMob.getHeldItem())) evo.setHeldItem(ItemStack.EMPTY);
+
                 evt = new EvolveEvent.Post(evo);
                 MinecraftForge.EVENT_BUS.post(evt);
                 // Lean any moves that should are supposed to have just

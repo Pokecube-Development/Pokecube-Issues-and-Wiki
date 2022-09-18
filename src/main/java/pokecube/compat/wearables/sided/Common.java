@@ -13,6 +13,10 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import thut.api.ModelHolder;
@@ -22,7 +26,9 @@ import thut.core.client.render.model.ModelFactory;
 import thut.wearables.EnumWearable;
 import thut.wearables.IActiveWearable;
 import thut.wearables.ThutWearables;
+import thut.wearables.events.WearableDroppedEvent;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class Common
 {
     public static class WearableMega implements thut.wearables.IActiveWearable, ICapabilityProvider
@@ -143,5 +149,12 @@ public class Common
             event.addCapability(Common.WEARABLESKEY, new WearableMega());
         else if (event.getObject().getItem() == PokecubeItems.POKEWATCH.get())
             event.addCapability(Common.WEARABLESKEY, new WearableWatch());
+    }
+
+    @SubscribeEvent
+    public static void onWearablesDrop(WearableDroppedEvent event)
+    {
+        IPokemob mob = PokemobCaps.getPokemobFor(event.getEntity());
+        if (mob != null && mob.getOwnerId() != null) event.setCanceled(true);
     }
 }

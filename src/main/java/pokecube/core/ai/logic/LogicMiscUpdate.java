@@ -386,8 +386,10 @@ public class LogicMiscUpdate extends LogicBase
         if (!this.initHome)
         {
             this.initHome = true;
+            homes:
             if (this.pokemob.getHome() != null)
             {
+                if (!world.isLoaded(this.pokemob.getHome())) break homes;
                 final BlockEntity te = world.getBlockEntity(this.pokemob.getHome());
                 if (te instanceof NestTile nest)
                 {

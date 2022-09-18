@@ -104,8 +104,9 @@ public class GenericBarrel extends BaseEntityBlock
     @Override
     public void tick(final BlockState state, final ServerLevel world, final BlockPos pos, final RandomSource random)
     {
+        if (!world.isLoaded(pos)) return;
         final BlockEntity tileentity = world.getBlockEntity(pos);
-        if (tileentity instanceof GenericBarrelTile) ((GenericBarrelTile) tileentity).recheckOpen();
+        if (tileentity instanceof GenericBarrelTile barrel) barrel.recheckOpen();
     }
 
     @Override
