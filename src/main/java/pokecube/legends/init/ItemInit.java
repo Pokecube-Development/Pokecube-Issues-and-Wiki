@@ -172,6 +172,7 @@ public class ItemInit
     public static final RegistryObject<Item> COSMIC_DUST;
     public static final RegistryObject<Item> FRACTAL_SHARD;
     public static final RegistryObject<Item> DISTORTIC_WATER_BUCKET;
+    public static final RegistryObject<Item> MOLTEN_METEORITE_BUCKET;
 
     // Giratina
     public static final RegistryObject<Item> GIRATINA_MIRROR;
@@ -472,6 +473,10 @@ public class ItemInit
         DISTORTIC_WATER_BUCKET = PokecubeLegends.ITEMS.register("distortic_water_bucket",
                 () -> new BucketItem(FluidInit.DISTORTIC_WATER, new Item.Properties().craftRemainder(Items.BUCKET)
                         .stacksTo(1).rarity(Rarity.RARE).tab(PokecubeLegends.TAB_DIMENSIONS)));
+
+        MOLTEN_METEORITE_BUCKET = PokecubeLegends.ITEMS.register("molten_meteorite_bucket",
+                () -> new BucketItem(FluidInit.MOLTEN_METEORITE, new Item.Properties().craftRemainder(Items.BUCKET)
+                        .stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
 
         // Decorations Creative Tab - Sorting depends on the order the items are
         // listed in

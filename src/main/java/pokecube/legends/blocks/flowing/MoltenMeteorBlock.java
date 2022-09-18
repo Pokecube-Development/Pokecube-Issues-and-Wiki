@@ -18,6 +18,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
+import pokecube.legends.init.FluidInit;
 import thut.api.block.flowing.FlowingBlock;
 import thut.api.block.flowing.MoltenBlock;
 import thut.api.block.flowing.SolidBlock;
@@ -68,7 +69,7 @@ public class MoltenMeteorBlock extends MoltenBlock
         if (isFalling(state)) return Fluids.EMPTY.defaultFluidState();
         int amt = this.getAmount(state);
         if (amt < 2) amt = 2;
-        return Fluids.FLOWING_LAVA.defaultFluidState().setValue(FlowingFluid.LEVEL, amt / 2);
+        return FluidInit.MOLTEN_METEORITE_FLOWING.get().defaultFluidState().setValue(FlowingFluid.LEVEL, amt / 2);
     }
     
     public static class FullMolten extends MoltenMeteorBlock
