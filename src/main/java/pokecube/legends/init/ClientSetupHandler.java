@@ -2,11 +2,14 @@ package pokecube.legends.init;
 
 import java.util.function.Predicate;
 
+import java.util.stream.Stream;
 import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.client.particle.LavaParticle;
 import net.minecraft.client.particle.SmokeParticle;
 import net.minecraft.client.particle.SoulParticle;
 import net.minecraft.client.particle.SuspendedTownParticle;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.CampfireRenderer;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,6 +18,7 @@ import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.Reference;
 import pokecube.legends.client.render.block.Raid;
 import pokecube.legends.client.render.entity.Wormhole;
@@ -29,6 +33,8 @@ public class ClientSetupHandler
     public static void setupClient(final FMLClientSetupEvent event)
     {
         event.enqueueWork(() -> {
+            Stream.of(FluidInit.DISTORTIC_WATER, FluidInit.DISTORTIC_WATER_FLOWING).map(RegistryObject::get)
+                    .forEach(fluid -> ItemBlockRenderTypes.setRenderLayer(fluid, RenderType.translucent()));
             // Shields
             ItemInit.addItemModelProperties();
         });
