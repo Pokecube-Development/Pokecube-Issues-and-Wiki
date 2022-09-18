@@ -16,12 +16,10 @@
       "groudon_temple"
     ]
   },
-  "biomes": "#pokecube_world:has_structure/groudon_temple",
+  "biomes": "#minecraft:is_nether",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "size": 2,
-  "spawn_blacklist": "beaches,oceans,rivers",
   "spawn_overrides": {},
-  "spawn_preset": "all",
   "start_pool": "pokecube_legends:temples/underground/groudon_temple",
   "step": "surface_structures",
   "structures_to_avoid": [

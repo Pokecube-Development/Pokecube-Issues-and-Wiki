@@ -776,12 +776,12 @@ public class ExpandedJigsawPacement
                     }
                     else
                     {
-                        PokecubeAPI.LOGGER.warn("Empty or non-existent fallback pool: {}", (Object) resourcelocation1);
+                        PokecubeAPI.LOGGER.warn("Empty or non-existent fallback pool: {} in {}", resourcelocation1, config.name);
                     }
                 }
                 else
                 {
-                    PokecubeAPI.LOGGER.warn("Empty or non-existent pool: {}", (Object) next_pool_name);
+                    PokecubeAPI.LOGGER.warn("Empty or non-existent pool: {} in {}", next_pool_name, config.name);
                 }
             }
 

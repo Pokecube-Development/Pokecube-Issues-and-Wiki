@@ -1,9 +1,13 @@
 {
-  "adapt_noise": true,
-  "biomes": "#pokecube_world:has_structure/village_dark_forest",
+  "biomes":{
+    "type":"forge:and",
+    "values":[
+      "#minecraft:is_forest",
+      "#forge:is_spooky"
+    ]
+  },
   "avoid_range": 6,
   "biome_type": "village",
-  "spawn_preset": "spooky_areas",
   "required_parts": [
     "pokecenter",
     "gym"

@@ -11,7 +11,12 @@
   ],
   "y_settings":{"max_dy": 5},
   "size": 2,
-  "biomes": "#pokecube_world:has_structure/ruins_surface",
+  "biomes":{
+    "type":"forge:and",
+    "values":[
+      "#minecraft:is_overworld"
+    ]
+  },
   "spawn_overrides": {},
   "step": "surface_structures",
   "project_start_to_heightmap": "OCEAN_FLOOR_WG"

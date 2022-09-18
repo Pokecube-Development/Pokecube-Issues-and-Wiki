@@ -2,7 +2,6 @@
   "type": "pokecube:generic_surface_jigsaw",
   "start_pool": "pokecube:village/plains/town_centers",
   "required_parts": ["gym", "gym_path", "pokecenter", "pokecenter_path"],
-  "spawn_blacklist": "snowy_areas",
   "biome_type": "village",
   "structures_to_avoid": [
     "minecraft:villages",
@@ -10,8 +9,16 @@
   ],
   "avoid_range": 6,
   "size": 7,
-  "biomes": "#pokecube_world:has_structure/village_plains",
-  "adapt_noise": true,
+  "biomes":{
+    "type":"forge:and",
+    "values":[
+      "#forge:is_plains",
+      {
+        "type":"forge:not",
+        "value":"#forge:is_snowy"
+      }
+    ]
+  },
   "spawn_overrides": {},
   "step": "surface_structures",
   "terrain_adaptation": "beard_thin",

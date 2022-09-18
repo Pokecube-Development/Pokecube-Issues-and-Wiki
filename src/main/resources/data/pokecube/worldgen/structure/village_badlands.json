@@ -1,6 +1,5 @@
 {
-  "adapt_noise": true,
-  "biomes": "#pokecube_world:has_structure/village_badlands",
+  "biomes": "#minecraft:is_badlands",
   "avoid_range": 6,
   "biome_type": "village",
   "required_parts": [

@@ -1,6 +1,5 @@
 {
-  "adapt_noise": true,
-  "biomes": "#pokecube_world:has_structure/village_sky",
+  "biomes": "#minecraft:is_forest",
   "avoid_range": 6,
   "biome_type": "village",
   "required_parts": [

@@ -1,11 +1,35 @@
 {
   "avoid_range": 6,
-  "biomes": "#pokecube_world:has_structure/raid_sandy",
+  "biomes":{
+    "type":"forge:and",
+    "values":[
+      {        
+	    "type":"forge:or",
+	     "values":[
+		    "#minecraft:is_beach",
+		    "#forge:is_sandy",
+		    "#minecraft:is_badlands",
+		    "#pokecube_world:is_ultraspace/is_badlands",
+		    "#pokecube_world:is_ultraspace/is_sandy",
+		    "#pokecube_world:is_ultraspace/is_sandy_beach"
+	    ]
+  	  },
+      {
+        "type":"forge:not",
+        "value":{
+          "type":"forge:or",
+          "values":[
+            "#minecraft:is_ocean",
+            "#minecraft:is_river",
+            "#minecraft:is_end"
+          ]
+        }
+      }
+    ]
+  },
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "size": 2,
-  "spawn_blacklist": "end_surface,oceans,rivers",
   "spawn_overrides": {},
-  "spawn_preset": "all",
   "start_pool": "pokecube_legends:temples/raids/raid_sandy",
   "step": "surface_structures",
   "structures_to_avoid": [

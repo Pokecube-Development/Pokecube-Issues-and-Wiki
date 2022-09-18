@@ -1,11 +1,25 @@
 {
   "avoid_range": 6,
-  "biomes": "#pokecube_world:has_structure/old_temporal_tree",
+  "biomes":{
+    "type":"forge:and",
+    "values":[
+      "#pokecube_world:is_ultraspace/is_temporal",
+      {
+        "type":"forge:not",
+        "value":{
+          "type":"forge:or",
+          "values":[
+            "#minecraft:is_beach",
+            "#minecraft:is_ocean",
+            "#minecraft:is_river"
+          ]
+        }
+      }
+    ]
+  },
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "size": 1,
-  "spawn_blacklist": "beaches,oceans,rivers",
   "spawn_overrides": {},
-  "spawn_preset": "all",
   "start_pool": "pokecube_legends:ultraspace/old_temporal_tree",
   "step": "surface_structures",
   "structures_to_avoid": [

@@ -1,6 +1,5 @@
 {
-  "adapt_noise": false,
-  "biomes": "#pokecube_world:has_structure/village_end",
+  "biomes": "#minecraft:is_end",
   "avoid_range": 6,
   "size": 5,
   "biome_type": "village",

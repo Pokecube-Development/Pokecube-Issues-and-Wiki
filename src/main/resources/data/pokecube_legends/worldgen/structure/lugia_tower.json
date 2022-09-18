@@ -16,12 +16,18 @@
       "lugia_tower"
     ]
   },
-  "biome_room": 5,
-  "biomes": "#pokecube_world:has_structure/lugia_tower",
+  "biome_room": 2,
+  "biomes":{
+    "type":"forge:or",
+     "values":[
+	    "#minecraft:is_beach",
+	    "#pokecube_world:is_ultraspace/is_beach",
+	    "minecraft:stony_shore"
+    ]
+  },
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "size": 2,
   "spawn_overrides": {},
-  "spawn_preset": "all",
   "start_pool": "pokecube_legends:temples/surface/lugia_tower",
   "step": "surface_structures",
   "structures_to_avoid": [

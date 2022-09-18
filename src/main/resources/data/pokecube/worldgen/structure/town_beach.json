@@ -1,6 +1,5 @@
 {
-  "adapt_noise": true,
-  "biomes": "#pokecube_world:has_structure/village_beach",
+  "biomes": "#minecraft:is_beach",
   "avoid_range": 6,
   "biome_type": "village",
   "y_settings":{"vertical_offset": -2},

@@ -202,13 +202,14 @@ public class WorldGenRarity
     @SubscribeEvent
     public static void onChat(final ServerChatEvent chat)
     {
+        if (chat instanceof ServerChatEvent.Preview) return;
         if (chat.getMessage().getString().startsWith("Start:Debug_Structures"))
         {
             LOG = new Logger();
         }
         if (chat.getMessage().getString().startsWith("Status:Debug_Structures") && LOG != null)
         {
-            PokecubeAPI.LOGGER.info("Structures Found within {}:", LOG.searcher._radius);
+            PokecubeAPI.LOGGER.info("Structures Found within {}:", LOG.searcher._radius * 12 * 16);
             Set<ResourceLocation> found = Sets.newHashSet();
             for (var entry : LOG.entries)
             {

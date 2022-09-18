@@ -21,7 +21,29 @@
     ]
   },
   "biome_type": "industrial",
-  "biomes": "#pokecube_world:has_structure/team_magma",
+  "biomes":{
+    "type":"forge:and",
+    "values":[
+      {        
+	    "type":"forge:or",
+	     "values":[
+		    "#forge:is_sandy",
+		    "#minecraft:is_badlands"
+	    ]
+  	  },
+      {
+        "type":"forge:not",
+        "value":{
+          "type":"forge:or",
+          "values":[
+            "#minecraft:is_beach",
+            "#minecraft:is_ocean",
+            "#minecraft:is_river"
+          ]
+        }
+      }
+    ]
+  },
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "required_parts": [
     "boss",
@@ -29,9 +51,7 @@
     "secret"
   ],
   "size": 12,
-  "spawn_blacklist": "oceans,beaches,rivers",
   "spawn_overrides": {},
-  "spawn_preset": "all",
   "start_pool": "pokecube_legends:team_bases/team_magma",
   "step": "surface_structures",
   "structures_to_avoid": [
