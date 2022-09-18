@@ -326,7 +326,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
         }
 
         final Vector3 target = new Vector3();
-        if (this.targetEntity != null) target.set(this.targetEntity);
+        if (this.targetEntity != null) target.set(this.targetEntity, true);
         else target.set(this.targetLocation);
         if (!target.isEmpty() && this.seeking)
         {

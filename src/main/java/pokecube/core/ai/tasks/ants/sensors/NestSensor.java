@@ -49,6 +49,7 @@ public class NestSensor extends Sensor<Mob>
             final GlobalPos pos = pos_opt.get();
             final boolean notHere = pos.dimension() != world.dimension();
             if (notHere) return Optional.empty();
+            if (!world.isLoaded(pos.pos())) return Optional.empty();
             final BlockEntity tile = world.getBlockEntity(pos.pos());
             if (tile instanceof NestTile nest)
             {
@@ -88,6 +89,7 @@ public class NestSensor extends Sensor<Mob>
 
     private boolean validNest(final BlockPos p, final ServerLevel worldIn, final Mob entityIn)
     {
+        if (!entityIn.level.isLoaded(p)) return false;
         final BlockEntity tile = worldIn.getBlockEntity(p);
         if (!(tile instanceof NestTile nest)) return false;
         return nest.isType(AntTasks.NESTLOC);

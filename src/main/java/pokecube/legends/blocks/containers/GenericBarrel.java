@@ -36,13 +36,13 @@ import pokecube.legends.tileentity.GenericBarrelTile;
 public class GenericBarrel extends BaseEntityBlock
 {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
-    public static final BooleanProperty   OPEN   = BlockStateProperties.OPEN;
+    public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 
     public GenericBarrel(final Properties props)
     {
         super(props);
-        this.registerDefaultState(this.stateDefinition.any().setValue(GenericBarrel.FACING, Direction.NORTH).setValue(
-                GenericBarrel.OPEN, Boolean.valueOf(false)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(GenericBarrel.FACING, Direction.NORTH)
+                .setValue(GenericBarrel.OPEN, Boolean.valueOf(false)));
     }
 
     @Override
@@ -58,8 +58,8 @@ public class GenericBarrel extends BaseEntityBlock
         if (stack.hasCustomHoverName())
         {
             final BlockEntity tileentity = world.getBlockEntity(pos);
-            if (tileentity instanceof GenericBarrelTile) ((GenericBarrelTile) tileentity).setCustomName(stack
-                    .getHoverName());
+            if (tileentity instanceof GenericBarrelTile)
+                ((GenericBarrelTile) tileentity).setCustomName(stack.getHoverName());
         }
     }
 
@@ -70,8 +70,8 @@ public class GenericBarrel extends BaseEntityBlock
     }
 
     @Override
-    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos,
-            final Player player, final InteractionHand hand, final BlockHitResult blockRayTraceResult)
+    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player player,
+            final InteractionHand hand, final BlockHitResult blockRayTraceResult)
     {
         if (world.isClientSide) return InteractionResult.SUCCESS;
         else
@@ -107,8 +107,9 @@ public class GenericBarrel extends BaseEntityBlock
     @Override
     public void tick(final BlockState state, final ServerLevel world, final BlockPos pos, final Random random)
     {
+        if (!world.isLoaded(pos)) return;
         final BlockEntity tileentity = world.getBlockEntity(pos);
-        if (tileentity instanceof GenericBarrelTile) ((GenericBarrelTile) tileentity).recheckOpen();
+        if (tileentity instanceof GenericBarrelTile barrel) barrel.recheckOpen();
     }
 
     @Override
@@ -121,8 +122,8 @@ public class GenericBarrel extends BaseEntityBlock
     @Override
     public BlockState getStateForPlacement(final BlockPlaceContext blockItemUseContext)
     {
-        return this.defaultBlockState().setValue(GenericBarrel.FACING, blockItemUseContext.getNearestLookingDirection()
-                .getOpposite());
+        return this.defaultBlockState().setValue(GenericBarrel.FACING,
+                blockItemUseContext.getNearestLookingDirection().getOpposite());
     }
 
     @Override

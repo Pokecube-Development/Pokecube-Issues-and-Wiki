@@ -290,11 +290,13 @@ public class ItemPokemobEgg extends Item
         }
         final EggEvent.Hatch evt = new EggEvent.Hatch(egg);
         PokecubeAPI.POKEMOB_BUS.post(evt);
+        nests:
         if (nbt.contains("nestLoc"))
         {
             final BlockPos pos = NbtUtils.readBlockPos(nbt.getCompound("nestLoc"));
+            if (!world.isLoaded(pos)) break nests;
             final BlockEntity tile = world.getBlockEntity(pos);
-            if (tile instanceof NestTile) ((NestTile) tile).addResident(mob);
+            if (tile instanceof NestTile nest) nest.addResident(mob);
             mob.setGeneralState(GeneralStates.EXITINGCUBE, false);
         }
         entity.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
