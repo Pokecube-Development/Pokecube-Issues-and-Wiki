@@ -971,7 +971,7 @@ public class BlockInit
         METEORITE_BLOCK = regs[1];
 
         block_props = layer_props = BlockBehaviour.Properties.of(Material.LAVA, MaterialColor.COLOR_RED).strength(2.0F).noOcclusion()
-                .randomTicks().requiresCorrectToolForDrops().lightLevel(s -> 15);
+                .randomTicks().requiresCorrectToolForDrops().lightLevel(s -> 10);
 
         ResourceLocation solid_layer = new ResourceLocation(Reference.ID, "meteorite_layer");
         ResourceLocation solid_block = new ResourceLocation(Reference.ID, "meteorite_block");
