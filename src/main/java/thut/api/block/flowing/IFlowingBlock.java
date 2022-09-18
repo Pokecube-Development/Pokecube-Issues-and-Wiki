@@ -166,7 +166,8 @@ public interface IFlowingBlock
 
         if (!this.canReplace(b))
         {
-            boolean shouldBeFalling = !level.getFluidState(belowPos).isEmpty();
+            int dustBelow = getAmount(b);
+            boolean shouldBeFalling = !level.getFluidState(belowPos).isEmpty() || (dustBelow < 16 && dustBelow > 0);
             if (shouldBeFalling && !falling)
             {
                 BlockState fall = makeFalling(state, true);
@@ -174,14 +175,15 @@ public interface IFlowingBlock
                 {
                     level.setBlock(pos, state = fall, 2);
                     level.scheduleTick(pos.immutable(), thisBlock(), getFallRate());
+                    return state;
                 }
             }
             else if (!shouldBeFalling && falling)
             {
                 BlockState fall = makeFalling(state, false);
                 if (fall != state) level.setBlock(pos, state = fall, 2);
+                return state;
             }
-            return state;
         }
 
         if (falling || !state.hasProperty(FALLING))
