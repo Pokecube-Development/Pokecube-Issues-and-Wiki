@@ -9,7 +9,6 @@ import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.fluids.DistorticWaterType;
-import pokecube.legends.fluids.MeteoriteFlowingFluid;
 import pokecube.legends.fluids.MoltenMeteoriteType;
 
 public class FluidInit
@@ -20,7 +19,6 @@ public class FluidInit
 
     public static RegistryObject<FlowingFluid> MOLTEN_METEORITE;
     public static RegistryObject<FlowingFluid> MOLTEN_METEORITE_FLOWING;
-    public static RegistryObject<LiquidBlock> MOLTEN_METEORITE_BLOCK;
 
     static
     {
@@ -38,11 +36,7 @@ public class FluidInit
                 new ForgeFlowingFluid.Source(MoltenMeteoriteType.makeProperties()));
 
         MOLTEN_METEORITE_FLOWING = PokecubeLegends.FLUIDS.register("molten_meteorite_flowing", () ->
-                new MeteoriteFlowingFluid(MoltenMeteoriteType.makeProperties()));
-
-        MOLTEN_METEORITE_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("molten_meteorite_block", () ->
-                new LiquidBlock(MOLTEN_METEORITE, BlockBehaviour.Properties.of(Material.LAVA, MaterialColor.COLOR_RED)
-                        .noCollission().randomTicks().strength(100.0F).lightLevel(l -> 10).noLootTable()));
+                new ForgeFlowingFluid.Flowing(MoltenMeteoriteType.makeProperties()));
     }
 
     public static void init()

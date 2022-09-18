@@ -1,26 +1,12 @@
 package pokecube.legends.fluids;
 
-import com.google.common.collect.ImmutableMap;
 import java.util.function.Consumer;
 import javax.annotation.Nullable;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.level.GameRules;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.LavaFluid;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
@@ -28,11 +14,8 @@ import net.minecraftforge.common.SoundActions;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.RegistryObject;
-import pokecube.api.PokecubeAPI;
-import pokecube.core.items.pokecubes.Pokecube;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.FluidInit;
-import pokecube.legends.init.ItemInit;
 
 public class MoltenMeteoriteType extends FluidType
 {
@@ -42,32 +25,12 @@ public class MoltenMeteoriteType extends FluidType
 
     public MoltenMeteoriteType(Properties properties) {
         super(properties);
-
-        this.initClient();
     }
 
     public static ForgeFlowingFluid.Properties makeProperties()
     {
         return new ForgeFlowingFluid.Properties(MOLTEN_METEORITE_TYPE, FluidInit.MOLTEN_METEORITE,
-                FluidInit.MOLTEN_METEORITE_FLOWING).bucket(ItemInit.MOLTEN_METEORITE_BUCKET)
-                .block(FluidInit.MOLTEN_METEORITE_BLOCK);
-    }
-
-
-    private Object renderProperties;
-
-    private void initClient()
-    {
-        // Minecraft instance isn't available in datagen, so don't call initializeClient if in datagen
-        if (net.minecraftforge.fml.loading.FMLEnvironment.dist == net.minecraftforge.api.distmarker.Dist.CLIENT && !net.minecraftforge.fml.loading.FMLLoader.getLaunchHandler().isData())
-        {
-            initializeClient(properties ->
-            {
-                if (properties == this)
-                    throw new IllegalStateException("Don't extend IFluidTypeRenderProperties in your fluid type, use an anonymous class instead.");
-                this.renderProperties = properties;
-            });
-        }
+                FluidInit.MOLTEN_METEORITE_FLOWING);
     }
 
     public static final RegistryObject<FluidType> MOLTEN_METEORITE_TYPE = PokecubeLegends.FLUID_TYPES.register("molten_meteorite", () ->

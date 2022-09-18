@@ -216,7 +216,6 @@ public class PokecubeLegends
             SpawnHandler.DUST_GETTER = () -> BlockInit.ASH.get().defaultBlockState().setValue(FlowingBlock.LAYERS, 5);
 
             DispenserBlock.registerBehavior(ItemInit.DISTORTIC_WATER_BUCKET.get(), DispenseFluidContainer.getInstance());
-            DispenserBlock.registerBehavior(ItemInit.MOLTEN_METEORITE_BUCKET.get(), DispenseFluidContainer.getInstance());
         });
     }
 
@@ -246,14 +245,6 @@ public class PokecubeLegends
                                                 level.getBlockState(currentPos.below()).is(BlockInit.CORRUPTED_COARSE_DIRT.get()))
                                         && level.getBlockState(relativePos).is(BlockInit.ULTRA_DARKSTONE.get()),
                         BlockInit.DUSK_DOLERITE.get().defaultBlockState()));
-
-        FluidInteractionRegistry.addInteraction(MoltenMeteoriteType.MOLTEN_METEORITE_TYPE.get(),
-                new FluidInteractionRegistry.InteractionInformation(DistorticWaterType.DISTORTIC_WATER_TYPE.get(),
-                        fluidState -> fluidState.isSource() ? BlockInit.METEORITE_BLOCK.get().defaultBlockState() : BlockInit.ULTRA_COBBLESTONE.get().defaultBlockState()));
-
-        FluidInteractionRegistry.addInteraction(MoltenMeteoriteType.MOLTEN_METEORITE_TYPE.get(),
-                new FluidInteractionRegistry.InteractionInformation(ForgeMod.WATER_TYPE.get(),
-                        fluidState -> fluidState.isSource() ? BlockInit.METEORITE_BLOCK.get().defaultBlockState() : BlockInit.ULTRA_DARK_COBBLESTONE.get().defaultBlockState()));
     }
 
     @SubscribeEvent
