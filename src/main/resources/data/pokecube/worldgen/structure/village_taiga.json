@@ -1,6 +1,5 @@
 {
-  "adapt_noise": true,
-  "biomes": "#pokecube_world:has_structure/village_taiga",
+  "biomes": "#minecraft:is_taiga",
   "avoid_range": 6,
   "biome_type": "village",
   "required_parts": [

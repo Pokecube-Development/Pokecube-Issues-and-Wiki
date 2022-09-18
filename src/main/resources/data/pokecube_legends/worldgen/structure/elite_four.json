@@ -16,12 +16,27 @@
       "elite_four"
     ]
   },
-  "biomes": "#pokecube_world:has_structure/elite_four",
+  "biomes":{
+    "type":"forge:and",
+    "values":[
+      "#minecraft:is_overworld",
+      {
+        "type":"forge:not",
+        "value":{
+          "type":"forge:or",
+          "values":[
+            "#minecraft:is_beach",
+            "#minecraft:is_ocean",
+            "#minecraft:is_river",
+            "#forge:is_mushroom"
+          ]
+        }
+      }
+    ]
+  },
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "size": 2,
-  "spawn_blacklist": "oceans,beaches,rivers",
   "spawn_overrides": {},
-  "spawn_preset": "all_overworld",
   "start_pool": "pokecube_legends:temples/surface/elite_four",
   "step": "surface_structures",
   "structures_to_avoid": [

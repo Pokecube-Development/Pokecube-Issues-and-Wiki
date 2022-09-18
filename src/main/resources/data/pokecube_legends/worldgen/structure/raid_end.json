@@ -1,11 +1,9 @@
 {
   "avoid_range": 6,
-  "biomes": "#pokecube_world:has_structure/raid_end",
+  "biomes": "#minecraft:is_end",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "size": 2,
-  "spawn_blacklist": "beaches,oceans,rivers",
   "spawn_overrides": {},
-  "spawn_preset": "end_surface",
   "start_pool": "pokecube_legends:temples/raids/raid_end",
   "step": "surface_structures",
   "structures_to_avoid": [

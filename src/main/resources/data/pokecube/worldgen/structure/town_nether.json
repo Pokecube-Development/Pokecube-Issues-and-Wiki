@@ -1,6 +1,5 @@
 {
-  "adapt_noise": true,
-  "biomes": "#pokecube_world:has_structure/village_nether",
+  "biomes": "#minecraft:is_nether",
   "avoid_range": 6,
   "size": 10,
   "start_pool": "pokecube:village/nether/nether",
@@ -8,8 +7,8 @@
   "structures_to_avoid": [],
   "spawn_overrides": {},
   "type": "pokecube:generic_surface_jigsaw",
-  "step": "surface_structures",
-  "terrain_adaptation": "beard_thin",
+  "step": "underground_structures",
+  "terrain_adaptation": "beard_box",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "use_expansion_hack": true
 }

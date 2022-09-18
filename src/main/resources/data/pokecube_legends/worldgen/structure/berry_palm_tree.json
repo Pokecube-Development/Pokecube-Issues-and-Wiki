@@ -1,12 +1,32 @@
 {
   "avoid_range": 6,
   "biome_room": 5,
-  "biomes": "#pokecube_world:has_structure/berry_palm_tree",
+  "biomes":{
+    "type":"forge:and",
+    "values":[
+      {        
+	    "type":"forge:or",
+	     "values":[
+	        "pokecube_legends:burnt_beach",
+	        "pokecube_legends:crystallized_beach"
+	    ]
+  	  },
+      {
+        "type":"forge:not",
+        "value":{
+          "type":"forge:or",
+          "values":[
+            "#forge:is_snowy",
+            "#minecraft:is_ocean",
+            "#minecraft:is_river"
+          ]
+        }
+      }
+    ]
+  },
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "size": 1,
-  "spawn_blacklist": "oceans,rivers,snowy_areas",
   "spawn_overrides": {},
-  "spawn_preset": "all",
   "start_pool": "pokecube_legends:ultraspace/berry_palm_tree",
   "step": "surface_structures",
   "terrain_adaptation": "beard_thin",

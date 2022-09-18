@@ -1,10 +1,9 @@
 {
   "avoid_range": 6,
-  "biomes": "#pokecube_world:has_structure/tall_mirage_hut",
+  "biomes": "#pokecube_world:is_ultraspace/is_desert",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "size": 1,
   "spawn_overrides": {},
-  "spawn_preset": "all",
   "start_pool": "pokecube_legends:ultraspace/tall_mirage_hut",
   "step": "surface_structures",
   "structures_to_avoid": [

@@ -1,6 +1,5 @@
 {
-  "adapt_noise": true,
-  "biomes": "#pokecube_world:has_structure/village_savanna",
+  "biomes": "#minecraft:is_savanna",
   "avoid_range": 6,
   "biome_type": "village",
   "required_parts": [

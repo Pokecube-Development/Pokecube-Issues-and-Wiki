@@ -1,12 +1,34 @@
 {
   "avoid_range": 6,
   "biome_type": "ruins",
-  "biomes": "#pokecube_world:has_structure/ruined_city",
+  "biomes":{
+    "type":"forge:and",
+    "values":[
+      {        
+	    "type":"forge:or",
+	     "values":[
+		    "#pokecube_world:is_ultraspace/is_barrens",
+		    "pokecube_legends:blinding_deltas",
+		    "pokecube_legends:dried_blinding_deltas",
+		    "pokecube_legends:magmatic_blinding_deltas"
+	    ]
+  	  },
+      {
+        "type":"forge:not",
+        "value":{
+          "type":"forge:or",
+          "values":[
+            "#minecraft:is_beach",
+            "#minecraft:is_ocean",
+            "#minecraft:is_river"
+          ]
+        }
+      }
+    ]
+  },
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "size": 3,
-  "spawn_blacklist": "oceans,beaches,rivers",
   "spawn_overrides": {},
-  "spawn_preset": "all",
   "start_pool": "pokecube_legends:ultraspace/ruined_city/town_centers",
   "step": "surface_structures",
   "structures_to_avoid": [

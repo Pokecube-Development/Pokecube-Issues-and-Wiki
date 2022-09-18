@@ -1,6 +1,5 @@
 {
-  "adapt_noise": false,
-  "biomes": "#pokecube_world:has_structure/village_high_sky",
+  "biomes": "#minecraft:is_overworld",
   "avoid_range": 6,
   "biome_type": "industrial",
   "y_settings":{"vertical_offset": 70, "max_y": 100, "dy_offset": 120, "surface_type":"air"},

@@ -11,12 +11,12 @@
       "unown_temple"
     ]
   },
-  "biomes": "#pokecube_world:has_structure/unown_temple_overworld",
+  "biomes": "#minecraft:is_overworld",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "size": 8,
   "spawn_overrides": {},
   "start_pool": "pokecube_legends:temples/surface/unown_temple",
-  "step": "surface_structures",
+  "step": "underground_structures",
   "structures_to_avoid": [
     "pokecube:towns",
     "pokecube:villages"

@@ -220,29 +220,17 @@ public class GenericJigsawStructure extends Structure
 
         if (!_spawn_blacklist.isBlank())
         {
-            String[] opts = _spawn_blacklist.split(",");
-            for (String s : opts) _banned.add(SpawnBiomeMatcher.get(s));
+            PokecubeAPI.LOGGER.warn("Warning, spawn blacklist is not used anymore! Use Holdersets instead! {}",
+                    start_pool.get().getName());
         }
         if (!_spawn_preset.isBlank())
         {
-            String[] opts = _spawn_preset.split(",");
-            for (String s : opts) _needed.add(SpawnBiomeMatcher.get(s));
+            PokecubeAPI.LOGGER.warn("Warning, spawn preset is not used anymore! Use Holdersets instead! {}",
+                    start_pool.get().getName());
         }
 
         this.underground = "underground".equals(y_settings.surface_type);
         this.air = "air".equals(y_settings.surface_type);
-    }
-
-    private boolean hasValidator()
-    {
-        return !_needed.isEmpty() || !_banned.isEmpty();
-    }
-
-    private boolean isValid(Holder<Biome> holder)
-    {
-        for (SpawnBiomeMatcher m : _needed) if (!m.checkBiome(holder)) return false;
-        for (SpawnBiomeMatcher m : _banned) if (m.checkBiome(holder)) return false;
-        return true;
     }
 
     private boolean tooClose(GenerationContext context)
@@ -307,17 +295,13 @@ public class GenericJigsawStructure extends Structure
         }
 
         // Check if we have enough biome room around us.
-        if (this.biome_room > 0 || this.hasValidator())
+        if (this.biome_room > 0)
         {
             BlockPos p = pos.getMiddleBlockPosition(0);
             int y = generator.getBaseHeight(p.getX(), p.getZ(), this.height_type, context.heightAccessor(), rng);
             Set<Holder<Biome>> biome_set = biomes.getBiomesWithin(p.getX(), y, p.getZ(), this.biome_room,
                     rng.sampler());
-            for (var holder : biome_set)
-            {
-                if (!context.validBiome().test(holder)) return false;
-                if (!this.isValid(holder)) return false;
-            }
+            for (var holder : biome_set) if (!context.validBiome().test(holder)) return false;
         }
 
         // Check the settings for max slope and other height bounds

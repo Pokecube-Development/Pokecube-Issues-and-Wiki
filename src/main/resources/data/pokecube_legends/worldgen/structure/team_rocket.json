@@ -27,10 +27,25 @@
     "entrance",
     "boss"
   ],
+  "biomes":{
+    "type":"forge:and",
+    "values":[
+      "#forge:is_plains",
+      {
+        "type":"forge:not",
+        "value":{
+          "type":"forge:or",
+          "values":[
+            "#minecraft:is_beach",
+            "#minecraft:is_ocean",
+            "#minecraft:is_river"
+          ]
+        }
+      }
+    ]
+  },
   "size": 12,
-  "spawn_blacklist": "oceans,beaches,rivers",
   "spawn_overrides": {},
-  "spawn_preset": "all",
   "start_pool": "pokecube_legends:team_bases/team_rocket",
   "step": "surface_structures",
   "structures_to_avoid": [

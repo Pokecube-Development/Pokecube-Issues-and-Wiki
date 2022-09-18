@@ -28,9 +28,14 @@
     "entrance"
   ],
   "size": 12,
-  "spawn_blacklist": "oceans,rivers",
+  "biomes":{
+    "type":"forge:or",
+     "values":[
+	    "#forge:is_swamp",
+	    "#minecraft:is_beach"
+    ]
+  },
   "spawn_overrides": {},
-  "spawn_preset": "all",
   "start_pool": "pokecube_legends:team_bases/team_aqua",
   "step": "surface_structures",
   "structures_to_avoid": [

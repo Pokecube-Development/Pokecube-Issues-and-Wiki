@@ -1,5 +1,5 @@
 {
-  "biomes": "#pokecube_world:has_structure/village_jungle",
+  "biomes": "#minecraft:is_jungle",
   "avoid_range": 6,
   "biome_type": "village",
   "y_settings":{"vertical_offset": -2, "y_check_radius":2, "max_dy": 5},

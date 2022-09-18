@@ -1,9 +1,16 @@
 {
-  "adapt_noise": true,
-  "biomes": "#pokecube_world:has_structure/village_desert",
+  "biomes":{
+    "type":"forge:and",
+    "values":[
+      "#forge:is_sandy",
+      {
+        "type":"forge:not",
+        "value":"#minecraft:is_badlands"
+      }
+    ]
+  },
   "avoid_range": 6,
   "biome_type": "village",
-  "spawn_blacklist": "badlands",
   "required_parts": [
     "pokecenter"
   ],

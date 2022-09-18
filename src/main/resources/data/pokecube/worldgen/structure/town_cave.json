@@ -1,6 +1,5 @@
 {
-  "adapt_noise": true,
-  "biomes": "#pokecube_world:has_structure/village_cave",
+  "biomes": "#minecraft:is_overworld",
   "avoid_range": 6,
   "biome_type": "industrial",
   "required_parts": [

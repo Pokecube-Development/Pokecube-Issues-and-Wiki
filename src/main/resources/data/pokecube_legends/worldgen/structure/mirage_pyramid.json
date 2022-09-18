@@ -11,11 +11,10 @@
       "mirage_pyramid"
     ]
   },
-  "biomes": "#pokecube_world:has_structure/mirage_pyramid",
+  "biomes": "#pokecube_world:is_ultraspace/is_desert",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "size": 1,
   "spawn_overrides": {},
-  "spawn_preset": "all",
   "start_pool": "pokecube_legends:ultraspace/mirage_pyramid",
   "step": "surface_structures",
   "structures_to_avoid": [
