@@ -362,12 +362,15 @@ public class PokedexEntryLoader
 
     public static class SpawnRule
     {
+        public String preset = "";
         public String and_preset = "";
         public String not_preset = "";
         public String or_preset = "";
         public Map<String, String> values = Maps.newHashMap();
 
         public DefaultFormeHolder model = null;
+
+        public JsonObject biomes = null;
 
         private String __cache__ = null;
 
@@ -389,6 +392,17 @@ public class PokedexEntryLoader
         {
             if (this.model != null) return this.model.getForme(baseEntry);
             return null;
+        }
+
+        public boolean isValid()
+        {
+            if (!this.preset.isBlank()) this.values.put(SpawnBiomeMatcher.PRESET, this.preset);
+            if (!this.and_preset.isBlank()) this.values.put(SpawnBiomeMatcher.ANDPRESET, this.and_preset);
+            if (!this.or_preset.isBlank()) this.values.put(SpawnBiomeMatcher.ORPRESET, this.or_preset);
+            if (!this.not_preset.isBlank()) this.values.put(SpawnBiomeMatcher.NOTPRESET, this.not_preset);
+            for (String s : Lists.newArrayList(this.values.keySet()))
+                if (this.values.get(s).isBlank()) this.values.remove(s);
+            return !this.values.isEmpty() || this.biomes != null;
         }
 
         public SpawnRule copy()

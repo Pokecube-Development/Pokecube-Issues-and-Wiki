@@ -9,11 +9,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
@@ -189,6 +189,8 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
     public Set<TagKey<Biome>> _validBiomes = Sets.newHashSet();
     public Set<TagKey<Biome>> _blackListBiomes = Sets.newHashSet();
 
+    public HolderSet<Biome> _biomeHolderset = null;
+
     public Set<String> _validStructures = Sets.newHashSet();
     public Set<BiomeType> _validSubBiomes = Sets.newHashSet();
     public Set<BiomeType> _blackListSubBiomes = Sets.newHashSet();
@@ -248,16 +250,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
     private SpawnBiomeMatcher(final SpawnRule rules)
     {
         this.spawnRule = rules;
-
-        if (!rules.and_preset.isBlank()) rules.values.put(ANDPRESET, rules.and_preset);
-        if (!rules.or_preset.isBlank()) rules.values.put(ORPRESET, rules.or_preset);
-        if (!rules.not_preset.isBlank()) rules.values.put(NOTPRESET, rules.not_preset);
-
-        for (String s : Lists.newArrayList(rules.values.keySet()))
-            if (rules.values.get(s).isBlank()) rules.values.remove(s);
-
-        if (this.spawnRule.values.isEmpty())
-            PokecubeAPI.LOGGER.error("No rules found!", new IllegalArgumentException());
+        if (!this.spawnRule.isValid()) PokecubeAPI.LOGGER.error("No rules found!", new IllegalArgumentException());
     }
 
     public SpawnBiomeMatcher setClient()
@@ -318,6 +311,10 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         if (this.getInvalidBiomes().stream().anyMatch(biome::is)) return false;
         if (this.getValidBiomes().stream().anyMatch(biome::is)) return true;
         if (SpawnBiomeMatcher.SOFTBLACKLIST.stream().anyMatch(biome::is)) return false;
+
+        // Next check our holderset if we have one
+        if (_biomeHolderset != null) return _biomeHolderset.contains(biome);
+
         // Otherwise, only return true if we have no valid biomes otherwise!
         return this.getValidBiomes().isEmpty();
     }
@@ -751,6 +748,11 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         };
         MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Init(this));
 
+        if (spawnRule.biomes != null)
+        {
+            PokecubeAPI.LOGGER.warn("Warning, holdersets are not yet implemented here!");
+        }
+
         for (final SpawnBiomeMatcher child : this._and_children) child.parse();
         for (final SpawnBiomeMatcher child : this._or_children) child.parse();
         for (final SpawnBiomeMatcher child : this._not_children) child.parse();
@@ -816,7 +818,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         }
 
         this.preParseSubBiomes(spawnRule);
-        boolean hasBasicSettings = this.parseBasic(spawnRule);
+        boolean hasBasicSettings = this.parseBasic(spawnRule) || this._biomeHolderset != null;
         initRawLists();
 
         //@formatter:off
@@ -901,6 +903,8 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         dawn = true;
         air = true;
         water = false;
+
+        this._biomeHolderset = null;
 
         _validTerrain = ALL_TERRAIN;
     }
