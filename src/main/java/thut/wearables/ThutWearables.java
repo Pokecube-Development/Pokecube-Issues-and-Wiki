@@ -242,9 +242,9 @@ public class ThutWearables
             final ItemStack stack = cap.getStackInSlot(i);
             if (!stack.isEmpty())
             {
-                EnumWearable.takeOff(mob, stack, i);
                 final WearableDroppedEvent dropEvent = new WearableDroppedEvent(event, stack, i);
                 if (MinecraftForge.EVENT_BUS.post(dropEvent)) continue;
+                EnumWearable.takeOff(mob, stack, i);
                 final double d0 = mob.getY() - 0.3D + mob.getEyeHeight();
                 final ItemEntity drop = new ItemEntity(mob.getLevel(), mob.getX(), d0, mob.getZ(), stack);
                 final float f = mob.getRandom().nextFloat() * 0.5F;
