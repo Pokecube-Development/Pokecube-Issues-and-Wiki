@@ -104,8 +104,8 @@
     },
     {
       "values": {
-        "preset": "is_ultraspace,all",
-        "types": "#pokecube_legends:can_spawn/is_ultraspace",
+        "preset": "is_ultraspace",
+        "types": "#pokecube_legends:can_spawn/is_ultraspace,all",
         "air": "true",
         "water": "true"
       }
