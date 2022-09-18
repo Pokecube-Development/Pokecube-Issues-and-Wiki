@@ -191,7 +191,9 @@ public abstract class FlowingBlock extends Block implements IFlowingBlock
             LevelAccessor levelaccessor = context.getLevel();
             BlockPos blockpos = context.getClickedPos();
             boolean flag = levelaccessor.getFluidState(blockpos).getType() == Fluids.WATER;
-            return super.getStateForPlacement(context).setValue(WATERLOGGED, Boolean.valueOf(flag));
+            BlockState state = super.getStateForPlacement(context);
+            if (state.hasProperty(WATERLOGGED)) state = state.setValue(WATERLOGGED, Boolean.valueOf(flag));
+            return state;
         }
     }
 
