@@ -11,6 +11,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.material.FlowingFluid;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.DeferredRegister;
@@ -57,6 +60,15 @@ public class MoltenMeteorBlock extends MoltenBlock
     protected void onHarden(BlockState state, BlockState solidTo, ServerLevel level, BlockPos pos, RandomSource random)
     {
         super.onHarden(state, solidTo, level, pos, random);
+    }
+
+    @Override
+    public FluidState getFluidState(BlockState state)
+    {
+        if (isFalling(state)) return Fluids.EMPTY.defaultFluidState();
+        int amt = this.getAmount(state);
+        if (amt < 2) amt = 2;
+        return Fluids.FLOWING_LAVA.defaultFluidState().setValue(FlowingFluid.LEVEL, amt / 2);
     }
     
     public static class FullMolten extends MoltenMeteorBlock
