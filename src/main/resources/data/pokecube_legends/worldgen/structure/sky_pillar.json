@@ -16,7 +16,7 @@
       "sky_pillar"
     ]
   },
-  "biome_room": 2,
+  "biome_room": 1,
   "biomes":{
     "type":"forge:or",
      "values":[

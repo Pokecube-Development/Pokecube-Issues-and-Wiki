@@ -16,7 +16,7 @@
       "lugia_tower"
     ]
   },
-  "biome_room": 2,
+  "biome_room": 1,
   "biomes":{
     "type":"forge:or",
      "values":[
@@ -41,6 +41,6 @@
   "terrain_adaptation": "beard_thin",
   "type": "pokecube:generic_surface_jigsaw",
   "y_settings": {
-    "min_y": 65
+    "min_y": 64
   }
 }
