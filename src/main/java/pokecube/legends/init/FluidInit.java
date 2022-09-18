@@ -14,7 +14,6 @@ import pokecube.legends.fluids.MoltenMeteoriteType;
 
 public class FluidInit
 {
-    public static RegistryObject<FluidType> DISTORTIC_WATER_TYPE;
     public static RegistryObject<FlowingFluid> DISTORTIC_WATER;
     public static RegistryObject<FlowingFluid> DISTORTIC_WATER_FLOWING;
     public static RegistryObject<LiquidBlock> DISTORTIC_WATER_BLOCK;
@@ -25,11 +24,6 @@ public class FluidInit
 
     static
     {
-        DISTORTIC_WATER_TYPE = PokecubeLegends.FLUID_TYPES.register("distortic_water", () -> new DistorticWaterType(
-                FluidType.Properties.create().descriptionId("block.pokecube_legends.distortic_water")
-                        .density(1000).temperature(100).viscosity(1000).lightLevel(0).supportsBoating(true)
-                        .canExtinguish(true).canConvertToSource(true).canHydrate(true).rarity(Rarity.RARE)));
-
         DISTORTIC_WATER = PokecubeLegends.FLUIDS.register("distortic_water", () ->
                         new ForgeFlowingFluid.Source(DistorticWaterType.makeProperties()));
 
