@@ -11,11 +11,15 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gson.JsonElement;
+import com.mojang.serialization.JsonOps;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryCodecs;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -750,7 +754,18 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
         if (spawnRule.biomes != null)
         {
-            PokecubeAPI.LOGGER.warn("Warning, holdersets are not yet implemented here!");
+            try
+            {
+                var arr = spawnRule.biomes;
+                var server = ServerLifecycleHooks.getCurrentServer();
+                RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, server.registryAccess());
+                var output = RegistryCodecs.homogeneousList(Registry.BIOME_REGISTRY).parse(ops, arr);
+                this._biomeHolderset = output.result().get();
+            }
+            catch (Exception e)
+            {
+                PokecubeAPI.LOGGER.error(e);
+            }
         }
 
         for (final SpawnBiomeMatcher child : this._and_children) child.parse();
