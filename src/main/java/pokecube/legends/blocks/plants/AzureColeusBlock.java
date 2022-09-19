@@ -1,7 +1,10 @@
 package pokecube.legends.blocks.plants;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -11,11 +14,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import pokecube.legends.Reference;
 import pokecube.legends.blocks.FlowerBase;
 
 public class AzureColeusBlock extends FlowerBase
 {
-   protected static final float AABB_OFFSET = 6.0F;
+   public static final TagKey<Block> AZURE_COLEUS_PLANTABLE = TagKey.create(Registry.BLOCK_REGISTRY,
+           new ResourceLocation(Reference.ID, "azure_coleus_plantable"));
    protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
     
    public AzureColeusBlock(final MobEffect effects, int seconds, final BlockBehaviour.Properties properties)
@@ -33,6 +38,6 @@ public class AzureColeusBlock extends FlowerBase
    @Override
    public boolean mayPlaceOn(BlockState state, BlockGetter block, BlockPos pos)
    {
-      return state.is(BlockTags.SAND) || state.is(Blocks.RED_SAND) || state.is(BlockTags.TERRACOTTA) || state.is(BlockTags.DIRT);
+      return state.is(AZURE_COLEUS_PLANTABLE);
    }
 }
