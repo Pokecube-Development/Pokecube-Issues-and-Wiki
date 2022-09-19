@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "render_type": "cutout_mipped",
-  "textures": {
-    "all": "pokecube_legends:block/molten_air"
-  }
-}

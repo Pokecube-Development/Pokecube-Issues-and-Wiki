@@ -61,6 +61,8 @@ import pokecube.legends.blocks.properties.Flammables;
 import pokecube.legends.blocks.properties.Strippables;
 import pokecube.legends.blocks.properties.Tillables;
 import pokecube.legends.entity.WormholeEntity;
+import pokecube.legends.fluids.DistorticWaterType;
+import pokecube.legends.fluids.MoltenMeteoriteType;
 import pokecube.legends.handlers.EventsHandler;
 import pokecube.legends.handlers.ForgeEventHandlers;
 import pokecube.legends.handlers.ItemHelperEffect;
@@ -221,14 +223,14 @@ public class PokecubeLegends
     {
         // Add Interactions for sources
         FluidInteractionRegistry.addInteraction(ForgeMod.LAVA_TYPE.get(),
-                new FluidInteractionRegistry.InteractionInformation(FluidInit.DISTORTIC_WATER_TYPE.get(),
+                new FluidInteractionRegistry.InteractionInformation(DistorticWaterType.DISTORTIC_WATER_TYPE.get(),
                         fluidState -> fluidState.isSource() ? Blocks.OBSIDIAN.defaultBlockState() : BlockInit.DISTORTIC_STONE.get().defaultBlockState()));
 
         FluidInteractionRegistry.addInteraction(ForgeMod.WATER_TYPE.get(),
-                new FluidInteractionRegistry.InteractionInformation(FluidInit.DISTORTIC_WATER_TYPE.get(),
+                new FluidInteractionRegistry.InteractionInformation(DistorticWaterType.DISTORTIC_WATER_TYPE.get(),
                         fluidState -> fluidState.isSource() ? Blocks.PACKED_ICE.defaultBlockState() : Blocks.ICE.defaultBlockState()));
 
-        FluidInteractionRegistry.addInteraction(FluidInit.DISTORTIC_WATER_TYPE.get(),
+        FluidInteractionRegistry.addInteraction(DistorticWaterType.DISTORTIC_WATER_TYPE.get(),
                 new FluidInteractionRegistry.InteractionInformation(
                         (level, currentPos, relativePos, currentState) ->
                                 !level.getFluidState(currentPos).isSource() && level.getBlockState(currentPos.below()).is(BlockInit.DISTORTIC_MIRROR.get())

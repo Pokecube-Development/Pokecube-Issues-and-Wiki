@@ -947,12 +947,12 @@ public class BlockInit
 
         // Ash blocks
         BlockBehaviour.Properties layer_props = BlockBehaviour.Properties
-                .of(Material.REPLACEABLE_PLANT, MaterialColor.COLOR_BLACK).speedFactor(0.3F).sound(SoundType.SNOW)
+                .of(Material.REPLACEABLE_PLANT, MaterialColor.COLOR_GRAY).speedFactor(0.3F).sound(SoundType.SNOW)
                 .strength(0.1F).randomTicks().isViewBlocking((state, block, pos) ->
                 {
                     return state.getValue(FlowingBlock.LAYERS) >= 16;
                 });
-        BlockBehaviour.Properties block_props = BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_BLACK)
+        BlockBehaviour.Properties block_props = BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_GRAY)
                 .speedFactor(0.3F).sound(SoundType.SNOW).strength(0.2F).randomTicks();
 
         RegistryObject<FlowingBlock>[] regs = AshBlock.makeDust(PokecubeLegends.DIMENSIONS_TAB, Reference.ID, "ash",
@@ -970,8 +970,8 @@ public class BlockInit
         METEORITE_LAYER = regs[0];
         METEORITE_BLOCK = regs[1];
 
-        block_props = layer_props = BlockBehaviour.Properties.of(Material.LAVA).strength(2.0F).noOcclusion()
-                .randomTicks().requiresCorrectToolForDrops().lightLevel(s -> 15);
+        block_props = layer_props = BlockBehaviour.Properties.of(Material.LAVA, MaterialColor.COLOR_RED).strength(2.0F).noOcclusion()
+                .randomTicks().requiresCorrectToolForDrops().lightLevel(s -> 10);
 
         ResourceLocation solid_layer = new ResourceLocation(Reference.ID, "meteorite_layer");
         ResourceLocation solid_block = new ResourceLocation(Reference.ID, "meteorite_block");

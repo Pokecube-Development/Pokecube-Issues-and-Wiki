@@ -26,8 +26,8 @@ public class DynaLeavesBlock extends LeavesBlock implements IForgeShearable
     public DynaLeavesBlock(final Properties properties)
     {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any()
-            .setValue(DynaLeavesBlock.SNOWY, false).setValue(DynaLeavesBlock.DISTANCE, 7).setValue(DynaLeavesBlock.PERSISTENT, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.valueOf(false))
+            .setValue(SNOWY, Boolean.valueOf(false)).setValue(DISTANCE, Integer.valueOf(7)).setValue(PERSISTENT, Boolean.valueOf(false)));
     }
 
     @Override
