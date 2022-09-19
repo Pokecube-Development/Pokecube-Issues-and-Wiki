@@ -19,11 +19,15 @@ import pokecube.legends.init.FluidInit;
 
 public class MoltenMeteoriteType extends FluidType
 {
-    public static final ResourceLocation MOLTEN_METEORITE_STILL = new ResourceLocation("pokecube_legends:block/molten_meteorite");
-    public static final ResourceLocation MOLTEN_METEORITE_FLOWING = new ResourceLocation("pokecube_legends:block/molten_meteorite_flowing");
-    public static final ResourceLocation MOLTEN_METEORITE_OVERLAY = new ResourceLocation("pokecube_legends:block/molten_meteorite_overlay");
+    public static final ResourceLocation MOLTEN_METEORITE_STILL = new ResourceLocation(
+            "pokecube_legends:block/molten_meteorite");
+    public static final ResourceLocation MOLTEN_METEORITE_FLOWING = new ResourceLocation(
+            "pokecube_legends:block/molten_meteorite_flowing");
+    public static final ResourceLocation MOLTEN_METEORITE_OVERLAY = new ResourceLocation(
+            "pokecube_legends:block/molten_meteorite_overlay");
 
-    public MoltenMeteoriteType(Properties properties) {
+    public MoltenMeteoriteType(Properties properties)
+    {
         super(properties);
     }
 
@@ -33,14 +37,15 @@ public class MoltenMeteoriteType extends FluidType
                 FluidInit.MOLTEN_METEORITE_FLOWING);
     }
 
-    public static final RegistryObject<FluidType> MOLTEN_METEORITE_TYPE = PokecubeLegends.FLUID_TYPES.register("molten_meteorite", () ->
-            new FluidType(FluidType.Properties.create()
-                    .descriptionId("block.pokecube_legends.molten_meteorite")
+    public static final RegistryObject<FluidType> MOLTEN_METEORITE_TYPE = PokecubeLegends.FLUID_TYPES.register(
+            "molten_meteorite",
+            () -> new FluidType(FluidType.Properties.create().descriptionId("block.pokecube_legends.molten_meteorite")
                     .pathType(BlockPathTypes.LAVA).rarity(Rarity.UNCOMMON)
                     .sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL_LAVA)
-                    .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY_LAVA).supportsBoating(true)
-                    .density(6000).temperature(1300).viscosity(9000).lightLevel(10).fallDistanceModifier(0.6F).motionScale(0.0001D).adjacentPathType(null)
-                    .canPushEntity(true).canSwim(false).canDrown(false).canExtinguish(false).canConvertToSource(false).canHydrate(false))
+                    .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY_LAVA).supportsBoating(true).density(6000)
+                    .temperature(1300).viscosity(9000).lightLevel(10).fallDistanceModifier(0.6F).motionScale(0.0001D)
+                    .adjacentPathType(null).canPushEntity(true).canSwim(false).canDrown(false).canExtinguish(false)
+                    .canConvertToSource(false).canHydrate(false))
             {
 
                 @Override
@@ -79,7 +84,8 @@ public class MoltenMeteoriteType extends FluidType
                 public void setItemMovement(ItemEntity entity)
                 {
                     Vec3 vec3 = entity.getDeltaMovement();
-                    entity.setDeltaMovement(vec3.x * (double)0.95F, vec3.y + (double)(vec3.y < (double)0.06F ? 5.0E-4F : 0.0F), vec3.z * (double)0.95F);
+                    entity.setDeltaMovement(vec3.x * (double) 0.95F,
+                            vec3.y + (double) (vec3.y < (double) 0.06F ? 5.0E-4F : 0.0F), vec3.z * (double) 0.95F);
                 }
             });
 }
