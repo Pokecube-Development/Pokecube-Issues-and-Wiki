@@ -454,14 +454,14 @@ public class ItemInit
                         new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
 
         ULTRA_HELMET = PokecubeLegends.ITEMS.register("ultra_helmet",
-                () -> new UltraHelmetEffect(ItemInit.armormaterial, EquipmentSlot.HEAD,
+                () -> new UltraHelmetEffect(ItemInit.SPECTRUM, EquipmentSlot.HEAD,
                         new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
         ULTRA_CHESTPLATE = PokecubeLegends.ITEMS.register("ultra_chestplate",
-                () -> new ArmorItem(ItemInit.armormaterial, EquipmentSlot.CHEST,
+                () -> new ArmorItem(ItemInit.SPECTRUM, EquipmentSlot.CHEST,
                         new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
-        ULTRA_LEGGINGS = PokecubeLegends.ITEMS.register("ultra_leggings", () -> new ArmorItem(ItemInit.armormaterial,
+        ULTRA_LEGGINGS = PokecubeLegends.ITEMS.register("ultra_leggings", () -> new ArmorItem(ItemInit.SPECTRUM,
                 EquipmentSlot.LEGS, new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
-        ULTRA_BOOTS = PokecubeLegends.ITEMS.register("ultra_boots", () -> new UltraBootsEffect(ItemInit.armormaterial,
+        ULTRA_BOOTS = PokecubeLegends.ITEMS.register("ultra_boots", () -> new UltraBootsEffect(ItemInit.SPECTRUM,
                 EquipmentSlot.FEET, new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
 
         ULTRAKEY = PokecubeLegends.ITEMS.register("ultrakey",
@@ -519,7 +519,7 @@ public class ItemInit
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.FIRE_RESISTANCE_POKEPUFF, 16));
     }
 
-    public static final ArmorMaterial armormaterial = new ArmorMaterial()
+    public static final ArmorMaterial SPECTRUM = new ArmorMaterial()
     {
         @Override
         public int getDurabilityForSlot(final EquipmentSlot slot)
@@ -544,7 +544,7 @@ public class ItemInit
         @Override
         public net.minecraft.sounds.SoundEvent getEquipSound()
         {
-            return SoundEvents.ZOMBIE_ATTACK_IRON_DOOR;
+            return SoundEvents.ARMOR_EQUIP_NETHERITE;
         }
 
         @Override
