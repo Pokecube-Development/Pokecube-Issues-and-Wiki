@@ -19,6 +19,7 @@ public class CorruptedDirtBlock extends Block implements BonemealableBlock
     // Tag
     public static final TagKey<Block> CORRUPTED_GRASS_SPREADABLE = TagKey.create(Registry.BLOCK_REGISTRY,
             new ResourceLocation(Reference.ID, "corrupted_grass_spreadable"));
+
     public CorruptedDirtBlock(final Properties properties)
     {
         super(properties);

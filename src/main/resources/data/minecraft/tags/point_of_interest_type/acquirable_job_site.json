@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube_adventures:healer",
+    "pokecube_adventures:professor",
+    "pokecube_adventures:trader"
+  ]
+}
