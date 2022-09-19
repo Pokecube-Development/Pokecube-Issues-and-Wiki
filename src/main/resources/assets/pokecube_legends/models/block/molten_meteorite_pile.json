@@ -1,7 +1,22 @@
 {
-  "parent": "minecraft:block/cross",
-  "render_type": "cutout_mipped",
+  "credit": "Made with Blockbench",
+  "parent": "minecraft:block/block",
   "textures": {
-    "cross": "pokecube_legends:block/molten_meteorite_pile"
-  }
+    "particle": "pokecube_legends:block/molten_meteorite",
+    "meteorite": "pokecube_legends:block/molten_meteorite"
+  },
+  "elements": [
+    {
+      "from": [3, 0, 3],
+      "to": [13, 10, 13],
+      "faces": {
+        "north": {"uv": [1, 2, 11, 12], "texture": "#meteorite"},
+        "east": {"uv": [1, 2, 11, 12], "texture": "#meteorite"},
+        "south": {"uv": [1, 2, 11, 12], "texture": "#meteorite"},
+        "west": {"uv": [1, 2, 11, 12], "texture": "#meteorite"},
+        "up": {"uv": [1, 2, 11, 12], "texture": "#meteorite"},
+        "down": {"uv": [1, 2, 11, 12], "texture": "#meteorite"}
+      }
+    }
+  ]
 }
