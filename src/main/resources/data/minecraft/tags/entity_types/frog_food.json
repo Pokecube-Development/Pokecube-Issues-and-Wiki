@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    {"id": "pokecube:dito", "required": false},
+    {"id": "pokecube:ditto", "required": false},
     {"id": "pokecube:gulpin", "required": false},
     {"id": "pokecube:solosis", "required": false}
   ]
