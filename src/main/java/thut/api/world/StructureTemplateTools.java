@@ -2,7 +2,6 @@ package thut.api.world;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -11,80 +10,102 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.BedBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BedPart;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 
 public class StructureTemplateTools
 {
-    public static List<ItemStack> getNeededMateials(StructureTemplate template, ServerLevel level, BlockPos location,
-            StructurePlaceSettings settings, Predicate<BlockPos> valid)
+    public static interface BlockPlacer
     {
-        List<ItemStack> needed = Lists.newArrayList();
-        Map<Item, ItemStack> tmp = Maps.newHashMap();
-        List<StructureBlockInfo> list = settings.getRandomPalette(template.palettes, location).blocks();
-        List<StructureBlockInfo> infos = StructureTemplate.processBlockInfos(level, location, location, settings, list,
-                template);
-        for (var info : infos)
+        default ItemStack getForBlock(BlockState state)
         {
-            if (info.state != null && !info.state.isAir())
+            if (state == null) return ItemStack.EMPTY;
+            if (state.hasProperty(BedBlock.PART) && state.getValue(BedBlock.PART) == BedPart.HEAD)
             {
-                Item item = info.state.getBlock().asItem();
-                if (item != null && valid.test(info.pos))
-                {
-                    ItemStack stack = tmp.get(item);
-                    if (stack == null) stack = new ItemStack(item);
-                    else stack.setCount(stack.getCount() + 1);
-                    tmp.put(item, stack);
-                }
+                // We handle this by placing foot, and ignoring head.
+                return ItemStack.EMPTY;
             }
-        }
-        needed.addAll(tmp.values());
-        return needed;
-    }
-
-    public static ItemStack getForInfo(StructureBlockInfo info)
-    {
-        if (info.state != null)
-        {
-            Item item = info.state.getBlock().asItem();
+            if (state.hasProperty(DoorBlock.HALF) && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER)
+            {
+                // We handle this by placing lower, and ignoring upper.
+                return ItemStack.EMPTY;
+            }
+            Item item = state.getBlock().asItem();
             if (item != null)
             {
                 return new ItemStack(item);
             }
+            return ItemStack.EMPTY;
         }
-        return ItemStack.EMPTY;
+
+        default void placeBlock(BlockState state, BlockPos pos, ServerLevel level)
+        {
+            level.setBlockAndUpdate(pos, state);
+            if (state.hasProperty(BedBlock.PART) && state.getValue(BedBlock.PART) == BedPart.FOOT)
+            {
+                level.setBlockAndUpdate(pos.relative(state.getValue(BedBlock.FACING)),
+                        state.setValue(BedBlock.PART, BedPart.HEAD));
+            }
+            if (state.hasProperty(DoorBlock.HALF) && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
+            {
+                level.setBlockAndUpdate(pos.above(), state.setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER));
+            }
+        }
     }
 
-    public static List<ItemStack> getNeededMaterials(ServerLevel level, List<StructureBlockInfo> infos, int startIndex,
-            int endIndex)
+    private static final BlockPlacer DEFAULT = new BlockPlacer()
+    {
+    };
+
+    public static Map<Block, BlockPlacer> placers = Maps.newHashMap();
+
+    public static BlockPlacer getPlacer(BlockState toPlace)
+    {
+        if (toPlace == null) return DEFAULT;
+        return placers.getOrDefault(toPlace.getBlock(), DEFAULT);
+    }
+
+    public static ItemStack getForInfo(StructureBlockInfo info)
+    {
+        return getPlacer(info.state).getForBlock(info.state);
+    }
+
+    public static Map<BlockPos, ItemStack> getNeededMaterials(ServerLevel level, List<StructureBlockInfo> infos,
+            int startIndex, int endIndex)
     {
         endIndex = Math.min(endIndex, infos.size() - 1);
         Map<Item, ItemStack> tmp = Maps.newHashMap();
-        List<ItemStack> needed = Lists.newArrayList();
+        Map<BlockPos, ItemStack> neededItems = Maps.newHashMap();
         for (int i = startIndex; i <= endIndex; i++)
         {
             var info = infos.get(i);
             if (info.state != null && !info.state.isAir())
             {
+                BlockPlacer placer = getPlacer(info.state);
                 BlockState old = level.getBlockState(info.pos);
                 if (old.getBlock() == info.state.getBlock()) continue;
-                Item item = info.state.getBlock().asItem();
-                if (item != null)
+                ItemStack newStack = placer.getForBlock(info.state);
+                if (!newStack.isEmpty())
                 {
+                    Item item = newStack.getItem();
                     ItemStack stack = tmp.get(item);
-                    if (stack == null) stack = new ItemStack(item);
+                    if (stack == null) stack = newStack;
                     else stack.setCount(stack.getCount() + 1);
                     tmp.put(item, stack);
+                    neededItems.put(info.pos, stack);
                 }
             }
         }
-        needed.addAll(tmp.values());
-        return needed;
+        return neededItems;
     }
 
-    public static List<ItemStack> getNeededMaterials(ServerLevel level, List<StructureBlockInfo> infos)
+    public static Map<BlockPos, ItemStack> getNeededMaterials(ServerLevel level, List<StructureBlockInfo> infos)
     {
         return getNeededMaterials(level, infos, 0, infos.size() - 1);
     }

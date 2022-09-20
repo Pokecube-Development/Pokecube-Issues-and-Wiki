@@ -109,7 +109,7 @@ public class GatherTask extends UtilTask
                 final ServerLevel world)
         {
             world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-            final List<ItemStack> list = Block.getDrops(state, world, pos, null);
+            final List<ItemStack> list = Block.getDrops(state, world, pos, world.getBlockEntity(pos));
             boolean replanted = false;
             // See if anything dropped was a seed for the thing we
             // picked.
