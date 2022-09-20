@@ -58,7 +58,7 @@
   "type": "pokecube:generic_surface_jigsaw",
   "y_settings": {
     "max_dy": 5,
-    "min_y": 63,
+    "min_y": 64,
     "y_check_radius": 2
   }
 }

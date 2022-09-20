@@ -14,5 +14,8 @@
   "start_pool": "pokecube_legends:meteorite",
   "step": "surface_structures",
   "terrain_adaptation": "beard_thin",
-  "type": "pokecube:generic_surface_jigsaw"
+  "type": "pokecube:generic_surface_jigsaw",
+  "y_settings": {
+    "vertical_offset": -2
+  }
 }
