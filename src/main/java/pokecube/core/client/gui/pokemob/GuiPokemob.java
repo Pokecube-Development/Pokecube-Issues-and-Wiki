@@ -20,7 +20,7 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
 import pokecube.core.PokecubeCore;
-import pokecube.core.entity.pokemobs.ContainerPokemob;
+import pokecube.core.inventory.pokemob.PokemobContainer;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import thut.api.entity.IHungrymob;
@@ -88,7 +88,7 @@ public class GuiPokemob extends GuiPokemobBase
 
     HungerBar bar;
 
-    public GuiPokemob(final ContainerPokemob container, final Inventory inv)
+    public GuiPokemob(final PokemobContainer container, final Inventory inv)
     {
         super(container, inv);
         container.setMode(PacketPokemobGui.MAIN);

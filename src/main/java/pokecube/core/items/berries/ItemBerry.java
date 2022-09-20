@@ -31,7 +31,7 @@ import pokecube.api.moves.IMoveConstants;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryGenManager;
-import pokecube.core.entity.pokemobs.ContainerPokemob;
+import pokecube.core.inventory.pokemob.PokemobContainer;
 import pokecube.core.items.UsableItemEffects.BerryUsable.BerryEffect;
 import thut.lib.TComponent;
 
@@ -113,7 +113,7 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
             tooltip.add(info);
         }
         if (PokecubeCore.proxy.getPlayer() == null) return;
-        if (PokecubeCore.proxy.getPlayer().containerMenu instanceof ContainerPokemob container)
+        if (PokecubeCore.proxy.getPlayer().containerMenu instanceof PokemobContainer container)
         {
             final IPokemob pokemob = container.getPokemob();
             if (pokemob == null || pokemob.getEntity() == null) return;

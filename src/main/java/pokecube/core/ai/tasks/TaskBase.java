@@ -19,6 +19,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.moves.IMoveConstants;
+import pokecube.core.inventory.pokemob.PokemobInventory;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.entity.ai.ITask;
 import thut.api.entity.ai.RootTask;
@@ -58,7 +59,8 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
             final IPokemob pokemob = PokemobCaps.getPokemobFor(e);
             if (e == null || pokemob == null) return false;
             if (this.slot > 0) pokemob.getInventory().setItem(this.slot, this.stack);
-            else if (!ItemStackTools.addItemStackToInventory(this.stack, pokemob.getInventory(), this.minSlot))
+            else if (!ItemStackTools.addItemStackToInventory(this.stack, pokemob.getInventory(), this.minSlot,
+                    PokemobInventory.MAIN_INVENTORY_SIZE))
                 e.spawnAtLocation(this.stack, 0);
             return true;
         }

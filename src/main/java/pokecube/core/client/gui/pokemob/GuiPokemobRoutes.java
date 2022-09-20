@@ -14,7 +14,7 @@ import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.client.gui.helper.GuardEntry;
 import pokecube.core.client.gui.helper.RouteEditHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
-import pokecube.core.entity.pokemobs.ContainerPokemob;
+import pokecube.core.inventory.pokemob.PokemobContainer;
 import pokecube.core.network.packets.PacketSyncRoutes;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.CapHolders;
@@ -30,7 +30,7 @@ public class GuiPokemobRoutes extends GuiPokemobBase
     ScrollGui<GuardEntry>    list;
     int                      num;
 
-    public GuiPokemobRoutes(final ContainerPokemob container, final Inventory inv)
+    public GuiPokemobRoutes(final PokemobContainer container, final Inventory inv)
     {
         super(container, inv);
         this.pokemob = container.pokemob;

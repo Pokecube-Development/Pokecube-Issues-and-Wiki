@@ -1,4 +1,4 @@
-package pokecube.core.entity.pokemobs;
+package pokecube.core.inventory.pokemob;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
@@ -17,7 +17,7 @@ import pokecube.core.utils.EntityTools;
 import thut.api.inventory.BaseContainer;
 import thut.core.common.ThutCore;
 
-public class ContainerPokemob extends BaseContainer
+public class PokemobContainer extends BaseContainer
 {
 
     public final Container pokemobInv;
@@ -27,7 +27,7 @@ public class ContainerPokemob extends BaseContainer
     public FriendlyByteBuf data;
     Inventory playerInv;
 
-    public ContainerPokemob(final int id, final Inventory playerInv, final FriendlyByteBuf data)
+    public PokemobContainer(final int id, final Inventory playerInv, final FriendlyByteBuf data)
     {
         super(MenuTypes.POKEMOB.get(), id);
         LivingEntity entity = playerInv.player;
@@ -94,8 +94,8 @@ public class ContainerPokemob extends BaseContainer
                 public void onTake(final Player playerIn, final ItemStack stack)
                 {
                     final ItemStack old = this.getItem();
-                    if (ThutCore.proxy.isServerSide()) ContainerPokemob.this.pokemob.getPokedexEntry()
-                            .onHeldItemChange(stack, old, ContainerPokemob.this.pokemob);
+                    if (ThutCore.proxy.isServerSide()) PokemobContainer.this.pokemob.getPokedexEntry()
+                            .onHeldItemChange(stack, old, PokemobContainer.this.pokemob);
                     super.onTake(playerIn, stack);
                 }
 
@@ -105,7 +105,7 @@ public class ContainerPokemob extends BaseContainer
                 {
                     // ItemStack old = getStack();
                     super.set(stack);
-                    if (ThutCore.proxy.isServerSide()) ContainerPokemob.this.pokemob.setHeldItem(stack);
+                    if (ThutCore.proxy.isServerSide()) PokemobContainer.this.pokemob.setHeldItem(stack);
                 }
             });
             for (j = 0; j < 1; ++j)
@@ -126,10 +126,10 @@ public class ContainerPokemob extends BaseContainer
     }
 
     @Override
-    public boolean stillValid(final Player p_75145_1_)
+    public boolean stillValid(final Player user)
     {
-        return this.pokemobInv.stillValid(p_75145_1_) && this.pokemob.getEntity().isAlive()
-                && this.pokemob.getEntity().distanceTo(p_75145_1_) < 8.0F;
+        return this.pokemobInv.stillValid(user) && this.pokemob.getEntity().isAlive()
+                && this.pokemob.getEntity().distanceTo(user) < 8.0F;
     }
 
     @Override
@@ -141,7 +141,7 @@ public class ContainerPokemob extends BaseContainer
     @Override
     public int getInventorySlotCount()
     {
-        return this.mode == 0 ? this.getInv().getContainerSize() : 0;
+        return this.mode == 0 ? PokemobInventory.MAIN_INVENTORY_SIZE : 0;
     }
 
     public IPokemob getPokemob()
@@ -151,9 +151,9 @@ public class ContainerPokemob extends BaseContainer
 
     /** Called when the container is closed. */
     @Override
-    public void removed(final Player p_75134_1_)
+    public void removed(final Player player)
     {
-        super.removed(p_75134_1_);
-        this.pokemobInv.stopOpen(p_75134_1_);
+        super.removed(player);
+        this.pokemobInv.stopOpen(player);
     }
 }

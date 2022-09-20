@@ -77,15 +77,11 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
 
     private final Set<BlockPos> knownValid = Sets.newHashSet();
 
+    private boolean initialised = false;
+
     public StoreTask(final IPokemob entity)
     {
         super(entity);
-        if (entity.getInventory() instanceof SimpleContainer)
-        {
-            ((SimpleContainer) entity.getInventory()).addListener(this);
-            // Initialize this.
-            this.containerChanged(entity.getInventory());
-        }
     }
 
     private void checkHeldItem()
@@ -454,8 +450,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
 
         WorldlyContainer container = tile instanceof WorldlyContainer cont ? cont : null;
         IItemHandlerModifiable inventory = null;
-        if ((tile.getCapability(ThutCaps.ITEM_HANDLER, side)
-                .orElse(null)) instanceof IItemHandlerModifiable inv)
+        if ((tile.getCapability(ThutCaps.ITEM_HANDLER, side).orElse(null)) instanceof IItemHandlerModifiable inv)
             inventory = inv;
         if (inventory == null && container == null) return null;
         return Pair.of(inventory, container);
@@ -558,6 +553,16 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
     @Override
     public void tick()
     {
+        if (!this.initialised)
+        {
+            this.initialised = true;
+            if (pokemob.getInventory() instanceof SimpleContainer container)
+            {
+                container.addListener(this);
+                // Initialize this.
+                this.containerChanged(pokemob.getInventory());
+            }
+        }
         if (this.tameCheck()) return;
         boolean stuff = false;
         if (this.searchInventoryCooldown-- < 0)

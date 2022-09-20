@@ -71,10 +71,6 @@ public class ItemStackTools
             {
                 final CrashReport crashreport = CrashReport.forThrowable(throwable, "Adding item to inventory");
                 crashreport.addCategory("Item being added");
-                // crashreportcategory.addCrashSection("Item ID",
-                // Integer.valueOf(Item.getIdFromItem(itemStackIn.getItem())));
-                // crashreportcategory.addCrashSection("Item data",
-                // Integer.valueOf(itemStackIn.getMetadata()));
                 throw new ReportedException(crashreport);
             }
             return false;
@@ -82,23 +78,32 @@ public class ItemStackTools
         return ItemStackTools.addItemStackToInventory(itemStackIn, toAddTo, minIndex);
     }
 
-    public static boolean addItemStackToInventory(final ItemStack itemStackIn, final Container toAddTo,
-            final int minIndex)
+    public static boolean addItemStackToInventory(ItemStack itemStackIn, Container toAddTo, int minIndex)
     {
-        return ItemStackTools.addItemStackToInventory(itemStackIn, new InvWrapper(toAddTo), minIndex);
+        return ItemStackTools.addItemStackToInventory(itemStackIn, toAddTo, minIndex, toAddTo.getContainerSize());
+    }
+
+    public static boolean addItemStackToInventory(ItemStack itemStackIn, Container toAddTo, int minIndex, int maxIndex)
+    {
+        return ItemStackTools.addItemStackToInventory(itemStackIn, new InvWrapper(toAddTo), minIndex, maxIndex);
+    }
+
+    public static boolean addItemStackToInventory(ItemStack itemStackIn, IItemHandlerModifiable toAddTo, int minIndex)
+    {
+        return addItemStackToInventory(itemStackIn, toAddTo, minIndex, toAddTo.getSlots());
     }
 
     /**
      * Adds the item stack to the inventory, returns false if it is impossible.
      */
-    public static boolean addItemStackToInventory(final ItemStack itemStackIn, final IItemHandlerModifiable toAddTo,
-            final int minIndex)
+    public static boolean addItemStackToInventory(ItemStack itemStackIn, IItemHandlerModifiable toAddTo, int minIndex,
+            int maxIndex)
     {
         if (!itemStackIn.isEmpty()) try
         {
             if (itemStackIn.isDamaged())
             {
-                final int slot = ItemStackTools.getFirstEmptyStack(toAddTo, minIndex);
+                final int slot = ItemStackTools.getFirstEmptyStack(toAddTo, minIndex, maxIndex);
 
                 if (slot >= minIndex)
                 {
@@ -114,7 +119,7 @@ public class ItemStackTools
             while (true)
             {
                 count = itemStackIn.getCount();
-                final int num = ItemStackTools.storePartialItemStack(itemStackIn, toAddTo, minIndex);
+                final int num = ItemStackTools.storePartialItemStack(itemStackIn, toAddTo, minIndex, maxIndex);
                 itemStackIn.setCount(num);
                 if (num <= 0 || num >= count) break;
             }
@@ -124,10 +129,6 @@ public class ItemStackTools
         {
             final CrashReport crashreport = CrashReport.forThrowable(throwable, "Adding item to inventory");
             crashreport.addCategory("Item being added");
-            // crashreportcategory.addCrashSection("Item ID",
-            // Integer.valueOf(Item.getIdFromItem(itemStackIn.getItem())));
-            // crashreportcategory.addCrashSection("Item data",
-            // Integer.valueOf(itemStackIn.getMetadata()));
             throw new ReportedException(crashreport);
         }
         return false;
@@ -139,15 +140,11 @@ public class ItemStackTools
                 && stack1.getCount() < stack1.getMaxStackSize();
     }
 
-    public static int getFirstEmptyStack(final Container inventory, final int minIndex)
-    {
-        return ItemStackTools.getFirstEmptyStack(new InvWrapper(inventory), minIndex);
-    }
-
     /** Returns the first item stack that is empty. */
-    public static int getFirstEmptyStack(final IItemHandlerModifiable inventory, final int minIndex)
+    public static int getFirstEmptyStack(IItemHandlerModifiable inventory, int minIndex, int maxIndex)
     {
-        for (int index = minIndex; index < inventory.getSlots(); ++index)
+        maxIndex = Math.min(maxIndex, inventory.getSlots());
+        for (int index = minIndex; index < maxIndex; ++index)
             if (inventory.getStackInSlot(index).isEmpty()) return index;
         return -1;
     }
@@ -159,9 +156,10 @@ public class ItemStackTools
     }
 
     /** stores an itemstack in the users inventory */
-    private static int storeItemStack(final ItemStack itemStackIn, final IItemHandlerModifiable inventory,
-            final int minIndex)
+    private static int storeItemStack(ItemStack itemStackIn, IItemHandlerModifiable inventory, int minIndex,
+            int maxIndex)
     {
+        maxIndex = Math.min(maxIndex, inventory.getSlots());
         for (int index = minIndex; index < inventory.getSlots(); ++index)
             if (ItemStackTools.canMergeStacks(inventory.getStackInSlot(index), itemStackIn)) return index;
         return -1;
@@ -172,12 +170,12 @@ public class ItemStackTools
      * matching slot and returns the quantity of left over items.
      */
     private static int storePartialItemStack(final ItemStack itemStackIn, final IItemHandlerModifiable inventory,
-            final int minIndex)
+            final int minIndex, int maxIndex)
     {
         int count = itemStackIn.getCount();
-        int index = ItemStackTools.storeItemStack(itemStackIn, inventory, minIndex);
+        int index = ItemStackTools.storeItemStack(itemStackIn, inventory, minIndex, maxIndex);
 
-        if (index < minIndex) index = ItemStackTools.getFirstEmptyStack(inventory, minIndex);
+        if (index < minIndex) index = ItemStackTools.getFirstEmptyStack(inventory, minIndex, maxIndex);
 
         if (index < minIndex) return count;
         ItemStack itemstack = inventory.getStackInSlot(index);

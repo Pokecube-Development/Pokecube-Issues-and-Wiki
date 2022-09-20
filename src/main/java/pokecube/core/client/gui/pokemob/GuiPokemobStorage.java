@@ -21,7 +21,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.tasks.utility.StoreTask;
-import pokecube.core.entity.pokemobs.ContainerPokemob;
+import pokecube.core.inventory.pokemob.PokemobContainer;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketUpdateAI;
 import thut.api.maths.Vector4;
@@ -42,7 +42,7 @@ public class GuiPokemobStorage extends GuiPokemobBase
     EditBox emptyFace;
     List<EditBox> textBoxes = Lists.newArrayList();
 
-    public GuiPokemobStorage(final ContainerPokemob container, final Inventory playerInv)
+    public GuiPokemobStorage(final PokemobContainer container, final Inventory playerInv)
     {
         super(container, playerInv);
         this.pokemob = container.pokemob;

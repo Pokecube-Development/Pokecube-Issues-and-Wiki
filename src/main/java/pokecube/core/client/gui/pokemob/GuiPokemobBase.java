@@ -36,13 +36,13 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.database.Database;
-import pokecube.core.entity.pokemobs.ContainerPokemob;
+import pokecube.core.inventory.pokemob.PokemobContainer;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.model.parts.Mesh;
 import thut.lib.ResourceHelper;
 import thut.lib.TComponent;
 
-public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
+public class GuiPokemobBase extends AbstractContainerScreen<PokemobContainer>
 {
     public static ResourceLocation SIZEMAP = new ResourceLocation(PokecubeCore.MODID, "pokemobs_gui_sizes.json");
 
@@ -169,7 +169,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
 
     protected EditBox name = new EditBox(null, 1 / 2, 1 / 2, 120, 10, TComponent.literal(""));
 
-    public GuiPokemobBase(final ContainerPokemob container, final Inventory inv)
+    public GuiPokemobBase(final PokemobContainer container, final Inventory inv)
     {
         super(container, inv, container.pokemob.getDisplayName());
     }
