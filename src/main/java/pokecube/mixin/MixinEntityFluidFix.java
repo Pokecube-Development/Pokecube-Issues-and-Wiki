@@ -12,6 +12,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AtomicDouble;
 
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.material.Fluid;
@@ -84,5 +85,23 @@ public class MixinEntityFluidFix
             if (valid) break;
         }
         info.setReturnValue(valid);
+    }
+
+    @Inject(method = "isInLava", at = @At("HEAD"), cancellable = true)
+    public void fixForgeBrokenFluidTagChecks4(CallbackInfoReturnable<Boolean> info)
+    {
+        Entity us = _self();
+        if (us.firstTick) return;
+        TagKey<Fluid> tag = FluidTags.LAVA;
+        Set<FluidType> types = revMap.computeIfAbsent(tag, t -> {
+            var reg = us.getLevel().registryAccess().registryOrThrow(Keys.FLUIDS);
+            var tagged = reg.getTagOrEmpty(tag);
+            Set<FluidType> ret = Sets.newHashSet();
+            tagged.forEach(h -> ret.add(h.get().getFluidType()));
+            return ret;
+        });
+        AtomicDouble d = new AtomicDouble(0);
+        types.forEach(y -> d.addAndGet(us.getFluidTypeHeight(y)));
+        info.setReturnValue(d.get() > 0);
     }
 }
