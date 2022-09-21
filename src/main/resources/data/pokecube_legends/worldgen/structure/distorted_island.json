@@ -6,7 +6,6 @@
   "spawn_overrides": {},
   "start_pool": "pokecube_legends:distorted/distorted_island",
   "step": "surface_structures",
-  "terrain_adaptation": "beard_thin",
   "type": "pokecube:generic_surface_jigsaw",
   "y_settings": {
     "dy_offset": 45,
