@@ -263,7 +263,7 @@ public abstract class PokemobBase implements IPokemob
     protected void setMaxHealth(final float maxHealth)
     {
         final AttributeInstance health = this.getEntity().getAttribute(Attributes.MAX_HEALTH);
-        for (final AttributeModifier modifier : health.getModifiers()) health.removeModifier(modifier);
+        health.removeModifier(PokemobBase.DYNAMOD);
         final AttributeModifier dynahealth = new AttributeModifier(PokemobBase.DYNAMOD, "pokecube:dynamax",
                 this.getDynamaxFactor(), Operation.MULTIPLY_BASE);
         if (this.getCombatState(CombatStates.DYNAMAX)) health.addTransientModifier(dynahealth);
