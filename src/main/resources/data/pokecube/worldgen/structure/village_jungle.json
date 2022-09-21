@@ -18,5 +18,6 @@
   "type": "pokecube:generic_surface_jigsaw",
   "step": "surface_structures",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "use_expansion_hack": true
+  "use_expansion_hack": true,
+  "terrain_adaptation": "beard_box"
 }

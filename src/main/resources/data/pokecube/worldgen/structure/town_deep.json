@@ -2,7 +2,9 @@
   "biomes": "#minecraft:is_overworld",
   "avoid_range": 6,
   "biome_type": "village",
-  "y_settings":{"vertical_offset": -75},
+  "start_height": {
+    "absolute": -45
+  },
   "required_parts": [
     "pokecenter"
   ],
@@ -16,5 +18,6 @@
   "type": "pokecube:generic_surface_jigsaw",
   "step": "underground_decoration",
   "terrain_adaptation": "beard_box",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG"
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "use_expansion_hack": false
 }

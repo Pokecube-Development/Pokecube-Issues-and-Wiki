@@ -2,7 +2,10 @@
   "biomes": "#minecraft:is_beach",
   "avoid_range": 6,
   "biome_type": "village",
-  "y_settings":{"vertical_offset": -2},
+  "y_settings":{
+    "vertical_offset": -2,
+    "min_y": 63
+  },
   "clearances":{"h_clearance": 0},
   "required_parts": [
     "pokecenter",
@@ -17,7 +20,7 @@
   "spawn_overrides": {},
   "type": "pokecube:generic_surface_jigsaw",
   "step": "surface_structures",
-  "terrain_adaptation": "beard_thin",
+  "terrain_adaptation": "beard_box",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "use_expansion_hack": true
 }
