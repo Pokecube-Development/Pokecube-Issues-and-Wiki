@@ -1,8 +1,8 @@
 {
   "biomes": "#forge:is_swamp",
-  "avoid_range": 6,
   "biome_type": "village",
-  "y_settings":{"vertical_offset": -2, "y_check_radius":3, "max_dy": 5},
+  "avoid_range": 3,
+  "y_settings":{"vertical_offset": -3},
   "clearances":{"h_clearance": 0},
   "required_parts": [
     "pokecenter"

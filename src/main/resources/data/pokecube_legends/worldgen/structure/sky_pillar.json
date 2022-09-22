@@ -41,6 +41,7 @@
   "terrain_adaptation": "beard_box",
   "type": "pokecube:generic_surface_jigsaw",
   "y_settings": {
+    "max_dy": 10,
     "min_y": 64,
     "y_check_radius": 2
   }

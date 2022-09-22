@@ -2,7 +2,7 @@
   "biomes": "#minecraft:is_jungle",
   "avoid_range": 6,
   "biome_type": "village",
-  "y_settings":{"vertical_offset": -2, "y_check_radius":2, "max_dy": 5},
+  "y_settings":{"vertical_offset": -2},
   "clearances":{"h_clearance": 0},
   "required_parts": [
     "pokecenter"

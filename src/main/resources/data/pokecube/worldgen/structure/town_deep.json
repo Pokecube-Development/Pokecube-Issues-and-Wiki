@@ -2,9 +2,7 @@
   "biomes": "#minecraft:is_overworld",
   "avoid_range": 6,
   "biome_type": "village",
-  "start_height": {
-    "absolute": -45
-  },
+  "y_settings":{"vertical_offset": -75},
   "required_parts": [
     "pokecenter"
   ],

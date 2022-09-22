@@ -3,10 +3,12 @@
   "avoid_range": 6,
   "biome_type": "village",
   "y_settings":{
-    "vertical_offset": -2,
-    "min_y": 63
+    "vertical_offset": 0
   },
-  "clearances":{"h_clearance": 0},
+  "start_height": {
+    "absolute": 60
+  },
+  "clearances":{ "h_clearance": 0 },
   "required_parts": [
     "pokecenter",
     "gym"
