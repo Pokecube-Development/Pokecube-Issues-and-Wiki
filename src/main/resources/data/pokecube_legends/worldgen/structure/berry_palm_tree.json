@@ -1,17 +1,26 @@
 {
-  "avoid_range": 6,
-  "biome_room": 5,
+  "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "start_pool": "pokecube_legends:ultraspace/berry_palm_tree",
   "terrain_adaptation": "beard_box",
+  "step": "surface_structures",
+  "avoid_range": 1,
+  "biome_room": 1,
+  "size": 1,
+  "spawn_overrides": {},
+  "y_settings": {
+    "min_y": 64
+  },
   "biomes":{
     "type":"forge:and",
     "values":[
-      {        
-	    "type":"forge:or",
-	     "values":[
-	        "pokecube_legends:burnt_beach",
-	        "pokecube_legends:crystallized_beach"
-	    ]
-  	  },
+      {
+        "type":"forge:or",
+        "values":[
+          "pokecube_legends:burnt_beach",
+          "pokecube_legends:crystallized_beach"
+        ]
+      },
       {
         "type":"forge:not",
         "value":{
@@ -24,14 +33,5 @@
         }
       }
     ]
-  },
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "size": 1,
-  "spawn_overrides": {},
-  "start_pool": "pokecube_legends:ultraspace/berry_palm_tree",
-  "step": "surface_structures",
-  "type": "pokecube:generic_surface_jigsaw",
-  "y_settings": {
-    "min_y": 65
   }
 }
