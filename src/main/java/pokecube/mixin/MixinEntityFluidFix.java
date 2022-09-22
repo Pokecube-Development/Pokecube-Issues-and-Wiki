@@ -48,7 +48,7 @@ public class MixinEntityFluidFix
             valid = us.getFluidTypeHeight(type) > 0;
             if (valid) break;
         }
-        info.setReturnValue(valid);
+        if (valid) info.setReturnValue(valid);
     }
 
     @Inject(method = "getFluidHeight", at = @At("HEAD"), cancellable = true)
@@ -64,7 +64,7 @@ public class MixinEntityFluidFix
         });
         AtomicDouble d = new AtomicDouble(0);
         types.forEach(y -> d.addAndGet(us.getFluidTypeHeight(y)));
-        info.setReturnValue(d.get());
+        if (d.get() > 0) info.setReturnValue(d.get());
     }
 
     @Inject(method = "isEyeInFluid", at = @At("HEAD"), cancellable = true)
@@ -84,7 +84,7 @@ public class MixinEntityFluidFix
             valid = us.getEyeInFluidType() == type;
             if (valid) break;
         }
-        info.setReturnValue(valid);
+        if (valid) info.setReturnValue(valid);
     }
 
     @Inject(method = "isInLava", at = @At("HEAD"), cancellable = true)
@@ -102,6 +102,6 @@ public class MixinEntityFluidFix
         });
         AtomicDouble d = new AtomicDouble(0);
         types.forEach(y -> d.addAndGet(us.getFluidTypeHeight(y)));
-        info.setReturnValue(d.get() > 0);
+        if (d.get() > 0) info.setReturnValue(true);
     }
 }
