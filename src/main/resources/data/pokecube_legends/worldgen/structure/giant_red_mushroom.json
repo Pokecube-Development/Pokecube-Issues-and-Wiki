@@ -18,9 +18,9 @@
     ]
   },
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "size": 1,
+  "size": 2,
   "spawn_overrides": {},
-  "start_pool": "pokecube_legends:ultraspace/giant_red_mushroom",
+  "start_pool": "pokecube_legends:ultraspace/giant_red_mushroom_stems",
   "step": "surface_structures",
   "structures_to_avoid": [
     "minecraft:pillager_outposts",
