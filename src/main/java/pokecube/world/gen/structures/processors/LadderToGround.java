@@ -19,6 +19,7 @@ public class LadderToGround extends StructureProcessor
     public static final Codec<StructureProcessor> CODEC;
 
     public static final ResourceLocation LADDER = new ResourceLocation("pokecube", "ladders");
+    public static final ResourceLocation VINE = new ResourceLocation("pokecube", "vines");
 
     public static final StructureProcessor PROCESSOR = new LadderToGround();
 
@@ -33,9 +34,11 @@ public class LadderToGround extends StructureProcessor
             final StructureTemplate ref)
     {
         boolean isLadder = ItemList.is(LADDER, blockInfo.state);
-        if (!isLadder) return blockInfo;
+        boolean isVine = ItemList.is(LADDER, blockInfo.state);
+        if (!(isLadder || isVine)) return blockInfo;
         BlockPos p1 = old.pos.offset(structure);
-        boolean air_or_water = level.isEmptyBlock(p1) || level.getBlockState(p1).getBlock() == Blocks.WATER;
+        boolean air_or_water = (isLadder && level.getBlockState(p1).getBlock() == Blocks.WATER)
+                || level.isEmptyBlock(p1);
         return air_or_water ? blockInfo : null;
     }
 
