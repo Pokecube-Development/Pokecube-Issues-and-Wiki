@@ -161,7 +161,7 @@ public class WearableWrapper
         @Override
         public void render(final PoseStack mat, final VertexConsumer buffer)
         {
-            if (this.isHidden()) return;
+            if (this.isDisabled()) return;
             // We had something, but took it off.
             if (wrapped == null) return;
 

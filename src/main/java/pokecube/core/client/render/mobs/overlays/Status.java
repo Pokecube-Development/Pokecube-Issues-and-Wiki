@@ -136,7 +136,7 @@ public class Status
             statusTexturer.bindObject(mob);
             wrap.getParts().forEach((n, p) -> {
                 p.applyTexture(buf, default_, statusTexturer);
-                if (EXCLUDED_PARTS.contains(p.getName())) p.setHidden(true);
+                if (EXCLUDED_PARTS.contains(p.getName())) p.setDisabled(true);
             });
         }
         renderer.getModel().prepareMobModel(mob, f5, f8, partialTicks);
@@ -150,7 +150,7 @@ public class Status
             texer.bindObject(mob);
             wrap.getParts().forEach((n, p) -> {
                 p.applyTexture(buf, orig_, texer);
-                if (EXCLUDED_PARTS.contains(p.getName())) p.setHidden(false);
+                if (EXCLUDED_PARTS.contains(p.getName())) p.setDisabled(false);
             });
         }
 
