@@ -17,8 +17,8 @@ import pokecube.core.ai.logic.LogicMiscUpdate;
 import pokecube.core.impl.capabilities.DefaultPokemob;
 import thut.api.entity.IMobColourable;
 
-public abstract class PokemobBase extends TamableAnimal implements IEntityAdditionalSpawnData, FlyingAnimal,
-        IMobColourable, InventoryCarrier
+public abstract class PokemobBase extends TamableAnimal
+        implements IEntityAdditionalSpawnData, FlyingAnimal, IMobColourable, InventoryCarrier
 {
     public final DefaultPokemob pokemobCap;
 
@@ -40,7 +40,7 @@ public abstract class PokemobBase extends TamableAnimal implements IEntityAdditi
             scale = Math.min(1, (this.tickCount + 1) / (float) LogicMiscUpdate.EXITCUBEDURATION);
             size = Math.max(0.01f, size * scale);
         }
-        if (this.pokemobCap.getCombatState(CombatStates.DYNAMAX))
+        else if (this.pokemobCap.getCombatState(CombatStates.DYNAMAX))
         {
             // Since we don't change hitbox, we need toset this here.
             this.noCulling = true;

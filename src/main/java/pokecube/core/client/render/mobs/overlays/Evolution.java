@@ -20,6 +20,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.logic.LogicMiscUpdate;
 
 public class Evolution
 {
@@ -75,7 +76,10 @@ public class Evolution
             final float mobScale = pokemob.getSize();
             final thut.api.maths.vecmath.Vec3f dims = entry.getModelSize();
             scale = 0.1f * Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
-            mat.translate(0.0F, dims.y * pokemob.getSize() * pokemob.getEntity().getScale() / 2, 0.0F);
+            float scale2 = 1;
+            scale2 = Math.min(1,
+                    (pokemob.getEntity().tickCount + 1 + partialTick) / (float) LogicMiscUpdate.EXITCUBEDURATION);
+            mat.translate(0.0F, dims.y * pokemob.getSize() * scale2 / 2, 0.0F);
         }
         for (int i = 0; i < (f5 + f5 * f5) / 2.0F * 100.0F; ++i)
         {

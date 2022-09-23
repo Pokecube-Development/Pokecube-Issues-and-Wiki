@@ -2,17 +2,16 @@ package thut.core.client.render.model;
 
 import java.io.FileNotFoundException;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -68,10 +67,10 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         }
     }
 
-    public HashMap<String, IExtendedModelPart> parts = new HashMap<>();
+    public Map<String, IExtendedModelPart> parts = new Object2ObjectOpenHashMap<>();
 
     private final List<String> order = Lists.newArrayList();
-    protected Map<String, Material> mats = Maps.newHashMap();
+    protected Map<String, Material> mats = new Object2ObjectOpenHashMap<>();
 
     Set<String> heads = Sets.newHashSet();
     public String name;
@@ -159,7 +158,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     }
 
     @Override
-    public HashMap<String, IExtendedModelPart> getParts()
+    public Map<String, IExtendedModelPart> getParts()
     {
         return this.parts;
     }

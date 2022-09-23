@@ -1,6 +1,5 @@
 package thut.core.client.render.model;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -110,7 +109,7 @@ public interface IExtendedModelPart extends IModelCustom
 
     IExtendedModelPart getParent();
 
-    <T extends IExtendedModelPart> HashMap<String, T> getSubParts();
+    <T extends IExtendedModelPart> Map<String, T> getSubParts();
 
     List<String> getRenderOrder();
 

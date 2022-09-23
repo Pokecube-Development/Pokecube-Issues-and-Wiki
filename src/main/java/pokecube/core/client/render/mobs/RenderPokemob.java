@@ -1,7 +1,5 @@
 package pokecube.core.client.render.mobs;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +12,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -27,7 +26,9 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.logic.LogicMiscUpdate;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader.DefaultFormeHolder.TexColours;
 import pokecube.core.entity.pokemobs.PokemobType;
@@ -137,13 +138,13 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     {
         public ModelWrapper<Mob> wrapper;
         final Vector3 rotPoint = new Vector3();
-        HashMap<String, List<Animation>> anims = Maps.newHashMap();
+        Map<String, List<Animation>> anims = new Object2ObjectOpenHashMap<>();
         private IPartTexturer texturer;
         private IAnimationChanger animator;
         public String name;
-        public HashMap<String, PartInfo> parts = Maps.newHashMap();
-        HashMap<String, ArrayList<Vector5>> global;
-        public HashMap<String, List<Animation>> animations = Maps.newHashMap();
+        public Map<String, PartInfo> parts = new Object2ObjectOpenHashMap<>();
+        Map<String, List<Vector5>> global;
+        public Map<String, List<Animation>> animations = new Object2ObjectOpenHashMap<>();
         private final List<String> toRunNames = Lists.newArrayList();
         private final List<Animation> toRun = Lists.newArrayList();
         private Vector3 offset = new Vector3();;
@@ -206,7 +207,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
 
         @Override
-        public HashMap<String, List<Animation>> getAnimations()
+        public Map<String, List<Animation>> getAnimations()
         {
             return this.animations;
         }
@@ -311,7 +312,21 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         {
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             float s = 1;
-            if (pokemob != null) s = pokemob.getEntity().getScale();
+            if (pokemob != null)
+            {
+                s = pokemob.getSize();
+                if (pokemob.getGeneralState(GeneralStates.EXITINGCUBE))
+                {
+                    float scale = 1;
+                    scale = Math.min(1,
+                            (entity.tickCount + 1 + partialTick) / (float) LogicMiscUpdate.EXITCUBEDURATION);
+                    s = Math.max(0.01f, scale);
+                }
+                else
+                {
+                    s = pokemob.getEntity().getScale();
+                }
+            }
             float sx = (float) this.getScale().x;
             float sy = (float) this.getScale().y;
             float sz = (float) this.getScale().z;
@@ -355,7 +370,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
 
         @Override
-        public void updateModel(final HashMap<String, ArrayList<Vector5>> global, final ModelHolder model)
+        public void updateModel(final Map<String, List<Vector5>> global, final ModelHolder model)
         {
             this.name = model.name;
             this.texture = model.texture;

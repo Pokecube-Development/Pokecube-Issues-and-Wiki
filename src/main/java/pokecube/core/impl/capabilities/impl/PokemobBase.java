@@ -6,8 +6,8 @@ import java.util.UUID;
 import java.util.Vector;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
@@ -219,8 +219,8 @@ public abstract class PokemobBase implements IPokemob
      */
     protected ResourceLocation[] textures;
 
-    protected final Map<ResourceLocation, ResourceLocation> shinyTexs = Maps.newHashMap();
-    protected final Map<ResourceLocation, ResourceLocation[]> texs = Maps.newHashMap();
+    protected final Map<ResourceLocation, ResourceLocation> shinyTexs = new Object2ObjectOpenHashMap<>();
+    protected final Map<ResourceLocation, ResourceLocation[]> texs = new Object2ObjectOpenHashMap<>();
 
     /**
      * This is the nbt of searalizable tasks.

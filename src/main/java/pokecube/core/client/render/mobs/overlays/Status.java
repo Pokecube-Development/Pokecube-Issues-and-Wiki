@@ -1,5 +1,8 @@
 package pokecube.core.client.render.mobs.overlays;
 
+import java.util.Set;
+
+import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 
@@ -80,6 +83,8 @@ public class Status
 
     }
 
+    public static final Set<String> EXCLUDED_PARTS = Sets.newHashSet();
+
     public static final StatusTexturer FRZTEX = new StatusTexturer(Status.FRZ);
     public static final StatusTexturer PARTEX = new StatusTexturer(Status.PAR);
 
@@ -131,6 +136,7 @@ public class Status
             statusTexturer.bindObject(mob);
             wrap.getParts().forEach((n, p) -> {
                 p.applyTexture(buf, default_, statusTexturer);
+                if (EXCLUDED_PARTS.contains(p.getName())) p.setHidden(true);
             });
         }
         renderer.getModel().prepareMobModel(mob, f5, f8, partialTicks);
@@ -144,6 +150,7 @@ public class Status
             texer.bindObject(mob);
             wrap.getParts().forEach((n, p) -> {
                 p.applyTexture(buf, orig_, texer);
+                if (EXCLUDED_PARTS.contains(p.getName())) p.setHidden(false);
             });
         }
 
