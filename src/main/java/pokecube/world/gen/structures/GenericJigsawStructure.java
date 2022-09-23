@@ -93,13 +93,13 @@ public class GenericJigsawStructure extends Structure
 
     public static class ClearanceSettings
     {
-        public static final ClearanceSettings DEFAULT = new ClearanceSettings(0, 0, -1);
+        public static final ClearanceSettings DEFAULT = new ClearanceSettings(0, 0, 100);
 
         public static final Codec<ClearanceSettings> CODEC = RecordCodecBuilder.create((instance) -> {
             return instance
                     .group(Codec.INT.fieldOf("h_clearance").orElse(0).forGetter(s -> s.h_clearance),
                             Codec.INT.fieldOf("v_clearance").orElse(0).forGetter(s -> s.v_clearance),
-                            Codec.INT.fieldOf("max_distance_from_center").orElse(-1)
+                            Codec.INT.fieldOf("max_distance_from_center").orElse(100)
                                     .forGetter(s -> s.max_distance_from_center))
                     .apply(instance, ClearanceSettings::new);
         });

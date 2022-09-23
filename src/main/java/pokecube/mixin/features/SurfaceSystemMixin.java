@@ -15,6 +15,7 @@ import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.chunk.BlockColumn;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.NoiseChunk;
+import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.SurfaceSystem;
 import net.minecraft.world.level.levelgen.WorldGenerationContext;
@@ -24,10 +25,10 @@ import pokecube.world.WorldgenTags;
 public abstract class SurfaceSystemMixin
 {
     @Inject(method = "buildSurface", locals = LocalCapture.CAPTURE_FAILSOFT, at = @At(value = "INVOKE", target = "Lnet/minecraft/core/Holder;is(Lnet/minecraft/resources/ResourceKey;)Z", ordinal = 0))
-    private void onGetBiome(BiomeManager manager, Registry<Biome> registry, boolean unk, WorldGenerationContext context,
-            final ChunkAccess chunk, NoiseChunk noiseChunk, SurfaceRules.RuleSource rules, CallbackInfo ci,
-            final BlockPos.MutableBlockPos blockpos$mutableblockpos, final ChunkPos chunkpos, int i, int j,
-            BlockColumn blockcolumn, SurfaceRules.Context surfacerules$context,
+    private void onGetBiome(RandomState rng, BiomeManager manager, Registry<Biome> registry, boolean unk,
+            WorldGenerationContext context, final ChunkAccess chunk, NoiseChunk noiseChunk,
+            SurfaceRules.RuleSource rules, CallbackInfo ci, final BlockPos.MutableBlockPos blockpos$mutableblockpos,
+            final ChunkPos chunkpos, int i, int j, BlockColumn blockcolumn, SurfaceRules.Context surfacerules$context,
             SurfaceRules.SurfaceRule surfacerules$surfacerule, BlockPos.MutableBlockPos blockpos$mutableblockpos1,
             int k, int l, int i1, int j1, int k1, Holder<Biome> holder)
     {

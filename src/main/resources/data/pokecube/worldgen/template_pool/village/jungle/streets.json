@@ -4,6 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/jungle/streets/crossroad_01",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -16,7 +17,7 @@
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
-      "weight": 3
+      "weight": 2
     },
     {
       "element": {
@@ -25,7 +26,7 @@
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
-      "weight": 5
+      "weight": 2
     },
     {
       "element": {
@@ -34,7 +35,7 @@
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
-      "weight": 5
+      "weight": 2
     }
   ],
   "fallback": "pokecube:village/jungle/terminators",

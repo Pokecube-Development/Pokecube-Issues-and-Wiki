@@ -31,6 +31,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_cross_1",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
@@ -40,6 +41,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_cross_2",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },

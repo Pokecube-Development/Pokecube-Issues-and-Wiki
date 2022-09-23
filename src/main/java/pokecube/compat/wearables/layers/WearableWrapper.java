@@ -129,8 +129,8 @@ public class WearableWrapper
             mat.scale(sx, -sy, -sz);
 
             final MultiBufferSource buff = Minecraft.getInstance().renderBuffers().bufferSource();
-            Minecraft.getInstance().getItemInHandRenderer().renderItem(mob, stack, ItemTransforms.TransformType.GROUND,
-                    false, mat, buff, this.brightness);
+            Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().renderItem(mob, stack,
+                    ItemTransforms.TransformType.GROUND, false, mat, buff, this.brightness);
             this.postRender(mat);
             mat.popPose();
         }

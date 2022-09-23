@@ -34,6 +34,33 @@ import thut.lib.TComponent;
 public class DebugInteractions
 {
 
+//    @SubscribeEvent
+//    public static void onKeyInput(final Key evt)
+//    {
+//        if (Minecraft.getInstance().screen != null) return;
+//        final Player player = Minecraft.getInstance().player;
+//        if (evt.getKey() == GLFW.GLFW_KEY_UP)
+//        {
+//            player.xRot -= 1;
+//            player.xRotO = player.xRot;
+//        }
+//        if (evt.getKey() == GLFW.GLFW_KEY_DOWN)
+//        {
+//            player.xRot += 1;
+//            player.xRotO = player.xRot;
+//        }
+//        if (evt.getKey() == GLFW.GLFW_KEY_LEFT)
+//        {
+//            player.yRot -= 1;
+//            player.yRotO = player.xRot;
+//        }
+//        if (evt.getKey() == GLFW.GLFW_KEY_RIGHT)
+//        {
+//            player.yRot += 1;
+//            player.yRotO = player.xRot;
+//        }
+//    }
+
     @SubscribeEvent
     public static void onBlockRightClick(final PlayerInteractEvent.RightClickBlock evt)
     {
@@ -82,12 +109,11 @@ public class DebugInteractions
                 if (name.toString().startsWith("pokecube"))
                 {
                     thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Checking " + name));
-                    final ResourceKey<Structure> structure = ResourceKey
-                            .create(Registry.STRUCTURE_REGISTRY, name);
+                    final ResourceKey<Structure> structure = ResourceKey.create(Registry.STRUCTURE_REGISTRY, name);
                     var holder = registry.getHolderOrThrow(structure);
                     HolderSet<Structure> holderset = HolderSet.direct(holder);
-                    Pair<BlockPos, Holder<Structure>> thing = level.getChunkSource()
-                            .getGenerator().findNearestMapStructure(level, holderset, v.getPos(), 100, false);
+                    Pair<BlockPos, Holder<Structure>> thing = level.getChunkSource().getGenerator()
+                            .findNearestMapStructure(level, holderset, v.getPos(), 100, false);
                     if (thing != null)
                     {
                         found.add(name);

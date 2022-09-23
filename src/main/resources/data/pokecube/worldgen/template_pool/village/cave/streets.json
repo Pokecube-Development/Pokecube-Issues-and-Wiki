@@ -13,6 +13,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/streets/crossroad_01",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "processors": "pokecube:cave_village",
         "bool_config": {"no_affect_noise":true},"int_config":{"space_below":0},"projection": "rigid"
       },
@@ -22,6 +23,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/cave/streets/crossroad_02",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "processors": "pokecube:cave_village",
         "bool_config": {"no_affect_noise":true},"int_config":{"space_below":0},"projection": "rigid"
       },

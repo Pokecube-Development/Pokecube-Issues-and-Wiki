@@ -164,6 +164,8 @@ public class ExpandedJigsawPacement
                 int pieceCenterX = (pieceBoundingBox.maxX() + pieceBoundingBox.minX()) / 2;
                 int pieceCenterZ = (pieceBoundingBox.maxZ() + pieceBoundingBox.minZ()) / 2;
                 int pieceCenterY = l;
+                AABB maxBounds = new AABB(pieceBoundingBox.getCenter()).inflate(
+                        config.clearances.max_distance_from_center, 1024, config.clearances.max_distance_from_center);
 
                 return Optional.of(new Structure.GenerationStub(new BlockPos(pieceCenterX, pieceCenterY, pieceCenterZ),
                         (builder) ->
@@ -185,8 +187,8 @@ public class ExpandedJigsawPacement
                                     if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Starting Try: {}", n);
                                     List<PoolElementStructurePiece> list = Lists.newArrayList();
                                     list.add(root_piece);
-                                    Placer placer = new Placer(config, context, registry, config.max_depth, list,
-                                            worldgenrandom);
+                                    Placer placer = new Placer(config, context, registry, config.max_depth, maxBounds,
+                                            list, worldgenrandom);
                                     attempts.add(placer);
 
                                     MutableObject<VoxelShape> bounds = new MutableObject<>(
@@ -282,13 +284,14 @@ public class ExpandedJigsawPacement
         final GenericJigsawStructure config;
         final RandomState rng;
         final Deque<ExpandedJigsawPacement.PieceState> placing = Queues.newArrayDeque();
+        final AABB maxBounds;
         MutableObject<VoxelShape> rigid_bounds = new MutableObject<>();
         MutableObject<VoxelShape> non_rigid_bounds = new MutableObject<>();
 
         boolean logs = false;
 
         Placer(GenericJigsawStructure config, GenerationContext context, Registry<StructureTemplatePool> pools,
-                int max_depth, List<? super PoolElementStructurePiece> pieces, RandomSource random)
+                int max_depth, AABB maxBounds, List<? super PoolElementStructurePiece> pieces, RandomSource random)
         {
             this.pools = pools;
             this.maxDepth = max_depth;
@@ -300,6 +303,7 @@ public class ExpandedJigsawPacement
             this.needed_once = Sets.newHashSet(config.required_parts);
             this.rng = context.randomState();
             this.config = config;
+            this.maxBounds = maxBounds;
         }
 
         List<StructureBlockInfo> getShuffledJigsaws(StructurePoolElement structurepoolelement, BlockPos blockpos,
@@ -488,8 +492,12 @@ public class ExpandedJigsawPacement
 
                     if (valid_fallback)
                     {
-                        for (StructurePoolElement next_picked_element : getShuffledParts(depth, next_pool,
-                                fallback_pool))
+                        var picked_parts = getShuffledParts(depth, next_pool, fallback_pool);
+                        // remove any parts that are deemed invalid due to
+                        // attachment rules.
+                        if (root_element instanceof ExpandedJigsawPiece piece) picked_parts.removeIf(piece::noAttach);
+
+                        for (StructurePoolElement next_picked_element : picked_parts)
                         {
                             if (next_picked_element == EmptyPoolElement.INSTANCE) break;
 
@@ -500,6 +508,7 @@ public class ExpandedJigsawPacement
                             int non_rigid_fails = 0;
                             int duplicated_fails = 0;
                             int wrong_attach = 0;
+                            int too_far_fails = 0;
 
                             for (Rotation random_direction : Rotation.getShuffled(this.random))
                             {
@@ -653,6 +662,14 @@ public class ExpandedJigsawPacement
                                                 }
                                             }
 
+                                            // Also do not let it leave the
+                                            // maxBounds box
+                                            if (!test_box.intersect(maxBounds).equals(test_box))
+                                            {
+                                                too_far_fails++;
+                                                continue pick_jigsaws;
+                                            }
+
                                             // If we are rigid, add the boundary
                                             // now, so we don't conflict with
                                             // future possible additions
@@ -769,14 +786,15 @@ public class ExpandedJigsawPacement
                                 }
                             }
                             if (this.logs) PokecubeAPI.LOGGER.debug(
-                                    "Skipping {} as did not fit: rigid_conflict:{} non_rigid_conflict:{} root_conflict:{} duplicated:{} no_attachment:{}",
+                                    "Skipping {} as did not fit: rigid_conflict:{} non_rigid_conflict:{} root_conflict:{} duplicated:{} no_attachment:{} too_far:{}",
                                     next_picked_element, rigid_fails, non_rigid_fails, bounds_fails, duplicated_fails,
-                                    wrong_attach);
+                                    wrong_attach, too_far_fails);
                         }
                     }
                     else
                     {
-                        PokecubeAPI.LOGGER.warn("Empty or non-existent fallback pool: {} in {}", resourcelocation1, config.name);
+                        PokecubeAPI.LOGGER.warn("Empty or non-existent fallback pool: {} in {}", resourcelocation1,
+                                config.name);
                     }
                 }
                 else

@@ -3,6 +3,7 @@
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "location": "pokecube:village/the_end/streets/crossroad_01",
         "processors": "pokecube:generic",
         "projection": "rigid"
@@ -12,6 +13,7 @@
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "location": "pokecube:village/the_end/streets/crossroad_02",
         "processors": "pokecube:generic",
         "projection": "rigid"
@@ -21,6 +23,7 @@
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "location": "pokecube:village/the_end/streets/crossroad_03",
         "processors": "pokecube:generic",
         "projection": "rigid"

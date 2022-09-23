@@ -6,6 +6,7 @@
       "weight": 5,
       "element": {
         "location": "pokecube:village/plains/streets/road_t_01",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
         "bool_config": {"no_affect_noise":true},
         "element_type": "pokecube:expanded_pool_element",
@@ -16,6 +17,7 @@
       "weight": 3,
       "element": {
         "location": "pokecube:village/plains/streets/road_plus_01",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
         "bool_config": {"no_affect_noise":true},
         "element_type": "pokecube:expanded_pool_element",
@@ -37,6 +39,7 @@
       "weight": 3,
       "element": {
         "location": "pokecube:village/plains/streets/corner_01",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
         "bool_config": {"no_affect_noise":true},
         "element_type": "pokecube:expanded_pool_element",
@@ -47,6 +50,7 @@
       "weight": 3,
       "element": {
         "location": "pokecube:village/plains/streets/corner_02",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
         "bool_config": {"no_affect_noise":true},
         "element_type": "pokecube:expanded_pool_element",
@@ -57,6 +61,7 @@
       "weight": 3,
       "element": {
         "location": "pokecube:village/plains/streets/corner_03",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
         "bound_check": false,
         "element_type": "pokecube:expanded_pool_element",
@@ -68,6 +73,7 @@
       "weight": 5,
       "element": {
         "location": "pokecube:village/plains/streets/crossroad_01",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
         "bool_config": {"no_affect_noise":true},
         "element_type": "pokecube:expanded_pool_element",
@@ -78,6 +84,7 @@
       "weight": 5,
       "element": {
         "location": "pokecube:village/plains/streets/crossroad_02",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
         "bound_check": false,
         "element_type": "pokecube:expanded_pool_element",
@@ -88,6 +95,7 @@
       "weight": 5,
       "element": {
         "location": "pokecube:village/plains/streets/crossroad_03",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
         "bool_config": {"no_affect_noise":true},
         "element_type": "pokecube:expanded_pool_element",
@@ -98,6 +106,7 @@
       "weight": 5,
       "element": {
         "location": "pokecube:village/plains/streets/crossroad_04",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
         "bool_config": {"no_affect_noise":true},
         "element_type": "pokecube:expanded_pool_element",
@@ -108,6 +117,7 @@
       "weight": 5,
       "element": {
         "location": "pokecube:village/plains/streets/crossroad_05",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
         "bool_config": {"no_affect_noise":true},
         "element_type": "pokecube:expanded_pool_element",
@@ -118,6 +128,7 @@
       "weight": 5,
       "element": {
         "location": "pokecube:village/plains/streets/crossroad_06",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
         "bool_config": {"no_affect_noise":true},
         "element_type": "pokecube:expanded_pool_element",
@@ -190,6 +201,7 @@
       "weight": 3,
       "element": {
         "location": "pokecube:village/plains/streets/turn_01",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
         "bool_config": {"no_affect_noise":true},
         "element_type": "pokecube:expanded_pool_element",
