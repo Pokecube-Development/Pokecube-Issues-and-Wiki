@@ -4,7 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/hills/streets/crossroad_01",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_hills",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_hills_block_rot",
         "projection": "terrain_matching"
       },
       "weight": 3
@@ -13,7 +13,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/hills/streets/straight_1",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_hills",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_hills_block_rot",
         "projection": "terrain_matching"
       },
       "weight": 5
@@ -22,7 +22,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/hills/streets/straight_2",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_hills",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_hills_block_rot",
         "projection": "terrain_matching"
       },
       "weight": 5
@@ -31,7 +31,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/hills/streets/straight_3",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_hills",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_hills_block_rot",
         "projection": "terrain_matching"
       },
       "weight": 5
@@ -40,7 +40,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/hills/streets/straight_4",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_hills",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_hills_block_rot",
         "projection": "terrain_matching"
       },
       "weight": 5
