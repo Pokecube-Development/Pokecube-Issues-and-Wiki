@@ -61,6 +61,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public int overlay = 655360;
 
     private boolean hidden = false;
+    private boolean disabled = false;
 
     private final List<Material> materials = Lists.newArrayList();
     private final Map<String, Material> namedMaterials = new Object2ObjectOpenHashMap<>();
@@ -239,6 +240,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     public void render(final PoseStack mat, final VertexConsumer buffer)
     {
+        if (this.isDisabled()) return;
         this.preRender(mat);
         for (final Mesh s : this.shapes)
         {
@@ -463,5 +465,17 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public List<String> getRenderOrder()
     {
         return this.order;
+    }
+
+    @Override
+    public void setDisabled(boolean disabled)
+    {
+        this.disabled = disabled;
+    }
+
+    @Override
+    public boolean isDisabled()
+    {
+        return disabled;
     }
 }

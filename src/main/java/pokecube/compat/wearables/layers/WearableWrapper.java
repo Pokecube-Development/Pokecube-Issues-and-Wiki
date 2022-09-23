@@ -77,7 +77,6 @@ public class WearableWrapper
 
     private abstract static class WrapPart extends Part
     {
-
         public WrapPart(String name)
         {
             super(name);
@@ -111,7 +110,7 @@ public class WearableWrapper
         @Override
         public void render(PoseStack mat, VertexConsumer buffer)
         {
-            if (this.isHidden()) return;
+            if (this.isDisabled()) return;
             if (stack.isEmpty() || mob == null) return;
             mat.pushPose();
             this.preRender(mat);

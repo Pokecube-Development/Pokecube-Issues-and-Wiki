@@ -132,6 +132,16 @@ public interface IExtendedModelPart extends IModelCustom
         return false;
     }
 
+    default void setDisabled(final boolean disabled)
+    {
+
+    }
+
+    default boolean isDisabled()
+    {
+        return false;
+    }
+
     default void updateMaterial(final Mat mat, final Material material)
     {
 

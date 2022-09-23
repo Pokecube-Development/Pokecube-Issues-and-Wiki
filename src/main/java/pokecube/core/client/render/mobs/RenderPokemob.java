@@ -320,7 +320,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
                     float scale = 1;
                     scale = Math.min(1,
                             (entity.tickCount + 1 + partialTick) / (float) LogicMiscUpdate.EXITCUBEDURATION);
-                    s = Math.max(0.01f, scale);
+                    s = Math.max(0.01f, s * scale);
                 }
                 else
                 {
