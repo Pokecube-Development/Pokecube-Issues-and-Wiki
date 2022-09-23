@@ -34,24 +34,31 @@ public class DistortedIslandsFeature extends Feature<NoneFeatureConfiguration>
 
         Map<BlockPos, BlockState> toPlace = Maps.newHashMap();
 
-        for (int y = 0 + random.nextInt(2); f > 0.5F; --y)
+        // This results in a circle.
+        for (int x = Mth.floor(-f); x <= Mth.ceil(f); ++x)
         {
-            for (int x = Mth.floor(-f); x <= Mth.ceil(f); ++x)
+            for (int z = Mth.floor(-f); z <= Mth.ceil(f); ++z)
             {
-                for (int z = Mth.floor(-f); z <= Mth.ceil(f); ++z)
+                double r = Math.sqrt(z * z + x * x);
+                if (r > f) continue;
+
+                // This results in a semi-random height, but average larger in
+                // the middle.
+                int yMax = (int) (f);
+                r -= random.nextInt(3);
+                int yMin = (int) r;
+                if (yMax - yMin < 3) continue;
+                for (int y = yMax; y >= yMin; y--)
                 {
-                    if ((float) (x * x + z * z) <= (f + 1.0F) * (f + 1.0F))
-                    {
-                        toPlace.put(new BlockPos(x, y, z), BlockInit.DISTORTIC_STONE.get().defaultBlockState());
-                        toPlace.put(new BlockPos(x, y + 1, z),
-                                BlockInit.DISTORTIC_GRASS_BLOCK.get().defaultBlockState());
-                        toPlace.put(new BlockPos(x, y - 1, z), BlockInit.CRACKED_DISTORTIC_STONE.get()
-                                .defaultBlockState().setValue(DirectionalBlock.FACING, Direction.DOWN));
-                        toPlace.put(new BlockPos(x, y - 2, z), BlockInit.DISTORTIC_GLOWSTONE.get().defaultBlockState());
-                    }
+                    BlockState state = null;
+                    if (y == yMax) state = BlockInit.DISTORTIC_GRASS_BLOCK.get().defaultBlockState();
+                    else if (y == yMin) state = BlockInit.DISTORTIC_GLOWSTONE.get().defaultBlockState();
+                    else if (y == yMin + 1) state = BlockInit.CRACKED_DISTORTIC_STONE.get().defaultBlockState()
+                            .setValue(DirectionalBlock.FACING, Direction.DOWN);
+                    else state = BlockInit.DISTORTIC_STONE.get().defaultBlockState();
+                    toPlace.put(new BlockPos(x, y, z), state);
                 }
             }
-            f = (float) ((double) f - ((double) random.nextInt(2) + 0.5D));
         }
 
         Direction dir = Direction.getRandom(random);
