@@ -93,22 +93,26 @@ public class GenericJigsawStructure extends Structure
 
     public static class ClearanceSettings
     {
-        public static final ClearanceSettings DEFAULT = new ClearanceSettings(0, 0);
+        public static final ClearanceSettings DEFAULT = new ClearanceSettings(0, 0, -1);
 
         public static final Codec<ClearanceSettings> CODEC = RecordCodecBuilder.create((instance) -> {
             return instance
                     .group(Codec.INT.fieldOf("h_clearance").orElse(0).forGetter(s -> s.h_clearance),
-                            Codec.INT.fieldOf("v_clearance").orElse(0).forGetter(s -> s.v_clearance))
+                            Codec.INT.fieldOf("v_clearance").orElse(0).forGetter(s -> s.v_clearance),
+                            Codec.INT.fieldOf("max_distance_from_center").orElse(-1)
+                                    .forGetter(s -> s.max_distance_from_center))
                     .apply(instance, ClearanceSettings::new);
         });
 
         public int h_clearance;
         public int v_clearance;
+        public int max_distance_from_center;
 
-        public ClearanceSettings(int h_clearance, int v_clearance)
+        public ClearanceSettings(int h_clearance, int v_clearance, int max_distance_from_center)
         {
             this.h_clearance = h_clearance;
             this.v_clearance = v_clearance;
+            this.max_distance_from_center = max_distance_from_center;
         }
     }
 
@@ -307,19 +311,22 @@ public class GenericJigsawStructure extends Structure
         // Check the settings for max slope and other height bounds
         int max_y = Integer.MIN_VALUE;
         int min_y = Integer.MAX_VALUE;
-        for (int x = pos.x - this.y_settings.y_check_radius; x <= pos.x + this.y_settings.y_check_radius; x++)
-            for (int z = pos.z - this.y_settings.y_check_radius; z <= pos.z + this.y_settings.y_check_radius; z++)
+        if (!this.underground)
         {
-            int height = context.chunkGenerator().getBaseHeight((x << 4) + 7, (z << 4) + 7, this.height_type,
-                    context.heightAccessor(), rng);
-            max_y = Math.max(max_y, height);
-            min_y = Math.min(min_y, height);
-            if (min_y < this.y_settings.min_y) return false;
-            if (max_y > this.y_settings.max_y) return false;
-        }
-        if (max_y - min_y > this.y_settings.max_dy)
-        {
-            return false;
+            for (int x = pos.x - this.y_settings.y_check_radius; x <= pos.x + this.y_settings.y_check_radius; x++)
+                for (int z = pos.z - this.y_settings.y_check_radius; z <= pos.z + this.y_settings.y_check_radius; z++)
+            {
+                int height = context.chunkGenerator().getBaseHeight((x << 4) + 7, (z << 4) + 7, this.height_type,
+                        context.heightAccessor(), rng);
+                max_y = Math.max(max_y, height);
+                min_y = Math.min(min_y, height);
+                if (min_y < this.y_settings.min_y) return false;
+                if (max_y > this.y_settings.max_y) return false;
+            }
+            if (max_y - min_y > this.y_settings.max_dy)
+            {
+                return false;
+            }
         }
         return true;
     }
