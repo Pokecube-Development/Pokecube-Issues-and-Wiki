@@ -1,8 +1,7 @@
 package thut.core.client.render.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -64,7 +63,7 @@ public interface IModelRenderer<T extends Entity>
 
     IAnimationChanger getAnimationChanger();
 
-    HashMap<String, List<Animation>> getAnimations();
+    Map<String, List<Animation>> getAnimations();
 
     default Vector3 getRotationOffset()
     {
@@ -125,5 +124,5 @@ public interface IModelRenderer<T extends Entity>
 
     void setTexturer(IPartTexturer texturer);
 
-    void updateModel(HashMap<String, ArrayList<Vector5>> phaseList, ModelHolder model);
+    void updateModel(Map<String, List<Vector5>> phaseList, ModelHolder model);
 }

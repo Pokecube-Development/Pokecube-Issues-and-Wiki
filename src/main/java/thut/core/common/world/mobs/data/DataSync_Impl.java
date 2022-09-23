@@ -66,7 +66,8 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
         return (T) data;
     }
 
-    public Int2ObjectArrayMap<Data<?>> data = new Int2ObjectArrayMap<>();
+    private Int2ObjectArrayMap<Data<?>> data = new Int2ObjectArrayMap<>();
+    private Int2ObjectArrayMap<Data<?>> readCache = new Int2ObjectArrayMap<>();
     private final LazyOptional<DataSync> holder = LazyOptional.of(() -> this);
 
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
@@ -84,15 +85,7 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
     @SuppressWarnings("unchecked")
     public <T> T get(final int key)
     {
-        this.r.lock();
-        try
-        {
-            return (T) this.data.get(key).get();
-        }
-        finally
-        {
-            this.r.unlock();
-        }
+        return (T) this.readCache.get(key).get();
     }
 
     @Override
@@ -140,6 +133,7 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
         // Initialize the UID for this data.
         DataSync_Impl.getID(data);
         this.data.put(id, data);
+        this.readCache.put(id, data);
         return id;
     }
 
@@ -170,6 +164,7 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
             // if things have not initialized on both sides yet.
             if (uid1 != uid2) continue;
             this.data.put(value.getID(), value);
+            this.readCache.put(value.getID(), value);
         }
         this.w.unlock();
     }

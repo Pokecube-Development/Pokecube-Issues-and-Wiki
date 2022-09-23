@@ -1,10 +1,12 @@
 package pokecube.core.entity.pokemobs.helper;
 
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.FlyingAnimal;
+import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -15,8 +17,8 @@ import pokecube.core.ai.logic.LogicMiscUpdate;
 import pokecube.core.impl.capabilities.DefaultPokemob;
 import thut.api.entity.IMobColourable;
 
-public abstract class PokemobBase extends TamableAnimal implements IEntityAdditionalSpawnData, FlyingAnimal,
-        IMobColourable
+public abstract class PokemobBase extends TamableAnimal
+        implements IEntityAdditionalSpawnData, FlyingAnimal, IMobColourable, InventoryCarrier
 {
     public final DefaultPokemob pokemobCap;
 
@@ -38,7 +40,7 @@ public abstract class PokemobBase extends TamableAnimal implements IEntityAdditi
             scale = Math.min(1, (this.tickCount + 1) / (float) LogicMiscUpdate.EXITCUBEDURATION);
             size = Math.max(0.01f, size * scale);
         }
-        if (this.pokemobCap.getCombatState(CombatStates.DYNAMAX))
+        else if (this.pokemobCap.getCombatState(CombatStates.DYNAMAX))
         {
             // Since we don't change hitbox, we need toset this here.
             this.noCulling = true;
@@ -53,5 +55,11 @@ public abstract class PokemobBase extends TamableAnimal implements IEntityAdditi
     public EntityDimensions getDimensions(final Pose poseIn)
     {
         return this.dimensions.scale(this.getScale());
+    }
+
+    @Override
+    public Container getInventory()
+    {
+        return pokemobCap.getInventory();
     }
 }

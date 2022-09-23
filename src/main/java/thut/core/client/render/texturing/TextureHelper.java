@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -34,12 +34,12 @@ public class TextureHelper implements IPartTexturer
 
     private static class TexState
     {
-        Map<String, double[]> infoStates = Maps.newHashMap();
+        Map<String, double[]> infoStates = new Object2ObjectOpenHashMap<>();
         Set<RandomState> randomStates = Sets.newHashSet();
         Sequence sequence = null;
         // TODO way to handle cheaning this up.
-        Map<Integer, RandomState> running = Maps.newHashMap();
-        Map<Integer, Integer> setTimes = Maps.newHashMap();
+        Map<Integer, RandomState> running = new Object2ObjectOpenHashMap<>();
+        Map<Integer, Integer> setTimes = new Object2ObjectOpenHashMap<>();
 
         void addState(final String trigger, final String[] diffs)
         {
@@ -136,24 +136,24 @@ public class TextureHelper implements IPartTexturer
 
     protected IMobTexturable mob;
     /** Map of part/material name -> texture name */
-    Map<String, String> texNames = Maps.newHashMap();
+    Map<String, String> texNames = new Object2ObjectOpenHashMap<>();
     /** Map of part/material name -> map of custom state -> texture name */
-    Map<String, Map<String, String>> texNames2 = Maps.newHashMap();
+    Map<String, Map<String, String>> texNames2 = new Object2ObjectOpenHashMap<>();
     public ResourceLocation default_tex;
     String default_path;
 
     boolean default_flat = true;
 
     /** Map of part/material name -> resource location */
-    Map<String, ResourceLocation> texMap = Maps.newHashMap();
+    Map<String, ResourceLocation> texMap = new Object2ObjectOpenHashMap<>();
 
-    Map<String, TexState> texStates = Maps.newHashMap();
+    Map<String, TexState> texStates = new Object2ObjectOpenHashMap<>();
 
-    Map<String, Set<RandomFixed>> fixedOffsets = Maps.newHashMap();
+    Map<String, Set<RandomFixed>> fixedOffsets = new Object2ObjectOpenHashMap<>();
 
-    Map<String, Set<Colour>> colours = Maps.newHashMap();
+    Map<String, Set<Colour>> colours = new Object2ObjectOpenHashMap<>();
 
-    Map<String, String> formeMap = Maps.newHashMap();
+    Map<String, String> formeMap = new Object2ObjectOpenHashMap<>();
 
     public TextureHelper()
     {}
@@ -256,7 +256,7 @@ public class TextureHelper implements IPartTexturer
         Map<String, String> partMap = this.texNames2.get(part);
         if (partMap == null)
         {
-            partMap = Maps.newHashMap();
+            partMap = new Object2ObjectOpenHashMap<>();
             this.texNames2.put(part, partMap);
         }
         partMap.put(state, tex);
@@ -296,7 +296,7 @@ public class TextureHelper implements IPartTexturer
             Entity entity = e;
             String modid = RegHelper.getKey(this.entity.getType()).getNamespace();
 
-            Map<ResourceLocation, ResourceLocation> remapped = Maps.newHashMap();
+            Map<ResourceLocation, ResourceLocation> remapped = new Object2ObjectOpenHashMap<>();
 
             @Override
             public Entity getEntity()

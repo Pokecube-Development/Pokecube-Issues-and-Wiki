@@ -409,8 +409,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             this.hasItems = false;
             if (nest != null)
             {
-                final IItemHandler handler = nest.getCapability(ThutCaps.ITEM_HANDLER)
-                        .orElse(null);
+                final IItemHandler handler = nest.getCapability(ThutCaps.ITEM_HANDLER).orElse(null);
                 for (int i = 0; i < handler.getSlots(); i++)
                 {
                     final ItemStack stack = handler.getStackInSlot(i);
@@ -741,14 +740,13 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             drop:
             if (pokemob != null && nest.isPresent())
             {
-                final IItemHandler handler = nest.get().nest
-                        .getCapability(ThutCaps.ITEM_HANDLER).orElse(null);
-                if (!(handler instanceof IItemHandlerModifiable)) break drop;
+                final IItemHandler nestInventory = nest.get().nest.getCapability(ThutCaps.ITEM_HANDLER).orElse(null);
+                if (!(nestInventory instanceof IItemHandlerModifiable nestInv)) break drop;
                 final IItemHandlerModifiable itemhandler = new InvWrapper(pokemob.getInventory());
                 for (int i = 2; i < itemhandler.getSlots(); i++)
                 {
                     ItemStack stack = itemhandler.getStackInSlot(i);
-                    if (ItemStackTools.addItemStackToInventory(stack, (IItemHandlerModifiable) handler, 0))
+                    if (ItemStackTools.addItemStackToInventory(stack, nestInv, 0))
                     {
                         if (stack.isEmpty()) stack = ItemStack.EMPTY;
                         itemhandler.setStackInSlot(i, stack);

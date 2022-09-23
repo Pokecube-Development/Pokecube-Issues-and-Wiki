@@ -1,9 +1,11 @@
 package pokecube.compat.wearables.layers;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
@@ -11,8 +13,10 @@ import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -22,6 +26,7 @@ import net.minecraftforge.client.event.ScreenEvent.Init;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
+import pokecube.core.client.render.mobs.overlays.Status;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import thut.core.client.render.animation.AnimationChanger;
 import thut.core.client.render.animation.IAnimationChanger;
@@ -29,8 +34,8 @@ import thut.core.client.render.animation.IAnimationChanger.WornOffsets;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
+import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.wrappers.ModelWrapper;
-import thut.core.client.render.x3d.X3dPart;
 import thut.lib.TComponent;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
@@ -42,20 +47,96 @@ import thut.wearables.network.PacketGui;
 
 public class WearableWrapper
 {
+    public static final Map<EquipmentSlot, String> EQUIP_SLOTS = Maps.newHashMap();
+    public static final List<String> WEAR_SLOTS = Lists.newArrayList();
 
-    static final String helm_ident = "__helm__";
-    static final String chest_ident = "__chest__";
-    static final String legs_ident = "__legs__";
-    static final String boots_ident = "__boots__";
-
-    static final List<String> addedNames = Lists.newArrayList("__helm__", "__chest__", "__legs__", "__boots__");
+    public static final List<String> ALL_SLOTS = Lists.newArrayList();
 
     static
     {
-        addedNames.addAll(EnumWearable.wearableNames.keySet());
+        for (var slot : EquipmentSlot.values())
+        {
+            String name = "__" + slot + "__";
+            EQUIP_SLOTS.put(slot, name);
+            ALL_SLOTS.add(name);
+        }
+        for (final EnumWearable wearable : EnumWearable.values())
+        {
+
+            final int num = wearable.slots;
+            for (int i = 0; i < num; i++)
+            {
+                String ident = "__" + wearable + "__";
+                if (num > 1) ident = i == 0 ? "__" + wearable + "_right__" : "__" + wearable + "_left__";
+                WEAR_SLOTS.add(ident);
+                ALL_SLOTS.add(ident);
+            }
+        }
+        Status.EXCLUDED_PARTS.addAll(ALL_SLOTS);
     }
 
-    private static class WearableRenderWrapper extends X3dPart
+    private abstract static class WrapPart extends Part
+    {
+        public WrapPart(String name)
+        {
+            super(name);
+        }
+
+        @Override
+        public String getType()
+        {
+            return "_internal_";
+        }
+    }
+
+    private static class HeldItemWrapper extends WrapPart
+    {
+        public ItemStack stack;
+        public LivingEntity mob;
+        public WornOffsets offsets;
+
+        public HeldItemWrapper(String name)
+        {
+            super(name);
+        }
+
+        public void setOffsets(WornOffsets offsets)
+        {
+            this.offsets = offsets;
+            this.preTrans.set(offset);
+            this.offsets = offsets;
+        }
+
+        @Override
+        public void render(PoseStack mat, VertexConsumer buffer)
+        {
+            if (this.isDisabled()) return;
+            if (stack.isEmpty() || mob == null) return;
+            mat.pushPose();
+            this.preRender(mat);
+            mat.translate(this.offsets.offset.x, this.offsets.offset.y, this.offsets.offset.z);
+
+            mat.scale(1, -1, -1);
+            mat.mulPose(Vector3f.YP.rotationDegrees(180));
+
+            mat.mulPose(Vector3f.ZP.rotationDegrees((float) offsets.angles.z));
+            mat.mulPose(Vector3f.YP.rotationDegrees((float) offsets.angles.y));
+            mat.mulPose(Vector3f.XP.rotationDegrees((float) offsets.angles.x));
+
+            float sx = (float) this.offsets.scale.x;
+            float sy = (float) this.offsets.scale.y;
+            float sz = (float) this.offsets.scale.z;
+            mat.scale(sx, -sy, -sz);
+
+            final MultiBufferSource buff = Minecraft.getInstance().renderBuffers().bufferSource();
+            Minecraft.getInstance().getItemInHandRenderer().renderItem(mob, stack, ItemTransforms.TransformType.GROUND,
+                    false, mat, buff, this.brightness);
+            this.postRender(mat);
+            mat.popPose();
+        }
+    }
+
+    private static class WearableRenderWrapper extends WrapPart
     {
         public IWearable wrapped;
         public EnumWearable slot;
@@ -80,6 +161,7 @@ public class WearableWrapper
         @Override
         public void render(final PoseStack mat, final VertexConsumer buffer)
         {
+            if (this.isDisabled()) return;
             // We had something, but took it off.
             if (wrapped == null) return;
 
@@ -107,13 +189,6 @@ public class WearableWrapper
             this.postRender(mat);
             mat.popPose();
         }
-
-        @Override
-        public String getType()
-        {
-            return "_internal_";
-        }
-
     }
 
     private static IWearable getWearable(final ItemStack stack)
@@ -122,29 +197,12 @@ public class WearableWrapper
         return stack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null);
     }
 
-    public static void removeWearables(final IModelRenderer<?> renderer, final IModel wrapper)
-    {
-        final List<IExtendedModelPart> added = Lists.newArrayList();
-        for (final String name : WearableWrapper.addedNames)
-            if (wrapper.getParts().containsKey(name)) added.add(wrapper.getParts().get(name));
-        for (final IExtendedModelPart part : added)
-            if (part instanceof WearableRenderWrapper wrapper2) wrapper2.wrapped = null;
-    }
-
     public static WornOffsets getPartParent(final LivingEntity wearer, final IModelRenderer<?> renderer,
             final IModel imodel, final String identifier)
     {
         final IAnimationChanger temp = renderer.getAnimationChanger();
         if (temp instanceof AnimationChanger changer) return changer.wornOffsets.get(identifier);
         return null;
-    }
-
-    @SubscribeEvent
-    public static void postRender(final RenderLivingEvent.Post<?, ?> event)
-    {
-        final EntityModel<?> model = event.getRenderer().getModel();
-
-        if (model instanceof ModelWrapper<?> renderer) WearableWrapper.removeWearables(renderer.renderer, renderer);
     }
 
     @SubscribeEvent
@@ -223,22 +281,79 @@ public class WearableWrapper
     {
         // No Render invisible.
         if (wearer.getEffect(MobEffects.INVISIBILITY) != null) return;
+
         WornOffsets offsets = null;
-        final PlayerWearables worn = ThutWearables.getWearables(wearer);
-        if (worn == null) return;
 
         boolean debug = imodel instanceof ModelWrapper<?> wr && wr.debugMode;
 
+        for (var slot : EquipmentSlot.values())
+        {
+            String ident = EQUIP_SLOTS.get(slot);
+            offsets = WearableWrapper.getPartParent(wearer, renderer, imodel, ident);
+            if (offsets != null && imodel.getParts().containsKey(offsets.parent))
+            {
+                ItemStack stack = wearer.getItemBySlot(slot);
+                HeldItemWrapper wrapper;
+                final IExtendedModelPart part = imodel.getParts().get(offsets.parent);
+                if (imodel.getParts().get(ident) instanceof HeldItemWrapper wrap)
+                {
+                    wrapper = wrap;
+                }
+                else
+                {
+                    wrapper = new HeldItemWrapper(ident);
+                    wrapper.setOffsets(offsets);
+                    wrapper.setParent(part);
+                    part.addChild(wrapper);
+                    if (debug)
+                    {
+                        part.getRenderOrder().add(0, ident);
+                        imodel.getParts().put(ident, wrapper);
+                        imodel.getRenderOrder().add(0, ident);
+                    }
+                    else
+                    {
+                        part.getRenderOrder().add(ident);
+                        imodel.getParts().put(ident, wrapper);
+                        imodel.getRenderOrder().add(ident);
+                    }
+                }
+
+                if (wrapper.stack != stack || wrapper.mob != wearer || offsets != wrapper.offsets)
+                {
+                    wrapper.setOffsets(offsets);
+                    wrapper.stack = stack;
+                    wrapper.mob = wearer;
+                    imodel.getRenderOrder().remove(ident);
+
+                    if (debug)
+                    {
+                        imodel.getParts().put(ident, wrapper);
+                        imodel.getRenderOrder().add(0, ident);
+                    }
+                    else
+                    {
+                        imodel.getParts().put(ident, wrapper);
+                        imodel.getRenderOrder().add(ident);
+                    }
+                    part.preProcess();
+                }
+            }
+        }
+
+        final PlayerWearables worn = ThutWearables.getWearables(wearer);
+        if (worn == null) return;
+
+        int index = 0;
         for (final EnumWearable wearable : EnumWearable.values())
         {
             final int num = wearable.slots;
             for (int i = 0; i < num; i++)
             {
-                String ident = "__" + wearable + "__";
-                if (num > 1) ident = i == 0 ? "__" + wearable + "_right__" : "__" + wearable + "_left__";
+                String ident = WEAR_SLOTS.get(index);
+                index++;
                 final IWearable w = WearableWrapper.getWearable(worn.getWearable(wearable, i));
-
-                if (w == null) continue;
+                ItemStack stack = worn.getWearable(wearable);
                 offsets = WearableWrapper.getPartParent(wearer, renderer, imodel, ident);
                 if (offsets != null && imodel.getParts().containsKey(offsets.parent))
                 {
@@ -266,26 +381,29 @@ public class WearableWrapper
                             imodel.getRenderOrder().add(ident);
                         }
                     }
-                    wrapper.setOffsets(offsets);
-                    wrapper.slot = wearable;
-                    wrapper.wearer = wearer;
-                    wrapper.stack = worn.getWearable(wearable);
-                    wrapper.wrapped = w;
-                    wrapper.subIndex = i;
-                    imodel.getRenderOrder().remove(ident);
 
-                    if (debug)
+                    if (wrapper.stack != stack || wrapper.wearer != wearer || offsets != wrapper.offsets)
                     {
-                        imodel.getParts().put(ident, wrapper);
-                        imodel.getRenderOrder().add(0, ident);
-                    }
-                    else
-                    {
-                        imodel.getParts().put(ident, wrapper);
-                        imodel.getRenderOrder().add(ident);
-                    }
+                        wrapper.setOffsets(offsets);
+                        wrapper.slot = wearable;
+                        wrapper.wearer = wearer;
+                        wrapper.stack = stack;
+                        wrapper.wrapped = w;
+                        wrapper.subIndex = i;
+                        imodel.getRenderOrder().remove(ident);
 
-                    part.preProcess();
+                        if (debug)
+                        {
+                            imodel.getParts().put(ident, wrapper);
+                            imodel.getRenderOrder().add(0, ident);
+                        }
+                        else
+                        {
+                            imodel.getParts().put(ident, wrapper);
+                            imodel.getRenderOrder().add(ident);
+                        }
+                        part.preProcess();
+                    }
                 }
             }
         }

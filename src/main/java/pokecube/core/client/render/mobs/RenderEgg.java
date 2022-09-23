@@ -1,7 +1,6 @@
 package pokecube.core.client.render.mobs;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -181,7 +180,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     }
 
     @Override
-    public HashMap<String, List<Animation>> getAnimations()
+    public Map<String, List<Animation>> getAnimations()
     {
         return this.anims;
     }
@@ -239,9 +238,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     }
 
     @Override
-    public void updateModel(
-            final HashMap<String, ArrayList<thut.core.client.render.model.IModelRenderer.Vector5>> phaseList,
-            final ModelHolder model)
+    public void updateModel(final Map<String, List<Vector5>> phaseList, final ModelHolder model)
     {
 
     }

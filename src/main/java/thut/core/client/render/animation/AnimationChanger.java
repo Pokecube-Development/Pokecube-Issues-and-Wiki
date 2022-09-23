@@ -7,9 +7,9 @@ import java.util.Set;
 import java.util.function.Function;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.DyeColor;
 import thut.api.ThutCaps;
@@ -22,31 +22,29 @@ import thut.api.entity.animation.Animation;
 public class AnimationChanger implements IAnimationChanger
 {
 
-    List<IAnimationChanger>  children   = Lists.newArrayList();
+    List<IAnimationChanger> children = Lists.newArrayList();
     /** These parts can be sheared off. */
-    public final Set<String> shearables = Sets.newHashSet();
+    public final Set<String> shearables = new ObjectOpenHashSet<>();
     /** These parts are dyed based on the specialInfo of the pokemob; */
-    public final Set<String> dyeables   = Sets.newHashSet();
+    public final Set<String> dyeables = new ObjectOpenHashSet<>();
 
     /**
      * These parts get a specific colour offset from the default colour of the
      * specialInfo.
      */
-    public final Map<String, Function<Integer, Integer>> colourOffsets = Maps.newHashMap();
+    public final Map<String, Function<Integer, Integer>> colourOffsets = new Object2ObjectOpenHashMap<>();
     /** This is a set of valid offsets for worn items on the pokemob. */
-    public final Map<String, WornOffsets>                wornOffsets   = Maps.newHashMap();
+    public final Map<String, WornOffsets> wornOffsets = new Object2ObjectOpenHashMap<>();
 
     /**
-     * This is a cache of which parts have been checked for being a
-     * wildcard.
+     * This is a cache of which parts have been checked for being a wildcard.
      */
-    private final Set<String> checkWildCard = Sets.newHashSet();
+    private final Set<String> checkWildCard = new ObjectOpenHashSet<>();
 
     IAnimationHolder currentHolder = null;
 
     public AnimationChanger()
-    {
-    }
+    {}
 
     @Override
     public void reset()
@@ -70,20 +68,18 @@ public class AnimationChanger implements IAnimationChanger
         if (!this.checkWildCard.contains(partIdentifier))
         {
             this.checkWildCard.add(partIdentifier);
-            for (final String s : this.dyeables)
-                if (s.startsWith("*") && partIdentifier.matches(s.substring(1)))
-                {
-                    this.dyeables.add(partIdentifier);
-                    if (this.colourOffsets.containsKey(s)) this.colourOffsets.put(partIdentifier, this.colourOffsets
-                            .get(s));
-                    break;
-                }
-            for (final String s : this.shearables)
-                if (s.startsWith("*") && partIdentifier.matches(s.substring(1)))
-                {
-                    this.dyeables.add(partIdentifier);
-                    break;
-                }
+            for (final String s : this.dyeables) if (s.startsWith("*") && partIdentifier.matches(s.substring(1)))
+            {
+                this.dyeables.add(partIdentifier);
+                if (this.colourOffsets.containsKey(s))
+                    this.colourOffsets.put(partIdentifier, this.colourOffsets.get(s));
+                break;
+            }
+            for (final String s : this.shearables) if (s.startsWith("*") && partIdentifier.matches(s.substring(1)))
+            {
+                this.dyeables.add(partIdentifier);
+                break;
+            }
         }
     }
 
@@ -134,15 +130,13 @@ public class AnimationChanger implements IAnimationChanger
     @Override
     public void init(final Collection<Animation> existingAnimations)
     {
-        for (final IAnimationChanger child : this.children)
-            child.init(existingAnimations);
+        for (final IAnimationChanger child : this.children) child.init(existingAnimations);
     }
 
     @Override
     public boolean hasAnimation(final String phase)
     {
-        for (final IAnimationChanger child : this.children)
-            if (child.hasAnimation(phase)) return true;
+        for (final IAnimationChanger child : this.children) if (child.hasAnimation(phase)) return true;
         return IAnimationChanger.super.hasAnimation(phase);
     }
 
@@ -150,8 +144,7 @@ public class AnimationChanger implements IAnimationChanger
     public boolean isPartHidden(final String part, final Entity entity, final boolean default_)
     {
         this.checkWildCard(part);
-        for (final IAnimationChanger child : this.children)
-            if (child.isPartHidden(part, entity, default_)) return true;
+        for (final IAnimationChanger child : this.children) if (child.isPartHidden(part, entity, default_)) return true;
         final IShearable shear = ShearableCaps.get(entity);
         if (this.shearables.contains(part) && shear != null) return shear.isSheared();
         return default_;
@@ -196,8 +189,7 @@ public class AnimationChanger implements IAnimationChanger
     public void setAnimationHolder(final IAnimationHolder holder)
     {
         this.currentHolder = holder;
-        for (final IAnimationChanger child : this.children)
-            child.setAnimationHolder(holder);
+        for (final IAnimationChanger child : this.children) child.setAnimationHolder(holder);
     }
 
 }

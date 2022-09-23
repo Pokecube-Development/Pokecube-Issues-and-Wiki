@@ -5,17 +5,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.WritableBookItem;
+import net.minecraft.world.item.WrittenBookItem;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
@@ -30,6 +40,8 @@ import thut.api.util.JsonUtil;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.StructureTemplateTools;
 import thut.api.world.WorldTickManager;
+import thut.lib.ItemStackTools;
+import thut.lib.TComponent;
 
 public class StructureBuilder implements IWorldTickListener
 {
@@ -46,6 +58,7 @@ public class StructureBuilder implements IWorldTickListener
     Tag key_info = null;
     Map<Integer, List<StructureBlockInfo>> removeOrder = new HashMap<>();
     List<StructureBlockInfo> placeOrder = new ArrayList<>();
+    Map<BlockPos, ItemStack> neededItems = Maps.newHashMap();
     StructurePlaceSettings settings;
 
     public StructureBuilder(BlockPos origin, Direction orientation, IItemHandlerModifiable itemSource)
@@ -146,16 +159,52 @@ public class StructureBuilder implements IWorldTickListener
                         settings, list, template);
 
                 placeOrder.addAll(infos);
-
-                List<ItemStack> materials = StructureTemplateTools.getNeededMaterials(level, infos);
-                if (materials.isEmpty())
+                neededItems.clear();
+                neededItems = StructureTemplateTools.getNeededMaterials(level, infos);
+                if (neededItems.isEmpty())
                 {
                     this.done = true;
                     WorldTickManager.removeWorldData(level.dimension(), this);
                     PokecubeAPI.LOGGER.info("Already Complete Structure!");
                     return;
                 }
-                System.out.println(materials);
+                ItemStack book = itemSource.getStackInSlot(1);
+                if (book.getItem() instanceof WritableBookItem || book.getItem() instanceof WrittenBookItem)
+                {
+                    CompoundTag nbt = book.getOrCreateTag();
+                    ListTag pages = null;
+                    if (!nbt.contains("pages") || !(nbt.get("pages") instanceof ListTag t2))
+                        nbt.put("pages", pages = new ListTag());
+                    else pages = t2;
+
+                    pages.clear();
+
+                    int n = 0;
+                    // The set is to ensure each stack is only added once!
+                    List<ItemStack> stacks = Lists.newArrayList(Sets.newHashSet(neededItems.values()));
+                    stacks.sort((a, b) -> b.getCount() - a.getCount());
+                    MutableComponent msg = TComponent.literal("Needed Items:");
+
+                    for (var s : stacks)
+                    {
+                        if (n++ > 8)
+                        {
+                            pages.add(StringTag.valueOf(Component.Serializer.toJson(msg)));
+                            msg = TComponent.literal("Needed Items:");
+                            n = 0;
+                        }
+                        MutableComponent name = (MutableComponent) s.getDisplayName();
+                        name.setStyle(name.getStyle().withColor(0));
+                        msg = msg.append(TComponent.literal("\n")).append(TComponent.literal(s.getCount() + "x"))
+                                .append(name);
+                    }
+                    if (!msg.getString().isBlank()) pages.add(StringTag.valueOf(Component.Serializer.toJson(msg)));
+                    book = new ItemStack(Items.WRITTEN_BOOK);
+                    nbt.putString("title", "BoM");
+                    nbt.putString("author", "BoM Generator");
+                    book.setTag(nbt);
+                    itemSource.setStackInSlot(1, book);
+                }
 
                 for (var info : infos)
                 {
@@ -192,7 +241,16 @@ public class StructureBuilder implements IWorldTickListener
             List<BlockPos> remove = StructureTemplateTools.getNeedsRemoval(level, settings, infos);
             if (remove.isEmpty()) continue;
             BlockPos pos = remove.get(0);
-            level.destroyBlock(pos, true);
+            BlockState state = level.getBlockState(pos);
+            final List<ItemStack> list = Block.getDrops(state, level, pos, level.getBlockEntity(pos));
+            list.removeIf(stack -> ItemStackTools.addItemStackToInventory(stack, itemSource, 1));
+            list.forEach(c -> {
+                int x = pos.getX();
+                int z = pos.getZ();
+                ItemEntity item = new ItemEntity(level, x + 0.5, y + 0.5, z + 0.5, c);
+                level.addFreshEntity(item);
+            });
+            level.destroyBlock(pos, false);
             return false;
         }
         return true;
@@ -202,8 +260,29 @@ public class StructureBuilder implements IWorldTickListener
     {
         if (info.state == null || info.state.isAir()) return CanPlace.YES;
         ItemStack stack = StructureTemplateTools.getForInfo(info);
-        if (stack.isEmpty()) System.out.println(info.state + " " + stack);
-        return stack.isEmpty() ? CanPlace.NO : CanPlace.YES;
+        if (!stack.isEmpty())
+        {
+            ItemStack needed = neededItems.get(info.pos);
+            for (int i = 1; i < itemSource.getSlots(); i++)
+            {
+                ItemStack inSlot = itemSource.getStackInSlot(i);
+                if (ItemStack.isSame(stack, inSlot))
+                {
+                    inSlot.shrink(1);
+                    if (needed != null) needed.shrink(1);
+                    return CanPlace.YES;
+                }
+            }
+            if (needed == null)
+            {
+                return CanPlace.NO;
+            }
+            else
+            {
+                ItemStackTools.addItemStackToInventory(needed.copy(), itemSource, 1);
+            }
+        }
+        return stack.isEmpty() ? CanPlace.NO : CanPlace.NEED_ITEM;
     }
 
     public boolean tryPlace(List<Integer> ys, ServerLevel level)
@@ -218,7 +297,6 @@ public class StructureBuilder implements IWorldTickListener
             }
             else if (place == CanPlace.NEED_ITEM)
             {
-                System.out.println("Need Thing!");
                 return false;
             }
             BlockState placeState = info.state.mirror(settings.getMirror()).rotate(level, info.pos,
@@ -228,7 +306,7 @@ public class StructureBuilder implements IWorldTickListener
             if (same) continue;
 
             placeOrder.remove(info);
-            level.setBlockAndUpdate(info.pos, placeState);
+            StructureTemplateTools.getPlacer(placeState).placeBlock(placeState, info.pos, level);
             return false;
         }
         return true;

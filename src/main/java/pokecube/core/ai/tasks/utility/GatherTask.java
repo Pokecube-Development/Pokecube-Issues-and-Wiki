@@ -48,6 +48,7 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.IRunnable;
 import pokecube.core.impl.PokecubeMod;
+import pokecube.core.inventory.pokemob.PokemobInventory;
 import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
@@ -109,7 +110,7 @@ public class GatherTask extends UtilTask
                 final ServerLevel world)
         {
             world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-            final List<ItemStack> list = Block.getDrops(state, world, pos, null);
+            final List<ItemStack> list = Block.getDrops(state, world, pos, world.getBlockEntity(pos));
             boolean replanted = false;
             // See if anything dropped was a seed for the thing we
             // picked.
@@ -365,7 +366,8 @@ public class GatherTask extends UtilTask
             diff = Math.max(diff, this.entity.getBbWidth());
             if (this.targetItem.distanceTo(this.entity) < diff)
             {
-                ItemStackTools.addItemStackToInventory(this.targetItem.getItem(), this.pokemob.getInventory(), 2);
+                ItemStackTools.addItemStackToInventory(this.targetItem.getItem(), this.pokemob.getInventory(), 2,
+                        PokemobInventory.MAIN_INVENTORY_SIZE);
                 this.targetItem.discard();
             }
             else this.setWalkTo(stuffLoc, speed, 0);

@@ -1,8 +1,8 @@
 package pokecube.legends.client.render.entity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -104,7 +104,7 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     }
 
     @Override
-    public HashMap<String, List<Animation>> getAnimations()
+    public Map<String, List<Animation>> getAnimations()
     {
         return this.anims;
     }
@@ -220,7 +220,7 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     }
 
     @Override
-    public void updateModel(final HashMap<String, ArrayList<Vector5>> phaseList, final ModelHolder model)
+    public void updateModel(final Map<String, List<Vector5>> phaseList, final ModelHolder model)
     {}
 
     @Override

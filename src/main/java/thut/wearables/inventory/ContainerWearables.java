@@ -6,6 +6,7 @@ import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -143,11 +144,17 @@ public class ContainerWearables extends AbstractContainerMenu
 
     private void bindVanillaInventory(final Inventory playerInventory, LivingEntity wearer)
     {
+
+        Container armour_offhand = new LivingInventoryWrapper(wearer);
+
+        int armourStart = armour_offhand.getContainerSize() - 2;
+        int offhand = armour_offhand.getContainerSize() - 1;
+
         // Player armour slots.
         for (int k = 0; k < 4; ++k)
         {
             final EquipmentSlot entityequipmentslot = ContainerWearables.VALID_EQUIPMENT_SLOTS[k];
-            this.addSlot(new Slot(playerInventory, 39 - k, 8, 8 + k * 18)
+            this.addSlot(new Slot(armour_offhand, armourStart - k, 8, 8 + k * 18)
             {
                 /**
                  * Return whether this slot's stack can be taken from this slot.
@@ -200,7 +207,7 @@ public class ContainerWearables extends AbstractContainerMenu
         for (int i1 = 0; i1 < 9; ++i1) this.addSlot(new Slot(playerInventory, i1, 8 + i1 * 18, 142));
 
         // Offhand slot
-        this.addSlot(new Slot(playerInventory, 40, 77, 62)
+        this.addSlot(new Slot(armour_offhand, offhand, 77, 62)
         {
             @Override
             @Nullable
