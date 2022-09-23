@@ -122,7 +122,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "flags": "pokecenter",
         "location": "pokecube:village/cave/pokecenter/center_01",
-        "processors": "pokecube:cave_village",
+        "processors": "pokecube:cave_village_decay_10_percent",
         "bool_config": {"no_affect_noise":true},"int_config":{"space_below":0},"projection": "rigid"
       },
       "weight": 1
