@@ -221,6 +221,11 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         {
             Set<String> matching = Sets.newHashSet(_no_connect_flags);
             matching.retainAll(Sets.newHashSet(piece._flags));
+            if (!matching.isEmpty()) return true;
+            if (piece._no_connect_flags.isEmpty()) return false;
+            matching.clear();
+            matching.addAll(piece._no_connect_flags);
+            matching.retainAll(Sets.newHashSet(this._flags));
             return !matching.isEmpty();
         }
         return false;
