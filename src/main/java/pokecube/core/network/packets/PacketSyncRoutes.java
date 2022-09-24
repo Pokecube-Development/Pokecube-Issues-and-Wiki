@@ -15,7 +15,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.GuardAICapability.GuardTask;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability.IGuardTask;
-import pokecube.core.entity.pokemobs.ContainerPokemob;
+import pokecube.core.inventory.pokemob.PokemobContainer;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.CapHolders;
 import thut.core.common.network.EntityUpdate;
@@ -108,7 +108,7 @@ public class PacketSyncRoutes extends Packet
             buffer.writeInt(e.getId());
             buffer.writeByte(PacketPokemobGui.ROUTES);
             final SimpleMenuProvider provider = new SimpleMenuProvider((i, p,
-                    a) -> new ContainerPokemob(i, p, buffer), e.getDisplayName());
+                    a) -> new PokemobContainer(i, p, buffer), e.getDisplayName());
             NetworkHooks.openScreen(player, provider, buf ->
             {
                 buf.writeInt(e.getId());

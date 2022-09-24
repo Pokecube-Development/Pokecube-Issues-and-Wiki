@@ -6,12 +6,13 @@ import java.util.UUID;
 import java.util.Vector;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -28,7 +29,6 @@ import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
-import pokecube.core.entity.pokemobs.AnimalChest;
 import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.pokemobs.PacketPingBoss;
 import thut.api.IOwnable;
@@ -134,7 +134,7 @@ public abstract class PokemobBase implements IPokemob
     private static final UUID DYNAMOD = new UUID(343523462346243l, 23453246267457l);
 
     /** Inventory of the pokemob. */
-    protected AnimalChest pokeChest;
+    protected SimpleContainer pokeChest;
     /** Prevents duplication on returning to pokecubes */
     public boolean returning = false;
     /** Is this owned by a player? */
@@ -219,8 +219,8 @@ public abstract class PokemobBase implements IPokemob
      */
     protected ResourceLocation[] textures;
 
-    protected final Map<ResourceLocation, ResourceLocation> shinyTexs = Maps.newHashMap();
-    protected final Map<ResourceLocation, ResourceLocation[]> texs = Maps.newHashMap();
+    protected final Map<ResourceLocation, ResourceLocation> shinyTexs = new Object2ObjectOpenHashMap<>();
+    protected final Map<ResourceLocation, ResourceLocation[]> texs = new Object2ObjectOpenHashMap<>();
 
     /**
      * This is the nbt of searalizable tasks.
@@ -263,7 +263,7 @@ public abstract class PokemobBase implements IPokemob
     protected void setMaxHealth(final float maxHealth)
     {
         final AttributeInstance health = this.getEntity().getAttribute(Attributes.MAX_HEALTH);
-        for (final AttributeModifier modifier : health.getModifiers()) health.removeModifier(modifier);
+        health.removeModifier(PokemobBase.DYNAMOD);
         final AttributeModifier dynahealth = new AttributeModifier(PokemobBase.DYNAMOD, "pokecube:dynamax",
                 this.getDynamaxFactor(), Operation.MULTIPLY_BASE);
         if (this.getCombatState(CombatStates.DYNAMAX)) health.addTransientModifier(dynahealth);

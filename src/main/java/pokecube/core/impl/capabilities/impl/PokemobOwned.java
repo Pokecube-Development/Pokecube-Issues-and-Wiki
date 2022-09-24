@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerListener;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.LivingEntity;
@@ -37,13 +38,13 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
-import pokecube.core.entity.pokemobs.AnimalChest;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.init.EntityTypes;
+import pokecube.core.inventory.pokemob.PokemobInventory;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
@@ -99,7 +100,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     }
 
     @Override
-    public AnimalChest getInventory()
+    public SimpleContainer getInventory()
     {
         if (this.pokeChest == null) this.initInventory();
         return this.pokeChest;
@@ -145,8 +146,8 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
 
     protected void initInventory()
     {
-        AnimalChest animalchest = this.pokeChest;
-        this.pokeChest = new AnimalChest();
+        SimpleContainer animalchest = this.pokeChest;
+        this.pokeChest = new PokemobInventory(this.getEntity());
         if (animalchest != null)
         {
             animalchest.removeListener(this);

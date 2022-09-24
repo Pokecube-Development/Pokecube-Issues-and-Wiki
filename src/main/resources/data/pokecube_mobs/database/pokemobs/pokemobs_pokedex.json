@@ -50960,8 +50960,8 @@
         },
         "types": {
           "values": {
-            "type1": "dark",
-            "type2": "ice"
+            "type1": "poison",
+            "type2": "fighting"
           }
         },
         "abilities": {

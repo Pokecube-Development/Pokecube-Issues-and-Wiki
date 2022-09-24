@@ -6,6 +6,7 @@
       "weight": 1,
       "element": {
         "location": "pokecube_legends:village/ultraspace/town_centers/center_1",
+        "flags":"street_corner",
         "processors": "pokecube_legends:street_ultraspace",
         "element_type": "pokecube:expanded_pool_element",
         "projection": "rigid"

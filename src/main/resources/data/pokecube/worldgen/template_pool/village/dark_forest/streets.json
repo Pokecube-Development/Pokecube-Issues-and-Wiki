@@ -4,6 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/dark_forest/streets/crossroad_01",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "processors": "pokecube:street_dark_forest",
         "bool_config": {"no_affect_noise":true},
         "projection": "terrain_matching"
@@ -14,6 +15,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/dark_forest/streets/crossroad_02",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "processors": "pokecube:street_dark_forest",
         "bool_config": {"no_affect_noise":true},
         "projection": "terrain_matching"

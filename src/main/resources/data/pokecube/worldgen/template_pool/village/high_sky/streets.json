@@ -22,6 +22,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/high_sky/streets/island_1",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -31,6 +32,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/high_sky/streets/island_2",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -40,6 +42,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/high_sky/streets/island_3",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -49,6 +52,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/high_sky/streets/island_4",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "processors": "pokecube:generic",
         "projection": "rigid"
       },

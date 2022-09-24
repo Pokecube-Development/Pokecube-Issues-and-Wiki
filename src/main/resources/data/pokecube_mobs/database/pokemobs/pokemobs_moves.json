@@ -696,7 +696,7 @@
       "name": "pikachu",
       "moves": {
         "lvlupMoves": {
-          "1": "tailwhip,thunder",
+          "1": "tailwhip,thundershock",
           "5": "growl",
           "7": "playnice",
           "10": "quickattack",
@@ -2071,7 +2071,7 @@
           "12": "spark",
           "16": "rockthrow",
           "18": "smackdown",
-          "22": "thunder",
+          "22": "thunderpunch",
           "24": "selfdestruct",
           "28": "stealthrock",
           "30": "rockblast",
@@ -2121,7 +2121,7 @@
           "12": "spark",
           "16": "rockthrow",
           "18": "smackdown",
-          "22": "thunder",
+          "22": "thunderpunch",
           "24": "selfdestruct",
           "30": "stealthrock",
           "34": "rockblast",
@@ -2172,7 +2172,7 @@
           "12": "spark",
           "16": "rockthrow",
           "18": "smackdown",
-          "22": "thunder",
+          "22": "thunderpunch",
           "24": "selfdestruct",
           "30": "stealthrock",
           "34": "rockblast",
@@ -2411,7 +2411,7 @@
       "moves": {
         "lvlupMoves": {
           "1": "tackle,supersonic",
-          "5": "thunder",
+          "5": "thundershock",
           "7": "thunderwave",
           "11": "magnetbomb",
           "13": "lightscreen",
@@ -2438,7 +2438,7 @@
       "moves": {
         "lvlupMoves": {
           "1": "tackle,supersonic,thunder,thunderwave,triattack,zapcannon,electricterrain",
-          "5": "thunder",
+          "5": "thundershock",
           "7": "thunderwave",
           "11": "magnetbomb",
           "13": "lightscreen",
@@ -3235,7 +3235,7 @@
           "21": "feint",
           "26": "vacuumwave",
           "31": "quickguard",
-          "36": "firepunch,icepunch,thunder",
+          "36": "firepunch,icepunch,thunderpunch",
           "41": "skyuppercut",
           "46": "megapunch",
           "50": "detect",
@@ -3729,14 +3729,14 @@
       "moves": {
         "lvlupMoves": {
           "1": "leer,thunder,quickattack",
-          "5": "thunder",
+          "5": "thundershock",
           "8": "lowkick",
           "12": "swift",
           "15": "shockwave",
           "19": "thunderwave",
           "22": "electroball",
           "26": "lightscreen",
-          "29": "thunder",
+          "29": "thunderbolt",
           "36": "discharge",
           "42": "screech",
           "49": "thunderbolt",
@@ -3983,12 +3983,12 @@
       "name": "jolteon",
       "moves": {
         "lvlupMoves": {
-          "1": "tackle,tailwhip,thunder,helpinghand",
+          "1": "tackle,tailwhip,thundershock,helpinghand",
           "5": "sandattack",
           "9": "babydolleyes",
           "13": "quickattack",
           "17": "doublekick",
-          "20": "thunder",
+          "20": "thunderfang",
           "25": "pinmissile",
           "29": "agility",
           "33": "thunderwave",
@@ -4258,7 +4258,7 @@
       "name": "zapdos",
       "moves": {
         "lvlupMoves": {
-          "1": "peck,thunder",
+          "1": "peck,thundershock",
           "8": "thunderwave",
           "15": "detect",
           "22": "pluck",
@@ -5180,7 +5180,7 @@
         "lvlupMoves": {
           "1": "tackle,growl",
           "4": "thunderwave",
-          "8": "thunder",
+          "8": "thundershock",
           "11": "cottonspore",
           "15": "charge",
           "18": "takedown",
@@ -5202,9 +5202,9 @@
       "name": "flaaffy",
       "moves": {
         "lvlupMoves": {
-          "1": "tackle,growl,thunder,thunderwave",
+          "1": "tackle,growl,thundershock,thunderwave",
           "4": "thunderwave",
-          "8": "thunder",
+          "8": "thundershock",
           "11": "cottonspore",
           "16": "charge",
           "20": "takedown",
@@ -5226,9 +5226,9 @@
       "name": "ampharos",
       "moves": {
         "lvlupMoves": {
-          "1": "firepunch,thunder,tackle,growl,thunder,thunderwave,zapcannon,dragonpulse,iondeluge,magneticflux",
+          "1": "firepunch,thundershock,tackle,growl,punch,thunderwave,zapcannon,dragonpulse,iondeluge,magneticflux",
           "4": "thunderwave",
-          "8": "thunder",
+          "8": "thundershock",
           "11": "cottonspore",
           "16": "charge",
           "20": "takedown",
@@ -5251,9 +5251,9 @@
       "name": "ampharos_mega",
       "moves": {
         "lvlupMoves": {
-          "1": "firepunch,thunder,tackle,growl,thunder,thunderwave,zapcannon,dragonpulse,iondeluge,magneticflux",
+          "1": "firepunch,thunderpunch,tackle,growl,thundershock,thunderwave,zapcannon,dragonpulse,iondeluge,magneticflux",
           "4": "thunderwave",
-          "8": "thunder",
+          "8": "thundershock",
           "11": "cottonspore",
           "16": "charge",
           "20": "takedown",
@@ -6756,14 +6756,14 @@
       "moves": {
         "lvlupMoves": {
           "1": "leer,quickattack",
-          "5": "thunder",
+          "5": "thundershock",
           "8": "lowkick",
           "12": "swift",
           "15": "shockwave",
           "19": "thunderwave",
           "22": "electroball",
           "26": "lightscreen",
-          "29": "thunder",
+          "29": "thunderpunch",
           "33": "discharge",
           "36": "screech",
           "40": "thunderbolt",
@@ -6850,13 +6850,13 @@
       "moves": {
         "lvlupMoves": {
           "1": "leer,bite,extrasensory,discharge",
-          "8": "thunder",
+          "8": "thundershock",
           "15": "roar",
           "22": "quickattack",
           "29": "spark",
           "36": "reflect",
           "43": "crunch",
-          "50": "thunder",
+          "50": "thunderfang",
           "57": "discharge",
           "64": "extrasensory",
           "71": "raindance",
@@ -8608,7 +8608,7 @@
           "10": "quickattack",
           "13": "spark",
           "16": "odorsleuth",
-          "19": "thunder",
+          "19": "thunderfang",
           "24": "bite",
           "29": "discharge",
           "34": "roar",
@@ -8631,7 +8631,7 @@
           "10": "quickattack",
           "13": "spark",
           "16": "odorsleuth",
-          "19": "thunder",
+          "19": "thunderfang",
           "24": "bite",
           "30": "discharge",
           "36": "roar",
@@ -8655,7 +8655,7 @@
           "10": "quickattack",
           "13": "spark",
           "16": "odorsleuth",
-          "19": "thunder",
+          "19": "thunderfang",
           "24": "bite",
           "30": "discharge",
           "36": "roar",
@@ -11240,7 +11240,7 @@
           "17": "bite",
           "21": "roar",
           "25": "swagger",
-          "29": "thunder",
+          "29": "thunderfang",
           "33": "crunch",
           "37": "scaryface",
           "41": "discharge",
@@ -11262,7 +11262,7 @@
           "18": "bite",
           "23": "roar",
           "28": "swagger",
-          "33": "thunder",
+          "33": "thunderfang",
           "38": "crunch",
           "43": "scaryface",
           "48": "discharge",
@@ -11284,7 +11284,7 @@
           "18": "bite",
           "23": "roar",
           "28": "swagger",
-          "35": "thunder",
+          "35": "thunderfang",
           "42": "crunch",
           "49": "scaryface",
           "56": "discharge",
@@ -12648,8 +12648,8 @@
       "name": "magnezone",
       "moves": {
         "lvlupMoves": {
-          "1": "tackle,supersonic,thunder,thunderwave,barrier,triattack,zapcannon,mirrorcoat,magneticflux,electricterrain",
-          "5": "thunder",
+          "1": "tackle,supersonic,thundershock,thunderwave,barrier,triattack,zapcannon,mirrorcoat,magneticflux,electricterrain",
+          "5": "thundershock",
           "7": "thunderwave",
           "11": "magnetbomb",
           "13": "lightscreen",
@@ -12755,15 +12755,15 @@
       "name": "electivire",
       "moves": {
         "lvlupMoves": {
-          "1": "firepunch,leer,lowkick,thunder,quickattack,iondeluge,electricterrain",
-          "5": "thunder",
+          "1": "firepunch,leer,lowkick,thundershock,quickattack,iondeluge,electricterrain",
+          "5": "thundershock",
           "8": "lowkick",
           "12": "swift",
           "15": "shockwave",
           "19": "thunderwave",
           "22": "electroball",
           "26": "lightscreen",
-          "29": "thunder",
+          "29": "thunderpunch",
           "36": "discharge",
           "42": "screech",
           "49": "thunderbolt",
@@ -16016,7 +16016,7 @@
       "name": "emolga",
       "moves": {
         "lvlupMoves": {
-          "1": "thunder",
+          "1": "thundershock",
           "4": "quickattack",
           "7": "tailwhip",
           "10": "charge",
@@ -16314,7 +16314,7 @@
         "lvlupMoves": {
           "1": "vicegrip",
           "6": "charge",
-          "11": "thunder",
+          "11": "thundershock",
           "16": "geargrind",
           "21": "bind",
           "26": "charge",
@@ -16337,9 +16337,9 @@
       "name": "klang",
       "moves": {
         "lvlupMoves": {
-          "1": "vicegrip,thunder,charge,geargrind",
+          "1": "vicegrip,thundershock,charge,geargrind",
           "6": "charge",
-          "11": "thunder",
+          "11": "thundershock",
           "16": "geargrind",
           "21": "bind",
           "26": "charge",
@@ -16362,9 +16362,9 @@
       "name": "klinklang",
       "moves": {
         "lvlupMoves": {
-          "1": "vicegrip,thunder,charge,geargrind,magneticflux,gearup",
+          "1": "vicegrip,thundershock,charge,geargrind,magneticflux,gearup",
           "6": "charge",
-          "11": "thunder",
+          "11": "thundershock",
           "16": "geargrind",
           "21": "bind",
           "25": "charge",
@@ -16756,7 +16756,7 @@
         "lvlupMoves": {
           "1": "tackle,watergun,fissure,flail,mudslap,mudsport",
           "5": "bide",
-          "9": "thunder",
+          "9": "thundershock",
           "13": "mudshot",
           "17": "camouflage",
           "21": "mudbomb",
@@ -17470,7 +17470,7 @@
       "name": "zekrom",
       "moves": {
         "lvlupMoves": {
-          "1": "dragonrage,thunder",
+          "1": "dragonrage,thundershock",
           "8": "imprison",
           "15": "ancientpower",
           "22": "thunderbolt",
@@ -18782,7 +18782,7 @@
       "moves": {
         "lvlupMoves": {
           "1": "pound,tailwhip",
-          "6": "thunder",
+          "6": "thundershock",
           "11": "charge",
           "13": "mudslap",
           "17": "quickattack",
@@ -18966,7 +18966,7 @@
       "moves": {
         "lvlupMoves": {
           "1": "tackle,tailwhip",
-          "7": "thunder",
+          "7": "thundershock",
           "11": "charge",
           "14": "charm",
           "17": "paraboliccharge",
@@ -21369,7 +21369,7 @@
       "name": "togedemaru",
       "moves": {
         "lvlupMoves": {
-          "1": "tackle,thunder",
+          "1": "tackle,thundershock",
           "5": "defensecurl",
           "9": "rollout",
           "13": "charge",
@@ -21826,11 +21826,11 @@
       "name": "xurkitree",
       "moves": {
         "lvlupMoves": {
-          "1": "wrap,thunder,spark,charge,tailglow",
+          "1": "wrap,thundershock,spark,charge,tailglow",
           "7": "thunderwave",
           "13": "shockwave",
           "19": "ingrain",
-          "23": "thunder",
+          "23": "thunderpunch",
           "29": "eerieimpulse",
           "31": "signalbeam",
           "37": "thunderbolt",
@@ -22107,7 +22107,7 @@
           "19": "snarl",
           "22": "fakeout",
           "26": "charge",
-          "29": "thunder",
+          "29": "thunderpunch",
           "33": "slash",
           "36": "wildcharge",
           "40": "quickguard",

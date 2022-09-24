@@ -48,9 +48,9 @@ import pokecube.core.client.render.mobs.RenderNPC;
 import pokecube.core.client.render.mobs.RenderPokecube;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.database.Database;
-import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.inventory.pc.PCContainer;
+import pokecube.core.inventory.pokemob.PokemobContainer;
 import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.berries.BerryManager;
@@ -173,7 +173,7 @@ public class ClientSetupHandler
         // Register the gui side of the screens.
         PokecubeAPI.LOGGER.debug("Init Screen Factories");
 
-        final MenuScreens.ScreenConstructor<ContainerPokemob, GuiPokemobBase> factory = (c, i, t) -> {
+        final MenuScreens.ScreenConstructor<PokemobContainer, GuiPokemobBase> factory = (c, i, t) -> {
             switch (c.mode)
             {
             case PacketPokemobGui.AI:

@@ -10,6 +10,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
@@ -72,7 +73,7 @@ public class Material
 
     static MultiBufferSource.BufferSource lastImpl = null;
 
-    final Map<ResourceLocation, RenderType> types = Maps.newHashMap();
+    final Map<ResourceLocation, RenderType> types = new Object2ObjectOpenHashMap<>();
 
     public Material(final String name)
     {

@@ -2,8 +2,6 @@ package thut.core.client.render.animation;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,11 +13,11 @@ import javax.xml.namespace.QName;
 import org.w3c.dom.Node;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import thut.api.ModelHolder;
@@ -156,9 +154,9 @@ public class AnimationLoader
 
             // Loaded animations
             final List<Animation> tblAnims = Lists.newArrayList();
-            final HashMap<String, String> mergedAnimations = Maps.newHashMap();
-            final Map<String, WornOffsets> wornOffsets = Maps.newHashMap();
-            final HashMap<String, ArrayList<Vector5>> phaseList = new HashMap<>();
+            final Map<String, String> mergedAnimations = new Object2ObjectOpenHashMap<>();
+            final Map<String, WornOffsets> wornOffsets = new Object2ObjectOpenHashMap<>();
+            final Map<String, List<Vector5>> phaseList = new Object2ObjectOpenHashMap<>();
             List<Phase> texPhases = Lists.newArrayList();
 
             final Metadata meta = file.model.metadata;

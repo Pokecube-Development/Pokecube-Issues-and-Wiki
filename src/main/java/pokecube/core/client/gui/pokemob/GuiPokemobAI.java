@@ -15,7 +15,7 @@ import net.minecraft.world.entity.player.Inventory;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.client.gui.helper.ScrollGui;
-import pokecube.core.entity.pokemobs.ContainerPokemob;
+import pokecube.core.inventory.pokemob.PokemobContainer;
 import pokecube.core.network.pokemobs.PacketAIRoutine;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.nbtedit.gui.TextFieldWidget2;
@@ -75,7 +75,7 @@ public class GuiPokemobAI extends GuiPokemobBase
 
     final List<TextFieldWidget2> textInputs = Lists.newArrayList();
 
-    public GuiPokemobAI(final ContainerPokemob container, final Inventory inventory)
+    public GuiPokemobAI(final PokemobContainer container, final Inventory inventory)
     {
         super(container, inventory);
         this.pokemob = container.pokemob;

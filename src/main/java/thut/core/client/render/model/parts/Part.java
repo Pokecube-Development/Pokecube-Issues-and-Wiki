@@ -2,7 +2,6 @@ package thut.core.client.render.model.parts;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,11 +10,11 @@ import java.util.function.Predicate;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -32,7 +31,7 @@ import thut.core.common.ThutCore;
 
 public abstract class Part implements IExtendedModelPart, IRetexturableModel
 {
-    private final HashMap<String, IExtendedModelPart> parts = new HashMap<>();
+    private final Map<String, IExtendedModelPart> parts = new Object2ObjectOpenHashMap<>();
 
     private final List<String> order = Lists.newArrayList();
     private final List<Mesh> shapes = Lists.newArrayList();
@@ -62,9 +61,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public int overlay = 655360;
 
     private boolean hidden = false;
+    private boolean disabled = false;
 
     private final List<Material> materials = Lists.newArrayList();
-    private final Map<String, Material> namedMaterials = Maps.newHashMap();
+    private final Map<String, Material> namedMaterials = new Object2ObjectOpenHashMap<>();
     private final Set<Material> matcache = Sets.newHashSet();
 
     private Set<String> parentNames = Sets.newHashSet();
@@ -200,7 +200,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public HashMap<String, IExtendedModelPart> getSubParts()
+    public Map<String, IExtendedModelPart> getSubParts()
     {
         return this.parts;
     }
@@ -240,6 +240,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     public void render(final PoseStack mat, final VertexConsumer buffer)
     {
+        if (this.isDisabled()) return;
         this.preRender(mat);
         for (final Mesh s : this.shapes)
         {
@@ -464,5 +465,17 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public List<String> getRenderOrder()
     {
         return this.order;
+    }
+
+    @Override
+    public void setDisabled(boolean disabled)
+    {
+        this.disabled = disabled;
+    }
+
+    @Override
+    public boolean isDisabled()
+    {
+        return disabled;
     }
 }

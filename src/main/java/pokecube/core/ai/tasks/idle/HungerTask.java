@@ -32,6 +32,7 @@ import pokecube.core.ai.tasks.idle.hunger.EatRock;
 import pokecube.core.ai.tasks.idle.hunger.EatWater;
 import pokecube.core.ai.tasks.idle.hunger.IBlockEatTask;
 import pokecube.core.blocks.berries.BerryGenManager;
+import pokecube.core.inventory.pokemob.PokemobInventory;
 import pokecube.core.utils.TimePeriod;
 import thut.api.Tracker;
 import thut.api.item.ItemList;
@@ -64,7 +65,8 @@ public class HungerTask extends BaseIdleTask
                     this.pokemob.getEntity().blockPosition());
             if (!stack.isEmpty())
             {
-                ItemStackTools.addItemStackToInventory(stack.copy(), this.pokemob.getInventory(), 2);
+                ItemStackTools.addItemStackToInventory(stack.copy(), this.pokemob.getInventory(), 2,
+                        PokemobInventory.MAIN_INVENTORY_SIZE);
                 this.pokemob.eat(stack);
             }
             return true;
