@@ -36,6 +36,15 @@
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/badlands/houses/deposit_2",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/house_1",
         "processors": "pokecube:generic",
         "projection": "rigid"
