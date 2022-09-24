@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:beedrill",
+    "pokecube:beedrill_mega",
+    "pokecube:spearow",
+    "pokecube:fearow",
+    "pokecube:tentacool",
+    "pokecube:tentacruel",
+    "pokecube:doduo",
+    "pokecube:dodrio",
+    "pokecube:gyarados",
+    "pokecube:gyarados_mega",
+    "pokecube:hippowdon",
+    "pokecube:beartic",
+    "pokecube:zoroark_hisui"
+  ]
+}

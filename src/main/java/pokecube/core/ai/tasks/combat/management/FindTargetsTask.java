@@ -35,6 +35,7 @@ import pokecube.core.utils.PokemobTracker;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 import thut.api.entity.ai.IAICombat;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 
 /** This IAIRunnable is to find targets for the pokemob to try to kill. */
@@ -356,9 +357,10 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         // If wild, randomly decided to agro a nearby player instead.
         if (playerNear && AITools.shouldAgroNearestPlayer.test(this.pokemob))
         {
+            int aggroDistance = ItemList.is(AITools.HOSTILE, this.entity) ? PokecubeCore.getConfig().hostileAggroRadius
+                    : PokecubeCore.getConfig().aggressiveAggroRadius;
             Player player = this.entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER).get();
-            if (player != null && player.distanceTo(this.entity) > PokecubeCore.getConfig().mobAggroRadius)
-                player = null;
+            if (player != null && player.distanceTo(this.entity) > aggroDistance) player = null;
             if (player != null && AITools.validTargets.test(player))
             {
                 this.initiateBattle(player);

@@ -37,7 +37,8 @@ import thut.lib.RegHelper;
 public class AITools
 {
 
-    public static final ResourceLocation AGRESSIVE = new ResourceLocation("pokecube", "aggressive");
+    public static final ResourceLocation FRIENDLY = new ResourceLocation("pokecube", "friendly");
+    public static final ResourceLocation HOSTILE = new ResourceLocation("pokecube", "hostile");
 
     private static class AgroCheck implements Predicate<IPokemob>
     {
@@ -45,16 +46,25 @@ public class AITools
         public boolean test(final IPokemob input)
         {
             final boolean tame = input.getGeneralState(GeneralStates.TAMED);
-            boolean wildAgress = !tame;
-            if (PokecubeCore.getConfig().mobAgroRate > 0)
-                wildAgress = wildAgress && ThutCore.newRandom().nextInt(PokecubeCore.getConfig().mobAgroRate) == 0;
+            if (tame) return false;
+            if (input.getEntity().getPersistentData().getBoolean("alwaysAgress")) return true;
+            boolean wildAgress = ItemList.is(HOSTILE, input.getEntity());
+            if (wildAgress)
+            {
+                if (PokecubeCore.getConfig().hostileAgroRate > 0)
+                    wildAgress = ThutCore.newRandom().nextInt(PokecubeCore.getConfig().hostileAgroRate) == 0;
+                else wildAgress = false;
+                return wildAgress;
+            }
+            boolean friendly = ItemList.is(FRIENDLY, input.getEntity());
+            if (friendly) return false;
+
+            /// If not hostile, or not friendly, it uses the normal config
+            /// option for aggressive
+            if (PokecubeCore.getConfig().aggressiveAgroRate > 0)
+                wildAgress = ThutCore.newRandom().nextInt(PokecubeCore.getConfig().aggressiveAgroRate) == 0;
             else wildAgress = false;
-            // Check if the mob should always be agressive.
-            if (!tame && !wildAgress && input.getEntity().tickCount % 20 == 0
-                    && input.getEntity().getPersistentData().getBoolean("alwaysAgress"))
-                return true;
-            if (wildAgress) return ItemList.is(AGRESSIVE, input.getEntity());
-            return false;
+            return wildAgress;
         }
     }
 

@@ -1,6 +1,18 @@
 {
   "replace": false,
   "values": [
-    "pokecube:bidoof"
+    "pokecube:slowpoke",
+    "pokecube:slowpoke_galar",
+    "pokecube:slowbro",
+    "pokecube:chansey",
+    "pokecube:magikarp",
+    "pokecube:mew",
+    "pokecube:wobbuffet",
+    "pokecube:blissey",
+    "pokecube:ralts",
+    "pokecube:wynaut",
+    "pokecube:bidoof",
+    "pokecube:happiny",
+    "pokecube:audino"
   ]
 }

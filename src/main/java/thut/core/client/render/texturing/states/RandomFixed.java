@@ -28,8 +28,6 @@ public class RandomFixed
         this.rand.setSeed(seed);
         dx = this.startU + this.rand.nextDouble() * this.rangeU;
         dy = this.startV + this.rand.nextDouble() * this.rangeV;
-        // dx = 0;
-        // dy = 0;
         toFill[0] = dx;
         toFill[1] = dy;
         return true;
