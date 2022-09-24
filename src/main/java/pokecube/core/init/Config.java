@@ -286,10 +286,14 @@ public class Config extends ConfigData
     public int eggHatchTime = 10000;
     @Configure(category = Config.mobAI, comment = "If despawn is enabled, when mobs exceed cullDistance, and are within aiDisableDistance, they will vanish after this many ticks if no player get back in range. [Default: 2000]")
     public int despawnTimer = 2000;
-    @Configure(category = Config.mobAI, comment = "Wild pokemobs may agro to the player if they get closer than this distance. [Default: 3]")
-    public int mobAggroRadius = 3;
-    @Configure(category = Config.mobAI, comment = "Wild pokemobs will check for a player to attack every approximately this many ticks, large values decrease the chance of pokemob aggression. [Default: 200]")
-    public int mobAgroRate = 200;
+    @Configure(category = Config.mobAI, comment = "Wild pokemobs may agro to the player if they get closer than this distance. This applies to pokemobs tagged as #pokecube:aggressive [Default: 3]")
+    public int aggressiveAggroRadius = 3;
+    @Configure(category = Config.mobAI, comment = "Wild pokemobs may agro to the player if they get closer than this distance. This applies to pokemobs tagged as #pokecube:hostile [Default: 5]")
+    public int hostileAggroRadius = 5;
+    @Configure(category = Config.mobAI, comment = "Wild pokemobs will check for a player to attack every approximately this many ticks, large values decrease the chance of pokemob aggression. This applies to pokemobs tagged as #pokecube:aggressive [Default: 200]")
+    public int aggressiveAgroRate = 200;
+    @Configure(category = Config.mobAI, comment = "Wild pokemobs will check for a player to attack every approximately this many ticks, large values decrease the chance of pokemob aggression. This applies to pokemobs tagged as #pokecube:hostile [Default: 20]")
+    public int hostileAgroRate = 20;
     @Configure(category = Config.mobAI, comment = "This is approximately how long a pokemob will live before it takes hunger damage, larger values will require less food to keep alive. [Default: 8000]")
     public int pokemobLifeSpan = 8000;
     @Configure(category = Config.mobAI, comment = "This is a cooldown between the pokemob deciding to attack a player, and the pokemob actually doing so, this gives some warning when you are about to be attacked. [Default: 100]")
