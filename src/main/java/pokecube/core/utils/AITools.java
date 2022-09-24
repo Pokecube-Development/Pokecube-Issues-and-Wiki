@@ -48,19 +48,19 @@ public class AITools
             final boolean tame = input.getGeneralState(GeneralStates.TAMED);
             if (tame) return false;
             if (input.getEntity().getPersistentData().getBoolean("alwaysAgress")) return true;
-            boolean wildAgress = ItemList.is(AGRESSIVE, input.getEntity());
-            if (wildAgress)
-            {
-                if (PokecubeCore.getConfig().aggressiveAgroRate > 0)
-                    wildAgress = ThutCore.newRandom().nextInt(PokecubeCore.getConfig().aggressiveAgroRate) == 0;
-                else wildAgress = false;
-                return wildAgress;
-            }
-            wildAgress = ItemList.is(HOSTILE, input.getEntity());
+            boolean wildAgress = ItemList.is(HOSTILE, input.getEntity());
             if (wildAgress)
             {
                 if (PokecubeCore.getConfig().hostileAgroRate > 0)
                     wildAgress = ThutCore.newRandom().nextInt(PokecubeCore.getConfig().hostileAgroRate) == 0;
+                else wildAgress = false;
+                return wildAgress;
+            }
+            wildAgress = ItemList.is(AGRESSIVE, input.getEntity());
+            if (wildAgress)
+            {
+                if (PokecubeCore.getConfig().aggressiveAgroRate > 0)
+                    wildAgress = ThutCore.newRandom().nextInt(PokecubeCore.getConfig().aggressiveAgroRate) == 0;
                 else wildAgress = false;
                 return wildAgress;
             }
