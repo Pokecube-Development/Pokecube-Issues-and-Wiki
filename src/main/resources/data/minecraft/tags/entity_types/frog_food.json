@@ -1,8 +1,20 @@
 {
   "replace": false,
   "values": [
+    {"id": "pokecube:burmy", "required": false},
+    {"id": "pokecube:caterpie", "required": false},
+    {"id": "pokecube:charjabug", "required": false},
+    {"id": "pokecube:combee", "required": false},
+    {"id": "pokecube:cutiefly", "required": false},
     {"id": "pokecube:ditto", "required": false},
+    {"id": "pokecube:goomy", "required": false},
     {"id": "pokecube:gulpin", "required": false},
-    {"id": "pokecube:solosis", "required": false}
+    {"id": "pokecube:illumise", "required": false},
+    {"id": "pokecube:ribombee", "required": false},
+    {"id": "pokecube:scatterbug", "required": false},
+    {"id": "pokecube:solosis", "required": false},
+    {"id": "pokecube:volbeat", "required": false},
+    {"id": "pokecube:wimpod", "required": false},
+    {"id": "pokecube:wurmple", "required": false}
   ]
 }
