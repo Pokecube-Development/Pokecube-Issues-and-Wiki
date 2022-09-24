@@ -56,10 +56,11 @@
     "pokecube_legends:towns",
     "pokecube_legends:villages"
   ],
-  "terrain_adaptation": "beard_thin",
+  "terrain_adaptation": "beard_box",
   "type": "pokecube:generic_surface_jigsaw",
   "y_settings": {
-    "max_dy": 8,
+    "max_dy": 5,
+    "min_y": 64,
     "y_check_radius": 1
   }
 }

@@ -9,7 +9,25 @@
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
-        "location": "pokecube:village/hills/decor/banner_1",
+        "location": "pokecube:village/hills/decor/gray_banner_post",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/hills/decor/spruce_bush",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/hills/decor/spruce_log_pile",
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -18,20 +36,38 @@
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
-        "location": "pokecube:village/hills/decor/leafs_1",
+        "location": "pokecube:village/hills/decor/lamp_1",
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
-      "weight": 2
+      "weight": 4
     },
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
-        "location": "pokecube:village/hills/decor/logs_1",
+        "location": "pokecube:village/hills/decor/lamp_2",
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
-      "weight": 2
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/hills/decor/lamp_3",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/hills/decor/lamp_4",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 4
     }
   ],
   "fallback": "minecraft:empty",

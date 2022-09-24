@@ -1,5 +1,5 @@
 {
-  "avoid_range": 6,
+  "avoid_range": 3,
   "biome_room": 5,
   "biomes": "#pokecube_world:is_ultraspace/is_crystallized",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
@@ -15,9 +15,9 @@
     "pokecube_legends:towns",
     "pokecube_legends:villages"
   ],
-  "terrain_adaptation": "beard_thin",
+  "terrain_adaptation": "beard_box",
   "type": "pokecube:generic_surface_jigsaw",
   "y_settings": {
-    "min_y": 65
+    "min_y": 64
   }
 }

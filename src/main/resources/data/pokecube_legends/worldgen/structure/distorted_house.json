@@ -1,13 +1,13 @@
 {
-  "avoid_range": 6,
-  "biomes": "#pokecube_world:is_distorted_world",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "size": 1,
-  "spawn_overrides": {},
-  "start_pool": "pokecube_legends:distorted/distorted_house",
-  "step": "surface_structures",
-  "terrain_adaptation": "beard_thin",
   "type": "pokecube:generic_surface_jigsaw",
+  "start_pool": "pokecube_legends:distorted/distorted_house",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "terrain_adaptation": "beard_box",
+  "step": "surface_structures",
+  "avoid_range": 6,
+  "size": 1,
+  "biomes": "#pokecube_world:is_distorted_world",
+  "spawn_overrides": {},
   "y_settings": {
     "min_y": 45
   }

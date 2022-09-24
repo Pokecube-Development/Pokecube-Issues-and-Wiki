@@ -1,5 +1,5 @@
 {
-  "avoid_range": 6,
+  "avoid_range": 3,
   "biomes":{
     "type":"forge:and",
     "values":[
@@ -11,17 +11,16 @@
           "values":[
             "#minecraft:is_beach",
             "#minecraft:is_ocean",
-            "#minecraft:is_river",
-            "#forge:is_mushroom"
+            "#minecraft:is_river"
           ]
         }
       }
     ]
   },
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "size": 1,
+  "size": 2,
   "spawn_overrides": {},
-  "start_pool": "pokecube_legends:ultraspace/giant_red_mushroom",
+  "start_pool": "pokecube_legends:ultraspace/giant_red_mushroom_stems",
   "step": "surface_structures",
   "structures_to_avoid": [
     "minecraft:pillager_outposts",
@@ -31,9 +30,9 @@
     "pokecube_legends:towns",
     "pokecube_legends:villages"
   ],
-  "terrain_adaptation": "beard_thin",
+  "terrain_adaptation": "beard_box",
   "type": "pokecube:generic_surface_jigsaw",
   "y_settings": {
-    "min_y": 65
+    "min_y": 64
   }
 }

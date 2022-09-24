@@ -8,7 +8,6 @@
   "spawn_overrides": {},
   "type": "pokecube:generic_surface_jigsaw",
   "step": "underground_structures",
-  "terrain_adaptation": "beard_box",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "use_expansion_hack": true
 }

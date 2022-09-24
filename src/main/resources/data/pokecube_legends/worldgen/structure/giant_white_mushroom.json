@@ -1,5 +1,5 @@
 {
-  "avoid_range": 6,
+  "avoid_range": 4,
   "biomes":{
     "type":"forge:and",
     "values":[
@@ -19,9 +19,9 @@
     ]
   },
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "size": 1,
+  "size": 2,
   "spawn_overrides": {},
-  "start_pool": "pokecube_legends:ultraspace/giant_white_mushroom",
+  "start_pool": "pokecube_legends:ultraspace/giant_white_mushroom_stems",
   "step": "surface_structures",
   "structures_to_avoid": [
     "minecraft:pillager_outposts",
@@ -34,6 +34,6 @@
   "terrain_adaptation": "beard_box",
   "type": "pokecube:generic_surface_jigsaw",
   "y_settings": {
-    "min_y": 65
+    "min_y": 64
   }
 }

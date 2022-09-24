@@ -8,17 +8,17 @@
         "processors": "pokecube:generic",
         "projection": "terrain_matching"
       },
-      "weight": 1
+      "weight": 2
     },
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
-        "location": "pokecube:village/badlands/streets/crossroad_02",
+        "location": "pokecube:village/badlands/streets/turn_01",
         "flags":"street_corner", "no_connect_flags": "street_corner",
         "processors": "pokecube:generic",
         "projection": "terrain_matching"
       },
-      "weight": 1
+      "weight": 3
     },
     {
       "element": {
@@ -27,7 +27,7 @@
         "processors": "pokecube:generic",
         "projection": "terrain_matching"
       },
-      "weight": 2
+      "weight": 5
     },
     {
       "element": {
@@ -36,7 +36,7 @@
         "processors": "pokecube:generic",
         "projection": "terrain_matching"
       },
-      "weight": 2
+      "weight": 5
     }
   ],
   "fallback": "pokecube:village/badlands/terminators",

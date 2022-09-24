@@ -1,7 +1,7 @@
 {
   "biomes": "#forge:is_swamp",
-  "avoid_range": 6,
-  "y_settings":{"vertical_offset": -2, "y_check_radius":3, "max_dy": 5},
+  "avoid_range": 3,
+  "y_settings":{"vertical_offset": -3},
   "clearances":{"h_clearance": 0},
   "biome_type": "village",
   "required_parts": [
@@ -18,5 +18,6 @@
   "type": "pokecube:generic_surface_jigsaw",
   "step": "surface_structures",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "terrain_adaptation": "beard_box",
   "use_expansion_hack": true
 }

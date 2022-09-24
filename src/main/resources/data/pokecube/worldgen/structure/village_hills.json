@@ -1,5 +1,11 @@
 {
-  "biomes": "#minecraft:is_hill",
+  "biomes": {
+    "type":"forge:or",
+    "values":[
+      "#minecraft:is_hill",
+      "#minecraft:is_mountain"
+    ]
+  },
   "avoid_range": 6,
   "biome_type": "village",
   "required_parts": [
@@ -15,7 +21,7 @@
   "spawn_overrides": {},
   "type": "pokecube:generic_surface_jigsaw",
   "step": "surface_structures",
-  "terrain_adaptation": "beard_thin",
+  "terrain_adaptation": "beard_box",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "use_expansion_hack": true
 }
