@@ -37,7 +37,7 @@ import thut.lib.RegHelper;
 public class AITools
 {
 
-    public static final ResourceLocation AGRESSIVE = new ResourceLocation("pokecube", "aggressive");
+    public static final ResourceLocation FRIENDLY = new ResourceLocation("pokecube", "friendly");
     public static final ResourceLocation HOSTILE = new ResourceLocation("pokecube", "hostile");
 
     private static class AgroCheck implements Predicate<IPokemob>
@@ -56,15 +56,15 @@ public class AITools
                 else wildAgress = false;
                 return wildAgress;
             }
-            wildAgress = ItemList.is(AGRESSIVE, input.getEntity());
-            if (wildAgress)
-            {
-                if (PokecubeCore.getConfig().aggressiveAgroRate > 0)
-                    wildAgress = ThutCore.newRandom().nextInt(PokecubeCore.getConfig().aggressiveAgroRate) == 0;
-                else wildAgress = false;
-                return wildAgress;
-            }
-            return false;
+            boolean friendly = ItemList.is(FRIENDLY, input.getEntity());
+            if (friendly) return false;
+
+            /// If not hostile, or not friendly, it uses the normal config
+            /// option for aggressive
+            if (PokecubeCore.getConfig().aggressiveAgroRate > 0)
+                wildAgress = ThutCore.newRandom().nextInt(PokecubeCore.getConfig().aggressiveAgroRate) == 0;
+            else wildAgress = false;
+            return wildAgress;
         }
     }
 

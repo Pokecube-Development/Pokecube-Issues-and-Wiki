@@ -355,9 +355,8 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         // If wild, randomly decided to agro a nearby player instead.
         if (playerNear && AITools.shouldAgroNearestPlayer.test(this.pokemob))
         {
-            int aggroDistance = ItemList.is(AITools.AGRESSIVE, this.entity)
-                    ? PokecubeCore.getConfig().aggressiveAggroRadius
-                    : PokecubeCore.getConfig().hostileAggroRadius;
+            int aggroDistance = ItemList.is(AITools.HOSTILE, this.entity) ? PokecubeCore.getConfig().hostileAggroRadius
+                    : PokecubeCore.getConfig().aggressiveAggroRadius;
             Player player = this.entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER).get();
             if (player != null && player.distanceTo(this.entity) > aggroDistance) player = null;
             if (player != null && AITools.validTargets.test(player))
