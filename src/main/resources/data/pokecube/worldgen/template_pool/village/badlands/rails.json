@@ -37,6 +37,6 @@
       "weight": 4
     }
   ],
-  "fallback": "pokecube:village/badlands/rail_teminators",
+  "fallback": "pokecube:village/badlands/rail_terminators",
   "name": "pokecube:village/badlands/rails"
 }
