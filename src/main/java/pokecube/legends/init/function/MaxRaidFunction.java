@@ -93,6 +93,7 @@ public class MaxRaidFunction
             final Long time = Tracker.instance().getTick();
             entity.getPersistentData().putLong("pokecube:dynatime", time + PokecubeLegends.config.raidDuration);
             entity.getPersistentData().putBoolean("pokecube_legends:raid_mob", true);
+            entity.getPersistentData().putBoolean("alwaysAgress", true);
 
             pokemob.setCombatState(CombatStates.DYNAMAX, true);
 
