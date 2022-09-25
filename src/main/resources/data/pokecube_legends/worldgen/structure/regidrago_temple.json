@@ -1,31 +1,11 @@
 {
-  "avoid_range": 6,
-  "avoidances": {
-    "avoidances": [
-      {
-        "distance": 8,
-        "name": "regi_temple"
-      },
-      {
-        "distance": 4,
-        "name": "temple"
-      },
-      {
-        "distance": 256,
-        "name": "regidrago_temple"
-      }
-    ],
-    "flags": [
-      "regi_temple",
-      "regidrago_temple"
-    ]
-  },
-  "biomes": "#minecraft:is_nether",
+  "type": "pokecube:generic_surface_jigsaw",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "size": 2,
-  "spawn_overrides": {},
   "start_pool": "pokecube_legends:temples/surface/regidrago_temple",
+  "terrain_adaptation": "beard_box",
   "step": "surface_structures",
+  "avoid_range": 6,
+  "size": 2,
   "structures_to_avoid": [
     "minecraft:pillager_outposts",
     "minecraft:villages",
@@ -34,11 +14,31 @@
     "pokecube_legends:towns",
     "pokecube_legends:villages"
   ],
-  "terrain_adaptation": "beard_box",
-  "type": "pokecube:generic_surface_jigsaw",
+  "avoidances": {
+    "avoidances": [
+      {
+        "name": "regi_temple",
+        "distance": 8
+      },
+      {
+        "name": "temple",
+        "distance": 4
+      },
+      {
+        "name": "regidrago_temple",
+        "distance": 256
+      }
+    ],
+    "flags": [
+      "regi_temple",
+      "regidrago_temple"
+    ]
+  },
   "y_settings": {
     "max_dy": 3,
     "vertical_offset": -75,
     "y_check_radius": 2
-  }
+  },
+  "biomes": "#minecraft:is_nether",
+  "spawn_overrides": {}
 }

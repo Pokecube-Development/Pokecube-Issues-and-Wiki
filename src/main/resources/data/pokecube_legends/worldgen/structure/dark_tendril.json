@@ -6,7 +6,14 @@
   "step": "surface_structures",
   "avoid_range": 6,
   "size": 1,
-  "spawn_overrides": {},
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:towns",
+    "pokecube_legends:villages"
+  ],
   "biomes": {
     "type": "forge:and",
     "values": [
@@ -24,12 +31,5 @@
       }
     ]
   },
-  "structures_to_avoid": [
-    "minecraft:pillager_outposts",
-    "minecraft:villages",
-    "pokecube:towns",
-    "pokecube:villages",
-    "pokecube_legends:towns",
-    "pokecube_legends:villages"
-  ]
+  "spawn_overrides": {}
 }

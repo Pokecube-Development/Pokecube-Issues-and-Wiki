@@ -1,28 +1,28 @@
 {
+  "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "start_pool": "pokecube_legends:temples/surface/unown_temple",
+  "step": "underground_structures",
   "avoid_range": 6,
+  "size": 8,
+  "structures_to_avoid": [
+    "pokecube:towns",
+    "pokecube:villages"
+  ],
   "avoidances": {
     "avoidances": [
       {
-        "distance": 256,
-        "name": "unown_temple"
+        "name": "unown_temple",
+        "distance": 256
       }
     ],
     "flags": [
       "unown_temple"
     ]
   },
-  "biomes": "#minecraft:is_overworld",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "size": 8,
-  "spawn_overrides": {},
-  "start_pool": "pokecube_legends:temples/surface/unown_temple",
-  "step": "underground_structures",
-  "structures_to_avoid": [
-    "pokecube:towns",
-    "pokecube:villages"
-  ],
-  "type": "pokecube:generic_surface_jigsaw",
   "y_settings": {
     "vertical_offset": -50
-  }
+  },
+  "biomes": "#minecraft:is_overworld",
+  "spawn_overrides": {}
 }

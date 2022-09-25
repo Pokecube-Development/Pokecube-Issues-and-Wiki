@@ -1,11 +1,11 @@
 {
-  "avoid_range": 6,
-  "biomes": "#pokecube_world:is_ultraspace/is_desert",
+  "type": "pokecube:generic_surface_jigsaw",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "size": 1,
-  "spawn_overrides": {},
   "start_pool": "pokecube_legends:ultraspace/short_mirage_hut",
+  "terrain_adaptation": "beard_thin",
   "step": "surface_structures",
+  "avoid_range": 6,
+  "size": 1,
   "structures_to_avoid": [
     "minecraft:pillager_outposts",
     "minecraft:villages",
@@ -14,6 +14,6 @@
     "pokecube_legends:towns",
     "pokecube_legends:villages"
   ],
-  "terrain_adaptation": "beard_thin",
-  "type": "pokecube:generic_surface_jigsaw"
+  "biomes": "#pokecube_world:is_ultraspace/is_desert",
+  "spawn_overrides": {}
 }

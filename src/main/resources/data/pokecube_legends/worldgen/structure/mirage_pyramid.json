@@ -1,22 +1,22 @@
 {
+  "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "start_pool": "pokecube_legends:ultraspace/mirage_pyramid",
+  "terrain_adaptation": "beard_box",
+  "step": "surface_structures",
   "avoid_range": 6,
+  "size": 1,
   "avoidances": {
     "avoidances": [
       {
-        "distance": 256,
-        "name": "mirage_pyramid"
+        "name": "mirage_pyramid",
+        "distance": 256
       }
     ],
     "flags": [
       "mirage_pyramid"
     ]
   },
-  "biomes": "#pokecube_world:is_ultraspace/is_desert",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "size": 1,
-  "spawn_overrides": {},
-  "start_pool": "pokecube_legends:ultraspace/mirage_pyramid",
-  "step": "surface_structures",
   "structures_to_avoid": [
     "minecraft:pillager_outposts",
     "minecraft:villages",
@@ -25,6 +25,6 @@
     "pokecube_legends:towns",
     "pokecube_legends:villages"
   ],
-  "terrain_adaptation": "beard_box",
-  "type": "pokecube:generic_surface_jigsaw"
+  "biomes": "#pokecube_world:is_ultraspace/is_desert",
+  "spawn_overrides": {}
 }

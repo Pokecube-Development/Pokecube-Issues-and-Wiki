@@ -6,7 +6,30 @@
   "step": "surface_structures",
   "avoid_range": 6,
   "size": 2,
-  "spawn_overrides": {},
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:towns",
+    "pokecube_legends:villages"
+  ],
+  "avoidances": {
+    "avoidances": [
+      {
+        "name": "temple",
+        "distance": 8
+      },
+      {
+        "name": "celebi_temple",
+        "distance": 256
+      }
+    ],
+    "flags": [
+      "celebi_temple",
+      "temple"
+    ]
+  },
   "biomes": {
     "type": "forge:and",
     "values": [
@@ -30,28 +53,5 @@
       }
     ]
   },
-  "structures_to_avoid": [
-    "minecraft:pillager_outposts",
-    "minecraft:villages",
-    "pokecube:towns",
-    "pokecube:villages",
-    "pokecube_legends:towns",
-    "pokecube_legends:villages"
-  ],
-  "avoidances": {
-    "avoidances": [
-      {
-        "distance": 8,
-        "name": "temple"
-      },
-      {
-        "distance": 256,
-        "name": "celebi_temple"
-      }
-    ],
-    "flags": [
-      "temple",
-      "celebi_temple"
-    ]
-  }
+  "spawn_overrides": {}
 }

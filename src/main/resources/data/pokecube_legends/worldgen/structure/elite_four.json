@@ -1,20 +1,37 @@
 {
+  "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "start_pool": "pokecube_legends:temples/surface/elite_four",
+  "terrain_adaptation": "beard_box",
+  "step": "surface_structures",
   "avoid_range": 6,
+  "size": 2,
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:towns",
+    "pokecube_legends:villages"
+  ],
   "avoidances": {
     "avoidances": [
       {
-        "distance": 8,
-        "name": "temple"
+        "name": "temple",
+        "distance": 8
       },
       {
-        "distance": 256,
-        "name": "elite_four"
+        "name": "elite_four",
+        "distance": 256
       }
     ],
     "flags": [
-      "temple",
-      "elite_four"
+      "elite_four",
+      "temple"
     ]
+  },
+  "y_settings": {
+    "min_y": 64
   },
   "biomes": {
     "type": "forge:and",
@@ -25,31 +42,14 @@
         "value": {
           "type": "forge:or",
           "values": [
+            "#forge:is_mushroom",
             "#minecraft:is_beach",
             "#minecraft:is_ocean",
-            "#minecraft:is_river",
-            "#forge:is_mushroom"
+            "#minecraft:is_river"
           ]
         }
       }
     ]
   },
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "size": 2,
-  "spawn_overrides": {},
-  "start_pool": "pokecube_legends:temples/surface/elite_four",
-  "step": "surface_structures",
-  "structures_to_avoid": [
-    "minecraft:pillager_outposts",
-    "minecraft:villages",
-    "pokecube:towns",
-    "pokecube:villages",
-    "pokecube_legends:towns",
-    "pokecube_legends:villages"
-  ],
-  "terrain_adaptation": "beard_box",
-  "type": "pokecube:generic_surface_jigsaw",
-  "y_settings": {
-    "min_y": 64
-  }
+  "spawn_overrides": {}
 }

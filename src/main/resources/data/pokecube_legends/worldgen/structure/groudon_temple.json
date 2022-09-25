@@ -1,27 +1,11 @@
 {
-  "avoid_range": 6,
-  "avoidances": {
-    "avoidances": [
-      {
-        "distance": 8,
-        "name": "temple"
-      },
-      {
-        "distance": 256,
-        "name": "groudon_temple"
-      }
-    ],
-    "flags": [
-      "temple",
-      "groudon_temple"
-    ]
-  },
-  "biomes": "#minecraft:is_nether",
+  "type": "pokecube:generic_surface_jigsaw",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "size": 2,
-  "spawn_overrides": {},
   "start_pool": "pokecube_legends:temples/underground/groudon_temple",
+  "terrain_adaptation": "beard_thin",
   "step": "surface_structures",
+  "avoid_range": 6,
+  "size": 2,
   "structures_to_avoid": [
     "minecraft:pillager_outposts",
     "minecraft:villages",
@@ -30,9 +14,25 @@
     "pokecube_legends:towns",
     "pokecube_legends:villages"
   ],
-  "terrain_adaptation": "beard_thin",
-  "type": "pokecube:generic_surface_jigsaw",
+  "avoidances": {
+    "avoidances": [
+      {
+        "name": "temple",
+        "distance": 8
+      },
+      {
+        "name": "groudon_temple",
+        "distance": 256
+      }
+    ],
+    "flags": [
+      "groudon_temple",
+      "temple"
+    ]
+  },
   "y_settings": {
     "vertical_offset": -75
-  }
+  },
+  "biomes": "#minecraft:is_nether",
+  "spawn_overrides": {}
 }

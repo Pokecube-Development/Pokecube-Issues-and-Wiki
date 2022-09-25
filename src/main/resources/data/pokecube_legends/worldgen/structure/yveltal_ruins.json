@@ -1,14 +1,28 @@
 {
+  "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "start_pool": "pokecube_legends:temples/surface/yveltal_ruins",
+  "terrain_adaptation": "beard_box",
+  "step": "surface_structures",
   "avoid_range": 6,
+  "size": 2,
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:towns",
+    "pokecube_legends:villages"
+  ],
   "avoidances": {
     "avoidances": [
       {
-        "distance": 8,
-        "name": "temple"
+        "name": "temple",
+        "distance": 8
       },
       {
-        "distance": 256,
-        "name": "yveltal_ruins"
+        "name": "yveltal_ruins",
+        "distance": 256
       }
     ],
     "flags": [
@@ -19,13 +33,13 @@
   "biomes": {
     "type": "forge:and",
     "values": [
-      {        
-	    "type": "forge:or",
-	     "values": [
-		    "#forge:is_sandy",
-		    "#pokecube_world:is_ultraspace/is_sandy"
-	    ]
-  	  },
+      {
+        "type": "forge:or",
+        "values": [
+          "#forge:is_sandy",
+          "#pokecube_world:is_ultraspace/is_sandy"
+        ]
+      },
       {
         "type": "forge:not",
         "value": {
@@ -39,19 +53,5 @@
       }
     ]
   },
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "size": 2,
-  "spawn_overrides": {},
-  "start_pool": "pokecube_legends:temples/surface/yveltal_ruins",
-  "step": "surface_structures",
-  "structures_to_avoid": [
-    "minecraft:pillager_outposts",
-    "minecraft:villages",
-    "pokecube:towns",
-    "pokecube:villages",
-    "pokecube_legends:towns",
-    "pokecube_legends:villages"
-  ],
-  "terrain_adaptation": "beard_box",
-  "type": "pokecube:generic_surface_jigsaw"
+  "spawn_overrides": {}
 }

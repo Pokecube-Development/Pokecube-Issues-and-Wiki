@@ -6,11 +6,34 @@
   "step": "surface_structures",
   "avoid_range": 6,
   "size": 5,
-  "spawn_overrides": {},
   "y_settings": {
-    "min_y": 64,
     "max_dy": 10,
+    "min_y": 64,
     "y_check_radius": 2
+  },
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:towns",
+    "pokecube_legends:villages"
+  ],
+  "avoidances": {
+    "avoidances": [
+      {
+        "name": "team_bases",
+        "distance": 12
+      },
+      {
+        "name": "castle_n",
+        "distance": 80
+      }
+    ],
+    "flags": [
+      "team_bases",
+      "castle_n"
+    ]
   },
   "biomes": {
     "type": "forge:and",
@@ -29,28 +52,5 @@
       }
     ]
   },
-  "structures_to_avoid": [
-    "minecraft:pillager_outposts",
-    "minecraft:villages",
-    "pokecube:towns",
-    "pokecube:villages",
-    "pokecube_legends:towns",
-    "pokecube_legends:villages"
-  ],
-  "avoidances": {
-    "avoidances": [
-      {
-        "distance": 12,
-        "name": "team_bases"
-      },
-      {
-        "distance": 80,
-        "name": "castle_n"
-      }
-    ],
-    "flags": [
-      "team_bases",
-      "castle_n"
-    ]
-  }
+  "spawn_overrides": {}
 }
