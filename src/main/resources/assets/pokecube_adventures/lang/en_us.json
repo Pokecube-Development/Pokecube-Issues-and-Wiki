@@ -401,6 +401,7 @@
     "pokecube_adventures.tooltip.gene.expressed.species": "Species: %s",
     "pokecube_adventures.tooltip.gene.expressed.colour": "Colour: %s",
     "pokecube_adventures.tooltip.gene.expressed.evs": "EVs: %s",
+    "pokecube_adventures.tooltip.gene.expressed.gmax": "GMax: %s",
 
     "pokecube_adventures.tooltip.gene.expand": "Hold CTRL for more info",
 
@@ -413,6 +414,7 @@
     "pokecube_adventures.tooltip.gene.parent.species": "%1$s/%2$s",
     "pokecube_adventures.tooltip.gene.parent.colour": "%1$s/%2$s",
     "pokecube_adventures.tooltip.gene.parent.evs": "%1$s/%2$s",
+    "pokecube_adventures.tooltip.gene.parent.gmax": "%1$s/%2$s",
 
     "pokecube_adventures.tooltip.selector.gene.shiny": "Shiny",
     "pokecube_adventures.tooltip.selector.gene.ivs": "IVs",
@@ -423,6 +425,7 @@
     "pokecube_adventures.tooltip.selector.gene.species": "Species",
     "pokecube_adventures.tooltip.selector.gene.colour": "Colour",
     "pokecube_adventures.tooltip.selector.gene.evs": "EVs",
+    "pokecube_adventures.tooltip.selector.gene.gmax": "GMax",
 
     "_comment": "Config Stuff",
 
