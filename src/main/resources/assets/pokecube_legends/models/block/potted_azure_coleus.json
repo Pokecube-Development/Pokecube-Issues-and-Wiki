@@ -1,7 +1,6 @@
 {
   "parent": "minecraft:block/flower_pot_cross",
   "render_type": "cutout",
-  "render_type": "cutout",
   "textures": {
     "dirt": "pokecube_legends:block/azure_dirt",
     "plant": "pokecube_legends:block/azure_coleus"
