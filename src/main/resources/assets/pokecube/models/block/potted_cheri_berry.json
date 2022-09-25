@@ -1,5 +1,5 @@
 {
-  "parent": "pokecube:block/berrypotted",
+  "parent": "pokecube:block/potted_berry",
   "textures": {
     "plant": "pokecube:block/potted_cheri_berry"
   }
