@@ -207,8 +207,8 @@ public class BrainUtils extends BrainUtil
         final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
 
         // No target an invalid target!
-        if (aggressor != null && !AITools.validTargets.test(target)) return;
-        if (targetMob != null && !AITools.validTargets.test(mob)) return;
+        if (aggressor != null && !AITools.validCombatTargets.test(target)) return;
+        if (targetMob != null && !AITools.validCombatTargets.test(mob)) return;
 
         if (targetMob != null)
         {

@@ -99,7 +99,7 @@ public class Battle
 
     public static boolean createOrAddToBattle(final LivingEntity mobA, final LivingEntity mobB)
     {
-        if (mobB == null || !AITools.validTargets.test(mobB)) return false;
+        if (mobB == null || !AITools.validCombatTargets.test(mobB)) return false;
         if (mobA == null || !(mobA.getLevel() instanceof ServerLevel level)) return false;
 
         final Battle existingA = Battle.getBattle(mobA);

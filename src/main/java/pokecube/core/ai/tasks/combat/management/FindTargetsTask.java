@@ -224,7 +224,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
 
         final Iterable<LivingEntity> pokemobs = this.entity.getBrain()
                 .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get()
-                .findAll(e -> AITools.validTargets.test(e)
+                .findAll(e -> AITools.validAgroTarget.test(e)
                         && e.distanceTo(this.entity) <= PokecubeCore.getConfig().guardSearchDistance);
         if (!pokemobs.iterator().hasNext()) return false;
 
@@ -267,7 +267,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             {
                 final Iterable<LivingEntity> pokemobs = this.entity.getBrain()
                         .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get()
-                        .findAll(e -> AITools.validTargets.test(e)
+                        .findAll(e -> AITools.validAgroTarget.test(e)
                                 && e.distanceTo(this.entity) <= PokecubeCore.getConfig().guardSearchDistance);
 
                 for (final LivingEntity entity : pokemobs)
@@ -359,7 +359,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
                     : PokecubeCore.getConfig().aggressiveAggroRadius;
             Player player = this.entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER).get();
             if (player != null && player.distanceTo(this.entity) > aggroDistance) player = null;
-            if (player != null && AITools.validTargets.test(player))
+            if (player != null && AITools.validAgroTarget.test(player))
             {
                 this.initiateBattle(player);
                 if (PokecubeCore.getConfig().debug)

@@ -170,8 +170,8 @@ public class Config extends ConfigData
     @Configure(category = Config.misc, comment = "Scales EXP yield from fighting non-player owned pokemobs. [Default: 1.0]")
     public double expScaleFactor = 1;
 
-    @Configure(category = Config.misc, comment = "Mob IDs which are blacklisted from going into snag cubes")
-    public List<String> snag_cube_blacklist = Lists.newArrayList("ender_dragon", "wither");
+    @Configure(category = Config.misc, comment = "additional Mob IDs or Entity_Type tags which are blacklisted from going into snag cubes")
+    public List<String> snag_cube_blacklist = Lists.newArrayList();
 
     @Configure(category = Config.misc, comment = "Automatically adds interactions such as water from water types, and lighting torches for fire types. [Default: true]")
     public boolean defaultInteractions = true;
@@ -365,11 +365,8 @@ public class Config extends ConfigData
     public List<String> dodgeSounds = Lists.newArrayList("entity.witch.throw");
     @Configure(category = Config.mobAI, comment = "A random sound from here is played when a pokemob leaps in combat.")
     public List<String> leapSounds = Lists.newArrayList("entity.witch.throw");
-    @Configure(category = Config.mobAI, comment = "Mobs with these entity tags will not be a valid aggression targets for pokemobs.")
-    public List<String> aggroBlacklistTags = Lists.newArrayList();
-    @Configure(category = Config.mobAI, comment = "Mobs with these entity IDs will not be valid aggression targets for pokemobs.")
-    public List<String> aggroBlacklistIds = Lists.newArrayList("minecraft:villager", "minecraft:armor_stand",
-            "pokecube_adventures:trainer", "pokecube_adventures:leader");
+    @Configure(category = Config.mobAI, comment = "Mobs with these entity IDs or Entity_Type Tags will not be valid aggression targets for pokemobs.")
+    public List<String> aggroBlacklist = Lists.newArrayList("#pokecube:no_agro");
 
     @Configure(category = Config.mobAI, comment = "Scaling factor on hunger from pokemob interactions, such as lighting torches, milking, etc. [Default: 1.0]")
     public double interactHungerScale = 1;
@@ -447,42 +444,9 @@ public class Config extends ConfigData
     public boolean generateFossils = true;
     @Configure(category = Config.world, comment = "Berry trees/crops will be added to certain biomes, based on datapack settings. [Default: true]")
     public boolean generateBerries = true;
-
-    @Configure(category = Config.world, comment = "Pokecube structures will not spawn in these dimensions, unless specifically stated in the structure's spawn rules.")
-    public List<String> softWorldgenDimBlacklist = Lists.newArrayList(
-    //@formatter:off
-            "pokecube:secret_base",
-            "pokecube_legends:distorted_world",
-            "pokecube_legends:ultraspace",
-            "compactmachines:compact_world",
-            "the_bumblezone:the_bumblezone"
-            );
-    //@formatter:on
-
-    @Configure(category = Config.world, comment = "World structure settings to register structures with.")
-    public List<String> worldgenWorldSettings = Lists.newArrayList(
-    //@formatter:off
-            "minecraft:overworld",
-            "minecraft:amplified",
-            "minecraft:nether",
-            "minecraft:end",
-            "minecraft:caves",
-            "minecraft:floating_islands"
-            );
-    //@formatter:on
-
-    @Configure(category = Config.world, comment = "Structures to remove from worldgen.")
-    public List<String> removedStructures = Lists.newArrayList(
-    //@formatter:off
-            "minecraft:village"
-            );
-    //@formatter:on
-
+    
     @Configure(category = Config.world, comment = "Any structure not in structure_subbiomes will apply as ruins, unless something else sets it first (like the structure's spawn settings). [Default: true]")
     public boolean structs_default_ruins = true;
-
-    @Configure(category = Config.world, comment = "Extra json files to check in pokecube:structures/ in data for worldgen rules, do not include .json or path in the name in this list!")
-    public List<String> extraWorldgenDatabases = Lists.newArrayList();
     @Configure(category = Config.world, comment = "This is what the value in the structure data block will be replaced with to generate the professor.")
     public String professor_override = "pokecube:mob:spawn_professor";
 
@@ -909,9 +873,9 @@ public class Config extends ConfigData
             }
         }
 
-        Pokecube.snagblacklist.clear();
-        Pokecube.snagblacklist.add(new ResourceLocation("player"));
-        for (final String s : this.snag_cube_blacklist) Pokecube.snagblacklist.add(new ResourceLocation(s));
+        Pokecube.clearSnagBlacklist();
+        Pokecube.registerSnagBlacklist("#pokecube:no_snag");
+        for (final String s : this.snag_cube_blacklist) Pokecube.registerSnagBlacklist(s);
 
         PokecubeItems.resetTimeTags = this.reputs;
 
