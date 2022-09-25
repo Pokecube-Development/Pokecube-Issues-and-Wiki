@@ -290,7 +290,7 @@ public class Config extends ConfigData
     public int aggressiveAggroRadius = 3;
     @Configure(category = Config.mobAI, comment = "Wild pokemobs may agro to the player if they get closer than this distance. This applies to pokemobs tagged as #pokecube:hostile [Default: 5]")
     public int hostileAggroRadius = 5;
-    @Configure(category = Config.mobAI, comment = "Wild pokemobs will check for a player to attack every approximately this many ticks, large values decrease the chance of pokemob aggression. This applies to pokemobs tagged as #pokecube:aggressive [Default: 200]")
+    @Configure(category = Config.mobAI, comment = "Wild pokemobs will check for a player to attack every approximately this many ticks, large values decrease the chance of pokemob aggression. This applies to pokemobs not as #pokecube:friendly [Default: 200]")
     public int aggressiveAgroRate = 200;
     @Configure(category = Config.mobAI, comment = "Wild pokemobs will check for a player to attack every approximately this many ticks, large values decrease the chance of pokemob aggression. This applies to pokemobs tagged as #pokecube:hostile [Default: 20]")
     public int hostileAgroRate = 20;
