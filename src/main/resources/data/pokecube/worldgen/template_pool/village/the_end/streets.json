@@ -3,41 +3,40 @@
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
-        "flags":"street_corner", "no_connect_flags": "street_corner",
-        "location": "pokecube:village/the_end/streets/crossroad_01",
-        "processors": "pokecube:generic",
-        "projection": "rigid"
-      },
-      "weight": 4
-    },
-    {
-      "element": {
-        "element_type": "pokecube:expanded_pool_element",
-        "flags":"street_corner", "no_connect_flags": "street_corner",
-        "location": "pokecube:village/the_end/streets/crossroad_02",
-        "processors": "pokecube:generic",
-        "projection": "rigid"
-      },
-      "weight": 4
-    },
-    {
-      "element": {
-        "element_type": "pokecube:expanded_pool_element",
-        "flags":"street_corner", "no_connect_flags": "street_corner",
-        "location": "pokecube:village/the_end/streets/crossroad_03",
-        "processors": "pokecube:generic",
-        "projection": "rigid"
-      },
-      "weight": 2
-    },
-    {
-      "element": {
-        "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/the_end/streets/straight_1",
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/the_end/streets/straight_2",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
       "weight": 8
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
+        "location": "pokecube:village/the_end/streets/corner_1",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 4
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
+        "location": "pokecube:village/the_end/streets/crossroad_1",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 2
     }
   ],
   "fallback": "pokecube:village/the_end/terminators",
