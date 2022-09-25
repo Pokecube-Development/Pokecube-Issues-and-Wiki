@@ -226,7 +226,7 @@ public class BBModelTemplate
             for (var face : faces)
             {
                 if (face == null) continue;
-                
+
                 for (int j = 0; j < 4; j++)
                 {
                     int index = j;
@@ -378,4 +378,40 @@ public class BBModelTemplate
             return name;
         }
     }
+
+    public static class BBAnimation
+    {
+        public String uuid;
+        public String name;
+        public String loop;
+        public boolean override;
+        public double length;
+        public int snapping;
+
+        public Map<String, BBAnimator> animators = new HashMap<>();
+
+        public static class BBAnimator
+        {
+            public String name;
+            public String type;
+            public List<BBKeyFrame> keyframes = new ArrayList<>();
+        }
+
+        public static class BBKeyFrame
+        {
+            public String channel;
+            public String uuid;
+            public String interpolation;
+            public double time;
+            public List<BBDataPoint> data_points = new ArrayList<>();
+        }
+
+        public static class BBDataPoint
+        {
+            Object x;
+            Object y;
+            Object z;
+        }
+    }
+
 }
