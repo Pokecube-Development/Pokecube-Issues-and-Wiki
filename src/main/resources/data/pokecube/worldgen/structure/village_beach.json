@@ -1,28 +1,30 @@
 {
-  "biomes": "#minecraft:is_beach",
-  "avoid_range": 6,
+  "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "start_pool": "pokecube:village/beach/small",
+  "terrain_adaptation": "beard_box",
+  "step": "surface_structures",
+  "use_expansion_hack": true,
   "biome_type": "village",
-  "y_settings":{
+  "avoid_range": 6,
+  "size": 3,
+  "required_parts": [
+    "pokecenter"
+  ],
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:towns"
+  ],
+  "y_settings": {
     "vertical_offset": 0
   },
   "start_height": {
     "absolute": 60
   },
-  "clearances":{"h_clearance": 0},
-  "required_parts": [
-    "pokecenter"
-  ],
-  "size": 3,
-  "start_pool": "pokecube:village/beach/small",
-  "structures_to_avoid": [
-    "pokecube:towns",
-    "minecraft:villages",
-    "minecraft:pillager_outposts"
-  ],
-  "spawn_overrides": {},
-  "type": "pokecube:generic_surface_jigsaw",
-  "step": "surface_structures",
-  "terrain_adaptation": "beard_box",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "use_expansion_hack": true
+  "clearances": {
+    "h_clearance": 0
+  },
+  "biomes": "#minecraft:is_beach",
+  "spawn_overrides": {}
 }

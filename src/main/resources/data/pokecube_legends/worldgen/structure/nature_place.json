@@ -16,15 +16,15 @@
       "nature_place"
     ]
   },
-  "biomes":{
-    "type":"forge:and",
-    "values":[
+  "biomes": {
+    "type": "forge:and",
+    "values": [
       "#forge:is_swamp",
       {
-        "type":"forge:not",
-        "value":{
-          "type":"forge:or",
-          "values":[
+        "type": "forge:not",
+        "value": {
+          "type": "forge:or",
+          "values": [
             "#minecraft:is_beach",
             "#minecraft:is_ocean"
           ]

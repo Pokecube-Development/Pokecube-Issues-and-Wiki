@@ -1,20 +1,20 @@
 {
-  "biomes": "#minecraft:is_forest",
-  "avoid_range": 6,
+  "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "start_pool": "pokecube:village/sky/town_centers",
+  "terrain_adaptation": "beard_thin",
+  "step": "surface_structures",
+  "use_expansion_hack": true,
   "biome_type": "village",
+  "avoid_range": 6,
+  "size": 6,
   "required_parts": [
     "pokecenter"
   ],
-  "size": 6,
-  "start_pool": "pokecube:village/sky/town_centers",
   "structures_to_avoid": [
-    "minecraft:villages",
-    "minecraft:pillager_outposts"
+    "minecraft:pillager_outposts",
+    "minecraft:villages"
   ],
-  "spawn_overrides": {},
-  "type": "pokecube:generic_surface_jigsaw",
-  "step": "surface_structures",
-  "terrain_adaptation": "beard_thin",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "use_expansion_hack": true
+  "biomes": "#minecraft:is_forest",
+  "spawn_overrides": {}
 }

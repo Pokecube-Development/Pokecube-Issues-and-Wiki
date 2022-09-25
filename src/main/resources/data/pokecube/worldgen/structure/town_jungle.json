@@ -1,23 +1,27 @@
 {
-  "biomes": "#minecraft:is_jungle",
-  "avoid_range": 6,
-  "biome_type": "village",
-  "y_settings":{"vertical_offset": -2},
-  "clearances":{"h_clearance": 0},
-  "required_parts": [
-    "pokecenter",
-    "gym"
-  ],
-  "size": 6,
-  "start_pool": "pokecube:village/jungle/town_centers",
-  "structures_to_avoid": [
-    "minecraft:villages",
-    "minecraft:pillager_outposts"
-  ],
-  "spawn_overrides": {},
   "type": "pokecube:generic_surface_jigsaw",
-  "step": "surface_structures",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "start_pool": "pokecube:village/jungle/town_centers",
+  "terrain_adaptation": "beard_box",
+  "step": "surface_structures",
   "use_expansion_hack": true,
-  "terrain_adaptation": "beard_box"
+  "biome_type": "village",
+  "avoid_range": 6,
+  "size": 6,
+  "required_parts": [
+    "gym",
+    "pokecenter"
+  ],
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages"
+  ],
+  "y_settings": {
+    "vertical_offset": -2
+  },
+  "clearances": {
+    "h_clearance": 0
+  },
+  "biomes": "#minecraft:is_jungle",
+  "spawn_overrides": {}
 }

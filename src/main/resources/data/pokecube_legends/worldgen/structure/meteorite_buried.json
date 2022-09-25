@@ -1,8 +1,8 @@
 {
   "biome_type": "meteor",  
-  "biomes":{
-    "type":"forge:or",
-     "values":[
+  "biomes": {
+    "type": "forge:or",
+     "values": [
 	    "#minecraft:is_overworld",
 	    "#pokecube_world:is_ultraspace"
     ]

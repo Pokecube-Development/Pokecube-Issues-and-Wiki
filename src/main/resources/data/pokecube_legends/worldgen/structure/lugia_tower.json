@@ -17,9 +17,9 @@
     ]
   },
   "biome_room": 1,
-  "biomes":{
-    "type":"forge:or",
-     "values":[
+  "biomes": {
+    "type": "forge:or",
+     "values": [
 	    "#minecraft:is_beach",
 	    "#pokecube_world:is_ultraspace/is_beach",
 	    "minecraft:stony_shore"

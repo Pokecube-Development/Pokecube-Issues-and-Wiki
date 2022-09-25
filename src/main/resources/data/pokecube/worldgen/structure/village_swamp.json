@@ -1,23 +1,27 @@
 {
-  "biomes": "#forge:is_swamp",
+  "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "start_pool": "pokecube:village/swamp/small",
+  "terrain_adaptation": "beard_box",
+  "step": "surface_structures",
+  "use_expansion_hack": true,
   "biome_type": "village",
   "avoid_range": 3,
-  "y_settings":{"vertical_offset": -3},
-  "clearances":{"h_clearance": 0},
+  "size": 3,
   "required_parts": [
     "pokecenter"
   ],
-  "size": 3,
-  "start_pool": "pokecube:village/swamp/small",
   "structures_to_avoid": [
-    "pokecube:towns",
+    "minecraft:pillager_outposts",
     "minecraft:villages",
-    "minecraft:pillager_outposts"
+    "pokecube:towns"
   ],
-  "spawn_overrides": {},
-  "type": "pokecube:generic_surface_jigsaw",
-  "step": "surface_structures",
-  "terrain_adaptation": "beard_box",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "use_expansion_hack": true
+  "y_settings": {
+    "vertical_offset": -3
+  },
+  "clearances": {
+    "h_clearance": 0
+  },
+  "biomes": "#forge:is_swamp",
+  "spawn_overrides": {}
 }

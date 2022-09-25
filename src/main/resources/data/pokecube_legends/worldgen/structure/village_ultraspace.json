@@ -1,11 +1,11 @@
 {
   "avoid_range": 6,
-  "biomes":{
-    "type":"forge:and",
-    "values":[
+  "biomes": {
+    "type": "forge:and",
+    "values": [
       {
-         "type":"forge:or",
-	     "values":[
+         "type": "forge:or",
+	     "values": [
 		    "pokecube_legends:azure_badlands",
 		    "pokecube_legends:blinding_deltas",
 		    "pokecube_legends:dried_blinding_deltas",
@@ -31,10 +31,10 @@
 	    ]
       },
       {
-        "type":"forge:not",
-        "value":{
-          "type":"forge:or",
-          "values":[
+        "type": "forge:not",
+        "value": {
+          "type": "forge:or",
+          "values": [
             "#minecraft:is_beach",
             "#minecraft:is_ocean",
             "#minecraft:is_river"
@@ -54,8 +54,8 @@
   "step": "surface_structures",
   "structures_to_avoid": [
     "pokecube_legends:towns",
-    "minecraft:villages",
-    "minecraft:pillager_outposts"
+    "minecraft:pillager_outposts",
+    "minecraft:villages"
   ],
   "terrain_adaptation": "beard_box",
   "type": "pokecube:generic_surface_jigsaw",

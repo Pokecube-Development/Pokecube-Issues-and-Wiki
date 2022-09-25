@@ -1,21 +1,21 @@
 {
   "avoid_range": 6,
-  "biomes":{
-    "type":"forge:and",
-    "values":[
+  "biomes": {
+    "type": "forge:and",
+    "values": [
       {        
-	    "type":"forge:or",
-	     "values":[
+	    "type": "forge:or",
+	     "values": [
 		    "#minecraft:is_overworld",
 		    "#pokecube_world:is_ultraspace_not_water",
 		    "#pokecube_world:is_distorted_world"
 	    ]
   	  },
       {
-        "type":"forge:not",
-        "value":{
-          "type":"forge:or",
-          "values":[
+        "type": "forge:not",
+        "value": {
+          "type": "forge:or",
+          "values": [
             "#minecraft:is_beach",
             "#minecraft:is_ocean",
             "#minecraft:is_river",

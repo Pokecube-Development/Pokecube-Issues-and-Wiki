@@ -16,21 +16,21 @@
       "zamazenta_temple"
     ]
   },
-  "biomes":{
-    "type":"forge:and",
-    "values":[
+  "biomes": {
+    "type": "forge:and",
+    "values": [
       {        
-	    "type":"forge:or",
-	     "values":[
+	    "type": "forge:or",
+	     "values": [
 		    "#forge:is_spooky",
 		    "#pokecube_world:is_ultraspace/is_taiga"
 	    ]
   	  },
       {
-        "type":"forge:not",
-        "value":{
-          "type":"forge:or",
-          "values":[
+        "type": "forge:not",
+        "value": {
+          "type": "forge:or",
+          "values": [
             "#minecraft:is_beach",
             "#minecraft:is_ocean",
             "#minecraft:is_river"

@@ -1,11 +1,11 @@
 {
   "avoid_range": 6,
-  "biomes":{
-    "type":"forge:and",
-    "values":[
+  "biomes": {
+    "type": "forge:and",
+    "values": [
       {
-         "type":"forge:or",
-	     "values":[
+         "type": "forge:or",
+	     "values": [
 		    "pokecube_legends:azure_badlands",
 		    "pokecube_legends:blinding_deltas",
 		    "pokecube_legends:dried_blinding_deltas",
@@ -31,10 +31,10 @@
 	    ]
       },
       {
-        "type":"forge:not",
-        "value":{
-          "type":"forge:or",
-          "values":[
+        "type": "forge:not",
+        "value": {
+          "type": "forge:or",
+          "values": [
             "#minecraft:is_beach",
             "#minecraft:is_ocean",
             "#minecraft:is_river"
@@ -45,8 +45,8 @@
   },
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "required_parts": [
-    "pokecenter",
     "gym",
+    "pokecenter",
     "pokecenter_path",
     "gym_path"
   ],
@@ -55,8 +55,8 @@
   "start_pool": "pokecube_legends:village/ultraspace/town_centers",
   "step": "surface_structures",
   "structures_to_avoid": [
-    "minecraft:villages",
-    "minecraft:pillager_outposts"
+
+    "minecraft:pillager_outposts" "minecraft:villages",
   ],
   "terrain_adaptation": "beard_box",
   "type": "pokecube:generic_surface_jigsaw",

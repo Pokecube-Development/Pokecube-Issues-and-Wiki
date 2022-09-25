@@ -1,14 +1,18 @@
 {
-  "biomes": "#minecraft:is_end",
+  "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "start_pool": "pokecube:village/the_end/town_centers",
+  "step": "surface_structures",
+  "use_expansion_hack": true,
+  "biome_type": "village",
   "avoid_range": 6,
   "size": 5,
-  "biome_type": "village",
-  "start_pool": "pokecube:village/the_end/town_centers",
-  "y_settings":{"vertical_offset": 128, "dy_offset": 10, "surface_type":"air"},
+  "y_settings": {
+    "dy_offset": 10,
+    "surface_type": "air",
+    "vertical_offset": 128
+  },
   "structures_to_avoid": [],
-  "spawn_overrides": {},
-  "type": "pokecube:generic_surface_jigsaw",
-  "step": "surface_structures",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "use_expansion_hack": true
+  "biomes": "#minecraft:is_end",
+  "spawn_overrides": {}
 }

@@ -1,12 +1,12 @@
 {
   "avoid_range": 6,
   "biome_type": "ruins",
-  "biomes":{
-    "type":"forge:and",
-    "values":[
+  "biomes": {
+    "type": "forge:and",
+    "values": [
       {        
-	    "type":"forge:or",
-	     "values":[
+	    "type": "forge:or",
+	     "values": [
 		    "#pokecube_world:is_ultraspace/is_barrens",
 		    "pokecube_legends:blinding_deltas",
 		    "pokecube_legends:dried_blinding_deltas",
@@ -14,10 +14,10 @@
 	    ]
   	  },
       {
-        "type":"forge:not",
-        "value":{
-          "type":"forge:or",
-          "values":[
+        "type": "forge:not",
+        "value": {
+          "type": "forge:or",
+          "values": [
             "#minecraft:is_beach",
             "#minecraft:is_ocean",
             "#minecraft:is_river"
