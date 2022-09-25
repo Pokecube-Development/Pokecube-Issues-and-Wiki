@@ -612,6 +612,7 @@ public class LogicMiscUpdate extends LogicBase
         default:
             break;
         }
+        if (this.entity.isSprinting()) anims.add("sprinting");
         if (walking) anims.add("walking");
         for (final CombatStates state : CombatStates.values())
         {
