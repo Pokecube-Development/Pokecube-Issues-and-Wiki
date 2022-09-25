@@ -36,5 +36,10 @@ public abstract class SurfaceSystemMixin
             SurfaceSystemInvoker _this = (SurfaceSystemInvoker) (Object) this;
             _this.invokeErodedBadlandsExtension(blockcolumn, i1, j1, k1, chunk);
         }
+        if (holder.is(WorldgenTags.IS_ICEBERG))
+        {
+            SurfaceSystemInvoker _this = (SurfaceSystemInvoker) (Object) this;
+            _this.invokeFrozenOceanExtension(surfacerules$context.getMinSurfaceLevel(), holder.value(), blockcolumn, blockpos$mutableblockpos1, i1, j1, k1);
+        }
     }
 }
