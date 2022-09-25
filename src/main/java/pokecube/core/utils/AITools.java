@@ -1,20 +1,23 @@
 package pokecube.core.utils;
 
-import java.util.Set;
+import java.util.List;
 import java.util.function.Predicate;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.Lists;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
@@ -68,19 +71,40 @@ public class AITools
         }
     }
 
-    private static class ValidCheck implements Predicate<Entity>
+    private static class ValidTargetCheck implements Predicate<Entity>
     {
         @Override
         public boolean test(Entity input)
         {
             if (input == null) return true;
-            input = EntityTools.getCoreEntity(input);
-            final ResourceLocation eid = RegHelper.getKey(input);
-            if (AITools.invalidIDs.contains(eid)) return false;
-            for (final String tag : AITools.invalidTags) if (input.getTags().contains(tag)) return false;
+            final Entity core = EntityTools.getCoreEntity(input);
+            if (_blacklist.stream().anyMatch(e -> e.test(core))) return false;
 
             // Then check if is a valid player.
-            if (input instanceof ServerPlayer player)
+            if (core instanceof ServerPlayer player)
+            {
+                // Do not target spectator players.
+                if (player.isSpectator()) return false;
+                // Otherwise it is fine.
+                return true;
+            }
+            // Confirm is not an egg or a pokecube as well
+            if (core instanceof EntityPokemobEgg) return false;
+            return core instanceof Mob;
+        }
+    }
+
+    private static class ValidAgressionCheck implements Predicate<Entity>
+    {
+        @Override
+        public boolean test(Entity input)
+        {
+            if (input == null) return true;
+            final Entity core = EntityTools.getCoreEntity(input);
+            if (_blacklist.stream().anyMatch(e -> e.test(core))) return false;
+
+            // Then check if is a valid player.
+            if (core instanceof ServerPlayer player)
             {
                 // Do not target creative or spectator
                 if (player.isCreative() || player.isSpectator()) return false;
@@ -89,8 +113,8 @@ public class AITools
                 return true;
             }
             // Confirm is not an egg or a pokecube as well
-            if (input instanceof EntityPokemobEgg) return false;
-            return input instanceof Mob;
+            if (core instanceof EntityPokemobEgg) return false;
+            return core instanceof Mob;
         }
     }
 
@@ -115,15 +139,17 @@ public class AITools
         }
     }
 
-    public static Set<ResourceLocation> invalidIDs = Sets.newHashSet();
-
-    public static Set<String> invalidTags = Sets.newHashSet();
+    /**
+     * Checks the blacklists set via configs, to see whether the target is a
+     * valid choice.
+     */
+    public static final Predicate<Entity> validCombatTargets = new ValidTargetCheck();
 
     /**
      * Checks the blacklists set via configs, to see whether the target is a
      * valid choice.
      */
-    public static final Predicate<Entity> validTargets = new ValidCheck();
+    public static final Predicate<Entity> validAgroTarget = new ValidAgressionCheck();
 
     /**
      * Checks to see if the wild pokemob should try to agro the nearest visible
@@ -143,17 +169,35 @@ public class AITools
      */
     public static Predicate<IPokemob> canNavigate = new CanNavigate();
 
+    private static final List<Predicate<Entity>> _blacklist = Lists.newArrayList();
+
+    public static void clearAgroBlacklist()
+    {
+        _blacklist.clear();
+    }
+
+    public static void registerAgroBlacklist(String var)
+    {
+        if (var.startsWith("#"))
+        {
+            TagKey<EntityType<?>> tag = TagKey.create(Registry.ENTITY_TYPE_REGISTRY,
+                    new ResourceLocation(var.replace("#", "")));
+            _blacklist.add(e -> e.getType().is(tag));
+        }
+        else
+        {
+            ResourceLocation id = new ResourceLocation(var.replace("#", ""));
+            _blacklist.add(e -> id.equals(RegHelper.getKey(e)));
+        }
+    }
+
     public static void initIDs()
     {
-        final Set<ResourceLocation> keys = ForgeRegistries.ENTITY_TYPES.getKeys();
-        for (String s : PokecubeCore.getConfig().aggroBlacklistIds) if (s.endsWith("*"))
+        clearAgroBlacklist();
+        for (String s : PokecubeCore.getConfig().aggroBlacklist)
         {
-            s = s.substring(0, s.length() - 1);
-            for (final ResourceLocation res : keys) if (res.toString().startsWith(s)) AITools.invalidIDs.add(res);
+            registerAgroBlacklist(s);
         }
-        else AITools.invalidIDs.add(new ResourceLocation(s));
-
-        for (final String s : PokecubeCore.getConfig().aggroBlacklistTags) AITools.invalidTags.add(s);
     }
 
     public static boolean shouldBeAbleToAgro(final LivingEntity entity, final Entity target)
@@ -161,7 +205,7 @@ public class AITools
         // Never target self
         if (target == entity) return false;
         // Never target blacklisted things
-        if (!AITools.validTargets.test(target)) return false;
+        if (!AITools.validAgroTarget.test(target)) return false;
         // Only target living entities
         if (!(target instanceof LivingEntity)) return false;
         final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);

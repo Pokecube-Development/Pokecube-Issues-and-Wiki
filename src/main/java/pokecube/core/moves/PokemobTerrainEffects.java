@@ -198,7 +198,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
         if (EventsHandler.COOLDOWN_BASED
                 && Tracker.instance().getTick() % (2 * PokecubeCore.getConfig().attackCooldown) != 0)
             return;
-        if (!AITools.validTargets.test(entity) || !(entity.getLevel() instanceof ServerLevel)) return;
+        if (!AITools.validCombatTargets.test(entity) || !(entity.getLevel() instanceof ServerLevel)) return;
 
         final IPokemob mob = PokemobCaps.getPokemobFor(entity);
         boolean immune = false;

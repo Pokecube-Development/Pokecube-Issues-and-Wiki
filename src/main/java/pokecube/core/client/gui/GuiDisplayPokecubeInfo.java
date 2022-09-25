@@ -550,7 +550,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
         final Player player = this.minecraft.player;
         final Predicate<Entity> selector = input -> {
             final IPokemob pokemob = PokemobCaps.getPokemobFor(input);
-            if (!AITools.validTargets.test(input)) return false;
+            if (!AITools.validCombatTargets.test(input)) return false;
             if (pokemob == null) return true;
             return pokemob.getOwner() != GuiDisplayPokecubeInfo.this.getCurrentPokemob().getOwner();
         };

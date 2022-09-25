@@ -504,7 +504,7 @@ public class PokemobEventsHandler
          * No harming invalid targets, only apply this to pokemob related damage
          * sources
          */
-        if (evt.getSource() instanceof IPokedamage && !AITools.validTargets.test(evt.getEntity()))
+        if (evt.getSource() instanceof IPokedamage && !AITools.validCombatTargets.test(evt.getEntity()))
         {
             evt.setCanceled(true);
             return;

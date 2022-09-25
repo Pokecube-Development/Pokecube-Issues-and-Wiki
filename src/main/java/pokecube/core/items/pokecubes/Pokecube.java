@@ -1,24 +1,26 @@
 package pokecube.core.items.pokecubes;
 
 import java.util.List;
-import java.util.Set;
 import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.Lists;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
@@ -59,10 +61,32 @@ import thut.lib.TComponent;
 
 public class Pokecube extends Item implements IPokecube
 {
-    public static final Set<ResourceLocation> snagblacklist = Sets.newHashSet();
+
+    private static final List<Predicate<Entity>> _blacklist = Lists.newArrayList();
+
+    public static void clearSnagBlacklist()
+    {
+        _blacklist.clear();
+    }
+
+    public static void registerSnagBlacklist(String var)
+    {
+        if (var.startsWith("#"))
+        {
+            TagKey<EntityType<?>> tag = TagKey.create(Registry.ENTITY_TYPE_REGISTRY,
+                    new ResourceLocation(var.replace("#", "")));
+            _blacklist.add(e -> e.getType().is(tag));
+        }
+        else
+        {
+            ResourceLocation id = new ResourceLocation(var.replace("#", ""));
+            _blacklist.add(e -> id.equals(RegHelper.getKey(e)));
+        }
+    }
 
     private static final Predicate<Entity> capturable = t -> {
-        if (Pokecube.snagblacklist.contains(RegHelper.getKey(t))) return false;
+        if (t == null) return false;
+        if (_blacklist.stream().anyMatch(e -> e.test(t))) return false;
         return true;
     };
 
@@ -321,7 +345,7 @@ public class Pokecube extends Item implements IPokecube
         {
             final Predicate<Entity> selector = input -> {
                 final IPokemob pokemob = PokemobCaps.getPokemobFor(input);
-                if (!AITools.validTargets.test(input)) return false;
+                if (!AITools.validCombatTargets.test(input)) return false;
                 if (pokemob == null) return true;
                 return pokemob.getOwner() != player;
             };
