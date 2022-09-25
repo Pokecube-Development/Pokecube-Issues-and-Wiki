@@ -21,6 +21,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/farmland",
         "processors": "pokecube:generic_farm",
+        "int_config":{"v_clearance":5},
         "projection": "rigid"
       },
       "weight": 4
@@ -30,6 +31,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/berry_farmland",
         "processors": "pokecube:berry_farm",
+        "int_config":{"v_clearance":5},
         "projection": "rigid"
       },
       "weight": 4
