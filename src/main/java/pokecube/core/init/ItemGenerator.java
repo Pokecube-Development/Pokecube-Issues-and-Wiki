@@ -154,7 +154,7 @@ public class ItemGenerator
     private static void makePottedBerry(int id, int index, String name)
     {
         PokecubeCore.BLOCKS.register("potted_" + name + "_berry", () -> {
-            Block b = new GenericPottedPlant(BerryManager.berryFruits.get(index),
+            Block b = new GenericPottedPlant(BerryManager.berryCrops.get(index),
                     BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion());
             BerryManager.pottedBerries.put(id, b);
             return b;
