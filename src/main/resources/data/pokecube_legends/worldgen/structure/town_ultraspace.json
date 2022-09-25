@@ -55,8 +55,8 @@
   "start_pool": "pokecube_legends:village/ultraspace/town_centers",
   "step": "surface_structures",
   "structures_to_avoid": [
-
-    "minecraft:pillager_outposts" "minecraft:villages",
+    "minecraft:pillager_outposts",
+    "minecraft:villages"
   ],
   "terrain_adaptation": "beard_box",
   "type": "pokecube:generic_surface_jigsaw",
