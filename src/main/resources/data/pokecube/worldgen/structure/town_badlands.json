@@ -7,6 +7,7 @@
     "gym"
   ],
   "size": 6,
+  "y_settings":{"min_y": 64},
   "start_pool": "pokecube:village/badlands/town_centers",
   "structures_to_avoid": [
     "minecraft:villages",
