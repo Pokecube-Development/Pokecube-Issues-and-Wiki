@@ -396,7 +396,7 @@ public abstract class PokemobAI extends PokemobEvolves
                 BrainUtils.clearAttackTarget(this.getEntity());
                 return;
             }
-            else if (!forced && !AITools.validTargets.test(entity))
+            else if (!forced && !AITools.validCombatTargets.test(entity))
             {
                 BrainUtils.clearAttackTarget(this.getEntity());
                 return;
