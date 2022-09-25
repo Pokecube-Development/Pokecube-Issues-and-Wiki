@@ -85,10 +85,10 @@ public class Category implements IRecipeCategory<MoveRecipe>
             for (int i = 0; i < 4; i++)
             {
                 final String name = recipe.matchedMoves.get((int) ((time - i) % recipe.matchedMoves.size()));
-                tooltips.add(MovesUtils.getMoveName(name));
+                tooltips.add(MovesUtils.getMoveName(name, null));
             }
         }
-        else for (final String name : recipe.matchedMoves) tooltips.add(MovesUtils.getMoveName(name));
+        else for (final String name : recipe.matchedMoves) tooltips.add(MovesUtils.getMoveName(name, null));
         return tooltips;
     }
 

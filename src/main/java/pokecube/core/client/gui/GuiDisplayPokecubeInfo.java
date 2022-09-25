@@ -360,7 +360,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
 
                     evt.getMat().popPose();
                     evt.getMat().pushPose();
-                    this.fontRenderer.draw(evt.getMat(), MovesUtils.getMoveName(move.getName()).getString(),
+                    this.fontRenderer.draw(evt.getMat(), MovesUtils.getMoveName(move.getName(), pokemob).getString(),
                             5 + movesOffsetX, index * 13 + movesOffsetY + 3 + h, move.getType(pokemob).colour);
                     evt.getMat().popPose();
                 }
