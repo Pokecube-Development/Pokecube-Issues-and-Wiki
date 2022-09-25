@@ -13,6 +13,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Maps;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -242,7 +243,8 @@ public class MovesUtils implements IMoveConstants
             MovesUtils.sendPairedMessages(attacked, attacker, "pokemob.status.confusion");
             return;
         }
-        MovesUtils.sendPairedMessages(attacked, attacker, "pokemob.move.used", MovesUtils.getMoveName(attack));
+        MovesUtils.sendPairedMessages(attacked, attacker, "pokemob.move.used",
+                MovesUtils.getMoveName(attack, attacker));
     }
 
     public static void displayStatsMessage(final IPokemob attacker, final Entity attacked, final float efficiency,
@@ -381,9 +383,15 @@ public class MovesUtils implements IMoveConstants
         return ret;
     }
 
-    public static Component getMoveName(final String attack)
+    public static MutableComponent getMoveName(final String attack, IPokemob user)
     {
-        return TComponent.translatable("pokemob.move." + attack);
+        Move_Base move = getMoveFromName(attack);
+        MutableComponent name = TComponent.translatable("pokemob.move." + attack);
+        if (move != null)
+        {
+            name.setStyle(name.getStyle().withColor(move.getType(user).colour));
+        }
+        return name;
     }
 
     protected static String getStatusMessage(final byte status, final boolean onMove)

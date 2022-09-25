@@ -34,11 +34,11 @@ public class Sketch extends Move_Basic
         if (Sketch.unSketchables.contains(lastHitBy) || toSketch == null) return;
         for (int i = 0; i < packet.attacker.getMoves().length; i++)
             if (packet.attacker.getMoves()[i] != null && packet.attacker.getMoves()[i].equals(this.name))
-            {
-                packet.attacker.setMove(i, toSketch.name);
-                packet.attacker.displayMessageToOwner(TComponent.translatable("pokemob.move.sketched",
-                        packet.attacker.getDisplayName(), MovesUtils.getMoveName(lastHitBy)));
-                return;
-            }
+        {
+            packet.attacker.setMove(i, toSketch.name);
+            packet.attacker.displayMessageToOwner(TComponent.translatable("pokemob.move.sketched",
+                    packet.attacker.getDisplayName(), MovesUtils.getMoveName(lastHitBy, packet.attacker)));
+            return;
+        }
     }
 }

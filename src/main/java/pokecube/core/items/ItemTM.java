@@ -62,7 +62,7 @@ public class ItemTM extends Item
         final CompoundTag nbt = stack.getTag() == null ? new CompoundTag() : stack.getTag();
         nbt.putString("move", move.trim());
         stack.setTag(nbt);
-        final Component name = MovesUtils.getMoveName(move.trim());
+        final Component name = MovesUtils.getMoveName(move.trim(), null);
         stack.setHoverName(name);
         return stack;
     }
@@ -75,21 +75,20 @@ public class ItemTM extends Item
             if (nbt == null) return false;
             final String name = nbt.getString("move");
             if (name.contentEquals("")) return false;
-            for (final String move : mob.getMoves())
-                if (name.equals(move)) return false;
+            for (final String move : mob.getMoves()) if (name.equals(move)) return false;
             final String[] learnables = mob.getPokedexEntry().getMoves().toArray(new String[0]);
             final int index = mob.getMoveIndex();
             if (index > 3) return false;
             for (final String s : learnables)
                 if (mob.getPokedexNb() == 151 || ThutCore.trim(s).equals(ThutCore.trim(name)) || PokecubeMod.debug)
-                {
-                    if (mob.getMove(0) == null) mob.setMove(0, name);
-                    else if (mob.getMove(1) == null) mob.setMove(1, name);
-                    else if (mob.getMove(2) == null) mob.setMove(2, name);
-                    else if (mob.getMove(3) == null) mob.setMove(3, name);
-                    else mob.setMove(index, name);
-                    return true;
-                }
+            {
+                if (mob.getMove(0) == null) mob.setMove(0, name);
+                else if (mob.getMove(1) == null) mob.setMove(1, name);
+                else if (mob.getMove(2) == null) mob.setMove(2, name);
+                else if (mob.getMove(3) == null) mob.setMove(3, name);
+                else mob.setMove(index, name);
+                return true;
+            }
         }
 
         return false;
