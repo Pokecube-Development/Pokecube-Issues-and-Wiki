@@ -24,11 +24,11 @@ import thut.lib.TComponent;
 
 public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 {
-    public static ResourceLocation TEXTURE = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER
-            + "tm_machine.png");
+    public static ResourceLocation TEXTURE = new ResourceLocation(PokecubeMod.ID,
+            Resources.TEXTURE_GUI_FOLDER + "tm_machine.png");
 
     private EditBox search;
-    int                     index = 0;
+    int index = 0;
 
     public TMs(final T container, final Inventory playerInventory, final Component name)
     {
@@ -56,8 +56,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     }
 
     @Override
-    protected void renderBg(final PoseStack mat, final float partialTicks, final int mouseX,
-            final int mouseY)
+    protected void renderBg(final PoseStack mat, final float partialTicks, final int mouseX, final int mouseY)
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -72,22 +71,19 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     {
         super.init();
         final Component apply = TComponent.translatable("block.tm_machine.apply");
-        this.addRenderableWidget(new Button(this.width / 2 - 8, this.height / 2 - 39, 60, 20, apply, b ->
-        {
+        this.addRenderableWidget(new Button(this.width / 2 - 8, this.height / 2 - 39, 60, 20, apply, b -> {
             final PacketTMs packet = new PacketTMs();
             packet.data.putInt("m", this.index);
             PokecubeCore.packets.sendToServer(packet);
         }));
         final Component next = TComponent.translatable(">");
-        this.addRenderableWidget(new Button(this.width / 2 + 68, this.height / 2 - 50, 10, 10, next, b ->
-        {
+        this.addRenderableWidget(new Button(this.width / 2 + 68, this.height / 2 - 50, 10, 10, next, b -> {
             final String[] moves = this.menu.moves;
             this.index++;
             if (this.index > moves.length - 1) this.index = 0;
         }));
         final Component prev = TComponent.translatable("<");
-        this.addRenderableWidget(new Button(this.width / 2 - 30, this.height / 2 - 50, 10, 10, prev, b ->
-        {
+        this.addRenderableWidget(new Button(this.width / 2 - 30, this.height / 2 - 50, 10, 10, prev, b -> {
             final String[] moves = this.menu.moves;
             this.index--;
             if (this.index < 0 && moves.length > 0) this.index = moves.length - 1;
@@ -110,8 +106,8 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         {
             final int yOffset = this.height / 2 - 164;
             final int xOffset = this.width / 2 - 42;
-            GuiComponent.drawString(mat, this.font, MovesUtils.getMoveName(s).getString(), xOffset + 14, yOffset + 99,
-                    move.getType(null).colour);
+            GuiComponent.drawString(mat, this.font, MovesUtils.getMoveName(s, null).getString(), xOffset + 14,
+                    yOffset + 99, move.getType(null).colour);
             GuiComponent.drawString(mat, this.font, "" + move.getPWR(), xOffset + 102, yOffset + 99, 0xffffff);
         }
         this.renderTooltip(mat, mouseX, mouseY);

@@ -18,6 +18,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.Move_Base;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
@@ -56,6 +57,8 @@ public class Moves extends ListPage<LineEntry>
         final int dx = 70; // -30
         final int dy = 30; // 20
 
+        IPokemob pokemob = this.parent.pokemob;
+
         int held = -1;
         final int mx = mouseX - (x + dx);
         final int my = mouseY - (y + dy);
@@ -67,12 +70,13 @@ public class Moves extends ListPage<LineEntry>
                 held = i;
                 continue;
             }
-            final Move_Base move = MovesUtils.getMoveFromName(this.parent.pokemob.getMove(offset[3]));
+            final Move_Base move = MovesUtils.getMoveFromName(pokemob.getMove(offset[3]));
             if (move != null)
             {
-                GuiComponent.drawString(mat, this.font, MovesUtils.getMoveName(move.getName()).getString(), x + dx,
-                        y + dy + offset[1] + offset[4], move.getType(this.parent.pokemob).colour);
-                final int length = this.font.width(MovesUtils.getMoveName(move.getName()).getString());
+                Component moveName = MovesUtils.getMoveName(move.getName(), pokemob);
+                GuiComponent.drawString(mat, this.font, moveName, x + dx, y + dy + offset[1] + offset[4],
+                        move.getType(pokemob).colour);
+                final int length = this.font.width(moveName);
                 if (mx > 0 && mx < length && my > offset[1] && my < offset[1] + this.font.lineHeight)
                 {
                     String text;
@@ -102,9 +106,10 @@ public class Moves extends ListPage<LineEntry>
             final Move_Base move = MovesUtils.getMoveFromName(this.parent.pokemob.getMove(offset[3]));
             if (move != null)
             {
+                Component moveName = MovesUtils.getMoveName(move.getName(), pokemob);
                 final int oy = 10;
-                GuiComponent.drawString(mat, this.font, MovesUtils.getMoveName(move.getName()).getString(), x + dx,
-                        y + dy + offset[1] + oy, move.getType(this.parent.pokemob).colour);
+                GuiComponent.drawString(mat, this.font, moveName, x + dx, y + dy + offset[1] + oy,
+                        move.getType(this.parent.pokemob).colour);
             }
         }
     }
@@ -158,11 +163,13 @@ public class Moves extends ListPage<LineEntry>
                 thisObj.renderComponentHoverEffect(mat, component, x, y);
             }
         };
+        IPokemob pokemob = this.parent.pokemob;
 
         this.list = new ScrollGui<>(this, this.minecraft, width, height, this.font.lineHeight, offsetX, offsetY);
-        final PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
+        final PokedexEntry entry = pokemob.getPokedexEntry();
         final Set<String> added = Sets.newHashSet();
-        if (!this.watch.canEdit(this.parent.pokemob))
+
+        if (!this.watch.canEdit(pokemob))
         {
             for (int i = 0; i < 100; i++)
             {
@@ -170,27 +177,25 @@ public class Moves extends ListPage<LineEntry>
                 for (final String s : moves)
                 {
                     added.add(s);
-                    final MutableComponent moveName = (MutableComponent) MovesUtils.getMoveName(s);
-                    moveName.setStyle(moveName.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.RED)));
+                    final MutableComponent moveName = MovesUtils.getMoveName(s, pokemob);
                     final MutableComponent main = TComponent.translatable("pokewatch.moves.lvl", i, moveName);
                     main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
                             .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s))
                             .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TComponent.literal(s))));
                     this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(), colour)
-                            .setClickListner(listener));
+                            .setClickListner(listener).shadow());
                 }
             }
             for (final String s : entry.getMoves())
             {
                 added.add(s);
-                final MutableComponent moveName = (MutableComponent) MovesUtils.getMoveName(s);
-                moveName.setStyle(moveName.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.RED)));
+                final MutableComponent moveName = MovesUtils.getMoveName(s, pokemob);
                 final MutableComponent main = TComponent.translatable("pokewatch.moves.tm", moveName);
                 main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
                         .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s))
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TComponent.literal(s))));
                 this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(), colour)
-                        .setClickListner(listener));
+                        .setClickListner(listener).shadow());
             }
         }
     }

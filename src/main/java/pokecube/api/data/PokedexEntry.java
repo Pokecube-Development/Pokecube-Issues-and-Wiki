@@ -184,8 +184,9 @@ public class PokedexEntry
                 final String var = (int) (100 * this.randomFactor) + "%";
                 comps.add(TComponent.translatable("pokemob.description.evolve.chance", var));
             }
-            if (this.move != null && !this.move.isEmpty()) comps.add(TComponent
-                    .translatable("pokemob.description.evolve.move", MovesUtils.getMoveName(this.move).getString()));
+            if (this.move != null && !this.move.isEmpty())
+                comps.add(TComponent.translatable("pokemob.description.evolve.move",
+                        MovesUtils.getMoveName(this.move, null).getString()));
             if (this.matcher != null)
             {
                 comps.addAll(SpawnListEntry.getGeneralDescription(matcher));

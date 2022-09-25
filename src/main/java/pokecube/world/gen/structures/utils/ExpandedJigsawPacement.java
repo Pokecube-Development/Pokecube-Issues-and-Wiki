@@ -270,6 +270,16 @@ public class ExpandedJigsawPacement
         }
     }
 
+    static enum Attachment
+    {
+        EDGE, INSIDE, INVALID;
+
+        public boolean valid()
+        {
+            return this != INVALID;
+        }
+    }
+
     static final class Placer
     {
         final Registry<StructureTemplatePool> pools;
@@ -380,7 +390,8 @@ public class ExpandedJigsawPacement
             return list;
         }
 
-        public boolean canAttach(StructureTemplate.StructureBlockInfo root, StructureTemplate.StructureBlockInfo next)
+        public Attachment canAttach(StructureTemplate.StructureBlockInfo root,
+                StructureTemplate.StructureBlockInfo next, AABB root_box)
         {
             Direction root_front = JigsawBlock.getFrontFacing(root.state);
             Direction next_front = JigsawBlock.getFrontFacing(next.state);
@@ -388,7 +399,7 @@ public class ExpandedJigsawPacement
             boolean correct_direction = root_front == next_front.getOpposite();
 
             if (!correct_direction && logs) PokecubeAPI.LOGGER.debug("wrong direction");
-            if (!correct_direction) return false;
+            if (!correct_direction) return Attachment.INVALID;
 
             Direction root_top = JigsawBlock.getTopFacing(root.state);
             Direction next_top = JigsawBlock.getTopFacing(next.state);
@@ -399,14 +410,16 @@ public class ExpandedJigsawPacement
             boolean correct_orientation = jointtype == JointType.ROLLABLE || root_top == next_top;
             if (!correct_orientation && logs) PokecubeAPI.LOGGER.debug("wrong orientation");
 
-            if (!correct_orientation) return false;
+            if (!correct_orientation) return Attachment.INVALID;
 
             boolean tag_match = root.nbt.getString("target").equals(next.nbt.getString("name"));
 
             if (!tag_match && logs)
                 PokecubeAPI.LOGGER.debug(root.nbt.getString("target") + "!=" + next.nbt.getString("name"));
-
-            return tag_match;
+            if (!tag_match) return Attachment.INVALID;
+            BlockPos next_pos = root.pos.relative(root_front);
+            return root_box.contains(next_pos.getX(), next_pos.getY(), next_pos.getZ()) ? Attachment.INSIDE
+                    : Attachment.EDGE;
         }
 
         @SuppressWarnings("deprecation")
@@ -476,7 +489,6 @@ public class ExpandedJigsawPacement
                 int dy = raw_jigsaw_pos.getY() - root_min_y;
                 int k = -1;
                 ResourceLocation next_pool_name = new ResourceLocation(root_block_info.nbt.getString("pool"));
-                boolean alwaysAdd = ALWAYS_ADD.contains(next_pool_name);
                 Optional<StructureTemplatePool> next_pool = this.pools.getOptional(next_pool_name);
 
                 boolean valid_next_pool = next_pool.isPresent()
@@ -555,7 +567,8 @@ public class ExpandedJigsawPacement
                                 pick_jigsaws:
                                 for (StructureBlockInfo next_block_info : next_jigsaws)
                                 {
-                                    if (alwaysAdd || canAttach(root_block_info, next_block_info))
+                                    Attachment attachment = canAttach(root_block_info, next_block_info, root_box);
+                                    if (attachment.valid())
                                     {
                                         BlockPos next_pos_raw = next_block_info.pos;
                                         BlockPos next_jigsaw_pos = connecting_jigsaw_pos.subtract(next_pos_raw);
@@ -618,79 +631,72 @@ public class ExpandedJigsawPacement
 
                                         AABB test_box = AABB.of(next_pick_box_shifted_y).deflate(0.25D);
 
-                                        valid_checks:
+                                        // Unless we are actually inside, do
+                                        // not allow intersections with the
+                                        // root box.
+                                        if (!next_pick_inside && attachment == Attachment.EDGE)
                                         {
-                                            if (alwaysAdd) break valid_checks;
-
-                                            // Unless we are actually inside, do
-                                            // not
-                                            // allow intersections with the root
-                                            // box.
-                                            if (!next_pick_inside)
+                                            if (test_box.intersects(root_box))
                                             {
-                                                if (test_box.intersects(root_box))
-                                                {
-                                                    bounds_fails++;
-                                                    continue pick_jigsaws;
-                                                }
-                                            }
-
-                                            // Never allow intersection of rigid
-                                            // objects.
-                                            if (rigid_bounds.getValue() != null)
-                                            {
-                                                VoxelShape new_shape = Shapes.create(test_box);
-                                                if (Shapes.joinIsNotEmpty(rigid_bounds.getValue(), new_shape,
-                                                        BooleanOp.AND))
-                                                {
-                                                    rigid_fails++;
-                                                    continue pick_jigsaws;
-                                                }
-                                            }
-
-                                            // And then don't let non-rigids
-                                            // overlap
-                                            // each other
-                                            if (non_rigid_bounds.getValue() != null)
-                                            {
-                                                VoxelShape new_shape = Shapes.create(test_box);
-                                                if (Shapes.joinIsNotEmpty(non_rigid_bounds.getValue(), new_shape,
-                                                        BooleanOp.AND))
-                                                {
-                                                    non_rigid_fails++;
-                                                    continue pick_jigsaws;
-                                                }
-                                            }
-
-                                            // Also do not let it leave the
-                                            // maxBounds box
-                                            if (!test_box.intersect(maxBounds).equals(test_box))
-                                            {
-                                                too_far_fails++;
+                                                bounds_fails++;
                                                 continue pick_jigsaws;
                                             }
+                                        }
 
-                                            // If we are rigid, add the boundary
-                                            // now, so we don't conflict with
-                                            // future possible additions
-                                            if (next_pick_rigid)
+                                        // Never allow intersection of rigid
+                                        // objects.
+                                        if (rigid_bounds.getValue() != null)
+                                        {
+                                            VoxelShape new_shape = Shapes.create(test_box);
+                                            if (Shapes.joinIsNotEmpty(rigid_bounds.getValue(), new_shape,
+                                                    BooleanOp.AND))
                                             {
-                                                // If it was rigid, add it to
-                                                // the rigid bounds
-                                                AABB next_box = AABB.of(next_pick_box_shifted_y)
-                                                        .expandTowards(0, -room_below, 0)
-                                                        .inflate(h_clearance, v_clearance, h_clearance);
-                                                VoxelShape new_shape = Shapes.create(next_box);
+                                                rigid_fails++;
+                                                continue pick_jigsaws;
+                                            }
+                                        }
 
-                                                if (rigid_bounds.getValue() != null)
-                                                {
-                                                    rigid_bounds.setValue(Shapes.joinUnoptimized(
-                                                            rigid_bounds.getValue(), new_shape, BooleanOp.OR));
-                                                }
-                                                else
-                                                {
-                                                    rigid_bounds.setValue(new_shape);
-                                                }
+                                        // And then don't let non-rigids
+                                        // overlap each other
+                                        if (non_rigid_bounds.getValue() != null)
+                                        {
+                                            VoxelShape new_shape = Shapes.create(test_box);
+                                            if (Shapes.joinIsNotEmpty(non_rigid_bounds.getValue(), new_shape,
+                                                    BooleanOp.AND))
+                                            {
+                                                non_rigid_fails++;
+                                                continue pick_jigsaws;
+                                            }
+                                        }
+
+                                        // Also do not let it leave the
+                                        // maxBounds box
+                                        if (!test_box.intersect(maxBounds).equals(test_box))
+                                        {
+                                            too_far_fails++;
+                                            continue pick_jigsaws;
+                                        }
+
+                                        // If we are rigid, add the boundary
+                                        // now, so we don't conflict with
+                                        // future possible additions
+                                        if (next_pick_rigid)
+                                        {
+                                            // If it was rigid, add it to
+                                            // the rigid bounds
+                                            AABB next_box = AABB.of(next_pick_box_shifted_y)
+                                                    .expandTowards(0, -room_below, 0)
+                                                    .inflate(h_clearance, v_clearance, h_clearance);
+                                            VoxelShape new_shape = Shapes.create(next_box);
+
+                                            if (rigid_bounds.getValue() != null)
+                                            {
+                                                rigid_bounds.setValue(Shapes.joinUnoptimized(rigid_bounds.getValue(),
+                                                        new_shape, BooleanOp.OR));
+                                            }
+                                            else
+                                            {
+                                                rigid_bounds.setValue(new_shape);
                                             }
                                         }
 
@@ -820,7 +826,7 @@ public class ExpandedJigsawPacement
                     non_rigid_bounds.setValue(new_shape);
                 }
             }
-            if (root_rigid)
+            else
             {
                 // If it was rigid, add it to the
                 // rigid bounds, but ignoring clearances, as we need sub-parts

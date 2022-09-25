@@ -29,6 +29,7 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
     public final FormattedCharSequence line;
     public int x0;
     public int y0;
+    private boolean shadowed = false;
 
     private int x1 = 0;
     private IClickListener listener = new IClickListener()
@@ -47,6 +48,12 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
         this.y0 = y0;
     }
 
+    public LineEntry shadow()
+    {
+        shadowed = true;
+        return this;
+    }
+
     @Override
     public boolean mouseClicked(final double x, final double y, final int mouseEvent)
     {
@@ -63,7 +70,8 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
             final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
             final float partialTicks)
     {
-        this.font.draw(mat, this.line, x + this.x0, y + this.y0, this.colour);
+        if (shadowed) this.font.drawShadow(mat, this.line, x + this.x0, y + this.y0, this.colour);
+        else this.font.draw(mat, this.line, x + this.x0, y + this.y0, this.colour);
         x1 = x;
         final int dx = this.font.width(this.line);
         final int relativeX = mouseX - x;
