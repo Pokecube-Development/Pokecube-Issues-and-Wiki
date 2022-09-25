@@ -133,7 +133,7 @@
         "processors": "pokecube:cave_village",
         "int_config":{"space_below":0},"projection": "rigid"
       },
-      "weight": 5
+      "weight": 4
     },
     {
       "element": {
