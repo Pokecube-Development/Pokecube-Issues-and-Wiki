@@ -32,6 +32,7 @@ public abstract class ICapabilityCache extends CapabilityProvider<Entity>
             ICapabilityProvider us = ((ICapabilityProvider) (Object) this);
             return us.getCapability(cap, null);
         });
+        if (!value.isPresent() || !value.resolve().isPresent()) CAPCACHE.remove(cap);
         return value;
     }
 }

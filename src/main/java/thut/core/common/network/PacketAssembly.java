@@ -97,6 +97,12 @@ public final class PacketAssembly<T extends NBTPacket>
 
     protected CompoundTag onRead(final CompoundTag tag)
     {
+        if (tag == null)
+        {
+            ThutCore.LOGGER.error("Error with bad packet!", new IllegalStateException());
+            return null;
+        }
+
         final UUID id = tag.getUUID("id");
         final CompoundTag made = this.assemblePacket(id, tag);
         return made;
@@ -175,8 +181,8 @@ public final class PacketAssembly<T extends NBTPacket>
 
             try
             {
-                final DataInputStream dis = new DataInputStream(new BufferedInputStream(new GZIPInputStream(
-                        new ByteArrayInputStream(tmp))));
+                final DataInputStream dis = new DataInputStream(
+                        new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(tmp))));
                 final CompoundTag tag = NbtIo.read(dis, NbtAccounter.UNLIMITED);
                 dis.close();
                 return tag;
