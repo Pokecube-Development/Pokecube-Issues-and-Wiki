@@ -2,7 +2,7 @@
   "biomes": "#minecraft:is_overworld",
   "avoid_range": 6,
   "biome_type": "village",
-  "y_settings":{"vertical_offset": 0, "surface_type": "underground", "max_y": -27},
+  "y_settings":{"vertical_offset": 0, "surface_type": "underground", "fixed_y": -27},
   "required_parts": [
     "pokecenter"
   ],

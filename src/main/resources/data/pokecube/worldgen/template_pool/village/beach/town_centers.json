@@ -5,7 +5,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/beach/town_centers/center_1",
         "flags":"street_corner",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 1
@@ -15,7 +15,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/beach/town_centers/center_nanab_tree",
         "flags":"street_corner",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 1
@@ -25,7 +25,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/beach/town_centers/center_pecha_tree",
         "flags":"street_corner",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 1
