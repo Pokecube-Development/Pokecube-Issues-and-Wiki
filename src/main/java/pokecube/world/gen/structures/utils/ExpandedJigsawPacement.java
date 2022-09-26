@@ -285,13 +285,13 @@ public class ExpandedJigsawPacement
         @Override
         public int compareTo(PiecePlacement o)
         {
-            if (o.piece.getElement().getProjection() == Projection.RIGID
-                    && piece.getElement().getProjection() == Projection.RIGID)
+            boolean usRigid = piece.getElement().getProjection() == Projection.RIGID;
+            boolean theyRigid = o.piece.getElement().getProjection() == Projection.RIGID;
+            if (usRigid && !theyRigid)
             {
                 return -1;
             }
-            if (piece.getElement().getProjection() == Projection.RIGID
-                    && o.piece.getElement().getProjection() == Projection.RIGID)
+            if (theyRigid && !usRigid)
             {
                 return 1;
             }
@@ -717,6 +717,9 @@ public class ExpandedJigsawPacement
 
                                         newParts.add(new PiecePlacement(next_piece, () -> {
 
+                                            // We do this in here again, as
+                                            // below is when we actually add the
+                                            // part.
                                             if (!entirelyInside && Shapes.joinIsNotEmpty(freeSpace.getValue(),
                                                     test_shape, BooleanOp.ONLY_SECOND))
                                             {
@@ -827,7 +830,7 @@ public class ExpandedJigsawPacement
             }
             // this should ensure that we run the rigids first, then do the
             // others after.
-            newParts.sort(null);
+            newParts.sort((o1, o2) -> o1.compareTo(o2));
             // Now we run them in order.
             newParts.forEach(part -> part.run.run());
         }
