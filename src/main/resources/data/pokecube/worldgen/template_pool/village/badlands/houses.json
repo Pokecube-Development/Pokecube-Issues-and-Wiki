@@ -21,7 +21,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/farmland",
         "processors": "pokecube:generic_farm",
-        "int_config":{"v_clearance":5},
+        "int_config":{ "v_clearance": 5 },
         "projection": "rigid"
       },
       "weight": 4
@@ -31,7 +31,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/berry_farmland",
         "processors": "pokecube:berry_farm",
-        "int_config":{"v_clearance":5},
+        "int_config":{ "v_clearance": 5 },
         "projection": "rigid"
       },
       "weight": 4
@@ -230,8 +230,8 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/empty_1",
-        "int_config": { "extra_child_depth": 3, "space_below": 0 },
-        "bool_config": { "only_once": true },
+        "int_config": { "extra_child_depth": 3, "space_below": 0, "v_clearance": 5 },
+        "bool_config": { "only_once": false },
         "processors": "pokecube:generic",
         "projection": "rigid",
         "flags": "mine_tunnel"
