@@ -21,6 +21,7 @@ import org.nfunk.jep.function.ArcTangent;
 import org.nfunk.jep.function.ArcTangent2;
 import org.nfunk.jep.function.Arg;
 import org.nfunk.jep.function.Ceil;
+import org.nfunk.jep.function.Clamp;
 import org.nfunk.jep.function.ComplexPFMC;
 import org.nfunk.jep.function.Cosine;
 import org.nfunk.jep.function.CosineH;
@@ -284,6 +285,8 @@ public class JEP
 
         this.funTab.put("ceil", new Ceil());
         this.funTab.put("floor", new Floor());
+        
+        this.funTab.put("clamp", new Clamp());
 
         this.funTab.put("rand", new org.nfunk.jep.function.Random());
         this.funTab.put("guassian", new org.nfunk.jep.function.Guassian());

@@ -3,7 +3,6 @@ package thut.core.client.render.texturing;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
@@ -61,7 +60,6 @@ public class TextureHelper implements IPartTexturer
             double dy = 0;
             toFill[0] = dx;
             toFill[1] = dy;
-            final Random random = ThutCore.newRandom();
             final List<String> states = mob.getTextureStates();
             for (final String state : states) if (this.infoStates.containsKey(state))
             {
@@ -90,13 +88,8 @@ public class TextureHelper implements IPartTexturer
             }
             for (final RandomState state : this.randomStates)
             {
-                final double[] arr = state.arr;
-                if (random.nextFloat() < state.chance)
+                if (state.apply(toFill, mob))
                 {
-                    dx = arr[0];
-                    dy = arr[1];
-                    toFill[0] = dx;
-                    toFill[1] = dy;
                     this.running.put(mob.getEntity().getId(), state);
                     this.setTimes.put(mob.getEntity().getId(), mob.getEntity().tickCount);
                     return true;

@@ -1,13 +1,12 @@
 package thut.api.entity.animation;
 
-import java.util.TreeMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
-import com.google.common.collect.Ordering;
-
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import thut.api.entity.animation.Animators.IAnimator;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationXML.Phase;
@@ -44,7 +43,7 @@ public class Animation
 
     public Vector3 _shift = new Vector3();
 
-    public TreeMap<String, IAnimator> sets = new TreeMap<>(Ordering.natural());
+    public Map<String, IAnimator> sets = new Object2ObjectOpenHashMap<>();
 
     public IAnimator getComponents(final String key)
     {
