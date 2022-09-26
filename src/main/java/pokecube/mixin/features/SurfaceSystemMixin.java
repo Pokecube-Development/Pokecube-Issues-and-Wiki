@@ -31,10 +31,15 @@ public abstract class SurfaceSystemMixin
             SurfaceRules.SurfaceRule surfacerules$surfacerule, BlockPos.MutableBlockPos blockpos$mutableblockpos1,
             int k, int l, int i1, int j1, int k1, Holder<Biome> holder)
     {
-        if (holder.is(WorldgenTags.IS_ERODED_BADLANDS))
+        if (holder.is(WorldgenTags.IS_ERODED))
         {
             SurfaceSystemInvoker _this = (SurfaceSystemInvoker) (Object) this;
             _this.invokeErodedBadlandsExtension(blockcolumn, i1, j1, k1, chunk);
+        }
+        if (holder.is(WorldgenTags.IS_ICEBERG))
+        {
+            SurfaceSystemInvoker _this = (SurfaceSystemInvoker) (Object) this;
+            _this.invokeFrozenOceanExtension(surfacerules$context.getMinSurfaceLevel(), holder.value(), blockcolumn, blockpos$mutableblockpos1, i1, j1, k1);
         }
     }
 }
