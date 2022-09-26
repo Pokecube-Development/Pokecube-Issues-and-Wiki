@@ -18,6 +18,9 @@ import net.minecraft.world.level.levelgen.NoiseChunk;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.SurfaceSystem;
 import net.minecraft.world.level.levelgen.WorldGenerationContext;
+import pokecube.mixin.invokers.InvokeHelper;
+import pokecube.mixin.invokers.SurfaceRulesContextInvoker;
+import pokecube.mixin.invokers.SurfaceSystemInvoker;
 import pokecube.world.WorldgenTags;
 
 @Mixin(SurfaceSystem.class)
@@ -33,13 +36,15 @@ public abstract class SurfaceSystemMixin
     {
         if (holder.is(WorldgenTags.IS_ERODED))
         {
-            SurfaceSystemInvoker _this = (SurfaceSystemInvoker) (Object) this;
+            SurfaceSystemInvoker _this = InvokeHelper.cast(this);
             _this.invokeErodedBadlandsExtension(blockcolumn, i1, j1, k1, chunk);
         }
         if (holder.is(WorldgenTags.IS_ICEBERG))
         {
-            SurfaceSystemInvoker _this = (SurfaceSystemInvoker) (Object) this;
-            _this.invokeFrozenOceanExtension(surfacerules$context.getMinSurfaceLevel(), holder.value(), blockcolumn, blockpos$mutableblockpos1, i1, j1, k1);
+            SurfaceSystemInvoker _this = InvokeHelper.cast(this);
+            SurfaceRulesContextInvoker _context = InvokeHelper.cast(surfacerules$context);
+            _this.invokeFrozenOceanExtension(_context.invokeGetMinSurfaceLevel(), holder.value(), blockcolumn,
+                    blockpos$mutableblockpos1, i1, j1, k1);
         }
     }
 }

@@ -13,7 +13,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.Material;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.utils.TimePeriod;
-import pokecube.mixin.features.WorldGenRegionAccessor;
+import pokecube.mixin.accessors.WorldGenRegionAccessor;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;

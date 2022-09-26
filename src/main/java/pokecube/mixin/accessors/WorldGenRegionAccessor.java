@@ -1,4 +1,4 @@
-package pokecube.mixin.features;
+package pokecube.mixin.accessors;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
