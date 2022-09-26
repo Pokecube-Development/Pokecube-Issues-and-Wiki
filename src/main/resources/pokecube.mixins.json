@@ -7,19 +7,20 @@
   "mixins": [
     "MixinBaseFireBlock",
     "MixinEntityFluidFix",
+    "accessors.ChunkAccessAcessor",
+    "accessors.WorldGenRegionAccessor",
     "brain.MixinLivingEntityInit",
     "brain.MixinVilagerBrainUpdate",
     "brain.MixinMobEntity",
     "entity.ICapabilityCache",
-    "features.ChunkAccessAcessor",
     "features.LessJungleBushInStructuresMixin",
     "features.NoBasaltColumnsInStructuresMixin",
     "features.NoDeltasInStructuresMixin",
     "features.NoLakesInStructuresMixin",
     "features.NoFluidFallsInStructuresMixin",
-    "features.WorldGenRegionAccessor",
     "features.SurfaceSystemMixin",
-    "features.SurfaceSystemInvoker"
+    "invokers.SurfaceSystemInvoker",
+    "invokers.SurfaceRulesContextInvoker"
   ],
   "client": [
   ],

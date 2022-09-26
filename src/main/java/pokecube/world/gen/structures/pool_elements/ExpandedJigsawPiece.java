@@ -54,7 +54,7 @@ import pokecube.api.events.StructureEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.utils.PokecubeSerializer;
-import pokecube.mixin.features.WorldGenRegionAccessor;
+import pokecube.mixin.accessors.WorldGenRegionAccessor;
 import pokecube.world.gen.structures.PokecubeStructures;
 import pokecube.world.gen.structures.processors.MarkerToAirProcessor;
 import pokecube.world.gen.structures.processors.NoWaterlogProcessor;

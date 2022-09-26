@@ -23,6 +23,9 @@ public class WorldgenTags
     public static TagKey<Structure> NO_BASALT = TagKey.create(Registry.STRUCTURE_REGISTRY,
             new ResourceLocation("pokecube_world", "mixin_restrictions/no_basalt"));
 
-    public static TagKey<Biome> IS_ERODED_BADLANDS = TagKey.create(Registry.BIOME_REGISTRY,
-            new ResourceLocation("pokecube_world", "is_custom_eroded_badlands"));
+    public static TagKey<Biome> IS_ERODED = TagKey.create(Registry.BIOME_REGISTRY,
+            new ResourceLocation("pokecube_world", "is_eroded_biome"));
+
+    public static TagKey<Biome> IS_ICEBERG = TagKey.create(Registry.BIOME_REGISTRY,
+            new ResourceLocation("pokecube_world", "is_iceberg_biome"));
 }
