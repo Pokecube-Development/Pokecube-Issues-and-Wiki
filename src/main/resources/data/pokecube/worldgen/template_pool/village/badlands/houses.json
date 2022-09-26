@@ -230,13 +230,13 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/empty_1",
-        "int_config": { "extra_child_depth": 1, "space_below": 0 },
+        "int_config": { "extra_child_depth": 3, "space_below": 0 },
         "bool_config": { "only_once": true },
         "processors": "pokecube:generic",
         "projection": "rigid",
         "flags": "mine_tunnel"
       },
-      "weight": 4
+      "weight": 5
     },
     {
       "element": {
