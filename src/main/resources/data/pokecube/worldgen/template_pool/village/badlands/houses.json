@@ -230,31 +230,33 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/empty_1",
-        "int_config": { "extra_child_depth": 1 },
+        "int_config": { "extra_child_depth": 1, "space_below": 0 },
+        "bool_config": { "only_once": true },
         "processors": "pokecube:generic",
-        "projection": "rigid"
+        "projection": "rigid",
+        "flags": "mine_tunnel"
       },
-      "weight": 2
+      "weight": 4
     },
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
-        "flags": "pokecenter",
         "location": "pokecube:village/badlands/pokecenter/center_01",
         "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
-        "projection": "rigid"
+        "projection": "rigid",
+        "flags": "mine"
       },
       "weight": 1
     },
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
-        "flags": "gym",
         "location": "pokecube:village/badlands/gym/gym_01",
         "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
-        "projection": "rigid"
+        "projection": "rigid",
+        "flags": "gym"
       },
       "weight": 1
     }

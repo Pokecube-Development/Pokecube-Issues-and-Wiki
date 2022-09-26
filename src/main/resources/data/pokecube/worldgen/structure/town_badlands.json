@@ -10,7 +10,7 @@
   "size": 6,
   "required_parts": [
     "gym",
-    "pokecenter"
+    "mine"
   ],
   "structures_to_avoid": [
     "minecraft:pillager_outposts",

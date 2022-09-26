@@ -9,6 +9,7 @@
   "avoid_range": 6,
   "size": 3,
   "required_parts": [
+    "mine",
     "pokecenter"
   ],
   "structures_to_avoid": [
