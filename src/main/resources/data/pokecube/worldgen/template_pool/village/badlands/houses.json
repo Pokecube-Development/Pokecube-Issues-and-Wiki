@@ -10,7 +10,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/coal_mine",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -40,7 +40,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/deposit",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -50,7 +50,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/house_1",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -60,7 +60,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/house_2",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -70,7 +70,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/house_3",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -80,7 +80,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/house_4",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -90,7 +90,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/tiny_house_1",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -100,7 +100,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/tiny_house_2",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -110,7 +110,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/tiny_house_3",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -120,7 +120,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/tiny_house_4",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -130,7 +130,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/tiny_house_5",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -140,7 +140,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/tiny_house_6",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -150,7 +150,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/tiny_house_7",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -160,7 +160,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/tiny_house_8",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -170,7 +170,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/tiny_house_9",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -180,7 +180,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/tiny_house_10",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -190,7 +190,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/medium_house_1",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -200,7 +200,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/medium_house_2",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -210,7 +210,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/medium_house_3",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -220,7 +220,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/medium_house_4",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -230,7 +230,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/empty_1",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -241,7 +241,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "flags": "pokecenter",
         "location": "pokecube:village/badlands/pokecenter/center_01",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -252,7 +252,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "flags": "gym",
         "location": "pokecube:village/badlands/gym/gym_01",
-        "int_config":{"extra_child_depth":1},
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
