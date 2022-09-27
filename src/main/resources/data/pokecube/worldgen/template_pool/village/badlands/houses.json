@@ -20,7 +20,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/farmland",
-        "processors": "pokecube:generic_farm",
+        "processors": "pokecube:farm_logs_to_ground",
         "int_config":{ "v_clearance": 5 },
         "projection": "rigid"
       },
@@ -30,7 +30,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/berry_farmland",
-        "processors": "pokecube:berry_farm",
+        "processors": "pokecube:berry_farm_logs_to_ground",
         "int_config":{ "v_clearance": 5 },
         "projection": "rigid"
       },
@@ -231,6 +231,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/decor/miner",
         "int_config": { "extra_child_depth": 3, "space_below":0 },
+        "bool_config": { "only_once": true },
         "processors": "pokecube:generic",
         "projection": "rigid",
         "flags": "quarry"
@@ -253,7 +254,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/gym/gym_01",
         "int_config": { "extra_child_depth": 1 },
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:generic",
         "projection": "rigid",
         "flags": "gym"
       },

@@ -6,7 +6,8 @@
         "location": "pokecube:village/badlands/decor/tunnel",
         "int_config": { "extra_child_depth": 3 },
         "processors": "pokecube:generic",
-        "projection": "rigid"
+        "projection": "rigid",
+        "flags": "tunnel"
       },
       "weight": 1
     }
