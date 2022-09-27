@@ -4,7 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/rails/end",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:logs_to_ground",
         "projection": "rigid"
       },
       "weight": 1

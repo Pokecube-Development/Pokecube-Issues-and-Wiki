@@ -126,6 +126,6 @@
       "weight": 1
     }
   ],
-  "fallback": "pokecube:village/jungle/terminators",
+  "fallback": "minecraft:empty",
   "name": "pokecube:village/jungle/houses"
 }
