@@ -1,51 +1,11 @@
 {
-  "avoid_range": 6,
-  "avoidances": {
-    "avoidances": [
-      {
-        "distance": 8,
-        "name": "temple"
-      },
-      {
-        "distance": 256,
-        "name": "keldeo_place"
-      }
-    ],
-    "flags": [
-      "temple",
-      "keldeo_place"
-    ]
-  },
-  "biomes":{
-    "type":"forge:and",
-    "values":[
-      {        
-	    "type":"forge:or",
-	     "values":[
-	    	"#forge:is_coniferous",
-		    "#minecraft:is_hill",
-		    "#minecraft:is_mountain",
-		    "#minecraft:is_taiga"
-	    ]
-  	  },
-      {
-        "type":"forge:not",
-        "value":{
-          "type":"forge:or",
-          "values":[
-            "#minecraft:is_beach",
-            "#minecraft:is_ocean",
-            "#minecraft:is_river"
-          ]
-        }
-      }
-    ]
-  },
+  "type": "pokecube:generic_surface_jigsaw",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "size": 2,
-  "spawn_overrides": {},
   "start_pool": "pokecube_legends:temples/surface/keldeo_place",
+  "terrain_adaptation": "beard_thin",
   "step": "surface_structures",
+  "avoid_range": 6,
+  "size": 2,
   "structures_to_avoid": [
     "minecraft:pillager_outposts",
     "minecraft:villages",
@@ -54,6 +14,46 @@
     "pokecube_legends:towns",
     "pokecube_legends:villages"
   ],
-  "terrain_adaptation": "beard_thin",
-  "type": "pokecube:generic_surface_jigsaw"
+  "avoidances": {
+    "avoidances": [
+      {
+        "name": "temple",
+        "distance": 8
+      },
+      {
+        "name": "keldeo_place",
+        "distance": 256
+      }
+    ],
+    "flags": [
+      "keldeo_place",
+      "temple"
+    ]
+  },
+  "biomes": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:or",
+        "values": [
+          "#forge:is_coniferous",
+          "#minecraft:is_hill",
+          "#minecraft:is_mountain",
+          "#minecraft:is_taiga"
+        ]
+      },
+      {
+        "type": "forge:not",
+        "value": {
+          "type": "forge:or",
+          "values": [
+            "#minecraft:is_beach",
+            "#minecraft:is_ocean",
+            "#minecraft:is_river"
+          ]
+        }
+      }
+    ]
+  },
+  "spawn_overrides": {}
 }

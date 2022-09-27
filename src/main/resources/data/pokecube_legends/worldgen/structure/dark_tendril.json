@@ -6,16 +6,23 @@
   "step": "surface_structures",
   "avoid_range": 6,
   "size": 1,
-  "spawn_overrides": {},
-  "biomes":{
-    "type":"forge:and",
-    "values":[
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:towns",
+    "pokecube_legends:villages"
+  ],
+  "biomes": {
+    "type": "forge:and",
+    "values": [
       "#pokecube_world:is_ultraspace/is_corrupted",
       {
-        "type":"forge:not",
-        "value":{
-          "type":"forge:or",
-          "values":[
+        "type": "forge:not",
+        "value": {
+          "type": "forge:or",
+          "values": [
             "#minecraft:is_beach",
             "#minecraft:is_ocean",
             "#minecraft:is_river"
@@ -24,12 +31,5 @@
       }
     ]
   },
-  "structures_to_avoid": [
-    "minecraft:pillager_outposts",
-    "minecraft:villages",
-    "pokecube:towns",
-    "pokecube:villages",
-    "pokecube_legends:towns",
-    "pokecube_legends:villages"
-  ]
+  "spawn_overrides": {}
 }

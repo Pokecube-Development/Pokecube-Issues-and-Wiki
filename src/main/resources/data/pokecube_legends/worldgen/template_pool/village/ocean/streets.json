@@ -28,6 +28,6 @@
       "weight": 2
     }
   ],
-  "fallback": "minecraft:empty",
+  "fallback": "pokecube_legends:village/ocean/terminators",
   "name": "pokecube_legends:village/ocean/streets"
 }

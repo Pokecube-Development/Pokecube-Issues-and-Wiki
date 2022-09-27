@@ -1,27 +1,11 @@
 {
-  "avoid_range": 3,
-  "biomes":{
-    "type":"forge:and",
-    "values":[
-      "#pokecube_world:is_ultraspace/is_fungal",
-      {
-        "type":"forge:not",
-        "value":{
-          "type":"forge:or",
-          "values":[
-            "#minecraft:is_beach",
-            "#minecraft:is_ocean",
-            "#minecraft:is_river"
-          ]
-        }
-      }
-    ]
-  },
+  "type": "pokecube:generic_surface_jigsaw",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "size": 2,
-  "spawn_overrides": {},
   "start_pool": "pokecube_legends:ultraspace/giant_brown_mushroom_stems",
+  "terrain_adaptation": "beard_box",
   "step": "surface_structures",
+  "avoid_range": 3,
+  "size": 2,
   "structures_to_avoid": [
     "minecraft:pillager_outposts",
     "minecraft:villages",
@@ -30,9 +14,25 @@
     "pokecube_legends:towns",
     "pokecube_legends:villages"
   ],
-  "terrain_adaptation": "beard_box",
-  "type": "pokecube:generic_surface_jigsaw",
   "y_settings": {
     "min_y": 64
-  }
+  },
+  "biomes": {
+    "type": "forge:and",
+    "values": [
+      "#pokecube_world:is_ultraspace/is_fungal",
+      {
+        "type": "forge:not",
+        "value": {
+          "type": "forge:or",
+          "values": [
+            "#minecraft:is_beach",
+            "#minecraft:is_ocean",
+            "#minecraft:is_river"
+          ]
+        }
+      }
+    ]
+  },
+  "spawn_overrides": {}
 }

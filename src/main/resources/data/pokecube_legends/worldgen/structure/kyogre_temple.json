@@ -1,43 +1,13 @@
 {
-  "avoid_range": 6,
-  "avoidances": {
-    "avoidances": [
-      {
-        "distance": 8,
-        "name": "temple"
-      },
-      {
-        "distance": 256,
-        "name": "kyogre_temple"
-      }
-    ],
-    "flags": [
-      "temple",
-      "kyogre_temple"
-    ]
-  },
-  "biome_room": 10,
-  "biomes":{
-    "type":"forge:and",
-    "values":[
-      "#forge:is_water",
-      {
-        "type":"forge:not",
-        "value":{
-          "type":"forge:or",
-          "values":[
-            "#minecraft:is_beach"
-          ]
-        }
-      }
-    ]
-  },
+  "type": "pokecube:generic_surface_jigsaw",
   "height_type": "OCEAN_FLOOR_WG",
   "project_start_to_heightmap": "OCEAN_FLOOR_WG",
-  "size": 2,
-  "spawn_overrides": {},
   "start_pool": "pokecube_legends:temples/underwater/kyogre_temple",
+  "terrain_adaptation": "beard_box",
   "step": "surface_structures",
+  "avoid_range": 6,
+  "biome_room": 10,
+  "size": 2,
   "structures_to_avoid": [
     "minecraft:pillager_outposts",
     "minecraft:villages",
@@ -46,10 +16,40 @@
     "pokecube_legends:towns",
     "pokecube_legends:villages"
   ],
-  "terrain_adaptation": "beard_box",
-  "type": "pokecube:generic_surface_jigsaw",
+  "avoidances": {
+    "avoidances": [
+      {
+        "name": "temple",
+        "distance": 8
+      },
+      {
+        "name": "kyogre_temple",
+        "distance": 256
+      }
+    ],
+    "flags": [
+      "kyogre_temple",
+      "temple"
+    ]
+  },
   "y_settings": {
     "max_y": 42,
     "vertical_offset": 5
-  }
+  },
+  "biomes": {
+    "type": "forge:and",
+    "values": [
+      "#forge:is_water",
+      {
+        "type": "forge:not",
+        "value": {
+          "type": "forge:or",
+          "values": [
+            "#minecraft:is_beach"
+          ]
+        }
+      }
+    ]
+  },
+  "spawn_overrides": {}
 }

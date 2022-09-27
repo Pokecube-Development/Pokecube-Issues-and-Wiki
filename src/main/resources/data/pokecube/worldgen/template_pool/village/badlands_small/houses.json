@@ -3,14 +3,15 @@
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
-        "flags": "pokecenter",
         "location": "pokecube:village/badlands_small/pokecenter/center_small",
+        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
+        "flags": "pokecenter",
         "projection": "rigid"
       },
       "weight": 1
     }
   ],
-  "fallback": "pokecube:village/badlands/terminators",
+  "fallback": "minecraft:empty",
   "name": "pokecube:village/badlands_small/houses"
 }

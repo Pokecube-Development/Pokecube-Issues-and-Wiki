@@ -1,44 +1,17 @@
 {
-  "avoid_range": 6,
-  "avoidances": {
-    "avoidances": [
-      {
-        "distance": 12,
-        "name": "team_bases"
-      },
-      {
-        "distance": 2,
-        "name": "surface_temples"
-      },
-      {
-        "distance": 80,
-        "name": "team_aqua"
-      }
-    ],
-    "flags": [
-      "team_bases",
-      "team_aqua"
-    ]
-  },
-  "biome_type": "industrial",
-  "biomes": "#pokecube_world:has_structure/team_aqua",
+  "type": "pokecube:generic_surface_jigsaw",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "clearances": {"max_distance_from_center":80},
+  "start_pool": "pokecube_legends:team_bases/team_aqua",
+  "terrain_adaptation": "beard_thin",
+  "step": "surface_structures",
+  "use_expansion_hack": true,
+  "biome_type": "industrial",
+  "avoid_range": 6,
+  "size": 12,
   "required_parts": [
     "boss",
     "entrance"
   ],
-  "size": 12,
-  "biomes":{
-    "type":"forge:or",
-     "values":[
-	    "#forge:is_swamp",
-	    "#minecraft:is_beach"
-    ]
-  },
-  "spawn_overrides": {},
-  "start_pool": "pokecube_legends:team_bases/team_aqua",
-  "step": "surface_structures",
   "structures_to_avoid": [
     "minecraft:pillager_outposts",
     "minecraft:villages",
@@ -47,11 +20,39 @@
     "pokecube_legends:towns",
     "pokecube_legends:villages"
   ],
-  "terrain_adaptation": "beard_thin",
-  "type": "pokecube:generic_surface_jigsaw",
-  "use_expansion_hack": true,
+  "clearances": {
+    "max_distance_from_center": 80
+  },
+  "avoidances": {
+    "avoidances": [
+      {
+        "name": "team_bases",
+        "distance": 12
+      },
+      {
+        "name": "surface_temples",
+        "distance": 2
+      },
+      {
+        "name": "team_aqua",
+        "distance": 80
+      }
+    ],
+    "flags": [
+      "team_aqua",
+      "team_bases"
+    ]
+  },
   "y_settings": {
     "max_dy": 15,
     "y_check_radius": 3
-  }
+  },
+  "biomes": {
+    "type": "forge:or",
+    "values": [
+      "#forge:is_swamp",
+      "#minecraft:is_beach"
+    ]
+  },
+  "spawn_overrides": {}
 }

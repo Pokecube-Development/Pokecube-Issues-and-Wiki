@@ -1,21 +1,32 @@
 {
-  "biomes": "#minecraft:is_overworld",
-  "avoid_range": 6,
+  "type": "pokecube:generic_surface_jigsaw",
+  "start_pool": "pokecube:village/deep/town_centers",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "terrain_adaptation": "beard_box",
+  "step": "underground_decoration",
+  "use_expansion_hack": false,
   "biome_type": "village",
-  "y_settings":{"vertical_offset": 0, "surface_type": "underground", "fixed_y": -27},
+  "avoid_range": 6,
+  "size": 5,
   "required_parts": [
     "pokecenter"
   ],
-  "size": 5,
-  "start_pool": "pokecube:village/deep/town_centers",
-  "avoidances":{
-    "flags": ["village_deep"],
-    "avoidances": [{"name":"village_deep","distance":128}]
+  "avoidances": {
+    "flags": [
+      "village_deep"
+    ],
+    "avoidances": [
+      {
+        "name": "village_deep",
+        "distance": 128
+      }
+    ]
   },
-  "spawn_overrides": {},
-  "type": "pokecube:generic_surface_jigsaw",
-  "step": "underground_decoration",
-  "terrain_adaptation": "beard_box",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "use_expansion_hack": false
+  "y_settings": {
+    "fixed_y": -27,
+    "surface_type": "underground",
+    "vertical_offset": 0
+  },
+  "biomes": "#minecraft:is_overworld",
+  "spawn_overrides": {}
 }

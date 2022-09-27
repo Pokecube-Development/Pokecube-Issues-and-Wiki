@@ -1,13 +1,17 @@
 {
-  "biomes": "#minecraft:is_nether",
+  "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "start_pool": "pokecube:village/nether/nether",
+  "step": "underground_structures",
+  "use_expansion_hack": true,
   "avoid_range": 6,
   "size": 10,
-  "start_pool": "pokecube:village/nether/nether",
-  "y_settings":{"vertical_offset": 64, "dy_offset": 16, "surface_type":"underground"},
   "structures_to_avoid": [],
-  "spawn_overrides": {},
-  "type": "pokecube:generic_surface_jigsaw",
-  "step": "underground_structures",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "use_expansion_hack": true
+  "y_settings": {
+    "dy_offset": 16,
+    "surface_type": "underground",
+    "vertical_offset": 64
+  },
+  "biomes": "#minecraft:is_nether",
+  "spawn_overrides": {}
 }

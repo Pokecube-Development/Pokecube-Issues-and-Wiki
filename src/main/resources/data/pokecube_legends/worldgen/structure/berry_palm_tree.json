@@ -7,25 +7,24 @@
   "avoid_range": 1,
   "biome_room": 1,
   "size": 1,
-  "spawn_overrides": {},
   "y_settings": {
     "min_y": 64
   },
-  "biomes":{
-    "type":"forge:and",
-    "values":[
+  "biomes": {
+    "type": "forge:and",
+    "values": [
       {
-        "type":"forge:or",
-        "values":[
+        "type": "forge:or",
+        "values": [
           "pokecube_legends:burnt_beach",
           "pokecube_legends:crystallized_beach"
         ]
       },
       {
-        "type":"forge:not",
-        "value":{
-          "type":"forge:or",
-          "values":[
+        "type": "forge:not",
+        "value": {
+          "type": "forge:or",
+          "values": [
             "#forge:is_snowy",
             "#minecraft:is_ocean",
             "#minecraft:is_river"
@@ -33,5 +32,6 @@
         }
       }
     ]
-  }
+  },
+  "spawn_overrides": {}
 }

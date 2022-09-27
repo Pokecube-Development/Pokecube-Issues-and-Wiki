@@ -1,28 +1,30 @@
 {
   "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "start_pool": "pokecube:village/plains/small",
-  "required_parts": ["pokecenter"],
-  "avoid_range": 6,
+  "terrain_adaptation": "beard_box",
+  "step": "surface_structures",
+  "use_expansion_hack": true,
   "biome_type": "village",
-  "structures_to_avoid": [
-    "pokecube:towns",
-    "minecraft:villages",
-    "minecraft:pillager_outposts"
-  ],
+  "avoid_range": 6,
   "size": 3,
-  "biomes":{
-    "type":"forge:and",
-    "values":[
+  "required_parts": [
+    "pokecenter"
+  ],
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:towns"
+  ],
+  "biomes": {
+    "type": "forge:and",
+    "values": [
       "#forge:is_plains",
       {
-        "type":"forge:not",
-        "value":"#forge:is_snowy"
+        "type": "forge:not",
+        "value": "#forge:is_snowy"
       }
     ]
   },
-  "spawn_overrides": {},
-  "step": "surface_structures",
-  "terrain_adaptation": "beard_box",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "use_expansion_hack": true
+  "spawn_overrides": {}
 }

@@ -5,7 +5,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/streets/corner_01",
         "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_taiga",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:street_taiga",
         "projection": "terrain_matching"
       },
       "weight": 3
@@ -15,7 +15,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/streets/corner_02",
         "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_taiga",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:street_taiga",
         "projection": "terrain_matching"
       },
       "weight": 3
@@ -25,7 +25,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/streets/corner_03",
         "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_taiga",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:street_taiga",
         "projection": "terrain_matching"
       },
       "weight": 3
@@ -35,7 +35,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/streets/crossroad_01",
         "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_taiga",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:street_taiga",
         "projection": "terrain_matching"
       },
       "weight": 5
@@ -45,7 +45,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/streets/crossroad_02",
         "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_taiga",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:street_taiga",
         "projection": "terrain_matching"
       },
       "weight": 5
@@ -55,7 +55,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/streets/crossroad_03",
         "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_taiga",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:street_taiga",
         "projection": "terrain_matching"
       },
       "weight": 5
@@ -65,7 +65,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/streets/crossroad_04",
         "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_taiga",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:street_taiga",
         "projection": "terrain_matching"
       },
       "weight": 5
@@ -75,7 +75,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/streets/crossroad_05",
         "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_taiga",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:street_taiga",
         "projection": "terrain_matching"
       },
       "weight": 5
@@ -85,7 +85,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/streets/crossroad_06",
         "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_taiga",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:street_taiga",
         "projection": "terrain_matching"
       },
       "weight": 5
@@ -94,7 +94,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/streets/straight_01",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_taiga",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:street_taiga",
         "projection": "terrain_matching"
       },
       "weight": 8
@@ -103,7 +103,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/streets/straight_02",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_taiga",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:street_taiga",
         "projection": "terrain_matching"
       },
       "weight": 8
@@ -112,7 +112,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/streets/straight_03",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_taiga",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:street_taiga",
         "projection": "terrain_matching"
       },
       "weight": 8
@@ -121,7 +121,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/streets/straight_04",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_taiga",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:street_taiga",
         "projection": "terrain_matching"
       },
       "weight": 8
@@ -130,7 +130,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/streets/straight_05",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_taiga",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:street_taiga",
         "projection": "terrain_matching"
       },
       "weight": 8
@@ -139,7 +139,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/streets/straight_06",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_taiga",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:street_taiga",
         "projection": "terrain_matching"
       },
       "weight": 8
@@ -149,7 +149,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/streets/turn_01",
         "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_taiga",
+        "bool_config": { "no_affect_noise": true },"processors": "pokecube:street_taiga",
         "projection": "terrain_matching"
       },
       "weight": 3

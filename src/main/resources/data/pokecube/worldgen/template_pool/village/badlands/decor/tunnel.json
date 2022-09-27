@@ -4,12 +4,14 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/decor/tunnel",
+        "int_config": { "extra_child_depth": 3 },
         "processors": "pokecube:generic",
-        "projection": "rigid"
+        "projection": "rigid",
+        "flags": "tunnel"
       },
       "weight": 1
     }
   ],
-  "fallback": "minecraft:empty",
+  "fallback": "pokecube:village/badlands/decor/tunnel",
   "name": "pokecube:village/badlands/decor/tunnel"
 }

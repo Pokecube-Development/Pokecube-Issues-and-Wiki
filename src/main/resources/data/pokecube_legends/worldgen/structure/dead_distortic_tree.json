@@ -6,9 +6,9 @@
   "step": "surface_structures",
   "avoid_range": 6,
   "size": 1,
-  "biomes": "#pokecube_world:is_distorted_world",
-  "spawn_overrides": {},
   "y_settings": {
     "min_y": 45
-  }
+  },
+  "biomes": "#pokecube_world:is_distorted_world",
+  "spawn_overrides": {}
 }

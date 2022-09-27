@@ -6,28 +6,10 @@
   "step": "surface_structures",
   "avoid_range": 6,
   "size": 5,
-  "spawn_overrides": {},
   "y_settings": {
-    "min_y": 64,
     "max_dy": 10,
+    "min_y": 64,
     "y_check_radius": 2
-  },
-  "biomes":{
-    "type":"forge:and",
-    "values":[
-      "#minecraft:is_taiga",
-      {
-        "type":"forge:not",
-        "value":{
-          "type":"forge:or",
-          "values":[
-            "#minecraft:is_beach",
-            "#minecraft:is_ocean",
-            "#minecraft:is_river"
-          ]
-        }
-      }
-    ]
   },
   "structures_to_avoid": [
     "minecraft:pillager_outposts",
@@ -40,17 +22,35 @@
   "avoidances": {
     "avoidances": [
       {
-        "distance": 12,
-        "name": "team_bases"
+        "name": "team_bases",
+        "distance": 12
       },
       {
-        "distance": 80,
-        "name": "castle_n"
+        "name": "castle_n",
+        "distance": 80
       }
     ],
     "flags": [
       "team_bases",
       "castle_n"
     ]
-  }
+  },
+  "biomes": {
+    "type": "forge:and",
+    "values": [
+      "#minecraft:is_taiga",
+      {
+        "type": "forge:not",
+        "value": {
+          "type": "forge:or",
+          "values": [
+            "#minecraft:is_beach",
+            "#minecraft:is_ocean",
+            "#minecraft:is_river"
+          ]
+        }
+      }
+    ]
+  },
+  "spawn_overrides": {}
 }

@@ -9,7 +9,7 @@
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true, "only_once": true},
-        "int_config":{"space_below":0},
+        "int_config": { "space_below": 0 },
         "projection": "rigid",
         "flags": "boss_entrance"
       }
@@ -21,7 +21,7 @@
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true, "only_once": true},
-        "int_config":{"space_below":0},
+        "int_config": { "space_below": 0 },
         "projection": "rigid",
         "flags": "redstone"
       }
@@ -32,8 +32,8 @@
         "location": "pokecube_legends:team_bases/team_magma/rooms/room_1",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
-        "bool_config": {"no_affect_noise":true},
-        "int_config":{"space_below":0},
+        "bool_config": { "no_affect_noise": true },
+        "int_config": { "space_below": 0 },
         "projection": "rigid"
       }
     },
@@ -43,8 +43,8 @@
         "location": "pokecube_legends:team_bases/team_magma/rooms/room_2",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
-        "bool_config": {"no_affect_noise":true},
-        "int_config":{"space_below":0},
+        "bool_config": { "no_affect_noise": true },
+        "int_config": { "space_below": 0 },
         "projection": "rigid"
       }
     },
@@ -54,8 +54,8 @@
         "location": "pokecube_legends:team_bases/team_magma/rooms/room_3",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
-        "bool_config": {"no_affect_noise":true},
-        "int_config":{"space_below":0},
+        "bool_config": { "no_affect_noise": true },
+        "int_config": { "space_below": 0 },
         "projection": "rigid"
       }
     },
@@ -65,8 +65,8 @@
         "location": "pokecube_legends:team_bases/team_magma/rooms/room_4",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
-        "bool_config": {"no_affect_noise":true},
-        "int_config":{"space_below":0},
+        "bool_config": { "no_affect_noise": true },
+        "int_config": { "space_below": 0 },
         "projection": "rigid"
       }
     },
@@ -76,8 +76,8 @@
         "location": "pokecube_legends:team_bases/team_magma/rooms/room_5",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
-        "bool_config": {"no_affect_noise":true},
-        "int_config":{"space_below":0},
+        "bool_config": { "no_affect_noise": true },
+        "int_config": { "space_below": 0 },
         "projection": "rigid"
       }
     },
@@ -88,7 +88,7 @@
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true, "only_once": true},
-        "int_config":{"space_below":0},
+        "int_config": { "space_below": 0 },
         "projection": "rigid",
         "flags": "loot_room"
       }
@@ -99,8 +99,8 @@
         "location": "pokecube_legends:team_bases/team_magma/rooms/room_6",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
-        "bool_config": {"no_affect_noise":true},
-        "int_config":{"space_below":0},
+        "bool_config": { "no_affect_noise": true },
+        "int_config": { "space_below": 0 },
         "projection": "rigid"
       }
     },
@@ -111,7 +111,7 @@
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true, "only_once": true},
-        "int_config":{"space_below":0},
+        "int_config": { "space_below": 0 },
         "projection": "rigid",
         "flags": "secret"
       }
@@ -122,8 +122,8 @@
         "location": "pokecube_legends:team_bases/team_magma/hallways/hallway_1",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
-        "bool_config": {"no_affect_noise":true},
-        "int_config":{"space_below":0},
+        "bool_config": { "no_affect_noise": true },
+        "int_config": { "space_below": 0 },
         "projection": "rigid"
       }
     },
@@ -133,8 +133,8 @@
         "location": "pokecube_legends:team_bases/team_magma/hallways/hallway_t",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
-        "bool_config": {"no_affect_noise":true},
-        "int_config":{"space_below":0},
+        "bool_config": { "no_affect_noise": true },
+        "int_config": { "space_below": 0 },
         "projection": "rigid"
       }
     },
@@ -144,8 +144,8 @@
         "location": "pokecube_legends:team_bases/team_magma/hallways/hallway_z",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
-        "bool_config": {"no_affect_noise":true},
-        "int_config":{"space_below":0},
+        "bool_config": { "no_affect_noise": true },
+        "int_config": { "space_below": 0 },
         "projection": "rigid"
       }
     },
@@ -155,8 +155,8 @@
         "location": "pokecube_legends:team_bases/team_magma/hallways/hallway_lava_tank",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
-        "bool_config": {"no_affect_noise":true},
-        "int_config":{"space_below":0},
+        "bool_config": { "no_affect_noise": true },
+        "int_config": { "space_below": 0 },
         "projection": "rigid"
       }
     },
@@ -166,8 +166,8 @@
         "location": "pokecube_legends:team_bases/team_magma/hallways/hallway_lava_tank_t",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
-        "bool_config": {"no_affect_noise":true},
-        "int_config":{"space_below":0},
+        "bool_config": { "no_affect_noise": true },
+        "int_config": { "space_below": 0 },
         "projection": "rigid"
       }
     }

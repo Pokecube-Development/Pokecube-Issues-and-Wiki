@@ -1,25 +1,39 @@
 {
-  "biomes": "#minecraft:is_overworld",
-  "avoid_range": 6,
+  "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "start_pool": "pokecube:village/high_sky/town_centers",
+  "step": "surface_structures",
+  "use_expansion_hack": true,
   "biome_type": "industrial",
-  "y_settings":{"vertical_offset": 70, "max_y": 100, "dy_offset": 120, "surface_type":"air"},
-  "clearances":{"h_clearance": 0},
+  "avoid_range": 6,
+  "size": 6,
   "required_parts": [
     "pokecenter"
   ],
-  "size": 6,
-  "start_pool": "pokecube:village/high_sky/town_centers",
   "structures_to_avoid": [
-    "minecraft:villages",
-    "minecraft:pillager_outposts"
+    "minecraft:pillager_outposts",
+    "minecraft:villages"
   ],
-  "avoidances":{
-    "flags": ["village_high_sky"],
-    "avoidances": [{"name":"village_high_sky","distance":196}]
+  "avoidances": {
+    "flags": [
+      "village_high_sky"
+    ],
+    "avoidances": [
+      {
+        "name":"village_high_sky",
+        "distance":196
+      }
+    ]
   },
-  "spawn_overrides": {},
-  "type": "pokecube:generic_surface_jigsaw",
-  "step": "surface_structures",
-  "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "use_expansion_hack": true
+  "y_settings": {
+    "dy_offset": 120,
+    "max_y": 100,
+    "surface_type": "air",
+    "vertical_offset": 70
+  },
+  "clearances": {
+    "h_clearance": 0
+  },
+  "biomes": "#minecraft:is_overworld",
+  "spawn_overrides": {}
 }

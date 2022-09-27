@@ -1,23 +1,23 @@
 {
-  "biome_type": "meteor",  
-  "biomes":{
-    "type":"forge:or",
-     "values":[
-	    "#minecraft:is_overworld",
-	    "#pokecube_world:is_ultraspace"
-    ]
-  },
+  "type": "pokecube:generic_surface_jigsaw",
   "height_type": "OCEAN_FLOOR_WG",
   "project_start_to_heightmap": "OCEAN_FLOOR_WG",
-  "size": 1,
-  "spawn_overrides": {},
   "start_pool": "pokecube_legends:meteorite_buried",
   "step": "underground_structures",
   "terrain_adaptation": "beard_thin",
-  "type": "pokecube:generic_surface_jigsaw",
+  "biome_type": "meteor",
+  "size": 1,
   "y_settings": {
     "dy_offset": -3,
     "surface_type": "underground",
     "vertical_offset": -5
-  }
+  },
+  "biomes": {
+    "type": "forge:or",
+    "values": [
+      "#minecraft:is_overworld",
+      "#pokecube_world:is_ultraspace"
+    ]
+  },
+  "spawn_overrides": {}
 }

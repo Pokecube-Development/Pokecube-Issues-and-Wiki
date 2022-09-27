@@ -1,54 +1,17 @@
 {
-  "avoid_range": 6,
-  "avoidances": {
-    "avoidances": [
-      {
-        "distance": 12,
-        "name": "team_bases"
-      },
-      {
-        "distance": 2,
-        "name": "surface_temples"
-      },
-      {
-        "distance": 80,
-        "name": "team_rocket"
-      }
-    ],
-    "flags": [
-      "team_bases",
-      "team_rocket"
-    ]
-  },
-  "biome_type": "industrial",
-  "biomes": "#pokecube_world:has_structure/team_rocket",
+  "type": "pokecube:generic_surface_jigsaw",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "clearances": {"max_distance_from_center":80},
-  "required_parts": [
-    "entrance",
-    "boss"
-  ],
-  "biomes":{
-    "type":"forge:and",
-    "values":[
-      "#forge:is_plains",
-      {
-        "type":"forge:not",
-        "value":{
-          "type":"forge:or",
-          "values":[
-            "#minecraft:is_beach",
-            "#minecraft:is_ocean",
-            "#minecraft:is_river"
-          ]
-        }
-      }
-    ]
-  },
-  "size": 12,
-  "spawn_overrides": {},
   "start_pool": "pokecube_legends:team_bases/team_rocket",
+  "terrain_adaptation": "beard_thin",
   "step": "surface_structures",
+  "use_expansion_hack": true,
+  "biome_type": "industrial",
+  "avoid_range": 6,
+  "size": 12,
+  "required_parts": [
+    "boss",
+    "entrance"
+  ],
   "structures_to_avoid": [
     "minecraft:pillager_outposts",
     "minecraft:villages",
@@ -57,11 +20,49 @@
     "pokecube_legends:towns",
     "pokecube_legends:villages"
   ],
-  "terrain_adaptation": "beard_thin",
-  "type": "pokecube:generic_surface_jigsaw",
-  "use_expansion_hack": true,
+  "clearances": {
+    "max_distance_from_center": 80
+  },
+  "avoidances": {
+    "avoidances": [
+      {
+        "name": "team_bases",
+        "distance": 12
+      },
+      {
+        "name": "surface_temples",
+        "distance": 2
+      },
+      {
+        "name": "team_rocket",
+        "distance": 80
+      }
+    ],
+    "flags": [
+      "team_bases",
+      "team_rocket"
+    ]
+  },
   "y_settings": {
     "max_dy": 14,
     "y_check_radius": 3
-  }
+  },
+  "biomes": {
+    "type": "forge:and",
+    "values": [
+      "#forge:is_plains",
+      {
+        "type": "forge:not",
+        "value": {
+          "type": "forge:or",
+          "values": [
+            "#minecraft:is_beach",
+            "#minecraft:is_ocean",
+            "#minecraft:is_river"
+          ]
+        }
+      }
+    ]
+  },
+  "spawn_overrides": {}
 }
