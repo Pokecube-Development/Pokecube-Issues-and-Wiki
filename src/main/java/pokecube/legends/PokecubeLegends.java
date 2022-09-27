@@ -232,6 +232,12 @@ public class PokecubeLegends
         FluidInteractionRegistry.addInteraction(DistorticWaterType.DISTORTIC_WATER_TYPE.get(),
                 new FluidInteractionRegistry.InteractionInformation(
                         (level, currentPos, relativePos, currentState) ->
+                                level.getFluidState(currentPos).isSource() && level.getBlockState(currentPos.below()).is(Blocks.SNOW_BLOCK),
+                        Blocks.BLUE_ICE.defaultBlockState()));
+
+        FluidInteractionRegistry.addInteraction(DistorticWaterType.DISTORTIC_WATER_TYPE.get(),
+                new FluidInteractionRegistry.InteractionInformation(
+                        (level, currentPos, relativePos, currentState) ->
                                 !level.getFluidState(currentPos).isSource() && level.getBlockState(currentPos.below()).is(BlockInit.DISTORTIC_MIRROR.get())
                                         && level.getBlockState(relativePos).is(BlockInit.DISTORTIC_GRASS_BLOCK.get()),
                         BlockInit.CRACKED_DISTORTIC_STONE.get().defaultBlockState()));
