@@ -25,6 +25,15 @@
   "start_height": {
     "absolute": 60
   },
-  "biomes": "#minecraft:is_beach",
+  "biomes": {
+    "type": "forge:and",
+    "values": [
+      "#minecraft:is_beach",
+      {
+        "type": "forge:not",
+        "value": "#forge:is_snowy"
+      }
+    ]
+  },
   "spawn_overrides": {}
 }

@@ -40,7 +40,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/houses/deposit",
-        "int_config": { "extra_child_depth": 1 },
+        "int_config": { "extra_child_depth": 1, "v_clearance": 5 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -229,14 +229,13 @@
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
-        "location": "pokecube:village/badlands/houses/empty_1",
-        "int_config": { "extra_child_depth": 3, "space_below": 0, "v_clearance": 5 },
-        "bool_config": { "only_once": true },
+        "location": "pokecube:village/badlands/decor/miner",
+        "int_config": { "extra_child_depth": 3, "space_below":0 },
         "processors": "pokecube:generic",
         "projection": "rigid",
-        "flags": "mine_tunnel"
+        "flags": "quarry"
       },
-      "weight": 5
+      "weight": 10
     },
     {
       "element": {
