@@ -253,7 +253,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/gym/gym_01",
         "int_config": { "extra_child_depth": 1 },
-        "processors": "pokecube:generic",
+        "processors": "pokecube:logs_to_ground",
         "projection": "rigid",
         "flags": "gym"
       },

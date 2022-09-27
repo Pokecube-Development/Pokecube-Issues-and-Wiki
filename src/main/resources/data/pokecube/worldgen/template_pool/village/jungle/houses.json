@@ -120,7 +120,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "flags": "gym",
         "location": "pokecube:village/jungle/gym/gym_01",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:jungle_gym",
         "projection": "rigid"
       },
       "weight": 1
