@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
@@ -36,10 +37,14 @@ public class LadderToGround extends StructureProcessor
         boolean isLadder = ItemList.is(LADDER, blockInfo.state);
         boolean isVine = ItemList.is(LADDER, blockInfo.state);
         if (!(isLadder || isVine)) return blockInfo;
-        BlockPos p1 = old.pos.offset(structure);
-        boolean air_or_water = (isLadder && level.getBlockState(p1).getBlock() == Blocks.WATER)
-                || level.isEmptyBlock(p1);
-        return air_or_water ? blockInfo : null;
+        BlockPos p1 = blockInfo.pos;
+        boolean isAir = level.isEmptyBlock(p1);
+        int y_max = level.getHeight(Types.OCEAN_FLOOR_WG, blockInfo.pos.getX(), blockInfo.pos.getZ());
+        @SuppressWarnings("deprecation")
+        boolean isWater = level.getBlockState(p1).getBlock() == Blocks.WATER || y_max < level.getSeaLevel();
+        if (!(isAir || isWater)) return null;
+        if (isVine && isWater) return null;
+        return isWater ? blockInfo : null;
     }
 
     @Override

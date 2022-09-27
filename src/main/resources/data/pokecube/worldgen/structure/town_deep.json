@@ -23,9 +23,9 @@
     ]
   },
   "y_settings": {
-    "vertical_offset": 0,
+    "fixed_y": -27,
     "surface_type": "underground",
-    "max_y": -27
+    "vertical_offset": 0
   },
   "biomes": "#minecraft:is_overworld",
   "spawn_overrides": {}

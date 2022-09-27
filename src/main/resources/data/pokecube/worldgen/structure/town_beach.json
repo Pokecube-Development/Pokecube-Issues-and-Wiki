@@ -17,13 +17,11 @@
     "minecraft:villages"
   ],
   "y_settings": {
+    "fixed_y": 62,
     "vertical_offset": 0
   },
   "clearances": {
     "h_clearance": 0
-  },
-  "start_height": {
-    "absolute": 60
   },
   "biomes": {
     "type": "forge:and",

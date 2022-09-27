@@ -56,15 +56,16 @@ public class GenericJigsawStructure extends Structure
     public static class YSettings
     {
         public static final YSettings DEFAULT = new YSettings(0, 0, Integer.MIN_VALUE, Integer.MAX_VALUE,
-                Integer.MAX_VALUE, 0, "surface");
+                Integer.MAX_VALUE, Integer.MIN_VALUE, 0, "surface");
 
         public static final Codec<YSettings> CODEC = RecordCodecBuilder.create((instance) -> {
             return instance
                     .group(Codec.INT.fieldOf("vertical_offset").orElse(0).forGetter(s -> s.vertical_offset),
-                            Codec.INT.fieldOf("y_check_radius").orElse(1).forGetter(s -> s.y_check_radius),
+                            Codec.INT.fieldOf("y_check_radius").orElse(0).forGetter(s -> s.y_check_radius),
                             Codec.INT.fieldOf("min_y").orElse(Integer.MIN_VALUE).forGetter(s -> s.min_y),
                             Codec.INT.fieldOf("max_y").orElse(Integer.MAX_VALUE).forGetter(s -> s.max_y),
                             Codec.INT.fieldOf("max_dy").orElse(Integer.MAX_VALUE).forGetter(s -> s.max_dy),
+                            Codec.INT.fieldOf("fixed_y").orElse(Integer.MIN_VALUE).forGetter(s -> s.fixed_y),
                             Codec.INT.fieldOf("dy_offset").orElse(Integer.MAX_VALUE).forGetter(s -> s.dy_offset),
                             Codec.STRING.fieldOf("surface_type").orElse("surface").forGetter(s -> s.surface_type))
                     .apply(instance, YSettings::new);
@@ -75,17 +76,19 @@ public class GenericJigsawStructure extends Structure
         public final int min_y;
         public final int max_y;
         public final int max_dy;
+        public final int fixed_y;
         public final int dy_offset;
         public final String surface_type;
 
-        public YSettings(int vertical_offset, int y_check_radius, int min_y, int max_y, int max_dy, int dy_offset,
-                String surface_type)
+        public YSettings(int vertical_offset, int y_check_radius, int min_y, int max_y, int max_dy, int fixed_y,
+                int dy_offset, String surface_type)
         {
             this.vertical_offset = vertical_offset;
             this.y_check_radius = y_check_radius;
             this.min_y = min_y;
             this.max_y = max_y;
             this.max_dy = max_dy;
+            this.fixed_y = fixed_y;
             this.surface_type = surface_type;
             this.dy_offset = dy_offset;
         }

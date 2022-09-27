@@ -17,6 +17,7 @@
     "pokecube:towns"
   ],
   "y_settings": {
+    "fixed_y": 62,
     "vertical_offset": 0
   },
   "start_height": {
