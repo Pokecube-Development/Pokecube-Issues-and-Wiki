@@ -135,13 +135,13 @@ public class GenericBoat extends Boat
 
         public static GenericBoat.Type byId(int id)
         {
-            GenericBoat.Type[] aboat$type = values();
-            if (id < 0 || id >= aboat$type.length)
+            GenericBoat.Type[] types = values();
+            if (id < 0 || id >= types.length)
             {
                 id = 0;
             }
 
-            return aboat$type[id];
+            return types[id];
         }
 
         public static GenericBoat.Type byName(String name)

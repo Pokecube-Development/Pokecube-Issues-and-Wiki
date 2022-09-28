@@ -123,13 +123,13 @@ public class LegendsBoat extends Boat
 
         public static Type byId(int id)
         {
-            Type[] aboat$type = values();
-            if (id < 0 || id >= aboat$type.length)
+            Type[] types = values();
+            if (id < 0 || id >= types.length)
             {
                 id = 0;
             }
 
-            return aboat$type[id];
+            return types[id];
         }
 
         public static Type byName(String name)
