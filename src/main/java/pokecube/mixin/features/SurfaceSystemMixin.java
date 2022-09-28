@@ -19,7 +19,7 @@ import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.SurfaceSystem;
 import net.minecraft.world.level.levelgen.WorldGenerationContext;
-import pokecube.mixin.invokers.InvokeHelper;
+import pokecube.core.utils.InvokeHelper;
 import pokecube.mixin.invokers.SurfaceRulesContextInvoker;
 import pokecube.mixin.invokers.SurfaceSystemInvoker;
 import pokecube.world.WorldgenTags;
