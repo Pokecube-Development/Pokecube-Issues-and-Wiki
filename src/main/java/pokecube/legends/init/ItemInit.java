@@ -1,7 +1,6 @@
 package pokecube.legends.init;
 
 import java.util.Locale;
-
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -24,12 +23,15 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.utils.PokeType;
+import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
+import pokecube.legends.entity.boats.LegendsBoat;
 import pokecube.legends.items.DistortedMirror;
 import pokecube.legends.items.ItemBase;
 import pokecube.legends.items.ItemTiers;
+import pokecube.legends.items.LegendsBoatItem;
 import pokecube.legends.items.LegendsSword;
 import pokecube.legends.items.RainbowSword;
 import pokecube.legends.items.TemporalBambooBlockItem;
@@ -187,6 +189,10 @@ public class ItemInit
 
     // Torch
     public static final RegistryObject<Item> INFECTED_TORCH;
+
+    // Boats
+    public static final RegistryObject<Item> AGED_BOAT;
+    public static final RegistryObject<Item> CORRUPTED_BOAT;
 
     // Plants
     public static final RegistryObject<Item> DISTORTIC_VINES;
@@ -452,6 +458,12 @@ public class ItemInit
         DISTORTIC_VINES = PokecubeLegends.ITEMS.register("distortic_vines",
                 () -> new BlockItem(PlantsInit.DISTORTIC_VINES.get(),
                         new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
+
+        // Boats
+        AGED_BOAT = PokecubeCore.ITEMS.register("aged_boat",
+                () -> new LegendsBoatItem(LegendsBoat.Type.AGED, new Item.Properties().stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
+        CORRUPTED_BOAT = PokecubeCore.ITEMS.register("corrupted_boat",
+                () -> new LegendsBoatItem(LegendsBoat.Type.CORRUPTED, new Item.Properties().stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
 
         ULTRA_HELMET = PokecubeLegends.ITEMS.register("ultra_helmet",
                 () -> new UltraHelmetEffect(ItemInit.armormaterial, EquipmentSlot.HEAD,

@@ -1,8 +1,12 @@
 package pokecube.legends.init;
 
+import java.util.function.BiConsumer;
 import java.util.function.Predicate;
-
+import java.util.function.Supplier;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.BoatModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.client.particle.LavaParticle;
 import net.minecraft.client.particle.SmokeParticle;
@@ -18,6 +22,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -34,6 +39,8 @@ import pokecube.legends.blocks.normalblocks.InfectedFireBlock;
 import pokecube.legends.blocks.plants.TaintedKelpPlantBlock;
 import pokecube.legends.client.render.block.Raid;
 import pokecube.legends.client.render.entity.Wormhole;
+import pokecube.legends.entity.boats.LegendsBoat;
+import pokecube.legends.entity.boats.LegendsBoatRenderer;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID, value = Dist.CLIENT)
 public class ClientSetupHandler
@@ -178,6 +185,7 @@ public class ClientSetupHandler
             // Shields
             ItemInit.addItemModelProperties();
         });
+        ClientSetupHandler.registerLayerDefinition(ForgeHooksClient::registerLayerDefinition);
     }
 
     @SubscribeEvent
@@ -189,6 +197,15 @@ public class ClientSetupHandler
 
         // Register entity renderer for the wormhole
         event.registerEntityRenderer(EntityInit.WORMHOLE.get(), Wormhole::new);
+        event.registerEntityRenderer(EntityInit.BOAT.get(), LegendsBoatRenderer::new);
+    }
+
+    public static void registerLayerDefinition(final BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> consumer)
+    {
+        for (LegendsBoat.Type value : LegendsBoat.Type.values())
+        {
+            consumer.accept(LegendsBoatRenderer.createBoatModelName(value), BoatModel::createBodyModel);
+        }
     }
 
     @SubscribeEvent

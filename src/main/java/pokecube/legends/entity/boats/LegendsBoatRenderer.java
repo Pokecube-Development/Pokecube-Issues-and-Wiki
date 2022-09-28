@@ -1,4 +1,4 @@
-package pokecube.core.entity.boats;
+package pokecube.legends.entity.boats;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -19,33 +19,33 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
-import pokecube.core.PokecubeCore;
+import pokecube.legends.PokecubeLegends;
 
-public class GenericBoatRenderer extends EntityRenderer<GenericBoat>
+public class LegendsBoatRenderer extends EntityRenderer<LegendsBoat>
 {
-    private final Map<GenericBoat.Type, Pair<ResourceLocation, BoatModel>> boatResources;
+    private final Map<LegendsBoat.Type, Pair<ResourceLocation, BoatModel>> boatResources;
 
-    public GenericBoatRenderer(EntityRendererProvider.Context context)
+    public LegendsBoatRenderer(EntityRendererProvider.Context context)
     {
         super(context);
         this.shadowRadius = 0.8F;
-        this.boatResources = new HashMap<>(Stream.of(GenericBoat.Type.values()).collect(ImmutableMap.toImmutableMap((type) -> type,
-                (type) -> Pair.of(PokecubeCore.resourceLocation("textures/entity/boat/" + type.getName() + ".png"),
+        this.boatResources = new HashMap<>(Stream.of(LegendsBoat.Type.values()).collect(ImmutableMap.toImmutableMap((type) -> type,
+                (type) -> Pair.of(PokecubeLegends.resourceLocation("textures/entity/boat/" + type.getName() + ".png"),
                         new BoatModel(context.bakeLayer(createBoatModelName(type)))))));
     }
 
-    public static ModelLayerLocation createBoatModelName(GenericBoat.Type type)
+    public static ModelLayerLocation createBoatModelName(LegendsBoat.Type type)
     {
         return resourceLocation("boat/" + type.getName(), "main");
     }
 
     public static ModelLayerLocation resourceLocation(String path, String id)
     {
-        return new ModelLayerLocation(PokecubeCore.resourceLocation(path), id);
+        return new ModelLayerLocation(PokecubeLegends.resourceLocation(path), id);
     }
 
     @Override
-    public void render(GenericBoat boat, float entityYaw, float partialTicks, PoseStack matricStack, MultiBufferSource source, int i)
+    public void render(LegendsBoat boat, float entityYaw, float partialTicks, PoseStack matricStack, MultiBufferSource source, int i)
     {
         matricStack.pushPose();
         matricStack.translate(0.0D, 0.375D, 0.0D);
@@ -68,7 +68,7 @@ public class GenericBoatRenderer extends EntityRenderer<GenericBoat>
             matricStack.mulPose(new Quaternion(new Vector3f(1.0F, 0.0F, 1.0F), boat.getBubbleAngle(partialTicks), true));
         }
 
-        Pair<ResourceLocation, BoatModel> pair = this.boatResources.get(boat.getGenericBoatType());
+        Pair<ResourceLocation, BoatModel> pair = this.boatResources.get(boat.getLegendsBoatType());
         ResourceLocation resourcelocation = pair.getFirst();
         BoatModel boatmodel = pair.getSecond();
         matricStack.scale(-1.0F, -1.0F, 1.0F);
@@ -87,8 +87,8 @@ public class GenericBoatRenderer extends EntityRenderer<GenericBoat>
     }
 
     @Override
-    public ResourceLocation getTextureLocation(GenericBoat boat)
+    public ResourceLocation getTextureLocation(LegendsBoat boat)
     {
-        return this.boatResources.get(boat.getGenericBoatType()).getFirst();
+        return this.boatResources.get(boat.getLegendsBoatType()).getFirst();
     }
 }

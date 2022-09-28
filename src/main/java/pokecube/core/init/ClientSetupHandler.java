@@ -215,7 +215,7 @@ public class ClientSetupHandler
         ItemBlockRenderTypes.setRenderLayer(PokecubeItems.NEST.get(), RenderType.cutoutMipped());
         ItemBlockRenderTypes.setRenderLayer(PokecubeItems.DYNAMAX.get(), RenderType.cutoutMipped());
 
-        ClientSetupHandler.registerLayerDefinitions(ForgeHooksClient::registerLayerDefinition);
+        ClientSetupHandler.registerLayerDefinition(ForgeHooksClient::registerLayerDefinition);
 
         // FIXME Register config gui
     }
@@ -236,8 +236,10 @@ public class ClientSetupHandler
         event.registerEntityRenderer(EntityTypes.getBoat(), GenericBoatRenderer::new);
     }
 
-    public static void registerLayerDefinitions(final BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> consumer) {
-        for (GenericBoat.Type value : GenericBoat.Type.values()) {
+    public static void registerLayerDefinition(final BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> consumer)
+    {
+        for (GenericBoat.Type value : GenericBoat.Type.values())
+        {
             consumer.accept(GenericBoatRenderer.createBoatModelName(value), BoatModel::createBodyModel);
         }
     }

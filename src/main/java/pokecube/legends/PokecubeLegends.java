@@ -604,4 +604,9 @@ public class PokecubeLegends
             if (!event.getPlayer().isCreative()) event.getItemStack().grow(-1);
         }
     }
+
+    public static ResourceLocation resourceLocation(String path)
+    {
+        return new ResourceLocation(Reference.ID, path);
+    }
 }

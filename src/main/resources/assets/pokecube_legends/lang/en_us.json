@@ -636,6 +636,12 @@
     "block.pokecube_legends.concrete_door": "Concrete Door",
     "block.pokecube_legends.concrete_trapdoor": "Concrete Trapdoor",
 
+    "_comment50": "Boats",
+    "item.pokecube_legends.aged_boat": "Aged Boat",
+    "item.pokecube_legends.corrupted_boat": "Corrupted Boat",
+
+    "entity.pokecube_legends.boat": "Boat",
+
     "_comment20": "Soils",
     "block.pokecube_legends.ash": "Ash",
     "block.pokecube_legends.ash_block": "Ash Block",
