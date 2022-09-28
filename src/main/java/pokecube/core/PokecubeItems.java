@@ -1,5 +1,12 @@
 package pokecube.core;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,15 +18,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
 import java.util.regex.Pattern;
-
-import com.google.common.base.Predicate;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -72,9 +70,11 @@ import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderBlock;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.database.Database;
+import pokecube.core.entity.boats.GenericBoat;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.init.ItemGenerator;
 import pokecube.core.inventory.barrels.GenericBarrelMenu;
+import pokecube.core.items.ItemBoat;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.berries.BerryManager;
@@ -139,11 +139,18 @@ public class PokecubeItems extends ItemList
     public static final RegistryObject<Item> BERRYJUICE;
     public static final RegistryObject<Item> CANDY;
     public static final RegistryObject<Item> EGG;
+    public static final RegistryObject<Item> EMERALDSHARD;
+    public static final RegistryObject<Item> LUCKYEGG;
     public static final RegistryObject<Item> POKEDEX;
     public static final RegistryObject<Item> POKEWATCH;
     public static final RegistryObject<Item> REVIVE;
-    public static final RegistryObject<Item> LUCKYEGG;
-    public static final RegistryObject<Item> EMERALDSHARD;
+
+    public static final RegistryObject<Item> ENIGMA_BOAT;
+    public static final RegistryObject<Item> LEPPA_BOAT;
+    public static final RegistryObject<Item> NANAB_BOAT;
+    public static final RegistryObject<Item> ORAN_BOAT;
+    public static final RegistryObject<Item> PECHA_BOAT;
+    public static final RegistryObject<Item> SITRUS_BOAT;
 
     // Blocks
     public static final RegistryObject<Block> DEEPSLATE_FOSSIL_ORE;
@@ -302,6 +309,20 @@ public class PokecubeItems extends ItemList
         SITRUS_BOOKSHELF_EMPTY = PokecubeCore.BERRIES_TAB.register("sitrus_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_YELLOW)
                         .strength(2.5F).sound(SoundType.WOOD)));
+
+        // Boats
+        ENIGMA_BOAT = PokecubeCore.ITEMS.register("enigma_boat",
+                () -> new ItemBoat(GenericBoat.Type.ENIGMA, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
+        LEPPA_BOAT = PokecubeCore.ITEMS.register("leppa_boat",
+                () -> new ItemBoat(GenericBoat.Type.LEPPA, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
+        NANAB_BOAT = PokecubeCore.ITEMS.register("nanab_boat",
+                () -> new ItemBoat(GenericBoat.Type.NANAB, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
+        ORAN_BOAT = PokecubeCore.ITEMS.register("oran_boat",
+                () -> new ItemBoat(GenericBoat.Type.ORAN, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
+        PECHA_BOAT = PokecubeCore.ITEMS.register("pecha_boat",
+                () -> new ItemBoat(GenericBoat.Type.PECHA, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
+        SITRUS_BOAT = PokecubeCore.ITEMS.register("sitrus_boat",
+                () -> new ItemBoat(GenericBoat.Type.SITRUS, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
 
         // Tile Entity Types
         BARREL_TYPE = PokecubeCore.TILES

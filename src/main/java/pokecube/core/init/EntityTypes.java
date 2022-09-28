@@ -12,6 +12,7 @@ import pokecube.api.events.init.RegisterPokemobsEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
+import pokecube.core.entity.boats.GenericBoat;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
@@ -26,6 +27,7 @@ public class EntityTypes
     public static final RegistryObject<EntityType<EntityPokemobEgg>> EGG;
     public static final RegistryObject<EntityType<NpcMob>> NPC;
     public static final RegistryObject<EntityType<EntityMoveUse>> MOVE;
+    public static final RegistryObject<EntityType<GenericBoat>> BOAT;
 
     static
     {
@@ -45,6 +47,8 @@ public class EntityTypes
                         {
                             return getMove().create(world);
                         }).build("move_use"));
+        BOAT = PokecubeCore.ENTITIES.register("boat",
+                () -> EntityType.Builder.<GenericBoat>of(GenericBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F).clientTrackingRange(10).build("boat"));
     }
 
     public static void init()
@@ -96,6 +100,11 @@ public class EntityTypes
     public static EntityType<EntityPokemobEgg> getEgg()
     {
         return EGG.get();
+    }
+
+    public static EntityType<GenericBoat> getBoat()
+    {
+        return BOAT.get();
     }
 
     public static EntityType<EntityPokecube> getPokecube()

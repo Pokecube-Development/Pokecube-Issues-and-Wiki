@@ -272,6 +272,7 @@ public class ItemGenerator
                     block ->
                     {
                         ItemGenerator.planks.put(name, block);
+                        BerryManager.berryPlanks.put(index, block);
                     });
 
             // Stairs

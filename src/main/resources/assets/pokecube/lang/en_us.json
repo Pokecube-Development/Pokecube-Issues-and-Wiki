@@ -466,7 +466,16 @@
     "item.pokecube.pokemobegg": "Pokémob Egg",
     "item.pokecube.pokemobegg.named": "Egg of %1$s",
     "item.pokecube.berry_null": "Berry",
-    
+
+    "item.pokecube.enigma_boat": "Enigma Boat",
+    "item.pokecube.leppa_boat": "Leppa Boat",
+    "item.pokecube.nanab_boat": "Nanab Boat",
+    "item.pokecube.oran_boat": "Oran Boat",
+    "item.pokecube.pecha_boat": "Pecha Boat",
+    "item.pokecube.sitrus_boat": "Sitrus Boat",
+
+    "entity.pokecube.boat": "Boat",
+
     "pokecube.filled.brn": "%1$s (BRN)",
     "pokecube.filled.frz": "%1$s (FRZ)",
     "pokecube.filled.par": "%1$s (PAR)",

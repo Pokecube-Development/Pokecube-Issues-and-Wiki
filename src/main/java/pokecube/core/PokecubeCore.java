@@ -284,4 +284,9 @@ public class PokecubeCore
                 PokecubeItems.POKECUBE_CUBES = PokecubeItems.getStack("pokecube");
         });
     }
+
+    public static ResourceLocation resourceLocation(String path)
+    {
+        return new ResourceLocation(MODID, path);
+    }
 }
