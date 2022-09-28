@@ -72,15 +72,15 @@ public class GenericBoat extends Boat
     @Override
     protected void addAdditionalSaveData(CompoundTag compound)
     {
-        compound.putString("GenericType", this.getGenericBoatType().getName());
+        compound.putString("Type", this.getGenericBoatType().getName());
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag compound)
     {
-        if (compound.contains("GenericType", 8))
+        if (compound.contains("Type", 8))
         {
-            this.setGenericBoatType(GenericBoat.Type.byName(compound.getString("GenericType")));
+            this.setGenericBoatType(GenericBoat.Type.byName(compound.getString("Type")));
         }
     }
 
