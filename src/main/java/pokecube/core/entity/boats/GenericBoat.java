@@ -98,12 +98,12 @@ public class GenericBoat extends Boat
 
     public static enum Type
     {
-        ENIGMA(BerryManager.berryLeaves.get(60), "enigma"),
-        LEPPA(BerryManager.berryLeaves.get(6), "leppa"),
-        NANAB(BerryManager.berryLeaves.get(18), "nanab"),
-        ORAN(BerryManager.berryLeaves.get(7), "oran"),
-        PECHA(BerryManager.berryLeaves.get(3), "pecha"),
-        SITRUS(BerryManager.berryLeaves.get(10), "sitrus");
+        ENIGMA(BerryManager.berryPlanks.get(60), "enigma"),
+        LEPPA(BerryManager.berryPlanks.get(6), "leppa"),
+        NANAB(BerryManager.berryPlanks.get(18), "nanab"),
+        ORAN(BerryManager.berryPlanks.get(7), "oran"),
+        PECHA(BerryManager.berryPlanks.get(3), "pecha"),
+        SITRUS(BerryManager.berryPlanks.get(10), "sitrus");
 
         private final String name;
         private final Block planks;
