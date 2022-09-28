@@ -23,7 +23,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.utils.PokeType;
-import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
@@ -460,9 +459,9 @@ public class ItemInit
                         new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
 
         // Boats
-        AGED_BOAT = PokecubeCore.ITEMS.register("aged_boat",
+        AGED_BOAT = PokecubeLegends.ITEMS.register("aged_boat",
                 () -> new LegendsBoatItem(LegendsBoat.Type.AGED, new Item.Properties().stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
-        CORRUPTED_BOAT = PokecubeCore.ITEMS.register("corrupted_boat",
+        CORRUPTED_BOAT = PokecubeLegends.ITEMS.register("corrupted_boat",
                 () -> new LegendsBoatItem(LegendsBoat.Type.CORRUPTED, new Item.Properties().stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
 
         ULTRA_HELMET = PokecubeLegends.ITEMS.register("ultra_helmet",

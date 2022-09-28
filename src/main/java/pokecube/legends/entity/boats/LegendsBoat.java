@@ -49,12 +49,12 @@ public class LegendsBoat extends Boat
         }
     }
 
-    public LegendsBoat.Type getLegendsBoatType()
+    public Type getLegendsBoatType()
     {
-        return LegendsBoat.Type.byId(this.entityData.get(BOAT_ID_TYPE));
+        return Type.byId(this.entityData.get(BOAT_ID_TYPE));
     }
 
-    public void setLegendsBoatType(LegendsBoat.Type boatType)
+    public void setLegendsBoatType(Type boatType)
     {
         this.entityData.set(BOAT_ID_TYPE, boatType.ordinal());
     }
@@ -62,7 +62,7 @@ public class LegendsBoat extends Boat
     @Override
     protected void defineSynchedData()
     {
-        this.entityData.define(BOAT_ID_TYPE, LegendsBoat.Type.AGED.ordinal());
+        this.entityData.define(BOAT_ID_TYPE, Type.AGED.ordinal());
         super.defineSynchedData();
     }
 
@@ -77,11 +77,11 @@ public class LegendsBoat extends Boat
     {
         if (compound.contains("Type", 8))
         {
-            this.setLegendsBoatType(LegendsBoat.Type.byName(compound.getString("Type")));
+            this.setLegendsBoatType(Type.byName(compound.getString("Type")));
         }
     }
 
-    public void setType(LegendsBoat.Type type)
+    public void setType(Type type)
     {
         this.entityData.set(BOAT_ID_TYPE, type.ordinal());
     }
@@ -121,9 +121,9 @@ public class LegendsBoat extends Boat
             return this.name;
         }
 
-        public static LegendsBoat.Type byId(int id)
+        public static Type byId(int id)
         {
-            LegendsBoat.Type[] aboat$type = values();
+            Type[] aboat$type = values();
             if (id < 0 || id >= aboat$type.length)
             {
                 id = 0;
@@ -132,9 +132,9 @@ public class LegendsBoat extends Boat
             return aboat$type[id];
         }
 
-        public static LegendsBoat.Type byName(String name)
+        public static Type byName(String name)
         {
-            LegendsBoat.Type[] types = values();
+            Type[] types = values();
 
             for(int i = 0; i < types.length; ++i)
             {
