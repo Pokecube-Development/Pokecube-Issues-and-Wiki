@@ -74,7 +74,7 @@ import pokecube.core.entity.boats.GenericBoat;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.init.ItemGenerator;
 import pokecube.core.inventory.barrels.GenericBarrelMenu;
-import pokecube.core.items.ItemBoat;
+import pokecube.core.items.GenericBoatItem;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.berries.BerryManager;
@@ -312,17 +312,17 @@ public class PokecubeItems extends ItemList
 
         // Boats
         ENIGMA_BOAT = PokecubeCore.ITEMS.register("enigma_boat",
-                () -> new ItemBoat(GenericBoat.Type.ENIGMA, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
+                () -> new GenericBoatItem(GenericBoat.Type.ENIGMA, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
         LEPPA_BOAT = PokecubeCore.ITEMS.register("leppa_boat",
-                () -> new ItemBoat(GenericBoat.Type.LEPPA, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
+                () -> new GenericBoatItem(GenericBoat.Type.LEPPA, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
         NANAB_BOAT = PokecubeCore.ITEMS.register("nanab_boat",
-                () -> new ItemBoat(GenericBoat.Type.NANAB, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
+                () -> new GenericBoatItem(GenericBoat.Type.NANAB, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
         ORAN_BOAT = PokecubeCore.ITEMS.register("oran_boat",
-                () -> new ItemBoat(GenericBoat.Type.ORAN, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
+                () -> new GenericBoatItem(GenericBoat.Type.ORAN, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
         PECHA_BOAT = PokecubeCore.ITEMS.register("pecha_boat",
-                () -> new ItemBoat(GenericBoat.Type.PECHA, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
+                () -> new GenericBoatItem(GenericBoat.Type.PECHA, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
         SITRUS_BOAT = PokecubeCore.ITEMS.register("sitrus_boat",
-                () -> new ItemBoat(GenericBoat.Type.SITRUS, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
+                () -> new GenericBoatItem(GenericBoat.Type.SITRUS, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
 
         // Tile Entity Types
         BARREL_TYPE = PokecubeCore.TILES

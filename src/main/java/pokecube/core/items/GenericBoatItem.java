@@ -19,12 +19,12 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import pokecube.core.entity.boats.GenericBoat;
 
-public class ItemBoat extends Item
+public class GenericBoatItem extends Item
 {
     private static final Predicate<Entity> ENTITY_PREDICATE = EntitySelector.NO_SPECTATORS.and(Entity::isPickable);
     private final GenericBoat.Type type;
 
-    public ItemBoat(GenericBoat.Type type, Properties properties)
+    public GenericBoatItem(GenericBoat.Type type, Properties properties)
     {
         super(properties);
         this.type = type;
