@@ -1,6 +1,9 @@
 package pokecube.core.entity.boats;
 
+import com.mojang.math.Vector3d;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -9,8 +12,11 @@ import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.Vec3;
 import pokecube.core.PokecubeItems;
+import pokecube.core.init.EntityTypes;
 import pokecube.core.items.berries.BerryManager;
+import pokecube.legends.init.EntityInit;
 
 public class GenericBoat extends Boat
 {
@@ -24,8 +30,9 @@ public class GenericBoat extends Boat
 
     public GenericBoat(Level world, double x, double y, double z)
     {
-        super(world, x, y, z);
+        this(EntityTypes.BOAT.get(), world);
         this.setPos(x, y, z);
+        this.setDeltaMovement(Vec3.ZERO);
         this.xo = x;
         this.yo = y;
         this.zo = z;
@@ -89,14 +96,13 @@ public class GenericBoat extends Boat
         this.entityData.set(BOAT_ID_TYPE, type.ordinal());
     }
 
-//    @Override
-//    public Packet<?> getAddEntityPacket()
-//    {
-//        //TODO: Is this right?
-//        return new ClientboundAddEntityPacket(this);
-//    }
+    @Override
+    public Packet<?> getAddEntityPacket()
+    {
+        return new ClientboundAddEntityPacket(this);
+    }
 
-    public static enum Type
+    public enum Type
     {
         ENIGMA(BerryManager.berryPlanks.get(60), "enigma"),
         LEPPA(BerryManager.berryPlanks.get(6), "leppa"),
@@ -108,7 +114,7 @@ public class GenericBoat extends Boat
         private final String name;
         private final Block planks;
 
-        private Type(Block block, String name)
+        Type(Block block, String name)
         {
             this.name = name;
             this.planks = block;

@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 import net.minecraft.client.model.BoatModel;
@@ -17,6 +18,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.NotNull;
 import pokecube.core.PokecubeCore;
 
 public class GenericBoatRenderer extends EntityRenderer<GenericBoat>
@@ -27,9 +29,9 @@ public class GenericBoatRenderer extends EntityRenderer<GenericBoat>
     {
         super(context);
         this.shadowRadius = 0.8F;
-        this.boatResources = Stream.of(GenericBoat.Type.values()).collect(ImmutableMap.toImmutableMap((type) -> type,
+        this.boatResources = new HashMap<>(Stream.of(GenericBoat.Type.values()).collect(ImmutableMap.toImmutableMap((type) -> type,
                 (type) -> Pair.of(PokecubeCore.resourceLocation("textures/entity/boat/" + type.getName() + ".png"),
-                    new BoatModel(context.bakeLayer(createBoatModelName(type))))));
+                        new BoatModel(context.bakeLayer(createBoatModelName(type)))))));
     }
 
     public static ModelLayerLocation createBoatModelName(GenericBoat.Type type)
@@ -66,7 +68,7 @@ public class GenericBoatRenderer extends EntityRenderer<GenericBoat>
             matricStack.mulPose(new Quaternion(new Vector3f(1.0F, 0.0F, 1.0F), boat.getBubbleAngle(partialTicks), true));
         }
 
-        Pair<ResourceLocation, BoatModel> pair = getModelWithLocation(boat);
+        Pair<ResourceLocation, BoatModel> pair = this.boatResources.get(boat.getGenericBoatType());
         ResourceLocation resourcelocation = pair.getFirst();
         BoatModel boatmodel = pair.getSecond();
         matricStack.scale(-1.0F, -1.0F, 1.0F);
@@ -85,7 +87,7 @@ public class GenericBoatRenderer extends EntityRenderer<GenericBoat>
     }
 
     @Override
-    public ResourceLocation getTextureLocation(GenericBoat boat)
+    public @NotNull ResourceLocation getTextureLocation(GenericBoat boat)
     {
         return this.boatResources.get(boat.getGenericBoatType()).getFirst();
     }
