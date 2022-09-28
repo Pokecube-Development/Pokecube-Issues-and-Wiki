@@ -1,6 +1,5 @@
 package pokecube.core.entity.boats;
 
-import com.mojang.math.Vector3d;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
@@ -16,7 +15,6 @@ import net.minecraft.world.phys.Vec3;
 import pokecube.core.PokecubeItems;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.items.berries.BerryManager;
-import pokecube.legends.init.EntityInit;
 
 public class GenericBoat extends Boat
 {

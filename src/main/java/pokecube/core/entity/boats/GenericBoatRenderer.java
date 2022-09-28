@@ -91,9 +91,4 @@ public class GenericBoatRenderer extends EntityRenderer<GenericBoat>
     {
         return this.boatResources.get(boat.getGenericBoatType()).getFirst();
     }
-
-    public Pair<ResourceLocation, BoatModel> getModelWithLocation(GenericBoat boat)
-    {
-        return this.boatResources.get(boat.getGenericBoatType());
-    }
 }
