@@ -638,7 +638,12 @@
 
     "_comment50": "Boats",
     "item.pokecube_legends.aged_boat": "Aged Boat",
+    "item.pokecube_legends.concrete_boat": "Concrete Boat",
     "item.pokecube_legends.corrupted_boat": "Corrupted Boat",
+    "item.pokecube_legends.distortic_boat": "Distortic Boat",
+    "item.pokecube_legends.inverted_boat": "Inverted Boat",
+    "item.pokecube_legends.mirage_boat": "Mirage Boat",
+    "item.pokecube_legends.temporal_boat": "Temporal Boat",
 
     "entity.pokecube_legends.boat": "Boat",
 

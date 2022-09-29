@@ -191,7 +191,12 @@ public class ItemInit
 
     // Boats
     public static final RegistryObject<Item> AGED_BOAT;
+    public static final RegistryObject<Item> CONCRETE_BOAT;
     public static final RegistryObject<Item> CORRUPTED_BOAT;
+    public static final RegistryObject<Item> DISTORTIC_BOAT;
+    public static final RegistryObject<Item> INVERTED_BOAT;
+    public static final RegistryObject<Item> MIRAGE_BOAT;
+    public static final RegistryObject<Item> TEMPORAL_BOAT;
 
     // Plants
     public static final RegistryObject<Item> DISTORTIC_VINES;
@@ -461,8 +466,18 @@ public class ItemInit
         // Boats
         AGED_BOAT = PokecubeLegends.ITEMS.register("aged_boat",
                 () -> new LegendsBoatItem(LegendsBoat.Type.AGED, new Item.Properties().stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
+        CONCRETE_BOAT = PokecubeLegends.ITEMS.register("concrete_boat",
+                () -> new LegendsBoatItem(LegendsBoat.Type.CONCRETE, new Item.Properties().stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
         CORRUPTED_BOAT = PokecubeLegends.ITEMS.register("corrupted_boat",
                 () -> new LegendsBoatItem(LegendsBoat.Type.CORRUPTED, new Item.Properties().stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
+        DISTORTIC_BOAT = PokecubeLegends.ITEMS.register("distortic_boat",
+                () -> new LegendsBoatItem(LegendsBoat.Type.DISTORTIC, new Item.Properties().stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
+        INVERTED_BOAT = PokecubeLegends.ITEMS.register("inverted_boat",
+                () -> new LegendsBoatItem(LegendsBoat.Type.INVERTED, new Item.Properties().stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
+        MIRAGE_BOAT = PokecubeLegends.ITEMS.register("mirage_boat",
+                () -> new LegendsBoatItem(LegendsBoat.Type.MIRAGE, new Item.Properties().stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
+        TEMPORAL_BOAT = PokecubeLegends.ITEMS.register("temporal_boat",
+                () -> new LegendsBoatItem(LegendsBoat.Type.TEMPORAL, new Item.Properties().stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
 
         ULTRA_HELMET = PokecubeLegends.ITEMS.register("ultra_helmet",
                 () -> new UltraHelmetEffect(ItemInit.armormaterial, EquipmentSlot.HEAD,

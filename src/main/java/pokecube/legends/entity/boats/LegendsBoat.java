@@ -44,8 +44,18 @@ public class LegendsBoat extends Boat
             case AGED:
             default:
                 return ItemInit.AGED_BOAT.get();
+            case CONCRETE:
+                return ItemInit.CONCRETE_BOAT.get();
             case CORRUPTED:
                 return ItemInit.CORRUPTED_BOAT.get();
+            case DISTORTIC:
+                return ItemInit.DISTORTIC_BOAT.get();
+            case INVERTED:
+                return ItemInit.INVERTED_BOAT.get();
+            case MIRAGE:
+                return ItemInit.MIRAGE_BOAT.get();
+            case TEMPORAL:
+                return ItemInit.TEMPORAL_BOAT.get();
         }
     }
 
@@ -95,7 +105,12 @@ public class LegendsBoat extends Boat
     public enum Type
     {
         AGED(BlockInit.AGED_PLANKS.get(), "aged"),
-        CORRUPTED(BlockInit.CORRUPTED_PLANKS.get(), "corrupted");
+        CONCRETE(BlockInit.CONCRETE_PLANKS.get(), "concrete"),
+        CORRUPTED(BlockInit.CORRUPTED_PLANKS.get(), "corrupted"),
+        DISTORTIC(BlockInit.DISTORTIC_PLANKS.get(), "distortic"),
+        INVERTED(BlockInit.INVERTED_PLANKS.get(), "inverted"),
+        MIRAGE(BlockInit.MIRAGE_PLANKS.get(), "mirage"),
+        TEMPORAL(BlockInit.TEMPORAL_PLANKS.get(), "temporal");
 
         private final String name;
         private final Block planks;
