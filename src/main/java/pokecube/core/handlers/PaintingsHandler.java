@@ -5,7 +5,6 @@ import pokecube.core.PokecubeCore;
 
 public class PaintingsHandler
 {
-
     public static Motive createPainting(String id, int width, int height)
     {
         final Motive painting = new Motive(width, height);

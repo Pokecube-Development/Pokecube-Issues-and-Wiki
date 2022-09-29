@@ -1,12 +1,9 @@
 package pokecube.core;
 
-import java.util.Map;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
-
+import java.util.Map;
+import javax.annotation.Nullable;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.resources.ResourceLocation;
@@ -59,6 +56,7 @@ import pokecube.core.init.ItemGenerator;
 import pokecube.core.init.ItemInit;
 import pokecube.core.init.MenuTypes;
 import pokecube.core.init.Sounds;
+import pokecube.core.handlers.DispenseBehaviors;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.moves.Battle;
 import pokecube.core.proxy.CommonProxy;
@@ -270,8 +268,9 @@ public class PokecubeCore
         ItemGenerator.flammables(event);
 
         event.enqueueWork(() -> {
-            PointsOfInterest.postInit();
+            DispenseBehaviors.registerDefaults();
             ItemInit.postInit();
+            PointsOfInterest.postInit();
 
             CopyCaps.register(EntityTypes.getNpc());
             CopyCaps.register(EntityType.ARMOR_STAND);
