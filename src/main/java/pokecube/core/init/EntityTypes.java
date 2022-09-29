@@ -23,23 +23,19 @@ import thut.api.entity.CopyCaps;
 
 public class EntityTypes
 {
-    public static final RegistryObject<EntityType<EntityPokecube>> POKECUBE;
-    public static final RegistryObject<EntityType<EntityPokemobEgg>> EGG;
-    public static final RegistryObject<EntityType<NpcMob>> NPC;
-    public static final RegistryObject<EntityType<EntityMoveUse>> MOVE;
     public static final RegistryObject<EntityType<GenericBoat>> BOAT;
+    public static final RegistryObject<EntityType<EntityPokemobEgg>> EGG;
+    public static final RegistryObject<EntityType<EntityMoveUse>> MOVE;
+    public static final RegistryObject<EntityType<NpcMob>> NPC;
+    public static final RegistryObject<EntityType<EntityPokecube>> POKECUBE;
 
     static
     {
-        POKECUBE = PokecubeCore.ENTITIES.register("pokecube",
-                () -> EntityType.Builder.of(EntityPokecube::new, MobCategory.MISC).setShouldReceiveVelocityUpdates(true)
-                        .setTrackingRange(32).setUpdateInterval(1).noSummon().fireImmune().sized(0.25f, 0.25f)
-                        .build("pokecube"));
+        BOAT = PokecubeCore.ENTITIES.register("boat",
+                () -> EntityType.Builder.<GenericBoat>of(GenericBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F).clientTrackingRange(10).build("boat"));
         EGG = PokecubeCore.ENTITIES.register("egg",
                 () -> EntityType.Builder.of(EntityPokemobEgg::new, MobCategory.CREATURE).noSummon().fireImmune()
                         .sized(0.35f, 0.35f).build("egg"));
-        NPC = PokecubeCore.ENTITIES.register("npc", () -> EntityType.Builder.of(NpcMob::new, MobCategory.CREATURE)
-                .setCustomClientFactory((s, w) -> getNpc().create(w)).build("pokecube:npc"));
         MOVE = PokecubeCore.ENTITIES.register("move_use",
                 () -> EntityType.Builder.of(EntityMoveUse::new, MobCategory.MISC).noSummon().fireImmune()
                         .setTrackingRange(64).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1)
@@ -47,8 +43,12 @@ public class EntityTypes
                         {
                             return getMove().create(world);
                         }).build("move_use"));
-        BOAT = PokecubeCore.ENTITIES.register("boat",
-                () -> EntityType.Builder.<GenericBoat>of(GenericBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F).clientTrackingRange(10).build("boat"));
+        NPC = PokecubeCore.ENTITIES.register("npc", () -> EntityType.Builder.of(NpcMob::new, MobCategory.CREATURE)
+                .setCustomClientFactory((s, w) -> getNpc().create(w)).build("pokecube:npc"));
+        POKECUBE = PokecubeCore.ENTITIES.register("pokecube",
+                () -> EntityType.Builder.of(EntityPokecube::new, MobCategory.MISC).setShouldReceiveVelocityUpdates(true)
+                        .setTrackingRange(32).setUpdateInterval(1).noSummon().fireImmune().sized(0.25f, 0.25f)
+                        .build("pokecube"));
     }
 
     public static void init()
