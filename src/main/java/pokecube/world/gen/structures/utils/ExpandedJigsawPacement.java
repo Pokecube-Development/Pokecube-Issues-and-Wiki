@@ -735,8 +735,9 @@ public class ExpandedJigsawPacement
                                                     .inflate(h_clearance, finalVClearance, h_clearance);
                                             VoxelShape new_shape = Shapes.create(next_box);
                                             // Consume the space we used up.
-                                            freeSpace.setValue(Shapes.joinUnoptimized(freeSpace.getValue(), new_shape,
-                                                    BooleanOp.ONLY_FIRST));
+                                            if (next_pick_rigid)
+                                                freeSpace.setValue(Shapes.joinUnoptimized(freeSpace.getValue(),
+                                                        new_shape, BooleanOp.ONLY_FIRST));
 
                                             int root_junction_y_offset;
                                             if (root_rigid)
