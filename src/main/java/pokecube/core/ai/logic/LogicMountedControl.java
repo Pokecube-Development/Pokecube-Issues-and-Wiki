@@ -132,16 +132,18 @@ public class LogicMountedControl extends LogicBase
     public void tick(final Level world)
     {
         super.tick(world);
+
         final Entity rider = this.entity.getControllingPassenger();
         moveUp = moveSide = moveFwd = 0;
         this.pokemob.setGeneralState(GeneralStates.CONTROLLED, rider != null);
+        boolean noGrav = entity.isNoGravity();
         AttributeInstance stepHeightAttribute = this.entity.getAttribute(ForgeMod.STEP_HEIGHT_ADDITION.get());
         if (rider == null)
         {
             stepHeightAttribute.removeModifier(UID);
             if (this.wasRiding && this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE))
             {
-                this.entity.setNoGravity(false);
+                if (noGrav) this.entity.setNoGravity(false);
                 this.wasRiding = false;
             }
             return;
@@ -168,7 +170,7 @@ public class LogicMountedControl extends LogicBase
         if (this.canFly)
         {
             shouldControl = verticalControl = PokecubeCore.getConfig().flyEnabled || shouldControl;
-            if (verticalControl) this.entity.setNoGravity(true);
+            if (verticalControl && !noGrav) this.entity.setNoGravity(noGrav = true);
         }
         if ((this.canSurf || this.canDive) && (waterSpeed = this.entity.isInWater()))
             shouldControl = verticalControl = PokecubeCore.getConfig().surfEnabled || shouldControl;
@@ -199,7 +201,7 @@ public class LogicMountedControl extends LogicBase
 
         shouldControl |= verticalControl || this.inFluid;
 
-        this.entity.setNoGravity(verticalControl);
+        if (!world.isClientSide() && noGrav != verticalControl) this.entity.setNoGravity(verticalControl);
 
         for (final Entity e : this.entity.getIndirectPassengers()) if (e instanceof LivingEntity living)
         {
