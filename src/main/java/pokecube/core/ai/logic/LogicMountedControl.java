@@ -129,9 +129,9 @@ public class LogicMountedControl extends LogicBase
 
     @SuppressWarnings("deprecation")
     @Override
-    public void tick(final Level world)
+    public void tick(final Level level)
     {
-        super.tick(world);
+        super.tick(level);
 
         final Entity rider = this.entity.getControllingPassenger();
         moveUp = moveSide = moveFwd = 0;
@@ -143,7 +143,7 @@ public class LogicMountedControl extends LogicBase
             stepHeightAttribute.removeModifier(UID);
             if (this.wasRiding && this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE))
             {
-                if (noGrav) this.entity.setNoGravity(false);
+                if (noGrav && !level.isClientSide()) this.entity.setNoGravity(false);
                 this.wasRiding = false;
             }
             return;
@@ -201,7 +201,7 @@ public class LogicMountedControl extends LogicBase
 
         shouldControl |= verticalControl || this.inFluid;
 
-        if (!world.isClientSide() && noGrav != verticalControl) this.entity.setNoGravity(verticalControl);
+        if (!level.isClientSide() && noGrav != verticalControl) this.entity.setNoGravity(verticalControl);
 
         for (final Entity e : this.entity.getIndirectPassengers()) if (e instanceof LivingEntity living)
         {
