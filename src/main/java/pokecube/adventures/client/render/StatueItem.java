@@ -22,7 +22,7 @@ import pokecube.adventures.blocks.statue.StatueEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
-import pokecube.core.client.gui.pokemob.GuiPokemobBase;
+import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.database.Database;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
@@ -157,7 +157,7 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IClie
             float mobScale = 1;
             if (transform == TransformType.GUI)
             {
-                final Float value = GuiPokemobBase.sizeMap.get(pokemob.getPokedexEntry());
+                final Float value = GuiPokemobHelper.sizeMap.get(pokemob.getPokedexEntry());
                 if (value != null) mobScale = value * 8.0f;
                 else
                 {

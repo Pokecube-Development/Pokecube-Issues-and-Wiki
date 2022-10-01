@@ -39,7 +39,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.client.gui.animation.AnimModule;
 import pokecube.core.client.gui.animation.IconModule;
 import pokecube.core.client.gui.animation.WornOffsetModule;
-import pokecube.core.client.gui.pokemob.GuiPokemobBase;
+import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.client.render.mobs.RenderPokemob.Holder;
 import pokecube.core.database.Database;
@@ -375,10 +375,10 @@ public class AnimationGui extends Screen
             final float l = AnimationGui.entry.getModelSize().lengthSquared();
             // Sometimes things go bad and this happens
             if (l <= 0.0001 || l > 1e10) AnimationGui.entry.getModelSize().set(1, 1, 1);
-            GuiPokemobBase.autoScale = false;
-            GuiPokemobBase.renderMob(mat, entity, j, k, this.yRenderAngle, this.xRenderAngle, this.yHeadRenderAngle,
+            GuiPokemobHelper.autoScale = false;
+            GuiPokemobHelper.renderMob(mat, entity, j, k, this.yRenderAngle, this.xRenderAngle, this.yHeadRenderAngle,
                     this.xHeadRenderAngle, zoom, partialTicks);
-            GuiPokemobBase.autoScale = true;
+            GuiPokemobHelper.autoScale = true;
             if (this.renderHolder != null) this.renderHolder.overrideAnim = false;
             mat.popPose();
 

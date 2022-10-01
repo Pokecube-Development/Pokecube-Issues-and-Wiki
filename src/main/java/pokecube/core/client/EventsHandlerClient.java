@@ -176,7 +176,8 @@ public class EventsHandlerClient
                 mob.onRecall();
         }
         control:
-        if (event.player.isPassenger() && Minecraft.getInstance().screen == null)
+        if (event.player.isPassenger() && Minecraft.getInstance().screen == null
+                && event.player == Minecraft.getInstance().player)
         {
             final Entity e = event.player.getVehicle();
             pokemob = PokemobCaps.getPokemobFor(e);
