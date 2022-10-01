@@ -95,7 +95,7 @@ public class Inventory extends Tab
 
     public Inventory(GuiPokemob parent)
     {
-        super(parent);
+        super(parent, "inventory");
     }
 
     @Override
@@ -152,6 +152,7 @@ public class Inventory extends Tab
     @Override
     public void renderBg(PoseStack mat, float partialTicks, int mouseX, int mouseY)
     {
+        super.renderBg(mat, partialTicks, mouseX, mouseY);
         final int k = (this.width - this.imageWidth) / 2;
         final int l = (this.height - this.imageHeight) / 2;
         // The 5 inventory slots
@@ -160,7 +161,6 @@ public class Inventory extends Tab
         parent.blit(mat, k + 7, l + 35, 0, this.imageHeight + 54, 18, 18);
         // The saddle slot
         parent.blit(mat, k + 7, l + 17, 18, this.imageHeight + 54, 18, 18);
-        super.renderBg(mat, partialTicks, mouseX, mouseY);
     }
     
     @Override

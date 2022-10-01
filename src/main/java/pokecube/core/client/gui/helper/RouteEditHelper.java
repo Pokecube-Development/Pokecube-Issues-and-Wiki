@@ -25,9 +25,9 @@ public class RouteEditHelper
         final MutableComponent blank = TComponent.literal("");
         for (final IGuardTask task : guard.getTasks())
         {
-            final EditBox location = new EditBox(fontRenderer, 0, 0, width, 10, blank);
-            final EditBox time = new EditBox(fontRenderer, 0, 0, width, 10, blank);
-            final EditBox dist = new EditBox(fontRenderer, 0, 0, width, 10, blank);
+            final EditBox location = new EditBox(fontRenderer, -200, 0, width, 10, blank);
+            final EditBox time = new EditBox(fontRenderer, -200, 0, width, 10, blank);
+            final EditBox dist = new EditBox(fontRenderer, -200, 0, width, 10, blank);
             location.setMaxLength(Short.MAX_VALUE);
             time.setMaxLength(Short.MAX_VALUE);
             dist.setMaxLength(Short.MAX_VALUE);
@@ -43,9 +43,9 @@ public class RouteEditHelper
             entries.addEntry(entry);
         }
         // Blank value.
-        final EditBox location = new EditBox(fontRenderer, 0, 0, width, 10, blank);
-        final EditBox time = new EditBox(fontRenderer, 0, 0, width, 10, blank);
-        final EditBox dist = new EditBox(fontRenderer, 0, 0, width, 10, blank);
+        final EditBox location = new EditBox(fontRenderer, -200, 0, width, 10, blank);
+        final EditBox time = new EditBox(fontRenderer, -200, 0, width, 10, blank);
+        final EditBox dist = new EditBox(fontRenderer, -200, 0, width, 10, blank);
         location.setMaxLength(Short.MAX_VALUE);
         time.setMaxLength(Short.MAX_VALUE);
         dist.setMaxLength(Short.MAX_VALUE);

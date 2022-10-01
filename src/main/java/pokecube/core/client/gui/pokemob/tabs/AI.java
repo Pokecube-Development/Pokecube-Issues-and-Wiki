@@ -65,7 +65,7 @@ public class AI extends Tab
 
     public AI(GuiPokemob parent)
     {
-        super(parent);
+        super(parent, "ai");
     }
 
     @Override
@@ -92,8 +92,12 @@ public class AI extends Tab
         IPokemob pokemob = this.menu.pokemob;
 
         yOffset += 9;
-        xOffset += 2;
+        xOffset += 0;
         this.list = new ScrollGui<>(this.parent, this.parent.minecraft, 90, 50, 10, xOffset, yOffset);
+
+        this.list.scrollBarDx = 2;
+        this.list.scrollBarDy = 4;
+
         this.list.smoothScroll = false;
         for (int i = 0; i < AIRoutine.values().length; i++)
         {

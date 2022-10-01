@@ -83,7 +83,7 @@ public class PacketPokemobGui extends Packet
     public void handleServer(final ServerPlayer player)
     {
         final Entity entity = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), this.id, true);
-        sendOpenPacket(entity, player);
+        sendOpenPacket(entity, player, this.message);
     }
 
     @Override

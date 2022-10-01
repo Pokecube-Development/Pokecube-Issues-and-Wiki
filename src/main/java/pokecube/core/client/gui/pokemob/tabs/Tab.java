@@ -3,11 +3,13 @@ package pokecube.core.client.gui.pokemob.tabs;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
+import pokecube.core.client.Resources;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.inventory.pokemob.PokemobContainer;
@@ -31,10 +33,15 @@ public abstract class Tab
     private int index;
     private boolean hovored = false;
 
-    public Tab(GuiPokemob parent)
+    public final String text;
+    public final String desc;
+
+    public Tab(GuiPokemob parent, String key)
     {
         this.parent = parent;
         this.menu = parent.getMenu();
+        this.text = "pokemob.gui." + key;
+        this.desc = this.text + ".desc";
     }
 
     public void setIndex(int index)
@@ -97,10 +104,17 @@ public abstract class Tab
 
     public void renderBg(final PoseStack mat, final float partialTicks, final int mouseX, final int mouseY)
     {
+        final int k = (this.width - this.imageWidth) / 2;
+        final int l = (this.height - this.imageHeight) / 2;
+
+        // Render the black box to hold the pokemob
+        parent.blit(mat, k + 24, l + 16, 90, this.imageHeight, 55, 55);
+
+        // Render the box around where the inventory slots/buttons go.
+        parent.blit(mat, k + 79, l + 16, 145, this.imageHeight, 90, 55);
+
         if (this.menu.pokemob != null)
         {
-            final int k = (this.width - this.imageWidth) / 2;
-            final int l = (this.height - this.imageHeight) / 2;
             Mob mob = this.menu.pokemob.getEntity();
 
             float f = 30;
@@ -118,6 +132,7 @@ public abstract class Tab
             mob.yBodyRotO = yBodyRotO;
             mob.yHeadRot = yHeadRot;
             mob.yHeadRotO = yHeadRotO;
+            RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
         }
     }
 

@@ -59,17 +59,17 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         this.variation = variation;
         this.index = index;
         this.entity = entity;
-        this.delete = new Button(0, 0, 10, 10, TComponent.literal("x"), b -> this.deleteClicked(b));
+        this.delete = new Button(-200, 0, 10, 10, TComponent.literal("x"), b -> this.deleteClicked(b));
         this.delete.setFGColor(0xFFFF0000);
-        this.confirm = new Button(0, 0, 10, 10, TComponent.literal("Y"), b -> this.confirmClicked(b));
+        this.confirm = new Button(-200, 0, 10, 10, TComponent.literal("Y"), b -> this.confirmClicked(b));
         this.confirm.active = false;
 
         if (index == guard.getTasks().size()) this.delete.active = false;
 
-        this.moveUp = new Button(0, 0, 10, 10, TComponent.literal("\u21e7"), b -> this.moveUpClicked(b));
-        this.moveDown = new Button(0, 0, 10, 10, TComponent.literal("\u21e9"), b -> this.moveDownClicked(b));
+        this.moveUp = new Button(-200, 0, 10, 10, TComponent.literal("\u21e7"), b -> this.moveUpClicked(b));
+        this.moveDown = new Button(-200, 0, 10, 10, TComponent.literal("\u21e9"), b -> this.moveDownClicked(b));
 
-        this.update = new Button(0, 0, 20, 10, TComponent.literal("btn"), b -> this.update());
+        this.update = new Button(-200, 0, 20, 10, TComponent.literal("btn"), b -> this.update());
 
         this.moveUp.active = index > 0 && index < guard.getTasks().size();
         this.moveDown.active = index < guard.getTasks().size() - 1;

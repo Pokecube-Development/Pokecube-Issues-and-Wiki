@@ -37,7 +37,7 @@ public class Storage extends Tab
 
     public Storage(GuiPokemob parent)
     {
-        super(parent);
+        super(parent, "storage");
         this.pokemob = menu.pokemob;
         this.ai = new StoreTask(this.pokemob);
         final CompoundTag tag = this.menu.data.readNbt();

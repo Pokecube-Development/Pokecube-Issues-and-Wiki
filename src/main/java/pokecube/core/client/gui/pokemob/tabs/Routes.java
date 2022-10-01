@@ -26,7 +26,7 @@ public class Routes extends Tab
 
     public Routes(GuiPokemob parent)
     {
-        super(parent);
+        super(parent, "routes");
         this.entity = this.menu.pokemob.getEntity();
         this.guard = this.entity.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
     }
@@ -53,6 +53,9 @@ public class Routes extends Tab
         final int yOffset = this.height / 2 - 77;
 
         this.list = new ScrollGui<>(parent, this.parent.minecraft, 92, 50, 50, xOffset, yOffset + 10);
+        this.list.scrollBarDx = 0;
+        this.list.scrollBarDy = 3;
+
         final Function<CompoundTag, CompoundTag> function = t -> {
             PacketSyncRoutes.sendServerPacket(Routes.this.entity, t);
             return t;
@@ -88,11 +91,11 @@ public class Routes extends Tab
     @Override
     public void renderBg(PoseStack mat, float partialTicks, int mouseX, int mouseY)
     {
+        super.renderBg(mat, partialTicks, mouseX, mouseY);
         final int k = (this.width - this.imageWidth) / 2;
         final int l = (this.height - this.imageHeight) / 2;
         final String number = this.num + "";
         parent.font.draw(mat, number, k + 87 - parent.font.width(number), l + 62, 0xFF888888);
-        super.renderBg(mat, partialTicks, mouseX, mouseY);
     }
 
     @Override
