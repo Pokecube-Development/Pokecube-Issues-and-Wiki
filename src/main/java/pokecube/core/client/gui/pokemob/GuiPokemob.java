@@ -26,7 +26,7 @@ import thut.lib.TComponent;
 public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
 {
     List<Tab> modules = Lists.newArrayList();
-    int moduleIndex = 0;
+    public int moduleIndex = 0;
 
     public GuiPokemob(PokemobContainer container, Inventory inv, Component name)
     {
@@ -79,17 +79,17 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
         final int k = (this.width - this.imageWidth) / 2;
         final int l = (this.height - this.imageHeight) / 2;
-
         ResourceLocation tabs = new ResourceLocation("textures/gui/container/creative_inventory/tabs.png");
         for (int i = 0; i < modules.size(); i++)
         {
+            Tab t = modules.get(i);
+            t.updateHovored(mx, my);
+            if (i == moduleIndex) continue;
+            int dy = 0;
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderTexture(0, tabs);
             RenderSystem.enableBlend();
-            Tab t = modules.get(i);
-            t.updateHovored(mx, my);
-            int dy = i == moduleIndex ? 32 : 0;
-            this.blit(pose, k + 28 * (i + 1), l - 28, 0, dy, 28, 32);
+            this.blit(pose, k + 28 * (i + 1), l - 28, 28, dy, 28, 32);
             if (t.icon != null)
             {
                 RenderSystem.setShaderTexture(0, t.icon);
@@ -99,6 +99,19 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
         }
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
         this.blit(pose, k, l, 0, 0, this.imageWidth, this.imageHeight);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, tabs);
+        RenderSystem.enableBlend();
+        Tab t = modules.get(moduleIndex);
+        int dy = 32;
+        this.blit(pose, k + 28 * (moduleIndex + 1), l - 28, 28, dy, 28, 32);
+        if (t.icon != null)
+        {
+            RenderSystem.setShaderTexture(0, t.icon);
+            RenderSystem.enableBlend();
+            this.blit(pose, k + 28 * (moduleIndex + 1), l - 28, 0, dy, 16, 16);
+        }
+        RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
         modules.get(moduleIndex).renderBg(pose, tick, mx, my);
     }
 
