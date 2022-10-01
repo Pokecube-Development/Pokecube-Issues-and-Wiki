@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:enigma_wall_sign",
+    "pokecube:leppa_wall_sign",
+    "pokecube:nanab_wall_sign",
+    "pokecube:oran_wall_sign",
+    "pokecube:pecha_wall_sign",
+    "pokecube:sitrus_wall_sign"
+  ]
+}
