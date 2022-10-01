@@ -65,6 +65,7 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
     @Override
     public void render(final PoseStack mat, final int x, final int y, final float z)
     {
+        super.renderBackground(mat);
         super.render(mat, x, y, z);
         modules.get(moduleIndex).render(mat, x, y, z);
         this.renderTooltip(mat, x, y);
