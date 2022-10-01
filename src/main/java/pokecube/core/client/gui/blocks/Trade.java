@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
-import pokecube.core.client.gui.pokemob.GuiPokemobBase;
+import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -122,7 +122,7 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
             break;
         }
 
-        GuiPokemobBase.renderMob(mob, dx, dy, 0, rotX, rotY, rotZ, size, partialTicks);
+        GuiPokemobHelper.renderMob(mob, dx, dy, 0, rotX, rotY, rotZ, size, partialTicks);
 
         switch (index)
         {
@@ -141,7 +141,7 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
         }
 
         if (poke != null && poke.getOwner() instanceof Player)
-            GuiPokemobBase.renderMob(poke.getOwner(), dx, dy, 0, rotX, rotY, rotZ, size, partialTicks);
+            GuiPokemobHelper.renderMob(poke.getOwner(), dx, dy, 0, rotX, rotY, rotZ, size, partialTicks);
     }
 
 }

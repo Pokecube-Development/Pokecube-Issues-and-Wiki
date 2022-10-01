@@ -6,43 +6,33 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Inventory;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.core.PokecubeCore;
-import pokecube.core.client.Resources;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.database.Database;
-import pokecube.core.inventory.pokemob.PokemobContainer;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.model.parts.Mesh;
 import thut.lib.ResourceHelper;
-import thut.lib.TComponent;
 
-public class GuiPokemobBase extends AbstractContainerScreen<PokemobContainer>
+public class GuiPokemobHelper
 {
     public static ResourceLocation SIZEMAP = new ResourceLocation(PokecubeCore.MODID, "pokemobs_gui_sizes.json");
 
@@ -54,9 +44,9 @@ public class GuiPokemobBase extends AbstractContainerScreen<PokemobContainer>
     {
         try
         {
-            final BufferedReader reader = ResourceHelper.getReader(GuiPokemobBase.SIZEMAP,
+            final BufferedReader reader = ResourceHelper.getReader(GuiPokemobHelper.SIZEMAP,
                     Minecraft.getInstance().getResourceManager());
-            if (reader == null) throw new FileNotFoundException(GuiPokemobBase.SIZEMAP.toString());
+            if (reader == null) throw new FileNotFoundException(GuiPokemobHelper.SIZEMAP.toString());
             final JsonObject json = JsonUtil.gson.fromJson(reader, JsonObject.class);
             for (final Entry<String, JsonElement> entry : json.entrySet())
             {
@@ -64,7 +54,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<PokemobContainer>
                 try
                 {
                     final Float value = entry.getValue().getAsFloat();
-                    GuiPokemobBase.sizeMap.put(Database.getEntry(key), value);
+                    GuiPokemobHelper.sizeMap.put(Database.getEntry(key), value);
                 }
                 catch (final Exception e)
                 {
@@ -83,7 +73,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<PokemobContainer>
     public static void renderMob(final LivingEntity entity, final int dx, final int dy, final float pitch,
             final float yaw, final float headPitch, final float headYaw, final float scale, float partialTicks)
     {
-        GuiPokemobBase.renderMob(new PoseStack(), entity, dx, dy, pitch, yaw, headPitch, headYaw, scale, partialTicks);
+        GuiPokemobHelper.renderMob(new PoseStack(), entity, dx, dy, pitch, yaw, headPitch, headYaw, scale, partialTicks);
     }
 
     public static void renderMob(final PoseStack mat, final LivingEntity entity, final int dx, final int dy,
@@ -99,9 +89,9 @@ public class GuiPokemobBase extends AbstractContainerScreen<PokemobContainer>
         {
             if (!entity.isAddedToWorld()) pokemob.setSize(1);
             float mobScale = 1;
-            if (GuiPokemobBase.autoScale)
+            if (GuiPokemobHelper.autoScale)
             {
-                final Float value = GuiPokemobBase.sizeMap.get(pokemob.getPokedexEntry());
+                final Float value = GuiPokemobHelper.sizeMap.get(pokemob.getPokedexEntry());
                 if (value != null) mobScale = value * 8.0f;
                 else
                 {
@@ -138,6 +128,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<PokemobContainer>
         quaternion.mul(quaternion1);
         quaternion.mul(Vector3f.XP.rotationDegrees(pitch));
         mat.mulPose(quaternion);
+        Lighting.setupForEntityInInventory();
         final EntityRenderDispatcher entityrenderermanager = Minecraft.getInstance().getEntityRenderDispatcher();
         quaternion1.conj();
         entityrenderermanager.overrideCameraOrientation(quaternion1);
@@ -156,87 +147,5 @@ public class GuiPokemobBase extends AbstractContainerScreen<PokemobContainer>
         irendertypebuffer$impl.endBatch();
         entityrenderermanager.setRenderShadow(true);
         mat.popPose();
-    }
-
-    public static void setPokemob(final IPokemob pokemobIn)
-    {
-        if (pokemobIn == null)
-        {
-            PokecubeAPI.LOGGER.error("Error syncing pokemob", new IllegalArgumentException());
-            return;
-        }
-    }
-
-    protected EditBox name = new EditBox(null, 1 / 2, 1 / 2, 120, 10, TComponent.literal(""));
-
-    public GuiPokemobBase(final PokemobContainer container, final Inventory inv)
-    {
-        super(container, inv, container.pokemob.getDisplayName());
-    }
-
-    @Override
-    public boolean keyPressed(final int keyCode, final int p_keyPressed_2_, final int p_keyPressed_3_)
-    {
-        if (this.name.isFocused()) if (keyCode == GLFW.GLFW_KEY_ESCAPE) this.name.setFocused(false);
-        else if (keyCode == GLFW.GLFW_KEY_ENTER)
-        {
-            String var = this.name.getValue();
-            if (var.length() > 20)
-            {
-                var = var.substring(0, 20);
-                this.name.setValue(var);
-            }
-            this.menu.pokemob.setPokemonNickname(var);
-            return true;
-        }
-        else if (keyCode != GLFW.GLFW_KEY_BACKSPACE) return true;
-        return super.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
-    }
-
-    @Override
-    protected void renderBg(final PoseStack mat, final float partialTicks, final int mouseX, final int mouseY)
-    {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
-        final int k = (this.width - this.imageWidth) / 2;
-        final int l = (this.height - this.imageHeight) / 2;
-        this.blit(mat, k, l, 0, 0, this.imageWidth, this.imageHeight);
-        if (this.menu.mode == 0) this.blit(mat, k + 79, l + 17, 0, this.imageHeight, 90, 18);
-        this.blit(mat, k + 7, l + 35, 0, this.imageHeight + 54, 18, 18);
-        if (this.menu.pokemob != null)
-            GuiPokemobBase.renderMob(mat, this.menu.pokemob.getEntity(), k, l, 0, 0, 0, 0, 1, partialTicks);
-    }
-
-    /**
-     * Draw the foreground layer for the ContainerScreen (everything in front of
-     * the items)
-     */
-    @Override
-    protected void renderLabels(final PoseStack mat, final int mouseX, final int mouseY)
-    {
-        this.font.draw(mat, this.playerInventoryTitle.getString(), 8.0F, this.imageHeight - 96 + 2, 4210752);
-    }
-
-    @Override
-    public void init()
-    {
-        super.init();
-        final int xOffset = 80;
-        final int yOffset = 77;
-        final Component comp = TComponent.literal("");
-        this.name = new EditBox(this.font, this.width / 2 - xOffset, this.height / 2 - yOffset, 69, 10, comp);
-        this.name.setTextColor(0xFFFFFFFF);
-        this.name.textColorUneditable = 4210752;
-        if (this.menu.pokemob != null) this.name.setValue(this.menu.pokemob.getDisplayName().getString());
-        this.addRenderableWidget(this.name);
-    }
-
-    /** Draws the screen and all the components in it. */
-    @Override
-    public void render(final PoseStack mat, final int x, final int y, final float z)
-    {
-        super.renderBackground(mat);
-        super.render(mat, x, y, z);
     }
 }

@@ -1,143 +1,64 @@
 package pokecube.core.client.gui.pokemob;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.resources.language.I18n;
-import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import pokecube.api.entity.pokemob.IHasCommands.Command;
-import pokecube.api.entity.pokemob.ai.CombatStates;
-import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.entity.pokemob.ai.LogicStates;
-import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
-import pokecube.core.PokecubeCore;
+import pokecube.core.client.Resources;
+import pokecube.core.client.gui.pokemob.tabs.AI;
+import pokecube.core.client.gui.pokemob.tabs.Routes;
+import pokecube.core.client.gui.pokemob.tabs.Storage;
+import pokecube.core.client.gui.pokemob.tabs.Tab;
 import pokecube.core.inventory.pokemob.PokemobContainer;
-import pokecube.core.network.pokemobs.PacketCommand;
-import pokecube.core.network.pokemobs.PacketPokemobGui;
-import thut.api.entity.IHungrymob;
 import thut.lib.TComponent;
 
-public class GuiPokemob extends GuiPokemobBase
+public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
 {
-    public static class HungerBar extends AbstractWidget
+    List<Tab> modules = Lists.newArrayList();
+    int moduleIndex = 0;
+
+    public GuiPokemob(PokemobContainer container, Inventory inv, Component name)
     {
-        public IHungrymob mob;
-        public float      value = 0;
-
-        public HungerBar(final int xIn, final int yIn, final int widthIn, final int heightIn, final IHungrymob mob)
-        {
-            super(xIn, yIn, widthIn, heightIn, TComponent.translatable("pokemob.gui.hungerbar"));
-            this.mob = mob;
-        }
-
-        @Override
-        public void playDownSound(final SoundManager p_playDownSound_1_)
-        {
-        }
-
-        @Override
-        public void renderButton(final PoseStack mat, final int mx, final int my, final float tick)
-        {
-            // Render the hunger bar for the pokemob.
-            // Get the hunger values.
-            final float full = PokecubeCore.getConfig().pokemobLifeSpan / 4 + PokecubeCore.getConfig().pokemobLifeSpan;
-            float current = -(this.mob.getHungerTime() - PokecubeCore.getConfig().pokemobLifeSpan);
-            // Convert to a scale
-            final float scale = 100f / full;
-            current *= scale / 100f;
-            current = Math.min(1, current);
-            this.value = (int) (1000 * (1 - current)) / 10f;
-            this.value = Math.max(0, this.value);
-
-            int col = 0xFF555555;
-            // Fill the background
-            GuiComponent.fill(mat, this.x, this.y, this.x + this.width, this.y + this.height, col);
-            col = 0xFFFFFFFF;
-            int col1 = 0xFF000000;
-            int greenness = (int) (2 * (current - 0.35) * 0xFF);
-            int redness = (int) ((1 - current) * 2 * 0xFF);
-            redness = Math.min(redness, 0xFF);
-            greenness = Math.min(greenness, 0xFF);
-            greenness = Math.max(0, greenness);
-            col1 |= redness << 16 | greenness << 8;
-            // Fill the bar
-            this.fillGradient(mat, this.x, this.y, this.x + (int) (this.width * current), this.y + this.height, col, col1);
-        }
-
-        @Override
-        public void updateNarration(final NarrationElementOutput p_169152_)
-        {
-            // TODO Auto-generated method stub
-
-        }
-
+        super(container, inv, name);
+        this.moduleIndex = container.mode;
+        modules.add(new pokecube.core.client.gui.pokemob.tabs.Inventory(this));
+        modules.add(new AI(this));
+        modules.add(new Routes(this));
+        modules.add(new Storage(this));
     }
 
-    Button sit;
-    Button stay;
-    Button guard;
-
-    HungerBar bar;
-
-    public GuiPokemob(final PokemobContainer container, final Inventory inv)
+    @Override
+    public void removeWidget(GuiEventListener p_169412_)
     {
-        super(container, inv);
-        container.setMode(PacketPokemobGui.MAIN);
+        super.removeWidget(p_169412_);
     }
 
     @Override
     public void init()
     {
         super.init();
-        int xOffset = 8;
-        int yOffset = 43;
-        // Button width
-        int w = 89;
-        // Button height
-        int h = 10;
-
-        this.addRenderableWidget(this.sit = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 00, w, h,
-                TComponent.translatable("pokemob.gui.sit"), c -> PacketCommand.sendCommand(this.menu.pokemob,
-                        Command.STANCE, new StanceHandler(!this.menu.pokemob.getLogicState(LogicStates.SITTING),
-                                StanceHandler.SIT))));
-        this.addRenderableWidget(this.stay = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 10, w, h,
-                TComponent.translatable("pokemob.gui.stay"), c -> PacketCommand.sendCommand(this.menu.pokemob,
-                        Command.STANCE, new StanceHandler(!this.menu.pokemob.getGeneralState(
-                                GeneralStates.STAYING), StanceHandler.STAY))));
-        this.addRenderableWidget(this.guard = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 20, w, h,
-                TComponent.translatable("pokemob.gui.guard"), c -> PacketCommand.sendCommand(
-                        this.menu.pokemob, Command.STANCE, new StanceHandler(!this.menu.pokemob
-                                .getCombatState(CombatStates.GUARDING), StanceHandler.GUARD))));
-        // Bar width
-        w = 89;
-        // Bar height
-        h = 5;
-        // Bar positioning
-        final int i = 9, j = 48;
-        this.addRenderableWidget(this.bar = new HungerBar(this.width / 2 - i, this.height / 2 - j, w, h, this.menu.pokemob));
-
-        xOffset = 10;
-        yOffset = 77;
-        w = 30;
-        h = 10;
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset + 60, this.height / 2 - yOffset, w, h,
-                TComponent.translatable("pokemob.gui.ai"), c -> PacketPokemobGui.sendPagePacket(
-                        PacketPokemobGui.AI, this.menu.pokemob.getEntity().getId())));
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset, w, h,
-                TComponent.translatable("pokemob.gui.storage"), c -> PacketPokemobGui.sendPagePacket(
-                        PacketPokemobGui.STORAGE, this.menu.pokemob.getEntity().getId())));
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset + 00, this.height / 2 - yOffset, w, h,
-                TComponent.translatable("pokemob.gui.routes"), c -> PacketPokemobGui.sendPagePacket(
-                        PacketPokemobGui.ROUTES, this.menu.pokemob.getEntity().getId())));
+        AtomicInteger counter = new AtomicInteger();
+        modules.forEach(m -> {
+            m.clear();
+            m.width = this.width;
+            m.height = this.height;
+            m.imageHeight = this.imageHeight;
+            m.imageWidth = this.imageWidth;
+            m.setIndex(counter.getAndIncrement() % 4);
+            m.setEnabled(false);
+        });
+        modules.get(moduleIndex).setEnabled(true);
     }
 
     /** Draws the screen and all the components in it. */
@@ -145,27 +66,109 @@ public class GuiPokemob extends GuiPokemobBase
     public void render(final PoseStack mat, final int x, final int y, final float z)
     {
         super.render(mat, x, y, z);
-        final List<String> text = Lists.newArrayList();
-        if (this.menu.pokemob == null) return;
-
-        final boolean guarding = this.menu.pokemob.getCombatState(CombatStates.GUARDING);
-        final boolean sitting = this.menu.pokemob.getLogicState(LogicStates.SITTING);
-        final boolean staying = this.menu.pokemob.getGeneralState(GeneralStates.STAYING);
-
-        this.guard.setFGColor(guarding ? 0xFF00FF00 : 0xFFFF0000);
-        this.sit.setFGColor(sitting ? 0xFF00FF00 : 0xFFFF0000);
-        this.stay.setFGColor(staying ? 0xFF00FF00 : 0xFFFF0000);
-
-        if (this.guard.isMouseOver(x, y)) if (guarding) text.add(I18n.get("pokemob.stance.guard"));
-        else text.add(I18n.get("pokemob.stance.no_guard"));
-        if (this.stay.isMouseOver(x, y)) if (staying) text.add(I18n.get("pokemob.stance.stay"));
-        else text.add(I18n.get("pokemob.stance.follow"));
-        if (this.sit.isMouseOver(x, y)) if (sitting) text.add(I18n.get("pokemob.stance.sit"));
-        else text.add(I18n.get("pokemob.stance.no_sit"));
-        if (this.bar.isMouseOver(x, y)) text.add(I18n.get("pokemob.bar.value", this.bar.value));
-        final List<Component> msgs = new ArrayList<>();
-        for(final String s: text) msgs.add(TComponent.literal(s));
-        if (!text.isEmpty()) this.renderComponentTooltip(mat, msgs, x, y, this.font);
+        modules.get(moduleIndex).render(mat, x, y, z);
         this.renderTooltip(mat, x, y);
+    }
+
+    @Override
+    protected void renderBg(PoseStack pose, float tick, int mx, int my)
+    {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
+        final int k = (this.width - this.imageWidth) / 2;
+        final int l = (this.height - this.imageHeight) / 2;
+
+        ResourceLocation tabs = new ResourceLocation("textures/gui/container/creative_inventory/tabs.png");
+        for (int i = 0; i < modules.size(); i++)
+        {
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, tabs);
+            RenderSystem.enableBlend();
+            Tab t = modules.get(i);
+            t.updateHovored(mx, my);
+            int dy = i == moduleIndex ? 32 : 0;
+            this.blit(pose, k + 28 * (i + 1), l - 28, 0, dy, 28, 32);
+            if (t.icon != null)
+            {
+                RenderSystem.setShaderTexture(0, t.icon);
+                RenderSystem.enableBlend();
+                this.blit(pose, k + 28 * (i + 1), l - 28, 0, dy, 16, 16);
+            }
+        }
+        RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
+        this.blit(pose, k, l, 0, 0, this.imageWidth, this.imageHeight);
+        modules.get(moduleIndex).renderBg(pose, tick, mx, my);
+    }
+
+    @Override
+    public boolean keyPressed(int code, int unk1, int unk2)
+    {
+        return modules.get(moduleIndex).keyPressed(code, unk1, unk2) || super.keyPressed(code, unk1, unk2);
+    }
+
+    @Override
+    protected void renderLabels(PoseStack mat, int p_97809_, int p_97810_)
+    {
+        this.font.draw(mat, this.playerInventoryTitle, 8.0F, this.imageHeight - 96 + 2, 4210752);
+
+        final int k = 6;
+        final int l = this.imageHeight - 152;
+
+        for (int i = 0; i < modules.size(); i++)
+        {
+            Tab t = modules.get(i);
+            if (t.icon == null)
+            {
+                Component tab = null;
+                switch (i)
+                {
+                case 0:
+                    tab = TComponent.translatable("pokemob.gui.inventory");
+                    break;
+                case 1:
+                    tab = TComponent.translatable("pokemob.gui.ai");
+                    break;
+                case 2:
+                    tab = TComponent.translatable("pokemob.gui.routes");
+                    break;
+                case 3:
+                    tab = TComponent.translatable("pokemob.gui.storage");
+                    break;
+                }
+                if (tab != null) this.font.draw(mat, tab, k + 28 * (i + 1), l - 28, 4210752);
+            }
+        }
+
+        modules.get(moduleIndex).renderLabels(mat, p_97809_, p_97810_);
+    }
+
+    @Override
+    public boolean mouseClicked(double mx, double my, int button)
+    {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT)
+        {
+            for (int i = 0; i < modules.size(); i++)
+            {
+                Tab t = modules.get(i);
+                if (t.isHovored())
+                {
+                    if (i != this.moduleIndex)
+                    {
+                        modules.get(moduleIndex).setEnabled(false);
+                        t.setEnabled(true);
+                        this.moduleIndex = i;
+                    }
+                    break;
+                }
+            }
+        }
+        return modules.get(moduleIndex).mouseClicked(mx, my, button) || super.mouseClicked(mx, my, button);
+    }
+
+    @Override
+    public boolean mouseReleased(double mx, double my, int button)
+    {
+        return super.mouseReleased(mx, my, button);
     }
 }

@@ -49,7 +49,7 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.client.Resources;
-import pokecube.core.client.gui.pokemob.GuiPokemobBase;
+import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.MovesUtils.AbleStatus;
 import pokecube.core.network.pokemobs.PacketAIRoutine;
@@ -386,8 +386,25 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             RenderSystem.enableBlend();
             this.blit(evt.getMat(), mobOffsetX, mobOffsetY, 0, 0, 42, 42);
 
-            GuiPokemobBase.renderMob(evt.getMat(), pokemob.getEntity(), mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0,
+            LivingEntity mob = pokemob.getEntity();
+
+            float f = 30;
+            float yBodyRot = mob.yBodyRot;
+            float yBodyRotO = mob.yBodyRotO;
+            float yHeadRot = mob.yHeadRot;
+            float yHeadRotO = mob.yHeadRotO;
+
+            mob.yBodyRot = mob.yBodyRotO = 180.0F + f * 20.0F;
+            mob.yHeadRot = mob.yHeadRotO = mob.yBodyRot;
+
+            GuiPokemobHelper.renderMob(evt.getMat(), pokemob.getEntity(), mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0,
                     0.75f, Minecraft.getInstance().getFrameTime());
+
+            mob.yBodyRot = yBodyRot;
+            mob.yBodyRotO = yBodyRotO;
+            mob.yHeadRot = yHeadRot;
+            mob.yHeadRotO = yHeadRotO;
+
             evt.getMat().popPose();
         }
     }
@@ -466,8 +483,27 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             final int mobBoxOffsetY = 0;
             this.blit(evt.getMat(), mobBoxOffsetX, mobBoxOffsetY, 0, 0, 42, 42);
             // Render Mob
-            GuiPokemobBase.renderMob(evt.getMat(), entity, mobBoxOffsetX - 30, mobBoxOffsetY - 25, 0, 0, 0, 0, 0.75f,
+
+
+            LivingEntity mob = entity;
+
+            float f = 30;
+            float yBodyRot = mob.yBodyRot;
+            float yBodyRotO = mob.yBodyRotO;
+            float yHeadRot = mob.yHeadRot;
+            float yHeadRotO = mob.yHeadRotO;
+
+            mob.yBodyRot = mob.yBodyRotO = 180.0F + f * 20.0F;
+            mob.yHeadRot = mob.yHeadRotO = mob.yBodyRot;
+
+            GuiPokemobHelper.renderMob(evt.getMat(), entity, mobBoxOffsetX - 30, mobBoxOffsetY - 25, 0, 0, 0, 0, 0.75f,
                     Minecraft.getInstance().getFrameTime());
+
+            mob.yBodyRot = yBodyRot;
+            mob.yBodyRotO = yBodyRotO;
+            mob.yHeadRot = yHeadRot;
+            mob.yHeadRotO = yHeadRotO;
+
             evt.getMat().popPose();
         }
     }

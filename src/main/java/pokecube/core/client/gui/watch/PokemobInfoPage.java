@@ -27,7 +27,7 @@ import pokecube.api.utils.PokeType;
 import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
-import pokecube.core.client.gui.pokemob.GuiPokemobBase;
+import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.client.gui.watch.pokemob.Bonus;
 import pokecube.core.client.gui.watch.pokemob.Breeding;
 import pokecube.core.client.gui.watch.pokemob.Description;
@@ -371,7 +371,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             dy = 40;
 
             // Draw the actual pokemob
-            GuiPokemobBase.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 1.5f, partialTicks);
+            GuiPokemobHelper.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 1.5f, partialTicks);
 
             // Draw gender, types and lvl
             int genderColor = 0xBBBBBB;

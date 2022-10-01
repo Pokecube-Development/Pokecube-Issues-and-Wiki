@@ -1,6 +1,7 @@
 package pokecube.core.client.gui.helper;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.lwjgl.glfw.GLFW;
@@ -9,6 +10,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -89,16 +91,19 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         final List<GuiEventListener> list = (List<GuiEventListener>) parent.children();
         // Add us first so we can add linker-clicking to the location field
         list.add(this);
+        this.addOrRemove(parent::addRenderableWidget);
+    }
 
-        parent.addRenderableWidget(this.delete);
-        parent.addRenderableWidget(this.confirm);
-        parent.addRenderableWidget(this.moveUp);
-        parent.addRenderableWidget(this.update);
-        parent.addRenderableWidget(this.moveDown);
-        parent.addRenderableWidget(this.location);
-        parent.addRenderableWidget(this.timeperiod);
-        parent.addRenderableWidget(this.variation);
-
+    public void addOrRemove(Consumer<AbstractWidget> remover)
+    {
+        remover.accept(this.delete);
+        remover.accept(this.confirm);
+        remover.accept(this.moveUp);
+        remover.accept(this.update);
+        remover.accept(this.moveDown);
+        remover.accept(this.location);
+        remover.accept(this.timeperiod);
+        remover.accept(this.variation);
     }
 
     @Override

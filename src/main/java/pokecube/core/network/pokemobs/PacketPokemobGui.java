@@ -27,15 +27,31 @@ public class PacketPokemobGui extends Packet
 
     public static void sendOpenPacket(final Entity target, final ServerPlayer player)
     {
+        sendOpenPacket(target, player, MAIN);
+    }
+
+    public static void sendOpenPacket(Entity target, ServerPlayer player, byte mode)
+    {
         final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
         buffer.writeInt(target.getId());
-        buffer.writeByte(PacketPokemobGui.MAIN);
-        final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new PokemobContainer(i, p, buffer),
-                target.getDisplayName());
-        NetworkHooks.openGui(player, provider, buf -> {
-            buf.writeInt(target.getId());
-            buf.writeByte(PacketPokemobGui.MAIN);
-        });
+        buffer.writeByte(mode);
+
+        IPokemob pokemob = PokemobCaps.getPokemobFor(target);
+        if (pokemob != null)
+        {
+            StoreTask ai = null;
+            for (final IAIRunnable run : pokemob.getTasks()) if (run instanceof StoreTask task) ai = task;
+            final StoreTask toSend = ai;
+            buffer.writeNbt(toSend.serializeNBT());
+            PacketSyncRoutes.sendUpdateClientPacket(target, player, false);
+            final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new PokemobContainer(i, p, buffer),
+                    target.getDisplayName());
+            NetworkHooks.openGui(player, provider, buf -> {
+                buf.writeInt(target.getId());
+                buf.writeByte(mode);
+                buf.writeNbt(toSend.serializeNBT());
+            });
+        }
     }
 
     @OnlyIn(value = Dist.CLIENT)
@@ -67,42 +83,7 @@ public class PacketPokemobGui extends Packet
     public void handleServer(final ServerPlayer player)
     {
         final Entity entity = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), this.id, true);
-        final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
-        buffer.writeInt(entity.getId());
-        buffer.writeByte(this.message);
-        final byte mode = this.message;
-        SimpleMenuProvider provider;
-        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
-        if (pokemob == null) return;
-
-        switch (this.message)
-        {
-        case ROUTES:
-            provider = new SimpleMenuProvider((i, p, e) -> new PokemobContainer(i, p, buffer), entity.getDisplayName());
-            PacketSyncRoutes.sendUpdateClientPacket(entity, player, true);
-            NetworkHooks.openGui(player, provider, buf -> {
-                buf.writeInt(entity.getId());
-                buf.writeByte(mode);
-            });
-            return;
-        case STORAGE:
-            StoreTask ai = null;
-            for (final IAIRunnable run : pokemob.getTasks()) if (run instanceof StoreTask task) ai = task;
-            final StoreTask toSend = ai;
-            buffer.writeNbt(toSend.serializeNBT());
-            provider = new SimpleMenuProvider((i, p, e) -> new PokemobContainer(i, p, buffer), entity.getDisplayName());
-            NetworkHooks.openGui(player, provider, buf -> {
-                buf.writeInt(entity.getId());
-                buf.writeByte(mode);
-                buf.writeNbt(toSend.serializeNBT());
-            });
-            return;
-        }
-        provider = new SimpleMenuProvider((i, p, e) -> new PokemobContainer(i, p, buffer), entity.getDisplayName());
-        NetworkHooks.openGui(player, provider, buf -> {
-            buf.writeInt(entity.getId());
-            buf.writeByte(mode);
-        });
+        sendOpenPacket(entity, player);
     }
 
     @Override

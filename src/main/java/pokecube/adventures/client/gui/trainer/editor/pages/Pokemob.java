@@ -25,7 +25,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
-import pokecube.core.client.gui.pokemob.GuiPokemobBase;
+import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.database.Database;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
@@ -458,7 +458,7 @@ public class Pokemob extends Page
             final int dx = -50;
             final int dy = +20;
             // Draw the actual pokemob
-            GuiPokemobBase.renderMob(this.pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 0.75f, partialTicks);
+            GuiPokemobHelper.renderMob(this.pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 0.75f, partialTicks);
         }
     }
 }

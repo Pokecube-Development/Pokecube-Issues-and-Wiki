@@ -14,7 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
-import pokecube.core.client.gui.pokemob.GuiPokemobBase;
+import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -311,7 +311,7 @@ public class Trainer extends Page
         if (this.parent.entity instanceof LivingEntity mob)
         {
             final float yaw = Util.getMillis() / 40;
-            GuiPokemobBase.renderMob(mob, x - 60, y + 80, 0, yaw, 0, yaw, 1f, partialTicks);
+            GuiPokemobHelper.renderMob(mob, x - 60, y + 80, 0, yaw, 0, yaw, 1f, partialTicks);
         }
 
         this.font.draw(matrixStack, I18n.get("Trainer Type"), x + 20, y + dy * i++, 0xFFFFFFFF);
