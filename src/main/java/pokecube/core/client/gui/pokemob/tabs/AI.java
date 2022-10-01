@@ -65,7 +65,7 @@ public class AI extends Tab
 
     public AI(GuiPokemob parent)
     {
-        super(parent);
+        super(parent, "ai");
     }
 
     @Override

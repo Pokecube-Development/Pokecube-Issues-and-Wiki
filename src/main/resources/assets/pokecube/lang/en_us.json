@@ -146,6 +146,10 @@
     "pokemob.gui.routes": "RT",
     "pokemob.gui.ai": "AI",
     "pokemob.gui.updatestorage": "Storage Settings updated.",
+    "pokemob.gui.inventory.desc": "Main Inventory",
+    "pokemob.gui.storage.desc": "Storage Settings",
+    "pokemob.gui.routes.desc": "Routes Settings",
+    "pokemob.gui.ai.desc": "AI Settings",
     
     "_comment": "Pokedex Description",
 

@@ -68,6 +68,14 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
         super.renderBackground(mat);
         super.render(mat, x, y, z);
         modules.get(moduleIndex).render(mat, x, y, z);
+        for (int i = 0; i < modules.size(); i++)
+        {
+            Tab t = modules.get(i);
+            if (t.isHovored())
+            {
+                this.renderComponentTooltip(mat, Lists.newArrayList(TComponent.translatable(t.desc)), x, y);
+            }
+        }
         this.renderTooltip(mat, x, y);
     }
 
@@ -134,26 +142,10 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
             Tab t = modules.get(i);
             if (t.icon == null)
             {
-                Component tab = null;
-                switch (i)
-                {
-                case 0:
-                    tab = TComponent.translatable("pokemob.gui.inventory");
-                    break;
-                case 1:
-                    tab = TComponent.translatable("pokemob.gui.ai");
-                    break;
-                case 2:
-                    tab = TComponent.translatable("pokemob.gui.routes");
-                    break;
-                case 3:
-                    tab = TComponent.translatable("pokemob.gui.storage");
-                    break;
-                }
-                if (tab != null) this.font.draw(mat, tab, k + 28 * (i + 1), l - 28, 4210752);
+                Component tab = TComponent.translatable(t.text);
+                this.font.draw(mat, tab, k + 28 * (i + 1), l - 28, 4210752);
             }
         }
-
         modules.get(moduleIndex).renderLabels(mat, p_97809_, p_97810_);
     }
 

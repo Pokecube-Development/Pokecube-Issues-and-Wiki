@@ -26,7 +26,7 @@ public class Routes extends Tab
 
     public Routes(GuiPokemob parent)
     {
-        super(parent);
+        super(parent, "routes");
         this.entity = this.menu.pokemob.getEntity();
         this.guard = this.entity.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
     }

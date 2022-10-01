@@ -95,7 +95,7 @@ public class Inventory extends Tab
 
     public Inventory(GuiPokemob parent)
     {
-        super(parent);
+        super(parent, "inventory");
     }
 
     @Override

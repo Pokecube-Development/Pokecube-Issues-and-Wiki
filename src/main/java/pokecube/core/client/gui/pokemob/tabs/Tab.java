@@ -33,10 +33,15 @@ public abstract class Tab
     private int index;
     private boolean hovored = false;
 
-    public Tab(GuiPokemob parent)
+    public final String text;
+    public final String desc;
+
+    public Tab(GuiPokemob parent, String key)
     {
         this.parent = parent;
         this.menu = parent.getMenu();
+        this.text = "pokemob.gui." + key;
+        this.desc = this.text + ".desc";
     }
 
     public void setIndex(int index)
