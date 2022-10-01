@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraftforge.client.ForgeHooksClient;
 import org.lwjgl.glfw.GLFW;
 
@@ -217,6 +218,11 @@ public class ClientSetupHandler
 
         ClientSetupHandler.registerLayerDefinition(ForgeHooksClient::registerLayerDefinition);
 
+        event.enqueueWork(() ->
+        {
+            BerriesWoodType.register();
+        });
+
         // FIXME Register config gui
     }
 
@@ -234,6 +240,8 @@ public class ClientSetupHandler
         event.registerEntityRenderer(EntityTypes.getNpc(), RenderNPC::new);
         event.registerEntityRenderer(EntityTypes.getEgg(), RenderEgg::new);
         event.registerEntityRenderer(EntityTypes.getBoat(), GenericBoatRenderer::new);
+
+        event.registerBlockEntityRenderer(PokecubeItems.SIGN_TYPE.get(), SignRenderer::new);
     }
 
     public static void registerLayerDefinition(final BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> consumer)

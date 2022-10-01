@@ -107,8 +107,9 @@ public class PokecubeCore
     public static final DeferredRegister<Schedule> SCHEDULES;
     public static final DeferredRegister<MemoryModuleType<?>> MEMORIES;
     public static final DeferredRegister<SensorType<?>> SENSORS;
-    public static final DeferredRegister<Block> BERRIES_TAB;
+    public static final DeferredRegister<Block> BERRY_BLOCKS;
     public static final DeferredRegister<Block> BLOCKS;
+    public static final DeferredRegister<Block> NO_TAB;
     public static final DeferredRegister<Item> ITEMS;
     public static final DeferredRegister<BlockEntityType<?>> TILES;
     public static final DeferredRegister<EntityType<?>> ENTITIES;
@@ -124,9 +125,10 @@ public class PokecubeCore
         SCHEDULES = DeferredRegister.create(Registry.SCHEDULE_REGISTRY, PokecubeCore.MODID);
         MEMORIES = DeferredRegister.create(Registry.MEMORY_MODULE_TYPE_REGISTRY, PokecubeCore.MODID);
         SENSORS = DeferredRegister.create(Registry.SENSOR_TYPE_REGISTRY, PokecubeCore.MODID);
-        BERRIES_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
+        BERRY_BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
         BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
         ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, PokecubeCore.MODID);
+        NO_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
         TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, PokecubeCore.MODID);
         ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, PokecubeCore.MODID);
         MENU = DeferredRegister.create(ForgeRegistries.CONTAINERS, PokecubeCore.MODID);
@@ -213,9 +215,10 @@ public class PokecubeCore
 
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        PokecubeCore.BERRIES_TAB.register(bus);
+        PokecubeCore.BERRY_BLOCKS.register(bus);
         PokecubeCore.ITEMS.register(bus);
         PokecubeCore.BLOCKS.register(bus);
+        PokecubeCore.NO_TAB.register(bus);
         PokecubeCore.TILES.register(bus);
         PokecubeCore.ENTITIES.register(bus);
         PokecubeCore.MENU.register(bus);
