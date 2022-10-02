@@ -77,7 +77,7 @@ public class Inventory extends Tab
         }
 
         @Override
-        public void updateNarration(final NarrationElementOutput p_169152_)
+        public void updateNarration(final NarrationElementOutput narate)
         {
             // TODO Auto-generated method stub
 
@@ -90,6 +90,10 @@ public class Inventory extends Tab
     Button guard;
 
     HungerBar bar;
+
+    boolean guarding;
+    boolean sitting;
+    boolean staying;
 
     protected EditBox name = new EditBox(null, 1 / 2, 1 / 2, 120, 10, TComponent.literal(""));
 
@@ -121,15 +125,33 @@ public class Inventory extends Tab
         this.addRenderableWidget(this.sit = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 00, w, h,
                 TComponent.translatable("pokemob.gui.sit"),
                 c -> PacketCommand.sendCommand(this.menu.pokemob, Command.STANCE,
-                        new StanceHandler(!this.menu.pokemob.getLogicState(LogicStates.SITTING), StanceHandler.SIT))));
+                        new StanceHandler(!this.menu.pokemob.getLogicState(LogicStates.SITTING), StanceHandler.SIT)),
+                (b, pose, x, y) ->
+                {
+                    Component tooltip = sitting ? TComponent.translatable("pokemob.stance.sit")
+                            : TComponent.translatable("pokemob.stance.no_sit");
+                    parent.renderTooltip(pose, tooltip, x, y);
+                }));
         this.addRenderableWidget(this.stay = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 10, w, h,
                 TComponent.translatable("pokemob.gui.stay"),
                 c -> PacketCommand.sendCommand(this.menu.pokemob, Command.STANCE, new StanceHandler(
-                        !this.menu.pokemob.getGeneralState(GeneralStates.STAYING), StanceHandler.STAY))));
+                        !this.menu.pokemob.getGeneralState(GeneralStates.STAYING), StanceHandler.STAY)),
+                (b, pose, x, y) ->
+                {
+                    Component tooltip = staying ? TComponent.translatable("pokemob.stance.stay")
+                            : TComponent.translatable("pokemob.stance.follow");
+                    parent.renderTooltip(pose, tooltip, x, y);
+                }));
         this.addRenderableWidget(this.guard = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 20, w, h,
                 TComponent.translatable("pokemob.gui.guard"),
                 c -> PacketCommand.sendCommand(this.menu.pokemob, Command.STANCE, new StanceHandler(
-                        !this.menu.pokemob.getCombatState(CombatStates.GUARDING), StanceHandler.GUARD))));
+                        !this.menu.pokemob.getCombatState(CombatStates.GUARDING), StanceHandler.GUARD)),
+                (b, pose, x, y) ->
+                {
+                    Component tooltip = guarding ? TComponent.translatable("pokemob.stance.guard")
+                            : TComponent.translatable("pokemob.stance.no_guard");
+                    parent.renderTooltip(pose, tooltip, x, y);
+                }));
         // Bar width
         w = 89;
         // Bar height
@@ -162,11 +184,10 @@ public class Inventory extends Tab
         // The saddle slot
         parent.blit(mat, k + 7, l + 17, 18, this.imageHeight + 54, 18, 18);
     }
-    
+
     @Override
     public void renderLabels(PoseStack mat, int mouseX, int mouseY)
-    {
-    }
+    {}
 
     @Override
     public void render(PoseStack mat, int x, int y, float z)
@@ -174,20 +195,14 @@ public class Inventory extends Tab
         final List<String> text = Lists.newArrayList();
         if (this.menu.pokemob == null) return;
 
-        final boolean guarding = this.menu.pokemob.getCombatState(CombatStates.GUARDING);
-        final boolean sitting = this.menu.pokemob.getLogicState(LogicStates.SITTING);
-        final boolean staying = this.menu.pokemob.getGeneralState(GeneralStates.STAYING);
+        guarding = this.menu.pokemob.getCombatState(CombatStates.GUARDING);
+        sitting = this.menu.pokemob.getLogicState(LogicStates.SITTING);
+        staying = this.menu.pokemob.getGeneralState(GeneralStates.STAYING);
 
         this.guard.setFGColor(guarding ? 0xFF00FF00 : 0xFFFF0000);
         this.sit.setFGColor(sitting ? 0xFF00FF00 : 0xFFFF0000);
         this.stay.setFGColor(staying ? 0xFF00FF00 : 0xFFFF0000);
 
-        if (this.guard.isMouseOver(x, y)) if (guarding) text.add(I18n.get("pokemob.stance.guard"));
-        else text.add(I18n.get("pokemob.stance.no_guard"));
-        if (this.stay.isMouseOver(x, y)) if (staying) text.add(I18n.get("pokemob.stance.stay"));
-        else text.add(I18n.get("pokemob.stance.follow"));
-        if (this.sit.isMouseOver(x, y)) if (sitting) text.add(I18n.get("pokemob.stance.sit"));
-        else text.add(I18n.get("pokemob.stance.no_sit"));
         if (this.bar.isMouseOver(x, y)) text.add(I18n.get("pokemob.bar.value", this.bar.value));
         final List<Component> msgs = new ArrayList<>();
         for (final String s : text) msgs.add(TComponent.literal(s));

@@ -276,6 +276,8 @@ public class Config extends ConfigData
     public boolean defaultElectricActions = true;
     @Configure(category = Config.moves, comment = "Enables world effects of ice type moves. [Default: true]")
     public boolean defaultIceActions = true;
+    @Configure(category = Config.moves, comment = "If this is false, then when a pokemob replaces a move, the old move will be added to the list of moves it can learn. [Default: false]")
+    public boolean movesForgottenWhenOverriden = false;
 
     // AI Related settings
     @Configure(category = Config.mobAI, comment = "Determines how quickly mobs want to mate again, larger values are faster. [Default: 1]")

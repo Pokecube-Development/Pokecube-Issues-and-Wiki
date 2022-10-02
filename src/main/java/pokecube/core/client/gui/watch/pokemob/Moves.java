@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.ChatFormatting;
@@ -77,7 +76,8 @@ public class Moves extends ListPage<LineEntry>
                 GuiComponent.drawString(mat, this.font, moveName, x + dx, y + dy + offset[1] + offset[4],
                         move.getType(pokemob).colour);
                 final int length = this.font.width(moveName);
-                if (mx > 0 && mx < length && my > offset[1] && my < offset[1] + this.font.lineHeight)
+                boolean mouseOver = mx > 0 && mx < length && my > offset[1] && my < offset[1] + this.font.lineHeight;
+                if (mouseOver)
                 {
                     String text;
                     final int pwr = move.getPWR(this.parent.pokemob, this.watch.player);
@@ -86,17 +86,15 @@ public class Moves extends ListPage<LineEntry>
 
                     if (GZMoveManager.isGZDMove(move.move.baseEntry) && offset[3] != this.parent.pokemob.getMoveIndex())
                         text = "???";
-
                     text = I18n.get("pokewatch.moves.pwr", text);
-                    GlStateManager._disableDepthTest();
                     final int box = Math.max(10, this.font.width(text) + 2);
                     final int mx1 = 65 - box;
                     final int my1 = offset[1] + 30;
                     final int dy1 = this.font.lineHeight;
+
                     GuiComponent.fill(mat, x + mx1 - 1, y + my1 - 1, x + mx1 + box + 1, y + my1 + dy1 + 1, 0xFF78C850);
                     GuiComponent.fill(mat, x + mx1, y + my1, x + mx1 + box, y + my1 + dy1, 0xFF000000);
                     this.font.draw(mat, text, x + mx1 + 1, y + my1, 0xFFFFFFFF);
-                    GlStateManager._enableDepthTest();
                 }
             }
         }
@@ -198,6 +196,33 @@ public class Moves extends ListPage<LineEntry>
                         .setClickListner(listener).shadow());
             }
         }
+    }
+
+    @Override
+    public boolean mouseScrolled(final double mouseX, final double mouseY, double mouseButton)
+    {
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
+        final int dx = 150;
+        final int dy = 48;
+
+        // The top left move corner should be (x + dx, y + dy)
+
+        final int x1 = (int) (mouseX - (x + dx));
+        final int y1 = (int) (mouseY - (y + dy));
+
+        // If we are somewhere in here, we are probably clicking a move
+        final boolean inBox = x1 > 0 && y1 > 48 && x1 < 95 && y1 < 58;
+        if (inBox)
+        {
+            int i1 = 9;
+            int i2 = 10;
+            if (mouseButton > 0) this.parent.pokemob.exchangeMoves(i1, i2);
+            else this.parent.pokemob.exchangeMoves(i2, i1);
+            return true;
+        }
+
+        return super.mouseScrolled(mouseX, mouseY, mouseButton);
     }
 
     @Override
@@ -310,14 +335,19 @@ public class Moves extends ListPage<LineEntry>
             final int y1 = (int) (mouseY - (y + dy));
 
             // If we are somewhere in here, we are probably clicking a move
-            final boolean inBox = x1 > 0 && y1 > 0 && x1 < 95 && y1 < 58;
+            boolean inBox = x1 > 0 && y1 > 0 && x1 < 95 && y1 < 58;
 
             if (inBox)
             {
                 int index = y1 / 10;
                 index = Math.min(index, 4);
                 index = Math.max(index, 0);
-                this.parent.pokemob.exchangeMoves(oldIndex, index);
+
+                if (index == oldIndex)
+                {
+                    inBox = x1 > 0 && y1 > 48 && x1 < 95 && y1 < 58;
+                }
+                if (inBox) this.parent.pokemob.exchangeMoves(oldIndex, index);
             }
             //@formatter:off
             this.moveOffsets = new int[][]{
@@ -348,15 +378,16 @@ public class Moves extends ListPage<LineEntry>
             if (pwr > 0) text = pwr + "";
             else text = "-";
             text = I18n.get("pokewatch.moves.pwr", text);
-            GlStateManager._disableDepthTest();
             final int box = Math.max(10, this.font.width(text) + 2);
             final int mx = 100 - box;
             final int my = -0;
             final int dy = this.font.lineHeight;
+            mat.pushPose();
+            mat.translate(0, 0, 1);
             GuiComponent.fill(mat, x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy + 1, 0xFF78C850);
             GuiComponent.fill(mat, x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
             this.font.draw(mat, text, x + mx + 1, y + my, 0xFFFFFFFF);
-            GlStateManager._enableDepthTest();
+            mat.popPose();
         }
         super.renderComponentHoverEffect(mat, component, x, y);
     }

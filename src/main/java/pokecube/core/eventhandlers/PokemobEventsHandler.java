@@ -102,6 +102,7 @@ import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.network.packets.PacketDataSync;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketSyncGene;
+import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.PermNodes;
@@ -699,6 +700,9 @@ public class PokemobEventsHandler
         // auto-sync things like IPokemob, etc.
         // TODO special packet for just our capabiltiies instead!
         if (!entry.stock) EntityUpdate.sendEntityUpdate(event.getTarget());
+
+        // If the player is the owner, we sync over the mob's new moves
+        if (player == pokemob.getOwner()) PacketSyncNewMoves.sendUpdatePacket(pokemob);
 
         // If the mob has a boss bar, add the player to track from that as well
         if (pokemob.getBossInfo() != null) pokemob.getBossInfo().addPlayer(player);

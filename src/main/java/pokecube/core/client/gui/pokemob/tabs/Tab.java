@@ -10,6 +10,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import pokecube.core.client.Resources;
+import pokecube.core.client.gui.helper.Rectangle;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.inventory.pokemob.PokemobContainer;
@@ -30,8 +31,8 @@ public abstract class Tab
 
     public ResourceLocation icon = null;
 
-    private int index;
     private boolean hovored = false;
+    public Rectangle tabBounds = null;
 
     public final String text;
     public final String desc;
@@ -42,11 +43,6 @@ public abstract class Tab
         this.menu = parent.getMenu();
         this.text = "pokemob.gui." + key;
         this.desc = this.text + ".desc";
-    }
-
-    public void setIndex(int index)
-    {
-        this.index = index;
     }
 
     public void setEnabled(boolean active)
@@ -77,19 +73,8 @@ public abstract class Tab
 
     public void updateHovored(double mx, double my)
     {
-        int k = (this.width - this.imageWidth) / 2;
-        int l = (this.height - this.imageHeight) / 2;
-
-        l -= 30;
-        k += (index + 1) * 28;
-
-        int l2 = l + 32;
-        int k2 = k + 28;
-
-        boolean inY = my < l2 && my > l;
-        boolean inX = mx < k2 && mx > k;
-
-        this.hovored = inY && inX;
+        if (tabBounds == null) this.hovored = false;
+        else this.hovored = tabBounds.isInside(mx, my);
     }
 
     public final void clear()

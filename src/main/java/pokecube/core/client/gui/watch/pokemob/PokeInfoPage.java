@@ -120,8 +120,8 @@ public abstract class PokeInfoPage extends WatchPage
     @Override
     public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        this.drawInfo(mat, mouseX, mouseY, partialTicks);
         super.render(mat, mouseX, mouseY, partialTicks);
+        this.drawInfo(mat, mouseX, mouseY, partialTicks);
     }
 
 }

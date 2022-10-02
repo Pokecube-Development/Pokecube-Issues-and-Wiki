@@ -76,6 +76,7 @@ import pokecube.core.impl.PokecubeMod;
 import pokecube.core.init.ItemGenerator;
 import pokecube.core.inventory.barrels.GenericBarrelMenu;
 import pokecube.core.items.ItemPokedex;
+import pokecube.core.items.ItemTM;
 import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.berries.ItemBerry;
@@ -144,6 +145,7 @@ public class PokecubeItems extends ItemList
     public static final RegistryObject<Item> REVIVE;
     public static final RegistryObject<Item> LUCKYEGG;
     public static final RegistryObject<Item> EMERALDSHARD;
+    public static final RegistryObject<Item> TM;
 
     // Blocks
     public static final RegistryObject<Block> DEEPSLATE_FOSSIL_ORE;
@@ -226,6 +228,8 @@ public class PokecubeItems extends ItemList
                 () -> new ItemRevive(new Item.Properties().rarity(Rarity.RARE).tab(PokecubeItems.TAB_ITEMS)));
         EMERALDSHARD = PokecubeCore.ITEMS.register("emerald_shard",
                 () -> new ItemRevive(new Item.Properties().tab(PokecubeItems.TAB_ITEMS)));
+
+        TM = PokecubeCore.ITEMS.register("tm", () -> new ItemTM(new Item.Properties().tab(PokecubeItems.TAB_ITEMS)));
 
         FOSSIL_ORE = PokecubeCore.BLOCKS.register("fossil_ore",
                 () -> new DropExperienceBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE)

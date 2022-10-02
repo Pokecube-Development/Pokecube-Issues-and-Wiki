@@ -1,9 +1,5 @@
 package pokecube.core.items;
 
-import java.util.Map;
-
-import com.google.common.collect.Maps;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
@@ -14,15 +10,13 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.Move_Base;
-import pokecube.api.utils.PokeType;
+import pokecube.core.PokecubeItems;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import thut.core.common.ThutCore;
 
 public class ItemTM extends Item
 {
-    private static Map<PokeType, ItemTM> tms = Maps.newHashMap();
-
     public static boolean applyEffect(final LivingEntity mob, final ItemStack stack)
     {
         if (mob.getLevel().isClientSide) return stack.hasTag();
@@ -58,7 +52,7 @@ public class ItemTM extends Item
             PokecubeAPI.LOGGER.error("Attempting to make TM for un-registered move: " + move);
             return stack;
         }
-        stack = new ItemStack(ItemTM.tms.get(attack.move.type));
+        stack = new ItemStack(PokecubeItems.TM.get());
         final CompoundTag nbt = stack.getTag() == null ? new CompoundTag() : stack.getTag();
         nbt.putString("move", move.trim());
         stack.setTag(nbt);
@@ -75,32 +69,21 @@ public class ItemTM extends Item
             if (nbt == null) return false;
             final String name = nbt.getString("move");
             if (name.contentEquals("")) return false;
-            for (final String move : mob.getMoves()) if (name.equals(move)) return false;
+            if (mob.knowsMove(name)) return false;
             final String[] learnables = mob.getPokedexEntry().getMoves().toArray(new String[0]);
-            final int index = mob.getMoveIndex();
-            if (index > 3) return false;
             for (final String s : learnables)
                 if (mob.getPokedexNb() == 151 || ThutCore.trim(s).equals(ThutCore.trim(name)) || PokecubeMod.debug)
             {
-                if (mob.getMove(0) == null) mob.setMove(0, name);
-                else if (mob.getMove(1) == null) mob.setMove(1, name);
-                else if (mob.getMove(2) == null) mob.setMove(2, name);
-                else if (mob.getMove(3) == null) mob.setMove(3, name);
-                else mob.setMove(index, name);
+                mob.learn(name);
                 return true;
             }
         }
-
         return false;
     }
 
-    public final PokeType type;
-
-    public ItemTM(final Properties props, final PokeType type)
+    public ItemTM(final Properties props)
     {
         super(props);
-        this.type = type;
-        ItemTM.tms.put(type, this);
     }
 
     /**

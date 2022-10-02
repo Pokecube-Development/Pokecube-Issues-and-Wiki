@@ -18,6 +18,7 @@ import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
 import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.Move_Base;
+import pokecube.core.PokecubeCore;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;
 import pokecube.core.moves.MovesUtils;
@@ -53,10 +54,17 @@ public interface IHasMoves extends IHasStats
      */
     default void exchangeMoves(final int moveIndex0, final int moveIndex1)
     {
+        final String[] moves = this.getMoves();
+
+        if (moveIndex0 >= moves.length && moveIndex1 >= moves.length)
+        {
+            boolean up = moveIndex0 >= moveIndex1;
+            this.getMoveStats().num += up ? 1 : -1;
+            this.getMoveStats().getLearningMove();
+        }
+
         if (!this.getEntity().isEffectiveAi() && this.getGeneralState(GeneralStates.TAMED))
         {
-            final String[] moves = this.getMoves();
-            if (moveIndex0 >= moves.length && moveIndex1 >= moves.length) this.getMoveStats().num++;
             try
             {
                 PacketCommand.sendCommand((IPokemob) this, Command.SWAPMOVES,
@@ -69,15 +77,17 @@ public interface IHasMoves extends IHasStats
         }
         else
         {
-            final String[] moves = this.getMoves();
-
-            if (moveIndex0 >= moves.length && moveIndex1 >= moves.length) this.getMoveStats().num++;
+            if (moveIndex0 >= moves.length && moveIndex1 >= moves.length)
+            {}
             else if (moveIndex0 >= moves.length || moveIndex1 >= moves.length)
             {
                 final int index = Math.min(moveIndex0, moveIndex1);
                 if (this.getMove(4) == null || index > 3) return;
                 final String move = this.getMove(4);
-                this.getMoveStats().newMoves.remove(move);
+                this.getMoveStats().removePendingMove(move);
+                String oldMove = this.getMove(index);
+                if (!PokecubeCore.getConfig().movesForgottenWhenOverriden)
+                    this.getMoveStats().addPendingMove(oldMove, null);
                 this.setMove(index, move);
                 PacketSyncNewMoves.sendUpdatePacket((IPokemob) this);
             }
@@ -181,8 +191,7 @@ public interface IHasMoves extends IHasStats
         }
 
         if (index >= 0 && index < 4) return moves[index];
-        if (index == 4 && moves[3] != null) if (!this.getMoveStats().newMoves.isEmpty())
-            return this.getMoveStats().newMoves.get(this.getMoveStats().num % this.getMoveStats().newMoves.size());
+        if (index == 4 && this.getMoveStats().hasLearningMove()) return this.getMoveStats().getLearningMove();
 
         if (index == 5) return IMoveConstants.MOVE_NONE;
         return null;
@@ -233,6 +242,14 @@ public interface IHasMoves extends IHasStats
         if (affected != null) affected.removeEffects(NonPersistantStatusEffect.ID);
     }
 
+    default boolean knowsMove(String moveName)
+    {
+        if (getMoveStats().newMoves.contains(moveName)) return true;
+        final String[] moves = this.getMoves();
+        for (final String move : moves) if (moveName.equals(move)) return true;
+        return false;
+    }
+
     /**
      * The pokemob learns the specified move. It will be set to an available
      * position or erase an existing one if non are available.
@@ -272,11 +289,7 @@ public interface IHasMoves extends IHasStats
                         thisMob.getDisplayName().getString(),
                         TComponent.translatable(MovesUtils.getUnlocalizedMove(moveName)));
                 thisMob.displayMessageToOwner(mess);
-                if (!this.getMoveStats().newMoves.contains(moveName))
-                {
-                    this.getMoveStats().newMoves.add(moveName);
-                    PacketSyncNewMoves.sendUpdatePacket((IPokemob) this);
-                }
+                this.getMoveStats().addPendingMove(moveName, (IPokemob) this);
                 return;
             }
         }
