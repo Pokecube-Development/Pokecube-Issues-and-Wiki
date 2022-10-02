@@ -74,11 +74,9 @@ public class Routes extends Tab
         this.list.smoothScroll = false;
         this.addRenderableWidget(new Button(xOffset + 45, yOffset + 54, 30, 10, TComponent.literal("\u21e7"), b -> {
             this.list.scroll(-50);
-            this.num = (int) (this.list.getScrollAmount() / 50);
         }));
         this.addRenderableWidget(new Button(xOffset + 15, yOffset + 54, 30, 10, TComponent.literal("\u21e9"), b -> {
             this.list.scroll(50);
-            this.num = (int) (this.list.getScrollAmount() / 50);
         }));
     }
 
@@ -94,6 +92,7 @@ public class Routes extends Tab
         super.renderBg(mat, partialTicks, mouseX, mouseY);
         final int k = (this.width - this.imageWidth) / 2;
         final int l = (this.height - this.imageHeight) / 2;
+        this.num = (int) (this.list.getScrollAmount() / 50);
         final String number = this.num + "";
         parent.font.draw(mat, number, k + 87 - parent.font.width(number), l + 62, 0xFF888888);
     }

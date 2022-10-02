@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import pokecube.core.client.gui.helper.INotifiedEntry;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 
@@ -15,9 +16,10 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
     /**
      * Set this to true if the page handles rendering the list itself.
      */
-    protected boolean      handlesList = false;
+    protected boolean handlesList = false;
 
-    public ListPage(final Component title, final GuiPokeWatch watch, final ResourceLocation day, final ResourceLocation night)
+    public ListPage(final Component title, final GuiPokeWatch watch, final ResourceLocation day,
+            final ResourceLocation night)
     {
         super(title, watch, day, night);
     }
@@ -40,7 +42,20 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
 
     public void initList()
     {
-        if (this.list != null) this.children.remove(this.list);
+        if (this.list != null)
+        {
+            this.children.remove(this.list);
+            this.list.children.forEach(entry -> {
+                if (entry instanceof INotifiedEntry notified) notified.addOrRemove(this::removeWidget);
+            });
+        }
+    }
+
+    private Runnable updateRunnable;
+
+    protected void scheduleUpdate(Runnable toRun)
+    {
+        this.updateRunnable = toRun;
     }
 
     @Override
@@ -52,8 +67,19 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
     }
 
     @Override
+    public boolean keyPressed(int keyCode, int b, int c)
+    {
+        return list.keyPressed(keyCode, b, c) || super.keyPressed(keyCode, b, c);
+    }
+
+    @Override
     public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
+        if (this.updateRunnable != null)
+        {
+            this.updateRunnable.run();
+            this.updateRunnable = null;
+        }
         this.drawTitle(mat, mouseX, mouseY, partialTicks);
         super.render(mat, mouseX, mouseY, partialTicks);
         // Draw the list

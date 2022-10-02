@@ -121,6 +121,13 @@
     "pokewatch.size": "Size: %s",
     "pokewatch.nature": "Nature: %s",
     
+    "_comment": "Shared Gui Things",
+
+    "pokecube.gui.delete.start.desc": "Enable Deleting",
+    "pokecube.gui.delete.confirm.desc": "Confirm Delete",
+    "pokecube.gui.move.up.desc": "Move Up",
+    "pokecube.gui.move.down.desc": "Move Down",
+    
     "_comment": "Pokemob Gui",
 
     "pokemob.stance.guard": "Guarding",
@@ -130,6 +137,7 @@
     "pokemob.stance.sit": "Sitting",
     "pokemob.stance.no_sit": "Not Sitting",
     
+    "pokemob.route.btn.desc": "Apply Changes",
     "pokemob.route.updated": "Updated the Guard Location",
     
     "pokemob.bar.value": "Hunger: %s",
