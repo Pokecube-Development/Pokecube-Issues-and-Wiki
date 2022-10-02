@@ -1,11 +1,14 @@
 package pokecube.core.client.gui.pokemob.tabs;
 
+import java.util.Locale;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.AbstractSelectionList.Entry;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.Component;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.client.gui.helper.ScrollGui;
@@ -103,6 +106,7 @@ public class AI extends Tab
         {
             String name = AIRoutine.values()[i].toString();
             if (!AIRoutine.values()[i].isAllowed(pokemob)) continue;
+            Component tooltip = TComponent.translatable("pokemob.gui.ai." + name.toLowerCase(Locale.ROOT));
             if (name.length() > 6) name = name.substring(0, 6);
             final int index = i;
             final Button button = new Button(xOffset, yOffset, 40, 10, TComponent.literal(name), b -> {
@@ -110,6 +114,8 @@ public class AI extends Tab
                 final boolean state = !pokemob.isRoutineEnabled(routine);
                 pokemob.setRoutineState(routine, state);
                 PacketAIRoutine.sentCommand(pokemob, routine, state);
+            }, (b, pose, x, y) -> {
+                parent.renderTooltip(pose, tooltip, x, y);
             });
             this.addRenderableWidget(button);
             this.list.addEntry(new AIEntry(button, index, pokemob));

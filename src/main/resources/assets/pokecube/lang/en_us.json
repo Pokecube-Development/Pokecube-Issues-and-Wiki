@@ -151,6 +151,18 @@
     "pokemob.gui.routes.desc": "Routes Settings",
     "pokemob.gui.ai.desc": "AI Settings",
     
+    "pokemob.gui.ai.gather": "Allowed to gather items",
+    "pokemob.gui.ai.beeai": "Allowed to make and use bee hives",
+    "pokemob.gui.ai.antai": "Allowed to make and use ant nests",
+    "pokemob.gui.ai.burrows": "Allowed to make and use burrows",
+    "pokemob.gui.ai.store": "Allowed to store items in inventories",
+    "pokemob.gui.ai.wander": "Allowed to randomly wander around",
+    "pokemob.gui.ai.mate": "Allowed to attempt to breed",
+    "pokemob.gui.ai.follow": "Allowed to follow owner",
+    "pokemob.gui.ai.agressive": "Allowed to engage in combat",
+    "pokemob.gui.ai.airborne": "Allowed to fly or float",
+    "pokemob.gui.ai.usedoors": "Allowed to try to open doors",
+    
     "_comment": "Pokedex Description",
 
     "pokemob.description.type": "%1$s is a %2$s Pokémob.",
