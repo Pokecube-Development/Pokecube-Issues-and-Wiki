@@ -26,6 +26,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -60,6 +61,7 @@ import pokecube.core.init.ItemInit;
 import pokecube.core.init.MenuTypes;
 import pokecube.core.init.Sounds;
 import pokecube.core.items.berries.BerryManager;
+import pokecube.core.legacy.RegistryChangeFixer;
 import pokecube.core.moves.Battle;
 import pokecube.core.proxy.CommonProxy;
 import pokecube.nbtedit.NBTEdit;
@@ -245,6 +247,9 @@ public class PokecubeCore
         PlayerDataHandler.register(PokecubePlayerStats.class);
         PlayerDataHandler.register(PokecubePlayerCustomData.class);
         PlayerDataHandler.register(PlayerPokemobCache.class);
+
+        // Register the data fixer for registry changes.
+        MinecraftForge.EVENT_BUS.register(RegistryChangeFixer.class);
 
         // Initialize advancement triggers
         Triggers.init();

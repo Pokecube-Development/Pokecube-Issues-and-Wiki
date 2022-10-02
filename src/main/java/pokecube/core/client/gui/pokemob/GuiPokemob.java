@@ -17,11 +17,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import pokecube.core.client.Resources;
+import pokecube.core.client.gui.helper.Rectangle;
 import pokecube.core.client.gui.pokemob.tabs.AI;
 import pokecube.core.client.gui.pokemob.tabs.Routes;
 import pokecube.core.client.gui.pokemob.tabs.Storage;
 import pokecube.core.client.gui.pokemob.tabs.Tab;
-import pokecube.core.client.gui.pokemob.tabs.Tab.Rectangle;
 import pokecube.core.inventory.pokemob.PokemobContainer;
 import thut.lib.TComponent;
 

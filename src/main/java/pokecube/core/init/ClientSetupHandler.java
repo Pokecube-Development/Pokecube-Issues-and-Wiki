@@ -48,9 +48,11 @@ import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.inventory.trade.TradeContainer;
+import pokecube.core.items.ItemTM;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
+import pokecube.core.moves.MovesUtils;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.forge.ClientProxy;
 
@@ -239,6 +241,14 @@ public class ClientSetupHandler
                 return tintIndex == 0 ? item.getColor(stack) : 0xFFFFFFFF;
             }, i);
         }
+
+        event.getItemColors().register((stack, tintIndex) -> {
+            String moveName = ItemTM.getMoveFromStack(stack);
+            if (moveName == null) return 0xFFFFFFFF;
+            var move = MovesUtils.getMoveFromName(moveName);
+            if (move != null) return move.getType(null).colour;
+            return 0xFFFFFFFF;
+        }, PokecubeItems.TM.get());
     }
 
     @SubscribeEvent

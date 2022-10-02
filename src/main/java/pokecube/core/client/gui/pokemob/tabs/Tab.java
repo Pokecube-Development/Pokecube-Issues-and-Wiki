@@ -10,33 +10,13 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import pokecube.core.client.Resources;
+import pokecube.core.client.gui.helper.Rectangle;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.inventory.pokemob.PokemobContainer;
 
 public abstract class Tab
 {
-    public static class Rectangle
-    {
-        public final int x0, x1, y0, y1;
-        public final int h, w;
-
-        public Rectangle(int x0, int y0, int x1, int y1)
-        {
-            this.x0 = x0;
-            this.x1 = x1;
-            this.y0 = y0;
-            this.y1 = y1;
-            this.w = Math.abs(x0 - x1);
-            this.h = Math.abs(y0 - y1);
-        }
-
-        public boolean isInside(double mx, double my)
-        {
-            return my < y1 && my > y0 && mx < x1 && mx > x0;
-        }
-    }
-
     protected final GuiPokemob parent;
 
     protected List<AbstractWidget> ours = Lists.newArrayList();

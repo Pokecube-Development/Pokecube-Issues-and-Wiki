@@ -9,8 +9,10 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.world.entity.Entity;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.IMoveConstants;
 import pokecube.api.moves.Move_Base;
+import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 
 public class PokemobMoveStats
 {
@@ -103,5 +105,33 @@ public class PokemobMoveStats
         {
             e.printStackTrace();
         }
+    }
+
+    public boolean addPendingMove(String move, IPokemob notify)
+    {
+        if (move == null) return false;
+        if (newMoves.contains(move)) return false;
+        newMoves.add(move);
+        newMoves.sort(null);
+        if (notify != null) PacketSyncNewMoves.sendUpdatePacket(notify);
+        return true;
+    }
+
+    public void removePendingMove(String move)
+    {
+        this.newMoves.remove(move);
+    }
+
+    public boolean hasLearningMove()
+    {
+        return !this.newMoves.isEmpty();
+    }
+
+    public String getLearningMove()
+    {
+        if (this.newMoves.isEmpty()) return null;
+        if (this.num < 0) this.num = this.newMoves.size() - 1;
+        this.num = this.num % this.newMoves.size();
+        return newMoves.get(this.num);
     }
 }
