@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -39,6 +40,9 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
     }
 
     @Override
+    /**
+     * @Override to make public for removing widgets
+     */
     public void removeWidget(GuiEventListener p_169412_)
     {
         super.removeWidget(p_169412_);
@@ -152,6 +156,10 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
     @Override
     public boolean mouseClicked(double mx, double my, int button)
     {
+        for (var w : this.children)
+        {
+            if (w instanceof EditBox b) b.setFocus(false);
+        }
         if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT)
         {
             for (int i = 0; i < modules.size(); i++)
@@ -170,11 +178,5 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
             }
         }
         return modules.get(moduleIndex).mouseClicked(mx, my, button) || super.mouseClicked(mx, my, button);
-    }
-
-    @Override
-    public boolean mouseReleased(double mx, double my, int button)
-    {
-        return super.mouseReleased(mx, my, button);
     }
 }

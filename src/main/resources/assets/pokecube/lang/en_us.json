@@ -163,6 +163,12 @@
     "pokemob.gui.ai.airborne": "Allowed to fly or float",
     "pokemob.gui.ai.usedoors": "Allowed to try to open doors",
     
+    "pokemob.gui.storage.berry": "Berry inventory location",
+    "pokemob.gui.storage.storage": "Item dropoff inventory location",
+    "pokemob.gui.storage.storageFace": "Item dropoff inventory face",
+    "pokemob.gui.storage.empty": "Item pickup inventory location",
+    "pokemob.gui.storage.emptyFace": "Item pickup inventory face",
+    
     "_comment": "Pokedex Description",
 
     "pokemob.description.type": "%1$s is a %2$s Pokémob.",

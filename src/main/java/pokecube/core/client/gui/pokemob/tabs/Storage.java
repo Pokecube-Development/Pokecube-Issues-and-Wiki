@@ -163,13 +163,34 @@ public class Storage extends Tab
     @Override
     public void renderLabels(final PoseStack mat, final int mouseX, final int mouseY)
     {
-        final int x = 83;
-        final int y = 20;
+        int x = 83;
+        int y = 20;
         parent.font.draw(mat, I18n.get("pokemob.gui.berry"), x, y, 4210752);
         parent.font.draw(mat, I18n.get("pokemob.gui.store"), x, y + 10, 4210752);
         parent.font.draw(mat, I18n.get("pokemob.gui.face"), x, y + 20, 4210752);
         parent.font.draw(mat, I18n.get("pokemob.gui.empty"), x, y + 30, 4210752);
         parent.font.draw(mat, I18n.get("pokemob.gui.face"), x, y + 40, 4210752);
+
+        if (this.berry.isMouseOver(mouseX, mouseY))
+        {
+            this.parent.renderTooltip(mat, TComponent.translatable("pokemob.gui.storage.berry"), x, y);
+        }
+        if (this.storage.isMouseOver(mouseX, mouseY))
+        {
+            this.parent.renderTooltip(mat, TComponent.translatable("pokemob.gui.storage.storage"), x, y);
+        }
+        if (this.storageFace.isMouseOver(mouseX, mouseY))
+        {
+            this.parent.renderTooltip(mat, TComponent.translatable("pokemob.gui.storage.storageFace"), x, y);
+        }
+        if (this.empty.isMouseOver(mouseX, mouseY))
+        {
+            this.parent.renderTooltip(mat, TComponent.translatable("pokemob.gui.storage.empty"), x, y);
+        }
+        if (this.emptyFace.isMouseOver(mouseX, mouseY))
+        {
+            this.parent.renderTooltip(mat, TComponent.translatable("pokemob.gui.storage.emptyFace"), x, y);
+        }
 
         super.renderLabels(mat, mouseX, mouseY);
     }

@@ -267,16 +267,6 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
 
         this.update.y = y - 5 - 20;
         this.update.x = x - 1 + this.location.getWidth();
-
-        this.location.render(mat, mouseX, mouseY, partialTicks);
-        this.timeperiod.render(mat, mouseX, mouseY, partialTicks);
-        this.variation.render(mat, mouseX, mouseY, partialTicks);
-
-        this.delete.render(mat, mouseX, mouseY, partialTicks);
-        this.confirm.render(mat, mouseX, mouseY, partialTicks);
-        this.moveUp.render(mat, mouseX, mouseY, partialTicks);
-        this.moveDown.render(mat, mouseX, mouseY, partialTicks);
-        this.update.render(mat, mouseX, mouseY, partialTicks);
     }
 
     public void reOrder(final int dir)
