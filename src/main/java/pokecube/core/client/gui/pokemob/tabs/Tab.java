@@ -16,6 +16,27 @@ import pokecube.core.inventory.pokemob.PokemobContainer;
 
 public abstract class Tab
 {
+    public static class Rectangle
+    {
+        public final int x0, x1, y0, y1;
+        public final int h, w;
+
+        public Rectangle(int x0, int y0, int x1, int y1)
+        {
+            this.x0 = x0;
+            this.x1 = x1;
+            this.y0 = y0;
+            this.y1 = y1;
+            this.w = Math.abs(x0 - x1);
+            this.h = Math.abs(y0 - y1);
+        }
+
+        public boolean isInside(double mx, double my)
+        {
+            return my < y1 && my > y0 && mx < x1 && mx > x0;
+        }
+    }
+
     protected final GuiPokemob parent;
 
     protected List<AbstractWidget> ours = Lists.newArrayList();
@@ -30,8 +51,8 @@ public abstract class Tab
 
     public ResourceLocation icon = null;
 
-    private int index;
     private boolean hovored = false;
+    public Rectangle tabBounds = null;
 
     public final String text;
     public final String desc;
@@ -42,11 +63,6 @@ public abstract class Tab
         this.menu = parent.getMenu();
         this.text = "pokemob.gui." + key;
         this.desc = this.text + ".desc";
-    }
-
-    public void setIndex(int index)
-    {
-        this.index = index;
     }
 
     public void setEnabled(boolean active)
@@ -77,19 +93,8 @@ public abstract class Tab
 
     public void updateHovored(double mx, double my)
     {
-        int k = (this.width - this.imageWidth) / 2;
-        int l = (this.height - this.imageHeight) / 2;
-
-        l -= 30;
-        k += (index + 1) * 28;
-
-        int l2 = l + 32;
-        int k2 = k + 28;
-
-        boolean inY = my < l2 && my > l;
-        boolean inX = mx < k2 && mx > k;
-
-        this.hovored = inY && inX;
+        if (tabBounds == null) this.hovored = false;
+        else this.hovored = tabBounds.isInside(mx, my);
     }
 
     public final void clear()

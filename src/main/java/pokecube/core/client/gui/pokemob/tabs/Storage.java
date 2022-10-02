@@ -170,6 +170,7 @@ public class Storage extends Tab
         parent.font.draw(mat, I18n.get("pokemob.gui.face"), x, y + 20, 4210752);
         parent.font.draw(mat, I18n.get("pokemob.gui.empty"), x, y + 30, 4210752);
         parent.font.draw(mat, I18n.get("pokemob.gui.face"), x, y + 40, 4210752);
+        y -= 5;
 
         if (this.berry.isMouseOver(mouseX, mouseY))
         {
