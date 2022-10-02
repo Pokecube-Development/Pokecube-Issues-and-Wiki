@@ -39,6 +39,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.client.gui.animation.AnimModule;
 import pokecube.core.client.gui.animation.IconModule;
 import pokecube.core.client.gui.animation.WornOffsetModule;
+import pokecube.core.client.gui.helper.ListEditBox;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.client.render.mobs.RenderPokemob.Holder;
@@ -402,14 +403,14 @@ public class AnimationGui extends Screen
 
         final Component blank = TComponent.literal("");
 
-        this.anim = new EditBox(this.font, this.width - 101, yOffset + 43 - yOffset / 2, 100, 10, blank);
-        this.state_g = new EditBox(this.font, this.width - 101, yOffset - 33 - yOffset / 2, 100, 10, blank);
-        this.state_c = new EditBox(this.font, this.width - 101, yOffset - 13 - yOffset / 2, 100, 10, blank);
-        this.state_l = new EditBox(this.font, this.width - 101, yOffset + 07 - yOffset / 2, 100, 10, blank);
-        this.forme = new EditBox(this.font, this.width - 101, yOffset + 73 - yOffset / 2, 100, 10, blank);
-        this.forme_alt = new EditBox(this.font, this.width - 101, yOffset + 97 - yOffset / 2, 100, 10, blank);
-        this.rngValue = new EditBox(this.font, this.width - 101, yOffset + 123 - yOffset / 2, 100, 10, blank);
-        this.dyeColour = new EditBox(this.font, this.width - 21, yOffset + 28 - yOffset / 2, 20, 10, blank);
+        this.anim = new ListEditBox(this.font, this.width - 101, yOffset + 43 - yOffset / 2, 100, 10, blank);
+        this.state_g = new ListEditBox(this.font, this.width - 101, yOffset - 33 - yOffset / 2, 100, 10, blank);
+        this.state_c = new ListEditBox(this.font, this.width - 101, yOffset - 13 - yOffset / 2, 100, 10, blank);
+        this.state_l = new ListEditBox(this.font, this.width - 101, yOffset + 07 - yOffset / 2, 100, 10, blank);
+        this.forme = new ListEditBox(this.font, this.width - 101, yOffset + 73 - yOffset / 2, 100, 10, blank);
+        this.forme_alt = new ListEditBox(this.font, this.width - 101, yOffset + 97 - yOffset / 2, 100, 10, blank);
+        this.rngValue = new ListEditBox(this.font, this.width - 101, yOffset + 123 - yOffset / 2, 100, 10, blank);
+        this.dyeColour = new ListEditBox(this.font, this.width - 21, yOffset + 28 - yOffset / 2, 20, 10, blank);
         this.forme.setValue(AnimationGui.mob);
         this.dyeColour.setValue(AnimationGui.entry.defaultSpecial + "");
         this.anim.setValue("idle");
@@ -422,6 +423,14 @@ public class AnimationGui extends Screen
         this.addRenderableWidget(this.forme_alt);
         this.addRenderableWidget(this.rngValue);
         this.addRenderableWidget(this.dyeColour);
+
+        for (var o : this.children)
+        {
+            if (o instanceof ListEditBox box && box.preFocusGain == null)
+            {
+                box.registerPreFocus(this);
+            }
+        }
 
         final Component up = TComponent.literal("\u25bc");
         final Component down = TComponent.literal("\u25b2");
