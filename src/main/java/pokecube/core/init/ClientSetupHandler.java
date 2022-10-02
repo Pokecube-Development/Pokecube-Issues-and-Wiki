@@ -225,7 +225,7 @@ public class ClientSetupHandler
             }, i);
         }
 
-        event.getItemColors().register((stack, tintIndex) -> {
+        event.register((stack, tintIndex) -> {
             String moveName = ItemTM.getMoveFromStack(stack);
             if (moveName == null) return 0xFFFFFFFF;
             var move = MovesUtils.getMoveFromName(moveName);

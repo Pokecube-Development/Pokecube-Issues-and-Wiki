@@ -1,15 +1,16 @@
 package pokecube.core.legacy;
 
+import java.util.List;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.RegistryEvent.MissingMappings.Mapping;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.ForgeRegistries.Keys;
+import net.minecraftforge.registries.MissingMappingsEvent;
+import net.minecraftforge.registries.MissingMappingsEvent.Mapping;
 import pokecube.core.PokecubeItems;
 
 public class RegistryChangeFixer
@@ -25,15 +26,15 @@ public class RegistryChangeFixer
     }
 
     @SubscribeEvent
-    public static void onRegistryMissingEvent(RegistryEvent.MissingMappings<Item> event)
+    public static void onRegistryMissingEvent(MissingMappingsEvent event)
     {
 
         // Remap the TMs.
-        if (event.getName().toString().equals("minecraft:item"))
+        if (event.getKey().equals(Keys.ITEMS))
         {
-            ImmutableList<Mapping<Item>> mappings = event.getAllMappings();
+            List<Mapping<Item>> mappings = event.getAllMappings(Keys.ITEMS);
             mappings.forEach(m -> {
-                if (tmNames.contains(m.key)) m.remap(PokecubeItems.TM.get());
+                if (tmNames.contains(m.getKey())) m.remap(PokecubeItems.TM.get());
             });
         }
     }
