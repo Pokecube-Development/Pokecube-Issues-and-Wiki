@@ -1,7 +1,5 @@
 package pokecube.core.init;
 
-import it.unimi.dsi.fastutil.objects.ObjectArraySet;
-import java.util.Set;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.properties.WoodType;
