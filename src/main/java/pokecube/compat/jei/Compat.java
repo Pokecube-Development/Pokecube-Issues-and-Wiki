@@ -12,7 +12,6 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IModIngredientRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
-import mezz.jei.api.registration.ISubtypeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -42,13 +41,7 @@ public class Compat implements IModPlugin
     {
         return Compat.UID;
     }
-
-    @Override
-    public void registerItemSubtypes(final ISubtypeRegistration registration)
-    {
-
-    }
-
+    
     @Override
     public void registerIngredients(final IModIngredientRegistration registration)
     {

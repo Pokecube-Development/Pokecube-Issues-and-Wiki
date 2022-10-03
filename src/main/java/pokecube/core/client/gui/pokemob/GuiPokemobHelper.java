@@ -29,7 +29,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.database.Database;
 import thut.api.util.JsonUtil;
-import thut.core.client.render.model.parts.Mesh;
+import thut.core.common.ThutCore;
 import thut.lib.ResourceHelper;
 
 public class GuiPokemobHelper
@@ -73,7 +73,8 @@ public class GuiPokemobHelper
     public static void renderMob(final LivingEntity entity, final int dx, final int dy, final float pitch,
             final float yaw, final float headPitch, final float headYaw, final float scale, float partialTicks)
     {
-        GuiPokemobHelper.renderMob(new PoseStack(), entity, dx, dy, pitch, yaw, headPitch, headYaw, scale, partialTicks);
+        GuiPokemobHelper.renderMob(new PoseStack(), entity, dx, dy, pitch, yaw, headPitch, headYaw, scale,
+                partialTicks);
     }
 
     public static void renderMob(final PoseStack mat, final LivingEntity entity, final int dx, final int dy,
@@ -137,12 +138,12 @@ public class GuiPokemobHelper
                 .bufferSource();
         RenderMobOverlays.enabled = false;
         // Disable the face culling that occurs if too far away
-        double bak = Mesh.CULLTHRESHOLD;
-        Mesh.CULLTHRESHOLD = Double.MAX_VALUE;
+        double bak = ThutCore.getConfig().modelCullThreshold;
+        ThutCore.getConfig().modelCullThreshold = -1;
         entityrenderermanager.render(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, mat, irendertypebuffer$impl,
                 15728880);
         // Re-enable the face culling that occurs if too far away
-        Mesh.CULLTHRESHOLD = bak;
+        ThutCore.getConfig().modelCullThreshold = bak;
         RenderMobOverlays.enabled = true;
         irendertypebuffer$impl.endBatch();
         entityrenderermanager.setRenderShadow(true);
