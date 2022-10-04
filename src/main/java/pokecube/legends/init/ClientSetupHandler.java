@@ -15,6 +15,7 @@ import net.minecraft.client.particle.SuspendedTownParticle;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.CampfireRenderer;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,6 +30,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.RegistryObject;
+import pokecube.core.PokecubeItems;
 import pokecube.core.init.ItemGenerator;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
@@ -184,6 +186,7 @@ public class ClientSetupHandler
 
             // Shields
             ItemInit.addItemModelProperties();
+            LegendsWoodType.register();
         });
         ClientSetupHandler.registerLayerDefinition(ForgeHooksClient::registerLayerDefinition);
     }
@@ -198,6 +201,8 @@ public class ClientSetupHandler
         // Register entity renderer for the wormhole
         event.registerEntityRenderer(EntityInit.WORMHOLE.get(), Wormhole::new);
         event.registerEntityRenderer(EntityInit.BOAT.get(), LegendsBoatRenderer::new);
+
+        event.registerBlockEntityRenderer(TileEntityInit.SIGN_ENTITY.get(), SignRenderer::new);
     }
 
     public static void registerLayerDefinition(final BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> consumer)

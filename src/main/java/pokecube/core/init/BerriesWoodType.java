@@ -13,11 +13,6 @@ public class BerriesWoodType
     public static final WoodType ORAN = addWoodTypes("oran");
     public static final WoodType PECHA = addWoodTypes("pecha");
     public static final WoodType SITRUS = addWoodTypes("sitrus");
-    private final String name;
-
-    protected BerriesWoodType(String name) {
-        this.name = name;
-    }
 
     public static WoodType addWoodTypes(String name)
     {

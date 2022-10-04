@@ -1,10 +1,8 @@
 package pokecube.legends.init;
 
+import com.google.common.collect.Maps;
 import java.util.Map;
 import java.util.function.ToIntFunction;
-
-import com.google.common.collect.Maps;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
@@ -93,6 +91,8 @@ import pokecube.legends.blocks.normalblocks.InfectedFireBlock;
 import pokecube.legends.blocks.normalblocks.InfectedTorch;
 import pokecube.legends.blocks.normalblocks.InfectedTorchWall;
 import pokecube.legends.blocks.normalblocks.JungleGrassBlock;
+import pokecube.legends.blocks.normalblocks.LegendsStandingSign;
+import pokecube.legends.blocks.normalblocks.LegendsWallSign;
 import pokecube.legends.blocks.normalblocks.MagneticBlock;
 import pokecube.legends.blocks.normalblocks.MirageGlassBlock;
 import pokecube.legends.blocks.normalblocks.MirageLeavesBlock;
@@ -609,6 +609,24 @@ public class BlockInit
     public static final RegistryObject<Block> DYNA_LEAVES_RED;
     public static final RegistryObject<Block> DYNA_LEAVES_PASTEL_PINK;
     public static final RegistryObject<Block> DYNA_SHRUB;
+
+    // Signs
+    public static final RegistryObject<Block> AGED_SIGN;
+    public static final RegistryObject<Block> AGED_WALL_SIGN;
+    public static final RegistryObject<Block> CONCRETE_SIGN;
+    public static final RegistryObject<Block> CONCRETE_WALL_SIGN;
+    public static final RegistryObject<Block> CONCRETE_DENSE_SIGN;
+    public static final RegistryObject<Block> CONCRETE_DENSE_WALL_SIGN;
+    public static final RegistryObject<Block> CORRUPTED_SIGN;
+    public static final RegistryObject<Block> CORRUPTED_WALL_SIGN;
+    public static final RegistryObject<Block> DISTORTIC_SIGN;
+    public static final RegistryObject<Block> DISTORTIC_WALL_SIGN;
+    public static final RegistryObject<Block> INVERTED_SIGN;
+    public static final RegistryObject<Block> INVERTED_WALL_SIGN;
+    public static final RegistryObject<Block> MIRAGE_SIGN;
+    public static final RegistryObject<Block> MIRAGE_WALL_SIGN;
+    public static final RegistryObject<Block> TEMPORAL_SIGN;
+    public static final RegistryObject<Block> TEMPORAL_WALL_SIGN;
 
     // Plants
     public static final RegistryObject<Block> INVERTED_SAPLING;
@@ -2352,6 +2370,57 @@ public class BlockInit
                         {
                             return 10;
                         }).noOcclusion()));
+
+        // No Creative Tab
+        // Signs
+        AGED_SIGN = PokecubeLegends.NO_TAB.register("aged_sign",
+                () -> new LegendsStandingSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
+                        .strength(1.0F).noCollission().sound(SoundType.WOOD), LegendsWoodType.AGED));
+        AGED_WALL_SIGN = PokecubeLegends.NO_TAB.register("aged_wall_sign",
+                () -> new LegendsWallSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
+                        .strength(1.0F).noCollission().sound(SoundType.WOOD).lootFrom(AGED_SIGN), LegendsWoodType.AGED));
+        CONCRETE_SIGN = PokecubeLegends.NO_TAB.register("concrete_sign",
+                () -> new LegendsStandingSign(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW)
+                        .strength(10.0F, 500.0F).noCollission().sound(SoundType.STONE), LegendsWoodType.CONCRETE));
+        CONCRETE_WALL_SIGN = PokecubeLegends.NO_TAB.register("concrete_wall_sign",
+                () -> new LegendsWallSign(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW)
+                        .strength(10.0F, 500.0F).noCollission().sound(SoundType.STONE).lootFrom(CONCRETE_SIGN), LegendsWoodType.CONCRETE));
+        CONCRETE_DENSE_SIGN = PokecubeLegends.NO_TAB.register("concrete_dense_sign",
+                () -> new LegendsStandingSign(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW)
+                        .strength(20.0F, 1200.0F).noCollission().sound(SoundType.STONE), LegendsWoodType.CONCRETE_DENSE));
+        CONCRETE_DENSE_WALL_SIGN = PokecubeLegends.NO_TAB.register("concrete_dense_wall_sign",
+                () -> new LegendsWallSign(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW)
+                        .strength(20.0F, 1200.0F).noCollission().sound(SoundType.STONE).lootFrom(CONCRETE_DENSE_SIGN), LegendsWoodType.CONCRETE_DENSE));
+        CORRUPTED_SIGN = PokecubeLegends.NO_TAB.register("corrupted_sign",
+                () -> new LegendsStandingSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD)
+                        .strength(1.0F).noCollission().sound(SoundType.WOOD), LegendsWoodType.CORRUPTED));
+        CORRUPTED_WALL_SIGN = PokecubeLegends.NO_TAB.register("corrupted_wall_sign",
+                () -> new LegendsWallSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD)
+                        .strength(1.0F).noCollission().sound(SoundType.WOOD).lootFrom(CORRUPTED_SIGN), LegendsWoodType.CORRUPTED));
+        DISTORTIC_SIGN = PokecubeLegends.NO_TAB.register("distortic_sign",
+                () -> new LegendsStandingSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BLUE)
+                        .strength(1.0F).noCollission().sound(SoundType.WOOD), LegendsWoodType.DISTORTIC));
+        DISTORTIC_WALL_SIGN = PokecubeLegends.NO_TAB.register("distortic_wall_sign",
+                () -> new LegendsWallSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BLUE)
+                        .strength(1.0F).noCollission().sound(SoundType.WOOD).lootFrom(DISTORTIC_SIGN), LegendsWoodType.DISTORTIC));
+        INVERTED_SIGN = PokecubeLegends.NO_TAB.register("inverted_sign",
+                () -> new LegendsStandingSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_LIGHT_BLUE)
+                        .strength(1.0F, 1.5F).noCollission().sound(SoundType.WOOD), LegendsWoodType.INVERTED));
+        INVERTED_WALL_SIGN = PokecubeLegends.NO_TAB.register("inverted_wall_sign",
+                () -> new LegendsWallSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_LIGHT_BLUE)
+                        .strength(1.0F, 1.5F).noCollission().sound(SoundType.WOOD).lootFrom(INVERTED_SIGN), LegendsWoodType.INVERTED));
+        MIRAGE_SIGN = PokecubeLegends.NO_TAB.register("mirage_sign",
+                () -> new LegendsStandingSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.SAND)
+                        .strength(1.0F).noCollission().sound(SoundType.WOOD), LegendsWoodType.MIRAGE));
+        MIRAGE_WALL_SIGN = PokecubeLegends.NO_TAB.register("mirage_wall_sign",
+                () -> new LegendsWallSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.SAND)
+                        .strength(1.0F).noCollission().sound(SoundType.WOOD).lootFrom(MIRAGE_SIGN), LegendsWoodType.MIRAGE));
+        TEMPORAL_SIGN = PokecubeLegends.NO_TAB.register("temporal_sign",
+                () -> new LegendsStandingSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WARPED_NYLIUM)
+                        .strength(1.0F).noCollission().sound(SoundType.WOOD), LegendsWoodType.TEMPORAL));
+        TEMPORAL_WALL_SIGN = PokecubeLegends.NO_TAB.register("temporal_wall_sign",
+                () -> new LegendsWallSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WARPED_NYLIUM)
+                        .strength(1.0F).noCollission().sound(SoundType.WOOD).lootFrom(TEMPORAL_SIGN), LegendsWoodType.TEMPORAL));
     }
 
     private static ToIntFunction<BlockState> litBlockEmission(final int i)
