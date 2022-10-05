@@ -1263,7 +1263,7 @@ public class BlockInit
         // Woods
         // Aged Blocks
         AGED_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("aged_sapling",
-                () -> new SaplingBase(() -> new AgedTreeGrower(),
+                () -> new SaplingBase(AgedTreeGrower::new,
                         BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).strength(0f, 1f)
                                 .sound(SoundType.GRASS).noCollission().noOcclusion()));
 
@@ -1341,7 +1341,7 @@ public class BlockInit
                                 .strength(0.1F).sound(SoundType.BIG_DRIPLEAF)));
 
         CORRUPTED_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_sapling",
-                () -> new SaplingBase(() -> new CorruptedTreeGrower(),
+                () -> new SaplingBase(CorruptedTreeGrower::new,
                         BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_BLACK).strength(0f, 1f)
                                 .sound(SoundType.GRASS).noCollission().noOcclusion()));
 
@@ -1459,7 +1459,7 @@ public class BlockInit
 
         // Inverted Blocks
         INVERTED_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("inverted_sapling",
-                () -> new SaplingBase(() -> new InvertedTreeGrower(),
+                () -> new SaplingBase(InvertedTreeGrower::new,
                         BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_BLUE).strength(0f, 1f)
                                 .sound(SoundType.GRASS).noCollission().noOcclusion()));
 
@@ -1586,7 +1586,7 @@ public class BlockInit
                         .randomTicks().strength(0.2F).sound(SoundType.VINE)));
 
         TEMPORAL_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("temporal_sapling",
-                () -> new SaplingBase(() -> new TemporalTreeGrower(),
+                () -> new SaplingBase(TemporalTreeGrower::new,
                         BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.PLANT).strength(0f, 1f)
                                 .sound(SoundType.GRASS).noCollission().noOcclusion()));
 
