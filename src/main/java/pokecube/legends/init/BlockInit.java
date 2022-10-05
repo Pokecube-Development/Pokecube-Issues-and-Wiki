@@ -1273,53 +1273,53 @@ public class BlockInit
                         .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
 
         AGED_LOG = PokecubeLegends.DIMENSIONS_TAB.register("aged_log",
-                () -> Blocks.log(MaterialColor.COLOR_BROWN, MaterialColor.COLOR_BROWN));
+                () -> Blocks.log(MaterialColor.TERRACOTTA_GREEN, MaterialColor.COLOR_BROWN));
         AGED_WOOD = PokecubeLegends.DIMENSIONS_TAB.register("aged_wood",
                 () -> Blocks.log(MaterialColor.COLOR_BROWN, MaterialColor.COLOR_BROWN));
         STRIP_AGED_LOG = PokecubeLegends.DIMENSIONS_TAB.register("stripped_aged_log",
-                () -> Blocks.log(MaterialColor.COLOR_BROWN, MaterialColor.COLOR_BROWN));
+                () -> Blocks.log(MaterialColor.TERRACOTTA_GREEN, MaterialColor.TERRACOTTA_GREEN));
         STRIP_AGED_WOOD = PokecubeLegends.DIMENSIONS_TAB.register("stripped_aged_wood",
-                () -> Blocks.log(MaterialColor.COLOR_BROWN, MaterialColor.COLOR_BROWN));
+                () -> Blocks.log(MaterialColor.TERRACOTTA_GREEN, MaterialColor.TERRACOTTA_GREEN));
 
         AGED_BARREL = PokecubeLegends.DIMENSIONS_TAB.register("aged_barrel",
-                () -> new GenericBarrel(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
+                () -> new GenericBarrel(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_GREEN)
                         .strength(2.5F).sound(SoundType.WOOD)));
         AGED_BOOKSHELF = PokecubeLegends.DIMENSIONS_TAB.register("aged_bookshelf",
-                () -> new GenericBookshelf(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
+                () -> new GenericBookshelf(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_GREEN)
                         .strength(2f, 4f).sound(SoundType.WOOD)));
         AGED_BOOKSHELF_EMPTY = PokecubeLegends.DIMENSIONS_TAB.register("aged_bookshelf_empty",
-                () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
+                () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_GREEN)
                         .strength(2f, 4f).sound(SoundType.WOOD).dynamicShape()));
 
         AGED_PLANKS = PokecubeLegends.DIMENSIONS_TAB.register("aged_planks", () -> new Block(BlockBehaviour.Properties
-                .of(Material.WOOD, MaterialColor.COLOR_BROWN).strength(2.0f).sound(SoundType.WOOD)));
+                .of(Material.WOOD, MaterialColor.TERRACOTTA_GREEN).strength(2.0f).sound(SoundType.WOOD)));
         AGED_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("aged_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.OAK_STAIRS.defaultBlockState(), BlockBehaviour.Properties
-                        .of(Material.WOOD, MaterialColor.COLOR_BROWN).strength(2.0f).sound(SoundType.WOOD)));
+                        .of(Material.WOOD, MaterialColor.TERRACOTTA_GREEN).strength(2.0f).sound(SoundType.WOOD)));
         AGED_SLAB = PokecubeLegends.DIMENSIONS_TAB.register("aged_slab", () -> new SlabBlock(BlockBehaviour.Properties
-                .of(Material.WOOD, MaterialColor.COLOR_BROWN).strength(2.0f).sound(SoundType.WOOD)));
+                .of(Material.WOOD, MaterialColor.TERRACOTTA_GREEN).strength(2.0f).sound(SoundType.WOOD)));
         AGED_FENCE = PokecubeLegends.DIMENSIONS_TAB.register("aged_fence",
-                () -> new FenceBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
+                () -> new FenceBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_GREEN)
                         .strength(2.0f).sound(SoundType.WOOD)));
         AGED_FENCE_GATE = PokecubeLegends.DIMENSIONS_TAB.register("aged_fence_gate",
-                () -> new FenceGateBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
+                () -> new FenceGateBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_GREEN)
                         .strength(2.0f).sound(SoundType.WOOD)));
         AGED_BUTTON = PokecubeLegends.DIMENSIONS_TAB.register("aged_button",
                 () -> new ItemGenerator.GenericWoodButton(
-                        BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).sound(SoundType.WOOD)
+                        BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_GREEN).sound(SoundType.WOOD)
                                 .noCollission().strength(0.5f)));
         AGED_PR_PLATE = PokecubeLegends.DIMENSIONS_TAB.register("aged_pressure_plate",
                 () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.EVERYTHING,
-                        BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).sound(SoundType.WOOD)
+                        BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_GREEN).sound(SoundType.WOOD)
                                 .noCollission().strength(0.5f)));
 
         AGED_TRAPDOOR = PokecubeLegends.DIMENSIONS_TAB.register("aged_trapdoor",
                 () -> new ItemGenerator.GenericTrapDoor(
-                        BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).sound(SoundType.WOOD)
+                        BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_GREEN).sound(SoundType.WOOD)
                                 .strength(2.0f, 3.0f).noOcclusion()));
         AGED_DOOR = PokecubeLegends.DIMENSIONS_TAB.register("aged_door",
                 () -> new ItemGenerator.GenericDoor(
-                        BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).sound(SoundType.WOOD)
+                        BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_GREEN).sound(SoundType.WOOD)
                                 .strength(2.0f, 3.0f).noOcclusion()));
 
         // Corrupted Blocks
@@ -2374,10 +2374,10 @@ public class BlockInit
         // No Creative Tab
         // Signs
         AGED_SIGN = PokecubeLegends.NO_TAB.register("aged_sign",
-                () -> new LegendsStandingSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
+                () -> new LegendsStandingSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_GREEN)
                         .strength(1.0F).noCollission().sound(SoundType.WOOD), LegendsWoodType.AGED));
         AGED_WALL_SIGN = PokecubeLegends.NO_TAB.register("aged_wall_sign",
-                () -> new LegendsWallSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
+                () -> new LegendsWallSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_GREEN)
                         .strength(1.0F).noCollission().sound(SoundType.WOOD).lootFrom(AGED_SIGN), LegendsWoodType.AGED));
         CONCRETE_SIGN = PokecubeLegends.NO_TAB.register("concrete_sign",
                 () -> new LegendsStandingSign(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW)
