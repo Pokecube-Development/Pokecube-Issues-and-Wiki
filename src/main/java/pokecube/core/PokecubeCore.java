@@ -37,6 +37,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.init.InitDatabase;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
@@ -64,14 +65,17 @@ import pokecube.core.items.berries.BerryManager;
 import pokecube.core.legacy.RegistryChangeFixer;
 import pokecube.core.moves.Battle;
 import pokecube.core.proxy.CommonProxy;
+import pokecube.core.utils.EntityTools;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.world.PokecubeWorld;
 import pokecube.world.dimension.SecretBaseDimension;
+import thut.api.ThutCaps;
 import thut.api.entity.CopyCaps;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.PacketHandler;
+import thut.wearables.ThutWearables;
 
 @Mod(value = PokecubeCore.MODID)
 public class PokecubeCore
@@ -287,6 +291,21 @@ public class PokecubeCore
                 PokecubeItems.POKECUBE_BERRIES = new ItemStack(BerryManager.berryCrops.get(0));
             if (PokecubeItems.POKECUBE_CUBES.isEmpty())
                 PokecubeItems.POKECUBE_CUBES = PokecubeItems.getStack("pokecube");
+
+            EntityTools.registerCachedCap(ThutCaps.OWNABLE_CAP);
+            EntityTools.registerCachedCap(ThutCaps.COLOURABLE);
+            EntityTools.registerCachedCap(ThutCaps.ANIMATED);
+            EntityTools.registerCachedCap(ThutCaps.SHEARABLE);
+            EntityTools.registerCachedCap(ThutCaps.DATASYNC);
+            EntityTools.registerCachedCap(ThutCaps.COPYMOB);
+            EntityTools.registerCachedCap(ThutCaps.ANIMCAP);
+            EntityTools.registerCachedCap(ThutCaps.MOBTEX_CAP);
+
+            EntityTools.registerCachedCap(PokemobCaps.POKEMOB_CAP);
+            EntityTools.registerCachedCap(PokemobCaps.AFFECTED_CAP);
+
+            EntityTools.registerCachedCap(ThutWearables.WEARABLE_CAP);
+            EntityTools.registerCachedCap(ThutWearables.WEARABLES_CAP);
         });
     }
 }
