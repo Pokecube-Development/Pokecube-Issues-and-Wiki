@@ -495,7 +495,7 @@ public class ItemInit
                 () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.AGED_SIGN.get(), BlockInit.AGED_WALL_SIGN.get()));
         CONCRETE_SIGN = PokecubeLegends.ITEMS.register("concrete_sign",
                 () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.CONCRETE_SIGN.get(), BlockInit.CONCRETE_WALL_SIGN.get()));
-        CONCRETE_DENSE_SIGN = PokecubeLegends.ITEMS.register("concrete_denes_sign",
+        CONCRETE_DENSE_SIGN = PokecubeLegends.ITEMS.register("concrete_dense_sign",
                 () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.CONCRETE_DENSE_SIGN.get(), BlockInit.CONCRETE_DENSE_WALL_SIGN.get()));
         CORRUPTED_SIGN = PokecubeLegends.ITEMS.register("corrupted_sign",
                 () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.CORRUPTED_SIGN.get(), BlockInit.CORRUPTED_WALL_SIGN.get()));
