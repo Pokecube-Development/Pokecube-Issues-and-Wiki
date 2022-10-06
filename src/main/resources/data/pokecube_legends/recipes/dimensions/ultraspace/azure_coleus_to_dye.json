@@ -9,7 +9,7 @@
       ],
       "recipe": {
         "type": "minecraft:crafting_shapeless",
-        "group": "pokecube_legends",
+        "group": "blue_dye",
         "ingredients": [
           {
             "item": "pokecube_legends:azure_coleus"
