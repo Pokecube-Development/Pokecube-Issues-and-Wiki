@@ -1,6 +1,6 @@
 {
-  "group": "pokecube_legends",
   "type": "minecraft:blasting",
+  "group": "pokecube_legends:fractal_shard",
   "experience": 1,
   "cookingtime": 100,
   "ingredient": {
