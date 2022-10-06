@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "group": "bling",
+  "group": "thut_bling:bling",
   "ingredients": [
     {
       "item": "thut_bling:bling_ring"

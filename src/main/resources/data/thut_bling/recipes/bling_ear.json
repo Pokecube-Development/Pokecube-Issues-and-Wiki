@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bling",
+  "group": "thut_bling:bling",
   "pattern": [
     "SLS",
     "L L",
