@@ -9,7 +9,7 @@
       ],
       "recipe": {
         "type": "minecraft:crafting_shapeless",
-        "group": "pokecube_legends",
+        "group": "planks",
         "ingredients": [
           {
             "tag": "pokecube_legends:aged_logs"

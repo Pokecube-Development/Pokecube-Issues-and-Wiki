@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "pokecube_legends",
+  "group": "concrete_wall_gate",
   "pattern": [
     "#W#",
     "#W#"

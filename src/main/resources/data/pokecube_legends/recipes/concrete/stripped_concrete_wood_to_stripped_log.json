@@ -9,7 +9,7 @@
       ],
       "recipe": {
         "type": "minecraft:crafting_shapeless",
-        "group": "pokecube_legends",
+        "group": "pokecube_legends:concrete_log",
         "ingredients": [
           {
             "item": "pokecube_legends:stripped_concrete_wood"

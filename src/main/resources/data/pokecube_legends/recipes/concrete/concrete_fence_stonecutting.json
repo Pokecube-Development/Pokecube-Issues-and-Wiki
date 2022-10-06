@@ -1,5 +1,6 @@
 {
   "type": "minecraft:stonecutting",
+  "group": "wooden_fence",
   "ingredient": {
     "item": "pokecube_legends:concrete_planks"
   },

@@ -1,5 +1,6 @@
 {
   "type": "minecraft:stonecutting",
+  "group": "bark",
   "ingredient": {
     "item": "pokecube_legends:concrete_wood"
   },
