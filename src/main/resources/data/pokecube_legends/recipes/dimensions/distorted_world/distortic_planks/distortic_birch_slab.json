@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:distortic_wooden_slab",
+  "pattern": [
+    "000"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:distortic_birch_planks"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:distortic_birch_slab",
+    "count": 6
+  }
+}

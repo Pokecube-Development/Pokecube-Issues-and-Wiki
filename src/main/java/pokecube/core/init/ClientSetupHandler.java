@@ -1,5 +1,12 @@
 package pokecube.core.init;
 
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
+import net.minecraft.client.model.BoatModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraftforge.client.ForgeHooksClient;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.platform.InputConstants;
@@ -44,6 +51,8 @@ import pokecube.core.client.render.mobs.RenderNPC;
 import pokecube.core.client.render.mobs.RenderPokecube;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.database.Database;
+import pokecube.core.entity.boats.GenericBoat;
+import pokecube.core.entity.boats.GenericBoatRenderer;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.tms.TMContainer;
@@ -190,6 +199,13 @@ public class ClientSetupHandler
         ItemBlockRenderTypes.setRenderLayer(PokecubeItems.NEST.get(), RenderType.cutoutMipped());
         ItemBlockRenderTypes.setRenderLayer(PokecubeItems.DYNAMAX.get(), RenderType.cutoutMipped());
 
+        ClientSetupHandler.registerLayerDefinition(ForgeHooksClient::registerLayerDefinition);
+
+        event.enqueueWork(() ->
+        {
+            BerriesWoodType.register();
+        });
+
         // FIXME Register config gui
     }
 
@@ -206,6 +222,17 @@ public class ClientSetupHandler
         event.registerEntityRenderer(EntityTypes.getMove(), RenderMoves::new);
         event.registerEntityRenderer(EntityTypes.getNpc(), RenderNPC::new);
         event.registerEntityRenderer(EntityTypes.getEgg(), RenderEgg::new);
+        event.registerEntityRenderer(EntityTypes.getBoat(), GenericBoatRenderer::new);
+
+        event.registerBlockEntityRenderer(PokecubeItems.SIGN_TYPE.get(), SignRenderer::new);
+    }
+
+    public static void registerLayerDefinition(final BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> consumer)
+    {
+        for (GenericBoat.Type value : GenericBoat.Type.values())
+        {
+            consumer.accept(GenericBoatRenderer.createBoatModelName(value), BoatModel::createBodyModel);
+        }
     }
 
     @SubscribeEvent

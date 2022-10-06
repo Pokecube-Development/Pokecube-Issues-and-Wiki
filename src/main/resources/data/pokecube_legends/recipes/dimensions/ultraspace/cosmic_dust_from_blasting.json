@@ -1,6 +1,6 @@
 {
-  "group": "pokecube_legends",
   "type": "minecraft:blasting",
+  "group": "pokecube_legends:cosmic_dust",
   "experience": 0.7,
   "cookingtime": 100,
   "ingredient": {

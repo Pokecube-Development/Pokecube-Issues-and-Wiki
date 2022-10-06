@@ -1,12 +1,9 @@
 package pokecube.core;
 
-import java.util.Map;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
-
+import java.util.Map;
+import javax.annotation.Nullable;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.resources.ResourceLocation;
@@ -61,6 +58,7 @@ import pokecube.core.init.ItemGenerator;
 import pokecube.core.init.ItemInit;
 import pokecube.core.init.MenuTypes;
 import pokecube.core.init.Sounds;
+import pokecube.core.handlers.DispenseBehaviors;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.legacy.RegistryChangeFixer;
 import pokecube.core.moves.Battle;
@@ -115,8 +113,9 @@ public class PokecubeCore
     public static final DeferredRegister<Schedule> SCHEDULES;
     public static final DeferredRegister<MemoryModuleType<?>> MEMORIES;
     public static final DeferredRegister<SensorType<?>> SENSORS;
-    public static final DeferredRegister<Block> BERRIES_TAB;
+    public static final DeferredRegister<Block> BERRY_BLOCKS;
     public static final DeferredRegister<Block> BLOCKS;
+    public static final DeferredRegister<Block> NO_TAB;
     public static final DeferredRegister<Item> ITEMS;
     public static final DeferredRegister<BlockEntityType<?>> TILES;
     public static final DeferredRegister<EntityType<?>> ENTITIES;
@@ -132,9 +131,10 @@ public class PokecubeCore
         SCHEDULES = DeferredRegister.create(Registry.SCHEDULE_REGISTRY, PokecubeCore.MODID);
         MEMORIES = DeferredRegister.create(Registry.MEMORY_MODULE_TYPE_REGISTRY, PokecubeCore.MODID);
         SENSORS = DeferredRegister.create(Registry.SENSOR_TYPE_REGISTRY, PokecubeCore.MODID);
-        BERRIES_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
+        BERRY_BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
         BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
         ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, PokecubeCore.MODID);
+        NO_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
         TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, PokecubeCore.MODID);
         ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, PokecubeCore.MODID);
         MENU = DeferredRegister.create(ForgeRegistries.CONTAINERS, PokecubeCore.MODID);
@@ -221,9 +221,10 @@ public class PokecubeCore
 
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        PokecubeCore.BERRIES_TAB.register(bus);
+        PokecubeCore.BERRY_BLOCKS.register(bus);
         PokecubeCore.ITEMS.register(bus);
         PokecubeCore.BLOCKS.register(bus);
+        PokecubeCore.NO_TAB.register(bus);
         PokecubeCore.TILES.register(bus);
         PokecubeCore.ENTITIES.register(bus);
         PokecubeCore.MENU.register(bus);
@@ -279,8 +280,9 @@ public class PokecubeCore
         ItemGenerator.flammables(event);
 
         event.enqueueWork(() -> {
-            PointsOfInterest.postInit();
+            DispenseBehaviors.registerDefaults();
             ItemInit.postInit();
+            PointsOfInterest.postInit();
 
             CopyCaps.register(EntityTypes.getNpc());
             CopyCaps.register(EntityType.ARMOR_STAND);
@@ -307,5 +309,10 @@ public class PokecubeCore
             EntityTools.registerCachedCap(ThutWearables.WEARABLE_CAP);
             EntityTools.registerCachedCap(ThutWearables.WEARABLES_CAP);
         });
+    }
+
+    public static ResourceLocation resourceLocation(String path)
+    {
+        return new ResourceLocation(MODID, path);
     }
 }

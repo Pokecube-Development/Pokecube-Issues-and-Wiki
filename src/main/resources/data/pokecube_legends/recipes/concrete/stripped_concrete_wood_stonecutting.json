@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:stonecutting",
+  "group": "bark",
+  "ingredient": {
+    "item": "pokecube_legends:concrete_wood"
+  },
+  "result": "pokecube_legends:stripped_concrete_wood",
+  "count": 1
+}

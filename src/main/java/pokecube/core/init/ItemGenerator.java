@@ -1,5 +1,7 @@
 package pokecube.core.init;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,10 +10,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityType;
@@ -270,6 +268,7 @@ public class ItemGenerator
                     block ->
                     {
                         ItemGenerator.planks.put(name, block);
+                        BerryManager.berryPlanks.put(index, block);
                     });
 
             // Stairs

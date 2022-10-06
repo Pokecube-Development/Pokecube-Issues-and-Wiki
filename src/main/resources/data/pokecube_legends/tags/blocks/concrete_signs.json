@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube_legends:concrete_dense_sign",
+    "pokecube_legends:concrete_dense_wall_sign",
+    "pokecube_legends:concrete_sign",
+    "pokecube_legends:concrete_wall_sign"
+  ]
+}

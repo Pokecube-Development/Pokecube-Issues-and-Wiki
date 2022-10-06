@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:enigma_wall_sign",
+    "pokecube:leppa_wall_sign",
+    "pokecube:nanab_wall_sign",
+    "pokecube:oran_wall_sign",
+    "pokecube:pecha_wall_sign",
+    "pokecube:sitrus_wall_sign",
+    "pokecube_legends:aged_wall_sign",
+    "pokecube_legends:concrete_wall_sign",
+    "pokecube_legends:concrete_dense_wall_sign",
+    "pokecube_legends:corrupted_wall_sign",
+    "pokecube_legends:distortic_wall_sign",
+    "pokecube_legends:inverted_wall_sign",
+    "pokecube_legends:mirage_wall_sign",
+    "pokecube_legends:temporal_wall_sign"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:distortic_stone_bricks",
+  "pattern": [
+    "00",
+    "00"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:distortic_stone"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:distortic_stone_bricks",
+    "count": 4
+  }
+}

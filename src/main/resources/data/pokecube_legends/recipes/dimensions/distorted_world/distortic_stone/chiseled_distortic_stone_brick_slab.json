@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:chiseled_distortic_stone_brick_slab",
+  "pattern": [
+    "000"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:chiseled_distortic_stone_bricks"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:chiseled_distortic_stone_brick_slab",
+    "count": 6
+  }
+}

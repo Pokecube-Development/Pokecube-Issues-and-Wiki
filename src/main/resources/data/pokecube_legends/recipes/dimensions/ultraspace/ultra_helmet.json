@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:ultra_helmet",
   "pattern": [
     "RTR",
     "RAR",

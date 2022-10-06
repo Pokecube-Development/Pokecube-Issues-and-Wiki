@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bark",
+  "pattern": [
+    "00",
+    "00"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:stripped_concrete_log"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:stripped_concrete_wood",
+    "count": 3
+  }
+}

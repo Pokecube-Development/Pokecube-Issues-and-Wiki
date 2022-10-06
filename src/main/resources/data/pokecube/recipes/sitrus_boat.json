@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "boat",
+  "pattern": [
+    "# #",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "pokecube:plank_sitrus"
+    }
+  },
+  "result": {
+    "item": "pokecube:sitrus_boat"
+  }
+}
