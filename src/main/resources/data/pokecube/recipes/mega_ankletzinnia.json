@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "pokecube",
+  "group": "pokecube:mega_bling",
   "pattern": [
     "RB ",
     "B B",

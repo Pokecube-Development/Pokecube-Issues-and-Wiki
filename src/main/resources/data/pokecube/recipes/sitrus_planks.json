@@ -9,7 +9,7 @@
       ],
       "recipe": {
         "type": "minecraft:crafting_shapeless",
-        "group": "pokecube",
+        "group": "planks",
         "ingredients": [
           {
             "tag": "pokecube:sitrus_logs"
