@@ -22,10 +22,10 @@ public class PacketSyncNewMoves extends Packet
         {
             final ServerPlayer player = (ServerPlayer) pokemob.getOwner();
             final ListTag newMoves = new ListTag();
-            for (final String s : pokemob.getMoveStats().newMoves)
-                newMoves.add(StringTag.valueOf(s));
+            for (final String s : pokemob.getMoveStats().newMoves) newMoves.add(StringTag.valueOf(s));
             final PacketSyncNewMoves packet = new PacketSyncNewMoves();
             packet.data.put(TagNames.NEWMOVES, newMoves);
+            packet.data.putInt("i", pokemob.getMoveStats().num);
             packet.entityId = pokemob.getEntity().getId();
             PokecubeCore.packets.sendTo(packet, player);
         }
@@ -59,9 +59,9 @@ public class PacketSyncNewMoves extends Packet
         {
             final ListTag newMoves = (ListTag) data.get(TagNames.NEWMOVES);
             pokemob.getMoveStats().newMoves.clear();
+            pokemob.setLeaningMoveIndex(data.getInt("i"));
             for (int i = 0; i < newMoves.size(); i++)
-                if (!pokemob.getMoveStats().newMoves.contains(newMoves.getString(i))) pokemob.getMoveStats().newMoves
-                .add(newMoves.getString(i));
+                pokemob.getMoveStats().addPendingMove(newMoves.getString(i), null);
         }
     }
 

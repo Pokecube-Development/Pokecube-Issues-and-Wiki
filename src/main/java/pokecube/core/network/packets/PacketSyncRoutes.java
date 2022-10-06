@@ -1,21 +1,17 @@
 package pokecube.core.network.packets;
 
-import io.netty.buffer.Unpooled;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.GuardAICapability.GuardTask;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability.IGuardTask;
-import pokecube.core.inventory.pokemob.PokemobContainer;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.CapHolders;
 import thut.core.common.network.EntityUpdate;
@@ -70,8 +66,7 @@ public class PacketSyncRoutes extends Packet
     public CompoundTag data = new CompoundTag();
 
     public PacketSyncRoutes()
-    {
-    }
+    {}
 
     public PacketSyncRoutes(final FriendlyByteBuf buf)
     {
@@ -102,20 +97,14 @@ public class PacketSyncRoutes extends Packet
         if (e == null) return;
         final IGuardAICapability guard = e.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
 
-        if (guard != null) if (data.isEmpty())
+        if (guard != null)
         {
-            final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
-            buffer.writeInt(e.getId());
-            buffer.writeByte(PacketPokemobGui.ROUTES);
-            final SimpleMenuProvider provider = new SimpleMenuProvider((i, p,
-                    a) -> new PokemobContainer(i, p, buffer), e.getDisplayName());
-            NetworkHooks.openGui(player, provider, buf ->
+            if (data.isEmpty())
             {
-                buf.writeInt(e.getId());
-                buf.writeByte(PacketPokemobGui.ROUTES);
-            });
+                PacketPokemobGui.sendOpenPacket(e, player, PacketPokemobGui.ROUTES);
+            }
+            else PacketSyncRoutes.applyServerPacket(data.get("T"), e, guard);
         }
-        else PacketSyncRoutes.applyServerPacket(data.get("T"), e, guard);
     }
 
     @Override

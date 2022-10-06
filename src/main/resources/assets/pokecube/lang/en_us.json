@@ -121,6 +121,13 @@
     "pokewatch.size": "Size: %s",
     "pokewatch.nature": "Nature: %s",
     
+    "_comment": "Shared Gui Things",
+
+    "pokecube.gui.delete.start.desc": "Enable Deleting",
+    "pokecube.gui.delete.confirm.desc": "Confirm Delete",
+    "pokecube.gui.move.up.desc": "Move Up",
+    "pokecube.gui.move.down.desc": "Move Down",
+    
     "_comment": "Pokemob Gui",
 
     "pokemob.stance.guard": "Guarding",
@@ -130,6 +137,7 @@
     "pokemob.stance.sit": "Sitting",
     "pokemob.stance.no_sit": "Not Sitting",
     
+    "pokemob.route.btn.desc": "Apply Changes",
     "pokemob.route.updated": "Updated the Guard Location",
     
     "pokemob.bar.value": "Hunger: %s",
@@ -146,6 +154,28 @@
     "pokemob.gui.routes": "RT",
     "pokemob.gui.ai": "AI",
     "pokemob.gui.updatestorage": "Storage Settings updated.",
+    "pokemob.gui.inventory.desc": "Main Inventory",
+    "pokemob.gui.storage.desc": "Storage Settings",
+    "pokemob.gui.routes.desc": "Routes Settings",
+    "pokemob.gui.ai.desc": "AI Settings",
+    
+    "pokemob.gui.ai.gather": "Allowed to gather items",
+    "pokemob.gui.ai.beeai": "Allowed to make and use bee hives",
+    "pokemob.gui.ai.antai": "Allowed to make and use ant nests",
+    "pokemob.gui.ai.burrows": "Allowed to make and use burrows",
+    "pokemob.gui.ai.store": "Allowed to store items in inventories",
+    "pokemob.gui.ai.wander": "Allowed to randomly wander around",
+    "pokemob.gui.ai.mate": "Allowed to attempt to breed",
+    "pokemob.gui.ai.follow": "Allowed to follow owner",
+    "pokemob.gui.ai.agressive": "Allowed to engage in combat",
+    "pokemob.gui.ai.airborne": "Allowed to fly or float",
+    "pokemob.gui.ai.usedoors": "Allowed to try to open doors",
+    
+    "pokemob.gui.storage.berry": "Berry inventory location",
+    "pokemob.gui.storage.storage": "Item dropoff inventory location",
+    "pokemob.gui.storage.storageFace": "Item dropoff inventory face",
+    "pokemob.gui.storage.empty": "Item pickup inventory location",
+    "pokemob.gui.storage.emptyFace": "Item pickup inventory face",
     
     "_comment": "Pokedex Description",
 
@@ -478,7 +508,7 @@
     "_comment": "Items",
     "item.pokecube.pokedex": "Pokédex",
     "item.pokecube.pokewatch": "PokéWatch",
-    "item.pokecube.tm0": "Blank TM",
+    "item.pokecube.tm": "Blank TM",
     "item.pokecube.mega_ring": "Mega Ring",
     "item.pokecube.mega_belt": "Mega Belt",
     "item.pokecube.mega_hat": "Mega Hat",

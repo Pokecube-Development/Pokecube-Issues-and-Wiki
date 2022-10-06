@@ -76,10 +76,12 @@ import pokecube.adventures.items.bag.BagItem;
 import pokecube.adventures.proxy.CommonProxy;
 import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.utils.EntityTools;
 import thut.api.entity.CopyCaps;
 import thut.core.common.commands.CommandConfigs;
 import thut.core.common.network.PacketHandler;
@@ -344,6 +346,12 @@ public class PokecubeAdv
             Professions.postInit();
             CopyCaps.register(EntityTypes.getTrainer());
             CopyCaps.register(EntityTypes.getLeader());
+
+            EntityTools.registerCachedCap(TrainerCaps.AISTATES_CAP);
+            EntityTools.registerCachedCap(TrainerCaps.HASPOKEMOBS_CAP);
+            EntityTools.registerCachedCap(TrainerCaps.MESSAGES_CAP);
+            EntityTools.registerCachedCap(TrainerCaps.REWARDS_CAP);
+            EntityTools.registerCachedCap(TrainerCaps.TRADES_CAP);
         });
     }
 

@@ -227,6 +227,7 @@ public class WearableWrapper
             int y = pokegui.getGuiTop() + ThutWearables.config.buttonPos.get(1) + 10;
             event.getScreen().addRenderableWidget(button = new GuiWearableButton(x, y, 9, 9,
                     TComponent.translatable("button.wearables.on"), b -> openPokemobWearables(pokegui)));
+            button.stillVisible = () -> pokegui.moduleIndex == 0;
             button.setFGColor(0xFFFF00FF);
         }
         else if (event.getScreen() instanceof GuiWearables wear)

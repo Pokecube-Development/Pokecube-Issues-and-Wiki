@@ -45,7 +45,6 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.events.init.RegisterMiscItems;
-import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryCrop;
@@ -54,7 +53,6 @@ import pokecube.core.blocks.berries.BerryLeaf;
 import pokecube.core.blocks.bookshelves.GenericBookshelf;
 import pokecube.core.database.Database;
 import pokecube.core.items.ItemFossil;
-import pokecube.core.items.ItemTM;
 import pokecube.core.items.ItemTyped;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.berries.ItemBerry;
@@ -410,17 +408,6 @@ public class ItemGenerator
         }
     }
 
-    private static void makeTMs()
-    {
-        for (final PokeType type : PokeType.values())
-        {
-            Item.Properties props = new Item.Properties();
-            if (type == PokeType.unknown) props = props.tab(PokecubeItems.TAB_ITEMS);
-            final Item.Properties use = props;
-            PokecubeCore.ITEMS.register("tm" + type.ordinal(), () -> new ItemTM(use, type));
-        }
-    }
-
     private static void makeWoodItems()
     {
         final List<String> names = Lists.newArrayList(ItemGenerator.berryWoods.keySet());
@@ -614,7 +601,6 @@ public class ItemGenerator
         ItemGenerator.makeOtherItems();
         ItemGenerator.makeMegaWearables();
         ItemGenerator.makeWoodItems();
-        ItemGenerator.makeTMs();
     }
 
     public static void init()

@@ -45,10 +45,6 @@ import pokecube.core.client.gui.blocks.PC;
 import pokecube.core.client.gui.blocks.TMs;
 import pokecube.core.client.gui.blocks.Trade;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
-import pokecube.core.client.gui.pokemob.GuiPokemobAI;
-import pokecube.core.client.gui.pokemob.GuiPokemobBase;
-import pokecube.core.client.gui.pokemob.GuiPokemobRoutes;
-import pokecube.core.client.gui.pokemob.GuiPokemobStorage;
 import pokecube.core.client.render.RenderMoves;
 import pokecube.core.client.render.mobs.RenderEgg;
 import pokecube.core.client.render.mobs.RenderNPC;
@@ -59,13 +55,13 @@ import pokecube.core.entity.boats.GenericBoat;
 import pokecube.core.entity.boats.GenericBoatRenderer;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.inventory.pc.PCContainer;
-import pokecube.core.inventory.pokemob.PokemobContainer;
 import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.inventory.trade.TradeContainer;
+import pokecube.core.items.ItemTM;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
-import pokecube.core.network.pokemobs.PacketPokemobGui;
+import pokecube.core.moves.MovesUtils;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.forge.ClientProxy;
 
@@ -178,20 +174,7 @@ public class ClientSetupHandler
         // Register the gui side of the screens.
         PokecubeAPI.LOGGER.debug("Init Screen Factories");
 
-        final MenuScreens.ScreenConstructor<PokemobContainer, GuiPokemobBase> factory = (c, i, t) -> {
-            switch (c.mode)
-            {
-            case PacketPokemobGui.AI:
-                return new GuiPokemobAI(c, i);
-            case PacketPokemobGui.STORAGE:
-                return new GuiPokemobStorage(c, i);
-            case PacketPokemobGui.ROUTES:
-                return new GuiPokemobRoutes(c, i);
-            }
-            return new GuiPokemob(c, i);
-        };
-
-        MenuScreens.register(MenuTypes.POKEMOB.get(), factory);
+        MenuScreens.register(MenuTypes.POKEMOB.get(), GuiPokemob::new);
         MenuScreens.register(MenuTypes.HEALER.get(), Healer<HealerContainer>::new);
         MenuScreens.register(MenuTypes.PC.get(), PC<PCContainer>::new);
         MenuScreens.register(MenuTypes.TRADE.get(), Trade<TradeContainer>::new);
@@ -285,6 +268,14 @@ public class ClientSetupHandler
                 return tintIndex == 0 ? item.getColor(stack) : 0xFFFFFFFF;
             }, i);
         }
+
+        event.getItemColors().register((stack, tintIndex) -> {
+            String moveName = ItemTM.getMoveFromStack(stack);
+            if (moveName == null) return 0xFFFFFFFF;
+            var move = MovesUtils.getMoveFromName(moveName);
+            if (move != null) return move.getType(null).colour;
+            return 0xFFFFFFFF;
+        }, PokecubeItems.TM.get());
     }
 
     @SubscribeEvent

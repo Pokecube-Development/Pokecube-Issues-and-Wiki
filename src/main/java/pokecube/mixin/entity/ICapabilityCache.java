@@ -12,6 +12,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
+import pokecube.core.utils.EntityTools;
 
 @Mixin(Entity.class)
 public abstract class ICapabilityCache extends CapabilityProvider<Entity>
@@ -27,6 +28,11 @@ public abstract class ICapabilityCache extends CapabilityProvider<Entity>
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull final Capability<T> cap)
     {
+        if (!EntityTools.isCached(cap))
+        {
+            ICapabilityProvider us = ((ICapabilityProvider) (Object) this);
+            return us.getCapability(cap, null);
+        }
         @SuppressWarnings("unchecked")
         LazyOptional<T> value = (LazyOptional<T>) CAPCACHE.computeIfAbsent(cap, c -> {
             ICapabilityProvider us = ((ICapabilityProvider) (Object) this);

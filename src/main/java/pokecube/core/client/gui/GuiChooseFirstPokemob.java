@@ -28,7 +28,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.Resources;
-import pokecube.core.client.gui.pokemob.GuiPokemobBase;
+import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketChoose;
 import thut.lib.TComponent;
@@ -292,7 +292,7 @@ public class GuiChooseFirstPokemob extends Screen
             //@formatter:on
             stack.pushPose();
             stack.translate(0, 0, 100);
-            GuiPokemobBase.renderMob(entity, dx, dy, 0, yaw, hx, hy, size, partialTicks);
+            GuiPokemobHelper.renderMob(entity, dx, dy, 0, yaw, hx, hy, size, partialTicks);
             stack.popPose();
         }
         catch (final Throwable e)

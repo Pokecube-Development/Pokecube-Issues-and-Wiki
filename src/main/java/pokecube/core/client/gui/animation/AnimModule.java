@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.client.gui.components.AbstractWidget;
 import pokecube.core.client.gui.AnimationGui;
+import pokecube.core.client.gui.helper.ListEditBox;
 
 public abstract class AnimModule
 {
@@ -25,6 +26,10 @@ public abstract class AnimModule
         this.active = active;
         ours.forEach(widget -> {
             widget.visible = active;
+            if (active && widget instanceof ListEditBox box && box.preFocusGain == null)
+            {
+                box.registerPreFocus(parent);
+            }
         });
     }
 

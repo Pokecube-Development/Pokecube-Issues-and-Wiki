@@ -1,4 +1,4 @@
-package pokecube.mixin.invokers;
+package pokecube.core.utils;
 
 public class InvokeHelper
 {

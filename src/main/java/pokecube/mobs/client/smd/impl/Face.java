@@ -12,6 +12,7 @@ import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.texturing.TextureCoordinate;
+import thut.core.common.ThutCore;
 
 /**
  * A group of vertices, these get moved around by animations on bones, this just
@@ -72,7 +73,7 @@ public class Face
 
         com.mojang.math.Vector3f camera_view = com.mojang.math.Vector3f.ZP;
 
-        boolean cull = alpha >= 1;
+        boolean cull = ThutCore.getConfig().modelCullThreshold > 0 && alpha >= 1;
         // TODO ghive this a material to check for culling!
         cull = false;
         if (cull)
@@ -81,7 +82,7 @@ public class Face
             dp.set(verts[0].x, verts[0].y, verts[0].z, 1);
             dp.transform(pos);
             double dr2 = Math.abs(dp.dot(Mesh.METRIC));
-            if (dr2 < Mesh.CULLTHRESHOLD)
+            if (dr2 < ThutCore.getConfig().modelCullThreshold)
             {
                 cull = false;
             }

@@ -19,6 +19,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.client.gui.AnimationGui;
+import pokecube.core.client.gui.helper.ListEditBox;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import thut.api.maths.Vector3;
 import thut.bling.BlingItem;
@@ -272,21 +273,21 @@ public class WornOffsetModule extends AnimModule
         final Component blank = TComponent.literal("");
 
         int dx = parent.width - 210;
-        this.worn_item = new EditBox(parent.font, dx, yOffset - 90, 100, 10, blank);
-        this.worn_slot = new EditBox(parent.font, dx, yOffset - 80, 100, 10, blank);
-        this.worn_part = new EditBox(parent.font, dx, yOffset - 70, 100, 10, blank);
+        this.worn_item = new ListEditBox(parent.font, dx, yOffset - 90, 100, 10, blank);
+        this.worn_slot = new ListEditBox(parent.font, dx, yOffset - 80, 100, 10, blank);
+        this.worn_part = new ListEditBox(parent.font, dx, yOffset - 70, 100, 10, blank);
 
-        this.test_animation = new EditBox(parent.font, dx, yOffset - 00, 100, 10, blank);
+        this.test_animation = new ListEditBox(parent.font, dx, yOffset - 00, 100, 10, blank);
 
         yOffset += 10;
-        this.scaleS = new EditBox(parent.font, dx, yOffset - 50, 100, 10, one);
-        this.rZ = new EditBox(parent.font, dx, yOffset - 20, 50, 10, zero);
-        this.rY = new EditBox(parent.font, dx, yOffset - 30, 50, 10, zero);
-        this.rX = new EditBox(parent.font, dx, yOffset - 40, 50, 10, zero);
+        this.scaleS = new ListEditBox(parent.font, dx, yOffset - 50, 100, 10, one);
+        this.rZ = new ListEditBox(parent.font, dx, yOffset - 20, 50, 10, zero);
+        this.rY = new ListEditBox(parent.font, dx, yOffset - 30, 50, 10, zero);
+        this.rX = new ListEditBox(parent.font, dx, yOffset - 40, 50, 10, zero);
         dx += 50;
-        this.dZ = new EditBox(parent.font, dx, yOffset - 20, 50, 10, zero);
-        this.dY = new EditBox(parent.font, dx, yOffset - 30, 50, 10, zero);
-        this.dX = new EditBox(parent.font, dx, yOffset - 40, 50, 10, zero);
+        this.dZ = new ListEditBox(parent.font, dx, yOffset - 20, 50, 10, zero);
+        this.dY = new ListEditBox(parent.font, dx, yOffset - 30, 50, 10, zero);
+        this.dX = new ListEditBox(parent.font, dx, yOffset - 40, 50, 10, zero);
         yOffset -= 10;
 
         final Component copy = TComponent.literal("copy");

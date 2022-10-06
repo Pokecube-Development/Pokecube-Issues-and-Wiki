@@ -30,7 +30,6 @@ import pokecube.core.eventhandlers.PokemobEventsHandler.EvoTicker;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.animations.EntityMoveUse;
-import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.EntityTools;
 import thut.api.item.ItemList;
@@ -314,11 +313,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                         final Component mess = TComponent.translatable("pokemob.move.notify.learn",
                                 theMob.getDisplayName(), move);
                         theMob.displayMessageToOwner(mess);
-                        if (!theMob.getMoveStats().newMoves.contains(s))
-                        {
-                            theMob.getMoveStats().newMoves.add(s);
-                            PacketSyncNewMoves.sendUpdatePacket(theMob);
-                        }
+                        theMob.getMoveStats().addPendingMove(s, theMob);
                     }
                     EntityUpdate.sendEntityUpdate(this.getEntity());
                     return theMob;

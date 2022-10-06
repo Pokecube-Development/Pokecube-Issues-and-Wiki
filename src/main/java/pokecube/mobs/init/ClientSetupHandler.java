@@ -9,7 +9,7 @@ import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import pokecube.core.client.gui.pokemob.GuiPokemobBase;
+import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.mobs.PokecubeMobs;
 import pokecube.mobs.client.smd.SMDModel;
 import thut.core.client.render.model.ModelFactory;
@@ -24,8 +24,8 @@ public class ClientSetupHandler
         ModelFactory.registerIModel("smd", SMDModel::new);
 
         // Override the pokemobs gui size map with ours
-        GuiPokemobBase.SIZEMAP = new ResourceLocation(PokecubeMobs.MODID, "pokemobs_gui_sizes.json");
-        GuiPokemobBase.initSizeMap();
+        GuiPokemobHelper.SIZEMAP = new ResourceLocation(PokecubeMobs.MODID, "pokemobs_gui_sizes.json");
+        GuiPokemobHelper.initSizeMap();
     }
 
     @Mod.EventBusSubscriber(value = Dist.CLIENT)
@@ -47,7 +47,7 @@ public class ClientSetupHandler
         protected void apply(final Object objectIn, final ResourceManager resourceManagerIn,
                 final ProfilerFiller profilerIn)
         {
-            GuiPokemobBase.initSizeMap();
+            GuiPokemobHelper.initSizeMap();
         }
 
     }

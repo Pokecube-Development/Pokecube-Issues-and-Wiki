@@ -67,12 +67,8 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
                 return true;
 
             // Otherwise check for transform.
-            boolean transforms = false;
-            boolean otherTransforms = false;
-            for (final String s : this.getMoves())
-                if (s != null && s.equalsIgnoreCase(IMoveNames.MOVE_TRANSFORM)) transforms = true;
-            for (final String s : otherMob.getMoves())
-                if (s != null && s.equalsIgnoreCase(IMoveNames.MOVE_TRANSFORM)) otherTransforms = true;
+            boolean transforms = this.knowsMove(IMoveNames.MOVE_TRANSFORM);
+            boolean otherTransforms = otherMob.knowsMove(IMoveNames.MOVE_TRANSFORM);
 
             // can't breed two transformers
             if (transforms && otherTransforms) return false;
@@ -97,16 +93,12 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
     @Override
     public Object getChild(final IBreedingMob male)
     {
-        if (!IPokemob.class.isInstance(male)) return null;
-        boolean transforms = false;
-        boolean otherTransforms = ((IPokemob) male).getTransformedTo() != null;
-        final String[] moves = this.getMoves();
-        for (final String s : moves) if (s != null && s.equalsIgnoreCase(IMoveNames.MOVE_TRANSFORM)) transforms = true;
-        if (!otherTransforms) for (final String s : ((IPokemob) male).getMoves())
-            if (s != null && s.equalsIgnoreCase(IMoveNames.MOVE_TRANSFORM)) otherTransforms = true;
-        if (transforms && !otherTransforms && ((IPokemob) male).getTransformedTo() != this.getEntity())
-            return male.getChild(this);
-        return this.getPokedexEntry().getChild(((IPokemob) male).getPokedexEntry());
+        if (!(male instanceof IPokemob other)) return null;
+        boolean transforms = this.knowsMove(IMoveNames.MOVE_TRANSFORM);
+        boolean otherTransforms = other.getTransformedTo() != null;
+        if (!otherTransforms) otherTransforms = other.knowsMove(IMoveNames.MOVE_TRANSFORM);
+        if (transforms && !otherTransforms && other.getTransformedTo() != this.getEntity()) return male.getChild(this);
+        return this.getPokedexEntry().getChild(other.getPokedexEntry());
     }
 
     public void lay(final IPokemob male)

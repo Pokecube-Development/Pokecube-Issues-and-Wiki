@@ -73,6 +73,9 @@ public class ConfigHandler extends ConfigData
     @Configure(category = ConfigHandler.CLIENT)
     public boolean asyncModelLoads = true;
 
+    @Configure(category = ConfigHandler.CLIENT)
+    public double modelCullThreshold = 1e-1;
+
     public ConfigHandler()
     {
         super(ThutCore.MODID);

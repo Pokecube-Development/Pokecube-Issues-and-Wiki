@@ -1,6 +1,7 @@
 package pokecube.core.client.gui.watch;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -8,10 +9,15 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
+import pokecube.core.client.gui.helper.INotifiedEntry;
+import pokecube.core.client.gui.helper.ListEditBox;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.TeleportsPage.TeleOption;
 import pokecube.core.client.gui.watch.util.ListPage;
@@ -22,18 +28,18 @@ import thut.lib.TComponent;
 
 public class TeleportsPage extends ListPage<TeleOption>
 {
-    public static class TeleOption extends AbstractSelectionList.Entry<TeleOption>
+    public static class TeleOption extends AbstractSelectionList.Entry<TeleOption> implements INotifiedEntry
     {
-        final TeleportsPage   parent;
-        final int             offsetY;
-        final Minecraft       mc;
-        final TeleDest        dest;
+        final TeleportsPage parent;
+        final int offsetY;
+        final Minecraft mc;
+        final TeleDest dest;
         final EditBox text;
-        final Button          delete;
-        final Button          confirm;
-        final Button          moveUp;
-        final Button          moveDown;
-        final int             guiHeight;
+        final Button delete;
+        final Button confirm;
+        final Button moveUp;
+        final Button moveDown;
+        final int guiHeight;
 
         public TeleOption(final Minecraft mc, final int offsetY, final TeleDest dest, final EditBox text,
                 final int height, final TeleportsPage parent)
@@ -44,8 +50,7 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.offsetY = offsetY;
             this.guiHeight = height;
             this.parent = parent;
-            this.confirm = new Button(0, 0, 10, 10, TComponent.literal("Y"), b ->
-            {
+            this.confirm = new Button(0, 0, 10, 10, TComponent.literal("Y"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 // Send packet for removal server side
                 PacketPokedex.sendRemoveTelePacket(this.dest.index);
@@ -53,30 +58,69 @@ public class TeleportsPage extends ListPage<TeleOption>
                 TeleportHandler.unsetTeleport(this.dest.index, this.parent.watch.player.getStringUUID());
                 // Update the list for the page.
                 this.parent.initList();
+            }, (b, pose, x, y) -> {
+                if (!b.active) return;
+                Component tooltip = TComponent.translatable("pokecube.gui.delete.confirm.desc");
+                parent.renderTooltip(pose, tooltip, x, y);
             });
-            this.delete = new Button(0, 0, 10, 10, TComponent.literal("x"), b ->
-            {
+            this.delete = new Button(0, 0, 10, 10, TComponent.literal("x"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.confirm.active = !this.confirm.active;
+            }, (b, pose, x, y) -> {
+                if (!b.active) return;
+                Component tooltip = TComponent.translatable("pokecube.gui.delete.start.desc");
+                parent.renderTooltip(pose, tooltip, x, y);
             });
             this.delete.setFGColor(0xFFFF0000);
             this.confirm.active = false;
-            this.moveUp = new Button(0, 0, 10, 10, TComponent.literal("\u21e7"), b ->
-            {
+            this.moveUp = new Button(0, 0, 10, 10, TComponent.literal("\u21e7"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
-                PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index - 1);
-                // Update the list for the page.
-                this.parent.initList();
+                this.parent.scheduleUpdate(() -> {
+                    PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index - 1);
+                    // Update the list for the page.
+                    this.parent.initList();
+                });
+            }, (b, pose, x, y) -> {
+                if (!b.active) return;
+                Component tooltip = TComponent.translatable("pokecube.gui.move.up.desc");
+                parent.renderTooltip(pose, tooltip, x, y);
             });
-            this.moveDown = new Button(0, 0, 10, 10, TComponent.literal("\u21e9"), b ->
-            {
+            this.moveDown = new Button(0, 0, 10, 10, TComponent.literal("\u21e9"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
-                PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index + 1);
-                // Update the list for the page.
-                this.parent.initList();
+                this.parent.scheduleUpdate(() -> {
+                    PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index + 1);
+                    // Update the list for the page.
+                    this.parent.initList();
+                });
+            }, (b, pose, x, y) -> {
+                if (!b.active) return;
+                Component tooltip = TComponent.translatable("pokecube.gui.move.down.desc");
+                parent.renderTooltip(pose, tooltip, x, y);
             });
             this.moveUp.active = dest.index != 0;
             this.moveDown.active = dest.index != parent.locations.size() - 1;
+
+            @SuppressWarnings("unchecked")
+            final List<GuiEventListener> list = (List<GuiEventListener>) parent.children();
+            // Add us first so we can add linker-clicking to the location field
+            list.add(this);
+            this.addOrRemove(parent::addRenderableWidget);
+        }
+
+        @Override
+        public void addOrRemove(Consumer<AbstractWidget> remover)
+        {
+            this.delete.visible = false;
+            this.confirm.visible = false;
+            this.moveUp.visible = false;
+            this.moveDown.visible = false;
+            this.text.visible = false;
+
+            remover.accept(this.delete);
+            remover.accept(this.confirm);
+            remover.accept(this.moveUp);
+            remover.accept(this.moveDown);
+            remover.accept(this.text);
         }
 
         @Override
@@ -116,44 +160,14 @@ public class TeleportsPage extends ListPage<TeleOption>
         }
 
         @Override
-        public boolean mouseClicked(final double mouseX, final double mouseY, final int mouseEvent)
+        public void preRender(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY,
+                boolean isSelected, float partialTicks)
         {
-            boolean fits = true;
-            fits = fits && mouseX - this.text.x >= 0;
-            fits = fits && mouseX - this.text.x <= this.text.getWidth();
-            this.text.setFocused(fits);
-            if (fits) for (final TeleOption o : this.parent.list.children())
-                if (o != this) o.text.setFocused(false);
-            if (this.delete.isMouseOver(mouseX, mouseY))
-            {
-                this.delete.playDownSound(this.mc.getSoundManager());
-                this.confirm.active = !this.confirm.active;
-            }
-            else if (this.confirm.isMouseOver(mouseX, mouseY) && this.confirm.active)
-            {
-                this.confirm.playDownSound(this.mc.getSoundManager());
-                // Send packet for removal server side
-                PacketPokedex.sendRemoveTelePacket(this.dest.index);
-                // Also remove it client side so we update now.
-                TeleportHandler.unsetTeleport(this.dest.index, this.parent.watch.player.getStringUUID());
-                // Update the list for the page.
-                this.parent.initList();
-            }
-            else if (this.moveUp.isMouseOver(mouseX, mouseY) && this.moveUp.active)
-            {
-                this.moveUp.playDownSound(this.mc.getSoundManager());
-                PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index - 1);
-                // Update the list for the page.
-                this.parent.initList();
-            }
-            else if (this.moveDown.isMouseOver(mouseX, mouseY) && this.moveDown.active)
-            {
-                this.moveDown.playDownSound(this.mc.getSoundManager());
-                PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index + 1);
-                // Update the list for the page.
-                this.parent.initList();
-            }
-            return fits;
+            this.delete.visible = false;
+            this.confirm.visible = false;
+            this.moveUp.visible = false;
+            this.moveDown.visible = false;
+            this.text.visible = false;
         }
 
         @Override
@@ -161,7 +175,12 @@ public class TeleportsPage extends ListPage<TeleOption>
                 final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
                 final float partialTicks)
         {
-            boolean fits = true;
+            this.delete.visible = true;
+            this.confirm.visible = true;
+            this.moveUp.visible = true;
+            this.moveDown.visible = true;
+            this.text.visible = true;
+
             this.text.x = x - 2;
             this.text.y = y - 4;
             this.delete.y = y - 5;
@@ -172,16 +191,6 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.moveUp.x = x - 2 + 18 + this.text.getWidth();
             this.moveDown.y = y - 5;
             this.moveDown.x = x - 2 + 26 + this.text.getWidth();
-            fits = this.text.y >= this.offsetY;
-            fits = fits && this.text.y + this.text.getHeight() <= this.offsetY + this.guiHeight;
-            if (fits)
-            {
-                this.text.render(mat, mouseX, mouseY, partialTicks);
-                this.delete.render(mat, mouseX, mouseY, partialTicks);
-                this.confirm.render(mat, mouseX, mouseY, partialTicks);
-                this.moveUp.render(mat, mouseX, mouseY, partialTicks);
-                this.moveDown.render(mat, mouseX, mouseY, partialTicks);
-            }
         }
     }
 
@@ -194,8 +203,7 @@ public class TeleportsPage extends ListPage<TeleOption>
 
     public TeleportsPage(final GuiPokeWatch watch)
     {
-        super(TComponent.translatable("pokewatch.title.teleports"), watch, TeleportsPage.TEX_DM,
-                TeleportsPage.TEX_NM);
+        super(TComponent.translatable("pokewatch.title.teleports"), watch, TeleportsPage.TEX_DM, TeleportsPage.TEX_NM);
     }
 
     protected double scroll = 0;
@@ -213,7 +221,8 @@ public class TeleportsPage extends ListPage<TeleOption>
         this.list = new ScrollGui<>(this, this.minecraft, width, height, 10, offsetX, offsetY);
         for (final TeleDest d : this.locations)
         {
-            final EditBox name = new EditBox(this.font, 0, 0, 104, 10, TComponent.literal(""));
+            final EditBox name = new ListEditBox(this.font, 0, 0, 104, 10, TComponent.literal(""))
+                    .registerPreFocus(this);
             name.setValue(d.getName());
             this.list.addEntry(new TeleOption(this.minecraft, offsetY, d, name, height, this));
         }

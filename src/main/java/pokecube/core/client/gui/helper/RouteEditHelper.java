@@ -4,7 +4,6 @@ import java.util.function.Function;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
@@ -25,14 +24,19 @@ public class RouteEditHelper
         final MutableComponent blank = TComponent.literal("");
         for (final IGuardTask task : guard.getTasks())
         {
-            final EditBox location = new EditBox(fontRenderer, 0, 0, width, 10, blank);
-            final EditBox time = new EditBox(fontRenderer, 0, 0, width, 10, blank);
-            final EditBox dist = new EditBox(fontRenderer, 0, 0, width, 10, blank);
+            final ListEditBox location = new ListEditBox(fontRenderer, -200, 0, width, 10, blank);
+            final ListEditBox time = new ListEditBox(fontRenderer, -200, 0, width, 10, blank);
+            final ListEditBox dist = new ListEditBox(fontRenderer, -200, 0, width, 10, blank);
+
+            location.registerPreFocus(parent);
+            time.registerPreFocus(parent);
+            dist.registerPreFocus(parent);
+
             location.setMaxLength(Short.MAX_VALUE);
             time.setMaxLength(Short.MAX_VALUE);
             dist.setMaxLength(Short.MAX_VALUE);
-            if (task.getPos() != null) location.setValue(task.getPos().getX() + " " + task.getPos().getY() + " " + task
-                    .getPos().getZ());
+            if (task.getPos() != null)
+                location.setValue(task.getPos().getX() + " " + task.getPos().getY() + " " + task.getPos().getZ());
             time.setValue(task.getActiveTime().startTick + " " + task.getActiveTime().endTick);
             dist.setValue(task.getRoamDistance() + "");
             location.moveCursor(-location.getCursorPosition());
@@ -43,9 +47,14 @@ public class RouteEditHelper
             entries.addEntry(entry);
         }
         // Blank value.
-        final EditBox location = new EditBox(fontRenderer, 0, 0, width, 10, blank);
-        final EditBox time = new EditBox(fontRenderer, 0, 0, width, 10, blank);
-        final EditBox dist = new EditBox(fontRenderer, 0, 0, width, 10, blank);
+        final ListEditBox location = new ListEditBox(fontRenderer, -200, 0, width, 10, blank);
+        final ListEditBox time = new ListEditBox(fontRenderer, -200, 0, width, 10, blank);
+        final ListEditBox dist = new ListEditBox(fontRenderer, -200, 0, width, 10, blank);
+
+        location.registerPreFocus(parent);
+        time.registerPreFocus(parent);
+        dist.registerPreFocus(parent);
+
         location.setMaxLength(Short.MAX_VALUE);
         time.setMaxLength(Short.MAX_VALUE);
         dist.setMaxLength(Short.MAX_VALUE);

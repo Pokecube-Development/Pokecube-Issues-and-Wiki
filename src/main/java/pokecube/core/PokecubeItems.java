@@ -81,6 +81,7 @@ import pokecube.core.init.ItemGenerator;
 import pokecube.core.inventory.barrels.GenericBarrelMenu;
 import pokecube.core.items.GenericBoatItem;
 import pokecube.core.items.ItemPokedex;
+import pokecube.core.items.ItemTM;
 import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.berries.ItemBerry;
@@ -149,34 +150,7 @@ public class PokecubeItems extends ItemList
     public static final RegistryObject<Item> POKEDEX;
     public static final RegistryObject<Item> POKEWATCH;
     public static final RegistryObject<Item> REVIVE;
-
-    public static final RegistryObject<Item> ENIGMA_BOAT;
-    public static final RegistryObject<Item> LEPPA_BOAT;
-    public static final RegistryObject<Item> NANAB_BOAT;
-    public static final RegistryObject<Item> ORAN_BOAT;
-    public static final RegistryObject<Item> PECHA_BOAT;
-    public static final RegistryObject<Item> SITRUS_BOAT;
-
-    public static final RegistryObject<Block> ENIGMA_SIGN;
-    public static final RegistryObject<Block> LEPPA_SIGN;
-    public static final RegistryObject<Block> NANAB_SIGN;
-    public static final RegistryObject<Block> ORAN_SIGN;
-    public static final RegistryObject<Block> PECHA_SIGN;
-    public static final RegistryObject<Block> SITRUS_SIGN;
-
-    public static final RegistryObject<Block> ENIGMA_WALL_SIGN;
-    public static final RegistryObject<Block> LEPPA_WALL_SIGN;
-    public static final RegistryObject<Block> NANAB_WALL_SIGN;
-    public static final RegistryObject<Block> ORAN_WALL_SIGN;
-    public static final RegistryObject<Block> PECHA_WALL_SIGN;
-    public static final RegistryObject<Block> SITRUS_WALL_SIGN;
-
-    public static final RegistryObject<Item> ENIGMA_SIGN_ITEM;
-    public static final RegistryObject<Item> LEPPA_SIGN_ITEM;
-    public static final RegistryObject<Item> NANAB_SIGN_ITEM;
-    public static final RegistryObject<Item> ORAN_SIGN_ITEM;
-    public static final RegistryObject<Item> PECHA_SIGN_ITEM;
-    public static final RegistryObject<Item> SITRUS_SIGN_ITEM;
+    public static final RegistryObject<Item> TM;
 
     // Blocks
     public static final RegistryObject<Block> DEEPSLATE_FOSSIL_ORE;
@@ -260,6 +234,8 @@ public class PokecubeItems extends ItemList
                 () -> new ItemRevive(new Item.Properties().rarity(Rarity.RARE).tab(PokecubeItems.TAB_ITEMS)));
         EMERALDSHARD = PokecubeCore.ITEMS.register("emerald_shard",
                 () -> new ItemRevive(new Item.Properties().tab(PokecubeItems.TAB_ITEMS)));
+
+        TM = PokecubeCore.ITEMS.register("tm", () -> new ItemTM(new Item.Properties().tab(PokecubeItems.TAB_ITEMS)));
 
         // Blocks // 1.19 OreBlock -> DropExperienceBlock .noDrops() -> gone
         FOSSIL_ORE = PokecubeCore.BLOCKS.register("fossil_ore",

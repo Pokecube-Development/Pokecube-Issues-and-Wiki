@@ -1,6 +1,7 @@
 package pokecube.core.client.gui.helper;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.lwjgl.glfw.GLFW;
@@ -9,6 +10,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -57,17 +59,44 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         this.variation = variation;
         this.index = index;
         this.entity = entity;
-        this.delete = new Button(0, 0, 10, 10, TComponent.literal("x"), b -> this.deleteClicked(b));
+        this.delete = new Button(-200, 0, 10, 10, TComponent.literal("x"), b -> this.deleteClicked(b),
+                (b, pose, x, y) ->
+                {
+                    if (!b.active) return;
+                    Component tooltip = TComponent.translatable("pokecube.gui.delete.start.desc");
+                    parent.renderTooltip(pose, tooltip, x, y);
+                });
         this.delete.setFGColor(0xFFFF0000);
-        this.confirm = new Button(0, 0, 10, 10, TComponent.literal("Y"), b -> this.confirmClicked(b));
+        this.confirm = new Button(-200, 0, 10, 10, TComponent.literal("Y"), b -> this.confirmClicked(b),
+                (b, pose, x, y) ->
+                {
+                    if (!b.active) return;
+                    Component tooltip = TComponent.translatable("pokecube.gui.delete.confirm.desc");
+                    parent.renderTooltip(pose, tooltip, x, y);
+                });
         this.confirm.active = false;
 
         if (index == guard.getTasks().size()) this.delete.active = false;
 
-        this.moveUp = new Button(0, 0, 10, 10, TComponent.literal("\u21e7"), b -> this.moveUpClicked(b));
-        this.moveDown = new Button(0, 0, 10, 10, TComponent.literal("\u21e9"), b -> this.moveDownClicked(b));
+        this.moveUp = new Button(-200, 0, 10, 10, TComponent.literal("\u21e7"), b -> this.moveUpClicked(b),
+                (b, pose, x, y) ->
+                {
+                    if (!b.active) return;
+                    Component tooltip = TComponent.translatable("pokecube.gui.move.up.desc");
+                    parent.renderTooltip(pose, tooltip, x, y);
+                });
+        this.moveDown = new Button(-200, 0, 10, 10, TComponent.literal("\u21e9"), b -> this.moveDownClicked(b),
+                (b, pose, x, y) ->
+                {
+                    if (!b.active) return;
+                    Component tooltip = TComponent.translatable("pokecube.gui.move.down.desc");
+                    parent.renderTooltip(pose, tooltip, x, y);
+                });
 
-        this.update = new Button(0, 0, 20, 10, TComponent.literal("btn"), b -> this.update());
+        this.update = new Button(-200, 0, 20, 10, TComponent.literal("btn"), b -> this.update(), (b, pose, x, y) -> {
+            Component tooltip = TComponent.translatable("pokemob.route.btn.desc");
+            parent.renderTooltip(pose, tooltip, x, y);
+        });
 
         this.moveUp.active = index > 0 && index < guard.getTasks().size();
         this.moveDown.active = index < guard.getTasks().size() - 1;
@@ -76,6 +105,15 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         this.guiY = dy;
         this.guiHeight = dh;
 
+        @SuppressWarnings("unchecked")
+        final List<GuiEventListener> list = (List<GuiEventListener>) parent.children();
+        // Add us first so we can add linker-clicking to the location field
+        list.add(this);
+        this.addOrRemove(parent::addRenderableWidget);
+    }
+
+    public void addOrRemove(Consumer<AbstractWidget> remover)
+    {
         this.delete.visible = false;
         this.confirm.visible = false;
         this.moveUp.visible = false;
@@ -84,21 +122,15 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         this.location.visible = false;
         this.timeperiod.visible = false;
         this.variation.visible = false;
-
-        @SuppressWarnings("unchecked")
-        final List<GuiEventListener> list = (List<GuiEventListener>) parent.children();
-        // Add us first so we can add linker-clicking to the location field
-        list.add(this);
-
-        parent.addRenderableWidget(this.delete);
-        parent.addRenderableWidget(this.confirm);
-        parent.addRenderableWidget(this.moveUp);
-        parent.addRenderableWidget(this.update);
-        parent.addRenderableWidget(this.moveDown);
-        parent.addRenderableWidget(this.location);
-        parent.addRenderableWidget(this.timeperiod);
-        parent.addRenderableWidget(this.variation);
-
+        
+        remover.accept(this.delete);
+        remover.accept(this.confirm);
+        remover.accept(this.moveUp);
+        remover.accept(this.update);
+        remover.accept(this.moveDown);
+        remover.accept(this.location);
+        remover.accept(this.timeperiod);
+        remover.accept(this.variation);
     }
 
     @Override
@@ -254,24 +286,14 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         this.delete.y = y - 5;
         this.delete.x = x - 1 + this.location.getWidth();
         this.confirm.y = y - 5;
-        this.confirm.x = x - 2 + 10 + this.location.getWidth();
+        this.confirm.x = x - 2 + 11 + this.location.getWidth();
         this.moveUp.y = y - 5 - 10;
         this.moveUp.x = x - 1 + this.location.getWidth();
         this.moveDown.y = y - 5 - 10;
-        this.moveDown.x = x - 2 + 10 + this.location.getWidth();
+        this.moveDown.x = x - 2 + 11 + this.location.getWidth();
 
         this.update.y = y - 5 - 20;
         this.update.x = x - 1 + this.location.getWidth();
-
-        this.location.render(mat, mouseX, mouseY, partialTicks);
-        this.timeperiod.render(mat, mouseX, mouseY, partialTicks);
-        this.variation.render(mat, mouseX, mouseY, partialTicks);
-
-        this.delete.render(mat, mouseX, mouseY, partialTicks);
-        this.confirm.render(mat, mouseX, mouseY, partialTicks);
-        this.moveUp.render(mat, mouseX, mouseY, partialTicks);
-        this.moveDown.render(mat, mouseX, mouseY, partialTicks);
-        this.update.render(mat, mouseX, mouseY, partialTicks);
     }
 
     public void reOrder(final int dir)

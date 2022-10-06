@@ -276,6 +276,8 @@ public class Config extends ConfigData
     public boolean defaultElectricActions = true;
     @Configure(category = Config.moves, comment = "Enables world effects of ice type moves. [Default: true]")
     public boolean defaultIceActions = true;
+    @Configure(category = Config.moves, comment = "If this is false, then when a pokemob replaces a move, the old move will be added to the list of moves it can learn. [Default: false]")
+    public boolean movesForgottenWhenOverriden = false;
 
     // AI Related settings
     @Configure(category = Config.mobAI, comment = "Determines how quickly mobs want to mate again, larger values are faster. [Default: 1]")
@@ -444,7 +446,7 @@ public class Config extends ConfigData
     public boolean generateFossils = true;
     @Configure(category = Config.world, comment = "Berry trees/crops will be added to certain biomes, based on datapack settings. [Default: true]")
     public boolean generateBerries = true;
-    
+
     @Configure(category = Config.world, comment = "Any structure not in structure_subbiomes will apply as ruins, unless something else sets it first (like the structure's spawn settings). [Default: true]")
     public boolean structs_default_ruins = true;
     @Configure(category = Config.world, comment = "This is what the value in the structure data block will be replaced with to generate the professor.")
