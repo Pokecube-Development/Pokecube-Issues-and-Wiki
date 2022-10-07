@@ -2459,14 +2459,6 @@ public class BlockInit
                 BlockInit.DISTORTIC_SIGN, BlockInit.DISTORTIC_WALL_SIGN, BlockInit.INVERTED_SIGN,
                 BlockInit.INVERTED_WALL_SIGN, BlockInit.MIRAGE_SIGN, BlockInit.MIRAGE_WALL_SIGN,
                 BlockInit.TEMPORAL_SIGN, BlockInit.TEMPORAL_WALL_SIGN));
-
-        ItemGenerator.BOATS.add(new BoatRegister(BlockInit.AGED_PLANKS, "aged", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
-        ItemGenerator.BOATS.add(new BoatRegister(BlockInit.CONCRETE_PLANKS, "concrete", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
-        ItemGenerator.BOATS.add(new BoatRegister(BlockInit.CORRUPTED_PLANKS, "corrupted", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
-        ItemGenerator.BOATS.add(new BoatRegister(BlockInit.DISTORTIC_PLANKS, "distortic", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
-        ItemGenerator.BOATS.add(new BoatRegister(BlockInit.INVERTED_PLANKS, "inverted", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
-        ItemGenerator.BOATS.add(new BoatRegister(BlockInit.MIRAGE_PLANKS, "mirage", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
-        ItemGenerator.BOATS.add(new BoatRegister(BlockInit.TEMPORAL_PLANKS, "temporal", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
     }
 
     private static ToIntFunction<BlockState> litBlockEmission(final int i)
