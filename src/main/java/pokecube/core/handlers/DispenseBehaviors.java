@@ -4,6 +4,7 @@ import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.DispenserBlock;
 import pokecube.core.entity.boats.GenericBoat;
+import pokecube.core.entity.boats.GenericChestBoat;
 
 public class DispenseBehaviors
 {
@@ -16,6 +17,9 @@ public class DispenseBehaviors
     {
         GenericBoat.getTypes().forEach(type -> {
             addDispenseBehavior(type.item().get(), new GenericBoatDispenseHandler(type));
+        });
+        GenericChestBoat.getTypes().forEach(type -> {
+            addDispenseBehavior(type.item().get(), new GenericBoatDispenseHandler(type, true));
         });
     }
 }
