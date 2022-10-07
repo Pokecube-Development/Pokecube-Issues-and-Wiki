@@ -16,7 +16,7 @@ public class DispenseBehaviors
     public static void registerDefaults()
     {
         GenericBoat.getTypes().forEach(type -> {
-            addDispenseBehavior(type.item().get(), new GenericBoatDispenseHandler(type));
+            addDispenseBehavior(type.item().get(), new GenericBoatDispenseHandler(type, false));
         });
         GenericChestBoat.getTypes().forEach(type -> {
             addDispenseBehavior(type.item().get(), new GenericBoatDispenseHandler(type, true));
