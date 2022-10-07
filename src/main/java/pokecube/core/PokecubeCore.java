@@ -225,7 +225,6 @@ public class PokecubeCore
         PokecubeCore.BERRY_BLOCKS.register(bus);
         PokecubeCore.ITEMS.register(bus);
         PokecubeCore.BLOCKS.register(bus);
-        PokecubeCore.NO_TAB.register(bus);
         PokecubeCore.TILES.register(bus);
         PokecubeCore.ENTITIES.register(bus);
         PokecubeCore.MENU.register(bus);
