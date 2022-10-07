@@ -31,7 +31,7 @@ public class GenericBoatRenderer extends EntityRenderer<GenericBoat>
         GenericBoat.getTypes().forEach(type -> {
             String modid = RegHelper.getKey(type.item().get()).getNamespace();
             if (chest) boatResources.put(type.name(),
-                    Pair.of(new ResourceLocation(modid, "textures/entity/boat/" + type.name() + ".png"),
+                    Pair.of(new ResourceLocation(modid, "textures/entity/chest_boat/" + type.name() + ".png"),
                             new BoatModel(context.bakeLayer(createChestBoatModelName(modid, type)), chest)));
             else boatResources.put(type.name(),
                     Pair.of(new ResourceLocation(modid, "textures/entity/boat/" + type.name() + ".png"),
