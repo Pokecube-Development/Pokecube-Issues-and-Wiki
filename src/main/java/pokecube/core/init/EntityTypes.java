@@ -24,6 +24,7 @@ import thut.api.entity.CopyCaps;
 public class EntityTypes
 {
     public static final RegistryObject<EntityType<GenericBoat>> BOAT;
+    public static final RegistryObject<EntityType<GenericBoat>> CHEST_BOAT;
     public static final RegistryObject<EntityType<EntityPokemobEgg>> EGG;
     public static final RegistryObject<EntityType<EntityMoveUse>> MOVE;
     public static final RegistryObject<EntityType<NpcMob>> NPC;
@@ -32,7 +33,11 @@ public class EntityTypes
     static
     {
         BOAT = PokecubeCore.ENTITIES.register("boat",
-                () -> EntityType.Builder.<GenericBoat>of(GenericBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F).clientTrackingRange(10).build("boat"));
+                () -> EntityType.Builder.<GenericBoat>of(GenericBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F)
+                        .clientTrackingRange(10).build("boat"));
+        CHEST_BOAT = PokecubeCore.ENTITIES.register("boat",
+                () -> EntityType.Builder.<GenericBoat>of(GenericBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F)
+                        .clientTrackingRange(10).build("chest_boat"));
         EGG = PokecubeCore.ENTITIES.register("egg",
                 () -> EntityType.Builder.of(EntityPokemobEgg::new, MobCategory.CREATURE).noSummon().fireImmune()
                         .sized(0.35f, 0.35f).build("egg"));
@@ -110,5 +115,10 @@ public class EntityTypes
     public static EntityType<EntityPokecube> getPokecube()
     {
         return POKECUBE.get();
+    }
+
+    public static EntityType<GenericBoat> getChestBoat()
+    {
+        return CHEST_BOAT.get();
     }
 }

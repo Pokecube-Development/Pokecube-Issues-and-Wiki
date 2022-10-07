@@ -1,4 +1,4 @@
-package pokecube.core.entity.boats;
+package pokecube.core.client.render.mobs;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import pokecube.core.entity.boats.GenericBoat;
 import pokecube.core.entity.boats.GenericBoat.BoatType;
 import thut.lib.RegHelper;
 
@@ -23,7 +24,7 @@ public class GenericBoatRenderer extends EntityRenderer<GenericBoat>
 {
     private final Object2ObjectOpenHashMap<String, Pair<ResourceLocation, BoatModel>> boatResources = new Object2ObjectOpenHashMap<>();
 
-    public GenericBoatRenderer(EntityRendererProvider.Context context)
+    public GenericBoatRenderer(EntityRendererProvider.Context context, boolean chest)
     {
         super(context);
         this.shadowRadius = 0.8F;
@@ -31,7 +32,7 @@ public class GenericBoatRenderer extends EntityRenderer<GenericBoat>
             String modid = RegHelper.getKey(type.item().get()).getNamespace();
             boatResources.put(type.name(),
                     Pair.of(new ResourceLocation(modid, "textures/entity/boat/" + type.name() + ".png"),
-                            new BoatModel(context.bakeLayer(createBoatModelName(modid, type)))));
+                            new BoatModel(context.bakeLayer(createBoatModelName(modid, type)), chest)));
         });
 
     }

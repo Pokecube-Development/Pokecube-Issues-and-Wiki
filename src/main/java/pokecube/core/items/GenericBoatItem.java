@@ -20,16 +20,19 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import pokecube.core.entity.boats.GenericBoat;
 import pokecube.core.entity.boats.GenericBoat.BoatType;
+import pokecube.core.entity.boats.GenericChestBoat;
 
 public class GenericBoatItem extends Item
 {
     private static final Predicate<Entity> ENTITY_PREDICATE = EntitySelector.NO_SPECTATORS.and(Entity::isPickable);
     private final BoatType type;
+    private final boolean hasChest;
 
-    public GenericBoatItem(BoatType type, Properties properties)
+    public GenericBoatItem(BoatType type, boolean hasChest, Properties properties)
     {
         super(properties);
         this.type = type;
+        this.hasChest = hasChest;
     }
 
     @Override
@@ -63,8 +66,7 @@ public class GenericBoatItem extends Item
 
             if (hitresult.getType() == HitResult.Type.BLOCK)
             {
-                GenericBoat boat = new GenericBoat(world, hitresult.getLocation().x, hitresult.getLocation().y,
-                        hitresult.getLocation().z);
+                GenericBoat boat = getBoat(world, hitresult);
                 boat.setType(this.type);
                 boat.setYRot(player.getYRot());
                 if (!world.noCollision(boat, boat.getBoundingBox()))
@@ -92,5 +94,14 @@ public class GenericBoatItem extends Item
                 return InteractionResultHolder.pass(itemstack);
             }
         }
+    }
+
+    private GenericBoat getBoat(Level world, HitResult hitresult)
+    {
+        return hasChest
+                ? new GenericChestBoat(world, hitresult.getLocation().x, hitresult.getLocation().y,
+                        hitresult.getLocation().z)
+                : new GenericBoat(world, hitresult.getLocation().x, hitresult.getLocation().y,
+                        hitresult.getLocation().z);
     }
 }
