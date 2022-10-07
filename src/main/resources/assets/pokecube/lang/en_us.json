@@ -500,7 +500,15 @@
     "item.pokecube.pecha_boat": "Pecha Boat",
     "item.pokecube.sitrus_boat": "Sitrus Boat",
 
+    "item.pokecube.enigma_chest_boat": "Enigma Chest Boat",
+    "item.pokecube.leppa_chest_boat": "Leppa Chest Boat",
+    "item.pokecube.nanab_chest_boat": "Nanab Chest Boat",
+    "item.pokecube.oran_chest_boat": "Oran Chest Boat",
+    "item.pokecube.pecha_chest_boat": "Pecha Chest Boat",
+    "item.pokecube.sitrus_chest_boat": "Sitrus Chest Boat",
+
     "entity.pokecube.boat": "Boat",
+    "entity.pokecube.chest_boat": "Chest Boat",
 
     "container.pokecube.generic_barrel": "Barrel",
     "container.pokecube.generic_bookshelf": "Bookshelf",
