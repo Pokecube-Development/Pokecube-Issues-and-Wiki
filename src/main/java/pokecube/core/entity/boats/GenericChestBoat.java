@@ -1,5 +1,6 @@
 package pokecube.core.entity.boats;
 
+import java.util.Collection;
 import javax.annotation.Nullable;
 
 import net.minecraft.core.NonNullList;
@@ -24,6 +25,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.Vec3;
+import pokecube.core.init.EntityTypes;
 
 public class GenericChestBoat extends GenericBoat implements HasCustomInventoryScreen, ContainerEntity
 {
@@ -33,14 +36,19 @@ public class GenericChestBoat extends GenericBoat implements HasCustomInventoryS
     private ResourceLocation lootTable;
     private long lootTableSeed;
 
-    public GenericChestBoat(Level world, double x, double y, double z)
-    {
-        super(world, x, y, z);
-    }
-
     public GenericChestBoat(EntityType<? extends Boat> boatType, Level world)
     {
         super(boatType, world);
+    }
+
+    public GenericChestBoat(Level world, double x, double y, double z)
+    {
+        this(EntityTypes.CHEST_BOAT.get(), world);
+        this.setPos(x, y, z);
+        this.setDeltaMovement(Vec3.ZERO);
+        this.xo = x;
+        this.yo = y;
+        this.zo = z;
     }
 
     @Override

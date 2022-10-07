@@ -26,6 +26,8 @@ import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
+import pokecube.core.entity.boats.GenericBoat;
+import pokecube.core.init.ItemGenerator;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
 import pokecube.legends.items.DistortedMirror;
@@ -480,6 +482,14 @@ public class ItemInit
                 () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.MIRAGE_SIGN.get(), BlockInit.MIRAGE_WALL_SIGN.get()));
         TEMPORAL_SIGN = PokecubeLegends.ITEMS.register("temporal_sign",
                 () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.TEMPORAL_SIGN.get(), BlockInit.TEMPORAL_WALL_SIGN.get()));
+
+        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.AGED_PLANKS, "aged", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
+        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.CONCRETE_PLANKS, "concrete", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
+        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.CORRUPTED_PLANKS, "corrupted", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
+        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.DISTORTIC_PLANKS, "distortic", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
+        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.INVERTED_PLANKS, "inverted", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
+        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.MIRAGE_PLANKS, "mirage", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
+        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.TEMPORAL_PLANKS, "temporal", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
 
         ULTRA_HELMET = PokecubeLegends.ITEMS.register("ultra_helmet",
                 () -> new UltraHelmetEffect(ItemInit.SPECTRUM, EquipmentSlot.HEAD,
