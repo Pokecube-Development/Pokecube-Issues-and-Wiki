@@ -35,7 +35,7 @@ public class EntityTypes
         BOAT = PokecubeCore.ENTITIES.register("boat",
                 () -> EntityType.Builder.<GenericBoat>of(GenericBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F)
                         .clientTrackingRange(10).build("boat"));
-        CHEST_BOAT = PokecubeCore.ENTITIES.register("boat",
+        CHEST_BOAT = PokecubeCore.ENTITIES.register("chest_boat",
                 () -> EntityType.Builder.<GenericBoat>of(GenericBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F)
                         .clientTrackingRange(10).build("chest_boat"));
         EGG = PokecubeCore.ENTITIES.register("egg",
