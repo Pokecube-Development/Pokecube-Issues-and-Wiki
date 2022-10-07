@@ -217,12 +217,14 @@ public class ClientSetupHandler
 
     public static void registerLayerDefinition(final BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> consumer)
     {
+        LayerDefinition noChest = BoatModel.createBodyModel(false);
+        LayerDefinition withChest = BoatModel.createBodyModel(true);
         for (BoatType value : GenericBoat.getTypes())
         {
             String modid = RegHelper.getKey(value.item().get()).getNamespace();
             // This is layer without chest
-            consumer.accept(GenericBoatRenderer.createBoatModelName(modid, value),
-                    () -> BoatModel.createBodyModel(false));
+            consumer.accept(GenericBoatRenderer.createBoatModelName(modid, value), () -> noChest);
+            consumer.accept(GenericBoatRenderer.createChestBoatModelName(modid, value), () -> withChest);
         }
     }
 
