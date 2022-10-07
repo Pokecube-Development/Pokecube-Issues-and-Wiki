@@ -8,7 +8,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
@@ -24,6 +23,7 @@ import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
+import pokecube.core.database.moves.MoveEntry.Category;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.zmoves.GZMoveManager;
@@ -79,22 +79,22 @@ public class Moves extends ListPage<LineEntry>
                 boolean mouseOver = mx > 0 && mx < length && my > offset[1] && my < offset[1] + this.font.lineHeight;
                 if (mouseOver)
                 {
-                    String text;
+                    Component value = TComponent.literal("-");
                     final int pwr = move.getPWR(this.parent.pokemob, this.watch.player);
-                    if (pwr > 0) text = pwr + "";
-                    else text = "-";
-
+                    Component stat = move.getCategory(pokemob) == Category.PHYSICAL
+                            ? TComponent.translatable("pokewatch.ATT", value)
+                            : TComponent.translatable("pokewatch.ATTSP", value);
+                    if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);
                     if (GZMoveManager.isGZDMove(move.move.baseEntry) && offset[3] != this.parent.pokemob.getMoveIndex())
-                        text = "???";
-                    text = I18n.get("pokewatch.moves.pwr", text);
-                    final int box = Math.max(10, this.font.width(text) + 2);
+                        value = TComponent.translatable("pokewatch.moves.pwr.fmt", "???", stat);
+                    Component info = TComponent.translatable("pokewatch.moves.pwr", value);
+                    final int box = Math.max(10, this.font.width(info) + 2);
                     final int mx1 = 65 - box;
                     final int my1 = offset[1] + 30;
                     final int dy1 = this.font.lineHeight;
-
                     GuiComponent.fill(mat, x + mx1 - 1, y + my1 - 1, x + mx1 + box + 1, y + my1 + dy1 + 1, 0xFF78C850);
                     GuiComponent.fill(mat, x + mx1, y + my1, x + mx1 + box, y + my1 + dy1, 0xFF000000);
-                    this.font.draw(mat, text, x + mx1 + 1, y + my1, 0xFFFFFFFF);
+                    this.font.draw(mat, info, x + mx1 + 1, y + my1 + 1, 0xFFFFFFFF);
                 }
             }
         }
@@ -369,24 +369,27 @@ public class Moves extends ListPage<LineEntry>
         tooltip:
         if (component.getHoverEvent() != null)
         {
+            IPokemob pokemob = this.parent.pokemob;
             final Object var = component.getHoverEvent().getValue(component.getHoverEvent().getAction());
-            if (!(var instanceof Component comp)) break tooltip;
-            String text = comp.getString();
-            final Move_Base move = MovesUtils.getMoveFromName(text);
+            if (!(var instanceof Component comp) || pokemob == null) break tooltip;
+            final Move_Base move = MovesUtils.getMoveFromName(comp.getString());
             if (move == null) break tooltip;
-            final int pwr = move.getPWR(this.parent.pokemob, this.watch.player);
-            if (pwr > 0) text = pwr + "";
-            else text = "-";
-            text = I18n.get("pokewatch.moves.pwr", text);
-            final int box = Math.max(10, this.font.width(text) + 2);
+            Component value = TComponent.literal("-");
+            final int pwr = move.getPWR(pokemob, this.watch.player);
+            Component stat = move.getCategory(pokemob) == Category.PHYSICAL
+                    ? TComponent.translatable("pokewatch.ATT", value)
+                    : TComponent.translatable("pokewatch.ATTSP", value);
+            if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);
+            Component info = TComponent.translatable("pokewatch.moves.pwr", value);
+            final int box = Math.max(10, this.font.width(info) + 2);
             final int mx = 100 - box;
-            final int my = -0;
+            final int my = 0;
             final int dy = this.font.lineHeight;
             mat.pushPose();
             mat.translate(0, 0, 1);
             GuiComponent.fill(mat, x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy + 1, 0xFF78C850);
             GuiComponent.fill(mat, x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
-            this.font.draw(mat, text, x + mx + 1, y + my, 0xFFFFFFFF);
+            this.font.draw(mat, info, x + mx + 1, y + my + 1, 0xFFFFFFFF);
             mat.popPose();
         }
         super.renderComponentHoverEffect(mat, component, x, y);
