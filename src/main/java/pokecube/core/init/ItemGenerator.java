@@ -298,6 +298,7 @@ public class ItemGenerator
                         ItemGenerator.planks.put(name, block);
                         BerryManager.berryPlanks.put(index, block);
                     });
+
             ItemGenerator.BOATS.add(new BoatRegister(plank_block, name, PokecubeItems.TAB_BERRIES, PokecubeCore.ITEMS));
 
             // Stairs
