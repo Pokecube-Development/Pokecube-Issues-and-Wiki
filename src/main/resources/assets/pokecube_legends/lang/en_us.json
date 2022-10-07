@@ -666,7 +666,16 @@
     "item.pokecube_legends.mirage_boat": "Mirage Boat",
     "item.pokecube_legends.temporal_boat": "Temporal Boat",
 
+    "item.pokecube_legends.aged_chest_boat": "Aged Chest Boat",
+    "item.pokecube_legends.concrete_chest_boat": "Concrete Chest Boat",
+    "item.pokecube_legends.corrupted_chest_boat": "Corrupted Chest Boat",
+    "item.pokecube_legends.distortic_chest_boat": "Distortic Chest Boat",
+    "item.pokecube_legends.inverted_chest_boat": "Inverted Chest Boat",
+    "item.pokecube_legends.mirage_chest_boat": "Mirage Chest Boat",
+    "item.pokecube_legends.temporal_chest_boat": "Temporal Chest Boat",
+
     "entity.pokecube_legends.boat": "Boat",
+    "entity.pokecube_legends.chest_boat": "Chest Boat",
 
     "_comment20": "Soils",
     "block.pokecube_legends.ash": "Ash",
