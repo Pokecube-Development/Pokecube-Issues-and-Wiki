@@ -19,10 +19,10 @@ public class DispenseBehaviors
         GenericBoat.getTypes().forEach(type -> {
             addDispenseBehavior(type.item().get(), new GenericBoatDispenseHandler(type, false));
         });
-        
+
         // Dispense Chest Boats
         GenericChestBoat.getTypes().forEach(type -> {
-            addDispenseBehavior(type.item().get(), new GenericBoatDispenseHandler(type, true));
+            addDispenseBehavior(type.chestBoat().get(), new GenericBoatDispenseHandler(type, true));
         });
     }
 }

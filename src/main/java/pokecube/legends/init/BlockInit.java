@@ -46,7 +46,6 @@ import pokecube.core.blocks.bookshelves.GenericBookshelf;
 import pokecube.core.blocks.bookshelves.GenericBookshelfEmpty;
 import pokecube.core.blocks.signs.GenericStandingSign;
 import pokecube.core.blocks.signs.GenericWallSign;
-import pokecube.core.entity.boats.GenericBoat.BoatRegister;
 import pokecube.core.init.ItemGenerator;
 import pokecube.core.init.ItemGenerator.GenericStairs;
 import pokecube.legends.PokecubeLegends;

@@ -46,7 +46,7 @@ public class GenericBoatItem extends Item
         {
             Vec3 vec3 = player.getViewVector(1.0F);
             double d0 = 5.0D;
-            List<Entity> list = world.getEntities(player, player.getBoundingBox().expandTowards(vec3.scale(5.0D)).inflate(1.0D), ENTITY_PREDICATE);
+            List<Entity> list = world.getEntities(player, player.getBoundingBox().expandTowards(vec3.scale(d0)).inflate(1.0D), ENTITY_PREDICATE);
             if (!list.isEmpty())
             {
                 Vec3 vec31 = player.getEyePosition();

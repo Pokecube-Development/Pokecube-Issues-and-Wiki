@@ -63,7 +63,7 @@ public class GenericBoat extends Boat
 
     public GenericBoat(Level world, double x, double y, double z)
     {
-        this(EntityTypes.BOAT.get(), world);
+        this(EntityTypes.getBoat(), world);
         this.setPos(x, y, z);
         this.setDeltaMovement(Vec3.ZERO);
         this.xo = x;

@@ -1,6 +1,5 @@
 package pokecube.core.entity.boats;
 
-import java.util.Collection;
 import javax.annotation.Nullable;
 
 import net.minecraft.core.NonNullList;
@@ -43,7 +42,7 @@ public class GenericChestBoat extends GenericBoat implements HasCustomInventoryS
 
     public GenericChestBoat(Level world, double x, double y, double z)
     {
-        this(EntityTypes.CHEST_BOAT.get(), world);
+        this(EntityTypes.getChestBoat(), world);
         this.setPos(x, y, z);
         this.setDeltaMovement(Vec3.ZERO);
         this.xo = x;
