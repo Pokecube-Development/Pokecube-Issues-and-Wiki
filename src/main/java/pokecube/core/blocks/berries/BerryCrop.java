@@ -27,7 +27,7 @@ public class BerryCrop extends CropBlock
     @Override
     protected ItemLike getBaseSeedId()
     {
-        return BerryManager.berryItems.get(this.index);
+        return BerryManager.berryItems.get(this.index).get();
     }
 
     @Override
@@ -60,7 +60,7 @@ public class BerryCrop extends CropBlock
             if (grower != null)
                 grower.get().growTree(worldIn, worldIn.getChunkSource().getGenerator(), pos, state, random);
             else if (worldIn.isEmptyBlock(up))
-                worldIn.setBlockAndUpdate(up, BerryManager.berryFruits.get(this.index).defaultBlockState());
+                worldIn.setBlockAndUpdate(up, BerryManager.berryFruits.get(this.index).get().defaultBlockState());
         }
     }
 
@@ -77,7 +77,7 @@ public class BerryCrop extends CropBlock
             if (grower != null)
                 grower.get().growTree(worldIn, worldIn.getChunkSource().getGenerator(), pos, state, rand);
             else if (worldIn.isEmptyBlock(up))
-                worldIn.setBlockAndUpdate(up, BerryManager.berryFruits.get(this.index).defaultBlockState());
+                worldIn.setBlockAndUpdate(up, BerryManager.berryFruits.get(this.index).get().defaultBlockState());
         }
     }
 }

@@ -1,12 +1,5 @@
 package pokecube.core;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -18,6 +11,15 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
 import java.util.regex.Pattern;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -33,7 +35,6 @@ import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.OreBlock;
@@ -66,20 +67,14 @@ import pokecube.core.blocks.pc.PCBlock;
 import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.blocks.repel.RepelBlock;
 import pokecube.core.blocks.repel.RepelTile;
-import pokecube.core.blocks.signs.GenericSignBlockEntity;
-import pokecube.core.blocks.signs.GenericStandingSign;
-import pokecube.core.blocks.signs.GenericWallSign;
 import pokecube.core.blocks.tms.TMBlock;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderBlock;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.database.Database;
-import pokecube.core.entity.boats.GenericBoat;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.init.BerriesWoodType;
 import pokecube.core.init.ItemGenerator;
 import pokecube.core.inventory.barrels.GenericBarrelMenu;
-import pokecube.core.items.GenericBoatItem;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.ItemTM;
 import pokecube.core.items.UsableItemEffects;
@@ -189,7 +184,6 @@ public class PokecubeItems extends ItemList
     public static final RegistryObject<BlockEntityType<?>> NEST_TYPE;
     public static final RegistryObject<BlockEntityType<?>> PC_TYPE;
     public static final RegistryObject<BlockEntityType<?>> REPEL_TYPE;
-    public static final RegistryObject<BlockEntityType<GenericSignBlockEntity>> SIGN_TYPE;
     public static final RegistryObject<BlockEntityType<?>> TM_TYPE;
     public static final RegistryObject<BlockEntityType<?>> TRADE_TYPE;
 
@@ -313,72 +307,6 @@ public class PokecubeItems extends ItemList
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_YELLOW)
                         .strength(2.5F).sound(SoundType.WOOD)));
 
-        // SIGNS
-        ENIGMA_SIGN = PokecubeCore.NO_TAB.register("enigma_sign",
-                () -> new GenericStandingSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BLACK)
-                        .strength(1.0F).noCollission().sound(SoundType.WOOD), BerriesWoodType.ENIGMA));
-        LEPPA_SIGN = PokecubeCore.NO_TAB.register("leppa_sign",
-                () -> new GenericStandingSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_RED)
-                        .strength(1.0F).noCollission().sound(SoundType.WOOD), BerriesWoodType.LEPPA));
-        NANAB_SIGN = PokecubeCore.NO_TAB.register("nanab_sign",
-                () -> new GenericStandingSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
-                        .strength(1.0F).noCollission().sound(SoundType.WOOD), BerriesWoodType.NANAB));
-        ORAN_SIGN = PokecubeCore.NO_TAB.register("oran_sign",
-                () -> new GenericStandingSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_LIGHT_BLUE)
-                        .strength(1.0F).noCollission().sound(SoundType.WOOD), BerriesWoodType.ORAN));
-        PECHA_SIGN = PokecubeCore.NO_TAB.register("pecha_sign",
-                () -> new GenericStandingSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_PINK)
-                        .strength(1.0F).noCollission().sound(SoundType.WOOD), BerriesWoodType.PECHA));
-        SITRUS_SIGN = PokecubeCore.NO_TAB.register("sitrus_sign",
-                () -> new GenericStandingSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_YELLOW)
-                        .strength(1.0F).noCollission().sound(SoundType.WOOD), BerriesWoodType.SITRUS));
-
-        ENIGMA_WALL_SIGN = PokecubeCore.NO_TAB.register("enigma_wall_sign",
-                () -> new GenericWallSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BLACK)
-                        .strength(1.0F).noCollission().sound(SoundType.WOOD).lootFrom(ENIGMA_SIGN), BerriesWoodType.ENIGMA));
-        LEPPA_WALL_SIGN = PokecubeCore.NO_TAB.register("leppa_wall_sign",
-                () -> new GenericWallSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_RED)
-                        .strength(1.0F).noCollission().sound(SoundType.WOOD).lootFrom(LEPPA_SIGN), BerriesWoodType.LEPPA));
-        NANAB_WALL_SIGN = PokecubeCore.NO_TAB.register("nanab_wall_sign",
-                () -> new GenericWallSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
-                        .strength(1.0F).noCollission().sound(SoundType.WOOD).lootFrom(NANAB_SIGN), BerriesWoodType.NANAB));
-        ORAN_WALL_SIGN = PokecubeCore.NO_TAB.register("oran_wall_sign",
-                () -> new GenericWallSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_LIGHT_BLUE)
-                        .strength(1.0F).noCollission().sound(SoundType.WOOD).lootFrom(ORAN_SIGN), BerriesWoodType.ORAN));
-        PECHA_WALL_SIGN = PokecubeCore.NO_TAB.register("pecha_wall_sign",
-                () -> new GenericWallSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_PINK)
-                        .strength(1.0F).noCollission().sound(SoundType.WOOD).lootFrom(PECHA_SIGN), BerriesWoodType.PECHA));
-        SITRUS_WALL_SIGN = PokecubeCore.NO_TAB.register("sitrus_wall_sign",
-                () -> new GenericWallSign(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_YELLOW)
-                        .strength(1.0F).noCollission().sound(SoundType.WOOD).lootFrom(SITRUS_SIGN), BerriesWoodType.SITRUS));
-
-        ENIGMA_SIGN_ITEM = PokecubeCore.ITEMS.register("enigma_sign",
-                () -> new SignItem(new Item.Properties().stacksTo(16).tab(TAB_BERRIES), ENIGMA_SIGN.get(), ENIGMA_WALL_SIGN.get()));
-        LEPPA_SIGN_ITEM = PokecubeCore.ITEMS.register("leppa_sign",
-                () -> new SignItem(new Item.Properties().stacksTo(16).tab(TAB_BERRIES), LEPPA_SIGN.get(), LEPPA_WALL_SIGN.get()));
-        NANAB_SIGN_ITEM = PokecubeCore.ITEMS.register("nanab_sign",
-                () -> new SignItem(new Item.Properties().stacksTo(16).tab(TAB_BERRIES), NANAB_SIGN.get(), NANAB_WALL_SIGN.get()));
-        ORAN_SIGN_ITEM = PokecubeCore.ITEMS.register("oran_sign",
-                () -> new SignItem(new Item.Properties().stacksTo(16).tab(TAB_BERRIES), ORAN_SIGN.get(), ORAN_WALL_SIGN.get()));
-        PECHA_SIGN_ITEM = PokecubeCore.ITEMS.register("pecha_sign",
-                () -> new SignItem(new Item.Properties().stacksTo(16).tab(TAB_BERRIES), PECHA_SIGN.get(), PECHA_WALL_SIGN.get()));
-        SITRUS_SIGN_ITEM = PokecubeCore.ITEMS.register("sitrus_sign",
-                () -> new SignItem(new Item.Properties().stacksTo(16).tab(TAB_BERRIES), SITRUS_SIGN.get(), SITRUS_WALL_SIGN.get()));
-
-        // Boats
-        ENIGMA_BOAT = PokecubeCore.ITEMS.register("enigma_boat",
-                () -> new GenericBoatItem(GenericBoat.Type.ENIGMA, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
-        LEPPA_BOAT = PokecubeCore.ITEMS.register("leppa_boat",
-                () -> new GenericBoatItem(GenericBoat.Type.LEPPA, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
-        NANAB_BOAT = PokecubeCore.ITEMS.register("nanab_boat",
-                () -> new GenericBoatItem(GenericBoat.Type.NANAB, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
-        ORAN_BOAT = PokecubeCore.ITEMS.register("oran_boat",
-                () -> new GenericBoatItem(GenericBoat.Type.ORAN, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
-        PECHA_BOAT = PokecubeCore.ITEMS.register("pecha_boat",
-                () -> new GenericBoatItem(GenericBoat.Type.PECHA, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
-        SITRUS_BOAT = PokecubeCore.ITEMS.register("sitrus_boat",
-                () -> new GenericBoatItem(GenericBoat.Type.SITRUS, new Item.Properties().stacksTo(1).tab(PokecubeItems.TAB_BERRIES)));
-
         // Tile Entity Types
         BARREL_TYPE = PokecubeCore.TILES
                 .register("generic_barrel",
@@ -405,14 +333,6 @@ public class PokecubeItems extends ItemList
                 () -> BlockEntityType.Builder.of(HealerTile::new, PokecubeItems.HEALER.get()).build(null));
         PC_TYPE = PokecubeCore.TILES.register("pc", () -> BlockEntityType.Builder
                 .of(PCTile::new, PokecubeItems.PC_TOP.get(), PokecubeItems.PC_BASE.get()).build(null));
-        SIGN_TYPE = PokecubeCore.TILES.register("sign",
-                () -> BlockEntityType.Builder.of(GenericSignBlockEntity::new,
-                        PokecubeItems.ENIGMA_SIGN.get(), PokecubeItems.ENIGMA_WALL_SIGN.get(),
-                        PokecubeItems.LEPPA_SIGN.get(), PokecubeItems.LEPPA_WALL_SIGN.get(),
-                        PokecubeItems.NANAB_SIGN.get(), PokecubeItems.NANAB_WALL_SIGN.get(),
-                        PokecubeItems.ORAN_SIGN.get(), PokecubeItems.ORAN_WALL_SIGN.get(),
-                        PokecubeItems.PECHA_SIGN.get(), PokecubeItems.PECHA_WALL_SIGN.get(),
-                        PokecubeItems.SITRUS_SIGN.get(), PokecubeItems.SITRUS_WALL_SIGN.get()).build(null));
         TM_TYPE = PokecubeCore.TILES.register("tm_machine",
                 () -> BlockEntityType.Builder.of(TMTile::new, PokecubeItems.TM_MACHINE.get()).build(null));
         TRADE_TYPE = PokecubeCore.TILES.register("trade_machine",
@@ -737,8 +657,8 @@ public class PokecubeItems extends ItemList
         json = new JsonObject();
         json.addProperty("replace", false);
         array = new JsonArray();
-        for (final Entry<ItemBerry> type : BerryManager.berryItems.int2ObjectEntrySet())
-            array.add(RegHelper.getKey(type.getValue()).toString());
+        for (final Entry<RegistryObject<ItemBerry>> type : BerryManager.berryItems.int2ObjectEntrySet())
+            array.add(RegHelper.getKey(type.getValue().get()).toString());
         json.add("values", array);
         file = new File(folder, "berries.json");
         try

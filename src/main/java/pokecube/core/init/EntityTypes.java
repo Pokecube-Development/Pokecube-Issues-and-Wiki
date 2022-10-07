@@ -3,7 +3,6 @@ package pokecube.core.init;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.TamableAnimal;
-import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;

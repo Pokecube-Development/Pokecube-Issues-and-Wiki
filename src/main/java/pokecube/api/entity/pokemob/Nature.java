@@ -36,7 +36,7 @@ public enum Nature
     public static int getBerryWeight(final int berryIndex, final Nature type)
     {
         int ret = 0;
-        final int[] flavours = BerryManager.berryItems.get(berryIndex).type.flavours;
+        final int[] flavours = BerryManager.berryItems.get(berryIndex).get().type.flavours;
         if (type.goodFlavour == type.badFlavour || flavours == null) return ret;
         ret = flavours[type.goodFlavour] - flavours[type.badFlavour];
         return ret;

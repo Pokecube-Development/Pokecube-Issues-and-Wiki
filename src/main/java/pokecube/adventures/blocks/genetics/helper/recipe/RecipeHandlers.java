@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent.ItemCraftedEvent;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.cloner.ClonerTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
@@ -311,10 +312,10 @@ public class RecipeHandlers
             ClonerHelper.DNAITEMS.clear();
 
             if (PokecubeAdv.config.autoAddFossilDNA)
-                for (final Entry<String, ItemFossil> fossil : ItemGenerator.fossils.entrySet())
+                for (final Entry<String, RegistryObject<ItemFossil>> fossil : ItemGenerator.fossils.entrySet())
             {
                 final String name = fossil.getKey();
-                final Ingredient stack = Ingredient.of(fossil.getValue());
+                final Ingredient stack = Ingredient.of(fossil.getValue().get());
                 final SpeciesGene gene = new SpeciesGene();
                 final SpeciesInfo info = gene.getValue();
                 info.entry = Database.getEntry(name);

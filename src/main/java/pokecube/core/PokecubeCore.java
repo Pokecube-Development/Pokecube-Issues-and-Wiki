@@ -1,9 +1,12 @@
 package pokecube.core;
 
+import java.util.Map;
+
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
-import java.util.Map;
-import javax.annotation.Nullable;
+
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.resources.ResourceLocation;
@@ -44,6 +47,7 @@ import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.SpawnHandler;
+import pokecube.core.handlers.DispenseBehaviors;
 import pokecube.core.handlers.PaintingsHandler;
 import pokecube.core.handlers.RecipeHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
@@ -58,7 +62,6 @@ import pokecube.core.init.ItemGenerator;
 import pokecube.core.init.ItemInit;
 import pokecube.core.init.MenuTypes;
 import pokecube.core.init.Sounds;
-import pokecube.core.handlers.DispenseBehaviors;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.legacy.RegistryChangeFixer;
 import pokecube.core.moves.Battle;
@@ -290,7 +293,7 @@ public class PokecubeCore
             if (PokecubeItems.POKECUBE_ITEMS.isEmpty())
                 PokecubeItems.POKECUBE_ITEMS = new ItemStack(PokecubeItems.POKEDEX.get());
             if (PokecubeItems.POKECUBE_BERRIES.isEmpty())
-                PokecubeItems.POKECUBE_BERRIES = new ItemStack(BerryManager.berryCrops.get(0));
+                PokecubeItems.POKECUBE_BERRIES = new ItemStack(BerryManager.berryCrops.get(0).get());
             if (PokecubeItems.POKECUBE_CUBES.isEmpty())
                 PokecubeItems.POKECUBE_CUBES = PokecubeItems.getStack("pokecube");
 
@@ -309,10 +312,5 @@ public class PokecubeCore
             EntityTools.registerCachedCap(ThutWearables.WEARABLE_CAP);
             EntityTools.registerCachedCap(ThutWearables.WEARABLES_CAP);
         });
-    }
-
-    public static ResourceLocation resourceLocation(String path)
-    {
-        return new ResourceLocation(MODID, path);
     }
 }

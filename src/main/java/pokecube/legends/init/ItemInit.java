@@ -1,6 +1,7 @@
 package pokecube.legends.init;
 
 import java.util.Locale;
+
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -27,11 +28,9 @@ import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
-import pokecube.legends.entity.boats.LegendsBoat;
 import pokecube.legends.items.DistortedMirror;
 import pokecube.legends.items.ItemBase;
 import pokecube.legends.items.ItemTiers;
-import pokecube.legends.items.LegendsBoatItem;
 import pokecube.legends.items.LegendsSword;
 import pokecube.legends.items.RainbowSword;
 import pokecube.legends.items.TemporalBambooBlockItem;
@@ -190,25 +189,6 @@ public class ItemInit
     // Torch
     public static final RegistryObject<Item> INFECTED_TORCH;
 
-    // Boats
-    public static final RegistryObject<Item> AGED_BOAT;
-    public static final RegistryObject<Item> CONCRETE_BOAT;
-    public static final RegistryObject<Item> CORRUPTED_BOAT;
-    public static final RegistryObject<Item> DISTORTIC_BOAT;
-    public static final RegistryObject<Item> INVERTED_BOAT;
-    public static final RegistryObject<Item> MIRAGE_BOAT;
-    public static final RegistryObject<Item> TEMPORAL_BOAT;
-
-    // Signs
-    public static final RegistryObject<Item> AGED_SIGN;
-    public static final RegistryObject<Item> CONCRETE_SIGN;
-    public static final RegistryObject<Item> CONCRETE_DENSE_SIGN;
-    public static final RegistryObject<Item> CORRUPTED_SIGN;
-    public static final RegistryObject<Item> DISTORTIC_SIGN;
-    public static final RegistryObject<Item> INVERTED_SIGN;
-    public static final RegistryObject<Item> MIRAGE_SIGN;
-    public static final RegistryObject<Item> TEMPORAL_SIGN;
-
     // Plants
     public static final RegistryObject<Item> DISTORTIC_VINES;
     public static final RegistryObject<Item> GOLDEN_SHROOM;
@@ -236,6 +216,16 @@ public class ItemInit
     public static final RegistryObject<Item> HONDEW_POKEPUFF;
     public static final RegistryObject<Item> POMEG_POKEPUFF;
     public static final RegistryObject<Item> PERSIM_POKEPUFF;
+
+    // Signs
+    public static final RegistryObject<Item> AGED_SIGN;
+    public static final RegistryObject<Item> CONCRETE_SIGN;
+    public static final RegistryObject<Item> CONCRETE_DENSE_SIGN;
+    public static final RegistryObject<Item> CORRUPTED_SIGN;
+    public static final RegistryObject<Item> DISTORTIC_SIGN;
+    public static final RegistryObject<Item> INVERTED_SIGN;
+    public static final RegistryObject<Item> MIRAGE_SIGN;
+    public static final RegistryObject<Item> TEMPORAL_SIGN;
 
     static
     {
@@ -473,23 +463,6 @@ public class ItemInit
         DISTORTIC_VINES = PokecubeLegends.ITEMS.register("distortic_vines",
                 () -> new BlockItem(PlantsInit.DISTORTIC_VINES.get(),
                         new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
-
-        // Boats
-        AGED_BOAT = PokecubeLegends.ITEMS.register("aged_boat",
-                () -> new LegendsBoatItem(LegendsBoat.Type.AGED, new Item.Properties().stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
-        CONCRETE_BOAT = PokecubeLegends.ITEMS.register("concrete_boat",
-                () -> new LegendsBoatItem(LegendsBoat.Type.CONCRETE, new Item.Properties().stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
-        CORRUPTED_BOAT = PokecubeLegends.ITEMS.register("corrupted_boat",
-                () -> new LegendsBoatItem(LegendsBoat.Type.CORRUPTED, new Item.Properties().stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
-        DISTORTIC_BOAT = PokecubeLegends.ITEMS.register("distortic_boat",
-                () -> new LegendsBoatItem(LegendsBoat.Type.DISTORTIC, new Item.Properties().stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
-        INVERTED_BOAT = PokecubeLegends.ITEMS.register("inverted_boat",
-                () -> new LegendsBoatItem(LegendsBoat.Type.INVERTED, new Item.Properties().stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
-        MIRAGE_BOAT = PokecubeLegends.ITEMS.register("mirage_boat",
-                () -> new LegendsBoatItem(LegendsBoat.Type.MIRAGE, new Item.Properties().stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
-        TEMPORAL_BOAT = PokecubeLegends.ITEMS.register("temporal_boat",
-                () -> new LegendsBoatItem(LegendsBoat.Type.TEMPORAL, new Item.Properties().stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
-
         // Signs
         AGED_SIGN = PokecubeLegends.ITEMS.register("aged_sign",
                 () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.AGED_SIGN.get(), BlockInit.AGED_WALL_SIGN.get()));

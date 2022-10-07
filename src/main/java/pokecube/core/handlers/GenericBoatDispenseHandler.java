@@ -9,13 +9,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import pokecube.core.entity.boats.GenericBoat;
+import pokecube.core.entity.boats.GenericBoat.BoatType;
 
 public class GenericBoatDispenseHandler extends DefaultDispenseItemBehavior
 {
     private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
-    private final GenericBoat.Type type;
+    private final BoatType type;
 
-    public GenericBoatDispenseHandler(GenericBoat.Type type)
+    public GenericBoatDispenseHandler(BoatType type)
     {
         this.type = type;
     }

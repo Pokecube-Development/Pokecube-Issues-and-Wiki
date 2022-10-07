@@ -2,20 +2,20 @@ package pokecube.core.init;
 
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
-import net.minecraft.client.model.BoatModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
-import net.minecraft.client.renderer.blockentity.SignRenderer;
-import net.minecraftforge.client.ForgeHooksClient;
+
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.platform.InputConstants;
 
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.model.BoatModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ClientRegistry;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -34,11 +35,13 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.blocks.signs.GenericSignBlockEntity;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.blocks.Healer;
 import pokecube.core.client.gui.blocks.PC;
@@ -52,6 +55,7 @@ import pokecube.core.client.render.mobs.RenderPokecube;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.database.Database;
 import pokecube.core.entity.boats.GenericBoat;
+import pokecube.core.entity.boats.GenericBoat.BoatType;
 import pokecube.core.entity.boats.GenericBoatRenderer;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.inventory.pc.PCContainer;
@@ -64,6 +68,7 @@ import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.moves.MovesUtils;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.forge.ClientProxy;
+import thut.lib.RegHelper;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
 public class ClientSetupHandler
@@ -184,25 +189,24 @@ public class ClientSetupHandler
         PokecubeAPI.LOGGER.debug("Init Mob Renderers");
 
         // Register the render layers
-        for (final Block crop : BerryManager.berryCrops.values())
-            ItemBlockRenderTypes.setRenderLayer(crop, RenderType.cutoutMipped());
-        for (final Block fruit : BerryManager.berryFruits.values())
-            ItemBlockRenderTypes.setRenderLayer(fruit, RenderType.cutoutMipped());
-        for (final Block leaf : ItemGenerator.leaves.values())
-            ItemBlockRenderTypes.setRenderLayer(leaf, RenderType.cutoutMipped());
-        for (final Block trapdoor : ItemGenerator.trapdoors.values())
-            ItemBlockRenderTypes.setRenderLayer(trapdoor, RenderType.cutoutMipped());
-        for (final Block door : ItemGenerator.doors.values())
-            ItemBlockRenderTypes.setRenderLayer(door, RenderType.cutoutMipped());
-        for (final Block door : BerryManager.pottedBerries.values())
-            ItemBlockRenderTypes.setRenderLayer(door, RenderType.cutoutMipped());
+        for (final RegistryObject<Block> crop : BerryManager.berryCrops.values())
+            ItemBlockRenderTypes.setRenderLayer(crop.get(), RenderType.cutoutMipped());
+        for (final RegistryObject<Block> fruit : BerryManager.berryFruits.values())
+            ItemBlockRenderTypes.setRenderLayer(fruit.get(), RenderType.cutoutMipped());
+        for (final RegistryObject<Block> leaf : ItemGenerator.leaves.values())
+            ItemBlockRenderTypes.setRenderLayer(leaf.get(), RenderType.cutoutMipped());
+        for (final RegistryObject<Block> trapdoor : ItemGenerator.trapdoors.values())
+            ItemBlockRenderTypes.setRenderLayer(trapdoor.get(), RenderType.cutoutMipped());
+        for (final RegistryObject<Block> door : ItemGenerator.doors.values())
+            ItemBlockRenderTypes.setRenderLayer(door.get(), RenderType.cutoutMipped());
+        for (final RegistryObject<Block> berry : BerryManager.pottedBerries.values())
+            ItemBlockRenderTypes.setRenderLayer(berry.get(), RenderType.cutoutMipped());
         ItemBlockRenderTypes.setRenderLayer(PokecubeItems.NEST.get(), RenderType.cutoutMipped());
         ItemBlockRenderTypes.setRenderLayer(PokecubeItems.DYNAMAX.get(), RenderType.cutoutMipped());
 
         ClientSetupHandler.registerLayerDefinition(ForgeHooksClient::registerLayerDefinition);
 
-        event.enqueueWork(() ->
-        {
+        event.enqueueWork(() -> {
             BerriesWoodType.register();
         });
 
@@ -224,21 +228,23 @@ public class ClientSetupHandler
         event.registerEntityRenderer(EntityTypes.getEgg(), RenderEgg::new);
         event.registerEntityRenderer(EntityTypes.getBoat(), GenericBoatRenderer::new);
 
-        event.registerBlockEntityRenderer(PokecubeItems.SIGN_TYPE.get(), SignRenderer::new);
+        if (GenericSignBlockEntity.SIGN_TYPE != null)
+            event.registerBlockEntityRenderer(GenericSignBlockEntity.SIGN_TYPE.get(), SignRenderer::new);
     }
 
     public static void registerLayerDefinition(final BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> consumer)
     {
-        for (GenericBoat.Type value : GenericBoat.Type.values())
+        for (BoatType value : GenericBoat.getTypes())
         {
-            consumer.accept(GenericBoatRenderer.createBoatModelName(value), BoatModel::createBodyModel);
+            String modid = RegHelper.getKey(value.item().get()).getNamespace();
+            consumer.accept(GenericBoatRenderer.createBoatModelName(modid, value), BoatModel::createBodyModel);
         }
     }
 
     @SubscribeEvent
     public static void colourBlocks(final ColorHandlerEvent.Block event)
     {
-        final Block qualotLeaves = BerryManager.berryLeaves.get(23);
+        final Block qualotLeaves = BerryManager.berryLeaves.get(23).get();
         event.getBlockColors().register((state, reader, pos, tintIndex) -> {
             return reader != null && pos != null ? BiomeColors.getAverageFoliageColor(reader, pos)
                     : FoliageColor.getDefaultColor();
@@ -248,7 +254,7 @@ public class ClientSetupHandler
     @SubscribeEvent
     public static void colourItems(final ColorHandlerEvent.Item event)
     {
-        final Block qualotLeaves = BerryManager.berryLeaves.get(23);
+        final Block qualotLeaves = BerryManager.berryLeaves.get(23).get();
         event.getItemColors().register((stack, tintIndex) -> {
             final BlockState blockstate = ((BlockItem) stack.getItem()).getBlock().defaultBlockState();
             return event.getBlockColors().getColor(blockstate, null, null, tintIndex);

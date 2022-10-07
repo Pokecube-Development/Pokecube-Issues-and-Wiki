@@ -133,7 +133,7 @@ public class BerryFruit extends BushBlock
     @Override
     public ItemStack getCloneItemStack(final BlockGetter worldIn, final BlockPos pos, final BlockState state)
     {
-        return new ItemStack(BerryManager.berryItems.get(this.ind));
+        return new ItemStack(BerryManager.berryItems.get(this.ind).get());
     }
 
     @Override
@@ -207,10 +207,10 @@ public class BerryFruit extends BushBlock
     public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player player,
             final InteractionHand hand, final BlockHitResult hit)
     {
-        final BlockState state2 = BerryManager.berryCrops.get(this.ind).defaultBlockState();
+        final BlockState state2 = BerryManager.berryCrops.get(this.ind).get().defaultBlockState();
         if (!world.isClientSide)
         {
-            if (world.getBlockState(pos.below()).is(BerryManager.berryCrops.get(this.ind)))
+            if (world.getBlockState(pos.below()).is(BerryManager.berryCrops.get(this.ind).get()))
                 world.setBlockAndUpdate(pos.below(), state2.setValue(CropBlock.AGE, Integer.valueOf(5)));
             world.destroyBlock(pos, true);
         }
@@ -220,9 +220,9 @@ public class BerryFruit extends BushBlock
     @Override
     public void playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player)
     {
-        final BlockState state2 = BerryManager.berryCrops.get(this.ind).defaultBlockState();
+        final BlockState state2 = BerryManager.berryCrops.get(this.ind).get().defaultBlockState();
 
-        if (world.getBlockState(pos.below()).is(BerryManager.berryCrops.get(this.ind)))
+        if (world.getBlockState(pos.below()).is(BerryManager.berryCrops.get(this.ind).get()))
             world.setBlockAndUpdate(pos.below(), state2.setValue(CropBlock.AGE, Integer.valueOf(5)));
 
         if (state.is(BlockTags.GUARDED_BY_PIGLINS)) {

@@ -26,7 +26,7 @@ public class BerryLeaf extends LeavesBlock
         super.randomTick(state, worldIn, pos, random);
         if (random.nextInt(PokecubeCore.getConfig().leafBerryTicks) != 0) return;
         if (state.getValue(LeavesBlock.PERSISTENT)) return;
-        final Block fruit = BerryManager.berryFruits.get(this.index);
+        final Block fruit = BerryManager.berryFruits.get(this.index).get();
         if (fruit != null && worldIn.isEmptyBlock(pos.below()))
             worldIn.setBlockAndUpdate(pos.below(), fruit.defaultBlockState());
     }

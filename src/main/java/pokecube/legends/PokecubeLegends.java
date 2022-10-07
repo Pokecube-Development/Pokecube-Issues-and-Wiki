@@ -70,7 +70,6 @@ import pokecube.legends.init.function.RaidCapture;
 import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
-import pokecube.legends.handlers.DispenseBehaviors;
 import pokecube.legends.recipes.LegendsDistorticRecipeManager;
 import pokecube.legends.recipes.LegendsLootingRecipeManager;
 import pokecube.legends.worldgen.UltraSpaceSurfaceRules;
@@ -460,7 +459,6 @@ public class PokecubeLegends
     {
         event.enqueueWork(() -> {
             Compostables.registerDefaults();
-            DispenseBehaviors.registerDefaults();
             Flammables.registerDefaults();
             Strippables.registerDefaults();
             Tillables.registerDefaults();
@@ -605,10 +603,5 @@ public class PokecubeLegends
             event.setUseItem(Result.ALLOW);
             if (!event.getPlayer().isCreative()) event.getItemStack().grow(-1);
         }
-    }
-
-    public static ResourceLocation resourceLocation(String path)
-    {
-        return new ResourceLocation(Reference.ID, path);
     }
 }
