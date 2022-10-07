@@ -37,6 +37,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.init.InitDatabase;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
@@ -46,6 +47,7 @@ import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.SpawnHandler;
+import pokecube.core.handlers.DispenseBehaviors;
 import pokecube.core.handlers.PaintingsHandler;
 import pokecube.core.handlers.RecipeHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
@@ -64,13 +66,16 @@ import pokecube.core.items.berries.BerryManager;
 import pokecube.core.legacy.RegistryChangeFixer;
 import pokecube.core.moves.Battle;
 import pokecube.core.proxy.CommonProxy;
+import pokecube.core.utils.EntityTools;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.world.PokecubeWorld;
+import thut.api.ThutCaps;
 import thut.api.entity.CopyCaps;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.PacketHandler;
+import thut.wearables.ThutWearables;
 
 @Mod(value = PokecubeCore.MODID)
 public class PokecubeCore
@@ -110,7 +115,7 @@ public class PokecubeCore
     public static final DeferredRegister<Schedule> SCHEDULES;
     public static final DeferredRegister<MemoryModuleType<?>> MEMORIES;
     public static final DeferredRegister<SensorType<?>> SENSORS;
-    public static final DeferredRegister<Block> BERRIES_TAB;
+    public static final DeferredRegister<Block> BERRY_BLOCKS;
     public static final DeferredRegister<Block> BLOCKS;
     public static final DeferredRegister<Item> ITEMS;
     public static final DeferredRegister<BlockEntityType<?>> TILES;
@@ -127,7 +132,7 @@ public class PokecubeCore
         SCHEDULES = DeferredRegister.create(Registry.SCHEDULE_REGISTRY, PokecubeCore.MODID);
         MEMORIES = DeferredRegister.create(Registry.MEMORY_MODULE_TYPE_REGISTRY, PokecubeCore.MODID);
         SENSORS = DeferredRegister.create(Registry.SENSOR_TYPE_REGISTRY, PokecubeCore.MODID);
-        BERRIES_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
+        BERRY_BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
         BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
         ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, PokecubeCore.MODID);
         TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, PokecubeCore.MODID);
@@ -216,7 +221,7 @@ public class PokecubeCore
 
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        PokecubeCore.BERRIES_TAB.register(bus);
+        PokecubeCore.BERRY_BLOCKS.register(bus);
         PokecubeCore.ITEMS.register(bus);
         PokecubeCore.BLOCKS.register(bus);
         PokecubeCore.TILES.register(bus);
@@ -273,8 +278,9 @@ public class PokecubeCore
         ItemGenerator.flammables(event);
 
         event.enqueueWork(() -> {
-            PointsOfInterest.postInit();
+            DispenseBehaviors.registerDefaults();
             ItemInit.postInit();
+            PointsOfInterest.postInit();
 
             CopyCaps.register(EntityTypes.getNpc());
             CopyCaps.register(EntityType.ARMOR_STAND);
@@ -282,9 +288,24 @@ public class PokecubeCore
             if (PokecubeItems.POKECUBE_ITEMS.isEmpty())
                 PokecubeItems.POKECUBE_ITEMS = new ItemStack(PokecubeItems.POKEDEX.get());
             if (PokecubeItems.POKECUBE_BERRIES.isEmpty())
-                PokecubeItems.POKECUBE_BERRIES = new ItemStack(BerryManager.berryCrops.get(0));
+                PokecubeItems.POKECUBE_BERRIES = new ItemStack(BerryManager.berryCrops.get(0).get());
             if (PokecubeItems.POKECUBE_CUBES.isEmpty())
                 PokecubeItems.POKECUBE_CUBES = PokecubeItems.getStack("pokecube");
+
+            EntityTools.registerCachedCap(ThutCaps.OWNABLE_CAP);
+            EntityTools.registerCachedCap(ThutCaps.COLOURABLE);
+            EntityTools.registerCachedCap(ThutCaps.ANIMATED);
+            EntityTools.registerCachedCap(ThutCaps.SHEARABLE);
+            EntityTools.registerCachedCap(ThutCaps.DATASYNC);
+            EntityTools.registerCachedCap(ThutCaps.COPYMOB);
+            EntityTools.registerCachedCap(ThutCaps.ANIMCAP);
+            EntityTools.registerCachedCap(ThutCaps.MOBTEX_CAP);
+
+            EntityTools.registerCachedCap(PokemobCaps.POKEMOB_CAP);
+            EntityTools.registerCachedCap(PokemobCaps.AFFECTED_CAP);
+
+            EntityTools.registerCachedCap(ThutWearables.WEARABLE_CAP);
+            EntityTools.registerCachedCap(ThutWearables.WEARABLES_CAP);
         });
     }
 }

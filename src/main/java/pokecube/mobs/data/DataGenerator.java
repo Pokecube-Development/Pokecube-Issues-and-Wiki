@@ -350,8 +350,8 @@ public class DataGenerator
         // Generate the berry log recipes
         for (final String s : ItemGenerator.berryWoods.keySet())
         {
-            final Block log = ItemGenerator.logs.get(s);
-            final Block plank = ItemGenerator.planks.get(s);
+            final Block log = ItemGenerator.logs.get(s).get();
+            final Block plank = ItemGenerator.planks.get(s).get();
             if (log != null && plank != null)
             {
                 final File dir = new File("./mods/data/" + RegHelper.getKey(log).getNamespace() + "/recipes");

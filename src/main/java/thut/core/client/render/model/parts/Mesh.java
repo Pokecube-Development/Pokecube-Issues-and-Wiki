@@ -10,10 +10,12 @@ import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 import com.mojang.math.Vector4f;
 
+import net.minecraft.client.Minecraft;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.TextureCoordinate;
+import thut.core.common.ThutCore;
 
 public abstract class Mesh
 {
@@ -48,7 +50,6 @@ public abstract class Mesh
     static long n;
 
     public static Vector4f METRIC = new Vector4f(1, 1, 1, 0);
-    public static double CULLTHRESHOLD = 4 * 4;
 
     public Mesh(final Integer[] order, final Vertex[] vert, final Vertex[] norm, final TextureCoordinate[] tex,
             final int GL_FORMAT)
@@ -155,7 +156,6 @@ public abstract class Mesh
 
     private final Vector3f dummy3 = new Vector3f();
     private final Vector3f dummy_1 = new Vector3f();
-    private final Vector3f dummy_2 = new Vector3f();
     private final Vector4f dummy4 = new Vector4f();
     private final TextureCoordinate dummyTex = new TextureCoordinate(0, 0);
 
@@ -190,27 +190,27 @@ public abstract class Mesh
         final com.mojang.math.Vector3f dn = this.dummy3;
 
         float x, y, z, nx, ny, nz, u, v;
+        if (ThutCore.getConfig().modelCullThreshold > 0)
+        {
+            float a = Minecraft.getInstance().getWindow().getScreenHeight()
+                    * Minecraft.getInstance().getWindow().getScreenWidth() * 1e-3f;
+            a = (float) Math.sqrt(a);
 
-        dummy_1.set(min.x, min.y, min.z);
-        dummy_2.set(max.x, max.y, max.z);
+            dummy_1.set(max.x - min.x, max.y - min.y, max.z - min.z);
+            float len = (float) Math.sqrt(dummy_1.dot(dummy_1));
+            dp.set(len, len, len, 0);
+            dp.transform(pos);
+            dp.mul(a);
+            double dr2_us = dp.dot(dp);
 
-        dummy_2.sub(dummy_1);
-        dummy_1.set(centre.x(), centre.y(), centre.z());
-        dummy_2.sub(dummy_1);
+            dp.set(0, 0, 0, 1);
+            dp.transform(pos);
+            double dr2_2 = dp.dot(dp);
 
-        dp.set(dummy_2.x(), dummy_2.y(), dummy_2.z(), 1);
+            boolean size_cull = (dr2_us / dr2_2) < ThutCore.getConfig().modelCullThreshold;
 
-        double dr2_us = Math.abs(dp.dot(METRIC));
-
-        dp.set(centre.x(), centre.y(), centre.z(), 1);
-        dp.transform(pos);
-
-        double dr2_camera = Math.abs(dp.dot(METRIC));
-
-        boolean size_cull = Mesh.CULLTHRESHOLD < Double.MAX_VALUE && dr2_camera < 4e2 && dr2_us < dr2_camera / 50;
-
-        if (size_cull) return;
-
+            if (size_cull) return;
+        }
         // Loop over this rather than the array directly, so that we can skip by
         // more than 1 if culling.
         for (int i0 = 0; i0 < this.order.length; i0++)

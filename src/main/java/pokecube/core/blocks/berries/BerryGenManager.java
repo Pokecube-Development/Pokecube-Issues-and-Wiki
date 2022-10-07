@@ -152,7 +152,7 @@ public class BerryGenManager
             final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.ALLMATCHER;
             matcher.reset();
             final List<ItemStack> berries = Lists.newArrayList();
-            berries.add(new ItemStack(BerryManager.berryItems.get(0)));
+            berries.add(new ItemStack(BerryManager.berryItems.get(0).get()));
             BerryGenManager.matchers.add(matcher);
             BerryGenManager.berryLocations.put(matcher, berries);
         }
@@ -164,7 +164,7 @@ public class BerryGenManager
         if (trees.isEmpty() && !list.trees.isEmpty())
         {
             list.trees.forEach(conf -> {
-                ItemBerry item = BerryManager.byName.get(conf.berry);
+                ItemBerry item = BerryManager.byName.get(conf.berry).get();
                 if (item != null)
                 {
                     int id = item.type.index;

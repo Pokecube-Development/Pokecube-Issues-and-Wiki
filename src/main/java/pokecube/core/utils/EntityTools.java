@@ -1,8 +1,10 @@
 package pokecube.core.utils;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
+import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
@@ -10,12 +12,25 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import thut.api.entity.ICopyMob;
 
 public class EntityTools
 {
+    private static Set<Capability<?>> CACHED_CAPS = new ObjectLinkedOpenHashSet<>();
+
+    public static boolean isCached(Capability<?> cap)
+    {
+        return CACHED_CAPS.contains(cap);
+    }
+
+    public static void registerCachedCap(Capability<?> cap)
+    {
+        CACHED_CAPS.add(cap);
+    }
+
     public static void copyEntityData(final LivingEntity to, final LivingEntity from)
     {
         final CompoundTag tag = new CompoundTag();

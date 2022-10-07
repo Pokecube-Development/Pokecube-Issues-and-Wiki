@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "boat",
+  "pattern": [
+    "# #",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "pokecube_legends:inverted_planks"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:inverted_boat"
+  }
+}

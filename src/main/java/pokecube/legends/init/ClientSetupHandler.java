@@ -37,6 +37,7 @@ public class ClientSetupHandler
                     .forEach(fluid -> ItemBlockRenderTypes.setRenderLayer(fluid, RenderType.translucent()));
             // Shields
             ItemInit.addItemModelProperties();
+            LegendsWoodType.register();
         });
     }
 

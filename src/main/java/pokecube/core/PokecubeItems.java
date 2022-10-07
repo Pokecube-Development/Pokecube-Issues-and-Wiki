@@ -140,11 +140,11 @@ public class PokecubeItems extends ItemList
     public static final RegistryObject<Item> BERRYJUICE;
     public static final RegistryObject<Item> CANDY;
     public static final RegistryObject<Item> EGG;
+    public static final RegistryObject<Item> EMERALDSHARD;
+    public static final RegistryObject<Item> LUCKYEGG;
     public static final RegistryObject<Item> POKEDEX;
     public static final RegistryObject<Item> POKEWATCH;
     public static final RegistryObject<Item> REVIVE;
-    public static final RegistryObject<Item> LUCKYEGG;
-    public static final RegistryObject<Item> EMERALDSHARD;
     public static final RegistryObject<Item> TM;
 
     // Blocks
@@ -269,40 +269,40 @@ public class PokecubeItems extends ItemList
                                 .sound(SoundType.GLASS).sound(SoundType.AMETHYST_CLUSTER).strength(0.8F)
                                 .requiresCorrectToolForDrops()));
 
-        ENIGMA_BARREL = PokecubeCore.BERRIES_TAB.register("enigma_barrel",
+        ENIGMA_BARREL = PokecubeCore.BERRY_BLOCKS.register("enigma_barrel",
                 () -> new GenericBarrel(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BLACK)
                         .strength(2.5F).sound(SoundType.WOOD)));
-        LEPPA_BARREL = PokecubeCore.BERRIES_TAB.register("leppa_barrel",
+        LEPPA_BARREL = PokecubeCore.BERRY_BLOCKS.register("leppa_barrel",
                 () -> new GenericBarrel(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_RED)
                         .strength(2.5F).sound(SoundType.WOOD)));
-        NANAB_BARREL = PokecubeCore.BERRIES_TAB.register("nanab_barrel",
+        NANAB_BARREL = PokecubeCore.BERRY_BLOCKS.register("nanab_barrel",
                 () -> new GenericBarrel(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
                         .strength(2.5F).sound(SoundType.WOOD)));
-        ORAN_BARREL = PokecubeCore.BERRIES_TAB.register("oran_barrel", () -> new GenericBarrel(BlockBehaviour.Properties
+        ORAN_BARREL = PokecubeCore.BERRY_BLOCKS.register("oran_barrel", () -> new GenericBarrel(BlockBehaviour.Properties
                 .of(Material.WOOD, MaterialColor.COLOR_LIGHT_BLUE).strength(2.5F).sound(SoundType.WOOD)));
-        PECHA_BARREL = PokecubeCore.BERRIES_TAB.register("pecha_barrel",
+        PECHA_BARREL = PokecubeCore.BERRY_BLOCKS.register("pecha_barrel",
                 () -> new GenericBarrel(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_PINK)
                         .strength(2.5F).sound(SoundType.WOOD)));
-        SITRUS_BARREL = PokecubeCore.BERRIES_TAB.register("sitrus_barrel",
+        SITRUS_BARREL = PokecubeCore.BERRY_BLOCKS.register("sitrus_barrel",
                 () -> new GenericBarrel(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_YELLOW)
                         .strength(2.5F).sound(SoundType.WOOD)));
 
-        ENIGMA_BOOKSHELF_EMPTY = PokecubeCore.BERRIES_TAB.register("enigma_bookshelf_empty",
+        ENIGMA_BOOKSHELF_EMPTY = PokecubeCore.BERRY_BLOCKS.register("enigma_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BLACK)
                         .strength(2.5F).sound(SoundType.WOOD)));
-        LEPPA_BOOKSHELF_EMPTY = PokecubeCore.BERRIES_TAB.register("leppa_bookshelf_empty",
+        LEPPA_BOOKSHELF_EMPTY = PokecubeCore.BERRY_BLOCKS.register("leppa_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_RED)
                         .strength(2.5F).sound(SoundType.WOOD)));
-        NANAB_BOOKSHELF_EMPTY = PokecubeCore.BERRIES_TAB.register("nanab_bookshelf_empty",
+        NANAB_BOOKSHELF_EMPTY = PokecubeCore.BERRY_BLOCKS.register("nanab_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
                         .strength(2.5F).sound(SoundType.WOOD)));
-        ORAN_BOOKSHELF_EMPTY = PokecubeCore.BERRIES_TAB.register("oran_bookshelf_empty",
-                () -> new GenericBookshelfEmpty(BlockBehaviour.Properties
-                        .of(Material.WOOD, MaterialColor.COLOR_LIGHT_BLUE).strength(2.5F).sound(SoundType.WOOD)));
-        PECHA_BOOKSHELF_EMPTY = PokecubeCore.BERRIES_TAB.register("pecha_bookshelf_empty",
+        ORAN_BOOKSHELF_EMPTY = PokecubeCore.BERRY_BLOCKS.register("oran_bookshelf_empty",
+                () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_LIGHT_BLUE)
+                        .strength(2.5F).sound(SoundType.WOOD)));
+        PECHA_BOOKSHELF_EMPTY = PokecubeCore.BERRY_BLOCKS.register("pecha_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_PINK)
                         .strength(2.5F).sound(SoundType.WOOD)));
-        SITRUS_BOOKSHELF_EMPTY = PokecubeCore.BERRIES_TAB.register("sitrus_bookshelf_empty",
+        SITRUS_BOOKSHELF_EMPTY = PokecubeCore.BERRY_BLOCKS.register("sitrus_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_YELLOW)
                         .strength(2.5F).sound(SoundType.WOOD)));
 
@@ -347,7 +347,7 @@ public class PokecubeItems extends ItemList
             PokecubeCore.ITEMS.register(reg.getId().getPath(),
                     () -> new BlockItem(reg.get(), new Item.Properties().tab(PokecubeItems.TAB_BLOCKS)));
 
-        for (final RegistryObject<Block> reg : PokecubeCore.BERRIES_TAB.getEntries())
+        for (final RegistryObject<Block> reg : PokecubeCore.BERRY_BLOCKS.getEntries())
         {
             PokecubeCore.ITEMS.register(reg.getId().getPath(),
                     () -> new BlockItem(reg.get(), new Item.Properties().tab(PokecubeItems.TAB_BERRIES)));
@@ -656,8 +656,8 @@ public class PokecubeItems extends ItemList
         json = new JsonObject();
         json.addProperty("replace", false);
         array = new JsonArray();
-        for (final Entry<ItemBerry> type : BerryManager.berryItems.int2ObjectEntrySet())
-            array.add(RegHelper.getKey(type.getValue()).toString());
+        for (final Entry<RegistryObject<ItemBerry>> type : BerryManager.berryItems.int2ObjectEntrySet())
+            array.add(RegHelper.getKey(type.getValue().get()).toString());
         json.add("values", array);
         file = new File(folder, "berries.json");
         try

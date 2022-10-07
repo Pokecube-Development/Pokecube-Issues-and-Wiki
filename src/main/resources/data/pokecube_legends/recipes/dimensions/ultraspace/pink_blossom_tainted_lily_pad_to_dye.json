@@ -9,7 +9,7 @@
       ],
       "recipe": {
         "type": "minecraft:crafting_shapeless",
-        "group": "pokecube_legends",
+        "group": "pink_dye",
         "ingredients": [
           {
             "item": "pokecube_legends:pink_blossom_tainted_lily_pad"

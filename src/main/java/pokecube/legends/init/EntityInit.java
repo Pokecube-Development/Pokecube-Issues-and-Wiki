@@ -12,8 +12,8 @@ import pokecube.legends.entity.WormholeEntity;
 
 public class EntityInit
 {
-    public static final RegistryObject<EntityType<WormholeEntity>> WORMHOLE = PokecubeLegends.ENTITIES.register(
-            "wormhole", () -> EntityType.Builder.of(WormholeEntity::new, MobCategory.CREATURE).sized(2, 2)
+    public static final RegistryObject<EntityType<WormholeEntity>> WORMHOLE = PokecubeLegends.ENTITIES
+            .register("wormhole", () -> EntityType.Builder.of(WormholeEntity::new, MobCategory.CREATURE).sized(2, 2)
                     .setCustomClientFactory((s, w) -> EntityInit.WORMHOLE.get().create(w)).build("wormhole"));
 
     public static void init()
@@ -23,10 +23,10 @@ public class EntityInit
 
     public static void onEntityCapabilityAttach(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (event.getObject() instanceof WormholeEntity)
+        if (event.getObject() instanceof WormholeEntity wormhole)
         {
-            ((WormholeEntity) event.getObject()).energy = new WormholeEntity.EnergyStore();
-            event.addCapability(EnergyHandler.ENERGYCAP, ((WormholeEntity) event.getObject()).energy);
+            wormhole.energy = new WormholeEntity.EnergyStore();
+            event.addCapability(EnergyHandler.ENERGYCAP, wormhole.energy);
         }
     }
 }

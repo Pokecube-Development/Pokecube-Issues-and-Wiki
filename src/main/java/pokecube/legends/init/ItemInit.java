@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlaceOnWaterBlockItem;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
@@ -215,6 +216,16 @@ public class ItemInit
     public static final RegistryObject<Item> HONDEW_POKEPUFF;
     public static final RegistryObject<Item> POMEG_POKEPUFF;
     public static final RegistryObject<Item> PERSIM_POKEPUFF;
+
+    // Signs
+    public static final RegistryObject<Item> AGED_SIGN;
+    public static final RegistryObject<Item> CONCRETE_SIGN;
+    public static final RegistryObject<Item> CONCRETE_DENSE_SIGN;
+    public static final RegistryObject<Item> CORRUPTED_SIGN;
+    public static final RegistryObject<Item> DISTORTIC_SIGN;
+    public static final RegistryObject<Item> INVERTED_SIGN;
+    public static final RegistryObject<Item> MIRAGE_SIGN;
+    public static final RegistryObject<Item> TEMPORAL_SIGN;
 
     static
     {
@@ -452,6 +463,23 @@ public class ItemInit
         DISTORTIC_VINES = PokecubeLegends.ITEMS.register("distortic_vines",
                 () -> new BlockItem(PlantsInit.DISTORTIC_VINES.get(),
                         new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
+        // Signs
+        AGED_SIGN = PokecubeLegends.ITEMS.register("aged_sign",
+                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.AGED_SIGN.get(), BlockInit.AGED_WALL_SIGN.get()));
+        CONCRETE_SIGN = PokecubeLegends.ITEMS.register("concrete_sign",
+                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.CONCRETE_SIGN.get(), BlockInit.CONCRETE_WALL_SIGN.get()));
+        CONCRETE_DENSE_SIGN = PokecubeLegends.ITEMS.register("concrete_dense_sign",
+                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.CONCRETE_DENSE_SIGN.get(), BlockInit.CONCRETE_DENSE_WALL_SIGN.get()));
+        CORRUPTED_SIGN = PokecubeLegends.ITEMS.register("corrupted_sign",
+                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.CORRUPTED_SIGN.get(), BlockInit.CORRUPTED_WALL_SIGN.get()));
+        DISTORTIC_SIGN = PokecubeLegends.ITEMS.register("distortic_sign",
+                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.DISTORTIC_SIGN.get(), BlockInit.DISTORTIC_WALL_SIGN.get()));
+        INVERTED_SIGN = PokecubeLegends.ITEMS.register("inverted_sign",
+                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.INVERTED_SIGN.get(), BlockInit.INVERTED_WALL_SIGN.get()));
+        MIRAGE_SIGN = PokecubeLegends.ITEMS.register("mirage_sign",
+                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.MIRAGE_SIGN.get(), BlockInit.MIRAGE_WALL_SIGN.get()));
+        TEMPORAL_SIGN = PokecubeLegends.ITEMS.register("temporal_sign",
+                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.TEMPORAL_SIGN.get(), BlockInit.TEMPORAL_WALL_SIGN.get()));
 
         ULTRA_HELMET = PokecubeLegends.ITEMS.register("ultra_helmet",
                 () -> new UltraHelmetEffect(ItemInit.SPECTRUM, EquipmentSlot.HEAD,

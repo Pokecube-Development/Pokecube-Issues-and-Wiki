@@ -60,7 +60,8 @@ import org.nfunk.jep.type.NumberFactory;
  *
  * @author Nathan Funk
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings(
+{ "rawtypes", "unchecked" })
 public class JEP
 {
 
@@ -135,14 +136,10 @@ public class JEP
      * Creates a new JEP instance with custom settings. If the numberFactory_in
      * is null, the default number factory is used.
      *
-     * @param traverse_in
-     *            The traverse option.
-     * @param allowUndeclared_in
-     *            The "allow undeclared variables" option.
-     * @param implicitMul_in
-     *            The implicit multiplication option.
-     * @param numberFactory_in
-     *            The number factory to be used.
+     * @param traverse_in        The traverse option.
+     * @param allowUndeclared_in The "allow undeclared variables" option.
+     * @param implicitMul_in     The implicit multiplication option.
+     * @param numberFactory_in   The number factory to be used.
      */
     public JEP(boolean traverse_in, boolean allowUndeclared_in, boolean implicitMul_in, NumberFactory numberFactory_in)
     {
@@ -186,9 +183,9 @@ public class JEP
     }
 
     /**
-     * Call this function if you want to parse expressions which involve
-     * complex numbers. This method specifies "i" as the imaginary unit (0,1).
-     * Two functions re() and im() are also added for extracting the real or
+     * Call this function if you want to parse expressions which involve complex
+     * numbers. This method specifies "i" as the imaginary unit (0,1). Two
+     * functions re() and im() are also added for extracting the real or
      * imaginary components of a complex number respectively.
      * <p>
      *
@@ -224,11 +221,9 @@ public class JEP
      * expression so the parser is aware that the new function may be contained
      * in the expression.
      *
-     * @param functionName
-     *            The name of the function
-     * @param function
-     *            The function object that is used for evaluating the
-     *            function
+     * @param functionName The name of the function
+     * @param function     The function object that is used for evaluating the
+     *                     function
      */
     public void addFunction(String functionName, PostfixMathCommandI function)
     {
@@ -237,8 +232,7 @@ public class JEP
 
     /**
      * Adds the constants pi and e to the parser. As addStandardFunctions(),
-     * this method should be called immediatly after the JEP object is
-     * created.
+     * this method should be called immediatly after the JEP object is created.
      */
     public void addStandardConstants()
     {
@@ -248,10 +242,10 @@ public class JEP
     }
 
     /**
-     * Adds the standard functions to the parser. If this function is not
-     * called before parsing an expression, functions such as sin() or cos()
-     * would produce an "Unrecognized function..." error. In most cases, this
-     * method should be called immediately after the JEP object is created.
+     * Adds the standard functions to the parser. If this function is not called
+     * before parsing an expression, functions such as sin() or cos() would
+     * produce an "Unrecognized function..." error. In most cases, this method
+     * should be called immediately after the JEP object is created.
      *
      * @since 2.3.0 alpha added if and exp functions
      * @since 2.3.0 beta 1 added str function
@@ -285,7 +279,7 @@ public class JEP
 
         this.funTab.put("ceil", new Ceil());
         this.funTab.put("floor", new Floor());
-        
+
         this.funTab.put("clamp", new Clamp());
 
         this.funTab.put("rand", new org.nfunk.jep.function.Random());
@@ -301,10 +295,8 @@ public class JEP
      * variable. This must be done before parsing an expression so the parser is
      * aware that the new variable may be contained in the expression.
      *
-     * @param name
-     *            Name of the variable to be added
-     * @param value
-     *            Initial value or new value for the variable
+     * @param name  Name of the variable to be added
+     * @param value Initial value or new value for the variable
      * @return Double object of the variable
      */
     public Double addVariable(String name, double value)
@@ -319,13 +311,10 @@ public class JEP
      * existing variable. This must be done before parsing an expression so the
      * parser is aware that the new variable may be contained in the expression.
      *
-     * @param name
-     *            Name of the variable to be added
-     * @param re
-     *            Initial real value or new real value for the variable
-     * @param im
-     *            Initial imaginary value or new imaginary value for the
-     *            variable
+     * @param name Name of the variable to be added
+     * @param re   Initial real value or new real value for the variable
+     * @param im   Initial imaginary value or new imaginary value for the
+     *             variable
      * @return Complex object of the variable
      */
     public Complex addVariable(String name, double re, double im)
@@ -341,10 +330,8 @@ public class JEP
      * the parser is aware that the new variable may be contained in the
      * expression.
      *
-     * @param name
-     *            Name of the variable to be added
-     * @param object
-     *            Initial value or new value for the variable
+     * @param name   Name of the variable to be added
+     * @param object Initial value or new value for the variable
      */
     public void addVariable(String name, Object object)
     {
@@ -357,11 +344,10 @@ public class JEP
      * {@link #parse parse} rather than {@link #parseExpression
      * parseExpression}.
      *
-     * @param node
-     *            the top node of the tree representing the expression.
+     * @param node the top node of the tree representing the expression.
      * @return The value of the expression
-     * @throws Exception
-     *             if for some reason the expression could not be evaluated
+     * @throws Exception if for some reason the expression could not be
+     *                   evaluated
      * @since 2.3.0 alpha
      */
     public Object evaluate(Node node) throws Exception
@@ -382,8 +368,7 @@ public class JEP
     /**
      * Returns the value of the allowUndeclared option.
      *
-     * @return True if the allowUndeclared option is enabled. False
-     *         otherwise.
+     * @return True if the allowUndeclared option is enabled. False otherwise.
      */
     public boolean getAllowUndeclared()
     {
@@ -420,8 +405,7 @@ public class JEP
             String str = "";
 
             // iterate through all errors and add them to the return string
-            for (int i = 0; i < this.errorList.size(); i++)
-                str += this.errorList.elementAt(i) + "\n";
+            for (int i = 0; i < this.errorList.size(); i++) str += this.errorList.elementAt(i) + "\n";
 
             return str;
         }
@@ -533,13 +517,12 @@ public class JEP
 
         if (value == null) return Double.NaN;
 
-        if (value instanceof Complex)
+        if (value instanceof Complex c)
         {
-            final Complex c = (Complex) value;
             if (c.im() != 0.0) return Double.NaN;
             return c.re();
         }
-        if (value != null && value instanceof Number) return ((Number) value).doubleValue();
+        if (value != null && value instanceof Number n) return n.doubleValue();
 
         return Double.NaN;
     }
@@ -578,8 +561,7 @@ public class JEP
     /**
      * Gets the object representing the variable with a given name.
      *
-     * @param name
-     *            the name of the variable to find.
+     * @param name the name of the variable to find.
      * @return the Variable object or null if name not found.
      * @since 2.3.0 alpha
      */
@@ -591,8 +573,7 @@ public class JEP
     /**
      * Returns the value of the varible with given name.
      *
-     * @param name
-     *            name of the variable.
+     * @param name name of the variable.
      * @return the current value of the variable.
      * @since 2.3.0 alpha
      */
@@ -633,8 +614,7 @@ public class JEP
      * method should generally be used with the {@link #evaluate evaluate}
      * method rather than getValueAsObject.
      *
-     * @param expression
-     *            represented as a string.
+     * @param expression represented as a string.
      * @return The top node of an tree representing the parsed expression.
      * @throws ParseException
      * @since 2.3.0 alpha
@@ -650,8 +630,7 @@ public class JEP
      * Parses the expression. If there are errors in the expression, they are
      * added to the <code>errorList</code> member.
      *
-     * @param expression_in
-     *            The input expression string
+     * @param expression_in The input expression string
      */
     public void parseExpression(String expression_in)
     {
@@ -740,19 +719,17 @@ public class JEP
     }
 
     /**
-     * Sets the value for the undeclared variables option. If this option is
-     * set to true, expressions containing variables that were not previously
-     * added to JEP will not produce an "Unrecognized Symbol" error. The new
-     * variables will automatically be added while parsing, and initialized to
-     * 0.
+     * Sets the value for the undeclared variables option. If this option is set
+     * to true, expressions containing variables that were not previously added
+     * to JEP will not produce an "Unrecognized Symbol" error. The new variables
+     * will automatically be added while parsing, and initialized to 0.
      * <p>
      * If this option is set to false, variables that were not previously added
      * to JEP will produce an error while parsing.
      * <p>
      * The default value is false.
      *
-     * @param value
-     *            The boolean option for allowing undeclared variables.
+     * @param value The boolean option for allowing undeclared variables.
      */
     public void setAllowUndeclared(boolean value)
     {
@@ -778,8 +755,7 @@ public class JEP
      * <p>
      * The default value is false.
      *
-     * @param value
-     *            The boolean implicit multiplication option.
+     * @param value The boolean implicit multiplication option.
      */
     public void setImplicitMul(boolean value)
     {
@@ -793,8 +769,7 @@ public class JEP
      * <p>
      * The default value is false.
      *
-     * @param value
-     *            The boolean traversal option.
+     * @param value The boolean traversal option.
      */
     public void setTraverse(boolean value)
     {
@@ -802,13 +777,11 @@ public class JEP
     }
 
     /**
-     * Sets the value of a variable. Returns false if variable does not exist
-     * or if its value cannot be changed.
+     * Sets the value of a variable. Returns false if variable does not exist or
+     * if its value cannot be changed.
      *
-     * @param name
-     *            name of the variable.
-     * @param val
-     *            the initial value of the variable.
+     * @param name name of the variable.
+     * @param val  the initial value of the variable.
      * @return false if variable does not exist or if its value cannot be
      *         changed.
      * @since 2.3.0 alpha

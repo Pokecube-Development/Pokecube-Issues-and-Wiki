@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "group": "pokecube",
+  "group": "pokecube:mega_bling",
   "ingredients": [
     {
       "item": "pokecube:megastone"

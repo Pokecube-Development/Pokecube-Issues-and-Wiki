@@ -1,5 +1,6 @@
 {
   "type": "minecraft:stonecutting",
+  "group": "wooden_stairs",
   "ingredient": {
     "item": "pokecube_legends:concrete_dense_planks"
   },
