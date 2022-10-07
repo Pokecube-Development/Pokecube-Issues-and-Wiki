@@ -512,7 +512,6 @@ public class ItemGenerator
             regName = boat.name() + "_chest_boat";
             RegistryObject<Item> chest_reg = boat.register().register(regName,
                     () -> new GenericBoatItem(giver.get(), true, new Item.Properties().stacksTo(1).tab(boat.tab())));
-            regName = boat.name() + "_chest_boat";
             giver.type = GenericBoat.registerBoat(boat.block(), reg, chest_reg, boat.name());
         });
     }
