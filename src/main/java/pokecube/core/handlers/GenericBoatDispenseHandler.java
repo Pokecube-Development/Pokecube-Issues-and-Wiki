@@ -28,6 +28,7 @@ public class GenericBoatDispenseHandler extends DefaultDispenseItemBehavior
     public GenericBoatDispenseHandler(BoatType type, boolean hasChest)
     {
         this.type = type;
+        this.isChestBoat = hasChest;
     }
 
     @Override
