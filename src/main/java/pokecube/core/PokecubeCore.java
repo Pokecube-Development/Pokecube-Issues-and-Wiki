@@ -118,7 +118,6 @@ public class PokecubeCore
     public static final DeferredRegister<SensorType<?>> SENSORS;
     public static final DeferredRegister<Block> BERRY_BLOCKS;
     public static final DeferredRegister<Block> BLOCKS;
-    public static final DeferredRegister<Block> NO_TAB;
     public static final DeferredRegister<Item> ITEMS;
     public static final DeferredRegister<BlockEntityType<?>> TILES;
     public static final DeferredRegister<EntityType<?>> ENTITIES;
@@ -137,7 +136,6 @@ public class PokecubeCore
         BERRY_BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
         BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
         ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, PokecubeCore.MODID);
-        NO_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
         TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, PokecubeCore.MODID);
         ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, PokecubeCore.MODID);
         MENU = DeferredRegister.create(ForgeRegistries.CONTAINERS, PokecubeCore.MODID);
