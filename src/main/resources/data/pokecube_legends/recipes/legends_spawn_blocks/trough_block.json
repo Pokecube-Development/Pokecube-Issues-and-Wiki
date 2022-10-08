@@ -1,6 +1,6 @@
 {
-  "group": "pokecube_legends",
   "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:",
   "pattern": [
     "R4R",
     " R ",
