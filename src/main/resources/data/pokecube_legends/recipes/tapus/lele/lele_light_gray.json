@@ -1,9 +1,9 @@
 {
-  "group": "pokecube_legends",
   "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:lele",
   "pattern": [
-    "000",
     "X0X",
+    "0X0",
     "000"
   ],
   "key": {
@@ -11,11 +11,11 @@
       "item": "pokecube_legends:totem_block"
     },
     "X": {
-      "tag": "forge:dyes/light_blue"
+      "tag": "forge:dyes/light_gray"
     }
   },
   "result": {
-    "item": "pokecube_legends:fini_lightblue_totem",
+    "item": "pokecube_legends:lele_lightgray_totem",
     "count": 1
   }
 }

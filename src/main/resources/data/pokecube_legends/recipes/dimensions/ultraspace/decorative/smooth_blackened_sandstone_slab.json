@@ -1,6 +1,6 @@
 {
-  "group": "pokecube_legends",
   "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:smooth_blackened_sandstone_slab",
   "pattern": [
     "000"
   ],

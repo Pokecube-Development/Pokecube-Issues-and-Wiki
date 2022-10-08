@@ -1,6 +1,6 @@
 {
-  "group": "pokecube_legends",
   "type": "minecraft:crafting_shapeless",
+  "group": "pokecube_legends:zamazenta_shield",
   "ingredients": [
     {
       "item": "pokecube_legends:rustedshield"

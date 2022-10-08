@@ -9,7 +9,7 @@
       ],
       "recipe": {
         "type": "minecraft:crafting_shapeless",
-        "group": "pokecube_legends",
+        "group": "magenta_dye",
         "ingredients": [
           {
             "item": "pokecube_legends:inverted_orchid"

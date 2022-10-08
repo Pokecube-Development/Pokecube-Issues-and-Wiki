@@ -1,6 +1,6 @@
 {
-  "group": "pokecube_legends",
   "type": "minecraft:smelting",
+  "group": "pokecube_legends:ultra_darkstone",
   "experience": 2,
   "cookingtime": 350,
   "ingredient": {
