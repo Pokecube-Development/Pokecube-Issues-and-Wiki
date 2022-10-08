@@ -9,7 +9,7 @@
       ],
       "recipe": {
         "type": "minecraft:crafting_shapeless",
-        "group": "pokecube_legends:",
+        "group": "red_dye",
         "ingredients": [
           {
             "item": "pokecube_legends:distortic_vines"
