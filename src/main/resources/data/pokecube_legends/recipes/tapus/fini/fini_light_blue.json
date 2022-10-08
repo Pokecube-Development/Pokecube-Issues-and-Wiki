@@ -1,21 +1,21 @@
 {
-  "group": "pokecube_legends",
   "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:fini",
   "pattern": [
     "000",
     "X0X",
-    "X0X"
+    "000"
   ],
   "key": {
     "0": {
       "item": "pokecube_legends:totem_block"
     },
     "X": {
-      "tag": "forge:dyes/light_gray"
+      "tag": "forge:dyes/light_blue"
     }
   },
   "result": {
-    "item": "pokecube_legends:bulu_lightgray_totem",
+    "item": "pokecube_legends:fini_lightblue_totem",
     "count": 1
   }
 }

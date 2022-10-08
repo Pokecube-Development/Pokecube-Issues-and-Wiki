@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:cramomatic_block",
   "pattern": [
     " C ",
     "TWT",
