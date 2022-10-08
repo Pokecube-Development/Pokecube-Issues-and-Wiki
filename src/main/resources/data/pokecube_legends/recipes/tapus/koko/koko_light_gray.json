@@ -1,10 +1,10 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "pokecube_legends:",
+  "group": "pokecube_legends:koko",
   "pattern": [
-    "X0X",
     "0X0",
-    "000"
+    "0X0",
+    "0X0"
   ],
   "key": {
     "0": {
@@ -15,7 +15,7 @@
     }
   },
   "result": {
-    "item": "pokecube_legends:lele_lightgray_totem",
+    "item": "pokecube_legends:koko_lightgray_totem",
     "count": 1
   }
 }

@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "pokecube_legends:",
+  "group": "pokecube_legends:bulu",
   "pattern": [
+    "000",
     "X0X",
-    "0X0",
-    "000"
+    "X0X"
   ],
   "key": {
     "0": {
       "item": "pokecube_legends:totem_block"
     },
     "X": {
-      "tag": "forge:dyes/light_blue"
+      "tag": "forge:dyes/light_gray"
     }
   },
   "result": {
-    "item": "pokecube_legends:lele_lightblue_totem",
+    "item": "pokecube_legends:bulu_lightgray_totem",
     "count": 1
   }
 }
