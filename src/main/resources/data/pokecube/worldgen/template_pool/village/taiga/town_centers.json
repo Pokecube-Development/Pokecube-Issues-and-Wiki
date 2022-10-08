@@ -16,7 +16,7 @@
         "location": "pokecube:village/taiga/town_centers/center_2",
         "flags":"street_corner",
         "processors": "pokecube:decay_30_percent",
-        "int_config":{"y_offset": -1},
+        "int_config":{"y_offset": -2},
         "projection": "rigid"
       },
       "weight": 1
