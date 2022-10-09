@@ -12,11 +12,13 @@ public class GeneEditEvent extends Event
     }
 
     public final IMobGenetics resultGenes;
-    public final EditType     reason;
+    public final IMobGenetics sourceGenes;
+    public final EditType reason;
 
-    public GeneEditEvent(final IMobGenetics resultGenes, final EditType reason)
+    public GeneEditEvent(final IMobGenetics sourceGenes, final IMobGenetics resultGenes, final EditType reason)
     {
         this.resultGenes = resultGenes;
+        this.sourceGenes = sourceGenes;
         this.reason = reason;
     }
 }
