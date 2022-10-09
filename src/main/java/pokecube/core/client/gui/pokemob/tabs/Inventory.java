@@ -117,11 +117,20 @@ public class Inventory extends Tab
     {
         int xOffset = 8;
         int yOffset = 43;
-        // Button width
-        int w = 89;
-        // Button height
-        int h = 10;
 
+        // Bar width
+        int w = 89;
+        // Bar height
+        int h = 5;
+        // Bar positioning
+        final int i = 9, j = 48;
+        this.addRenderableWidget(
+                this.bar = new HungerBar(this.width / 2 - i, this.height / 2 - j, w, h, this.menu.pokemob));
+
+        // Button width
+        w = 89;
+        // Button height
+        h = 10;
         this.addRenderableWidget(this.sit = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 00, w, h,
                 TComponent.translatable("pokemob.gui.sit"),
                 c -> PacketCommand.sendCommand(this.menu.pokemob, Command.STANCE,
@@ -152,14 +161,6 @@ public class Inventory extends Tab
                             : TComponent.translatable("pokemob.stance.no_guard");
                     parent.renderTooltip(pose, tooltip, x, y);
                 }));
-        // Bar width
-        w = 89;
-        // Bar height
-        h = 5;
-        // Bar positioning
-        final int i = 9, j = 48;
-        this.addRenderableWidget(
-                this.bar = new HungerBar(this.width / 2 - i, this.height / 2 - j, w, h, this.menu.pokemob));
 
         xOffset = 80;
         yOffset = 77;
