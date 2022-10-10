@@ -24,16 +24,13 @@ import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.StatsCollector;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.lib.TComponent;
 
 public class Description extends ListPage<LineEntry>
 {
-    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_desc.png");
-    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_desc_nm.png");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_desc");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_desc_nm");
 
     final PokemobInfoPage parent;
 

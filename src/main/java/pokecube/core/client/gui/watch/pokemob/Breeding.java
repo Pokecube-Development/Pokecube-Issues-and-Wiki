@@ -19,16 +19,13 @@ import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.lib.TComponent;
 
 public class Breeding extends ListPage<LineEntry>
 {
-    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_breeding.png");
-    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_breeding_nm.png");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_breeding");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_breeding_nm");
 
     int last = 0;
     final PokemobInfoPage parent;

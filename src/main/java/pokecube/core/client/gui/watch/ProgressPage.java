@@ -18,7 +18,6 @@ import pokecube.core.client.gui.watch.progress.PerMobProgress;
 import pokecube.core.client.gui.watch.progress.PerTypeProgress;
 import pokecube.core.client.gui.watch.progress.Progress;
 import pokecube.core.client.gui.watch.util.PageWithSubPages;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.lib.TComponent;
 
@@ -46,10 +45,8 @@ public class ProgressPage extends PageWithSubPages<Progress>
         }
     }
 
-    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_trainer.png");
-    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_trainer_nm.png");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_trainer");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_trainer_nm");
 
     public ProgressPage(final GuiPokeWatch watch)
     {

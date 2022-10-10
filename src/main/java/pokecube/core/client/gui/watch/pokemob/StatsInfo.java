@@ -8,14 +8,11 @@ import net.minecraft.resources.ResourceLocation;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
-import pokecube.core.impl.PokecubeMod;
 
 public class StatsInfo extends PokeInfoPage
 {
-    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_pokedex.png");
-    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_pokedex_nm.png");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_pokedex");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_pokedex_nm");
 
     public StatsInfo(final PokemobInfoPage parent)
     {

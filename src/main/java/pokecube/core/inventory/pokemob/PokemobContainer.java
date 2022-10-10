@@ -66,7 +66,6 @@ public class PokemobContainer extends BaseContainer
         }
         else if (this.mode == PacketPokemobGui.MAIN)
         {
-            this.addSlot(new TexturedSlot(this.pokemobInv, offhand, 64, 54, "pokecube_adventures:gui/slot_selector"));
             this.addSlot(new Slot(this.pokemobInv, 0, 64, 18)
             {
                 /**
@@ -120,6 +119,7 @@ public class PokemobContainer extends BaseContainer
                     if (ThutCore.proxy.isServerSide()) PokemobContainer.this.pokemob.setHeldItem(stack);
                 }
             });
+            this.addSlot(new TexturedSlot(this.pokemobInv, offhand, 64, 54, "pokecube_adventures:gui/slot_selector"));
             for (int k = 0; k < 5; ++k) this.addSlot(new Slot(this.pokemobInv, 2 + k, 83 + k * 18, 18)
             {
                 /**

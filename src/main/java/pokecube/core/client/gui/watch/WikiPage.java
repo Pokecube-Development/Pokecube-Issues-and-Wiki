@@ -33,7 +33,6 @@ import pokecube.core.database.rewards.XMLRewardsHandler.FreeBookParser.PagesFile
 import pokecube.core.database.rewards.XMLRewardsHandler.FreeBookParser.PagesFile.Page;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.PokedexInspector.IInspectReward;
-import pokecube.core.impl.PokecubeMod;
 import thut.lib.TComponent;
 
 public class WikiPage extends ListPage<LineEntry>
@@ -50,10 +49,8 @@ public class WikiPage extends ListPage<LineEntry>
         }
     }
 
-    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_wiki.png");
-    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_wiki_nm.png");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_wiki");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_wiki_nm");
 
     private int index = 0;
     private final Map<String, Integer> refs = Maps.newHashMap();
@@ -257,15 +254,15 @@ public class WikiPage extends ListPage<LineEntry>
                             entry = TComponent.literal(text);
                             this.refs.put(ref_val, this.list.getSize());
                         }
-                        if (text.contains("§"))
+                        if (text.contains("ï¿½"))
                         {
-                            int index = _text.indexOf("§");
+                            int index = _text.indexOf("ï¿½");
                             fmt = "";
                             while (index != -1)
                             {
                                 fmt = fmt + _text.substring(index, index + 2);
                                 _text = _text.substring(index + 2);
-                                index = _text.indexOf("§");
+                                index = _text.indexOf("ï¿½");
                             }
                         }
                         else entry = TComponent.literal(fmt + text);

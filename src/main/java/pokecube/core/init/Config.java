@@ -628,6 +628,8 @@ public class Config extends ConfigData
     @Configure(category = Config.genetics, comment = "Rate of pokeemob mutations.")
     public List<String> mutationRates = GeneticsManager.getMutationConfig();
 
+    @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Display extra tooltips in the pokemob's gui. [Default: true]")
+    public boolean pokemobGuiTooltips = true;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Display health bars above pokemobs. [Default: true]")
     public boolean doHealthBars = true;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Max distance to view health bars. [Default: 24]")
@@ -669,7 +671,7 @@ public class Config extends ConfigData
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Name color on the health bar of an unknown pokemob. [Default: 8947848]")
     public int unknownNameColour = 0x888888;
 
-    @Configure(category = Config.dynamax, type = Type.CLIENT, comment = "Dynamax cooldown in ticks. [Default: 6000]")
+    @Configure(category = Config.dynamax, comment = "Dynamax cooldown in ticks. [Default: 6000]")
     public int dynamax_cooldown = 6000;
     @Configure(category = Config.dynamax, comment = "Dynamax duration in ticks. [Default: 250]")
     public int dynamax_duration = 250;

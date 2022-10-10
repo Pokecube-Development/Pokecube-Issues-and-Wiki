@@ -164,6 +164,9 @@
     "pokemob.gui.routes.desc": "Routes Settings",
     "pokemob.gui.ai.desc": "AI Settings",
     
+    "pokemob.gui.slot.held_item": "Held Item Slot",
+    "pokemob.gui.slot.off_hand": "Offhand Slot",
+    
     "pokemob.gui.ai.gather.desc": "Enable item gathering",
     "pokemob.gui.ai.beeai.desc": "Enable Beehives",
     "pokemob.gui.ai.antai.desc": "Enable Ant Nests",

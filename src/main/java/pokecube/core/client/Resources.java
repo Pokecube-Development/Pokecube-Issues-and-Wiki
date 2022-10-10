@@ -9,7 +9,8 @@ import pokecube.core.impl.PokecubeMod;
 /**
  * @author Manchou
  */
-public class Resources {
+public class Resources
+{
 
     public final static String TEXTURE_FOLDER = "textures/";
     public final static String TEXTURE_GUI_FOLDER = Resources.TEXTURE_FOLDER + "gui/";
@@ -35,7 +36,11 @@ public class Resources {
     public final static ResourceLocation TAB_ICON_ROUTES;
     public final static ResourceLocation TAB_ICON_STORAGE;
 
-    static {
+    public final static ResourceLocation WIDGETS;
+    public final static ResourceLocation WIDGETS_NM;
+
+    static
+    {
 
         GUI_POKEDEX = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "pokedexgui.png");
 
@@ -60,5 +65,8 @@ public class Resources {
                 Resources.TEXTURE_GUI_ICON_FOLDER + "tab_inventory.png");
         TAB_ICON_ROUTES = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_ICON_FOLDER + "tab_routes.png");
         TAB_ICON_STORAGE = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_ICON_FOLDER + "tab_storage.png");
+
+        WIDGETS = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/widgets.png");
+        WIDGETS_NM = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/widgets_nm.png");
     }
 }
