@@ -2,6 +2,7 @@ package pokecube.core.client.gui.pokemob.tabs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -16,6 +17,7 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.inventory.Slot;
 import pokecube.api.entity.pokemob.IHasCommands.Command;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -23,6 +25,7 @@ import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
+import pokecube.core.client.gui.helper.TooltipArea;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
@@ -97,7 +100,7 @@ public class Inventory extends Tab
     boolean staying;
 
     protected EditBox name = new EditBox(null, 1 / 2, 1 / 2, 120, 10, TComponent.literal(""));
-
+    
     public Inventory(GuiPokemob parent)
     {
         super(parent, "inventory");
@@ -161,6 +164,44 @@ public class Inventory extends Tab
                 {
                     Component tooltip = guarding ? TComponent.translatable("pokemob.stance.guard")
                             : TComponent.translatable("pokemob.stance.no_guard");
+                    parent.renderTooltip(pose, tooltip, x, y);
+                }));
+
+        final int k = (this.width - this.imageWidth) / 2;
+        final int l = (this.height - this.imageHeight) / 2;
+
+        Slot held_slot = menu.slots.get(1);
+        Slot offhand_slot = menu.slots.get(2);
+
+        this.addRenderableWidget(
+                new TooltipArea(k + 64, l + 36, 16, 16, TComponent.translatable("pokemob.gui.slot.held_item"), (x, y) ->
+                {
+                    if (!held_slot.getItem().isEmpty()) return false;
+                    return PokecubeCore.getConfig().pokemobGuiTooltips;
+                }, (b, pose, x, y) -> {
+                    Component tooltip = b.getMessage();
+                    parent.renderTooltip(pose, tooltip, x, y);
+                }));
+        this.addRenderableWidget(
+                new TooltipArea(k + 64, l + 54, 16, 16, TComponent.translatable("pokemob.gui.slot.off_hand"), (x, y) ->
+                {
+                    if (offhand_slot.hasItem()) return false;
+                    return PokecubeCore.getConfig().pokemobGuiTooltips;
+                }, (b, pose, x, y) -> {
+                    Component tooltip = b.getMessage();
+                    parent.renderTooltip(pose, tooltip, x, y);
+                }));
+        List<Slot> items = Lists.newArrayList();
+        for (int m = 3; m < 8; m++) items.add(menu.slots.get(m));
+        Supplier<Boolean> hasAnyItem = () -> items.stream().allMatch(s -> !s.hasItem());
+
+        this.addRenderableWidget(
+                new TooltipArea(k + 83, l + 18, 89, 16, TComponent.translatable("pokemob.gui.slot.food_misc"), (x, y) ->
+                {
+                    if (!hasAnyItem.get()) return false;
+                    return PokecubeCore.getConfig().pokemobGuiTooltips;
+                }, (b, pose, x, y) -> {
+                    Component tooltip = b.getMessage();
                     parent.renderTooltip(pose, tooltip, x, y);
                 }));
 

@@ -166,6 +166,7 @@
     
     "pokemob.gui.slot.held_item": "Held Item Slot",
     "pokemob.gui.slot.off_hand": "Offhand Slot",
+    "pokemob.gui.slot.food_misc": "Food/Other Items Slots",
     
     "pokemob.gui.ai.gather.desc": "Enable item gathering",
     "pokemob.gui.ai.beeai.desc": "Enable Beehives",
