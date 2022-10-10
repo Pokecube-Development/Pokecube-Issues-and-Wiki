@@ -22,6 +22,7 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
 import pokecube.core.PokecubeCore;
+import pokecube.core.client.Resources;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
@@ -100,6 +101,7 @@ public class Inventory extends Tab
     public Inventory(GuiPokemob parent)
     {
         super(parent, "inventory");
+        this.icon = Resources.TAB_ICON_INVENTORY;
     }
 
     @Override

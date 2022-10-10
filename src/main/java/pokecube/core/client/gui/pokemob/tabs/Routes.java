@@ -12,6 +12,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import pokecube.core.ai.routes.IGuardAICapability;
+import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.GuardEntry;
 import pokecube.core.client.gui.helper.RouteEditHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
@@ -36,6 +37,7 @@ public class Routes extends Tab
         super(parent, "routes");
         this.entity = this.menu.pokemob.getEntity();
         this.guard = this.entity.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
+        this.icon = Resources.TAB_ICON_ROUTES;
     }
 
     @Override

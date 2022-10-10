@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -121,7 +122,12 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
             {
                 RenderSystem.setShaderTexture(0, t.icon);
                 RenderSystem.enableBlend();
-                this.blit(pose, r.x0, r.y0, 0, 0, 16, 16);
+                pose.pushPose();
+                pose.translate(r.x0 - 2, r.y0 - 1, 0);
+                float s = 1 / 8f;
+                pose.scale(s, s, s);
+                this.blit(pose, 0, 0, 0, 0, 256, 256);
+                pose.popPose();
             }
         }
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
@@ -136,7 +142,12 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
         {
             RenderSystem.setShaderTexture(0, t.icon);
             RenderSystem.enableBlend();
-            this.blit(pose, r.x0, r.y0, 0, 32, 16, 16);
+            pose.pushPose();
+            pose.translate(r.x0 - 2, r.y0 - 1, 0);
+            float s = 1 / 8f;
+            pose.scale(s, s, s);
+            this.blit(pose, 0, 0, 0, 0, 256, 256);
+            pose.popPose();
         }
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
         modules.get(moduleIndex).renderBg(pose, tick, mx, my);

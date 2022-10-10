@@ -17,6 +17,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.tasks.utility.StoreTask;
+import pokecube.core.client.Resources;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketUpdateAI;
@@ -42,6 +43,7 @@ public class Storage extends Tab
         this.ai = new StoreTask(this.pokemob);
         final CompoundTag tag = this.menu.data.readNbt();
         this.ai.deserializeNBT(tag);
+        this.icon = Resources.TAB_ICON_STORAGE;
     }
 
     @Override

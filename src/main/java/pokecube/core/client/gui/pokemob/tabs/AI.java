@@ -47,6 +47,7 @@ public class AI extends Tab
             for (var button : buttons)
             {
                 button.button().visible = false;
+                button.button().active = false;
             }
             this.top = buttons[0].button().y;
             this.parent = parent;
@@ -106,6 +107,7 @@ public class AI extends Tab
     public AI(GuiPokemob parent)
     {
         super(parent, "ai");
+        this.icon = Resources.TAB_ICON_AI;
     }
 
     @Override
@@ -156,7 +158,6 @@ public class AI extends Tab
             }, (b, pose, x, y) -> {
                 parent.renderTooltip(pose, tooltip, x, y);
             });
-            this.addRenderableWidget(button);
             AIButton toAdd = new AIButton(button, routine);
             thisRow.add(toAdd);
             if (thisRow.size() == 2)
@@ -164,6 +165,7 @@ public class AI extends Tab
                 this.list.addEntry(new AIEntry(parent, pokemob, thisRow.toArray(new AIButton[2])));
                 thisRow.clear();
             }
+            this.addRenderableWidget(button);
         }
         if (!thisRow.isEmpty())
         {
