@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.helper.PoweredContainer;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
+import pokecube.core.client.Resources;
 import pokecube.core.inventory.TexturedSlot;
 
 public class ClonerContainer extends PoweredContainer<ClonerTile>
@@ -48,10 +49,9 @@ public class ClonerContainer extends PoweredContainer<ClonerTile>
 
         int i = 0;
         int j = 0;
-        this.addSlot(
-                new TexturedSlot(this.inv, 0, dj - 21 + j * 18, di + i * 18, "pokecube_adventures:gui/slot_bottle"));
+        this.addSlot(new TexturedSlot(this.inv, 0, dj - 21 + j * 18, di + i * 18, Resources.SLOT_ICON_BOTTLE));
         i = 2;
-        this.addSlot(new TexturedSlot(this.inv, 1, dj - 21 + j * 18, di + i * 18, "pokecube_adventures:gui/slot_egg"));
+        this.addSlot(new TexturedSlot(this.inv, 1, dj - 21 + j * 18, di + i * 18, Resources.SLOT_ICON_EGG));
 
         i = 0;
         this.addSlot(new Slot(this.inv, 2, dj + j * 18, di + di2 + i * 18));

@@ -291,5 +291,9 @@ public class ClientSetupHandler
         PokecubeAPI.LOGGER.debug("Registering Pokecube Slot Textures");
         event.addSprite(Resources.SLOT_ICON_CUBE);
         event.addSprite(Resources.SLOT_ICON_TM);
+        event.addSprite(Resources.SLOT_ICON_BOOK);
+        event.addSprite(Resources.SLOT_ICON_BOTTLE);
+        event.addSprite(Resources.SLOT_ICON_DNA);
+        event.addSprite(Resources.SLOT_ICON_EGG);
     }
 }

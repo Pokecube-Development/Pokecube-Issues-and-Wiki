@@ -10,6 +10,7 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.tms.TMTile;
+import pokecube.core.client.Resources;
 import pokecube.core.init.MenuTypes;
 import pokecube.core.inventory.TexturedSlot;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -18,10 +19,10 @@ import thut.api.inventory.BaseContainer;
 
 public class TMContainer extends BaseContainer
 {
-    private Container                             inv;
-    private final ContainerLevelAccess                pos;
-    public TMTile                                  tile;
-    public String[]                                moves = new String[0];
+    private Container inv;
+    private final ContainerLevelAccess pos;
+    public TMTile tile;
+    public String[] moves = new String[0];
 
     public TMContainer(final int id, final Inventory inv)
     {
@@ -33,15 +34,13 @@ public class TMContainer extends BaseContainer
         super(MenuTypes.TMS.get(), id);
         this.pos = pos;
 
-        pos.execute((w, p) ->
-        {
+        pos.execute((w, p) -> {
             final BlockEntity tile = w.getBlockEntity(p);
             // Server side
             if (tile instanceof TMTile)
             {
                 this.tile = (TMTile) tile;
-                final InvWrapper wrapper = (InvWrapper) this.tile.getCapability(
-                        ThutCaps.ITEM_HANDLER).orElse(null);
+                final InvWrapper wrapper = (InvWrapper) this.tile.getCapability(ThutCaps.ITEM_HANDLER).orElse(null);
                 this.inv = wrapper.getInv();
             }
         });
@@ -50,20 +49,19 @@ public class TMContainer extends BaseContainer
         {
             this.tile = new TMTile(inv.player.blockPosition(), PokecubeItems.TM_MACHINE.get().defaultBlockState());
             this.tile.setLevel(PokecubeCore.proxy.getWorld());
-            final InvWrapper wrapper = (InvWrapper) this.tile.getCapability(
-                    ThutCaps.ITEM_HANDLER).orElse(null);
+            final InvWrapper wrapper = (InvWrapper) this.tile.getCapability(ThutCaps.ITEM_HANDLER).orElse(null);
             this.inv = wrapper.getInv();
         }
 
-        this.addSlot(new TexturedSlot(this.inv, 0, 15 + 00, 12 + 00, "pokecube:gui/slot_tm"));
+        this.addSlot(new TexturedSlot(this.inv, 0, 15 + 00, 12 + 00, Resources.SLOT_ICON_TM));
         final TMContainer cont = this;
-        this.addSlot(new TexturedSlot(this.inv, 1, 15 + 00, 12 + 49, "pokecube:gui/slot_cube")
+        this.addSlot(new TexturedSlot(this.inv, 1, 15 + 00, 12 + 49, Resources.SLOT_ICON_CUBE)
         {
             @Override
             public boolean mayPlace(final ItemStack stack)
             {
-                if (PokecubeManager.isFilled(stack)) cont.moves = cont.tile.getMoves(PokecubeManager.itemToPokemob(
-                        stack, cont.tile.getLevel()));
+                if (PokecubeManager.isFilled(stack))
+                    cont.moves = cont.tile.getMoves(PokecubeManager.itemToPokemob(stack, cont.tile.getLevel()));
                 final String owner = PokecubeManager.getOwner(stack);
                 if (owner.isEmpty()) return super.mayPlace(stack);
                 return inv.player.getStringUUID().equals(owner);
@@ -102,8 +100,7 @@ public class TMContainer extends BaseContainer
     public void removed(final Player playerIn)
     {
         super.removed(playerIn);
-        this.pos.execute((world, pos) ->
-        {
+        this.pos.execute((world, pos) -> {
             this.clearContainer(playerIn, this.inv);
         });
     }

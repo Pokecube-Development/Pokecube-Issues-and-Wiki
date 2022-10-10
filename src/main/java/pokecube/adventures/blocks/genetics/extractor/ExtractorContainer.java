@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.helper.PoweredContainer;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
+import pokecube.core.client.Resources;
 import pokecube.core.inventory.TexturedSlot;
 
 public class ExtractorContainer extends PoweredContainer<ExtractorTile>
@@ -48,11 +49,11 @@ public class ExtractorContainer extends PoweredContainer<ExtractorTile>
         final int dj = 32;
 
         // DNA Container
-        this.addSlot(new TexturedSlot(this.tile, 0, dj + dj2, di, "pokecube_adventures:gui/slot_bottle"));
+        this.addSlot(new TexturedSlot(this.tile, 0, dj + dj2, di, Resources.SLOT_ICON_BOTTLE));
         // Stabiliser
-        this.addSlot(new TexturedSlot(this.tile, 1, dj + dj2, di + 35, "pokecube_adventures:gui/slot_selector"));
+        this.addSlot(new TexturedSlot(this.tile, 1, dj + dj2, di + 35, Resources.SLOT_ICON_BOOK));
         // DNA Source
-        this.addSlot(new TexturedSlot(this.tile, 2, 47, di + di2, "pokecube_adventures:gui/slot_dna"));
+        this.addSlot(new TexturedSlot(this.tile, 2, 47, di + di2, Resources.SLOT_ICON_DNA));
 
         this.bindPlayerInventory(invIn, -19);
     }
