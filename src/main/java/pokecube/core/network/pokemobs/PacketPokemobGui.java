@@ -5,8 +5,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -54,7 +52,6 @@ public class PacketPokemobGui extends Packet
         }
     }
 
-    @OnlyIn(value = Dist.CLIENT)
     public static void sendPagePacket(final byte page, final int id)
     {
         PokecubeCore.packets.sendToServer(new PacketPokemobGui(page, id));
@@ -83,7 +80,13 @@ public class PacketPokemobGui extends Packet
     public void handleServer(final ServerPlayer player)
     {
         final Entity entity = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), this.id, true);
-        sendOpenPacket(entity, player, this.message);
+
+        // First check if maybe player already has this open.
+        if (player.containerMenu instanceof PokemobContainer container)
+        {
+            container.setMode(message);
+        }
+        else sendOpenPacket(entity, player, this.message);
     }
 
     @Override

@@ -13,6 +13,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeItems;
 import pokecube.core.init.MenuTypes;
+import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.EntityTools;
 import thut.api.inventory.BaseContainer;
 import thut.core.common.ThutCore;
@@ -46,6 +47,11 @@ public class PokemobContainer extends BaseContainer
 
     public void setMode(final int mode)
     {
+        if (mode != this.mode && playerInv.player.level.isClientSide())
+        {
+            PacketPokemobGui.sendPagePacket((byte) mode, pokemob.getEntity().getId());
+        }
+
         this.mode = (byte) mode;
         int j;
         int k;
@@ -53,7 +59,7 @@ public class PokemobContainer extends BaseContainer
         this.slots.clear();
         this.lastSlots.clear();
 
-        if (this.mode == 0)
+        if (this.mode == PacketPokemobGui.MAIN)
         {
             this.addSlot(new Slot(this.pokemobInv, 0, 8, 18)
             {
