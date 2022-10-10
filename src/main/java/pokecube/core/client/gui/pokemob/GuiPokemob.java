@@ -27,6 +27,9 @@ import thut.lib.TComponent;
 
 public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
 {
+    private static final ResourceLocation TAB_TEX = new ResourceLocation(
+            "textures/gui/container/creative_inventory/tabs.png");
+
     List<Tab> modules = Lists.newArrayList();
     List<Rectangle> tabs = Lists.newArrayList();
     public int moduleIndex = 0;
@@ -104,7 +107,6 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
         final int k = (this.width - this.imageWidth) / 2;
         final int l = (this.height - this.imageHeight) / 2;
-        ResourceLocation tabs = new ResourceLocation("textures/gui/container/creative_inventory/tabs.png");
         for (int i = 0; i < 4; i++)
         {
             Tab t = modules.get(i);
@@ -112,7 +114,7 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
             t.updateHovored(mx, my);
             if (i == moduleIndex) continue;
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            RenderSystem.setShaderTexture(0, tabs);
+            RenderSystem.setShaderTexture(0, TAB_TEX);
             RenderSystem.enableBlend();
             this.blit(pose, r.x0, r.y0, 28, 0, r.w, r.h);
             if (t.icon != null)
@@ -125,7 +127,7 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
         this.blit(pose, k, l, 0, 0, this.imageWidth, this.imageHeight);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, tabs);
+        RenderSystem.setShaderTexture(0, TAB_TEX);
         RenderSystem.enableBlend();
         Tab t = modules.get(moduleIndex);
         Rectangle r = this.tabs.get(moduleIndex);

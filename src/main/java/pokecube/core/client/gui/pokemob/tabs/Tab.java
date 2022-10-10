@@ -93,10 +93,10 @@ public abstract class Tab
         final int l = (this.height - this.imageHeight) / 2;
 
         // Render the black box to hold the pokemob
-        parent.blit(mat, k + 24, l + 16, 90, this.imageHeight, 55, 55);
+        parent.blit(mat, k + 24, l + 16, 0, this.imageHeight, 55, 55);
 
         // Render the box around where the inventory slots/buttons go.
-        parent.blit(mat, k + 79, l + 16, 145, this.imageHeight, 90, 55);
+        parent.blit(mat, k + 79, l + 16, 55, this.imageHeight, 90, 55);
 
         if (this.menu.pokemob != null)
         {

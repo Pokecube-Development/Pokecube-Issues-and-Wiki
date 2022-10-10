@@ -179,7 +179,7 @@ public class Inventory extends Tab
         final int k = (this.width - this.imageWidth) / 2;
         final int l = (this.height - this.imageHeight) / 2;
         // The 5 inventory slots
-        parent.blit(mat, k + 79, l + 17, 0, this.imageHeight, 90, 18);
+        parent.blit(mat, k + 79, l + 17, 0, this.imageHeight + 72, 90, 18);
         // The held item slot
         parent.blit(mat, k + 7, l + 35, 0, this.imageHeight + 54, 18, 18);
         // The saddle slot

@@ -1,39 +1,55 @@
 package pokecube.core.client.gui.pokemob.tabs;
 
+import java.util.List;
 import java.util.Locale;
 
+import com.google.common.collect.Lists;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.AbstractSelectionList.Entry;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Mob;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
+import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
+import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.network.pokemobs.PacketAIRoutine;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import thut.lib.TComponent;
 
 public class AI extends Tab
 {
+    private static final ResourceLocation CHECK_TEX = new ResourceLocation("textures/gui/checkbox.png");
+
+    private static record AIButton(Button button, AIRoutine routine)
+    {
+    }
+
     private static class AIEntry extends Entry<AIEntry>
     {
         final IPokemob pokemob;
-        final Button wrapped;
-        final int index;
+        final AIButton[] buttons;
+        final Screen parent;
         int top;
 
-        public AIEntry(final Button wrapped, final int index, final IPokemob pokemob)
+        public AIEntry(final Screen parent, final IPokemob pokemob, AIButton... buttons)
         {
-            this.wrapped = wrapped;
+            this.buttons = buttons;
             this.pokemob = pokemob;
-            this.wrapped.visible = false;
-            this.wrapped.active = false;
-            this.top = wrapped.y;
-            this.index = index;
+            for (var button : buttons)
+            {
+                button.button().visible = false;
+            }
+            this.top = buttons[0].button().y;
+            this.parent = parent;
         }
 
         @Override
@@ -41,24 +57,45 @@ public class AI extends Tab
                 final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
                 final float partialTicks)
         {
-            this.wrapped.visible = false;
-            this.wrapped.active = false;
+            int dx = 0;
+            int texW = 10;
+            for (var holder : this.buttons)
+            {
+                var button = holder.button();
+                AIRoutine routine = holder.routine();
+                button.visible = false;
+                button.active = false;
 
-            if (y > this.top && y < this.top + 50)
-            {
-                final AIRoutine routine = AIRoutine.values()[this.index];
-                final boolean state = this.pokemob.isRoutineEnabled(routine);
-                GuiComponent.fill(mat, x + 41, y + 1, x + 80, y + 10, state ? 0xFF00FF00 : 0xFFFF0000);
-                GuiComponent.fill(mat, x, y + 10, x + 40, y + 11, 0xFF000000);
-                this.wrapped.x = x;
-                this.wrapped.y = y;
-                this.wrapped.visible = true;
-                this.wrapped.active = true;
-            }
-            else
-            {
-                this.wrapped.visible = false;
-                this.wrapped.active = false;
+                if (y > this.top && y < this.top + 50)
+                {
+                    button.x = x + dx;
+                    button.y = y;
+                    button.visible = true;
+                    button.active = true;
+                    dx += button.getWidth();
+                    final boolean state = this.pokemob.isRoutineEnabled(routine);
+
+                    RenderSystem.setShader(GameRenderer::getPositionTexShader);
+                    RenderSystem.setShaderTexture(0, CHECK_TEX);
+
+                    mat.pushPose();
+                    float s = 10f / 80f;
+                    int sx = x + dx;
+                    int sy = y + 0;
+                    mat.translate(sx, sy, 0);
+                    mat.scale(s, s, s);
+                    mat.translate(-sx, -sy, 0);
+                    int tx = 0;
+                    int ty = state ? 80 : 0;
+                    parent.blit(mat, x + dx, y, tx, ty, 80, 80);
+                    mat.popPose();
+                    dx += texW;
+                }
+                else
+                {
+                    button.visible = false;
+                    button.active = false;
+                }
             }
         }
 
@@ -95,22 +132,24 @@ public class AI extends Tab
         IPokemob pokemob = this.menu.pokemob;
 
         yOffset += 9;
-        xOffset += 0;
-        this.list = new ScrollGui<>(this.parent, this.parent.minecraft, 90, 50, 10, xOffset, yOffset);
+        xOffset -= 16;
+        this.list = new ScrollGui<>(this.parent, this.parent.minecraft, 110, 50, 10, xOffset, yOffset);
 
         this.list.scrollBarDx = 2;
         this.list.scrollBarDy = 4;
 
         this.list.smoothScroll = false;
+
+        List<AIButton> thisRow = Lists.newArrayList();
+
         for (int i = 0; i < AIRoutine.values().length; i++)
         {
-            String name = AIRoutine.values()[i].toString();
-            if (!AIRoutine.values()[i].isAllowed(pokemob)) continue;
+            AIRoutine routine = AIRoutine.values()[i];
+            String name = routine.toString();
+            if (!routine.isAllowed(pokemob)) continue;
             Component tooltip = TComponent.translatable("pokemob.gui.ai." + name.toLowerCase(Locale.ROOT));
             if (name.length() > 6) name = name.substring(0, 6);
-            final int index = i;
             final Button button = new Button(xOffset, yOffset, 40, 10, TComponent.literal(name), b -> {
-                final AIRoutine routine = AIRoutine.values()[index];
                 final boolean state = !pokemob.isRoutineEnabled(routine);
                 pokemob.setRoutineState(routine, state);
                 PacketAIRoutine.sentCommand(pokemob, routine, state);
@@ -118,7 +157,17 @@ public class AI extends Tab
                 parent.renderTooltip(pose, tooltip, x, y);
             });
             this.addRenderableWidget(button);
-            this.list.addEntry(new AIEntry(button, index, pokemob));
+            AIButton toAdd = new AIButton(button, routine);
+            thisRow.add(toAdd);
+            if (thisRow.size() == 2)
+            {
+                this.list.addEntry(new AIEntry(parent, pokemob, thisRow.toArray(new AIButton[2])));
+                thisRow.clear();
+            }
+        }
+        if (!thisRow.isEmpty())
+        {
+            this.list.addEntry(new AIEntry(parent, pokemob, thisRow.toArray(new AIButton[0])));
         }
     }
 
@@ -132,7 +181,35 @@ public class AI extends Tab
     @Override
     public void renderBg(PoseStack mat, float partialTicks, int mouseX, int mouseY)
     {
-        super.renderBg(mat, partialTicks, mouseX, mouseY);
+        final int k = (this.width - this.imageWidth) / 2 - 17;
+        final int l = (this.height - this.imageHeight) / 2;
+        // Render the black box to hold the pokemob
+        parent.blit(mat, k + 24, l + 16, 0, this.imageHeight, 55, 55);
+
+        // Render the box around where the inventory slots/buttons go.
+        parent.blit(mat, k + 79, l + 16, 145, this.imageHeight, 110, 55);
+
+        if (this.menu.pokemob != null)
+        {
+            Mob mob = this.menu.pokemob.getEntity();
+
+            float f = 30;
+            float yBodyRot = mob.yBodyRot;
+            float yBodyRotO = mob.yBodyRotO;
+            float yHeadRot = mob.yHeadRot;
+            float yHeadRotO = mob.yHeadRotO;
+
+            mob.yBodyRot = mob.yBodyRotO = 180.0F + f * 20.0F;
+            mob.yHeadRot = mob.yHeadRotO = mob.yBodyRot;
+
+            GuiPokemobHelper.renderMob(mat, mob, k, l, 0, 0, 0, 0, 1, partialTicks);
+
+            mob.yBodyRot = yBodyRot;
+            mob.yBodyRotO = yBodyRotO;
+            mob.yHeadRot = yHeadRot;
+            mob.yHeadRotO = yHeadRotO;
+            RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
+        }
     }
 
 }
