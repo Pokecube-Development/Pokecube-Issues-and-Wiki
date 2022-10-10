@@ -223,7 +223,7 @@ public class WearableWrapper
         final GuiWearableButton button;
         if (event.getScreen() instanceof GuiPokemob pokegui)
         {
-            int x = pokegui.getGuiLeft() + ThutWearables.config.buttonPos.get(0);
+            int x = pokegui.getGuiLeft() + ThutWearables.config.buttonPos.get(0) - 18;
             int y = pokegui.getGuiTop() + ThutWearables.config.buttonPos.get(1) + 10;
             event.getScreen().addRenderableWidget(button = new GuiWearableButton(x, y, 9, 9,
                     TComponent.translatable("button.wearables.on"), b -> openPokemobWearables(pokegui)));

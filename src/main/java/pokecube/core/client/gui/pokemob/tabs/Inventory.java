@@ -100,7 +100,7 @@ public class Inventory extends Tab
     boolean staying;
 
     protected EditBox name = new EditBox(null, 1 / 2, 1 / 2, 120, 10, TComponent.literal(""));
-    
+
     public Inventory(GuiPokemob parent)
     {
         super(parent, "inventory");
@@ -170,40 +170,52 @@ public class Inventory extends Tab
         final int k = (this.width - this.imageWidth) / 2;
         final int l = (this.height - this.imageHeight) / 2;
 
-        Slot held_slot = menu.slots.get(1);
-        Slot offhand_slot = menu.slots.get(2);
-
+        this.addRenderableWidget(
+                new TooltipArea(k + 64, l + 18, 16, 16, TComponent.translatable("pokemob.gui.slot.saddle"), (x, y) ->
+                {
+                    Slot slot = menu.slots.get(0);
+                    if (slot.hasItem()) return false;
+                    return PokecubeCore.getConfig().pokemobGuiTooltips;
+                }, (b, pose, x, y) -> {
+                    Component tooltip = b.getMessage();
+                    parent.renderTooltip(pose, tooltip, x, y);
+                }).noAuto());
         this.addRenderableWidget(
                 new TooltipArea(k + 64, l + 36, 16, 16, TComponent.translatable("pokemob.gui.slot.held_item"), (x, y) ->
                 {
-                    if (!held_slot.getItem().isEmpty()) return false;
+                    Slot slot = menu.slots.get(1);
+                    if (slot.hasItem()) return false;
                     return PokecubeCore.getConfig().pokemobGuiTooltips;
                 }, (b, pose, x, y) -> {
                     Component tooltip = b.getMessage();
                     parent.renderTooltip(pose, tooltip, x, y);
-                }));
+                }).noAuto());
         this.addRenderableWidget(
                 new TooltipArea(k + 64, l + 54, 16, 16, TComponent.translatable("pokemob.gui.slot.off_hand"), (x, y) ->
                 {
-                    if (offhand_slot.hasItem()) return false;
+                    Slot slot = menu.slots.get(2);
+                    if (slot.hasItem()) return false;
                     return PokecubeCore.getConfig().pokemobGuiTooltips;
                 }, (b, pose, x, y) -> {
                     Component tooltip = b.getMessage();
                     parent.renderTooltip(pose, tooltip, x, y);
-                }));
-        List<Slot> items = Lists.newArrayList();
-        for (int m = 3; m < 8; m++) items.add(menu.slots.get(m));
-        Supplier<Boolean> hasAnyItem = () -> items.stream().allMatch(s -> !s.hasItem());
+                }).noAuto());
 
         this.addRenderableWidget(
                 new TooltipArea(k + 83, l + 18, 89, 16, TComponent.translatable("pokemob.gui.slot.food_misc"), (x, y) ->
                 {
+                    // This is done inside here as when the tabs change, it can
+                    // re-set the slots lists, thereby invalidating the previous
+                    // check!
+                    List<Slot> items = Lists.newArrayList();
+                    Supplier<Boolean> hasAnyItem = () -> items.stream().allMatch(s -> !s.hasItem());
+                    if (items.isEmpty()) for (int m = 3; m < 8; m++) items.add(menu.slots.get(m));
                     if (!hasAnyItem.get()) return false;
                     return PokecubeCore.getConfig().pokemobGuiTooltips;
                 }, (b, pose, x, y) -> {
                     Component tooltip = b.getMessage();
                     parent.renderTooltip(pose, tooltip, x, y);
-                }));
+                }).noAuto());
 
         xOffset = 80;
         yOffset = 77;
@@ -213,6 +225,14 @@ public class Inventory extends Tab
         this.name.textColorUneditable = 4210752;
         if (this.menu.pokemob != null) this.name.setValue(this.menu.pokemob.getDisplayName().getString());
         this.addRenderableWidget(this.name);
+
+        this.addRenderableWidget(new TooltipArea(name, TComponent.translatable("pokemob.gui.nickname"), (x, y) -> {
+            if (this.name.isFocused()) return false;
+            return PokecubeCore.getConfig().pokemobGuiTooltips;
+        }, (b, pose, x, y) -> {
+            Component tooltip = b.getMessage();
+            parent.renderTooltip(pose, tooltip, x, y);
+        }).noAuto());
     }
 
     @Override

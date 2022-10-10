@@ -18,6 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.Rectangle;
+import pokecube.core.client.gui.helper.TooltipArea;
 import pokecube.core.client.gui.pokemob.tabs.AI;
 import pokecube.core.client.gui.pokemob.tabs.Routes;
 import pokecube.core.client.gui.pokemob.tabs.Storage;
@@ -60,9 +61,10 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
         this.tabs.clear();
         final int k = (this.width - this.imageWidth) / 2;
         final int l = (this.height - this.imageHeight) / 2;
-        for (int i = 0; i < 4; i++)
+        int tabCount = Math.min(6, modules.size());
+        for (int i = 0; i < tabCount; i++)
         {
-            int x0 = k + (i + 1) * 28;
+            int x0 = k + i * 28;
             int y0 = l - 28;
             int x1 = x0 + 28;
             int y1 = y0 + 32;
@@ -96,6 +98,13 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
                 this.renderComponentTooltip(mat, Lists.newArrayList(TComponent.translatable(t.desc)), x, y);
             }
         }
+        for (var component : this.renderables)
+        {
+            if (component instanceof TooltipArea area && !area.autoRenders())
+            {
+                area.renderToolTip(mat, x, y);
+            }
+        }
         this.renderTooltip(mat, x, y);
     }
 
@@ -107,7 +116,10 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
         final int k = (this.width - this.imageWidth) / 2;
         final int l = (this.height - this.imageHeight) / 2;
-        for (int i = 0; i < 4; i++)
+
+        int tabs = Math.min(6, modules.size());
+
+        for (int i = 0; i < tabs; i++)
         {
             Tab t = modules.get(i);
             Rectangle r = this.tabs.get(i);
@@ -136,7 +148,8 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
         RenderSystem.enableBlend();
         Tab t = modules.get(moduleIndex);
         Rectangle r = this.tabs.get(moduleIndex);
-        this.blit(pose, r.x0, r.y0, 28, 32, r.w, r.h);
+        int dx = moduleIndex == 0 ? 0 : 28;
+        this.blit(pose, r.x0, r.y0, dx, 32, r.w, r.h);
         if (t.icon != null)
         {
             RenderSystem.setShaderTexture(0, t.icon);

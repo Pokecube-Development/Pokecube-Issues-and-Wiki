@@ -26,6 +26,8 @@ public class TooltipArea extends AbstractWidget
     private final DoTooltip doTooltip;
     private final OnTooltip onTooltip;
 
+    private boolean autoShow = true;
+
     public TooltipArea(int x, int y, int w, int h, Component name, DoTooltip doTooltip, OnTooltip onTooltip)
     {
         super(x, y, w, h, name);
@@ -33,18 +35,42 @@ public class TooltipArea extends AbstractWidget
         this.onTooltip = onTooltip;
     }
 
+    public TooltipArea(AbstractWidget mask, Component name, DoTooltip doTooltip, OnTooltip onTooltip)
+    {
+        super(mask.x, mask.y, mask.getWidth(), mask.getHeight(), name);
+        this.doTooltip = doTooltip;
+        this.onTooltip = onTooltip;
+    }
+
+    /**
+     * Call this to disable automatic tooltip rendering. This is useful if you
+     * have slots that overlap the tooltip area, to prevent their highlights
+     * appearing. If you call this, you must manually call renderToolTip!
+     * 
+     * @return this
+     */
+    public TooltipArea noAuto()
+    {
+        autoShow = false;
+        return this;
+    }
+
+    public boolean autoRenders()
+    {
+        return autoShow;
+    }
+
     @Override
     public void updateNarration(NarrationElementOutput naration)
-    {
-    }
-    
+    {}
+
     @Override
     protected boolean clicked(double x, double y)
     {
         // We don't do anything when clicked.
         return false;
     }
-    
+
     @Override
     protected boolean isValidClickButton(int button)
     {
@@ -55,15 +81,12 @@ public class TooltipArea extends AbstractWidget
     @Override
     public void renderButton(final PoseStack mat, final int mx, final int my, final float tick)
     {
-        if (this.isHoveredOrFocused())
-        {
-            this.renderToolTip(mat, mx, my);
-        }
+        if (autoShow) this.renderToolTip(mat, mx, my);
     }
 
     @Override
     public void renderToolTip(PoseStack stack, int x, int y)
     {
-        if (doTooltip.doTooltip(x, y)) onTooltip.onTooltip(this, stack, x, y);
+        if (this.isHoveredOrFocused() && doTooltip.doTooltip(x, y)) onTooltip.onTooltip(this, stack, x, y);
     }
 }

@@ -164,9 +164,13 @@
     "pokemob.gui.routes.desc": "Routes Settings",
     "pokemob.gui.ai.desc": "AI Settings",
     
+    "pokemob.gui.slot.storage.off_hand": "Offhand Slot, Place a book with custom instructions here!",
+    
+    "pokemob.gui.slot.saffle": "Saddle Slot",
     "pokemob.gui.slot.held_item": "Held Item Slot",
     "pokemob.gui.slot.off_hand": "Offhand Slot",
     "pokemob.gui.slot.food_misc": "Food/Other Items Slots",
+    "pokemob.gui.nickname": "Edit Nickname",
     
     "pokemob.gui.ai.gather.desc": "Enable item gathering",
     "pokemob.gui.ai.beeai.desc": "Enable Beehives",
