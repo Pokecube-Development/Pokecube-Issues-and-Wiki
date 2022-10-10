@@ -13,6 +13,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeItems;
 import pokecube.core.init.MenuTypes;
+import pokecube.core.inventory.TexturedSlot;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.EntityTools;
 import thut.api.inventory.BaseContainer;
@@ -53,15 +54,20 @@ public class PokemobContainer extends BaseContainer
         }
 
         this.mode = (byte) mode;
-        int j;
-        int k;
 
         this.slots.clear();
         this.lastSlots.clear();
 
-        if (this.mode == PacketPokemobGui.MAIN)
+        int offhand = pokemobInv.getContainerSize() - 1;
+
+        if (mode == PacketPokemobGui.STORAGE)
         {
-            this.addSlot(new Slot(this.pokemobInv, 0, 8, 18)
+            this.addSlot(new TexturedSlot(this.pokemobInv, offhand, 64, 54, "pokecube_adventures:gui/slot_selector"));
+        }
+        else if (this.mode == PacketPokemobGui.MAIN)
+        {
+            this.addSlot(new TexturedSlot(this.pokemobInv, offhand, 64, 54, "pokecube_adventures:gui/slot_selector"));
+            this.addSlot(new Slot(this.pokemobInv, 0, 64, 18)
             {
                 /**
                  * Check if the stack is a valid item for this slot. Always true
@@ -73,7 +79,7 @@ public class PokemobContainer extends BaseContainer
                     return super.mayPlace(stack) && stack.getItem() == Items.SADDLE;
                 }
             });
-            this.addSlot(new Slot(this.pokemobInv, 1, 8, 36)
+            this.addSlot(new Slot(this.pokemobInv, 1, 64, 36)
             {
                 /**
                  * Returns the maximum stack size for a given slot (usually the
@@ -114,20 +120,20 @@ public class PokemobContainer extends BaseContainer
                     if (ThutCore.proxy.isServerSide()) PokemobContainer.this.pokemob.setHeldItem(stack);
                 }
             });
-            for (j = 0; j < 1; ++j)
-                for (k = 0; k < 5; ++k) this.addSlot(new Slot(this.pokemobInv, 2 + k + j * 5, 80 + k * 18, 18 + j * 18)
+            for (int k = 0; k < 5; ++k) this.addSlot(new Slot(this.pokemobInv, 2 + k, 83 + k * 18, 18)
+            {
+                /**
+                 * Check if the stack is a valid item for this slot. Always true
+                 * beside for the armor slots.
+                 */
+                @Override
+                public boolean mayPlace(final ItemStack stack)
                 {
-                    /**
-                     * Check if the stack is a valid item for this slot. Always
-                     * true beside for the armor slots.
-                     */
-                    @Override
-                    public boolean mayPlace(final ItemStack stack)
-                    {
-                        return true;// ItemList.isValidHeldItem(stack);
-                    }
-                });
+                    return true;// ItemList.isValidHeldItem(stack);
+                }
+            });
         }
+
         this.bindPlayerInventory(this.playerInv, -19);
     }
 

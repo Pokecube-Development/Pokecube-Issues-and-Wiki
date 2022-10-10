@@ -117,7 +117,7 @@ public class Inventory extends Tab
     @Override
     public void init()
     {
-        int xOffset = 8;
+        int xOffset = 6;
         int yOffset = 43;
 
         // Bar width
@@ -125,7 +125,7 @@ public class Inventory extends Tab
         // Bar height
         int h = 5;
         // Bar positioning
-        final int i = 9, j = 48;
+        final int i = 6, j = 48;
         this.addRenderableWidget(
                 this.bar = new HungerBar(this.width / 2 - i, this.height / 2 - j, w, h, this.menu.pokemob));
 
@@ -181,11 +181,13 @@ public class Inventory extends Tab
         final int k = (this.width - this.imageWidth) / 2;
         final int l = (this.height - this.imageHeight) / 2;
         // The 5 inventory slots
-        parent.blit(mat, k + 79, l + 17, 0, this.imageHeight + 72, 90, 18);
-        // The held item slot
-        parent.blit(mat, k + 7, l + 35, 0, this.imageHeight + 54, 18, 18);
+        parent.blit(mat, k + 82, l + 17, 36, this.imageHeight + 72, 90, 18);
         // The saddle slot
-        parent.blit(mat, k + 7, l + 17, 18, this.imageHeight + 54, 18, 18);
+        parent.blit(mat, k + 63, l + 17, 18, this.imageHeight + 72, 18, 18);
+        // The held item slot
+        parent.blit(mat, k + 63, l + 35, 0, this.imageHeight + 72, 18, 18);
+        // The off-hand slot
+        parent.blit(mat, k + 63, l + 53, 0, this.imageHeight + 72, 18, 18);
     }
 
     @Override

@@ -15,13 +15,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Mob;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.IMoveConstants.AIRoutine;
 import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
-import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.network.pokemobs.PacketAIRoutine;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import thut.lib.TComponent;
@@ -200,33 +198,7 @@ public class AI extends Tab
     @Override
     public void renderBg(PoseStack mat, float partialTicks, int mouseX, int mouseY)
     {
-        final int k = (this.width - this.imageWidth) / 2 - 17;
-        final int l = (this.height - this.imageHeight) / 2;
-        // Render the black box to hold the pokemob
-        parent.blit(mat, k + 24, l + 16, 0, this.imageHeight, 55, 55);
-
-        // Render the box around where the inventory slots/buttons go.
-        parent.blit(mat, k + 79, l + 16, 145, this.imageHeight, 110, 55);
-
-        if (this.menu.pokemob != null)
-        {
-            Mob mob = this.menu.pokemob.getEntity();
-
-            float f = 30;
-            float yBodyRot = mob.yBodyRot;
-            float yBodyRotO = mob.yBodyRotO;
-            float yHeadRot = mob.yHeadRot;
-            float yHeadRotO = mob.yHeadRotO;
-
-            mob.yBodyRot = mob.yBodyRotO = 180.0F + f * 20.0F;
-            mob.yHeadRot = mob.yHeadRotO = mob.yBodyRot;
-
-            GuiPokemobHelper.renderMob(mat, mob, k, l, 0, 0, 0, 0, 1, partialTicks);
-            mob.yBodyRot = yBodyRot;
-            mob.yBodyRotO = yBodyRotO;
-            mob.yHeadRot = yHeadRot;
-            mob.yHeadRotO = yHeadRotO;
-        }
+        super.renderBg(mat, partialTicks, mouseX, mouseY);
     }
 
 }

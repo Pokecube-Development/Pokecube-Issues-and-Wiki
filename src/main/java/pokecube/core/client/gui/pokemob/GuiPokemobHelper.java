@@ -10,6 +10,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Quaternion;
@@ -148,5 +149,7 @@ public class GuiPokemobHelper
         irendertypebuffer$impl.endBatch();
         entityrenderermanager.setRenderShadow(true);
         mat.popPose();
+        RenderSystem.applyModelViewMatrix();
+        Lighting.setupFor3DItems();
     }
 }

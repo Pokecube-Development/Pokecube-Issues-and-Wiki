@@ -255,4 +255,14 @@ public class Storage extends Tab
         // Send status message thingy
         this.parent.minecraft.player.displayClientMessage(TComponent.translatable("pokemob.gui.updatestorage"), true);
     }
+    
+    @Override
+    public void renderBg(PoseStack mat, float partialTicks, int mouseX, int mouseY)
+    {
+        super.renderBg(mat, partialTicks, mouseX, mouseY);
+        final int k = (this.width - this.imageWidth) / 2;
+        final int l = (this.height - this.imageHeight) / 2;
+        // The off-hand slot
+        parent.blit(mat, k + 63, l + 53, 0, this.imageHeight + 72, 18, 18);
+    }
 }

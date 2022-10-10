@@ -89,14 +89,13 @@ public abstract class Tab
 
     public void renderBg(final PoseStack mat, final float partialTicks, final int mouseX, final int mouseY)
     {
-        final int k = (this.width - this.imageWidth) / 2;
-        final int l = (this.height - this.imageHeight) / 2;
 
+        final int k = (this.width - this.imageWidth) / 2 - 17;
+        final int l = (this.height - this.imageHeight) / 2;
         // Render the black box to hold the pokemob
         parent.blit(mat, k + 24, l + 16, 0, this.imageHeight, 55, 55);
-
         // Render the box around where the inventory slots/buttons go.
-        parent.blit(mat, k + 79, l + 16, 55, this.imageHeight, 90, 55);
+        parent.blit(mat, k + 79, l + 16, 145, this.imageHeight, 110, 55);
 
         if (this.menu.pokemob != null)
         {
@@ -112,7 +111,6 @@ public abstract class Tab
             mob.yHeadRot = mob.yHeadRotO = mob.yBodyRot;
 
             GuiPokemobHelper.renderMob(mat, mob, k, l, 0, 0, 0, 0, 1, partialTicks);
-
             mob.yBodyRot = yBodyRot;
             mob.yBodyRotO = yBodyRotO;
             mob.yHeadRot = yHeadRot;
