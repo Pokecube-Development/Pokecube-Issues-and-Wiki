@@ -122,7 +122,7 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         this.location.visible = false;
         this.timeperiod.visible = false;
         this.variation.visible = false;
-        
+
         remover.accept(this.delete);
         remover.accept(this.confirm);
         remover.accept(this.moveUp);
@@ -217,9 +217,12 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         this.reOrder(-1);
     }
 
-    private BlockPos posFromText(final String text)
+    private BlockPos posFromText(String text)
     {
         if (text.isEmpty()) return null;
+        text = text.replace("(", "").replace(")", "");
+        text = text.replace(",", "");
+        while (text.contains("  ")) text = text.replace("  ", " ");
         final String[] args = text.split(" ");
         if (args.length == 3) try
         {
@@ -231,14 +234,14 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         catch (final NumberFormatException e)
         {
             // Send status message about not working here.
-            final Component mess = TComponent.translatable("traineredit.info.pos.formaterror");
-            this.parent.getMinecraft().player.displayClientMessage(mess, true);
+            final Component mess = TComponent.translatable("pokecube.route.info.pos.formatinfo");
+            this.parent.getMinecraft().player.displayClientMessage(mess, false);
         }
         else if (args.length != 0)
         {
             // Send status message about not working here.
-            final Component mess = TComponent.translatable("traineredit.info.pos.formatinfo");
-            this.parent.getMinecraft().player.displayClientMessage(mess, true);
+            final Component mess = TComponent.translatable("pokecube.route.info.pos.formatinfo");
+            this.parent.getMinecraft().player.displayClientMessage(mess, false);
         }
         return null;
     }
@@ -313,9 +316,10 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         this.function.apply(data);
     }
 
-    public TimePeriod timeFromText(final String text)
+    public TimePeriod timeFromText(String text)
     {
         if (text.isEmpty()) return null;
+        text = text.replace("(", "").replace(")", "");
         final String[] args = text.split(" ");
         if (args.length == 2) try
         {
@@ -326,14 +330,14 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         catch (final NumberFormatException e)
         {
             // Send status message about not working here.
-            final Component mess = TComponent.translatable("traineredit.info.time.formaterror");
-            this.parent.getMinecraft().player.displayClientMessage(mess, true);
+            final Component mess = TComponent.translatable("pokecube.route.info.time.formaterror");
+            this.parent.getMinecraft().player.displayClientMessage(mess, false);
         }
         else if (args.length != 0)
         {
             // Send status message about not working here.
-            final Component mess = TComponent.translatable("traineredit.info.time.formatinfo");
-            this.parent.getMinecraft().player.displayClientMessage(mess, true);
+            final Component mess = TComponent.translatable("pokecube.route.info.time.formatinfo");
+            this.parent.getMinecraft().player.displayClientMessage(mess, false);
         }
         return null;
     }
@@ -349,7 +353,7 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         }
         catch (final NumberFormatException e)
         {
-            final Component mess = TComponent.translatable("traineredit.info.dist.formatinfo");
+            final Component mess = TComponent.translatable("pokecube.route.info.dist.formaterror");
             this.parent.getMinecraft().player.displayClientMessage(mess, false);
             return;
         }

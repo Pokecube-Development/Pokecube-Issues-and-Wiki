@@ -129,6 +129,11 @@
     "pokecube.gui.move.up.desc": "Move Up",
     "pokecube.gui.move.down.desc": "Move Down",
     
+    "pokecube.route.info.dist.formaterror": "§cError with distance format!",
+    "pokecube.route.info.time.formaterror": "§cTime period is in ticks!",
+    "pokecube.route.info.time.formatinfo": "§cError, Wrong format; Correct time format is: (startick endtick)",
+    "pokecube.route.info.pos.formatinfo": "§cError, Wrong format; Correct location format is: (x y z)",
+    
     "_comment": "Pokemob Gui",
 
     "pokemob.stance.guard": "Guarding",
