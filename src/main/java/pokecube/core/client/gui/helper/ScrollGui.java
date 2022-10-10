@@ -111,7 +111,7 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
         this.renderList(mat, k, l, mouseX, mouseY, tick);
 
         final int k1 = this.getMaxScroll();
-        if (k1 > 0)
+        if (k1 > (smoothScroll ? 0 : this.itemHeight))
         {
             RenderSystem.disableTexture();
             RenderSystem.setShader(GameRenderer::getPositionColorShader);
@@ -137,6 +137,7 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
             // This does the darker coloured bar
             y1 = i2 + l1 + scrollBarDy;
             y0 = i2;
+
             bufferbuilder.vertex(x0, y1, 0.0D).color(128, 128, 128, 255).endVertex();
             bufferbuilder.vertex(x1, y1, 0.0D).color(128, 128, 128, 255).endVertex();
             bufferbuilder.vertex(x1, y0, 0.0D).color(128, 128, 128, 255).endVertex();
@@ -144,7 +145,9 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
 
             // This does the lighter coloured bar
             x1 -= 1;
+            y0 += 1;
             y1 -= 1;
+            x0 += 1;
             bufferbuilder.vertex(x0, y1, 0.0D).color(192, 192, 192, 255).endVertex();
             bufferbuilder.vertex(x1, y1, 0.0D).color(192, 192, 192, 255).endVertex();
             bufferbuilder.vertex(x1, y0, 0.0D).color(192, 192, 192, 255).endVertex();

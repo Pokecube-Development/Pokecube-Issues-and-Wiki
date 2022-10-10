@@ -131,8 +131,8 @@ public class AI extends Tab
 
         IPokemob pokemob = this.menu.pokemob;
 
-        yOffset += 9;
-        xOffset -= 16;
+        yOffset += 8;
+        xOffset -= 17;
         this.list = new ScrollGui<>(this.parent, this.parent.minecraft, 110, 50, 10, xOffset, yOffset);
 
         this.list.scrollBarDx = 2;

@@ -141,6 +141,10 @@
     "pokemob.route.btn.desc": "Apply Changes",
     "pokemob.route.updated": "Updated the Guard Location",
     
+    "pokemob.route.location.tooltip": "Coordinates for this location (x y z)",
+    "pokemob.route.timeperiod.tooltip": "Time Period (start end) in ticks",
+    "pokemob.route.variation.tooltip": "Maximum allowed distance from this location",
+    
     "pokemob.bar.value": "Hunger: %s",
     
     "pokemob.gui.sit": "Sitting",
