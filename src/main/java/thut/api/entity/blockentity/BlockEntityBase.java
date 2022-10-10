@@ -712,8 +712,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             return;
         }
         if (event.phase != Phase.END || event.world != level) return;
-//        System.out.println(event.world + " Test");
-//        this.checkCollision();
     }
 
     @SubscribeEvent
@@ -725,8 +723,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             return;
         }
         if (event.phase != Phase.END || this.isServerWorld()) return;
-//        System.out.println(this.level + " Test");
-//        this.checkCollision();
     }
 
     @Override

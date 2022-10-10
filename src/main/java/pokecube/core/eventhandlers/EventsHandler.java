@@ -498,12 +498,12 @@ public class EventsHandler
                         d.matcher.parse();
                         if (!d.matcher._valid)
                         {
-                            System.out.println("Invalid! " + entry + " " + d.evolution + " " + d.matcher.spawnRule);
+                            PokecubeAPI.LOGGER
+                                    .error("Invalid! " + entry + " " + d.evolution + " " + d.matcher.spawnRule);
                         }
                     }
                 }
             }
-
         }
         if (isSubbiomeDebug)
         {

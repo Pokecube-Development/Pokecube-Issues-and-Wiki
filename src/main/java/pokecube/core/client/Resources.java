@@ -56,9 +56,8 @@ public class Resources
 
         PARTICLES = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_FOLDER + "particles.png");
 
-        SLOT_ICON_CUBE = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_ICON_FOLDER + "slot_cube.png");
-
-        SLOT_ICON_TM = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_ICON_FOLDER + "slot_tm.png");
+        SLOT_ICON_CUBE = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_ICON_FOLDER + "slot_cube");
+        SLOT_ICON_TM = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_ICON_FOLDER + "slot_tm");
 
         TAB_ICON_AI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_ICON_FOLDER + "tab_ai.png");
         TAB_ICON_INVENTORY = new ResourceLocation(PokecubeMod.ID,

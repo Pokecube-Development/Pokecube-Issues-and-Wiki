@@ -280,6 +280,8 @@ public class Config extends ConfigData
     public boolean movesForgottenWhenOverriden = false;
 
     // AI Related settings
+    @Configure(category = Config.mobAI, comment = "If true, a scoreboard team is added for each player automatically, and they are added to it. [Default: true]")
+    public boolean autoCreateScoreboardTeams = true;
     @Configure(category = Config.mobAI, comment = "Determines how quickly mobs want to mate again, larger values are faster. [Default: 1]")
     public int mateMultiplier = 1;
     @Configure(category = Config.mobAI, comment = "Approximate number of ticks between breeding. [Min: 600] [Default: 4000]")
