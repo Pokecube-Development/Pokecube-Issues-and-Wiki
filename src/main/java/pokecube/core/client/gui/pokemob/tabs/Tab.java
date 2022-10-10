@@ -62,6 +62,11 @@ public abstract class Tab
     public <T extends AbstractWidget> T addRenderableWidget(T widget)
     {
         parent.addRenderableWidget(widget);
+
+        // Add ours behind other things, this mimics ours being added first.
+        parent.renderables.remove(widget);
+        parent.renderables.add(0, widget);
+
         this.ours.add(widget);
         return widget;
     }
