@@ -1,5 +1,6 @@
 package pokecube.core.client.gui.pokemob.tabs;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -53,6 +54,7 @@ public abstract class Tab
         if (this.active)
         {
             this.init();
+            this.postInit();
         }
         ours.forEach(widget -> {
             widget.visible = active;
@@ -62,11 +64,6 @@ public abstract class Tab
     public <T extends AbstractWidget> T addRenderableWidget(T widget)
     {
         parent.addRenderableWidget(widget);
-
-        // Add ours behind other things, this mimics ours being added first.
-        parent.renderables.remove(widget);
-        parent.renderables.add(0, widget);
-
         this.ours.add(widget);
         return widget;
     }
@@ -91,6 +88,18 @@ public abstract class Tab
     }
 
     public abstract void init();
+
+    public final void postInit()
+    {
+        // Add ours behind other things, this mimics ours being added first.
+        // This is reversed first, so that they end up in the order that we add
+        // them originally.
+        Collections.reverse(ours);
+        ours.forEach(widget -> {
+            parent.renderables.remove(widget);
+            parent.renderables.add(0, widget);
+        });
+    }
 
     public void renderBg(final PoseStack mat, final float partialTicks, final int mouseX, final int mouseY)
     {
