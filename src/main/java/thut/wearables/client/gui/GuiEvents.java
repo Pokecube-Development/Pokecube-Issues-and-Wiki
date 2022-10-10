@@ -59,7 +59,7 @@ public class GuiEvents
             event.getScreen()
                     .addRenderableWidget(button = new GuiWearableButton(x, y, 9, 9,
                             TComponent.translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"),
-                            b -> pressButton(gui)));
+                            b -> pressButton(gui), gui));
             button.setFGColor(0xFFFF00FF);
         }
         else if (event.getScreen() instanceof CreativeModeInventoryScreen gui)
@@ -69,7 +69,7 @@ public class GuiEvents
             event.getScreen().addRenderableWidget(
                     button = new GuiWearableButton(gui.getGuiLeft() + 43, gui.getGuiTop() + 9, 9, 9,
                             TComponent.translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"),
-                            b -> pressButton(gui)));
+                            b -> pressButton(gui), gui));
             button.stillVisible = () -> gui.getSelectedTab() == CreativeModeTab.TAB_INVENTORY.getId();
             button.setFGColor(0xFFFF00FF);
         }
