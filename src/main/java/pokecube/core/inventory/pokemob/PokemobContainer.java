@@ -1,5 +1,9 @@
 package pokecube.core.inventory.pokemob;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
@@ -98,7 +102,7 @@ public class PokemobContainer extends BaseContainer
                 @Override
                 public boolean mayPlace(final ItemStack stack)
                 {
-                    return PokecubeItems.isValidHeldItem(stack);
+                    return !pokemob.getPokedexEntry().stock || PokecubeItems.isValidHeldItem(stack);
                 }
 
                 @Override
@@ -167,5 +171,16 @@ public class PokemobContainer extends BaseContainer
     {
         super.removed(player);
         this.pokemobInv.stopOpen(player);
+    }
+
+    @Override
+    public void initializeContents(int stateId, List<ItemStack> list, ItemStack carried)
+    {
+        if (list.size() > this.slots.size())
+        {
+            list = Lists.newArrayList(list);
+            while (list.size() > this.slots.size()) list.remove(list.size() - 1);
+        }
+        super.initializeContents(stateId, list, carried);
     }
 }
