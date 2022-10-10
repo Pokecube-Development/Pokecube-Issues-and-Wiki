@@ -16,6 +16,7 @@ import net.minecraft.world.item.Items;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeItems;
+import pokecube.core.client.Resources;
 import pokecube.core.init.MenuTypes;
 import pokecube.core.inventory.TexturedSlot;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
@@ -66,7 +67,7 @@ public class PokemobContainer extends BaseContainer
 
         if (mode == PacketPokemobGui.STORAGE)
         {
-            this.addSlot(new TexturedSlot(this.pokemobInv, offhand, 64, 54, "pokecube_adventures:gui/slot_selector"));
+            this.addSlot(new TexturedSlot(this.pokemobInv, offhand, 64, 54, Resources.SLOT_ICON_BOOK));
         }
         else if (this.mode == PacketPokemobGui.MAIN)
         {
@@ -123,7 +124,7 @@ public class PokemobContainer extends BaseContainer
                     if (ThutCore.proxy.isServerSide()) PokemobContainer.this.pokemob.setHeldItem(stack);
                 }
             });
-            this.addSlot(new TexturedSlot(this.pokemobInv, offhand, 64, 54, "pokecube_adventures:gui/slot_selector"));
+            this.addSlot(new TexturedSlot(this.pokemobInv, offhand, 64, 54, Resources.SLOT_ICON_BOOK));
             for (int k = 0; k < 5; ++k) this.addSlot(new Slot(this.pokemobInv, 2 + k, 83 + k * 18, 18)
             {
                 /**
