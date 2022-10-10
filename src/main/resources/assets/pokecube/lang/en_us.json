@@ -167,7 +167,7 @@
     "pokemob.gui.ai.store": "Enable item inventory storage",
     "pokemob.gui.ai.wander": "Enable wandering",
     "pokemob.gui.ai.mate": "Enable breeding",
-    "pokemob.gui.ai.follow": "Enable follow owner",
+    "pokemob.gui.ai.follow": "Enable following the owner",
     "pokemob.gui.ai.agressive": "Enable combat",
     "pokemob.gui.ai.airborne": "Enable flying/floating",
     "pokemob.gui.ai.usedoors": "Enable opening doors",
