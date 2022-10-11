@@ -378,5 +378,10 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
             final Component mess = TComponent.translatable("pokemob.route.updated");
             this.parent.getMinecraft().player.displayClientMessage(mess, false);
         }
+        else
+        {
+            final Component mess = TComponent.translatable("pokecube.route.info.incomplete");
+            this.parent.getMinecraft().player.displayClientMessage(mess, false);
+        }
     }
 }

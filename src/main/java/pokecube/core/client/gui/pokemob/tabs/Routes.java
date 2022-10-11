@@ -7,6 +7,7 @@ import java.util.function.Function;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.nbt.CompoundTag;
@@ -32,11 +33,28 @@ public class Routes extends Tab
     List<EditBox> variations = Lists.newArrayList();
     int num;
 
+    Runnable callback = () -> {
+        if (Minecraft.getInstance().screen == this.parent)
+        {
+            // This does 1 set of disabling.
+            this.setEnabled(false);
+            // then we clear
+            this.clear();
+            // Then re-initialise
+            this.init();
+            // Then re-add the callback
+            this.guard.attachChangeListener(this.callback);
+            // and finally re-enable.
+            this.setEnabled(true);
+        }
+    };
+
     public Routes(GuiPokemob parent)
     {
         super(parent, "routes");
         this.entity = this.menu.pokemob.getEntity();
         this.guard = this.entity.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
+        this.guard.attachChangeListener(callback);
         this.icon = Resources.TAB_ICON_ROUTES;
     }
 
@@ -75,6 +93,7 @@ public class Routes extends Tab
         };
         final int dx = 3;
         final int dy = 25;
+
         RouteEditHelper.getGuiList(this.list, this.guard, function, this.entity, this.parent, 60, dx, dy, 50);
 
         for (var entry : list.children)

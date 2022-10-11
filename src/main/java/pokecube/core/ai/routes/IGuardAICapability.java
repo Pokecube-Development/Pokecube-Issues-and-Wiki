@@ -104,6 +104,12 @@ public interface IGuardAICapability extends INBTSerializable<CompoundTag>
         this.getTasks().set(index, task);
     }
 
+    default void attachChangeListener(Runnable onChanged)
+    {}
+
+    default void onChanged()
+    {}
+
     // do we have a task with a location, and a position
     boolean hasActiveTask(long time, long daylength);
 

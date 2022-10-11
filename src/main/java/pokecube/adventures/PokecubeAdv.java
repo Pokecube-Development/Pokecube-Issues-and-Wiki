@@ -23,9 +23,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -104,17 +101,6 @@ public class PokecubeAdv
                     .add(Attributes.MAX_HEALTH, 20.0D);
             event.put(EntityTypes.getTrainer(), attribs.build());
             event.put(EntityTypes.getLeader(), attribs.build());
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        @SubscribeEvent
-        public static void textureStitch(final TextureStitchEvent.Pre event)
-        {
-            if (!event.getAtlas().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
-            event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "gui/slot_dna"));
-            event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "gui/slot_egg"));
-            event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "gui/slot_bottle"));
-            event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "gui/slot_selector"));
         }
     }
 

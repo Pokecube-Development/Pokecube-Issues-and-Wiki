@@ -134,6 +134,8 @@
     "pokecube.route.info.time.formatinfo": "§cError, Wrong format; Correct time format is: (startick endtick)",
     "pokecube.route.info.pos.formatinfo": "§cError, Wrong format; Correct location format is: (x y z)",
     
+    "pokecube.route.info.incomplete": "§cError, requires all three boxes to be filled out correctly!",
+    
     "_comment": "Pokemob Gui",
 
     "pokemob.stance.guard": "Guarding",

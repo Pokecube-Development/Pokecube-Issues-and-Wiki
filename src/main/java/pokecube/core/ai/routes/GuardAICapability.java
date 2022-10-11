@@ -163,6 +163,8 @@ public class GuardAICapability implements IGuardAICapability
 
     private final List<IGuardTask> tasks = Lists.newArrayList(new GuardTask());
 
+    private List<Runnable> listeners = Lists.newArrayList();
+
     private GuardState state = GuardState.IDLE;
 
     private IGuardTask activeTask;
@@ -187,6 +189,20 @@ public class GuardAICapability implements IGuardAICapability
     {
         if (index == this.activeIndex) this.activeTask = task;
         IGuardAICapability.super.setTask(index, task);
+    }
+
+    @Override
+    public void attachChangeListener(Runnable onChanged)
+    {
+        this.listeners.add(onChanged);
+    }
+
+    @Override
+    public void onChanged()
+    {
+        List<Runnable> dirty = Lists.newArrayList(listeners);
+        this.listeners.clear();
+        dirty.forEach(r -> r.run());
     }
 
     @Override
