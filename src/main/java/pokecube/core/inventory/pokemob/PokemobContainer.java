@@ -10,7 +10,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -18,6 +17,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.Resources;
 import pokecube.core.init.MenuTypes;
+import pokecube.core.inventory.CustomSlot;
 import pokecube.core.inventory.TexturedSlot;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.EntityTools;
@@ -48,11 +48,86 @@ public class PokemobContainer extends BaseContainer
         this.data = data;
         this.pokemobInv.startOpen(playerInv.player);
         this.playerInv = playerInv;
+        this.initSlots();
         this.setMode(this.mode);
+    }
+
+    private void initSlots()
+    {
+        int offhand = pokemobInv.getContainerSize() - 1;
+
+        this.addSlot(new CustomSlot(this.pokemobInv, 0, 64, 18)
+        {
+            /**
+             * Check if the stack is a valid item for this slot. Always true
+             * beside for the armor slots.
+             */
+            @Override
+            public boolean mayPlace(final ItemStack stack)
+            {
+                return super.mayPlace(stack) && stack.getItem() == Items.SADDLE;
+            }
+        });
+        this.addSlot(new CustomSlot(this.pokemobInv, 1, 64, 36)
+        {
+            /**
+             * Returns the maximum stack size for a given slot (usually the same
+             * as getInventoryStackLimit(), but 1 in the case of armor slots)
+             */
+            @Override
+            public int getMaxStackSize()
+            {
+                return 1;
+            }
+
+            /**
+             * Check if the stack is a valid item for this slot. Always true
+             * beside for the armor slots.
+             */
+            @Override
+            public boolean mayPlace(final ItemStack stack)
+            {
+                return !pokemob.getPokedexEntry().stock || PokecubeItems.isValidHeldItem(stack);
+            }
+
+            @Override
+            public void onTake(final Player playerIn, final ItemStack stack)
+            {
+                final ItemStack old = this.getItem();
+                if (ThutCore.proxy.isServerSide()) PokemobContainer.this.pokemob.getPokedexEntry()
+                        .onHeldItemChange(stack, old, PokemobContainer.this.pokemob);
+                super.onTake(playerIn, stack);
+            }
+
+            /** Helper method to put a stack in the slot. */
+            @Override
+            public void set(final ItemStack stack)
+            {
+                // ItemStack old = getStack();
+                super.set(stack);
+                if (ThutCore.proxy.isServerSide()) PokemobContainer.this.pokemob.setHeldItem(stack);
+            }
+        });
+        this.addSlot(new TexturedSlot(this.pokemobInv, offhand, 64, 54, Resources.SLOT_ICON_BOOK));
+        for (int k = 0; k < 5; ++k) this.addSlot(new CustomSlot(this.pokemobInv, 2 + k, 83 + k * 18, 18)
+        {
+            /**
+             * Check if the stack is a valid item for this slot. Always true
+             * beside for the armor slots.
+             */
+            @Override
+            public boolean mayPlace(final ItemStack stack)
+            {
+                return true;// ItemList.isValidHeldItem(stack);
+            }
+        });
+
+        this.bindPlayerInventory(this.playerInv, -19);
     }
 
     public void setMode(final int mode)
     {
+
         if (mode != this.mode && playerInv.player.level.isClientSide())
         {
             PacketPokemobGui.sendPagePacket((byte) mode, pokemob.getEntity().getId());
@@ -60,86 +135,29 @@ public class PokemobContainer extends BaseContainer
 
         this.mode = (byte) mode;
 
-        this.slots.clear();
-        this.lastSlots.clear();
-
-        int offhand = pokemobInv.getContainerSize() - 1;
-
-        if (mode == PacketPokemobGui.STORAGE)
+        // Toggle activation of slots based on mode.
+        if (mode == PacketPokemobGui.MAIN)
         {
-            this.addSlot(new TexturedSlot(this.pokemobInv, offhand, 64, 54, Resources.SLOT_ICON_BOOK));
-        }
-        else if (this.mode == PacketPokemobGui.MAIN)
-        {
-            this.addSlot(new Slot(this.pokemobInv, 0, 64, 18)
-            {
-                /**
-                 * Check if the stack is a valid item for this slot. Always true
-                 * beside for the armor slots.
-                 */
-                @Override
-                public boolean mayPlace(final ItemStack stack)
-                {
-                    return super.mayPlace(stack) && stack.getItem() == Items.SADDLE;
-                }
-            });
-            this.addSlot(new Slot(this.pokemobInv, 1, 64, 36)
-            {
-                /**
-                 * Returns the maximum stack size for a given slot (usually the
-                 * same as getInventoryStackLimit(), but 1 in the case of armor
-                 * slots)
-                 */
-                @Override
-                public int getMaxStackSize()
-                {
-                    return 1;
-                }
-
-                /**
-                 * Check if the stack is a valid item for this slot. Always true
-                 * beside for the armor slots.
-                 */
-                @Override
-                public boolean mayPlace(final ItemStack stack)
-                {
-                    return !pokemob.getPokedexEntry().stock || PokecubeItems.isValidHeldItem(stack);
-                }
-
-                @Override
-                public void onTake(final Player playerIn, final ItemStack stack)
-                {
-                    final ItemStack old = this.getItem();
-                    if (ThutCore.proxy.isServerSide()) PokemobContainer.this.pokemob.getPokedexEntry()
-                            .onHeldItemChange(stack, old, PokemobContainer.this.pokemob);
-                    super.onTake(playerIn, stack);
-                }
-
-                /** Helper method to put a stack in the slot. */
-                @Override
-                public void set(final ItemStack stack)
-                {
-                    // ItemStack old = getStack();
-                    super.set(stack);
-                    if (ThutCore.proxy.isServerSide()) PokemobContainer.this.pokemob.setHeldItem(stack);
-                }
-            });
-            this.addSlot(new TexturedSlot(this.pokemobInv, offhand, 64, 54, Resources.SLOT_ICON_BOOK));
-            for (int k = 0; k < 5; ++k) this.addSlot(new Slot(this.pokemobInv, 2 + k, 83 + k * 18, 18)
-            {
-                /**
-                 * Check if the stack is a valid item for this slot. Always true
-                 * beside for the armor slots.
-                 */
-                @Override
-                public boolean mayPlace(final ItemStack stack)
-                {
-                    return true;// ItemList.isValidHeldItem(stack);
-                }
+            // Main has all of them active
+            this.slots.forEach(s -> {
+                if (s instanceof CustomSlot slot) slot.setActive(true);
             });
         }
-
-        this.bindPlayerInventory(this.playerInv, -19);
+        else if (mode == PacketPokemobGui.STORAGE)
+        {
+            int offhand = pokemobInv.getContainerSize() - 1;
+            // Storage only has the offhand active
+            this.slots.forEach(s -> {
+                if (s instanceof CustomSlot slot) slot.setActive(s.getSlotIndex() == offhand);
+            });
+        }
+        else
+        {
+            // The rest have none active
+            this.slots.forEach(s -> {
+                if (s instanceof CustomSlot slot) slot.setActive(false);
+            });
+        }
     }
 
     @Override
