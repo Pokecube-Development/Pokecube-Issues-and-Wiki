@@ -26,7 +26,6 @@ import pokecube.core.client.gui.watch.util.ListPage;
 import pokecube.core.client.gui.watch.util.SpawnListEntry;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.database.Database;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.lib.TComponent;
 
@@ -36,10 +35,8 @@ public class SpawnsPage extends ListPage<LineEntry>
     int index = 1;
     boolean repel = false;
 
-    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_location.png");
-    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_location_nm.png");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_location");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_location_nm");
 
     public SpawnsPage(final GuiPokeWatch watch)
     {

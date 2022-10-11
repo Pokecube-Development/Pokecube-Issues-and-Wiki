@@ -20,6 +20,8 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.scores.PlayerTeam;
+import net.minecraft.world.scores.Scoreboard;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
@@ -441,6 +443,26 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         this.getOwnerHolder().setOwner(e);
         this.getOwnerHolder().setOwner(e.getUUID());
         if (this.getOriginalOwnerUUID() == null) this.setOriginalOwnerUUID(e.getUUID());
+
+        /*
+         * Ensure we have the same team as the owner, and if the owner has no
+         * team, create one and set it, so long as configured to do so.
+         */
+        if (e instanceof ServerPlayer player)
+        {
+            var team = e.getTeam();
+            Scoreboard scoreboard = player.getScoreboard();
+            if (team == null && PokecubeCore.getConfig().autoCreateScoreboardTeams)
+            {
+                var pteam = scoreboard.addPlayerTeam(player.getGameProfile().getName());
+                scoreboard.addPlayerToTeam(player.getScoreboardName(), pteam);
+                team = pteam;
+            }
+            if (team instanceof PlayerTeam pteam)
+            {
+                scoreboard.addPlayerToTeam(this.getEntity().getScoreboardName(), pteam);
+            }
+        }
         /*
          * Trigger vanilla event for taming a mob.
          */

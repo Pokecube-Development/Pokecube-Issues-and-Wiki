@@ -22,7 +22,6 @@ public class RaidCapture
         final boolean dynamaxCube = id.toString().equals("pokecube:dynacube");
         final boolean raidMob = event.mob.getPersistentData().getBoolean("pokecube_legends:raid_mob");
 
-        System.out.println(dynamaxCube+" "+raidMob);
         // Catch Raids
         if (raidMob)
         {

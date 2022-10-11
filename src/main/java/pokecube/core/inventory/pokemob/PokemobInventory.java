@@ -88,7 +88,7 @@ public class PokemobInventory extends SimpleContainer implements Nameable
         {
             List<ItemStack> list = tmpList;
             list.set(0, getItem(slot));
-            return list != null && !list.get(slot).isEmpty() ? ContainerHelper.removeItem(list, slot, amount)
+            return list != null && !list.get(0).isEmpty() ? ContainerHelper.removeItem(list, 0, amount)
                     : ItemStack.EMPTY;
         }
         return start.removeItem(slot, amount);
@@ -101,9 +101,9 @@ public class PokemobInventory extends SimpleContainer implements Nameable
         {
             List<ItemStack> list = tmpList;
             list.set(0, getItem(slot));
-            if (!list.get(slot).isEmpty())
+            if (!list.get(0).isEmpty())
             {
-                ItemStack itemstack = list.get(slot);
+                ItemStack itemstack = list.get(0);
                 this.setItem(slot, ItemStack.EMPTY);
                 return itemstack;
             }

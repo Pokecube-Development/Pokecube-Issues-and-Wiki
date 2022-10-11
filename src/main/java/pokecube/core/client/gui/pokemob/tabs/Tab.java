@@ -1,5 +1,6 @@
 package pokecube.core.client.gui.pokemob.tabs;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -53,6 +54,7 @@ public abstract class Tab
         if (this.active)
         {
             this.init();
+            this.postInit();
         }
         ours.forEach(widget -> {
             widget.visible = active;
@@ -87,16 +89,27 @@ public abstract class Tab
 
     public abstract void init();
 
+    public final void postInit()
+    {
+        // Add ours behind other things, this mimics ours being added first.
+        // This is reversed first, so that they end up in the order that we add
+        // them originally.
+        Collections.reverse(ours);
+        ours.forEach(widget -> {
+            parent.renderables.remove(widget);
+            parent.renderables.add(0, widget);
+        });
+    }
+
     public void renderBg(final PoseStack mat, final float partialTicks, final int mouseX, final int mouseY)
     {
-        final int k = (this.width - this.imageWidth) / 2;
+
+        final int k = (this.width - this.imageWidth) / 2 - 17;
         final int l = (this.height - this.imageHeight) / 2;
-
         // Render the black box to hold the pokemob
-        parent.blit(mat, k + 24, l + 16, 90, this.imageHeight, 55, 55);
-
+        parent.blit(mat, k + 24, l + 16, 0, this.imageHeight, 55, 55);
         // Render the box around where the inventory slots/buttons go.
-        parent.blit(mat, k + 79, l + 16, 145, this.imageHeight, 90, 55);
+        parent.blit(mat, k + 79, l + 16, 145, this.imageHeight, 110, 55);
 
         if (this.menu.pokemob != null)
         {
@@ -112,7 +125,6 @@ public abstract class Tab
             mob.yHeadRot = mob.yHeadRotO = mob.yBodyRot;
 
             GuiPokemobHelper.renderMob(mat, mob, k, l, 0, 0, 0, 0, 1, partialTicks);
-
             mob.yBodyRot = yBodyRot;
             mob.yBodyRotO = yBodyRotO;
             mob.yHeadRot = yHeadRot;

@@ -216,7 +216,7 @@ public class ClonerHelper
         IMobGenetics eggs = ClonerHelper.getGenes(destination);
         if (eggs == null) eggs = new DefaultGenetics();
         for (final ResourceLocation loc : genesIn.getKeys()) ClonerHelper.merge(genesIn, eggs, selector, loc);
-        ClonerHelper.setGenes(destination, eggs, force ? EditType.OTHER : EditType.EXTRACT);
+        ClonerHelper.setGenes(destination, genesIn, eggs, force ? EditType.OTHER : EditType.EXTRACT);
     }
 
     public static void registerDNA(final DNAPack entry, final Ingredient stack)
@@ -224,10 +224,11 @@ public class ClonerHelper
         ClonerHelper.DNAITEMS.put(stack, entry);
     }
 
-    public static void setGenes(final ItemStack stack, final IMobGenetics genes, final EditType reason)
+    public static void setGenes(final ItemStack stack, final IMobGenetics sourceGenes, final IMobGenetics genes,
+            final EditType reason)
     {
         if (stack.isEmpty() || !stack.hasTag()) return;
-        MinecraftForge.EVENT_BUS.post(new GeneEditEvent(genes, reason));
+        MinecraftForge.EVENT_BUS.post(new GeneEditEvent(sourceGenes, genes, reason));
         final CompoundTag nbt = stack.getTag();
         final Tag geneTag = genes.serializeNBT();
         if (PokecubeManager.isFilled(stack))
@@ -261,8 +262,8 @@ public class ClonerHelper
     {
         IMobGenetics eggs = ClonerHelper.getGenes(destination);
         if (eggs == null) eggs = new DefaultGenetics();
-        ClonerHelper.setGenes(destination, genesIn, EditType.EXTRACT);
+        ClonerHelper.setGenes(destination, genesIn, genesIn, EditType.EXTRACT);
         for (final ResourceLocation loc : genesIn.getKeys()) ClonerHelper.splice(genesIn, eggs, selector, loc);
-        ClonerHelper.setGenes(destination, eggs, EditType.SPLICE);
+        ClonerHelper.setGenes(destination, genesIn, eggs, EditType.SPLICE);
     }
 }

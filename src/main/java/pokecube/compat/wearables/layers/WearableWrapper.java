@@ -223,10 +223,10 @@ public class WearableWrapper
         final GuiWearableButton button;
         if (event.getScreen() instanceof GuiPokemob pokegui)
         {
-            int x = pokegui.getGuiLeft() + ThutWearables.config.buttonPos.get(0);
+            int x = pokegui.getGuiLeft() + ThutWearables.config.buttonPos.get(0) - 18;
             int y = pokegui.getGuiTop() + ThutWearables.config.buttonPos.get(1) + 10;
             event.getScreen().addRenderableWidget(button = new GuiWearableButton(x, y, 9, 9,
-                    TComponent.translatable("button.wearables.on"), b -> openPokemobWearables(pokegui)));
+                    TComponent.translatable("button.wearables.on"), b -> openPokemobWearables(pokegui), pokegui));
             button.stillVisible = () -> pokegui.moduleIndex == 0;
             button.setFGColor(0xFFFF00FF);
         }
@@ -237,7 +237,7 @@ public class WearableWrapper
                 int x = wear.getGuiLeft() + ThutWearables.config.buttonPos.get(0);
                 int y = wear.getGuiTop() + ThutWearables.config.buttonPos.get(1);
                 event.getScreen().addRenderableWidget(button = new GuiWearableButton(x, y, 9, 9,
-                        TComponent.translatable("button.wearables.off"), b -> openPokemobGui()));
+                        TComponent.translatable("button.wearables.off"), b -> openPokemobGui(), wear));
                 button.setFGColor(0xFFFF00FF);
             }
             else

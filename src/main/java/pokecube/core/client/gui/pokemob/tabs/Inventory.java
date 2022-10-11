@@ -2,6 +2,7 @@ package pokecube.core.client.gui.pokemob.tabs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -16,12 +17,15 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.inventory.Slot;
 import pokecube.api.entity.pokemob.IHasCommands.Command;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
 import pokecube.core.PokecubeCore;
+import pokecube.core.client.Resources;
+import pokecube.core.client.gui.helper.TooltipArea;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
@@ -100,6 +104,7 @@ public class Inventory extends Tab
     public Inventory(GuiPokemob parent)
     {
         super(parent, "inventory");
+        this.icon = Resources.TAB_ICON_INVENTORY;
     }
 
     @Override
@@ -115,13 +120,22 @@ public class Inventory extends Tab
     @Override
     public void init()
     {
-        int xOffset = 8;
+        int xOffset = 6;
         int yOffset = 43;
-        // Button width
-        int w = 89;
-        // Button height
-        int h = 10;
 
+        // Bar width
+        int w = 89;
+        // Bar height
+        int h = 5;
+        // Bar positioning
+        final int i = 6, j = 48;
+        this.addRenderableWidget(
+                this.bar = new HungerBar(this.width / 2 - i, this.height / 2 - j, w, h, this.menu.pokemob));
+
+        // Button width
+        w = 89;
+        // Button height
+        h = 10;
         this.addRenderableWidget(this.sit = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 00, w, h,
                 TComponent.translatable("pokemob.gui.sit"),
                 c -> PacketCommand.sendCommand(this.menu.pokemob, Command.STANCE,
@@ -152,14 +166,56 @@ public class Inventory extends Tab
                             : TComponent.translatable("pokemob.stance.no_guard");
                     parent.renderTooltip(pose, tooltip, x, y);
                 }));
-        // Bar width
-        w = 89;
-        // Bar height
-        h = 5;
-        // Bar positioning
-        final int i = 9, j = 48;
+
+        final int k = (this.width - this.imageWidth) / 2;
+        final int l = (this.height - this.imageHeight) / 2;
+
         this.addRenderableWidget(
-                this.bar = new HungerBar(this.width / 2 - i, this.height / 2 - j, w, h, this.menu.pokemob));
+                new TooltipArea(k + 64, l + 18, 16, 16, TComponent.translatable("pokemob.gui.slot.saddle"), (x, y) ->
+                {
+                    Slot slot = menu.slots.get(0);
+                    if (slot.hasItem()) return false;
+                    return PokecubeCore.getConfig().pokemobGuiTooltips;
+                }, (b, pose, x, y) -> {
+                    Component tooltip = b.getMessage();
+                    parent.renderTooltip(pose, tooltip, x, y);
+                }).noAuto());
+        this.addRenderableWidget(
+                new TooltipArea(k + 64, l + 36, 16, 16, TComponent.translatable("pokemob.gui.slot.held_item"), (x, y) ->
+                {
+                    Slot slot = menu.slots.get(1);
+                    if (slot.hasItem()) return false;
+                    return PokecubeCore.getConfig().pokemobGuiTooltips;
+                }, (b, pose, x, y) -> {
+                    Component tooltip = b.getMessage();
+                    parent.renderTooltip(pose, tooltip, x, y);
+                }).noAuto());
+        this.addRenderableWidget(
+                new TooltipArea(k + 64, l + 54, 16, 16, TComponent.translatable("pokemob.gui.slot.off_hand"), (x, y) ->
+                {
+                    Slot slot = menu.slots.get(2);
+                    if (slot.hasItem()) return false;
+                    return PokecubeCore.getConfig().pokemobGuiTooltips;
+                }, (b, pose, x, y) -> {
+                    Component tooltip = b.getMessage();
+                    parent.renderTooltip(pose, tooltip, x, y);
+                }).noAuto());
+
+        this.addRenderableWidget(
+                new TooltipArea(k + 83, l + 18, 89, 16, TComponent.translatable("pokemob.gui.slot.food_misc"), (x, y) ->
+                {
+                    // This is done inside here as when the tabs change, it can
+                    // re-set the slots lists, thereby invalidating the previous
+                    // check!
+                    List<Slot> items = Lists.newArrayList();
+                    Supplier<Boolean> hasAnyItem = () -> items.stream().allMatch(s -> !s.hasItem());
+                    if (items.isEmpty()) for (int m = 3; m < 8; m++) items.add(menu.slots.get(m));
+                    if (!hasAnyItem.get()) return false;
+                    return PokecubeCore.getConfig().pokemobGuiTooltips;
+                }, (b, pose, x, y) -> {
+                    Component tooltip = b.getMessage();
+                    parent.renderTooltip(pose, tooltip, x, y);
+                }).noAuto());
 
         xOffset = 80;
         yOffset = 77;
@@ -169,6 +225,14 @@ public class Inventory extends Tab
         this.name.textColorUneditable = 4210752;
         if (this.menu.pokemob != null) this.name.setValue(this.menu.pokemob.getDisplayName().getString());
         this.addRenderableWidget(this.name);
+
+        this.addRenderableWidget(new TooltipArea(name, TComponent.translatable("pokemob.gui.nickname"), (x, y) -> {
+            if (this.name.isFocused()) return false;
+            return PokecubeCore.getConfig().pokemobGuiTooltips;
+        }, (b, pose, x, y) -> {
+            Component tooltip = b.getMessage();
+            parent.renderTooltip(pose, tooltip, x, y);
+        }).noAuto());
     }
 
     @Override
@@ -178,11 +242,13 @@ public class Inventory extends Tab
         final int k = (this.width - this.imageWidth) / 2;
         final int l = (this.height - this.imageHeight) / 2;
         // The 5 inventory slots
-        parent.blit(mat, k + 79, l + 17, 0, this.imageHeight, 90, 18);
-        // The held item slot
-        parent.blit(mat, k + 7, l + 35, 0, this.imageHeight + 54, 18, 18);
+        parent.blit(mat, k + 82, l + 17, 36, this.imageHeight + 72, 90, 18);
         // The saddle slot
-        parent.blit(mat, k + 7, l + 17, 18, this.imageHeight + 54, 18, 18);
+        parent.blit(mat, k + 63, l + 17, 18, this.imageHeight + 72, 18, 18);
+        // The held item slot
+        parent.blit(mat, k + 63, l + 35, 0, this.imageHeight + 72, 18, 18);
+        // The off-hand slot
+        parent.blit(mat, k + 63, l + 53, 0, this.imageHeight + 72, 18, 18);
     }
 
     @Override

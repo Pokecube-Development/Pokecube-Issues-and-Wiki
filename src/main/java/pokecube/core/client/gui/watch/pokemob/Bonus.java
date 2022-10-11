@@ -11,16 +11,12 @@ import net.minecraft.resources.ResourceLocation;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
-import pokecube.core.impl.PokecubeMod;
 import thut.lib.TComponent;
 
 public class Bonus extends PokeInfoPage
 {
-
-    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_battle.png");
-    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_battle_nm.png");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_battle");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_battle_nm");
 
     int last = 0;
     final PokemobInfoPage parent;

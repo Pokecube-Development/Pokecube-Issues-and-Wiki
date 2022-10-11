@@ -72,7 +72,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
 
     public boolean pathing = false;
 
-    protected ItemStack heldItem = ItemStack.EMPTY;
+    protected ItemStack instructionsCache = ItemStack.EMPTY;
     protected List<ResourceLocation> keys = Lists.newArrayList();
 
     private final Set<BlockPos> knownValid = Sets.newHashSet();
@@ -86,10 +86,10 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
 
     private void checkHeldItem()
     {
-        ItemStack stack = pokemob.getHeldItem();
-        if (stack != this.heldItem)
+        ItemStack stack = pokemob.getEntity().getOffhandItem();
+        if (stack != this.instructionsCache)
         {
-            this.heldItem = stack;
+            this.instructionsCache = stack;
             keys.clear();
             if (stack.hasTag() && stack.getTag().contains("pages")
                     && stack.getTag().get("pages") instanceof ListTag pages)

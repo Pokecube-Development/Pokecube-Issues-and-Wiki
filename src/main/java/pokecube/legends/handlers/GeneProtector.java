@@ -18,8 +18,9 @@ public class GeneProtector
         // unable to do so manually.
         if (!breeding && entry.isLegendary()) return true;
         // No cloning things with requirements
-        if (SpecialCaseRegister.getCaptureCondition(entry) != null || SpecialCaseRegister.getSpawnCondition(
-                entry) != null) return true;
+        if (SpecialCaseRegister.getCaptureCondition(entry) != null
+                || SpecialCaseRegister.getSpawnCondition(entry) != null)
+            return true;
         // No cloning things that can't breed
         if (!entry.breeds) return true;
         return false;
@@ -39,8 +40,14 @@ public class GeneProtector
         {
             final Alleles<SpeciesInfo, SpeciesGene> alleles = evt.resultGenes.getAlleles(GeneticsManager.SPECIESGENE);
             final SpeciesGene gene = alleles.getExpressed();
-            if (evt.reason == EditType.EXTRACT) if (this.invalidGene(gene)) evt.resultGenes.getAlleles().remove(
-                    GeneticsManager.SPECIESGENE);
+            final SpeciesGene parentA = alleles.getAllele(0);
+            final SpeciesGene parentB = alleles.getAllele(1);
+            if (evt.reason == EditType.EXTRACT || evt.reason == EditType.SPLICE)
+            {
+                if (this.invalidGene(gene)) evt.resultGenes.getAlleles().remove(GeneticsManager.SPECIESGENE);
+                if (this.invalidGene(parentA)) evt.resultGenes.getAlleles().remove(GeneticsManager.SPECIESGENE);
+                if (this.invalidGene(parentB)) evt.resultGenes.getAlleles().remove(GeneticsManager.SPECIESGENE);
+            }
         }
     }
 }

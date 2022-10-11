@@ -26,16 +26,13 @@ import net.minecraft.resources.ResourceLocation;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
-import pokecube.core.impl.PokecubeMod;
 import thut.api.maths.Vector3;
 import thut.lib.TComponent;
 
 public class SecretBaseRadarPage extends WatchPage
 {
-    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_meteor.png");
-    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_meteor_nm.png");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_meteor");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_meteor_nm");
 
     public static Map<RadarMode, Set<BlockPos>> radar_hits = Maps.newHashMap();
 

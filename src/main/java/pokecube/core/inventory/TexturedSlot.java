@@ -15,6 +15,13 @@ public class TexturedSlot extends Slot
         this.setBackground(InventoryMenu.BLOCK_ATLAS, new ResourceLocation(texture));
     }
 
+    public TexturedSlot(final Container inventoryIn, final int index, final int xPosition, final int yPosition,
+            final ResourceLocation texture)
+    {
+        super(inventoryIn, index, xPosition, yPosition);
+        this.setBackground(InventoryMenu.BLOCK_ATLAS, texture);
+    }
+
     @Override
     public boolean mayPlace(final ItemStack stack)
     {

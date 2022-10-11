@@ -48,13 +48,15 @@ public class GuiPokeWatch extends Screen
 
     }
 
-    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_start.png");
-    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_start_nm.png");
+    public static final ResourceLocation makeWatchTexture(final String tex)
+    {
+        return new ResourceLocation(PokecubeMod.ID, "textures/gui/watch/" + tex + ".png");
+    }
 
-    public static final ResourceLocation TEXTURE_BASE = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui.png");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_start");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_start_nm");
+
+    public static final ResourceLocation TEXTURE_BASE = GuiPokeWatch.makeWatchTexture("pokewatchgui");
 
     public static List<Class<? extends WatchPage>> PAGELIST = Lists.newArrayList();
 
@@ -84,14 +86,9 @@ public class GuiPokeWatch extends Screen
         }
     }
 
-    private final static ResourceLocation WIDGETS = new ResourceLocation(PokecubeMod.ID,
-            Resources.TEXTURE_GUI_FOLDER + "widgets.png");
-    private final static ResourceLocation WIDGETS_NM = new ResourceLocation(PokecubeMod.ID,
-            Resources.TEXTURE_GUI_FOLDER + "widgets_nm.png");
-
     public static ResourceLocation getWidgetTex()
     {
-        return GuiPokeWatch.nightMode ? GuiPokeWatch.WIDGETS_NM : GuiPokeWatch.WIDGETS;
+        return GuiPokeWatch.nightMode ? Resources.WIDGETS_NM : Resources.WIDGETS;
     }
 
     public static boolean nightMode = false;

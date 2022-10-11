@@ -178,6 +178,9 @@ public abstract class PokemobAI extends PokemobEvolves
         // Update genes settings.
         this.onGenesChanged();
 
+        // Update our owner entity if needed
+        if (this.getOwnerId() != null && this.getOwner() != null) this.setOwner(this.getOwner());
+
         // Update/add cache.
         if (this.isPlayerOwned() && this.getOwnerId() != null) PlayerPokemobCache.UpdateCache(this);
     }

@@ -7,6 +7,7 @@ import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Button.OnPress;
 import net.minecraft.client.gui.components.EditBox;
@@ -34,9 +35,20 @@ public class AI extends Page
     EditBox battleCooldown;
     EditBox faceDirection;
 
+    Runnable callback = () -> {
+        if (Minecraft.getInstance().screen == this.parent)
+        {
+            // Re-add the callback
+            this.parent.guard.attachChangeListener(this.callback);
+            // Re-initialise the list
+            this.onPageOpened();
+        }
+    };
+
     public AI(final EditorGui parent)
     {
         super(TComponent.literal(""), parent);
+        parent.guard.attachChangeListener(callback);
     }
 
     @Override

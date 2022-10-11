@@ -14,9 +14,14 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.utility.StoreTask;
+import pokecube.core.client.Resources;
+import pokecube.core.client.gui.helper.TooltipArea;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketUpdateAI;
@@ -42,6 +47,7 @@ public class Storage extends Tab
         this.ai = new StoreTask(this.pokemob);
         final CompoundTag tag = this.menu.data.readNbt();
         this.ai.deserializeNBT(tag);
+        this.icon = Resources.TAB_ICON_STORAGE;
     }
 
     @Override
@@ -93,6 +99,20 @@ public class Storage extends Tab
             this.emptyFace.setValue(Direction.values()[empty.getByte("f")] + "");
         }
         else this.emptyFace.setValue("UP");
+
+        final int k = (this.width - this.imageWidth) / 2;
+        final int l = (this.height - this.imageHeight) / 2;
+        this.addRenderableWidget(new TooltipArea(k + 64, l + 54, 16, 16,
+                TComponent.translatable("pokemob.gui.slot.storage.off_hand"), (x, y) ->
+                {
+                    Slot offhand_slot = menu.slots.get(0);
+                    if (offhand_slot.hasItem()) return false;
+                    return PokecubeCore.getConfig().pokemobGuiTooltips;
+                }, (b, pose, x, y) -> {
+                    Component tooltip = b.getMessage();
+                    var split = parent.font.split(tooltip, this.imageWidth);
+                    parent.renderTooltip(pose, split, x, y);
+                }).noAuto());
     }
 
     @Override
@@ -252,5 +272,15 @@ public class Storage extends Tab
 
         // Send status message thingy
         this.parent.minecraft.player.displayClientMessage(TComponent.translatable("pokemob.gui.updatestorage"), true);
+    }
+
+    @Override
+    public void renderBg(PoseStack mat, float partialTicks, int mouseX, int mouseY)
+    {
+        super.renderBg(mat, partialTicks, mouseX, mouseY);
+        final int k = (this.width - this.imageWidth) / 2;
+        final int l = (this.height - this.imageHeight) / 2;
+        // The off-hand slot
+        parent.blit(mat, k + 63, l + 53, 0, this.imageHeight + 72, 18, 18);
     }
 }

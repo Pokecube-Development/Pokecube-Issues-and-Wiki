@@ -17,6 +17,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
@@ -304,20 +305,25 @@ public class Health
             mat.scale(s1, s1, s1);
             mat.translate(size / (s * s1) * 2 - 16, 0F, 0F);
 
-            if (!stack.isEmpty() && config.showHeldItem) Health.renderIcon(entity, mat, buf, off, 0, stack, 16, 16, br);
+            if (!stack.isEmpty() && config.showHeldItem)
+                Health.renderIcon(entity, mat, buf, off, 0, 0, stack, 16, 16, br);
             off -= 16;
 
             final int armor = entity.getArmorValue();
+
             if (armor > 0 && config.showArmor)
             {
                 final int ironArmor = armor % 5;
                 final int diamondArmor = armor / 5;
                 stack = new ItemStack(Items.IRON_CHESTPLATE);
-                for (int i = 0; i < ironArmor; i++) Health.renderIcon(entity, mat, buf, off, 0, stack, 16, 16, br);
+                int zOrder = 0;
+                for (int i = 0; i < ironArmor; i++)
+                    Health.renderIcon(entity, mat, buf, off, 0, zOrder--, stack, 16, 16, br);
                 off -= 4;
 
                 stack = new ItemStack(Items.DIAMOND_CHESTPLATE);
-                for (int i = 0; i < diamondArmor; i++) Health.renderIcon(entity, mat, buf, off, 0, stack, 16, 16, br);
+                for (int i = 0; i < diamondArmor; i++)
+                    Health.renderIcon(entity, mat, buf, off, 0, zOrder--, stack, 16, 16, br);
                 off -= 4;
             }
             mat.popPose();
@@ -326,14 +332,16 @@ public class Health
     }
 
     public static void renderIcon(final LivingEntity mob, final PoseStack mat, final MultiBufferSource buf,
-            final int vertexX, final int vertexY, final ItemStack stack, final int intU, final int intV, final int br)
+            final int vertexX, final int vertexY, int zOrder, final ItemStack stack, final int intU, final int intV,
+            final int br)
     {
         mat.pushPose();
-        mat.translate(vertexX, vertexY + 7, 0);
-        mat.scale(20, -20, -1);
-        Minecraft.getInstance().getItemRenderer().renderStatic(mob, stack,
-                net.minecraft.client.renderer.block.model.ItemTransforms.TransformType.GUI, false, mat, buf,
-                mob.getLevel(), br, OverlayTexture.NO_OVERLAY, 0);
+        mat.translate(vertexX, vertexY + 7, 0.1f * zOrder);
+        mat.scale(20, 20, 20);
+        mat.mulPose(Vector3f.YP.rotationDegrees(180));
+        mat.mulPose(Vector3f.ZP.rotationDegrees(180));
+        Minecraft.getInstance().getItemRenderer().renderStatic(stack, TransformType.NONE, br, OverlayTexture.NO_OVERLAY,
+                mat, buf, 0);
         mat.popPose();
     }
 }

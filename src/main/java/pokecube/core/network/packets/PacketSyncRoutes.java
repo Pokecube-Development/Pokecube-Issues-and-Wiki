@@ -14,12 +14,12 @@ import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability.IGuardTask;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.CapHolders;
-import thut.core.common.network.EntityUpdate;
 import thut.core.common.network.Packet;
 
 public class PacketSyncRoutes extends Packet
 {
-    public static void applyServerPacket(final Tag tag, final Entity mob, final IGuardAICapability guard)
+    public static void applyServerPacket(final Tag tag, final Entity mob, final IGuardAICapability guard,
+            ServerPlayer player)
     {
         final CompoundTag nbt = (CompoundTag) tag;
         final int index = nbt.getInt("I");
@@ -40,7 +40,8 @@ public class PacketSyncRoutes extends Packet
             guard.getTasks().set(index2, temp);
         }
         else if (index < guard.getTasks().size()) guard.getTasks().remove(index);
-        EntityUpdate.sendEntityUpdate(mob);
+        // Send back a packet to notify of the changes.
+        sendUpdateClientPacket(mob, player, false);
     }
 
     public static void sendServerPacket(final Entity mob, final Tag tag)
@@ -86,6 +87,9 @@ public class PacketSyncRoutes extends Packet
         final IGuardAICapability guard = e.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
         guard.loadTasks((ListTag) data.get("R"));
         if (data.getBoolean("O")) PacketSyncRoutes.sendServerPacket(e, null);
+        else
+            // Notifies the guis of the updates.
+            guard.onChanged();
     }
 
     @Override
@@ -103,7 +107,7 @@ public class PacketSyncRoutes extends Packet
             {
                 PacketPokemobGui.sendOpenPacket(e, player, PacketPokemobGui.ROUTES);
             }
-            else PacketSyncRoutes.applyServerPacket(data.get("T"), e, guard);
+            else PacketSyncRoutes.applyServerPacket(data.get("T"), e, guard, player);
         }
     }
 

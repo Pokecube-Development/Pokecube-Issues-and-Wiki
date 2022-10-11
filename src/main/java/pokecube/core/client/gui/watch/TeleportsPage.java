@@ -21,7 +21,6 @@ import pokecube.core.client.gui.helper.ListEditBox;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.TeleportsPage.TeleOption;
 import pokecube.core.client.gui.watch.util.ListPage;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.lib.TComponent;
@@ -194,10 +193,8 @@ public class TeleportsPage extends ListPage<TeleOption>
         }
     }
 
-    public static final ResourceLocation TEX_DM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_teleport.png");
-    public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
-            "textures/gui/pokewatchgui_teleport_nm.png");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_teleport");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_teleport_nm");
 
     protected List<TeleDest> locations;
 

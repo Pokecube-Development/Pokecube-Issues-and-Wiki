@@ -14,7 +14,6 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.BlockItem;
@@ -42,6 +41,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.signs.GenericSignBlockEntity;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
+import pokecube.core.client.Resources;
 import pokecube.core.client.gui.blocks.Healer;
 import pokecube.core.client.gui.blocks.PC;
 import pokecube.core.client.gui.blocks.TMs;
@@ -276,7 +276,11 @@ public class ClientSetupHandler
     {
         if (!event.getAtlas().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
         PokecubeAPI.LOGGER.debug("Registering Pokecube Slot Textures");
-        event.addSprite(new ResourceLocation(PokecubeCore.MODID, "gui/slot_cube"));
-        event.addSprite(new ResourceLocation(PokecubeCore.MODID, "gui/slot_tm"));
+        event.addSprite(Resources.SLOT_ICON_CUBE);
+        event.addSprite(Resources.SLOT_ICON_TM);
+        event.addSprite(Resources.SLOT_ICON_BOOK);
+        event.addSprite(Resources.SLOT_ICON_BOTTLE);
+        event.addSprite(Resources.SLOT_ICON_DNA);
+        event.addSprite(Resources.SLOT_ICON_EGG);
     }
 }
