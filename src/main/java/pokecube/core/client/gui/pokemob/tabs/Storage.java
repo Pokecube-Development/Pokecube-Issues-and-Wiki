@@ -105,7 +105,7 @@ public class Storage extends Tab
         this.addRenderableWidget(new TooltipArea(k + 64, l + 54, 16, 16,
                 TComponent.translatable("pokemob.gui.slot.storage.off_hand"), (x, y) ->
                 {
-                    Slot offhand_slot = menu.slots.get(0);
+                    Slot offhand_slot = menu.slots.get(3);
                     if (offhand_slot.hasItem()) return false;
                     return PokecubeCore.getConfig().pokemobGuiTooltips;
                 }, (b, pose, x, y) -> {

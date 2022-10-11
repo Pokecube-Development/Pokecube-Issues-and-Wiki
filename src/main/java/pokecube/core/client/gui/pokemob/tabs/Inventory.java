@@ -167,6 +167,10 @@ public class Inventory extends Tab
                     parent.renderTooltip(pose, tooltip, x, y);
                 }));
 
+        this.guard.setFGColor(guarding ? 0xFF00FF00 : 0xFFFF0000);
+        this.sit.setFGColor(sitting ? 0xFF00FF00 : 0xFFFF0000);
+        this.stay.setFGColor(staying ? 0xFF00FF00 : 0xFFFF0000);
+
         final int k = (this.width - this.imageWidth) / 2;
         final int l = (this.height - this.imageHeight) / 2;
 
