@@ -35,7 +35,7 @@ public class PacketPokemobGui extends Packet
         buffer.writeByte(mode);
 
         IPokemob pokemob = PokemobCaps.getPokemobFor(target);
-        if (pokemob != null)
+        if (pokemob != null && !(player.containerMenu instanceof PokemobContainer))
         {
             StoreTask ai = null;
             for (final IAIRunnable run : pokemob.getTasks()) if (run instanceof StoreTask task) ai = task;
