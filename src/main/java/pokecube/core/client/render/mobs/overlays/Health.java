@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Stack;
 import java.util.UUID;
+import java.util.function.BiFunction;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -56,6 +56,28 @@ public class Health
 
     private static final RenderType TYPE = RenderType.text(Resources.GUI_BATTLE);
     private static final RenderType BACKGROUND = RenderType.textSeeThrough(Resources.GUI_BATTLE);
+
+    public static BiFunction<LivingEntity, Entity, Boolean> RENDER_HEALTH = (entity, viewPoint) -> {
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
+        // Only apply to pokemobs in world
+        if (pokemob == null || !entity.isAddedToWorld()) return false;
+        // Only apply to stock ones, unless otherwise configured
+        if (PokecubeCore.getConfig().nonStockHealthbars && !pokemob.getPokedexEntry().stock) return false;
+        // Only apply if in range
+        if (entity.distanceTo(viewPoint) > PokecubeCore.getConfig().maxDistance) return false;
+        final EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
+        // Some sanity checks
+        if (renderManager == null || renderManager.camera == null) return false;
+        // If we are set to only show focused, then only show that.
+        if (PokecubeCore.getConfig().showOnlyFocused && entity != renderManager.crosshairPickEntity) return false;
+        final Camera viewer = renderManager.camera;
+        // If viewer is riding us, do not show
+        if (entity.getPassengers().contains(viewer.getEntity())) return false;
+        // If we are riding a player, do not show
+        if (entity.getVehicle() instanceof Player) return false;
+        // Otherwise show.
+        return true;
+    };
 
     public static boolean fullNameColour(final IPokemob pokemob)
     {
@@ -118,30 +140,18 @@ public class Health
     public static void renderHealthBar(final LivingEntity passedEntity, final PoseStack mat,
             final MultiBufferSource buf, final float partialTicks, final Entity viewPoint, final int br)
     {
-        final Stack<LivingEntity> ridingStack = new Stack<>();
-
         LivingEntity entity = passedEntity;
 
+        if (!RENDER_HEALTH.apply(passedEntity, viewPoint)) return;
+
         final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
-        if (pokemob == null || !entity.isAddedToWorld() || !pokemob.getPokedexEntry().stock) return;
-        if (entity.distanceTo(viewPoint) > PokecubeCore.getConfig().maxDistance) return;
         final Config config = PokecubeCore.getConfig();
         final Minecraft mc = Minecraft.getInstance();
         final EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
-        if (renderManager == null || renderManager.camera == null) return;
-        if (PokecubeCore.getConfig().showOnlyFocused && entity != renderManager.crosshairPickEntity) return;
         final Camera viewer = renderManager.camera;
-
-        final boolean background = config.drawBackground && entity.hasLineOfSight(viewer.getEntity());
-
-        if (entity.getPassengers().contains(viewer.getEntity())) return;
-
         final UUID viewerID = viewer.getEntity().getUUID();
 
-        ridingStack.push(entity);
-
-        if (entity.getVehicle() instanceof Player) return;
-
+        final boolean background = config.drawBackground && entity.hasLineOfSight(viewer.getEntity());
         VertexConsumer buffer;
         Matrix4f pos;
 
