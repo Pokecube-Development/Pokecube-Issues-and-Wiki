@@ -872,6 +872,7 @@ public class Database
         List<PackResources> packs = applyToManager ? finder.allPacks : finder.folderPacks;
         for (final PackResources info : packs) try
         {
+            // This initialises the info, for the caching system.
             info.init(PackType.SERVER_DATA);
             if (applyToManager)
             {
