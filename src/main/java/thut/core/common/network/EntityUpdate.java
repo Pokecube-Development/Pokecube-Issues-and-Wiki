@@ -19,6 +19,8 @@ import net.minecraftforge.common.capabilities.CapabilityDispatcher;
 import net.minecraftforge.common.capabilities.CapabilityProvider;
 import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
+import thut.core.common.network.nbtpacket.NBTPacket;
+import thut.core.common.network.nbtpacket.PacketAssembly;
 import thut.lib.RegHelper;
 
 public class EntityUpdate extends NBTPacket

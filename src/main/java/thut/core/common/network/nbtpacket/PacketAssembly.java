@@ -1,4 +1,4 @@
-package thut.core.common.network;
+package thut.core.common.network.nbtpacket;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -22,6 +22,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.PacketDistributor.PacketTarget;
 import thut.core.common.ThutCore;
+import thut.core.common.network.PacketHandler;
 
 /**
  * Copied from BetterQuesting, then modified to meet my needs.

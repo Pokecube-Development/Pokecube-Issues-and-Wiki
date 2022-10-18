@@ -63,8 +63,8 @@ import thut.api.maths.Cruncher.SquareLoopCruncher;
 import thut.api.maths.Vector3;
 import thut.api.util.UnderscoreIgnore;
 import thut.core.common.handlers.PlayerDataHandler;
-import thut.core.common.network.NBTPacket;
-import thut.core.common.network.PacketAssembly;
+import thut.core.common.network.nbtpacket.NBTPacket;
+import thut.core.common.network.nbtpacket.PacketAssembly;
 import thut.lib.TComponent;
 
 public class PacketPokedex extends NBTPacket

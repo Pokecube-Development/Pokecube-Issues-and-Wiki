@@ -16,6 +16,8 @@ import net.minecraftforge.event.entity.player.PlayerEvent.StopTracking;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import thut.api.entity.multipart.IMultpart;
 import thut.core.common.ThutCore;
+import thut.core.common.network.nbtpacket.NBTPacket;
+import thut.core.common.network.nbtpacket.PacketAssembly;
 
 public class PartSync extends NBTPacket
 {

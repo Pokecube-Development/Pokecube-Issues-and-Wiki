@@ -1,12 +1,13 @@
-package thut.core.common.network;
+package thut.core.common.network.nbtpacket;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
+import thut.core.common.network.Packet;
 
 public abstract class NBTPacket extends Packet
 {
-    protected CompoundTag   tag = new CompoundTag();
+    protected CompoundTag tag = new CompoundTag();
     final PacketAssembly<?> assembler;
 
     public NBTPacket()

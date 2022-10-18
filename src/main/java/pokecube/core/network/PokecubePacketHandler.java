@@ -10,6 +10,7 @@ import pokecube.core.network.packets.PacketHeal;
 import pokecube.core.network.packets.PacketPC;
 import pokecube.core.network.packets.PacketPokecube;
 import pokecube.core.network.packets.PacketPokedex;
+import pokecube.core.network.packets.PacketSyncPokedex;
 import pokecube.core.network.packets.PacketSyncRoutes;
 import pokecube.core.network.packets.PacketSyncTerrain;
 import pokecube.core.network.packets.PacketTMs;
@@ -44,6 +45,7 @@ public class PokecubePacketHandler
         PokecubeCore.packets.registerMessage(PacketPokedex.class, PacketPokedex::new);
         PokecubeCore.packets.registerMessage(PacketDataSync.class, PacketDataSync::new);
         PokecubeCore.packets.registerMessage(PacketChoose.class, PacketChoose::new);
+        PokecubeCore.packets.registerMessage(PacketSyncPokedex.class, PacketSyncPokedex::new);
 
         // Packets for blocks
         PokecubeCore.packets.registerMessage(PacketPC.class, PacketPC::new);
