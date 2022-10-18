@@ -1286,10 +1286,10 @@ public class PokedexEntry
 
         // Set the tag based values
         this.shouldFly = this.isType(PokeType.getType("flying"));
-        this.shouldFly = this.shouldFly || Tags.POKEMOB.isIn("fly_allowed", this.getTrimmedName());
-        if (Tags.POKEMOB.isIn("fly_disallowed", this.getTrimmedName())) this.shouldFly = false;
-        this.shouldDive = Tags.POKEMOB.isIn("dive_allowed", this.getTrimmedName());
-        this.shouldSurf = Tags.POKEMOB.isIn("surf_allowed", this.getTrimmedName());
+        this.shouldFly = this.shouldFly || Tags.POKEMOB.isIn("hms/fly", this.getTrimmedName());
+        if (Tags.POKEMOB.isIn("hms/no_fly", this.getTrimmedName())) this.shouldFly = false;
+        this.shouldDive = Tags.POKEMOB.isIn("hms/dive", this.getTrimmedName());
+        this.shouldSurf = Tags.POKEMOB.isIn("hms/surf", this.getTrimmedName());
         this.canSitShoulder = Tags.POKEMOB.isIn("shoulder_allowed", this.getTrimmedName());
         this.isHeatProof = Tags.POKEMOB.isIn("fire_proof", this.getTrimmedName());
         this.isStarter = Tags.POKEMOB.isIn("starters", this.getTrimmedName());
