@@ -489,6 +489,10 @@ public class PokedexEntryLoader
             this.types = new Stats();
             types.values.put("type1", from.getType1().name());
             if (from.getType1() != from.getType2()) types.values.put("type2", from.getType2().name());
+
+            sizes = new Stats();
+            sizes.values.put("height", from.height + "");
+            sizes.values.put("width", from.width + "");
         }
 
         @Override

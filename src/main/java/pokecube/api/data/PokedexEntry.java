@@ -1335,14 +1335,6 @@ public class PokedexEntry
         this.evolutions.add(toAdd);
     }
 
-    public void addEVXP(final byte[] evs, final int baseXP, final int evolutionMode, final int sexRatio)
-    {
-        this.evs = evs;
-        this.baseXP = baseXP;
-        this.evolutionMode = evolutionMode;
-        this.sexeRatio = sexRatio;
-    }
-
     public void addForm(final PokedexEntry form)
     {
         if (this.forms.containsValue(form)) return;

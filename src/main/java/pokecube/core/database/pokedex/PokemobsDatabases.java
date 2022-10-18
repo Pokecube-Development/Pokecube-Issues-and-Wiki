@@ -76,7 +76,7 @@ public class PokemobsDatabases
                 {
                     // Lower priorities than this are assumed to be adding
                     // entries, any higher are adding extra things to the entry.
-                    if (json.priority > 10 && !json.register)
+                    if (e.stock && json.priority > 10 && !json.register)
                     {
                         PokecubeAPI.LOGGER.info("Adding entry again? {} {}, skipping entry!", e.name, json._file);
                         continue;
