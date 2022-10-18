@@ -1,11 +1,7 @@
 package pokecube.core.database.tags;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
 import java.io.Reader;
-import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -16,51 +12,90 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.IResourceData;
-import thut.api.util.JsonUtil;
+import thut.api.util.UnderscoreIgnore;
 import thut.core.common.ThutCore;
 
-public class StringTag implements IResourceData
+public class StringTag<T> implements IResourceData
 {
-    public static class TagHolder
+    public static final Gson gson;
+    static
+    {
+        gson = new GsonBuilder().registerTypeAdapter(StringValue.class, StringValueAdaptor.INSTANCE).setPrettyPrinting()
+                .disableHtmlEscaping().setExclusionStrategies(UnderscoreIgnore.INSTANCE).create();
+    }
+
+    public static class StringValue<T>
+    {
+        public final String name;
+        public T value = null;
+
+        public Object _cached = null;
+
+        public StringValue(String name)
+        {
+            this.name = name;
+        }
+
+        public StringValue<T> setValue(T value)
+        {
+            this.value = value;
+            return this;
+        }
+
+        public T getValue()
+        {
+            return value;
+        }
+    }
+
+    public static class TagHolder<T>
     {
         boolean replace = false;
 
-        List<String> values = Lists.newArrayList();
+        List<StringValue<T>> values = Lists.newArrayList();
 
-        List<TagHolder> _includes = Lists.newArrayList();
+        List<TagHolder<T>> _includes = Lists.newArrayList();
+
+        private Map<String, StringValue<T>> _values = Maps.newHashMap();
 
         void postProcess()
         {
             this.values.replaceAll(s -> {
                 boolean tag = false;
-                if (tag = s.startsWith("#")) s = s.replace("#", "");
-                if (!s.contains(":")) s = "pokecube:" + ThutCore.trim(s);
-                if (tag) s = "#" + s;
-                return s;
+                String name = s.name;
+                if (tag = name.startsWith("#")) name = name.replace("#", "");
+                if (!name.contains(":")) name = "pokecube:" + ThutCore.trim(name);
+                if (tag) name = "#" + name;
+                if (name.equals(s.name)) return s;
+                else return new StringValue<T>(name).setValue(s.getValue());
+            });
+            this.values.forEach(s -> {
+                _values.put(s.name, s);
             });
         }
 
         public boolean isIn(final String value)
         {
-            if (this.values.contains(value)) return true;
-            for (final TagHolder incl : this._includes) if (incl.isIn(value)) return true;
+            if (this._values.containsKey(value)) return true;
+            for (final TagHolder<T> incl : this._includes) if (incl.isIn(value)) return true;
             return false;
         }
 
-        public void checkIncludes(final StringTag parent, final Set<String> checked)
+        public void checkIncludes(final StringTag<T> parent, final Set<String> checked)
         {
             // DOLATER possible speedup by adding the included tags to our list,
             // instead of referencing the included tags.
 
-            for (final String s : this.values) if (s.startsWith("#"))
+            for (final String s : this._values.keySet()) if (s.startsWith("#"))
             {
                 final String tag = s.replace("#", "");
                 if (checked.contains(tag))
@@ -68,7 +103,7 @@ public class StringTag implements IResourceData
                     PokecubeAPI.LOGGER.warn("Warning, Recursive tags list! {}", checked);
                     continue;
                 }
-                final TagHolder incl = parent.tagsMap.get(tag);
+                final TagHolder<T> incl = parent.tagsMap.get(tag);
                 if (incl == null)
                 {
                     PokecubeAPI.LOGGER.warn("Warning, Tag not found for {}", s);
@@ -79,7 +114,7 @@ public class StringTag implements IResourceData
         }
     }
 
-    private final Map<String, TagHolder> tagsMap = Maps.newHashMap();
+    private final Map<String, TagHolder<T>> tagsMap = Maps.newHashMap();
 
     private final Map<String, Set<String>> reversedTagsMap = Maps.newHashMap();
 
@@ -96,7 +131,6 @@ public class StringTag implements IResourceData
     @Override
     public void reload(final AtomicBoolean valid)
     {
-        if (!FMLEnvironment.production) this.printTags();
         this.tagsMap.clear();
         this.validLoad = false;
         try
@@ -127,21 +161,8 @@ public class StringTag implements IResourceData
 
     public void checkIncludes()
     {
-        for (final Entry<String, TagHolder> entry : this.tagsMap.entrySet())
+        for (final Entry<String, TagHolder<T>> entry : this.tagsMap.entrySet())
             entry.getValue().checkIncludes(this, Sets.newHashSet(entry.getKey()));
-    }
-
-    public void addToTag(String tag, String value)
-    {
-        if (!tag.contains(":")) tag = "pokecube:" + ThutCore.trim(tag);
-        if (!value.contains(":")) value = "pokecube:" + ThutCore.trim(value);
-        TagHolder holder = this.tagsMap.get(tag);
-        if (holder == null) this.tagsMap.put(tag, holder = new TagHolder());
-        if (holder.values.contains(value)) return;
-        holder.values.add(value);
-        final Set<String> tagged = this.reversedTagsMap.getOrDefault(value, Sets.newHashSet());
-        tagged.add(tag);
-        this.reversedTagsMap.put(value, tagged);
     }
 
     public boolean isIn(String tag, String toCheck)
@@ -151,35 +172,10 @@ public class StringTag implements IResourceData
         // If we have the tag loaded, lets use the value from there.
         if (this.tagsMap.containsKey(tag))
         {
-            final TagHolder holder = this.tagsMap.get(tag);
+            final TagHolder<T> holder = this.tagsMap.get(tag);
             return holder.isIn(toCheck);
         }
         return false;
-    }
-
-    // This is a helper method for generating tags as needed
-    void printTags()
-    {
-        this.tagsMap.forEach((s, h) -> {
-            final ResourceLocation name = new ResourceLocation(s);
-            final File dir = new File("./generated/data/" + name.getNamespace() + "/" + this.tagPath);
-            if (!dir.exists()) dir.mkdirs();
-            File file = null;
-            file = new File(dir, name.getPath() + ".json");
-            String json = "";
-            try
-            {
-                json = JsonUtil.gson.toJson(h);
-                final OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file),
-                        Charset.forName("UTF-8").newEncoder());
-                writer.write(json);
-                writer.close();
-            }
-            catch (final Exception e)
-            {
-                e.printStackTrace();
-            }
-        });
     }
 
     private boolean loadTag(final ResourceLocation tagLoc, List<Resource> resources, final String tag,
@@ -187,15 +183,20 @@ public class StringTag implements IResourceData
     {
         try
         {
-            final TagHolder tagged = new TagHolder();
+            final TagHolder<T> tagged = new TagHolder<T>();
             for (final Resource resource : resources)
             {
                 final Reader reader = PackFinder.getReader(resource);
-                final TagHolder temp = JsonUtil.gson.fromJson(reader, TagHolder.class);
+                @SuppressWarnings("unchecked")
+                final TagHolder<T> temp = gson.fromJson(reader, TagHolder.class);
                 temp.postProcess();
                 if (temp.replace) tagged.values.clear();
-                temp.values.forEach(s -> {
-                    if (!tagged.values.contains(s)) tagged.values.add(s);
+                temp._values.forEach((k, v) -> {
+                    if (!tagged._values.containsKey(k))
+                    {
+                        tagged.values.add(v);
+                        tagged._values.put(k, v);
+                    }
                 });
                 reader.close();
                 // If we were replacing, we want to exit here.
@@ -204,15 +205,16 @@ public class StringTag implements IResourceData
             this.tagsMap.put(tag, tagged);
             // Now we update the reversedTagsMap accordingly
             // Iterate over the values in the tag, and put toCheck in their set.
-            for (String s : tagged.values)
+            for (StringValue<T> s : tagged.values)
             {
-                if (!s.contains(":")) s = "pokecube:" + ThutCore.trim(s);
-                final Set<String> tags = this.reversedTagsMap.getOrDefault(s, Sets.newHashSet());
+                String name = s.name;
+                if (!name.contains(":")) name = "pokecube:" + ThutCore.trim(name);
+                final Set<String> tags = this.reversedTagsMap.getOrDefault(name, Sets.newHashSet());
                 tags.add(tag);
-                this.reversedTagsMap.put(s, tags);
+                this.reversedTagsMap.put(name, tags);
             }
             // now just return if it was present.
-            return tagged.values.contains(toCheck);
+            return tagged.isIn(toCheck);
         }
         catch (final FileNotFoundException e)
         {

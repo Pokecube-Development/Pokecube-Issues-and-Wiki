@@ -1286,10 +1286,10 @@ public class PokedexEntry
 
         // Set the tag based values
         this.shouldFly = this.isType(PokeType.getType("flying"));
-        this.shouldFly = this.shouldFly || Tags.POKEMOB.isIn("fly_allowed", this.getTrimmedName());
-        if (Tags.POKEMOB.isIn("fly_disallowed", this.getTrimmedName())) this.shouldFly = false;
-        this.shouldDive = Tags.POKEMOB.isIn("dive_allowed", this.getTrimmedName());
-        this.shouldSurf = Tags.POKEMOB.isIn("surf_allowed", this.getTrimmedName());
+        this.shouldFly = this.shouldFly || Tags.POKEMOB.isIn("hms/fly", this.getTrimmedName());
+        if (Tags.POKEMOB.isIn("hms/no_fly", this.getTrimmedName())) this.shouldFly = false;
+        this.shouldDive = Tags.POKEMOB.isIn("hms/dive", this.getTrimmedName());
+        this.shouldSurf = Tags.POKEMOB.isIn("hms/surf", this.getTrimmedName());
         this.canSitShoulder = Tags.POKEMOB.isIn("shoulder_allowed", this.getTrimmedName());
         this.isHeatProof = Tags.POKEMOB.isIn("fire_proof", this.getTrimmedName());
         this.isStarter = Tags.POKEMOB.isIn("starters", this.getTrimmedName());
@@ -1301,13 +1301,19 @@ public class PokedexEntry
         this.breeds = Tags.POKEMOB.isIn("breeding_whitelist", this.getTrimmedName())
                 || !Tags.POKEMOB.isIn("no_breeding", this.getTrimmedName());
 
-        this.foods[0] = Tags.POKEMOB.isIn("eats_light", this.getTrimmedName());
-        this.foods[1] = Tags.POKEMOB.isIn("eats_stone", this.getTrimmedName());
-        this.foods[2] = Tags.POKEMOB.isIn("eats_redstone", this.getTrimmedName());
-        this.foods[3] = Tags.POKEMOB.isIn("eats_plants", this.getTrimmedName());
-        this.foods[4] = Tags.POKEMOB.isIn("eats_never", this.getTrimmedName());
-        this.foods[5] = !Tags.POKEMOB.isIn("eats_no_berries", this.getTrimmedName());
-        this.foods[6] = Tags.POKEMOB.isIn("eats_water", this.getTrimmedName());
+        this.foods[0] = Tags.POKEMOB.isIn("food_types/light", this.getTrimmedName());
+        this.foods[1] = Tags.POKEMOB.isIn("food_types/stone", this.getTrimmedName());
+        this.foods[2] = Tags.POKEMOB.isIn("food_types/redstone", this.getTrimmedName());
+        this.foods[3] = Tags.POKEMOB.isIn("food_types/plants", this.getTrimmedName());
+        this.foods[4] = Tags.POKEMOB.isIn("food_types/never", this.getTrimmedName());
+        this.foods[5] = !Tags.POKEMOB.isIn("food_types/no_berries", this.getTrimmedName());
+        this.foods[6] = Tags.POKEMOB.isIn("food_types/water", this.getTrimmedName());
+
+        this.activeTimes.clear();
+        if (Tags.POKEMOB.isIn("active_times/day", this.getTrimmedName())) this.activeTimes.add(PokedexEntry.day);
+        if (Tags.POKEMOB.isIn("active_times/night", this.getTrimmedName())) this.activeTimes.add(PokedexEntry.night);
+        if (Tags.POKEMOB.isIn("active_times/dusk", this.getTrimmedName())) this.activeTimes.add(PokedexEntry.dusk);
+        if (Tags.POKEMOB.isIn("active_times/dawn", this.getTrimmedName())) this.activeTimes.add(PokedexEntry.dawn);
 
         if (Tags.MOVEMENT.isIn("floats", this.getTrimmedName())) this.mobType |= MovementType.FLOATING.mask;
         if (Tags.MOVEMENT.isIn("flies", this.getTrimmedName())) this.mobType |= MovementType.FLYING.mask;
@@ -1327,14 +1333,6 @@ public class PokedexEntry
     public void addEvolution(final EvolutionData toAdd)
     {
         this.evolutions.add(toAdd);
-    }
-
-    public void addEVXP(final byte[] evs, final int baseXP, final int evolutionMode, final int sexRatio)
-    {
-        this.evs = evs;
-        this.baseXP = baseXP;
-        this.evolutionMode = evolutionMode;
-        this.sexeRatio = sexRatio;
     }
 
     public void addForm(final PokedexEntry form)
@@ -1792,7 +1790,7 @@ public class PokedexEntry
     /** @return the stats */
     public int[] getStats()
     {
-        return this.stats.clone();
+        return this.stats;
     }
 
     public int getStatVIT()

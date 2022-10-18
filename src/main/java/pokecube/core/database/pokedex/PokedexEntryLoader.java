@@ -19,6 +19,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
@@ -412,7 +413,7 @@ public class PokedexEntryLoader
         }
     }
 
-    public static class StatsNode implements IMergeable<StatsNode>
+    public static class StatsNode implements IMergeable<StatsNode>, Consumer<PokedexEntry>
     {
         public static class Stats
         {
@@ -459,7 +460,155 @@ public class PokedexEntryLoader
         public String shadowReplacements;
         public String hatedMaterials;
 
-        public String activeTimes;
+        public StatsNode()
+        {}
+
+        public StatsNode(PokedexEntry from)
+        {
+            stats = new Stats();
+            stats.values.put("hp", from.getStatHP() + "");
+            stats.values.put("atk", from.getStatATT() + "");
+            stats.values.put("def", from.getStatDEF() + "");
+            stats.values.put("spatk", from.getStatATTSPE() + "");
+            stats.values.put("spdef", from.getStatDEFSPE() + "");
+            stats.values.put("spd", from.getStatVIT() + "");
+
+            this.mass = (float) from.mass;
+            this.captureRate = from.catchRate;
+            this.baseExp = from.baseXP;
+            this.genderRatio = from.sexeRatio;
+
+            evs = new Stats();
+            if (from.evs[0] != 0) evs.values.put("hp", from.evs[0] + "");
+            if (from.evs[1] != 0) evs.values.put("atk", from.evs[1] + "");
+            if (from.evs[2] != 0) evs.values.put("def", from.evs[2] + "");
+            if (from.evs[3] != 0) evs.values.put("spatk", from.evs[3] + "");
+            if (from.evs[4] != 0) evs.values.put("spdef", from.evs[4] + "");
+            if (from.evs[5] != 0) evs.values.put("spd", from.evs[5] + "");
+
+            this.types = new Stats();
+            types.values.put("type1", from.getType1().name());
+            if (from.getType1() != from.getType2()) types.values.put("type2", from.getType2().name());
+
+            sizes = new Stats();
+            sizes.values.put("height", from.height + "");
+            sizes.values.put("width", from.width + "");
+        }
+
+        @Override
+        /**
+         * Here we apply any settings which can be done during early setup.
+         * These are things which do not depend on registered value later, or
+         * vanilla datapack stuff.
+         */
+        public void accept(PokedexEntry entry)
+        {
+            final int[] stats = new int[6];
+            final byte[] evs = new byte[6];
+            boolean stat = false, ev = false;
+            if (this.stats != null)
+            {
+                final Map<String, String> values = this.stats.values;
+                for (final String key : values.keySet())
+                {
+                    final String keyString = key.toString();
+                    final String value = values.get(key);
+                    if (keyString.equals("hp")) stats[0] = Integer.parseInt(value);
+                    if (keyString.equals("atk")) stats[1] = Integer.parseInt(value);
+                    if (keyString.equals("def")) stats[2] = Integer.parseInt(value);
+                    if (keyString.equals("spatk")) stats[3] = Integer.parseInt(value);
+                    if (keyString.equals("spdef")) stats[4] = Integer.parseInt(value);
+                    if (keyString.equals("spd")) stats[5] = Integer.parseInt(value);
+                }
+                stat = true;
+            }
+            if (this.evs != null)
+            {
+                final Map<String, String> values = this.evs.values;
+                for (final String key : values.keySet())
+                {
+                    final String keyString = key.toString();
+                    final String value = values.get(key);
+                    if (keyString.equals("hp")) evs[0] = (byte) Integer.parseInt(value);
+                    if (keyString.equals("atk")) evs[1] = (byte) Integer.parseInt(value);
+                    if (keyString.equals("def")) evs[2] = (byte) Integer.parseInt(value);
+                    if (keyString.equals("spatk")) evs[3] = (byte) Integer.parseInt(value);
+                    if (keyString.equals("spdef")) evs[4] = (byte) Integer.parseInt(value);
+                    if (keyString.equals("spd")) evs[5] = (byte) Integer.parseInt(value);
+                }
+                ev = true;
+            }
+            if (stat) entry.stats = stats;
+            if (ev) entry.evs = evs;
+            if (this.types != null)
+            {
+                final Map<String, String> values = this.types.values;
+                for (final String key : values.keySet())
+                {
+                    final String keyString = key.toString();
+                    final String value = values.get(key);
+                    if (keyString.equals("type1")) entry.type1 = PokeType.getType(value);
+                    if (keyString.equals("type2")) entry.type2 = PokeType.getType(value);
+                }
+            }
+            if (this.sizes != null)
+            {
+                final Map<String, String> values = this.sizes.values;
+                for (final String key : values.keySet())
+                {
+                    final String keyString = key.toString();
+                    final String value = values.get(key);
+                    if (keyString.equals("height")) entry.height = Float.parseFloat(value);
+                    if (keyString.equals("length")) entry.length = Float.parseFloat(value);
+                    if (keyString.equals("width")) entry.width = Float.parseFloat(value);
+                }
+                if (entry.width == -1) entry.width = entry.height;
+                if (entry.length == -1) entry.length = entry.width;
+            }
+            if (this.abilities != null)
+            {
+                final Map<String, String> values = this.abilities.values;
+                for (final String key : values.keySet())
+                {
+                    final String keyString = key.toString();
+                    final String value = values.get(key);
+                    if (keyString.equals("hidden"))
+                    {
+                        final String[] vars = value.split(",");
+                        for (final String var : vars)
+                            if (!entry.abilitiesHidden.contains(var.trim())) entry.abilitiesHidden.add(var.trim());
+                    }
+                    if (keyString.equals("normal"))
+                    {
+                        final String[] vars = value.split(",");
+                        for (final String var : vars)
+                            if (!entry.abilities.contains(var.trim())) entry.abilities.add(var.trim());
+                        if (entry.abilities.size() == 1) entry.abilities.add(entry.abilities.get(0));
+                    }
+                }
+            }
+            if (this.captureRate != PokedexEntryLoader.missingno.stats.captureRate) entry.catchRate = this.captureRate;
+            if (this.baseExp != PokedexEntryLoader.missingno.stats.baseExp) entry.baseXP = this.baseExp;
+            if (this.baseFriendship != null) entry.baseHappiness = this.baseFriendship;
+            if (this.genderRatio != PokedexEntryLoader.missingno.stats.genderRatio) entry.sexeRatio = this.genderRatio;
+            if (this.mass != PokedexEntryLoader.missingno.stats.mass) entry.mass = this.mass;
+            if (entry.ridable != PokedexEntryLoader.missingno.ridable)
+                entry.ridable = PokedexEntryLoader.missingno.ridable;
+            if (this.movementType != null)
+            {
+                final String[] strings = this.movementType.trim().split(":");
+
+                final String typeArg = strings[0];
+                final String[] types = typeArg.split(",");
+                for (final String type : types)
+                {
+                    final MovementType t = MovementType.getType(type);
+                    if (t != null) entry.mobType |= t.mask;
+                }
+                if (strings.length > 1) entry.preferedHeight = Double.parseDouble(strings[1]);
+            }
+            if (this.prey != null) entry.food = this.prey.trim().split(" ");
+        }
 
         @Override
         public String toString()
@@ -580,6 +729,28 @@ public class PokedexEntryLoader
         {
             return this.name + " " + this.number + " " + this.stats + " " + this.moves;
         }
+
+        /**
+         * Blank constructor for json use
+         */
+        public XMLPokedexEntry()
+        {}
+
+        /**
+         * constructor for making from a pokedex entry
+         */
+        public XMLPokedexEntry(PokedexEntry from)
+        {
+            this.name = from.getTrimmedName();
+            this.number = from.getPokedexNb();
+            this.stock = from.stock;
+            this.dummy = from.dummy;
+            this.base = from.base;
+
+            this.stats = new StatsNode(from);
+
+            if (from.getBaseForme() != null) this.baseForm = from.getBaseName();
+        }
     }
 
     public static final Gson gson = JsonUtil.gson;
@@ -624,7 +795,10 @@ public class PokedexEntryLoader
         {
             copy = original;
         }
-        if (copy == original || copy != null && copy.equals(original)) return copy;
+        if (copy == original || copy != null && copy.equals(original))
+        {
+            return copy;
+        }
         Object value;
         Object defaultvalue;
         for (final Field field : fields) try
@@ -783,122 +957,6 @@ public class PokedexEntryLoader
             holder.getForme(entry);
             PokecubeAPI.LOGGER.debug("Loaded Forme: " + holder.key + " " + holder.model + " " + holder.tex);
         }
-    }
-
-    /**
-     * This can be run at any early loading stage.
-     *
-     * @param entry
-     * @param xmlStats
-     */
-    private static void initStats(final PokedexEntry entry, final StatsNode xmlStats)
-    {
-        final int[] stats = new int[6];
-        final byte[] evs = new byte[6];
-        boolean stat = false, ev = false;
-        if (xmlStats.stats != null)
-        {
-            final Map<String, String> values = xmlStats.stats.values;
-            for (final String key : values.keySet())
-            {
-                final String keyString = key.toString();
-                final String value = values.get(key);
-                if (keyString.equals("hp")) stats[0] = Integer.parseInt(value);
-                if (keyString.equals("atk")) stats[1] = Integer.parseInt(value);
-                if (keyString.equals("def")) stats[2] = Integer.parseInt(value);
-                if (keyString.equals("spatk")) stats[3] = Integer.parseInt(value);
-                if (keyString.equals("spdef")) stats[4] = Integer.parseInt(value);
-                if (keyString.equals("spd")) stats[5] = Integer.parseInt(value);
-            }
-            stat = true;
-        }
-        if (xmlStats.evs != null)
-        {
-            final Map<String, String> values = xmlStats.evs.values;
-            for (final String key : values.keySet())
-            {
-                final String keyString = key.toString();
-                final String value = values.get(key);
-                if (keyString.equals("hp")) evs[0] = (byte) Integer.parseInt(value);
-                if (keyString.equals("atk")) evs[1] = (byte) Integer.parseInt(value);
-                if (keyString.equals("def")) evs[2] = (byte) Integer.parseInt(value);
-                if (keyString.equals("spatk")) evs[3] = (byte) Integer.parseInt(value);
-                if (keyString.equals("spdef")) evs[4] = (byte) Integer.parseInt(value);
-                if (keyString.equals("spd")) evs[5] = (byte) Integer.parseInt(value);
-            }
-            ev = true;
-        }
-        if (stat) entry.stats = stats;
-        if (ev) entry.evs = evs;
-        if (xmlStats.types != null)
-        {
-            final Map<String, String> values = xmlStats.types.values;
-            for (final String key : values.keySet())
-            {
-                final String keyString = key.toString();
-                final String value = values.get(key);
-                if (keyString.equals("type1")) entry.type1 = PokeType.getType(value);
-                if (keyString.equals("type2")) entry.type2 = PokeType.getType(value);
-            }
-        }
-        if (xmlStats.sizes != null)
-        {
-            final Map<String, String> values = xmlStats.sizes.values;
-            for (final String key : values.keySet())
-            {
-                final String keyString = key.toString();
-                final String value = values.get(key);
-                if (keyString.equals("height")) entry.height = Float.parseFloat(value);
-                if (keyString.equals("length")) entry.length = Float.parseFloat(value);
-                if (keyString.equals("width")) entry.width = Float.parseFloat(value);
-            }
-            if (entry.width == -1) entry.width = entry.height;
-            if (entry.length == -1) entry.length = entry.width;
-        }
-        if (xmlStats.abilities != null)
-        {
-            final Map<String, String> values = xmlStats.abilities.values;
-            for (final String key : values.keySet())
-            {
-                final String keyString = key.toString();
-                final String value = values.get(key);
-                if (keyString.equals("hidden"))
-                {
-                    final String[] vars = value.split(",");
-                    for (final String var : vars)
-                        if (!entry.abilitiesHidden.contains(var.trim())) entry.abilitiesHidden.add(var.trim());
-                }
-                if (keyString.equals("normal"))
-                {
-                    final String[] vars = value.split(",");
-                    for (final String var : vars)
-                        if (!entry.abilities.contains(var.trim())) entry.abilities.add(var.trim());
-                    if (entry.abilities.size() == 1) entry.abilities.add(entry.abilities.get(0));
-                }
-            }
-        }
-        if (xmlStats.captureRate != PokedexEntryLoader.missingno.stats.captureRate)
-            entry.catchRate = xmlStats.captureRate;
-        if (xmlStats.baseExp != PokedexEntryLoader.missingno.stats.baseExp) entry.baseXP = xmlStats.baseExp;
-        if (xmlStats.baseFriendship != null) entry.baseHappiness = xmlStats.baseFriendship;
-        if (xmlStats.genderRatio != PokedexEntryLoader.missingno.stats.genderRatio)
-            entry.sexeRatio = xmlStats.genderRatio;
-        if (xmlStats.mass != PokedexEntryLoader.missingno.stats.mass) entry.mass = xmlStats.mass;
-        if (entry.ridable != PokedexEntryLoader.missingno.ridable) entry.ridable = PokedexEntryLoader.missingno.ridable;
-        if (xmlStats.movementType != null)
-        {
-            final String[] strings = xmlStats.movementType.trim().split(":");
-
-            final String typeArg = strings[0];
-            final String[] types = typeArg.split(",");
-            for (final String type : types)
-            {
-                final MovementType t = MovementType.getType(type);
-                if (t != null) entry.mobType |= t.mask;
-            }
-            if (strings.length > 1) entry.preferedHeight = Double.parseDouble(strings[1]);
-        }
-        if (xmlStats.prey != null) entry.food = xmlStats.prey.trim().split(" ");
     }
 
     public static void updateEntry(final PokedexEntry entry)
@@ -1126,7 +1184,6 @@ public class PokedexEntryLoader
      */
     private static void postIniStats(final PokedexEntry entry, final StatsNode xmlStats)
     {
-
         // Items
         // Drops Loot table
         if (xmlStats.lootTable != null && !xmlStats.lootTable.isEmpty())
@@ -1158,19 +1215,8 @@ public class PokedexEntryLoader
                 }
             }
         }
-        if (xmlStats.activeTimes != null)
-        {
-            final String[] times = xmlStats.activeTimes.split(" ");
-            entry.activeTimes.clear();
-            for (final String s1 : times) if (s1.equalsIgnoreCase("day")) entry.activeTimes.add(PokedexEntry.day);
-            else if (s1.equalsIgnoreCase("night")) entry.activeTimes.add(PokedexEntry.night);
-            else if (s1.equalsIgnoreCase("dusk")) entry.activeTimes.add(PokedexEntry.dusk);
-            else if (s1.equalsIgnoreCase("dawn")) entry.activeTimes.add(PokedexEntry.dawn);
-        }
         if (!xmlStats.interactions.isEmpty()) entry._loaded_interactions.addAll(xmlStats.interactions);
-
         if (xmlStats.hatedMaterials != null) entry.hatedMaterial = xmlStats.hatedMaterials.split(":");
-
         if (xmlStats.megaRules != null) entry._loaded_megarules.addAll(xmlStats.megaRules);
     }
 
@@ -1253,7 +1299,7 @@ public class PokedexEntryLoader
         {
             if (xmlEntry.sound != null) entry.customSound = xmlEntry.sound;
             entry.modelExt = xmlEntry.modelType;
-            PokedexEntryLoader.initStats(entry, stats);
+            stats.accept(entry);
             if (!init)
             {
                 PokedexEntryLoader.initFormeModels(entry, xmlEntry.models);
@@ -1351,45 +1397,50 @@ public class PokedexEntryLoader
         if (moves != null) PokedexEntryLoader.initMoves(entry, moves);
     }
 
-    public static void writeCompoundDatabase()
+    public static String getCompoundDatabaseJson(PokemobsJson source)
+    {
+        final List<XMLPokedexEntry> entries = Lists.newArrayList(source.pokemon);
+        final PokemobsJson database = new PokemobsJson();
+        database.pokemon = entries;
+        database.pokemon.removeIf(value -> {
+            if (value.number == null)
+            {
+                final PokedexEntry entry = Database.getEntry(value.name);
+                if (entry != null)
+                {
+                    value.number = entry.getPokedexNb();
+                    value.name = entry.getTrimmedName();
+                    return false;
+                }
+                PokecubeAPI.LOGGER.error(
+                        "Error with entry for {}, it is missing a Number for sorting! removing on write", value.name);
+                return true;
+            }
+            return false;
+        });
+        database.pokemon.sort(PokedexEntryLoader.ENTRYSORTER);
+        database.pokemon.replaceAll(t -> {
+            try
+            {
+                return (XMLPokedexEntry) PokedexEntryLoader.getSerializableCopy(t.getClass(), t);
+            }
+            catch (InstantiationException | IllegalAccessException e)
+            {
+                return t;
+            }
+        });
+        final Map<String, XMLPokedexEntry> back = database.__map__;
+        database.__map__ = null;
+        final String json = JsonUtil.gson.toJson(database);
+        database.__map__ = back;
+        return json;
+    }
+
+    public static void writeCompoundDatabase(PokemobsJson source)
     {
         try
         {
-            final List<XMLPokedexEntry> entries = Lists.newArrayList(PokemobsDatabases.compound.pokemon);
-            final PokemobsJson database = new PokemobsJson();
-            database.pokemon = entries;
-            database.pokemon.removeIf(value -> {
-                if (value.number == null)
-                {
-                    final PokedexEntry entry = Database.getEntry(value.name);
-                    if (entry != null)
-                    {
-                        value.number = entry.getPokedexNb();
-                        value.name = entry.getTrimmedName();
-                        return false;
-                    }
-                    PokecubeAPI.LOGGER.error(
-                            "Error with entry for {}, it is missing a Number for sorting! removing on write",
-                            value.name);
-                    return true;
-                }
-                return false;
-            });
-            database.pokemon.sort(PokedexEntryLoader.ENTRYSORTER);
-            database.pokemon.replaceAll(t -> {
-                try
-                {
-                    return (XMLPokedexEntry) PokedexEntryLoader.getSerializableCopy(t.getClass(), t);
-                }
-                catch (InstantiationException | IllegalAccessException e)
-                {
-                    return t;
-                }
-            });
-            final Map<String, XMLPokedexEntry> back = database.__map__;
-            database.__map__ = null;
-            final String json = JsonUtil.gson.toJson(database);
-            database.__map__ = back;
+            String json = getCompoundDatabaseJson(source);
             final FileOutputStream writer = new FileOutputStream(
                     new File(FMLPaths.CONFIGDIR.get().toFile(), "pokemobs.json"));
             writer.write(json.getBytes());

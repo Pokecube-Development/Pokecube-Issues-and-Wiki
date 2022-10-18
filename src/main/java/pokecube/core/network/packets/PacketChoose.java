@@ -34,8 +34,8 @@ public class PacketChoose extends Packet
     private static class GuiOpener
     {
         final PokedexEntry[] starters;
-        final boolean        special;
-        final boolean        pick;
+        final boolean special;
+        final boolean pick;
 
         public GuiOpener(final PokedexEntry[] starters, final boolean special, final boolean pick)
         {
@@ -49,16 +49,19 @@ public class PacketChoose extends Packet
         @SubscribeEvent
         public void tick(final ClientTickEvent event)
         {
-            pokecube.core.client.gui.GuiChooseFirstPokemob.special = this.special;
-            pokecube.core.client.gui.GuiChooseFirstPokemob.pick = this.pick;
-            pokecube.core.client.gui.GuiChooseFirstPokemob.starters = this.starters;
-            net.minecraft.client.Minecraft.getInstance().setScreen(new GuiChooseFirstPokemob(this.starters));
+            if (!MinecraftForge.EVENT_BUS.post(new StarterEvent.Gui()))
+            {
+                pokecube.core.client.gui.GuiChooseFirstPokemob.special = this.special;
+                pokecube.core.client.gui.GuiChooseFirstPokemob.pick = this.pick;
+                pokecube.core.client.gui.GuiChooseFirstPokemob.starters = this.starters;
+                net.minecraft.client.Minecraft.getInstance().setScreen(new GuiChooseFirstPokemob(this.starters));
+            }
             MinecraftForge.EVENT_BUS.unregister(this);
         }
     }
 
     public static final byte OPENGUI = 0;
-    public static final byte CHOOSE  = 1;
+    public static final byte CHOOSE = 1;
 
     public static PacketChoose createOpenPacket(final boolean special, final boolean pick, final PokedexEntry... starts)
     {
@@ -67,18 +70,16 @@ public class PacketChoose extends Packet
         packet.data.putBoolean("S", special);
         packet.data.putBoolean("P", pick);
         final ListTag starters = new ListTag();
-        for (final PokedexEntry e : starts)
-            starters.add(StringTag.valueOf(e.getTrimmedName()));
+        for (final PokedexEntry e : starts) starters.add(StringTag.valueOf(e.getTrimmedName()));
         packet.data.put("L", starters);
         return packet;
     }
 
-    byte               message;
+    byte message;
     public CompoundTag data = new CompoundTag();
 
     public PacketChoose()
-    {
-    }
+    {}
 
     public PacketChoose(final byte message)
     {
@@ -128,8 +129,7 @@ public class PacketChoose extends Packet
         // Did they also get contributor stuff.
         final List<ItemStack> items = Lists.newArrayList();
         // Copy main list from database.
-        for (final ItemStack stack : Database.starterPack)
-            items.add(stack.copy());
+        for (final ItemStack stack : Database.starterPack) items.add(stack.copy());
 
         // No Custom Starter. just gets this
         final ItemStack pokemobItemstack = PokecubeSerializer.getInstance().starter(entry, player);
@@ -150,8 +150,7 @@ public class PacketChoose extends Packet
         {
             if (e.isEmpty()) continue;
             /**
-             * Run this before tools.give, as that invalidates the
-             * itemstack.
+             * Run this before tools.give, as that invalidates the itemstack.
              */
             if (PokecubeManager.isFilled(e))
             {

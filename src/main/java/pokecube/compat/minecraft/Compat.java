@@ -1,23 +1,33 @@
 package pokecube.compat.minecraft;
 
-import java.util.Map;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
+import net.minecraft.SharedConstants;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.Config;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -29,6 +39,9 @@ import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.tasks.bees.BeeTasks.BeeHabitat;
 import pokecube.core.commands.Kill.KillCommandEvent;
 import pokecube.core.database.Database;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
+import pokecube.core.database.pokedex.PokedexEntryLoader.XMLPokedexEntry;
+import pokecube.core.database.pokedex.PokemobsJson;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager.GeneticsProvider;
@@ -43,7 +56,7 @@ public class Compat
 {
     private static final PokedexEntry DERP;
 
-    public static Map<EntityType<?>, PokedexEntry> customEntries = Maps.newHashMap();
+    public static List<PokedexEntry> customEntries = Lists.newArrayList();
 
     private static final ResourceLocation NOTPOKEMOBS = new ResourceLocation(PokecubeCore.MODID, "never_pokemob");
     private static final ResourceLocation BEEHIVES = new ResourceLocation(PokecubeCore.MODID, "bee_hive_cap");
@@ -58,9 +71,11 @@ public class Compat
         Compat.DERP.evs = new byte[6];
         Compat.DERP.stats = new int[6];
         Compat.DERP.height = 1;
+        Compat.DERP.sexeRatio = 128;
         Compat.DERP.catchRate = 255;
         Compat.DERP.baseXP = 100;
         Compat.DERP.width = Compat.DERP.length = 0.41f;
+        Compat.DERP.mass = 10;
         Compat.DERP.stats[0] = 50;
         Compat.DERP.stats[1] = 50;
         Compat.DERP.stats[2] = 50;
@@ -73,6 +88,8 @@ public class Compat
         Compat.DERP.evolutionMode = 2;
         Compat.DERP.stock = false;
     }
+
+    private static Set<PokedexEntry> generated = Sets.newHashSet();
 
     public static Predicate<EntityType<?>> makePokemob = e -> {
         // Already a pokemob.
@@ -93,6 +110,63 @@ public class Compat
         MinecraftForge.EVENT_BUS.addGenericListener(BlockEntity.class, Compat::onTileEntityCaps);
         // Here we disable the pokecube kill command for vanilla mobs for #753
         PokecubeAPI.POKEMOB_BUS.addListener(Compat::onKillCommand);
+        // Here will will register the handler for making the default datapack
+        MinecraftForge.EVENT_BUS.addListener(Compat::onServerStarted);
+    }
+
+    private static void onServerStarted(final ServerStartedEvent event)
+    {
+        ServerLevel testLevel = event.getServer().getLevel(Level.OVERWORLD);
+        PokemobsJson database = new PokemobsJson();
+        database.priority = 1;
+        ForgeRegistries.ENTITIES.forEach(t -> {
+            Entity e = t.create(testLevel);
+            if (e instanceof Mob && makePokemob.test(t))
+            {
+                @SuppressWarnings("unchecked")
+                final EntityType<? extends Mob> mobType = (EntityType<? extends Mob>) t;
+                final String name = RegHelper.getKey(mobType).toString().replace(":", "_");
+                PokedexEntry newDerp = Database.getEntry(name);
+                if (newDerp != null && !newDerp.stock && generated.contains(newDerp))
+                {
+                    database.addEntry(new XMLPokedexEntry(newDerp));
+                }
+            }
+        });
+        if (!database.pokemon.isEmpty())
+        {
+            File root = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks")
+                    .resolve("__vanilla_template__").toFile();
+            root.mkdirs();
+            File data = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks")
+                    .resolve("__vanilla_template__").resolve("data").resolve("my_addon").resolve("database")
+                    .resolve("pokemobs").toFile();
+            data.mkdirs();
+
+            String metacontents = "{\r\n" + "  \"pack\": {\r\n"
+                    + "    \"pack_format\": 8,\r\n".replace("8",
+                            "" + PackType.SERVER_DATA.getVersion(SharedConstants.getCurrentVersion()))
+                    + "    \"description\": \"Sample Adding Mobs for Pokecube \\n (MC 1.16.4+)\"\r\n" + "  }\r\n" + "}";
+            File mcmeta = new File(root, "pack.mcmeta");
+            File pokemobs = new File(data, "_template_.json");
+
+            try
+            {
+                FileOutputStream writer = new FileOutputStream(mcmeta);
+                writer.write(metacontents.getBytes());
+                writer.close();
+
+                String json = PokedexEntryLoader.getCompoundDatabaseJson(database);
+                writer = new FileOutputStream(pokemobs);
+                writer.write(json.getBytes());
+                writer.close();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     private static void onKillCommand(final KillCommandEvent event)
@@ -115,20 +189,20 @@ public class Compat
     private static void onEntityCaps(final AttachCapabilitiesEvent<Entity> event)
     {
         // Only consider mobEntity, IPokemob requires that
-        if (!(event.getObject() instanceof Mob)) return;
+        if (!(event.getObject() instanceof Mob mob)) return;
         // Do not apply this to trainers!
-        if (Config.instance.shouldBeCustomTrainer((LivingEntity) event.getObject())) return;
+        if (Config.instance.shouldBeCustomTrainer(mob)) return;
         // This checks blacklists, configs, etc on the pokemob type
-        if (!Compat.makePokemob.test(event.getObject().getType())) return;
+        if (!Compat.makePokemob.test(mob.getType())) return;
         // If someone already added it, lets skip
         if (!event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP))
         {
-            final PokedexEntry entry = PokecubeCore.getEntryFor(event.getObject().getType());
+            final PokedexEntry entry = PokecubeCore.getEntryFor(mob.getType());
             if (entry == null) try
             {
                 @SuppressWarnings("unchecked")
-                final EntityType<? extends Mob> mobType = (EntityType<? extends Mob>) event.getObject().getType();
-                final String name = mobType.toString();
+                final EntityType<? extends Mob> mobType = (EntityType<? extends Mob>) mob.getType();
+                final String name = RegHelper.getKey(mobType).toString().replace(":", "_");
                 PokedexEntry newDerp = Database.getEntry(name);
                 if (newDerp == null)
                 {
@@ -136,6 +210,9 @@ public class Compat
                     newDerp.setBaseForme(Compat.DERP);
                     Compat.DERP.copyToForm(newDerp);
                     newDerp.stock = false;
+                    newDerp.width = mob.getBbWidth();
+                    newDerp.height = mob.getBbHeight();
+                    generated.add(newDerp);
                 }
                 newDerp.setEntityType(mobType);
                 PokecubeCore.typeMap.put(mobType, newDerp);
@@ -143,13 +220,12 @@ public class Compat
             catch (final Exception e)
             {
                 // Something went wrong, so log and exit early
-                PokecubeAPI.LOGGER.warn("Error making pokedex entry for {}",
-                        RegHelper.getKey(event.getObject().getType()));
+                PokecubeAPI.LOGGER.warn("Error making pokedex entry for {}", RegHelper.getKey(mob.getType()));
                 e.printStackTrace();
                 return;
             }
 
-            final VanillaPokemob pokemob = new VanillaPokemob((Mob) event.getObject());
+            final VanillaPokemob pokemob = new VanillaPokemob(mob);
             final GeneticsProvider genes = new GeneticsProvider();
             final DataSync_Impl data = new DataSync_Impl();
             pokemob.setDataSync(data);
@@ -158,7 +234,7 @@ public class Compat
             event.addCapability(EventsHandler.POKEMOBCAP, pokemob);
             event.addCapability(EventsHandler.DATACAP, data);
             IGuardAICapability.addCapability(event);
-            final ICapabilitySerializable<?> own = OwnableCaps.makeMobOwnable(event.getObject(), true);
+            final ICapabilitySerializable<?> own = OwnableCaps.makeMobOwnable(mob, true);
             event.addCapability(OwnableCaps.LOCBASE, own);
         }
     }
