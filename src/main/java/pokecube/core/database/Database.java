@@ -872,7 +872,8 @@ public class Database
         List<PackResources> packs = applyToManager ? finder.allPacks : finder.folderPacks;
         for (final PackResources info : packs) try
         {
-            info.init(PackType.SERVER_DATA);
+            // Forge removed the caching for 1.18.2, so we don't do this
+//            info.init(PackType.SERVER_DATA);
             if (applyToManager)
             {
                 PokecubeAPI.LOGGER.debug("Loading Pack: " + info.getName());

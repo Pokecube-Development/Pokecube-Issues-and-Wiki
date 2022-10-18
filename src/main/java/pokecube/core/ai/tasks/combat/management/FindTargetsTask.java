@@ -15,8 +15,8 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.ITargetFinder;
@@ -85,14 +85,17 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         }
     }
 
-    private static void onLivingSetTarget(final LivingSetAttackTargetEvent event)
+    private static void onLivingSetTarget(final LivingChangeTargetEvent event)
     {
         if (!FindTargetsTask.handleDamagedTargets) return;
-        // Don't manage this.
-        if (event.getTarget() == null) return;
 
-        List<Entity> mobs = PokemobTracker.getMobs(event.getTarget(),
-                e -> PokemobCaps.getPokemobFor(e) != null && e.distanceToSqr(event.getTarget()) < 4096);
+        LivingEntity newTarget = event.getNewTarget();
+
+        // Don't manage this.
+        if (newTarget == null) return;
+
+        List<Entity> mobs = PokemobTracker.getMobs(newTarget,
+                e -> PokemobCaps.getPokemobFor(e) != null && e.distanceToSqr(newTarget) < 4096);
 
         // Remove any "non agressive" mobs, as they won't be actively drawing
         // agro from the player.
@@ -105,15 +108,14 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
 
         if (targetHasMobs)
         {
-            mobs.sort((o1, o2) -> (int) (o1.distanceToSqr(event.getEntityLiving())
-                    - o2.distanceToSqr(event.getEntityLiving())));
+            mobs.sort((o1, o2) -> (int) (o1.distanceToSqr(event.getEntity()) - o2.distanceToSqr(event.getEntity())));
             final Entity mob = mobs.get(0);
             mobs = PokemobTracker.getMobs(mob, e -> true);
             // No loop diverting
             if (!mobs.isEmpty() || !(mob instanceof LivingEntity entity)) return;
 
             // Divert the target over.
-            Battle.createOrAddToBattle(event.getEntityLiving(), entity);
+            Battle.createOrAddToBattle((LivingEntity) event.getEntity(), entity);
         }
     }
 
