@@ -1,6 +1,5 @@
 package pokecube.compat.minecraft;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -118,7 +117,6 @@ public class Compat
                 PokedexEntry newDerp = Database.getEntry(name);
                 if (newDerp != null && !newDerp.stock)
                 {
-                    System.out.println(Arrays.toString(newDerp.getStats()) + " " + Arrays.toString(DERP.getStats()));
                     database.addEntry(new XMLPokedexEntry(newDerp));
                 }
             }
