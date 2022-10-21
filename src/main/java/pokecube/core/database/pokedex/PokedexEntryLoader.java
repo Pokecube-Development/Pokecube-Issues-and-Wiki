@@ -807,7 +807,15 @@ public class PokedexEntryLoader
             if (Modifier.isStatic(field.getModifiers())) continue;
             if (Modifier.isTransient(field.getModifiers())) continue;
             if (field.getName().startsWith("_")) continue;
-            field.setAccessible(true);
+            try
+            {
+                field.setAccessible(true);
+            }
+            catch (Throwable e)
+            {
+                // Module stuff can make this fail in some cases.
+                continue;
+            }
             value = field.get(original);
             defaultvalue = field.get(copy);
             if (value == null) continue;

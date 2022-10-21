@@ -22,6 +22,8 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import thut.core.common.ThutCore;
+import thut.core.common.network.nbtpacket.NBTPacket;
+import thut.core.common.network.nbtpacket.PacketAssembly;
 import thut.lib.RegHelper;
 
 public class CapabilitySync extends NBTPacket

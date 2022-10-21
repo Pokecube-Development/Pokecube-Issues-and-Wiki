@@ -10,8 +10,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.nbtedit.NBTEdit;
-import thut.core.common.network.NBTPacket;
-import thut.core.common.network.PacketAssembly;
+import thut.core.common.network.nbtpacket.NBTPacket;
+import thut.core.common.network.nbtpacket.PacketAssembly;
 
 public class TileNBTPacket extends NBTPacket
 {

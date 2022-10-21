@@ -10,8 +10,8 @@ import net.minecraft.world.entity.Entity;
 import pokecube.nbtedit.NBTEdit;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
-import thut.core.common.network.NBTPacket;
-import thut.core.common.network.PacketAssembly;
+import thut.core.common.network.nbtpacket.NBTPacket;
+import thut.core.common.network.nbtpacket.PacketAssembly;
 
 public class CustomNBTPacket extends NBTPacket
 {

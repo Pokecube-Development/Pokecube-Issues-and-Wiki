@@ -12,6 +12,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.ThutCaps;
 import thut.api.terrain.CapabilityTerrain.ITerrainProvider;
 import thut.core.common.ThutCore;
+import thut.core.common.network.nbtpacket.NBTPacket;
+import thut.core.common.network.nbtpacket.PacketAssembly;
 
 public class TerrainUpdate extends NBTPacket
 {

@@ -12,8 +12,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.GameType;
 import pokecube.nbtedit.NBTEdit;
 import thut.core.common.network.EntityUpdate;
-import thut.core.common.network.NBTPacket;
-import thut.core.common.network.PacketAssembly;
+import thut.core.common.network.nbtpacket.NBTPacket;
+import thut.core.common.network.nbtpacket.PacketAssembly;
 
 public class EntityNBTPacket extends NBTPacket
 {

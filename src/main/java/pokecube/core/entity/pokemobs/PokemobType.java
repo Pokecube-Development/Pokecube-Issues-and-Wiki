@@ -14,7 +14,7 @@ import pokecube.api.utils.PokeType;
 
 public class PokemobType<T extends TamableAnimal> extends EntityType<T>
 {
-    final PokedexEntry       entry;
+    final PokedexEntry entry;
 
     public PokemobType(final EntityType.EntityFactory<T> factory, final PokedexEntry entry)
     {
@@ -27,6 +27,7 @@ public class PokemobType<T extends TamableAnimal> extends EntityType<T>
     @Override
     public T customClientSpawn(final SpawnEntity packet, final Level world)
     {
+        
         return this.create(world);
     }
 

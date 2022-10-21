@@ -9,6 +9,8 @@ import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import thut.api.Tracker;
 import thut.core.common.ThutCore;
+import thut.core.common.network.nbtpacket.NBTPacket;
+import thut.core.common.network.nbtpacket.PacketAssembly;
 
 public class GeneralUpdate extends NBTPacket
 {

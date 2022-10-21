@@ -48,8 +48,8 @@ import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 import thut.core.common.network.EntityUpdate;
-import thut.core.common.network.NBTPacket;
-import thut.core.common.network.PacketAssembly;
+import thut.core.common.network.nbtpacket.NBTPacket;
+import thut.core.common.network.nbtpacket.PacketAssembly;
 import thut.lib.TComponent;
 
 public class PacketTrainer extends NBTPacket

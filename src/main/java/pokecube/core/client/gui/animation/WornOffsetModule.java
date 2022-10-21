@@ -1,6 +1,7 @@
 package pokecube.core.client.gui.animation;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -75,19 +76,19 @@ public class WornOffsetModule extends AnimModule
             if (old != null)
             {
                 this.worn_part.setValue(old.parent);
-                dX.setValue("%.3f".formatted(old.offset.x));
-                dY.setValue("%.3f".formatted(old.offset.y));
-                dZ.setValue("%.3f".formatted(old.offset.z));
+                dX.setValue(String.format(Locale.ROOT, "%.3f", old.offset.x));
+                dY.setValue(String.format(Locale.ROOT, "%.3f", old.offset.y));
+                dZ.setValue(String.format(Locale.ROOT, "%.3f", old.offset.z));
 
-                rX.setValue("%.1f".formatted(old.angles.x));
-                rY.setValue("%.1f".formatted(old.angles.y));
-                rZ.setValue("%.1f".formatted(old.angles.z));
+                rX.setValue(String.format(Locale.ROOT, "%.1f", old.angles.x));
+                rY.setValue(String.format(Locale.ROOT, "%.1f", old.angles.y));
+                rZ.setValue(String.format(Locale.ROOT, "%.1f", old.angles.z));
 
                 double sx = old.scale.x;
                 double sy = old.scale.y;
                 double sz = old.scale.z;
 
-                if (sx == sy && sy == sz) scaleS.setValue("%.3f".formatted(sx));
+                if (sx == sy && sy == sz) scaleS.setValue(String.format(Locale.ROOT, "%.3f", sx));
                 else scaleS.setValue("%.3f,%.3f,%.3f".formatted(sx, sy, sz));
             }
         }
@@ -316,12 +317,12 @@ public class WornOffsetModule extends AnimModule
 
             String scale = scaleS.value;
             Vector3 v = AnimationLoader.getVector3(scale, Vector3.empty);
-            if (v.x == v.y && v.y == v.z) scale = trim.apply("%.3f".formatted(v.x));
+            if (v.x == v.y && v.y == v.z) scale = trim.apply(String.format(Locale.ROOT, "%.3f", v.x));
             else
             {
-                String xs = trim.apply("%.3f".formatted(v.x));
-                String ys = trim.apply("%.3f".formatted(v.y));
-                String zs = trim.apply("%.3f".formatted(v.z));
+                String xs = trim.apply(String.format(Locale.ROOT, "%.3f", v.x));
+                String ys = trim.apply(String.format(Locale.ROOT, "%.3f", v.y));
+                String zs = trim.apply(String.format(Locale.ROOT, "%.3f", v.z));
                 scale = "%s,%s,%s".formatted(xs, ys, zs);
             }
             xml = xml.formatted(key, part, dX, dY, dZ, rX, rY, rZ, scale);
@@ -443,7 +444,7 @@ public class WornOffsetModule extends AnimModule
             {
                 float value = Float.parseFloat(rX.value);
                 value += dv;
-                rX.setValue("%.1f".formatted(value));
+                rX.setValue(String.format(Locale.ROOT, "%.1f", value));
             }
             catch (Exception e)
             {
@@ -458,7 +459,7 @@ public class WornOffsetModule extends AnimModule
             {
                 float value = Float.parseFloat(rY.value);
                 value += dv;
-                rY.setValue("%.1f".formatted(value));
+                rY.setValue(String.format(Locale.ROOT, "%.1f", value));
             }
             catch (Exception e)
             {
@@ -471,7 +472,7 @@ public class WornOffsetModule extends AnimModule
             {
                 float value = Float.parseFloat(rZ.value);
                 value += dv;
-                rZ.setValue("%.1f".formatted(value));
+                rZ.setValue(String.format(Locale.ROOT, "%.1f", value));
             }
             catch (Exception e)
             {
@@ -485,7 +486,7 @@ public class WornOffsetModule extends AnimModule
             {
                 float value = Float.parseFloat(dX.value);
                 value += 0.01f * dv;
-                dX.setValue("%.3f".formatted(value));
+                dX.setValue(String.format(Locale.ROOT, "%.3f", value));
             }
             catch (Exception e)
             {
@@ -499,7 +500,7 @@ public class WornOffsetModule extends AnimModule
             {
                 float value = Float.parseFloat(dY.value);
                 value += 0.01f * dv;
-                dY.setValue("%.3f".formatted(value));
+                dY.setValue(String.format(Locale.ROOT, "%.3f", value));
             }
             catch (Exception e)
             {
@@ -512,7 +513,7 @@ public class WornOffsetModule extends AnimModule
             {
                 float value = Float.parseFloat(dZ.value);
                 value += 0.01f * dv;
-                dZ.setValue("%.3f".formatted(value));
+                dZ.setValue(String.format(Locale.ROOT, "%.3f", value));
             }
             catch (Exception e)
             {
@@ -525,7 +526,7 @@ public class WornOffsetModule extends AnimModule
             {
                 float value = Float.parseFloat(scaleS.value);
                 value += 0.01f * dv;
-                scaleS.setValue("%.3f".formatted(value));
+                scaleS.setValue(String.format(Locale.ROOT, "%.3f", value));
             }
             catch (Exception e)
             {

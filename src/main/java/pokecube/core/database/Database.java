@@ -431,8 +431,6 @@ public class Database
         {
             PokecubeAPI.LOGGER.error("Error with databases ", e);
         }
-        // Outputs a file for reference.
-        if (PokecubeMod.debug) PokedexEntryLoader.writeCompoundDatabase(PokemobsDatabases.compound);
         // Init the lists of what all forms are loaded.
         Database.initFormLists();
 
@@ -815,6 +813,9 @@ public class Database
         Database.needs_reload = false;
         dt = System.nanoTime() - time;
         PokecubeAPI.LOGGER.debug("Resource Stage 5: {}s", dt / 1e9d);
+
+        // Generate debug file with entries
+        if (PokecubeMod.debug) PokedexEntryLoader.writeCompoundDatabase(PokemobsDatabases.compound);
     }
 
     /**
