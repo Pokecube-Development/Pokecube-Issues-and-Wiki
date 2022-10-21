@@ -1,6 +1,7 @@
 package thut.core.client.render.animation.prefab;
 
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -78,13 +79,13 @@ public class BiWalkAnimation extends Animation
         String phase2 = "x:-%f*cos(0.05*l*%d)";
         String phase3 = "x:%f*sin(0.05*l*%d)";
         String phase4 = "x:-%f*sin(0.05*l*%d)";
-        
+
         for (final String s : hr)
         {
             try
             {
                 JEP[] rots = new JEP[3];
-                String exp = phase1.formatted(legAngle, duration);
+                String exp = String.format(Locale.ROOT, phase1, legAngle, duration);
                 FunctionAnimation.fillJEPs(rots, exp);
                 this.sets.put(s, new FunctionAnimation(rots));
                 continue;
@@ -99,7 +100,7 @@ public class BiWalkAnimation extends Animation
             try
             {
                 JEP[] rots = new JEP[3];
-                String exp = phase2.formatted(legAngle, duration);
+                String exp = String.format(Locale.ROOT, phase2, legAngle, duration);
                 FunctionAnimation.fillJEPs(rots, exp);
                 this.sets.put(s, new FunctionAnimation(rots));
                 continue;
@@ -114,7 +115,7 @@ public class BiWalkAnimation extends Animation
             try
             {
                 JEP[] rots = new JEP[3];
-                String exp = phase3.formatted(legAngle, duration);
+                String exp = String.format(Locale.ROOT, phase3, legAngle, duration);
                 FunctionAnimation.fillJEPs(rots, exp);
                 this.sets.put(s, new FunctionAnimation(rots));
                 continue;
@@ -129,7 +130,7 @@ public class BiWalkAnimation extends Animation
             try
             {
                 JEP[] rots = new JEP[3];
-                String exp = phase4.formatted(legAngle, duration);
+                String exp = String.format(Locale.ROOT, phase4, legAngle, duration);
                 FunctionAnimation.fillJEPs(rots, exp);
                 this.sets.put(s, new FunctionAnimation(rots));
                 continue;

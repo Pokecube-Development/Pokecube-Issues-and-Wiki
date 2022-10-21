@@ -1,6 +1,7 @@
 package thut.core.client.render.animation.prefab;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.nfunk.jep.JEP;
 
@@ -35,7 +36,7 @@ public class SnakeMovement extends Animation
             rots[axis].addVariable("t", 0);
             try
             {
-                String exp = phase.formatted(maxAngle, duration, dphi * i);
+                String exp = String.format(Locale.ROOT, phase, maxAngle, duration, dphi * i);
                 rots[axis].parseExpression(exp);
                 this.sets.put(s, new FunctionAnimation(rots));
                 continue;
