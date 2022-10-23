@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.scizor-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.scizor-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_scizor-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "scizor-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

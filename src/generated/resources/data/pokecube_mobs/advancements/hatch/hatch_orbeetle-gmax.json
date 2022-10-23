@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.orbeetle-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.orbeetle-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_orbeetle-gmax": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "orbeetle-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

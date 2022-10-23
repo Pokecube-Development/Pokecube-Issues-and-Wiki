@@ -22,7 +22,9 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
@@ -57,6 +59,7 @@ import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
 import pokecube.mobs.abilities.AbilityRegister;
+import pokecube.mobs.data.DataGenerator;
 import pokecube.mobs.init.PokemobSounds;
 import pokecube.mobs.moves.MoveRegister;
 import thut.core.common.ThutCore;
@@ -79,10 +82,19 @@ public class PokecubeMobs
 
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         PokecubeMobs.SOUNDS.register(bus);
+        bus.addListener(this::loadComplete);
 
         new BerryGenManager(PokecubeMobs.MODID);
         MoveRegister.init();
         AbilityRegister.init();
+    }
+
+    private void loadComplete(final FMLLoadCompleteEvent event)
+    {
+        if (PokecubeCore.getConfig().debug && !FMLLoader.isProduction())
+        {
+            DataGenerator.execute(false);
+        }
     }
 
     @SubscribeEvent
@@ -443,7 +455,7 @@ public class PokecubeMobs
         ItemGenerator.fossilVariants.add("tirtouga");
         ItemGenerator.fossilVariants.add("tyrunt");
         BerryHelper.initBerries();
-        
+
         ItemMegawearable.registerWearable("tiara", "HAT");
         ItemMegawearable.registerWearable("ankletzinnia", "ANKLE");
         ItemMegawearable.registerWearable("pendant", "NECK");

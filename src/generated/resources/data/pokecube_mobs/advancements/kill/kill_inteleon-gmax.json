@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.inteleon-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.inteleon-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_inteleon-gmax": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "inteleon-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

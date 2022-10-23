@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.gengar-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gengar-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_gengar-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "gengar-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.overqwil"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.overqwil"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_overqwil": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "overqwil"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

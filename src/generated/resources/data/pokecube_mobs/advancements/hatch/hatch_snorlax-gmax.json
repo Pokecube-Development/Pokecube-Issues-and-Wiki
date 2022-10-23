@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.snorlax-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.snorlax-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_snorlax-gmax": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "snorlax-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

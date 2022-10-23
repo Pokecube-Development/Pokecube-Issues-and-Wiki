@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculegion-female"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculegion-female"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_basculegion-female": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "basculegion-female"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

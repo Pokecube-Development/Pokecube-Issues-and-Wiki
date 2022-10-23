@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.sceptile-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sceptile-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_sceptile-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "sceptile-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

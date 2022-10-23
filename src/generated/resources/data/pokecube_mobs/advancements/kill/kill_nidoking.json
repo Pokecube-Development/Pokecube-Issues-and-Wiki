@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.nidoking"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.nidoking"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_nidoking": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "nidoking"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

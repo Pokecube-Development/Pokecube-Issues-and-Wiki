@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.rapidash-galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rapidash-galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_rapidash-galar": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "rapidash-galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

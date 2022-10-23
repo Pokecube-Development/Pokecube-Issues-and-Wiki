@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.abomasnow-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.abomasnow-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_abomasnow-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "abomasnow-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

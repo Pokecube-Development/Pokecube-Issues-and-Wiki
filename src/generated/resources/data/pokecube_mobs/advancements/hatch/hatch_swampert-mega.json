@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.swampert-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.swampert-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_swampert-mega": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "swampert-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

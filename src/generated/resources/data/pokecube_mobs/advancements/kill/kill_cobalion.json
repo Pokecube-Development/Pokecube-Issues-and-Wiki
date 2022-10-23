@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.cobalion"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.cobalion"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_cobalion": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "cobalion"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

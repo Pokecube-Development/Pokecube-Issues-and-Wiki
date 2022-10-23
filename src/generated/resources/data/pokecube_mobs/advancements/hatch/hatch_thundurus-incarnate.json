@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.thundurus-incarnate"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.thundurus-incarnate"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_thundurus-incarnate": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "thundurus-incarnate"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

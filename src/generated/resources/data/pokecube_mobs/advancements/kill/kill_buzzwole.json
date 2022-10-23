@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.buzzwole"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.buzzwole"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_buzzwole": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "buzzwole"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.blaziken-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.blaziken-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_blaziken-mega": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "blaziken-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

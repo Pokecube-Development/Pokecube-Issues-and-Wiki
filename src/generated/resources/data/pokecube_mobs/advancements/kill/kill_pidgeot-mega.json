@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.pidgeot-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pidgeot-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_pidgeot-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "pidgeot-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

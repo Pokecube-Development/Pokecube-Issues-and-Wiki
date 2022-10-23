@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.dottler"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.dottler"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_dottler": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "dottler"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

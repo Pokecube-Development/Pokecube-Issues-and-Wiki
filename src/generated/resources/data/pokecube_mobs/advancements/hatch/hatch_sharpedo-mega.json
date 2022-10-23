@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.sharpedo-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sharpedo-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_sharpedo-mega": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "sharpedo-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.ivysaur"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ivysaur"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_ivysaur": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "ivysaur"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

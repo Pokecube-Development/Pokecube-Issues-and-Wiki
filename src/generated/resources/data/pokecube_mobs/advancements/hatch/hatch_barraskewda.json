@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.barraskewda"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.barraskewda"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_barraskewda": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "barraskewda"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

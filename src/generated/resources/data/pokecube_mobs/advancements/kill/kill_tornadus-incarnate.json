@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tornadus-incarnate"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tornadus-incarnate"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_tornadus-incarnate": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "tornadus-incarnate"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

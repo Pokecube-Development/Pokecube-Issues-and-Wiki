@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.weezing"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.weezing"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_weezing": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "weezing"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

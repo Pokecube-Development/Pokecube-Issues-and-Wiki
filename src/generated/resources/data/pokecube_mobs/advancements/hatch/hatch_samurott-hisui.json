@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.samurott-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.samurott-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_samurott-hisui": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "samurott-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

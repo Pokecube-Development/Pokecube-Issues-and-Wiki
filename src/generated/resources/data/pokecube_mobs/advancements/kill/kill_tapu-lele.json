@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tapu-lele"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tapu-lele"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_tapu-lele": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "tapu-lele"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

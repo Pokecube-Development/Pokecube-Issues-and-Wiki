@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.sandshrew-alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sandshrew-alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_sandshrew-alola": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "sandshrew-alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

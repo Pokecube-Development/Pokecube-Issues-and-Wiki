@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.corviknight"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.corviknight"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_corviknight": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "corviknight"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

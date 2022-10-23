@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.hoopa-unbound"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hoopa-unbound"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_hoopa-unbound": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "hoopa-unbound"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

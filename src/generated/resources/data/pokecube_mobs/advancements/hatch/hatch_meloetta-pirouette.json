@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.meloetta-pirouette"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.meloetta-pirouette"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_meloetta-pirouette": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "meloetta-pirouette"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

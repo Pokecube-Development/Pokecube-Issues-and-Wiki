@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.lycanroc-midday"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lycanroc-midday"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_lycanroc-midday": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "lycanroc-midday"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

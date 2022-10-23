@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.crabominable"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.crabominable"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_crabominable": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "crabominable"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

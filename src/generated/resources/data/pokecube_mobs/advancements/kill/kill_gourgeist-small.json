@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.gourgeist-small"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gourgeist-small"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_gourgeist-small": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "gourgeist-small"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

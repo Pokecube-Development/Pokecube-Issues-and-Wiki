@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.orbeetle-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.orbeetle-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_orbeetle-gmax": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "orbeetle-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

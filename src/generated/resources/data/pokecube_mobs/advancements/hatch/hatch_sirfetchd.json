@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.sirfetchd"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sirfetchd"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_sirfetchd": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "sirfetchd"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

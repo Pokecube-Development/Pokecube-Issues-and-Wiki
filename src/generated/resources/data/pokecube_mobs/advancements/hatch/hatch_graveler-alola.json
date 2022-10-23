@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.graveler-alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.graveler-alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_graveler-alola": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "graveler-alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

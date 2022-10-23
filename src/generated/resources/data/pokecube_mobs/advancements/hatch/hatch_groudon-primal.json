@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.groudon-primal"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.groudon-primal"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_groudon-primal": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "groudon-primal"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.electrode-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.electrode-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_electrode-hisui": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "electrode-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

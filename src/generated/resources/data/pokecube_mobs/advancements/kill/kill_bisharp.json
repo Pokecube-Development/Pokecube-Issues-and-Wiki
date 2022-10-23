@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.bisharp"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.bisharp"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_bisharp": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "bisharp"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

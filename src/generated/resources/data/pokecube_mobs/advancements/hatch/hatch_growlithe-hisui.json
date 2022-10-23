@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.growlithe-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.growlithe-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_growlithe-hisui": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "growlithe-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

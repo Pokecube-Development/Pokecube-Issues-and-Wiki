@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.sneasel-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sneasel-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_sneasel-hisui": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "sneasel-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

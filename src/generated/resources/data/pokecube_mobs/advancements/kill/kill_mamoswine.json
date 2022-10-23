@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.mamoswine"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mamoswine"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_mamoswine": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "mamoswine"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

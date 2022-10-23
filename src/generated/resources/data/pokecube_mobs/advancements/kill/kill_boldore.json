@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.boldore"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.boldore"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_boldore": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "boldore"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

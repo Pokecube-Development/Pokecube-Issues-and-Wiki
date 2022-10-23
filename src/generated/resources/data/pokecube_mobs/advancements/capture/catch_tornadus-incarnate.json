@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tornadus-incarnate"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tornadus-incarnate"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_tornadus-incarnate": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "tornadus-incarnate"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

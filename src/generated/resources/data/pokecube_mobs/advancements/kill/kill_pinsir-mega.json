@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.pinsir-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pinsir-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_pinsir-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "pinsir-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

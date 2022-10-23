@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.aegislash-blade"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.aegislash-blade"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_aegislash-blade": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "aegislash-blade"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

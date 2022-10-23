@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.electrode"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.electrode"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_electrode": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "electrode"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

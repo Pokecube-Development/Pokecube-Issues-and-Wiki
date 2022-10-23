@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.moltres-galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.moltres-galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_moltres-galar": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "moltres-galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

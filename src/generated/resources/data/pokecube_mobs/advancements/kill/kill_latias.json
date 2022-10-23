@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.latias"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.latias"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_latias": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "latias"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

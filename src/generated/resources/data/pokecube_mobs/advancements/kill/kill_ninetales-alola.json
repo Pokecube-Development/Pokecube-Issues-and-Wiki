@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.ninetales-alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ninetales-alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_ninetales-alola": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "ninetales-alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

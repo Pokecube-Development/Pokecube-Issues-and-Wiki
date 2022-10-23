@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.coalossal"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.coalossal"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_coalossal": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "coalossal"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

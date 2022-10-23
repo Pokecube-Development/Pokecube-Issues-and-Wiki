@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.corsola-galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.corsola-galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_corsola-galar": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "corsola-galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

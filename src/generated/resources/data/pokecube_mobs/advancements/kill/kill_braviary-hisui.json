@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.braviary-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.braviary-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_braviary-hisui": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "braviary-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

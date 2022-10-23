@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.lilligant-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lilligant-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_lilligant-hisui": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "lilligant-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

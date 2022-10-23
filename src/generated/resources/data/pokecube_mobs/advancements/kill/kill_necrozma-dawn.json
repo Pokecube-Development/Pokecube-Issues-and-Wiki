@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.necrozma-dawn"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.necrozma-dawn"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_necrozma-dawn": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "necrozma-dawn"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

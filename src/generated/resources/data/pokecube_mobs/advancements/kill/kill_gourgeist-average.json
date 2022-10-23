@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.gourgeist-average"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gourgeist-average"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_gourgeist-average": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "gourgeist-average"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

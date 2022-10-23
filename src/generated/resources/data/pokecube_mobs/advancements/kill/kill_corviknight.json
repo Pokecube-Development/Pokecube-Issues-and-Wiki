@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.corviknight"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.corviknight"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_corviknight": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "corviknight"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.sneasel-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sneasel-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_sneasel-hisui": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "sneasel-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

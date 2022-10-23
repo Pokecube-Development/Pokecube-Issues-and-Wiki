@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.zapdos-galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.zapdos-galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_zapdos-galar": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "zapdos-galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

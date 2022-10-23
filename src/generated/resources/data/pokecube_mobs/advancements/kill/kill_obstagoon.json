@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.obstagoon"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.obstagoon"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_obstagoon": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "obstagoon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

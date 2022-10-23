@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.hoopa-unbound"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hoopa-unbound"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_hoopa-unbound": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "hoopa-unbound"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

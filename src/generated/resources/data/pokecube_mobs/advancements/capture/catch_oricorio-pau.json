@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio-pau"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio-pau"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_oricorio-pau": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "oricorio-pau"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.darkrai"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.darkrai"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_darkrai": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "darkrai"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

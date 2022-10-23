@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.wormadam-sandy"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wormadam-sandy"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_wormadam-sandy": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "wormadam-sandy"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

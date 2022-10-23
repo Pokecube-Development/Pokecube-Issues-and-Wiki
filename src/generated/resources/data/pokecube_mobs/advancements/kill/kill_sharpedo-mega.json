@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.sharpedo-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sharpedo-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_sharpedo-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "sharpedo-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

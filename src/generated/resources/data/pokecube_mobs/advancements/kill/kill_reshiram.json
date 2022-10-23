@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.reshiram"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.reshiram"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_reshiram": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "reshiram"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

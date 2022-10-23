@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.greninja-battle-bond"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.greninja-battle-bond"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_greninja-battle-bond": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "greninja-battle-bond"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

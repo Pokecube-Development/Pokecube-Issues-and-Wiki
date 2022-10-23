@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.pidgeot-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pidgeot-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_pidgeot-mega": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "pidgeot-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan-galar-zen"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan-galar-zen"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_darmanitan-galar-zen": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "darmanitan-galar-zen"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

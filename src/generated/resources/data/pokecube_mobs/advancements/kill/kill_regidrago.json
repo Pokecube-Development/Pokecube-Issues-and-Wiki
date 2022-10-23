@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.regidrago"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.regidrago"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_regidrago": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "regidrago"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.geodude-alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.geodude-alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_geodude-alola": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "geodude-alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

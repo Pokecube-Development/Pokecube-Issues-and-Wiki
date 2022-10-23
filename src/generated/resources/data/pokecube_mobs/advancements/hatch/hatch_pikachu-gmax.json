@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.pikachu-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pikachu-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_pikachu-gmax": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "pikachu-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

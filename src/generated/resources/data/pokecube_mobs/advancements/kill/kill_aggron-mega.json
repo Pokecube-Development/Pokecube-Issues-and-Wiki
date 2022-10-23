@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.aggron-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.aggron-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_aggron-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "aggron-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

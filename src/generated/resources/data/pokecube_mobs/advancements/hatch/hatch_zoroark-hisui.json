@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.zoroark-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.zoroark-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_zoroark-hisui": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "zoroark-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

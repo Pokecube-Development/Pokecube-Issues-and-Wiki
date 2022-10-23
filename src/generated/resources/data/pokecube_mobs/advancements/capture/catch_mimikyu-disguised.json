@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.mimikyu-disguised"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mimikyu-disguised"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_mimikyu-disguised": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "mimikyu-disguised"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

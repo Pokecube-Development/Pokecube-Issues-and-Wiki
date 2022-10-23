@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.hatterene"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hatterene"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_hatterene": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "hatterene"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

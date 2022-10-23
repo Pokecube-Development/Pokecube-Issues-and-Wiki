@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.castform-snowy"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.castform-snowy"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_castform-snowy": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "castform-snowy"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

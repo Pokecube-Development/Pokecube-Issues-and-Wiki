@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.hatterene-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hatterene-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_hatterene-gmax": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "hatterene-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

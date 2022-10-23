@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.calyrex-ice"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.calyrex-ice"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_calyrex-ice": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "calyrex-ice"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

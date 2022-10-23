@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.aromatisse"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.aromatisse"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_aromatisse": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "aromatisse"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

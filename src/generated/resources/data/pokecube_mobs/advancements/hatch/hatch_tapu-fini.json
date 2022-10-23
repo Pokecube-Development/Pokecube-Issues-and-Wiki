@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tapu-fini"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tapu-fini"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_tapu-fini": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "tapu-fini"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

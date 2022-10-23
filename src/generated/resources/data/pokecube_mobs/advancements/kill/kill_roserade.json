@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.roserade"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.roserade"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_roserade": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "roserade"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

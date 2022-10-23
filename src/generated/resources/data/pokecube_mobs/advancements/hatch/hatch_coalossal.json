@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.coalossal"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.coalossal"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_coalossal": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "coalossal"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

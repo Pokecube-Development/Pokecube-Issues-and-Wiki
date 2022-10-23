@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.rhydon"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rhydon"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_rhydon": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "rhydon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.corvisquire"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.corvisquire"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_corvisquire": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "corvisquire"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

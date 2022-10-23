@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.zygarde-10"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.zygarde-10"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_zygarde-10": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "zygarde-10"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

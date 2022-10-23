@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.hattrem"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hattrem"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_hattrem": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "hattrem"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

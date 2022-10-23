@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.rayquaza-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rayquaza-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_rayquaza-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "rayquaza-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

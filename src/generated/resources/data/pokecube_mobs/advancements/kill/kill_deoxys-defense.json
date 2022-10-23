@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.deoxys-defense"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.deoxys-defense"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_deoxys-defense": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "deoxys-defense"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

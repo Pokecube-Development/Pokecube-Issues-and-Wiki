@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.urshifu-single-strike"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.urshifu-single-strike"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_urshifu-single-strike": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "urshifu-single-strike"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

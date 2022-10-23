@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.cramorant-gorging"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.cramorant-gorging"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_cramorant-gorging": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "cramorant-gorging"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

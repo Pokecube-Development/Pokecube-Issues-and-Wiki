@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.sneasler"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sneasler"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_sneasler": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "sneasler"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

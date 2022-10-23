@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.zacian-crowned"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.zacian-crowned"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_zacian-crowned": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "zacian-crowned"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

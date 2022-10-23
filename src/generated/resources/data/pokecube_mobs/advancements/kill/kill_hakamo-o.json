@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.hakamo-o"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hakamo-o"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_hakamo-o": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "hakamo-o"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

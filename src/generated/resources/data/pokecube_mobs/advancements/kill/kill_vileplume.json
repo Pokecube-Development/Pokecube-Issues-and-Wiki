@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.vileplume"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.vileplume"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_vileplume": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "vileplume"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

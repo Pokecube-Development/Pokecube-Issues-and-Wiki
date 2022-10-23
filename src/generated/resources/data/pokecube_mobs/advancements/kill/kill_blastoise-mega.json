@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.blastoise-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.blastoise-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_blastoise-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "blastoise-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.enamorus-incarnate"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.enamorus-incarnate"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_enamorus-incarnate": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "enamorus-incarnate"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

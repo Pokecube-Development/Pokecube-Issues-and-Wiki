@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.wyrdeer"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wyrdeer"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_wyrdeer": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "wyrdeer"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

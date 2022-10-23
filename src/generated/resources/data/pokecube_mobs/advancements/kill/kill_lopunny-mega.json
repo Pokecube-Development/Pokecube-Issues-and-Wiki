@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.lopunny-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lopunny-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_lopunny-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "lopunny-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

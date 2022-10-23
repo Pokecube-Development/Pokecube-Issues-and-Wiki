@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tornadus-therian"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tornadus-therian"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_tornadus-therian": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "tornadus-therian"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

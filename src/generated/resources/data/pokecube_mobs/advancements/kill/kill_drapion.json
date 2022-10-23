@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.drapion"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.drapion"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_drapion": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "drapion"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

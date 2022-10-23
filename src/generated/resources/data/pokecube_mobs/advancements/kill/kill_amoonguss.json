@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.amoonguss"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.amoonguss"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_amoonguss": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "amoonguss"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

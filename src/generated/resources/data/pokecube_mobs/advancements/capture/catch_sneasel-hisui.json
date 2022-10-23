@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.sneasel-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sneasel-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_sneasel-hisui": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "sneasel-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

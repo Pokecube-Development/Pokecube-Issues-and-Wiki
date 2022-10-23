@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.zamazenta-crowned"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.zamazenta-crowned"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_zamazenta-crowned": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "zamazenta-crowned"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

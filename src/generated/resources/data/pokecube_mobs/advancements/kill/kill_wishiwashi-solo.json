@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.wishiwashi-solo"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wishiwashi-solo"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_wishiwashi-solo": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "wishiwashi-solo"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

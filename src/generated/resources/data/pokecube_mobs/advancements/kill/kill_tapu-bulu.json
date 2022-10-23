@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tapu-bulu"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tapu-bulu"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_tapu-bulu": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "tapu-bulu"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

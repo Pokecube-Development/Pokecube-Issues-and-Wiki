@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom-mow"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom-mow"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_rotom-mow": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "rotom-mow"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.regigigas"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.regigigas"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_regigigas": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "regigigas"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

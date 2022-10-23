@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.gardevoir-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gardevoir-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_gardevoir-mega": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "gardevoir-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.enamorus-incarnate"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.enamorus-incarnate"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_enamorus-incarnate": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "enamorus-incarnate"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

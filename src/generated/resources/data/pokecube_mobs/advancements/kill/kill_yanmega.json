@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.yanmega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.yanmega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_yanmega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "yanmega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

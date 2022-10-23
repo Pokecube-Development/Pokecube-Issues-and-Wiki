@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.indeedee-male"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.indeedee-male"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_indeedee-male": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "indeedee-male"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

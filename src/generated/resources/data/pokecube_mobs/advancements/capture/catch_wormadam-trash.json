@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.wormadam-trash"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wormadam-trash"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_wormadam-trash": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "wormadam-trash"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

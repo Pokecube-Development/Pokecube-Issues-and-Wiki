@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.lapras-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lapras-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_lapras-gmax": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "lapras-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

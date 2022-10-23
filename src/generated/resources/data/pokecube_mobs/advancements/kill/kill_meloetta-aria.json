@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.meloetta-aria"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.meloetta-aria"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_meloetta-aria": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "meloetta-aria"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

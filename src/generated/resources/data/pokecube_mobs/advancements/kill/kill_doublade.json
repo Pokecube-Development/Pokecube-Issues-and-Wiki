@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.doublade"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.doublade"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_doublade": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "doublade"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

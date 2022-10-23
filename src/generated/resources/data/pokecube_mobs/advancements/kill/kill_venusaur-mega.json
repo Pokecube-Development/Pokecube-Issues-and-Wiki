@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.venusaur-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.venusaur-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_venusaur-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "venusaur-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.weezing-galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.weezing-galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_weezing-galar": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "weezing-galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

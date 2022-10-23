@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.alakazam-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.alakazam-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_alakazam-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "alakazam-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

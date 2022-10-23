@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.salamence-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.salamence-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_salamence-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "salamence-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

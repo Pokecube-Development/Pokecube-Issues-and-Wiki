@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.heracross-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.heracross-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_heracross-mega": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "heracross-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

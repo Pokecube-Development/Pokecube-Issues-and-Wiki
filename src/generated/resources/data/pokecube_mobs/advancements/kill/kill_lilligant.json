@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.lilligant"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lilligant"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_lilligant": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "lilligant"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.lycanroc-midnight"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lycanroc-midnight"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_lycanroc-midnight": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "lycanroc-midnight"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.machamp-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.machamp-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_machamp-gmax": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "machamp-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

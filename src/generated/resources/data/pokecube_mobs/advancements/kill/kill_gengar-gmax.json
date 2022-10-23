@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.gengar-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gengar-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_gengar-gmax": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "gengar-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

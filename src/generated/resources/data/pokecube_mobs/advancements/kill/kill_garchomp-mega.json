@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.garchomp-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.garchomp-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_garchomp-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "garchomp-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

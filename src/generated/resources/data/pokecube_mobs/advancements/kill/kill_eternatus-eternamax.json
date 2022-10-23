@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.eternatus-eternamax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.eternatus-eternamax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_eternatus-eternamax": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "eternatus-eternamax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

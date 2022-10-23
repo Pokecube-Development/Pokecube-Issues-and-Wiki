@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.lycanroc-midnight"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lycanroc-midnight"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_lycanroc-midnight": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "lycanroc-midnight"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

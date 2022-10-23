@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.yveltal"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.yveltal"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_yveltal": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "yveltal"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

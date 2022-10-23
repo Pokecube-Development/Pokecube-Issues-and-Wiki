@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.arceus"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.arceus"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_arceus": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "arceus"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

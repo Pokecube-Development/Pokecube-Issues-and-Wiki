@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.calyrex-shadow"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.calyrex-shadow"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_calyrex-shadow": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "calyrex-shadow"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

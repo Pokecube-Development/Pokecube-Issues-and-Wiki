@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.corviknight-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.corviknight-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_corviknight-gmax": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "corviknight-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

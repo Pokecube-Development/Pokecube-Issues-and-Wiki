@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.slowbro-galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.slowbro-galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_slowbro-galar": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "slowbro-galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

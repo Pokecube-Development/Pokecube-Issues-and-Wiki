@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.centiskorch"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.centiskorch"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_centiskorch": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "centiskorch"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.cinderace"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.cinderace"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_cinderace": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "cinderace"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

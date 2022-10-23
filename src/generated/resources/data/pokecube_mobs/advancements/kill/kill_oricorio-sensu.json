@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio-sensu"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio-sensu"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_oricorio-sensu": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "oricorio-sensu"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

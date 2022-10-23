@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.aerodactyl-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.aerodactyl-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_aerodactyl-mega": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "aerodactyl-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

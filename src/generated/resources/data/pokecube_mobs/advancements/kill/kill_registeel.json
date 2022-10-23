@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.registeel"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.registeel"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_registeel": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "registeel"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

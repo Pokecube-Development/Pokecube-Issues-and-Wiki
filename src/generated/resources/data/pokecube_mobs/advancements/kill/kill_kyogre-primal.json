@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.kyogre-primal"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.kyogre-primal"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_kyogre-primal": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "kyogre-primal"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

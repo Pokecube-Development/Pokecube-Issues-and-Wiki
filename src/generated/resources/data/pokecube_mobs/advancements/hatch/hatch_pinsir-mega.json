@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.pinsir-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pinsir-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_pinsir-mega": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "pinsir-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

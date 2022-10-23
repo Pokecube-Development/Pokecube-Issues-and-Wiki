@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.talonflame"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.talonflame"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_talonflame": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "talonflame"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.duraludon-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.duraludon-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_duraludon-gmax": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "duraludon-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

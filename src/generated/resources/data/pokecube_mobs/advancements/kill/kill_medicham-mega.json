@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.medicham-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.medicham-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_medicham-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "medicham-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.electrode-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.electrode-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_electrode-hisui": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "electrode-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

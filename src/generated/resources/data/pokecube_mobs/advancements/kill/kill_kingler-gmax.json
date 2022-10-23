@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.kingler-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.kingler-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_kingler-gmax": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "kingler-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}
