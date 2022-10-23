@@ -16,7 +16,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -376,14 +375,20 @@ public abstract class PokemobMoves extends PokemobStats
             to = npc;
         }
 
-        PokedexEntry newEntry = this.getPokedexEntry();
+        PokeType type1 = this.getType1();
+        PokeType type2 = this.getType2();
+
         if (id != -1)
         {
             final IPokemob pokemob = PokemobCaps.getPokemobFor(to);
-            if (pokemob != null) newEntry = pokemob.getPokedexEntry();
+            if (pokemob != null)
+            {
+                type1 = pokemob.getType1();
+                type2 = pokemob.getType2();
+            }
         }
-        this.setType1(newEntry.getType1());
-        this.setType2(newEntry.getType2());
+        this.setType1(type1);
+        this.setType2(type2);
 
         if (!this.getEntity().level.isClientSide())
         {

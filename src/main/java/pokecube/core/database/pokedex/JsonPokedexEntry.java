@@ -1,5 +1,7 @@
 package pokecube.core.database.pokedex;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,9 +9,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.SpawnData;
@@ -24,11 +29,16 @@ import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.utils.PokeType;
 import pokecube.core.database.Database;
+import pokecube.core.database.pokedex.PokedexEntryLoader.IMergeable;
+import pokecube.core.database.resources.PackFinder;
 import pokecube.core.impl.PokecubeMod;
+import pokecube.core.legacy.RegistryChangeFixer;
 import pokecube.core.utils.Tools;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
+import thut.api.util.JsonUtil;
 
-public class JsonPokedexEntry implements Consumer<PokedexEntry>
+public class JsonPokedexEntry
+        implements Consumer<PokedexEntry>, IMergeable<JsonPokedexEntry>, Comparable<JsonPokedexEntry>
 {
     public static class Sizes implements Consumer<PokedexEntry>
     {
@@ -127,6 +137,10 @@ public class JsonPokedexEntry implements Consumer<PokedexEntry>
     }
 
     public boolean replace = false;
+    public boolean remove = false;
+
+    public int priority = 100;
+
     public String name;
     public int id = 0;
     public boolean stock = true;
@@ -143,7 +157,7 @@ public class JsonPokedexEntry implements Consumer<PokedexEntry>
     public List<String> types = null;
     public Abilities abilities = null;
     public Moves moves = null;
-    public String _old_name = null;
+    public String old_name = null;
 
     public String loot_table = null;
     public String held_table = null;
@@ -190,14 +204,42 @@ public class JsonPokedexEntry implements Consumer<PokedexEntry>
     public PokedexEntry toPokedexEntry()
     {
         PokedexEntry entry = new PokedexEntry(id, name);
+        entry._root_json = this;
         entry.stock = this.stock;
         entry.base = this.is_default;
+        if (this.old_name != null) RegistryChangeFixer.registerRename(this.old_name, name);
+        if (entry.base)
+        {
+            Database.baseFormes.put(id, entry);
+            Database.addEntry(entry);
+        }
         this.accept(entry);
         return entry;
     }
 
+    @Override
+    public int compareTo(JsonPokedexEntry o)
+    {
+        if (o.id != this.id) return Integer.compare(id, o.id);
+        if (o.is_default != this.is_default) return this.is_default ? 1 : -1;
+        return Integer.compare(priority, o.priority);
+    }
+
+    @Override
+    public void mergeFrom(JsonPokedexEntry other)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
     public void accept(PokedexEntry entry)
     {
+        if (this.remove)
+        {
+            entry.dummy = true;
+            return;
+        }
         if (this.base_experience != -1) entry.baseXP = this.base_experience;
         if (this.mass != -1) entry.mass = this.mass;
         if (this.capture_rate != -1) entry.catchRate = this.capture_rate;
@@ -212,6 +254,14 @@ public class JsonPokedexEntry implements Consumer<PokedexEntry>
             entry.type2 = null;
             if (types.size() > 0) entry.type1 = PokeType.getType(types.get(0));
             if (types.size() > 1) entry.type2 = PokeType.getType(types.get(1));
+        }
+    }
+
+    private void initStage2(PokedexEntry entry)
+    {
+        if (!entry.base)
+        {
+
         }
 
         if (this.interactions != null) entry._loaded_interactions.addAll(this.interactions);
@@ -261,14 +311,13 @@ public class JsonPokedexEntry implements Consumer<PokedexEntry>
             else entry.setBaseForme(base);
         }
         if (this.models != null) PokedexEntryLoader.initFormeModels(entry, this.models);
-
-        this.handleSpawns(entry);
         PokedexEntryLoader.parseEvols(entry, this.evolutions, false);
     }
 
     public void postInit(PokedexEntry entry)
     {
         PokedexEntryLoader.parseEvols(entry, this.evolutions, true);
+        this.handleSpawns(entry);
     }
 
     private void handleSpawns(PokedexEntry entry)
@@ -288,6 +337,66 @@ public class JsonPokedexEntry implements Consumer<PokedexEntry>
 
     public static void loadPokedex()
     {
+        final String path = "database/pokemobs/pokedex_entries/";
+        final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(path);
+        Map<String, List<JsonPokedexEntry>> toLoad = Maps.newHashMap();
+        resources.forEach((l, r) -> {
+            try
+            {
+                final JsonPokedexEntry entry = loadDatabase(PackFinder.getStream(r));
+                toLoad.compute(entry.name, (key, list) -> {
+                    var ret = list;
+                    if (ret == null) ret = Lists.newArrayList();
+                    ret.add(entry);
+                    return ret;
+                });
+            }
+            catch (Exception e)
+            {
+                PokecubeAPI.LOGGER.error("Error with database file {}", l, e);
+            }
+        });
 
+        List<JsonPokedexEntry> loaded = LOADED;
+        loaded.clear();
+
+        toLoad.forEach((k, v) -> {
+            v.sort(null);
+            JsonPokedexEntry e = null;
+            for (JsonPokedexEntry e1 : v)
+            {
+                if (e == null) e = e1;
+                else
+                {
+                    e.mergeFrom(e1);
+                }
+            }
+            loaded.add(e);
+        });
+        loaded.sort(null);
+
+        // Stage 1, create the pokedex entries
+        for (var load : loaded) load.toPokedexEntry();
+        // Stage 2 initialise them
+        for (var load : loaded) load.initStage2(Database.getEntry(load.name));
+    }
+
+    public static void postInit()
+    {
+        for (var load : LOADED)
+        {
+            load.postInit(Database.getEntry(load.name));
+        }
+    }
+
+    public static List<JsonPokedexEntry> LOADED = Lists.newArrayList();
+
+    private static JsonPokedexEntry loadDatabase(final InputStream stream) throws Exception
+    {
+        JsonPokedexEntry database = null;
+        final InputStreamReader reader = new InputStreamReader(stream);
+        database = JsonUtil.gson.fromJson(reader, JsonPokedexEntry.class);
+        reader.close();
+        return database;
     }
 }

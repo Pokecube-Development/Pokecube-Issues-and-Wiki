@@ -1,6 +1,7 @@
 package pokecube.api.entity.pokemob;
 
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -185,7 +186,14 @@ public interface IHasStats extends IHasEntry
      */
     default PokeType getType1()
     {
-        return this.getModifiers().type1 != null ? this.getModifiers().type1 : this.getPokedexEntry().getType1();
+        if (this.getModifiers().type1 == null)
+        {
+            IPokemob us = (IPokemob) this;
+            FormeHolder holder = us.getCustomHolder();
+            this.getModifiers().type1 = holder == null ? this.getPokedexEntry().getType1()
+                    : holder.getTypes(getPokedexEntry()).get(0);
+        }
+        return this.getModifiers().type1;
     }
 
     /**
@@ -196,7 +204,14 @@ public interface IHasStats extends IHasEntry
      */
     default PokeType getType2()
     {
-        return this.getModifiers().type2 != null ? this.getModifiers().type2 : this.getPokedexEntry().getType2();
+        if (this.getModifiers().type2 == null)
+        {
+            IPokemob us = (IPokemob) this;
+            FormeHolder holder = us.getCustomHolder();
+            this.getModifiers().type2 = holder == null ? this.getPokedexEntry().getType2()
+                    : holder.getTypes(getPokedexEntry()).get(1);
+        }
+        return this.getModifiers().type2;
     }
 
     /**

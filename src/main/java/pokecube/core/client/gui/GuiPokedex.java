@@ -176,7 +176,7 @@ public class GuiPokedex extends Screen
         page = TComponent.translatable("entity.pokecube." + GuiPokedex.pokedexEntry.getTrimmedName() + ".dexDesc");
         var list = Lists.newArrayList(this.font.split(page, 100));
         list.add(TComponent.literal("").getVisualOrderText());
-        page = pokedexEntry.getDescription();
+        page = pokedexEntry.getDescription(this.pokemob.getCustomHolder());
         list.addAll(this.font.split(page, 100));
 
         final IClickListener listen = new IClickListener()

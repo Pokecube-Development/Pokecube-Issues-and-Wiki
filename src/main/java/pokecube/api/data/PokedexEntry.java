@@ -74,6 +74,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.client.gui.watch.util.SpawnListEntry;
 import pokecube.core.database.Database;
+import pokecube.core.database.pokedex.JsonPokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokemobs.DispenseBehaviourInteract;
@@ -1106,7 +1107,8 @@ public class PokedexEntry
     /** Cached trimmed name. */
     private String trimmedName;
 
-    private MutableComponent description;
+    private ResourceLocation _base_description = new ResourceLocation("null");
+    private Map<ResourceLocation, MutableComponent> _descriptions = new HashMap<>();
 
     // "" for automatic assignment
     public String modelExt = "";
@@ -1125,6 +1127,8 @@ public class PokedexEntry
     /** Times not included here the pokemob will go to sleep when idle. */
     @CopyToGender
     public List<TimePeriod> activeTimes = new ArrayList<>();
+
+    public JsonPokedexEntry _root_json;
 
     /**
      * This constructor is used for making blank entry for copy comparisons.
@@ -1547,14 +1551,17 @@ public class PokedexEntry
     }
 
     @OnlyIn(Dist.CLIENT)
-    public MutableComponent getDescription()
+    public MutableComponent getDescription(FormeHolder holder)
     {
-        if (this.description == null)
-        {
+        ResourceLocation key = holder == null ? _base_description : holder.key;
+        return _descriptions.computeIfAbsent(key, k -> {
+
+            PokeType type1 = holder == null ? this.type1 : holder.getTypes(this).get(0);
+            PokeType type2 = holder == null ? this.type2 : holder.getTypes(this).get(1);
+
             final PokedexEntry entry = this;
-            final MutableComponent typeString = PokeType.getTranslatedName(entry.getType1());
-            if (entry.getType2() != PokeType.unknown)
-                typeString.append("/").append(PokeType.getTranslatedName(entry.getType2()));
+            final MutableComponent typeString = PokeType.getTranslatedName(type1);
+            if (type2 != PokeType.unknown) typeString.append("/").append(PokeType.getTranslatedName(type2));
             final MutableComponent typeDesc = TComponent.translatable("pokemob.description.type",
                     entry.getTranslatedName(), typeString);
             MutableComponent evoString = null;
@@ -1570,9 +1577,8 @@ public class PokedexEntry
             if (entry._evolvesFrom != null)
                 descString = descString.append("\n").append(TComponent.translatable("pokemob.description.evolve.from",
                         entry.getTranslatedName(), entry._evolvesFrom.getTranslatedName()));
-            this.description = descString;
-        }
-        return this.description;
+            return descString;
+        });
     }
 
     public EntityType<? extends Mob> getEntityType()

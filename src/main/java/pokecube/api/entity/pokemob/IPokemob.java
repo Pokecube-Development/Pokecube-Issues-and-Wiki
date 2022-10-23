@@ -149,6 +149,11 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         {
             return this.key.hashCode();
         }
+
+        public List<PokeType> getTypes(PokedexEntry baseEntry)
+        {
+            return this.loaded_from.getTypes(baseEntry);
+        }
     }
 
     public static enum HappinessType

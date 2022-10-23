@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import thut.core.common.ThutCore;
@@ -36,8 +37,12 @@ public class DefaultFormeHolder
         public String tex = "";
     }
 
-    // These three allow specific models/textures for evos
+    // If this is not null, then pokemob's base type will be overriden with
+    // this.
+    public String types = null;
+
     public String key = null;
+    // These three allow specific models/textures for evos
     public String tex = null;
     public String model = null;
     public String anim = null;
@@ -53,12 +58,33 @@ public class DefaultFormeHolder
     public Set<String> _hide_ = Sets.newHashSet();
     private final List<FormeHolder> _matches = Lists.newArrayList();
 
+    private List<PokeType> _types = Lists.newArrayList();
+
     @Override
     public boolean equals(final Object obj)
     {
         if (!(obj instanceof DefaultFormeHolder holder)) return false;
         if (this.key == null) return super.equals(obj);
         return this.key.equals(holder.key);
+    }
+
+    public List<PokeType> getTypes(PokedexEntry baseEntry)
+    {
+        if (_types.isEmpty())
+        {
+            if (this.types == null)
+            {
+                _types.add(baseEntry.getType1());
+                _types.add(baseEntry.getType2());
+            }
+            else
+            {
+                String[] types = this.types.split(",");
+                for (var t : types) _types.add(PokeType.getType(t.strip()));
+                while (_types.size() < 2) _types.add(PokeType.unknown);
+            }
+        }
+        return _types;
     }
 
     public FormeHolder getForme(final PokedexEntry baseEntry)

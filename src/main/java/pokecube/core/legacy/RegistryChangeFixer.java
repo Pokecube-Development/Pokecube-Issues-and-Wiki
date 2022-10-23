@@ -13,8 +13,9 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.MissingMappings.Mapping;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeItems;
+import pokecube.core.database.Database;
 
 public class RegistryChangeFixer
 {
@@ -32,7 +33,12 @@ public class RegistryChangeFixer
 
     public static void registerRename(String oldName, String newName)
     {
-        ENTRY_RENAMES.put(new ResourceLocation("pokecube", oldName), new ResourceLocation("pokecube", newName));
+        if (oldName.contains(","))
+        {
+            String[] args = oldName.split(",");
+            for (var s : args) registerRename(s.strip(), newName);
+        }
+        else ENTRY_RENAMES.put(new ResourceLocation("pokecube", oldName), new ResourceLocation("pokecube", newName));
     }
 
     @SubscribeEvent
@@ -50,7 +56,19 @@ public class RegistryChangeFixer
     {
         ImmutableList<Mapping<EntityType<?>>> mappings = event.getAllMappings();
         mappings.forEach(m -> {
-            if (ENTRY_RENAMES.containsKey(m.key)) m.remap(ForgeRegistries.ENTITIES.getValue(ENTRY_RENAMES.get(m.key)));
+            if (ENTRY_RENAMES.containsKey(m.key))
+            {
+                PokecubeAPI.LOGGER.warn("Remapping {} to {}", m.key,
+                        Database.getEntry(ENTRY_RENAMES.get(m.key).getPath()));
+                m.remap(Database.getEntry(ENTRY_RENAMES.get(m.key).getPath()).getEntityType());
+            }
+            // Otherwise check if maybe it changed to a form? if so, return type
+            // of new root.
+            else if (Database.formeToEntry.containsKey(m.key))
+            {
+                PokecubeAPI.LOGGER.warn("Remapping {} to {}", m.key, Database.formeToEntry.get(m.key));
+                m.remap(Database.formeToEntry.get(m.key).getEntityType());
+            }
         });
     }
 }

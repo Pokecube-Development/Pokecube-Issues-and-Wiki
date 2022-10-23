@@ -873,6 +873,7 @@ public class PokedexEntryLoader
         try
         {
             PokedexEntry.InteractionLogic.initDefaults();
+            JsonPokedexEntry.postInit();
             PokedexEntryLoader.makeEntries(false);
         }
         catch (final Exception e)

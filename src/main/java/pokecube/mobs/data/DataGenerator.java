@@ -166,7 +166,8 @@ public class DataGenerator
             DataGenerator.registerAchievements(e);
         }
         thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Advancements Done"));
-        final File dir = new File("./mods/pokecube/assets/pokecube_mobs/");
+        final File dir = new File("../src/generated/resources/assets/pokecube_mobs/");
+        if (dir.exists()) dir.delete();
         if (!dir.exists()) dir.mkdirs();
         File file = null;
         boolean small = false;
@@ -186,16 +187,17 @@ public class DataGenerator
             e.printStackTrace();
         }
         thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Sounds Done"));
-        DataGenerator.generateBlockAndItemJsons();
         DataGenerator.generateMobsLang();
-
+        thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Mob Langs Done"));
+//        DataGenerator.generateBlockAndItemJsons();
         thut.lib.ChatHelper.sendSystemMessage(sender, TComponent.literal("Finished File Output"));
     }
 
     public static void generateMobsLang()
     {
         final JsonObject langJson = new JsonObject();
-        final File dir = new File("./mods/pokecube/assets/pokecube_mobs/lang/");
+         File dir = new File("../src/main/resources/assets/pokecube_mobs/lang/");
+        if (dir.exists()) dir.delete();
         if (!dir.exists()) dir.mkdirs();
 
         langJson.addProperty("_comment", "Pokemob Names");
@@ -208,29 +210,14 @@ public class DataGenerator
                 entry = Database.dummyMap.get(entry.getPokedexNb());
             langJson.addProperty(name, entry.getName());
         }
-
         File file = new File(dir, "en_us.json");
         final String json = AdvancementGenerator.GSON.toJson(langJson);
-
         try
         {
             OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file),
                     Charset.forName("UTF-8").newEncoder());
             writer.write(json);
             writer.close();
-
-            try
-            {
-                file = new File(dir, "sounds.json");
-                final String sounds = SoundJsonGenerator.generateSoundJson(false);
-                writer = new OutputStreamWriter(new FileOutputStream(file), Charset.forName("UTF-8").newEncoder());
-                writer.write(sounds);
-                writer.close();
-            }
-            catch (final Exception e)
-            {
-                e.printStackTrace();
-            }
         }
         catch (final IOException e)
         {
@@ -283,7 +270,7 @@ public class DataGenerator
             textures.addProperty("back", "pokecube:item/" + cube + "cube" + "back");
             blockJson.add("textures", textures);
 
-            File dir = new File("./mods/pokecube/assets/pokecube/models/block/");
+            File dir = new File("../src/main/resources/assets/pokecube/models/block/");
             if (!dir.exists()) dir.mkdirs();
             File file = new File(dir, cube + "cube" + ".json");
             String json = AdvancementGenerator.GSON.toJson(blockJson);
@@ -324,7 +311,7 @@ public class DataGenerator
             display.add("thirdperson", thirdPerson);
             itemJson.add("display", display);
 
-            dir = new File("./mods/pokecube/assets/pokecube/models/item/");
+            dir = new File("../src/main/resources/assets/pokecube/models/item/");
             if (!dir.exists()) dir.mkdirs();
             file = new File(dir, cube + "cube" + ".json");
             json = AdvancementGenerator.GSON.toJson(itemJson);
@@ -381,7 +368,8 @@ public class DataGenerator
 
     private static void generateBlockDropJson(final Block block)
     {
-        final File dir = new File("./mods/data/" + RegHelper.getKey(block).getNamespace() + "/loot_tables/blocks");
+        final File dir = new File(
+                "../src/main/resources/data/" + RegHelper.getKey(block).getNamespace() + "/loot_tables/blocks");
         dir.mkdirs();
         final File out = new File(dir, RegHelper.getKey(block).getPath() + ".json");
 
@@ -484,7 +472,8 @@ public class DataGenerator
     {
         final ResourceLocation key = new ResourceLocation(entry.getModId(), id + "_" + entry.getTrimmedName());
         String json = AdvancementGenerator.makeJson(entry, id, parent);
-        final File dir = new File("./mods/pokecube/data/pokecube_mobs/advancements/" + path + "/");
+        final File dir = new File("../src/main/resources/data/pokecube_mobs/advancements/" + path + "/");
+        if (dir.exists()) dir.delete();
         if (!dir.exists()) dir.mkdirs();
         final File file = new File(dir, key.getPath() + ".json");
         FileOutputStream write;
