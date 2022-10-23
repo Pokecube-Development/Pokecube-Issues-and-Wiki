@@ -7,11 +7,30 @@ MANUAL_RENAMES = {
 }
 
 LEGENDS_ARCEUS = [
+    "barb-barrage",
+    "bitter-malice",
+    "bleakwind-storm",
+    "ceaseless-edge",
+    "chloroblast",
+    "dire-claw",
+    "esper-wing",
+    "headlong-rush",
+    "infernal-parade",
+    "lunar-blessing",
+    "mountain-gale",
     "mystical-power",
     "power-shift",
-    "lunar-blessing",
-    "esper-wing",
-    "shelter"
+    "psyshield-bash",
+    "raging-fury",
+    "sandsear-storm",
+    "shelter",
+    "springtide-storm",
+    "stone-axe",
+    "take-heart",
+    "triple-arrows",
+    "victory-dance",
+    "wave-crash",
+    "wildbolt-storm",
 ]
 
 index_map = get_moves_index()

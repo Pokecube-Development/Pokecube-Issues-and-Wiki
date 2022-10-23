@@ -333,7 +333,7 @@ def convert_tags():
                 elif 'arceus_' in name or 'silvally_' in name:
                     pass
                 else:
-                    if not "#" in name and not ":" in name:
+                    if not "#" in name and not ":" in name and name != 'egg':
                         print(f"error finding name for {name} in {file}")
                     if not orig in new_values:
                         new_values.append(orig)
@@ -397,8 +397,8 @@ def convert_pokedex():
             move['moves'] = vars
             level_up.append(move)
 
-        # if errored_move:
-        #     print(f'error with move for {name}')
+        if errored_move:
+            print(f'error with move for {name}')
 
         if(len(level_up)>0):
             moves['level_up'] = level_up
