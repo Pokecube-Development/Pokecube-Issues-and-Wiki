@@ -469,6 +469,8 @@ public class Tools
         {
         case "slow_then_very_fast":
             return 0;
+        case "slow-then-very-fast":
+            return 0;
         case "fast":
             return 1;
         case "medium_fast":
@@ -477,9 +479,13 @@ public class Tools
             return 2;
         case "medium_slow":
             return 3;
+        case "medium-slow":
+            return 3;
         case "slow":
             return 4;
         case "fast_then_very_slow":
+            return 5;
+        case "fast-then-very-slow":
             return 5;
         }
 

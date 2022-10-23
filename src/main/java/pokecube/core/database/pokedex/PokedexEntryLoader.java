@@ -72,7 +72,7 @@ public class PokedexEntryLoader
 
     public static interface IMergeable<T>
     {
-        void mergeFrom(@Nullable T other);
+        T mergeFrom(@Nullable T other);
     }
 
     @XmlRootElement(name = "Drop")
@@ -317,7 +317,7 @@ public class PokedexEntryLoader
         }
 
         @Override
-        public void mergeFrom(@Nullable final StatsNode other)
+        public StatsNode mergeFrom(@Nullable final StatsNode other)
         {
             if (other != null)
             {
@@ -328,6 +328,7 @@ public class PokedexEntryLoader
                 else for (final SpawnRule rule : other.spawnRules)
                     if (!this.spawnRules.contains(rule)) this.spawnRules.add(rule);
             }
+            return this;
         }
     }
 
