@@ -51,8 +51,16 @@ import net.minecraftforge.fml.ModLoadingContext;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
+import pokecube.api.data.pokedex.DefaultFormeHolder;
+import pokecube.api.data.pokedex.InteractsAndEvolutions.Action;
+import pokecube.api.data.pokedex.InteractsAndEvolutions.BaseMegaRule;
+import pokecube.api.data.pokedex.InteractsAndEvolutions.Evolution;
+import pokecube.api.data.pokedex.InteractsAndEvolutions.FormeItem;
+import pokecube.api.data.pokedex.InteractsAndEvolutions.Interact;
+import pokecube.api.data.pokedex.InteractsAndEvolutions.MegaEvoRule;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
+import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
@@ -66,15 +74,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.client.gui.watch.util.SpawnListEntry;
 import pokecube.core.database.Database;
-import pokecube.core.database.pokedex.PokedexEntryLoader.Action;
-import pokecube.core.database.pokedex.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
-import pokecube.core.database.pokedex.PokedexEntryLoader.Evolution;
-import pokecube.core.database.pokedex.PokedexEntryLoader.FormeItem;
-import pokecube.core.database.pokedex.PokedexEntryLoader.Interact;
-import pokecube.core.database.pokedex.PokedexEntryLoader.MegaEvoRule;
-import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
-import pokecube.core.database.pokedex.PokedexEntryLoader.XMLMegaRule;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokemobs.DispenseBehaviourInteract;
 import pokecube.core.entity.pokemobs.PokemobType;
@@ -1120,7 +1120,7 @@ public class PokedexEntry
     // we cache them.
     public List<Interact> _loaded_interactions = Lists.newArrayList();
     public List<FormeItem> _forme_items = Lists.newArrayList();
-    public List<XMLMegaRule> _loaded_megarules = Lists.newArrayList();
+    public List<BaseMegaRule> _loaded_megarules = Lists.newArrayList();
 
     /** Times not included here the pokemob will go to sleep when idle. */
     @CopyToGender
@@ -1183,7 +1183,7 @@ public class PokedexEntry
                 }
             }
         }
-        for (final XMLMegaRule rule : this._loaded_megarules)
+        for (final BaseMegaRule rule : this._loaded_megarules)
         {
             String forme = rule.name != null ? rule.name : null;
             if (forme == null) if (rule.preset != null) if (rule.preset.startsWith("Mega"))

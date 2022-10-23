@@ -31,7 +31,6 @@ import pokecube.api.data.spawns.SpawnCheck.TerrainType;
 import pokecube.api.data.spawns.SpawnCheck.Weather;
 import pokecube.api.events.pokemobs.SpawnCheckEvent;
 import pokecube.core.database.Database;
-import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;

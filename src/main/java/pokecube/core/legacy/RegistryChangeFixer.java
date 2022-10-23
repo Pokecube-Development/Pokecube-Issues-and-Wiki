@@ -1,15 +1,19 @@
 package pokecube.core.legacy;
 
+import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.MissingMappings.Mapping;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeItems;
 
 public class RegistryChangeFixer
@@ -24,17 +28,29 @@ public class RegistryChangeFixer
         }
     }
 
-    @SubscribeEvent
-    public static void onRegistryMissingEvent(RegistryEvent.MissingMappings<Item> event)
-    {
+    private static final Map<ResourceLocation, ResourceLocation> ENTRY_RENAMES = Maps.newHashMap();
 
+    public static void registerRename(String oldName, String newName)
+    {
+        ENTRY_RENAMES.put(new ResourceLocation("pokecube", oldName), new ResourceLocation("pokecube", newName));
+    }
+
+    @SubscribeEvent
+    public static void onRegistryMissingItemEvent(RegistryEvent.MissingMappings<Item> event)
+    {
         // Remap the TMs.
-        if (event.getName().toString().equals("minecraft:item"))
-        {
-            ImmutableList<Mapping<Item>> mappings = event.getAllMappings();
-            mappings.forEach(m -> {
-                if (tmNames.contains(m.key)) m.remap(PokecubeItems.TM.get());
-            });
-        }
+        ImmutableList<Mapping<Item>> mappings = event.getAllMappings();
+        mappings.forEach(m -> {
+            if (tmNames.contains(m.key)) m.remap(PokecubeItems.TM.get());
+        });
+    }
+
+    @SubscribeEvent
+    public static void onRegistryMissingEntityTypeEvent(RegistryEvent.MissingMappings<EntityType<?>> event)
+    {
+        ImmutableList<Mapping<EntityType<?>>> mappings = event.getAllMappings();
+        mappings.forEach(m -> {
+            if (ENTRY_RENAMES.containsKey(m.key)) m.remap(ForgeRegistries.ENTITIES.getValue(ENTRY_RENAMES.get(m.key)));
+        });
     }
 }
