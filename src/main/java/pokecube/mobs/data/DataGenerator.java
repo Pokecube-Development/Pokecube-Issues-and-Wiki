@@ -180,40 +180,6 @@ public class DataGenerator
         {
             e.printStackTrace();
         }
-        DataGenerator.generateMobsLang();
-    }
-
-    public static void generateMobsLang()
-    {
-        final JsonObject langJson = new JsonObject();
-         File dir = new File("../src/generated/resources/assets/pokecube_mobs/lang/");
-        if (dir.exists()) dir.delete();
-        if (!dir.exists()) dir.mkdirs();
-
-        langJson.addProperty("_comment", "Pokemob Names");
-
-        for (PokedexEntry entry : Database.getSortedFormes())
-        {
-            final String name = entry.getUnlocalizedName();
-            if (entry.getBaseForme() != null) entry = entry.getBaseForme();
-            if (Database.dummyMap.containsKey(entry.getPokedexNb()))
-                entry = Database.dummyMap.get(entry.getPokedexNb());
-            langJson.addProperty(name, entry.getName());
-        }
-        File file = new File(dir, "en_us.json");
-        final String json = AdvancementGenerator.GSON.toJson(langJson);
-        try
-        {
-            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file),
-                    Charset.forName("UTF-8").newEncoder());
-            writer.write(json);
-            writer.close();
-        }
-        catch (final IOException e)
-        {
-            e.printStackTrace();
-        }
-
     }
 
     public static void generateBlockAndItemJsons()

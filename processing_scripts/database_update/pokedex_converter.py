@@ -1,6 +1,7 @@
 import json
 from ignore_list import isIgnored
 from legacy_renamer import find_old_name, to_model_form, find_new_name
+import utils
 from utils import get_form, get_pokemon, get_species, DEFAULT_GENERATION, default_or_latest, get_pokemon_index, url_to_id
 from moves_converter import convert_old_move_name
 import os
@@ -35,6 +36,7 @@ class PokedexEntry:
 
     def init_simple(self, forme, species):
         self.name = forme.name
+        self.names = species.names
         self.id = forme.id
         self.stock = True
         self.base_experience = forme.base_experience
@@ -412,13 +414,39 @@ def convert_pokedex():
     species = []
     dex = []
 
+    lang_files = {}
+
     while values is not None:
         entry = PokemonSpecies(values, pokedex)
         species.append(entry)
         for var in entry.entries:
+
+            for name in var.names:
+                _name = name.name
+                lang = utils.get('language', url_to_id(name.language))
+                key = f'{lang.iso639}_{lang.iso3166}.json'
+                items = {}
+                if key in lang_files:
+                    items = lang_files[key]
+                items[f"entity.pokecube.{var.name}"] = _name
+                lang_files[key] = items
+            del var.names
             dex.append(var.__dict__)
         i = i + 1
         values = get_species(i)
+
+    for key, dict in lang_files.items():
+        file = f'./new/lang/{key}'
+        if not os.path.exists(os.path.dirname(file)):
+            os.makedirs(os.path.dirname(file))
+        try:
+            file = open(file, 'w', encoding='utf-8')
+            json.dump(dict, file, indent=2, ensure_ascii=False)
+            file.close()
+        except Exception as err:
+            print(f'error saving for {key}')
+            print(err)
+
 
     for var in dex:
         file = f'./new/pokemobs/pokedex_entries/{var["name"]}.json'
@@ -433,5 +461,5 @@ def convert_pokedex():
 
 if __name__ == "__main__":
     convert_pokedex()
-    # convert_assets()
     convert_tags()
+    # convert_assets()

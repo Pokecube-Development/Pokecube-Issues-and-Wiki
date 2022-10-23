@@ -932,7 +932,7 @@
   "entity.pokecube.sandygast": "Sandygast",
   "entity.pokecube.palossand": "Palossand",
   "entity.pokecube.pyukumuku": "Pyukumuku",
-  "entity.pokecube.type-null": "Type: Null",
+  "entity.pokecube.type-null": "Código Cero",
   "entity.pokecube.silvally": "Silvally",
   "entity.pokecube.minior-red-meteor": "Minior",
   "entity.pokecube.minior-red": "Minior",
@@ -1101,14 +1101,5 @@
   "entity.pokecube.spectrier": "Spectrier",
   "entity.pokecube.calyrex": "Calyrex",
   "entity.pokecube.calyrex-ice": "Calyrex",
-  "entity.pokecube.calyrex-shadow": "Calyrex",
-  "entity.pokecube.wyrdeer": "Wyrdeer",
-  "entity.pokecube.kleavor": "Kleavor",
-  "entity.pokecube.ursaluna": "Ursaluna",
-  "entity.pokecube.basculegion-male": "Basculegion",
-  "entity.pokecube.basculegion-female": "Basculegion",
-  "entity.pokecube.sneasler": "Sneasler",
-  "entity.pokecube.overqwil": "Overqwil",
-  "entity.pokecube.enamorus-incarnate": "Enamorus",
-  "entity.pokecube.enamorus-therian": "Enamorus"
+  "entity.pokecube.calyrex-shadow": "Calyrex"
 }
