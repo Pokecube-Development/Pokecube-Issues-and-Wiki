@@ -1,0 +1,195 @@
+{
+  "name": "necrozma-ultra",
+  "id": 800,
+  "stock": true,
+  "base_experience": 339,
+  "size": {
+    "height": 7.5,
+    "width": 2.4,
+    "length": 2.4
+  },
+  "mass": 230.0,
+  "is_default": false,
+  "capture_rate": 255,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 97,
+    "attack": 167,
+    "defense": 97,
+    "special_attack": 167,
+    "special_defense": 97,
+    "speed": 129
+  },
+  "evs": {
+    "attack": 1,
+    "special_attack": 1,
+    "speed": 1
+  },
+  "types": [
+    "psychic",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "neuroforce"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "confusion",
+          "metal-claw",
+          "morning-sun",
+          "moonlight",
+          "mirror-shot",
+          "charge-beam"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "rock-blast"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "gravity"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "wring-out"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "psycho-cut"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "autotomize"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "stored-power"
+        ]
+      },
+      {
+        "L": 73,
+        "moves": [
+          "prismatic-laser"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "photon-geyser"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "hyper-beam",
+      "solar-beam",
+      "thunder-wave",
+      "earthquake",
+      "toxic",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "outrage",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "heat-wave",
+      "facade",
+      "recycle",
+      "brick-break",
+      "knock-off",
+      "hyper-voice",
+      "rock-tomb",
+      "signal-beam",
+      "aerial-ace",
+      "iron-defense",
+      "calm-mind",
+      "shock-wave",
+      "gravity",
+      "gyro-ball",
+      "embargo",
+      "fling",
+      "magnet-rise",
+      "rock-polish",
+      "dark-pulse",
+      "x-scissor",
+      "dragon-pulse",
+      "earth-power",
+      "giga-impact",
+      "shadow-claw",
+      "flash-cannon",
+      "trick-room",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "charge-beam",
+      "psyshock",
+      "telekinesis",
+      "round",
+      "ally-switch",
+      "bulldoze",
+      "confide",
+      "smart-strike",
+      "brutal-swing"
+    ]
+  },
+  "old_name": "necrozma_ultra"
+}

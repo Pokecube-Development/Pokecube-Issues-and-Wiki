@@ -1,0 +1,217 @@
+{
+  "name": "volcanion",
+  "id": 721,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 1.7
+  },
+  "mass": 195.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 100,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 80,
+    "attack": 110,
+    "defense": 120,
+    "special_attack": 130,
+    "special_defense": 90,
+    "speed": 70
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "fire",
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "water-absorb"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 28,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "take-down",
+          "water-gun",
+          "fire-spin",
+          "flare-blitz",
+          "steam-eruption"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "mist"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "haze"
+        ]
+      },
+      {
+        "L": 76,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "weather-ball"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "overheat"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "scald"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "incinerate"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "stomp",
+      "body-slam",
+      "take-down",
+      "roar",
+      "flamethrower",
+      "mist",
+      "hydro-pump",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "fire-spin",
+      "earthquake",
+      "toxic",
+      "double-team",
+      "haze",
+      "focus-energy",
+      "self-destruct",
+      "fire-blast",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "superpower",
+      "brick-break",
+      "secret-power",
+      "weather-ball",
+      "overheat",
+      "mud-shot",
+      "water-pulse",
+      "gyro-ball",
+      "fling",
+      "flare-blitz",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "thunder-fang",
+      "flash-cannon",
+      "defog",
+      "stone-edge",
+      "smack-down",
+      "sludge-wave",
+      "heavy-slam",
+      "flame-charge",
+      "round",
+      "scald",
+      "incinerate",
+      "bulldoze",
+      "heat-crash",
+      "misty-terrain",
+      "confide",
+      "steam-eruption",
+      "stomping-tantrum",
+      "liquidation",
+      "body-press",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "spawn_rules": [
+    {
+      "and_preset": "villages",
+      "values": {
+        "rate": "0.0"
+      }
+    }
+  ]
+}

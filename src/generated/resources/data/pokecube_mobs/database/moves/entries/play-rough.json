@@ -1,0 +1,17 @@
+{
+  "name": "play-rough",
+  "id": 583,
+  "power": 90,
+  "pp": 10,
+  "priority": 0,
+  "type": "fairy",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user plays rough with the target and attacks it.\nThis may also lower the target’s Attack stat.",
+  "move_category": "damage+lower",
+  "stat_chance": 10,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to lower the target's Attack by one stage.",
+  "effect_text_simple": "Has a $effect_chance% chance to lower the target's Attack by one stage.",
+  "effect_chance": 10
+}

@@ -1,0 +1,16 @@
+{
+  "name": "beat-up",
+  "id": 251,
+  "pp": 10,
+  "priority": 0,
+  "type": "dark",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user gets all party Pokémon to attack the target.\nThe more party Pokémon, the greater the number\nof attacks.",
+  "move_category": "damage",
+  "max_hits": 6,
+  "min_hits": 6,
+  "effect_text_extend": "Inflicts typeless regular damage.  Every Pokémon in the user's party, excepting those that have fainted or have a major status effect, attacks the target.  Calculated stats are ignored; the base stats for the target and assorted attackers are used instead.  The random factor in the damage formula is not used.  dark Pokémon still get STAB.\n\nThis effect breaks through wonder guard.",
+  "effect_text_simple": "Hits once for every conscious Pokémon the trainer has."
+}

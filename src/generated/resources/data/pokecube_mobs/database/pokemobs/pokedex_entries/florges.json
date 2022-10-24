@@ -1,0 +1,154 @@
+{
+  "name": "florges",
+  "id": 671,
+  "stock": true,
+  "base_experience": 248,
+  "size": {
+    "height": 1.1,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 10.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 78,
+    "attack": 65,
+    "defense": 68,
+    "special_attack": 112,
+    "special_defense": 154,
+    "speed": 75
+  },
+  "evs": {
+    "special_defense": 3
+  },
+  "types": [
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "flower-veil"
+    ],
+    "hidden": [
+      "symbiosis"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "petal-dance",
+          "wish",
+          "aromatherapy",
+          "magical-leaf",
+          "lucky-chant",
+          "grass-knot",
+          "petal-blizzard",
+          "disarming-voice",
+          "flower-shield",
+          "grassy-terrain",
+          "misty-terrain",
+          "moonblast"
+        ]
+      }
+    ],
+    "misc": [
+      "hyper-beam",
+      "solar-beam",
+      "petal-dance",
+      "toxic",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "giga-drain",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "synthesis",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "facade",
+      "nature-power",
+      "helping-hand",
+      "wish",
+      "magic-coat",
+      "endeavor",
+      "secret-power",
+      "aromatherapy",
+      "covet",
+      "magical-leaf",
+      "calm-mind",
+      "lucky-chant",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "giga-impact",
+      "defog",
+      "grass-knot",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "ally-switch",
+      "petal-blizzard",
+      "disarming-voice",
+      "flower-shield",
+      "grassy-terrain",
+      "misty-terrain",
+      "moonblast",
+      "confide",
+      "dazzling-gleam"
+    ]
+  },
+  "model": {
+    "key": "florges-red",
+    "tex": "florges-red",
+    "model": "florges-red",
+    "anim": "florges-red",
+    "types": "fairy"
+  },
+  "models": [
+    {
+      "key": "florges-yellow",
+      "tex": "florges-yellow",
+      "model": "florges-yellow",
+      "anim": "florges-yellow",
+      "types": "fairy"
+    },
+    {
+      "key": "florges-orange",
+      "tex": "florges-orange",
+      "model": "florges-orange",
+      "anim": "florges-orange",
+      "types": "fairy"
+    },
+    {
+      "key": "florges-blue",
+      "tex": "florges-blue",
+      "model": "florges-blue",
+      "anim": "florges-blue",
+      "types": "fairy"
+    },
+    {
+      "key": "florges-white",
+      "tex": "florges-white",
+      "model": "florges-white",
+      "anim": "florges-white",
+      "types": "fairy"
+    }
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_1"
+}

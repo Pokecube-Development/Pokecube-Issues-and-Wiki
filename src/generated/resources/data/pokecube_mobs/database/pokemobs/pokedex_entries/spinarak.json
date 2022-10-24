@@ -1,0 +1,230 @@
+{
+  "name": "spinarak",
+  "id": 167,
+  "stock": true,
+  "base_experience": 50,
+  "size": {
+    "height": 0.2,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 8.5,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 70,
+  "growth_rate": "fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 40,
+    "attack": 60,
+    "defense": 40,
+    "special_attack": 40,
+    "special_defense": 40,
+    "speed": 30
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "bug",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "swarm",
+      "insomnia"
+    ],
+    "hidden": [
+      "sniper"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "poison-sting",
+          "string-shot",
+          "constrict"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "pin-missile"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "absorb"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "night-shade"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "leech-life",
+          "scary-face"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "spider-web"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "shadow-sneak"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "cross-poison"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "sticky-web"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "infestation"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "toxic-thread"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "double-edge",
+      "poison-sting",
+      "twineedle",
+      "pin-missile",
+      "sonic-boom",
+      "disable",
+      "psybeam",
+      "absorb",
+      "solar-beam",
+      "string-shot",
+      "dig",
+      "toxic",
+      "psychic",
+      "agility",
+      "night-shade",
+      "mimic",
+      "double-team",
+      "constrict",
+      "leech-life",
+      "flash",
+      "fury-swipes",
+      "rest",
+      "substitute",
+      "thief",
+      "spider-web",
+      "snore",
+      "curse",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "megahorn",
+      "baton-pass",
+      "pursuit",
+      "hidden-power",
+      "sunny-day",
+      "facade",
+      "secret-power",
+      "signal-beam",
+      "bounce",
+      "natural-gift",
+      "sucker-punch",
+      "toxic-spikes",
+      "poison-jab",
+      "night-slash",
+      "x-scissor",
+      "shadow-sneak",
+      "cross-poison",
+      "captivate",
+      "bug-bite",
+      "hone-claws",
+      "venoshock",
+      "rage-powder",
+      "foul-play",
+      "round",
+      "struggle-bug",
+      "electroweb",
+      "sticky-web",
+      "confide",
+      "infestation",
+      "toxic-thread",
+      "lunge"
+    ]
+  },
+  "loot_table": "minecraft:entities/spider",
+  "evolutions": [
+    {
+      "name": "ariados",
+      "level": 22,
+      "animation": "42",
+      "evoMoves": "swordsdance"
+    }
+  ]
+}

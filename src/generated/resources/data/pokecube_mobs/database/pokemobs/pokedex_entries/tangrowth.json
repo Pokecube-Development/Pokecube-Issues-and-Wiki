@@ -1,0 +1,239 @@
+{
+  "name": "tangrowth",
+  "id": 465,
+  "stock": true,
+  "base_experience": 187,
+  "size": {
+    "height": 2.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 128.6,
+  "is_default": true,
+  "capture_rate": 30,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 100,
+    "attack": 100,
+    "defense": 125,
+    "special_attack": 110,
+    "special_defense": 50,
+    "speed": 50
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "chlorophyll",
+      "leaf-guard"
+    ],
+    "hidden": [
+      "regenerator"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 17,
+        "moves": [
+          "bind"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "vine-whip"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "absorb"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "poison-powder"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "stun-spore"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "sleep-powder"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "constrict",
+          "ingrain",
+          "block"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "tickle"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "natural-gift"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "wring-out"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "power-whip"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "grassy-terrain"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "bind",
+      "slam",
+      "vine-whip",
+      "headbutt",
+      "body-slam",
+      "hyper-beam",
+      "strength",
+      "absorb",
+      "mega-drain",
+      "growth",
+      "solar-beam",
+      "poison-powder",
+      "stun-spore",
+      "sleep-powder",
+      "earthquake",
+      "toxic",
+      "double-team",
+      "reflect",
+      "constrict",
+      "amnesia",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "rock-smash",
+      "facade",
+      "nature-power",
+      "ingrain",
+      "brick-break",
+      "knock-off",
+      "endeavor",
+      "secret-power",
+      "rock-tomb",
+      "tickle",
+      "bullet-seed",
+      "aerial-ace",
+      "block",
+      "shock-wave",
+      "natural-gift",
+      "payback",
+      "fling",
+      "wring-out",
+      "power-swap",
+      "worry-seed",
+      "poison-jab",
+      "seed-bomb",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "leaf-storm",
+      "power-whip",
+      "captivate",
+      "grass-knot",
+      "round",
+      "bulldoze",
+      "grassy-terrain",
+      "confide",
+      "infestation",
+      "solar-blade",
+      "brutal-swing",
+      "stomping-tantrum",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/leaves"
+}

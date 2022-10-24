@@ -1,0 +1,243 @@
+{
+  "name": "kirlia",
+  "id": 281,
+  "stock": true,
+  "base_experience": 97,
+  "size": {
+    "height": 0.8,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 20.2,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 38,
+    "attack": 35,
+    "defense": 35,
+    "special_attack": 65,
+    "special_defense": 55,
+    "speed": 50
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "psychic",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "synchronize",
+      "trace"
+    ],
+    "hidden": [
+      "telepathy"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "growl",
+          "confusion",
+          "teleport",
+          "double-team"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "dream-eater"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "imprison"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "stored-power"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "heal-pulse"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "disarming-voice"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "draining-kiss",
+          "life-dew"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "growl",
+      "thunderbolt",
+      "thunder-wave",
+      "toxic",
+      "confusion",
+      "psychic",
+      "hypnosis",
+      "teleport",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "encore",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "trick",
+      "magic-coat",
+      "recycle",
+      "skill-swap",
+      "imprison",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "signal-beam",
+      "magical-leaf",
+      "calm-mind",
+      "shock-wave",
+      "natural-gift",
+      "fling",
+      "lucky-chant",
+      "zen-headbutt",
+      "trick-room",
+      "captivate",
+      "grass-knot",
+      "charge-beam",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "ally-switch",
+      "heal-pulse",
+      "disarming-voice",
+      "draining-kiss",
+      "misty-terrain",
+      "confide",
+      "dazzling-gleam",
+      "expanding-force",
+      "triple-axel"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_2",
+  "evolutions": [
+    {
+      "name": "gardevoir",
+      "level": 30
+    },
+    {
+      "name": "gallade",
+      "item_preset": "dawnstone",
+      "sexe": "male",
+      "evoMoves": "slash"
+    }
+  ]
+}

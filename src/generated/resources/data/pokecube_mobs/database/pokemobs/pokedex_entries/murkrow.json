@@ -1,0 +1,221 @@
+{
+  "name": "murkrow",
+  "id": 198,
+  "stock": true,
+  "base_experience": 81,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 2.1,
+  "is_default": true,
+  "capture_rate": 30,
+  "base_happiness": 35,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 85,
+    "defense": 42,
+    "special_attack": 85,
+    "special_defense": 42,
+    "speed": 91
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "dark",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "insomnia",
+      "super-luck"
+    ],
+    "hidden": [
+      "prankster"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 15,
+        "moves": [
+          "wing-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "peck",
+          "astonish"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "night-shade"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "haze"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "mean-look"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "torment"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "tailwind"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "foul-play"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "quash"
+        ]
+      }
+    ],
+    "misc": [
+      "wing-attack",
+      "whirlwind",
+      "fly",
+      "double-edge",
+      "peck",
+      "drill-peck",
+      "thunder-wave",
+      "toxic",
+      "psychic",
+      "quick-attack",
+      "night-shade",
+      "mimic",
+      "screech",
+      "double-team",
+      "confuse-ray",
+      "haze",
+      "mirror-move",
+      "swift",
+      "dream-eater",
+      "sky-attack",
+      "rest",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "curse",
+      "spite",
+      "protect",
+      "feint-attack",
+      "mud-slap",
+      "perish-song",
+      "icy-wind",
+      "detect",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pursuit",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "uproar",
+      "heat-wave",
+      "torment",
+      "flatter",
+      "facade",
+      "taunt",
+      "snatch",
+      "secret-power",
+      "feather-dance",
+      "astonish",
+      "air-cutter",
+      "aerial-ace",
+      "calm-mind",
+      "roost",
+      "natural-gift",
+      "pluck",
+      "tailwind",
+      "payback",
+      "assurance",
+      "embargo",
+      "psycho-shift",
+      "punishment",
+      "sucker-punch",
+      "dark-pulse",
+      "brave-bird",
+      "defog",
+      "captivate",
+      "ominous-wind",
+      "foul-play",
+      "round",
+      "quash",
+      "retaliate",
+      "snarl",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_1",
+  "evolutions": [
+    {
+      "name": "honchkrow",
+      "item_preset": "duskstone"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "eternabeam",
+  "id": 795,
+  "power": 160,
+  "pp": 5,
+  "priority": 0,
+  "type": "dragon",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "This is Eternatus’s most powerful attack in its original\nform. The user can’t move on the next turn.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  User loses its next turn to \"recharge\", and cannot attack or switch out during that turn.",
+  "effect_text_simple": "User foregoes its next turn to recharge."
+}

@@ -1,0 +1,17 @@
+{
+  "name": "spark",
+  "id": 209,
+  "power": 65,
+  "pp": 20,
+  "priority": 0,
+  "type": "electric",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user throws an electrically charged tackle at the\ntarget. This may also leave the target with paralysis.",
+  "move_category": "damage+ailment",
+  "ailment_chance": 30,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to paralyze the target.",
+  "effect_text_simple": "Has a $effect_chance% chance to paralyze the target.",
+  "effect_chance": 30
+}

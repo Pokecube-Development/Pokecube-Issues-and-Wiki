@@ -1,0 +1,15 @@
+{
+  "name": "bullet-punch",
+  "id": 418,
+  "power": 40,
+  "pp": 30,
+  "priority": 1,
+  "type": "steel",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user strikes the target with tough punches as\nfast as bullets. This move always goes first.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.",
+  "effect_text_simple": "Inflicts regular damage with no additional effect."
+}

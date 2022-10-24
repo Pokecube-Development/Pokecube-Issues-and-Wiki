@@ -1,0 +1,16 @@
+{
+  "name": "lovely-kiss",
+  "id": 142,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 75,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "With a scary face, the user tries to force a kiss on\nthe target. If it succeeds, the target falls asleep.",
+  "move_category": "ailment",
+  "max_turns": 4,
+  "min_turns": 2,
+  "effect_text_extend": "Puts the target to sleep.",
+  "effect_text_simple": "Puts the target to sleep."
+}

@@ -1,0 +1,194 @@
+{
+  "name": "kubfu",
+  "id": 891,
+  "stock": true,
+  "base_experience": 77,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 12.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 60,
+    "attack": 90,
+    "defense": 60,
+    "special_attack": 53,
+    "special_defense": 50,
+    "speed": 72
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "inner-focus"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 20,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "rock-smash"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "counter"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "detect"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "dynamic-punch"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "focus-punch"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "brick-break"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "bulk-up"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "iron-head"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "body-slam",
+      "low-kick",
+      "dig",
+      "focus-energy",
+      "rest",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "scary-face",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "facade",
+      "helping-hand",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "bulk-up",
+      "u-turn",
+      "close-combat",
+      "zen-headbutt",
+      "iron-head",
+      "low-sweep",
+      "round",
+      "acrobatics",
+      "retaliate",
+      "work-up",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:kubfu_dojo",
+        "rate": "0.0"
+      }
+    }
+  ],
+  "evolutions": [
+    {
+      "name": "urshifu-single-strike",
+      "location": {
+        "values": {
+          "structures": "pokecube_legends:kubfu_dark"
+        }
+      },
+      "item_preset": "pdark",
+      "happy": true,
+      "evoMoves": "wickedblow"
+    },
+    {
+      "name": "urshifu-rapid-strike",
+      "location": {
+        "values": {
+          "structures": "pokecube_legends:kubfu_water"
+        }
+      },
+      "item_preset": "pwater",
+      "happy": true,
+      "evoMoves": "surgingstrikes"
+    }
+  ]
+}

@@ -16,7 +16,7 @@ public class FireSpin extends Move_Ongoing
 
     public FireSpin()
     {
-        super("firespin");
+        super("fire-spin");
     }
 
     @Override

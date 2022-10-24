@@ -1,0 +1,15 @@
+{
+  "name": "hex",
+  "id": 506,
+  "power": 65,
+  "pp": 10,
+  "priority": 0,
+  "type": "ghost",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "This relentless attack does massive damage to a\ntarget affected by status conditions.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  If the target has a major status ailment, this move has double power.",
+  "effect_text_simple": "Has double power if the target has a major status ailment."
+}

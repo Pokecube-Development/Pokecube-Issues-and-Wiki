@@ -1,0 +1,161 @@
+{
+  "name": "typhlosion-hisui",
+  "id": 157,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 1.6,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 69.8,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 73,
+    "attack": 84,
+    "defense": 78,
+    "special_attack": 119,
+    "special_defense": 85,
+    "speed": 95
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "fire",
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "flash-fire"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "ember"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "flame-wheel"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": []
+      },
+      {
+        "L": 54,
+        "moves": [
+          "shadow-ball",
+          "overheat"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "thunder",
+      "cut",
+      "headbutt",
+      "roar",
+      "hyper-beam",
+      "strength",
+      "earthquake",
+      "dig",
+      "toxic",
+      "double-team",
+      "fire-blast",
+      "rest",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "detect",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "brick-break",
+      "secret-power",
+      "overheat",
+      "aerial-ace",
+      "mega-punch",
+      "mega-kick",
+      "body-slam",
+      "counter",
+      "seismic-toss",
+      "mimic",
+      "rock-slide",
+      "substitute",
+      "solar-beam",
+      "will-o-wisp",
+      "blast-burn",
+      "rock-tomb",
+      "natural-gift",
+      "fling",
+      "focus-blast",
+      "giga-impact",
+      "shadow-claw",
+      "rock-climb",
+      "captivate",
+      "heat-wave",
+      "low-kick",
+      "round",
+      "incinerate",
+      "fire-pledge",
+      "bulldoze",
+      "wild-charge",
+      "covet",
+      "nature-power",
+      "confide",
+      "power-up-punch",
+      "work-up"
+    ]
+  },
+  "old_name": "typhlosion_hisui"
+}

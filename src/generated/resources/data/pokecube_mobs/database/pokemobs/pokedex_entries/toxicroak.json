@@ -1,0 +1,243 @@
+{
+  "name": "toxicroak",
+  "id": 454,
+  "stock": true,
+  "base_experience": 172,
+  "size": {
+    "height": 1.3,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 44.4,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 83,
+    "attack": 106,
+    "defense": 65,
+    "special_attack": 86,
+    "special_defense": 65,
+    "speed": 85
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "poison",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "anticipation",
+      "dry-skin"
+    ],
+    "hidden": [
+      "poison-touch"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "poison-sting",
+          "mud-slap",
+          "astonish"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "toxic",
+          "venoshock"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "sludge-bomb"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "flatter"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "revenge"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "mud-bomb"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "belch"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "thunder-punch",
+      "swords-dance",
+      "cut",
+      "mega-kick",
+      "headbutt",
+      "poison-sting",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "earthquake",
+      "dig",
+      "toxic",
+      "screech",
+      "double-team",
+      "rest",
+      "rock-slide",
+      "super-fang",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "feint-attack",
+      "sludge-bomb",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "baton-pass",
+      "encore",
+      "pursuit",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "rock-smash",
+      "torment",
+      "flatter",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "role-play",
+      "revenge",
+      "brick-break",
+      "knock-off",
+      "snatch",
+      "secret-power",
+      "astonish",
+      "rock-tomb",
+      "bulk-up",
+      "bounce",
+      "natural-gift",
+      "payback",
+      "assurance",
+      "embargo",
+      "fling",
+      "sucker-punch",
+      "poison-jab",
+      "dark-pulse",
+      "x-scissor",
+      "drain-punch",
+      "vacuum-wave",
+      "focus-blast",
+      "giga-impact",
+      "nasty-plot",
+      "mud-bomb",
+      "rock-climb",
+      "cross-poison",
+      "gunk-shot",
+      "stone-edge",
+      "captivate",
+      "venoshock",
+      "sludge-wave",
+      "low-sweep",
+      "foul-play",
+      "round",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "dual-chop",
+      "belch",
+      "confide",
+      "venom-drench",
+      "power-up-punch",
+      "throat-chop",
+      "lash-out",
+      "corrosive-gas",
+      "coaching"
+    ]
+  },
+  "male_model": {
+    "key": "toxicroak_male",
+    "tex": "toxicroak",
+    "model": "toxicroak_male",
+    "anim": "toxicroak_male"
+  },
+  "female_model": {
+    "key": "toxicroak_female",
+    "tex": "toxicroak",
+    "model": "toxicroak_female",
+    "anim": "toxicroak_female"
+  },
+  "loot_table": "pokecube:entities/slimeballs_2"
+}

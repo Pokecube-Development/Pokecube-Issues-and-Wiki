@@ -1,0 +1,14 @@
+{
+  "name": "max-quake",
+  "id": 771,
+  "power": 10,
+  "pp": 10,
+  "priority": 0,
+  "type": "ground",
+  "target": "selected-pokemon-me-first",
+  "damage_class": "physical",
+  "flavor_text": "This is a Ground-type attack Dynamax Pokémon use.\nThis raises ally Pokémon’s Sp. Def stats.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.",
+  "effect_text_simple": "Inflicts regular damage with no additional effect."
+}

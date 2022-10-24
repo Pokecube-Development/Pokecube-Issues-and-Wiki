@@ -1,0 +1,13 @@
+{
+  "name": "bide",
+  "id": 117,
+  "pp": 10,
+  "priority": 1,
+  "type": "normal",
+  "target": "user",
+  "damage_class": "physical",
+  "flavor_text": "The user endures attacks for two turns, then strikes\nback to cause double the damage taken.",
+  "move_category": "damage",
+  "effect_text_extend": "User waits for two turns.  On the second turn, the user inflicts twice the damage it accumulated on the last Pokémon to hit it.  Damage inflicted is typeless.\n\nThis move cannot be selected by sleep talk.",
+  "effect_text_simple": "User waits for two turns, then hits back for twice the damage it took."
+}

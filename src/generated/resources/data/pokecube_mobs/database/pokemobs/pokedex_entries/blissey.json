@@ -1,0 +1,278 @@
+{
+  "name": "blissey",
+  "id": 242,
+  "stock": true,
+  "base_experience": 635,
+  "size": {
+    "height": 1.5,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 46.8,
+  "is_default": true,
+  "capture_rate": 30,
+  "base_happiness": 140,
+  "growth_rate": "fast",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 255,
+    "attack": 10,
+    "defense": 10,
+    "special_attack": 75,
+    "special_defense": 135,
+    "speed": 55
+  },
+  "evs": {
+    "hp": 3
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "natural-cure",
+      "serene-grace"
+    ],
+    "hidden": [
+      "healer"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "double-edge",
+          "growl",
+          "defense-curl",
+          "sweet-kiss",
+          "charm",
+          "covet",
+          "copycat",
+          "disarming-voice"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "double-slap",
+          "life-dew"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "sing"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "minimize"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "egg-bomb"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "soft-boiled"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "refresh"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "healing-wish"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "fling"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "last-resort"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "echoed-voice"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "heal-pulse"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "bestow"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "double-slap",
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "tail-whip",
+      "growl",
+      "sing",
+      "flamethrower",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "psychic",
+      "mimic",
+      "double-team",
+      "minimize",
+      "defense-curl",
+      "light-screen",
+      "metronome",
+      "egg-bomb",
+      "fire-blast",
+      "soft-boiled",
+      "dream-eater",
+      "flash",
+      "rest",
+      "rock-slide",
+      "tri-attack",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "icy-wind",
+      "sandstorm",
+      "endure",
+      "charm",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "dynamic-punch",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "uproar",
+      "hail",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "recycle",
+      "brick-break",
+      "endeavor",
+      "skill-swap",
+      "refresh",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "rock-tomb",
+      "block",
+      "covet",
+      "calm-mind",
+      "shock-wave",
+      "water-pulse",
+      "gravity",
+      "healing-wish",
+      "natural-gift",
+      "fling",
+      "last-resort",
+      "drain-punch",
+      "focus-blast",
+      "giga-impact",
+      "avalanche",
+      "zen-headbutt",
+      "rock-climb",
+      "captivate",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "telekinesis",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "ally-switch",
+      "heal-pulse",
+      "incinerate",
+      "retaliate",
+      "bestow",
+      "bulldoze",
+      "work-up",
+      "wild-charge",
+      "confide",
+      "dazzling-gleam",
+      "power-up-punch",
+      "laser-focus",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "held_table": "pokecube:entities/lucky_oval"
+}

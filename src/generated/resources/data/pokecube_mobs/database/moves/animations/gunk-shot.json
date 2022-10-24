@@ -1,0 +1,20 @@
+{
+  "name": "gunkshot",
+  "animations": [
+    {
+      "preset": "throw:~gunkshot",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "flow:pmisc:~gunkshot",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.poisontoxic",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.7
+    }
+  ]
+}

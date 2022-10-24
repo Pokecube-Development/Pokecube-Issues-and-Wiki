@@ -1,0 +1,219 @@
+{
+  "name": "hariyama",
+  "id": 297,
+  "stock": true,
+  "base_experience": 166,
+  "size": {
+    "height": 2.3,
+    "width": 2.0,
+    "length": 2.0
+  },
+  "mass": 253.8,
+  "is_default": true,
+  "capture_rate": 200,
+  "base_happiness": 70,
+  "growth_rate": "fast-then-very-slow",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 144,
+    "attack": 120,
+    "defense": 60,
+    "special_attack": 40,
+    "special_defense": 60,
+    "speed": 50
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "thick-fat",
+      "guts"
+    ],
+    "hidden": [
+      "sheer-force"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 16,
+        "moves": [
+          "whirlwind"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "sand-attack",
+          "tackle",
+          "focus-energy",
+          "arm-thrust",
+          "brine"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "seismic-toss"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "reversal"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "belly-drum"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "vital-throw"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "fake-out"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "smelling-salts"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "wake-up-slap"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "force-palm"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "heavy-slam"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "whirlwind",
+      "mega-kick",
+      "sand-attack",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "surf",
+      "hyper-beam",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "earthquake",
+      "dig",
+      "toxic",
+      "mimic",
+      "double-team",
+      "focus-energy",
+      "metronome",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "belly-drum",
+      "mud-slap",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "vital-throw",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
+      "whirlpool",
+      "fake-out",
+      "facade",
+      "focus-punch",
+      "smelling-salts",
+      "helping-hand",
+      "role-play",
+      "superpower",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "arm-thrust",
+      "rock-tomb",
+      "bulk-up",
+      "wake-up-slap",
+      "brine",
+      "natural-gift",
+      "close-combat",
+      "payback",
+      "fling",
+      "force-palm",
+      "poison-jab",
+      "vacuum-wave",
+      "focus-blast",
+      "giga-impact",
+      "rock-climb",
+      "iron-head",
+      "stone-edge",
+      "captivate",
+      "smack-down",
+      "heavy-slam",
+      "low-sweep",
+      "round",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "confide",
+      "power-up-punch",
+      "throat-chop",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "minecraft:entities/cow_2"
+}

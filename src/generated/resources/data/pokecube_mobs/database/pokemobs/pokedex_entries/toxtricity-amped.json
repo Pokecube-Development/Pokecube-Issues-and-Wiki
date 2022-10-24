@@ -1,0 +1,192 @@
+{
+  "name": "toxtricity-amped",
+  "id": 849,
+  "stock": true,
+  "base_experience": 176,
+  "size": {
+    "height": 1.6,
+    "width": 1.1,
+    "length": 1.6
+  },
+  "mass": 40.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 75,
+    "attack": 98,
+    "defense": 70,
+    "special_attack": 114,
+    "special_defense": 70,
+    "speed": 75
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "electric",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "punk-rock",
+      "plus"
+    ],
+    "hidden": [
+      "technician"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "growl",
+          "acid",
+          "thunder-shock",
+          "flail",
+          "acid-spray",
+          "belch",
+          "noble-roar",
+          "eerie-impulse",
+          "nuzzle",
+          "tearful-look"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "charge"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "shock-wave"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "venoshock"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "shift-gear"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "boomburst"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "overdrive"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "thunder-punch",
+      "mega-kick",
+      "hyper-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "screech",
+      "swift",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "endure",
+      "spark",
+      "attract",
+      "sleep-talk",
+      "encore",
+      "uproar",
+      "facade",
+      "taunt",
+      "hyper-voice",
+      "payback",
+      "fling",
+      "poison-jab",
+      "drain-punch",
+      "giga-impact",
+      "gunk-shot",
+      "venoshock",
+      "sludge-wave",
+      "electro-ball",
+      "round",
+      "stored-power",
+      "hex",
+      "volt-switch",
+      "wild-charge",
+      "snarl",
+      "eerie-impulse",
+      "throat-chop",
+      "rising-voltage"
+    ]
+  },
+  "loot_table": "pokecube:entities/redstone_rabbit_2",
+  "old_name": "toxtricity_amped"
+}

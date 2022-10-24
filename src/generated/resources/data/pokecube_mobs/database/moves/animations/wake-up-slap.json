@@ -1,0 +1,27 @@
+{
+  "name": "wakeupslap",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:l2:d1.5:w0.7:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~wakeupslap",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:pcrit:l2:d1.5:w0.7:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~wakeupslap",
+      "duration": "5",
+      "starttick": "3",
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "applyAfter": false
+    }
+  ]
+}

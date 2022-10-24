@@ -1,0 +1,15 @@
+{
+  "name": "sucker-punch",
+  "id": 389,
+  "power": 70,
+  "pp": 5,
+  "priority": 1,
+  "type": "dark",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "This move enables the user to attack first. This move\nfails if the target is not readying an attack.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  If the target has not selected a damaging move this turn, or if the target has already acted this turn, this move will fail.\n\nThis move is not affected by iron fist.",
+  "effect_text_simple": "Only works if the target is about to use a damaging move."
+}

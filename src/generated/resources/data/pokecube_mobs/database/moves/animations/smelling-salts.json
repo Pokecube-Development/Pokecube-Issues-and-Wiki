@@ -1,0 +1,15 @@
+{
+  "name": "smellingsalts",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d2:w0.5:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~smellingsalts",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.3
+    }
+  ]
+}

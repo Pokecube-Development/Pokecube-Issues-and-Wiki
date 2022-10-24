@@ -1,0 +1,207 @@
+{
+  "name": "joltik",
+  "id": 595,
+  "stock": true,
+  "base_experience": 64,
+  "size": {
+    "height": 0.1,
+    "width": 0.1,
+    "length": 0.1
+  },
+  "mass": 0.6,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 50,
+    "attack": 47,
+    "defense": 50,
+    "special_attack": 57,
+    "special_defense": 50,
+    "speed": 65
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "bug",
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "compound-eyes",
+      "unnerve"
+    ],
+    "hidden": [
+      "swarm"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "absorb",
+          "string-shot",
+          "leech-life",
+          "spider-web"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "signal-beam"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "gastro-acid"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "electro-ball"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "electroweb"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "poison-sting",
+      "pin-missile",
+      "disable",
+      "absorb",
+      "string-shot",
+      "thunderbolt",
+      "thunder-wave",
+      "toxic",
+      "agility",
+      "screech",
+      "double-team",
+      "light-screen",
+      "swift",
+      "leech-life",
+      "flash",
+      "rest",
+      "slash",
+      "substitute",
+      "thief",
+      "spider-web",
+      "snore",
+      "protect",
+      "feint-attack",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pursuit",
+      "hidden-power",
+      "rain-dance",
+      "facade",
+      "secret-power",
+      "camouflage",
+      "signal-beam",
+      "bounce",
+      "shock-wave",
+      "gastro-acid",
+      "sucker-punch",
+      "magnet-rise",
+      "poison-jab",
+      "x-scissor",
+      "bug-buzz",
+      "energy-ball",
+      "rock-climb",
+      "discharge",
+      "cross-poison",
+      "bug-bite",
+      "charge-beam",
+      "electro-ball",
+      "round",
+      "volt-switch",
+      "struggle-bug",
+      "electroweb",
+      "wild-charge",
+      "confide",
+      "infestation",
+      "lunge",
+      "speed-swap",
+      "rising-voltage",
+      "skitter-smack"
+    ]
+  },
+  "loot_table": "pokecube:entities/redstone_spider_1",
+  "evolutions": [
+    {
+      "name": "galvantula",
+      "level": 36,
+      "evoMoves": "stickyweb"
+    }
+  ]
+}

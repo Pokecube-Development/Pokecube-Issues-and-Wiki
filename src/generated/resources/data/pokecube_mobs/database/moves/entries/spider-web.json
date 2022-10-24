@@ -1,0 +1,13 @@
+{
+  "name": "spider-web",
+  "id": 169,
+  "pp": 10,
+  "priority": 0,
+  "type": "bug",
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user ensnares the target with thin, gooey silk\nso it can’t flee from battle.",
+  "move_category": "unique",
+  "effect_text_extend": "The target cannot switch out normally.  Ignores accuracy and evasion modifiers.  This effect ends when the user leaves the field.\n\nThe target may still escape by using baton pass, u turn, or a shed shell.\n\nBoth the user and the target pass on this effect with baton pass.",
+  "effect_text_simple": "Prevents the target from leaving battle."
+}

@@ -1,0 +1,231 @@
+{
+  "name": "hydreigon",
+  "id": 635,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 1.8,
+    "width": 1.8,
+    "length": 1.8
+  },
+  "mass": 160.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 92,
+    "attack": 105,
+    "defense": 90,
+    "special_attack": 125,
+    "special_defense": 90,
+    "speed": 98
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "dark",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 28,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "bite",
+          "dragon-rage",
+          "focus-energy",
+          "tri-attack",
+          "outrage",
+          "hyper-voice",
+          "double-hit"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 76,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "dragon-rush"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "work-up"
+        ]
+      }
+    ],
+    "misc": [
+      "fly",
+      "slam",
+      "headbutt",
+      "body-slam",
+      "bite",
+      "roar",
+      "flamethrower",
+      "hydro-pump",
+      "surf",
+      "hyper-beam",
+      "strength",
+      "dragon-rage",
+      "fire-spin",
+      "thunder-wave",
+      "earthquake",
+      "toxic",
+      "screech",
+      "double-team",
+      "reflect",
+      "focus-energy",
+      "fire-blast",
+      "rest",
+      "rock-slide",
+      "tri-attack",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "scary-face",
+      "outrage",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dragon-breath",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "psych-up",
+      "rock-smash",
+      "beat-up",
+      "uproar",
+      "heat-wave",
+      "torment",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "superpower",
+      "secret-power",
+      "hyper-voice",
+      "rock-tomb",
+      "signal-beam",
+      "dragon-dance",
+      "shock-wave",
+      "roost",
+      "tailwind",
+      "u-turn",
+      "payback",
+      "assurance",
+      "dark-pulse",
+      "aqua-tail",
+      "dragon-pulse",
+      "dragon-rush",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "nasty-plot",
+      "thunder-fang",
+      "ice-fang",
+      "fire-fang",
+      "zen-headbutt",
+      "flash-cannon",
+      "defog",
+      "draco-meteor",
+      "stone-edge",
+      "charge-beam",
+      "round",
+      "echoed-voice",
+      "incinerate",
+      "acrobatics",
+      "bulldoze",
+      "dragon-tail",
+      "work-up",
+      "snarl",
+      "confide",
+      "throat-chop",
+      "brutal-swing",
+      "breaking-swipe",
+      "scale-shot",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/pig_3"
+}

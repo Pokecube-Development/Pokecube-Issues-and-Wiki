@@ -1,0 +1,211 @@
+{
+  "name": "carbink",
+  "id": 703,
+  "stock": true,
+  "base_experience": 100,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 5.7,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 50,
+    "attack": 50,
+    "defense": 150,
+    "special_attack": 50,
+    "special_defense": 150,
+    "speed": 50
+  },
+  "evs": {
+    "defense": 1,
+    "special_defense": 1
+  },
+  "types": [
+    "rock",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "clear-body"
+    ],
+    "hidden": [
+      "sturdy"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "harden"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "rock-throw"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "reflect"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "rock-slide",
+          "flail"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "sharpen"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "skill-swap"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "rock-polish"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "guard-split"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "smack-down"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "moonblast"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "rock-throw",
+      "toxic",
+      "psychic",
+      "double-team",
+      "harden",
+      "light-screen",
+      "reflect",
+      "flash",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "sharpen",
+      "substitute",
+      "snore",
+      "flail",
+      "protect",
+      "sandstorm",
+      "endure",
+      "charm",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "hail",
+      "facade",
+      "nature-power",
+      "magic-coat",
+      "skill-swap",
+      "secret-power",
+      "rock-tomb",
+      "sand-tomb",
+      "iron-defense",
+      "covet",
+      "calm-mind",
+      "gravity",
+      "gyro-ball",
+      "guard-swap",
+      "magnet-rise",
+      "rock-polish",
+      "power-gem",
+      "earth-power",
+      "trick-room",
+      "stone-edge",
+      "stealth-rock",
+      "guard-split",
+      "wonder-room",
+      "telekinesis",
+      "smack-down",
+      "after-you",
+      "round",
+      "ally-switch",
+      "moonblast",
+      "confide",
+      "dazzling-gleam",
+      "stomping-tantrum",
+      "body-press",
+      "meteor-beam",
+      "misty-explosion",
+      "terrain-pulse"
+    ]
+  },
+  "loot_table": "pokecube:entities/quartz_diamond"
+}

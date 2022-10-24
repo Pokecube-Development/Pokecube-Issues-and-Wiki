@@ -23,12 +23,12 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.moves.Battle;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.moves.Battle;
 import thut.api.entity.ai.RootTask;
 import thut.lib.TComponent;
 

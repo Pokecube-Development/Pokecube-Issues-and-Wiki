@@ -1,0 +1,15 @@
+{
+  "name": "volt-switch",
+  "id": 521,
+  "power": 70,
+  "pp": 20,
+  "priority": 0,
+  "type": "electric",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "After making its attack, the user rushes back to\nswitch places with a party Pokémon in waiting.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage, then the user immediately switches out, and the trainer selects a replacement Pokémon from the party.  If the target faints from this attack, the user's trainer selects the new Pokémon to send out first.  If the user is the last Pokémon in its party that can battle, it will not switch out.\n\nThe user may be hit by pursuit when it switches out, if it has been targeted and pursuit has not yet been used.\n\nThis move may be used even if the user is under the effect of ingrain.  ingrain's effect will end.",
+  "effect_text_simple": "User must switch out after attacking."
+}

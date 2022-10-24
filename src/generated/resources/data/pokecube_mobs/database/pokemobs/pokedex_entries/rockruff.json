@@ -1,0 +1,210 @@
+{
+  "name": "rockruff",
+  "id": 744,
+  "stock": true,
+  "base_experience": 56,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 9.2,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 45,
+    "attack": 65,
+    "defense": 40,
+    "special_attack": 30,
+    "special_defense": 40,
+    "speed": 60
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "rock"
+  ],
+  "abilities": {
+    "normal": [
+      "keen-eye",
+      "vital-spirit"
+    ],
+    "hidden": [
+      "steadfast"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 4,
+        "moves": [
+          "sand-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "leer"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "rock-throw"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "double-team"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "odor-sleuth"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "rock-tomb"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "howl"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "rock-climb"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "stealth-rock"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "sand-attack",
+      "tackle",
+      "thrash",
+      "leer",
+      "bite",
+      "roar",
+      "rock-throw",
+      "toxic",
+      "double-team",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "crunch",
+      "facade",
+      "taunt",
+      "endeavor",
+      "hyper-voice",
+      "crush-claw",
+      "odor-sleuth",
+      "rock-tomb",
+      "iron-defense",
+      "howl",
+      "covet",
+      "last-resort",
+      "sucker-punch",
+      "rock-polish",
+      "earth-power",
+      "thunder-fang",
+      "fire-fang",
+      "zen-headbutt",
+      "rock-climb",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "round",
+      "echoed-voice",
+      "snarl",
+      "play-rough",
+      "confide",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "lycanroc-midday",
+      "level": 25,
+      "time": "day",
+      "evoMoves": "accelerock,  counter,  thrash"
+    },
+    {
+      "name": "lycanroc-midnight",
+      "level": 25,
+      "time": "night",
+      "evoMoves": "counter"
+    },
+    {
+      "name": "lycanroc-dusk",
+      "level": 25,
+      "time": "dusk",
+      "evoMoves": "thrash"
+    }
+  ]
+}

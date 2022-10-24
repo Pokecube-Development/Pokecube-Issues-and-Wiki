@@ -1,0 +1,196 @@
+{
+  "name": "litleo",
+  "id": 667,
+  "stock": true,
+  "base_experience": 74,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 13.5,
+  "is_default": true,
+  "capture_rate": 220,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 225,
+  "stats": {
+    "hp": 62,
+    "attack": 50,
+    "defense": 58,
+    "special_attack": 73,
+    "special_defense": 54,
+    "speed": 72
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "fire",
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "rivalry",
+      "unnerve"
+    ],
+    "hidden": [
+      "moxie"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 11,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "leer"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "ember"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "endeavor"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "hyper-voice"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "overheat"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "fire-fang"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "echoed-voice"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "incinerate"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "work-up"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "noble-roar"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "tackle",
+      "take-down",
+      "leer",
+      "roar",
+      "ember",
+      "flamethrower",
+      "strength",
+      "solar-beam",
+      "fire-spin",
+      "dig",
+      "toxic",
+      "double-team",
+      "fire-blast",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "yawn",
+      "endeavor",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "overheat",
+      "payback",
+      "flare-blitz",
+      "dark-pulse",
+      "fire-fang",
+      "flame-charge",
+      "entrainment",
+      "round",
+      "echoed-voice",
+      "incinerate",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "wild-charge",
+      "snarl",
+      "noble-roar",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "pyroar",
+      "level": 35
+    }
+  ]
+}

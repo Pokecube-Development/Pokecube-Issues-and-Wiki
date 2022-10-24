@@ -1,0 +1,16 @@
+{
+  "name": "heal-block",
+  "id": 377,
+  "pp": 15,
+  "priority": 0,
+  "type": "psychic",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "status",
+  "flavor_text": "For five turns, the user prevents the opposing team\nfrom using any moves, Abilities, or held items that\nrecover HP.",
+  "move_category": "ailment",
+  "max_turns": 5,
+  "min_turns": 5,
+  "effect_text_extend": "For the next five turns, the target may not use any moves that only restore HP, and move effects that heal the target are disabled.  Moves that steal HP may still be used, but will only inflict damage and not heal the target.",
+  "effect_text_simple": "Prevents target from restoring its HP for five turns."
+}

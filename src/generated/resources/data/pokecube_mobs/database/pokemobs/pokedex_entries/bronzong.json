@@ -1,0 +1,224 @@
+{
+  "name": "bronzong",
+  "id": 437,
+  "stock": true,
+  "base_experience": 175,
+  "size": {
+    "height": 1.3,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 187.0,
+  "is_default": true,
+  "capture_rate": 90,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 67,
+    "attack": 89,
+    "defense": 116,
+    "special_attack": 79,
+    "special_defense": 116,
+    "speed": 33
+  },
+  "evs": {
+    "defense": 1,
+    "special_defense": 1
+  },
+  "types": [
+    "steel",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate",
+      "heatproof"
+    ],
+    "hidden": [
+      "heavy-metal"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "confusion",
+          "hypnosis",
+          "rain-dance",
+          "sunny-day",
+          "imprison",
+          "weather-ball"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "psywave"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "block"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "gyro-ball"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "heal-block"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "heavy-slam"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "earthquake",
+      "toxic",
+      "confusion",
+      "psychic",
+      "hypnosis",
+      "double-team",
+      "confuse-ray",
+      "light-screen",
+      "reflect",
+      "dream-eater",
+      "flash",
+      "psywave",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "feint-attack",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "shadow-ball",
+      "future-sight",
+      "rock-smash",
+      "facade",
+      "trick",
+      "recycle",
+      "skill-swap",
+      "imprison",
+      "secret-power",
+      "weather-ball",
+      "rock-tomb",
+      "metal-sound",
+      "signal-beam",
+      "extrasensory",
+      "iron-defense",
+      "block",
+      "calm-mind",
+      "gravity",
+      "gyro-ball",
+      "natural-gift",
+      "payback",
+      "heal-block",
+      "power-swap",
+      "guard-swap",
+      "rock-polish",
+      "giga-impact",
+      "zen-headbutt",
+      "flash-cannon",
+      "trick-room",
+      "iron-head",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "heavy-slam",
+      "round",
+      "ally-switch",
+      "hex",
+      "bulldoze",
+      "confide",
+      "psychic-terrain",
+      "speed-swap",
+      "body-press",
+      "steel-beam",
+      "expanding-force",
+      "steel-roller",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_2"
+}

@@ -1,0 +1,18 @@
+{
+  "name": "volt-tackle",
+  "id": 344,
+  "power": 120,
+  "pp": 15,
+  "priority": 0,
+  "type": "electric",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user electrifies itself and charges the target.\nThis also damages the user quite a lot. This attack\nmay leave the target with paralysis.",
+  "move_category": "damage+ailment",
+  "drain": -33,
+  "ailment_chance": 10,
+  "effect_text_extend": "Inflicts regular damage.  User takes 1/3 the damage it inflicts in recoil.  Has a $effect_chance% chance to paralyze the target.",
+  "effect_text_simple": "User takes 1/3 the damage inflicted in recoil.  Has a $effect_chance% chance to paralyze the target.",
+  "effect_chance": 10
+}

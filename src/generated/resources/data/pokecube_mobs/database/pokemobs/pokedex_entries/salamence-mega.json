@@ -1,0 +1,182 @@
+{
+  "name": "salamence-mega",
+  "id": 373,
+  "stock": true,
+  "base_experience": 315,
+  "size": {
+    "height": 1.8,
+    "width": 1.8,
+    "length": 1.8
+  },
+  "mass": 112.6,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 95,
+    "attack": 145,
+    "defense": 130,
+    "special_attack": 120,
+    "special_defense": 90,
+    "speed": 120
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "dragon",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "aerilate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 0,
+        "moves": [
+          "fly"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "bite",
+          "ember",
+          "rage",
+          "protect",
+          "thunder-fang",
+          "fire-fang",
+          "dragon-tail"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "dragon-claw"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "zen-headbutt"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "fly",
+      "headbutt",
+      "double-edge",
+      "leer",
+      "bite",
+      "roar",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "strength",
+      "earthquake",
+      "toxic",
+      "rage",
+      "double-team",
+      "focus-energy",
+      "fire-blast",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "outrage",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dragon-breath",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "heat-wave",
+      "facade",
+      "brick-break",
+      "secret-power",
+      "hyper-voice",
+      "rock-tomb",
+      "aerial-ace",
+      "dragon-claw",
+      "roost",
+      "tailwind",
+      "aqua-tail",
+      "dragon-pulse",
+      "giga-impact",
+      "shadow-claw",
+      "thunder-fang",
+      "fire-fang",
+      "zen-headbutt",
+      "defog",
+      "draco-meteor",
+      "stone-edge",
+      "hone-claws",
+      "round",
+      "incinerate",
+      "bulldoze",
+      "dragon-tail",
+      "confide",
+      "laser-focus",
+      "brutal-swing"
+    ]
+  },
+  "old_name": "salamence_mega"
+}

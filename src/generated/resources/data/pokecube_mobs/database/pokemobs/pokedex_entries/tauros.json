@@ -1,0 +1,246 @@
+{
+  "name": "tauros",
+  "id": 128,
+  "stock": true,
+  "base_experience": 172,
+  "size": {
+    "height": 1.4,
+    "width": 1.0,
+    "length": 1.4
+  },
+  "mass": 88.4,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 75,
+    "attack": 100,
+    "defense": 95,
+    "special_attack": 40,
+    "special_defense": 70,
+    "speed": 110
+  },
+  "evs": {
+    "attack": 1,
+    "speed": 1
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "intimidate",
+      "anger-point"
+    ],
+    "hidden": [
+      "sheer-force"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 21,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "horn-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "leer",
+          "payback"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "rage"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "pursuit",
+          "assurance"
+        ]
+      },
+      {
+        "L": 71,
+        "moves": [
+          "giga-impact"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "work-up"
+        ]
+      }
+    ],
+    "misc": [
+      "stomp",
+      "headbutt",
+      "horn-attack",
+      "horn-drill",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "thrash",
+      "double-edge",
+      "tail-whip",
+      "leer",
+      "flamethrower",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder",
+      "earthquake",
+      "fissure",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "bide",
+      "fire-blast",
+      "skull-bash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "reversal",
+      "spite",
+      "protect",
+      "scary-face",
+      "zap-cannon",
+      "icy-wind",
+      "outrage",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "megahorn",
+      "pursuit",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
+      "whirlpool",
+      "uproar",
+      "facade",
+      "helping-hand",
+      "role-play",
+      "revenge",
+      "endeavor",
+      "secret-power",
+      "rock-tomb",
+      "shock-wave",
+      "water-pulse",
+      "natural-gift",
+      "close-combat",
+      "payback",
+      "assurance",
+      "giga-impact",
+      "zen-headbutt",
+      "rock-climb",
+      "iron-head",
+      "stone-edge",
+      "captivate",
+      "round",
+      "incinerate",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "wild-charge",
+      "confide",
+      "high-horsepower",
+      "throat-chop",
+      "smart-strike",
+      "stomping-tantrum",
+      "lash-out"
+    ]
+  },
+  "loot_table": "pokecube:entities/cow_1"
+}

@@ -1,0 +1,209 @@
+{
+  "name": "stakataka",
+  "id": 805,
+  "stock": true,
+  "base_experience": 285,
+  "size": {
+    "height": 5.5,
+    "width": 5.5,
+    "length": 5.5
+  },
+  "mass": 820.0,
+  "is_default": true,
+  "capture_rate": 30,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 61,
+    "attack": 131,
+    "defense": 211,
+    "special_attack": 53,
+    "special_defense": 101,
+    "speed": 13
+  },
+  "evs": {
+    "defense": 3
+  },
+  "types": [
+    "rock",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "beast-boost"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 15,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "harden",
+          "protect"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "rock-throw"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "bide"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "block"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "rock-blast"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "magnet-rise"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "iron-head"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "wide-guard"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "autotomize"
+        ]
+      }
+    ],
+    "misc": [
+      "bind",
+      "mega-kick",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "rock-throw",
+      "earthquake",
+      "toxic",
+      "light-screen",
+      "reflect",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "sandstorm",
+      "endure",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "facade",
+      "role-play",
+      "superpower",
+      "magic-coat",
+      "recycle",
+      "skill-swap",
+      "rock-tomb",
+      "iron-defense",
+      "block",
+      "rock-blast",
+      "gravity",
+      "gyro-ball",
+      "magnet-rise",
+      "rock-polish",
+      "giga-impact",
+      "zen-headbutt",
+      "flash-cannon",
+      "trick-room",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "wide-guard",
+      "wonder-room",
+      "autotomize",
+      "telekinesis",
+      "magic-room",
+      "smack-down",
+      "heavy-slam",
+      "round",
+      "ally-switch",
+      "bulldoze",
+      "heat-crash",
+      "infestation",
+      "high-horsepower",
+      "brutal-swing",
+      "stomping-tantrum",
+      "body-press",
+      "steel-beam",
+      "steel-roller",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/stone_gold",
+  "spawn_rules": [
+    {
+      "values": {
+        "types": "#pokecube_legends:can_spawn/stakataka",
+        "min": "1",
+        "rate": "0.2",
+        "max": "1"
+      }
+    }
+  ]
+}

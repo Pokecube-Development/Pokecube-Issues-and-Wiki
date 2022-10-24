@@ -1,0 +1,13 @@
+{
+  "name": "calm-mind",
+  "id": 347,
+  "pp": 20,
+  "priority": 0,
+  "type": "psychic",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user quietly focuses its mind and calms its\nspirit to raise its Sp. Atk and Sp. Def stats.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises the user's Special Attack and Special Defense by one stage each.",
+  "effect_text_simple": "Raises the user's Special Attack and Special Defense by one stage."
+}

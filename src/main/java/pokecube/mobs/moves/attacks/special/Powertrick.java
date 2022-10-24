@@ -57,12 +57,12 @@ public class Powertrick extends Move_Basic
 
     static
     {
-        StatModifiers.registerModifier("powertrick", Modifier.class);
+        StatModifiers.registerModifier("power-trick", Modifier.class);
     }
 
     public Powertrick()
     {
-        super("powertrick");
+        super("power-trick");
     }
 
     @Override
@@ -77,6 +77,6 @@ public class Powertrick extends Move_Basic
         final float modAtk = mods.getModifierRaw(Stats.ATTACK);
         mods.setModifier(Stats.DEFENSE, modDef - def + atk);
         mods.setModifier(Stats.ATTACK, modAtk - atk + def);
-        PacketSyncModifier.sendUpdate("powertrick", packet.attacker);
+        PacketSyncModifier.sendUpdate("power-trick", packet.attacker);
     }
 }

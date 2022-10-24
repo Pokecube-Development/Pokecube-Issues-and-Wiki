@@ -1,0 +1,174 @@
+{
+  "name": "eelektrik",
+  "id": 603,
+  "stock": true,
+  "base_experience": 142,
+  "size": {
+    "height": 1.1,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 22.0,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 70,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 65,
+    "attack": 85,
+    "defense": 70,
+    "special_attack": 75,
+    "special_defense": 70,
+    "speed": 40
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 9,
+        "moves": [
+          "bind"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "headbutt",
+          "thunder-wave",
+          "spark",
+          "charge-beam"
+        ]
+      },
+      {
+        "L": 74,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "acid"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "thunderbolt"
+        ]
+      },
+      {
+        "L": 69,
+        "moves": [
+          "zap-cannon"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "gastro-acid"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "coil"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "acid-spray"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "wild-charge"
+        ]
+      }
+    ],
+    "misc": [
+      "bind",
+      "headbutt",
+      "thrash",
+      "acid",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "double-team",
+      "light-screen",
+      "flash",
+      "rest",
+      "super-fang",
+      "substitute",
+      "snore",
+      "protect",
+      "zap-cannon",
+      "giga-drain",
+      "swagger",
+      "spark",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "crunch",
+      "facade",
+      "knock-off",
+      "secret-power",
+      "signal-beam",
+      "bounce",
+      "shock-wave",
+      "u-turn",
+      "gastro-acid",
+      "magnet-rise",
+      "aqua-tail",
+      "flash-cannon",
+      "discharge",
+      "charge-beam",
+      "coil",
+      "acid-spray",
+      "round",
+      "acrobatics",
+      "volt-switch",
+      "wild-charge",
+      "confide",
+      "throat-chop"
+    ]
+  },
+  "loot_table": "pokecube:entities/redstone_fish_2",
+  "evolutions": [
+    {
+      "name": "eelektross",
+      "item_preset": "thunderstone",
+      "evoMoves": "crunch"
+    }
+  ]
+}

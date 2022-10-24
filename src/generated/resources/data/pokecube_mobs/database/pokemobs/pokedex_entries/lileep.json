@@ -1,0 +1,204 @@
+{
+  "name": "lileep",
+  "id": 345,
+  "stock": true,
+  "base_experience": 71,
+  "size": {
+    "height": 1.0,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 23.8,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow-then-very-fast",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 66,
+    "attack": 41,
+    "defense": 77,
+    "special_attack": 61,
+    "special_defense": 87,
+    "speed": 23
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "rock",
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "suction-cups"
+    ],
+    "hidden": [
+      "storm-drain"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "wrap",
+          "constrict",
+          "astonish"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "acid"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "stockpile",
+          "spit-up",
+          "swallow"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "ingrain"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "wring-out"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "gastro-acid"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "energy-ball"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "bind",
+      "body-slam",
+      "double-edge",
+      "acid",
+      "mega-drain",
+      "solar-beam",
+      "string-shot",
+      "toxic",
+      "mimic",
+      "double-team",
+      "recover",
+      "confuse-ray",
+      "barrier",
+      "constrict",
+      "amnesia",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "mirror-coat",
+      "psych-up",
+      "ancient-power",
+      "stockpile",
+      "spit-up",
+      "swallow",
+      "facade",
+      "ingrain",
+      "secret-power",
+      "astonish",
+      "rock-tomb",
+      "tickle",
+      "bullet-seed",
+      "mud-shot",
+      "rock-blast",
+      "brine",
+      "natural-gift",
+      "wring-out",
+      "gastro-acid",
+      "worry-seed",
+      "rock-polish",
+      "seed-bomb",
+      "energy-ball",
+      "earth-power",
+      "captivate",
+      "stealth-rock",
+      "grass-knot",
+      "smack-down",
+      "round",
+      "confide",
+      "infestation",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/fossil_mob",
+  "evolutions": [
+    {
+      "name": "cradily",
+      "level": 40
+    }
+  ]
+}

@@ -1,0 +1,206 @@
+{
+  "name": "meganium",
+  "id": 154,
+  "stock": true,
+  "base_experience": 236,
+  "size": {
+    "height": 1.8,
+    "width": 1.4,
+    "length": 1.4
+  },
+  "mass": 100.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 80,
+    "attack": 82,
+    "defense": 100,
+    "special_attack": 83,
+    "special_defense": 100,
+    "speed": 80
+  },
+  "evs": {
+    "defense": 1,
+    "special_defense": 2
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "leaf-guard"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl",
+          "razor-leaf",
+          "poison-powder",
+          "petal-blizzard"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "petal-dance"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "reflect"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "natural-gift"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "growl",
+      "hyper-beam",
+      "counter",
+      "strength",
+      "razor-leaf",
+      "solar-beam",
+      "poison-powder",
+      "petal-dance",
+      "earthquake",
+      "toxic",
+      "mimic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "detect",
+      "outrage",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "sweet-scent",
+      "iron-tail",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "ancient-power",
+      "rock-smash",
+      "facade",
+      "nature-power",
+      "magic-coat",
+      "secret-power",
+      "aromatherapy",
+      "bullet-seed",
+      "frenzy-plant",
+      "magical-leaf",
+      "natural-gift",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "giga-impact",
+      "rock-climb",
+      "captivate",
+      "grass-knot",
+      "round",
+      "echoed-voice",
+      "grass-pledge",
+      "bulldoze",
+      "dragon-tail",
+      "work-up",
+      "petal-blizzard",
+      "confide",
+      "laser-focus",
+      "stomping-tantrum"
+    ]
+  },
+  "male_model": {
+    "key": "meganium_male",
+    "tex": "meganium",
+    "model": "meganium_male",
+    "anim": "meganium_male"
+  },
+  "female_model": {
+    "key": "meganium_female",
+    "tex": "meganium",
+    "model": "meganium_female",
+    "anim": "meganium_female"
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_2"
+}

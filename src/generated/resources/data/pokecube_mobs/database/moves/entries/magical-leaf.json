@@ -1,0 +1,14 @@
+{
+  "name": "magical-leaf",
+  "id": 345,
+  "power": 60,
+  "pp": 20,
+  "priority": 0,
+  "type": "grass",
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user scatters curious leaves that chase the\ntarget. This attack never misses.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Ignores accuracy and evasion modifiers.",
+  "effect_text_simple": "Never misses."
+}

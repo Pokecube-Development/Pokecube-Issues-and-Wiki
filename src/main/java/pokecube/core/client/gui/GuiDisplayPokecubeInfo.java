@@ -40,10 +40,10 @@ import pokecube.api.entity.pokemob.commandhandlers.MoveIndexHandler;
 import pokecube.api.entity.pokemob.commandhandlers.MoveToHandler;
 import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
-import pokecube.api.moves.IMoveConstants;
-import pokecube.api.moves.IMoveConstants.AIRoutine;
-import pokecube.api.moves.IMoveNames;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
+import pokecube.api.moves.utils.IMoveNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.client.EventsHandlerClient;
@@ -288,7 +288,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             }
 
             // Render Status
-            final byte status = pokemob.getStatus();
+            final int status = pokemob.getStatus();
             if (status != IMoveConstants.STATUS_NON)
             {
                 int dv = 0;
@@ -336,7 +336,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             {
                 final int index = moveIndex;
 
-                final Move_Base move = MovesUtils.getMoveFromName(pokemob.getMove(index));
+                final MoveEntry move = MovesUtils.getMove(pokemob.getMove(index));
                 final boolean disabled = index >= 0 && index < 4 && pokemob.getDisableTimer(index) > 0;
                 if (move != null)
                 {
@@ -356,9 +356,9 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
                         this.blit(evt.getMat(), movesOffsetX, movesOffsetY + 13 * index + h, 43, 65, 91, 13);
                         // Draw cooldown box
                         float timer = 1;
-                        Move_Base lastMove;
+                        MoveEntry lastMove;
                         if (MovesUtils.isAbleToUseMoves(pokemob) != AbleStatus.ABLE) timer = 0;
-                        else if ((lastMove = MovesUtils.getMoveFromName(pokemob.getLastMoveUsed())) != null)
+                        else if ((lastMove = MovesUtils.getMove(pokemob.getLastMoveUsed())) != null)
                             timer -= pokemob.getAttackCooldown() / (float) MovesUtils.getAttackDelay(pokemob,
                                     pokemob.getLastMoveUsed(),
                                     (lastMove.getAttackCategory(pokemob) & IMoveConstants.CATEGORY_DISTANCE) > 0,
@@ -447,7 +447,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             pokemob = PokemobCaps.getPokemobFor(entity);
             if (pokemob != null)
             {
-                final byte status = pokemob.getStatus();
+                final int status = pokemob.getStatus();
                 if (status != IMoveConstants.STATUS_NON)
                 {
                     int dv = 0;

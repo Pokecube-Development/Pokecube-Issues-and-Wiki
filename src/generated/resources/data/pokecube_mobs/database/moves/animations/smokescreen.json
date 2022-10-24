@@ -1,0 +1,15 @@
+{
+  "name": "smokescreen",
+  "animations": [
+    {
+      "preset": "powder:d0.33:w1.5:plarge_smoke:l15:~smokescreen",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.7
+    }
+  ]
+}

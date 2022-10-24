@@ -1,0 +1,257 @@
+{
+  "name": "eevee",
+  "id": 133,
+  "stock": true,
+  "base_experience": 65,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 6.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 55,
+    "attack": 55,
+    "defense": 50,
+    "special_attack": 45,
+    "special_defense": 65,
+    "speed": 55
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "run-away",
+      "adaptability"
+    ],
+    "hidden": [
+      "anticipation"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "sand-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "tail-whip",
+          "growl",
+          "helping-hand",
+          "covet"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "bite",
+          "swift"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "baton-pass"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "refresh"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "trump-card"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "copycat"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "last-resort"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "baby-doll-eyes"
+        ]
+      }
+    ],
+    "misc": [
+      "pay-day",
+      "double-kick",
+      "sand-attack",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "tail-whip",
+      "bite",
+      "growl",
+      "dig",
+      "toxic",
+      "quick-attack",
+      "rage",
+      "mimic",
+      "double-team",
+      "reflect",
+      "focus-energy",
+      "bide",
+      "swift",
+      "skull-bash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "flail",
+      "protect",
+      "mud-slap",
+      "detect",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "baton-pass",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "facade",
+      "helping-hand",
+      "wish",
+      "yawn",
+      "refresh",
+      "secret-power",
+      "hyper-voice",
+      "weather-ball",
+      "fake-tears",
+      "tickle",
+      "covet",
+      "natural-gift",
+      "trump-card",
+      "last-resort",
+      "captivate",
+      "synchronoise",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "retaliate",
+      "work-up",
+      "confide",
+      "baby-doll-eyes",
+      "laser-focus"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "vaporeon",
+      "animation": "splash",
+      "item_preset": "waterstone",
+      "evoMoves": "watergun"
+    },
+    {
+      "name": "jolteon",
+      "animation": "spark",
+      "item_preset": "thunderstone",
+      "evoMoves": "thundershock"
+    },
+    {
+      "name": "flareon",
+      "animation": "flame",
+      "item_preset": "firestone",
+      "evoMoves": "ember"
+    },
+    {
+      "name": "espeon",
+      "time": "day",
+      "happy": true,
+      "evoMoves": "confusion"
+    },
+    {
+      "name": "umbreon",
+      "time": "night",
+      "happy": true,
+      "evoMoves": "pursuit"
+    },
+    {
+      "name": "leafeon",
+      "item_preset": "leafstone",
+      "evoMoves": "razorleaf"
+    },
+    {
+      "name": "glaceon",
+      "item_preset": "pokecube_mobs:ice_stone",
+      "evoMoves": "icywind"
+    },
+    {
+      "name": "sylveon",
+      "item_preset": "pokecube_mobs:sylveon",
+      "evoMoves": "fairywind"
+    }
+  ]
+}

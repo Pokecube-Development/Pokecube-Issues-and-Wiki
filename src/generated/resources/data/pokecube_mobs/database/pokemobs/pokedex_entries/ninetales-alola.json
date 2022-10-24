@@ -1,0 +1,175 @@
+{
+  "name": "ninetales-alola",
+  "id": 38,
+  "stock": true,
+  "base_experience": 177,
+  "size": {
+    "height": 1.1
+  },
+  "mass": 19.9,
+  "is_default": false,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 73,
+    "attack": 67,
+    "defense": 75,
+    "special_attack": 81,
+    "special_defense": 100,
+    "speed": 109
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "ice",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "snow-cloak"
+    ],
+    "hidden": [
+      "snow-warning"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "tail-whip",
+          "disable",
+          "mist",
+          "ice-beam",
+          "blizzard",
+          "aurora-beam",
+          "hypnosis",
+          "confuse-ray",
+          "spite",
+          "powder-snow",
+          "icy-wind",
+          "safeguard",
+          "imprison",
+          "grudge",
+          "extrasensory",
+          "sheer-cold",
+          "nasty-plot",
+          "ice-shard",
+          "aurora-veil"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "dazzling-gleam"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "body-slam",
+      "tail-whip",
+      "roar",
+      "mist",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "solar-beam",
+      "dig",
+      "toxic",
+      "agility",
+      "double-team",
+      "confuse-ray",
+      "reflect",
+      "swift",
+      "dream-eater",
+      "rest",
+      "substitute",
+      "snore",
+      "spite",
+      "protect",
+      "icy-wind",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "psych-up",
+      "hail",
+      "facade",
+      "role-play",
+      "imprison",
+      "weather-ball",
+      "fake-tears",
+      "covet",
+      "calm-mind",
+      "payback",
+      "power-swap",
+      "dark-pulse",
+      "aqua-tail",
+      "giga-impact",
+      "nasty-plot",
+      "avalanche",
+      "ice-shard",
+      "zen-headbutt",
+      "wonder-room",
+      "psyshock",
+      "foul-play",
+      "round",
+      "stored-power",
+      "hex",
+      "frost-breath",
+      "tail-slap",
+      "draining-kiss",
+      "misty-terrain",
+      "confide",
+      "dazzling-gleam",
+      "laser-focus",
+      "aurora-veil",
+      "triple-axel"
+    ]
+  },
+  "loot_table": "pokecube:entities/snow_rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "old_name": "ninetales_alola"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "anchor-shot",
+  "id": 677,
+  "power": 80,
+  "pp": 20,
+  "priority": 0,
+  "type": "steel",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user entangles the target with its anchor chain\nwhile attacking. The target becomes unable to flee.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Traps the target.",
+  "effect_text_simple": "Traps the target."
+}

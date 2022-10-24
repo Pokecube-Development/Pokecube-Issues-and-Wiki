@@ -1,0 +1,194 @@
+{
+  "name": "escavalier",
+  "id": 589,
+  "stock": true,
+  "base_experience": 173,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 33.0,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 70,
+    "attack": 135,
+    "defense": 105,
+    "special_attack": 60,
+    "special_defense": 105,
+    "speed": 20
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "bug",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "swarm",
+      "shell-armor"
+    ],
+    "hidden": [
+      "overcoat"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 52,
+        "moves": [
+          "swords-dance",
+          "metal-burst"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "fury-attack",
+          "acid-spray"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "take-down",
+          "double-edge",
+          "twineedle",
+          "leer",
+          "peck",
+          "flail",
+          "scary-face",
+          "endure",
+          "fury-cutter",
+          "quick-guard",
+          "fell-stinger"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "reversal"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "false-swipe"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "x-scissor"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "giga-impact"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "iron-head"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "headbutt",
+      "fury-attack",
+      "double-edge",
+      "twineedle",
+      "leer",
+      "hyper-beam",
+      "peck",
+      "toxic",
+      "agility",
+      "screech",
+      "double-team",
+      "rest",
+      "slash",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "scary-face",
+      "giga-drain",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "megahorn",
+      "encore",
+      "hidden-power",
+      "rain-dance",
+      "rock-smash",
+      "facade",
+      "taunt",
+      "revenge",
+      "knock-off",
+      "secret-power",
+      "signal-beam",
+      "aerial-ace",
+      "iron-defense",
+      "close-combat",
+      "poison-jab",
+      "x-scissor",
+      "bug-buzz",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "iron-head",
+      "bug-bite",
+      "round",
+      "quick-guard",
+      "struggle-bug",
+      "drill-run",
+      "razor-shell",
+      "fell-stinger",
+      "confide",
+      "infestation",
+      "laser-focus",
+      "smart-strike",
+      "brutal-swing",
+      "steel-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/shellseed_1"
+}

@@ -59,12 +59,12 @@ public class Powersplit extends Move_Basic
 
     static
     {
-        StatModifiers.registerModifier("powersplit", Modifier.class);
+        StatModifiers.registerModifier("power-split", Modifier.class);
     }
 
     public Powersplit()
     {
-        super("powersplit");
+        super("power-split");
     }
 
     @Override
@@ -83,16 +83,16 @@ public class Powersplit extends Move_Basic
 
             final int averageAtk = (atk + atk2) / 2;
             final int averageSpatk = (spatk + spatk2) / 2;
-            final Modifier mods = packet.attacker.getModifiers().getModifiers("powersplit", Modifier.class);
-            final Modifier mods2 = attacked.getModifiers().getModifiers("powersplit", Modifier.class);
+            final Modifier mods = packet.attacker.getModifiers().getModifiers("power-split", Modifier.class);
+            final Modifier mods2 = attacked.getModifiers().getModifiers("power-split", Modifier.class);
 
             mods.setModifier(Stats.ATTACK, -atk + averageAtk);
             mods2.setModifier(Stats.ATTACK, -atk2 + averageAtk);
 
             mods.setModifier(Stats.SPATTACK, -spatk + averageSpatk);
             mods2.setModifier(Stats.SPATTACK, -spatk2 + averageSpatk);
-            PacketSyncModifier.sendUpdate("powersplit", packet.attacker);
-            PacketSyncModifier.sendUpdate("powersplit", attacked);
+            PacketSyncModifier.sendUpdate("power-split", packet.attacker);
+            PacketSyncModifier.sendUpdate("power-split", attacked);
         }
     }
 }

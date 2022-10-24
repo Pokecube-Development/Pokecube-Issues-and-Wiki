@@ -1,0 +1,27 @@
+{
+  "name": "dragonclaw",
+  "animations": [
+    {
+      "preset": "cartFunc:atrue:psweep_attack:~dragonclaw",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:atrue:pmisc:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~dragonclaw",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.6,
+      "applyAfter": true
+    }
+  ]
+}

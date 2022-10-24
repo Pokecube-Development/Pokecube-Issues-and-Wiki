@@ -1,0 +1,13 @@
+{
+  "name": "shift-gear",
+  "id": 508,
+  "pp": 10,
+  "priority": 0,
+  "type": "steel",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user rotates its gears, raising its Attack stat and\nsharply raising its Speed stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises the user's Attack by one stage and its Speed by two stages.",
+  "effect_text_simple": "Raises the user's Attack by one stage and its Speed by two stages."
+}

@@ -1,0 +1,25 @@
+{
+  "name": "stunspore",
+  "animations": [
+    {
+      "preset": "powder:cyellow:l5:atrue:~stunspore",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "minecraft:block.sand.place",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 0.7
+    },
+    {
+      "preset": "cartFunc:ppowder:l1:~stunspore",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.thunderwave",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 1.7
+    }
+  ]
+}

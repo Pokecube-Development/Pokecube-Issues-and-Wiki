@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:magnemite",
+    "pokecube:magneton",
+    "pokecube:voltorb",
+    "pokecube:electrode",
+    "pokecube:voltorb-hisui",
+    "pokecube:electrode-hisui",
+    "pokecube:magnezone",
+    "pokecube:electivire"
+  ]
+}

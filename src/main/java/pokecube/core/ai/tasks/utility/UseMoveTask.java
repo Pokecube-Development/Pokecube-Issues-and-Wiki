@@ -16,8 +16,8 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.IMoveConstants;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
@@ -57,7 +57,7 @@ public class UseMoveTask extends UtilTask
     public void run()
     {
         this.destination.set(this.pos.currentPosition());
-        final Move_Base move = this.pokemob.getSelectedMove();
+        final MoveEntry move = this.pokemob.getSelectedMove();
 
         if (!this.running)
         {

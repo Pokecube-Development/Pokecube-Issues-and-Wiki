@@ -1,0 +1,199 @@
+{
+  "name": "infernape",
+  "id": 392,
+  "stock": true,
+  "base_experience": 240,
+  "size": {
+    "height": 1.2,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 55.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 76,
+    "attack": 104,
+    "defense": 71,
+    "special_attack": 104,
+    "special_defense": 71,
+    "speed": 108
+  },
+  "evs": {
+    "attack": 1,
+    "special_attack": 1,
+    "speed": 1
+  },
+  "types": [
+    "fire",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "iron-fist"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "leer",
+          "ember",
+          "mach-punch",
+          "taunt",
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "fire-spin"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "flame-wheel"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "punishment"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "acrobatics"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "thunder-punch",
+      "scratch",
+      "swords-dance",
+      "cut",
+      "headbutt",
+      "leer",
+      "roar",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "solar-beam",
+      "fire-spin",
+      "earthquake",
+      "dig",
+      "toxic",
+      "double-team",
+      "fire-blast",
+      "swift",
+      "fury-swipes",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "flame-wheel",
+      "snore",
+      "protect",
+      "mach-punch",
+      "mud-slap",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "heat-wave",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "role-play",
+      "brick-break",
+      "endeavor",
+      "secret-power",
+      "blast-burn",
+      "overheat",
+      "rock-tomb",
+      "aerial-ace",
+      "bulk-up",
+      "covet",
+      "calm-mind",
+      "natural-gift",
+      "feint",
+      "u-turn",
+      "close-combat",
+      "fling",
+      "punishment",
+      "flare-blitz",
+      "poison-jab",
+      "vacuum-wave",
+      "focus-blast",
+      "giga-impact",
+      "shadow-claw",
+      "rock-climb",
+      "gunk-shot",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "grass-knot",
+      "hone-claws",
+      "flame-charge",
+      "low-sweep",
+      "round",
+      "incinerate",
+      "acrobatics",
+      "retaliate",
+      "fire-pledge",
+      "bulldoze",
+      "work-up",
+      "dual-chop",
+      "confide",
+      "power-up-punch",
+      "laser-focus"
+    ]
+  },
+  "loot_table": "pokecube:entities/coal_3"
+}

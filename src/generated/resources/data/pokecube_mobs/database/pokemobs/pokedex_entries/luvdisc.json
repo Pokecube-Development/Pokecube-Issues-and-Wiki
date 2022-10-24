@@ -1,0 +1,201 @@
+{
+  "name": "luvdisc",
+  "id": 370,
+  "stock": true,
+  "base_experience": 116,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 8.7,
+  "is_default": true,
+  "capture_rate": 225,
+  "base_happiness": 70,
+  "growth_rate": "fast",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 43,
+    "attack": 30,
+    "defense": 55,
+    "special_attack": 40,
+    "special_defense": 65,
+    "speed": 97
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "swift-swim"
+    ],
+    "hidden": [
+      "hydration"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "charm"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "sweet-kiss"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "attract"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "aqua-ring"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "captivate"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "soak"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "heart-stamp"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "draining-kiss"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "take-down",
+      "double-edge",
+      "supersonic",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "toxic",
+      "agility",
+      "mimic",
+      "double-team",
+      "waterfall",
+      "swift",
+      "splash",
+      "rest",
+      "substitute",
+      "snore",
+      "flail",
+      "protect",
+      "sweet-kiss",
+      "icy-wind",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "rain-dance",
+      "psych-up",
+      "whirlpool",
+      "hail",
+      "facade",
+      "secret-power",
+      "dive",
+      "mud-sport",
+      "bounce",
+      "water-sport",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "lucky-chant",
+      "aqua-ring",
+      "captivate",
+      "aqua-jet",
+      "soak",
+      "entrainment",
+      "round",
+      "scald",
+      "heal-pulse",
+      "heart-stamp",
+      "draining-kiss",
+      "confide",
+      "liquidation"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1"
+}

@@ -1,0 +1,17 @@
+{
+  "name": "astonish",
+  "id": 310,
+  "power": 30,
+  "pp": 15,
+  "priority": 0,
+  "type": "ghost",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user attacks the target while shouting in a\nstartling fashion. This may also make the\ntarget flinch.",
+  "move_category": "damage",
+  "flinch_chance": 30,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to make the target flinch.",
+  "effect_text_simple": "Has a $effect_chance% chance to make the target flinch.",
+  "effect_chance": 30
+}

@@ -1,0 +1,244 @@
+{
+  "name": "piloswine",
+  "id": 221,
+  "stock": true,
+  "base_experience": 158,
+  "size": {
+    "height": 1.1,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 55.8,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 100,
+    "attack": 100,
+    "defense": 80,
+    "special_attack": 60,
+    "special_defense": 60,
+    "speed": 50
+  },
+  "evs": {
+    "hp": 1,
+    "attack": 1
+  },
+  "types": [
+    "ice",
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "oblivious",
+      "snow-cloak"
+    ],
+    "hidden": [
+      "thick-fat"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "horn-attack",
+          "tackle",
+          "peck",
+          "flail",
+          "powder-snow",
+          "ancient-power",
+          "mud-sport",
+          "odor-sleuth"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "fury-attack"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "mist"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "icy-wind"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "ice-shard"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "ice-fang"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "mud-bomb"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "horn-attack",
+      "fury-attack",
+      "body-slam",
+      "take-down",
+      "thrash",
+      "double-edge",
+      "roar",
+      "mist",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "peck",
+      "strength",
+      "earthquake",
+      "dig",
+      "toxic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "amnesia",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "powder-snow",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "icy-wind",
+      "detect",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "ancient-power",
+      "rock-smash",
+      "hail",
+      "facade",
+      "superpower",
+      "endeavor",
+      "secret-power",
+      "mud-sport",
+      "odor-sleuth",
+      "rock-tomb",
+      "sand-tomb",
+      "icicle-spear",
+      "mud-shot",
+      "natural-gift",
+      "earth-power",
+      "giga-impact",
+      "avalanche",
+      "ice-fang",
+      "mud-bomb",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "round",
+      "bulldoze",
+      "confide",
+      "high-horsepower",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/pig_1",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "evolutions": [
+    {
+      "name": "mamoswine",
+      "move": "ancientpower"
+    }
+  ]
+}

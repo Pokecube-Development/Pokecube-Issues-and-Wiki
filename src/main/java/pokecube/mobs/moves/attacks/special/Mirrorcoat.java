@@ -12,7 +12,7 @@ public class Mirrorcoat extends Move_Basic
 
     public Mirrorcoat()
     {
-        super("mirrorcoat");
+        super("mirror-coat");
     }
 
     @Override
@@ -34,7 +34,7 @@ public class Mirrorcoat extends Move_Basic
             final int damage = 2 * packet.attacker.getMoveStats().SPECIALDAMAGETAKENCOUNTER;
             packet.attacker.getMoveStats().SPECIALDAMAGETAKENCOUNTER = 0;
             if (packet.attacked != null && !packet.attacked.isInvulnerable()) packet.attacked.hurt(
-                    new PokemobDamageSource(attacker, this), damage);
+                    new PokemobDamageSource(attacker, this.move), damage);
             packet.attacker.getMoveStats().biding = false;
         }
     }

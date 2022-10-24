@@ -1,0 +1,25 @@
+{
+  "name": "shadowsneak",
+  "animations": [
+    {
+      "preset": "flow:pmisc:cblack:d0.4:w0.6:l5:f1.3:~shadowsneak",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "minecraft:entity.evoker.prepare_summon",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    },
+    {
+      "preset": "cartFunc:pcrit:d2:w0.6:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~shadowsneak",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

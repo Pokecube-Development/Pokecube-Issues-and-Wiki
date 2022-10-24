@@ -1,0 +1,42 @@
+{
+  "name": "venusaur-gmax",
+  "id": 3,
+  "stock": true,
+  "base_experience": 236,
+  "size": {
+    "height": 5.0,
+    "width": 3.0,
+    "length": 3.0
+  },
+  "mass": 1000.0,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 80,
+    "attack": 82,
+    "defense": 83,
+    "special_attack": 100,
+    "special_defense": 100,
+    "speed": 80
+  },
+  "evs": {
+    "special_attack": 2,
+    "special_defense": 1
+  },
+  "types": [
+    "grass",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "chlorophyll"
+    ]
+  },
+  "old_name": "venusaur_gigantamax"
+}

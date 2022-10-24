@@ -4,8 +4,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.database.Database;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.damage.GenericDamageSource;
@@ -19,8 +19,10 @@ public class GulpMissile extends Ability
     private static boolean noTurnBase = false;
 
     @Override
-    public void onMoveUse(final IPokemob mob, final MovePacket move)
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
+        if (!areWeUser(mob, move)) return;
+        if (areWeTarget(mob, move)) return;
         if (GulpMissile.noTurnBase) return;
         if (GulpMissile.baseNormal == null)
         {
@@ -31,18 +33,18 @@ public class GulpMissile extends Ability
             if (GulpMissile.noTurnBase) return;
         }
 
+        String name = move.getName();
         // Turn Forme
         final PokedexEntry mobs = mob.getPokedexEntry();
-        if (mobs == GulpMissile.baseNormal) if (move.attack.equals("surf") || move.attack.equals("dive")) if (mob
-                .getEntity().getHealth() < mob.getEntity().getMaxHealth() / 2)
+        if (mobs == GulpMissile.baseNormal) if (name.equals("surf") || name.equals("dive"))
+            if (mob.getEntity().getHealth() < mob.getEntity().getMaxHealth() / 2)
         {
             if (mobs == GulpMissile.baseNormal) mob.setPokedexEntry(GulpMissile.pikachu);
         }
-        else if (mob.getEntity().getHealth() > mob.getEntity().getMaxHealth() / 2) if (mobs == GulpMissile.baseNormal)
-            mob.setPokedexEntry(GulpMissile.arrakuda);
+            else if (mob.getEntity().getHealth() > mob.getEntity().getMaxHealth() / 2)
+                if (mobs == GulpMissile.baseNormal) mob.setPokedexEntry(GulpMissile.arrakuda);
 
-        final IPokemob attacker = move.attacker;
-        if (attacker == mob || move.pre || attacker == move.attacked) return;
+        final IPokemob attacker = move.getUser();
         final float amount = attacker.getEntity().getMaxHealth() / 4;
         final DamageSource source = new GenericDamageSource(this.getName(), mob.getEntity()).bypassMagic()
                 .setProjectile();

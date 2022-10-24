@@ -1,0 +1,14 @@
+{
+  "name": "poison-gas",
+  "id": 139,
+  "pp": 40,
+  "priority": 0,
+  "type": "poison",
+  "accuracy": 90,
+  "target": "all-opponents",
+  "damage_class": "status",
+  "flavor_text": "A cloud of poison gas is sprayed in the face of\nopposing Pokémon, poisoning those hit.",
+  "move_category": "ailment",
+  "effect_text_extend": "Poisons the target.",
+  "effect_text_simple": "Poisons the target."
+}

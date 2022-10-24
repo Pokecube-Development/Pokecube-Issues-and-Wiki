@@ -1,0 +1,72 @@
+{
+  "name": "cosmoem",
+  "id": 790,
+  "stock": true,
+  "base_experience": 140,
+  "size": {
+    "height": 0.1,
+    "width": 0.1,
+    "length": 0.1
+  },
+  "mass": 999.9,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 43,
+    "attack": 29,
+    "defense": 131,
+    "special_attack": 29,
+    "special_defense": 131,
+    "speed": 37
+  },
+  "evs": {
+    "defense": 1,
+    "special_defense": 1
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "sturdy"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "teleport"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "cosmic-power"
+        ]
+      }
+    ],
+    "misc": [
+      "teleport",
+      "cosmic-power"
+    ]
+  },
+  "loot_table": "pokecube:entities/cosmic",
+  "evolutions": [
+    {
+      "name": "solgaleo",
+      "level": 53,
+      "time": "day",
+      "evoMoves": "sunsteelstrike"
+    },
+    {
+      "name": "lunala",
+      "level": 53,
+      "time": "night",
+      "evoMoves": "moongeistbeam"
+    }
+  ]
+}

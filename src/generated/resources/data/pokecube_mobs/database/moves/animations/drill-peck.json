@@ -1,0 +1,38 @@
+{
+  "name": "drillpeck",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d2:l2:atrue:~drillpeck",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.vicegrip",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:pcrit:d2:l2:atrue:~drillpeck",
+      "duration": "5",
+      "starttick": "2",
+      "sound": "pokecube:moves.vicegrip",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pcrit:d2:l2:atrue:~drillpeck",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.vicegrip",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "applyAfter": false
+    }
+  ]
+}

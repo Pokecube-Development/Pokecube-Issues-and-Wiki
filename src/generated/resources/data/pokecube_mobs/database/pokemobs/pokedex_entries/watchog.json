@@ -1,0 +1,252 @@
+{
+  "name": "watchog",
+  "id": 505,
+  "stock": true,
+  "base_experience": 147,
+  "size": {
+    "height": 1.1,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 27.0,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 85,
+    "defense": 69,
+    "special_attack": 60,
+    "special_defense": 69,
+    "speed": 77
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "illuminate",
+      "keen-eye"
+    ],
+    "hidden": [
+      "analytic"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 50,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "sand-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "leer",
+          "bite",
+          "low-kick",
+          "rototiller"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "bide"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "hyper-fang"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "super-fang"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "detect"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "mean-look"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "baton-pass"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "psych-up"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "after-you"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "swords-dance",
+      "cut",
+      "slam",
+      "sand-attack",
+      "tackle",
+      "leer",
+      "bite",
+      "flamethrower",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "toxic",
+      "hypnosis",
+      "double-team",
+      "confuse-ray",
+      "light-screen",
+      "focus-energy",
+      "bide",
+      "dream-eater",
+      "flash",
+      "rest",
+      "hyper-fang",
+      "super-fang",
+      "substitute",
+      "snore",
+      "protect",
+      "detect",
+      "swagger",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "baton-pass",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "knock-off",
+      "endeavor",
+      "secret-power",
+      "signal-beam",
+      "covet",
+      "shock-wave",
+      "fling",
+      "last-resort",
+      "aqua-tail",
+      "seed-bomb",
+      "focus-blast",
+      "giga-impact",
+      "nasty-plot",
+      "zen-headbutt",
+      "gunk-shot",
+      "grass-knot",
+      "after-you",
+      "round",
+      "retaliate",
+      "work-up",
+      "rototiller",
+      "confide",
+      "power-up-punch",
+      "laser-focus",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

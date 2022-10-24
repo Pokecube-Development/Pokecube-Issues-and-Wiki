@@ -1,0 +1,16 @@
+{
+  "name": "hypnosis",
+  "id": 95,
+  "pp": 20,
+  "priority": 0,
+  "type": "psychic",
+  "accuracy": 60,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user employs hypnotic suggestion to make the\ntarget fall into a deep sleep.",
+  "move_category": "ailment",
+  "max_turns": 4,
+  "min_turns": 2,
+  "effect_text_extend": "Puts the target to sleep.",
+  "effect_text_simple": "Puts the target to sleep."
+}

@@ -1,0 +1,184 @@
+{
+  "name": "yanmega",
+  "id": 469,
+  "stock": true,
+  "base_experience": 180,
+  "size": {
+    "height": 1.0,
+    "width": 1.9,
+    "length": 1.9
+  },
+  "mass": 51.5,
+  "is_default": true,
+  "capture_rate": 30,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 86,
+    "attack": 76,
+    "defense": 86,
+    "special_attack": 116,
+    "special_defense": 56,
+    "speed": 95
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "bug",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "speed-boost",
+      "tinted-lens"
+    ],
+    "hidden": [
+      "frisk"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "quick-attack",
+          "double-team",
+          "foresight",
+          "night-slash",
+          "air-slash",
+          "bug-buzz",
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "supersonic"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "sonic-boom"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "detect"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "uproar"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "u-turn"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "tackle",
+      "supersonic",
+      "sonic-boom",
+      "hyper-beam",
+      "solar-beam",
+      "string-shot",
+      "toxic",
+      "psychic",
+      "quick-attack",
+      "screech",
+      "double-team",
+      "swift",
+      "dream-eater",
+      "leech-life",
+      "flash",
+      "rest",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "mud-slap",
+      "foresight",
+      "detect",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pursuit",
+      "hidden-power",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "shadow-ball",
+      "uproar",
+      "facade",
+      "secret-power",
+      "air-cutter",
+      "silver-wind",
+      "signal-beam",
+      "aerial-ace",
+      "roost",
+      "natural-gift",
+      "feint",
+      "tailwind",
+      "u-turn",
+      "night-slash",
+      "air-slash",
+      "bug-buzz",
+      "giga-impact",
+      "defog",
+      "captivate",
+      "bug-bite",
+      "ominous-wind",
+      "round",
+      "struggle-bug",
+      "confide",
+      "laser-focus"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1"
+}

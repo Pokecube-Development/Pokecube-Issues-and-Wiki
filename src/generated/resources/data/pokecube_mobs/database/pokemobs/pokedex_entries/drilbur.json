@@ -1,0 +1,201 @@
+{
+  "name": "drilbur",
+  "id": 529,
+  "stock": true,
+  "base_experience": 66,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 8.5,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 85,
+    "defense": 40,
+    "special_attack": 30,
+    "special_defense": 45,
+    "speed": 68
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "sand-rush",
+      "sand-force"
+    ],
+    "hidden": [
+      "mold-breaker"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "mud-sport"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "fissure"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "dig"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "sandstorm"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "rapid-spin"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "metal-claw"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "crush-claw"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "drill-run"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "swords-dance",
+      "cut",
+      "submission",
+      "strength",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "double-team",
+      "skull-bash",
+      "fury-swipes",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "rapid-spin",
+      "metal-claw",
+      "hidden-power",
+      "rock-smash",
+      "facade",
+      "brick-break",
+      "secret-power",
+      "mud-sport",
+      "crush-claw",
+      "rock-tomb",
+      "metal-sound",
+      "sand-tomb",
+      "aerial-ace",
+      "iron-defense",
+      "mud-shot",
+      "fling",
+      "poison-jab",
+      "x-scissor",
+      "earth-power",
+      "shadow-claw",
+      "rock-climb",
+      "stealth-rock",
+      "hone-claws",
+      "round",
+      "bulldoze",
+      "drill-run",
+      "confide",
+      "high-horsepower",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "excadrill",
+      "level": 31,
+      "evoMoves": "horndrill"
+    }
+  ]
+}

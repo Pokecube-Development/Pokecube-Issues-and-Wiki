@@ -1,0 +1,13 @@
+{
+  "name": "heal-bell",
+  "id": 215,
+  "pp": 5,
+  "priority": 0,
+  "type": "normal",
+  "target": "user-and-allies",
+  "damage_class": "status",
+  "flavor_text": "The user makes a soothing bell chime to heal the\nstatus conditions of all the party Pokémon.",
+  "move_category": "unique",
+  "effect_text_extend": "Removes major status effects and confusion from every Pokémon in the user's party.",
+  "effect_text_simple": "Cures the entire party of major status effects."
+}

@@ -2,18 +2,15 @@ package pokecube.mobs.abilities.simple;
 
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.utils.MoveApplication;
 
 public class Contrary extends Ability
 {
     @Override
-    public void onMoveUse(IPokemob mob, MovePacket move)
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        if (mob == move.attacked && move.pre)
-        {
-            move.attackedStatModification = move.attackedStatModification.clone();
-            for (int i = 0; i < move.attackedStatModification.length; i++)
-                move.attackedStatModification[i] = -move.attackedStatModification[i];
-        }
+        if (!areWeTarget(mob, move)) return;
+        for (int i = 0; i < move.stat_effects.length; i++)
+            move.stat_effects[i] = -move.stat_effects[i];
     }
 }

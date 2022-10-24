@@ -1,0 +1,35 @@
+{
+  "name": "icebeam",
+  "animations": [
+    {
+      "preset": "beam:~icebeam",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.iceball",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:~icebeam",
+      "duration": "0",
+      "starttick": "3",
+      "sound": "pokecube:moves.iceball",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.1
+    },
+    {
+      "preset": "cartFunc:~icebeam",
+      "duration": "0",
+      "starttick": "6",
+      "sound": "pokecube:moves.iceball",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2
+    }
+  ]
+}

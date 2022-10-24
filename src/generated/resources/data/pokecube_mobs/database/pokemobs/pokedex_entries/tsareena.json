@@ -1,0 +1,193 @@
+{
+  "name": "tsareena",
+  "id": 763,
+  "stock": true,
+  "base_experience": 255,
+  "size": {
+    "height": 1.2,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 21.4,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 72,
+    "attack": 120,
+    "defense": 98,
+    "special_attack": 50,
+    "special_defense": 98,
+    "speed": 72
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "leaf-guard",
+      "queenly-majesty"
+    ],
+    "hidden": [
+      "sweet-veil"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "double-slap",
+          "razor-leaf",
+          "splash",
+          "flail",
+          "swagger",
+          "rapid-spin",
+          "punishment",
+          "play-nice"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "high-jump-kick"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "teeter-dance"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "leaf-storm"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "power-whip"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "captivate"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "aromatic-mist"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "trop-kick"
+        ]
+      }
+    ],
+    "misc": [
+      "double-slap",
+      "stomp",
+      "mega-kick",
+      "hyper-beam",
+      "low-kick",
+      "razor-leaf",
+      "solar-beam",
+      "toxic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "high-jump-kick",
+      "splash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "giga-drain",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "rapid-spin",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "facade",
+      "nature-power",
+      "taunt",
+      "helping-hand",
+      "knock-off",
+      "endeavor",
+      "teeter-dance",
+      "aromatherapy",
+      "bounce",
+      "covet",
+      "magical-leaf",
+      "u-turn",
+      "payback",
+      "fling",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "giga-impact",
+      "zen-headbutt",
+      "leaf-storm",
+      "power-whip",
+      "captivate",
+      "grass-knot",
+      "low-sweep",
+      "round",
+      "acrobatics",
+      "draining-kiss",
+      "play-rough",
+      "confide",
+      "aromatic-mist",
+      "dazzling-gleam",
+      "solar-blade",
+      "laser-focus",
+      "trop-kick",
+      "grassy-glide",
+      "triple-axel"
+    ]
+  },
+  "loot_table": "pokecube:entities/apple"
+}

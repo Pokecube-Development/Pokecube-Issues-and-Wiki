@@ -1,0 +1,234 @@
+{
+  "name": "kommo-o",
+  "id": 784,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 1.6,
+    "width": 1.0,
+    "length": 1.6
+  },
+  "mass": 78.2,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 75,
+    "attack": 110,
+    "defense": 125,
+    "special_attack": 100,
+    "special_defense": 105,
+    "speed": 85
+  },
+  "evs": {
+    "defense": 3
+  },
+  "types": [
+    "dragon",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "bulletproof",
+      "soundproof"
+    ],
+    "hidden": [
+      "overcoat"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 25,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "leer",
+          "bide",
+          "protect",
+          "belly-drum",
+          "sky-uppercut",
+          "autotomize"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "dragon-claw"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "dragon-dance"
+        ]
+      },
+      {
+        "L": 75,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "dragon-tail"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "work-up"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "noble-roar"
+        ]
+      },
+      {
+        "L": 76,
+        "moves": [
+          "boomburst"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "clanging-scales"
+        ]
+      },
+      {
+        "L": 68,
+        "moves": [
+          "clangorous-soul"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "swords-dance",
+      "mega-kick",
+      "headbutt",
+      "tackle",
+      "leer",
+      "roar",
+      "flamethrower",
+      "hyper-beam",
+      "low-kick",
+      "earthquake",
+      "toxic",
+      "screech",
+      "double-team",
+      "bide",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "scary-face",
+      "belly-drum",
+      "outrage",
+      "sandstorm",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "hidden-power",
+      "uproar",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "endeavor",
+      "hyper-voice",
+      "rock-tomb",
+      "sky-uppercut",
+      "aerial-ace",
+      "iron-defense",
+      "dragon-claw",
+      "bulk-up",
+      "dragon-dance",
+      "shock-wave",
+      "water-pulse",
+      "close-combat",
+      "payback",
+      "fling",
+      "aura-sphere",
+      "rock-polish",
+      "poison-jab",
+      "aqua-tail",
+      "x-scissor",
+      "dragon-pulse",
+      "drain-punch",
+      "focus-blast",
+      "giga-impact",
+      "shadow-claw",
+      "flash-cannon",
+      "draco-meteor",
+      "iron-head",
+      "stealth-rock",
+      "autotomize",
+      "round",
+      "echoed-voice",
+      "bulldoze",
+      "dragon-tail",
+      "work-up",
+      "dual-chop",
+      "noble-roar",
+      "confide",
+      "laser-focus",
+      "clanging-scales",
+      "brutal-swing",
+      "stomping-tantrum",
+      "body-press",
+      "breaking-swipe",
+      "scale-shot",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/pig_3"
+}

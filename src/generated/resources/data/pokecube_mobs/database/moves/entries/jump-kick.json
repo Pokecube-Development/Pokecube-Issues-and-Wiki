@@ -1,0 +1,15 @@
+{
+  "name": "jump-kick",
+  "id": 26,
+  "power": 100,
+  "pp": 10,
+  "priority": 0,
+  "type": "fighting",
+  "accuracy": 95,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user jumps up high, then strikes with a kick.\nIf the kick misses, the user hurts itself.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage. If this move misses, is blocked by protect or detect, or has no effect, the user takes damage equal to half of its max HP rounded down.\n\nThis move cannot be used while gravity is in effect.",
+  "effect_text_simple": "If the user misses, it takes half the damage it would have inflicted in recoil."
+}

@@ -1,0 +1,251 @@
+{
+  "name": "tentacruel",
+  "id": 73,
+  "stock": true,
+  "base_experience": 180,
+  "size": {
+    "height": 1.6,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 55.0,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 80,
+    "attack": 70,
+    "defense": 65,
+    "special_attack": 80,
+    "special_defense": 120,
+    "speed": 100
+  },
+  "evs": {
+    "special_defense": 2
+  },
+  "types": [
+    "water",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "clear-body",
+      "liquid-ooze"
+    ],
+    "hidden": [
+      "rain-dish"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 19,
+        "moves": [
+          "wrap"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "poison-sting",
+          "supersonic",
+          "acid",
+          "water-gun",
+          "haze",
+          "constrict",
+          "mirror-coat",
+          "wring-out",
+          "reflect-type"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "surf"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "barrier"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "acid-armor"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "toxic-spikes"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "sludge-wave"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "acid-spray"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "hex"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "bind",
+      "headbutt",
+      "wrap",
+      "take-down",
+      "double-edge",
+      "poison-sting",
+      "supersonic",
+      "acid",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "hyper-beam",
+      "mega-drain",
+      "toxic",
+      "rage",
+      "mimic",
+      "screech",
+      "double-team",
+      "barrier",
+      "reflect",
+      "bide",
+      "waterfall",
+      "skull-bash",
+      "constrict",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "sludge-bomb",
+      "icy-wind",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "rain-dance",
+      "whirlpool",
+      "hail",
+      "facade",
+      "magic-coat",
+      "knock-off",
+      "secret-power",
+      "dive",
+      "muddy-water",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "payback",
+      "wring-out",
+      "toxic-spikes",
+      "poison-jab",
+      "giga-impact",
+      "cross-poison",
+      "captivate",
+      "venoshock",
+      "sludge-wave",
+      "acid-spray",
+      "round",
+      "scald",
+      "hex",
+      "reflect-type",
+      "confide",
+      "venom-drench",
+      "dazzling-gleam",
+      "infestation",
+      "brutal-swing",
+      "corrosive-gas"
+    ]
+  },
+  "loot_table": "minecraft:entities/squid",
+  "interactions": [
+    {
+      "male": true,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:wheat"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:ink_sac"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

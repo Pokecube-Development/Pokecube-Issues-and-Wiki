@@ -1,0 +1,202 @@
+{
+  "name": "uxie",
+  "id": 480,
+  "stock": true,
+  "base_experience": 290,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 0.3,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 140,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 75,
+    "attack": 75,
+    "defense": 130,
+    "special_attack": 75,
+    "special_defense": 130,
+    "speed": 95
+  },
+  "evs": {
+    "defense": 2,
+    "special_defense": 1
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 21,
+        "moves": [
+          "psybeam",
+          "swift"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "confusion",
+          "rest",
+          "flail",
+          "memento",
+          "natural-gift"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "yawn"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "imprison"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "extrasensory"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "headbutt",
+      "hyper-beam",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "confusion",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "metronome",
+      "swift",
+      "amnesia",
+      "dream-eater",
+      "flash",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "snore",
+      "flail",
+      "protect",
+      "mud-slap",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "baton-pass",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "memento",
+      "facade",
+      "helping-hand",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "yawn",
+      "knock-off",
+      "skill-swap",
+      "imprison",
+      "secret-power",
+      "signal-beam",
+      "extrasensory",
+      "calm-mind",
+      "shock-wave",
+      "water-pulse",
+      "natural-gift",
+      "u-turn",
+      "fling",
+      "drain-punch",
+      "energy-ball",
+      "giga-impact",
+      "nasty-plot",
+      "psycho-cut",
+      "zen-headbutt",
+      "trick-room",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "foul-play",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "acrobatics",
+      "draining-kiss",
+      "play-rough",
+      "confide",
+      "dazzling-gleam",
+      "power-up-punch",
+      "laser-focus",
+      "expanding-force"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple",
+        "rate": "0.0"
+      }
+    }
+  ]
+}

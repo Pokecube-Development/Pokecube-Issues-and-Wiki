@@ -1,0 +1,15 @@
+{
+  "name": "hyperfang",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d1:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~hyperfang",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.vicegrip",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8
+    }
+  ]
+}

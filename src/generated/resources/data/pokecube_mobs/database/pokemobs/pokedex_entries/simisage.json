@@ -1,0 +1,119 @@
+{
+  "name": "simisage",
+  "id": 512,
+  "stock": true,
+  "base_experience": 174,
+  "size": {
+    "height": 1.1,
+    "width": 1.1,
+    "length": 1.1
+  },
+  "mass": 30.5,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 75,
+    "attack": 98,
+    "defense": 63,
+    "special_attack": 98,
+    "special_defense": 63,
+    "speed": 101
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "gluttony"
+    ],
+    "hidden": [
+      "overgrow"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "lick",
+          "fury-swipes",
+          "seed-bomb"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "leer",
+      "hyper-beam",
+      "low-kick",
+      "solar-beam",
+      "dig",
+      "toxic",
+      "double-team",
+      "lick",
+      "flash",
+      "fury-swipes",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "giga-drain",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "uproar",
+      "torment",
+      "facade",
+      "focus-punch",
+      "nature-power",
+      "taunt",
+      "helping-hand",
+      "role-play",
+      "superpower",
+      "recycle",
+      "brick-break",
+      "knock-off",
+      "endeavor",
+      "secret-power",
+      "rock-tomb",
+      "covet",
+      "payback",
+      "fling",
+      "gastro-acid",
+      "worry-seed",
+      "seed-bomb",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "shadow-claw",
+      "gunk-shot",
+      "grass-knot",
+      "hone-claws",
+      "low-sweep",
+      "round",
+      "acrobatics",
+      "grass-pledge",
+      "work-up",
+      "confide",
+      "power-up-punch",
+      "throat-chop"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2"
+}

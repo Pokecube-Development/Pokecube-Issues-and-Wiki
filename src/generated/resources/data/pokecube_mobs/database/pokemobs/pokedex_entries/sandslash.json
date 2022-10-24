@@ -1,0 +1,268 @@
+{
+  "name": "sandslash",
+  "id": 28,
+  "stock": true,
+  "base_experience": 158,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 29.5,
+  "is_default": true,
+  "capture_rate": 90,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 75,
+    "attack": 100,
+    "defense": 110,
+    "special_attack": 45,
+    "special_defense": 55,
+    "speed": 65
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "sand-veil"
+    ],
+    "hidden": [
+      "sand-rush"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "sand-attack",
+          "poison-sting",
+          "counter",
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "dig"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "slash",
+          "protect"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "sandstorm"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "magnitude"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "rapid-spin"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "crush-claw"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "sand-tomb"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "gyro-ball"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bulldoze"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "swords-dance",
+      "cut",
+      "sand-attack",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "poison-sting",
+      "pin-missile",
+      "hyper-beam",
+      "submission",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "agility",
+      "rage",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "bide",
+      "swift",
+      "skull-bash",
+      "amnesia",
+      "leech-life",
+      "fury-swipes",
+      "rest",
+      "rock-slide",
+      "super-fang",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "spikes",
+      "detect",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "magnitude",
+      "dynamic-punch",
+      "rapid-spin",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "crush-claw",
+      "rock-tomb",
+      "sand-tomb",
+      "aerial-ace",
+      "mud-shot",
+      "covet",
+      "gyro-ball",
+      "natural-gift",
+      "fling",
+      "poison-jab",
+      "x-scissor",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "shadow-claw",
+      "rock-climb",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "hone-claws",
+      "round",
+      "bulldoze",
+      "work-up",
+      "drill-run",
+      "confide",
+      "throat-chop",
+      "stomping-tantrum",
+      "steel-roller",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/sand_rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

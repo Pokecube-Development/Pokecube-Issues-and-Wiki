@@ -1,0 +1,114 @@
+{
+  "name": "arcanine-hisui",
+  "id": 59,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 2.0,
+    "width": 1.0,
+    "length": 2.0
+  },
+  "mass": 168.0,
+  "is_default": false,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 95,
+    "attack": 115,
+    "defense": 80,
+    "special_attack": 95,
+    "special_defense": 80,
+    "speed": 90
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "fire",
+    "rock"
+  ],
+  "abilities": {
+    "normal": [
+      "intimidate",
+      "flash-fire"
+    ],
+    "hidden": [
+      "justified"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 9,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "ember"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "fire-fang"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "flare-blitz"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-fang",
+      "thunder-fang",
+      "rock-smash",
+      "bulldoze",
+      "aerial-ace",
+      "swift",
+      "rest",
+      "rock-slide",
+      "iron-head",
+      "iron-tail",
+      "snarl",
+      "giga-impact",
+      "wild-charge",
+      "stone-edge",
+      "outrage",
+      "play-rough",
+      "hyper-beam",
+      "flamethrower"
+    ]
+  },
+  "old_name": "arcanine_hisui"
+}

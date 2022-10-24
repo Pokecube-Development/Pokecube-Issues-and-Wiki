@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:ponyta",
+    "pokecube:ponyta-galar",
+    "pokecube:rapidash",
+    "pokecube:rapidash-galar",
+    "pokecube:mudbray",
+    "pokecube:mudsdale",
+    "pokecube:glastrier",
+    "pokecube:spectrier"
+  ]
+}

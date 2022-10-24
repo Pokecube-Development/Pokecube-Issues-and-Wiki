@@ -1,0 +1,211 @@
+{
+  "name": "rufflet",
+  "id": 627,
+  "stock": true,
+  "base_experience": 70,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 10.5,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 70,
+    "attack": 83,
+    "defense": 50,
+    "special_attack": 37,
+    "special_defense": 50,
+    "speed": 60
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "normal",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "keen-eye",
+      "sheer-force"
+    ],
+    "hidden": [
+      "hustle"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "wing-attack"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "whirlwind"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "fury-attack"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "peck"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "crush-claw"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "tailwind"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "brave-bird"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "defog"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "sky-drop"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "wing-attack",
+      "whirlwind",
+      "fly",
+      "fury-attack",
+      "thrash",
+      "leer",
+      "peck",
+      "strength",
+      "toxic",
+      "agility",
+      "double-team",
+      "swift",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
+      "heat-wave",
+      "facade",
+      "superpower",
+      "secret-power",
+      "crush-claw",
+      "rock-tomb",
+      "aerial-ace",
+      "bulk-up",
+      "roost",
+      "pluck",
+      "tailwind",
+      "u-turn",
+      "close-combat",
+      "assurance",
+      "air-slash",
+      "brave-bird",
+      "shadow-claw",
+      "zen-headbutt",
+      "defog",
+      "hone-claws",
+      "round",
+      "sky-drop",
+      "retaliate",
+      "work-up",
+      "hurricane",
+      "confide",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_1",
+  "evolutions": [
+    {
+      "name": "braviary",
+      "level": 54,
+      "evoMoves": "superpower"
+    },
+    {
+      "name": "braviary-hisui",
+      "level": 54,
+      "location": {
+        "and_preset": "snowy_areas"
+      }
+    }
+  ]
+}

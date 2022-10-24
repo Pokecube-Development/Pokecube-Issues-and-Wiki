@@ -1,0 +1,177 @@
+{
+  "name": "morpeko-full-belly",
+  "id": 877,
+  "stock": true,
+  "base_experience": 153,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 3.0,
+  "is_default": true,
+  "capture_rate": 180,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 58,
+    "attack": 95,
+    "defense": 58,
+    "special_attack": 70,
+    "special_defense": 58,
+    "speed": 97
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "electric",
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "hunger-switch"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 60,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tail-whip",
+          "thunder-shock"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "torment"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "flatter"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "bullet-seed"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "power-trip"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "aura-wheel"
+        ]
+      }
+    ],
+    "misc": [
+      "thunder-punch",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "agility",
+      "swift",
+      "rest",
+      "super-fang",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "scary-face",
+      "outrage",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "rapid-spin",
+      "crunch",
+      "fake-out",
+      "uproar",
+      "facade",
+      "charge",
+      "taunt",
+      "revenge",
+      "brick-break",
+      "fake-tears",
+      "tickle",
+      "bullet-seed",
+      "payback",
+      "assurance",
+      "fling",
+      "dark-pulse",
+      "seed-bomb",
+      "nasty-plot",
+      "thunder-fang",
+      "ice-fang",
+      "fire-fang",
+      "electro-ball",
+      "foul-play",
+      "round",
+      "quash",
+      "volt-switch",
+      "electroweb",
+      "wild-charge",
+      "snarl",
+      "parting-shot",
+      "electric-terrain",
+      "psychic-fangs",
+      "stomping-tantrum",
+      "rising-voltage",
+      "lash-out"
+    ]
+  },
+  "loot_table": "pokecube:entities/rotten_rabbit_1",
+  "old_name": "morpeko"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "magic-powder",
+  "id": 750,
+  "pp": 20,
+  "priority": 0,
+  "type": "psychic",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user scatters a cloud of magic powder that\nchanges the target to Psychic type.",
+  "move_category": "unique"
+}

@@ -1,0 +1,201 @@
+{
+  "name": "conkeldurr",
+  "id": 534,
+  "stock": true,
+  "base_experience": 253,
+  "size": {
+    "height": 1.4,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 87.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 105,
+    "attack": 140,
+    "defense": 95,
+    "special_attack": 55,
+    "special_defense": 65,
+    "speed": 45
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "guts",
+      "sheer-force"
+    ],
+    "hidden": [
+      "iron-fist"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "leer",
+          "focus-energy",
+          "bide"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "slam",
+          "chip-away"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "low-kick"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "rock-throw"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "dynamic-punch"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "focus-punch"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "bulk-up"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "wake-up-slap"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "hammer-arm"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "stone-edge"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "leer",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "rock-throw",
+      "earthquake",
+      "dig",
+      "toxic",
+      "double-team",
+      "focus-energy",
+      "bide",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "scary-face",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "rock-tomb",
+      "block",
+      "bulk-up",
+      "rock-blast",
+      "wake-up-slap",
+      "hammer-arm",
+      "close-combat",
+      "payback",
+      "fling",
+      "poison-jab",
+      "drain-punch",
+      "focus-blast",
+      "giga-impact",
+      "stone-edge",
+      "grass-knot",
+      "smack-down",
+      "low-sweep",
+      "round",
+      "chip-away",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "confide",
+      "power-up-punch",
+      "high-horsepower",
+      "brutal-swing",
+      "stomping-tantrum",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1"
+}

@@ -1,0 +1,204 @@
+{
+  "name": "houndoom",
+  "id": 229,
+  "stock": true,
+  "base_experience": 175,
+  "size": {
+    "height": 1.4,
+    "width": 0.6,
+    "length": 1.4
+  },
+  "mass": 35.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 75,
+    "attack": 90,
+    "defense": 50,
+    "special_attack": 110,
+    "special_defense": 80,
+    "speed": 95
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "dark",
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "early-bird",
+      "flash-fire"
+    ],
+    "hidden": [
+      "unnerve"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "ember",
+          "smog",
+          "howl",
+          "nasty-plot",
+          "thunder-fang",
+          "inferno"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "beat-up"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "odor-sleuth"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "embargo"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "fire-fang"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "foul-play"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "leer",
+      "bite",
+      "roar",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "counter",
+      "strength",
+      "solar-beam",
+      "toxic",
+      "mimic",
+      "double-team",
+      "smog",
+      "fire-blast",
+      "swift",
+      "dream-eater",
+      "rest",
+      "super-fang",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "curse",
+      "spite",
+      "protect",
+      "feint-attack",
+      "sludge-bomb",
+      "mud-slap",
+      "detect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "crunch",
+      "shadow-ball",
+      "rock-smash",
+      "beat-up",
+      "uproar",
+      "heat-wave",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "taunt",
+      "role-play",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "overheat",
+      "odor-sleuth",
+      "howl",
+      "natural-gift",
+      "payback",
+      "embargo",
+      "sucker-punch",
+      "dark-pulse",
+      "giga-impact",
+      "nasty-plot",
+      "thunder-fang",
+      "fire-fang",
+      "captivate",
+      "flame-charge",
+      "foul-play",
+      "round",
+      "incinerate",
+      "retaliate",
+      "inferno",
+      "snarl",
+      "confide",
+      "laser-focus",
+      "throat-chop"
+    ]
+  },
+  "loot_table": "pokecube:entities/blaze_rabbit_2",
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "houndoommega"
+    }
+  ]
+}

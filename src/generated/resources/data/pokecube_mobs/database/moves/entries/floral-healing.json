@@ -1,0 +1,14 @@
+{
+  "name": "floral-healing",
+  "id": 666,
+  "pp": 10,
+  "priority": 0,
+  "type": "fairy",
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user restores the target’s HP by up to half of its\nmax HP. It restores more HP when the terrain\nis grass.",
+  "move_category": "heal",
+  "healing": 50,
+  "effect_text_extend": "Heals the target for ½ its max HP.  If grassy terrain is in effect, heals for ⅔ instead.",
+  "effect_text_simple": "Heals the target for ½ its max HP, or ⅔ on Grassy Terrain."
+}

@@ -1,0 +1,31 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:charmander",
+    "pokecube:charmeleon",
+    "pokecube:charizard",
+    "pokecube:slowpoke",
+    "pokecube:slowpoke-galar",
+    "pokecube:slowbro",
+    "pokecube:slowbro-mega",
+    "pokecube:slowbro-galar",
+    "pokecube:treecko",
+    "pokecube:grovyle",
+    "pokecube:sceptile",
+    "pokecube:sceptile-mega",
+    "pokecube:kecleon",
+    "pokecube:helioptile",
+    "pokecube:heliolisk",
+    "pokecube:salazzle",
+    "pokecube:salandit",
+    "pokecube:jangmo-o",
+    "pokecube:hakamo-o",
+    "pokecube:kommo-o",
+    "pokecube:sobble",
+    "pokecube:drizzile",
+    "pokecube:inteleon",
+    "pokecube:toxel",
+    "pokecube:toxtricity-amped",
+    "pokecube:toxtricity-low-key"
+  ]
+}

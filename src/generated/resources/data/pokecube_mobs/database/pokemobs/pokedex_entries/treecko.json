@@ -1,0 +1,246 @@
+{
+  "name": "treecko",
+  "id": 252,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 5.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 40,
+    "attack": 45,
+    "defense": 35,
+    "special_attack": 65,
+    "special_defense": 55,
+    "speed": 70
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "unburden"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "leer"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "absorb"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "double-team"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "detect"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "endeavor"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "leaf-storm"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "quick-guard"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "leafage"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "mega-punch",
+      "thunder-punch",
+      "razor-wind",
+      "swords-dance",
+      "cut",
+      "slam",
+      "double-kick",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "leer",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "absorb",
+      "mega-drain",
+      "leech-seed",
+      "solar-beam",
+      "dig",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "mimic",
+      "screech",
+      "double-team",
+      "swift",
+      "flash",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "detect",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dynamic-punch",
+      "dragon-breath",
+      "pursuit",
+      "iron-tail",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "nature-power",
+      "brick-break",
+      "endeavor",
+      "secret-power",
+      "mud-sport",
+      "crush-claw",
+      "rock-tomb",
+      "grass-whistle",
+      "bullet-seed",
+      "aerial-ace",
+      "magical-leaf",
+      "natural-gift",
+      "assurance",
+      "fling",
+      "worry-seed",
+      "night-slash",
+      "seed-bomb",
+      "drain-punch",
+      "energy-ball",
+      "leaf-storm",
+      "captivate",
+      "grass-knot",
+      "round",
+      "quick-guard",
+      "acrobatics",
+      "grass-pledge",
+      "work-up",
+      "grassy-terrain",
+      "confide",
+      "power-up-punch",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_1",
+  "evolutions": [
+    {
+      "name": "grovyle",
+      "level": 16,
+      "animation": "18",
+      "evoMoves": "furycutter"
+    }
+  ]
+}

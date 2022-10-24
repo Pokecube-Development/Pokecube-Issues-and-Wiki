@@ -1,0 +1,10 @@
+{
+  "name": "bide",
+  "animations": [
+    {
+      "preset": "pons:~bide",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

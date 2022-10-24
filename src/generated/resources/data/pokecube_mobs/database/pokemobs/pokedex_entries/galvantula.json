@@ -1,0 +1,199 @@
+{
+  "name": "galvantula",
+  "id": 596,
+  "stock": true,
+  "base_experience": 165,
+  "size": {
+    "height": 0.8,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 14.3,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 70,
+    "attack": 77,
+    "defense": 60,
+    "special_attack": 97,
+    "special_defense": 60,
+    "speed": 108
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "bug",
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "compound-eyes",
+      "unnerve"
+    ],
+    "hidden": [
+      "swarm"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "absorb",
+          "string-shot",
+          "thunder-wave",
+          "leech-life",
+          "spider-web"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "signal-beam"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "gastro-acid"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "electro-ball"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "electroweb"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "sticky-web"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "pin-missile",
+      "hyper-beam",
+      "absorb",
+      "string-shot",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "agility",
+      "screech",
+      "double-team",
+      "light-screen",
+      "swift",
+      "leech-life",
+      "flash",
+      "rest",
+      "slash",
+      "substitute",
+      "thief",
+      "spider-web",
+      "snore",
+      "protect",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "facade",
+      "secret-power",
+      "signal-beam",
+      "bounce",
+      "shock-wave",
+      "gastro-acid",
+      "sucker-punch",
+      "magnet-rise",
+      "poison-jab",
+      "x-scissor",
+      "bug-buzz",
+      "energy-ball",
+      "giga-impact",
+      "discharge",
+      "cross-poison",
+      "bug-bite",
+      "charge-beam",
+      "electro-ball",
+      "round",
+      "volt-switch",
+      "struggle-bug",
+      "electroweb",
+      "wild-charge",
+      "sticky-web",
+      "confide",
+      "infestation",
+      "throat-chop",
+      "speed-swap",
+      "rising-voltage",
+      "skitter-smack"
+    ]
+  },
+  "loot_table": "pokecube:entities/redstone_spider_2"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "thrash",
+  "id": 37,
+  "power": 120,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "random-opponent",
+  "damage_class": "physical",
+  "flavor_text": "The user rampages and attacks for two to three\nturns. The user then becomes confused.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  User is forced to attack with this move for 2–3 turns,selected at random.  After the last hit, the user becomes confused.\n\nsafeguard does not protect against the confusion from this move.",
+  "effect_text_simple": "Hits every turn for 2-3 turns, then confuses the user."
+}

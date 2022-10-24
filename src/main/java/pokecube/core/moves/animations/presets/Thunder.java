@@ -4,7 +4,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
 import pokecube.core.moves.animations.AnimPreset;
 import pokecube.core.moves.animations.MoveAnimationBase;
 
@@ -23,7 +23,7 @@ public class Thunder extends MoveAnimationBase
     }
 
     @Override
-    public void initColour(final long time, final float partialTicks, final Move_Base move)
+    public void initColour(final long time, final float partialTicks, final MoveEntry move)
     {
         // No colouring for thunder.
     }

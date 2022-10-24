@@ -1,0 +1,126 @@
+{
+  "name": "clamperl",
+  "id": 366,
+  "stock": true,
+  "base_experience": 69,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 52.5,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 70,
+  "growth_rate": "slow-then-very-fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 35,
+    "attack": 64,
+    "defense": 85,
+    "special_attack": 74,
+    "special_defense": 55,
+    "speed": 32
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "shell-armor"
+    ],
+    "hidden": [
+      "rattled"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "water-gun",
+          "clamp",
+          "whirlpool",
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "shell-smash"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "double-edge",
+      "supersonic",
+      "water-gun",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "toxic",
+      "mimic",
+      "double-team",
+      "confuse-ray",
+      "barrier",
+      "waterfall",
+      "clamp",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "whirlpool",
+      "hail",
+      "facade",
+      "refresh",
+      "secret-power",
+      "dive",
+      "mud-sport",
+      "muddy-water",
+      "iron-defense",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "aqua-ring",
+      "captivate",
+      "round",
+      "scald",
+      "shell-smash",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/shulker_pearls_1",
+  "evolutions": [
+    {
+      "name": "huntail",
+      "item": {
+        "values": {
+          "id": "minecraft:flint"
+        }
+      },
+      "trade": true
+    },
+    {
+      "name": "gorebyss",
+      "item": {
+        "values": {
+          "id": "minecraft:feather"
+        }
+      },
+      "trade": true
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "name": "tyrogue",
+  "id": 236,
+  "stock": true,
+  "base_experience": 42,
+  "size": {
+    "height": 0.7,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 21.0,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 35,
+    "attack": 35,
+    "defense": 35,
+    "special_attack": 35,
+    "special_defense": 35,
+    "speed": 35
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "guts",
+      "steadfast"
+    ],
+    "hidden": [
+      "vital-spirit"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "focus-energy",
+          "foresight",
+          "fake-out",
+          "helping-hand"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "mega-kick",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "earthquake",
+      "toxic",
+      "mimic",
+      "double-team",
+      "focus-energy",
+      "swift",
+      "high-jump-kick",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "mind-reader",
+      "snore",
+      "curse",
+      "protect",
+      "mach-punch",
+      "mud-slap",
+      "foresight",
+      "detect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pursuit",
+      "rapid-spin",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
+      "fake-out",
+      "uproar",
+      "facade",
+      "helping-hand",
+      "role-play",
+      "brick-break",
+      "secret-power",
+      "bulk-up",
+      "covet",
+      "natural-gift",
+      "feint",
+      "vacuum-wave",
+      "bullet-punch",
+      "captivate",
+      "low-sweep",
+      "round",
+      "ally-switch",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "confide",
+      "laser-focus"
+    ]
+  },
+  "loot_table": "pokecube:entities/cow_1",
+  "evolutions": [
+    {
+      "name": "hitmonlee",
+      "level": 20,
+      "evoMoves": "doublekick"
+    },
+    {
+      "name": "hitmonchan",
+      "level": 20,
+      "evoMoves": "cometpunch"
+    },
+    {
+      "name": "hitmontop",
+      "level": 20,
+      "evoMoves": "rollingkick"
+    }
+  ]
+}

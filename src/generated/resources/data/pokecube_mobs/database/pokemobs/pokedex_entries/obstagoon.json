@@ -1,0 +1,195 @@
+{
+  "name": "obstagoon",
+  "id": 862,
+  "stock": true,
+  "base_experience": 260,
+  "size": {
+    "height": 1.6,
+    "width": 1.4,
+    "length": 1.2
+  },
+  "mass": 46.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 93,
+    "attack": 90,
+    "defense": 101,
+    "special_attack": 60,
+    "special_defense": 81,
+    "speed": 95
+  },
+  "evs": {
+    "defense": 3
+  },
+  "types": [
+    "dark",
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "reckless",
+      "guts"
+    ],
+    "hidden": [
+      "defiant"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "sand-attack",
+          "tackle",
+          "pin-missile",
+          "leer",
+          "submission",
+          "lick",
+          "cross-chop",
+          "night-slash",
+          "switcheroo",
+          "baby-doll-eyes"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "counter"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "snarl"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "obstruct"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "body-slam",
+      "pin-missile",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "low-kick",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "screech",
+      "focus-energy",
+      "swift",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "reversal",
+      "protect",
+      "scary-face",
+      "icy-wind",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "iron-tail",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "whirlpool",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "trick",
+      "revenge",
+      "brick-break",
+      "hyper-voice",
+      "fake-tears",
+      "iron-defense",
+      "bulk-up",
+      "mud-shot",
+      "close-combat",
+      "payback",
+      "assurance",
+      "fling",
+      "seed-bomb",
+      "x-scissor",
+      "giga-impact",
+      "shadow-claw",
+      "cross-poison",
+      "gunk-shot",
+      "grass-knot",
+      "round",
+      "retaliate",
+      "work-up",
+      "snarl",
+      "throat-chop",
+      "stomping-tantrum",
+      "body-press",
+      "obstruct",
+      "lash-out"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2"
+}

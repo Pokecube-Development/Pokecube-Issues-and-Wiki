@@ -1,0 +1,13 @@
+{
+  "name": "coil",
+  "id": 489,
+  "pp": 20,
+  "priority": 0,
+  "type": "poison",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user coils up and concentrates. This raises its\nAttack and Defense stats as well as its accuracy.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises the user's Attack, Defense, and accuracy by one stage each.",
+  "effect_text_simple": "Raises the user's Attack, Defense, and accuracy by one stage each."
+}

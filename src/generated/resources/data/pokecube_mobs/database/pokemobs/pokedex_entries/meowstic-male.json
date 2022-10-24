@@ -1,0 +1,259 @@
+{
+  "name": "meowstic-male",
+  "id": 678,
+  "stock": true,
+  "base_experience": 163,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 8.5,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 74,
+    "attack": 48,
+    "defense": 76,
+    "special_attack": 83,
+    "special_defense": 81,
+    "speed": 104
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "keen-eye",
+      "infiltrator"
+    ],
+    "hidden": [
+      "prankster"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "leer",
+          "confusion",
+          "mean-look",
+          "helping-hand",
+          "covet",
+          "quick-guard"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "reflect"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "fake-out"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "role-play"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "imprison"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "miracle-eye"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "psyshock"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "disarming-voice"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "misty-terrain"
+        ]
+      }
+    ],
+    "misc": [
+      "pay-day",
+      "scratch",
+      "cut",
+      "leer",
+      "psybeam",
+      "hyper-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "dig",
+      "toxic",
+      "confusion",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "endure",
+      "charm",
+      "swagger",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "fake-out",
+      "torment",
+      "facade",
+      "helping-hand",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "skill-swap",
+      "imprison",
+      "snatch",
+      "secret-power",
+      "fake-tears",
+      "signal-beam",
+      "covet",
+      "calm-mind",
+      "shock-wave",
+      "gravity",
+      "miracle-eye",
+      "payback",
+      "sucker-punch",
+      "dark-pulse",
+      "energy-ball",
+      "giga-impact",
+      "nasty-plot",
+      "zen-headbutt",
+      "trick-room",
+      "charge-beam",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "round",
+      "echoed-voice",
+      "quick-guard",
+      "ally-switch",
+      "work-up",
+      "tail-slap",
+      "disarming-voice",
+      "misty-terrain",
+      "play-rough",
+      "confide",
+      "power-up-punch",
+      "psychic-terrain",
+      "expanding-force"
+    ]
+  },
+  "male_model": {
+    "key": "meowstic_m",
+    "model": "meowstic_m",
+    "anim": "meowstic_m"
+  },
+  "female_model": {
+    "key": "meowstic_f",
+    "model": "meowstic_f",
+    "anim": "meowstic_f"
+  },
+  "loot_table": "pokecube:entities/rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "old_name": "meowstic"
+}

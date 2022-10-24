@@ -1,0 +1,50 @@
+{
+  "name": "hyperspacefury",
+  "animations": [
+    {
+      "preset": "cartFunc:atrue:d0.08:pdragon_breath:w1:l8:rtrue:f(0.5-rand())*(6),-3,(0.5-rand())*(6):~hyperspacefury",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "minecraft:entity.illusioner.mirror_move",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 0.9,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:atrue:d0.08:pdragon_breath:w1:l14:f(0.5-rand())*(6),5,(0.5-rand())*(6):~hyperspacefury",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "minecraft:entity.illusioner.mirror_move",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 2.0,
+      "pitch": 0.9,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:atrue:d0.1:pend_rod:w1:l14:f(0.5-rand())*(4),5,(0.5-rand())*(4):~hyperspacehole:~hyperspacefury",
+      "duration": "5",
+      "starttick": "4",
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:atrue:d0.1:pend_rod:rtrue:w1:l8:f(0.5-rand())*(4),-3,(0.5-rand())*(4):~hyperspacehole:~hyperspacefury",
+      "duration": "5",
+      "starttick": "0",
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:atrue:d0.07:psmoke:l30:f(0.5-rand())*(2),(0.5-rand())*(10),(0.5-rand())*(2):~hyperspacefury",
+      "duration": "5",
+      "starttick": "5",
+      "sound": "minecraft:entity.wither.spawn",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 2.0,
+      "pitch": 2.0,
+      "applyAfter": false
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "woodhammer",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:atrue:d1:w1:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~woodhammer",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:pmisc:d0.2:w0.5:atrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~woodhammer",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pcloud:atrue:d0.5:w2:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~woodhammer",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

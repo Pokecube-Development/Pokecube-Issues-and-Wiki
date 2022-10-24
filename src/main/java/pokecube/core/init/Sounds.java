@@ -4,10 +4,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.moves.json.JsonMoves;
-import pokecube.core.database.moves.json.JsonMoves.AnimationJson;
-import pokecube.core.database.moves.json.JsonMoves.MoveJsonEntry;
-import pokecube.core.database.moves.json.JsonMoves.MovesJson;
+import pokecube.core.database.moves.json.Animations.AnimationJson;
+import pokecube.core.database.moves.json.Moves;
 
 public class Sounds
 {
@@ -53,25 +51,25 @@ public class Sounds
     public static void initMoveSounds()
     {
         // null as it should have been populated already
-        final MovesJson moves = JsonMoves.moves;
-        for (final MoveJsonEntry entry : moves.moves)
+        for (final var entry : Moves.ALL_MOVES)
         {
             // Register sound on source
-            if (entry.soundEffectSource != null)
+            if (entry.move.sound_effect_source != null)
             {
-                final ResourceLocation sound = new ResourceLocation(entry.soundEffectSource);
+                final ResourceLocation sound = new ResourceLocation(entry.move.sound_effect_source);
                 final SoundEvent event = new SoundEvent(sound);
                 if (!sound.getNamespace().equals("minecraft")) registerIfNotPresent(sound, event);
             }
             // Register sound on target
-            if (entry.soundEffectTarget != null)
+            if (entry.move.sound_effect_target != null)
             {
-                final ResourceLocation sound = new ResourceLocation(entry.soundEffectTarget);
+                final ResourceLocation sound = new ResourceLocation(entry.move.sound_effect_target);
                 final SoundEvent event = new SoundEvent(sound);
                 if (!sound.getNamespace().equals("minecraft")) registerIfNotPresent(sound, event);
             }
             // Register sounds for the animations
-            if (entry.animations != null) for (final AnimationJson anim : entry.animations) if (anim.sound != null)
+            if (entry.animation.animations != null)
+                for (final AnimationJson anim : entry.animation.animations) if (anim.sound != null)
             {
                 final ResourceLocation sound = new ResourceLocation(anim.sound);
                 final SoundEvent event = new SoundEvent(sound);

@@ -1,0 +1,15 @@
+{
+  "name": "megahorn",
+  "id": 224,
+  "power": 120,
+  "pp": 10,
+  "priority": 0,
+  "type": "bug",
+  "accuracy": 85,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "Using its tough and impressive horn, the user rams\ninto the target with no letup.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.",
+  "effect_text_simple": "Inflicts regular damage with no additional effect."
+}

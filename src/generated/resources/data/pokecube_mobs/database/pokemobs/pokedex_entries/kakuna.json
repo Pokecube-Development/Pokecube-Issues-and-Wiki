@@ -1,0 +1,62 @@
+{
+  "name": "kakuna",
+  "id": 14,
+  "stock": true,
+  "base_experience": 72,
+  "size": {
+    "height": 0.7,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 10.0,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 45,
+    "attack": 25,
+    "defense": 50,
+    "special_attack": 25,
+    "special_defense": 25,
+    "speed": 35
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "bug",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "shed-skin"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 0,
+        "moves": [
+          "harden"
+        ]
+      }
+    ],
+    "misc": [
+      "string-shot",
+      "harden",
+      "iron-defense",
+      "bug-bite",
+      "electroweb"
+    ]
+  },
+  "loot_table": "minecraft:entities/spider",
+  "evolutions": [
+    {
+      "name": "beedrill",
+      "level": 10,
+      "evoMoves": "twineedle"
+    }
+  ]
+}

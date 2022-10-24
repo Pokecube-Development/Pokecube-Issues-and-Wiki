@@ -1,0 +1,231 @@
+{
+  "name": "shellos",
+  "id": 422,
+  "stock": true,
+  "base_experience": 65,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 6.3,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 76,
+    "attack": 48,
+    "defense": 48,
+    "special_attack": 57,
+    "special_defense": 62,
+    "speed": 34
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "sticky-hold",
+      "storm-drain"
+    ],
+    "hidden": [
+      "sand-force"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 29,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "water-gun",
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "harden"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "hidden-power"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "memento"
+        ]
+      },
+      {
+        "L": 2,
+        "moves": [
+          "mud-sport"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "muddy-water"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "mud-bomb"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "body-slam",
+      "mist",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "counter",
+      "string-shot",
+      "fissure",
+      "toxic",
+      "double-team",
+      "recover",
+      "harden",
+      "sludge",
+      "amnesia",
+      "acid-armor",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "hidden-power",
+      "rain-dance",
+      "mirror-coat",
+      "ancient-power",
+      "whirlpool",
+      "stockpile",
+      "spit-up",
+      "swallow",
+      "hail",
+      "memento",
+      "facade",
+      "yawn",
+      "secret-power",
+      "dive",
+      "mud-sport",
+      "muddy-water",
+      "mud-shot",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "trump-card",
+      "earth-power",
+      "mud-bomb",
+      "captivate",
+      "round",
+      "clear-smog",
+      "scald",
+      "confide",
+      "infestation",
+      "skitter-smack"
+    ]
+  },
+  "model": {
+    "key": "shellos_east",
+    "tex": "shellos_east",
+    "model": "shellos_east",
+    "anim": "shellos_east"
+  },
+  "models": [
+    {
+      "key": "shellos_east",
+      "tex": "shellos_east",
+      "model": "shellos_east",
+      "anim": "shellos_east"
+    },
+    {
+      "key": "shellos_west",
+      "tex": "shellos_west",
+      "model": "shellos_west",
+      "anim": "shellos_west"
+    }
+  ],
+  "loot_table": "pokecube:entities/slimeballs_1",
+  "evolutions": [
+    {
+      "name": "gastrodon",
+      "level": 30,
+      "form_from": "shellos_east",
+      "model": {
+        "key": "gastrodon_east",
+        "tex": "gastrodon_east",
+        "model": "gastrodon_east",
+        "anim": "gastrodon_east"
+      }
+    },
+    {
+      "name": "gastrodon",
+      "level": 30,
+      "form_from": "shellos_west",
+      "model": {
+        "key": "gastrodon_west",
+        "tex": "gastrodon_west",
+        "model": "gastrodon_west",
+        "anim": "gastrodon_west"
+      }
+    }
+  ]
+}

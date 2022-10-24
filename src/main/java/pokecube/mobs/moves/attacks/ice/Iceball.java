@@ -6,6 +6,6 @@ public class Iceball extends Rollout
 {
     public Iceball()
     {
-        super("iceball");
+        super("ice-ball");
     }
 }

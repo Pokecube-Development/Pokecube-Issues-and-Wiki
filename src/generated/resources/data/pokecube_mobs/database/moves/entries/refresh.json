@@ -1,0 +1,13 @@
+{
+  "name": "refresh",
+  "id": 287,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user rests to cure itself of poisoning, a burn,\nor paralysis.",
+  "move_category": "unique",
+  "effect_text_extend": "Removes a burn, paralysis, or poison from the user.",
+  "effect_text_simple": "Cleanses the user of a burn, paralysis, or poison."
+}

@@ -1,0 +1,16 @@
+{
+  "name": "absorb",
+  "id": 71,
+  "power": 20,
+  "pp": 25,
+  "priority": 0,
+  "type": "grass",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "A nutrient-draining attack. The user’s HP is restored\nby half the damage taken by the target.",
+  "move_category": "damage+heal",
+  "drain": 50,
+  "effect_text_extend": "Inflicts regular damage.  Drains half the damage inflicted to heal the user.",
+  "effect_text_simple": "Drains half the damage inflicted to heal the user."
+}

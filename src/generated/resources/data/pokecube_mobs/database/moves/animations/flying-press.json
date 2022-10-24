@@ -1,0 +1,25 @@
+{
+  "name": "flyingpress",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d0.8:w1:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~flyingpress",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.1
+    },
+    {
+      "preset": "cartFunc:d2:pcrit:~flyingpress",
+      "duration": "0",
+      "starttick": "0",
+      "sound": "pokecube:moves.gustwind",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

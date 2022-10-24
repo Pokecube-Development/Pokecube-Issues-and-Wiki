@@ -1,0 +1,97 @@
+{
+  "name": "zorua-hisui",
+  "id": 570,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 12.5,
+  "is_default": false,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 35,
+    "attack": 60,
+    "defense": 40,
+    "special_attack": 85,
+    "special_defense": 40,
+    "speed": 70
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "normal",
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "illusion"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "shadow-sneak"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "snarl"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": []
+      },
+      {
+        "L": 35,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "shadow-claw"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "nasty-plot"
+        ]
+      }
+    ],
+    "misc": [
+      "aerial-ace",
+      "swift",
+      "calm-mind",
+      "rest",
+      "shadow-ball",
+      "snarl",
+      "dark-pulse"
+    ]
+  },
+  "evolutions": [
+    {
+      "name": "zoroark-hisui",
+      "level": 30
+    }
+  ],
+  "old_name": "zorua_hisui"
+}

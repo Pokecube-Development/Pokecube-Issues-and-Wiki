@@ -1,0 +1,175 @@
+{
+  "name": "amoonguss",
+  "id": 591,
+  "stock": true,
+  "base_experience": 162,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 10.5,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 114,
+    "attack": 85,
+    "defense": 70,
+    "special_attack": 85,
+    "special_defense": 80,
+    "speed": 30
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "grass",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "effect-spore"
+    ],
+    "hidden": [
+      "regenerator"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "absorb",
+          "growth",
+          "stun-spore",
+          "bide",
+          "astonish"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "spore"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "ingrain"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "rage-powder"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "clear-smog"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "hyper-beam",
+      "absorb",
+      "mega-drain",
+      "growth",
+      "solar-beam",
+      "toxic",
+      "double-team",
+      "bide",
+      "spore",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "feint-attack",
+      "sludge-bomb",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "facade",
+      "nature-power",
+      "ingrain",
+      "secret-power",
+      "astonish",
+      "payback",
+      "gastro-acid",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "giga-impact",
+      "grass-knot",
+      "venoshock",
+      "rage-powder",
+      "foul-play",
+      "after-you",
+      "round",
+      "clear-smog",
+      "hex",
+      "grassy-terrain",
+      "confide",
+      "pollen-puff",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/both_shrooms_2"
+}

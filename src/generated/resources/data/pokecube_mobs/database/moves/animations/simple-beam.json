@@ -1,0 +1,10 @@
+{
+  "name": "simplebeam",
+  "animations": [
+    {
+      "preset": "beam:~simplebeam",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

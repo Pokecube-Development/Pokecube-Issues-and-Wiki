@@ -1,0 +1,161 @@
+{
+  "name": "poipole",
+  "id": 803,
+  "stock": true,
+  "base_experience": 210,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 1.8,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 67,
+    "attack": 73,
+    "defense": 67,
+    "special_attack": 73,
+    "special_defense": 67,
+    "speed": 73
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "beast-boost"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 7,
+        "moves": [
+          "fury-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "growl",
+          "acid",
+          "peck",
+          "helping-hand",
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "gastro-acid"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "venoshock"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "fell-stinger"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "venom-drench"
+        ]
+      }
+    ],
+    "misc": [
+      "fury-attack",
+      "pin-missile",
+      "growl",
+      "acid",
+      "peck",
+      "toxic",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "sludge-bomb",
+      "endure",
+      "charm",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "uproar",
+      "facade",
+      "helping-hand",
+      "snatch",
+      "signal-beam",
+      "covet",
+      "gastro-acid",
+      "toxic-spikes",
+      "poison-jab",
+      "dragon-pulse",
+      "nasty-plot",
+      "gunk-shot",
+      "venoshock",
+      "sludge-wave",
+      "round",
+      "echoed-voice",
+      "fell-stinger",
+      "confide",
+      "venom-drench"
+    ]
+  },
+  "loot_table": "pokecube:entities/spider",
+  "spawn_rules": [
+    {
+      "values": {
+        "types": "#pokecube_legends:can_spawn/poipole",
+        "min": "1",
+        "rate": "0.2",
+        "max": "1"
+      }
+    }
+  ],
+  "evolutions": [
+    {
+      "name": "naganadel",
+      "move": "dragonpulse",
+      "evoMoves": "aircutter"
+    }
+  ]
+}

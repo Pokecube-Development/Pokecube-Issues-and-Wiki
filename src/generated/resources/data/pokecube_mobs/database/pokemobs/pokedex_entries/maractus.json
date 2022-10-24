@@ -1,0 +1,218 @@
+{
+  "name": "maractus",
+  "id": 556,
+  "stock": true,
+  "base_experience": 161,
+  "size": {
+    "height": 1.0,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 28.0,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 75,
+    "attack": 86,
+    "defense": 67,
+    "special_attack": 106,
+    "special_defense": 67,
+    "speed": 60
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "water-absorb",
+      "chlorophyll"
+    ],
+    "hidden": [
+      "storm-drain"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "pin-missile"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "peck",
+          "absorb",
+          "after-you",
+          "cotton-guard",
+          "spiky-shield"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "petal-dance"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "cotton-spore"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "sunny-day"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "ingrain"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "needle-arm"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "acupressure"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "petal-blizzard"
+        ]
+      }
+    ],
+    "misc": [
+      "pin-missile",
+      "peck",
+      "absorb",
+      "mega-drain",
+      "leech-seed",
+      "growth",
+      "solar-beam",
+      "petal-dance",
+      "toxic",
+      "screech",
+      "double-team",
+      "rest",
+      "substitute",
+      "snore",
+      "cotton-spore",
+      "protect",
+      "spikes",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "uproar",
+      "facade",
+      "nature-power",
+      "helping-hand",
+      "ingrain",
+      "knock-off",
+      "endeavor",
+      "secret-power",
+      "needle-arm",
+      "hyper-voice",
+      "weather-ball",
+      "grass-whistle",
+      "bullet-seed",
+      "aerial-ace",
+      "bounce",
+      "acupressure",
+      "assurance",
+      "worry-seed",
+      "sucker-punch",
+      "poison-jab",
+      "seed-bomb",
+      "drain-punch",
+      "energy-ball",
+      "leaf-storm",
+      "grass-knot",
+      "wood-hammer",
+      "after-you",
+      "round",
+      "cotton-guard",
+      "petal-blizzard",
+      "grassy-terrain",
+      "confide",
+      "spiky-shield",
+      "throat-chop",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/cactus"
+}

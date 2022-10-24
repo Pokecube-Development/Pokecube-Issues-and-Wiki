@@ -1,0 +1,226 @@
+{
+  "name": "feraligatr",
+  "id": 160,
+  "stock": true,
+  "base_experience": 239,
+  "size": {
+    "height": 2.3,
+    "width": 1.7,
+    "length": 1.7
+  },
+  "mass": 88.8,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 85,
+    "attack": 105,
+    "defense": 100,
+    "special_attack": 79,
+    "special_defense": 83,
+    "speed": 78
+  },
+  "evs": {
+    "attack": 2,
+    "defense": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+      "sheer-force"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "leer",
+          "water-gun",
+          "agility",
+          "rage"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 76,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 71,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "ice-fang"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "chip-away"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "scratch",
+      "swords-dance",
+      "cut",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "thrash",
+      "double-edge",
+      "leer",
+      "bite",
+      "roar",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "earthquake",
+      "dig",
+      "toxic",
+      "agility",
+      "rage",
+      "mimic",
+      "screech",
+      "double-team",
+      "waterfall",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "curse",
+      "flail",
+      "spite",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "icy-wind",
+      "detect",
+      "outrage",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "crunch",
+      "ancient-power",
+      "rock-smash",
+      "whirlpool",
+      "uproar",
+      "hail",
+      "facade",
+      "focus-punch",
+      "superpower",
+      "brick-break",
+      "secret-power",
+      "dive",
+      "hydro-cannon",
+      "rock-tomb",
+      "aerial-ace",
+      "block",
+      "dragon-claw",
+      "water-pulse",
+      "natural-gift",
+      "fling",
+      "aqua-tail",
+      "dragon-pulse",
+      "focus-blast",
+      "giga-impact",
+      "avalanche",
+      "shadow-claw",
+      "ice-fang",
+      "rock-climb",
+      "captivate",
+      "hone-claws",
+      "round",
+      "chip-away",
+      "scald",
+      "water-pledge",
+      "bulldoze",
+      "dragon-tail",
+      "work-up",
+      "confide",
+      "power-up-punch",
+      "liquidation"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1"
+}

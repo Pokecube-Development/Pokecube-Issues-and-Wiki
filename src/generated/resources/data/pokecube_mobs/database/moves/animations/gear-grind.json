@@ -1,0 +1,15 @@
+{
+  "name": "geargrind",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:d1.5:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~geargrind",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.metalclaw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4
+    }
+  ]
+}

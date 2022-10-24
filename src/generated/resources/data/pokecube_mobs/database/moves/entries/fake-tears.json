@@ -1,0 +1,14 @@
+{
+  "name": "fake-tears",
+  "id": 313,
+  "pp": 20,
+  "priority": 0,
+  "type": "dark",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user feigns crying to fluster the target, harshly\nlowering its Sp. Def stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Lowers the target's Special Defense by two stages.",
+  "effect_text_simple": "Lowers the target's Special Defense by two stages."
+}

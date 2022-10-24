@@ -5,8 +5,8 @@ import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.core.moves.templates.Move_Explode;
+import pokecube.api.moves.utils.MoveApplication;
+import pokecube.core.database.tags.Tags;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
@@ -52,9 +52,9 @@ public class Damp extends Ability
     }
 
     @Override
-    public void onMoveUse(final IPokemob mob, final MovePacket move)
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        if (move.getMove() instanceof Move_Explode)
+        if (Tags.MOVE.isIn("damp_affected", move.getName()))
         {
             move.failed = true;
             move.canceled = true;

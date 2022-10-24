@@ -1,0 +1,15 @@
+{
+  "name": "psychicterrain",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:cmagenta:d0.023:w4:rtrue:l650:f(0.5-rand())*(18),(0.5-rand())*(8),(0.5-rand())*(18):~psychicterrain",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pexplosion_emitter:cmagenta:d0.03:w4:rtrue:l650:f(0.5-rand())*(5),(0.5-rand())*(5),(0.5-rand())*(5):~psychicterrain",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

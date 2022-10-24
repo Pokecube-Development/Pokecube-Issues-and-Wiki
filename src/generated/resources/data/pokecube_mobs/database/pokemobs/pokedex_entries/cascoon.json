@@ -1,0 +1,61 @@
+{
+  "name": "cascoon",
+  "id": 268,
+  "stock": true,
+  "base_experience": 72,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 11.5,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 50,
+    "attack": 35,
+    "defense": 55,
+    "special_attack": 25,
+    "special_defense": 25,
+    "speed": 15
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "bug"
+  ],
+  "abilities": {
+    "normal": [
+      "shed-skin"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 0,
+        "moves": [
+          "harden"
+        ]
+      }
+    ],
+    "misc": [
+      "string-shot",
+      "harden",
+      "iron-defense",
+      "bug-bite",
+      "electroweb"
+    ]
+  },
+  "loot_table": "minecraft:entities/spider",
+  "evolutions": [
+    {
+      "name": "dustox",
+      "level": 10,
+      "evoMoves": "gust"
+    }
+  ]
+}

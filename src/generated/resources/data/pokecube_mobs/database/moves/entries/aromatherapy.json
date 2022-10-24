@@ -1,0 +1,13 @@
+{
+  "name": "aromatherapy",
+  "id": 312,
+  "pp": 5,
+  "priority": 0,
+  "type": "grass",
+  "target": "user-and-allies",
+  "damage_class": "status",
+  "flavor_text": "The user releases a soothing scent that heals all\nstatus conditions affecting the user’s party.",
+  "move_category": "unique",
+  "effect_text_extend": "Removes major status effects and confusion from every Pokémon in the user's party.",
+  "effect_text_simple": "Cures the entire party of major status effects."
+}

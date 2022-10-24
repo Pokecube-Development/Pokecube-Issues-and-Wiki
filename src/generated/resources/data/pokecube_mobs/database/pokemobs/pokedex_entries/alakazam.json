@@ -1,0 +1,280 @@
+{
+  "name": "alakazam",
+  "id": 65,
+  "stock": true,
+  "base_experience": 250,
+  "size": {
+    "height": 1.5,
+    "width": 1.5,
+    "length": 1.5
+  },
+  "mass": 48.0,
+  "is_default": true,
+  "capture_rate": 50,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 55,
+    "attack": 50,
+    "defense": 45,
+    "special_attack": 135,
+    "special_defense": 95,
+    "speed": 120
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "synchronize",
+      "inner-focus"
+    ],
+    "hidden": [
+      "magic-guard"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 18,
+        "moves": [
+          "disable"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "confusion",
+          "teleport",
+          "barrier",
+          "flash",
+          "encore"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "night-shade"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "reflect",
+          "substitute"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "kinesis"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "trick"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "role-play"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "miracle-eye"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "psycho-cut"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "psyshock"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "telekinesis"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "ally-switch"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "disable",
+      "psybeam",
+      "hyper-beam",
+      "submission",
+      "counter",
+      "seismic-toss",
+      "thunder-wave",
+      "dig",
+      "toxic",
+      "confusion",
+      "psychic",
+      "rage",
+      "teleport",
+      "mimic",
+      "double-team",
+      "recover",
+      "light-screen",
+      "reflect",
+      "bide",
+      "metronome",
+      "swift",
+      "skull-bash",
+      "kinesis",
+      "dream-eater",
+      "flash",
+      "psywave",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "curse",
+      "protect",
+      "zap-cannon",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dynamic-punch",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "torment",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "knock-off",
+      "skill-swap",
+      "imprison",
+      "snatch",
+      "secret-power",
+      "signal-beam",
+      "calm-mind",
+      "shock-wave",
+      "gravity",
+      "miracle-eye",
+      "natural-gift",
+      "embargo",
+      "fling",
+      "power-swap",
+      "guard-swap",
+      "drain-punch",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "nasty-plot",
+      "psycho-cut",
+      "zen-headbutt",
+      "trick-room",
+      "captivate",
+      "grass-knot",
+      "charge-beam",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "foul-play",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "confide",
+      "dazzling-gleam",
+      "laser-focus",
+      "psychic-terrain",
+      "speed-swap",
+      "expanding-force"
+    ]
+  },
+  "male_model": {
+    "key": "alakazam_male",
+    "tex": "alakazam",
+    "model": "alakazam_male",
+    "anim": "alakazam_male"
+  },
+  "female_model": {
+    "key": "alakazam_female",
+    "tex": "alakazam",
+    "model": "alakazam_female",
+    "anim": "alakazam_female"
+  },
+  "loot_table": "pokecube:entities/enderpearls_3",
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "alakazammega"
+    }
+  ]
+}

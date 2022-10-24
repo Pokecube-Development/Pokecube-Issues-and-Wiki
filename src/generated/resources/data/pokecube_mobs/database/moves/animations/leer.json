@@ -1,0 +1,15 @@
+{
+  "name": "leer",
+  "animations": [
+    {
+      "preset": "cartFunc:pend_rod:d1:w0.5:rtrue:atrue:~leer",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.payday",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.7
+    }
+  ]
+}

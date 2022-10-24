@@ -1,0 +1,25 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:quilava",
+    "pokecube:typhlosion",
+    "pokecube:furret",
+    "pokecube:sneasel",
+    "pokecube:zigzagoon",
+    "pokecube:zigzagoon-galar",
+    "pokecube:linoone",
+    "pokecube:linoone-galar",
+    "pokecube:zangoose",
+    "pokecube:buizel",
+    "pokecube:floatzel",
+    "pokecube:stunky",
+    "pokecube:skuntank",
+    "pokecube:weavile",
+    "pokecube:oshawott",
+    "pokecube:dewott",
+    "pokecube:samurott",
+    "pokecube:patrat",
+    "pokecube:watchog",
+    "pokecube:obstagoon"
+  ]
+}

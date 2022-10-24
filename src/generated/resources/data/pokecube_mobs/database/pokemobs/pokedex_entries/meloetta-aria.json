@@ -1,0 +1,227 @@
+{
+  "name": "meloetta-aria",
+  "id": 648,
+  "stock": true,
+  "base_experience": 270,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 6.5,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 100,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 100,
+    "attack": 77,
+    "defense": 77,
+    "special_attack": 128,
+    "special_defense": 128,
+    "speed": 90
+  },
+  "evs": {
+    "special_attack": 1,
+    "special_defense": 1,
+    "speed": 1
+  },
+  "types": [
+    "normal",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "serene-grace"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "sing",
+          "confusion",
+          "quick-attack",
+          "round"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 85,
+        "moves": [
+          "perish-song"
+        ]
+      },
+      {
+        "L": 71,
+        "moves": [
+          "role-play"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "teeter-dance"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "hyper-voice"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "wake-up-slap"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "u-turn"
+        ]
+      },
+      {
+        "L": 78,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "echoed-voice"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "acrobatics"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "sing",
+      "psybeam",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "confusion",
+      "psychic",
+      "quick-attack",
+      "double-team",
+      "light-screen",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "perish-song",
+      "swagger",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "uproar",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "brick-break",
+      "knock-off",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "teeter-dance",
+      "hyper-voice",
+      "signal-beam",
+      "covet",
+      "calm-mind",
+      "shock-wave",
+      "gravity",
+      "wake-up-slap",
+      "u-turn",
+      "close-combat",
+      "payback",
+      "embargo",
+      "fling",
+      "last-resort",
+      "drain-punch",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "shadow-claw",
+      "zen-headbutt",
+      "trick-room",
+      "stone-edge",
+      "grass-knot",
+      "charge-beam",
+      "hone-claws",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "low-sweep",
+      "round",
+      "echoed-voice",
+      "ally-switch",
+      "acrobatics",
+      "retaliate",
+      "work-up",
+      "dual-chop",
+      "relic-song",
+      "confide",
+      "dazzling-gleam",
+      "power-up-punch",
+      "laser-focus"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:nature_place",
+        "rate": "0.0"
+      }
+    }
+  ],
+  "mega_rules": [
+    {
+      "name": "Meloetta Pirouette",
+      "move": "relicsong"
+    }
+  ],
+  "old_name": "meloetta_aria"
+}

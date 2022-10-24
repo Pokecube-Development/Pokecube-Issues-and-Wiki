@@ -1,0 +1,154 @@
+{
+  "name": "stonjourner",
+  "id": 874,
+  "stock": true,
+  "base_experience": 165,
+  "size": {
+    "height": 2.5,
+    "width": 2.5,
+    "length": 1.5
+  },
+  "mass": 520.0,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 100,
+    "attack": 125,
+    "defense": 135,
+    "special_attack": 20,
+    "special_defense": 20,
+    "speed": 70
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "rock"
+  ],
+  "abilities": {
+    "normal": [
+      "power-spot"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 24,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "mega-kick"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "rock-throw",
+          "block"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "rock-tomb"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "gravity"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "rock-polish"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "wide-guard"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "heavy-slam"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-kick",
+      "body-slam",
+      "hyper-beam",
+      "earthquake",
+      "self-destruct",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "sandstorm",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "safeguard",
+      "ancient-power",
+      "facade",
+      "superpower",
+      "imprison",
+      "rock-tomb",
+      "sand-tomb",
+      "iron-defense",
+      "rock-blast",
+      "assurance",
+      "earth-power",
+      "giga-impact",
+      "stone-edge",
+      "stealth-rock",
+      "wonder-room",
+      "heavy-slam",
+      "round",
+      "bulldoze",
+      "heat-crash",
+      "brutal-swing",
+      "stomping-tantrum",
+      "body-press",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/cobble_1"
+}

@@ -1,0 +1,128 @@
+{
+  "name": "aegislash-shield",
+  "id": 681,
+  "stock": true,
+  "base_experience": 250,
+  "size": {
+    "height": 1.7,
+    "width": 1.4,
+    "length": 1.4
+  },
+  "mass": 53.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 50,
+    "defense": 140,
+    "special_attack": 50,
+    "special_defense": 140,
+    "speed": 60
+  },
+  "evs": {
+    "defense": 2,
+    "special_defense": 1
+  },
+  "types": [
+    "steel",
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "stance-change"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "swords-dance",
+          "tackle",
+          "slash",
+          "fury-cutter",
+          "pursuit",
+          "metal-sound",
+          "aerial-ace",
+          "iron-defense",
+          "power-trick",
+          "night-slash",
+          "shadow-sneak",
+          "iron-head",
+          "head-smash",
+          "autotomize",
+          "retaliate",
+          "sacred-sword",
+          "kings-shield"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "hyper-beam",
+      "toxic",
+      "screech",
+      "double-team",
+      "reflect",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "reversal",
+      "spite",
+      "protect",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pursuit",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "rock-smash",
+      "facade",
+      "brick-break",
+      "secret-power",
+      "aerial-ace",
+      "iron-defense",
+      "block",
+      "shock-wave",
+      "gyro-ball",
+      "close-combat",
+      "power-trick",
+      "magnet-rise",
+      "night-slash",
+      "air-slash",
+      "giga-impact",
+      "shadow-claw",
+      "shadow-sneak",
+      "psycho-cut",
+      "flash-cannon",
+      "iron-head",
+      "head-smash",
+      "autotomize",
+      "after-you",
+      "round",
+      "retaliate",
+      "sacred-sword",
+      "kings-shield",
+      "confide",
+      "solar-blade",
+      "laser-focus",
+      "brutal-swing",
+      "steel-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_3",
+  "old_name": "aegislash_shield"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "teatime",
+  "id": 752,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "target": "all-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user has teatime with all the Pokémon in the battle.\nEach Pokémon eats its held Berry.",
+  "move_category": "unique"
+}

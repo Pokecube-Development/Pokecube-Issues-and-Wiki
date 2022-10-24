@@ -1,0 +1,214 @@
+{
+  "name": "lunala",
+  "id": 792,
+  "stock": true,
+  "base_experience": 340,
+  "size": {
+    "height": 4.0,
+    "width": 4.0,
+    "length": 1.0
+  },
+  "mass": 120.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 137,
+    "attack": 113,
+    "defense": 89,
+    "special_attack": 137,
+    "special_defense": 107,
+    "speed": 97
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "psychic",
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "shadow-shield"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 73,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "confusion",
+          "hypnosis",
+          "teleport",
+          "cosmic-power"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "night-shade"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "dream-eater"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "moonlight"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "magic-coat"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "wide-guard"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "night-daze"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "phantom-force"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "moonblast"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "moongeist-beam"
+        ]
+      }
+    ],
+    "misc": [
+      "fly",
+      "roar",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "confusion",
+      "psychic",
+      "hypnosis",
+      "agility",
+      "teleport",
+      "night-shade",
+      "double-team",
+      "confuse-ray",
+      "light-screen",
+      "reflect",
+      "swift",
+      "dream-eater",
+      "sky-attack",
+      "rest",
+      "substitute",
+      "snore",
+      "spite",
+      "protect",
+      "scary-face",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "moonlight",
+      "hidden-power",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "helping-hand",
+      "trick",
+      "magic-coat",
+      "cosmic-power",
+      "signal-beam",
+      "aerial-ace",
+      "calm-mind",
+      "shock-wave",
+      "roost",
+      "tailwind",
+      "air-slash",
+      "focus-blast",
+      "giga-impact",
+      "shadow-claw",
+      "psycho-cut",
+      "defog",
+      "trick-room",
+      "charge-beam",
+      "wide-guard",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "round",
+      "hex",
+      "sky-drop",
+      "acrobatics",
+      "work-up",
+      "night-daze",
+      "phantom-force",
+      "moonblast",
+      "confide",
+      "dazzling-gleam",
+      "moongeist-beam",
+      "expanding-force",
+      "meteor-beam",
+      "poltergeist",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/cosmic"
+}

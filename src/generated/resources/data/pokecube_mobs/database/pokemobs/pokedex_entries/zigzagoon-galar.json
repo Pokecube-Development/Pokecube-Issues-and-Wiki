@@ -1,0 +1,183 @@
+{
+  "name": "zigzagoon-galar",
+  "id": 263,
+  "stock": true,
+  "base_experience": 56,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 17.5,
+  "is_default": false,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 38,
+    "attack": 30,
+    "defense": 41,
+    "special_attack": 30,
+    "special_defense": 41,
+    "speed": 60
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "dark",
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "pickup",
+      "gluttony"
+    ],
+    "hidden": [
+      "quick-feet"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 3,
+        "moves": [
+          "sand-attack"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "leer"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "pin-missile"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "counter"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "lick"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "snarl"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "baby-doll-eyes"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "pin-missile",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "screech",
+      "swift",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "scary-face",
+      "icy-wind",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "iron-tail",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "whirlpool",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "trick",
+      "knock-off",
+      "hyper-voice",
+      "fake-tears",
+      "mud-shot",
+      "payback",
+      "assurance",
+      "fling",
+      "seed-bomb",
+      "gunk-shot",
+      "grass-knot",
+      "round",
+      "quick-guard",
+      "retaliate",
+      "work-up",
+      "snarl",
+      "parting-shot",
+      "lash-out"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "held_table": "pokecube:entities/persimberry",
+  "evolutions": [
+    {
+      "name": "linoone-galar",
+      "level": 20,
+      "evoMoves": "slash"
+    }
+  ],
+  "old_name": "zigzagoon_galar"
+}

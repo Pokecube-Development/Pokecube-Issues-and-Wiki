@@ -1,0 +1,228 @@
+{
+  "name": "hypno",
+  "id": 97,
+  "stock": true,
+  "base_experience": 169,
+  "size": {
+    "height": 1.6,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 75.6,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 85,
+    "attack": 73,
+    "defense": 70,
+    "special_attack": 73,
+    "special_defense": 115,
+    "speed": 67
+  },
+  "evs": {
+    "special_defense": 2
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "insomnia",
+      "forewarn"
+    ],
+    "hidden": [
+      "inner-focus"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "disable",
+          "confusion",
+          "hypnosis",
+          "barrier",
+          "nightmare",
+          "future-sight",
+          "switcheroo",
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "meditate"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "dream-eater"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "poison-gas"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "psych-up"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "wake-up-slap"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "psyshock"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "synchronoise"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "disable",
+      "psybeam",
+      "hyper-beam",
+      "submission",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "thunder-wave",
+      "toxic",
+      "confusion",
+      "psychic",
+      "hypnosis",
+      "meditate",
+      "rage",
+      "teleport",
+      "mimic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "bide",
+      "metronome",
+      "skull-bash",
+      "dream-eater",
+      "poison-gas",
+      "flash",
+      "psywave",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "curse",
+      "protect",
+      "zap-cannon",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dynamic-punch",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "torment",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "brick-break",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "signal-beam",
+      "calm-mind",
+      "natural-gift",
+      "fling",
+      "drain-punch",
+      "focus-blast",
+      "switcheroo",
+      "giga-impact",
+      "nasty-plot",
+      "zen-headbutt",
+      "trick-room",
+      "captivate",
+      "grass-knot",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "synchronoise",
+      "low-sweep",
+      "foul-play",
+      "round",
+      "ally-switch",
+      "confide",
+      "dazzling-gleam",
+      "power-up-punch"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_2"
+}

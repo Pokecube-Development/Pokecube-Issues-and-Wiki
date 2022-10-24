@@ -1,0 +1,195 @@
+{
+  "name": "groudon-primal",
+  "id": 383,
+  "stock": true,
+  "base_experience": 347,
+  "size": {
+    "height": 5.0,
+    "width": 3.0,
+    "length": 3.0
+  },
+  "mass": 999.7,
+  "is_default": false,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 100,
+    "attack": 180,
+    "defense": 160,
+    "special_attack": 150,
+    "special_defense": 90,
+    "speed": 90
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "ground",
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "desolate-land"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 60,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "fissure"
+        ]
+      },
+      {
+        "L": 75,
+        "moves": [
+          "fire-blast"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "ancient-power",
+          "mud-shot"
+        ]
+      },
+      {
+        "L": 90,
+        "moves": [
+          "eruption"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "bulk-up"
+        ]
+      },
+      {
+        "L": 80,
+        "moves": [
+          "hammer-arm"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "lava-plume"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "precipice-blades"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "thunder-punch",
+      "swords-dance",
+      "cut",
+      "roar",
+      "flamethrower",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "double-team",
+      "fire-blast",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "sandstorm",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "rock-smash",
+      "uproar",
+      "facade",
+      "brick-break",
+      "eruption",
+      "secret-power",
+      "overheat",
+      "rock-tomb",
+      "aerial-ace",
+      "block",
+      "dragon-claw",
+      "bulk-up",
+      "mud-shot",
+      "shock-wave",
+      "hammer-arm",
+      "fling",
+      "rock-polish",
+      "dragon-pulse",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "shadow-claw",
+      "lava-plume",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "hone-claws",
+      "smack-down",
+      "round",
+      "incinerate",
+      "bulldoze",
+      "dragon-tail",
+      "confide",
+      "power-up-punch",
+      "precipice-blades",
+      "brutal-swing",
+      "stomping-tantrum"
+    ]
+  },
+  "old_name": "groudon_primal"
+}

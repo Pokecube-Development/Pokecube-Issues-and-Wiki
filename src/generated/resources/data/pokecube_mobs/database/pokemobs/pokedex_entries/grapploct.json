@@ -1,0 +1,152 @@
+{
+  "name": "grapploct",
+  "id": 853,
+  "stock": true,
+  "base_experience": 168,
+  "size": {
+    "height": 1.6,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 39.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 80,
+    "attack": 118,
+    "defense": 90,
+    "special_attack": 70,
+    "special_defense": 80,
+    "speed": 42
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "limber"
+    ],
+    "hidden": [
+      "technician"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "bind",
+          "leer",
+          "octazooka",
+          "rock-smash",
+          "feint"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "submission"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "reversal"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "detect"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "brick-break"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "bulk-up"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "topsy-turvy"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "octolock"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "body-slam",
+      "hydro-pump",
+      "surf",
+      "hyper-beam",
+      "dig",
+      "waterfall",
+      "rest",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "scary-face",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "whirlpool",
+      "facade",
+      "taunt",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "dive",
+      "muddy-water",
+      "bulk-up",
+      "mud-shot",
+      "brine",
+      "close-combat",
+      "payback",
+      "drain-punch",
+      "focus-blast",
+      "giga-impact",
+      "round",
+      "retaliate",
+      "work-up",
+      "brutal-swing",
+      "stomping-tantrum",
+      "liquidation",
+      "octolock",
+      "skitter-smack",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1"
+}

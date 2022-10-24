@@ -1,0 +1,15 @@
+{
+  "name": "stickyweb",
+  "animations": [
+    {
+      "preset": "flow:pmisc:cwhite:d4:l3:~stickyweb",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "pont:pmisc:cwhite:d1:l4:~stickyweb",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

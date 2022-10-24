@@ -1,0 +1,233 @@
+{
+  "name": "riolu",
+  "id": 447,
+  "stock": true,
+  "base_experience": 57,
+  "size": {
+    "height": 0.7,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 20.2,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 40,
+    "attack": 70,
+    "defense": 40,
+    "special_attack": 35,
+    "special_defense": 40,
+    "speed": 60
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "steadfast",
+      "inner-focus"
+    ],
+    "hidden": [
+      "prankster"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 40,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "counter"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "quick-attack",
+          "foresight",
+          "endure"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "reversal"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "metal-claw"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "rock-smash"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "copycat"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "force-palm"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "quick-guard"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "final-gambit"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "work-up"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "thunder-punch",
+      "swords-dance",
+      "mega-kick",
+      "headbutt",
+      "bite",
+      "roar",
+      "low-kick",
+      "counter",
+      "strength",
+      "earthquake",
+      "dig",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "screech",
+      "double-team",
+      "swift",
+      "high-jump-kick",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "mind-reader",
+      "snore",
+      "reversal",
+      "protect",
+      "mud-slap",
+      "foresight",
+      "detect",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "cross-chop",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "follow-me",
+      "helping-hand",
+      "role-play",
+      "revenge",
+      "brick-break",
+      "secret-power",
+      "blaze-kick",
+      "meteor-mash",
+      "rock-tomb",
+      "sky-uppercut",
+      "iron-defense",
+      "howl",
+      "bulk-up",
+      "natural-gift",
+      "feint",
+      "payback",
+      "fling",
+      "copycat",
+      "magnet-rise",
+      "force-palm",
+      "poison-jab",
+      "drain-punch",
+      "vacuum-wave",
+      "focus-blast",
+      "nasty-plot",
+      "bullet-punch",
+      "shadow-claw",
+      "zen-headbutt",
+      "captivate",
+      "low-sweep",
+      "round",
+      "circle-throw",
+      "retaliate",
+      "final-gambit",
+      "bulldoze",
+      "work-up",
+      "dual-chop",
+      "confide",
+      "power-up-punch",
+      "laser-focus",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "lucario",
+      "happy": true,
+      "evoMoves": "aurasphere"
+    }
+  ]
+}

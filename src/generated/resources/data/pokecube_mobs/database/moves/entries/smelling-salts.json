@@ -1,0 +1,15 @@
+{
+  "name": "smelling-salts",
+  "id": 265,
+  "power": 70,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "This attack’s power is doubled when used on a\ntarget with paralysis. This also cures the target’s\nparalysis, however.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  If the target is paralyzed, this move has double power, and the target is cured of its paralysis.",
+  "effect_text_simple": "If the target is paralyzed, inflicts double damage and cures the paralysis."
+}

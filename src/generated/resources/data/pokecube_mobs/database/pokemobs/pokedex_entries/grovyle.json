@@ -1,0 +1,246 @@
+{
+  "name": "grovyle",
+  "id": 253,
+  "stock": true,
+  "base_experience": 142,
+  "size": {
+    "height": 0.9,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 21.6,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 50,
+    "attack": 65,
+    "defense": 45,
+    "special_attack": 85,
+    "special_defense": 65,
+    "speed": 95
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "unburden"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "leer",
+          "absorb",
+          "quick-attack",
+          "energy-ball",
+          "leafage"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "double-team"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "detect"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "false-swipe"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "endeavor"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "leaf-blade"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "x-scissor"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "leaf-storm"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "quick-guard"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "mega-punch",
+      "thunder-punch",
+      "swords-dance",
+      "cut",
+      "slam",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "leer",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "absorb",
+      "mega-drain",
+      "solar-beam",
+      "dig",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "mimic",
+      "screech",
+      "double-team",
+      "swift",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "detect",
+      "giga-drain",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dynamic-punch",
+      "pursuit",
+      "iron-tail",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "nature-power",
+      "brick-break",
+      "endeavor",
+      "secret-power",
+      "rock-tomb",
+      "bullet-seed",
+      "aerial-ace",
+      "magical-leaf",
+      "leaf-blade",
+      "natural-gift",
+      "assurance",
+      "fling",
+      "worry-seed",
+      "seed-bomb",
+      "x-scissor",
+      "drain-punch",
+      "energy-ball",
+      "leaf-storm",
+      "captivate",
+      "grass-knot",
+      "low-sweep",
+      "round",
+      "quick-guard",
+      "acrobatics",
+      "grass-pledge",
+      "work-up",
+      "grassy-terrain",
+      "confide",
+      "power-up-punch",
+      "solar-blade",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_2",
+  "evolutions": [
+    {
+      "name": "sceptile",
+      "level": 36,
+      "animation": "18",
+      "evoMoves": "dualchop"
+    }
+  ]
+}

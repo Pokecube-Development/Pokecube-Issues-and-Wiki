@@ -1,0 +1,175 @@
+{
+  "name": "palossand",
+  "id": 770,
+  "stock": true,
+  "base_experience": 168,
+  "size": {
+    "height": 1.3,
+    "width": 1.3,
+    "length": 1.3
+  },
+  "mass": 250.0,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 85,
+    "attack": 75,
+    "defense": 110,
+    "special_attack": 100,
+    "special_defense": 75,
+    "speed": 35
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "ghost",
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "water-compaction"
+    ],
+    "hidden": [
+      "sand-veil"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "sand-attack",
+          "absorb",
+          "harden",
+          "astonish"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "sandstorm"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "sand-tomb"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "bulldoze"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "shore-up"
+        ]
+      }
+    ],
+    "misc": [
+      "sand-attack",
+      "absorb",
+      "mega-drain",
+      "earthquake",
+      "toxic",
+      "psychic",
+      "hypnosis",
+      "double-team",
+      "harden",
+      "amnesia",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "spite",
+      "protect",
+      "sludge-bomb",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "hidden-power",
+      "shadow-ball",
+      "facade",
+      "trick",
+      "role-play",
+      "recycle",
+      "skill-swap",
+      "astonish",
+      "rock-tomb",
+      "sand-tomb",
+      "iron-defense",
+      "block",
+      "mud-shot",
+      "gravity",
+      "brine",
+      "embargo",
+      "fling",
+      "rock-polish",
+      "energy-ball",
+      "earth-power",
+      "giga-impact",
+      "stone-edge",
+      "stealth-rock",
+      "after-you",
+      "round",
+      "quash",
+      "bulldoze",
+      "confide",
+      "infestation",
+      "shore-up",
+      "terrain-pulse",
+      "poltergeist",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/sand_2"
+}

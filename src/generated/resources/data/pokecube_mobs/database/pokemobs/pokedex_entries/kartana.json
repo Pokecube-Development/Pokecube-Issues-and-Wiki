@@ -1,0 +1,188 @@
+{
+  "name": "kartana",
+  "id": 798,
+  "stock": true,
+  "base_experience": 285,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 0.1,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 59,
+    "attack": 181,
+    "defense": 131,
+    "special_attack": 59,
+    "special_defense": 31,
+    "speed": 109
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "grass",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "beast-boost"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 73,
+        "moves": [
+          "guillotine"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "cut",
+          "fury-cutter",
+          "air-cutter",
+          "vacuum-wave",
+          "defog",
+          "sacred-sword"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "detect"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "false-swipe"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "leaf-blade"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "x-scissor"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "psycho-cut"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "laser-focus"
+        ]
+      }
+    ],
+    "misc": [
+      "guillotine",
+      "swords-dance",
+      "cut",
+      "razor-leaf",
+      "toxic",
+      "screech",
+      "double-team",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "detect",
+      "giga-drain",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "synthesis",
+      "hidden-power",
+      "brick-break",
+      "knock-off",
+      "air-cutter",
+      "aerial-ace",
+      "iron-defense",
+      "calm-mind",
+      "leaf-blade",
+      "tailwind",
+      "last-resort",
+      "night-slash",
+      "air-slash",
+      "x-scissor",
+      "vacuum-wave",
+      "giga-impact",
+      "psycho-cut",
+      "defog",
+      "round",
+      "sacred-sword",
+      "confide",
+      "solar-blade",
+      "laser-focus",
+      "smart-strike",
+      "steel-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/stone_gold",
+  "spawn_rules": [
+    {
+      "values": {
+        "types": "#pokecube_legends:can_spawn/kartana",
+        "min": "1",
+        "rate": "0.2",
+        "max": "1"
+      }
+    }
+  ]
+}

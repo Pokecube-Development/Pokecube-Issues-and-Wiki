@@ -1,0 +1,129 @@
+{
+  "name": "eelektross",
+  "id": 604,
+  "stock": true,
+  "base_experience": 232,
+  "size": {
+    "height": 2.0,
+    "width": 2.0,
+    "length": 2.1
+  },
+  "mass": 80.5,
+  "is_default": true,
+  "capture_rate": 30,
+  "base_happiness": 70,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 85,
+    "attack": 115,
+    "defense": 80,
+    "special_attack": 105,
+    "special_defense": 80,
+    "speed": 50
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "headbutt",
+          "thrash",
+          "acid",
+          "zap-cannon",
+          "crunch",
+          "crush-claw",
+          "gastro-acid",
+          "discharge",
+          "coil",
+          "ion-deluge"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "thunder-punch",
+      "cut",
+      "bind",
+      "headbutt",
+      "thrash",
+      "roar",
+      "acid",
+      "flamethrower",
+      "hyper-beam",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "double-team",
+      "light-screen",
+      "flash",
+      "rest",
+      "rock-slide",
+      "super-fang",
+      "substitute",
+      "snore",
+      "protect",
+      "zap-cannon",
+      "outrage",
+      "giga-drain",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "crunch",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "superpower",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "crush-claw",
+      "rock-tomb",
+      "signal-beam",
+      "dragon-claw",
+      "bounce",
+      "shock-wave",
+      "u-turn",
+      "gastro-acid",
+      "magnet-rise",
+      "aqua-tail",
+      "dragon-pulse",
+      "drain-punch",
+      "giga-impact",
+      "flash-cannon",
+      "discharge",
+      "grass-knot",
+      "charge-beam",
+      "hone-claws",
+      "coil",
+      "round",
+      "acrobatics",
+      "volt-switch",
+      "dragon-tail",
+      "wild-charge",
+      "ion-deluge",
+      "confide",
+      "power-up-punch",
+      "throat-chop"
+    ]
+  },
+  "loot_table": "pokecube:entities/redstone_fish_2"
+}

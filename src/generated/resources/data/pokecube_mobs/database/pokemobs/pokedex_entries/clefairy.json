@@ -1,0 +1,322 @@
+{
+  "name": "clefairy",
+  "id": 35,
+  "stock": true,
+  "base_experience": 113,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 7.5,
+  "is_default": true,
+  "capture_rate": 150,
+  "base_happiness": 140,
+  "growth_rate": "fast",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 70,
+    "attack": 45,
+    "defense": 48,
+    "special_attack": 60,
+    "special_defense": 65,
+    "speed": 35
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "cute-charm",
+      "magic-guard"
+    ],
+    "hidden": [
+      "friend-guard"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "growl",
+          "splash",
+          "sweet-kiss",
+          "charm",
+          "encore",
+          "copycat",
+          "disarming-voice",
+          "spotlight"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "double-slap"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "sing"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "minimize"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "light-screen",
+          "moonblast"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "metronome"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "amnesia",
+          "follow-me",
+          "life-dew"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "moonlight"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "meteor-mash"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "cosmic-power"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "gravity"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "wake-up-slap"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "healing-wish"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "after-you"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "stored-power"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "bestow"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "double-slap",
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "growl",
+      "sing",
+      "flamethrower",
+      "water-gun",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "submission",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "toxic",
+      "psychic",
+      "rage",
+      "teleport",
+      "mimic",
+      "double-team",
+      "minimize",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "bide",
+      "metronome",
+      "fire-blast",
+      "skull-bash",
+      "amnesia",
+      "soft-boiled",
+      "dream-eater",
+      "flash",
+      "psywave",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "nightmare",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "icy-wind",
+      "detect",
+      "endure",
+      "charm",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "dynamic-punch",
+      "baton-pass",
+      "encore",
+      "iron-tail",
+      "moonlight",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "uproar",
+      "facade",
+      "focus-punch",
+      "follow-me",
+      "helping-hand",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "brick-break",
+      "knock-off",
+      "endeavor",
+      "imprison",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "meteor-mash",
+      "fake-tears",
+      "cosmic-power",
+      "signal-beam",
+      "bounce",
+      "covet",
+      "magical-leaf",
+      "calm-mind",
+      "shock-wave",
+      "water-pulse",
+      "gravity",
+      "wake-up-slap",
+      "healing-wish",
+      "natural-gift",
+      "fling",
+      "lucky-chant",
+      "last-resort",
+      "drain-punch",
+      "zen-headbutt",
+      "captivate",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "ally-switch",
+      "incinerate",
+      "retaliate",
+      "bestow",
+      "work-up",
+      "disarming-voice",
+      "draining-kiss",
+      "misty-terrain",
+      "play-rough",
+      "moonblast",
+      "confide",
+      "mystical-fire",
+      "dazzling-gleam",
+      "power-up-punch",
+      "spotlight",
+      "meteor-beam",
+      "misty-explosion",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/moonstone",
+  "held_table": "pokecube:entities/moonstone",
+  "evolutions": [
+    {
+      "name": "clefable",
+      "animation": "121",
+      "item_preset": "moonstone"
+    }
+  ]
+}

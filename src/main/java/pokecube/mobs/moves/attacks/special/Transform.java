@@ -8,8 +8,8 @@ import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.IMoveAnimation;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.utils.IMoveAnimation;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.moves.templates.Move_Basic;
 
@@ -50,9 +50,7 @@ public class Transform extends Move_Basic
     {
         super("transform");
         this.setAnimation(new Animation());
-        this.setSelf();
         this.setNotInterceptable();
-
     }
 
     @Override

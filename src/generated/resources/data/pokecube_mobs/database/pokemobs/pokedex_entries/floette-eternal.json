@@ -1,0 +1,178 @@
+{
+  "name": "floette-eternal",
+  "id": 670,
+  "stock": true,
+  "base_experience": 243,
+  "size": {
+    "height": 0.2
+  },
+  "mass": 0.9,
+  "is_default": false,
+  "capture_rate": 120,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 74,
+    "attack": 65,
+    "defense": 67,
+    "special_attack": 125,
+    "special_defense": 128,
+    "speed": 92
+  },
+  "evs": {
+    "special_defense": 2
+  },
+  "types": [
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "flower-veil"
+    ],
+    "hidden": [
+      "symbiosis"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "vine-whip",
+          "tackle",
+          "fairy-wind"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "petal-dance"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "wish"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "petal-blizzard"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "grassy-terrain"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "misty-terrain"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "moonblast"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "light-of-ruin"
+        ]
+      }
+    ],
+    "misc": [
+      "vine-whip",
+      "tackle",
+      "razor-leaf",
+      "solar-beam",
+      "petal-dance",
+      "toxic",
+      "psychic",
+      "double-team",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "giga-drain",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "synthesis",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "facade",
+      "nature-power",
+      "helping-hand",
+      "wish",
+      "magic-coat",
+      "endeavor",
+      "secret-power",
+      "aromatherapy",
+      "covet",
+      "magical-leaf",
+      "calm-mind",
+      "lucky-chant",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "grass-knot",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "ally-switch",
+      "petal-blizzard",
+      "grassy-terrain",
+      "misty-terrain",
+      "fairy-wind",
+      "moonblast",
+      "confide",
+      "dazzling-gleam",
+      "light-of-ruin"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_1",
+  "old_name": "floette_eternal"
+}

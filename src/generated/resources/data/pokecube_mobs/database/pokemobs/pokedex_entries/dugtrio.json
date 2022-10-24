@@ -1,0 +1,213 @@
+{
+  "name": "dugtrio",
+  "id": 51,
+  "stock": true,
+  "base_experience": 149,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 33.3,
+  "is_default": true,
+  "capture_rate": 50,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 35,
+    "attack": 100,
+    "defense": 50,
+    "special_attack": 50,
+    "special_defense": 70,
+    "speed": 120
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "sand-veil",
+      "arena-trap"
+    ],
+    "hidden": [
+      "sand-force"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "sand-attack",
+          "growl",
+          "agility",
+          "screech",
+          "tri-attack",
+          "night-slash",
+          "rototiller"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "fissure"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "dig"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "sandstorm",
+          "earth-power"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "magnitude"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "astonish"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "sand-tomb"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "mud-bomb"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bulldoze"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "cut",
+      "sand-attack",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "growl",
+      "hyper-beam",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "agility",
+      "rage",
+      "mimic",
+      "screech",
+      "double-team",
+      "bide",
+      "fury-swipes",
+      "rest",
+      "rock-slide",
+      "tri-attack",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "reversal",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "magnitude",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "beat-up",
+      "uproar",
+      "facade",
+      "secret-power",
+      "astonish",
+      "rock-tomb",
+      "sand-tomb",
+      "aerial-ace",
+      "natural-gift",
+      "assurance",
+      "sucker-punch",
+      "night-slash",
+      "earth-power",
+      "giga-impact",
+      "shadow-claw",
+      "mud-bomb",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "hone-claws",
+      "sludge-wave",
+      "round",
+      "echoed-voice",
+      "ally-switch",
+      "bulldoze",
+      "work-up",
+      "rototiller",
+      "confide",
+      "high-horsepower",
+      "stomping-tantrum",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/dirt_1"
+}

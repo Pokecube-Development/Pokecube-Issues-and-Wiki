@@ -1,0 +1,168 @@
+{
+  "name": "pyukumuku",
+  "id": 771,
+  "stock": true,
+  "base_experience": 144,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 1.2,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 55,
+    "attack": 60,
+    "defense": 130,
+    "special_attack": 30,
+    "special_defense": 130,
+    "speed": 5
+  },
+  "evs": {
+    "special_defense": 2
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "innards-out"
+    ],
+    "hidden": [
+      "unaware"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 17,
+        "moves": [
+          "counter"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "harden",
+          "bide",
+          "baton-pass",
+          "mud-sport",
+          "water-sport"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "pain-split"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "memento"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "gastro-acid"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "soak"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "purify"
+        ]
+      }
+    ],
+    "misc": [
+      "counter",
+      "toxic",
+      "screech",
+      "double-team",
+      "recover",
+      "harden",
+      "light-screen",
+      "reflect",
+      "bide",
+      "rest",
+      "substitute",
+      "curse",
+      "spite",
+      "protect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "safeguard",
+      "pain-split",
+      "baton-pass",
+      "rain-dance",
+      "mirror-coat",
+      "psych-up",
+      "hail",
+      "memento",
+      "taunt",
+      "helping-hand",
+      "recycle",
+      "mud-sport",
+      "tickle",
+      "block",
+      "water-sport",
+      "gastro-acid",
+      "soak",
+      "quash",
+      "bestow",
+      "confide",
+      "venom-drench",
+      "purify"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1"
+}

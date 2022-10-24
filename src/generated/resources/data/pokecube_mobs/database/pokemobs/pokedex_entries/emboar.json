@@ -1,0 +1,231 @@
+{
+  "name": "emboar",
+  "id": 500,
+  "stock": true,
+  "base_experience": 238,
+  "size": {
+    "height": 1.6,
+    "width": 1.4,
+    "length": 1.4
+  },
+  "mass": 150.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 110,
+    "attack": 123,
+    "defense": 65,
+    "special_attack": 100,
+    "special_defense": 65,
+    "speed": 65
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "fire",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "reckless"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "tail-whip",
+          "ember",
+          "arm-thrust",
+          "odor-sleuth",
+          "hammer-arm"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "smog"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "head-smash"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "heat-crash"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "thunder-punch",
+      "tackle",
+      "take-down",
+      "tail-whip",
+      "roar",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "solar-beam",
+      "earthquake",
+      "toxic",
+      "double-team",
+      "defense-curl",
+      "smog",
+      "fire-blast",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "superpower",
+      "brick-break",
+      "endeavor",
+      "secret-power",
+      "arm-thrust",
+      "blast-burn",
+      "overheat",
+      "odor-sleuth",
+      "rock-tomb",
+      "block",
+      "bulk-up",
+      "covet",
+      "hammer-arm",
+      "gyro-ball",
+      "assurance",
+      "fling",
+      "flare-blitz",
+      "poison-jab",
+      "focus-blast",
+      "giga-impact",
+      "zen-headbutt",
+      "iron-head",
+      "stone-edge",
+      "grass-knot",
+      "head-smash",
+      "smack-down",
+      "flame-charge",
+      "low-sweep",
+      "round",
+      "echoed-voice",
+      "scald",
+      "incinerate",
+      "fire-pledge",
+      "bulldoze",
+      "work-up",
+      "wild-charge",
+      "heat-crash",
+      "confide",
+      "power-up-punch",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/coal_pig_3",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

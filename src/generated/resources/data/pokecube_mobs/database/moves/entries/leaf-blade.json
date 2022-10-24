@@ -1,0 +1,16 @@
+{
+  "name": "leaf-blade",
+  "id": 348,
+  "power": 90,
+  "pp": 15,
+  "priority": 0,
+  "type": "grass",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user handles a sharp leaf like a sword and\nattacks by cutting its target. Critical hits land\nmore easily.",
+  "move_category": "damage",
+  "crit_rate": 1,
+  "effect_text_extend": "Inflicts regular damage.  User's critical hit rate is one level higher when using this move.",
+  "effect_text_simple": "Has an increased chance for a critical hit."
+}

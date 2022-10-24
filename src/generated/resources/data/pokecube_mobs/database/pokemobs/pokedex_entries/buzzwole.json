@@ -1,0 +1,210 @@
+{
+  "name": "buzzwole",
+  "id": 794,
+  "stock": true,
+  "base_experience": 285,
+  "size": {
+    "height": 2.4,
+    "width": 2.0,
+    "length": 1.5
+  },
+  "mass": 333.6,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 107,
+    "attack": 139,
+    "defense": 139,
+    "special_attack": 53,
+    "special_defense": 53,
+    "speed": 79
+  },
+  "evs": {
+    "attack": 1,
+    "defense": 2
+  },
+  "types": [
+    "bug",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "beast-boost"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 7,
+        "moves": [
+          "comet-punch"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "mega-punch"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "ice-punch",
+          "thunder-punch",
+          "harden",
+          "focus-energy",
+          "reversal",
+          "fell-stinger",
+          "power-up-punch"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "counter"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "leech-life"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "dynamic-punch"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "vital-throw"
+        ]
+      },
+      {
+        "L": 73,
+        "moves": [
+          "focus-punch"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "bulk-up"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "hammer-arm"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "lunge"
+        ]
+      }
+    ],
+    "misc": [
+      "comet-punch",
+      "mega-punch",
+      "ice-punch",
+      "thunder-punch",
+      "body-slam",
+      "counter",
+      "earthquake",
+      "toxic",
+      "double-team",
+      "harden",
+      "focus-energy",
+      "leech-life",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "outrage",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "vital-throw",
+      "hidden-power",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "endeavor",
+      "rock-tomb",
+      "bulk-up",
+      "bounce",
+      "roost",
+      "hammer-arm",
+      "gyro-ball",
+      "close-combat",
+      "payback",
+      "fling",
+      "poison-jab",
+      "drain-punch",
+      "giga-impact",
+      "iron-head",
+      "stone-edge",
+      "bug-bite",
+      "smack-down",
+      "low-sweep",
+      "round",
+      "bulldoze",
+      "work-up",
+      "dual-chop",
+      "fell-stinger",
+      "confide",
+      "power-up-punch",
+      "darkest-lariat",
+      "high-horsepower",
+      "lunge",
+      "stomping-tantrum",
+      "coaching",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/pig_3",
+  "spawn_rules": [
+    {
+      "values": {
+        "types": "#pokecube_legends:can_spawn/buzzwole",
+        "min": "1",
+        "rate": "0.2",
+        "max": "1"
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "dragon-ascent",
+  "id": 620,
+  "power": 120,
+  "pp": 5,
+  "priority": 0,
+  "type": "flying",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "After soaring upward, the user attacks its target by\ndropping out of the sky at high speeds. But it lowers\nits own Defense and Sp. Def stats in the process.",
+  "move_category": "damage+raise",
+  "stat_chance": 100,
+  "effect_text_extend": "Inflicts regular damage, then lowers the user's Defense and Special Defense by one stage each.",
+  "effect_text_simple": "Lowers the user's Defense and Special Defense by one stage after inflicting damage.",
+  "effect_chance": 100
+}

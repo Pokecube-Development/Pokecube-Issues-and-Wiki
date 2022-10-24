@@ -1,0 +1,243 @@
+{
+  "name": "haunter",
+  "id": 93,
+  "stock": true,
+  "base_experience": 142,
+  "size": {
+    "height": 1.6,
+    "width": 1.3,
+    "length": 1.3
+  },
+  "mass": 0.1,
+  "is_default": true,
+  "capture_rate": 90,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 45,
+    "attack": 50,
+    "defense": 45,
+    "special_attack": 115,
+    "special_defense": 55,
+    "speed": 95
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "ghost",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 21,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "hypnosis",
+          "lick",
+          "smog",
+          "spite"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "night-shade"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "dream-eater"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "poison-gas"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "nightmare"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "destiny-bond"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "mean-look"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "will-o-wisp"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "shadow-punch"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "hex"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "headbutt",
+      "mega-drain",
+      "thunderbolt",
+      "thunder",
+      "toxic",
+      "psychic",
+      "hypnosis",
+      "rage",
+      "night-shade",
+      "mimic",
+      "double-team",
+      "confuse-ray",
+      "bide",
+      "self-destruct",
+      "lick",
+      "dream-eater",
+      "psywave",
+      "explosion",
+      "rest",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "curse",
+      "spite",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "zap-cannon",
+      "destiny-bond",
+      "icy-wind",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "encore",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "uproar",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "taunt",
+      "trick",
+      "knock-off",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "shadow-punch",
+      "natural-gift",
+      "payback",
+      "embargo",
+      "fling",
+      "sucker-punch",
+      "poison-jab",
+      "dark-pulse",
+      "energy-ball",
+      "shadow-claw",
+      "trick-room",
+      "captivate",
+      "ominous-wind",
+      "wonder-room",
+      "venoshock",
+      "telekinesis",
+      "sludge-wave",
+      "foul-play",
+      "round",
+      "ally-switch",
+      "hex",
+      "confide",
+      "dazzling-gleam",
+      "infestation",
+      "skitter-smack",
+      "poltergeist",
+      "corrosive-gas"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_2",
+  "evolutions": [
+    {
+      "name": "gengar",
+      "animation": "49",
+      "trade": true,
+      "evoMoves": "shadowpunch"
+    }
+  ]
+}

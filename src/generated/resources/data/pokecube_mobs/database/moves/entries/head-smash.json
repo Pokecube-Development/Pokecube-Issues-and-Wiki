@@ -1,0 +1,16 @@
+{
+  "name": "head-smash",
+  "id": 457,
+  "power": 150,
+  "pp": 5,
+  "priority": 0,
+  "type": "rock",
+  "accuracy": 80,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user attacks the target with a hazardous,\nfull-power headbutt. This also damages the\nuser terribly.",
+  "move_category": "damage",
+  "drain": -50,
+  "effect_text_extend": "Inflicts regular damage.  User takes 1/2 the damage it inflicts in recoil.",
+  "effect_text_simple": "User receives 1/2 the damage inflicted in recoil."
+}

@@ -16,8 +16,8 @@ import net.minecraft.world.phys.Vec3;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.moves.IMoveConstants;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
@@ -33,8 +33,7 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
 {
 
     private final LivingEntity damageSourceEntity;
-    // TODO use this for damage stuff
-    public Move_Base move;
+    public MoveEntry move;
     /**
      * This is the type of the used move, can be different from move.getType()
      */
@@ -45,7 +44,7 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
      * @param par1Str
      * @param par2Entity
      */
-    public PokemobDamageSource(final LivingEntity par2Entity, final Move_Base type)
+    public PokemobDamageSource(final LivingEntity par2Entity, final MoveEntry type)
     {
         super("mob");
         this.damageSourceEntity = par2Entity;

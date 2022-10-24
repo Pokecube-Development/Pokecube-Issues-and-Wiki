@@ -1,0 +1,14 @@
+{
+  "name": "scary-face",
+  "id": 184,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user frightens the target with a scary face to\nharshly lower its Speed stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Lowers the target's Speed by two stages.",
+  "effect_text_simple": "Lowers the target's Speed by two stages."
+}

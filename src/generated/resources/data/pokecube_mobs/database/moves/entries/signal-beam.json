@@ -1,0 +1,19 @@
+{
+  "name": "signal-beam",
+  "id": 324,
+  "power": 75,
+  "pp": 15,
+  "priority": 0,
+  "type": "bug",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user attacks with a sinister beam of light.\nThis may also confuse the target.",
+  "move_category": "damage+ailment",
+  "ailment_chance": 10,
+  "max_turns": 5,
+  "min_turns": 2,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to confuse the target.",
+  "effect_text_simple": "Has a $effect_chance% chance to confuse the target.",
+  "effect_chance": 10
+}

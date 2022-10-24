@@ -1,0 +1,15 @@
+{
+  "name": "lightofruin",
+  "animations": [
+    {
+      "preset": "throw:cpink:w1.5:~lightofruin",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.safeguard",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8
+    }
+  ]
+}

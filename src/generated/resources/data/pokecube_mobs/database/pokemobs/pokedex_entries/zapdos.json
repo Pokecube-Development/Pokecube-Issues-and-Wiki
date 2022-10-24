@@ -1,0 +1,251 @@
+{
+  "name": "zapdos",
+  "id": 145,
+  "stock": true,
+  "base_experience": 290,
+  "size": {
+    "height": 1.6,
+    "width": 2.0,
+    "length": 2.0
+  },
+  "mass": 52.6,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 90,
+    "attack": 90,
+    "defense": 85,
+    "special_attack": 125,
+    "special_defense": 90,
+    "speed": 100
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "electric",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "pressure"
+    ],
+    "hidden": [
+      "static"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 16,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "peck",
+          "thunder-shock"
+        ]
+      },
+      {
+        "L": 71,
+        "moves": [
+          "drill-peck"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "thunderbolt"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 78,
+        "moves": [
+          "thunder"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 72,
+        "moves": [
+          "sky-attack"
+        ]
+      },
+      {
+        "L": 99,
+        "moves": [
+          "zap-cannon"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "detect"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "charge"
+        ]
+      },
+      {
+        "L": 85,
+        "moves": [
+          "roost"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "pluck"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 92,
+        "moves": [
+          "magnetic-flux"
+        ]
+      }
+    ],
+    "misc": [
+      "razor-wind",
+      "whirlwind",
+      "fly",
+      "headbutt",
+      "take-down",
+      "double-edge",
+      "roar",
+      "hyper-beam",
+      "peck",
+      "drill-peck",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "agility",
+      "rage",
+      "mimic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "bide",
+      "swift",
+      "sky-attack",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "detect",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "baton-pass",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "ancient-power",
+      "rock-smash",
+      "heat-wave",
+      "hail",
+      "facade",
+      "charge",
+      "secret-power",
+      "weather-ball",
+      "air-cutter",
+      "signal-beam",
+      "aerial-ace",
+      "shock-wave",
+      "roost",
+      "natural-gift",
+      "pluck",
+      "tailwind",
+      "u-turn",
+      "brave-bird",
+      "giga-impact",
+      "defog",
+      "discharge",
+      "charge-beam",
+      "ominous-wind",
+      "round",
+      "sky-drop",
+      "volt-switch",
+      "wild-charge",
+      "hurricane",
+      "confide",
+      "eerie-impulse",
+      "magnetic-flux",
+      "laser-focus",
+      "rising-voltage",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:lugia_tower",
+        "rate": "0.0"
+      }
+    },
+    {
+      "values": {
+        "structures": "pokecube_legends:lugia_tower",
+        "min": "1",
+        "rate": "0.02",
+        "max": "1"
+      }
+    }
+  ]
+}

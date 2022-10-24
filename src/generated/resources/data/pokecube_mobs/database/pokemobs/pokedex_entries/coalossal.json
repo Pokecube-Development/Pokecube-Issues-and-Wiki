@@ -1,0 +1,154 @@
+{
+  "name": "coalossal",
+  "id": 839,
+  "stock": true,
+  "base_experience": 255,
+  "size": {
+    "height": 2.8,
+    "width": 2.8,
+    "length": 2.8
+  },
+  "mass": 310.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 110,
+    "attack": 80,
+    "defense": 120,
+    "special_attack": 80,
+    "special_defense": 90,
+    "speed": 30
+  },
+  "evs": {
+    "defense": 3
+  },
+  "types": [
+    "rock",
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "steam-engine",
+      "flame-body"
+    ],
+    "hidden": [
+      "flash-fire"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "smokescreen",
+          "rapid-spin",
+          "smack-down",
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "rock-blast"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "rock-polish"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "incinerate"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "heat-crash"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "burn-up"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "tar-shot"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "mega-kick",
+      "body-slam",
+      "flamethrower",
+      "hyper-beam",
+      "solar-beam",
+      "fire-spin",
+      "earthquake",
+      "dig",
+      "reflect",
+      "self-destruct",
+      "fire-blast",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "spikes",
+      "sandstorm",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "overheat",
+      "rock-tomb",
+      "sand-tomb",
+      "iron-defense",
+      "rock-blast",
+      "gyro-ball",
+      "flare-blitz",
+      "earth-power",
+      "giga-impact",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "heavy-slam",
+      "round",
+      "scald",
+      "bulldoze",
+      "heat-crash",
+      "high-horsepower",
+      "tar-shot",
+      "body-press",
+      "meteor-beam",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/coal_1"
+}

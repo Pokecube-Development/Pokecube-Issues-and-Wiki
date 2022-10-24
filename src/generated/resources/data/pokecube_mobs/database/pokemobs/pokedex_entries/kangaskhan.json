@@ -1,0 +1,287 @@
+{
+  "name": "kangaskhan",
+  "id": 115,
+  "stock": true,
+  "base_experience": 172,
+  "size": {
+    "height": 2.2,
+    "width": 1.5,
+    "length": 1.5
+  },
+  "mass": 80.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 105,
+    "attack": 95,
+    "defense": 80,
+    "special_attack": 40,
+    "special_defense": 80,
+    "speed": 90
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "early-bird",
+      "scrappy"
+    ],
+    "hidden": [
+      "inner-focus"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "comet-punch",
+          "leer"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "mega-punch"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "growl"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "rage"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "dizzy-punch"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "reversal"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "fake-out"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "last-resort"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "double-hit"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "chip-away"
+        ]
+      }
+    ],
+    "misc": [
+      "comet-punch",
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "cut",
+      "stomp",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "tail-whip",
+      "leer",
+      "bite",
+      "roar",
+      "disable",
+      "flamethrower",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "hyper-beam",
+      "submission",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "focus-energy",
+      "bide",
+      "fire-blast",
+      "skull-bash",
+      "dizzy-punch",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "reversal",
+      "spite",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "foresight",
+      "icy-wind",
+      "outrage",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dynamic-punch",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "shadow-ball",
+      "rock-smash",
+      "whirlpool",
+      "beat-up",
+      "fake-out",
+      "uproar",
+      "hail",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "brick-break",
+      "endeavor",
+      "secret-power",
+      "crush-claw",
+      "rock-tomb",
+      "aerial-ace",
+      "covet",
+      "shock-wave",
+      "water-pulse",
+      "hammer-arm",
+      "natural-gift",
+      "assurance",
+      "fling",
+      "trump-card",
+      "sucker-punch",
+      "aqua-tail",
+      "drain-punch",
+      "focus-blast",
+      "giga-impact",
+      "avalanche",
+      "shadow-claw",
+      "rock-climb",
+      "captivate",
+      "double-hit",
+      "round",
+      "chip-away",
+      "circle-throw",
+      "incinerate",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "confide",
+      "power-up-punch",
+      "terrain-pulse"
+    ]
+  },
+  "loot_table": "pokecube:entities/coal_cow_2",
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "kangaskhanmega"
+    }
+  ]
+}

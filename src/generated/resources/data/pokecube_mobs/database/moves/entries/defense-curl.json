@@ -1,0 +1,13 @@
+{
+  "name": "defense-curl",
+  "id": 111,
+  "pp": 40,
+  "priority": 0,
+  "type": "normal",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user curls up to conceal weak spots and raise\nits Defense stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises user's Defense by one stage.\n\nAfter this move is used, the power of ice ball and rollout are doubled until the user leaves the field.",
+  "effect_text_simple": "Raises user's Defense by one stage."
+}

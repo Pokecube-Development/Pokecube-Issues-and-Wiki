@@ -1,0 +1,243 @@
+{
+  "name": "bibarel",
+  "id": 400,
+  "stock": true,
+  "base_experience": 144,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 31.5,
+  "is_default": true,
+  "capture_rate": 127,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 79,
+    "attack": 85,
+    "defense": 60,
+    "special_attack": 55,
+    "special_defense": 60,
+    "speed": 71
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "normal",
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "simple",
+      "unaware"
+    ],
+    "hidden": [
+      "moody"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 43,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl",
+          "aqua-jet",
+          "rototiller"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "hyper-fang"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "super-fang"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "yawn"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "headbutt",
+      "tackle",
+      "take-down",
+      "growl",
+      "water-gun",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "toxic",
+      "double-team",
+      "defense-curl",
+      "waterfall",
+      "swift",
+      "amnesia",
+      "rest",
+      "hyper-fang",
+      "super-fang",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "rollout",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "shadow-ball",
+      "rock-smash",
+      "whirlpool",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "superpower",
+      "yawn",
+      "secret-power",
+      "dive",
+      "covet",
+      "shock-wave",
+      "water-pulse",
+      "natural-gift",
+      "pluck",
+      "fling",
+      "last-resort",
+      "aqua-tail",
+      "giga-impact",
+      "rock-climb",
+      "captivate",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "aqua-jet",
+      "round",
+      "echoed-voice",
+      "scald",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "rototiller",
+      "confide",
+      "stomping-tantrum",
+      "liquidation"
+    ]
+  },
+  "loot_table": "pokecube:entities/rotten_rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

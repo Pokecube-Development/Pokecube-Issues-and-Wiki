@@ -1,0 +1,148 @@
+{
+  "name": "sobble",
+  "id": 816,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 4.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 50,
+    "attack": 40,
+    "defense": 40,
+    "special_attack": 70,
+    "special_defense": 40,
+    "speed": 70
+  },
+  "evs": {
+    "special_defense": 1,
+    "speed": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+      "sniper"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "growl"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "bind"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "u-turn"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "soak"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "liquidation"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "tearful-look"
+        ]
+      }
+    ],
+    "misc": [
+      "mist",
+      "surf",
+      "double-team",
+      "light-screen",
+      "haze",
+      "reflect",
+      "swift",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "safeguard",
+      "baton-pass",
+      "rain-dance",
+      "whirlpool",
+      "facade",
+      "dive",
+      "weather-ball",
+      "muddy-water",
+      "bounce",
+      "mud-shot",
+      "u-turn",
+      "aqua-ring",
+      "ice-shard",
+      "aqua-jet",
+      "round",
+      "water-pledge",
+      "work-up",
+      "fell-stinger",
+      "liquidation"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1",
+  "evolutions": [
+    {
+      "name": "drizzile",
+      "level": 16,
+      "animation": "18"
+    }
+  ]
+}

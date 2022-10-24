@@ -1,0 +1,16 @@
+{
+  "name": "spore",
+  "id": 147,
+  "pp": 15,
+  "priority": 0,
+  "type": "grass",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user scatters bursts of spores that\ninduce sleep.",
+  "move_category": "ailment",
+  "max_turns": 4,
+  "min_turns": 2,
+  "effect_text_extend": "Puts the target to sleep.",
+  "effect_text_simple": "Puts the target to sleep."
+}

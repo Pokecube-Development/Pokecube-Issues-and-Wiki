@@ -1,0 +1,236 @@
+{
+  "name": "incineroar",
+  "id": 727,
+  "stock": true,
+  "base_experience": 265,
+  "size": {
+    "height": 1.8,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 83.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 95,
+    "attack": 115,
+    "defense": 90,
+    "special_attack": 80,
+    "special_defense": 90,
+    "speed": 60
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "fire",
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "intimidate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "growl",
+          "ember",
+          "lick",
+          "bulk-up",
+          "throat-chop"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "cross-chop"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "fire-fang"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "darkest-lariat"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "pay-day",
+      "fire-punch",
+      "thunder-punch",
+      "scratch",
+      "swords-dance",
+      "bind",
+      "double-kick",
+      "mega-kick",
+      "body-slam",
+      "thrash",
+      "leer",
+      "bite",
+      "growl",
+      "roar",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "low-kick",
+      "fire-spin",
+      "earthquake",
+      "toxic",
+      "double-team",
+      "lick",
+      "fire-blast",
+      "leech-life",
+      "fury-swipes",
+      "rest",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "scary-face",
+      "outrage",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "cross-chop",
+      "sunny-day",
+      "crunch",
+      "heat-wave",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "knock-off",
+      "endeavor",
+      "snatch",
+      "blaze-kick",
+      "blast-burn",
+      "overheat",
+      "bulk-up",
+      "covet",
+      "u-turn",
+      "close-combat",
+      "assurance",
+      "embargo",
+      "fling",
+      "flare-blitz",
+      "dark-pulse",
+      "drain-punch",
+      "focus-blast",
+      "giga-impact",
+      "nasty-plot",
+      "shadow-claw",
+      "fire-fang",
+      "iron-head",
+      "flame-charge",
+      "low-sweep",
+      "round",
+      "quash",
+      "acrobatics",
+      "fire-pledge",
+      "bulldoze",
+      "work-up",
+      "dual-chop",
+      "heat-crash",
+      "snarl",
+      "confide",
+      "darkest-lariat",
+      "throat-chop",
+      "brutal-swing",
+      "stomping-tantrum",
+      "burning-jealousy",
+      "lash-out",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/coal_rabbit_3"
+}

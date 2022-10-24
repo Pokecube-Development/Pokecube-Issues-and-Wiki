@@ -1,0 +1,251 @@
+{
+  "name": "machoke",
+  "id": 67,
+  "stock": true,
+  "base_experience": 142,
+  "size": {
+    "height": 1.5,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 70.5,
+  "is_default": true,
+  "capture_rate": 90,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 80,
+    "attack": 100,
+    "defense": 70,
+    "special_attack": 50,
+    "special_defense": 60,
+    "speed": 45
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "guts",
+      "no-guard"
+    ],
+    "hidden": [
+      "steadfast"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "karate-chop",
+          "leer",
+          "low-kick",
+          "focus-energy",
+          "bide"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "submission"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "seismic-toss"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "strength"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "foresight"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "dynamic-punch"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "vital-throw"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "cross-chop"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "revenge"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "brick-break",
+          "knock-off"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "bulk-up"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "wake-up-slap"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "low-sweep"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "dual-chop"
+        ]
+      }
+    ],
+    "misc": [
+      "karate-chop",
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "leer",
+      "flamethrower",
+      "submission",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "light-screen",
+      "focus-energy",
+      "bide",
+      "metronome",
+      "fire-blast",
+      "skull-bash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "reversal",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "foresight",
+      "detect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "encore",
+      "vital-throw",
+      "hidden-power",
+      "cross-chop",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "role-play",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "rock-tomb",
+      "bulk-up",
+      "wake-up-slap",
+      "natural-gift",
+      "close-combat",
+      "payback",
+      "fling",
+      "poison-jab",
+      "vacuum-wave",
+      "focus-blast",
+      "rock-climb",
+      "captivate",
+      "smack-down",
+      "heavy-slam",
+      "low-sweep",
+      "round",
+      "incinerate",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "dual-chop",
+      "confide",
+      "power-up-punch",
+      "stomping-tantrum",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/pig_1",
+  "evolutions": [
+    {
+      "name": "machamp",
+      "trade": true,
+      "evoMoves": "strength"
+    }
+  ]
+}

@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.eventhandlers.MoveEventsHandler.UseContext;
@@ -20,7 +20,7 @@ public class DefaultWaterAction extends DefaultAction
 
     public static int WATERSTRONG = 100;
 
-    public DefaultWaterAction(Move_Base move)
+    public DefaultWaterAction(MoveEntry move)
     {
         super(move);
     }

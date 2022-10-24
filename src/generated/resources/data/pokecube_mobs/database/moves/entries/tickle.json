@@ -1,0 +1,14 @@
+{
+  "name": "tickle",
+  "id": 321,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user tickles the target into laughing, reducing its\nAttack and Defense stats.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Lowers the target's Attack and Defense by one stage.",
+  "effect_text_simple": "Lowers the target's Attack and Defense by one stage."
+}

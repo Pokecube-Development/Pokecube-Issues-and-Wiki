@@ -1,0 +1,228 @@
+{
+  "name": "xerneas",
+  "id": 716,
+  "stock": true,
+  "base_experience": 340,
+  "size": {
+    "height": 3.0,
+    "width": 1.0,
+    "length": 3.0
+  },
+  "mass": 215.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 126,
+    "attack": 131,
+    "defense": 95,
+    "special_attack": 131,
+    "special_defense": 98,
+    "speed": 99
+  },
+  "evs": {
+    "hp": 3
+  },
+  "types": [
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "fairy-aura"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "take-down",
+          "ingrain",
+          "aromatherapy",
+          "heal-pulse"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "aurora-beam"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 93,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "megahorn"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "psych-up"
+        ]
+      },
+      {
+        "L": 72,
+        "moves": [
+          "nature-power"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "gravity"
+        ]
+      },
+      {
+        "L": 80,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 88,
+        "moves": [
+          "giga-impact"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "horn-leech"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "misty-terrain"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "moonblast"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "geomancy"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "body-slam",
+      "take-down",
+      "roar",
+      "aurora-beam",
+      "hyper-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "swift",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "outrage",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "megahorn",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "hail",
+      "facade",
+      "nature-power",
+      "ingrain",
+      "endeavor",
+      "secret-power",
+      "hyper-voice",
+      "aromatherapy",
+      "block",
+      "calm-mind",
+      "gravity",
+      "close-combat",
+      "night-slash",
+      "focus-blast",
+      "giga-impact",
+      "zen-headbutt",
+      "flash-cannon",
+      "defog",
+      "grass-knot",
+      "wonder-room",
+      "psyshock",
+      "round",
+      "echoed-voice",
+      "heal-pulse",
+      "horn-leech",
+      "draining-kiss",
+      "misty-terrain",
+      "play-rough",
+      "moonblast",
+      "confide",
+      "geomancy",
+      "dazzling-gleam",
+      "laser-focus",
+      "smart-strike",
+      "misty-explosion",
+      "terrain-pulse"
+    ]
+  },
+  "model": {
+    "key": "xerneas-neutral",
+    "tex": "xerneas-neutral",
+    "model": "xerneas-neutral",
+    "anim": "xerneas-neutral",
+    "types": "fairy"
+  },
+  "models": [
+    {
+      "key": "xerneas-active",
+      "tex": "xerneas-active",
+      "model": "xerneas-active",
+      "anim": "xerneas-active",
+      "types": "fairy"
+    }
+  ],
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:xerneas_place",
+        "rate": "0.0"
+      }
+    }
+  ]
+}

@@ -1,0 +1,221 @@
+{
+  "name": "purugly",
+  "id": 432,
+  "stock": true,
+  "base_experience": 158,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 43.8,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 70,
+  "growth_rate": "fast",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 71,
+    "attack": 82,
+    "defense": 64,
+    "special_attack": 64,
+    "special_defense": 59,
+    "speed": 112
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "thick-fat",
+      "own-tempo"
+    ],
+    "hidden": [
+      "defiant"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "growl",
+          "fake-out"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "attract"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "assist"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "captivate"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "hone-claws"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "cut",
+      "headbutt",
+      "body-slam",
+      "growl",
+      "roar",
+      "hyper-beam",
+      "thunderbolt",
+      "thunder",
+      "dig",
+      "toxic",
+      "hypnosis",
+      "double-team",
+      "swift",
+      "dream-eater",
+      "flash",
+      "fury-swipes",
+      "rest",
+      "super-fang",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "feint-attack",
+      "mud-slap",
+      "endure",
+      "charm",
+      "rollout",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "fake-out",
+      "torment",
+      "facade",
+      "taunt",
+      "assist",
+      "knock-off",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "aerial-ace",
+      "covet",
+      "shock-wave",
+      "water-pulse",
+      "natural-gift",
+      "u-turn",
+      "payback",
+      "last-resort",
+      "sucker-punch",
+      "giga-impact",
+      "shadow-claw",
+      "captivate",
+      "hone-claws",
+      "foul-play",
+      "round",
+      "echoed-voice",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "confide",
+      "throat-chop",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

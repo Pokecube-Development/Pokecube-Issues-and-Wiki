@@ -1,0 +1,206 @@
+{
+  "name": "darkrai",
+  "id": 491,
+  "stock": true,
+  "base_experience": 270,
+  "size": {
+    "height": 1.5,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 50.5,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 70,
+    "attack": 90,
+    "defense": 90,
+    "special_attack": 135,
+    "special_defense": 90,
+    "speed": 125
+  },
+  "evs": {
+    "special_attack": 2,
+    "speed": 1
+  },
+  "types": [
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "bad-dreams"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "disable",
+          "night-shade",
+          "ominous-wind"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "double-team"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "haze"
+        ]
+      },
+      {
+        "L": 84,
+        "moves": [
+          "dream-eater"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "nightmare"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "feint-attack",
+          "pursuit"
+        ]
+      },
+      {
+        "L": 75,
+        "moves": [
+          "embargo",
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 93,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "dark-void"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "headbutt",
+      "disable",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "psychic",
+      "hypnosis",
+      "quick-attack",
+      "double-team",
+      "haze",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "spite",
+      "protect",
+      "feint-attack",
+      "sludge-bomb",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "trick",
+      "brick-break",
+      "knock-off",
+      "snatch",
+      "secret-power",
+      "rock-tomb",
+      "aerial-ace",
+      "calm-mind",
+      "shock-wave",
+      "natural-gift",
+      "payback",
+      "embargo",
+      "fling",
+      "last-resort",
+      "sucker-punch",
+      "poison-jab",
+      "dark-pulse",
+      "x-scissor",
+      "drain-punch",
+      "focus-blast",
+      "giga-impact",
+      "nasty-plot",
+      "shadow-claw",
+      "rock-climb",
+      "charge-beam",
+      "dark-void",
+      "ominous-wind",
+      "wonder-room",
+      "foul-play",
+      "round",
+      "incinerate",
+      "retaliate",
+      "snarl",
+      "confide",
+      "power-up-punch",
+      "throat-chop"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:yveltal_place",
+        "rate": "0.0"
+      }
+    }
+  ]
+}

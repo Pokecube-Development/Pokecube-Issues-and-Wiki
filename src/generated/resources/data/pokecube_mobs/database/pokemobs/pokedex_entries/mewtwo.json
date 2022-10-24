@@ -1,0 +1,313 @@
+{
+  "name": "mewtwo",
+  "id": 150,
+  "stock": true,
+  "base_experience": 340,
+  "size": {
+    "height": 2.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 122.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 106,
+    "attack": 110,
+    "defense": 90,
+    "special_attack": 154,
+    "special_defense": 90,
+    "speed": 130
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "pressure"
+    ],
+    "hidden": [
+      "unnerve"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "disable",
+          "confusion",
+          "teleport",
+          "confuse-ray",
+          "psywave",
+          "safeguard",
+          "laser-focus",
+          "life-dew"
+        ]
+      },
+      {
+        "L": 86,
+        "moves": [
+          "mist"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "psybeam",
+          "psych-up"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 88,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "barrier"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "swift",
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 79,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 99,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "miracle-eye"
+        ]
+      },
+      {
+        "L": 93,
+        "moves": [
+          "me-first"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "power-swap",
+          "guard-swap"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "aura-sphere"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "psycho-cut"
+        ]
+      },
+      {
+        "L": 100,
+        "moves": [
+          "psystrike"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "pay-day",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "disable",
+      "flamethrower",
+      "mist",
+      "water-gun",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "hyper-beam",
+      "submission",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "confusion",
+      "psychic",
+      "agility",
+      "rage",
+      "teleport",
+      "mimic",
+      "double-team",
+      "recover",
+      "barrier",
+      "light-screen",
+      "reflect",
+      "bide",
+      "metronome",
+      "self-destruct",
+      "fire-blast",
+      "swift",
+      "skull-bash",
+      "amnesia",
+      "dream-eater",
+      "flash",
+      "psywave",
+      "rest",
+      "rock-slide",
+      "tri-attack",
+      "substitute",
+      "nightmare",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "icy-wind",
+      "detect",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dynamic-punch",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "rock-smash",
+      "hail",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "brick-break",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "dive",
+      "rock-tomb",
+      "signal-beam",
+      "aerial-ace",
+      "bulk-up",
+      "calm-mind",
+      "shock-wave",
+      "water-pulse",
+      "gravity",
+      "miracle-eye",
+      "natural-gift",
+      "embargo",
+      "fling",
+      "me-first",
+      "power-swap",
+      "guard-swap",
+      "aura-sphere",
+      "poison-jab",
+      "aqua-tail",
+      "drain-punch",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "nasty-plot",
+      "avalanche",
+      "psycho-cut",
+      "zen-headbutt",
+      "rock-climb",
+      "trick-room",
+      "stone-edge",
+      "grass-knot",
+      "charge-beam",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "electro-ball",
+      "low-sweep",
+      "foul-play",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "incinerate",
+      "bulldoze",
+      "psystrike",
+      "hurricane",
+      "confide",
+      "power-up-punch",
+      "laser-focus",
+      "psychic-terrain",
+      "speed-swap",
+      "brutal-swing",
+      "expanding-force"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "mega_rules": [
+    {
+      "preset": "Mega-X",
+      "item_preset": "mewtwomega-x"
+    },
+    {
+      "preset": "Mega-Y",
+      "item_preset": "mewtwomega-y"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "haze",
+  "animations": [
+    {
+      "preset": "flow:plarge_smoke:d1:1000:w2:~haze",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.3
+    }
+  ]
+}

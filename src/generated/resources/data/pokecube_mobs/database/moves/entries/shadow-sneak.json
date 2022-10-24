@@ -1,0 +1,15 @@
+{
+  "name": "shadow-sneak",
+  "id": 425,
+  "power": 40,
+  "pp": 30,
+  "priority": 1,
+  "type": "ghost",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user extends its shadow and attacks the target\nfrom behind. This move always goes first.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.",
+  "effect_text_simple": "Inflicts regular damage with no additional effect."
+}

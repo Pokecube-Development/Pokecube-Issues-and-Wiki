@@ -1,0 +1,271 @@
+{
+  "name": "miltank",
+  "id": 241,
+  "stock": true,
+  "base_experience": 172,
+  "size": {
+    "height": 1.2,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 75.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 95,
+    "attack": 80,
+    "defense": 105,
+    "special_attack": 40,
+    "special_defense": 70,
+    "speed": 100
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "thick-fat",
+      "scrappy"
+    ],
+    "hidden": [
+      "sap-sipper"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 8,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "growl"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "bide"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "charm",
+          "wake-up-slap"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "milk-drink"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "heal-bell"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "gyro-ball"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "captivate"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "play-rough"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "high-horsepower"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "stomp",
+      "mega-kick",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "growl",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "bide",
+      "metronome",
+      "dizzy-punch",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "reversal",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "icy-wind",
+      "sandstorm",
+      "endure",
+      "charm",
+      "rollout",
+      "swagger",
+      "milk-drink",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "present",
+      "frustration",
+      "dynamic-punch",
+      "sweet-scent",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "whirlpool",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "brick-break",
+      "secret-power",
+      "rock-tomb",
+      "block",
+      "shock-wave",
+      "water-pulse",
+      "wake-up-slap",
+      "hammer-arm",
+      "gyro-ball",
+      "natural-gift",
+      "fling",
+      "punishment",
+      "focus-blast",
+      "giga-impact",
+      "zen-headbutt",
+      "iron-head",
+      "captivate",
+      "stealth-rock",
+      "heavy-slam",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "heart-stamp",
+      "belch",
+      "play-rough",
+      "confide",
+      "power-up-punch",
+      "high-horsepower",
+      "stomping-tantrum",
+      "body-press",
+      "steel-roller"
+    ]
+  },
+  "loot_table": "pokecube:entities/cow_1",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,237 @@
+{
+  "name": "suicune",
+  "id": 245,
+  "stock": true,
+  "base_experience": 290,
+  "size": {
+    "height": 2.0,
+    "width": 1.7,
+    "length": 1.7
+  },
+  "mass": 187.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 100,
+    "attack": 75,
+    "defense": 115,
+    "special_attack": 90,
+    "special_defense": 115,
+    "speed": 85
+  },
+  "evs": {
+    "defense": 1,
+    "special_defense": 2
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "pressure"
+    ],
+    "hidden": [
+      "inner-focus"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 22,
+        "moves": [
+          "gust"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "bite",
+          "water-gun",
+          "bubble-beam",
+          "rain-dance",
+          "extreme-speed",
+          "sheer-cold"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "mist"
+        ]
+      },
+      {
+        "L": 71,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "surf"
+        ]
+      },
+      {
+        "L": 85,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "aurora-beam"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "mirror-coat"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 78,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "tailwind"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "ice-fang"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "gust",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "leer",
+      "bite",
+      "roar",
+      "mist",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "aurora-beam",
+      "hyper-beam",
+      "dig",
+      "toxic",
+      "agility",
+      "mimic",
+      "double-team",
+      "reflect",
+      "waterfall",
+      "swift",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "detect",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "mirror-coat",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "whirlpool",
+      "hail",
+      "facade",
+      "helping-hand",
+      "secret-power",
+      "dive",
+      "weather-ball",
+      "signal-beam",
+      "extrasensory",
+      "sheer-cold",
+      "calm-mind",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "tailwind",
+      "air-slash",
+      "giga-impact",
+      "avalanche",
+      "ice-fang",
+      "rock-climb",
+      "iron-head",
+      "ominous-wind",
+      "round",
+      "scald",
+      "quash",
+      "bulldoze",
+      "snarl",
+      "confide",
+      "laser-focus",
+      "liquidation"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:hooh_tower",
+        "rate": "0.0"
+      }
+    },
+    {
+      "values": {
+        "structures": "pokecube_legends:hooh_tower",
+        "min": "1",
+        "rate": "0.02",
+        "max": "1"
+      }
+    }
+  ]
+}

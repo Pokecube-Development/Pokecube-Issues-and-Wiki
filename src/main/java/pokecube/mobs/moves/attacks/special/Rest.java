@@ -1,7 +1,7 @@
 package pokecube.mobs.moves.attacks.special;
 
 import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.moves.templates.Move_Basic;
 
 public class Rest extends Move_Basic

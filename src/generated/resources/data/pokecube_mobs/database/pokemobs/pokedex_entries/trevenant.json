@@ -1,0 +1,208 @@
+{
+  "name": "trevenant",
+  "id": 709,
+  "stock": true,
+  "base_experience": 166,
+  "size": {
+    "height": 1.5,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 71.0,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 85,
+    "attack": 110,
+    "defense": 76,
+    "special_attack": 65,
+    "special_defense": 82,
+    "speed": 56
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "ghost",
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "natural-cure",
+      "frisk"
+    ],
+    "hidden": [
+      "harvest"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growth",
+          "confuse-ray",
+          "astonish",
+          "horn-leech",
+          "branch-poke"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "destiny-bond"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "will-o-wisp"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "ingrain"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "shadow-claw"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "wood-hammer"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "hex"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "phantom-force"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "forests-curse"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "tackle",
+      "hyper-beam",
+      "strength",
+      "leech-seed",
+      "growth",
+      "solar-beam",
+      "earthquake",
+      "dig",
+      "toxic",
+      "psychic",
+      "double-team",
+      "confuse-ray",
+      "reflect",
+      "dream-eater",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "spite",
+      "protect",
+      "feint-attack",
+      "destiny-bond",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "hidden-power",
+      "sunny-day",
+      "shadow-ball",
+      "rock-smash",
+      "will-o-wisp",
+      "facade",
+      "nature-power",
+      "trick",
+      "role-play",
+      "ingrain",
+      "magic-coat",
+      "skill-swap",
+      "imprison",
+      "secret-power",
+      "astonish",
+      "block",
+      "magical-leaf",
+      "calm-mind",
+      "worry-seed",
+      "poison-jab",
+      "dark-pulse",
+      "seed-bomb",
+      "x-scissor",
+      "drain-punch",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "shadow-claw",
+      "trick-room",
+      "leaf-storm",
+      "grass-knot",
+      "wood-hammer",
+      "hone-claws",
+      "telekinesis",
+      "foul-play",
+      "round",
+      "ally-switch",
+      "hex",
+      "bulldoze",
+      "horn-leech",
+      "phantom-force",
+      "forests-curse",
+      "confide",
+      "venom-drench",
+      "power-up-punch",
+      "brutal-swing",
+      "grassy-glide",
+      "skitter-smack",
+      "poltergeist"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_2"
+}

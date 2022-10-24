@@ -1,0 +1,241 @@
+{
+  "name": "mudkip",
+  "id": 258,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 7.6,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 50,
+    "attack": 70,
+    "defense": 50,
+    "special_attack": 50,
+    "special_defense": 50,
+    "speed": 40
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+      "damp"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "supersonic"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "surf"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "rock-throw"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "screech",
+          "whirlpool"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "bide"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "foresight"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "rock-smash"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "endeavor"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "mud-sport"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "water-pulse"
+        ]
+      }
+    ],
+    "misc": [
+      "stomp",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "bite",
+      "growl",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "low-kick",
+      "counter",
+      "strength",
+      "rock-throw",
+      "dig",
+      "toxic",
+      "mimic",
+      "screech",
+      "double-team",
+      "defense-curl",
+      "barrier",
+      "bide",
+      "sludge",
+      "waterfall",
+      "amnesia",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "foresight",
+      "icy-wind",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "mirror-coat",
+      "ancient-power",
+      "rock-smash",
+      "whirlpool",
+      "uproar",
+      "hail",
+      "facade",
+      "superpower",
+      "yawn",
+      "endeavor",
+      "refresh",
+      "secret-power",
+      "dive",
+      "mud-sport",
+      "ice-ball",
+      "rock-tomb",
+      "water-pulse",
+      "natural-gift",
+      "aqua-tail",
+      "earth-power",
+      "avalanche",
+      "mud-bomb",
+      "captivate",
+      "wide-guard",
+      "sludge-wave",
+      "round",
+      "echoed-voice",
+      "scald",
+      "water-pledge",
+      "work-up",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1",
+  "evolutions": [
+    {
+      "name": "marshtomp",
+      "level": 16,
+      "evoMoves": "Mud Shot"
+    }
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "name": "duraludon",
+  "id": 884,
+  "stock": true,
+  "base_experience": 187,
+  "size": {
+    "height": 1.8,
+    "width": 1.6,
+    "length": 1.8
+  },
+  "mass": 40.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 70,
+    "attack": 95,
+    "defense": 115,
+    "special_attack": 120,
+    "special_defense": 50,
+    "speed": 85
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "steel",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "light-metal",
+      "heavy-metal"
+    ],
+    "hidden": [
+      "stalwart"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "metal-claw"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "rock-smash"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "dragon-claw"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "metal-burst"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "flash-cannon"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "dragon-tail"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "laser-focus"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "breaking-swipe"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "body-slam",
+      "hyper-beam",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "screech",
+      "light-screen",
+      "reflect",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "outrage",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "mirror-coat",
+      "facade",
+      "brick-break",
+      "rock-tomb",
+      "iron-defense",
+      "dragon-claw",
+      "gyro-ball",
+      "dark-pulse",
+      "night-slash",
+      "dragon-pulse",
+      "giga-impact",
+      "flash-cannon",
+      "draco-meteor",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "heavy-slam",
+      "foul-play",
+      "round",
+      "snarl",
+      "stomping-tantrum",
+      "body-press",
+      "breaking-swipe",
+      "steel-beam",
+      "steel-roller"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_1"
+}

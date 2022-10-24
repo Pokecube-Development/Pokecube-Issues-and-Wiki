@@ -1,0 +1,174 @@
+{
+  "name": "steenee",
+  "id": 762,
+  "stock": true,
+  "base_experience": 102,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 8.2,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 52,
+    "attack": 40,
+    "defense": 48,
+    "special_attack": 40,
+    "special_defense": 48,
+    "speed": 62
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "leaf-guard",
+      "oblivious"
+    ],
+    "hidden": [
+      "sweet-veil"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 0,
+        "moves": [
+          "double-slap"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "razor-leaf",
+          "splash",
+          "flail",
+          "rapid-spin",
+          "play-nice"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "teeter-dance"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "leaf-storm"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "captivate"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "aromatic-mist"
+        ]
+      }
+    ],
+    "misc": [
+      "double-slap",
+      "stomp",
+      "razor-leaf",
+      "solar-beam",
+      "toxic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "splash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "giga-drain",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "rapid-spin",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "facade",
+      "nature-power",
+      "helping-hand",
+      "knock-off",
+      "endeavor",
+      "teeter-dance",
+      "aromatherapy",
+      "bounce",
+      "covet",
+      "magical-leaf",
+      "payback",
+      "fling",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "zen-headbutt",
+      "leaf-storm",
+      "captivate",
+      "grass-knot",
+      "low-sweep",
+      "round",
+      "draining-kiss",
+      "play-rough",
+      "play-nice",
+      "confide",
+      "aromatic-mist",
+      "dazzling-gleam",
+      "grassy-glide",
+      "triple-axel"
+    ]
+  },
+  "loot_table": "pokecube:entities/other_seeds",
+  "evolutions": [
+    {
+      "name": "tsareena",
+      "move": "stomp",
+      "evoMoves": "tropkick"
+    }
+  ]
+}

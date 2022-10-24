@@ -1,0 +1,16 @@
+{
+  "name": "submission",
+  "id": 66,
+  "power": 80,
+  "pp": 20,
+  "priority": 0,
+  "type": "fighting",
+  "accuracy": 80,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user grabs the target and recklessly dives for\nthe ground. This also damages the user a little.",
+  "move_category": "damage",
+  "drain": -25,
+  "effect_text_extend": "Inflicts regular damage.  User takes 1/4 the damage it inflicts in recoil.",
+  "effect_text_simple": "User receives 1/4 the damage it inflicts in recoil."
+}

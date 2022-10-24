@@ -1,0 +1,234 @@
+{
+  "name": "gengar-mega",
+  "id": 94,
+  "stock": true,
+  "base_experience": 270,
+  "size": {
+    "height": 1.4,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 40.5,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 65,
+    "defense": 80,
+    "special_attack": 170,
+    "special_defense": 95,
+    "speed": 130
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "ghost",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "shadow-tag"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "disable",
+          "hypnosis",
+          "haze",
+          "lick",
+          "smog",
+          "spite"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "night-shade"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "dream-eater"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "poison-gas"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "nightmare"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "destiny-bond"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "mean-look"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "will-o-wisp"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "shadow-punch"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "hex"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "headbutt",
+      "hyper-beam",
+      "seismic-toss",
+      "strength",
+      "mega-drain",
+      "thunderbolt",
+      "thunder",
+      "toxic",
+      "psychic",
+      "hypnosis",
+      "night-shade",
+      "double-team",
+      "confuse-ray",
+      "self-destruct",
+      "lick",
+      "dream-eater",
+      "explosion",
+      "rest",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "curse",
+      "spite",
+      "protect",
+      "sludge-bomb",
+      "destiny-bond",
+      "icy-wind",
+      "giga-drain",
+      "swagger",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "uproar",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "trick",
+      "role-play",
+      "brick-break",
+      "knock-off",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "shadow-punch",
+      "payback",
+      "embargo",
+      "fling",
+      "sucker-punch",
+      "poison-jab",
+      "dark-pulse",
+      "drain-punch",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "shadow-claw",
+      "trick-room",
+      "wonder-room",
+      "venoshock",
+      "telekinesis",
+      "foul-play",
+      "round",
+      "ally-switch",
+      "hex",
+      "confide",
+      "dazzling-gleam",
+      "infestation",
+      "power-up-punch",
+      "laser-focus"
+    ]
+  },
+  "old_name": "gengar_mega"
+}

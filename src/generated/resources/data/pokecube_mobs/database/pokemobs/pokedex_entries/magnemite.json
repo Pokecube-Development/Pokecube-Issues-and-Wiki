@@ -1,0 +1,241 @@
+{
+  "name": "magnemite",
+  "id": 81,
+  "stock": true,
+  "base_experience": 65,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 6.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 25,
+    "attack": 35,
+    "defense": 70,
+    "special_attack": 95,
+    "special_defense": 55,
+    "speed": 45
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "electric",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "magnet-pull",
+      "sturdy"
+    ],
+    "hidden": [
+      "analytic"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "supersonic"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "sonic-boom"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "thunder-shock"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "thunderbolt"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "thunder"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "zap-cannon"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "lock-on"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "gyro-ball"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "magnet-rise"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "mirror-shot"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "flash-cannon"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "magnet-bomb"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "electro-ball"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "tackle",
+      "take-down",
+      "double-edge",
+      "supersonic",
+      "sonic-boom",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "rage",
+      "teleport",
+      "mimic",
+      "screech",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "bide",
+      "swift",
+      "flash",
+      "explosion",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "zap-cannon",
+      "lock-on",
+      "endure",
+      "rollout",
+      "swagger",
+      "spark",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "facade",
+      "magic-coat",
+      "recycle",
+      "secret-power",
+      "metal-sound",
+      "signal-beam",
+      "iron-defense",
+      "shock-wave",
+      "gravity",
+      "gyro-ball",
+      "natural-gift",
+      "magnet-rise",
+      "mirror-shot",
+      "flash-cannon",
+      "discharge",
+      "magnet-bomb",
+      "charge-beam",
+      "electro-ball",
+      "round",
+      "volt-switch",
+      "electroweb",
+      "wild-charge",
+      "confide",
+      "steel-beam",
+      "rising-voltage"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_redstone_1",
+  "evolutions": [
+    {
+      "name": "magneton",
+      "level": 30,
+      "evoMoves": "triattack"
+    }
+  ]
+}

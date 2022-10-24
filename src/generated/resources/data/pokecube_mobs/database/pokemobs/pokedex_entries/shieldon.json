@@ -1,0 +1,190 @@
+{
+  "name": "shieldon",
+  "id": 410,
+  "stock": true,
+  "base_experience": 70,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 57.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "slow-then-very-fast",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 30,
+    "attack": 42,
+    "defense": 118,
+    "special_attack": 42,
+    "special_defense": 88,
+    "speed": 30
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "rock",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "sturdy"
+    ],
+    "hidden": [
+      "soundproof"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "protect"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "metal-burst"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "iron-head"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "heavy-slam"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "roar",
+      "flamethrower",
+      "ice-beam",
+      "blizzard",
+      "counter",
+      "strength",
+      "thunderbolt",
+      "thunder",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "screech",
+      "double-team",
+      "focus-energy",
+      "fire-blast",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "ancient-power",
+      "rock-smash",
+      "torment",
+      "facade",
+      "taunt",
+      "secret-power",
+      "rock-tomb",
+      "metal-sound",
+      "iron-defense",
+      "rock-blast",
+      "shock-wave",
+      "natural-gift",
+      "metal-burst",
+      "magnet-rise",
+      "rock-polish",
+      "earth-power",
+      "flash-cannon",
+      "iron-head",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "wide-guard",
+      "guard-split",
+      "smack-down",
+      "heavy-slam",
+      "round",
+      "incinerate",
+      "bulldoze",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/fossil_mob",
+  "evolutions": [
+    {
+      "name": "bastiodon",
+      "level": 30,
+      "evoMoves": "block"
+    }
+  ]
+}

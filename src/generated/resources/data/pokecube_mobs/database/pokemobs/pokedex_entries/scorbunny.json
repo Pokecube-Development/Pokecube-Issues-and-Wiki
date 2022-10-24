@@ -1,0 +1,153 @@
+{
+  "name": "scorbunny",
+  "id": 813,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 4.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 50,
+    "attack": 71,
+    "defense": 40,
+    "special_attack": 40,
+    "special_defense": 40,
+    "speed": 69
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "libero"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 12,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "ember"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "counter"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "flame-charge"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-kick",
+      "sand-attack",
+      "flamethrower",
+      "low-kick",
+      "agility",
+      "focus-energy",
+      "fire-blast",
+      "swift",
+      "high-jump-kick",
+      "rest",
+      "super-fang",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "baton-pass",
+      "sunny-day",
+      "heat-wave",
+      "facade",
+      "taunt",
+      "blaze-kick",
+      "overheat",
+      "bounce",
+      "mud-shot",
+      "u-turn",
+      "assurance",
+      "sucker-punch",
+      "fire-fang",
+      "gunk-shot",
+      "electro-ball",
+      "low-sweep",
+      "round",
+      "ally-switch",
+      "acrobatics",
+      "fire-pledge",
+      "work-up"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2",
+  "evolutions": [
+    {
+      "name": "raboot",
+      "level": 16,
+      "animation": "18"
+    }
+  ]
+}

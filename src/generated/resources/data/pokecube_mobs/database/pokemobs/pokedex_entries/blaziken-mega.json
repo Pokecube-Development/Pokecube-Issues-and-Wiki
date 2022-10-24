@@ -1,0 +1,191 @@
+{
+  "name": "blaziken-mega",
+  "id": 257,
+  "stock": true,
+  "base_experience": 284,
+  "size": {
+    "height": 1.9,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 52.0,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 80,
+    "attack": 160,
+    "defense": 80,
+    "special_attack": 130,
+    "special_defense": 80,
+    "speed": 100
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "fire",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "speed-boost"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "fire-punch",
+          "scratch",
+          "double-kick",
+          "sand-attack",
+          "growl",
+          "ember",
+          "high-jump-kick",
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "peck"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "blaze-kick"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "sky-uppercut"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "bulk-up"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "brave-bird"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "flame-charge"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "thunder-punch",
+      "scratch",
+      "swords-dance",
+      "cut",
+      "double-kick",
+      "sand-attack",
+      "growl",
+      "roar",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "peck",
+      "low-kick",
+      "strength",
+      "solar-beam",
+      "earthquake",
+      "dig",
+      "toxic",
+      "quick-attack",
+      "double-team",
+      "focus-energy",
+      "fire-blast",
+      "high-jump-kick",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "protect",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "role-play",
+      "superpower",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "blaze-kick",
+      "blast-burn",
+      "overheat",
+      "rock-tomb",
+      "sky-uppercut",
+      "aerial-ace",
+      "bulk-up",
+      "bounce",
+      "fling",
+      "last-resort",
+      "flare-blitz",
+      "poison-jab",
+      "focus-blast",
+      "brave-bird",
+      "giga-impact",
+      "shadow-claw",
+      "defog",
+      "stone-edge",
+      "hone-claws",
+      "flame-charge",
+      "low-sweep",
+      "round",
+      "echoed-voice",
+      "incinerate",
+      "acrobatics",
+      "fire-pledge",
+      "bulldoze",
+      "work-up",
+      "dual-chop",
+      "confide",
+      "power-up-punch",
+      "laser-focus"
+    ]
+  },
+  "old_name": "blaziken_mega"
+}

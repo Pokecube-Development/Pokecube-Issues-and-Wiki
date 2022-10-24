@@ -1,0 +1,177 @@
+{
+  "name": "fomantis",
+  "id": 753,
+  "stock": true,
+  "base_experience": 50,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 1.5,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 40,
+    "attack": 55,
+    "defense": 35,
+    "special_attack": 50,
+    "special_defense": 35,
+    "speed": 35
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "leaf-guard"
+    ],
+    "hidden": [
+      "contrary"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 14,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "sunny-day"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "ingrain"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "leaf-blade"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "x-scissor"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "leafage"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "growth",
+      "razor-leaf",
+      "solar-beam",
+      "toxic",
+      "double-team",
+      "leech-life",
+      "rest",
+      "slash",
+      "substitute",
+      "snore",
+      "protect",
+      "giga-drain",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "facade",
+      "nature-power",
+      "ingrain",
+      "weather-ball",
+      "aromatherapy",
+      "signal-beam",
+      "bullet-seed",
+      "magical-leaf",
+      "leaf-blade",
+      "payback",
+      "fling",
+      "worry-seed",
+      "poison-jab",
+      "seed-bomb",
+      "x-scissor",
+      "energy-ball",
+      "defog",
+      "leaf-storm",
+      "grass-knot",
+      "bug-bite",
+      "round",
+      "dual-chop",
+      "confide",
+      "leafage",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_1",
+  "evolutions": [
+    {
+      "name": "lurantis",
+      "level": 34,
+      "time": "day",
+      "evoMoves": "petalblizzard"
+    }
+  ]
+}

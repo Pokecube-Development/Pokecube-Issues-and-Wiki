@@ -1,0 +1,15 @@
+{
+  "name": "wake-up-slap",
+  "id": 358,
+  "power": 70,
+  "pp": 10,
+  "priority": 0,
+  "type": "fighting",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "This attack inflicts big damage on a sleeping target.\nThis also wakes the target up, however.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  If the target is sleeping, this move has double power, and the target wakes up.",
+  "effect_text_simple": "If the target is asleep, has double power and wakes it up."
+}

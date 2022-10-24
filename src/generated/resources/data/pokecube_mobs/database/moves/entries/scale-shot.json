@@ -1,0 +1,17 @@
+{
+  "name": "scale-shot",
+  "id": 799,
+  "power": 25,
+  "pp": 20,
+  "priority": 0,
+  "type": "dragon",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user attacks by shooting scales two to five times\nin a row. This move boosts the user’s Speed stat but\nlowers its Defense stat.",
+  "move_category": "damage",
+  "max_hits": 5,
+  "min_hits": 2,
+  "effect_text_extend": "Inflicts regular damage two to five times in a row, raising the user's Speed and lowering the user's Defense by one stage each upon last hit.",
+  "effect_text_simple": "Boosts the user's Speed and lowers their Defense by one stage after inflicting damage two to five times in a row."
+}

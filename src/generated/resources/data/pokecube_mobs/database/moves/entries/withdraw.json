@@ -1,0 +1,13 @@
+{
+  "name": "withdraw",
+  "id": 110,
+  "pp": 40,
+  "priority": 0,
+  "type": "water",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user withdraws its body into its hard shell,\nraising its Defense stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises the user's Defense by one stage.",
+  "effect_text_simple": "Raises the user's Defense by one stage."
+}

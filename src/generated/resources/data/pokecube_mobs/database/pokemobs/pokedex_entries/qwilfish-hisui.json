@@ -1,0 +1,126 @@
+{
+  "name": "qwilfish-hisui",
+  "id": 211,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 3.9,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 65,
+    "attack": 95,
+    "defense": 85,
+    "special_attack": 55,
+    "special_defense": 55,
+    "speed": 85
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "dark",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "poison-point",
+      "swift-swim"
+    ],
+    "hidden": [
+      "intimidate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 9,
+        "moves": [
+          "poison-sting"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "spikes"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "pin-missile"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": []
+      },
+      {
+        "L": 31,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 71,
+        "moves": [
+          "self-destruct"
+        ]
+      }
+    ],
+    "misc": [
+      "ice-ball",
+      "spikes",
+      "swift",
+      "rest",
+      "poison-jab",
+      "water-pulse",
+      "icy-wind",
+      "sludge-bomb",
+      "shadow-ball",
+      "aqua-tail",
+      "ice-beam",
+      "dark-pulse"
+    ]
+  },
+  "evolutions": [
+    {
+      "name": "overqwil",
+      "location": {
+        "and_preset": "cave_water"
+      }
+    }
+  ],
+  "old_name": "qwilfish_hisui"
+}

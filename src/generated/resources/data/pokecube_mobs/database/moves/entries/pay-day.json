@@ -1,0 +1,15 @@
+{
+  "name": "pay-day",
+  "id": 6,
+  "power": 40,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "Numerous coins are hurled at the target to inflict\ndamage. Money is earned after the battle.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  After the battle ends, the winner receives five times the user's level in extra money for each time this move was used.",
+  "effect_text_simple": "Scatters money on the ground worth five times the user's level."
+}

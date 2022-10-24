@@ -6,7 +6,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.items.UsableItemEffects;
 
 public interface IPokemobUseable
@@ -20,8 +20,8 @@ public interface IPokemobUseable
     public static IPokemobUseable getUsableFor(final ICapabilityProvider objectIn)
     {
         if (objectIn == null) return null;
-        final IPokemobUseable pokemobHolder = objectIn.getCapability(UsableItemEffects.USABLEITEM_CAP, null).orElse(
-                null);
+        final IPokemobUseable pokemobHolder = objectIn.getCapability(UsableItemEffects.USABLEITEM_CAP, null)
+                .orElse(null);
         if (pokemobHolder != null) return pokemobHolder;
         else if (IPokemobUseable.class.isInstance(objectIn)) return IPokemobUseable.class.cast(objectIn);
         else if (objectIn instanceof ItemStack && IPokemobUseable.class.isInstance(((ItemStack) objectIn).getItem()))
@@ -34,7 +34,8 @@ public interface IPokemobUseable
      * @param stack
      * @return
      */
-    public default InteractionResultHolder<ItemStack> onMoveTick(final IPokemob attacker, final ItemStack stack, final MovePacket moveuse)
+    public default InteractionResultHolder<ItemStack> onMoveTick(final IPokemob attacker, final ItemStack stack,
+            final MoveApplication moveuse, boolean pre)
     {
         return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
     }
@@ -62,7 +63,8 @@ public interface IPokemobUseable
      * @param stack
      * @return something happened
      */
-    public default InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
+    public default InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack,
+            final LivingEntity user)
     {
         return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
     }

@@ -1,0 +1,382 @@
+{
+  "name": "arceus",
+  "id": 493,
+  "stock": true,
+  "base_experience": 324,
+  "size": {
+    "height": 3.2,
+    "width": 2.0,
+    "length": 3.2
+  },
+  "mass": 320.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 120,
+    "attack": 120,
+    "defense": 120,
+    "special_attack": 120,
+    "special_defense": 120,
+    "speed": 120
+  },
+  "evs": {
+    "hp": 3
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "multitype"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 80,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "seismic-toss",
+          "cosmic-power",
+          "natural-gift",
+          "punishment"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 90,
+        "moves": [
+          "perish-song"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "extreme-speed"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "refresh"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "hyper-voice"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "gravity"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 100,
+        "moves": [
+          "judgment"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "fly",
+      "headbutt",
+      "roar",
+      "flamethrower",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "seismic-toss",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "psychic",
+      "double-team",
+      "recover",
+      "light-screen",
+      "reflect",
+      "fire-blast",
+      "waterfall",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "perish-song",
+      "icy-wind",
+      "outrage",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "extreme-speed",
+      "ancient-power",
+      "shadow-ball",
+      "future-sight",
+      "rock-smash",
+      "whirlpool",
+      "heat-wave",
+      "hail",
+      "will-o-wisp",
+      "facade",
+      "trick",
+      "magic-coat",
+      "recycle",
+      "brick-break",
+      "refresh",
+      "secret-power",
+      "dive",
+      "hyper-voice",
+      "overheat",
+      "rock-tomb",
+      "silver-wind",
+      "cosmic-power",
+      "signal-beam",
+      "bullet-seed",
+      "aerial-ace",
+      "iron-defense",
+      "dragon-claw",
+      "calm-mind",
+      "shock-wave",
+      "water-pulse",
+      "gravity",
+      "brine",
+      "natural-gift",
+      "tailwind",
+      "payback",
+      "punishment",
+      "last-resort",
+      "poison-jab",
+      "dark-pulse",
+      "aqua-tail",
+      "x-scissor",
+      "dragon-pulse",
+      "focus-blast",
+      "energy-ball",
+      "earth-power",
+      "giga-impact",
+      "avalanche",
+      "shadow-claw",
+      "zen-headbutt",
+      "flash-cannon",
+      "rock-climb",
+      "defog",
+      "trick-room",
+      "draco-meteor",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "grass-knot",
+      "judgment",
+      "charge-beam",
+      "ominous-wind",
+      "hone-claws",
+      "psyshock",
+      "telekinesis",
+      "round",
+      "echoed-voice",
+      "incinerate",
+      "quash",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "snarl",
+      "confide",
+      "laser-focus",
+      "liquidation"
+    ]
+  },
+  "model": {
+    "key": "arceus_normal",
+    "tex": "arceus_normal",
+    "model": "arceus",
+    "anim": "arceus",
+    "types": "normal"
+  },
+  "models": [
+    {
+      "key": "arceus_bug",
+      "tex": "arceus_bug",
+      "model": "arceus",
+      "anim": "arceus",
+      "types": "bug"
+    },
+    {
+      "key": "arceus_dark",
+      "tex": "arceus_dark",
+      "model": "arceus",
+      "anim": "arceus",
+      "types": "dark"
+    },
+    {
+      "key": "arceus_dragon",
+      "tex": "arceus_dragon",
+      "model": "arceus",
+      "anim": "arceus",
+      "types": "dragon"
+    },
+    {
+      "key": "arceus_electric",
+      "tex": "arceus_electric",
+      "model": "arceus",
+      "anim": "arceus",
+      "types": "electric"
+    },
+    {
+      "key": "arceus_fighting",
+      "tex": "arceus_fighting",
+      "model": "arceus",
+      "anim": "arceus",
+      "types": "fighting"
+    },
+    {
+      "key": "arceus_fire",
+      "tex": "arceus_fire",
+      "model": "arceus",
+      "anim": "arceus",
+      "types": "fire"
+    },
+    {
+      "key": "arceus_flying",
+      "tex": "arceus_flying",
+      "model": "arceus",
+      "anim": "arceus",
+      "types": "flying"
+    },
+    {
+      "key": "arceus_ghost",
+      "tex": "arceus_ghost",
+      "model": "arceus",
+      "anim": "arceus",
+      "types": "ghost"
+    },
+    {
+      "key": "arceus_grass",
+      "tex": "arceus_grass",
+      "model": "arceus",
+      "anim": "arceus",
+      "types": "grass"
+    },
+    {
+      "key": "arceus_ground",
+      "tex": "arceus_ground",
+      "model": "arceus",
+      "anim": "arceus",
+      "types": "ground"
+    },
+    {
+      "key": "arceus_ice",
+      "tex": "arceus_ice",
+      "model": "arceus",
+      "anim": "arceus",
+      "types": "ice"
+    },
+    {
+      "key": "arceus_poison",
+      "tex": "arceus_poison",
+      "model": "arceus",
+      "anim": "arceus",
+      "types": "poison"
+    },
+    {
+      "key": "arceus_psychic",
+      "tex": "arceus_psychic",
+      "model": "arceus",
+      "anim": "arceus",
+      "types": "psychic"
+    },
+    {
+      "key": "arceus_rock",
+      "tex": "arceus_rock",
+      "model": "arceus",
+      "anim": "arceus",
+      "types": "rock"
+    },
+    {
+      "key": "arceus_steel",
+      "tex": "arceus_steel",
+      "model": "arceus",
+      "anim": "arceus",
+      "types": "steel"
+    },
+    {
+      "key": "arceus_water",
+      "tex": "arceus_water",
+      "model": "arceus",
+      "anim": "arceus",
+      "types": "water"
+    },
+    {
+      "key": "arceus_unknown",
+      "tex": "arceus_unknown",
+      "model": "arceus",
+      "anim": "arceus",
+      "types": "unknown"
+    },
+    {
+      "key": "arceus_fairy",
+      "tex": "arceus_fairy",
+      "model": "arceus",
+      "anim": "arceus",
+      "types": "fairy"
+    }
+  ],
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:space_temple",
+        "rate": "0.0"
+      }
+    }
+  ]
+}

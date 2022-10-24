@@ -1,0 +1,205 @@
+{
+  "name": "electivire",
+  "id": 466,
+  "stock": true,
+  "base_experience": 270,
+  "size": {
+    "height": 1.8,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 138.6,
+  "is_default": true,
+  "capture_rate": 30,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 75,
+    "attack": 123,
+    "defense": 67,
+    "special_attack": 95,
+    "special_defense": 85,
+    "speed": 95
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "motor-drive"
+    ],
+    "hidden": [
+      "vital-spirit"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "fire-punch",
+          "leer",
+          "low-kick",
+          "thunder-shock",
+          "quick-attack",
+          "charge",
+          "ion-deluge",
+          "electric-terrain"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "thunder-punch"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "thunderbolt"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "thunder"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "shock-wave"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "giga-impact"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "electro-ball"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "leer",
+      "flamethrower",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "dig",
+      "toxic",
+      "psychic",
+      "quick-attack",
+      "screech",
+      "double-team",
+      "light-screen",
+      "swift",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "mud-slap",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "rock-smash",
+      "uproar",
+      "torment",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "brick-break",
+      "secret-power",
+      "weather-ball",
+      "rock-tomb",
+      "signal-beam",
+      "covet",
+      "shock-wave",
+      "natural-gift",
+      "fling",
+      "magnet-rise",
+      "focus-blast",
+      "giga-impact",
+      "rock-climb",
+      "discharge",
+      "captivate",
+      "charge-beam",
+      "electro-ball",
+      "low-sweep",
+      "round",
+      "volt-switch",
+      "bulldoze",
+      "electroweb",
+      "wild-charge",
+      "dual-chop",
+      "ion-deluge",
+      "confide",
+      "electric-terrain",
+      "power-up-punch",
+      "darkest-lariat",
+      "stomping-tantrum",
+      "rising-voltage"
+    ]
+  },
+  "loot_table": "pokecube:entities/redstone_rabbit_3"
+}

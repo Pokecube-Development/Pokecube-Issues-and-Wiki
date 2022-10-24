@@ -1,0 +1,254 @@
+{
+  "name": "jirachi",
+  "id": 385,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 1.1,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 100,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 100,
+    "attack": 100,
+    "defense": 100,
+    "special_attack": 100,
+    "special_defense": 100,
+    "speed": 100
+  },
+  "evs": {
+    "hp": 3
+  },
+  "types": [
+    "steel",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "serene-grace"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 40,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "confusion",
+          "wish"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "refresh"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "meteor-mash"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "cosmic-power"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "doom-desire"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "gravity"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "healing-wish"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "last-resort"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "life-dew"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "hyper-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "confusion",
+      "psychic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "metronome",
+      "swift",
+      "amnesia",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "nightmare",
+      "snore",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "sandstorm",
+      "endure",
+      "charm",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dynamic-punch",
+      "baton-pass",
+      "encore",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "shadow-ball",
+      "future-sight",
+      "uproar",
+      "facade",
+      "helping-hand",
+      "trick",
+      "wish",
+      "magic-coat",
+      "recycle",
+      "skill-swap",
+      "imprison",
+      "refresh",
+      "secret-power",
+      "cosmic-power",
+      "signal-beam",
+      "aerial-ace",
+      "iron-defense",
+      "calm-mind",
+      "shock-wave",
+      "water-pulse",
+      "doom-desire",
+      "gravity",
+      "healing-wish",
+      "natural-gift",
+      "u-turn",
+      "fling",
+      "last-resort",
+      "aura-sphere",
+      "drain-punch",
+      "energy-ball",
+      "giga-impact",
+      "zen-headbutt",
+      "flash-cannon",
+      "trick-room",
+      "iron-head",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "play-rough",
+      "confide",
+      "dazzling-gleam",
+      "power-up-punch",
+      "steel-beam",
+      "expanding-force",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:sky_pillar",
+        "rate": "0.0"
+      }
+    }
+  ]
+}

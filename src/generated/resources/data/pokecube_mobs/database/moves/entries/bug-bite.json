@@ -1,0 +1,15 @@
+{
+  "name": "bug-bite",
+  "id": 450,
+  "power": 60,
+  "pp": 20,
+  "priority": 0,
+  "type": "bug",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user bites the target. If the target is holding a\nBerry, the user eats it and gains its effect.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  If the target is holding a berry, this move has double power, and the user takes the berry and uses it immediately.\n\nIf the target is holding a jaboca berry or rowap berry, the berry is still removed, but has no effect.\n\nIf this move is super effective and the target is holding a berry that can reduce this move's damage, it will do so, and will not be stolen.",
+  "effect_text_simple": "If target has a berry, inflicts double damage and uses the berry."
+}

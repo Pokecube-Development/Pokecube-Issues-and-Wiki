@@ -1,0 +1,15 @@
+{
+  "name": "facade",
+  "id": 263,
+  "power": 70,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "This attack move doubles its power if the user is\npoisoned, burned, or paralyzed.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  If the user is burned, paralyzed, or poisoned, this move has double power.",
+  "effect_text_simple": "Power doubles if user is burned, paralyzed, or poisoned."
+}

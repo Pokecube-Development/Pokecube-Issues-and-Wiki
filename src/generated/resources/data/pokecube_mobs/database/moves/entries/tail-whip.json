@@ -1,0 +1,14 @@
+{
+  "name": "tail-whip",
+  "id": 39,
+  "pp": 30,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "status",
+  "flavor_text": "The user wags its tail cutely, making opposing\nPokémon less wary and lowering their Defense stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Lowers the target's Defense by one stage.",
+  "effect_text_simple": "Lowers the target's Defense by one stage."
+}

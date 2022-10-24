@@ -1,0 +1,211 @@
+{
+  "name": "rowlet",
+  "id": 722,
+  "stock": true,
+  "base_experience": 64,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 1.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 68,
+    "attack": 55,
+    "defense": 55,
+    "special_attack": 50,
+    "special_defense": 50,
+    "speed": 42
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "grass",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "long-reach"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 29,
+        "moves": [
+          "fury-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "leafage"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "growl"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "peck"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "foresight"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "feather-dance"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "astonish"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "leaf-blade"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "pluck"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "brave-bird"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "shadow-sneak"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "ominous-wind"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "fury-attack",
+      "tackle",
+      "growl",
+      "peck",
+      "razor-leaf",
+      "solar-beam",
+      "toxic",
+      "double-team",
+      "confuse-ray",
+      "light-screen",
+      "haze",
+      "swift",
+      "sky-attack",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "foresight",
+      "giga-drain",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "baton-pass",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "facade",
+      "nature-power",
+      "knock-off",
+      "feather-dance",
+      "astonish",
+      "covet",
+      "leaf-blade",
+      "roost",
+      "pluck",
+      "worry-seed",
+      "sucker-punch",
+      "seed-bomb",
+      "energy-ball",
+      "brave-bird",
+      "nasty-plot",
+      "shadow-claw",
+      "defog",
+      "grass-knot",
+      "ominous-wind",
+      "round",
+      "echoed-voice",
+      "grass-pledge",
+      "work-up",
+      "confide",
+      "leafage",
+      "grassy-glide",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_1",
+  "evolutions": [
+    {
+      "name": "dartrix",
+      "level": 17
+    }
+  ]
+}

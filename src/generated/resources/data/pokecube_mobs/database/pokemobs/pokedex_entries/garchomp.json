@@ -1,0 +1,213 @@
+{
+  "name": "garchomp",
+  "id": 445,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 1.9,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 95.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 108,
+    "attack": 130,
+    "defense": 95,
+    "special_attack": 80,
+    "special_defense": 85,
+    "speed": 102
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "dragon",
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "sand-veil"
+    ],
+    "hidden": [
+      "rough-skin"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "sand-attack",
+          "tackle",
+          "dragon-rage",
+          "sandstorm",
+          "dragon-breath",
+          "fire-fang",
+          "dual-chop"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "dig"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "sand-tomb"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "dragon-claw"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "dragon-rush"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bulldoze"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "sand-attack",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "roar",
+      "flamethrower",
+      "surf",
+      "hyper-beam",
+      "strength",
+      "dragon-rage",
+      "earthquake",
+      "dig",
+      "toxic",
+      "double-team",
+      "fire-blast",
+      "swift",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "outrage",
+      "sandstorm",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "whirlpool",
+      "facade",
+      "brick-break",
+      "secret-power",
+      "rock-tomb",
+      "sand-tomb",
+      "aerial-ace",
+      "dragon-claw",
+      "mud-shot",
+      "natural-gift",
+      "fling",
+      "poison-jab",
+      "aqua-tail",
+      "dragon-pulse",
+      "dragon-rush",
+      "earth-power",
+      "giga-impact",
+      "shadow-claw",
+      "fire-fang",
+      "rock-climb",
+      "draco-meteor",
+      "iron-head",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "hone-claws",
+      "round",
+      "incinerate",
+      "bulldoze",
+      "dragon-tail",
+      "dual-chop",
+      "confide",
+      "laser-focus",
+      "brutal-swing",
+      "stomping-tantrum",
+      "breaking-swipe",
+      "scale-shot",
+      "scorching-sands"
+    ]
+  },
+  "male_model": {
+    "key": "garchomp_male",
+    "tex": "garchomp",
+    "model": "garchomp_male",
+    "anim": "garchomp_male"
+  },
+  "female_model": {
+    "key": "garchomp_female",
+    "tex": "garchomp",
+    "model": "garchomp_female",
+    "anim": "garchomp_female"
+  },
+  "loot_table": "pokecube:entities/iron_chicken_2",
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "garchompmega"
+    }
+  ]
+}

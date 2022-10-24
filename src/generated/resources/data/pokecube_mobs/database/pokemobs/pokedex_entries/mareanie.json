@@ -1,0 +1,193 @@
+{
+  "name": "mareanie",
+  "id": 747,
+  "stock": true,
+  "base_experience": 61,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 8.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 50,
+    "attack": 53,
+    "defense": 62,
+    "special_attack": 43,
+    "special_defense": 52,
+    "speed": 45
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "poison",
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "merciless",
+      "limber"
+    ],
+    "hidden": [
+      "regenerator"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "poison-sting"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "pin-missile"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "peck"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "spike-cannon"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "toxic-spikes"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "wide-guard"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "venoshock"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "venom-drench"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "liquidation"
+        ]
+      }
+    ],
+    "misc": [
+      "poison-sting",
+      "pin-missile",
+      "bite",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "peck",
+      "toxic",
+      "double-team",
+      "recover",
+      "haze",
+      "spike-cannon",
+      "rest",
+      "substitute",
+      "snore",
+      "spite",
+      "protect",
+      "sludge-bomb",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "hidden-power",
+      "rain-dance",
+      "stockpile",
+      "spit-up",
+      "swallow",
+      "hail",
+      "facade",
+      "magic-coat",
+      "knock-off",
+      "snatch",
+      "muddy-water",
+      "iron-defense",
+      "mud-shot",
+      "covet",
+      "water-pulse",
+      "brine",
+      "payback",
+      "gastro-acid",
+      "toxic-spikes",
+      "poison-jab",
+      "gunk-shot",
+      "wide-guard",
+      "venoshock",
+      "sludge-wave",
+      "after-you",
+      "round",
+      "scald",
+      "frost-breath",
+      "confide",
+      "venom-drench",
+      "infestation",
+      "liquidation"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1",
+  "evolutions": [
+    {
+      "name": "toxapex",
+      "level": 38,
+      "evoMoves": "banefulbunker"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "sleep-powder",
+  "id": 79,
+  "pp": 15,
+  "priority": 0,
+  "type": "grass",
+  "accuracy": 75,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user scatters a big cloud of sleep-inducing dust\naround the target.",
+  "move_category": "ailment",
+  "max_turns": 4,
+  "min_turns": 2,
+  "effect_text_extend": "Puts the target to sleep.",
+  "effect_text_simple": "Puts the target to sleep."
+}

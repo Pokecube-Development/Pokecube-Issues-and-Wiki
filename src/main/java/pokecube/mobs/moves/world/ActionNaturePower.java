@@ -31,7 +31,7 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.IMoveAction;
+import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.ResourceData;
@@ -42,7 +42,7 @@ import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 import thut.lib.RegHelper;
 
-public class ActionNaturePower implements IMoveAction
+public class ActionNaturePower implements IMoveWorldEffect
 {
     private static final List<ConfigChanger> CHANGERS = Lists.newArrayList();
 
@@ -421,7 +421,7 @@ public class ActionNaturePower implements IMoveAction
     @Override
     public String getMoveName()
     {
-        return "naturepower";
+        return "nature-power";
     }
 
     @Override

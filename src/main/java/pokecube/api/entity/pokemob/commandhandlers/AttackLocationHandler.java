@@ -5,7 +5,7 @@ import net.minecraft.network.chat.Component;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.combat.CommandAttackEvent;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.moves.MovesUtils;
@@ -35,7 +35,7 @@ public class AttackLocationHandler extends DefaultHandler
 
         if (!evt.isCanceled() && currentMove != 5 && MovesUtils.canUseMove(pokemob))
         {
-            final Move_Base move = MovesUtils.getMoveFromName(pokemob.getMoves()[currentMove]);
+            final MoveEntry move = MovesUtils.getMove(pokemob.getMoves()[currentMove]);
             // Send move use message first.
             Component mess = TComponent.translatable("pokemob.action.usemove", pokemob.getDisplayName(),
                     TComponent.translatable(MovesUtils.getUnlocalizedMove(move.getName())));

@@ -4,8 +4,6 @@ import javax.annotation.Nonnull;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.eventbus.api.Event;
-import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
@@ -13,11 +11,9 @@ import pokecube.api.entity.pokemob.IHasCommands.Command;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.commandhandlers.SwapMovesHandler;
-import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
-import pokecube.api.events.pokemobs.combat.MoveUse;
-import pokecube.api.moves.IMoveConstants;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;
@@ -156,13 +152,13 @@ public interface IHasMoves extends IHasStats
      *         need to look this up.
      */
     @Nonnull
-    default Move_Base getSelectedMove()
+    default MoveEntry getSelectedMove()
     {
         if (this.getMoveStats().selectedMove == null)
         {
-            this.getMoveStats().selectedMove = MovesUtils.getMoveFromName(this.getMove(this.getMoveIndex()));
+            this.getMoveStats().selectedMove = MovesUtils.getMove(this.getMove(this.getMoveIndex()));
             if (this.getMoveStats().selectedMove == null)
-                this.getMoveStats().selectedMove = MovesUtils.getMoveFromName(IMoveConstants.DEFAULT_MOVE);
+                this.getMoveStats().selectedMove = MovesUtils.getMove(IMoveConstants.DEFAULT_MOVE);
         }
         return this.getMoveStats().selectedMove;
     }
@@ -301,22 +297,6 @@ public interface IHasMoves extends IHasStats
     }
 
     /**
-     * This is called during move use to both the attacker and the attacked
-     * entity, in that order. This can be used to add in abilities, In
-     * EntityMovesPokemob, this is used for accounting for moves like curse,
-     * detect, protect, etc, moves which either have different effects per
-     * pokemon type, or moves that prevent damage.
-     *
-     * @param move
-     */
-    default void onMoveUse(final MovePacket move)
-    {
-        final Event toPost = move.pre ? new MoveUse.DuringUse.Pre(move, move.attacker == this)
-                : new MoveUse.DuringUse.Post(move, move.attacker == this);
-        PokecubeAPI.MOVE_BUS.post(toPost);
-    }
-
-    /**
      * Called to notify the pokemob that a new target has been set.
      *
      * @param entity
@@ -412,7 +392,7 @@ public interface IHasMoves extends IHasStats
      * @param status the status to set
      * @return whether the status has actually been set
      */
-    default boolean setStatus(final byte status)
+    default boolean setStatus(final int status)
     {
         return this.setStatus(status, -1);
     }
@@ -425,7 +405,7 @@ public interface IHasMoves extends IHasStats
      * @param turns  How many times attackCooldown should the status apply.
      * @return whether the status has actually been set
      */
-    boolean setStatus(byte status, int turns);
+    boolean setStatus(int status, int turns);
 
     /**
      * Sets the initial status timer. The timer will be decreased until 0. The

@@ -18,12 +18,12 @@ import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry.Category;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
-import pokecube.core.database.moves.MoveEntry.Category;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.zmoves.GZMoveManager;
 import thut.lib.TComponent;
@@ -71,18 +71,18 @@ public class Moves extends ListPage<LineEntry>
             {
                 Component moveName = MovesUtils.getMoveName(move.getName(), pokemob);
                 GuiComponent.drawString(mat, this.font, moveName, x + dx, y + dy + offset[1] + offset[4],
-                        move.getType(pokemob).colour);
+                        move.move.getType(pokemob).colour);
                 final int length = this.font.width(moveName);
                 boolean mouseOver = mx > 0 && mx < length && my > offset[1] && my < offset[1] + this.font.lineHeight;
                 if (mouseOver)
                 {
                     Component value = TComponent.literal("-");
-                    final int pwr = move.getPWR(this.parent.pokemob, this.watch.player);
-                    Component stat = move.getCategory(pokemob) == Category.PHYSICAL
+                    final int pwr = move.move.getPWR(this.parent.pokemob, this.watch.player);
+                    Component stat = move.move.getCategory(pokemob) == Category.PHYSICAL
                             ? TComponent.translatable("pokewatch.ATT", value)
                             : TComponent.translatable("pokewatch.ATTSP", value);
                     if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);
-                    if (GZMoveManager.isGZDMove(move.move.baseEntry) && offset[3] != this.parent.pokemob.getMoveIndex())
+                    if (GZMoveManager.isGZDMove(move.move) && offset[3] != this.parent.pokemob.getMoveIndex())
                         value = TComponent.translatable("pokewatch.moves.pwr.fmt", "???", stat);
                     Component info = TComponent.translatable("pokewatch.moves.pwr", value);
                     final int box = Math.max(10, this.font.width(info) + 2);
@@ -104,7 +104,7 @@ public class Moves extends ListPage<LineEntry>
                 Component moveName = MovesUtils.getMoveName(move.getName(), pokemob);
                 final int oy = 10;
                 GuiComponent.drawString(mat, this.font, moveName, x + dx, y + dy + offset[1] + oy,
-                        move.getType(this.parent.pokemob).colour);
+                        move.move.getType(this.parent.pokemob).colour);
             }
         }
     }
@@ -372,8 +372,8 @@ public class Moves extends ListPage<LineEntry>
             final Move_Base move = MovesUtils.getMoveFromName(comp.getString());
             if (move == null) break tooltip;
             Component value = TComponent.literal("-");
-            final int pwr = move.getPWR(pokemob, this.watch.player);
-            Component stat = move.getCategory(pokemob) == Category.PHYSICAL
+            final int pwr = move.move.getPWR(pokemob, this.watch.player);
+            Component stat = move.move.getCategory(pokemob) == Category.PHYSICAL
                     ? TComponent.translatable("pokewatch.ATT", value)
                     : TComponent.translatable("pokewatch.ATTSP", value);
             if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);

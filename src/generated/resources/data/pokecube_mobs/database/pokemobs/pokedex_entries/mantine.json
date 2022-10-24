@@ -1,0 +1,214 @@
+{
+  "name": "mantine",
+  "id": 226,
+  "stock": true,
+  "base_experience": 170,
+  "size": {
+    "height": 0.75,
+    "width": 2.1,
+    "length": 2.1
+  },
+  "mass": 220.0,
+  "is_default": true,
+  "capture_rate": 25,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 85,
+    "attack": 40,
+    "defense": 70,
+    "special_attack": 80,
+    "special_defense": 140,
+    "speed": 70
+  },
+  "evs": {
+    "special_defense": 2
+  },
+  "types": [
+    "water",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "swift-swim",
+      "water-absorb"
+    ],
+    "hidden": [
+      "water-veil"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 14,
+        "moves": [
+          "wing-attack"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "supersonic",
+          "water-gun",
+          "psybeam",
+          "bubble-beam",
+          "bubble",
+          "signal-beam",
+          "bullet-seed",
+          "roost"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "aqua-ring"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "wide-guard"
+        ]
+      }
+    ],
+    "misc": [
+      "wing-attack",
+      "slam",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "supersonic",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "psybeam",
+      "bubble-beam",
+      "hyper-beam",
+      "string-shot",
+      "earthquake",
+      "toxic",
+      "agility",
+      "mimic",
+      "double-team",
+      "confuse-ray",
+      "haze",
+      "waterfall",
+      "swift",
+      "amnesia",
+      "bubble",
+      "splash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "mirror-coat",
+      "whirlpool",
+      "hail",
+      "facade",
+      "helping-hand",
+      "secret-power",
+      "dive",
+      "mud-sport",
+      "air-cutter",
+      "rock-tomb",
+      "signal-beam",
+      "bullet-seed",
+      "aerial-ace",
+      "bounce",
+      "water-sport",
+      "rock-blast",
+      "water-pulse",
+      "roost",
+      "brine",
+      "natural-gift",
+      "tailwind",
+      "assurance",
+      "aqua-ring",
+      "aqua-tail",
+      "seed-bomb",
+      "air-slash",
+      "giga-impact",
+      "defog",
+      "gunk-shot",
+      "iron-head",
+      "captivate",
+      "wide-guard",
+      "round",
+      "scald",
+      "acrobatics",
+      "bulldoze",
+      "hurricane",
+      "confide",
+      "liquidation",
+      "body-press",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1"
+}

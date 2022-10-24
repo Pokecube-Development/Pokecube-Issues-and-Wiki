@@ -1,0 +1,254 @@
+{
+  "name": "marill",
+  "id": 183,
+  "stock": true,
+  "base_experience": 88,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 8.5,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 70,
+    "attack": 20,
+    "defense": 50,
+    "special_attack": 20,
+    "special_defense": 50,
+    "speed": 40
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "water",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "thick-fat",
+      "huge-power"
+    ],
+    "hidden": [
+      "sap-sipper"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 12,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "water-gun"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 2,
+        "moves": [
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "defense-curl",
+          "rollout"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "bubble"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "water-sport"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "aqua-ring"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "play-rough"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "mega-kick",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "tail-whip",
+      "sing",
+      "supersonic",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "seismic-toss",
+      "strength",
+      "dig",
+      "toxic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "light-screen",
+      "waterfall",
+      "swift",
+      "amnesia",
+      "bubble",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "belly-drum",
+      "mud-slap",
+      "foresight",
+      "perish-song",
+      "icy-wind",
+      "endure",
+      "charm",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "present",
+      "frustration",
+      "dynamic-punch",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "future-sight",
+      "rock-smash",
+      "whirlpool",
+      "uproar",
+      "hail",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "superpower",
+      "brick-break",
+      "knock-off",
+      "refresh",
+      "secret-power",
+      "dive",
+      "camouflage",
+      "hyper-voice",
+      "fake-tears",
+      "tickle",
+      "muddy-water",
+      "bounce",
+      "mud-shot",
+      "covet",
+      "water-sport",
+      "water-pulse",
+      "natural-gift",
+      "fling",
+      "copycat",
+      "aqua-ring",
+      "aqua-tail",
+      "captivate",
+      "grass-knot",
+      "aqua-jet",
+      "soak",
+      "round",
+      "scald",
+      "work-up",
+      "draining-kiss",
+      "misty-terrain",
+      "play-rough",
+      "confide",
+      "power-up-punch",
+      "brutal-swing",
+      "steel-roller",
+      "misty-explosion"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1",
+  "evolutions": [
+    {
+      "name": "azumarill",
+      "level": 18
+    }
+  ]
+}

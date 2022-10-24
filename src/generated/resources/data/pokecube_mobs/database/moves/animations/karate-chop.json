@@ -1,0 +1,16 @@
+{
+  "name": "karatechop",
+  "animations": [
+    {
+      "preset": "cartFunc:l2:pcrit:w0.66:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~karatechop",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "applyAfter": false
+    }
+  ]
+}

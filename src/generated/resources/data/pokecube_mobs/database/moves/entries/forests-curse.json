@@ -1,0 +1,14 @@
+{
+  "name": "forests-curse",
+  "id": 571,
+  "pp": 20,
+  "priority": 0,
+  "type": "grass",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user puts a forest curse on the target.\nThe target is now Grass type as well.",
+  "move_category": "unique",
+  "effect_text_extend": "Adds grass to the target's types.",
+  "effect_text_simple": "Adds grass to the target's types."
+}

@@ -1,0 +1,235 @@
+{
+  "name": "grimer",
+  "id": 88,
+  "stock": true,
+  "base_experience": 65,
+  "size": {
+    "height": 0.9,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 30.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 80,
+    "attack": 80,
+    "defense": 50,
+    "special_attack": 40,
+    "special_defense": 50,
+    "speed": 25
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "stench",
+      "sticky-hold"
+    ],
+    "hidden": [
+      "poison-touch"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "poison-gas"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "disable"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "harden"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "minimize"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "sludge"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "acid-armor"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "sludge-bomb"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "memento"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "fling"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "mud-bomb"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "gunk-shot"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "sludge-wave"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "belch"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "headbutt",
+      "body-slam",
+      "disable",
+      "flamethrower",
+      "strength",
+      "mega-drain",
+      "thunderbolt",
+      "thunder",
+      "dig",
+      "toxic",
+      "rage",
+      "mimic",
+      "screech",
+      "double-team",
+      "harden",
+      "minimize",
+      "haze",
+      "bide",
+      "self-destruct",
+      "lick",
+      "sludge",
+      "fire-blast",
+      "poison-gas",
+      "acid-armor",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "mud-slap",
+      "zap-cannon",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "dynamic-punch",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "stockpile",
+      "spit-up",
+      "swallow",
+      "torment",
+      "memento",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "imprison",
+      "secret-power",
+      "rock-tomb",
+      "shadow-punch",
+      "shock-wave",
+      "natural-gift",
+      "payback",
+      "fling",
+      "poison-jab",
+      "shadow-sneak",
+      "mud-bomb",
+      "gunk-shot",
+      "captivate",
+      "venoshock",
+      "sludge-wave",
+      "acid-spray",
+      "round",
+      "incinerate",
+      "belch",
+      "confide",
+      "infestation",
+      "power-up-punch"
+    ]
+  },
+  "loot_table": "pokecube:entities/slimeballs_1",
+  "evolutions": [
+    {
+      "name": "muk",
+      "level": 38,
+      "evoMoves": "venomdrench"
+    }
+  ]
+}

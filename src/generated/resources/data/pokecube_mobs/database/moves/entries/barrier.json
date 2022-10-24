@@ -1,0 +1,13 @@
+{
+  "name": "barrier",
+  "id": 112,
+  "pp": 20,
+  "priority": 0,
+  "type": "psychic",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user throws up a sturdy wall that sharply raises\nits Defense stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises the user's Defense by two stages.",
+  "effect_text_simple": "Raises the user's Defense by two stages."
+}

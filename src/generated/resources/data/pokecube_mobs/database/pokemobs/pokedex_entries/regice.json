@@ -1,0 +1,198 @@
+{
+  "name": "regice",
+  "id": 378,
+  "stock": true,
+  "base_experience": 290,
+  "size": {
+    "height": 1.8,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 175.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 80,
+    "attack": 50,
+    "defense": 100,
+    "special_attack": 100,
+    "special_defense": 200,
+    "speed": 50
+  },
+  "evs": {
+    "special_defense": 3
+  },
+  "types": [
+    "ice"
+  ],
+  "abilities": {
+    "normal": [
+      "clear-body"
+    ],
+    "hidden": [
+      "ice-body"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "stomp",
+          "explosion",
+          "icy-wind",
+          "charge-beam",
+          "bulldoze"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "ice-beam"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "zap-cannon",
+          "lock-on"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "hammer-arm"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "thunder-punch",
+      "stomp",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "self-destruct",
+      "amnesia",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "icy-wind",
+      "lock-on",
+      "endure",
+      "rollout",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dynamic-punch",
+      "hidden-power",
+      "rain-dance",
+      "psych-up",
+      "ancient-power",
+      "rock-smash",
+      "hail",
+      "facade",
+      "focus-punch",
+      "superpower",
+      "brick-break",
+      "secret-power",
+      "rock-tomb",
+      "signal-beam",
+      "icicle-spear",
+      "block",
+      "shock-wave",
+      "gravity",
+      "hammer-arm",
+      "natural-gift",
+      "fling",
+      "rock-polish",
+      "focus-blast",
+      "giga-impact",
+      "avalanche",
+      "flash-cannon",
+      "rock-climb",
+      "iron-head",
+      "charge-beam",
+      "heavy-slam",
+      "round",
+      "bulldoze",
+      "frost-breath",
+      "confide",
+      "power-up-punch",
+      "aurora-veil",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/snowball",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:regice_temple",
+        "rate": "0.0"
+      }
+    }
+  ]
+}

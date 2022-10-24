@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
 import pokecube.core.impl.PokecubeMod;
@@ -101,7 +101,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         super.render(mat, mouseX, mouseY, partialTicks);
         final String[] moves = this.menu.moves;
         final String s = moves.length > 0 ? moves[this.index % moves.length] : "";
-        final Move_Base move = MovesUtils.getMoveFromName(s);
+        final MoveEntry move = MovesUtils.getMove(s);
         if (move != null)
         {
             final int yOffset = this.height / 2 - 164;

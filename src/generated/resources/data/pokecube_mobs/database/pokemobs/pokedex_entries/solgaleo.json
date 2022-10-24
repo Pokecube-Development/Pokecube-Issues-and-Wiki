@@ -1,0 +1,220 @@
+{
+  "name": "solgaleo",
+  "id": 791,
+  "stock": true,
+  "base_experience": 340,
+  "size": {
+    "height": 3.4,
+    "width": 3.4,
+    "length": 3.4
+  },
+  "mass": 230.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 137,
+    "attack": 137,
+    "defense": 107,
+    "special_attack": 113,
+    "special_defense": 89,
+    "speed": 97
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "psychic",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "full-metal-body"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 47,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "teleport",
+          "metal-claw",
+          "cosmic-power",
+          "wake-up-slap"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "morning-sun"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "metal-burst"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 73,
+        "moves": [
+          "giga-impact"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "flash-cannon"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "iron-head"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "wide-guard"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "wild-charge"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "noble-roar"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "sunsteel-strike"
+        ]
+      }
+    ],
+    "misc": [
+      "roar",
+      "flamethrower",
+      "hyper-beam",
+      "solar-beam",
+      "fire-spin",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "psychic",
+      "agility",
+      "teleport",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "fire-blast",
+      "swift",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "outrage",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "metal-claw",
+      "morning-sun",
+      "hidden-power",
+      "sunny-day",
+      "crunch",
+      "psych-up",
+      "future-sight",
+      "facade",
+      "helping-hand",
+      "superpower",
+      "knock-off",
+      "endeavor",
+      "hyper-voice",
+      "rock-tomb",
+      "metal-sound",
+      "cosmic-power",
+      "iron-defense",
+      "calm-mind",
+      "shock-wave",
+      "wake-up-slap",
+      "gyro-ball",
+      "metal-burst",
+      "close-combat",
+      "last-resort",
+      "flare-blitz",
+      "focus-blast",
+      "giga-impact",
+      "zen-headbutt",
+      "flash-cannon",
+      "trick-room",
+      "iron-head",
+      "stone-edge",
+      "wide-guard",
+      "psyshock",
+      "heavy-slam",
+      "flame-charge",
+      "round",
+      "bulldoze",
+      "work-up",
+      "wild-charge",
+      "heat-crash",
+      "snarl",
+      "noble-roar",
+      "confide",
+      "mystical-fire",
+      "psychic-fangs",
+      "sunsteel-strike",
+      "steel-beam",
+      "expanding-force",
+      "steel-roller",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/cosmic"
+}

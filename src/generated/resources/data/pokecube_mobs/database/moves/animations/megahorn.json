@@ -1,0 +1,25 @@
+{
+  "name": "megahorn",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d0.8:atrue:w2:l6:~megahorn",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.6
+    },
+    {
+      "preset": "cartFunc:pexplosion_emitter:atrue:d2:w1:l8:~megahorn",
+      "duration": "2",
+      "starttick": "3",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4
+    }
+  ]
+}

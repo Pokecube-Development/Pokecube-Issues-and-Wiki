@@ -1,0 +1,67 @@
+{
+  "name": "beldum",
+  "id": 374,
+  "stock": true,
+  "base_experience": 60,
+  "size": {
+    "height": 0.5,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 95.2,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 40,
+    "attack": 55,
+    "defense": 80,
+    "special_attack": 35,
+    "special_defense": 60,
+    "speed": 30
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "steel",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "clear-body"
+    ],
+    "hidden": [
+      "light-metal"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "take-down"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "take-down",
+      "iron-defense",
+      "zen-headbutt",
+      "iron-head",
+      "steel-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_pearls_1",
+  "evolutions": [
+    {
+      "name": "metang",
+      "level": 20,
+      "evoMoves": "confusion,  confusionmetalclaw,  metalclaw"
+    }
+  ]
+}

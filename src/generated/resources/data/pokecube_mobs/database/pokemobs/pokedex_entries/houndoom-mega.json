@@ -1,0 +1,180 @@
+{
+  "name": "houndoom-mega",
+  "id": 229,
+  "stock": true,
+  "base_experience": 210,
+  "size": {
+    "height": 1.9,
+    "width": 1.2,
+    "length": 1.7
+  },
+  "mass": 49.5,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 75,
+    "attack": 90,
+    "defense": 90,
+    "special_attack": 140,
+    "special_defense": 90,
+    "speed": 115
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "dark",
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "solar-power"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "ember",
+          "smog",
+          "howl",
+          "nasty-plot",
+          "thunder-fang",
+          "inferno"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "beat-up"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "odor-sleuth"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "embargo"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "fire-fang"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "foul-play"
+        ]
+      }
+    ],
+    "misc": [
+      "leer",
+      "bite",
+      "roar",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "toxic",
+      "double-team",
+      "smog",
+      "fire-blast",
+      "dream-eater",
+      "rest",
+      "super-fang",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "feint-attack",
+      "sludge-bomb",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "crunch",
+      "shadow-ball",
+      "rock-smash",
+      "beat-up",
+      "uproar",
+      "heat-wave",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "taunt",
+      "role-play",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "overheat",
+      "odor-sleuth",
+      "howl",
+      "payback",
+      "embargo",
+      "dark-pulse",
+      "giga-impact",
+      "nasty-plot",
+      "thunder-fang",
+      "fire-fang",
+      "flame-charge",
+      "foul-play",
+      "round",
+      "incinerate",
+      "retaliate",
+      "inferno",
+      "snarl",
+      "confide",
+      "laser-focus",
+      "throat-chop"
+    ]
+  },
+  "old_name": "houndoom_mega"
+}

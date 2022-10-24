@@ -1,0 +1,227 @@
+{
+  "name": "woobat",
+  "id": 527,
+  "stock": true,
+  "base_experience": 65,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 2.1,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 65,
+    "attack": 45,
+    "defense": 43,
+    "special_attack": 55,
+    "special_defense": 43,
+    "speed": 72
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "psychic",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "unaware",
+      "klutz"
+    ],
+    "hidden": [
+      "simple"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 8,
+        "moves": [
+          "gust"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "amnesia",
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "attract"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "endeavor"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "imprison"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "air-cutter"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "odor-sleuth"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "simple-beam"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "heart-stamp"
+        ]
+      }
+    ],
+    "misc": [
+      "gust",
+      "fly",
+      "supersonic",
+      "thunder-wave",
+      "toxic",
+      "confusion",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "swift",
+      "amnesia",
+      "dream-eater",
+      "flash",
+      "rest",
+      "super-fang",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "giga-drain",
+      "endure",
+      "charm",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "baton-pass",
+      "hidden-power",
+      "rain-dance",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "uproar",
+      "heat-wave",
+      "torment",
+      "flatter",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "trick",
+      "magic-coat",
+      "knock-off",
+      "endeavor",
+      "skill-swap",
+      "imprison",
+      "secret-power",
+      "fake-tears",
+      "air-cutter",
+      "odor-sleuth",
+      "signal-beam",
+      "aerial-ace",
+      "calm-mind",
+      "shock-wave",
+      "roost",
+      "gyro-ball",
+      "pluck",
+      "tailwind",
+      "u-turn",
+      "assurance",
+      "embargo",
+      "psycho-shift",
+      "air-slash",
+      "energy-ball",
+      "nasty-plot",
+      "psycho-cut",
+      "zen-headbutt",
+      "defog",
+      "trick-room",
+      "captivate",
+      "charge-beam",
+      "psyshock",
+      "telekinesis",
+      "synchronoise",
+      "after-you",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "acrobatics",
+      "heart-stamp",
+      "confide",
+      "venom-drench",
+      "speed-swap",
+      "expanding-force",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_1",
+  "evolutions": [
+    {
+      "name": "swoobat",
+      "happy": true
+    }
+  ]
+}

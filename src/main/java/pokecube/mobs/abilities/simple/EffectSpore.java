@@ -2,29 +2,26 @@ package pokecube.mobs.abilities.simple;
 
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.IMoveConstants;
-import pokecube.api.moves.Move_Base;
-import pokecube.api.utils.PokeType;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.MoveApplication;
 import thut.core.common.ThutCore;
 
 public class EffectSpore extends Ability
 {
     @Override
-    public void onMoveUse(IPokemob mob, MovePacket move)
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        final Move_Base attack = move.getMove();
-
-        final IPokemob attacker = move.attacker;
-        if (attacker == mob || move.pre || attacker == move.attacked || attacker.isType(PokeType.getType("grass")))
-            return;
-        if (move.hit && attack.getAttackCategory(move.attacker) == IMoveConstants.CATEGORY_CONTACT
+        if (!areWeTarget(mob, move)) return;
+        final MoveEntry attack = move.getMove();
+        final IPokemob attacker = move.getUser();
+        if (move.hit && attack.getAttackCategory(attacker) == IMoveConstants.CATEGORY_CONTACT
                 && Math.random() > 0.7)
         {
             final int num = ThutCore.newRandom().nextInt(30);
-            if (num < 9) move.attacker.setStatus(IMoveConstants.STATUS_PSN);
-            if (num < 19) move.attacker.setStatus(IMoveConstants.STATUS_PAR);
-            else move.attacker.setStatus(IMoveConstants.STATUS_SLP);
+            if (num < 9) attacker.setStatus(IMoveConstants.STATUS_PSN);
+            if (num < 19) attacker.setStatus(IMoveConstants.STATUS_PAR);
+            else attacker.setStatus(IMoveConstants.STATUS_SLP);
         }
     }
 }

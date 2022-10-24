@@ -1,0 +1,15 @@
+{
+  "name": "hyper-beam",
+  "id": 63,
+  "power": 150,
+  "pp": 5,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The target is attacked with a powerful beam.\nThe user can’t move on the next turn.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  User loses its next turn to \"recharge\", and cannot attack or switch out during that turn.",
+  "effect_text_simple": "User foregoes its next turn to recharge."
+}

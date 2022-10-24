@@ -1,0 +1,15 @@
+{
+  "name": "10-000-000-volt-thunderbolt",
+  "id": 719,
+  "power": 195,
+  "pp": 1,
+  "priority": 0,
+  "type": "electric",
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user, Pikachu wearing a cap, powers up a jolt of\nelectricity using its Z-Power and unleashes it.\nCritical hits land more easily.",
+  "move_category": "damage",
+  "crit_rate": 2,
+  "effect_text_extend": "Inflicts regular damage.",
+  "effect_text_simple": "Inflicts regular damage with no additional effect."
+}

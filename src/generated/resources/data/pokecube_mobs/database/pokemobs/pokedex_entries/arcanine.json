@@ -1,0 +1,190 @@
+{
+  "name": "arcanine",
+  "id": 59,
+  "stock": true,
+  "base_experience": 194,
+  "size": {
+    "height": 1.9,
+    "width": 1.0,
+    "length": 1.9
+  },
+  "mass": 155.0,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 90,
+    "attack": 110,
+    "defense": 80,
+    "special_attack": 100,
+    "special_defense": 80,
+    "speed": 95
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "intimidate",
+      "flash-fire"
+    ],
+    "hidden": [
+      "justified"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "take-down",
+          "double-edge",
+          "leer",
+          "bite",
+          "roar",
+          "ember",
+          "flamethrower",
+          "agility",
+          "flame-wheel",
+          "reversal",
+          "crunch",
+          "helping-hand",
+          "odor-sleuth",
+          "howl",
+          "flare-blitz",
+          "thunder-fang",
+          "fire-fang",
+          "retaliate",
+          "play-rough",
+          "burn-up"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "extreme-speed"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "leer",
+      "bite",
+      "roar",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "dragon-rage",
+      "fire-spin",
+      "dig",
+      "toxic",
+      "agility",
+      "rage",
+      "teleport",
+      "mimic",
+      "double-team",
+      "reflect",
+      "bide",
+      "fire-blast",
+      "swift",
+      "skull-bash",
+      "rest",
+      "substitute",
+      "thief",
+      "flame-wheel",
+      "snore",
+      "curse",
+      "reversal",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "outrage",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dragon-breath",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "crunch",
+      "extreme-speed",
+      "rock-smash",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "helping-hand",
+      "superpower",
+      "secret-power",
+      "hyper-voice",
+      "overheat",
+      "odor-sleuth",
+      "aerial-ace",
+      "covet",
+      "natural-gift",
+      "close-combat",
+      "flare-blitz",
+      "dragon-pulse",
+      "giga-impact",
+      "thunder-fang",
+      "fire-fang",
+      "rock-climb",
+      "iron-head",
+      "captivate",
+      "flame-charge",
+      "round",
+      "incinerate",
+      "retaliate",
+      "bulldoze",
+      "wild-charge",
+      "snarl",
+      "play-rough",
+      "confide",
+      "laser-focus",
+      "psychic-fangs",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/blaze_rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

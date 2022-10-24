@@ -1,0 +1,206 @@
+{
+  "name": "regigigas",
+  "id": 486,
+  "stock": true,
+  "base_experience": 335,
+  "size": {
+    "height": 3.7,
+    "width": 3.7,
+    "length": 2.0
+  },
+  "mass": 420.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 110,
+    "attack": 160,
+    "defense": 110,
+    "special_attack": 80,
+    "special_defense": 110,
+    "speed": 100
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "slow-start"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "fire-punch",
+          "ice-punch",
+          "thunder-punch",
+          "confuse-ray",
+          "dizzy-punch",
+          "foresight",
+          "knock-off",
+          "crush-grip",
+          "heavy-slam"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "mega-punch"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "superpower",
+          "revenge"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "hammer-arm"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 100,
+        "moves": [
+          "giga-impact"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "wide-guard"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "body-press"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "stomp",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "hyper-beam",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "double-team",
+      "confuse-ray",
+      "dizzy-punch",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "foresight",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "nature-power",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "rock-tomb",
+      "aerial-ace",
+      "block",
+      "shock-wave",
+      "gravity",
+      "natural-gift",
+      "payback",
+      "fling",
+      "rock-polish",
+      "drain-punch",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "avalanche",
+      "zen-headbutt",
+      "rock-climb",
+      "iron-head",
+      "stone-edge",
+      "crush-grip",
+      "wide-guard",
+      "smack-down",
+      "heavy-slam",
+      "round",
+      "retaliate",
+      "bulldoze",
+      "heat-crash",
+      "confide",
+      "power-up-punch",
+      "darkest-lariat",
+      "high-horsepower",
+      "stomping-tantrum",
+      "body-press",
+      "terrain-pulse"
+    ]
+  },
+  "loot_table": "pokecube:entities/leaves",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:regigigas_temple",
+        "rate": "0.0"
+      }
+    }
+  ]
+}

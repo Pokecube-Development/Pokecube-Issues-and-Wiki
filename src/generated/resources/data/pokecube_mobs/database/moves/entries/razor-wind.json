@@ -1,0 +1,16 @@
+{
+  "name": "razor-wind",
+  "id": 13,
+  "power": 80,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "special",
+  "flavor_text": "In this two-turn attack, blades of wind hit opposing\nPokémon on the second turn. Critical hits land\nmore easily.",
+  "move_category": "damage",
+  "crit_rate": 1,
+  "effect_text_extend": "Inflicts regular damage.  User's critical hit rate is one level higher when using this move.  User charges for one turn before attacking.\n\nThis move cannot be selected by sleep talk.",
+  "effect_text_simple": "Requires a turn to charge before attacking."
+}

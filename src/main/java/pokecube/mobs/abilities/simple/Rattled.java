@@ -2,8 +2,8 @@ package pokecube.mobs.abilities.simple;
 
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
 import pokecube.core.moves.MovesUtils;
 
@@ -15,9 +15,10 @@ public class Rattled extends Ability
     }
 
     @Override
-    public void onMoveUse(IPokemob mob, MovePacket move)
+    public void postMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        if (mob == move.attacked && !move.pre && this.isCorrectType(move.attackType)) MovesUtils.handleStats2(mob, mob
-                .getEntity(), IMoveConstants.VIT, IMoveConstants.RAISE);
+        if (!areWeTarget(mob, move)) return;
+        if (this.isCorrectType(move.type))
+            MovesUtils.handleStats2(mob, mob.getEntity(), IMoveConstants.VIT, IMoveConstants.RAISE);
     }
 }

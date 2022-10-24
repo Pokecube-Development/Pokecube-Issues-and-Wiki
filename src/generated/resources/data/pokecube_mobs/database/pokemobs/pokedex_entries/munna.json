@@ -1,0 +1,242 @@
+{
+  "name": "munna",
+  "id": 517,
+  "stock": true,
+  "base_experience": 58,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 23.3,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 76,
+    "attack": 25,
+    "defense": 45,
+    "special_attack": 67,
+    "special_defense": 55,
+    "speed": 24
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "forewarn",
+      "synchronize"
+    ],
+    "hidden": [
+      "telepathy"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 11,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "defense-curl",
+          "psywave"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "dream-eater"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "nightmare"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "moonlight"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "magic-coat"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "yawn"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "imprison"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "wonder-room"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "telekinesis"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "synchronoise"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "stored-power"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "moonblast"
+        ]
+      }
+    ],
+    "misc": [
+      "sonic-boom",
+      "psybeam",
+      "thunder-wave",
+      "toxic",
+      "psychic",
+      "hypnosis",
+      "double-team",
+      "defense-curl",
+      "barrier",
+      "light-screen",
+      "reflect",
+      "swift",
+      "amnesia",
+      "dream-eater",
+      "flash",
+      "psywave",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "nightmare",
+      "snore",
+      "curse",
+      "protect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "baton-pass",
+      "moonlight",
+      "hidden-power",
+      "rain-dance",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "torment",
+      "facade",
+      "helping-hand",
+      "trick",
+      "magic-coat",
+      "yawn",
+      "skill-swap",
+      "imprison",
+      "secret-power",
+      "rock-tomb",
+      "signal-beam",
+      "calm-mind",
+      "shock-wave",
+      "gravity",
+      "gyro-ball",
+      "healing-wish",
+      "lucky-chant",
+      "power-swap",
+      "guard-swap",
+      "worry-seed",
+      "energy-ball",
+      "zen-headbutt",
+      "trick-room",
+      "charge-beam",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "synchronoise",
+      "after-you",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "confide",
+      "dazzling-gleam",
+      "expanding-force"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_1",
+  "evolutions": [
+    {
+      "name": "musharna",
+      "item_preset": "moonstone"
+    }
+  ]
+}

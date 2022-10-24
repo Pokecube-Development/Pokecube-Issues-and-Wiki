@@ -1,0 +1,212 @@
+{
+  "name": "raikou",
+  "id": 243,
+  "stock": true,
+  "base_experience": 290,
+  "size": {
+    "height": 1.9,
+    "width": 1.7,
+    "length": 1.7
+  },
+  "mass": 178.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 90,
+    "attack": 85,
+    "defense": 75,
+    "special_attack": 115,
+    "special_defense": 100,
+    "speed": 115
+  },
+  "evs": {
+    "special_attack": 1,
+    "speed": 2
+  },
+  "types": [
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "pressure"
+    ],
+    "hidden": [
+      "inner-focus"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "bite",
+          "extreme-speed",
+          "charge",
+          "extrasensory",
+          "discharge"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "thunder-shock"
+        ]
+      },
+      {
+        "L": 85,
+        "moves": [
+          "thunder"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "reflect",
+          "howl"
+        ]
+      },
+      {
+        "L": 78,
+        "moves": [
+          "zap-cannon",
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 71,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "thunder-fang"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "leer",
+      "bite",
+      "roar",
+      "hyper-beam",
+      "strength",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "mimic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "swift",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "detect",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "spark",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "facade",
+      "helping-hand",
+      "secret-power",
+      "weather-ball",
+      "signal-beam",
+      "extrasensory",
+      "calm-mind",
+      "shock-wave",
+      "natural-gift",
+      "magnet-rise",
+      "aura-sphere",
+      "giga-impact",
+      "thunder-fang",
+      "rock-climb",
+      "discharge",
+      "iron-head",
+      "charge-beam",
+      "round",
+      "scald",
+      "quash",
+      "volt-switch",
+      "bulldoze",
+      "wild-charge",
+      "snarl",
+      "confide",
+      "eerie-impulse",
+      "electric-terrain",
+      "laser-focus",
+      "throat-chop",
+      "rising-voltage"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:hooh_tower",
+        "rate": "0.0"
+      }
+    },
+    {
+      "values": {
+        "structures": "pokecube_legends:hooh_tower",
+        "min": "1",
+        "rate": "0.02",
+        "max": "1"
+      }
+    }
+  ]
+}

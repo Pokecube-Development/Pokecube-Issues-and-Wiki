@@ -1,0 +1,218 @@
+{
+  "name": "espeon",
+  "id": 196,
+  "stock": true,
+  "base_experience": 184,
+  "size": {
+    "height": 0.9,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 26.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 65,
+    "attack": 65,
+    "defense": 60,
+    "special_attack": 130,
+    "special_defense": 95,
+    "speed": 110
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "synchronize"
+    ],
+    "hidden": [
+      "magic-bounce"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 5,
+        "moves": [
+          "sand-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "take-down",
+          "double-edge",
+          "tail-whip",
+          "bite",
+          "growl",
+          "charm",
+          "baton-pass",
+          "helping-hand",
+          "covet",
+          "copycat"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "morning-sun"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "psych-up"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "power-swap"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "last-resort"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "baby-doll-eyes"
+        ]
+      }
+    ],
+    "misc": [
+      "pay-day",
+      "cut",
+      "sand-attack",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "tail-whip",
+      "psybeam",
+      "hyper-beam",
+      "dig",
+      "toxic",
+      "confusion",
+      "psychic",
+      "quick-attack",
+      "mimic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "focus-energy",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "nightmare",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "detect",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "baton-pass",
+      "iron-tail",
+      "morning-sun",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "facade",
+      "helping-hand",
+      "trick",
+      "magic-coat",
+      "skill-swap",
+      "secret-power",
+      "hyper-voice",
+      "weather-ball",
+      "fake-tears",
+      "signal-beam",
+      "covet",
+      "calm-mind",
+      "natural-gift",
+      "power-swap",
+      "last-resort",
+      "giga-impact",
+      "zen-headbutt",
+      "trick-room",
+      "captivate",
+      "grass-knot",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "ally-switch",
+      "retaliate",
+      "work-up",
+      "confide",
+      "dazzling-gleam",
+      "baby-doll-eyes",
+      "laser-focus",
+      "psychic-fangs",
+      "expanding-force"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1"
+}

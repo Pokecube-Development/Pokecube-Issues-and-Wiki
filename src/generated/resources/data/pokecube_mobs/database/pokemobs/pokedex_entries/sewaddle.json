@@ -1,0 +1,159 @@
+{
+  "name": "sewaddle",
+  "id": 540,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 2.5,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 45,
+    "attack": 53,
+    "defense": 70,
+    "special_attack": 40,
+    "special_defense": 60,
+    "speed": 42
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "bug",
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "swarm",
+      "chlorophyll"
+    ],
+    "hidden": [
+      "overcoat"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "string-shot"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "struggle-bug"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "sticky-web"
+        ]
+      }
+    ],
+    "misc": [
+      "razor-wind",
+      "cut",
+      "tackle",
+      "razor-leaf",
+      "solar-beam",
+      "string-shot",
+      "toxic",
+      "agility",
+      "screech",
+      "double-team",
+      "light-screen",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "mind-reader",
+      "snore",
+      "flail",
+      "protect",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "baton-pass",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "facade",
+      "nature-power",
+      "magic-coat",
+      "secret-power",
+      "camouflage",
+      "silver-wind",
+      "signal-beam",
+      "iron-defense",
+      "calm-mind",
+      "payback",
+      "me-first",
+      "worry-seed",
+      "seed-bomb",
+      "air-slash",
+      "bug-buzz",
+      "energy-ball",
+      "grass-knot",
+      "bug-bite",
+      "round",
+      "struggle-bug",
+      "electroweb",
+      "sticky-web",
+      "grassy-terrain",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_1",
+  "evolutions": [
+    {
+      "name": "swadloon",
+      "level": 20,
+      "evoMoves": "protect"
+    }
+  ]
+}

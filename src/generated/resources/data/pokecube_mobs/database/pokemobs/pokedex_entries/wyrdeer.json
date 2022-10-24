@@ -1,0 +1,164 @@
+{
+  "name": "wyrdeer",
+  "id": 899,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 1.8,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 95.1,
+  "is_default": true,
+  "capture_rate": 135,
+  "base_happiness": 70,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 103,
+    "attack": 105,
+    "defense": 72,
+    "special_attack": 105,
+    "special_defense": 75,
+    "speed": 65
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "normal",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "intimidate",
+      "frisk"
+    ],
+    "hidden": [
+      "sap-sipper"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 9,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": []
+      },
+      {
+        "L": 40,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "double-edge"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "bite",
+      "roar",
+      "disable",
+      "earthquake",
+      "toxic",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "thief",
+      "nightmare",
+      "snore",
+      "curse",
+      "spite",
+      "protect",
+      "mud-slap",
+      "detect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "solar-beam",
+      "thunderbolt",
+      "thunder",
+      "iron-tail",
+      "shadow-ball",
+      "facade",
+      "skill-swap",
+      "secret-power",
+      "extrasensory",
+      "shock-wave",
+      "body-slam",
+      "double-edge",
+      "thunder-wave",
+      "mimic",
+      "substitute",
+      "double-kick",
+      "thrash",
+      "natural-gift",
+      "energy-ball",
+      "giga-impact",
+      "trick-room",
+      "charge",
+      "uproar",
+      "signal-beam",
+      "bounce",
+      "last-resort",
+      "sucker-punch",
+      "megahorn",
+      "gravity",
+      "rage",
+      "mud-sport",
+      "psyshock",
+      "round",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "wild-charge",
+      "magic-room",
+      "confide"
+    ]
+  }
+}

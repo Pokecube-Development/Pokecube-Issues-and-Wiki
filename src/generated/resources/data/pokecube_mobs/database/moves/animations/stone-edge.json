@@ -1,0 +1,25 @@
+{
+  "name": "stoneedge",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:cbrown:atrue:d0.1:w4:l8:f(0.5-rand())*(1),0,(0.5-rand())*(1):~stoneedge",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.rocktomb",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:pmisc:cbrown:d0.07:w1:atrue:l8:f(0.5-rand())*(1),(0.5-rand())*(10),(0.5-rand())*(1):~stoneedge",
+      "duration": "5",
+      "starttick": "5",
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.7
+    }
+  ]
+}

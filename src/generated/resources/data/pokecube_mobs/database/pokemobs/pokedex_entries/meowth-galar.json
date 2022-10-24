@@ -1,0 +1,179 @@
+{
+  "name": "meowth-galar",
+  "id": 52,
+  "stock": true,
+  "base_experience": 58,
+  "size": {
+    "height": 0.4,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 7.5,
+  "is_default": false,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 50,
+    "attack": 65,
+    "defense": 55,
+    "special_attack": 40,
+    "special_defense": 40,
+    "speed": 40
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "pickup",
+      "tough-claws"
+    ],
+    "hidden": [
+      "unnerve"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 12,
+        "moves": [
+          "pay-day"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "scratch"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "growl",
+          "fake-out"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "metal-claw"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "hone-claws"
+        ]
+      }
+    ],
+    "misc": [
+      "pay-day",
+      "swords-dance",
+      "body-slam",
+      "double-edge",
+      "thunderbolt",
+      "thunder",
+      "dig",
+      "screech",
+      "amnesia",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "flail",
+      "spite",
+      "protect",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "iron-tail",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "shadow-ball",
+      "uproar",
+      "facade",
+      "taunt",
+      "hyper-voice",
+      "iron-defense",
+      "covet",
+      "gyro-ball",
+      "u-turn",
+      "payback",
+      "assurance",
+      "dark-pulse",
+      "night-slash",
+      "seed-bomb",
+      "nasty-plot",
+      "shadow-claw",
+      "gunk-shot",
+      "iron-head",
+      "foul-play",
+      "round",
+      "retaliate",
+      "work-up",
+      "play-rough",
+      "throat-chop",
+      "steel-beam",
+      "lash-out"
+    ]
+  },
+  "loot_table": "pokecube:entities/money_cat_small",
+  "held_table": "pokecube:entities/emerald_1_33",
+  "evolutions": [
+    {
+      "name": "perrserker",
+      "level": 28,
+      "evoMoves": "ironhead"
+    }
+  ],
+  "old_name": "meowth_galar"
+}

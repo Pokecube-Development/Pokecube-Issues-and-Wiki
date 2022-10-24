@@ -1,0 +1,218 @@
+{
+  "name": "cubchoo",
+  "id": 613,
+  "stock": true,
+  "base_experience": 61,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 8.5,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 55,
+    "attack": 70,
+    "defense": 40,
+    "special_attack": 60,
+    "special_defense": 40,
+    "speed": 40
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "ice"
+  ],
+  "abilities": {
+    "normal": [
+      "snow-cloak",
+      "slush-rush"
+    ],
+    "hidden": [
+      "rattled"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 53,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "growl"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "bide"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "powder-snow"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "icy-wind"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "hail"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "sheer-cold"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "frost-breath"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "play-nice"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "cut",
+      "mega-kick",
+      "thrash",
+      "growl",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "low-kick",
+      "strength",
+      "dig",
+      "toxic",
+      "double-team",
+      "bide",
+      "fury-swipes",
+      "rest",
+      "slash",
+      "substitute",
+      "snore",
+      "flail",
+      "powder-snow",
+      "protect",
+      "icy-wind",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "encore",
+      "hidden-power",
+      "rain-dance",
+      "rock-smash",
+      "hail",
+      "facade",
+      "focus-punch",
+      "superpower",
+      "yawn",
+      "secret-power",
+      "rock-tomb",
+      "sheer-cold",
+      "aerial-ace",
+      "covet",
+      "water-pulse",
+      "brine",
+      "assurance",
+      "fling",
+      "night-slash",
+      "avalanche",
+      "shadow-claw",
+      "ice-fang",
+      "grass-knot",
+      "hone-claws",
+      "round",
+      "echoed-voice",
+      "frost-breath",
+      "play-rough",
+      "play-nice",
+      "confide",
+      "power-up-punch"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "beartic",
+      "level": 37,
+      "evoMoves": "iciclecrash"
+    }
+  ]
+}

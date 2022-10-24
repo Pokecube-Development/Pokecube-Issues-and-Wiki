@@ -1,0 +1,210 @@
+{
+  "name": "cyndaquil",
+  "id": 155,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 7.9,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 39,
+    "attack": 52,
+    "defense": 43,
+    "special_attack": 60,
+    "special_defense": 50,
+    "speed": 65
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "flash-fire"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "leer"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "ember"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "smokescreen"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "flame-wheel"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "eruption"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "lava-plume"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "inferno"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "burn-up"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "double-kick",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "thrash",
+      "double-edge",
+      "leer",
+      "ember",
+      "flamethrower",
+      "submission",
+      "dig",
+      "toxic",
+      "quick-attack",
+      "mimic",
+      "double-team",
+      "smokescreen",
+      "defense-curl",
+      "fire-blast",
+      "swift",
+      "fury-swipes",
+      "rest",
+      "substitute",
+      "flame-wheel",
+      "snore",
+      "curse",
+      "reversal",
+      "protect",
+      "mud-slap",
+      "foresight",
+      "detect",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "nature-power",
+      "eruption",
+      "secret-power",
+      "crush-claw",
+      "overheat",
+      "extrasensory",
+      "aerial-ace",
+      "howl",
+      "covet",
+      "natural-gift",
+      "flare-blitz",
+      "lava-plume",
+      "captivate",
+      "flame-burst",
+      "flame-charge",
+      "round",
+      "incinerate",
+      "inferno",
+      "fire-pledge",
+      "work-up",
+      "wild-charge",
+      "confide",
+      "burn-up"
+    ]
+  },
+  "loot_table": "pokecube:entities/coal_1",
+  "evolutions": [
+    {
+      "name": "quilava",
+      "level": 14
+    }
+  ]
+}

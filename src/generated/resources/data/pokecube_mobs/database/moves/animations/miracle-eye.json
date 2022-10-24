@@ -1,0 +1,15 @@
+{
+  "name": "miracleeye",
+  "animations": [
+    {
+      "preset": "pons:pwitch:d1:w1.5:l5:~miracleeye",
+      "duration": "3",
+      "starttick": "0"
+    },
+    {
+      "preset": "pont:pend_rod:d1:w1.5:l1:~miracleeye",
+      "duration": "2",
+      "starttick": "3"
+    }
+  ]
+}

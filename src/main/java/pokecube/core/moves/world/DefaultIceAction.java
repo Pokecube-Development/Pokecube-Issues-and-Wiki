@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.eventhandlers.MoveEventsHandler.UseContext;
@@ -16,7 +16,7 @@ import thut.api.maths.Vector3;
 public class DefaultIceAction extends DefaultAction
 {
 
-    public DefaultIceAction(Move_Base move)
+    public DefaultIceAction(MoveEntry move)
     {
         super(move);
     }

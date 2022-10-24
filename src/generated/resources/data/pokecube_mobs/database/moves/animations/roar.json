@@ -1,0 +1,10 @@
+{
+  "name": "roar",
+  "animations": [
+    {
+      "preset": "flow:pitem_snowball:d0.5:w3:l4:~roar",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "nobleroar",
+  "animations": [
+    {
+      "preset": "cartFunc:pnote:d1.1:w2:rtrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~nobleroar",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pangry_villager:d2:w2:rtrue:l4:~nobleroar",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

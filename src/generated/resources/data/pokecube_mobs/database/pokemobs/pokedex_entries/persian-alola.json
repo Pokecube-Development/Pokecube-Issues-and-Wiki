@@ -1,0 +1,258 @@
+{
+  "name": "persian-alola",
+  "id": 53,
+  "stock": true,
+  "base_experience": 154,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.1
+  },
+  "mass": 33.0,
+  "is_default": false,
+  "capture_rate": 90,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 65,
+    "attack": 60,
+    "defense": 60,
+    "special_attack": 75,
+    "special_defense": 65,
+    "speed": 115
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "fur-coat",
+      "technician"
+    ],
+    "hidden": [
+      "rattled"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 12,
+        "moves": [
+          "pay-day"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "bite",
+          "growl",
+          "hypnosis",
+          "amnesia",
+          "fake-out",
+          "switcheroo",
+          "quash",
+          "play-rough"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 69,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "captivate"
+        ]
+      }
+    ],
+    "misc": [
+      "pay-day",
+      "scratch",
+      "headbutt",
+      "body-slam",
+      "bite",
+      "growl",
+      "roar",
+      "hyper-beam",
+      "thunderbolt",
+      "thunder",
+      "dig",
+      "toxic",
+      "screech",
+      "double-team",
+      "swift",
+      "amnesia",
+      "dream-eater",
+      "fury-swipes",
+      "rest",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "feint-attack",
+      "icy-wind",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "beat-up",
+      "fake-out",
+      "uproar",
+      "torment",
+      "facade",
+      "taunt",
+      "knock-off",
+      "snatch",
+      "hyper-voice",
+      "fake-tears",
+      "aerial-ace",
+      "covet",
+      "shock-wave",
+      "water-pulse",
+      "feint",
+      "u-turn",
+      "payback",
+      "assurance",
+      "embargo",
+      "last-resort",
+      "dark-pulse",
+      "night-slash",
+      "seed-bomb",
+      "power-gem",
+      "switcheroo",
+      "giga-impact",
+      "nasty-plot",
+      "shadow-claw",
+      "gunk-shot",
+      "captivate",
+      "foul-play",
+      "round",
+      "echoed-voice",
+      "quash",
+      "retaliate",
+      "work-up",
+      "snarl",
+      "play-rough",
+      "confide",
+      "throat-chop",
+      "skitter-smack",
+      "burning-jealousy",
+      "lash-out"
+    ]
+  },
+  "loot_table": "pokecube:entities/money_cat_big",
+  "held_table": "pokecube:entities/emerald_3_33",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "old_name": "persian_alola"
+}

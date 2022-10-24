@@ -1,0 +1,226 @@
+{
+  "name": "binacle",
+  "id": 688,
+  "stock": true,
+  "base_experience": 61,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 31.0,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 42,
+    "attack": 52,
+    "defense": 67,
+    "special_attack": 39,
+    "special_defense": 56,
+    "speed": 50
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "rock",
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "tough-claws",
+      "sniper"
+    ],
+    "hidden": [
+      "pickpocket"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "sand-attack",
+          "shell-smash"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "withdraw"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "clamp"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "cross-chop"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "rock-polish"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "razor-shell"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "swords-dance",
+      "cut",
+      "sand-attack",
+      "water-gun",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "strength",
+      "earthquake",
+      "dig",
+      "toxic",
+      "screech",
+      "double-team",
+      "withdraw",
+      "clamp",
+      "fury-swipes",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "icy-wind",
+      "sandstorm",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "cross-chop",
+      "rain-dance",
+      "ancient-power",
+      "rock-smash",
+      "beat-up",
+      "uproar",
+      "torment",
+      "facade",
+      "nature-power",
+      "taunt",
+      "helping-hand",
+      "brick-break",
+      "endeavor",
+      "secret-power",
+      "rock-tomb",
+      "tickle",
+      "aerial-ace",
+      "iron-defense",
+      "mud-shot",
+      "water-sport",
+      "rock-blast",
+      "water-pulse",
+      "payback",
+      "assurance",
+      "embargo",
+      "fling",
+      "rock-polish",
+      "poison-jab",
+      "night-slash",
+      "x-scissor",
+      "switcheroo",
+      "shadow-claw",
+      "stone-edge",
+      "stealth-rock",
+      "grass-knot",
+      "hone-claws",
+      "smack-down",
+      "sludge-wave",
+      "round",
+      "scald",
+      "shell-smash",
+      "bulldoze",
+      "dual-chop",
+      "razor-shell",
+      "confide",
+      "infestation",
+      "power-up-punch",
+      "liquidation"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1",
+  "evolutions": [
+    {
+      "name": "barbaracle",
+      "level": 39
+    }
+  ]
+}

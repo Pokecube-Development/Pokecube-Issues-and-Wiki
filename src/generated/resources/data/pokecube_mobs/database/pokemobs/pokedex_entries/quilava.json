@@ -1,0 +1,209 @@
+{
+  "name": "quilava",
+  "id": 156,
+  "stock": true,
+  "base_experience": 142,
+  "size": {
+    "height": 0.6,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 19.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 58,
+    "attack": 64,
+    "defense": 58,
+    "special_attack": 80,
+    "special_defense": 65,
+    "speed": 80
+  },
+  "evs": {
+    "special_attack": 1,
+    "speed": 1
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "flash-fire"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "leer",
+          "smokescreen"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "ember"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "flame-wheel"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 75,
+        "moves": [
+          "eruption"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "lava-plume"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "inferno"
+        ]
+      },
+      {
+        "L": 68,
+        "moves": [
+          "burn-up"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "leer",
+      "roar",
+      "ember",
+      "flamethrower",
+      "strength",
+      "dig",
+      "toxic",
+      "quick-attack",
+      "mimic",
+      "double-team",
+      "smokescreen",
+      "defense-curl",
+      "fire-blast",
+      "swift",
+      "rest",
+      "substitute",
+      "flame-wheel",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "detect",
+      "endure",
+      "rollout",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "nature-power",
+      "brick-break",
+      "eruption",
+      "secret-power",
+      "overheat",
+      "aerial-ace",
+      "covet",
+      "natural-gift",
+      "lava-plume",
+      "captivate",
+      "flame-charge",
+      "round",
+      "incinerate",
+      "inferno",
+      "fire-pledge",
+      "work-up",
+      "wild-charge",
+      "confide",
+      "burn-up"
+    ]
+  },
+  "loot_table": "pokecube:entities/coal_2",
+  "evolutions": [
+    {
+      "name": "typhlosion",
+      "level": 36
+    },
+    {
+      "name": "typhlosion-hisui",
+      "level": 35,
+      "location": {
+        "and_preset": "spooky_areas"
+      },
+      "evoMoves": "hex"
+    }
+  ]
+}

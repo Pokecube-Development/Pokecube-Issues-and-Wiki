@@ -1,0 +1,223 @@
+{
+  "name": "meowstic-female",
+  "id": 678,
+  "stock": true,
+  "base_experience": 163,
+  "size": {
+    "height": 0.6
+  },
+  "mass": 8.5,
+  "is_default": false,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 74,
+    "attack": 48,
+    "defense": 76,
+    "special_attack": 83,
+    "special_defense": 81,
+    "speed": 104
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "keen-eye",
+      "infiltrator"
+    ],
+    "hidden": [
+      "competitive"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "leer",
+          "confusion",
+          "covet",
+          "magical-leaf",
+          "me-first",
+          "stored-power"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "reflect"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "fake-out"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "role-play"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "signal-beam"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "charge-beam"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "psyshock"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "disarming-voice"
+        ]
+      }
+    ],
+    "misc": [
+      "pay-day",
+      "scratch",
+      "cut",
+      "leer",
+      "psybeam",
+      "hyper-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "dig",
+      "toxic",
+      "confusion",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "fake-out",
+      "torment",
+      "facade",
+      "helping-hand",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "fake-tears",
+      "signal-beam",
+      "extrasensory",
+      "covet",
+      "magical-leaf",
+      "calm-mind",
+      "shock-wave",
+      "gravity",
+      "payback",
+      "me-first",
+      "sucker-punch",
+      "dark-pulse",
+      "energy-ball",
+      "giga-impact",
+      "nasty-plot",
+      "zen-headbutt",
+      "trick-room",
+      "charge-beam",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "ally-switch",
+      "work-up",
+      "tail-slap",
+      "disarming-voice",
+      "play-rough",
+      "confide",
+      "power-up-punch",
+      "psychic-terrain",
+      "expanding-force"
+    ]
+  }
+}

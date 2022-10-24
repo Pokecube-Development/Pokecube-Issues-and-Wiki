@@ -1,0 +1,15 @@
+{
+  "name": "luckychant",
+  "animations": [
+    {
+      "preset": "cartFunc:pend_rod:d0.8:w1:rtrue:l20:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~luckychant",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pcrit:d0.4:w1:rtrue:l5:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~luckychant",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

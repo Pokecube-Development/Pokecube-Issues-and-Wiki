@@ -1,0 +1,17 @@
+{
+  "name": "dual-chop",
+  "id": 530,
+  "power": 40,
+  "pp": 15,
+  "priority": 0,
+  "type": "dragon",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user attacks its target by hitting it with brutal\nstrikes. The target is hit twice in a row.",
+  "move_category": "damage",
+  "max_hits": 2,
+  "min_hits": 2,
+  "effect_text_extend": "Inflicts regular damage.  Hits twice in one turn.",
+  "effect_text_simple": "Hits twice in one turn."
+}

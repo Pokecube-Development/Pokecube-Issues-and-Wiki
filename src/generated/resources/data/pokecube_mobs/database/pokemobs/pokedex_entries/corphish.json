@@ -1,0 +1,225 @@
+{
+  "name": "corphish",
+  "id": 341,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 11.5,
+  "is_default": true,
+  "capture_rate": 205,
+  "base_happiness": 50,
+  "growth_rate": "fast-then-very-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 43,
+    "attack": 80,
+    "defense": 65,
+    "special_attack": 50,
+    "special_defense": 35,
+    "speed": 35
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "hyper-cutter",
+      "shell-armor"
+    ],
+    "hidden": [
+      "adaptability"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 7,
+        "moves": [
+          "vice-grip"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "guillotine",
+          "endeavor"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "water-gun",
+          "bubble"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "harden"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "crabhammer"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "double-hit"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "razor-shell"
+        ]
+      }
+    ],
+    "misc": [
+      "vice-grip",
+      "guillotine",
+      "swords-dance",
+      "cut",
+      "body-slam",
+      "double-edge",
+      "leer",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "counter",
+      "strength",
+      "dig",
+      "toxic",
+      "mimic",
+      "double-team",
+      "harden",
+      "waterfall",
+      "bubble",
+      "crabhammer",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "spite",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "metal-claw",
+      "hidden-power",
+      "rain-dance",
+      "crunch",
+      "ancient-power",
+      "rock-smash",
+      "whirlpool",
+      "hail",
+      "facade",
+      "taunt",
+      "superpower",
+      "brick-break",
+      "knock-off",
+      "endeavor",
+      "secret-power",
+      "mud-sport",
+      "rock-tomb",
+      "muddy-water",
+      "aerial-ace",
+      "iron-defense",
+      "mud-shot",
+      "dragon-dance",
+      "water-pulse",
+      "natural-gift",
+      "payback",
+      "fling",
+      "trump-card",
+      "night-slash",
+      "x-scissor",
+      "switcheroo",
+      "captivate",
+      "aqua-jet",
+      "double-hit",
+      "hone-claws",
+      "round",
+      "chip-away",
+      "scald",
+      "razor-shell",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/shear_fish",
+  "evolutions": [
+    {
+      "name": "crawdaunt",
+      "level": 30,
+      "evoMoves": "swift"
+    }
+  ]
+}

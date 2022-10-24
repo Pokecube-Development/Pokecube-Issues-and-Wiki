@@ -1,0 +1,10 @@
+{
+  "name": "batonpass",
+  "animations": [
+    {
+      "preset": "cartFunc:pcloud:d0.5:rtrue:l10:~batonpass",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

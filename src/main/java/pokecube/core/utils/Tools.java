@@ -37,10 +37,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.items.IPokecube;
-import pokecube.api.moves.IMoveConstants;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
 import pokecube.core.moves.MovesUtils;
@@ -192,7 +192,7 @@ public class Tools
         final Random rand = ThutCore.newRandom();
         final float HP = pokemob.getHealth();
         float statusBonus = 1F;
-        final byte status = pokemob.getStatus();
+        final int status = pokemob.getStatus();
         if (status == IMoveConstants.STATUS_FRZ || status == IMoveConstants.STATUS_SLP) statusBonus = 2F;
         else if (status != IMoveConstants.STATUS_NON) statusBonus = 1.5F;
         final int catchRate = pokemob.getCatchRate();
@@ -351,7 +351,7 @@ public class Tools
 
     public static int getPower(final String move, final IPokemob user, final LivingEntity target)
     {
-        final Move_Base attack = MovesUtils.getMoveFromName(move);
+        final MoveEntry attack = MovesUtils.getMove(move);
         if (attack == null) return 0;
         int pwr = attack.getPWR(user, target);
         final IPokemob mob = PokemobCaps.getPokemobFor(target);
@@ -359,7 +359,7 @@ public class Tools
         {
             pwr *= PokeType.getAttackEfficiency(attack.getType(user), mob.getType1(), mob.getType2());
             if (mob.getAbility() != null)
-                pwr = mob.getAbility().beforeDamage(mob, new MovePacket(user, target, attack), pwr);
+                pwr = mob.getAbility().beforeDamage(mob, new MoveApplication(attack, user, target), pwr);
         }
         return pwr;
     }

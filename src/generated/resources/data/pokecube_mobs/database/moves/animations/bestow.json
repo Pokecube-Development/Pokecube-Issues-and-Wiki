@@ -1,0 +1,10 @@
+{
+  "name": "bestow",
+  "animations": [
+    {
+      "preset": "throw:pmisc:cwhite:d1:w0.5:l5:~bestow",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

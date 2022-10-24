@@ -1,0 +1,207 @@
+{
+  "name": "rattata",
+  "id": 19,
+  "stock": true,
+  "base_experience": 51,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 3.5,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 30,
+    "attack": 56,
+    "defense": 35,
+    "special_attack": 25,
+    "special_defense": 35,
+    "speed": 72
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "run-away",
+      "guts"
+    ],
+    "hidden": [
+      "hustle"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "hyper-fang"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "super-fang"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "endeavor"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "sucker-punch"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "tail-whip",
+      "bite",
+      "water-gun",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "counter",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "toxic",
+      "quick-attack",
+      "rage",
+      "mimic",
+      "screech",
+      "double-team",
+      "defense-curl",
+      "focus-energy",
+      "bide",
+      "swift",
+      "skull-bash",
+      "fury-swipes",
+      "rest",
+      "hyper-fang",
+      "super-fang",
+      "substitute",
+      "thief",
+      "flame-wheel",
+      "snore",
+      "curse",
+      "reversal",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pursuit",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "shadow-ball",
+      "rock-smash",
+      "uproar",
+      "facade",
+      "taunt",
+      "revenge",
+      "endeavor",
+      "secret-power",
+      "covet",
+      "shock-wave",
+      "natural-gift",
+      "pluck",
+      "u-turn",
+      "assurance",
+      "me-first",
+      "last-resort",
+      "sucker-punch",
+      "zen-headbutt",
+      "captivate",
+      "grass-knot",
+      "charge-beam",
+      "round",
+      "retaliate",
+      "final-gambit",
+      "work-up",
+      "wild-charge",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/rotten_rabbit_1",
+  "evolutions": [
+    {
+      "name": "raticate",
+      "level": 20,
+      "evoMoves": "scaryface"
+    }
+  ]
+}

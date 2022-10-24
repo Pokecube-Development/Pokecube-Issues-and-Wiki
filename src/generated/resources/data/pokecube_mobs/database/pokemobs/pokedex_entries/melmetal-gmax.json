@@ -1,0 +1,37 @@
+{
+  "name": "melmetal-gmax",
+  "id": 809,
+  "stock": true,
+  "base_experience": 270,
+  "size": {
+    "height": 6.0,
+    "width": 4.0,
+    "length": 4.0
+  },
+  "mass": 1000.0,
+  "is_default": false,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 135,
+    "attack": 143,
+    "defense": 143,
+    "special_attack": 80,
+    "special_defense": 65,
+    "speed": 34
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "iron-fist"
+    ]
+  },
+  "old_name": "melmetal_gigantamax"
+}

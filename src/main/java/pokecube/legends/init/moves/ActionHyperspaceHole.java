@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.IMoveAction;
+import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.eventhandlers.MoveEventsHandler.UseContext;
@@ -21,7 +21,7 @@ import thut.api.entity.IHungrymob;
 import thut.api.maths.Vector3;
 import thut.lib.TComponent;
 
-public class ActionHyperspaceHole implements IMoveAction
+public class ActionHyperspaceHole implements IMoveWorldEffect
 {
     public ActionHyperspaceHole()
     {}

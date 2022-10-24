@@ -1,0 +1,15 @@
+{
+  "name": "flame-burst",
+  "id": 481,
+  "power": 70,
+  "pp": 15,
+  "priority": 0,
+  "type": "fire",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user attacks the target with a bursting flame.\nThe bursting flame damages Pokémon next to the\ntarget as well.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  If this move successfully hits the target, any Pokémon adjacent to the target are damaged for 1/16 their max HP.",
+  "effect_text_simple": "Deals splash damage to Pokémon next to the target."
+}

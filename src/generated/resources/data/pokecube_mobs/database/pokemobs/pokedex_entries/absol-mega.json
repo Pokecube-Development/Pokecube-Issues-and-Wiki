@@ -1,0 +1,222 @@
+{
+  "name": "absol-mega",
+  "id": 359,
+  "stock": true,
+  "base_experience": 198,
+  "size": {
+    "height": 1.2
+  },
+  "mass": 49.0,
+  "is_default": false,
+  "capture_rate": 30,
+  "base_happiness": 35,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 65,
+    "attack": 150,
+    "defense": 60,
+    "special_attack": 115,
+    "special_defense": 60,
+    "speed": 115
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "magic-bounce"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "leer",
+          "quick-attack",
+          "perish-song",
+          "future-sight",
+          "feint"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "razor-wind"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "double-team"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "detect"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "me-first"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "psycho-cut"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "razor-wind",
+      "swords-dance",
+      "cut",
+      "double-edge",
+      "leer",
+      "bite",
+      "flamethrower",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "quick-attack",
+      "double-team",
+      "fire-blast",
+      "dream-eater",
+      "flash",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "spite",
+      "protect",
+      "feint-attack",
+      "perish-song",
+      "icy-wind",
+      "detect",
+      "sandstorm",
+      "false-swipe",
+      "swagger",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "megahorn",
+      "baton-pass",
+      "pursuit",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "rock-smash",
+      "hail",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "taunt",
+      "role-play",
+      "superpower",
+      "magic-coat",
+      "knock-off",
+      "snatch",
+      "secret-power",
+      "rock-tomb",
+      "aerial-ace",
+      "bounce",
+      "calm-mind",
+      "shock-wave",
+      "water-pulse",
+      "feint",
+      "payback",
+      "assurance",
+      "me-first",
+      "punishment",
+      "sucker-punch",
+      "dark-pulse",
+      "night-slash",
+      "x-scissor",
+      "giga-impact",
+      "shadow-claw",
+      "psycho-cut",
+      "zen-headbutt",
+      "stone-edge",
+      "charge-beam",
+      "hone-claws",
+      "foul-play",
+      "round",
+      "echoed-voice",
+      "hex",
+      "incinerate",
+      "retaliate",
+      "snarl",
+      "play-rough",
+      "confide",
+      "laser-focus",
+      "throat-chop",
+      "brutal-swing"
+    ]
+  },
+  "old_name": "absol_mega"
+}

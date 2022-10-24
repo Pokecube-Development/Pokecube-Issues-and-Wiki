@@ -1,0 +1,192 @@
+{
+  "name": "venonat",
+  "id": 48,
+  "stock": true,
+  "base_experience": 61,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 30.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 55,
+    "defense": 50,
+    "special_attack": 40,
+    "special_defense": 55,
+    "speed": 45
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "bug",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "compound-eyes",
+      "tinted-lens"
+    ],
+    "hidden": [
+      "run-away"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "disable",
+          "foresight"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "supersonic"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "poison-powder"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "stun-spore"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "sleep-powder"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "leech-life"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "poison-fang"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "signal-beam"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "zen-headbutt"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "tackle",
+      "take-down",
+      "double-edge",
+      "supersonic",
+      "disable",
+      "psybeam",
+      "mega-drain",
+      "solar-beam",
+      "poison-powder",
+      "stun-spore",
+      "sleep-powder",
+      "string-shot",
+      "toxic",
+      "confusion",
+      "psychic",
+      "agility",
+      "rage",
+      "mimic",
+      "screech",
+      "double-team",
+      "reflect",
+      "bide",
+      "swift",
+      "leech-life",
+      "flash",
+      "psywave",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "sludge-bomb",
+      "foresight",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "baton-pass",
+      "sweet-scent",
+      "morning-sun",
+      "hidden-power",
+      "sunny-day",
+      "facade",
+      "skill-swap",
+      "secret-power",
+      "poison-fang",
+      "signal-beam",
+      "natural-gift",
+      "toxic-spikes",
+      "zen-headbutt",
+      "captivate",
+      "bug-bite",
+      "venoshock",
+      "rage-powder",
+      "round",
+      "struggle-bug",
+      "confide",
+      "infestation"
+    ]
+  },
+  "loot_table": "pokecube:entities/spider_eye",
+  "evolutions": [
+    {
+      "name": "venomoth",
+      "level": 31,
+      "evoMoves": "gust"
+    }
+  ]
+}

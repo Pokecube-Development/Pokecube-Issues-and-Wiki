@@ -1,0 +1,25 @@
+{
+  "name": "mudbomb",
+  "animations": [
+    {
+      "preset": "throw:atrue:w0.7:cbrown:~mudbomb",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.waterpulse",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.7
+    },
+    {
+      "preset": "cartFunc:atrue:pexplosion_emitter:~mudbomb",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2
+    }
+  ]
+}

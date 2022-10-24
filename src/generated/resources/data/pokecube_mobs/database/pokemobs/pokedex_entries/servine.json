@@ -1,0 +1,185 @@
+{
+  "name": "servine",
+  "id": 496,
+  "stock": true,
+  "base_experience": 145,
+  "size": {
+    "height": 0.8,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 16.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 60,
+    "attack": 60,
+    "defense": 75,
+    "special_attack": 60,
+    "special_defense": 75,
+    "speed": 83
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "contrary"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 28,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "vine-whip",
+          "tackle",
+          "wrap",
+          "leer"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "leaf-blade"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "wring-out"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "gastro-acid"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "leaf-storm"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "coil"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "leaf-tornado"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "bind",
+      "slam",
+      "vine-whip",
+      "tackle",
+      "wrap",
+      "leer",
+      "mega-drain",
+      "leech-seed",
+      "growth",
+      "solar-beam",
+      "toxic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "giga-drain",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "torment",
+      "facade",
+      "nature-power",
+      "taunt",
+      "knock-off",
+      "snatch",
+      "secret-power",
+      "aerial-ace",
+      "calm-mind",
+      "leaf-blade",
+      "wring-out",
+      "gastro-acid",
+      "worry-seed",
+      "aqua-tail",
+      "seed-bomb",
+      "energy-ball",
+      "defog",
+      "leaf-storm",
+      "grass-knot",
+      "coil",
+      "round",
+      "grass-pledge",
+      "work-up",
+      "leaf-tornado",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_2",
+  "evolutions": [
+    {
+      "name": "serperior",
+      "level": 36,
+      "animation": "18"
+    }
+  ]
+}

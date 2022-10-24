@@ -1,0 +1,216 @@
+{
+  "name": "alakazam-mega",
+  "id": 65,
+  "stock": true,
+  "base_experience": 270,
+  "size": {
+    "height": 1.2,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 48.0,
+  "is_default": false,
+  "capture_rate": 50,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 55,
+    "attack": 50,
+    "defense": 65,
+    "special_attack": 175,
+    "special_defense": 105,
+    "speed": 150
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "trace"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 18,
+        "moves": [
+          "disable"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "confusion",
+          "teleport",
+          "barrier",
+          "flash",
+          "encore"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "night-shade"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "reflect",
+          "substitute"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "kinesis"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "trick"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "miracle-eye"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "psycho-cut"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "telekinesis"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "ally-switch"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "headbutt",
+      "disable",
+      "psybeam",
+      "hyper-beam",
+      "seismic-toss",
+      "thunder-wave",
+      "dig",
+      "toxic",
+      "confusion",
+      "psychic",
+      "teleport",
+      "double-team",
+      "recover",
+      "light-screen",
+      "reflect",
+      "kinesis",
+      "dream-eater",
+      "flash",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "torment",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "knock-off",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "signal-beam",
+      "calm-mind",
+      "shock-wave",
+      "gravity",
+      "miracle-eye",
+      "embargo",
+      "fling",
+      "drain-punch",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "psycho-cut",
+      "zen-headbutt",
+      "trick-room",
+      "grass-knot",
+      "charge-beam",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "foul-play",
+      "round",
+      "ally-switch",
+      "confide",
+      "dazzling-gleam",
+      "laser-focus"
+    ]
+  },
+  "old_name": "alakazam_mega"
+}

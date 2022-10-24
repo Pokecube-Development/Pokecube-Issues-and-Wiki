@@ -1,0 +1,233 @@
+{
+  "name": "victini",
+  "id": 494,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 4.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 100,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 100,
+    "attack": 100,
+    "defense": 100,
+    "special_attack": 100,
+    "special_defense": 100,
+    "speed": 100
+  },
+  "evs": {
+    "hp": 3
+  },
+  "types": [
+    "psychic",
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "victory-star"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 17,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "confusion",
+          "quick-attack",
+          "focus-energy",
+          "incinerate",
+          "searing-shot",
+          "v-create"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "reversal"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 97,
+        "moves": [
+          "overheat"
+        ]
+      },
+      {
+        "L": 73,
+        "moves": [
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "flame-burst"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 89,
+        "moves": [
+          "stored-power"
+        ]
+      },
+      {
+        "L": 81,
+        "moves": [
+          "final-gambit"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "inferno"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "work-up"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "double-edge",
+      "flamethrower",
+      "hyper-beam",
+      "solar-beam",
+      "fire-spin",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "confusion",
+      "psychic",
+      "quick-attack",
+      "double-team",
+      "light-screen",
+      "focus-energy",
+      "fire-blast",
+      "swift",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "baton-pass",
+      "encore",
+      "hidden-power",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "rock-smash",
+      "uproar",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "brick-break",
+      "skill-swap",
+      "secret-power",
+      "blaze-kick",
+      "overheat",
+      "signal-beam",
+      "bounce",
+      "shock-wave",
+      "u-turn",
+      "embargo",
+      "fling",
+      "power-swap",
+      "guard-swap",
+      "last-resort",
+      "flare-blitz",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "zen-headbutt",
+      "trick-room",
+      "grass-knot",
+      "charge-beam",
+      "psyshock",
+      "telekinesis",
+      "flame-burst",
+      "flame-charge",
+      "round",
+      "stored-power",
+      "incinerate",
+      "final-gambit",
+      "inferno",
+      "work-up",
+      "wild-charge",
+      "searing-shot",
+      "confide",
+      "mystical-fire",
+      "dazzling-gleam",
+      "power-up-punch",
+      "laser-focus",
+      "speed-swap",
+      "expanding-force",
+      "scorching-sands"
+    ]
+  },
+  "spawn_rules": [
+    {
+      "and_preset": "villages",
+      "values": {
+        "rate": "0.0"
+      }
+    }
+  ]
+}

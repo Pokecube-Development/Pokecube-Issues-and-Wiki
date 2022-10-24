@@ -1,0 +1,211 @@
+{
+  "name": "glaceon",
+  "id": 471,
+  "stock": true,
+  "base_experience": 184,
+  "size": {
+    "height": 0.8,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 25.9,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 35,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 65,
+    "attack": 60,
+    "defense": 110,
+    "special_attack": 130,
+    "special_defense": 95,
+    "speed": 65
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "ice"
+  ],
+  "abilities": {
+    "normal": [
+      "snow-cloak"
+    ],
+    "hidden": [
+      "ice-body"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 5,
+        "moves": [
+          "sand-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "take-down",
+          "double-edge",
+          "tail-whip",
+          "growl",
+          "swift",
+          "charm",
+          "baton-pass",
+          "helping-hand",
+          "covet",
+          "copycat"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "barrier"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "icy-wind"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "mirror-coat"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "hail"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "last-resort"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "ice-shard"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "ice-fang"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "freeze-dry"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "baby-doll-eyes"
+        ]
+      }
+    ],
+    "misc": [
+      "pay-day",
+      "sand-attack",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "tail-whip",
+      "bite",
+      "roar",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "strength",
+      "dig",
+      "toxic",
+      "quick-attack",
+      "double-team",
+      "barrier",
+      "focus-energy",
+      "swift",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "baton-pass",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "mirror-coat",
+      "shadow-ball",
+      "rock-smash",
+      "hail",
+      "facade",
+      "helping-hand",
+      "secret-power",
+      "hyper-voice",
+      "weather-ball",
+      "fake-tears",
+      "signal-beam",
+      "icicle-spear",
+      "covet",
+      "water-pulse",
+      "natural-gift",
+      "last-resort",
+      "aqua-tail",
+      "giga-impact",
+      "avalanche",
+      "ice-shard",
+      "ice-fang",
+      "captivate",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "retaliate",
+      "frost-breath",
+      "work-up",
+      "confide",
+      "baby-doll-eyes",
+      "laser-focus",
+      "aurora-veil",
+      "triple-axel"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1"
+}

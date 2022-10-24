@@ -1,0 +1,13 @@
+{
+  "name": "dragon-dance",
+  "id": 349,
+  "pp": 20,
+  "priority": 0,
+  "type": "dragon",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user vigorously performs a mystic, powerful\ndance that raises its Attack and Speed stats.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises the user's Attack and Speed by one stage each.",
+  "effect_text_simple": "Raises the user's Attack and Speed by one stage."
+}

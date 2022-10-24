@@ -1,0 +1,108 @@
+{
+  "name": "sliggoo-hisui",
+  "id": 705,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.6
+  },
+  "mass": 68.5,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 58,
+    "attack": 75,
+    "defense": 83,
+    "special_attack": 83,
+    "special_defense": 113,
+    "speed": 40
+  },
+  "evs": {
+    "special_defense": 2
+  },
+  "types": [
+    "steel",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "sap-sipper",
+      "overcoat"
+    ],
+    "hidden": [
+      "gooey"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "bubble"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "acid-spray"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "acid-armor"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "iron-head",
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "shelter"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "hydro-pump"
+        ]
+      }
+    ],
+    "misc": [
+      "rest",
+      "rock-slide",
+      "iron-head",
+      "iron-tail",
+      "water-pulse",
+      "sludge-bomb",
+      "outrage",
+      "thunderbolt",
+      "ice-beam",
+      "draco-meteor",
+      "steel-beam"
+    ]
+  },
+  "evolutions": [
+    {
+      "name": "goodra-hisui",
+      "level": 50
+    }
+  ],
+  "old_name": "sliggoo_hisui"
+}

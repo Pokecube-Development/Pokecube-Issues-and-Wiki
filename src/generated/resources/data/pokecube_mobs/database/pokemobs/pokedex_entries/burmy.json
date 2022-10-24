@@ -1,0 +1,114 @@
+{
+  "name": "burmy",
+  "id": 412,
+  "stock": true,
+  "base_experience": 45,
+  "size": {
+    "height": 0.2,
+    "width": 0.2,
+    "length": 0.2
+  },
+  "mass": 3.4,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 40,
+    "attack": 29,
+    "defense": 45,
+    "special_attack": 29,
+    "special_defense": 45,
+    "speed": 36
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "bug"
+  ],
+  "abilities": {
+    "normal": [
+      "shed-skin"
+    ],
+    "hidden": [
+      "overcoat"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "hidden-power"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "bug-bite"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "string-shot",
+      "snore",
+      "protect",
+      "hidden-power",
+      "bug-bite",
+      "electroweb"
+    ]
+  },
+  "model": {
+    "key": "burmy-plant",
+    "tex": "burmy-plant",
+    "model": "burmy-plant",
+    "anim": "burmy-plant",
+    "types": "bug"
+  },
+  "models": [
+    {
+      "key": "burmy-sandy",
+      "tex": "burmy-sandy",
+      "model": "burmy-sandy",
+      "anim": "burmy-sandy",
+      "types": "bug"
+    },
+    {
+      "key": "burmy-trash",
+      "tex": "burmy-trash",
+      "model": "burmy-trash",
+      "anim": "burmy-trash",
+      "types": "bug"
+    }
+  ],
+  "loot_table": "pokecube:entities/chestplate_seeds_1",
+  "evolutions": [
+    {
+      "name": "wormadam-plant",
+      "level": 20,
+      "sexe": "female",
+      "evoMoves": "quiverdance"
+    },
+    {
+      "name": "mothim",
+      "level": 20,
+      "sexe": "male",
+      "evoMoves": "quiverdance"
+    }
+  ]
+}

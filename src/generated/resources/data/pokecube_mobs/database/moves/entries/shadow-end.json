@@ -1,0 +1,12 @@
+{
+  "name": "shadow-end",
+  "id": 10007,
+  "power": 120,
+  "priority": 0,
+  "type": "shadow",
+  "accuracy": 60,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "effect_text_extend": "Inflicts regular damage.  User takes 1/2 of its current HP in recoil.",
+  "effect_text_simple": "User receives 1/2 its HP in recoil."
+}

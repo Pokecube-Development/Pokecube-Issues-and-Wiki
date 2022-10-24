@@ -1,0 +1,234 @@
+{
+  "name": "skitty",
+  "id": 300,
+  "stock": true,
+  "base_experience": 52,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 11.0,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 70,
+  "growth_rate": "fast",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 50,
+    "attack": 45,
+    "defense": 45,
+    "special_attack": 35,
+    "special_defense": 35,
+    "speed": 50
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "cute-charm",
+      "normalize"
+    ],
+    "hidden": [
+      "wonder-skin"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 16,
+        "moves": [
+          "double-slap"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "tail-whip",
+          "growl",
+          "fake-out"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "sing"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "foresight"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "attract"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "heal-bell"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "assist"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "covet"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "wake-up-slap"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "copycat"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "captivate"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "disarming-voice"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "play-rough"
+        ]
+      }
+    ],
+    "misc": [
+      "double-slap",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "tail-whip",
+      "growl",
+      "sing",
+      "ice-beam",
+      "blizzard",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "toxic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "feint-attack",
+      "mud-slap",
+      "foresight",
+      "icy-wind",
+      "endure",
+      "charm",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "baton-pass",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "fake-out",
+      "uproar",
+      "facade",
+      "helping-hand",
+      "wish",
+      "assist",
+      "secret-power",
+      "hyper-voice",
+      "fake-tears",
+      "tickle",
+      "cosmic-power",
+      "covet",
+      "calm-mind",
+      "shock-wave",
+      "water-pulse",
+      "wake-up-slap",
+      "natural-gift",
+      "payback",
+      "copycat",
+      "last-resort",
+      "sucker-punch",
+      "mud-bomb",
+      "zen-headbutt",
+      "captivate",
+      "grass-knot",
+      "charge-beam",
+      "simple-beam",
+      "round",
+      "echoed-voice",
+      "retaliate",
+      "work-up",
+      "wild-charge",
+      "disarming-voice",
+      "play-rough",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "delcatty",
+      "item_preset": "moonstone"
+    }
+  ]
+}

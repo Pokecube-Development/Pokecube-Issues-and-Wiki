@@ -1,0 +1,13 @@
+{
+  "name": "shell-smash",
+  "id": 504,
+  "pp": 15,
+  "priority": 0,
+  "type": "normal",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user breaks its shell, which lowers Defense and\nSp. Def stats but sharply raises its Attack, Sp. Atk,\nand Speed stats.",
+  "move_category": "unique",
+  "effect_text_extend": "Raises the user's Attack, Special Attack, and Speed by two stages each.  Lowers the user's Defense and Special Defense by one stage each.",
+  "effect_text_simple": "Raises user's Attack, Special Attack, and Speed by two stages.  Lower user's Defense and Special Defense by one stage."
+}

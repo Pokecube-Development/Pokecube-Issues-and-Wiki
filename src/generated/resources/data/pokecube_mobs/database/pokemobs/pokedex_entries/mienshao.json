@@ -1,0 +1,238 @@
+{
+  "name": "mienshao",
+  "id": 620,
+  "stock": true,
+  "base_experience": 179,
+  "size": {
+    "height": 1.4,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 35.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 65,
+    "attack": 125,
+    "defense": 60,
+    "special_attack": 95,
+    "special_defense": 60,
+    "speed": 105
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "inner-focus",
+      "regenerator"
+    ],
+    "hidden": [
+      "reckless"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "meditate",
+          "reversal",
+          "detect",
+          "fake-out",
+          "aura-sphere",
+          "quick-guard"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "double-slap"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "jump-kick"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "high-jump-kick"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "u-turn"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "force-palm"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "drain-punch"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "wide-guard"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "double-slap",
+      "mega-punch",
+      "swords-dance",
+      "mega-kick",
+      "jump-kick",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "dig",
+      "toxic",
+      "meditate",
+      "agility",
+      "double-team",
+      "reflect",
+      "focus-energy",
+      "swift",
+      "high-jump-kick",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "detect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "baton-pass",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "rock-smash",
+      "fake-out",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "role-play",
+      "revenge",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "blaze-kick",
+      "rock-tomb",
+      "aerial-ace",
+      "bulk-up",
+      "bounce",
+      "calm-mind",
+      "u-turn",
+      "close-combat",
+      "payback",
+      "assurance",
+      "fling",
+      "force-palm",
+      "aura-sphere",
+      "poison-jab",
+      "drain-punch",
+      "focus-blast",
+      "giga-impact",
+      "stone-edge",
+      "grass-knot",
+      "wide-guard",
+      "low-sweep",
+      "round",
+      "ally-switch",
+      "acrobatics",
+      "retaliate",
+      "work-up",
+      "dual-chop",
+      "confide",
+      "power-up-punch",
+      "laser-focus",
+      "brutal-swing",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

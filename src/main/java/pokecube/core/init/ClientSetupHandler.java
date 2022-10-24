@@ -278,8 +278,8 @@ public class ClientSetupHandler
         event.getItemColors().register((stack, tintIndex) -> {
             String moveName = ItemTM.getMoveFromStack(stack);
             if (moveName == null) return 0xFFFFFFFF;
-            var move = MovesUtils.getMoveFromName(moveName);
-            if (move != null) return move.getType(null).colour;
+            var move = MovesUtils.getMove(moveName);
+            if (move != null) return move.getType(null).colour; 
             return 0xFFFFFFFF;
         }, PokecubeItems.TM.get());
     }

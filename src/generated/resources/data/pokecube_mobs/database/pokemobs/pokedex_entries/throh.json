@@ -1,0 +1,193 @@
+{
+  "name": "throh",
+  "id": 538,
+  "stock": true,
+  "base_experience": 163,
+  "size": {
+    "height": 1.3,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 55.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 120,
+    "attack": 100,
+    "defense": 85,
+    "special_attack": 30,
+    "special_defense": 85,
+    "speed": 45
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "guts",
+      "inner-focus"
+    ],
+    "hidden": [
+      "mold-breaker"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "bind",
+          "leer",
+          "focus-energy",
+          "bide",
+          "mat-block"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "seismic-toss"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "reversal"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "vital-throw"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "revenge"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "bulk-up"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "wide-guard"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "storm-throw"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "circle-throw"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "bind",
+      "mega-kick",
+      "body-slam",
+      "leer",
+      "low-kick",
+      "seismic-toss",
+      "strength",
+      "earthquake",
+      "dig",
+      "toxic",
+      "double-team",
+      "focus-energy",
+      "bide",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "scary-face",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "vital-throw",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "rock-tomb",
+      "block",
+      "bulk-up",
+      "payback",
+      "fling",
+      "poison-jab",
+      "focus-blast",
+      "giga-impact",
+      "zen-headbutt",
+      "stone-edge",
+      "grass-knot",
+      "wide-guard",
+      "storm-throw",
+      "low-sweep",
+      "round",
+      "circle-throw",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "mat-block",
+      "confide",
+      "power-up-punch",
+      "laser-focus",
+      "stomping-tantrum",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/cow_1"
+}

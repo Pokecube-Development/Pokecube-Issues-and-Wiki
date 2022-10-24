@@ -1,0 +1,114 @@
+{
+  "name": "growlithe-hisui",
+  "id": 58,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 0.8,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 22.7,
+  "is_default": false,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 60,
+    "attack": 75,
+    "defense": 45,
+    "special_attack": 65,
+    "special_defense": 50,
+    "speed": 55
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "fire",
+    "rock"
+  ],
+  "abilities": {
+    "normal": [
+      "intimidate",
+      "flash-fire"
+    ],
+    "hidden": [
+      "justified"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 9,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "ember"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "fire-fang"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "flare-blitz"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-fang",
+      "rock-smash",
+      "aerial-ace",
+      "swift",
+      "rest",
+      "rock-slide",
+      "iron-tail",
+      "snarl",
+      "wild-charge",
+      "outrage",
+      "play-rough",
+      "flamethrower"
+    ]
+  },
+  "evolutions": [
+    {
+      "name": "arcanine-hisui",
+      "item_preset": "firestone"
+    }
+  ],
+  "old_name": "growlithe_hisui"
+}

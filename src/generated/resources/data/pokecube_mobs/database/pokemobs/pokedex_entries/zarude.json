@@ -1,0 +1,208 @@
+{
+  "name": "zarude",
+  "id": 893,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 1.8,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 70.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 105,
+    "attack": 120,
+    "defense": 105,
+    "special_attack": 70,
+    "special_defense": 95,
+    "speed": 105
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "dark",
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "leaf-guard"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "bind"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "vine-whip"
+        ]
+      },
+      {
+        "L": 78,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 72,
+        "moves": [
+          "hammer-arm"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "u-turn"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+      {
+        "L": 84,
+        "moves": [
+          "power-whip"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "grass-knot"
+        ]
+      },
+      {
+        "L": 90,
+        "moves": [
+          "jungle-healing"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "mega-kick",
+      "body-slam",
+      "hyper-beam",
+      "low-kick",
+      "solar-beam",
+      "dig",
+      "swift",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "scary-face",
+      "giga-drain",
+      "endure",
+      "sleep-talk",
+      "encore",
+      "iron-tail",
+      "sunny-day",
+      "crunch",
+      "facade",
+      "taunt",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "hyper-voice",
+      "rock-tomb",
+      "bullet-seed",
+      "bulk-up",
+      "mud-shot",
+      "magical-leaf",
+      "u-turn",
+      "close-combat",
+      "payback",
+      "assurance",
+      "fling",
+      "dark-pulse",
+      "seed-bomb",
+      "drain-punch",
+      "energy-ball",
+      "giga-impact",
+      "nasty-plot",
+      "power-whip",
+      "grass-knot",
+      "round",
+      "acrobatics",
+      "snarl",
+      "grassy-terrain",
+      "darkest-lariat",
+      "solar-blade",
+      "throat-chop",
+      "brutal-swing",
+      "stomping-tantrum",
+      "grassy-glide",
+      "lash-out"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:celebi_temple",
+        "min": "1",
+        "max": "1",
+        "rate": "0.02"
+      }
+    }
+  ]
+}

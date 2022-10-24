@@ -1,5 +1,5 @@
 import json
-from utils import get_moves_index, get_move, trim
+from utils import get_moves_index, get_move, trim, default_or_latest
 
 MANUAL_RENAMES = {
     "lastout": "lash-out",
@@ -35,9 +35,13 @@ LEGENDS_ARCEUS = [
 
 index_map = get_moves_index()
 
+def is_english(details):
+    return details.language.name == 'en'
+
 class MoveEntry:
     def __init__(self, move) -> None:
         self.name = move.name
+        self.id = move.id
         self.power = move.power
         self.pp = move.pp
         self.priority = move.priority
@@ -46,12 +50,28 @@ class MoveEntry:
         self.target = move.target.name
         self.damage_class = move.damage_class.name
 
+        flavor_text = default_or_latest(move.flavor_text_entries, is_english)
+        if flavor_text is not None:
+            self.flavor_text = flavor_text.flavor_text
+
         if move.meta is not None:
             self.move_category = move.meta.category.name
             if move.meta.flinch_chance != 0:
                 self.flinch_chance = move.meta.flinch_chance
             if move.meta.crit_rate != 0:
-                self.flinch_chance = move.meta.crit_rate
+                self.crit_rate = move.meta.crit_rate
+            if move.meta.drain != 0:
+                self.drain = move.meta.drain
+            if move.meta.healing != 0:
+                self.healing = move.meta.healing
+            if move.meta.stat_chance != 0:
+                self.stat_chance = move.meta.stat_chance
+            if move.meta.ailment_chance != 0:
+                self.ailment_chance = move.meta.ailment_chance
+            self.max_hits = move.meta.max_hits
+            self.min_hits = move.meta.min_hits
+            self.max_turns = move.meta.max_turns
+            self.min_turns = move.meta.min_turns
         else:
             print(f'no meta for {move.name}??')
 

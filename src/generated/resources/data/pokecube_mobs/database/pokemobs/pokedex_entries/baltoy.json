@@ -1,0 +1,232 @@
+{
+  "name": "baltoy",
+  "id": 343,
+  "stock": true,
+  "base_experience": 60,
+  "size": {
+    "height": 0.5,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 21.5,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 40,
+    "attack": 40,
+    "defense": 55,
+    "special_attack": 40,
+    "special_defense": 70,
+    "speed": 55
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "ground",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 16,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "confusion",
+          "harden"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "self-destruct"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "sandstorm"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "rapid-spin"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "imprison"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "rock-tomb"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "cosmic-power"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "heal-block"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "power-trick"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "guard-split",
+          "power-split"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "double-edge",
+      "ice-beam",
+      "psybeam",
+      "solar-beam",
+      "earthquake",
+      "dig",
+      "toxic",
+      "confusion",
+      "psychic",
+      "mimic",
+      "double-team",
+      "harden",
+      "light-screen",
+      "reflect",
+      "self-destruct",
+      "dream-eater",
+      "flash",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "rapid-spin",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "shadow-ball",
+      "facade",
+      "trick",
+      "magic-coat",
+      "recycle",
+      "skill-swap",
+      "imprison",
+      "secret-power",
+      "rock-tomb",
+      "cosmic-power",
+      "signal-beam",
+      "extrasensory",
+      "sand-tomb",
+      "calm-mind",
+      "gravity",
+      "gyro-ball",
+      "natural-gift",
+      "heal-block",
+      "power-trick",
+      "power-swap",
+      "guard-swap",
+      "rock-polish",
+      "earth-power",
+      "zen-headbutt",
+      "trick-room",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "guard-split",
+      "power-split",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "smack-down",
+      "round",
+      "ally-switch",
+      "hex",
+      "bulldoze",
+      "drill-run",
+      "confide",
+      "eerie-impulse",
+      "dazzling-gleam",
+      "psychic-terrain",
+      "expanding-force",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/terracota_1",
+  "evolutions": [
+    {
+      "name": "claydol",
+      "level": 36,
+      "evoMoves": "hyperbeam"
+    }
+  ]
+}

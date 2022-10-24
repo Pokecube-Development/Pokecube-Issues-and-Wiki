@@ -1,0 +1,15 @@
+{
+  "name": "dragondance",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:d0.34:rtrue:l10:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~dragondance",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pdragon_breath:d0.5:rtrue:l10:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~dragondance",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

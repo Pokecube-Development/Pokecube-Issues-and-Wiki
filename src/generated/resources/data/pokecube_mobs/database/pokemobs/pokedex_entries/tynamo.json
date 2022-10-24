@@ -1,0 +1,64 @@
+{
+  "name": "tynamo",
+  "id": 602,
+  "stock": true,
+  "base_experience": 55,
+  "size": {
+    "height": 0.2,
+    "width": 0.2,
+    "length": 0.2
+  },
+  "mass": 0.3,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 70,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 35,
+    "attack": 55,
+    "defense": 40,
+    "special_attack": 45,
+    "special_defense": 40,
+    "speed": 60
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "thunder-wave",
+          "spark",
+          "charge-beam"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "thunder-wave",
+      "spark",
+      "magnet-rise",
+      "charge-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/redstone_fish_1",
+  "evolutions": [
+    {
+      "name": "eelektrik",
+      "level": 39,
+      "evoMoves": "Crunch"
+    }
+  ]
+}

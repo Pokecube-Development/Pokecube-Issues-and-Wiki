@@ -1,0 +1,20 @@
+{
+  "name": "autotomize",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:d0.6:w1:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~autotomize",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.metalclaw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.1
+    },
+    {
+      "preset": "cartFunc:pend_rod:d1:w2:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~autotomize",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

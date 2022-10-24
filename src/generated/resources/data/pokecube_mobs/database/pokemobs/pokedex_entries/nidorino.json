@@ -1,0 +1,210 @@
+{
+  "name": "nidorino",
+  "id": 33,
+  "stock": true,
+  "base_experience": 128,
+  "size": {
+    "height": 0.5,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 19.5,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 61,
+    "attack": 72,
+    "defense": 57,
+    "special_attack": 55,
+    "special_defense": 55,
+    "speed": 65
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "poison-point",
+      "rivalry"
+    ],
+    "hidden": [
+      "hustle"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 9,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "horn-attack"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "fury-attack"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "horn-drill"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "leer",
+          "peck"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "poison-sting"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "toxic",
+          "captivate"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "flatter"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "toxic-spikes"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 71,
+        "moves": [
+          "earth-power"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "double-kick",
+      "headbutt",
+      "horn-attack",
+      "fury-attack",
+      "horn-drill",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "poison-sting",
+      "leer",
+      "water-gun",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "peck",
+      "counter",
+      "strength",
+      "thunderbolt",
+      "thunder",
+      "dig",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "reflect",
+      "focus-energy",
+      "bide",
+      "skull-bash",
+      "amnesia",
+      "rest",
+      "super-fang",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "detect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
+      "beat-up",
+      "flatter",
+      "facade",
+      "helping-hand",
+      "secret-power",
+      "shock-wave",
+      "water-pulse",
+      "natural-gift",
+      "sucker-punch",
+      "toxic-spikes",
+      "poison-jab",
+      "earth-power",
+      "shadow-claw",
+      "captivate",
+      "hone-claws",
+      "venoshock",
+      "round",
+      "echoed-voice",
+      "drill-run",
+      "confide",
+      "venom-drench",
+      "smart-strike",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2",
+  "evolutions": [
+    {
+      "name": "nidoking",
+      "item_preset": "moonstone"
+    }
+  ]
+}

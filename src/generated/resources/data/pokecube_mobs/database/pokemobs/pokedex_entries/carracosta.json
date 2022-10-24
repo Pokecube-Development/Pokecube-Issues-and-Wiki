@@ -1,0 +1,220 @@
+{
+  "name": "carracosta",
+  "id": 565,
+  "stock": true,
+  "base_experience": 173,
+  "size": {
+    "height": 1.2,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 81.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 74,
+    "attack": 108,
+    "defense": 133,
+    "special_attack": 83,
+    "special_defense": 65,
+    "speed": 32
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "water",
+    "rock"
+  ],
+  "abilities": {
+    "normal": [
+      "solid-rock",
+      "sturdy"
+    ],
+    "hidden": [
+      "swift-swim"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 8,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "water-gun",
+          "withdraw",
+          "bide",
+          "rollout"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "wide-guard"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "smack-down"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "shell-smash"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "bite",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "earthquake",
+      "dig",
+      "toxic",
+      "double-team",
+      "withdraw",
+      "bide",
+      "waterfall",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "icy-wind",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "crunch",
+      "ancient-power",
+      "rock-smash",
+      "whirlpool",
+      "facade",
+      "superpower",
+      "knock-off",
+      "secret-power",
+      "dive",
+      "rock-tomb",
+      "muddy-water",
+      "iron-defense",
+      "block",
+      "mud-shot",
+      "rock-blast",
+      "water-pulse",
+      "brine",
+      "guard-swap",
+      "rock-polish",
+      "aqua-tail",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "zen-headbutt",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "aqua-jet",
+      "wide-guard",
+      "smack-down",
+      "round",
+      "scald",
+      "shell-smash",
+      "bulldoze",
+      "razor-shell",
+      "confide",
+      "liquidation",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/fossil_mobshell_2"
+}

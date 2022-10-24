@@ -1,0 +1,246 @@
+{
+  "name": "thundurus-incarnate",
+  "id": 642,
+  "stock": true,
+  "base_experience": 290,
+  "size": {
+    "height": 1.5,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 61.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 90,
+  "growth_rate": "slow",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 79,
+    "attack": 115,
+    "defense": 70,
+    "special_attack": 125,
+    "special_defense": 80,
+    "speed": 111
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "electric",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "prankster"
+    ],
+    "hidden": [
+      "defiant"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "thrash",
+          "thunder-shock",
+          "swagger",
+          "uproar",
+          "astonish",
+          "hammer-arm",
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "thunder"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "charge"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "revenge"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "shock-wave"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "heal-block"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "volt-switch"
+        ]
+      }
+    ],
+    "misc": [
+      "thunder-punch",
+      "fly",
+      "body-slam",
+      "thrash",
+      "bite",
+      "hyper-beam",
+      "strength",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "psychic",
+      "agility",
+      "double-team",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "crunch",
+      "rock-smash",
+      "uproar",
+      "torment",
+      "facade",
+      "charge",
+      "taunt",
+      "role-play",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "astonish",
+      "weather-ball",
+      "bulk-up",
+      "shock-wave",
+      "hammer-arm",
+      "u-turn",
+      "payback",
+      "assurance",
+      "embargo",
+      "fling",
+      "heal-block",
+      "dark-pulse",
+      "focus-blast",
+      "giga-impact",
+      "nasty-plot",
+      "flash-cannon",
+      "defog",
+      "discharge",
+      "grass-knot",
+      "charge-beam",
+      "smack-down",
+      "sludge-wave",
+      "electro-ball",
+      "foul-play",
+      "round",
+      "sky-drop",
+      "incinerate",
+      "volt-switch",
+      "electroweb",
+      "wild-charge",
+      "confide",
+      "eerie-impulse",
+      "smart-strike",
+      "brutal-swing",
+      "rising-voltage",
+      "lash-out"
+    ]
+  },
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:nature_place",
+        "rate": "0.0"
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "male": true,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "revealglass"
+        }
+      },
+      "action": {
+        "values": {
+          "forme": "thundurustherian",
+          "type": "forme"
+        }
+      }
+    }
+  ],
+  "old_name": "thundurus_incarnate"
+}

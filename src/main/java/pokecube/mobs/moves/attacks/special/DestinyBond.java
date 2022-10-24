@@ -4,12 +4,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.lang3.NotImplementedException;
+
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,10 +18,9 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.events.pokemobs.RecallEvent;
 import pokecube.api.events.pokemobs.combat.KillEvent;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.moves.templates.Move_Basic;
 
 public class DestinyBond extends Move_Basic
@@ -30,7 +29,7 @@ public class DestinyBond extends Move_Basic
 
     public DestinyBond()
     {
-        super("destinybond");
+        super("destiny-bond");
         this.setNotInterceptable();
     }
 
@@ -42,15 +41,16 @@ public class DestinyBond extends Move_Basic
 
         if (targets != null && event.killed.getEntity().getLevel() instanceof ServerLevel)
         {
-            final ServerLevel world = (ServerLevel) event.killed.getEntity().getLevel();
-            final DamageSource source = new PokemobDamageSource(event.killed.getEntity(), this);
-            source.bypassMagic();
-            source.bypassArmor();
-            for (final UUID id : targets)
-            {
-                final Entity mob = world.getEntity(id);
-                if (mob != null && !mob.isInvulnerable()) mob.hurt(source, Float.MAX_VALUE);
-            }
+            PokecubeAPI.LOGGER.error(new NotImplementedException("destiny-bond"));
+//            final ServerLevel world = (ServerLevel) event.killed.getEntity().getLevel();
+//            final DamageSource source = new PokemobDamageSource(event.killed.getEntity(), this);
+//            source.bypassMagic();
+//            source.bypassArmor();
+//            for (final UUID id : targets)
+//            {
+//                final Entity mob = world.getEntity(id);
+//                if (mob != null && !mob.isInvulnerable()) mob.hurt(source, Float.MAX_VALUE);
+//            }
         }
     }
 
@@ -97,8 +97,8 @@ public class DestinyBond extends Move_Basic
         final PokeType type = packet.attackType;
         final int PWR = packet.PWR;
         final int criticalLevel = packet.criticalLevel;
-        final byte statusChange = packet.statusChange;
-        final byte changeAddition = packet.changeAddition;
+        final int statusChange = packet.statusChange;
+        final int changeAddition = packet.changeAddition;
 
         final UUID userId = attackerMob.getUUID();
         final Set<UUID> hits = this.usedOn.getOrDefault(userId, Sets.newHashSet());

@@ -1,0 +1,15 @@
+{
+  "name": "meanlook",
+  "animations": [
+    {
+      "preset": "pons:pmisc:cblack:d1:w1:rtrue:l15:~meanlook",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "pons:pangry_villager:cblack:d0.8:w1:rtrue:l15:~meanlook",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

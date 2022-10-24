@@ -1,0 +1,215 @@
+{
+  "name": "pansear",
+  "id": 513,
+  "stock": true,
+  "base_experience": 63,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 11.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 50,
+    "attack": 53,
+    "defense": 48,
+    "special_attack": 53,
+    "special_defense": 48,
+    "speed": 64
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "gluttony"
+    ],
+    "hidden": [
+      "blaze"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "play-nice"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "lick"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "fire-blast"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "recycle"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "yawn"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "natural-gift"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "fling"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "flame-burst"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "incinerate"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "acrobatics"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "scratch",
+      "cut",
+      "leer",
+      "bite",
+      "flamethrower",
+      "low-kick",
+      "solar-beam",
+      "fire-spin",
+      "dig",
+      "toxic",
+      "double-team",
+      "lick",
+      "fire-blast",
+      "amnesia",
+      "fury-swipes",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "uproar",
+      "heat-wave",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "role-play",
+      "recycle",
+      "yawn",
+      "knock-off",
+      "endeavor",
+      "secret-power",
+      "astonish",
+      "overheat",
+      "rock-tomb",
+      "tickle",
+      "covet",
+      "natural-gift",
+      "payback",
+      "fling",
+      "gastro-acid",
+      "flare-blitz",
+      "nasty-plot",
+      "shadow-claw",
+      "gunk-shot",
+      "grass-knot",
+      "hone-claws",
+      "flame-burst",
+      "flame-charge",
+      "low-sweep",
+      "round",
+      "incinerate",
+      "acrobatics",
+      "fire-pledge",
+      "work-up",
+      "belch",
+      "disarming-voice",
+      "play-nice",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "simisear",
+      "item_preset": "firestone"
+    }
+  ]
+}

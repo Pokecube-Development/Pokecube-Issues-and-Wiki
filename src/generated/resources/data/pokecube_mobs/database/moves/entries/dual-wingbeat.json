@@ -1,0 +1,17 @@
+{
+  "name": "dual-wingbeat",
+  "id": 814,
+  "power": 40,
+  "pp": 10,
+  "priority": 0,
+  "type": "flying",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user slams the target with its wings.\nThe target is hit twice in a row.",
+  "move_category": "damage",
+  "max_hits": 2,
+  "min_hits": 2,
+  "effect_text_extend": "Inflicts regular damage.",
+  "effect_text_simple": "Inflicts regular damage with no additional effect."
+}

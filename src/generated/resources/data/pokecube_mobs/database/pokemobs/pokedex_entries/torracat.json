@@ -1,0 +1,190 @@
+{
+  "name": "torracat",
+  "id": 726,
+  "stock": true,
+  "base_experience": 147,
+  "size": {
+    "height": 0.7,
+    "width": 0.5,
+    "length": 0.7
+  },
+  "mass": 25.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 65,
+    "attack": 85,
+    "defense": 50,
+    "special_attack": 80,
+    "special_defense": 50,
+    "speed": 90
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "intimidate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "growl",
+          "ember",
+          "lick"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "fire-fang"
+        ]
+      }
+    ],
+    "misc": [
+      "pay-day",
+      "scratch",
+      "swords-dance",
+      "double-kick",
+      "body-slam",
+      "thrash",
+      "leer",
+      "bite",
+      "growl",
+      "roar",
+      "ember",
+      "flamethrower",
+      "fire-spin",
+      "toxic",
+      "double-team",
+      "lick",
+      "fire-blast",
+      "leech-life",
+      "fury-swipes",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "outrage",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "sunny-day",
+      "crunch",
+      "heat-wave",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "taunt",
+      "revenge",
+      "endeavor",
+      "overheat",
+      "bulk-up",
+      "covet",
+      "u-turn",
+      "flare-blitz",
+      "nasty-plot",
+      "shadow-claw",
+      "fire-fang",
+      "flame-charge",
+      "round",
+      "acrobatics",
+      "fire-pledge",
+      "work-up",
+      "dual-chop",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/coal_rabbit_2",
+  "evolutions": [
+    {
+      "name": "incineroar",
+      "level": 34,
+      "evoMoves": "darkestlariat"
+    }
+  ]
+}

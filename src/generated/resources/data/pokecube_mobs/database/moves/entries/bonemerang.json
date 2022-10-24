@@ -1,0 +1,17 @@
+{
+  "name": "bonemerang",
+  "id": 155,
+  "power": 50,
+  "pp": 10,
+  "priority": 0,
+  "type": "ground",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user throws the bone it holds. The bone loops\naround to hit the target twice—coming and going.",
+  "move_category": "damage",
+  "max_hits": 2,
+  "min_hits": 2,
+  "effect_text_extend": "Inflicts regular damage.  Hits twice in one turn.",
+  "effect_text_simple": "Hits twice in one turn."
+}

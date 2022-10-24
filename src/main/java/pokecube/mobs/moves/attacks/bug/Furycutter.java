@@ -1,7 +1,5 @@
 package pokecube.mobs.moves.attacks.bug;
 
-import net.minecraft.world.entity.LivingEntity;
-import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.core.moves.templates.Move_Basic;
 
@@ -10,15 +8,7 @@ public class Furycutter extends Move_Basic
 
     public Furycutter()
     {
-        super("furycutter");
-    }
-
-    @Override
-    public int getPWR(IPokemob attacker, LivingEntity attacked)
-    {
-        final double rollOut = attacker.getMoveStats().FURYCUTTERCOUNTER;
-        final int PWR = (int) Math.max(this.getPWR(), Math.min(160, rollOut * 2 * this.getPWR()));
-        return PWR;
+        super("fury-cutter");
     }
 
     @Override

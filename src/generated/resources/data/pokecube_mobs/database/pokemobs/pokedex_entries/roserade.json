@@ -1,0 +1,134 @@
+{
+  "name": "roserade",
+  "id": 407,
+  "stock": true,
+  "base_experience": 258,
+  "size": {
+    "height": 0.9,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 14.5,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 70,
+    "defense": 65,
+    "special_attack": 125,
+    "special_defense": 105,
+    "speed": 90
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "grass",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "natural-cure",
+      "poison-point"
+    ],
+    "hidden": [
+      "technician"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "poison-sting",
+          "absorb",
+          "mega-drain",
+          "leech-seed",
+          "growth",
+          "stun-spore",
+          "petal-dance",
+          "toxic",
+          "giga-drain",
+          "sweet-scent",
+          "synthesis",
+          "ingrain",
+          "weather-ball",
+          "aromatherapy",
+          "magical-leaf",
+          "worry-seed",
+          "toxic-spikes",
+          "petal-blizzard",
+          "grassy-terrain",
+          "venom-drench"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "body-slam",
+      "poison-sting",
+      "pin-missile",
+      "hyper-beam",
+      "mega-drain",
+      "solar-beam",
+      "toxic",
+      "double-team",
+      "swift",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "spikes",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "uproar",
+      "facade",
+      "nature-power",
+      "secret-power",
+      "weather-ball",
+      "bullet-seed",
+      "covet",
+      "magical-leaf",
+      "natural-gift",
+      "worry-seed",
+      "toxic-spikes",
+      "poison-jab",
+      "seed-bomb",
+      "energy-ball",
+      "giga-impact",
+      "leaf-storm",
+      "power-whip",
+      "captivate",
+      "grass-knot",
+      "venoshock",
+      "round",
+      "grassy-terrain",
+      "confide",
+      "venom-drench",
+      "dazzling-gleam",
+      "laser-focus",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/chestplate_seeds_2"
+}

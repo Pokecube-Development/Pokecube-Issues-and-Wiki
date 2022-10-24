@@ -1,0 +1,241 @@
+{
+  "name": "beartic",
+  "id": 614,
+  "stock": true,
+  "base_experience": 177,
+  "size": {
+    "height": 2.6,
+    "width": 1.5,
+    "length": 1.5
+  },
+  "mass": 260.0,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 95,
+    "attack": 130,
+    "defense": 80,
+    "special_attack": 70,
+    "special_defense": 80,
+    "speed": 50
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "ice"
+  ],
+  "abilities": {
+    "normal": [
+      "snow-cloak",
+      "slush-rush"
+    ],
+    "hidden": [
+      "swift-swim"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "thrash",
+          "growl",
+          "bide",
+          "powder-snow",
+          "icy-wind",
+          "charm",
+          "superpower",
+          "sheer-cold",
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "hail"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "frost-breath"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "icicle-crash"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "play-nice"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "swords-dance",
+      "cut",
+      "mega-kick",
+      "thrash",
+      "growl",
+      "roar",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "dig",
+      "toxic",
+      "double-team",
+      "bide",
+      "fury-swipes",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "flail",
+      "powder-snow",
+      "protect",
+      "scary-face",
+      "icy-wind",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "encore",
+      "hidden-power",
+      "rain-dance",
+      "rock-smash",
+      "hail",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "superpower",
+      "brick-break",
+      "secret-power",
+      "dive",
+      "rock-tomb",
+      "sheer-cold",
+      "aerial-ace",
+      "icicle-spear",
+      "bulk-up",
+      "covet",
+      "water-pulse",
+      "brine",
+      "assurance",
+      "fling",
+      "focus-blast",
+      "giga-impact",
+      "avalanche",
+      "shadow-claw",
+      "ice-fang",
+      "stone-edge",
+      "grass-knot",
+      "aqua-jet",
+      "hone-claws",
+      "heavy-slam",
+      "round",
+      "echoed-voice",
+      "bulldoze",
+      "frost-breath",
+      "icicle-crash",
+      "play-rough",
+      "play-nice",
+      "confide",
+      "power-up-punch",
+      "throat-chop",
+      "liquidation",
+      "body-press"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_3",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

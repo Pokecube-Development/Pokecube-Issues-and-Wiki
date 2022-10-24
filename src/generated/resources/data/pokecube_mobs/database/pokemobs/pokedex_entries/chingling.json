@@ -1,0 +1,172 @@
+{
+  "name": "chingling",
+  "id": 433,
+  "stock": true,
+  "base_experience": 57,
+  "size": {
+    "height": 0.2,
+    "width": 0.2,
+    "length": 0.2
+  },
+  "mass": 0.6,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 70,
+  "growth_rate": "fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 45,
+    "attack": 30,
+    "defense": 50,
+    "special_attack": 65,
+    "special_defense": 50,
+    "speed": 45
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "wrap"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "growl"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "uproar"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "yawn"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "astonish"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "last-resort"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "entrainment"
+        ]
+      }
+    ],
+    "misc": [
+      "bind",
+      "wrap",
+      "growl",
+      "disable",
+      "thunder-wave",
+      "toxic",
+      "confusion",
+      "psychic",
+      "hypnosis",
+      "double-team",
+      "recover",
+      "light-screen",
+      "reflect",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "icy-wind",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "uproar",
+      "torment",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "trick",
+      "wish",
+      "magic-coat",
+      "recycle",
+      "yawn",
+      "knock-off",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "astonish",
+      "cosmic-power",
+      "signal-beam",
+      "calm-mind",
+      "shock-wave",
+      "gravity",
+      "natural-gift",
+      "last-resort",
+      "zen-headbutt",
+      "trick-room",
+      "captivate",
+      "grass-knot",
+      "charge-beam",
+      "psyshock",
+      "telekinesis",
+      "entrainment",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "ally-switch",
+      "confide",
+      "dazzling-gleam"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_1",
+  "evolutions": [
+    {
+      "name": "chimecho",
+      "time": "night",
+      "happy": true
+    }
+  ]
+}

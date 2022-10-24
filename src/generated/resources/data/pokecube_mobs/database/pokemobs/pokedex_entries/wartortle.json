@@ -1,0 +1,225 @@
+{
+  "name": "wartortle",
+  "id": 8,
+  "stock": true,
+  "base_experience": 142,
+  "size": {
+    "height": 1.0,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 22.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 59,
+    "attack": 63,
+    "defense": 80,
+    "special_attack": 65,
+    "special_defense": 80,
+    "speed": 58
+  },
+  "evs": {
+    "defense": 1,
+    "special_defense": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+      "rain-dish"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 46,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "tail-whip",
+          "water-gun"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "bubble-beam",
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "withdraw"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "skull-bash"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "bubble"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "rapid-spin"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "shell-smash"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "mega-kick",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "tail-whip",
+      "bite",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "submission",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "dig",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "withdraw",
+      "defense-curl",
+      "reflect",
+      "bide",
+      "waterfall",
+      "skull-bash",
+      "bubble",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "outrage",
+      "endure",
+      "rollout",
+      "false-swipe",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "rapid-spin",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "rock-smash",
+      "whirlpool",
+      "hail",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "brick-break",
+      "secret-power",
+      "dive",
+      "weather-ball",
+      "rock-tomb",
+      "muddy-water",
+      "iron-defense",
+      "water-pulse",
+      "gyro-ball",
+      "brine",
+      "natural-gift",
+      "fling",
+      "aura-sphere",
+      "aqua-tail",
+      "dragon-pulse",
+      "zen-headbutt",
+      "captivate",
+      "round",
+      "scald",
+      "water-pledge",
+      "work-up",
+      "confide",
+      "power-up-punch",
+      "flip-turn"
+    ]
+  },
+  "loot_table": "pokecube:entities/turtleshells_2",
+  "evolutions": [
+    {
+      "name": "blastoise",
+      "level": 36,
+      "animation": "9"
+    }
+  ]
+}

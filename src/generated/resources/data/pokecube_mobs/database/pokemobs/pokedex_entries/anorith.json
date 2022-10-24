@@ -1,0 +1,204 @@
+{
+  "name": "anorith",
+  "id": 347,
+  "stock": true,
+  "base_experience": 71,
+  "size": {
+    "height": 0.4,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 12.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow-then-very-fast",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 45,
+    "attack": 95,
+    "defense": 50,
+    "special_attack": 40,
+    "special_defense": 50,
+    "speed": 75
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "rock",
+    "bug"
+  ],
+  "abilities": {
+    "normal": [
+      "battle-armor"
+    ],
+    "hidden": [
+      "swift-swim"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "harden"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "metal-claw"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "mud-sport"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "crush-claw"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "rock-blast"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "x-scissor"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "smack-down"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "swords-dance",
+      "cut",
+      "sand-attack",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "water-gun",
+      "string-shot",
+      "dig",
+      "toxic",
+      "mimic",
+      "screech",
+      "double-team",
+      "harden",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "sandstorm",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "rapid-spin",
+      "metal-claw",
+      "hidden-power",
+      "sunny-day",
+      "ancient-power",
+      "rock-smash",
+      "facade",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "mud-sport",
+      "crush-claw",
+      "rock-tomb",
+      "aerial-ace",
+      "iron-defense",
+      "mud-shot",
+      "rock-blast",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "rock-polish",
+      "x-scissor",
+      "earth-power",
+      "cross-poison",
+      "captivate",
+      "stealth-rock",
+      "bug-bite",
+      "aqua-jet",
+      "hone-claws",
+      "smack-down",
+      "round",
+      "struggle-bug",
+      "confide",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/fossil_mob",
+  "evolutions": [
+    {
+      "name": "armaldo",
+      "level": 40
+    }
+  ]
+}

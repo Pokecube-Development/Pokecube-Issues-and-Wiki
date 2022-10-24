@@ -1,0 +1,13 @@
+{
+  "name": "wish",
+  "id": 273,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "One turn after this move is used, the user’s or its\nreplacement’s HP is restored by half the user’s\nmax HP.",
+  "move_category": "unique",
+  "effect_text_extend": "At the end of the next turn, user will be healed for half its max HP.  If the user is switched out, its replacement will be healed instead for half of the user's max HP.  If the user faints or is forcefully switched by roar or whirlwind, this effect will not activate.",
+  "effect_text_simple": "User will recover half its max HP at the end of the next turn."
+}

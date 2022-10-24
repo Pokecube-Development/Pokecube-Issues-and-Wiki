@@ -1,0 +1,30 @@
+{
+  "name": "toxicthread",
+  "animations": [
+    {
+      "preset": "beam:ppowder:csilver:d0.5:w1.5:l6:~toxicthread",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "minecraft:block.sand.place",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4
+    },
+    {
+      "preset": "beam:pwitch:cmagenta:d4:w1.5:l3:~toxicthread",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.poisontoxic",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.5
+    },
+    {
+      "preset": "powder:pwitch:d0.05:w1:atrue:l4:~toxicthread",
+      "duration": "5",
+      "starttick": "3"
+    }
+  ]
+}

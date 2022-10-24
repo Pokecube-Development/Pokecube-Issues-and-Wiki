@@ -3,10 +3,10 @@ package pokecube.mobs.abilities.simple;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.MoveEntry.Category;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.database.Database;
-import pokecube.core.database.moves.MoveEntry.Category;
 import pokecube.core.moves.PokemobTerrainEffects;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
@@ -19,7 +19,7 @@ public class IceFace extends Ability
     private static boolean      noTurnBase = false;
 
     @Override
-    public void onMoveUse(final IPokemob mob, final MovePacket move)
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
         if (IceFace.noTurnBase) return;
         if (IceFace.Ice == null)
@@ -30,7 +30,7 @@ public class IceFace extends Ability
             if (IceFace.noTurnBase) return;
         }
         
-        final Move_Base attack = move.getMove();
+        final MoveEntry attack = move.getMove();
         final TerrainSegment terrain = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
         final PokemobTerrainEffects effects = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemobEffects");
         final PokedexEntry mobs = mob.getPokedexEntry();

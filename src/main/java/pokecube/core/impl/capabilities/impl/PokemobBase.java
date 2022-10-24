@@ -108,7 +108,7 @@ public abstract class PokemobBase implements IPokemob
             // tick
 
             // From EntityMovesPokemb
-            this.STATUSDW = sync.register(new Data_Byte(), Byte.valueOf((byte) -1));
+            this.STATUSDW = sync.register(new Data_Int(), Integer.valueOf((byte) -1));
             this.MOVEINDEXDW = sync.register(new Data_Byte().setRealtime(), Byte.valueOf((byte) -1));
             this.STATUSTIMERDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
             this.ATTACKCOOLDOWN = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));

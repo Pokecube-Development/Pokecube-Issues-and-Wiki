@@ -1,0 +1,189 @@
+{
+  "name": "oricorio-baile",
+  "id": 741,
+  "stock": true,
+  "base_experience": 167,
+  "size": {
+    "height": 0.6
+  },
+  "mass": 3.4,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 75,
+    "attack": 70,
+    "defense": 70,
+    "special_attack": 98,
+    "special_defense": 70,
+    "speed": 93
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "fire",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "dancer"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "double-slap"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "growl"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "peck"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "mirror-move"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "baton-pass"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "feather-dance"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "teeter-dance"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "air-cutter"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "roost"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "captivate"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "hurricane"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "revelation-dance"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "double-slap",
+      "swords-dance",
+      "fly",
+      "growl",
+      "peck",
+      "toxic",
+      "agility",
+      "double-team",
+      "mirror-move",
+      "sky-attack",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "icy-wind",
+      "sandstorm",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "baton-pass",
+      "hidden-power",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "role-play",
+      "feather-dance",
+      "teeter-dance",
+      "air-cutter",
+      "aerial-ace",
+      "covet",
+      "calm-mind",
+      "roost",
+      "pluck",
+      "tailwind",
+      "u-turn",
+      "embargo",
+      "air-slash",
+      "defog",
+      "captivate",
+      "round",
+      "quash",
+      "acrobatics",
+      "work-up",
+      "hurricane",
+      "confide",
+      "revelation-dance"
+    ]
+  },
+  "old_name": "oricorio_baile"
+}

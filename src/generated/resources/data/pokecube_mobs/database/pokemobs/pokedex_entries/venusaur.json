@@ -1,0 +1,235 @@
+{
+  "name": "venusaur",
+  "id": 3,
+  "stock": true,
+  "base_experience": 263,
+  "size": {
+    "height": 2.0,
+    "width": 1.5,
+    "length": 1.5
+  },
+  "mass": 100.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 80,
+    "attack": 82,
+    "defense": 83,
+    "special_attack": 100,
+    "special_defense": 100,
+    "speed": 80
+  },
+  "evs": {
+    "special_attack": 2,
+    "special_defense": 1
+  },
+  "types": [
+    "grass",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "chlorophyll"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "vine-whip",
+          "tackle",
+          "growl",
+          "leech-seed",
+          "amnesia",
+          "power-whip"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "razor-leaf",
+          "seed-bomb"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "poison-powder",
+          "sleep-powder"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "petal-dance"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "worry-seed"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "petal-blizzard"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "bind",
+      "vine-whip",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "growl",
+      "roar",
+      "hyper-beam",
+      "strength",
+      "mega-drain",
+      "leech-seed",
+      "growth",
+      "razor-leaf",
+      "solar-beam",
+      "poison-powder",
+      "sleep-powder",
+      "petal-dance",
+      "string-shot",
+      "earthquake",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "bide",
+      "amnesia",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "outrage",
+      "giga-drain",
+      "endure",
+      "charm",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "facade",
+      "nature-power",
+      "helping-hand",
+      "knock-off",
+      "secret-power",
+      "weather-ball",
+      "bullet-seed",
+      "block",
+      "frenzy-plant",
+      "magical-leaf",
+      "natural-gift",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "earth-power",
+      "giga-impact",
+      "rock-climb",
+      "leaf-storm",
+      "power-whip",
+      "captivate",
+      "grass-knot",
+      "venoshock",
+      "round",
+      "echoed-voice",
+      "grass-pledge",
+      "bulldoze",
+      "work-up",
+      "petal-blizzard",
+      "grassy-terrain",
+      "confide",
+      "stomping-tantrum",
+      "grassy-glide",
+      "terrain-pulse"
+    ]
+  },
+  "male_model": {
+    "key": "venusaur_male",
+    "tex": "venusaur",
+    "model": "venusaur_male",
+    "anim": "venusaur_male"
+  },
+  "female_model": {
+    "key": "venusaur_female",
+    "tex": "venusaur",
+    "model": "venusaur_female",
+    "anim": "venusaur_female"
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_3",
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "venusaurmega"
+    }
+  ]
+}

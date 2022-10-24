@@ -1,0 +1,41 @@
+{
+  "name": "snorlax-gmax",
+  "id": 143,
+  "stock": true,
+  "base_experience": 189,
+  "size": {
+    "height": 4.0,
+    "width": 6.0,
+    "length": 6.0
+  },
+  "mass": 1000.0,
+  "is_default": false,
+  "capture_rate": 25,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 160,
+    "attack": 110,
+    "defense": 65,
+    "special_attack": 65,
+    "special_defense": 110,
+    "speed": 30
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "immunity",
+      "thick-fat"
+    ],
+    "hidden": [
+      "gluttony"
+    ]
+  },
+  "old_name": "snorlax_gigantamax"
+}

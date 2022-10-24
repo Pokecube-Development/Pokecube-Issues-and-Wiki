@@ -1,0 +1,17 @@
+{
+  "name": "gear-grind",
+  "id": 544,
+  "power": 50,
+  "pp": 15,
+  "priority": 0,
+  "type": "steel",
+  "accuracy": 85,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user attacks by throwing steel gears at its\ntarget twice.",
+  "move_category": "damage",
+  "max_hits": 2,
+  "min_hits": 2,
+  "effect_text_extend": "Inflicts regular damage.  Hits twice in one turn.",
+  "effect_text_simple": "Hits twice in one turn."
+}

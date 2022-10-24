@@ -1,0 +1,25 @@
+{
+  "name": "poisonsting",
+  "animations": [
+    {
+      "preset": "throw:w0.1:~poisonsting",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    },
+    {
+      "preset": "cartFunc:pmisc:~poisonsting",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.poisontoxic",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    }
+  ]
+}

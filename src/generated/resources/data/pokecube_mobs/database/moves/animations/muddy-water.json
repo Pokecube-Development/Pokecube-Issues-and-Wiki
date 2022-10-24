@@ -1,0 +1,20 @@
+{
+  "name": "muddywater",
+  "animations": [
+    {
+      "preset": "flow:psplash:d1:w3.5:l15:~muddywater",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.dive",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "flow:pmisc:cbrown:d1:w4:l10:~muddywater",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

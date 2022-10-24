@@ -1,0 +1,15 @@
+{
+  "name": "powdersnow",
+  "animations": [
+    {
+      "preset": "flow:d0.5:pitem_snowball:l7:~powdersnow",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.iceball",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

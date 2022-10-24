@@ -1,0 +1,270 @@
+{
+  "name": "charizard",
+  "id": 6,
+  "stock": true,
+  "base_experience": 267,
+  "size": {
+    "height": 1.7,
+    "width": 1.7,
+    "length": 1.7
+  },
+  "mass": 90.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 78,
+    "attack": 84,
+    "defense": 78,
+    "special_attack": 109,
+    "special_defense": 85,
+    "speed": 100
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "fire",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "solar-power"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "leer",
+          "growl",
+          "ember",
+          "counter",
+          "metal-claw",
+          "crunch",
+          "heat-wave",
+          "dragon-claw",
+          "flare-blitz",
+          "air-slash",
+          "shadow-claw"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "wing-attack"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "dragon-rage"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "fire-spin"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "rage",
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "smokescreen"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "fire-fang"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "flame-burst"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "inferno"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "thunder-punch",
+      "scratch",
+      "swords-dance",
+      "cut",
+      "wing-attack",
+      "fly",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "leer",
+      "growl",
+      "roar",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "submission",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "solar-beam",
+      "dragon-rage",
+      "fire-spin",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "smokescreen",
+      "defense-curl",
+      "reflect",
+      "bide",
+      "fire-blast",
+      "swift",
+      "skull-bash",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "outrage",
+      "sandstorm",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "dragon-breath",
+      "iron-tail",
+      "metal-claw",
+      "hidden-power",
+      "twister",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "beat-up",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "brick-break",
+      "secret-power",
+      "blaze-kick",
+      "blast-burn",
+      "weather-ball",
+      "air-cutter",
+      "overheat",
+      "rock-tomb",
+      "aerial-ace",
+      "dragon-claw",
+      "dragon-dance",
+      "roost",
+      "natural-gift",
+      "tailwind",
+      "fling",
+      "flare-blitz",
+      "air-slash",
+      "dragon-pulse",
+      "focus-blast",
+      "giga-impact",
+      "shadow-claw",
+      "fire-fang",
+      "defog",
+      "captivate",
+      "ominous-wind",
+      "hone-claws",
+      "flame-burst",
+      "flame-charge",
+      "round",
+      "echoed-voice",
+      "sky-drop",
+      "incinerate",
+      "acrobatics",
+      "inferno",
+      "fire-pledge",
+      "bulldoze",
+      "dragon-tail",
+      "work-up",
+      "heat-crash",
+      "hurricane",
+      "confide",
+      "mystical-fire",
+      "power-up-punch",
+      "brutal-swing",
+      "breaking-swipe",
+      "scale-shot",
+      "dual-wingbeat",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/coal_3",
+  "mega_rules": [
+    {
+      "preset": "Mega-X",
+      "item_preset": "charizardmega-x"
+    },
+    {
+      "preset": "Mega-Y",
+      "item_preset": "charizardmega-y"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "doublekick",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d2:w1:l3:atrue:f(0.5-rand())*(0.6),(0.5-rand())*(0.6),(0.5-rand())*(0.6):~doublekick",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.3
+    }
+  ]
+}

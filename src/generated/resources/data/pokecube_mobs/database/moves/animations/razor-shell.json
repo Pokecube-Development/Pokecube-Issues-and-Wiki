@@ -1,0 +1,25 @@
+{
+  "name": "razorshell",
+  "animations": [
+    {
+      "preset": "cartFunc:pdroplet:clight_blue:d0.5:w1.5:l70:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~razorshell",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.dive",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:psweep_attack:d2:~razorshell",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.3
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:geodude",
+    "pokecube:geodude-alola",
+    "pokecube:graveler",
+    "pokecube:graveler-alola",
+    "pokecube:golem",
+    "pokecube:golem-alola",
+    "pokecube:shuckle",
+    "pokecube:nosepass",
+    "pokecube:probopass",
+    "pokecube:roggenrola",
+    "pokecube:boldore",
+    "pokecube:gigalith",
+    "pokecube:stonjourner"
+  ]
+}

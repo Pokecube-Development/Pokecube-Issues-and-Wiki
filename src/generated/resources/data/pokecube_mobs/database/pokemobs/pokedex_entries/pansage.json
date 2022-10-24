@@ -1,0 +1,215 @@
+{
+  "name": "pansage",
+  "id": 511,
+  "stock": true,
+  "base_experience": 63,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 10.5,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 50,
+    "attack": 53,
+    "defense": 48,
+    "special_attack": 53,
+    "special_defense": 48,
+    "speed": 64
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "gluttony"
+    ],
+    "hidden": [
+      "overgrow"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "play-nice"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "vine-whip"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "lick"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "torment"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "recycle"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "natural-gift"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "fling"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "seed-bomb"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "grass-knot"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "acrobatics"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "cut",
+      "vine-whip",
+      "leer",
+      "bite",
+      "low-kick",
+      "leech-seed",
+      "solar-beam",
+      "dig",
+      "toxic",
+      "double-team",
+      "lick",
+      "flash",
+      "fury-swipes",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "giga-drain",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "uproar",
+      "torment",
+      "facade",
+      "focus-punch",
+      "nature-power",
+      "taunt",
+      "helping-hand",
+      "role-play",
+      "recycle",
+      "knock-off",
+      "endeavor",
+      "secret-power",
+      "astonish",
+      "rock-tomb",
+      "grass-whistle",
+      "tickle",
+      "bullet-seed",
+      "covet",
+      "magical-leaf",
+      "natural-gift",
+      "payback",
+      "fling",
+      "gastro-acid",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "nasty-plot",
+      "shadow-claw",
+      "leaf-storm",
+      "gunk-shot",
+      "grass-knot",
+      "hone-claws",
+      "low-sweep",
+      "round",
+      "acrobatics",
+      "grass-pledge",
+      "work-up",
+      "disarming-voice",
+      "play-nice",
+      "confide",
+      "spiky-shield"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "simisage",
+      "item_preset": "leafstone"
+    }
+  ]
+}

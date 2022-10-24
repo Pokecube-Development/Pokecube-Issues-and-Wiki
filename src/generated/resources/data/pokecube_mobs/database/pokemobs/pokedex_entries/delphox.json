@@ -1,0 +1,243 @@
+{
+  "name": "delphox",
+  "id": 655,
+  "stock": true,
+  "base_experience": 240,
+  "size": {
+    "height": 1.5,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 39.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 75,
+    "attack": 69,
+    "defense": 72,
+    "special_attack": 114,
+    "special_defense": 100,
+    "speed": 104
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "fire",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "magician"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "tail-whip",
+          "ember",
+          "shadow-ball",
+          "future-sight",
+          "role-play",
+          "howl",
+          "switcheroo"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "fire-spin"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 74,
+        "moves": [
+          "fire-blast"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "sunny-day"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "will-o-wisp"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "psyshock"
+        ]
+      },
+      {
+        "L": 68,
+        "moves": [
+          "magic-room"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "mystical-fire"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "thunder-punch",
+      "scratch",
+      "cut",
+      "tail-whip",
+      "ember",
+      "flamethrower",
+      "psybeam",
+      "hyper-beam",
+      "low-kick",
+      "solar-beam",
+      "fire-spin",
+      "toxic",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "fire-blast",
+      "dream-eater",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "blast-burn",
+      "overheat",
+      "signal-beam",
+      "howl",
+      "covet",
+      "calm-mind",
+      "shock-wave",
+      "embargo",
+      "lucky-chant",
+      "switcheroo",
+      "giga-impact",
+      "zen-headbutt",
+      "trick-room",
+      "grass-knot",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "flame-charge",
+      "foul-play",
+      "round",
+      "echoed-voice",
+      "ally-switch",
+      "incinerate",
+      "fire-pledge",
+      "work-up",
+      "confide",
+      "mystical-fire",
+      "dazzling-gleam",
+      "power-up-punch",
+      "laser-focus"
+    ]
+  },
+  "loot_table": "pokecube:entities/blaze_stick_rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

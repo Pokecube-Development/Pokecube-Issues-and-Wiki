@@ -1,0 +1,10 @@
+{
+  "name": "naturalgift",
+  "animations": [
+    {
+      "preset": "beam:pend_rod:d0.5:w1:~naturalgift",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

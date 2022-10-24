@@ -1,0 +1,109 @@
+{
+  "name": "goodra-hisui",
+  "id": 706,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 1.7,
+    "width": 1.0,
+    "length": 1.5
+  },
+  "mass": 334.1,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 80,
+    "attack": 100,
+    "defense": 100,
+    "special_attack": 110,
+    "special_defense": 150,
+    "speed": 60
+  },
+  "evs": {
+    "special_defense": 3
+  },
+  "types": [
+    "steel",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "sap-sipper",
+      "overcoat"
+    ],
+    "hidden": [
+      "gooey"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "bubble"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "acid-spray"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "acid-armor"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "iron-head",
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "shelter"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "hydro-pump"
+        ]
+      }
+    ],
+    "misc": [
+      "rock-smash",
+      "bulldoze",
+      "rest",
+      "fire-punch",
+      "thunder-punch",
+      "rock-slide",
+      "iron-head",
+      "iron-tail",
+      "water-pulse",
+      "sludge-bomb",
+      "giga-impact",
+      "outrage",
+      "hyper-beam",
+      "flamethrower",
+      "thunderbolt",
+      "ice-beam",
+      "draco-meteor",
+      "steel-beam"
+    ]
+  },
+  "old_name": "goodra_hisui"
+}

@@ -10,10 +10,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.IMoveAction;
+import pokecube.api.moves.utils.IMoveWorldEffect;
 import thut.api.maths.Vector3;
 
-public class ActionPayDay implements IMoveAction
+public class ActionPayDay implements IMoveWorldEffect
 {
     public static ResourceLocation lootTable = new ResourceLocation("pokecube_mobs", "moves/payday");
 
@@ -47,6 +47,6 @@ public class ActionPayDay implements IMoveAction
     @Override
     public String getMoveName()
     {
-        return "payday";
+        return "pay-day";
     }
 }

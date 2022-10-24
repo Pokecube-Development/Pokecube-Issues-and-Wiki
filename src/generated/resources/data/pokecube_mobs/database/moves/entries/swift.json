@@ -1,0 +1,14 @@
+{
+  "name": "swift",
+  "id": 129,
+  "power": 60,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "target": "all-opponents",
+  "damage_class": "special",
+  "flavor_text": "Star-shaped rays are shot at the opposing Pokémon.\nThis attack never misses.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Ignores accuracy and evasion modifiers.",
+  "effect_text_simple": "Never misses."
+}

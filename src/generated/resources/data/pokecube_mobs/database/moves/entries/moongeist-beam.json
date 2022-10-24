@@ -1,0 +1,15 @@
+{
+  "name": "moongeist-beam",
+  "id": 714,
+  "power": 100,
+  "pp": 5,
+  "priority": 0,
+  "type": "ghost",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user emits a sinister ray to attack the target.\nThis move can be used on the target regardless of \nits Abilities.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Other Pokémon's abilities cannot activate in response to this move.  In particular, it hits through disguise",
+  "effect_text_simple": "Cannot be disrupted by abilities."
+}

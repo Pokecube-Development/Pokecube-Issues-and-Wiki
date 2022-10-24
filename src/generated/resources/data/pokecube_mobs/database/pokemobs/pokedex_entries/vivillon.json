@@ -1,0 +1,234 @@
+{
+  "name": "vivillon",
+  "id": 666,
+  "stock": true,
+  "base_experience": 185,
+  "size": {
+    "height": 1.2,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 17.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 80,
+    "attack": 52,
+    "defense": 50,
+    "special_attack": 90,
+    "special_defense": 50,
+    "speed": 89
+  },
+  "evs": {
+    "hp": 1,
+    "special_attack": 1,
+    "speed": 1
+  },
+  "types": [
+    "bug",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "shield-dust",
+      "compound-eyes"
+    ],
+    "hidden": [
+      "friend-guard"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 0,
+        "moves": [
+          "gust"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "supersonic"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "poison-powder",
+          "stun-spore",
+          "sleep-powder",
+          "struggle-bug",
+          "powder"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "quiver-dance"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "hurricane"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "draining-kiss"
+        ]
+      }
+    ],
+    "misc": [
+      "gust",
+      "supersonic",
+      "psybeam",
+      "hyper-beam",
+      "solar-beam",
+      "poison-powder",
+      "stun-spore",
+      "sleep-powder",
+      "toxic",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "giga-drain",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "facade",
+      "endeavor",
+      "secret-power",
+      "aromatherapy",
+      "signal-beam",
+      "aerial-ace",
+      "calm-mind",
+      "roost",
+      "tailwind",
+      "u-turn",
+      "bug-buzz",
+      "energy-ball",
+      "giga-impact",
+      "defog",
+      "bug-bite",
+      "quiver-dance",
+      "round",
+      "acrobatics",
+      "struggle-bug",
+      "electroweb",
+      "hurricane",
+      "draining-kiss",
+      "confide",
+      "powder",
+      "infestation",
+      "laser-focus"
+    ]
+  },
+  "model": {
+    "key": "vivillon_mod",
+    "tex": "vivillon_mod",
+    "model": "vivillon",
+    "anim": "vivillon"
+  },
+  "models": [
+    {
+      "key": "vivillon",
+      "tex": "vivillon_plains",
+      "model": "vivillon",
+      "anim": "vivillon"
+    },
+    {
+      "key": "vivillon_de",
+      "tex": "vivillon_highplains"
+    },
+    {
+      "key": "vivillon_el",
+      "tex": "vivillon_plains"
+    },
+    {
+      "key": "vivillon_oc",
+      "tex": "vivillon_ocean"
+    },
+    {
+      "key": "vivillon_sa",
+      "tex": "vivillon_sandstorm"
+    },
+    {
+      "key": "vivillon_he",
+      "tex": "vivillon_hell"
+    },
+    {
+      "key": "vivillon_en",
+      "tex": "vivillon_end"
+    },
+    {
+      "key": "vivillon_po",
+      "tex": "vivillon_polar"
+    },
+    {
+      "key": "vivillon_ic",
+      "tex": "vivillon_icesnow"
+    },
+    {
+      "key": "vivillon_mon",
+      "tex": "vivillon_monsoon"
+    },
+    {
+      "key": "vivillon_su",
+      "tex": "vivillon_sun"
+    },
+    {
+      "key": "vivillon_mod",
+      "tex": "vivillon_modern"
+    }
+  ],
+  "loot_table": "minecraft:entities/spider"
+}

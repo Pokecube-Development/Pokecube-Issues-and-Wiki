@@ -1,0 +1,17 @@
+{
+  "name": "lick",
+  "id": 122,
+  "power": 30,
+  "pp": 30,
+  "priority": 0,
+  "type": "ghost",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The target is licked with a long tongue, causing\ndamage. This may also leave the target\nwith paralysis.",
+  "move_category": "damage+ailment",
+  "ailment_chance": 30,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to paralyze the target.",
+  "effect_text_simple": "Has a $effect_chance% chance to paralyze the target.",
+  "effect_chance": 30
+}

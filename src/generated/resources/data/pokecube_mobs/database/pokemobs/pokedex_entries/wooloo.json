@@ -1,0 +1,195 @@
+{
+  "name": "wooloo",
+  "id": 831,
+  "stock": true,
+  "base_experience": 122,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 6.0,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 42,
+    "attack": 40,
+    "defense": 55,
+    "special_attack": 40,
+    "special_defense": 45,
+    "speed": 48
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "fluffy",
+      "run-away"
+    ],
+    "hidden": [
+      "bulletproof"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 16,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "reversal"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "copycat"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "guard-swap"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "guard-split"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "cotton-guard"
+        ]
+      }
+    ],
+    "misc": [
+      "stomp",
+      "counter",
+      "thunder-wave",
+      "agility",
+      "rest",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "facade",
+      "payback",
+      "guard-swap",
+      "electro-ball",
+      "round",
+      "wild-charge",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wool_1",
+  "interactions": [
+    {
+      "male": true,
+      "female": true,
+      "cooldown": 800,
+      "variance": 100,
+      "baseHunger": 250,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:shears"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:white_wool",
+              "n": "2"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "evolutions": [
+    {
+      "name": "dubwool",
+      "level": 24,
+      "animation": "18"
+    }
+  ]
+}

@@ -1,0 +1,237 @@
+{
+  "name": "guzzlord",
+  "id": 799,
+  "stock": true,
+  "base_experience": 285,
+  "size": {
+    "height": 5.5,
+    "width": 5.5,
+    "length": 5.5
+  },
+  "mass": 888.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 223,
+    "attack": 101,
+    "defense": 53,
+    "special_attack": 97,
+    "special_defense": 53,
+    "speed": 43
+  },
+  "evs": {
+    "hp": 3
+  },
+  "types": [
+    "dark",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "beast-boost"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 7,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "bite",
+          "dragon-rage",
+          "stockpile",
+          "swallow",
+          "wide-guard",
+          "belch"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "iron-tail"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "hammer-arm"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "wring-out"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "gastro-acid"
+        ]
+      },
+      {
+        "L": 73,
+        "moves": [
+          "dragon-rush"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "giga-impact"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "heavy-slam"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "dragon-tail"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "steamroller"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "brutal-swing"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "stomping-tantrum"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "stomp",
+      "mega-kick",
+      "body-slam",
+      "thrash",
+      "bite",
+      "flamethrower",
+      "hyper-beam",
+      "dragon-rage",
+      "earthquake",
+      "toxic",
+      "double-team",
+      "fire-blast",
+      "amnesia",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "sludge-bomb",
+      "outrage",
+      "endure",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "crunch",
+      "stockpile",
+      "swallow",
+      "heat-wave",
+      "facade",
+      "brick-break",
+      "knock-off",
+      "rock-tomb",
+      "iron-defense",
+      "dragon-claw",
+      "shock-wave",
+      "hammer-arm",
+      "gyro-ball",
+      "payback",
+      "fling",
+      "wring-out",
+      "gastro-acid",
+      "last-resort",
+      "magnet-rise",
+      "poison-jab",
+      "dark-pulse",
+      "dragon-pulse",
+      "dragon-rush",
+      "drain-punch",
+      "giga-impact",
+      "shadow-claw",
+      "draco-meteor",
+      "iron-head",
+      "stone-edge",
+      "wide-guard",
+      "smack-down",
+      "sludge-wave",
+      "heavy-slam",
+      "round",
+      "bulldoze",
+      "dragon-tail",
+      "dual-chop",
+      "heat-crash",
+      "steamroller",
+      "snarl",
+      "belch",
+      "high-horsepower",
+      "brutal-swing",
+      "stomping-tantrum",
+      "body-press",
+      "steel-roller",
+      "lash-out",
+      "corrosive-gas"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_2",
+  "spawn_rules": [
+    {
+      "values": {
+        "types": "#pokecube_legends:can_spawn/guzzlord",
+        "min": "1",
+        "rate": "0.2",
+        "max": "1"
+      }
+    }
+  ]
+}

@@ -2,23 +2,15 @@ package pokecube.mobs.abilities.simple;
 
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.utils.MoveApplication;
+import pokecube.core.database.tags.Tags;
 
 public class BulletProof extends Ability
 {
-    private static final String[] bullets = { "AcidSpray", "AuraSphere", "Barrage", "BulletSeed", "EggBomb",
-            "ElectroBall", "EnergyBall", "FocusBlast", "GyroBall", "IceBall", "MagnetBomb", "MistBall", "MudBomb",
-            "Octazooka", "RockWrecker", "SearingShot", "SeedBomb", "ShadowBall", "SludgeBomb", "WeatherBall",
-            "ZapCannon" };
-
     @Override
-    public void onMoveUse(IPokemob mob, MovePacket move)
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        if (move.pre && mob == move.attacked) for (final String s : BulletProof.bullets)
-            if (s.equalsIgnoreCase(move.attack))
-            {
-                move.canceled = true;
-                return;
-            }
+        if (!areWeTarget(mob, move)) return;
+        if (Tags.MOVE.isIn("bullet-proof", move.getName())) move.canceled = true;
     }
 }

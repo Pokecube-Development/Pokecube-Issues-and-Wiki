@@ -1,0 +1,234 @@
+{
+  "name": "stunky",
+  "id": 434,
+  "stock": true,
+  "base_experience": 66,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 19.2,
+  "is_default": true,
+  "capture_rate": 225,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 63,
+    "attack": 63,
+    "defense": 47,
+    "special_attack": 41,
+    "special_defense": 41,
+    "speed": 74
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "poison",
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "stench",
+      "aftermath"
+    ],
+    "hidden": [
+      "keen-eye"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "bite",
+          "venoshock"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "smokescreen"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "poison-gas"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "memento"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "acid-spray"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "belch"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "venom-drench"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "cut",
+      "headbutt",
+      "double-edge",
+      "leer",
+      "bite",
+      "roar",
+      "flamethrower",
+      "dig",
+      "toxic",
+      "screech",
+      "double-team",
+      "smokescreen",
+      "haze",
+      "focus-energy",
+      "smog",
+      "fire-blast",
+      "swift",
+      "poison-gas",
+      "explosion",
+      "fury-swipes",
+      "rest",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "mud-slap",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pursuit",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "shadow-ball",
+      "rock-smash",
+      "torment",
+      "memento",
+      "facade",
+      "taunt",
+      "snatch",
+      "secret-power",
+      "astonish",
+      "natural-gift",
+      "feint",
+      "payback",
+      "assurance",
+      "punishment",
+      "sucker-punch",
+      "dark-pulse",
+      "night-slash",
+      "nasty-plot",
+      "shadow-claw",
+      "defog",
+      "captivate",
+      "hone-claws",
+      "venoshock",
+      "flame-burst",
+      "acid-spray",
+      "foul-play",
+      "round",
+      "hex",
+      "incinerate",
+      "tail-slap",
+      "snarl",
+      "belch",
+      "play-rough",
+      "confide",
+      "venom-drench",
+      "throat-chop",
+      "lash-out",
+      "corrosive-gas"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "skuntank",
+      "level": 34,
+      "evoMoves": "flamethrower"
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "name": "spinda",
+  "id": 327,
+  "stock": true,
+  "base_experience": 126,
+  "size": {
+    "height": 1.1,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 5.0,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 70,
+  "growth_rate": "fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 60,
+    "defense": 60,
+    "special_attack": 60,
+    "special_defense": 60,
+    "speed": 60
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "own-tempo",
+      "tangled-feet"
+    ],
+    "hidden": [
+      "contrary"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "dizzy-punch"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "psych-up"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "uproar"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "teeter-dance"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "copycat"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "sucker-punch"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "thrash",
+      "double-edge",
+      "disable",
+      "psybeam",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "dig",
+      "toxic",
+      "psychic",
+      "hypnosis",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "metronome",
+      "swift",
+      "dream-eater",
+      "dizzy-punch",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "flail",
+      "protect",
+      "feint-attack",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dynamic-punch",
+      "baton-pass",
+      "encore",
+      "rapid-spin",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "fake-out",
+      "uproar",
+      "facade",
+      "focus-punch",
+      "smelling-salts",
+      "helping-hand",
+      "trick",
+      "role-play",
+      "wish",
+      "assist",
+      "recycle",
+      "brick-break",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "teeter-dance",
+      "hyper-voice",
+      "fake-tears",
+      "rock-tomb",
+      "covet",
+      "calm-mind",
+      "shock-wave",
+      "water-pulse",
+      "natural-gift",
+      "fling",
+      "psycho-shift",
+      "copycat",
+      "last-resort",
+      "sucker-punch",
+      "drain-punch",
+      "psycho-cut",
+      "zen-headbutt",
+      "trick-room",
+      "captivate",
+      "guard-split",
+      "round",
+      "retaliate",
+      "work-up",
+      "wild-charge",
+      "confide",
+      "power-up-punch",
+      "spotlight",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1"
+}

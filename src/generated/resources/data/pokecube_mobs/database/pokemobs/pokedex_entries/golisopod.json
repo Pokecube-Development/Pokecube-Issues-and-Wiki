@@ -1,0 +1,200 @@
+{
+  "name": "golisopod",
+  "id": 768,
+  "stock": true,
+  "base_experience": 186,
+  "size": {
+    "height": 2.0,
+    "width": 2.0,
+    "length": 2.0
+  },
+  "mass": 108.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 75,
+    "attack": 125,
+    "defense": 140,
+    "special_attack": 60,
+    "special_defense": 90,
+    "speed": 40
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "bug",
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "emergency-exit"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 16,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "sand-attack",
+          "defense-curl",
+          "fury-cutter",
+          "rock-smash",
+          "struggle-bug"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "pin-missile"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "spite"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "mud-shot"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "razor-shell"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "first-impression"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "liquidation"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "sand-attack",
+      "pin-missile",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "toxic",
+      "screech",
+      "double-team",
+      "waterfall",
+      "swift",
+      "leech-life",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "spite",
+      "protect",
+      "sludge-bomb",
+      "spikes",
+      "icy-wind",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "hidden-power",
+      "rain-dance",
+      "psych-up",
+      "rock-smash",
+      "hail",
+      "facade",
+      "taunt",
+      "brick-break",
+      "knock-off",
+      "endeavor",
+      "dive",
+      "rock-tomb",
+      "muddy-water",
+      "aerial-ace",
+      "iron-defense",
+      "bulk-up",
+      "mud-shot",
+      "water-pulse",
+      "close-combat",
+      "payback",
+      "assurance",
+      "fling",
+      "sucker-punch",
+      "poison-jab",
+      "dark-pulse",
+      "x-scissor",
+      "bug-buzz",
+      "focus-blast",
+      "giga-impact",
+      "shadow-claw",
+      "iron-head",
+      "bug-bite",
+      "venoshock",
+      "sludge-wave",
+      "round",
+      "scald",
+      "struggle-bug",
+      "frost-breath",
+      "drill-run",
+      "dual-chop",
+      "razor-shell",
+      "snarl",
+      "confide",
+      "first-impression",
+      "laser-focus",
+      "throat-chop",
+      "liquidation",
+      "skitter-smack"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1"
+}

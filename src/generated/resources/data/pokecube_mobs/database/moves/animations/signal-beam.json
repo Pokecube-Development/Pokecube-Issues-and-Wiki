@@ -1,0 +1,20 @@
+{
+  "name": "signalbeam",
+  "animations": [
+    {
+      "preset": "beam:pmisc:atrue:~signalbeam",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "flow:pend_rod:w0.5:atrue:d0.33:~signalbeam",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

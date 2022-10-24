@@ -1,0 +1,12 @@
+{
+  "name": "shadow-blast",
+  "id": 10002,
+  "power": 80,
+  "priority": 0,
+  "type": "shadow",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "effect_text_extend": "Inflicts regular damage.  User's critical hit rate is one level higher when using this move.",
+  "effect_text_simple": "Has an increased chance for a critical hit."
+}

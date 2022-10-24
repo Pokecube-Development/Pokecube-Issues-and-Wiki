@@ -1,0 +1,15 @@
+{
+  "name": "clangorous-soul",
+  "id": 775,
+  "pp": 5,
+  "priority": 0,
+  "type": "dragon",
+  "accuracy": 100,
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user raises all its stats by using some of its HP.",
+  "move_category": "net-good-stats",
+  "healing": -33,
+  "stat_chance": 100,
+  "effect_chance": 100
+}

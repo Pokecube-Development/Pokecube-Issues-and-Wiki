@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
@@ -19,10 +20,15 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
@@ -33,17 +39,21 @@ import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.entity.pokemob.stats.DefaultModifiers;
 import pokecube.api.entity.pokemob.stats.StatModifiers;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.events.pokemobs.combat.MoveUse;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.MoveEntry.Category;
 import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.moves.MoveEntry;
-import pokecube.core.database.moves.MoveEntry.Category;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.impl.entity.impl.StatEffect;
+import pokecube.core.moves.MoveQueue.MoveQueuer;
+import pokecube.core.moves.animations.EntityMoveUse;
+import pokecube.core.moves.zmoves.GZMoveManager;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import thut.api.boom.ExplosionCustom;
@@ -104,7 +114,7 @@ public class MovesUtils implements IMoveConstants
         }
     }
 
-    public static void addChange(final Entity target, final IPokemob attacker, final byte change)
+    public static void addChange(final Entity target, final IPokemob attacker, final int change)
     {
         final IPokemob attacked = PokemobCaps.getPokemobFor(target);
         final boolean effect = CapabilityAffected.addEffect(target,
@@ -248,7 +258,7 @@ public class MovesUtils implements IMoveConstants
     }
 
     public static void displayStatsMessage(final IPokemob attacker, final Entity attacked, final float efficiency,
-            final byte stat, final byte amount)
+            final int stat, final byte amount)
     {
         if (efficiency == -2)
         {
@@ -265,7 +275,7 @@ public class MovesUtils implements IMoveConstants
         }
     }
 
-    public static void displayStatusMessages(final IPokemob attacker, final Entity target, final byte status,
+    public static void displayStatusMessages(final IPokemob attacker, final Entity target, final int status,
             final boolean onMove)
     {
         final String baseKey = MovesUtils.getStatusMessage(status, onMove);
@@ -317,10 +327,9 @@ public class MovesUtils implements IMoveConstants
     }
 
     public static float getAttackStrength(final IPokemob attacker, final IPokemob attacked, final Category type,
-            final int PWR, final MovePacket movePacket)
+            final int PWR, final MoveEntry move, float[] stat_mutliplier)
     {
-        final Move_Base move = movePacket.getMove();
-        if (move.fixedDamage) return move.getPWR(attacker, attacked.getEntity());
+        if (move.fixed) return move.getPWR(attacker, attacked.getEntity());
 
         if (PWR <= 0) return 0;
 
@@ -334,12 +343,12 @@ public class MovesUtils implements IMoveConstants
 
         if (type == Category.SPECIAL)
         {
-            ATT = (int) (attacker.getStat(Stats.SPATTACK, true) * movePacket.statMults[Stats.SPATTACK.ordinal()]);
+            ATT = (int) (attacker.getStat(Stats.SPATTACK, true) * stat_mutliplier[Stats.SPATTACK.ordinal()]);
             DEF = attacked.getStat(Stats.SPDEFENSE, true);
         }
         else
         {
-            ATT = (int) (attacker.getStat(Stats.ATTACK, true) * movePacket.statMults[Stats.ATTACK.ordinal()]);
+            ATT = (int) (attacker.getStat(Stats.ATTACK, true) * stat_mutliplier[Stats.ATTACK.ordinal()]);
             DEF = attacked.getStat(Stats.DEFENSE, true);
         }
 
@@ -376,11 +385,19 @@ public class MovesUtils implements IMoveConstants
         return moveCooldownFactor;
     }
 
+    @Deprecated
     public static Move_Base getMoveFromName(final String moveName)
     {
         if (moveName == null) return null;
         final Move_Base ret = MovesUtils.moves.get(moveName);
         return ret;
+    }
+
+    public static MoveEntry getMove(final String moveName)
+    {
+        if (moveName == null) return null;
+        final Move_Base ret = MovesUtils.moves.get(moveName);
+        return ret.move;
     }
 
     public static MutableComponent getMoveName(final String attack, IPokemob user)
@@ -389,12 +406,12 @@ public class MovesUtils implements IMoveConstants
         MutableComponent name = TComponent.translatable("pokemob.move." + attack);
         if (move != null)
         {
-            name.setStyle(name.getStyle().withColor(move.getType(user).colour));
+            name.setStyle(name.getStyle().withColor(move.move.getType(user).colour));
         }
         return name;
     }
 
-    protected static String getStatusMessage(final byte status, final boolean onMove)
+    protected static String getStatusMessage(final int status, final boolean onMove)
     {
         String message = null;
         if (status == IMoveConstants.STATUS_FRZ) message = "pokemob.move.isfrozen";
@@ -446,19 +463,14 @@ public class MovesUtils implements IMoveConstants
         return "pokemob.move." + attack;
     }
 
-    /**
-     * Handles stats modifications of the move
-     *
-     * @param attacker the pokemob being affected
-     * @param atk      the move being used
-     * @param attacked whether the mob is the attacked mob, or the attacker
-     * @return
-     */
-    public static boolean handleStats(final IPokemob attacker, final Entity target, final MovePacket atk,
-            final boolean attacked)
+    public static record StatDiff(byte[] diffs, boolean applied)
     {
-        final int[] stats = attacked ? atk.attackedStatModification : atk.attackerStatModification;
-        final IPokemob affected = attacked ? PokemobCaps.getPokemobFor(target) : attacker;
+    };
+
+    public static StatDiff handleStats(final IPokemob attacker, final Entity target, final int[] stats,
+            final float chance)
+    {
+        final IPokemob affected = PokemobCaps.getPokemobFor(target);
         float[] mods;
         float[] old;
         if (affected != null)
@@ -474,8 +486,7 @@ public class MovesUtils implements IMoveConstants
         }
         // We start at 1, as there are not modifies for stat 0 (HP)
         for (int i = 1; i < mods.length; i++)
-            if (attacked ? atk.attackedStatModProb > Math.random() : atk.attackerStatModProb > Math.random())
-                mods[i] = (byte) Math.max(-6, Math.min(6, mods[i] + stats[i]));
+            if (chance > Math.random()) mods[i] = (byte) Math.max(-6, Math.min(6, mods[i] + stats[i]));
 
         boolean ret = false;
         final byte[] diff = new byte[old.length];
@@ -484,22 +495,48 @@ public class MovesUtils implements IMoveConstants
             diff[i] = (byte) (old[i] - mods[i]);
             if (old[i] != mods[i]) ret = true;
         }
+
         if (ret)
         {
             final IOngoingAffected affect = CapabilityAffected.getAffected(target);
-            final IPokemob targetMob = affected;
-            for (byte i = 0; i < diff.length; i++) if (diff[i] != 0)
+            if (affect != null)
             {
-                if (!attacked) MovesUtils.displayStatsMessage(attacker, target, 0, i, diff[i]);
-                if (affected != null)
-                {
-                    if (attacked) MovesUtils.displayStatsMessage(targetMob, attacker.getEntity(), 0, i, diff[i]);
-                }
-                else if (affect != null) affect.addEffect(new StatEffect(Stats.values()[i], diff[i]));
+                for (byte i = 0; i < diff.length; i++)
+                    if (diff[i] != 0) affect.addEffect(new StatEffect(Stats.values()[i], diff[i]));
+                PacketSyncModifier.sendUpdate(StatModifiers.DEFAULT, affected);
             }
-            PacketSyncModifier.sendUpdate(StatModifiers.DEFAULT, affected);
         }
-        return ret;
+        return new StatDiff(diff, ret);
+    }
+
+    /**
+     * Handles stats modifications of the move
+     *
+     * @param attacker the pokemob being affected
+     * @param atk      the move being used
+     * @param attacked whether the mob is the attacked mob, or the attacker
+     * @return
+     */
+    public static boolean handleStats(final IPokemob attacker, final Entity target, final MovePacket atk,
+            final boolean attacked)
+    {
+        final int[] stats = attacked ? atk.attackedStatModification : atk.attackerStatModification;
+        final float chance = attacked ? atk.attackedStatModProb : atk.attackerStatModProb;
+        StatDiff diffs = handleStats(attacker, target, stats, chance);
+
+        sendStatDiffsMessages(attacker, target, diffs);
+        return diffs.applied;
+    }
+
+    public static void sendStatDiffsMessages(final IPokemob attacker, final Entity target, StatDiff diffs)
+    {
+        if (diffs.applied)
+        {
+            for (byte i = 0; i < diffs.diffs.length; i++) if (diffs.diffs[i] != 0)
+            {
+                MovesUtils.displayStatsMessage(attacker, target, 0, i, diffs.diffs[i]);
+            }
+        }
     }
 
     public static boolean handleStats2(final IPokemob targetPokemob, final Entity attacker, final int statEffect,
@@ -571,17 +608,25 @@ public class MovesUtils implements IMoveConstants
         return var11;
     }
 
-    public static void registerMove(final Move_Base move)
+    public static boolean registerMove(final Move_Base move)
     {
+        if (move.move.root_entry == null)
+        {
+            PokecubeAPI.LOGGER.error("Attempted to register unknown move {}", move.name);
+            return false;
+        }
+
         final Move_Base old = MovesUtils.moves.get(move.name);
         if (old != null) old.destroy();
+
         move.init();
         MovesUtils.moves.put(move.name, move);
-        if (move.move.baseEntry.ohko) MoveEntry.oneHitKos.add(move.name);
-        if (move.move.baseEntry.protectionMoves) MoveEntry.protectionMoves.add(move.name);
+        if (move.move.ohko) MoveEntry.oneHitKos.add(move.name);
+        if (move.move.root_entry._protects) MoveEntry.protectionMoves.add(move.name);
+        return true;
     }
 
-    public static boolean setStatus(final LivingEntity attacked, byte status)
+    public static boolean setStatus(final LivingEntity attacked, int status)
     {
         final IPokemob attackedPokemob = PokemobCaps.getPokemobFor(attacked);
 
@@ -675,9 +720,31 @@ public class MovesUtils implements IMoveConstants
         return ret;
     }
 
-    public static void useMove(@Nonnull final Move_Base move, @Nonnull final LivingEntity user,
+    public static void useMove(@Nonnull final MoveEntry move, @Nonnull final LivingEntity user,
             @Nullable final LivingEntity target, @Nonnull final Vector3 start, @Nonnull final Vector3 end)
     {
-        move.ActualMoveUse(user, target, start, end);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(user);
+        if (pokemob == null) return;
+        if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, target))) return;
+        final EntityMoveUse moveUse = EntityMoveUse.Builder.make(user, move, start).setEnd(end).setTarget(target)
+                .build();
+        if (GZMoveManager.zmoves_map.containsValue(move.name)) pokemob.setCombatState(CombatStates.USEDZMOVE, true);
+        pokemob.setActiveMove(moveUse);
+        MoveQueuer.queueMove(moveUse);
+    }
+
+    public static boolean shouldSilk(final IPokemob pokemob)
+    {
+        if (pokemob.getAbility() == null) return false;
+        final Ability ability = pokemob.getAbility();
+        return pokemob.getLevel() >= 90 && ability.toString().equalsIgnoreCase("hypercutter");
+    }
+
+    public static void silkHarvest(final BlockState state, final BlockPos pos, final Level worldIn, final Player player)
+    {
+        final ItemStack pickaxe = new ItemStack(Items.DIAMOND_PICKAXE);
+        pickaxe.enchant(Enchantments.SILK_TOUCH, 1);
+        state.getBlock().playerDestroy(worldIn, player, pos, state, null, pickaxe);
+        worldIn.destroyBlock(pos, false);
     }
 }

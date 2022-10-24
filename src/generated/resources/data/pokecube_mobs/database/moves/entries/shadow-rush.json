@@ -1,0 +1,12 @@
+{
+  "name": "shadow-rush",
+  "id": 10001,
+  "power": 55,
+  "priority": 0,
+  "type": "shadow",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "effect_text_extend": "Inflicts regular damage.  User's critical hit rate is one level higher when using this move while in hyper mode.",
+  "effect_text_simple": "Has an increased chance for a critical hit in Hyper Mode."
+}

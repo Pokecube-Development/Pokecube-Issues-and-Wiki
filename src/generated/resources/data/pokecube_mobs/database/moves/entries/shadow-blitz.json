@@ -1,0 +1,12 @@
+{
+  "name": "shadow-blitz",
+  "id": 10003,
+  "power": 40,
+  "priority": 0,
+  "type": "shadow",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "effect_text_extend": "Inflicts regular damage.",
+  "effect_text_simple": "Inflicts regular damage with no additional effect."
+}

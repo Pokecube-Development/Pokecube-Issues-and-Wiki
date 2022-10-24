@@ -1,0 +1,222 @@
+{
+  "name": "muk-alola",
+  "id": 89,
+  "stock": true,
+  "base_experience": 175,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 52.0,
+  "is_default": false,
+  "capture_rate": 75,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 105,
+    "attack": 105,
+    "defense": 75,
+    "special_attack": 65,
+    "special_defense": 100,
+    "speed": 50
+  },
+  "evs": {
+    "hp": 1,
+    "attack": 1
+  },
+  "types": [
+    "poison",
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "poison-touch",
+      "gluttony"
+    ],
+    "hidden": [
+      "power-of-alchemy"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "bite",
+          "harden",
+          "haze",
+          "poison-gas",
+          "moonblast"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "disable"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "minimize"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "acid-armor"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "sludge-bomb"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "memento"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "poison-fang"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "fling"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "gunk-shot"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "acid-spray"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "belch"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "venom-drench"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "headbutt",
+      "bite",
+      "disable",
+      "flamethrower",
+      "hyper-beam",
+      "mega-drain",
+      "dig",
+      "toxic",
+      "screech",
+      "double-team",
+      "harden",
+      "minimize",
+      "self-destruct",
+      "fire-blast",
+      "poison-gas",
+      "acid-armor",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "sludge-bomb",
+      "giga-drain",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "shadow-ball",
+      "torment",
+      "memento",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "recycle",
+      "brick-break",
+      "knock-off",
+      "poison-fang",
+      "rock-tomb",
+      "block",
+      "shock-wave",
+      "payback",
+      "embargo",
+      "fling",
+      "gastro-acid",
+      "rock-polish",
+      "poison-jab",
+      "dark-pulse",
+      "focus-blast",
+      "giga-impact",
+      "gunk-shot",
+      "stone-edge",
+      "venoshock",
+      "sludge-wave",
+      "acid-spray",
+      "foul-play",
+      "round",
+      "quash",
+      "snarl",
+      "belch",
+      "confide",
+      "venom-drench",
+      "infestation",
+      "brutal-swing"
+    ]
+  },
+  "loot_table": "pokecube:entities/slimeballs_2",
+  "old_name": "muk_alola"
+}

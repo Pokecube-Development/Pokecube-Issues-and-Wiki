@@ -1,0 +1,163 @@
+{
+  "name": "copperajah",
+  "id": 879,
+  "stock": true,
+  "base_experience": 175,
+  "size": {
+    "height": 3.0,
+    "width": 3.0,
+    "length": 3.0
+  },
+  "mass": 650.0,
+  "is_default": true,
+  "capture_rate": 90,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 122,
+    "attack": 130,
+    "defense": 69,
+    "special_attack": 80,
+    "special_defense": 69,
+    "speed": 30
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "sheer-force"
+    ],
+    "hidden": [
+      "heavy-metal"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 20,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl",
+          "rollout",
+          "rock-smash"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "strength"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "dig"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "iron-head"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "heavy-slam"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "bulldoze"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "play-rough"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "high-horsepower"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-kick",
+      "body-slam",
+      "hyper-beam",
+      "earthquake",
+      "dig",
+      "screech",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "outrage",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "facade",
+      "taunt",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "rock-tomb",
+      "iron-defense",
+      "mud-shot",
+      "rock-blast",
+      "payback",
+      "fling",
+      "earth-power",
+      "giga-impact",
+      "zen-headbutt",
+      "flash-cannon",
+      "power-whip",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "heavy-slam",
+      "round",
+      "bulldoze",
+      "work-up",
+      "heat-crash",
+      "snarl",
+      "play-rough",
+      "high-horsepower",
+      "brutal-swing",
+      "stomping-tantrum",
+      "body-press",
+      "steel-beam",
+      "steel-roller"
+    ]
+  },
+  "loot_table": "pokecube:entities/terracota_2"
+}

@@ -1,0 +1,14 @@
+{
+  "name": "aerial-ace",
+  "id": 332,
+  "power": 60,
+  "pp": 20,
+  "priority": 0,
+  "type": "flying",
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user confounds the target with speed, then\nslashes. This attack never misses.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Ignores accuracy and evasion modifiers.",
+  "effect_text_simple": "Never misses."
+}

@@ -7,7 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.items.UsableItemEffects.BerryUsable.BerryEffect;
 import pokecube.core.items.berries.ItemBerry;
 
@@ -76,7 +76,7 @@ public class BerryHelper implements IMoveConstants
     public static boolean berryEffect(final IPokemob pokemob, final LivingEntity user, final ItemStack berry)
     {
         if (!(berry.getItem() instanceof ItemBerry)) return false;
-        final byte status = pokemob.getStatus();
+        final int status = pokemob.getStatus();
         final int berryId = ((ItemBerry) berry.getItem()).type.index;
         if (berryId >= 21 && berryId <= 26) return BerryHelper.handleEVBerry(pokemob, berryId - 21);
         if (status == IMoveConstants.STATUS_PAR && berryId == 1)

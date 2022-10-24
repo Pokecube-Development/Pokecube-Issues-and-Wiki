@@ -1,0 +1,20 @@
+{
+  "name": "leafage",
+  "animations": [
+    {
+      "preset": "throw:pmisc:d0.8:w0.4:l5:atrue:~leafage",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.vicegrip",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.7
+    },
+    {
+      "preset": "cartFunc:pcrit:d3:w1:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~leafage",
+      "duration": "5",
+      "starttick": "4"
+    }
+  ]
+}

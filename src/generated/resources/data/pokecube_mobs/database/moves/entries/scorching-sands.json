@@ -1,0 +1,17 @@
+{
+  "name": "scorching-sands",
+  "id": 815,
+  "power": 70,
+  "pp": 10,
+  "priority": 0,
+  "type": "ground",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user throws scorching sand at the target to attack.\nThis may also leave the target with a burn.",
+  "move_category": "damage+ailment",
+  "ailment_chance": 30,
+  "effect_text_extend": "Inflicts regular damage.",
+  "effect_text_simple": "Inflicts regular damage with no additional effect.",
+  "effect_chance": 30
+}

@@ -1,0 +1,78 @@
+{
+  "name": "psychoboost",
+  "animations": [
+    {
+      "preset": "cartFunc:pend_rod:l2:rtrue:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~psychoboost",
+      "duration": "5",
+      "starttick": "0",
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:pend_rod:l10:rtrue:w2.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~psychoboost",
+      "duration": "5",
+      "starttick": "1",
+      "applyAfter": true
+    },
+    {
+      "preset": "throw:pmisc:~psychoboost",
+      "duration": "5",
+      "starttick": "1",
+      "sound": "minecraft:entity.illusioner.prepare_blindness",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pcloud:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~psychoboost",
+      "duration": "5",
+      "starttick": "3",
+      "sound": "minecraft:entity.generic.explode",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 1.1,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pwitch:l25:w2.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~psychoboost",
+      "duration": "5",
+      "starttick": "5",
+      "sound": "minecraft:entity.evoker.prepare_summon",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pexplosion:l7:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~psychoboost",
+      "duration": "5",
+      "starttick": "7",
+      "sound": "minecraft:entity.generic.explode",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pcloud:w3:l15:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~psychoboost",
+      "duration": "5",
+      "starttick": "5",
+      "sound": "minecraft:entity.generic.explode",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 1.3,
+      "applyAfter": false
+    },
+    {
+      "preset": "flow:pmisc:d0.3:atrue:~psychoboost",
+      "duration": "5",
+      "starttick": "1",
+      "applyAfter": false
+    }
+  ]
+}

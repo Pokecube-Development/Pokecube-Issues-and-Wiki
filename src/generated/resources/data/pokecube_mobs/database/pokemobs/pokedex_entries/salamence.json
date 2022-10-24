@@ -1,0 +1,217 @@
+{
+  "name": "salamence",
+  "id": 373,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 1.5,
+    "width": 1.5,
+    "length": 1.5
+  },
+  "mass": 102.6,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 95,
+    "attack": 135,
+    "defense": 80,
+    "special_attack": 110,
+    "special_defense": 80,
+    "speed": 100
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "dragon",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "intimidate"
+    ],
+    "hidden": [
+      "moxie"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 0,
+        "moves": [
+          "fly"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "bite",
+          "ember",
+          "rage",
+          "protect",
+          "thunder-fang",
+          "fire-fang",
+          "dragon-tail"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "dragon-claw"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "zen-headbutt"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "fly",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "leer",
+      "bite",
+      "roar",
+      "ember",
+      "flamethrower",
+      "hydro-pump",
+      "hyper-beam",
+      "strength",
+      "earthquake",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "focus-energy",
+      "fire-blast",
+      "swift",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "outrage",
+      "endure",
+      "rollout",
+      "swagger",
+      "fury-cutter",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dragon-breath",
+      "iron-tail",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "heat-wave",
+      "facade",
+      "brick-break",
+      "secret-power",
+      "hyper-voice",
+      "air-cutter",
+      "rock-tomb",
+      "aerial-ace",
+      "iron-defense",
+      "dragon-claw",
+      "dragon-dance",
+      "roost",
+      "natural-gift",
+      "tailwind",
+      "aqua-tail",
+      "air-slash",
+      "dragon-pulse",
+      "giga-impact",
+      "shadow-claw",
+      "thunder-fang",
+      "fire-fang",
+      "zen-headbutt",
+      "defog",
+      "draco-meteor",
+      "stone-edge",
+      "captivate",
+      "ominous-wind",
+      "hone-claws",
+      "round",
+      "incinerate",
+      "bulldoze",
+      "dragon-tail",
+      "hurricane",
+      "confide",
+      "laser-focus",
+      "brutal-swing",
+      "breaking-swipe",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_seeds_2",
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "salamencemega"
+    }
+  ]
+}

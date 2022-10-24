@@ -458,6 +458,15 @@ def convert_pokedex():
         json.dump(var, file, indent=2)
         file.close()
 
+        # Now lets make a template file which will remove each entry.
+        file = f'./new/_removal_template_/pokemobs/pokedex_entries/{var["name"]}.json'
+        var = {"remove": True,"priority":0}
+        if not os.path.exists(os.path.dirname(file)):
+            os.makedirs(os.path.dirname(file))
+        file = open(file, 'w')
+        json.dump(var, file, indent=2)
+        file.close()
+
 
 if __name__ == "__main__":
     convert_pokedex()

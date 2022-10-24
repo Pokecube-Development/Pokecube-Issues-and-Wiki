@@ -1,0 +1,13 @@
+{
+  "name": "celebrate",
+  "id": 606,
+  "pp": 40,
+  "priority": 0,
+  "type": "normal",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The Pokémon congratulates you on your special day!",
+  "move_category": "unique",
+  "effect_text_extend": "Does nothing.",
+  "effect_text_simple": "Does nothing."
+}

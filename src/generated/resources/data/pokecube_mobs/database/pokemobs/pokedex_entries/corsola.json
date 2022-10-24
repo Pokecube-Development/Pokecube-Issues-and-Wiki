@@ -1,0 +1,251 @@
+{
+  "name": "corsola",
+  "id": 222,
+  "stock": true,
+  "base_experience": 144,
+  "size": {
+    "height": 0.5,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 5.0,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 65,
+    "attack": 55,
+    "defense": 95,
+    "special_attack": 65,
+    "special_defense": 95,
+    "speed": 35
+  },
+  "evs": {
+    "defense": 1,
+    "special_defense": 1
+  },
+  "types": [
+    "water",
+    "rock"
+  ],
+  "abilities": {
+    "normal": [
+      "hustle",
+      "natural-cure"
+    ],
+    "hidden": [
+      "regenerator"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "harden"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "spike-cannon"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "bubble"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "endure",
+          "life-dew"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "mirror-coat"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "refresh"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "rock-blast"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "aqua-ring"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "earth-power"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "mist",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "strength",
+      "earthquake",
+      "dig",
+      "toxic",
+      "psychic",
+      "mimic",
+      "screech",
+      "double-team",
+      "recover",
+      "harden",
+      "confuse-ray",
+      "defense-curl",
+      "barrier",
+      "light-screen",
+      "reflect",
+      "bide",
+      "self-destruct",
+      "spike-cannon",
+      "amnesia",
+      "bubble",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "flail",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "mirror-coat",
+      "ancient-power",
+      "shadow-ball",
+      "rock-smash",
+      "whirlpool",
+      "hail",
+      "facade",
+      "nature-power",
+      "ingrain",
+      "magic-coat",
+      "endeavor",
+      "refresh",
+      "secret-power",
+      "camouflage",
+      "rock-tomb",
+      "icicle-spear",
+      "iron-defense",
+      "calm-mind",
+      "rock-blast",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "lucky-chant",
+      "sucker-punch",
+      "aqua-ring",
+      "rock-polish",
+      "power-gem",
+      "earth-power",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "head-smash",
+      "round",
+      "scald",
+      "bulldoze",
+      "confide",
+      "throat-chop",
+      "stomping-tantrum",
+      "liquidation",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_2"
+}

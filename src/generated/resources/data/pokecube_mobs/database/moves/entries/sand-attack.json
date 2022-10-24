@@ -1,0 +1,14 @@
+{
+  "name": "sand-attack",
+  "id": 28,
+  "pp": 15,
+  "priority": 0,
+  "type": "ground",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "Sand is hurled in the target’s face, reducing the\ntarget’s accuracy.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Lowers the target's accuracy by one stage.",
+  "effect_text_simple": "Lowers the target's accuracy by one stage."
+}

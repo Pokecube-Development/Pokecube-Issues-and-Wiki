@@ -1,0 +1,25 @@
+{
+  "name": "megadrain",
+  "animations": [
+    {
+      "preset": "beam:~megadrain",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.waterpulse",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.9
+    },
+    {
+      "preset": "cartFunc:pend_rod:d2:w1:rtrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~megadrain",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.waterpulse",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

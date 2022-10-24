@@ -1,0 +1,15 @@
+{
+  "name": "rototiller",
+  "id": 563,
+  "pp": 10,
+  "priority": 0,
+  "type": "ground",
+  "target": "all-pokemon",
+  "damage_class": "status",
+  "flavor_text": "Tilling the soil, the user makes it easier for plants to\ngrow. This raises the Attack and Sp. Atk stats of\nGrass-type Pokémon.",
+  "move_category": "net-good-stats",
+  "stat_chance": 100,
+  "effect_text_extend": "Raises the Attack and Special Attack of all grass Pokémon in battle.",
+  "effect_text_simple": "Raises the Attack and Special Attack of all grass Pokémon in battle.",
+  "effect_chance": 100
+}

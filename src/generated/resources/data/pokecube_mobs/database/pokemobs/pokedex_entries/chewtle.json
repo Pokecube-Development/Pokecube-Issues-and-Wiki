@@ -1,0 +1,130 @@
+{
+  "name": "chewtle",
+  "id": 833,
+  "stock": true,
+  "base_experience": 57,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 8.5,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 50,
+    "attack": 64,
+    "defense": 50,
+    "special_attack": 38,
+    "special_defense": 38,
+    "speed": 44
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "strong-jaw",
+      "shell-armor"
+    ],
+    "hidden": [
+      "swift-swim"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 21,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "water-gun"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "counter"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "liquidation"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "jaw-lock"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "hydro-pump",
+      "surf",
+      "skull-bash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "rain-dance",
+      "whirlpool",
+      "facade",
+      "revenge",
+      "dive",
+      "mud-shot",
+      "payback",
+      "assurance",
+      "gastro-acid",
+      "ice-fang",
+      "round",
+      "dragon-tail",
+      "liquidation",
+      "scale-shot",
+      "skitter-smack"
+    ]
+  },
+  "loot_table": "pokecube:entities/turtleshells_1",
+  "evolutions": [
+    {
+      "name": "drednaw",
+      "level": 22,
+      "animation": "18",
+      "evoMoves": "rocktomb"
+    }
+  ]
+}

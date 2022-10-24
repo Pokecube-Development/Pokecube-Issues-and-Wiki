@@ -1,0 +1,14 @@
+{
+  "name": "feather-dance",
+  "id": 297,
+  "pp": 15,
+  "priority": 0,
+  "type": "flying",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user covers the target’s body with a mass of\ndown that harshly lowers its Attack stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Lowers the target's Attack by two stages.",
+  "effect_text_simple": "Lowers the target's Attack by two stages."
+}

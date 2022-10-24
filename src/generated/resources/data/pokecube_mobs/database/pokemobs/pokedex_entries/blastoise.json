@@ -1,0 +1,235 @@
+{
+  "name": "blastoise",
+  "id": 9,
+  "stock": true,
+  "base_experience": 265,
+  "size": {
+    "height": 1.6,
+    "width": 1.5,
+    "length": 1.5
+  },
+  "mass": 85.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 79,
+    "attack": 83,
+    "defense": 100,
+    "special_attack": 85,
+    "special_defense": 105,
+    "speed": 78
+  },
+  "evs": {
+    "special_defense": 3
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+      "rain-dish"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 54,
+        "moves": [
+          "headbutt",
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "tail-whip",
+          "water-gun",
+          "withdraw",
+          "fake-out",
+          "flash-cannon",
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "bubble-beam",
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "skull-bash"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "bubble"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "rapid-spin"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "shell-smash"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "mega-kick",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "tail-whip",
+      "bite",
+      "roar",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "hyper-beam",
+      "submission",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "withdraw",
+      "defense-curl",
+      "reflect",
+      "bide",
+      "waterfall",
+      "skull-bash",
+      "bubble",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "outrage",
+      "endure",
+      "rollout",
+      "false-swipe",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "rapid-spin",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "crunch",
+      "rock-smash",
+      "whirlpool",
+      "hail",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "brick-break",
+      "secret-power",
+      "dive",
+      "hydro-cannon",
+      "weather-ball",
+      "rock-tomb",
+      "signal-beam",
+      "muddy-water",
+      "iron-defense",
+      "water-pulse",
+      "gyro-ball",
+      "brine",
+      "natural-gift",
+      "fling",
+      "aura-sphere",
+      "dark-pulse",
+      "aqua-tail",
+      "dragon-pulse",
+      "focus-blast",
+      "giga-impact",
+      "avalanche",
+      "zen-headbutt",
+      "flash-cannon",
+      "rock-climb",
+      "captivate",
+      "smack-down",
+      "round",
+      "scald",
+      "water-pledge",
+      "bulldoze",
+      "dragon-tail",
+      "work-up",
+      "confide",
+      "power-up-punch",
+      "liquidation",
+      "body-press",
+      "terrain-pulse",
+      "flip-turn"
+    ]
+  },
+  "loot_table": "pokecube:entities/turtleshells_3",
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "blastoisemega"
+    }
+  ]
+}

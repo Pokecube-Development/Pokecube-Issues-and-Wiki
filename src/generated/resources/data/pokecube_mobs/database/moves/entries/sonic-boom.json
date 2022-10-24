@@ -1,0 +1,14 @@
+{
+  "name": "sonic-boom",
+  "id": 49,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The target is hit with a destructive shock wave that\nalways inflicts 20 HP damage.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts exactly 20 damage.",
+  "effect_text_simple": "Inflicts 20 points of damage."
+}

@@ -1,0 +1,213 @@
+{
+  "name": "misdreavus",
+  "id": 200,
+  "stock": true,
+  "base_experience": 87,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 1.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 35,
+  "growth_rate": "fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 60,
+    "defense": 60,
+    "special_attack": 85,
+    "special_defense": 85,
+    "speed": 85
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "growl",
+          "psywave"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "spite"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "perish-song"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "mean-look"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "pain-split"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "grudge"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "astonish"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "hex"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "double-edge",
+      "growl",
+      "psybeam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "psychic",
+      "mimic",
+      "screech",
+      "double-team",
+      "confuse-ray",
+      "defense-curl",
+      "swift",
+      "dream-eater",
+      "flash",
+      "psywave",
+      "rest",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "curse",
+      "spite",
+      "protect",
+      "zap-cannon",
+      "destiny-bond",
+      "perish-song",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "pain-split",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "uproar",
+      "torment",
+      "will-o-wisp",
+      "memento",
+      "facade",
+      "taunt",
+      "trick",
+      "magic-coat",
+      "skill-swap",
+      "imprison",
+      "grudge",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "astonish",
+      "aerial-ace",
+      "calm-mind",
+      "shock-wave",
+      "natural-gift",
+      "payback",
+      "embargo",
+      "me-first",
+      "sucker-punch",
+      "dark-pulse",
+      "power-gem",
+      "nasty-plot",
+      "shadow-sneak",
+      "trick-room",
+      "captivate",
+      "charge-beam",
+      "ominous-wind",
+      "wonder-room",
+      "telekinesis",
+      "magic-room",
+      "foul-play",
+      "round",
+      "echoed-voice",
+      "ally-switch",
+      "hex",
+      "confide",
+      "dazzling-gleam"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_1",
+  "evolutions": [
+    {
+      "name": "mismagius",
+      "item_preset": "duskstone"
+    }
+  ]
+}

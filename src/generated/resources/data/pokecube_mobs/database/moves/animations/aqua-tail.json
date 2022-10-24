@@ -1,0 +1,25 @@
+{
+  "name": "aquatail",
+  "animations": [
+    {
+      "preset": "cartFunc:psplash:d0.3:l30:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~aquatail",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.dive",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8
+    },
+    {
+      "preset": "cartFunc:psweep_attack:d1:l5:~aquatail",
+      "duration": "2",
+      "starttick": "0",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

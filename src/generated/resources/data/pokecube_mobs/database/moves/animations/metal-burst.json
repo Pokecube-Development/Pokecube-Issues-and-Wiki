@@ -1,0 +1,10 @@
+{
+  "name": "metalburst",
+  "animations": [
+    {
+      "preset": "beam:~metalburst",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

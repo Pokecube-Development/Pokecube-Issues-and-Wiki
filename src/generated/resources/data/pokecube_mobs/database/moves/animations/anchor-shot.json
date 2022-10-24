@@ -1,0 +1,27 @@
+{
+  "name": "anchorshot",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d1:w1:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~anchorshot",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "minecraft:entity.zombie.attack_iron_door",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pend_rod:d1:w1:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~anchorshot",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.metalclaw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "applyAfter": false
+    }
+  ]
+}

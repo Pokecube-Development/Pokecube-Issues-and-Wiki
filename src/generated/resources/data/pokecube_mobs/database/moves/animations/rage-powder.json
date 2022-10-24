@@ -1,0 +1,10 @@
+{
+  "name": "ragepowder",
+  "animations": [
+    {
+      "preset": "cartFunc:ppowder:corange:d0.1:w2:rtrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~ragepowder",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

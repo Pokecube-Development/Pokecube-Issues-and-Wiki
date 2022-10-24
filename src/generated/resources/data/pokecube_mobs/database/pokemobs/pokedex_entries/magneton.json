@@ -1,0 +1,239 @@
+{
+  "name": "magneton",
+  "id": 82,
+  "stock": true,
+  "base_experience": 163,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 60.0,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 50,
+    "attack": 60,
+    "defense": 95,
+    "special_attack": 120,
+    "special_defense": 70,
+    "speed": 70
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "electric",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "magnet-pull",
+      "sturdy"
+    ],
+    "hidden": [
+      "analytic"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "supersonic",
+          "thunder-shock",
+          "thunder-wave",
+          "zap-cannon",
+          "electric-terrain"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "sonic-boom"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "thunderbolt"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "thunder"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "tri-attack"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "lock-on"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "gyro-ball"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "magnet-rise"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "mirror-shot"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "flash-cannon"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "magnet-bomb"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "electro-ball"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "tackle",
+      "take-down",
+      "double-edge",
+      "supersonic",
+      "sonic-boom",
+      "hyper-beam",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "rage",
+      "teleport",
+      "mimic",
+      "screech",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "bide",
+      "swift",
+      "flash",
+      "explosion",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "zap-cannon",
+      "lock-on",
+      "endure",
+      "rollout",
+      "swagger",
+      "spark",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "facade",
+      "magic-coat",
+      "recycle",
+      "secret-power",
+      "metal-sound",
+      "signal-beam",
+      "iron-defense",
+      "shock-wave",
+      "gravity",
+      "gyro-ball",
+      "natural-gift",
+      "magnet-rise",
+      "giga-impact",
+      "mirror-shot",
+      "flash-cannon",
+      "discharge",
+      "magnet-bomb",
+      "charge-beam",
+      "electro-ball",
+      "round",
+      "volt-switch",
+      "electroweb",
+      "wild-charge",
+      "confide",
+      "electric-terrain",
+      "steel-beam",
+      "rising-voltage"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_redstone_2",
+  "evolutions": [
+    {
+      "name": "magnezone",
+      "location": {
+        "and_preset": "caves"
+      },
+      "evoMoves": "triattack"
+    }
+  ]
+}

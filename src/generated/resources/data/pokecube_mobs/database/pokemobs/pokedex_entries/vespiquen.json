@@ -1,0 +1,250 @@
+{
+  "name": "vespiquen",
+  "id": 416,
+  "stock": true,
+  "base_experience": 166,
+  "size": {
+    "height": 1.2,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 38.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 70,
+    "attack": 80,
+    "defense": 102,
+    "special_attack": 80,
+    "special_defense": 102,
+    "speed": 40
+  },
+  "evs": {
+    "defense": 1,
+    "special_defense": 1
+  },
+  "types": [
+    "bug",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "pressure"
+    ],
+    "hidden": [
+      "unnerve"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "gust",
+          "poison-sting",
+          "confuse-ray",
+          "destiny-bond",
+          "sweet-scent",
+          "bug-bite",
+          "struggle-bug",
+          "fell-stinger"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "captivate"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "attack-order"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "defend-order"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "heal-order"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "aromatic-mist"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "gust",
+      "poison-sting",
+      "pin-missile",
+      "hyper-beam",
+      "string-shot",
+      "toxic",
+      "screech",
+      "double-team",
+      "confuse-ray",
+      "swift",
+      "flash",
+      "fury-swipes",
+      "rest",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "reversal",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "destiny-bond",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pursuit",
+      "sweet-scent",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "beat-up",
+      "uproar",
+      "facade",
+      "revenge",
+      "endeavor",
+      "secret-power",
+      "air-cutter",
+      "silver-wind",
+      "signal-beam",
+      "aerial-ace",
+      "roost",
+      "natural-gift",
+      "tailwind",
+      "u-turn",
+      "assurance",
+      "fling",
+      "toxic-spikes",
+      "air-slash",
+      "x-scissor",
+      "bug-buzz",
+      "power-gem",
+      "giga-impact",
+      "defog",
+      "cross-poison",
+      "captivate",
+      "bug-bite",
+      "attack-order",
+      "defend-order",
+      "heal-order",
+      "ominous-wind",
+      "hone-claws",
+      "venoshock",
+      "round",
+      "hex",
+      "quash",
+      "acrobatics",
+      "struggle-bug",
+      "fell-stinger",
+      "confide",
+      "infestation",
+      "laser-focus",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/honeycomb_2",
+  "interactions": [
+    {
+      "male": true,
+      "female": true,
+      "cooldown": 800,
+      "variance": 100,
+      "baseHunger": 250,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:shears"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:honeycomb",
+              "n": "2"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,217 @@
+{
+  "name": "duskull",
+  "id": 355,
+  "stock": true,
+  "base_experience": 59,
+  "size": {
+    "height": 0.8,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 15.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 35,
+  "growth_rate": "fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 20,
+    "attack": 40,
+    "defense": 90,
+    "special_attack": 30,
+    "special_defense": 90,
+    "speed": 25
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ],
+    "hidden": [
+      "frisk"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "night-shade"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "disable"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "foresight"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "mean-look"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "will-o-wisp"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "astonish"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "shadow-sneak"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "hex"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "leer",
+      "disable",
+      "ice-beam",
+      "blizzard",
+      "toxic",
+      "psychic",
+      "night-shade",
+      "mimic",
+      "double-team",
+      "confuse-ray",
+      "haze",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "curse",
+      "spite",
+      "protect",
+      "feint-attack",
+      "foresight",
+      "destiny-bond",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "pursuit",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "torment",
+      "will-o-wisp",
+      "memento",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "trick",
+      "revenge",
+      "skill-swap",
+      "imprison",
+      "grudge",
+      "snatch",
+      "secret-power",
+      "astonish",
+      "calm-mind",
+      "gravity",
+      "natural-gift",
+      "payback",
+      "embargo",
+      "fling",
+      "sucker-punch",
+      "dark-pulse",
+      "shadow-sneak",
+      "trick-room",
+      "captivate",
+      "charge-beam",
+      "ominous-wind",
+      "wonder-room",
+      "telekinesis",
+      "round",
+      "ally-switch",
+      "hex",
+      "confide",
+      "infestation",
+      "skitter-smack",
+      "poltergeist"
+    ]
+  },
+  "loot_table": "pokecube:entities/bones",
+  "evolutions": [
+    {
+      "name": "dusclops",
+      "level": 37,
+      "evoMoves": "shadowpunch"
+    }
+  ]
+}

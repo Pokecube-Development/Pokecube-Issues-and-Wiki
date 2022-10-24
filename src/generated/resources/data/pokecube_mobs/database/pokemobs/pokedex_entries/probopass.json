@@ -1,0 +1,207 @@
+{
+  "name": "probopass",
+  "id": 476,
+  "stock": true,
+  "base_experience": 184,
+  "size": {
+    "height": 1.4,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 340.0,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 55,
+    "defense": 145,
+    "special_attack": 75,
+    "special_defense": 150,
+    "speed": 40
+  },
+  "evs": {
+    "defense": 1,
+    "special_defense": 2
+  },
+  "types": [
+    "rock",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "sturdy",
+      "magnet-pull"
+    ],
+    "hidden": [
+      "sand-force"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "iron-defense",
+          "block",
+          "gravity",
+          "magnet-rise",
+          "magnet-bomb",
+          "wide-guard",
+          "magnetic-flux"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "tri-attack"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "zap-cannon",
+          "lock-on"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "sandstorm"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "rock-blast"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "stone-edge"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "headbutt",
+      "tackle",
+      "hyper-beam",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "double-team",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "tri-attack",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "lock-on",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "spark",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "hidden-power",
+      "sunny-day",
+      "ancient-power",
+      "rock-smash",
+      "torment",
+      "facade",
+      "taunt",
+      "magic-coat",
+      "secret-power",
+      "rock-tomb",
+      "iron-defense",
+      "block",
+      "rock-blast",
+      "shock-wave",
+      "gravity",
+      "natural-gift",
+      "magnet-rise",
+      "rock-polish",
+      "power-gem",
+      "earth-power",
+      "giga-impact",
+      "flash-cannon",
+      "discharge",
+      "iron-head",
+      "magnet-bomb",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "wide-guard",
+      "telekinesis",
+      "smack-down",
+      "round",
+      "ally-switch",
+      "volt-switch",
+      "bulldoze",
+      "confide",
+      "magnetic-flux",
+      "dazzling-gleam",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/stone_2"
+}

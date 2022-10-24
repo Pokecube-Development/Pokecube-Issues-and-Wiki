@@ -1,0 +1,20 @@
+{
+  "name": "cut",
+  "animations": [
+    {
+      "preset": "cartFunc:psweep_attack:d0.7:w1:l5:f0,0,0:~cut",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.cut",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:pcrit:d0.8:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~cut",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

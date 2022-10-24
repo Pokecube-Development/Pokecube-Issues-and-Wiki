@@ -1,0 +1,212 @@
+{
+  "name": "petilil",
+  "id": 548,
+  "stock": true,
+  "base_experience": 56,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 6.6,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 45,
+    "attack": 35,
+    "defense": 50,
+    "special_attack": 70,
+    "special_defense": 50,
+    "speed": 30
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "chlorophyll",
+      "own-tempo"
+    ],
+    "hidden": [
+      "leaf-guard"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "absorb"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "stun-spore"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "sleep-powder"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "sunny-day"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "leaf-storm"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "entrainment"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "after-you"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "absorb",
+      "mega-drain",
+      "leech-seed",
+      "growth",
+      "solar-beam",
+      "stun-spore",
+      "sleep-powder",
+      "toxic",
+      "double-team",
+      "bide",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "giga-drain",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "encore",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "facade",
+      "nature-power",
+      "helping-hand",
+      "ingrain",
+      "secret-power",
+      "aromatherapy",
+      "grass-whistle",
+      "covet",
+      "magical-leaf",
+      "healing-wish",
+      "natural-gift",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "leaf-storm",
+      "grass-knot",
+      "entrainment",
+      "after-you",
+      "round",
+      "confide",
+      "laser-focus",
+      "pollen-puff",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_1",
+  "evolutions": [
+    {
+      "name": "lilligant",
+      "item_preset": "sunstone"
+    },
+    {
+      "name": "lilligant-hisui",
+      "location": {
+        "and_preset": "deserts"
+      },
+      "item_preset": "sunstone",
+      "time": "day"
+    }
+  ]
+}

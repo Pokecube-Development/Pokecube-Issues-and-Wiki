@@ -1,0 +1,250 @@
+{
+  "name": "ho-oh",
+  "id": 250,
+  "stock": true,
+  "base_experience": 340,
+  "size": {
+    "height": 3.8,
+    "width": 3.8,
+    "length": 3.8
+  },
+  "mass": 199.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 106,
+    "attack": 130,
+    "defense": 90,
+    "special_attack": 110,
+    "special_defense": 154,
+    "speed": 90
+  },
+  "evs": {
+    "special_defense": 3
+  },
+  "types": [
+    "fire",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "pressure"
+    ],
+    "hidden": [
+      "regenerator"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 9,
+        "moves": [
+          "gust",
+          "life-dew"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "whirlwind",
+          "weather-ball"
+        ]
+      },
+      {
+        "L": 71,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "fire-blast"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 99,
+        "moves": [
+          "sky-attack",
+          "burn-up"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "sacred-fire"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "sunny-day"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 79,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 93,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 85,
+        "moves": [
+          "natural-gift"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "punishment"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "brave-bird"
+        ]
+      }
+    ],
+    "misc": [
+      "gust",
+      "whirlwind",
+      "fly",
+      "double-edge",
+      "roar",
+      "flamethrower",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "fire-spin",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "psychic",
+      "mimic",
+      "double-team",
+      "recover",
+      "light-screen",
+      "reflect",
+      "fire-blast",
+      "swift",
+      "dream-eater",
+      "sky-attack",
+      "flash",
+      "rest",
+      "substitute",
+      "nightmare",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "detect",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "sacred-fire",
+      "dragon-breath",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "shadow-ball",
+      "future-sight",
+      "rock-smash",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "helping-hand",
+      "imprison",
+      "secret-power",
+      "hyper-voice",
+      "weather-ball",
+      "air-cutter",
+      "overheat",
+      "signal-beam",
+      "extrasensory",
+      "aerial-ace",
+      "calm-mind",
+      "shock-wave",
+      "roost",
+      "natural-gift",
+      "pluck",
+      "tailwind",
+      "punishment",
+      "flare-blitz",
+      "air-slash",
+      "brave-bird",
+      "earth-power",
+      "giga-impact",
+      "zen-headbutt",
+      "defog",
+      "iron-head",
+      "charge-beam",
+      "ominous-wind",
+      "flame-charge",
+      "round",
+      "echoed-voice",
+      "sky-drop",
+      "incinerate",
+      "bulldoze",
+      "confide",
+      "mystical-fire",
+      "laser-focus",
+      "dual-wingbeat",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/oranberry",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:hooh_tower",
+        "rate": "0.0"
+      }
+    }
+  ]
+}

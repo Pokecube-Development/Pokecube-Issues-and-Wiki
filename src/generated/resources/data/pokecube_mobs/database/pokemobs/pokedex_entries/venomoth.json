@@ -1,0 +1,206 @@
+{
+  "name": "venomoth",
+  "id": 49,
+  "stock": true,
+  "base_experience": 158,
+  "size": {
+    "height": 1.5,
+    "width": 1.5,
+    "length": 1.5
+  },
+  "mass": 12.5,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 70,
+    "attack": 65,
+    "defense": 60,
+    "special_attack": 90,
+    "special_defense": 75,
+    "speed": 90
+  },
+  "evs": {
+    "special_attack": 1,
+    "speed": 1
+  },
+  "types": [
+    "bug",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "shield-dust",
+      "tinted-lens"
+    ],
+    "hidden": [
+      "wonder-skin"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 0,
+        "moves": [
+          "gust"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "supersonic",
+          "disable",
+          "agility",
+          "screech",
+          "foresight",
+          "silver-wind",
+          "bug-buzz",
+          "quiver-dance"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "poison-powder"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "stun-spore"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "sleep-powder"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "leech-life"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "poison-fang"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "signal-beam"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "zen-headbutt"
+        ]
+      }
+    ],
+    "misc": [
+      "razor-wind",
+      "gust",
+      "whirlwind",
+      "headbutt",
+      "tackle",
+      "take-down",
+      "double-edge",
+      "supersonic",
+      "disable",
+      "psybeam",
+      "hyper-beam",
+      "mega-drain",
+      "solar-beam",
+      "poison-powder",
+      "stun-spore",
+      "sleep-powder",
+      "string-shot",
+      "toxic",
+      "confusion",
+      "psychic",
+      "rage",
+      "teleport",
+      "mimic",
+      "double-team",
+      "reflect",
+      "bide",
+      "swift",
+      "dream-eater",
+      "leech-life",
+      "flash",
+      "psywave",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "sludge-bomb",
+      "foresight",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "sweet-scent",
+      "hidden-power",
+      "twister",
+      "sunny-day",
+      "facade",
+      "skill-swap",
+      "secret-power",
+      "poison-fang",
+      "air-cutter",
+      "silver-wind",
+      "signal-beam",
+      "aerial-ace",
+      "roost",
+      "natural-gift",
+      "tailwind",
+      "u-turn",
+      "bug-buzz",
+      "energy-ball",
+      "giga-impact",
+      "zen-headbutt",
+      "defog",
+      "captivate",
+      "bug-bite",
+      "ominous-wind",
+      "venoshock",
+      "quiver-dance",
+      "round",
+      "acrobatics",
+      "struggle-bug",
+      "confide",
+      "infestation"
+    ]
+  },
+  "loot_table": "pokecube:entities/spider_eye"
+}

@@ -1,0 +1,20 @@
+{
+  "name": "maxstarfall",
+  "animations": [
+    {
+      "preset": "pons:pwitch:~maxstarfall",
+      "duration": "2",
+      "starttick": "0",
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.7
+    },
+    {
+      "preset": "pont:pwitch:~maxstarfall",
+      "duration": "3",
+      "starttick": "2"
+    }
+  ]
+}

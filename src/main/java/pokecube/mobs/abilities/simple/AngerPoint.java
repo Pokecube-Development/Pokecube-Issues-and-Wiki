@@ -2,16 +2,17 @@ package pokecube.mobs.abilities.simple;
 
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.moves.MovesUtils;
 
 public class AngerPoint extends Ability
 {
     @Override
-    public void onMoveUse(IPokemob mob, MovePacket move)
+    public void postMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        if (move.didCrit && mob == move.attacked) MovesUtils.handleStats2(mob, move.attacker.getEntity(),
-                IMoveConstants.ATTACK, IMoveConstants.RAISE);
+        if (!areWeUser(mob, move)) return;
+        if (move.didCrit)
+            MovesUtils.handleStats2(mob, move.getUser().getEntity(), IMoveConstants.ATTACK, IMoveConstants.RAISE);
     }
 }

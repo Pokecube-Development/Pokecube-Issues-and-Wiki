@@ -1,0 +1,196 @@
+{
+  "name": "ferroseed",
+  "id": 597,
+  "stock": true,
+  "base_experience": 61,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 18.8,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 44,
+    "attack": 50,
+    "defense": 91,
+    "special_attack": 24,
+    "special_defense": 86,
+    "speed": 10
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "grass",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "iron-barbs"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "harden"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "pin-missile"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "self-destruct"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "metal-claw"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "ingrain"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "gyro-ball"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "mirror-shot"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "flash-cannon"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "iron-head"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "pin-missile",
+      "leech-seed",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "toxic",
+      "double-team",
+      "harden",
+      "self-destruct",
+      "flash",
+      "explosion",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "spikes",
+      "giga-drain",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "metal-claw",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "facade",
+      "nature-power",
+      "ingrain",
+      "revenge",
+      "knock-off",
+      "endeavor",
+      "secret-power",
+      "bullet-seed",
+      "iron-defense",
+      "gravity",
+      "gyro-ball",
+      "payback",
+      "assurance",
+      "worry-seed",
+      "magnet-rise",
+      "rock-polish",
+      "poison-jab",
+      "seed-bomb",
+      "energy-ball",
+      "mirror-shot",
+      "flash-cannon",
+      "rock-climb",
+      "iron-head",
+      "stealth-rock",
+      "hone-claws",
+      "acid-spray",
+      "round",
+      "confide",
+      "steel-beam",
+      "steel-roller"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_seeds_1",
+  "evolutions": [
+    {
+      "name": "ferrothorn",
+      "level": 40,
+      "evoMoves": "powerwhip"
+    }
+  ]
+}

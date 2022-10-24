@@ -1,0 +1,236 @@
+{
+  "name": "pancham",
+  "id": 674,
+  "stock": true,
+  "base_experience": 70,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 8.0,
+  "is_default": true,
+  "capture_rate": 220,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 67,
+    "attack": 82,
+    "defense": 62,
+    "special_attack": 46,
+    "special_defense": 48,
+    "speed": 43
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "iron-fist",
+      "mold-breaker"
+    ],
+    "hidden": [
+      "scrappy"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 12,
+        "moves": [
+          "karate-chop"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "comet-punch"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "leer"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "vital-throw"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "arm-thrust"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "sky-uppercut"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "low-sweep"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "entrainment"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "circle-throw"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "work-up"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "parting-shot"
+        ]
+      }
+    ],
+    "misc": [
+      "karate-chop",
+      "comet-punch",
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "swords-dance",
+      "cut",
+      "mega-kick",
+      "tackle",
+      "body-slam",
+      "leer",
+      "roar",
+      "surf",
+      "low-kick",
+      "seismic-toss",
+      "strength",
+      "dig",
+      "toxic",
+      "double-team",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "spite",
+      "protect",
+      "sludge-bomb",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "vital-throw",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "uproar",
+      "torment",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "superpower",
+      "brick-break",
+      "knock-off",
+      "endeavor",
+      "snatch",
+      "secret-power",
+      "arm-thrust",
+      "hyper-voice",
+      "rock-tomb",
+      "sky-uppercut",
+      "aerial-ace",
+      "block",
+      "bulk-up",
+      "covet",
+      "payback",
+      "fling",
+      "me-first",
+      "dark-pulse",
+      "drain-punch",
+      "shadow-claw",
+      "zen-headbutt",
+      "gunk-shot",
+      "iron-head",
+      "stone-edge",
+      "grass-knot",
+      "storm-throw",
+      "low-sweep",
+      "foul-play",
+      "entrainment",
+      "round",
+      "echoed-voice",
+      "quick-guard",
+      "circle-throw",
+      "quash",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "dual-chop",
+      "parting-shot",
+      "confide",
+      "power-up-punch",
+      "power-trip",
+      "lash-out",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "pangoro",
+      "item_preset": "duskstone",
+      "evoMoves": "bulletpunch"
+    }
+  ]
+}

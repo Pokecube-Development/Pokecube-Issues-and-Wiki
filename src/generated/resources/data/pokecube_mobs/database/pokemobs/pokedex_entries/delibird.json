@@ -1,0 +1,144 @@
+{
+  "name": "delibird",
+  "id": 225,
+  "stock": true,
+  "base_experience": 116,
+  "size": {
+    "height": 0.9,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 16.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 45,
+    "attack": 55,
+    "defense": 45,
+    "special_attack": 65,
+    "special_defense": 45,
+    "speed": 75
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "ice",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "vital-spirit",
+      "hustle"
+    ],
+    "hidden": [
+      "insomnia"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 25,
+        "moves": [
+          "drill-peck"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "present"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "fly",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "ice-beam",
+      "blizzard",
+      "aurora-beam",
+      "drill-peck",
+      "counter",
+      "seismic-toss",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "mimic",
+      "double-team",
+      "swift",
+      "sky-attack",
+      "splash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "spikes",
+      "destiny-bond",
+      "icy-wind",
+      "detect",
+      "endure",
+      "rollout",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "present",
+      "frustration",
+      "baton-pass",
+      "rapid-spin",
+      "hidden-power",
+      "rain-dance",
+      "future-sight",
+      "fake-out",
+      "hail",
+      "memento",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "recycle",
+      "brick-break",
+      "secret-power",
+      "ice-ball",
+      "weather-ball",
+      "signal-beam",
+      "aerial-ace",
+      "icicle-spear",
+      "bounce",
+      "water-pulse",
+      "natural-gift",
+      "pluck",
+      "assurance",
+      "fling",
+      "seed-bomb",
+      "brave-bird",
+      "avalanche",
+      "ice-shard",
+      "defog",
+      "gunk-shot",
+      "captivate",
+      "round",
+      "bestow",
+      "frost-breath",
+      "drill-run",
+      "freeze-dry",
+      "confide",
+      "power-up-punch",
+      "brutal-swing",
+      "aurora-veil",
+      "triple-axel",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_1"
+}

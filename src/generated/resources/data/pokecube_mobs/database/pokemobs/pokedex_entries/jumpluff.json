@@ -1,0 +1,213 @@
+{
+  "name": "jumpluff",
+  "id": 189,
+  "stock": true,
+  "base_experience": 207,
+  "size": {
+    "height": 0.8,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 3.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 75,
+    "attack": 55,
+    "defense": 70,
+    "special_attack": 55,
+    "special_defense": 95,
+    "speed": 110
+  },
+  "evs": {
+    "speed": 3
+  },
+  "types": [
+    "grass",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "chlorophyll",
+      "leaf-guard"
+    ],
+    "hidden": [
+      "infiltrator"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 8,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tail-whip",
+          "absorb",
+          "splash",
+          "synthesis"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "poison-powder"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "stun-spore"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "sleep-powder"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "cotton-spore"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 69,
+        "moves": [
+          "memento"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "bullet-seed"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "u-turn"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "worry-seed"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "rage-powder"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "acrobatics"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "fairy-wind"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "headbutt",
+      "tackle",
+      "double-edge",
+      "tail-whip",
+      "hyper-beam",
+      "mega-drain",
+      "leech-seed",
+      "solar-beam",
+      "poison-powder",
+      "stun-spore",
+      "sleep-powder",
+      "toxic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "reflect",
+      "flash",
+      "splash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "cotton-spore",
+      "protect",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "psych-up",
+      "memento",
+      "facade",
+      "helping-hand",
+      "secret-power",
+      "silver-wind",
+      "bullet-seed",
+      "aerial-ace",
+      "bounce",
+      "natural-gift",
+      "u-turn",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "giga-impact",
+      "captivate",
+      "grass-knot",
+      "rage-powder",
+      "round",
+      "acrobatics",
+      "fairy-wind",
+      "confide",
+      "dazzling-gleam",
+      "infestation"
+    ]
+  },
+  "loot_table": "pokecube:entities/wool_2"
+}

@@ -1,0 +1,17 @@
+{
+  "name": "double-kick",
+  "id": 24,
+  "power": 30,
+  "pp": 30,
+  "priority": 0,
+  "type": "fighting",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The target is quickly kicked twice in succession\nusing both feet.",
+  "move_category": "damage",
+  "max_hits": 2,
+  "min_hits": 2,
+  "effect_text_extend": "Inflicts regular damage.  Hits twice in one turn.",
+  "effect_text_simple": "Hits twice in one turn."
+}

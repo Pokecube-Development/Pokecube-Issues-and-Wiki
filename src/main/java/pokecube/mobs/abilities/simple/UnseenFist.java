@@ -2,19 +2,18 @@ package pokecube.mobs.abilities.simple;
 
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.IMoveConstants;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.MoveApplication;
 
 public class UnseenFist extends Ability
 {
     @Override
-    public void onMoveUse(IPokemob mob, MovePacket move)
+    public void postMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        final Move_Base attack = move.getMove();
-
-        if (move.pre) return;
-        if (move.hit && attack.getAttackCategory(move.attacker) == IMoveConstants.CATEGORY_CONTACT)
+        if (!areWeTarget(mob, move)) return;
+        final MoveEntry attack = move.getMove();
+        if (move.hit && attack.getAttackCategory(move.getUser()) == IMoveConstants.CATEGORY_CONTACT)
         {
             move.failed = false;
         }

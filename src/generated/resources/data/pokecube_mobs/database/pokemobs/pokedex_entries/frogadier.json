@@ -1,0 +1,186 @@
+{
+  "name": "frogadier",
+  "id": 657,
+  "stock": true,
+  "base_experience": 142,
+  "size": {
+    "height": 0.6,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 10.9,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 54,
+    "attack": 63,
+    "defense": 52,
+    "special_attack": 83,
+    "special_defense": 56,
+    "speed": 97
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+      "protean"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "growl",
+          "bubble"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "double-team"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "smokescreen"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "lick"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "substitute"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "fling"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "smack-down"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "round"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "ice-punch",
+      "cut",
+      "growl",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "low-kick",
+      "strength",
+      "dig",
+      "toxic",
+      "quick-attack",
+      "double-team",
+      "smokescreen",
+      "lick",
+      "waterfall",
+      "bubble",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "icy-wind",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "rock-smash",
+      "facade",
+      "taunt",
+      "role-play",
+      "snatch",
+      "secret-power",
+      "dive",
+      "rock-tomb",
+      "aerial-ace",
+      "bounce",
+      "water-pulse",
+      "u-turn",
+      "fling",
+      "dark-pulse",
+      "gunk-shot",
+      "grass-knot",
+      "smack-down",
+      "round",
+      "echoed-voice",
+      "scald",
+      "acrobatics",
+      "water-pledge",
+      "work-up",
+      "confide",
+      "power-up-punch"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_2",
+  "evolutions": [
+    {
+      "name": "greninja",
+      "level": 36,
+      "animation": "9",
+      "evoMoves": "watershuriken"
+    }
+  ]
+}

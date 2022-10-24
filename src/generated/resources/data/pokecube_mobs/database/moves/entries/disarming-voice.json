@@ -1,0 +1,14 @@
+{
+  "name": "disarming-voice",
+  "id": 574,
+  "power": 40,
+  "pp": 15,
+  "priority": 0,
+  "type": "fairy",
+  "target": "all-opponents",
+  "damage_class": "special",
+  "flavor_text": "Letting out a charming cry, the user does emotional\ndamage to opposing Pokémon. This attack\nnever misses.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Ignores accuracy and evasion.",
+  "effect_text_simple": "Never misses."
+}

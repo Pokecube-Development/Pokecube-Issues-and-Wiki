@@ -1,0 +1,19 @@
+{
+  "name": "strange-steam",
+  "id": 790,
+  "power": 90,
+  "pp": 10,
+  "priority": 0,
+  "type": "fairy",
+  "accuracy": 95,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user attacks the target by emitting steam.\nThis may also confuse the target.",
+  "move_category": "damage+ailment",
+  "ailment_chance": 20,
+  "max_turns": 5,
+  "min_turns": 2,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to confuse the target.",
+  "effect_text_simple": "Has a $effect_chance% chance to confuse the target.",
+  "effect_chance": 20
+}

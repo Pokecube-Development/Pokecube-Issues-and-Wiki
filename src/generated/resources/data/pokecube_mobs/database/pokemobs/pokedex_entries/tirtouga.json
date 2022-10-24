@@ -1,0 +1,227 @@
+{
+  "name": "tirtouga",
+  "id": 564,
+  "stock": true,
+  "base_experience": 71,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 16.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 54,
+    "attack": 78,
+    "defense": 103,
+    "special_attack": 53,
+    "special_defense": 45,
+    "speed": 22
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "water",
+    "rock"
+  ],
+  "abilities": {
+    "normal": [
+      "solid-rock",
+      "sturdy"
+    ],
+    "hidden": [
+      "swift-swim"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 8,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "water-gun",
+          "withdraw",
+          "bide"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "wide-guard"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "smack-down"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "shell-smash"
+        ]
+      }
+    ],
+    "misc": [
+      "slam",
+      "body-slam",
+      "bite",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "strength",
+      "rock-throw",
+      "earthquake",
+      "dig",
+      "toxic",
+      "double-team",
+      "withdraw",
+      "bide",
+      "waterfall",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "flail",
+      "protect",
+      "icy-wind",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "crunch",
+      "ancient-power",
+      "rock-smash",
+      "whirlpool",
+      "facade",
+      "knock-off",
+      "secret-power",
+      "dive",
+      "rock-tomb",
+      "muddy-water",
+      "iron-defense",
+      "block",
+      "mud-shot",
+      "rock-blast",
+      "water-pulse",
+      "brine",
+      "guard-swap",
+      "rock-polish",
+      "aqua-tail",
+      "earth-power",
+      "zen-headbutt",
+      "stone-edge",
+      "stealth-rock",
+      "aqua-jet",
+      "wide-guard",
+      "smack-down",
+      "round",
+      "scald",
+      "shell-smash",
+      "bulldoze",
+      "confide",
+      "liquidation",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/fossil_mobshell_1",
+  "evolutions": [
+    {
+      "name": "carracosta",
+      "level": 37
+    }
+  ]
+}

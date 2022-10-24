@@ -1,0 +1,30 @@
+{
+  "name": "diamondstorm",
+  "animations": [
+    {
+      "preset": "flow:pmisc:cpink:d5:w3:~diamondstorm",
+      "duration": "3",
+      "starttick": "0",
+      "sound": "pokecube:moves.megaattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.8
+    },
+    {
+      "preset": "flow:pend_rod:cpink:d5:w4:l1:~diamondstorm",
+      "duration": "3",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pcrit:cpink:d0.05:w2:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~diamondstorm",
+      "duration": "2",
+      "starttick": "3",
+      "sound": "pokecube:moves.rocktomb",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8
+    }
+  ]
+}

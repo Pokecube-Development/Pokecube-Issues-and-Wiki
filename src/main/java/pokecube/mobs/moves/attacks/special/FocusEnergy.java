@@ -9,7 +9,7 @@ public class FocusEnergy extends Move_Basic
 
     public FocusEnergy()
     {
-        super("focusenergy");
+        super("focus-energy");
     }
 
     @Override

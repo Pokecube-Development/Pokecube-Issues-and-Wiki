@@ -1,0 +1,13 @@
+{
+  "name": "spiky-shield",
+  "id": 596,
+  "pp": 10,
+  "priority": 4,
+  "type": "grass",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "In addition to protecting the user from attacks, this\nmove also damages any attacker who makes\ndirect contact.",
+  "move_category": "unique",
+  "effect_text_extend": "Blocks damaging attacks and damages attacking Pokémon for 1/8 their max HP.",
+  "effect_text_simple": "Blocks damaging attacks and damages attacking Pokémon for 1/8 their max HP."
+}

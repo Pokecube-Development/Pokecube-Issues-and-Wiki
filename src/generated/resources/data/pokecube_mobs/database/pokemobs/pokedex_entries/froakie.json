@@ -1,0 +1,192 @@
+{
+  "name": "froakie",
+  "id": 656,
+  "stock": true,
+  "base_experience": 63,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 7.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 41,
+    "attack": 56,
+    "defense": 40,
+    "special_attack": 62,
+    "special_defense": 44,
+    "speed": 71
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+      "protean"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "growl"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "double-team"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "smokescreen"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "lick"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "bubble"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "substitute"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "fling"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "smack-down"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "round"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "cut",
+      "growl",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "strength",
+      "dig",
+      "toxic",
+      "quick-attack",
+      "double-team",
+      "smokescreen",
+      "lick",
+      "waterfall",
+      "bubble",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "mind-reader",
+      "snore",
+      "spite",
+      "protect",
+      "icy-wind",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "rock-smash",
+      "facade",
+      "taunt",
+      "role-play",
+      "snatch",
+      "secret-power",
+      "dive",
+      "camouflage",
+      "mud-sport",
+      "rock-tomb",
+      "aerial-ace",
+      "bounce",
+      "water-sport",
+      "water-pulse",
+      "u-turn",
+      "fling",
+      "toxic-spikes",
+      "grass-knot",
+      "smack-down",
+      "round",
+      "echoed-voice",
+      "scald",
+      "acrobatics",
+      "bestow",
+      "water-pledge",
+      "work-up",
+      "confide",
+      "power-up-punch"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1",
+  "evolutions": [
+    {
+      "name": "frogadier",
+      "level": 16,
+      "animation": "9"
+    }
+  ]
+}

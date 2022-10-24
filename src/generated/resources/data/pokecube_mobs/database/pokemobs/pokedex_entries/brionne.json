@@ -1,0 +1,193 @@
+{
+  "name": "brionne",
+  "id": 729,
+  "stock": true,
+  "base_experience": 147,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 17.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 60,
+    "attack": 69,
+    "defense": 69,
+    "special_attack": 91,
+    "special_defense": 81,
+    "speed": 50
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+      "liquid-voice"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "growl",
+          "water-gun",
+          "disarming-voice"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "double-slap"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "sing"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "icy-wind"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "encore"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "hyper-voice"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "captivate"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "misty-terrain"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "moonblast"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "baby-doll-eyes"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "double-slap",
+      "growl",
+      "sing",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "toxic",
+      "double-team",
+      "waterfall",
+      "amnesia",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "icy-wind",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "whirlpool",
+      "uproar",
+      "hail",
+      "facade",
+      "helping-hand",
+      "dive",
+      "hyper-voice",
+      "covet",
+      "water-pulse",
+      "brine",
+      "aqua-tail",
+      "captivate",
+      "aqua-jet",
+      "wonder-room",
+      "round",
+      "echoed-voice",
+      "scald",
+      "acrobatics",
+      "water-pledge",
+      "work-up",
+      "disarming-voice",
+      "draining-kiss",
+      "misty-terrain",
+      "play-rough",
+      "moonblast",
+      "confide",
+      "baby-doll-eyes",
+      "flip-turn",
+      "triple-axel"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_2",
+  "evolutions": [
+    {
+      "name": "primarina",
+      "level": 34,
+      "evoMoves": "sparklingaria"
+    }
+  ]
+}

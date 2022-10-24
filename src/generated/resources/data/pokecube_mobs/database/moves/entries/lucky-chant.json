@@ -1,0 +1,13 @@
+{
+  "name": "lucky-chant",
+  "id": 381,
+  "pp": 30,
+  "priority": 0,
+  "type": "normal",
+  "target": "users-field",
+  "damage_class": "status",
+  "flavor_text": "The user chants an incantation toward the sky,\npreventing opposing Pokémon from landing\ncritical hits for five turns.",
+  "move_category": "field-effect",
+  "effect_text_extend": "For five turns, opposing Pokémon cannot score critical hits.",
+  "effect_text_simple": "Prevents the target from scoring critical hits for five turns."
+}

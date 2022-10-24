@@ -1,0 +1,180 @@
+{
+  "name": "shroomish",
+  "id": 285,
+  "stock": true,
+  "base_experience": 59,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 4.5,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 70,
+  "growth_rate": "fast-then-very-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 40,
+    "defense": 60,
+    "special_attack": 40,
+    "special_defense": 60,
+    "speed": 35
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "effect-spore",
+      "poison-heal"
+    ],
+    "hidden": [
+      "quick-feet"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 15,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "absorb"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "poison-powder"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "stun-spore"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "spore"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "worry-seed"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "seed-bomb"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "absorb",
+      "mega-drain",
+      "leech-seed",
+      "growth",
+      "solar-beam",
+      "poison-powder",
+      "stun-spore",
+      "toxic",
+      "mimic",
+      "double-team",
+      "spore",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "sludge-bomb",
+      "giga-drain",
+      "endure",
+      "charm",
+      "false-swipe",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "snatch",
+      "secret-power",
+      "fake-tears",
+      "bullet-seed",
+      "wake-up-slap",
+      "natural-gift",
+      "worry-seed",
+      "seed-bomb",
+      "drain-punch",
+      "energy-ball",
+      "captivate",
+      "grass-knot",
+      "venoshock",
+      "round",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/both_shrooms_1",
+  "evolutions": [
+    {
+      "name": "breloom",
+      "level": 23,
+      "evoMoves": "machpunch"
+    }
+  ]
+}

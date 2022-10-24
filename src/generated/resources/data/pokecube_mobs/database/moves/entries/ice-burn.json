@@ -1,0 +1,17 @@
+{
+  "name": "ice-burn",
+  "id": 554,
+  "power": 140,
+  "pp": 5,
+  "priority": 0,
+  "type": "ice",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "On the second turn, an ultracold, freezing wind\nsurrounds the target. This may leave the target with\na burn.",
+  "move_category": "damage+ailment",
+  "ailment_chance": 30,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to burn the target.  User charges for one turn before attacking.",
+  "effect_text_simple": "Requires a turn to charge before attacking.  Has a $effect_chance% chance to burn the target.",
+  "effect_chance": 30
+}

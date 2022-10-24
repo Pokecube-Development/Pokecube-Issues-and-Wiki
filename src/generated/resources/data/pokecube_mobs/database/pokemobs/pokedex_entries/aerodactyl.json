@@ -1,0 +1,231 @@
+{
+  "name": "aerodactyl",
+  "id": 142,
+  "stock": true,
+  "base_experience": 180,
+  "size": {
+    "height": 1.8,
+    "width": 2.0,
+    "length": 2.0
+  },
+  "mass": 59.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 80,
+    "attack": 105,
+    "defense": 65,
+    "special_attack": 60,
+    "special_defense": 75,
+    "speed": 130
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "rock",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "rock-head",
+      "pressure"
+    ],
+    "hidden": [
+      "unnerve"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "wing-attack",
+          "bite",
+          "supersonic",
+          "scary-face",
+          "thunder-fang",
+          "ice-fang",
+          "fire-fang",
+          "iron-head"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "fly",
+          "sky-drop"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "rock-throw"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 73,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 81,
+        "moves": [
+          "giga-impact"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "stone-edge"
+        ]
+      }
+    ],
+    "misc": [
+      "razor-wind",
+      "wing-attack",
+      "whirlwind",
+      "fly",
+      "headbutt",
+      "take-down",
+      "double-edge",
+      "bite",
+      "roar",
+      "supersonic",
+      "flamethrower",
+      "hyper-beam",
+      "strength",
+      "dragon-rage",
+      "earthquake",
+      "toxic",
+      "agility",
+      "rage",
+      "mimic",
+      "double-team",
+      "reflect",
+      "bide",
+      "fire-blast",
+      "swift",
+      "sky-attack",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "scary-face",
+      "foresight",
+      "detect",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dragon-breath",
+      "pursuit",
+      "iron-tail",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "ancient-power",
+      "rock-smash",
+      "heat-wave",
+      "torment",
+      "facade",
+      "taunt",
+      "secret-power",
+      "air-cutter",
+      "rock-tomb",
+      "aerial-ace",
+      "dragon-claw",
+      "dragon-dance",
+      "rock-blast",
+      "roost",
+      "natural-gift",
+      "tailwind",
+      "payback",
+      "assurance",
+      "rock-polish",
+      "aqua-tail",
+      "dragon-pulse",
+      "earth-power",
+      "giga-impact",
+      "thunder-fang",
+      "ice-fang",
+      "fire-fang",
+      "defog",
+      "iron-head",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "ominous-wind",
+      "hone-claws",
+      "wide-guard",
+      "smack-down",
+      "round",
+      "sky-drop",
+      "incinerate",
+      "bulldoze",
+      "hurricane",
+      "confide",
+      "laser-focus",
+      "brutal-swing",
+      "psychic-fangs",
+      "meteor-beam",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/fossil_mob",
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "aerodactylmega"
+    }
+  ]
+}

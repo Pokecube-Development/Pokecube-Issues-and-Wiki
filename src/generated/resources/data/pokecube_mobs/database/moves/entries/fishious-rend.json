@@ -1,0 +1,13 @@
+{
+  "name": "fishious-rend",
+  "id": 755,
+  "power": 85,
+  "pp": 10,
+  "priority": 0,
+  "type": "water",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user rends the target with its hard gills.\nIf the user attacks before the target, the power of this\nmove is doubled.",
+  "move_category": "damage"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "lavaplume",
+  "animations": [
+    {
+      "preset": "flow:plava:~lavaplume",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.7
+    },
+    {
+      "preset": "flow:pflame:d1:w1:~lavaplume",
+      "duration": "0",
+      "starttick": "0",
+      "sound": "pokecube:moves.bubbleattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.7
+    }
+  ]
+}

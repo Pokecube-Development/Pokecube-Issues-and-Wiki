@@ -5,7 +5,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import thut.api.maths.Vector3;
@@ -15,7 +15,7 @@ public class DefaultElectricAction extends DefaultAction
 
     public static int ELECTRICSTRONG = 100;
 
-    public DefaultElectricAction(Move_Base move)
+    public DefaultElectricAction(MoveEntry move)
     {
         super(move);
     }

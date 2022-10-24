@@ -1,0 +1,220 @@
+{
+  "name": "nosepass",
+  "id": 299,
+  "stock": true,
+  "base_experience": 75,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 97.0,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 30,
+    "attack": 45,
+    "defense": 135,
+    "special_attack": 45,
+    "special_defense": 90,
+    "speed": 30
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "rock"
+  ],
+  "abilities": {
+    "normal": [
+      "sturdy",
+      "magnet-pull"
+    ],
+    "hidden": [
+      "sand-force"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "rock-throw"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "harden"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "zap-cannon",
+          "lock-on"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "sandstorm"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "block"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "rock-blast"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "stone-edge"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "rock-throw",
+      "earthquake",
+      "toxic",
+      "mimic",
+      "double-team",
+      "harden",
+      "defense-curl",
+      "self-destruct",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "lock-on",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "spark",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "magnitude",
+      "dynamic-punch",
+      "hidden-power",
+      "sunny-day",
+      "ancient-power",
+      "rock-smash",
+      "torment",
+      "facade",
+      "taunt",
+      "magic-coat",
+      "secret-power",
+      "rock-tomb",
+      "iron-defense",
+      "block",
+      "rock-blast",
+      "shock-wave",
+      "gravity",
+      "natural-gift",
+      "magnet-rise",
+      "rock-polish",
+      "power-gem",
+      "earth-power",
+      "discharge",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "head-smash",
+      "wide-guard",
+      "smack-down",
+      "round",
+      "volt-switch",
+      "bulldoze",
+      "confide",
+      "dazzling-gleam",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/stone_1",
+  "evolutions": [
+    {
+      "name": "probopass",
+      "location": {
+        "and_preset": "industrial"
+      },
+      "evoMoves": "Tri Attack"
+    }
+  ]
+}

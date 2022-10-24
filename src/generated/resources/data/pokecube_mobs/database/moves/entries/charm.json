@@ -1,0 +1,14 @@
+{
+  "name": "charm",
+  "id": 204,
+  "pp": 20,
+  "priority": 0,
+  "type": "fairy",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user gazes at the target rather charmingly,\nmaking it less wary. This harshly lowers its\nAttack stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Lowers the target's Attack by two stages.",
+  "effect_text_simple": "Lowers the target's Attack by two stages."
+}

@@ -1,0 +1,15 @@
+{
+  "name": "mistyterrain",
+  "animations": [
+    {
+      "preset": "cartFunc:pexplosion_emitter:cpink:d0.03:w4:rtrue:f(0.5-rand())*(5),(0.5-rand())*(5),(0.5-rand())*(5):~mistyterrain",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pmisc:cpink:d0.023:w4:rtrue:l650:f(0.5-rand())*(18),(0.5-rand())*(8),(0.5-rand())*(18):~mistyterrain",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

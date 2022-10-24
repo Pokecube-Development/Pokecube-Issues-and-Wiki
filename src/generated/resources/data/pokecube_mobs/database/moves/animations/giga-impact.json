@@ -1,0 +1,35 @@
+{
+  "name": "gigaimpact",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d0.09:l5:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3):~gigaimpact",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.7
+    },
+    {
+      "preset": "cartFunc:pexplosion_emitter:d0.2:l55:f(0.5-rand())*(5),(0.5-rand())*(3),(0.5-rand())*(5):~gigaimpact",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.rocktomb",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8
+    },
+    {
+      "preset": "cartFunc:pcloud:d0.07:l55:f(0.5-rand())*(5),(0.5-rand())*(3),(0.5-rand())*(5):~gigaimpact",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.rocksmash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8
+    }
+  ]
+}

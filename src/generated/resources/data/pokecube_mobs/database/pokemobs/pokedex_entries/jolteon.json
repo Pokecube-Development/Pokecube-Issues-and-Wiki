@@ -1,0 +1,220 @@
+{
+  "name": "jolteon",
+  "id": 135,
+  "stock": true,
+  "base_experience": 184,
+  "size": {
+    "height": 0.8,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 24.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 65,
+    "attack": 65,
+    "defense": 60,
+    "special_attack": 110,
+    "special_defense": 95,
+    "speed": 130
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "volt-absorb"
+    ],
+    "hidden": [
+      "quick-feet"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 17,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "sand-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "take-down",
+          "double-edge",
+          "tail-whip",
+          "bite",
+          "growl",
+          "swift",
+          "charm",
+          "baton-pass",
+          "helping-hand",
+          "yawn",
+          "covet",
+          "copycat"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "pin-missile"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "thunder-shock"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "thunder"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "last-resort"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "thunder-fang"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "baby-doll-eyes"
+        ]
+      }
+    ],
+    "misc": [
+      "pay-day",
+      "double-kick",
+      "sand-attack",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "tail-whip",
+      "pin-missile",
+      "growl",
+      "roar",
+      "hyper-beam",
+      "strength",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "rage",
+      "mimic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "focus-energy",
+      "bide",
+      "swift",
+      "skull-bash",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "detect",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "baton-pass",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "rock-smash",
+      "facade",
+      "helping-hand",
+      "secret-power",
+      "hyper-voice",
+      "weather-ball",
+      "fake-tears",
+      "signal-beam",
+      "covet",
+      "shock-wave",
+      "natural-gift",
+      "last-resort",
+      "magnet-rise",
+      "giga-impact",
+      "thunder-fang",
+      "discharge",
+      "captivate",
+      "charge-beam",
+      "electro-ball",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "retaliate",
+      "volt-switch",
+      "work-up",
+      "wild-charge",
+      "confide",
+      "baby-doll-eyes",
+      "laser-focus",
+      "rising-voltage"
+    ]
+  },
+  "loot_table": "pokecube:entities/glow_rabbit_1"
+}

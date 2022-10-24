@@ -73,6 +73,41 @@ public class PokedexEntryLoader
     public static interface IMergeable<T>
     {
         T mergeFrom(@Nullable T other);
+
+        default void mergeBasic(T other)
+        {
+            Field fields[] = new Field[] {};
+            try
+            {
+                // returns the array of Field objects representing the public
+                // fields
+                fields = this.getClass().getDeclaredFields();
+            }
+            catch (final Exception e)
+            {
+                e.printStackTrace();
+            }
+
+            var def = new JsonPokedexEntry();
+
+            for (final Field field : fields) try
+            {
+                if (Modifier.isFinal(field.getModifiers())) continue;
+                if (Modifier.isStatic(field.getModifiers())) continue;
+                if (Modifier.isTransient(field.getModifiers())) continue;
+                var theirs = field.get(other);
+
+                if (theirs != null)
+                {
+                    if (ClassUtils.isPrimitiveOrWrapper(theirs.getClass()) && theirs == field.get(def)) continue;
+                    field.set(this, theirs);
+                }
+            }
+            catch (final Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 
     @XmlRootElement(name = "Drop")
@@ -147,7 +182,7 @@ public class PokedexEntryLoader
         public String expMode;
 
         public Integer genderRatio = -1;
-        
+
         // MISC
 
         @ManualCopy

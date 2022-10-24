@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:wooper",
+    "pokecube:quagsire",
+    "pokecube:mudkip",
+    "pokecube:marshtomp",
+    "pokecube:swampert",
+    "pokecube:swampert-mega"
+  ]
+}

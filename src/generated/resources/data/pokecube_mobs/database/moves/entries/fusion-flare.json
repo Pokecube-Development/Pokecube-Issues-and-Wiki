@@ -1,0 +1,15 @@
+{
+  "name": "fusion-flare",
+  "id": 558,
+  "power": 100,
+  "pp": 5,
+  "priority": 0,
+  "type": "fire",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user brings down a giant flame. This move’s\npower is increased when influenced by an enormous\nlightning bolt.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  If a friendly Pokémon used fusion bolt earlier this turn, this move has double power.",
+  "effect_text_simple": "With Fusion Bolt, inflicts double damage."
+}

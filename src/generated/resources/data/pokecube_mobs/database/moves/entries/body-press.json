@@ -1,0 +1,13 @@
+{
+  "name": "body-press",
+  "id": 776,
+  "power": 80,
+  "pp": 10,
+  "priority": 0,
+  "type": "fighting",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user attacks by slamming its body into the target.\nThe higher the user’s Defense, the more damage it can\ninflict on the target.",
+  "move_category": "damage"
+}

@@ -1,0 +1,185 @@
+{
+  "name": "dustox",
+  "id": 269,
+  "stock": true,
+  "base_experience": 173,
+  "size": {
+    "height": 1.2,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 31.6,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 50,
+    "defense": 70,
+    "special_attack": 50,
+    "special_defense": 90,
+    "speed": 65
+  },
+  "evs": {
+    "special_defense": 3
+  },
+  "types": [
+    "bug",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "shield-dust"
+    ],
+    "hidden": [
+      "compound-eyes"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 0,
+        "moves": [
+          "gust"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "whirlwind"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "poison-powder"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "moonlight"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "silver-wind"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "venoshock"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "quiver-dance"
+        ]
+      }
+    ],
+    "misc": [
+      "gust",
+      "whirlwind",
+      "double-edge",
+      "psybeam",
+      "hyper-beam",
+      "solar-beam",
+      "poison-powder",
+      "string-shot",
+      "toxic",
+      "confusion",
+      "psychic",
+      "mimic",
+      "double-team",
+      "light-screen",
+      "swift",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "sludge-bomb",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "moonlight",
+      "hidden-power",
+      "twister",
+      "sunny-day",
+      "shadow-ball",
+      "facade",
+      "secret-power",
+      "air-cutter",
+      "silver-wind",
+      "signal-beam",
+      "aerial-ace",
+      "roost",
+      "natural-gift",
+      "tailwind",
+      "u-turn",
+      "bug-buzz",
+      "energy-ball",
+      "giga-impact",
+      "defog",
+      "captivate",
+      "bug-bite",
+      "ominous-wind",
+      "venoshock",
+      "quiver-dance",
+      "round",
+      "acrobatics",
+      "struggle-bug",
+      "electroweb",
+      "confide",
+      "infestation",
+      "laser-focus"
+    ]
+  },
+  "loot_table": "minecraft:entities/spider"
+}

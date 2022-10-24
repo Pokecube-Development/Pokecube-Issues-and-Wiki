@@ -18,7 +18,7 @@ import net.minecraft.world.level.Level;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.LogicStates;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.inventory.pokemob.PokemobInventory;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.entity.ai.ITask;

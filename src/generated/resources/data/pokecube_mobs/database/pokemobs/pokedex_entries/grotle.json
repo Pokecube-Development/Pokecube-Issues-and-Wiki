@@ -1,0 +1,173 @@
+{
+  "name": "grotle",
+  "id": 388,
+  "stock": true,
+  "base_experience": 142,
+  "size": {
+    "height": 1.1,
+    "width": 1.1,
+    "length": 1.1
+  },
+  "mass": 97.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 75,
+    "attack": 89,
+    "defense": 85,
+    "special_attack": 55,
+    "special_defense": 65,
+    "speed": 36
+  },
+  "evs": {
+    "attack": 1,
+    "defense": 1
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "shell-armor"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "absorb",
+          "withdraw"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "leaf-storm"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "headbutt",
+      "tackle",
+      "bite",
+      "strength",
+      "absorb",
+      "mega-drain",
+      "leech-seed",
+      "razor-leaf",
+      "solar-beam",
+      "toxic",
+      "double-team",
+      "withdraw",
+      "light-screen",
+      "reflect",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "facade",
+      "nature-power",
+      "superpower",
+      "secret-power",
+      "bullet-seed",
+      "natural-gift",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "earth-power",
+      "rock-climb",
+      "leaf-storm",
+      "captivate",
+      "stealth-rock",
+      "grass-knot",
+      "round",
+      "grass-pledge",
+      "work-up",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/shellseed_2",
+  "evolutions": [
+    {
+      "name": "torterra",
+      "level": 32,
+      "animation": "18",
+      "evoMoves": "earthquake"
+    }
+  ]
+}

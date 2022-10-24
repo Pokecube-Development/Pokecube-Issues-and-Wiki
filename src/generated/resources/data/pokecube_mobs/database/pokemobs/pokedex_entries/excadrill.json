@@ -1,0 +1,199 @@
+{
+  "name": "excadrill",
+  "id": 530,
+  "stock": true,
+  "base_experience": 178,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 40.4,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 110,
+    "attack": 135,
+    "defense": 60,
+    "special_attack": 50,
+    "special_defense": 65,
+    "speed": 88
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "ground",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "sand-rush",
+      "sand-force"
+    ],
+    "hidden": [
+      "mold-breaker"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "mud-slap",
+          "rapid-spin",
+          "mud-sport",
+          "rototiller"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "horn-drill"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "fissure"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "dig"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "sandstorm"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "metal-claw"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "crush-claw"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "drill-run"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "swords-dance",
+      "cut",
+      "horn-drill",
+      "hyper-beam",
+      "strength",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "double-team",
+      "fury-swipes",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "rapid-spin",
+      "metal-claw",
+      "hidden-power",
+      "rock-smash",
+      "facade",
+      "brick-break",
+      "secret-power",
+      "mud-sport",
+      "rock-tomb",
+      "sand-tomb",
+      "aerial-ace",
+      "iron-defense",
+      "mud-shot",
+      "rock-blast",
+      "fling",
+      "magnet-rise",
+      "poison-jab",
+      "x-scissor",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "shadow-claw",
+      "iron-head",
+      "stealth-rock",
+      "hone-claws",
+      "round",
+      "bulldoze",
+      "drill-run",
+      "rototiller",
+      "confide",
+      "high-horsepower",
+      "smart-strike",
+      "brutal-swing",
+      "stomping-tantrum",
+      "steel-beam",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1"
+}

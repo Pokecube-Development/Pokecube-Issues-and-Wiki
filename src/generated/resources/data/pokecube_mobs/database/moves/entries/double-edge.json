@@ -1,0 +1,16 @@
+{
+  "name": "double-edge",
+  "id": 38,
+  "power": 120,
+  "pp": 15,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "A reckless, life-risking tackle. This also damages the\nuser quite a lot.",
+  "move_category": "damage",
+  "drain": -33,
+  "effect_text_extend": "Inflicts regular damage.  User takes 1/3 the damage it inflicts in recoil.",
+  "effect_text_simple": "User receives 1/3 the damage inflicted in recoil."
+}

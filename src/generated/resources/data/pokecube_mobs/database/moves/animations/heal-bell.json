@@ -1,0 +1,10 @@
+{
+  "name": "healbell",
+  "animations": [
+    {
+      "preset": "pons:pspell:d1:~healbell",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

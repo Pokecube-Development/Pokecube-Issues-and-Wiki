@@ -1,0 +1,191 @@
+{
+  "name": "sharpedo-mega",
+  "id": 319,
+  "stock": true,
+  "base_experience": 196,
+  "size": {
+    "height": 2.5,
+    "width": 2.5,
+    "length": 2.5
+  },
+  "mass": 130.3,
+  "is_default": false,
+  "capture_rate": 60,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 70,
+    "attack": 140,
+    "defense": 70,
+    "special_attack": 110,
+    "special_defense": 65,
+    "speed": 105
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "water",
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "strong-jaw"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "bite",
+          "rage",
+          "focus-energy",
+          "feint",
+          "night-slash"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "skull-bash"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "poison-fang"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "ice-fang"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "aqua-jet"
+        ]
+      }
+    ],
+    "misc": [
+      "leer",
+      "bite",
+      "roar",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "strength",
+      "earthquake",
+      "toxic",
+      "agility",
+      "rage",
+      "screech",
+      "double-team",
+      "focus-energy",
+      "waterfall",
+      "skull-bash",
+      "rest",
+      "super-fang",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "scary-face",
+      "icy-wind",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "crunch",
+      "rock-smash",
+      "uproar",
+      "hail",
+      "torment",
+      "facade",
+      "taunt",
+      "secret-power",
+      "dive",
+      "poison-fang",
+      "rock-tomb",
+      "bounce",
+      "water-pulse",
+      "feint",
+      "payback",
+      "assurance",
+      "poison-jab",
+      "dark-pulse",
+      "night-slash",
+      "giga-impact",
+      "ice-fang",
+      "zen-headbutt",
+      "aqua-jet",
+      "round",
+      "scald",
+      "retaliate",
+      "bulldoze",
+      "snarl",
+      "confide",
+      "liquidation"
+    ]
+  },
+  "old_name": "sharpedo_mega"
+}

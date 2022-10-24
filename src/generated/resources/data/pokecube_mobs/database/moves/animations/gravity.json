@@ -1,0 +1,20 @@
+{
+  "name": "gravity",
+  "animations": [
+    {
+      "preset": "pons:pwitch:d1:w1:l5:~gravity",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8
+    },
+    {
+      "preset": "pons:penchantmenttable:d1:w1:l5:~gravity",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

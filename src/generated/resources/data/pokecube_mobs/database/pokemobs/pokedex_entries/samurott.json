@@ -1,0 +1,222 @@
+{
+  "name": "samurott",
+  "id": 503,
+  "stock": true,
+  "base_experience": 238,
+  "size": {
+    "height": 1.5,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 94.6,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 95,
+    "attack": 100,
+    "defense": 85,
+    "special_attack": 108,
+    "special_defense": 70,
+    "speed": 70
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+      "shell-armor"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 58,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "tail-whip",
+          "water-gun",
+          "megahorn",
+          "water-sport"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "encore"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "revenge"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "retaliate"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "razor-shell"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "tackle",
+      "tail-whip",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "strength",
+      "dig",
+      "toxic",
+      "double-team",
+      "focus-energy",
+      "waterfall",
+      "rest",
+      "slash",
+      "substitute",
+      "snore",
+      "protect",
+      "icy-wind",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "megahorn",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "rock-smash",
+      "hail",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "superpower",
+      "revenge",
+      "knock-off",
+      "secret-power",
+      "dive",
+      "hydro-cannon",
+      "aerial-ace",
+      "block",
+      "covet",
+      "water-sport",
+      "water-pulse",
+      "fling",
+      "aqua-tail",
+      "x-scissor",
+      "giga-impact",
+      "grass-knot",
+      "aqua-jet",
+      "round",
+      "scald",
+      "retaliate",
+      "water-pledge",
+      "dragon-tail",
+      "work-up",
+      "razor-shell",
+      "confide",
+      "smart-strike",
+      "liquidation"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_3",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

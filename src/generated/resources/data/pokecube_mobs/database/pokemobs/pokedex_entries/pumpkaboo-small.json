@@ -1,0 +1,196 @@
+{
+  "name": "pumpkaboo-small",
+  "id": 710,
+  "stock": true,
+  "base_experience": 67,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 3.5,
+  "is_default": false,
+  "capture_rate": 120,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 44,
+    "attack": 66,
+    "defense": 70,
+    "special_attack": 44,
+    "special_defense": 55,
+    "speed": 56
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "ghost",
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "pickup",
+      "frisk"
+    ],
+    "hidden": [
+      "insomnia"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 20,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "confuse-ray",
+          "trick",
+          "astonish"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "pain-split"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "bullet-seed"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "worry-seed"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "seed-bomb"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "shadow-sneak"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "trick-or-treat"
+        ]
+      }
+    ],
+    "misc": [
+      "disable",
+      "flamethrower",
+      "leech-seed",
+      "razor-leaf",
+      "solar-beam",
+      "toxic",
+      "psychic",
+      "double-team",
+      "confuse-ray",
+      "light-screen",
+      "fire-blast",
+      "dream-eater",
+      "flash",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "spite",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "destiny-bond",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "shadow-ball",
+      "rock-smash",
+      "will-o-wisp",
+      "facade",
+      "nature-power",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "skill-swap",
+      "imprison",
+      "secret-power",
+      "astonish",
+      "bullet-seed",
+      "gyro-ball",
+      "worry-seed",
+      "dark-pulse",
+      "seed-bomb",
+      "energy-ball",
+      "shadow-sneak",
+      "trick-room",
+      "grass-knot",
+      "charge-beam",
+      "telekinesis",
+      "flame-charge",
+      "foul-play",
+      "round",
+      "ally-switch",
+      "hex",
+      "incinerate",
+      "bestow",
+      "trick-or-treat",
+      "confide",
+      "mystical-fire",
+      "grassy-glide",
+      "skitter-smack",
+      "poltergeist"
+    ]
+  },
+  "loot_table": "pokecube:entities/other_seeds",
+  "evolutions": [
+    {
+      "name": "gourgeist-small",
+      "trade": true
+    }
+  ],
+  "old_name": "pumpkaboo_small"
+}

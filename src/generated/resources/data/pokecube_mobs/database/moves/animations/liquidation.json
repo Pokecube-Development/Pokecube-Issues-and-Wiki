@@ -1,0 +1,49 @@
+{
+  "name": "liquidation",
+  "animations": [
+    {
+      "preset": "cartFunc:psweep_attack:atrue:l2:~liquidation",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:psplash:d0.2:atrue:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~liquidation",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.bubbleattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:psweep_attack:atrue:l2:~liquidation",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:psplash:d0.2:atrue:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~liquidation",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.bubbleattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "applyAfter": false
+    }
+  ]
+}

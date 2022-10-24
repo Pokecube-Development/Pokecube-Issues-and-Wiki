@@ -1,0 +1,15 @@
+{
+  "name": "snipeshot",
+  "animations": [
+    {
+      "preset": "beam:psplash:~snipeshot",
+      "duration": "3",
+      "starttick": "0",
+      "sound": "pokecube:moves.waterpulse",
+      "soundSource": true,
+      "soundTarget": true,
+      "volume": 1.2,
+      "pitch": 1.5
+    }
+  ]
+}

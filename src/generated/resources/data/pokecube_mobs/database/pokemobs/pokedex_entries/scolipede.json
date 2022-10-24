@@ -1,0 +1,207 @@
+{
+  "name": "scolipede",
+  "id": 545,
+  "stock": true,
+  "base_experience": 243,
+  "size": {
+    "height": 2.5,
+    "width": 1.0,
+    "length": 2.5
+  },
+  "mass": 200.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 100,
+    "defense": 89,
+    "special_attack": 55,
+    "special_defense": 69,
+    "speed": 112
+  },
+  "evs": {
+    "speed": 3
+  },
+  "types": [
+    "bug",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "poison-point",
+      "swarm"
+    ],
+    "hidden": [
+      "speed-boost"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 34,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "poison-sting",
+          "screech",
+          "defense-curl",
+          "rollout",
+          "megahorn",
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "baton-pass"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "poison-tail"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "rock-climb"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "venoshock"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "steamroller"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "venom-drench"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "double-edge",
+      "poison-sting",
+      "pin-missile",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "earthquake",
+      "dig",
+      "toxic",
+      "agility",
+      "screech",
+      "double-team",
+      "defense-curl",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "sludge-bomb",
+      "spikes",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "megahorn",
+      "baton-pass",
+      "pursuit",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "facade",
+      "superpower",
+      "endeavor",
+      "snatch",
+      "secret-power",
+      "rock-tomb",
+      "signal-beam",
+      "iron-defense",
+      "poison-tail",
+      "gyro-ball",
+      "payback",
+      "assurance",
+      "toxic-spikes",
+      "poison-jab",
+      "aqua-tail",
+      "x-scissor",
+      "giga-impact",
+      "rock-climb",
+      "cross-poison",
+      "bug-bite",
+      "venoshock",
+      "round",
+      "hex",
+      "struggle-bug",
+      "bulldoze",
+      "steamroller",
+      "confide",
+      "venom-drench",
+      "infestation",
+      "throat-chop",
+      "smart-strike",
+      "stomping-tantrum",
+      "steel-roller",
+      "skitter-smack"
+    ]
+  },
+  "loot_table": "minecraft:entities/spider"
+}

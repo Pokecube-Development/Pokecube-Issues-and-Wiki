@@ -1,0 +1,185 @@
+{
+  "name": "sandslash-alola",
+  "id": 28,
+  "stock": true,
+  "base_experience": 158,
+  "size": {
+    "height": 1.2,
+    "width": 1.0,
+    "length": 1.2
+  },
+  "mass": 55.0,
+  "is_default": false,
+  "capture_rate": 90,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 75,
+    "attack": 100,
+    "defense": 120,
+    "special_attack": 25,
+    "special_defense": 65,
+    "speed": 65
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "ice",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "snow-cloak"
+    ],
+    "hidden": [
+      "slush-rush"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "swords-dance",
+          "mist",
+          "blizzard",
+          "counter",
+          "defense-curl",
+          "bide",
+          "swift",
+          "fury-swipes",
+          "slash",
+          "powder-snow",
+          "rollout",
+          "fury-cutter",
+          "rapid-spin",
+          "metal-claw",
+          "hail",
+          "ice-ball",
+          "iron-defense",
+          "gyro-ball",
+          "metal-burst",
+          "ice-shard",
+          "iron-head",
+          "icicle-crash"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "icicle-spear"
+        ]
+      }
+    ],
+    "misc": [
+      "ice-punch",
+      "scratch",
+      "swords-dance",
+      "headbutt",
+      "body-slam",
+      "pin-missile",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "seismic-toss",
+      "earthquake",
+      "dig",
+      "toxic",
+      "agility",
+      "double-team",
+      "defense-curl",
+      "swift",
+      "amnesia",
+      "leech-life",
+      "rest",
+      "rock-slide",
+      "super-fang",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "spikes",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "metal-claw",
+      "hidden-power",
+      "sunny-day",
+      "hail",
+      "facade",
+      "focus-punch",
+      "brick-break",
+      "knock-off",
+      "ice-ball",
+      "rock-tomb",
+      "aerial-ace",
+      "icicle-spear",
+      "iron-defense",
+      "covet",
+      "gyro-ball",
+      "metal-burst",
+      "fling",
+      "poison-jab",
+      "aqua-tail",
+      "x-scissor",
+      "focus-blast",
+      "giga-impact",
+      "avalanche",
+      "shadow-claw",
+      "iron-head",
+      "stealth-rock",
+      "round",
+      "bulldoze",
+      "frost-breath",
+      "work-up",
+      "drill-run",
+      "icicle-crash",
+      "confide",
+      "throat-chop",
+      "aurora-veil",
+      "steel-beam",
+      "steel-roller",
+      "triple-axel"
+    ]
+  },
+  "loot_table": "pokecube:entities/snow_rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "old_name": "sandslash_alola"
+}

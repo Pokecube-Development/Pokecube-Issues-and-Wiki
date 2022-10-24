@@ -1,0 +1,14 @@
+{
+  "name": "vital-throw",
+  "id": 233,
+  "power": 70,
+  "pp": 10,
+  "priority": -1,
+  "type": "fighting",
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user attacks last. In return, this throw move\nnever misses.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Ignores accuracy and evasion modifiers.",
+  "effect_text_simple": "Never misses."
+}

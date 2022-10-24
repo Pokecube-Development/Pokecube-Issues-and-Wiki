@@ -1,0 +1,196 @@
+{
+  "name": "karrablast",
+  "id": 588,
+  "stock": true,
+  "base_experience": 63,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 5.9,
+  "is_default": true,
+  "capture_rate": 200,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 50,
+    "attack": 75,
+    "defense": 45,
+    "special_attack": 40,
+    "special_defense": 45,
+    "speed": 60
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "bug"
+  ],
+  "abilities": {
+    "normal": [
+      "swarm",
+      "shed-skin"
+    ],
+    "hidden": [
+      "no-guard"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 52,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "fury-attack",
+          "acid-spray"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "peck"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "false-swipe"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "x-scissor"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "bug-buzz"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "headbutt",
+      "horn-attack",
+      "fury-attack",
+      "take-down",
+      "double-edge",
+      "leer",
+      "peck",
+      "counter",
+      "toxic",
+      "screech",
+      "double-team",
+      "rest",
+      "slash",
+      "substitute",
+      "snore",
+      "flail",
+      "protect",
+      "scary-face",
+      "feint-attack",
+      "giga-drain",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "megahorn",
+      "encore",
+      "pursuit",
+      "hidden-power",
+      "rain-dance",
+      "facade",
+      "knock-off",
+      "secret-power",
+      "signal-beam",
+      "aerial-ace",
+      "iron-defense",
+      "poison-jab",
+      "night-slash",
+      "x-scissor",
+      "bug-buzz",
+      "energy-ball",
+      "bug-bite",
+      "round",
+      "struggle-bug",
+      "drill-run",
+      "confide",
+      "infestation"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "escavalier",
+      "trade": true
+    }
+  ]
+}

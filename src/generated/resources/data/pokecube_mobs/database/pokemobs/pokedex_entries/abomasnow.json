@@ -1,0 +1,192 @@
+{
+  "name": "abomasnow",
+  "id": 460,
+  "stock": true,
+  "base_experience": 173,
+  "size": {
+    "height": 2.2,
+    "width": 1.5,
+    "length": 1.5
+  },
+  "mass": 135.5,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 90,
+    "attack": 92,
+    "defense": 75,
+    "special_attack": 92,
+    "special_defense": 85,
+    "speed": 60
+  },
+  "evs": {
+    "attack": 1,
+    "special_attack": 1
+  },
+  "types": [
+    "grass",
+    "ice"
+  ],
+  "abilities": {
+    "normal": [
+      "snow-warning"
+    ],
+    "hidden": [
+      "soundproof"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "ice-punch",
+          "leer",
+          "razor-leaf",
+          "powder-snow",
+          "icy-wind",
+          "leafage",
+          "aurora-veil"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "mist"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "ingrain"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "grass-whistle"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "sheer-cold"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "ice-shard"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "wood-hammer"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "swords-dance",
+      "mega-kick",
+      "headbutt",
+      "leer",
+      "mist",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "strength",
+      "razor-leaf",
+      "solar-beam",
+      "earthquake",
+      "toxic",
+      "double-team",
+      "light-screen",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "powder-snow",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "outrage",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "synthesis",
+      "hidden-power",
+      "rain-dance",
+      "shadow-ball",
+      "rock-smash",
+      "hail",
+      "facade",
+      "focus-punch",
+      "role-play",
+      "ingrain",
+      "brick-break",
+      "secret-power",
+      "weather-ball",
+      "rock-tomb",
+      "grass-whistle",
+      "sheer-cold",
+      "bullet-seed",
+      "icicle-spear",
+      "block",
+      "magical-leaf",
+      "water-pulse",
+      "natural-gift",
+      "fling",
+      "worry-seed",
+      "seed-bomb",
+      "focus-blast",
+      "energy-ball",
+      "earth-power",
+      "giga-impact",
+      "avalanche",
+      "ice-shard",
+      "rock-climb",
+      "leaf-storm",
+      "captivate",
+      "grass-knot",
+      "wood-hammer",
+      "round",
+      "bulldoze",
+      "frost-breath",
+      "confide",
+      "stomping-tantrum",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/snow_rabbit_2",
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "abomasnowmega"
+    }
+  ]
+}

@@ -1,0 +1,213 @@
+{
+  "name": "graveler-alola",
+  "id": 75,
+  "stock": true,
+  "base_experience": 137,
+  "size": {
+    "height": 1.0
+  },
+  "mass": 110.0,
+  "is_default": false,
+  "capture_rate": 120,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 55,
+    "attack": 95,
+    "defense": 115,
+    "special_attack": 45,
+    "special_defense": 45,
+    "speed": 35
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "rock",
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "magnet-pull",
+      "sturdy"
+    ],
+    "hidden": [
+      "galvanize"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 22,
+        "moves": [
+          "thunder-punch"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "thunder-shock",
+          "defense-curl",
+          "bide",
+          "charge",
+          "rock-polish"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "rock-throw"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "self-destruct"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "rock-blast"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "smack-down"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "thunder-punch",
+      "headbutt",
+      "tackle",
+      "double-edge",
+      "flamethrower",
+      "seismic-toss",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "rock-throw",
+      "earthquake",
+      "dig",
+      "toxic",
+      "double-team",
+      "defense-curl",
+      "bide",
+      "self-destruct",
+      "fire-blast",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "sandstorm",
+      "rollout",
+      "swagger",
+      "spark",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "sunny-day",
+      "facade",
+      "focus-punch",
+      "nature-power",
+      "charge",
+      "superpower",
+      "brick-break",
+      "rock-tomb",
+      "iron-defense",
+      "block",
+      "rock-blast",
+      "shock-wave",
+      "gyro-ball",
+      "fling",
+      "magnet-rise",
+      "rock-polish",
+      "earth-power",
+      "discharge",
+      "stone-edge",
+      "stealth-rock",
+      "charge-beam",
+      "smack-down",
+      "round",
+      "ally-switch",
+      "volt-switch",
+      "bulldoze",
+      "electroweb",
+      "confide",
+      "brutal-swing",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/stone_gold",
+  "evolutions": [
+    {
+      "name": "golem-alola",
+      "trade": true
+    }
+  ],
+  "old_name": "graveler_alola"
+}

@@ -1,0 +1,241 @@
+{
+  "name": "exeggcute",
+  "id": 102,
+  "stock": true,
+  "base_experience": 65,
+  "size": {
+    "height": 0.4,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 2.5,
+  "is_default": true,
+  "capture_rate": 90,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 40,
+    "defense": 80,
+    "special_attack": 60,
+    "special_defense": 45,
+    "speed": 40
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "grass",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "chlorophyll"
+    ],
+    "hidden": [
+      "harvest"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 27,
+        "moves": [
+          "psybeam",
+          "confusion"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "absorb",
+          "hypnosis",
+          "barrage",
+          "uproar"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "poison-powder"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "stun-spore"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "sleep-powder"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "psychic",
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "reflect"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "bullet-seed"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "natural-gift"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "worry-seed"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "bestow"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "headbutt",
+      "take-down",
+      "double-edge",
+      "strength",
+      "mega-drain",
+      "leech-seed",
+      "solar-beam",
+      "poison-powder",
+      "stun-spore",
+      "sleep-powder",
+      "toxic",
+      "confusion",
+      "psychic",
+      "hypnosis",
+      "rage",
+      "teleport",
+      "mimic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "bide",
+      "self-destruct",
+      "egg-bomb",
+      "dream-eater",
+      "barrage",
+      "flash",
+      "psywave",
+      "explosion",
+      "rest",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "curse",
+      "protect",
+      "sludge-bomb",
+      "giga-drain",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "synthesis",
+      "moonlight",
+      "hidden-power",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "uproar",
+      "facade",
+      "nature-power",
+      "ingrain",
+      "skill-swap",
+      "secret-power",
+      "extrasensory",
+      "bullet-seed",
+      "block",
+      "gravity",
+      "natural-gift",
+      "lucky-chant",
+      "power-swap",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "trick-room",
+      "leaf-storm",
+      "captivate",
+      "grass-knot",
+      "telekinesis",
+      "round",
+      "bestow",
+      "grassy-terrain",
+      "confide",
+      "infestation",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_1",
+  "evolutions": [
+    {
+      "name": "exeggutor-alola",
+      "location": {
+        "and_preset": "beaches"
+      },
+      "item_preset": "leafstone",
+      "evoMoves": "dragonhammer"
+    },
+    {
+      "name": "exeggutor",
+      "item_preset": "leafstone",
+      "evoMoves": "stomp"
+    }
+  ]
+}

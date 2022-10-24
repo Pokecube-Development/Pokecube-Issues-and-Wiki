@@ -1,0 +1,164 @@
+{
+  "name": "bounsweet",
+  "id": 761,
+  "stock": true,
+  "base_experience": 42,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 3.2,
+  "is_default": true,
+  "capture_rate": 235,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 42,
+    "attack": 30,
+    "defense": 38,
+    "special_attack": 30,
+    "special_defense": 38,
+    "speed": 32
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "leaf-guard",
+      "oblivious"
+    ],
+    "hidden": [
+      "sweet-veil"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 13,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "splash"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "rapid-spin"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "teeter-dance"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "play-nice"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "aromatic-mist"
+        ]
+      }
+    ],
+    "misc": [
+      "razor-leaf",
+      "solar-beam",
+      "toxic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "splash",
+      "rest",
+      "substitute",
+      "snore",
+      "flail",
+      "protect",
+      "giga-drain",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "rapid-spin",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "facade",
+      "nature-power",
+      "helping-hand",
+      "endeavor",
+      "teeter-dance",
+      "grass-whistle",
+      "bounce",
+      "covet",
+      "magical-leaf",
+      "feint",
+      "acupressure",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "zen-headbutt",
+      "grass-knot",
+      "round",
+      "draining-kiss",
+      "play-rough",
+      "play-nice",
+      "confide",
+      "aromatic-mist",
+      "dazzling-gleam",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_1",
+  "evolutions": [
+    {
+      "name": "steenee",
+      "level": 18,
+      "evoMoves": "doubleslap"
+    }
+  ]
+}

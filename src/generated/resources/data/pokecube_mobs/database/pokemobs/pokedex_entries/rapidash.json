@@ -1,0 +1,237 @@
+{
+  "name": "rapidash",
+  "id": 78,
+  "stock": true,
+  "base_experience": 175,
+  "size": {
+    "height": 1.7,
+    "width": 1.0,
+    "length": 1.5
+  },
+  "mass": 95.0,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 65,
+    "attack": 100,
+    "defense": 70,
+    "special_attack": 80,
+    "special_defense": 80,
+    "speed": 105
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "run-away",
+      "flash-fire"
+    ],
+    "hidden": [
+      "flame-body"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 17,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "fury-attack",
+          "smart-strike"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "horn-drill",
+          "tackle",
+          "tail-whip",
+          "growl",
+          "ember",
+          "hypnosis",
+          "quick-attack",
+          "megahorn",
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "fire-spin"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "fire-blast"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "flame-wheel"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "inferno"
+        ]
+      }
+    ],
+    "misc": [
+      "pay-day",
+      "swords-dance",
+      "stomp",
+      "headbutt",
+      "fury-attack",
+      "horn-drill",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "tail-whip",
+      "growl",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "solar-beam",
+      "fire-spin",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "rage",
+      "mimic",
+      "double-team",
+      "reflect",
+      "bide",
+      "fire-blast",
+      "swift",
+      "skull-bash",
+      "rest",
+      "substitute",
+      "flame-wheel",
+      "snore",
+      "curse",
+      "protect",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "megahorn",
+      "baton-pass",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "secret-power",
+      "overheat",
+      "bounce",
+      "natural-gift",
+      "flare-blitz",
+      "poison-jab",
+      "giga-impact",
+      "captivate",
+      "flame-charge",
+      "round",
+      "echoed-voice",
+      "ally-switch",
+      "incinerate",
+      "inferno",
+      "wild-charge",
+      "drill-run",
+      "play-rough",
+      "confide",
+      "mystical-fire",
+      "high-horsepower",
+      "solar-blade",
+      "throat-chop",
+      "smart-strike",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/coal_cow_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

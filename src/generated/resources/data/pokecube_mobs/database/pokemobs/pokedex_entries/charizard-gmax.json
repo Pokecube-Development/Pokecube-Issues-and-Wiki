@@ -1,0 +1,41 @@
+{
+  "name": "charizard-gmax",
+  "id": 6,
+  "stock": true,
+  "base_experience": 240,
+  "size": {
+    "height": 7.0,
+    "width": 3.0,
+    "length": 3.0
+  },
+  "mass": 1000.0,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 78,
+    "attack": 84,
+    "defense": 78,
+    "special_attack": 109,
+    "special_defense": 85,
+    "speed": 100
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "fire",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "solar-power"
+    ]
+  },
+  "old_name": "charizard_gigantamax"
+}

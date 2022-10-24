@@ -1,0 +1,14 @@
+{
+  "name": "quash",
+  "id": 511,
+  "pp": 15,
+  "priority": 0,
+  "type": "dark",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user suppresses the target and makes its move\ngo last.",
+  "move_category": "unique",
+  "effect_text_extend": "Forces the target to act last this turn, regardless of Speed or move priority.  If the target has already acted this turn, this move will fail.",
+  "effect_text_simple": "Makes the target act last this turn."
+}

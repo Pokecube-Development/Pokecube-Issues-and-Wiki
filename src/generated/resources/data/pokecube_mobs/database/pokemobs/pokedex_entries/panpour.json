@@ -1,0 +1,217 @@
+{
+  "name": "panpour",
+  "id": 515,
+  "stock": true,
+  "base_experience": 63,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 13.5,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 50,
+    "attack": 53,
+    "defense": 48,
+    "special_attack": 53,
+    "special_defense": 48,
+    "speed": 64
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "gluttony"
+    ],
+    "hidden": [
+      "torrent"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "play-nice"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "lick"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "recycle"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "water-sport"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "natural-gift"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "fling"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "scald"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "acrobatics"
+        ]
+      }
+    ],
+    "misc": [
+      "ice-punch",
+      "scratch",
+      "cut",
+      "leer",
+      "bite",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "low-kick",
+      "dig",
+      "toxic",
+      "double-team",
+      "lick",
+      "waterfall",
+      "fury-swipes",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "icy-wind",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "crunch",
+      "rock-smash",
+      "uproar",
+      "hail",
+      "torment",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "role-play",
+      "recycle",
+      "knock-off",
+      "endeavor",
+      "secret-power",
+      "dive",
+      "mud-sport",
+      "astonish",
+      "rock-tomb",
+      "tickle",
+      "covet",
+      "water-sport",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "payback",
+      "fling",
+      "gastro-acid",
+      "aqua-ring",
+      "aqua-tail",
+      "nasty-plot",
+      "shadow-claw",
+      "gunk-shot",
+      "grass-knot",
+      "hone-claws",
+      "low-sweep",
+      "round",
+      "scald",
+      "acrobatics",
+      "water-pledge",
+      "work-up",
+      "disarming-voice",
+      "play-nice",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "simipour",
+      "item_preset": "waterstone"
+    }
+  ]
+}

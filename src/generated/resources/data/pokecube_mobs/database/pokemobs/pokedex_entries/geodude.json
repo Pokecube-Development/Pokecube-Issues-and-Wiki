@@ -1,0 +1,250 @@
+{
+  "name": "geodude",
+  "id": 74,
+  "stock": true,
+  "base_experience": 60,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 20.0,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 40,
+    "attack": 80,
+    "defense": 100,
+    "special_attack": 30,
+    "special_defense": 30,
+    "speed": 20
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "rock",
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "rock-head",
+      "sturdy"
+    ],
+    "hidden": [
+      "sand-veil"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 3,
+        "moves": [
+          "sand-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "rock-throw"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "harden"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "bide",
+          "rock-polish"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "self-destruct"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "magnitude"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "mud-sport"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "rock-blast"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "smack-down"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "bulldoze"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "thunder-punch",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "flamethrower",
+      "submission",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "rock-throw",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "harden",
+      "defense-curl",
+      "bide",
+      "metronome",
+      "self-destruct",
+      "fire-blast",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "flail",
+      "protect",
+      "mud-slap",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "magnitude",
+      "dynamic-punch",
+      "hidden-power",
+      "sunny-day",
+      "ancient-power",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "nature-power",
+      "superpower",
+      "brick-break",
+      "secret-power",
+      "mud-sport",
+      "rock-tomb",
+      "iron-defense",
+      "block",
+      "rock-blast",
+      "hammer-arm",
+      "gyro-ball",
+      "natural-gift",
+      "fling",
+      "sucker-punch",
+      "rock-polish",
+      "earth-power",
+      "rock-climb",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "wide-guard",
+      "autotomize",
+      "smack-down",
+      "round",
+      "incinerate",
+      "bulldoze",
+      "confide",
+      "power-up-punch"
+    ]
+  },
+  "loot_table": "pokecube:entities/cobble_1",
+  "evolutions": [
+    {
+      "name": "graveler",
+      "level": 25
+    }
+  ]
+}

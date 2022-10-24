@@ -1,0 +1,219 @@
+{
+  "name": "minccino",
+  "id": 572,
+  "stock": true,
+  "base_experience": 60,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 5.8,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 55,
+    "attack": 50,
+    "defense": 40,
+    "special_attack": 40,
+    "special_defense": 40,
+    "speed": 75
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "cute-charm",
+      "technician"
+    ],
+    "hidden": [
+      "skill-link"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "double-slap"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "growl",
+          "baby-doll-eyes"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "sing"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "encore"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "hyper-voice"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "tickle"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "wake-up-slap"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "last-resort"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "captivate"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "after-you"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "echoed-voice"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "tail-slap"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "double-slap",
+      "slam",
+      "tail-whip",
+      "growl",
+      "sing",
+      "thunderbolt",
+      "thunder-wave",
+      "dig",
+      "toxic",
+      "double-team",
+      "swift",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "flail",
+      "protect",
+      "mud-slap",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "uproar",
+      "facade",
+      "helping-hand",
+      "knock-off",
+      "secret-power",
+      "hyper-voice",
+      "fake-tears",
+      "tickle",
+      "covet",
+      "calm-mind",
+      "shock-wave",
+      "wake-up-slap",
+      "u-turn",
+      "fling",
+      "last-resort",
+      "aqua-tail",
+      "seed-bomb",
+      "gunk-shot",
+      "captivate",
+      "grass-knot",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "retaliate",
+      "work-up",
+      "tail-slap",
+      "play-rough",
+      "confide",
+      "dazzling-gleam",
+      "baby-doll-eyes",
+      "triple-axel"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "cinccino",
+      "item_preset": "shinystone"
+    }
+  ]
+}

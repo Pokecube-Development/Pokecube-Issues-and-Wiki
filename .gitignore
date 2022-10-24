@@ -34,6 +34,7 @@ processing_scripts/json_cleanup/inputs/*
 processing_scripts/json_cleanup/outputs/*
 processing_scripts/worldgen_setup/new*
 **/__pycache__/*
+**/.vscode/*
 
 **/template_worlds/main_structures/DIM*
 **/template_worlds/main_structures/t*

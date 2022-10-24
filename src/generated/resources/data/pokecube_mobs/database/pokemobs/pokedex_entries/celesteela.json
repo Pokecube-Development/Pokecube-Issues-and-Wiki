@@ -1,0 +1,210 @@
+{
+  "name": "celesteela",
+  "id": 797,
+  "stock": true,
+  "base_experience": 285,
+  "size": {
+    "height": 9.2,
+    "width": 4.0,
+    "length": 4.0
+  },
+  "mass": 999.9,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 97,
+    "attack": 101,
+    "defense": 103,
+    "special_attack": 107,
+    "special_defense": 101,
+    "speed": 61
+  },
+  "evs": {
+    "attack": 1,
+    "defense": 1,
+    "special_attack": 1
+  },
+  "types": [
+    "steel",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "beast-boost"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "absorb",
+          "harden",
+          "ingrain",
+          "air-slash",
+          "wide-guard"
+        ]
+      },
+      {
+        "L": 73,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "skull-bash"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "seed-bomb"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "flash-cannon"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "iron-head"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "autotomize"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "smack-down"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "heavy-slam"
+        ]
+      }
+    ],
+    "misc": [
+      "fly",
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "flamethrower",
+      "hyper-beam",
+      "absorb",
+      "mega-drain",
+      "leech-seed",
+      "solar-beam",
+      "earthquake",
+      "toxic",
+      "double-team",
+      "harden",
+      "self-destruct",
+      "fire-blast",
+      "skull-bash",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "megahorn",
+      "hidden-power",
+      "facade",
+      "ingrain",
+      "superpower",
+      "metal-sound",
+      "iron-defense",
+      "block",
+      "shock-wave",
+      "gravity",
+      "gyro-ball",
+      "magnet-rise",
+      "seed-bomb",
+      "air-slash",
+      "energy-ball",
+      "giga-impact",
+      "zen-headbutt",
+      "flash-cannon",
+      "iron-head",
+      "stone-edge",
+      "grass-knot",
+      "wide-guard",
+      "autotomize",
+      "smack-down",
+      "heavy-slam",
+      "flame-charge",
+      "round",
+      "acrobatics",
+      "bulldoze",
+      "confide",
+      "smart-strike",
+      "brutal-swing",
+      "stomping-tantrum",
+      "steel-beam",
+      "steel-roller",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_3",
+  "spawn_rules": [
+    {
+      "values": {
+        "types": "#pokecube_legends:can_spawn/celesteela",
+        "min": "1",
+        "rate": "0.1",
+        "max": "1"
+      }
+    }
+  ]
+}

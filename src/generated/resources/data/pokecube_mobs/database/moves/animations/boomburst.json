@@ -1,0 +1,27 @@
+{
+  "name": "boomburst",
+  "animations": [
+    {
+      "preset": "flow:pcloud:l3:d0.4:w4:atrue:f0,4,0:~boomburst",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.gustwind",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pexplosion:d2:l3:rtrue:atrue:~boomburst",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.gustwind",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8,
+      "applyAfter": false
+    }
+  ]
+}

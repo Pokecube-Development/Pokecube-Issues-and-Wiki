@@ -1,0 +1,224 @@
+{
+  "name": "omanyte",
+  "id": 138,
+  "stock": true,
+  "base_experience": 71,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 7.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 35,
+    "attack": 40,
+    "defense": 100,
+    "special_attack": 90,
+    "special_defense": 55,
+    "speed": 35
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "rock",
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "swift-swim",
+      "shell-armor"
+    ],
+    "hidden": [
+      "weak-armor"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "bind",
+          "withdraw",
+          "constrict"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "sand-attack",
+          "water-gun"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "horn-attack",
+          "protect"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "surf",
+          "shell-smash"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "rock-throw"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "spike-cannon",
+          "rock-blast"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "rock-slide",
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "tickle"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "mud-shot"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "brine"
+        ]
+      }
+    ],
+    "misc": [
+      "bind",
+      "slam",
+      "headbutt",
+      "horn-attack",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "leer",
+      "bite",
+      "supersonic",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "aurora-beam",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "withdraw",
+      "haze",
+      "reflect",
+      "bide",
+      "waterfall",
+      "spike-cannon",
+      "constrict",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "spikes",
+      "icy-wind",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "ancient-power",
+      "rock-smash",
+      "whirlpool",
+      "hail",
+      "facade",
+      "knock-off",
+      "secret-power",
+      "dive",
+      "rock-tomb",
+      "tickle",
+      "muddy-water",
+      "iron-defense",
+      "mud-shot",
+      "rock-blast",
+      "water-pulse",
+      "gyro-ball",
+      "brine",
+      "natural-gift",
+      "wring-out",
+      "toxic-spikes",
+      "rock-polish",
+      "earth-power",
+      "captivate",
+      "stealth-rock",
+      "smack-down",
+      "round",
+      "scald",
+      "shell-smash",
+      "reflect-type",
+      "confide",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/fossil_mob",
+  "evolutions": [
+    {
+      "name": "omastar",
+      "level": 40,
+      "evoMoves": "spikecannon"
+    }
+  ]
+}

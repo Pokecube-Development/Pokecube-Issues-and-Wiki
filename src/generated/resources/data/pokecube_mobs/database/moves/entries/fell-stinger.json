@@ -1,0 +1,15 @@
+{
+  "name": "fell-stinger",
+  "id": 565,
+  "power": 50,
+  "pp": 25,
+  "priority": 0,
+  "type": "bug",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "When the user knocks out a target with this move,\nthe user’s Attack stat rises drastically.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Raises the user's Attack by two stages if it KOs the target.",
+  "effect_text_simple": "Raises the user's Attack by two stages if it KOs the target."
+}

@@ -1,0 +1,222 @@
+{
+  "name": "bulbasaur",
+  "id": 1,
+  "stock": true,
+  "base_experience": 64,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 6.9,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 45,
+    "attack": 49,
+    "defense": 49,
+    "special_attack": 65,
+    "special_defense": 65,
+    "speed": 45
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "grass",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "chlorophyll"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 9,
+        "moves": [
+          "vine-whip"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "growl"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "poison-powder",
+          "sleep-powder"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "worry-seed"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "seed-bomb"
+        ]
+      }
+    ],
+    "misc": [
+      "razor-wind",
+      "swords-dance",
+      "cut",
+      "bind",
+      "vine-whip",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "growl",
+      "strength",
+      "mega-drain",
+      "leech-seed",
+      "growth",
+      "razor-leaf",
+      "solar-beam",
+      "poison-powder",
+      "sleep-powder",
+      "petal-dance",
+      "string-shot",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "bide",
+      "sludge",
+      "skull-bash",
+      "amnesia",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "outrage",
+      "giga-drain",
+      "endure",
+      "charm",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "facade",
+      "nature-power",
+      "helping-hand",
+      "ingrain",
+      "knock-off",
+      "secret-power",
+      "weather-ball",
+      "grass-whistle",
+      "bullet-seed",
+      "magical-leaf",
+      "natural-gift",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "leaf-storm",
+      "power-whip",
+      "captivate",
+      "grass-knot",
+      "venoshock",
+      "round",
+      "echoed-voice",
+      "grass-pledge",
+      "work-up",
+      "grassy-terrain",
+      "confide",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_1",
+  "evolutions": [
+    {
+      "name": "ivysaur",
+      "level": 16,
+      "animation": "18"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "heart-stamp",
+  "id": 531,
+  "power": 60,
+  "pp": 25,
+  "priority": 0,
+  "type": "psychic",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user unleashes a vicious blow after its cute act\nmakes the target less wary. This may also make the\ntarget flinch.",
+  "move_category": "damage",
+  "flinch_chance": 30,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to make the target flinch.",
+  "effect_text_simple": "Has a $effect_chance% chance to make the target flinch.",
+  "effect_chance": 30
+}

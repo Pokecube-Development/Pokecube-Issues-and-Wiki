@@ -1,0 +1,156 @@
+{
+  "name": "whimsicott",
+  "id": 547,
+  "stock": true,
+  "base_experience": 168,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 6.6,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 67,
+    "defense": 85,
+    "special_attack": 77,
+    "special_defense": 75,
+    "speed": 116
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "grass",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "prankster",
+      "infiltrator"
+    ],
+    "hidden": [
+      "chlorophyll"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "gust"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "absorb",
+          "mega-drain",
+          "leech-seed",
+          "growth",
+          "razor-leaf",
+          "solar-beam",
+          "poison-powder",
+          "stun-spore",
+          "cotton-spore",
+          "giga-drain",
+          "charm",
+          "sunny-day",
+          "memento",
+          "helping-hand",
+          "endeavor",
+          "energy-ball",
+          "cotton-guard",
+          "fairy-wind"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "tailwind"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "hurricane"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "moonblast"
+        ]
+      }
+    ],
+    "misc": [
+      "gust",
+      "hyper-beam",
+      "mega-drain",
+      "leech-seed",
+      "growth",
+      "solar-beam",
+      "toxic",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "cotton-spore",
+      "protect",
+      "giga-drain",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "encore",
+      "hidden-power",
+      "sunny-day",
+      "shadow-ball",
+      "beat-up",
+      "facade",
+      "nature-power",
+      "taunt",
+      "helping-hand",
+      "knock-off",
+      "endeavor",
+      "secret-power",
+      "fake-tears",
+      "covet",
+      "tailwind",
+      "u-turn",
+      "fling",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "giga-impact",
+      "defog",
+      "trick-room",
+      "grass-knot",
+      "round",
+      "hurricane",
+      "grassy-terrain",
+      "misty-terrain",
+      "play-rough",
+      "moonblast",
+      "confide",
+      "dazzling-gleam",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wool_2"
+}

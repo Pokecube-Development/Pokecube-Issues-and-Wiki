@@ -1,0 +1,225 @@
+{
+  "name": "camerupt",
+  "id": 323,
+  "stock": true,
+  "base_experience": 161,
+  "size": {
+    "height": 1.9,
+    "width": 1.0,
+    "length": 1.9
+  },
+  "mass": 220.0,
+  "is_default": true,
+  "capture_rate": 150,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 70,
+    "attack": 100,
+    "defense": 70,
+    "special_attack": 105,
+    "special_defense": 75,
+    "speed": 40
+  },
+  "evs": {
+    "attack": 1,
+    "special_attack": 1
+  },
+  "types": [
+    "fire",
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "magma-armor",
+      "solid-rock"
+    ],
+    "hidden": [
+      "anger-point"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl",
+          "ember",
+          "fissure",
+          "focus-energy",
+          "eruption"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "magnitude"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "yawn"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "lava-plume"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "flame-burst"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "growl",
+      "roar",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "focus-energy",
+      "self-destruct",
+      "fire-blast",
+      "amnesia",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "magnitude",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "nature-power",
+      "yawn",
+      "eruption",
+      "secret-power",
+      "overheat",
+      "rock-tomb",
+      "natural-gift",
+      "rock-polish",
+      "earth-power",
+      "giga-impact",
+      "flash-cannon",
+      "lava-plume",
+      "iron-head",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "flame-burst",
+      "flame-charge",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "incinerate",
+      "bulldoze",
+      "confide",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/cow_2",
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "cameruptmega"
+    }
+  ],
+  "interactions": [
+    {
+      "male": true,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:lava_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

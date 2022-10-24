@@ -1,0 +1,174 @@
+{
+  "name": "araquanid",
+  "id": 752,
+  "stock": true,
+  "base_experience": 159,
+  "size": {
+    "height": 1.8,
+    "width": 1.8,
+    "length": 1.8
+  },
+  "mass": 82.0,
+  "is_default": true,
+  "capture_rate": 100,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 68,
+    "attack": 70,
+    "defense": 92,
+    "special_attack": 50,
+    "special_defense": 132,
+    "speed": 42
+  },
+  "evs": {
+    "special_defense": 2
+  },
+  "types": [
+    "water",
+    "bug"
+  ],
+  "abilities": {
+    "normal": [
+      "water-bubble"
+    ],
+    "hidden": [
+      "water-absorb"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 20,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "water-gun",
+          "bubble",
+          "spider-web",
+          "bug-bite",
+          "wide-guard",
+          "soak",
+          "infestation"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "leech-life"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "mirror-coat"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "aqua-ring"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "entrainment"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "lunge"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "liquidation"
+        ]
+      }
+    ],
+    "misc": [
+      "bite",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "toxic",
+      "double-team",
+      "reflect",
+      "waterfall",
+      "leech-life",
+      "bubble",
+      "rest",
+      "substitute",
+      "spider-web",
+      "snore",
+      "protect",
+      "icy-wind",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "rain-dance",
+      "crunch",
+      "mirror-coat",
+      "facade",
+      "magic-coat",
+      "dive",
+      "signal-beam",
+      "iron-defense",
+      "water-pulse",
+      "aqua-ring",
+      "poison-jab",
+      "x-scissor",
+      "bug-buzz",
+      "bug-bite",
+      "wide-guard",
+      "wonder-room",
+      "magic-room",
+      "soak",
+      "entrainment",
+      "round",
+      "scald",
+      "frost-breath",
+      "confide",
+      "infestation",
+      "laser-focus",
+      "lunge",
+      "liquidation",
+      "skitter-smack"
+    ]
+  },
+  "loot_table": "pokecube:entities/spider"
+}

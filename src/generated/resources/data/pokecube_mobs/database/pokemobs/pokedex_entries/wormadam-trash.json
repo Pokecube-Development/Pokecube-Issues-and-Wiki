@@ -1,0 +1,190 @@
+{
+  "name": "wormadam-trash",
+  "id": 413,
+  "stock": true,
+  "base_experience": 148,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 6.5,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 60,
+    "attack": 69,
+    "defense": 95,
+    "special_attack": 69,
+    "special_defense": 95,
+    "speed": 36
+  },
+  "evs": {
+    "defense": 1,
+    "special_defense": 1
+  },
+  "types": [
+    "bug",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "anticipation"
+    ],
+    "hidden": [
+      "overcoat"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "protect",
+          "metal-burst",
+          "sucker-punch",
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "attract"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "hidden-power"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "mirror-shot"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "iron-head"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "captivate"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "quiver-dance"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "psybeam",
+      "hyper-beam",
+      "string-shot",
+      "toxic",
+      "confusion",
+      "psychic",
+      "double-team",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "flail",
+      "protect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "uproar",
+      "facade",
+      "endeavor",
+      "skill-swap",
+      "secret-power",
+      "metal-sound",
+      "signal-beam",
+      "iron-defense",
+      "gyro-ball",
+      "natural-gift",
+      "metal-burst",
+      "sucker-punch",
+      "magnet-rise",
+      "bug-buzz",
+      "giga-impact",
+      "mirror-shot",
+      "flash-cannon",
+      "gunk-shot",
+      "iron-head",
+      "captivate",
+      "stealth-rock",
+      "bug-bite",
+      "venoshock",
+      "telekinesis",
+      "quiver-dance",
+      "round",
+      "ally-switch",
+      "struggle-bug",
+      "electroweb",
+      "confide",
+      "infestation"
+    ]
+  },
+  "loot_table": "pokecube:entities/other_seeds",
+  "old_name": "wormadam_trash"
+}

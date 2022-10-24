@@ -1,0 +1,17 @@
+{
+  "name": "ice-punch",
+  "id": 8,
+  "power": 75,
+  "pp": 15,
+  "priority": 0,
+  "type": "ice",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The target is punched with an icy fist. This may also\nleave the target frozen.",
+  "move_category": "damage+ailment",
+  "ailment_chance": 10,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to freeze the target.",
+  "effect_text_simple": "Has a $effect_chance% chance to freeze the target.",
+  "effect_chance": 10
+}

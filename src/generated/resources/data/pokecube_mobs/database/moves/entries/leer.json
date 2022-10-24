@@ -1,0 +1,16 @@
+{
+  "name": "leer",
+  "id": 43,
+  "pp": 30,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "status",
+  "flavor_text": "The user gives opposing Pokémon an intimidating\nleer that lowers the Defense stat.",
+  "move_category": "net-good-stats",
+  "stat_chance": 100,
+  "effect_text_extend": "Lowers the target's Defense by one stage.",
+  "effect_text_simple": "Lowers the target's Defense by one stage.",
+  "effect_chance": 100
+}

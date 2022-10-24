@@ -1,0 +1,242 @@
+{
+  "name": "seel",
+  "id": 86,
+  "stock": true,
+  "base_experience": 65,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.1
+  },
+  "mass": 90.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 65,
+    "attack": 45,
+    "defense": 55,
+    "special_attack": 45,
+    "special_defense": 70,
+    "speed": 45
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "thick-fat",
+      "hydration"
+    ],
+    "hidden": [
+      "ice-body"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "growl"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "ice-beam"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "aurora-beam"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "waterfall"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "icy-wind"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "encore"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "hail"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "dive"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "water-sport"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "aqua-ring"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "ice-shard"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "aqua-jet"
+        ]
+      }
+    ],
+    "misc": [
+      "pay-day",
+      "slam",
+      "headbutt",
+      "horn-drill",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "growl",
+      "disable",
+      "water-gun",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "aurora-beam",
+      "peck",
+      "strength",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "bide",
+      "lick",
+      "waterfall",
+      "skull-bash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "perish-song",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "megahorn",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "whirlpool",
+      "fake-out",
+      "stockpile",
+      "spit-up",
+      "swallow",
+      "hail",
+      "facade",
+      "helping-hand",
+      "secret-power",
+      "dive",
+      "signal-beam",
+      "icicle-spear",
+      "water-sport",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "fling",
+      "aqua-ring",
+      "aqua-tail",
+      "ice-shard",
+      "captivate",
+      "aqua-jet",
+      "entrainment",
+      "round",
+      "echoed-voice",
+      "drill-run",
+      "belch",
+      "confide",
+      "smart-strike"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1",
+  "evolutions": [
+    {
+      "name": "dewgong",
+      "level": 34,
+      "evoMoves": "sheercold"
+    }
+  ]
+}

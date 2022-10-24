@@ -2,14 +2,14 @@ package pokecube.mobs.moves.world;
 
 import net.minecraft.core.Direction;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.IMoveAction;
+import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.moves.TreeRemover;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
-public class ActionCut implements IMoveAction
+public class ActionCut implements IMoveWorldEffect
 {
     public ActionCut()
     {

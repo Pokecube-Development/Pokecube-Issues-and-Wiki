@@ -1,0 +1,110 @@
+{
+  "name": "zoroark-hisui",
+  "id": 571,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 1.6,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 73.0,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 55,
+    "attack": 100,
+    "defense": 60,
+    "special_attack": 125,
+    "special_defense": 60,
+    "speed": 110
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "normal",
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "illusion"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "shadow-sneak"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "snarl"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": []
+      },
+      {
+        "L": 35,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "shadow-claw"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "extrasensory"
+        ]
+      }
+    ],
+    "misc": [
+      "rock-smash",
+      "aerial-ace",
+      "swift",
+      "ominous-wind",
+      "calm-mind",
+      "rest",
+      "shadow-claw",
+      "sludge-bomb",
+      "shadow-ball",
+      "snarl",
+      "giga-impact",
+      "hyper-beam",
+      "flamethrower",
+      "dark-pulse"
+    ]
+  },
+  "old_name": "zoroark_hisui"
+}

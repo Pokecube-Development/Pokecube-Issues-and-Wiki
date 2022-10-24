@@ -1,0 +1,13 @@
+{
+  "name": "quiver-dance",
+  "id": 483,
+  "pp": 20,
+  "priority": 0,
+  "type": "bug",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user lightly performs a beautiful, mystic dance.\nThis boosts the user’s Sp. Atk, Sp. Def, and\nSpeed stats.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises the user's Special Attack, Special Defense, and Speed by one stage each.",
+  "effect_text_simple": "Raises the user's Special Attack, Special Defense, and Speed by one stage each."
+}

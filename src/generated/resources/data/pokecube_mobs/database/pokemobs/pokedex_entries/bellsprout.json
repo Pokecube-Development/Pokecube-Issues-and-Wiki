@@ -1,0 +1,209 @@
+{
+  "name": "bellsprout",
+  "id": 69,
+  "stock": true,
+  "base_experience": 60,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 4.0,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 50,
+    "attack": 75,
+    "defense": 35,
+    "special_attack": 70,
+    "special_defense": 30,
+    "speed": 40
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "grass",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "chlorophyll"
+    ],
+    "hidden": [
+      "gluttony"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 47,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "vine-whip"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "wrap"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "acid"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "poison-powder"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "stun-spore"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "sleep-powder"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "wring-out"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "gastro-acid"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "poison-jab"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "bind",
+      "slam",
+      "vine-whip",
+      "headbutt",
+      "wrap",
+      "take-down",
+      "double-edge",
+      "acid",
+      "mega-drain",
+      "growth",
+      "razor-leaf",
+      "solar-beam",
+      "poison-powder",
+      "stun-spore",
+      "sleep-powder",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "reflect",
+      "bide",
+      "leech-life",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "sludge-bomb",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "encore",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "facade",
+      "nature-power",
+      "ingrain",
+      "knock-off",
+      "secret-power",
+      "weather-ball",
+      "tickle",
+      "bullet-seed",
+      "magical-leaf",
+      "natural-gift",
+      "wring-out",
+      "gastro-acid",
+      "worry-seed",
+      "sucker-punch",
+      "poison-jab",
+      "seed-bomb",
+      "energy-ball",
+      "power-whip",
+      "captivate",
+      "grass-knot",
+      "venoshock",
+      "acid-spray",
+      "round",
+      "clear-smog",
+      "belch",
+      "confide",
+      "infestation",
+      "strength-sap"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_1",
+  "evolutions": [
+    {
+      "name": "weepinbell",
+      "level": 21
+    }
+  ]
+}

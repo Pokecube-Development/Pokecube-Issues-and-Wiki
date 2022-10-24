@@ -1,0 +1,15 @@
+{
+  "name": "slash",
+  "animations": [
+    {
+      "preset": "cartFunc:psweep_attack:~slash",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

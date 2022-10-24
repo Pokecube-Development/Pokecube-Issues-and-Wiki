@@ -10,8 +10,8 @@ import com.google.common.collect.Sets;
 import net.minecraft.world.entity.Entity;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.IMoveConstants;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 
 public class PokemobMoveStats
@@ -87,7 +87,7 @@ public class PokemobMoveStats
     /** Storing exp in here as well. */
     public int exp = 0;
     /** Cache of currently selected move */
-    public Move_Base selectedMove;
+    public MoveEntry selectedMove;
 
     /**
      * This is the ability to apply in battle, out of battle it will be reset to

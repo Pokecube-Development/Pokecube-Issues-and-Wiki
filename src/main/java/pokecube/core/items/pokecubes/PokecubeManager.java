@@ -24,7 +24,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -337,11 +337,11 @@ public class PokecubeManager
         else poketag.getCompound(TagNames.OWNERSHIPTAG).putString(TagNames.OWNER, owner.toString());
     }
 
-    public static void setStatus(final ItemStack itemStack, final byte status)
+    public static void setStatus(final ItemStack itemStack, final int status)
     {
         if (!itemStack.hasTag()) return;
         final CompoundTag poketag = TagNames.getPokecubePokemobTag(itemStack.getTag());
-        poketag.getCompound(TagNames.STATSTAG).putByte(TagNames.STATUS, status);
+        poketag.getCompound(TagNames.STATSTAG).putInt(TagNames.STATUS, status);
     }
 
     public static void setTilt(final ItemStack itemStack, final int number)

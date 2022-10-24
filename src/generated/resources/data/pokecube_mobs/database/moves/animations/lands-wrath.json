@@ -1,0 +1,49 @@
+{
+  "name": "landswrath",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:d0.5:l2:w5:rtrue:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~landswrath",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.rocktomb",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 1.1,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:pmisc:clime:d0.1:w4:rtrue:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~landswrath",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.payday",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 0.9,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:pmisc:rtrue:l5:d0.5:w8:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~landswrath",
+      "duration": "5",
+      "starttick": "3",
+      "sound": "pokecube:moves.rocktomb",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 0.9,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pcloud:atrue:w2.5:l15:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~landswrath",
+      "duration": "5",
+      "starttick": "6",
+      "sound": "pokecube:moves.rocksmash",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 2.0,
+      "pitch": 1.0,
+      "applyAfter": false
+    }
+  ]
+}

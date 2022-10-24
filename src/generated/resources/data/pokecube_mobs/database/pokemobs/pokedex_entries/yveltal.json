@@ -1,0 +1,216 @@
+{
+  "name": "yveltal",
+  "id": 717,
+  "stock": true,
+  "base_experience": 340,
+  "size": {
+    "height": 2.8,
+    "width": 5.8,
+    "length": 3.0
+  },
+  "mass": 203.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 126,
+    "attack": 131,
+    "defense": 95,
+    "special_attack": 131,
+    "special_defense": 98,
+    "speed": 99
+  },
+  "evs": {
+    "hp": 3
+  },
+  "types": [
+    "dark",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "dark-aura"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "razor-wind",
+          "gust",
+          "taunt",
+          "roost",
+          "hurricane"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "disable"
+        ]
+      },
+      {
+        "L": 88,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "double-team"
+        ]
+      },
+      {
+        "L": 93,
+        "moves": [
+          "sky-attack"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "tailwind"
+        ]
+      },
+      {
+        "L": 80,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "dragon-rush"
+        ]
+      },
+      {
+        "L": 72,
+        "moves": [
+          "focus-blast"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "foul-play"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "snarl"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "phantom-force"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "oblivion-wing"
+        ]
+      }
+    ],
+    "misc": [
+      "razor-wind",
+      "cut",
+      "fly",
+      "body-slam",
+      "disable",
+      "hyper-beam",
+      "toxic",
+      "psychic",
+      "double-team",
+      "swift",
+      "dream-eater",
+      "sky-attack",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "heat-wave",
+      "torment",
+      "facade",
+      "taunt",
+      "knock-off",
+      "secret-power",
+      "hyper-voice",
+      "aerial-ace",
+      "block",
+      "dragon-claw",
+      "roost",
+      "tailwind",
+      "u-turn",
+      "payback",
+      "embargo",
+      "sucker-punch",
+      "dark-pulse",
+      "air-slash",
+      "dragon-rush",
+      "focus-blast",
+      "giga-impact",
+      "shadow-claw",
+      "zen-headbutt",
+      "defog",
+      "hone-claws",
+      "foul-play",
+      "round",
+      "sky-drop",
+      "acrobatics",
+      "hurricane",
+      "snarl",
+      "phantom-force",
+      "confide",
+      "oblivion-wing",
+      "laser-focus",
+      "lash-out",
+      "dual-wingbeat"
+    ]
+  },
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:yveltal_place",
+        "rate": "0.0"
+      }
+    }
+  ]
+}

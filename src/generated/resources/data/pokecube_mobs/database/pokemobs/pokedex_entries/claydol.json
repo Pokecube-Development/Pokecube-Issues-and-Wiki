@@ -1,0 +1,238 @@
+{
+  "name": "claydol",
+  "id": 344,
+  "stock": true,
+  "base_experience": 175,
+  "size": {
+    "height": 1.5,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 108.0,
+  "is_default": true,
+  "capture_rate": 90,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 60,
+    "attack": 70,
+    "defense": 105,
+    "special_attack": 70,
+    "special_defense": 120,
+    "speed": 75
+  },
+  "evs": {
+    "special_defense": 2
+  },
+  "types": [
+    "ground",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 16,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "confusion",
+          "teleport",
+          "harden",
+          "rapid-spin"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "self-destruct"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "sandstorm"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "imprison"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "rock-tomb"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "cosmic-power"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "heal-block"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "power-trick"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "guard-split",
+          "power-split"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "double-edge",
+      "ice-beam",
+      "psybeam",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "earthquake",
+      "dig",
+      "toxic",
+      "confusion",
+      "psychic",
+      "teleport",
+      "mimic",
+      "double-team",
+      "harden",
+      "light-screen",
+      "reflect",
+      "self-destruct",
+      "dream-eater",
+      "flash",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "rapid-spin",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "shadow-ball",
+      "future-sight",
+      "rock-smash",
+      "facade",
+      "trick",
+      "magic-coat",
+      "recycle",
+      "skill-swap",
+      "imprison",
+      "secret-power",
+      "rock-tomb",
+      "cosmic-power",
+      "signal-beam",
+      "extrasensory",
+      "sand-tomb",
+      "iron-defense",
+      "calm-mind",
+      "gravity",
+      "gyro-ball",
+      "natural-gift",
+      "heal-block",
+      "power-trick",
+      "power-swap",
+      "guard-swap",
+      "rock-polish",
+      "earth-power",
+      "giga-impact",
+      "nasty-plot",
+      "zen-headbutt",
+      "trick-room",
+      "stone-edge",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "guard-split",
+      "power-split",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "smack-down",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "hex",
+      "bulldoze",
+      "drill-run",
+      "confide",
+      "eerie-impulse",
+      "dazzling-gleam",
+      "psychic-terrain",
+      "body-press",
+      "expanding-force",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_1"
+}

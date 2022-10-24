@@ -1,0 +1,16 @@
+{
+  "name": "clangorous-soulblaze",
+  "id": 728,
+  "power": 185,
+  "pp": 1,
+  "priority": 0,
+  "type": "dragon",
+  "target": "all-opponents",
+  "damage_class": "special",
+  "flavor_text": "After obtaining Z-Power, the user, Kommo-o,\nattacks the opposing Pokémon with full force. This\nmove boosts the user’s stats.",
+  "move_category": "damage+raise",
+  "stat_chance": 100,
+  "effect_text_extend": "Inflicts sound-based damage to all opposing Pokémon and increases the user's Attack, Defense, Special Attack, Special Defense, and Speed by one stage each. The user's stats are not raised if the move fails to damage any opposing Pokémon.",
+  "effect_text_simple": "Inflicts damage to all opposing Pokémon and increases the user's Attack, Defense, Special Attack, Special Defense, and Speed by one stage each.",
+  "effect_chance": 100
+}

@@ -2,16 +2,12 @@ package pokecube.core.database.pokedex;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
-
-import org.apache.commons.lang3.ClassUtils;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -207,6 +203,8 @@ public class JsonPokedexEntry
 
     public PokedexEntry toPokedexEntry()
     {
+        if (remove) return Database.missingno;
+
         PokedexEntry entry = new PokedexEntry(id, name);
         entry._root_json = this;
         entry.stock = this.stock;
@@ -237,37 +235,7 @@ public class JsonPokedexEntry
         {
             return other;
         }
-
-        Field fields[] = new Field[] {};
-        try
-        {
-            // returns the array of Field objects representing the public fields
-            fields = this.getClass().getDeclaredFields();
-        }
-        catch (final Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        var def = new JsonPokedexEntry();
-
-        for (final Field field : fields) try
-        {
-            if (Modifier.isFinal(field.getModifiers())) continue;
-            if (Modifier.isStatic(field.getModifiers())) continue;
-            if (Modifier.isTransient(field.getModifiers())) continue;
-            var theirs = field.get(other);
-
-            if (theirs != null)
-            {
-                if (ClassUtils.isPrimitiveOrWrapper(theirs.getClass()) && theirs == field.get(def)) continue;
-                field.set(this, theirs);
-            }
-        }
-        catch (final Exception e)
-        {
-            e.printStackTrace();
-        }
+        mergeBasic(other);
         return this;
     }
 
@@ -298,11 +266,6 @@ public class JsonPokedexEntry
 
     private void initStage2(PokedexEntry entry)
     {
-        if (!entry.base)
-        {
-
-        }
-
         if (this.interactions != null) entry._loaded_interactions.addAll(this.interactions);
         if (this.mega_rules != null) entry._loaded_megarules.addAll(this.mega_rules);
 
@@ -394,11 +357,11 @@ public class JsonPokedexEntry
             }
             catch (Exception e)
             {
-                PokecubeAPI.LOGGER.error("Error with database file {}", l, e);
+                PokecubeAPI.LOGGER.error("Error with pokemob file {}", l, e);
             }
         });
-        
-        PokecubeAPI.LOGGER.info("Loaded {} Pokemob files", toLoad.size());
+
+        PokecubeAPI.LOGGER.info("Loaded {} Pokemobs", toLoad.size());
 
         List<JsonPokedexEntry> loaded = LOADED;
         loaded.clear();

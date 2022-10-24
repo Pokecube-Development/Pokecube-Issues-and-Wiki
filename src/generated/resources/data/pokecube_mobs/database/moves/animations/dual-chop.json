@@ -1,0 +1,27 @@
+{
+  "name": "dualchop",
+  "animations": [
+    {
+      "preset": "cartFunc:psweep_attack:atrue:~dualchop",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.1,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pmisc:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~dualchop",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.vicegrip",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "applyAfter": false
+    }
+  ]
+}

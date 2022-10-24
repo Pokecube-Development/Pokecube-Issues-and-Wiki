@@ -1,0 +1,221 @@
+{
+  "name": "gogoat",
+  "id": 673,
+  "stock": true,
+  "base_experience": 186,
+  "size": {
+    "height": 1.7,
+    "width": 1.0,
+    "length": 1.7
+  },
+  "mass": 91.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 123,
+    "attack": 100,
+    "defense": 62,
+    "special_attack": 97,
+    "special_defense": 81,
+    "speed": 68
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "sap-sipper"
+    ],
+    "hidden": [
+      "grass-pelt"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "vine-whip",
+          "tackle",
+          "tail-whip",
+          "growth",
+          "earthquake"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "milk-drink"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "bulk-up"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "leaf-blade"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "worry-seed"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "seed-bomb"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "bulldoze"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "horn-leech"
+        ]
+      }
+    ],
+    "misc": [
+      "vine-whip",
+      "tackle",
+      "take-down",
+      "double-edge",
+      "tail-whip",
+      "roar",
+      "surf",
+      "hyper-beam",
+      "strength",
+      "leech-seed",
+      "growth",
+      "razor-leaf",
+      "solar-beam",
+      "earthquake",
+      "dig",
+      "toxic",
+      "double-team",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "giga-drain",
+      "swagger",
+      "milk-drink",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "synthesis",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
+      "facade",
+      "nature-power",
+      "superpower",
+      "brick-break",
+      "secret-power",
+      "aerial-ace",
+      "bulk-up",
+      "bounce",
+      "leaf-blade",
+      "payback",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "giga-impact",
+      "zen-headbutt",
+      "grass-knot",
+      "round",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "wild-charge",
+      "horn-leech",
+      "confide",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/sheep_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

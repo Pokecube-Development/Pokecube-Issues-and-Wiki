@@ -1,0 +1,15 @@
+{
+  "name": "poisongas",
+  "animations": [
+    {
+      "preset": "flow:pmisc:d0.5:~poisongas",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.poisontoxic",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

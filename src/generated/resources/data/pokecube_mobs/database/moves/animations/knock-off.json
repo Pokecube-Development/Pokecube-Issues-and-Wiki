@@ -1,0 +1,25 @@
+{
+  "name": "knockoff",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~knockoff",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.vicegrip",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2
+    },
+    {
+      "preset": "cartFunc:pmisc:d1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~knockoff",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pcloud:d1:l20:~knockoff",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

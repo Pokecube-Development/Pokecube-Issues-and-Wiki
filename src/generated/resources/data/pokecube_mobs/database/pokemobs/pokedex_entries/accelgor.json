@@ -1,0 +1,184 @@
+{
+  "name": "accelgor",
+  "id": 617,
+  "stock": true,
+  "base_experience": 173,
+  "size": {
+    "height": 0.8,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 25.3,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 80,
+    "attack": 70,
+    "defense": 40,
+    "special_attack": 100,
+    "special_defense": 60,
+    "speed": 145
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "bug"
+  ],
+  "abilities": {
+    "normal": [
+      "hydration",
+      "sticky-hold"
+    ],
+    "hidden": [
+      "unburden"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "body-slam",
+          "acid",
+          "absorb",
+          "quick-attack",
+          "double-team",
+          "leech-life",
+          "acid-armor",
+          "curse",
+          "yawn",
+          "power-swap",
+          "guard-swap",
+          "acid-spray",
+          "final-gambit",
+          "water-shuriken"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "u-turn"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "me-first"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "struggle-bug"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "hyper-beam",
+      "absorb",
+      "mega-drain",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "double-team",
+      "recover",
+      "swift",
+      "leech-life",
+      "rest",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "sludge-bomb",
+      "spikes",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "baton-pass",
+      "encore",
+      "hidden-power",
+      "rain-dance",
+      "facade",
+      "knock-off",
+      "secret-power",
+      "signal-beam",
+      "mud-shot",
+      "u-turn",
+      "gastro-acid",
+      "me-first",
+      "power-swap",
+      "guard-swap",
+      "toxic-spikes",
+      "bug-buzz",
+      "drain-punch",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "bug-bite",
+      "venoshock",
+      "acid-spray",
+      "round",
+      "final-gambit",
+      "struggle-bug",
+      "confide",
+      "water-shuriken",
+      "venom-drench",
+      "infestation",
+      "laser-focus",
+      "skitter-smack"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2"
+}

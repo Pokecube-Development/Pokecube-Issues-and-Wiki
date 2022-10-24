@@ -1,0 +1,92 @@
+{
+  "name": "coreenforcer",
+  "animations": [
+    {
+      "preset": "cartFunc:pexplosion:atrue:d0.1:w1:f(0.5-rand())*(8),0,6:~coreenforcer",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "minecraft:entity.evoker.prepare_summon",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 1.5,
+      "applyAfter": false
+    },
+    {
+      "preset": "flow:phappy_villager:clime:atrue:d1:w1:f(0.5-rand())*(8),0,6:~coreenforcer",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.megaattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0,
+      "applyAfter": false
+    },
+    {
+      "preset": "sphFunc:phappy_villager:clime:atrue:d0.1:w1.5:l20:f(0.5-rand())*(10),8,(0.5-rand())*(10):~coreenforcer",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.sacredfire",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 1.0,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pexplosion:atrue:d0.1:w1:f(0.5-rand())*(8),0,-6:~coreenforcer",
+      "duration": "5",
+      "starttick": "4",
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pexplosion:atrue:d0.1:w1:f6,0,-6:~:~coreenforcer",
+      "duration": "5",
+      "starttick": "4",
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pexplosion:atrue:d1:w1:f4,0,-4:~:~coreenforcer",
+      "duration": "5",
+      "starttick": "4",
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pexplosion:atrue:d1:w1:f2,0,-2:~:~coreenforcer",
+      "duration": "5",
+      "starttick": "4",
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pexplosion:atrue:d1:w1:f0,0,0:~:~coreenforcer",
+      "duration": "5",
+      "starttick": "4",
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pexplosion:atrue:d0.1:w1:f-6,0,6:~:~coreenforcer",
+      "duration": "5",
+      "starttick": "4",
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pexplosion:atrue:d1:w1:f-4,0,4:~:~coreenforcer",
+      "duration": "5",
+      "starttick": "4",
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pexplosion:atrue:d1:w1:f-2,0,2:~:~coreenforcer",
+      "duration": "5",
+      "starttick": "4",
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pexplosion:atrue:d1:w1:f0,0,0:~:~coreenforcer",
+      "duration": "5",
+      "starttick": "4",
+      "applyAfter": false
+    }
+  ]
+}

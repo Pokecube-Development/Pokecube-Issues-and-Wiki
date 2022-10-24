@@ -1,0 +1,214 @@
+{
+  "name": "mothim",
+  "id": 414,
+  "stock": true,
+  "base_experience": 148,
+  "size": {
+    "height": 0.9,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 23.3,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 70,
+    "attack": 94,
+    "defense": 50,
+    "special_attack": 94,
+    "special_defense": 50,
+    "speed": 66
+  },
+  "evs": {
+    "attack": 1,
+    "special_attack": 1
+  },
+  "types": [
+    "bug",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "swarm"
+    ],
+    "hidden": [
+      "tinted-lens"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 26,
+        "moves": [
+          "gust"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "protect",
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "poison-powder"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "hidden-power"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "camouflage"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "silver-wind"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "quiver-dance"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "lunge"
+        ]
+      }
+    ],
+    "misc": [
+      "gust",
+      "tackle",
+      "psybeam",
+      "hyper-beam",
+      "solar-beam",
+      "poison-powder",
+      "string-shot",
+      "toxic",
+      "confusion",
+      "psychic",
+      "double-team",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "mud-slap",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "facade",
+      "skill-swap",
+      "secret-power",
+      "camouflage",
+      "air-cutter",
+      "silver-wind",
+      "signal-beam",
+      "aerial-ace",
+      "roost",
+      "natural-gift",
+      "tailwind",
+      "u-turn",
+      "air-slash",
+      "bug-buzz",
+      "energy-ball",
+      "giga-impact",
+      "defog",
+      "captivate",
+      "bug-bite",
+      "ominous-wind",
+      "venoshock",
+      "quiver-dance",
+      "round",
+      "acrobatics",
+      "struggle-bug",
+      "electroweb",
+      "confide",
+      "infestation",
+      "lunge"
+    ]
+  },
+  "model": {
+    "key": "mothim-plant",
+    "tex": "mothim-plant",
+    "model": "mothim-plant",
+    "anim": "mothim-plant",
+    "types": "bug,flying"
+  },
+  "models": [
+    {
+      "key": "mothim-sandy",
+      "tex": "mothim-sandy",
+      "model": "mothim-sandy",
+      "anim": "mothim-sandy",
+      "types": "bug,flying"
+    },
+    {
+      "key": "mothim-trash",
+      "tex": "mothim-trash",
+      "model": "mothim-trash",
+      "anim": "mothim-trash",
+      "types": "bug,flying"
+    }
+  ],
+  "loot_table": "pokecube:entities/chicken_2"
+}

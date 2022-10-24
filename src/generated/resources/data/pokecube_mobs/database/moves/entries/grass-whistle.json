@@ -1,0 +1,16 @@
+{
+  "name": "grass-whistle",
+  "id": 320,
+  "pp": 15,
+  "priority": 0,
+  "type": "grass",
+  "accuracy": 55,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user plays a pleasant melody that lulls the\ntarget into a deep sleep.",
+  "move_category": "ailment",
+  "max_turns": 4,
+  "min_turns": 2,
+  "effect_text_extend": "Puts the target to sleep.",
+  "effect_text_simple": "Puts the target to sleep."
+}

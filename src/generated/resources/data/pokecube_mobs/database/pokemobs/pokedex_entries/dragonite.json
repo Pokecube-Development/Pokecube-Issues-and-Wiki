@@ -1,0 +1,251 @@
+{
+  "name": "dragonite",
+  "id": 149,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 2.2,
+    "width": 1.5,
+    "length": 1.5
+  },
+  "mass": 210.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 91,
+    "attack": 134,
+    "defense": 95,
+    "special_attack": 100,
+    "special_defense": 100,
+    "speed": 80
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "dragon",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "inner-focus"
+    ],
+    "hidden": [
+      "multiscale"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "fire-punch",
+          "thunder-punch",
+          "wrap",
+          "leer",
+          "mist",
+          "thunder-wave",
+          "twister",
+          "extreme-speed",
+          "roost",
+          "aqua-jet",
+          "hurricane"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "wing-attack"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 75,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "dragon-rage"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "safeguard",
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "dragon-dance"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "dragon-rush"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "dragon-tail"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "razor-wind",
+      "cut",
+      "wing-attack",
+      "fly",
+      "bind",
+      "slam",
+      "mega-kick",
+      "headbutt",
+      "horn-drill",
+      "body-slam",
+      "wrap",
+      "take-down",
+      "double-edge",
+      "leer",
+      "roar",
+      "flamethrower",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "hyper-beam",
+      "strength",
+      "dragon-rage",
+      "fire-spin",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "agility",
+      "rage",
+      "mimic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "bide",
+      "fire-blast",
+      "waterfall",
+      "swift",
+      "skull-bash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "icy-wind",
+      "detect",
+      "outrage",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dynamic-punch",
+      "dragon-breath",
+      "iron-tail",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
+      "whirlpool",
+      "heat-wave",
+      "hail",
+      "facade",
+      "focus-punch",
+      "superpower",
+      "brick-break",
+      "secret-power",
+      "dive",
+      "air-cutter",
+      "rock-tomb",
+      "aerial-ace",
+      "dragon-claw",
+      "dragon-dance",
+      "shock-wave",
+      "water-pulse",
+      "roost",
+      "natural-gift",
+      "tailwind",
+      "fling",
+      "aqua-tail",
+      "air-slash",
+      "dragon-pulse",
+      "dragon-rush",
+      "focus-blast",
+      "giga-impact",
+      "defog",
+      "draco-meteor",
+      "iron-head",
+      "stone-edge",
+      "captivate",
+      "ominous-wind",
+      "hone-claws",
+      "round",
+      "sky-drop",
+      "incinerate",
+      "bulldoze",
+      "dragon-tail",
+      "hurricane",
+      "confide",
+      "power-up-punch",
+      "brutal-swing",
+      "body-press",
+      "breaking-swipe",
+      "scale-shot",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1"
+}

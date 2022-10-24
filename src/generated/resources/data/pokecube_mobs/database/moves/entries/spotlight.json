@@ -1,0 +1,13 @@
+{
+  "name": "spotlight",
+  "id": 671,
+  "pp": 15,
+  "priority": 3,
+  "type": "normal",
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user shines a spotlight on the target so that\nonly the target will be attacked during the turn.",
+  "move_category": "unique",
+  "effect_text_extend": "For the duration of the turn, if the target is also a valid target for a move used by one of its opponents, that move will target it instead.",
+  "effect_text_simple": "Forces the target's opponents to aim at the target for the rest of the turn."
+}

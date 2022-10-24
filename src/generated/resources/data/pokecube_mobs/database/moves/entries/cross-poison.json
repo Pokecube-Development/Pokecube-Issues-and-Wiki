@@ -1,0 +1,18 @@
+{
+  "name": "cross-poison",
+  "id": 440,
+  "power": 70,
+  "pp": 20,
+  "priority": 0,
+  "type": "poison",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "A slashing attack with a poisonous blade that may\nalso poison the target. Critical hits land more easily.",
+  "move_category": "damage+ailment",
+  "crit_rate": 1,
+  "ailment_chance": 10,
+  "effect_text_extend": "Inflicts regular damage.  User's critical hit rate is one level higher when using this move. Has a $effect_chance% chance to poison the target.",
+  "effect_text_simple": "Has an increased chance for a critical hit and a $effect_chance% chance to poison the target.",
+  "effect_chance": 10
+}

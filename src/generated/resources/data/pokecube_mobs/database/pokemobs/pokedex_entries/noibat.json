@@ -1,0 +1,216 @@
+{
+  "name": "noibat",
+  "id": 714,
+  "stock": true,
+  "base_experience": 49,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 8.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 40,
+    "attack": 30,
+    "defense": 35,
+    "special_attack": 45,
+    "special_defense": 40,
+    "speed": 55
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "flying",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "frisk",
+      "infiltrator"
+    ],
+    "hidden": [
+      "telepathy"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 31,
+        "moves": [
+          "razor-wind"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "gust"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "wing-attack"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "whirlwind"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "supersonic",
+          "screech"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "absorb",
+          "leech-life"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "double-team"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "super-fang"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "air-cutter"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "roost"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "tailwind"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "hurricane"
+        ]
+      }
+    ],
+    "misc": [
+      "razor-wind",
+      "cut",
+      "gust",
+      "wing-attack",
+      "whirlwind",
+      "fly",
+      "tackle",
+      "bite",
+      "supersonic",
+      "absorb",
+      "solar-beam",
+      "toxic",
+      "psychic",
+      "agility",
+      "screech",
+      "double-team",
+      "swift",
+      "dream-eater",
+      "leech-life",
+      "sky-attack",
+      "rest",
+      "super-fang",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "outrage",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "shadow-ball",
+      "uproar",
+      "heat-wave",
+      "torment",
+      "facade",
+      "taunt",
+      "brick-break",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "air-cutter",
+      "aerial-ace",
+      "water-pulse",
+      "roost",
+      "tailwind",
+      "u-turn",
+      "dark-pulse",
+      "air-slash",
+      "x-scissor",
+      "dragon-pulse",
+      "dragon-rush",
+      "switcheroo",
+      "shadow-claw",
+      "defog",
+      "draco-meteor",
+      "round",
+      "echoed-voice",
+      "acrobatics",
+      "wild-charge",
+      "hurricane",
+      "confide",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_1",
+  "evolutions": [
+    {
+      "name": "noivern",
+      "level": 48
+    }
+  ]
+}

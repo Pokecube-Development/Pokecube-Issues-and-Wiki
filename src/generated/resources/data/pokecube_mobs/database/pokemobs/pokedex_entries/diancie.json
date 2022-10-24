@@ -1,0 +1,234 @@
+{
+  "name": "diancie",
+  "id": 719,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 8.8,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 50,
+    "attack": 100,
+    "defense": 150,
+    "special_attack": 100,
+    "special_defense": 150,
+    "speed": 50
+  },
+  "evs": {
+    "defense": 1,
+    "special_defense": 2
+  },
+  "types": [
+    "rock",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "clear-body"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "rock-throw",
+          "harden"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "reflect"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "rock-slide",
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "sharpen"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "skill-swap",
+          "rock-polish"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "trick-room"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "guard-split"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "smack-down"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "moonblast",
+          "diamond-storm"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "hyper-beam",
+      "rock-throw",
+      "toxic",
+      "psychic",
+      "double-team",
+      "harden",
+      "light-screen",
+      "reflect",
+      "metronome",
+      "amnesia",
+      "flash",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "sharpen",
+      "substitute",
+      "snore",
+      "flail",
+      "protect",
+      "sandstorm",
+      "endure",
+      "charm",
+      "swagger",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "baton-pass",
+      "encore",
+      "hidden-power",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "hail",
+      "facade",
+      "nature-power",
+      "helping-hand",
+      "endeavor",
+      "skill-swap",
+      "secret-power",
+      "fake-tears",
+      "rock-tomb",
+      "sand-tomb",
+      "iron-defense",
+      "covet",
+      "calm-mind",
+      "gravity",
+      "gyro-ball",
+      "guard-swap",
+      "last-resort",
+      "magnet-rise",
+      "rock-polish",
+      "power-gem",
+      "earth-power",
+      "giga-impact",
+      "trick-room",
+      "stone-edge",
+      "stealth-rock",
+      "guard-split",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "smack-down",
+      "after-you",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "draining-kiss",
+      "play-rough",
+      "moonblast",
+      "confide",
+      "diamond-storm",
+      "mystical-fire",
+      "dazzling-gleam",
+      "body-press",
+      "meteor-beam",
+      "misty-explosion",
+      "terrain-pulse"
+    ]
+  },
+  "loot_table": "pokecube:entities/diamond_legend",
+  "spawn_rules": [
+    {
+      "and_preset": "extreme_hills",
+      "values": {
+        "rate": "0.0"
+      }
+    }
+  ],
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "dianciemega"
+    }
+  ]
+}

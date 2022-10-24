@@ -3,39 +3,20 @@ package pokecube.api.moves;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
-import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.events.pokemobs.combat.MoveUse;
-import pokecube.api.utils.PokeType;
-import pokecube.core.PokecubeCore;
-import pokecube.core.database.moves.MoveEntry;
-import pokecube.core.database.moves.MoveEntry.Category;
-import pokecube.core.moves.MoveQueue.MoveQueuer;
+import pokecube.api.moves.utils.IMoveAnimation;
+import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.moves.animations.EntityMoveUse;
-import pokecube.core.moves.zmoves.GZMoveManager;
 import thut.api.maths.Vector3;
 
 public abstract class Move_Base
 {
     public final String name;
-    private IMoveAnimation animation;
     public boolean aoe = false;
-    public boolean fixedDamage = false;
-    protected SoundEvent soundUser;
-    protected SoundEvent soundTarget;
-    public boolean hasStatModSelf = false;
-    public boolean hasStatModTarget = false;
     public final MoveEntry move;
 
     /**
@@ -52,24 +33,6 @@ public abstract class Move_Base
     {
         this.move = MoveEntry.get(name);
         this.name = this.move.name;
-        this.fixedDamage = this.move.fixed;
-        boolean mod = false;
-        for (final int i : this.move.attackedStatModification) if (i != 0)
-        {
-            mod = true;
-            break;
-        }
-        if (!mod) this.move.attackedStatModProb = 0;
-        mod = false;
-        for (final int i : this.move.attackerStatModification) if (i != 0)
-        {
-            mod = true;
-            break;
-        }
-        if (!mod) this.move.attackerStatModProb = 0;
-
-        if (this.move.attackedStatModProb > 0) this.hasStatModTarget = true;
-        if (this.move.attackerStatModProb > 0) this.hasStatModSelf = true;
     }
 
     /**
@@ -97,27 +60,10 @@ public abstract class Move_Base
      * @param start
      * @param end
      */
+    @Deprecated
     public void ActualMoveUse(@Nonnull final LivingEntity user, @Nullable final LivingEntity target,
             @Nonnull final Vector3 start, @Nonnull final Vector3 end)
-    {
-        final IPokemob pokemob = PokemobCaps.getPokemobFor(user);
-        if (pokemob == null) return;
-        if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, this, target))) return;
-        final EntityMoveUse moveUse = EntityMoveUse.Builder.make(user, this, start).setEnd(end).setTarget(target)
-                .build();
-        if (GZMoveManager.zmoves_map.containsValue(this.move.baseEntry.name))
-            pokemob.setCombatState(CombatStates.USEDZMOVE, true);
-        pokemob.setActiveMove(moveUse);
-        MoveQueuer.queueMove(moveUse);
-    }
-
-    /**
-     * Applies hunger cost to attacker when this move is used. Hunger is used
-     * instead of PP in pokecube
-     *
-     * @param attacker
-     */
-    public abstract void applyHungerCost(IPokemob attacker);
+    {}
 
     /**
      * First stage of attack use, this is called when the attack is being
@@ -129,35 +75,6 @@ public abstract class Move_Base
      * @param attacked
      */
     public abstract void attack(IPokemob attacker, LivingEntity attacked);
-
-    /**
-     * Applys world effects of the move
-     *
-     * @param attacker - mob using the move
-     * @param location - locaton move hits
-     */
-    public abstract void doWorldAction(IPokemob attacker, Vector3 location);
-
-    /**
-     * Gets the {@link IMoveAnimation} for this move.
-     *
-     * @return
-     */
-    public IMoveAnimation getAnimation()
-    {
-        return this.animation;
-    }
-
-    /**
-     * User sensitive version of {@link Move_Base#getAnimation()}
-     *
-     * @param user
-     * @return
-     */
-    public IMoveAnimation getAnimation(final IPokemob user)
-    {
-        return this.getAnimation();
-    }
 
     /**
      * Attack category getter. Can be {@link IMoveConstants#CATEGORY_CONTACT} or
@@ -181,23 +98,6 @@ public abstract class Move_Base
     public byte getAttackCategory(final IPokemob user)
     {
         return (byte) this.move.attackCategory;
-    }
-
-    /** @return Move category for this move. */
-    public Category getCategory()
-    {
-        return Category.values()[this.move.category];
-    }
-
-    /**
-     * User sensitive version of {@link Move_Base#getCategory()}
-     *
-     * @param user
-     * @return
-     */
-    public Category getCategory(final IPokemob user)
-    {
-        return this.getCategory();
     }
 
     public abstract Move_Base getMove(String name);
@@ -256,26 +156,6 @@ public abstract class Move_Base
     }
 
     /**
-     * PWR getter
-     *
-     * @return the power of this move
-     */
-    public int getPWR()
-    {
-        return this.move.power;
-    }
-
-    /**
-     * PWR getter
-     *
-     * @return the power of this move
-     */
-    public int getPWR(final IPokemob user, final LivingEntity target)
-    {
-        return this.move.power;
-    }
-
-    /**
      * Gets the self heal ratio for this attack and the given user.
      *
      * @param user
@@ -289,16 +169,6 @@ public abstract class Move_Base
     public float getTargetHealRatio(final IPokemob user)
     {
         return this.move.targetHealRatio;
-    }
-
-    /**
-     * Type getter
-     *
-     * @return the type of this move
-     */
-    public PokeType getType(final IPokemob user)
-    {
-        return this.move.type;
     }
 
     /**
@@ -340,61 +210,10 @@ public abstract class Move_Base
      * @param attacked
      * @param targetPos
      */
-    public void playSounds(final LivingEntity attacker, @Nullable final Entity attacked,
+    public void playSounds(final LivingEntity attacker, @Nullable final LivingEntity attacked,
             @Nullable final Vector3 targetPos)
     {
-        final Vector3 pos = new Vector3();
-        final float scale = (float) PokecubeCore.getConfig().moveVolumeCry;
-        final Level world = attacker.getLevel();
-        final float pitch = 1;
-        final float volume = 1 * scale;
-        if (attacker != null) if (this.soundUser != null || this.move.baseEntry.soundEffectSource != null)
-        {
-            if (this.move.baseEntry.soundEffectSource != null)
-            {
-                this.soundUser = ForgeRegistries.SOUND_EVENTS
-                        .getValue(new ResourceLocation(this.move.baseEntry.soundEffectSource));
-                if (this.soundUser == null) PokecubeAPI.LOGGER.error("No Sound found for `"
-                        + this.move.baseEntry.soundEffectSource + "` for attack " + this.getName());
-                this.move.baseEntry.soundEffectSource = null;
-            }
-            pos.set(attacker);
-            if (this.soundUser != null)
-                world.playLocalSound(pos.x, pos.y, pos.z, this.soundUser, SoundSource.HOSTILE, volume, pitch, true);
-        }
-        if (attacked != null)
-        {
-            if (this.soundTarget != null || this.move.baseEntry.soundEffectTarget != null)
-                if (this.soundTarget != null || this.move.baseEntry.soundEffectTarget != null)
-            {
-                if (this.move.baseEntry.soundEffectTarget != null)
-                {
-                    this.soundTarget = ForgeRegistries.SOUND_EVENTS
-                            .getValue(new ResourceLocation(this.move.baseEntry.soundEffectTarget));
-                    if (this.soundTarget == null) PokecubeAPI.LOGGER.error("No Sound found for `"
-                            + this.move.baseEntry.soundEffectTarget + "` for attack " + this.getName());
-                    this.move.baseEntry.soundEffectTarget = null;
-                }
-                pos.set(attacked);
-                if (this.soundTarget != null) world.playLocalSound(pos.x, pos.y, pos.z, this.soundTarget,
-                        SoundSource.HOSTILE, volume, pitch, true);
-            }
-        }
-        else if (attacker != null && targetPos != null)
-            if (this.soundTarget != null || this.move.baseEntry.soundEffectTarget != null)
-        {
-            if (this.move.baseEntry.soundEffectTarget != null)
-            {
-                this.soundTarget = ForgeRegistries.SOUND_EVENTS
-                        .getValue(new ResourceLocation(this.move.baseEntry.soundEffectTarget));
-                if (this.soundTarget == null) PokecubeAPI.LOGGER.error("No Sound found for `"
-                        + this.move.baseEntry.soundEffectTarget + "` for attack " + this.getName());
-                this.move.baseEntry.soundEffectTarget = null;
-            }
-            pos.set(targetPos);
-            if (this.soundTarget != null)
-                world.playLocalSound(pos.x, pos.y, pos.z, this.soundTarget, SoundSource.HOSTILE, volume, pitch, true);
-        }
+        this.move.playSounds(new MoveApplication(move, PokemobCaps.getPokemobFor(attacker), attacked));
     }
 
     /**
@@ -421,7 +240,7 @@ public abstract class Move_Base
      */
     public Move_Base setAnimation(final IMoveAnimation anim)
     {
-        this.animation = anim;
+        this.move.setAnimation(anim);
         return this;
     }
 
@@ -439,30 +258,6 @@ public abstract class Move_Base
     }
 
     /**
-     * Sets if the attack hits all targets in the direction it is fired, example
-     * being flamethrower, that should hit all things in front.
-     *
-     * @return
-     */
-    public Move_Base setFixedDamage()
-    {
-        this.fixedDamage = true;
-        return this;
-    }
-
-    /**
-     * Sets if the attack hits all targets in the direction it is fired, example
-     * being flamethrower, that should hit all things in front.
-     *
-     * @return
-     */
-    public Move_Base setMultiTarget()
-    {
-        this.move.baseEntry.multiTarget = true;
-        return this;
-    }
-
-    /**
      * Sets if the move can not be intercepted. this should be used for moves
      * like psychic, which should not be intercepted.
      *
@@ -472,19 +267,6 @@ public abstract class Move_Base
     public Move_Base setNotInterceptable()
     {
         this.move.setCanHitNonTarget(false);
-        return this;
-    }
-
-    /**
-     * Sets if the move can not be intercepted. this should be used for moves
-     * like psychic, which should not be intercepted.
-     *
-     * @param bool
-     * @return
-     */
-    public Move_Base setSelf()
-    {
-        this.hasStatModSelf = true;
         return this;
     }
 }

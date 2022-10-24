@@ -12,8 +12,9 @@ import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.combat.AttackEvent;
-import pokecube.api.moves.IMoveConstants;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
 import pokecube.core.moves.MovesUtils;
 
@@ -25,8 +26,8 @@ public class MovePacket
     public PokeType attackType;
     public int PWR;
     public int criticalLevel;
-    public byte statusChange;
-    public byte changeAddition;
+    public int statusChange;
+    public int changeAddition;
     public float stabFactor = 1.5f;
     public float critFactor = 1.5f;
     public boolean stab = false;
@@ -128,20 +129,20 @@ public class MovePacket
         }
     }
 
-    public MovePacket(IPokemob attacker, LivingEntity attacked, Move_Base move)
+    public MovePacket(IPokemob attacker, LivingEntity attacked, MoveEntry move)
     {
-        this(attacker, attacked, move.name, move.getType(attacker), move.getPWR(), move.move.crit,
-                move.move.statusChange, move.move.change);
+        this(attacker, attacked, move.name, move.getType(attacker), move.getPWR(), move.crit,
+                move.statusChange, move.change);
     }
 
     public MovePacket(IPokemob attacker, LivingEntity attacked, String attack, PokeType type, int PWR,
-            int criticalLevel, byte statusChange, byte changeAddition)
+            int criticalLevel, int statusChange, int changeAddition)
     {
         this(attacker, attacked, attack, type, PWR, criticalLevel, statusChange, changeAddition, true);
     }
 
     public MovePacket(IPokemob attacker, LivingEntity attacked, String attack, PokeType type, int PWR,
-            int criticalLevel, byte statusChange, byte changeAddition, boolean pre)
+            int criticalLevel, int statusChange, int changeAddition, boolean pre)
     {
         this.attacker = attacker;
         this.attacked = attacked;
@@ -152,17 +153,22 @@ public class MovePacket
         this.statusChange = statusChange;
         this.changeAddition = changeAddition;
         this.pre = pre;
-        final Move_Base move = this.getMove();
-        this.attackedStatModification = move.move.attackedStatModification.clone();
-        this.attackerStatModification = move.move.attackerStatModification.clone();
-        this.attackedStatModProb = move.move.attackedStatModProb;
-        this.attackerStatModProb = move.move.attackerStatModProb;
+        final MoveEntry move = this.getMove();
+        this.attackedStatModification = move.attackedStatModification.clone();
+        this.attackerStatModification = move.attackerStatModification.clone();
+        this.attackedStatModProb = move.attackedStatModProb;
+        this.attackerStatModProb = move.attackerStatModProb;
 
         PokecubeAPI.MOVE_BUS.post(new AttackEvent(this));
     }
 
-    public Move_Base getMove()
+    public MoveEntry getMove()
     {
-        return MovesUtils.getMoveFromName(this.attack);
+        return MovesUtils.getMove(this.attack);
+    }
+
+    public MoveApplication convert()
+    {
+        return new MoveApplication(this.getMove(), attacker, attacked);
     }
 }

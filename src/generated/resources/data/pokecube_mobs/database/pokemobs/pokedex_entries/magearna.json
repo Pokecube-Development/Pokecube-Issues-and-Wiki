@@ -1,0 +1,230 @@
+{
+  "name": "magearna",
+  "id": 801,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 1.0,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 80.5,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 80,
+    "attack": 95,
+    "defense": 115,
+    "special_attack": 130,
+    "special_defense": 115,
+    "speed": 65
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "steel",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "soul-heart"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "sonic-boom",
+          "psybeam",
+          "defense-curl",
+          "helping-hand",
+          "gyro-ball",
+          "iron-head",
+          "shift-gear",
+          "crafty-shield",
+          "gear-up"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "aurora-beam"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "mind-reader"
+        ]
+      },
+      {
+        "L": 84,
+        "moves": [
+          "zap-cannon"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "pain-split"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 97,
+        "moves": [
+          "trump-card"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 89,
+        "moves": [
+          "heart-swap"
+        ]
+      },
+      {
+        "L": 81,
+        "moves": [
+          "aura-sphere"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "mirror-shot"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "flash-cannon"
+        ]
+      },
+      {
+        "L": 73,
+        "moves": [
+          "synchronoise"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "fleur-cannon"
+        ]
+      }
+    ],
+    "misc": [
+      "sonic-boom",
+      "ice-beam",
+      "psybeam",
+      "aurora-beam",
+      "hyper-beam",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "agility",
+      "double-team",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "self-destruct",
+      "explosion",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "mind-reader",
+      "snore",
+      "protect",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "heal-bell",
+      "return",
+      "frustration",
+      "pain-split",
+      "baton-pass",
+      "encore",
+      "hidden-power",
+      "shadow-ball",
+      "helping-hand",
+      "trick",
+      "brick-break",
+      "imprison",
+      "signal-beam",
+      "iron-defense",
+      "calm-mind",
+      "shock-wave",
+      "gyro-ball",
+      "embargo",
+      "trump-card",
+      "lucky-chant",
+      "power-swap",
+      "guard-swap",
+      "last-resort",
+      "heart-swap",
+      "magnet-rise",
+      "aura-sphere",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "zen-headbutt",
+      "mirror-shot",
+      "flash-cannon",
+      "trick-room",
+      "iron-head",
+      "grass-knot",
+      "charge-beam",
+      "synchronoise",
+      "electro-ball",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "shift-gear",
+      "volt-switch",
+      "electroweb",
+      "draining-kiss",
+      "crafty-shield",
+      "confide",
+      "eerie-impulse",
+      "dazzling-gleam",
+      "gear-up",
+      "speed-swap",
+      "fleur-cannon",
+      "steel-beam",
+      "steel-roller",
+      "misty-explosion"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "spawn_rules": [
+    {
+      "and_preset": "villages",
+      "values": {
+        "rate": "0.0"
+      }
+    }
+  ]
+}

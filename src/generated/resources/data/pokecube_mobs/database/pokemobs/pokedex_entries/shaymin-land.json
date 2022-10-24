@@ -1,0 +1,171 @@
+{
+  "name": "shaymin-land",
+  "id": 492,
+  "stock": true,
+  "base_experience": 270,
+  "size": {
+    "height": 0.2,
+    "width": 0.2,
+    "length": 0.2
+  },
+  "mass": 2.1,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 100,
+  "growth_rate": "medium-slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 100,
+    "attack": 100,
+    "defense": 100,
+    "special_attack": 100,
+    "special_defense": 100,
+    "speed": 100
+  },
+  "evs": {
+    "hp": 3
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "natural-cure"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 19,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "growth",
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 82,
+        "moves": [
+          "sweet-kiss",
+          "grass-whistle"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 91,
+        "moves": [
+          "healing-wish",
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "natural-gift"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "worry-seed"
+        ]
+      },
+      {
+        "L": 73,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+      {
+        "L": 100,
+        "moves": [
+          "seed-flare"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "headbutt",
+      "hyper-beam",
+      "leech-seed",
+      "growth",
+      "solar-beam",
+      "toxic",
+      "psychic",
+      "double-team",
+      "swift",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "sweet-kiss",
+      "mud-slap",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "psych-up",
+      "facade",
+      "nature-power",
+      "endeavor",
+      "secret-power",
+      "aromatherapy",
+      "bullet-seed",
+      "covet",
+      "magical-leaf",
+      "healing-wish",
+      "natural-gift",
+      "last-resort",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "earth-power",
+      "giga-impact",
+      "zen-headbutt",
+      "grass-knot",
+      "seed-flare",
+      "round",
+      "confide",
+      "dazzling-gleam",
+      "laser-focus"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "old_name": "shaymin_land"
+}

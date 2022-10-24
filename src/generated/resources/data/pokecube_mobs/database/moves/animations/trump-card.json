@@ -1,0 +1,25 @@
+{
+  "name": "trumpcard",
+  "animations": [
+    {
+      "preset": "cartFunc:ppowder:atrue:d0.3:w0.5:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~trumpcard",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.7,
+      "pitch": 1.8
+    },
+    {
+      "preset": "cartFunc:pcloud:d1:atrue:w2:l15:~trumpcard",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    }
+  ]
+}

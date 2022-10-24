@@ -17,8 +17,8 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.items.IPokemobUseable;
-import pokecube.api.moves.IMoveConstants;
-import pokecube.api.moves.IMoveNames;
+import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.IMoveNames;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect;
 import pokecube.core.moves.animations.EntityMoveUse;
@@ -143,7 +143,7 @@ public class LogicMovesUpdates extends LogicBase
 
     protected void updateStatusEffect()
     {
-        final byte status = this.pokemob.getStatus();
+        final int status = this.pokemob.getStatus();
         if (status == IMoveConstants.STATUS_NON)
         {
             if (this.pokemob.getLogicState(LogicStates.SLEEPING))

@@ -5,7 +5,7 @@ import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.ai.brain.BrainUtils;
 
 public class Trace extends Ability
@@ -25,9 +25,15 @@ public class Trace extends Ability
     }
 
     @Override
-    public void onMoveUse(final IPokemob mob, final MovePacket move)
+    public void postMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        if (this.traced != null) this.traced.onMoveUse(mob, move);
+        if (this.traced != null) this.traced.postMoveUse(mob, move);
+    }
+
+    @Override
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
+    {
+        if (this.traced != null) this.traced.preMoveUse(mob, move);
     }
 
     @Override

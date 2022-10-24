@@ -1,0 +1,17 @@
+{
+  "name": "trop-kick",
+  "id": 688,
+  "power": 70,
+  "pp": 15,
+  "priority": 0,
+  "type": "grass",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user lands an intense kick of tropical origins on\nthe target. This also lowers the target’s Attack stat.",
+  "move_category": "damage+lower",
+  "stat_chance": 100,
+  "effect_text_extend": "Inflicts regular damage.  Lowers the target's Attack by one stage.",
+  "effect_text_simple": "Lowers the target's Attack by one stage after inflicting damage.",
+  "effect_chance": 100
+}

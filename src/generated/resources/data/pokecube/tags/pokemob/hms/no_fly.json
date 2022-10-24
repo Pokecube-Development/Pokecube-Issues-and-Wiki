@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:doduo",
+    "pokecube:dodrio",
+    "pokecube:gyarados",
+    "pokecube:zapdos-galar",
+    "pokecube:mantine",
+    "pokecube:mantyke"
+  ]
+}

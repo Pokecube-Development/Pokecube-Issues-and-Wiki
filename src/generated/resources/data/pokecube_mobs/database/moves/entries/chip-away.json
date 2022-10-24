@@ -1,0 +1,15 @@
+{
+  "name": "chip-away",
+  "id": 498,
+  "power": 70,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "Looking for an opening, the user strikes consistently.\nThe target’s stat changes don’t affect this\nattack’s damage.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Damage calculation ignores the target's stat modifiers, including evasion.",
+  "effect_text_simple": "Ignores the target's stat modifiers."
+}

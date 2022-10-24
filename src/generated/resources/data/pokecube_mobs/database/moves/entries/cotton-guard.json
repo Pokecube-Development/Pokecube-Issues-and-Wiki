@@ -1,0 +1,13 @@
+{
+  "name": "cotton-guard",
+  "id": 538,
+  "pp": 10,
+  "priority": 0,
+  "type": "grass",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user protects itself by wrapping its body in soft\ncotton, which drastically raises the user’s\nDefense stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises the user's Defense by three stages.",
+  "effect_text_simple": "Raises the user's Defense by three stages."
+}

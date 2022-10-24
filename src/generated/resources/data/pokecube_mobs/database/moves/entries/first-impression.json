@@ -1,0 +1,15 @@
+{
+  "name": "first-impression",
+  "id": 660,
+  "power": 90,
+  "pp": 10,
+  "priority": 2,
+  "type": "bug",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "Although this move has great power, it only works\nthe first turn the user is in battle.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage. Can only be used on the user's first turn after entering the field.",
+  "effect_text_simple": "Can only be used as the first move after the user enters battle."
+}

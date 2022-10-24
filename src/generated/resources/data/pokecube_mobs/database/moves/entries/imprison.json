@@ -1,0 +1,13 @@
+{
+  "name": "imprison",
+  "id": 286,
+  "pp": 10,
+  "priority": 0,
+  "type": "psychic",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "If opposing Pokémon know any move also known by\nthe user, they are prevented from using it.",
+  "move_category": "unique",
+  "effect_text_extend": "Prevents any Pokémon on the opposing side of the field from using any move the user knows until the user leaves the field.  This effect is live; if the user obtains new moves while on the field, these moves become restricted.  If no opposing Pokémon knows any of the user's moves when this move is used, this move will fail.",
+  "effect_text_simple": "Prevents the target from using any moves that the user also knows."
+}

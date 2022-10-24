@@ -1,0 +1,240 @@
+{
+  "name": "vibrava",
+  "id": 329,
+  "stock": true,
+  "base_experience": 119,
+  "size": {
+    "height": 0.8,
+    "width": 1.1,
+    "length": 1.1
+  },
+  "mass": 15.3,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 50,
+    "attack": 70,
+    "defense": 50,
+    "special_attack": 50,
+    "special_defense": 50,
+    "speed": 70
+  },
+  "evs": {
+    "attack": 1,
+    "speed": 1
+  },
+  "types": [
+    "ground",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "sand-attack",
+          "bite",
+          "sonic-boom",
+          "fissure",
+          "dig",
+          "bide",
+          "feint-attack",
+          "crunch",
+          "superpower",
+          "astonish",
+          "laser-focus"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "supersonic"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "sandstorm"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "uproar"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "sand-tomb"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "dragon-rush"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "bulldoze"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "dragon-tail"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "boomburst"
+        ]
+      }
+    ],
+    "misc": [
+      "fly",
+      "sand-attack",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "bite",
+      "supersonic",
+      "sonic-boom",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "earthquake",
+      "dig",
+      "toxic",
+      "mimic",
+      "screech",
+      "double-team",
+      "focus-energy",
+      "bide",
+      "swift",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "feint-attack",
+      "mud-slap",
+      "outrage",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dragon-breath",
+      "hidden-power",
+      "twister",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "uproar",
+      "heat-wave",
+      "facade",
+      "superpower",
+      "secret-power",
+      "air-cutter",
+      "rock-tomb",
+      "silver-wind",
+      "signal-beam",
+      "sand-tomb",
+      "mud-shot",
+      "roost",
+      "natural-gift",
+      "tailwind",
+      "u-turn",
+      "air-slash",
+      "bug-buzz",
+      "dragon-pulse",
+      "earth-power",
+      "defog",
+      "draco-meteor",
+      "captivate",
+      "bug-bite",
+      "ominous-wind",
+      "round",
+      "struggle-bug",
+      "bulldoze",
+      "boomburst",
+      "confide",
+      "throat-chop",
+      "dual-wingbeat",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/sand_2",
+  "evolutions": [
+    {
+      "name": "flygon",
+      "level": 45,
+      "evoMoves": "dragonclaw"
+    }
+  ]
+}

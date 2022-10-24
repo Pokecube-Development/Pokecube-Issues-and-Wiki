@@ -1,0 +1,15 @@
+{
+  "name": "meteor-assault",
+  "id": 794,
+  "power": 150,
+  "pp": 5,
+  "priority": 0,
+  "type": "fighting",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user attacks wildly with its thick leek.\nThe user can’t move on the next turn, because the\nforce of this move makes it stagger.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  User loses its next turn to \"recharge\", and cannot attack or switch out during that turn.",
+  "effect_text_simple": "User foregoes its next turn to recharge."
+}

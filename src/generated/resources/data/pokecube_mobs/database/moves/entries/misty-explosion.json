@@ -1,0 +1,15 @@
+{
+  "name": "misty-explosion",
+  "id": 802,
+  "power": 100,
+  "pp": 5,
+  "priority": 0,
+  "type": "fairy",
+  "accuracy": 100,
+  "target": "all-other-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user attacks everything around it and faints upon\nusing this move. This move’s power is increased on\nMisty Terrain.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.",
+  "effect_text_simple": "Inflicts regular damage with no additional effect."
+}

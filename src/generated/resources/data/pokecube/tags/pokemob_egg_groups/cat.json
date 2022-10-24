@@ -1,0 +1,29 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:meowth",
+    "pokecube:meowth-alola",
+    "pokecube:meowth-galar",
+    "pokecube:persian",
+    "pokecube:persian-alola",
+    "pokecube:abra",
+    "pokecube:mew",
+    "pokecube:skitty",
+    "pokecube:delcatty",
+    "pokecube:absol",
+    "pokecube:shinx",
+    "pokecube:luxio",
+    "pokecube:luxray",
+    "pokecube:glameow",
+    "pokecube:purugly",
+    "pokecube:purrloin",
+    "pokecube:liepard",
+    "pokecube:litleo",
+    "pokecube:pyroar",
+    "pokecube:litten",
+    "pokecube:torracat",
+    "pokecube:incineroar",
+    "pokecube:zeraora",
+    "pokecube:perrserker"
+  ]
+}

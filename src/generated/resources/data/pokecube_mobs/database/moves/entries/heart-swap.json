@@ -1,0 +1,13 @@
+{
+  "name": "heart-swap",
+  "id": 391,
+  "pp": 10,
+  "priority": 0,
+  "type": "psychic",
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user employs its psychic power to switch stat\nchanges with the target.",
+  "move_category": "unique",
+  "effect_text_extend": "User swaps its stat modifiers with the target.",
+  "effect_text_simple": "User and target swap stat changes."
+}

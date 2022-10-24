@@ -1,0 +1,14 @@
+{
+  "name": "morning-sun",
+  "id": 234,
+  "pp": 5,
+  "priority": 0,
+  "type": "normal",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user restores its own HP. The amount of HP\nregained varies with the weather.",
+  "move_category": "heal",
+  "healing": 50,
+  "effect_text_extend": "Heals the user for half its max HP.\n\nDuring sunny day, the healing is increased to 2/3 max HP.\n\nDuring hail, rain dance, or sandstorm, the healing is decreased to 1/4 max HP.",
+  "effect_text_simple": "Heals the user by half its max HP.  Affected by weather."
+}

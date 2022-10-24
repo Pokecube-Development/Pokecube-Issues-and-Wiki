@@ -4,6 +4,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.moves.PokemobTerrainEffects.EffectType;
@@ -29,28 +30,24 @@ public class Move_Terrain extends Move_Basic
     public Move_Terrain(final String name)
     {
         super(name);
-        this.effect = PokemobTerrainEffects.getForIndex(this.move.baseEntry.extraInfo);
-        if (PokecubeMod.debug) PokecubeAPI.LOGGER.info(name + " " + this.move.baseEntry.extraInfo + " " + this.effect);
+        this.effect = PokemobTerrainEffects.getForIndex(this.move.root_entry._effect_index);
+        if (PokecubeMod.debug)
+            PokecubeAPI.LOGGER.info(name + " " + this.move.root_entry._effect_index + " " + this.effect);
     }
 
     @Override
-    /**
-     * Called after the attack for special post attack treatment.
-     *
-     * @param attacker
-     * @param attacked
-     * @param f
-     * @param finalAttackStrength
-     *            the number of HPs the attack takes from target
-     */
-    public void doWorldAction(final IPokemob attacker, final Vector3 location)
+    public void postAttack(MovePacket packet)
     {
-        if (attacker.getMoveStats().SPECIALCOUNTER > 0) return;
+        final IPokemob attacker = packet.attacker;
+        super.postAttack(packet);
+
+        if (attacker.getMoveStats().SPECIALCOUNTER > 0 || packet.canceled) return;
         attacker.getMoveStats().SPECIALCOUNTER = 20;
 
         this.duration = 300 + ThutCore.newRandom().nextInt(600);
         final Level world = attacker.getEntity().getLevel();
-        final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, location);
+        final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world,
+                new Vector3(attacker.getEntity()));
 
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemobEffects");
         // TODO check if effect already exists, and send message if so.
@@ -59,7 +56,6 @@ public class Move_Terrain extends Move_Basic
         teffect.setEffectDuration(this.effect, this.duration + Tracker.instance().getTick(), attacker);
         if (world instanceof ServerLevel) PacketSyncTerrain.sendTerrainEffects((ServerLevel) world, segment.chunkX,
                 segment.chunkY, segment.chunkZ, teffect);
-
     }
 
     public void setDuration(final int duration)

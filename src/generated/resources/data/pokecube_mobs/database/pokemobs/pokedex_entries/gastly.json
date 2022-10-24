@@ -1,0 +1,246 @@
+{
+  "name": "gastly",
+  "id": 92,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 1.3,
+    "width": 1.3,
+    "length": 1.3
+  },
+  "mass": 0.1,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 30,
+    "attack": 35,
+    "defense": 30,
+    "special_attack": 100,
+    "special_defense": 35,
+    "speed": 80
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "ghost",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 21,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "hypnosis",
+          "lick",
+          "smog"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "night-shade"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "dream-eater"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "poison-gas"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "nightmare"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "spite"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "destiny-bond"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "mean-look"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "will-o-wisp"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "hex"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "headbutt",
+      "disable",
+      "mega-drain",
+      "thunderbolt",
+      "thunder",
+      "toxic",
+      "psychic",
+      "hypnosis",
+      "rage",
+      "night-shade",
+      "mimic",
+      "double-team",
+      "confuse-ray",
+      "haze",
+      "bide",
+      "self-destruct",
+      "lick",
+      "smog",
+      "dream-eater",
+      "psywave",
+      "explosion",
+      "rest",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "curse",
+      "spite",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "zap-cannon",
+      "destiny-bond",
+      "perish-song",
+      "icy-wind",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "uproar",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "taunt",
+      "trick",
+      "knock-off",
+      "skill-swap",
+      "grudge",
+      "snatch",
+      "secret-power",
+      "astonish",
+      "natural-gift",
+      "payback",
+      "embargo",
+      "sucker-punch",
+      "poison-jab",
+      "dark-pulse",
+      "energy-ball",
+      "trick-room",
+      "captivate",
+      "ominous-wind",
+      "wonder-room",
+      "venoshock",
+      "telekinesis",
+      "sludge-wave",
+      "foul-play",
+      "round",
+      "clear-smog",
+      "ally-switch",
+      "hex",
+      "reflect-type",
+      "confide",
+      "dazzling-gleam",
+      "infestation",
+      "skitter-smack",
+      "poltergeist",
+      "corrosive-gas"
+    ]
+  },
+  "loot_table": "pokecube:entities/ghast_pearls",
+  "evolutions": [
+    {
+      "name": "haunter",
+      "level": 25,
+      "animation": "49",
+      "evoMoves": "shadowpunch"
+    }
+  ]
+}

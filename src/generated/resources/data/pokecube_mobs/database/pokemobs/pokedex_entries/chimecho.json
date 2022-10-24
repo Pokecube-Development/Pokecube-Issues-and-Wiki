@@ -1,0 +1,202 @@
+{
+  "name": "chimecho",
+  "id": 358,
+  "stock": true,
+  "base_experience": 159,
+  "size": {
+    "height": 0.6,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 1.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 75,
+    "attack": 50,
+    "defense": 80,
+    "special_attack": 95,
+    "special_defense": 90,
+    "speed": 65
+  },
+  "evs": {
+    "special_attack": 1,
+    "special_defense": 1
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "wrap",
+          "growl",
+          "confusion",
+          "astonish",
+          "healing-wish",
+          "synchronoise"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "psywave"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "heal-bell"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "uproar"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "yawn"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "heal-pulse"
+        ]
+      }
+    ],
+    "misc": [
+      "bind",
+      "wrap",
+      "take-down",
+      "double-edge",
+      "growl",
+      "disable",
+      "thunder-wave",
+      "toxic",
+      "confusion",
+      "psychic",
+      "hypnosis",
+      "mimic",
+      "double-team",
+      "recover",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "dream-eater",
+      "flash",
+      "psywave",
+      "rest",
+      "substitute",
+      "nightmare",
+      "snore",
+      "curse",
+      "protect",
+      "perish-song",
+      "icy-wind",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "uproar",
+      "torment",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "trick",
+      "wish",
+      "magic-coat",
+      "recycle",
+      "yawn",
+      "knock-off",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "astonish",
+      "cosmic-power",
+      "signal-beam",
+      "extrasensory",
+      "calm-mind",
+      "shock-wave",
+      "gravity",
+      "healing-wish",
+      "natural-gift",
+      "last-resort",
+      "energy-ball",
+      "zen-headbutt",
+      "defog",
+      "trick-room",
+      "captivate",
+      "grass-knot",
+      "charge-beam",
+      "psyshock",
+      "telekinesis",
+      "synchronoise",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "ally-switch",
+      "heal-pulse",
+      "crafty-shield",
+      "confide",
+      "dazzling-gleam",
+      "laser-focus"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_1"
+}

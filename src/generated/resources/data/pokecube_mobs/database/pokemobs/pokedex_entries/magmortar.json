@@ -1,0 +1,221 @@
+{
+  "name": "magmortar",
+  "id": 467,
+  "stock": true,
+  "base_experience": 270,
+  "size": {
+    "height": 1.6,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 68.0,
+  "is_default": true,
+  "capture_rate": 30,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 75,
+    "attack": 95,
+    "defense": 67,
+    "special_attack": 125,
+    "special_defense": 95,
+    "speed": 83
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "flame-body"
+    ],
+    "hidden": [
+      "vital-spirit"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 29,
+        "moves": [
+          "fire-punch"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "thunder-punch",
+          "leer",
+          "ember",
+          "smokescreen",
+          "smog"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "low-kick"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "fire-spin"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "fire-blast"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "flame-wheel"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "sunny-day"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "lava-plume"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "flame-burst"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "clear-smog"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "leer",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "solar-beam",
+      "fire-spin",
+      "thunderbolt",
+      "earthquake",
+      "toxic",
+      "psychic",
+      "screech",
+      "double-team",
+      "smokescreen",
+      "confuse-ray",
+      "focus-energy",
+      "smog",
+      "fire-blast",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "scary-face",
+      "feint-attack",
+      "mud-slap",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "uproar",
+      "heat-wave",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "brick-break",
+      "secret-power",
+      "weather-ball",
+      "overheat",
+      "rock-tomb",
+      "covet",
+      "natural-gift",
+      "fling",
+      "power-swap",
+      "flare-blitz",
+      "focus-blast",
+      "giga-impact",
+      "rock-climb",
+      "lava-plume",
+      "captivate",
+      "flame-burst",
+      "flame-charge",
+      "low-sweep",
+      "round",
+      "clear-smog",
+      "incinerate",
+      "bulldoze",
+      "dual-chop",
+      "confide",
+      "mystical-fire",
+      "power-up-punch",
+      "stomping-tantrum",
+      "burning-jealousy",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/blaze_rabbit_3"
+}

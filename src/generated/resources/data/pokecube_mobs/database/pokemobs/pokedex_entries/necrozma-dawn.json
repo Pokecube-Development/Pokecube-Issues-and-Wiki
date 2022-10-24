@@ -1,0 +1,216 @@
+{
+  "name": "necrozma-dawn",
+  "id": 800,
+  "stock": true,
+  "base_experience": 340,
+  "size": {
+    "height": 4.2,
+    "width": 4.2,
+    "length": 1.0
+  },
+  "mass": 350.0,
+  "is_default": false,
+  "capture_rate": 255,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 97,
+    "attack": 113,
+    "defense": 109,
+    "special_attack": 157,
+    "special_defense": 127,
+    "speed": 77
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "psychic",
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "prism-armor"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "confusion",
+          "metal-claw",
+          "morning-sun",
+          "moonlight",
+          "mirror-shot",
+          "charge-beam"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "rock-blast"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "gravity"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "wring-out"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "psycho-cut"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "autotomize"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "stored-power"
+        ]
+      },
+      {
+        "L": 73,
+        "moves": [
+          "prismatic-laser"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "photon-geyser"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "hyper-beam",
+      "solar-beam",
+      "thunder-wave",
+      "earthquake",
+      "toxic",
+      "confusion",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "scary-face",
+      "outrage",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "metal-claw",
+      "morning-sun",
+      "moonlight",
+      "hidden-power",
+      "future-sight",
+      "heat-wave",
+      "facade",
+      "recycle",
+      "brick-break",
+      "knock-off",
+      "imprison",
+      "hyper-voice",
+      "rock-tomb",
+      "cosmic-power",
+      "signal-beam",
+      "aerial-ace",
+      "iron-defense",
+      "calm-mind",
+      "dragon-dance",
+      "rock-blast",
+      "shock-wave",
+      "gravity",
+      "gyro-ball",
+      "embargo",
+      "fling",
+      "magnet-rise",
+      "rock-polish",
+      "dark-pulse",
+      "night-slash",
+      "x-scissor",
+      "dragon-pulse",
+      "power-gem",
+      "earth-power",
+      "giga-impact",
+      "shadow-claw",
+      "psycho-cut",
+      "flash-cannon",
+      "trick-room",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "charge-beam",
+      "psyshock",
+      "autotomize",
+      "telekinesis",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "bulldoze",
+      "confide",
+      "smart-strike",
+      "brutal-swing",
+      "psychic-fangs",
+      "prismatic-laser",
+      "photon-geyser",
+      "breaking-swipe",
+      "expanding-force",
+      "meteor-beam"
+    ]
+  },
+  "old_name": "lunala_dawn"
+}

@@ -1,0 +1,189 @@
+{
+  "name": "wormadam-plant",
+  "id": 413,
+  "stock": true,
+  "base_experience": 148,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 6.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 60,
+    "attack": 59,
+    "defense": 85,
+    "special_attack": 79,
+    "special_defense": 105,
+    "speed": 36
+  },
+  "evs": {
+    "special_defense": 2
+  },
+  "types": [
+    "bug",
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "anticipation"
+    ],
+    "hidden": [
+      "overcoat"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "protect",
+          "sucker-punch",
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "attract"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "hidden-power"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "leaf-storm"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "captivate"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "quiver-dance"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "psybeam",
+      "hyper-beam",
+      "growth",
+      "razor-leaf",
+      "solar-beam",
+      "string-shot",
+      "toxic",
+      "confusion",
+      "psychic",
+      "double-team",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "flail",
+      "protect",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "synthesis",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "uproar",
+      "facade",
+      "endeavor",
+      "skill-swap",
+      "secret-power",
+      "signal-beam",
+      "bullet-seed",
+      "natural-gift",
+      "worry-seed",
+      "sucker-punch",
+      "seed-bomb",
+      "bug-buzz",
+      "energy-ball",
+      "giga-impact",
+      "leaf-storm",
+      "captivate",
+      "grass-knot",
+      "bug-bite",
+      "venoshock",
+      "telekinesis",
+      "quiver-dance",
+      "round",
+      "ally-switch",
+      "struggle-bug",
+      "electroweb",
+      "confide",
+      "infestation"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_2",
+  "old_name": "wormadam"
+}

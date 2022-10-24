@@ -1,0 +1,230 @@
+{
+  "name": "weavile",
+  "id": 461,
+  "stock": true,
+  "base_experience": 179,
+  "size": {
+    "height": 1.1,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 34.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 35,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 70,
+    "attack": 120,
+    "defense": 65,
+    "special_attack": 45,
+    "special_defense": 85,
+    "speed": 125
+  },
+  "evs": {
+    "attack": 1,
+    "speed": 1
+  },
+  "types": [
+    "dark",
+    "ice"
+  ],
+  "abilities": {
+    "normal": [
+      "pressure"
+    ],
+    "hidden": [
+      "pickpocket"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "leer",
+          "agility",
+          "quick-attack",
+          "slash",
+          "beat-up",
+          "taunt",
+          "revenge",
+          "assurance",
+          "embargo",
+          "ice-shard"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "icy-wind"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "metal-claw"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "snatch"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "fling"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "punishment"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "hone-claws"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "scratch",
+      "swords-dance",
+      "cut",
+      "mega-kick",
+      "headbutt",
+      "leer",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "dig",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "screech",
+      "double-team",
+      "reflect",
+      "swift",
+      "dream-eater",
+      "fury-swipes",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "feint-attack",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "metal-claw",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "whirlpool",
+      "beat-up",
+      "hail",
+      "torment",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "revenge",
+      "brick-break",
+      "knock-off",
+      "snatch",
+      "secret-power",
+      "fake-tears",
+      "aerial-ace",
+      "icicle-spear",
+      "calm-mind",
+      "natural-gift",
+      "payback",
+      "assurance",
+      "embargo",
+      "fling",
+      "punishment",
+      "poison-jab",
+      "dark-pulse",
+      "night-slash",
+      "x-scissor",
+      "focus-blast",
+      "giga-impact",
+      "nasty-plot",
+      "avalanche",
+      "shadow-claw",
+      "psycho-cut",
+      "captivate",
+      "hone-claws",
+      "low-sweep",
+      "foul-play",
+      "round",
+      "retaliate",
+      "snarl",
+      "confide",
+      "power-up-punch",
+      "laser-focus",
+      "throat-chop",
+      "lash-out",
+      "triple-axel"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2"
+}

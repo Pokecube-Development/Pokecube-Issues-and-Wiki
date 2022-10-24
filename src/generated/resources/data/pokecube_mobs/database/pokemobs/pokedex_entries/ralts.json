@@ -1,0 +1,266 @@
+{
+  "name": "ralts",
+  "id": 280,
+  "stock": true,
+  "base_experience": 40,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 6.6,
+  "is_default": true,
+  "capture_rate": 235,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 28,
+    "attack": 25,
+    "defense": 25,
+    "special_attack": 45,
+    "special_defense": 35,
+    "speed": 40
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "psychic",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "synchronize",
+      "trace"
+    ],
+    "hidden": [
+      "telepathy"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "growl"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "teleport"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "double-team"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "dream-eater"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "imprison"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "stored-power"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "heal-pulse"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "disarming-voice"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "draining-kiss"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "life-dew"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "growl",
+      "disable",
+      "thunderbolt",
+      "thunder-wave",
+      "toxic",
+      "confusion",
+      "psychic",
+      "hypnosis",
+      "teleport",
+      "mimic",
+      "double-team",
+      "confuse-ray",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "protect",
+      "mud-slap",
+      "destiny-bond",
+      "icy-wind",
+      "endure",
+      "charm",
+      "swagger",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "encore",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "torment",
+      "will-o-wisp",
+      "memento",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "trick",
+      "magic-coat",
+      "recycle",
+      "knock-off",
+      "skill-swap",
+      "imprison",
+      "grudge",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "signal-beam",
+      "magical-leaf",
+      "calm-mind",
+      "shock-wave",
+      "natural-gift",
+      "fling",
+      "lucky-chant",
+      "shadow-sneak",
+      "zen-headbutt",
+      "trick-room",
+      "captivate",
+      "grass-knot",
+      "charge-beam",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "synchronoise",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "ally-switch",
+      "heal-pulse",
+      "disarming-voice",
+      "draining-kiss",
+      "misty-terrain",
+      "confide",
+      "dazzling-gleam",
+      "expanding-force"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_1",
+  "held_table": "pokecube:entities/dawnstone",
+  "evolutions": [
+    {
+      "name": "kirlia",
+      "level": 20
+    }
+  ]
+}

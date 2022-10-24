@@ -1,0 +1,227 @@
+{
+  "name": "hitmonchan",
+  "id": 107,
+  "stock": true,
+  "base_experience": 159,
+  "size": {
+    "height": 1.4,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 50.2,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 50,
+    "attack": 105,
+    "defense": 79,
+    "special_attack": 35,
+    "special_defense": 110,
+    "speed": 76
+  },
+  "evs": {
+    "special_defense": 2
+  },
+  "types": [
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "keen-eye",
+      "iron-fist"
+    ],
+    "hidden": [
+      "inner-focus"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 0,
+        "moves": [
+          "comet-punch",
+          "drain-punch"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "mega-punch"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "fire-punch",
+          "ice-punch",
+          "thunder-punch"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "counter",
+          "agility",
+          "focus-energy",
+          "mach-punch",
+          "pursuit",
+          "fake-out",
+          "focus-punch",
+          "helping-hand",
+          "revenge",
+          "close-combat"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "dizzy-punch"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "detect"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "sky-uppercut"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "vacuum-wave"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "bullet-punch"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "quick-guard"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "power-up-punch"
+        ]
+      }
+    ],
+    "misc": [
+      "comet-punch",
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "submission",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "earthquake",
+      "toxic",
+      "agility",
+      "rage",
+      "mimic",
+      "double-team",
+      "focus-energy",
+      "bide",
+      "metronome",
+      "swift",
+      "skull-bash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "mach-punch",
+      "mud-slap",
+      "detect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "pursuit",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
+      "uproar",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "role-play",
+      "revenge",
+      "brick-break",
+      "secret-power",
+      "rock-tomb",
+      "sky-uppercut",
+      "bulk-up",
+      "covet",
+      "natural-gift",
+      "feint",
+      "close-combat",
+      "fling",
+      "aura-sphere",
+      "drain-punch",
+      "vacuum-wave",
+      "focus-blast",
+      "bullet-punch",
+      "rock-climb",
+      "stone-edge",
+      "captivate",
+      "low-sweep",
+      "round",
+      "quick-guard",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "confide",
+      "power-up-punch",
+      "laser-focus",
+      "throat-chop",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/skull_rabbit_2"
+}

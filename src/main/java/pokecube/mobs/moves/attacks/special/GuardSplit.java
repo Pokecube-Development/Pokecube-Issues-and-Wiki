@@ -13,7 +13,7 @@ public class GuardSplit extends Move_Basic
 
     public GuardSplit()
     {
-        super("guardsplit");
+        super("guard-split");
     }
 
     @Override
@@ -32,16 +32,16 @@ public class GuardSplit extends Move_Basic
 
             final int averageDef = (def + def2) / 2;
             final int averageSpdef = (spdef + spdef2) / 2;
-            final Modifier mods = packet.attacker.getModifiers().getModifiers("powersplit", Modifier.class);
-            final Modifier mods2 = attacked.getModifiers().getModifiers("powersplit", Modifier.class);
+            final Modifier mods = packet.attacker.getModifiers().getModifiers("power-split", Modifier.class);
+            final Modifier mods2 = attacked.getModifiers().getModifiers("power-split", Modifier.class);
 
             mods.setModifier(Stats.DEFENSE, -def + averageDef);
             mods2.setModifier(Stats.DEFENSE, -def2 + averageDef);
 
             mods.setModifier(Stats.SPDEFENSE, -spdef + averageSpdef);
             mods2.setModifier(Stats.SPDEFENSE, -spdef2 + averageSpdef);
-            PacketSyncModifier.sendUpdate("powersplit", packet.attacker);
-            PacketSyncModifier.sendUpdate("powersplit", attacked);
+            PacketSyncModifier.sendUpdate("power-split", packet.attacker);
+            PacketSyncModifier.sendUpdate("power-split", attacked);
         }
     }
 }

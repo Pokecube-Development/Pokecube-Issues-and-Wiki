@@ -1,0 +1,224 @@
+{
+  "name": "chesnaught",
+  "id": 652,
+  "stock": true,
+  "base_experience": 239,
+  "size": {
+    "height": 1.6,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 90.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 88,
+    "attack": 107,
+    "defense": 122,
+    "special_attack": 74,
+    "special_defense": 75,
+    "speed": 64
+  },
+  "evs": {
+    "defense": 3
+  },
+  "types": [
+    "grass",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "bulletproof"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "vine-whip",
+          "tackle",
+          "growl",
+          "belly-drum",
+          "rollout",
+          "needle-arm",
+          "hammer-arm",
+          "feint"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "pin-missile"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "pain-split"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "bulk-up"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "mud-shot"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "seed-bomb"
+        ]
+      },
+      {
+        "L": 78,
+        "moves": [
+          "giga-impact"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "wood-hammer"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "spiky-shield"
+        ]
+      }
+    ],
+    "misc": [
+      "thunder-punch",
+      "swords-dance",
+      "cut",
+      "vine-whip",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "pin-missile",
+      "bite",
+      "growl",
+      "roar",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "leech-seed",
+      "solar-beam",
+      "earthquake",
+      "dig",
+      "toxic",
+      "double-team",
+      "reflect",
+      "flash",
+      "rest",
+      "rock-slide",
+      "super-fang",
+      "substitute",
+      "snore",
+      "protect",
+      "belly-drum",
+      "sludge-bomb",
+      "giga-drain",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "iron-tail",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "nature-power",
+      "taunt",
+      "helping-hand",
+      "superpower",
+      "brick-break",
+      "endeavor",
+      "secret-power",
+      "needle-arm",
+      "rock-tomb",
+      "aerial-ace",
+      "iron-defense",
+      "block",
+      "dragon-claw",
+      "frenzy-plant",
+      "bulk-up",
+      "mud-shot",
+      "hammer-arm",
+      "gyro-ball",
+      "feint",
+      "payback",
+      "fling",
+      "worry-seed",
+      "poison-jab",
+      "seed-bomb",
+      "drain-punch",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "shadow-claw",
+      "zen-headbutt",
+      "iron-head",
+      "stone-edge",
+      "grass-knot",
+      "wood-hammer",
+      "hone-claws",
+      "smack-down",
+      "low-sweep",
+      "round",
+      "retaliate",
+      "grass-pledge",
+      "bulldoze",
+      "work-up",
+      "dual-chop",
+      "confide",
+      "spiky-shield",
+      "power-up-punch",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/chestplate_seeds_2"
+}

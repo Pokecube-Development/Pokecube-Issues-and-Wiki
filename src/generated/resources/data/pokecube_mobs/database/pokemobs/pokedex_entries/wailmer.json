@@ -1,0 +1,223 @@
+{
+  "name": "wailmer",
+  "id": 320,
+  "stock": true,
+  "base_experience": 80,
+  "size": {
+    "height": 2.0,
+    "width": 2.0,
+    "length": 2.0
+  },
+  "mass": 130.0,
+  "is_default": true,
+  "capture_rate": 125,
+  "base_happiness": 50,
+  "growth_rate": "fast-then-very-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 130,
+    "attack": 70,
+    "defense": 35,
+    "special_attack": 70,
+    "special_defense": 35,
+    "speed": 60
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "water-veil",
+      "oblivious"
+    ],
+    "hidden": [
+      "pressure"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 36,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "growl"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "mist"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "splash"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "whirlpool"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "dive"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "astonish"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "water-spout"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "heavy-slam"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "body-slam",
+      "thrash",
+      "double-edge",
+      "growl",
+      "roar",
+      "mist",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "strength",
+      "earthquake",
+      "fissure",
+      "toxic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "self-destruct",
+      "waterfall",
+      "amnesia",
+      "splash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "icy-wind",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "rock-smash",
+      "whirlpool",
+      "hail",
+      "facade",
+      "secret-power",
+      "dive",
+      "hyper-voice",
+      "astonish",
+      "weather-ball",
+      "rock-tomb",
+      "tickle",
+      "water-spout",
+      "bounce",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "aqua-ring",
+      "avalanche",
+      "zen-headbutt",
+      "captivate",
+      "heavy-slam",
+      "soak",
+      "round",
+      "echoed-voice",
+      "clear-smog",
+      "scald",
+      "bulldoze",
+      "confide",
+      "body-press",
+      "steel-roller"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1",
+  "evolutions": [
+    {
+      "name": "wailord",
+      "level": 40
+    }
+  ]
+}

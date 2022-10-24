@@ -1,0 +1,232 @@
+{
+  "name": "pignite",
+  "id": 499,
+  "stock": true,
+  "base_experience": 146,
+  "size": {
+    "height": 1.0,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 55.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 90,
+    "attack": 93,
+    "defense": 55,
+    "special_attack": 70,
+    "special_defense": 55,
+    "speed": 55
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "fire",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "thick-fat"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "tail-whip",
+          "ember",
+          "odor-sleuth"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "smog"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "arm-thrust"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "head-smash"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "heat-crash"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "thunder-punch",
+      "tackle",
+      "take-down",
+      "tail-whip",
+      "roar",
+      "ember",
+      "flamethrower",
+      "low-kick",
+      "strength",
+      "solar-beam",
+      "toxic",
+      "double-team",
+      "defense-curl",
+      "smog",
+      "fire-blast",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "superpower",
+      "brick-break",
+      "endeavor",
+      "secret-power",
+      "arm-thrust",
+      "overheat",
+      "odor-sleuth",
+      "rock-tomb",
+      "covet",
+      "gyro-ball",
+      "assurance",
+      "fling",
+      "flare-blitz",
+      "poison-jab",
+      "focus-blast",
+      "zen-headbutt",
+      "stone-edge",
+      "grass-knot",
+      "head-smash",
+      "flame-charge",
+      "low-sweep",
+      "round",
+      "echoed-voice",
+      "incinerate",
+      "fire-pledge",
+      "bulldoze",
+      "work-up",
+      "wild-charge",
+      "heat-crash",
+      "confide",
+      "power-up-punch",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/coal_pig_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "evolutions": [
+    {
+      "name": "emboar",
+      "level": 36,
+      "animation": "55"
+    }
+  ]
+}

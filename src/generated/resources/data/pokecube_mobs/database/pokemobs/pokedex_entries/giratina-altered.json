@@ -1,0 +1,219 @@
+{
+  "name": "giratina-altered",
+  "id": 487,
+  "stock": true,
+  "base_experience": 340,
+  "size": {
+    "height": 4.5,
+    "width": 4.5,
+    "length": 4.5
+  },
+  "mass": 750.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 150,
+    "attack": 100,
+    "defense": 120,
+    "special_attack": 100,
+    "special_defense": 120,
+    "speed": 90
+  },
+  "evs": {
+    "hp": 3
+  },
+  "types": [
+    "ghost",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "pressure"
+    ],
+    "hidden": [
+      "telepathy"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 15,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "scary-face",
+          "dragon-breath",
+          "defog"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "destiny-bond"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "pain-split"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "dragon-claw"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "heal-block",
+          "hex"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "aura-sphere"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "shadow-claw"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "shadow-sneak"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "ominous-wind"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "shadow-force"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "fly",
+      "headbutt",
+      "body-slam",
+      "roar",
+      "hyper-beam",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "psychic",
+      "double-team",
+      "swift",
+      "dream-eater",
+      "rest",
+      "slash",
+      "substitute",
+      "snore",
+      "spite",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "destiny-bond",
+      "icy-wind",
+      "outrage",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "steel-wing",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "dragon-breath",
+      "iron-tail",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "shadow-ball",
+      "rock-smash",
+      "will-o-wisp",
+      "facade",
+      "secret-power",
+      "hyper-voice",
+      "air-cutter",
+      "silver-wind",
+      "aerial-ace",
+      "dragon-claw",
+      "calm-mind",
+      "shock-wave",
+      "gravity",
+      "natural-gift",
+      "payback",
+      "heal-block",
+      "aura-sphere",
+      "dark-pulse",
+      "aqua-tail",
+      "dragon-pulse",
+      "energy-ball",
+      "earth-power",
+      "giga-impact",
+      "shadow-claw",
+      "shadow-sneak",
+      "rock-climb",
+      "defog",
+      "draco-meteor",
+      "iron-head",
+      "stone-edge",
+      "charge-beam",
+      "ominous-wind",
+      "shadow-force",
+      "hone-claws",
+      "telekinesis",
+      "round",
+      "echoed-voice",
+      "hex",
+      "bulldoze",
+      "dragon-tail",
+      "phantom-force",
+      "confide",
+      "brutal-swing",
+      "breaking-swipe",
+      "poltergeist",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_3",
+  "old_name": "giratina"
+}

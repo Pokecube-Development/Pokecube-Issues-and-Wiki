@@ -1,0 +1,244 @@
+{
+  "name": "golem",
+  "id": 76,
+  "stock": true,
+  "base_experience": 223,
+  "size": {
+    "height": 1.4,
+    "width": 1.3,
+    "length": 1.3
+  },
+  "mass": 300.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 80,
+    "attack": 120,
+    "defense": 130,
+    "special_attack": 55,
+    "special_defense": 65,
+    "speed": 45
+  },
+  "evs": {
+    "defense": 3
+  },
+  "types": [
+    "rock",
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "rock-head",
+      "sturdy"
+    ],
+    "hidden": [
+      "sand-veil"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "mega-punch",
+          "sand-attack",
+          "tackle",
+          "defense-curl",
+          "bide",
+          "mud-sport",
+          "rock-polish",
+          "heavy-slam"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "rock-throw"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "harden"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "self-destruct"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "magnitude"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "rock-blast"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "smack-down"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "bulldoze"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "steamroller"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "thunder-punch",
+      "mega-kick",
+      "sand-attack",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "roar",
+      "flamethrower",
+      "hyper-beam",
+      "submission",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "rock-throw",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "harden",
+      "defense-curl",
+      "bide",
+      "metronome",
+      "self-destruct",
+      "fire-blast",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "magnitude",
+      "dynamic-punch",
+      "hidden-power",
+      "sunny-day",
+      "ancient-power",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "nature-power",
+      "superpower",
+      "brick-break",
+      "secret-power",
+      "mud-sport",
+      "rock-tomb",
+      "iron-defense",
+      "block",
+      "rock-blast",
+      "gyro-ball",
+      "natural-gift",
+      "fling",
+      "sucker-punch",
+      "rock-polish",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "rock-climb",
+      "iron-head",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "smack-down",
+      "heavy-slam",
+      "round",
+      "incinerate",
+      "bulldoze",
+      "steamroller",
+      "confide",
+      "power-up-punch",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/stone_2"
+}

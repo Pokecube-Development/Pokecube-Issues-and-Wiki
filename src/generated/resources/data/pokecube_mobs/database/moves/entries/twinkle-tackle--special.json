@@ -1,0 +1,13 @@
+{
+  "name": "twinkle-tackle--special",
+  "id": 657,
+  "pp": 1,
+  "priority": 0,
+  "type": "fairy",
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "Dummy Data",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.",
+  "effect_text_simple": "Inflicts regular damage with no additional effect."
+}

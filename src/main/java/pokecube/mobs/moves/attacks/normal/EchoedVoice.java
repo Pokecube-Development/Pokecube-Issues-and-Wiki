@@ -1,7 +1,5 @@
 package pokecube.mobs.moves.attacks.normal;
 
-import net.minecraft.world.entity.LivingEntity;
-import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.core.moves.templates.Move_Basic;
 
@@ -10,15 +8,7 @@ public class EchoedVoice extends Move_Basic
 
     public EchoedVoice()
     {
-        super("echoedvoice");
-    }
-
-    @Override
-    public int getPWR(IPokemob attacker, LivingEntity attacked)
-    {
-        final double rollOut = attacker.getMoveStats().FURYCUTTERCOUNTER;
-        final int PWR = (int) Math.max(this.getPWR(), Math.min(200, rollOut * 2 * this.getPWR()));
-        return PWR;
+        super("echoed-voice");
     }
 
     @Override

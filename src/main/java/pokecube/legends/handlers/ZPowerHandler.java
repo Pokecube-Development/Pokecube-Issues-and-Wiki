@@ -7,7 +7,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.zmoves.CapabilityZMove;
 import pokecube.core.moves.zmoves.ZPower;
@@ -26,7 +26,7 @@ public class ZPowerHandler implements ZPower, ICapabilityProvider
     public boolean canZMove(final IPokemob pokemob, final String moveIn)
     {
         if (pokemob.getCombatState(CombatStates.USEDZMOVE)) return false;
-        final Move_Base move = MovesUtils.getMoveFromName(moveIn);
+        final MoveEntry move = MovesUtils.getMove(moveIn);
         if (move == null) return false;
         final ItemStack held = pokemob.getHeldItem();
         if (held.isEmpty()) return false;

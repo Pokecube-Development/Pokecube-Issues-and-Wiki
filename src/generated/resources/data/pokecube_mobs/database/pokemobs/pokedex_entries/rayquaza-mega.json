@@ -1,0 +1,204 @@
+{
+  "name": "rayquaza-mega",
+  "id": 384,
+  "stock": true,
+  "base_experience": 351,
+  "size": {
+    "height": 1.5,
+    "width": 1.5,
+    "length": 10.8
+  },
+  "mass": 392.0,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 105,
+    "attack": 180,
+    "defense": 100,
+    "special_attack": 180,
+    "special_defense": 100,
+    "speed": 115
+  },
+  "evs": {
+    "attack": 2,
+    "special_attack": 1
+  },
+  "types": [
+    "dragon",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "delta-stream"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 65,
+        "moves": [
+          "fly"
+        ]
+      },
+      {
+        "L": 90,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 80,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "twister"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "extreme-speed"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 75,
+        "moves": [
+          "hyper-voice"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "dragon-dance"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "dragon-pulse"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "fly",
+      "bind",
+      "roar",
+      "flamethrower",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "double-team",
+      "fire-blast",
+      "waterfall",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "icy-wind",
+      "outrage",
+      "sandstorm",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "psych-up",
+      "extreme-speed",
+      "ancient-power",
+      "rock-smash",
+      "uproar",
+      "facade",
+      "brick-break",
+      "secret-power",
+      "dive",
+      "hyper-voice",
+      "overheat",
+      "rock-tomb",
+      "aerial-ace",
+      "dragon-claw",
+      "bulk-up",
+      "dragon-dance",
+      "shock-wave",
+      "water-pulse",
+      "gyro-ball",
+      "tailwind",
+      "fling",
+      "aqua-tail",
+      "air-slash",
+      "dragon-pulse",
+      "focus-blast",
+      "energy-ball",
+      "earth-power",
+      "giga-impact",
+      "shadow-claw",
+      "defog",
+      "draco-meteor",
+      "iron-head",
+      "stone-edge",
+      "hone-claws",
+      "round",
+      "echoed-voice",
+      "sky-drop",
+      "incinerate",
+      "bulldoze",
+      "dragon-tail",
+      "confide",
+      "dragon-ascent",
+      "brutal-swing"
+    ]
+  },
+  "old_name": "rayquaza_mega"
+}

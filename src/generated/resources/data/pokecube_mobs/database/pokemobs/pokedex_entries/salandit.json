@@ -1,0 +1,213 @@
+{
+  "name": "salandit",
+  "id": 757,
+  "stock": true,
+  "base_experience": 64,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 4.8,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 48,
+    "attack": 44,
+    "defense": 40,
+    "special_attack": 71,
+    "special_defense": 40,
+    "speed": 77
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "poison",
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "corrosion"
+    ],
+    "hidden": [
+      "oblivious"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 21,
+        "moves": [
+          "double-slap"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "poison-gas"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "ember"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "dragon-rage"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "smog"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "endeavor"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "poison-fang"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "venoshock"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "flame-burst"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "incinerate"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "venom-drench"
+        ]
+      }
+    ],
+    "misc": [
+      "double-slap",
+      "scratch",
+      "sand-attack",
+      "ember",
+      "flamethrower",
+      "dragon-rage",
+      "thunder-wave",
+      "toxic",
+      "double-team",
+      "smog",
+      "fire-blast",
+      "swift",
+      "poison-gas",
+      "leech-life",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "sweet-scent",
+      "iron-tail",
+      "hidden-power",
+      "beat-up",
+      "fake-out",
+      "heat-wave",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "knock-off",
+      "snatch",
+      "overheat",
+      "dragon-claw",
+      "covet",
+      "payback",
+      "fling",
+      "poison-jab",
+      "dragon-pulse",
+      "nasty-plot",
+      "shadow-claw",
+      "gunk-shot",
+      "venoshock",
+      "flame-burst",
+      "sludge-wave",
+      "flame-charge",
+      "foul-play",
+      "round",
+      "belch",
+      "confide",
+      "venom-drench",
+      "scale-shot",
+      "skitter-smack"
+    ]
+  },
+  "loot_table": "pokecube:entities/blaze_rabbit_1",
+  "evolutions": [
+    {
+      "name": "salazzle",
+      "level": 33,
+      "sexe": "female",
+      "evoMoves": "captivate"
+    }
+  ]
+}

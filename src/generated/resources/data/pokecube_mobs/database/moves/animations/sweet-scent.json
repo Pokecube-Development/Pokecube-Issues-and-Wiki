@@ -1,0 +1,10 @@
+{
+  "name": "sweetscent",
+  "animations": [
+    {
+      "preset": "flow:pmisc:cpink:d2:w3:l5:~sweetscent",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

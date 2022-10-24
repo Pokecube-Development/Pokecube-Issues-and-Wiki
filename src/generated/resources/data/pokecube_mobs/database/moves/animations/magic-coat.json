@@ -1,0 +1,30 @@
+{
+  "name": "magiccoat",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:cmagenta:d0.05:w1:rtrue:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~magiccoat",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pmisc:cpurple:d0.5:rtrue:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~magiccoat",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pwitch:cmagenta:d0.9:rtrue:l100:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~magiccoat",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pend_rod:cmagenta:d0.9:rtrue:l10:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~magiccoat",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pmisc:cmagenta:d0.05:w1:rtrue:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~magiccoat",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

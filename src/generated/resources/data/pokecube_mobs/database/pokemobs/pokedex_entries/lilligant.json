@@ -1,0 +1,148 @@
+{
+  "name": "lilligant",
+  "id": 549,
+  "stock": true,
+  "base_experience": 168,
+  "size": {
+    "height": 1.1,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 16.3,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 70,
+    "attack": 60,
+    "defense": 75,
+    "special_attack": 110,
+    "special_defense": 75,
+    "speed": 90
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "chlorophyll",
+      "own-tempo"
+    ],
+    "hidden": [
+      "leaf-guard"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "absorb",
+          "mega-drain",
+          "leech-seed",
+          "growth",
+          "stun-spore",
+          "sleep-powder",
+          "giga-drain",
+          "synthesis",
+          "sunny-day",
+          "helping-hand",
+          "aromatherapy",
+          "magical-leaf",
+          "energy-ball",
+          "leaf-storm",
+          "entrainment",
+          "after-you"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "petal-dance"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "teeter-dance"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "quiver-dance"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "petal-blizzard"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "hyper-beam",
+      "mega-drain",
+      "leech-seed",
+      "growth",
+      "solar-beam",
+      "petal-dance",
+      "toxic",
+      "double-team",
+      "light-screen",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "giga-drain",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "encore",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "facade",
+      "nature-power",
+      "helping-hand",
+      "role-play",
+      "secret-power",
+      "teeter-dance",
+      "covet",
+      "magical-leaf",
+      "leaf-blade",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "giga-impact",
+      "leaf-storm",
+      "grass-knot",
+      "quiver-dance",
+      "after-you",
+      "round",
+      "petal-blizzard",
+      "grassy-terrain",
+      "confide",
+      "solar-blade",
+      "laser-focus",
+      "pollen-puff",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/leaves"
+}

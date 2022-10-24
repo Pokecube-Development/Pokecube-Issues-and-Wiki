@@ -1,0 +1,13 @@
+{
+  "name": "howl",
+  "id": 336,
+  "pp": 40,
+  "priority": 0,
+  "type": "normal",
+  "target": "user-and-allies",
+  "damage_class": "status",
+  "flavor_text": "The user howls loudly to raise its spirit, which raises\nits Attack stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises the user's Attack by one stage.",
+  "effect_text_simple": "Raises the user's Attack by one stage."
+}

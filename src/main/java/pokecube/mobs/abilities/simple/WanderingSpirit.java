@@ -2,37 +2,36 @@ package pokecube.mobs.abilities.simple;
 
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.IMoveConstants;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.database.tags.Tags;
 
 public class WanderingSpirit extends Ability
 {
     @Override
-    public void onMoveUse(final IPokemob mob, final MovePacket move)
+    public void postMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        final Move_Base attack = move.getMove();
-        final IPokemob attacker = move.attacker;
-
-        if (move.pre || attacker == move.attacked) return;
-        if (move.hit && attack.getAttackCategory(move.attacker) == IMoveConstants.CATEGORY_CONTACT
+        final MoveEntry attack = move.getMove();
+        if (!areWeTarget(mob, move)) return;
+        IPokemob user = move.getUser();
+        if (move.hit && attack.getAttackCategory(user) == IMoveConstants.CATEGORY_CONTACT
                 && Math.random() > 0.7)
         {
-            if (attacker.getAbility() == null) return;
-            final String name = attacker.getAbility().getName();
+            if (user.getAbility() == null) return;
+            final String name = user.getAbility().getName();
 
             // Don't apply to this one
             if (Tags.ABILITY.isIn("no_wandering_spirit", name)) return;
 
             // These will ensure that the ability is only temporarily set,
             // rather than permanently.
-            if (!mob.inCombat()) mob.resetCombatTime();
-            if (!attacker.inCombat()) attacker.resetCombatTime();
+            if (!user.inCombat()) user.resetCombatTime();
+            if (!user.inCombat()) user.resetCombatTime();
 
             // Swap the abilities
-            mob.setAbility(attacker.getAbility());
-            attacker.setAbility(this);
+            user.setAbility(mob.getAbility());
+            user.setAbility(this);
         }
     }
 }

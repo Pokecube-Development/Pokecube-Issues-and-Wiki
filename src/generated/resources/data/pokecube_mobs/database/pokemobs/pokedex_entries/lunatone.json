@@ -1,0 +1,222 @@
+{
+  "name": "lunatone",
+  "id": 337,
+  "stock": true,
+  "base_experience": 161,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 168.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 90,
+    "attack": 55,
+    "defense": 65,
+    "special_attack": 95,
+    "special_defense": 85,
+    "speed": 70
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "rock",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "rock-throw",
+          "confusion",
+          "harden",
+          "moonlight",
+          "power-gem",
+          "psyshock",
+          "moonblast"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "psywave"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "cosmic-power"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "embargo"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "heal-block"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "rock-polish"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "magic-room"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "rock-throw",
+      "earthquake",
+      "toxic",
+      "confusion",
+      "psychic",
+      "hypnosis",
+      "mimic",
+      "double-team",
+      "harden",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "self-destruct",
+      "swift",
+      "dream-eater",
+      "flash",
+      "psywave",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "icy-wind",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "baton-pass",
+      "hidden-power",
+      "rain-dance",
+      "psych-up",
+      "ancient-power",
+      "shadow-ball",
+      "future-sight",
+      "hail",
+      "facade",
+      "helping-hand",
+      "magic-coat",
+      "recycle",
+      "skill-swap",
+      "secret-power",
+      "weather-ball",
+      "rock-tomb",
+      "cosmic-power",
+      "signal-beam",
+      "sand-tomb",
+      "calm-mind",
+      "rock-blast",
+      "gravity",
+      "gyro-ball",
+      "natural-gift",
+      "embargo",
+      "heal-block",
+      "power-swap",
+      "rock-polish",
+      "power-gem",
+      "earth-power",
+      "giga-impact",
+      "nasty-plot",
+      "zen-headbutt",
+      "trick-room",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "smack-down",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "acrobatics",
+      "bulldoze",
+      "moonblast",
+      "confide",
+      "laser-focus",
+      "psychic-terrain",
+      "stomping-tantrum",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/moonstone"
+}

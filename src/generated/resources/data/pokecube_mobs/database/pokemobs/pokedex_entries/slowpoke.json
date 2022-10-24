@@ -1,0 +1,288 @@
+{
+  "name": "slowpoke",
+  "id": 79,
+  "stock": true,
+  "base_experience": 63,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.2
+  },
+  "mass": 36.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 90,
+    "attack": 65,
+    "defense": 65,
+    "special_attack": 40,
+    "special_defense": 40,
+    "speed": 15
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "water",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "oblivious",
+      "own-tempo"
+    ],
+    "hidden": [
+      "regenerator"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 23,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "curse",
+          "yawn"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "growl"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "disable"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "surf",
+          "rest"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "psych-up"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "slack-off"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "heal-pulse"
+        ]
+      }
+    ],
+    "misc": [
+      "pay-day",
+      "stomp",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "growl",
+      "disable",
+      "flamethrower",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "strength",
+      "thunder-wave",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "confusion",
+      "psychic",
+      "rage",
+      "teleport",
+      "mimic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "bide",
+      "fire-blast",
+      "swift",
+      "skull-bash",
+      "amnesia",
+      "dream-eater",
+      "flash",
+      "psywave",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "nightmare",
+      "snore",
+      "curse",
+      "protect",
+      "belly-drum",
+      "mud-slap",
+      "zap-cannon",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "whirlpool",
+      "hail",
+      "facade",
+      "trick",
+      "magic-coat",
+      "recycle",
+      "yawn",
+      "skill-swap",
+      "imprison",
+      "secret-power",
+      "dive",
+      "mud-sport",
+      "slack-off",
+      "weather-ball",
+      "signal-beam",
+      "block",
+      "mud-shot",
+      "calm-mind",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "me-first",
+      "aqua-tail",
+      "zen-headbutt",
+      "trick-room",
+      "captivate",
+      "grass-knot",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "scald",
+      "heal-pulse",
+      "incinerate",
+      "bulldoze",
+      "belch",
+      "confide",
+      "psychic-terrain",
+      "liquidation",
+      "expanding-force"
+    ]
+  },
+  "loot_table": "pokecube:entities/pig_1",
+  "held_table": "pokecube:entities/kingsrock",
+  "interactions": [
+    {
+      "male": true,
+      "female": true,
+      "cooldown": 800,
+      "variance": 100,
+      "baseHunger": 500,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:shears"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:porkchop",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "evolutions": [
+    {
+      "name": "slowbro",
+      "level": 37,
+      "evoMoves": "withdraw"
+    },
+    {
+      "name": "slowking",
+      "item_preset": "kingsrock",
+      "trade": true
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "amnesia",
+  "id": 133,
+  "pp": 20,
+  "priority": 0,
+  "type": "psychic",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user temporarily empties its mind to forget its\nconcerns. This sharply raises the user’s Sp. Def stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises the user's Special Defense by two stages.",
+  "effect_text_simple": "Raises the user's Special Defense by two stages."
+}

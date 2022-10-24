@@ -1,0 +1,25 @@
+{
+  "name": "focusblast",
+  "animations": [
+    {
+      "preset": "throw:pmisc:corange:d5:w0.5:~focusblast",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.megaattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    },
+    {
+      "preset": "cartFunc:pexplosion_emitter:d5:w0.5:l5:~focusblast",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 0.9
+    }
+  ]
+}

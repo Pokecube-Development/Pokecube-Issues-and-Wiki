@@ -1,0 +1,35 @@
+{
+  "name": "maxovergrowth",
+  "animations": [
+    {
+      "preset": "cartFunc:plava:d1:w1:l30:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~maxovergrowth",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.ember",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "throw:pmisc:d0.7:w0.7:l4:~maxovergrowth",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:pexplosion_emitter:d1:w1:l4:~maxovergrowth",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "minecraft:entity.generic.explode",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 1.7
+    }
+  ]
+}

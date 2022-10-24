@@ -4,7 +4,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.pathfinder.Node;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.TaskBase;
@@ -65,7 +65,7 @@ public class CicleTask extends CombatTask implements IAICombat
             f = Math.max(f, 0.5f);
             if (here.distTo(end) > f) return;
         }
-        Move_Base attack = this.pokemob.getSelectedMove();
+        MoveEntry attack = this.pokemob.getSelectedMove();
 
         final Vector3 here = new Vector3().set(this.entity);
 

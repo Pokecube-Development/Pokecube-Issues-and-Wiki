@@ -1,0 +1,14 @@
+{
+  "name": "shock-wave",
+  "id": 351,
+  "power": 60,
+  "pp": 20,
+  "priority": 0,
+  "type": "electric",
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user strikes the target with a quick jolt of\nelectricity. This attack never misses.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Ignores accuracy and evasion modifiers.",
+  "effect_text_simple": "Never misses."
+}

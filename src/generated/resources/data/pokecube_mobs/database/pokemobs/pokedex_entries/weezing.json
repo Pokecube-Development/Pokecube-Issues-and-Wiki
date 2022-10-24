@@ -1,0 +1,208 @@
+{
+  "name": "weezing",
+  "id": 110,
+  "stock": true,
+  "base_experience": 172,
+  "size": {
+    "height": 1.2,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 9.5,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 65,
+    "attack": 90,
+    "defense": 120,
+    "special_attack": 85,
+    "special_defense": 70,
+    "speed": 60
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate",
+      "neutralizing-gas"
+    ],
+    "hidden": [
+      "stench"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "psybeam",
+          "screech",
+          "smokescreen",
+          "smog",
+          "poison-gas",
+          "heat-wave"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "haze"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "self-destruct"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "sludge"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "sludge-bomb"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "destiny-bond"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "memento"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "gyro-ball"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "double-hit"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "clear-smog"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "belch"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "tackle",
+      "flamethrower",
+      "hyper-beam",
+      "thunderbolt",
+      "thunder",
+      "toxic",
+      "rage",
+      "mimic",
+      "screech",
+      "double-team",
+      "smokescreen",
+      "haze",
+      "bide",
+      "self-destruct",
+      "smog",
+      "sludge",
+      "fire-blast",
+      "poison-gas",
+      "flash",
+      "explosion",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "spite",
+      "protect",
+      "sludge-bomb",
+      "zap-cannon",
+      "destiny-bond",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "uproar",
+      "heat-wave",
+      "torment",
+      "will-o-wisp",
+      "memento",
+      "facade",
+      "taunt",
+      "secret-power",
+      "shock-wave",
+      "gyro-ball",
+      "natural-gift",
+      "payback",
+      "assurance",
+      "toxic-spikes",
+      "dark-pulse",
+      "giga-impact",
+      "captivate",
+      "double-hit",
+      "venoshock",
+      "sludge-wave",
+      "round",
+      "clear-smog",
+      "incinerate",
+      "belch",
+      "confide",
+      "venom-drench",
+      "infestation",
+      "corrosive-gas"
+    ]
+  },
+  "loot_table": "minecraft:entities/creeper"
+}

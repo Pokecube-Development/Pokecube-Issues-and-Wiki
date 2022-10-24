@@ -1,0 +1,15 @@
+{
+  "name": "stringshot",
+  "animations": [
+    {
+      "preset": "flow:ppowder:atrue:csilver:d2:w0.05:l3:~stringshot",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.scratch",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4
+    }
+  ]
+}

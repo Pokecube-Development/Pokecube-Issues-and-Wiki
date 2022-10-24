@@ -1,0 +1,15 @@
+{
+  "name": "terrain-pulse",
+  "id": 805,
+  "power": 50,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user utilizes the power of the terrain to attack.\nThis move’s type and power changes depending on\nthe terrain when it’s used.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.",
+  "effect_text_simple": "Inflicts regular damage with no additional effect."
+}

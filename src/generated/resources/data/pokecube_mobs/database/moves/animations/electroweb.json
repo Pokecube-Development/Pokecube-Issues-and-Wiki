@@ -1,0 +1,27 @@
+{
+  "name": "electroweb",
+  "animations": [
+    {
+      "preset": "flow:pmisc:atrue:w2:~electroweb",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.thunderwave",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.7,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:pmisc:w1.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~electroweb",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.thunderwave",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "applyAfter": false
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "stun-spore",
+  "id": 78,
+  "pp": 30,
+  "priority": 0,
+  "type": "grass",
+  "accuracy": 75,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user scatters a cloud of numbing powder that\nparalyzes the target.",
+  "move_category": "ailment",
+  "effect_text_extend": "Paralyzes the target.",
+  "effect_text_simple": "Paralyzes the target."
+}

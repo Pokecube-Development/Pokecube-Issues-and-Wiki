@@ -1,0 +1,200 @@
+{
+  "name": "bagon",
+  "id": 371,
+  "stock": true,
+  "base_experience": 60,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 42.1,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 45,
+    "attack": 75,
+    "defense": 60,
+    "special_attack": 40,
+    "special_defense": 30,
+    "speed": 50
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "rock-head"
+    ],
+    "hidden": [
+      "sheer-force"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 17,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "ember"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "rage"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "dragon-claw"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "zen-headbutt"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "headbutt",
+      "body-slam",
+      "thrash",
+      "double-edge",
+      "leer",
+      "bite",
+      "roar",
+      "ember",
+      "flamethrower",
+      "hydro-pump",
+      "strength",
+      "dragon-rage",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "focus-energy",
+      "fire-blast",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "outrage",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dragon-breath",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "facade",
+      "brick-break",
+      "secret-power",
+      "hyper-voice",
+      "rock-tomb",
+      "aerial-ace",
+      "iron-defense",
+      "dragon-claw",
+      "dragon-dance",
+      "natural-gift",
+      "dragon-pulse",
+      "dragon-rush",
+      "shadow-claw",
+      "fire-fang",
+      "zen-headbutt",
+      "draco-meteor",
+      "captivate",
+      "hone-claws",
+      "round",
+      "incinerate",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_1",
+  "evolutions": [
+    {
+      "name": "shelgon",
+      "level": 30,
+      "evoMoves": "protect"
+    }
+  ]
+}

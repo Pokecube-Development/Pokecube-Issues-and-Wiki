@@ -1,0 +1,201 @@
+{
+  "name": "electrode",
+  "id": 101,
+  "stock": true,
+  "base_experience": 172,
+  "size": {
+    "height": 1.2,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 66.6,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 60,
+    "attack": 50,
+    "defense": 70,
+    "special_attack": 80,
+    "special_defense": 80,
+    "speed": 150
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "soundproof",
+      "static"
+    ],
+    "hidden": [
+      "aftermath"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "sonic-boom",
+          "thunder-shock",
+          "charge",
+          "eerie-impulse",
+          "magnetic-flux"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "thunderbolt",
+          "magnet-rise"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "self-destruct"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "mirror-coat"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "gyro-ball"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "charge-beam"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "electro-ball"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "tackle",
+      "take-down",
+      "sonic-boom",
+      "hyper-beam",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "rage",
+      "teleport",
+      "mimic",
+      "screech",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "bide",
+      "self-destruct",
+      "swift",
+      "skull-bash",
+      "flash",
+      "explosion",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "zap-cannon",
+      "endure",
+      "rollout",
+      "swagger",
+      "spark",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "mirror-coat",
+      "torment",
+      "facade",
+      "charge",
+      "taunt",
+      "magic-coat",
+      "secret-power",
+      "signal-beam",
+      "shock-wave",
+      "gyro-ball",
+      "natural-gift",
+      "sucker-punch",
+      "magnet-rise",
+      "giga-impact",
+      "discharge",
+      "charge-beam",
+      "telekinesis",
+      "electro-ball",
+      "foul-play",
+      "round",
+      "volt-switch",
+      "wild-charge",
+      "confide",
+      "eerie-impulse",
+      "magnetic-flux"
+    ]
+  },
+  "loot_table": "pokecube:entities/redstone_creeper_2"
+}

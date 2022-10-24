@@ -1,0 +1,122 @@
+{
+  "name": "simipour",
+  "id": 516,
+  "stock": true,
+  "base_experience": 174,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 29.0,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 75,
+    "attack": 98,
+    "defense": 63,
+    "special_attack": 98,
+    "special_defense": 63,
+    "speed": 101
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "gluttony"
+    ],
+    "hidden": [
+      "torrent"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "lick",
+          "fury-swipes",
+          "scald"
+        ]
+      }
+    ],
+    "misc": [
+      "ice-punch",
+      "cut",
+      "leer",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "low-kick",
+      "dig",
+      "toxic",
+      "double-team",
+      "lick",
+      "waterfall",
+      "fury-swipes",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "icy-wind",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "rock-smash",
+      "uproar",
+      "hail",
+      "torment",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "role-play",
+      "superpower",
+      "recycle",
+      "brick-break",
+      "knock-off",
+      "endeavor",
+      "secret-power",
+      "dive",
+      "rock-tomb",
+      "covet",
+      "water-pulse",
+      "payback",
+      "fling",
+      "gastro-acid",
+      "aqua-tail",
+      "focus-blast",
+      "giga-impact",
+      "shadow-claw",
+      "gunk-shot",
+      "grass-knot",
+      "hone-claws",
+      "low-sweep",
+      "round",
+      "scald",
+      "acrobatics",
+      "water-pledge",
+      "work-up",
+      "confide",
+      "power-up-punch",
+      "throat-chop"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2"
+}

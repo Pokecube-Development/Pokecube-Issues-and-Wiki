@@ -1,0 +1,13 @@
+{
+  "name": "happy-hour",
+  "id": 603,
+  "pp": 30,
+  "priority": 0,
+  "type": "normal",
+  "target": "users-field",
+  "damage_class": "status",
+  "flavor_text": "Using Happy Hour doubles the amount of prize\nmoney received after battle.",
+  "move_category": "unique",
+  "effect_text_extend": "Doubles prize money.\n\nStacks with a held item.  Only works once per battle.",
+  "effect_text_simple": "Doubles prize money."
+}

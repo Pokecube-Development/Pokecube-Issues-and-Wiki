@@ -1,0 +1,225 @@
+{
+  "name": "tornadus-incarnate",
+  "id": 641,
+  "stock": true,
+  "base_experience": 290,
+  "size": {
+    "height": 1.5,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 63.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 90,
+  "growth_rate": "slow",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 79,
+    "attack": 115,
+    "defense": 70,
+    "special_attack": 125,
+    "special_defense": 80,
+    "speed": 111
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "prankster"
+    ],
+    "hidden": [
+      "defiant"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "gust",
+          "thrash",
+          "swagger",
+          "uproar",
+          "astonish",
+          "hammer-arm",
+          "hurricane"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "revenge"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "air-cutter"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "tailwind"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "air-slash"
+        ]
+      }
+    ],
+    "misc": [
+      "gust",
+      "fly",
+      "body-slam",
+      "thrash",
+      "bite",
+      "hyper-beam",
+      "strength",
+      "toxic",
+      "psychic",
+      "agility",
+      "double-team",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "crunch",
+      "rock-smash",
+      "uproar",
+      "heat-wave",
+      "torment",
+      "facade",
+      "taunt",
+      "role-play",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "astonish",
+      "weather-ball",
+      "air-cutter",
+      "extrasensory",
+      "aerial-ace",
+      "bulk-up",
+      "hammer-arm",
+      "tailwind",
+      "u-turn",
+      "payback",
+      "assurance",
+      "embargo",
+      "fling",
+      "dark-pulse",
+      "air-slash",
+      "focus-blast",
+      "giga-impact",
+      "nasty-plot",
+      "defog",
+      "grass-knot",
+      "smack-down",
+      "sludge-wave",
+      "foul-play",
+      "round",
+      "sky-drop",
+      "incinerate",
+      "acrobatics",
+      "hurricane",
+      "confide",
+      "brutal-swing",
+      "lash-out"
+    ]
+  },
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:nature_place",
+        "rate": "0.0"
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "male": true,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "revealglass"
+        }
+      },
+      "action": {
+        "values": {
+          "forme": "tornadustherian",
+          "type": "forme"
+        }
+      }
+    }
+  ],
+  "old_name": "tornadus_incarnate"
+}

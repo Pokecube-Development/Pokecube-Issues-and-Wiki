@@ -11,7 +11,7 @@ public class Triplekick extends Move_MultiHit
 {
     public Triplekick()
     {
-        super("triplekick");
+        super("triple-kick");
     }
 
     @Override

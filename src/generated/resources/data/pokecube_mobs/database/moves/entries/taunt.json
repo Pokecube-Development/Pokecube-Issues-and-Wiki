@@ -1,0 +1,14 @@
+{
+  "name": "taunt",
+  "id": 269,
+  "pp": 20,
+  "priority": 0,
+  "type": "dark",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The target is taunted into a rage that allows it to use\nonly attack moves for three turns.",
+  "move_category": "unique",
+  "effect_text_extend": "Target is forced to only use damaging moves for the next 3–5 turns, selected at random.  Moves that select other moves not known in advance do not count as damaging.\n\nassist, copycat, me first, metronome, mirror move, and sleep talk do not directly inflict damage and thus may not be used.\n\nbide, counter, endeavor, metal burst, and mirror coat are allowed.",
+  "effect_text_simple": "For the next few turns, the target can only use damaging moves."
+}

@@ -61,7 +61,7 @@ public class UseMoveTrigger extends SimpleCriterionTrigger<UseMoveTrigger.Instan
         final EntityPredicate.Composite pred = EntityPredicate.Composite.fromJson(json, "player", conditions);
         final String attack = json.get("move").getAsString();
         // TODO get this done better.
-        final MovePacket packet = new MovePacket(null, null, MovesUtils.getMoveFromName(attack));
+        final MovePacket packet = new MovePacket(null, null, MovesUtils.getMoveFromName(attack).move);
         return new Instance(pred, packet);
     }
 }

@@ -1,0 +1,14 @@
+{
+  "name": "trick-or-treat",
+  "id": 567,
+  "pp": 20,
+  "priority": 0,
+  "type": "ghost",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user takes the target trick-or-treating.\nThis adds Ghost type to the target’s type.",
+  "move_category": "unique",
+  "effect_text_extend": "Adds ghost to the target's types.",
+  "effect_text_simple": "Adds ghost to the target's types."
+}
