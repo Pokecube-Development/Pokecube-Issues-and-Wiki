@@ -29,7 +29,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -108,88 +107,6 @@ public class PokecubeMobs
             else if (def > atk) evt.forme = Database.getEntry("Hitmonchan");
             else evt.forme = Database.getEntry("Hitmontop");
         }
-    }
-
-    private int getGen(PokedexEntry entry)
-    {
-        int gen;
-        if (this.genMap.containsKey(entry)) gen = this.genMap.get(entry);
-        else
-        {
-            gen = entry.getGen();
-            final PokedexEntry real = entry;
-            if (entry.getBaseForme() != null) entry = entry.getBaseForme();
-            for (final EvolutionData d : entry.getEvolutions())
-            {
-                int gen1 = d.evolution.getGen();
-                if (this.genMap.containsKey(d.evolution)) gen1 = this.genMap.get(d.evolution);
-                if (gen1 < gen) gen = gen1;
-                for (final EvolutionData d1 : d.evolution.getEvolutions())
-                {
-                    gen1 = d1.evolution.getGen();
-                    if (this.genMap.containsKey(d1.evolution)) gen1 = this.genMap.get(d1.evolution);
-                    if (d.evolution == entry && gen1 < gen) gen = gen1;
-                }
-            }
-            for (final PokedexEntry e : Database.getSortedFormes())
-            {
-                int gen1 = e.getGen();
-                if (this.genMap.containsKey(e)) gen1 = this.genMap.get(e);
-                for (final EvolutionData d : e.getEvolutions()) if (d.evolution == entry && gen1 < gen) gen = gen1;
-            }
-            this.genMap.put(real, gen);
-        }
-        return gen;
-    }
-
-    public String getModelDirectory(final PokedexEntry entry)
-    {
-        final int gen = this.getGen(entry);
-        switch (gen)
-        {
-        case 1:
-            return "gen_1/entity/models/";
-        case 2:
-            return "gen_2/entity/models/";
-        case 3:
-            return "gen_3/entity/models/";
-        case 4:
-            return "gen_4/entity/models/";
-        case 5:
-            return "gen_5/entity/models/";
-        case 6:
-            return "gen_6/entity/models/";
-        case 7:
-            return "gen_7/entity/models/";
-        case 8:
-            return "gen_8/entity/models/";
-        }
-        return "entity/models/";
-    }
-
-    public String getTextureDirectory(final PokedexEntry entry)
-    {
-        final int gen = this.getGen(entry);
-        switch (gen)
-        {
-        case 1:
-            return "gen_1/entity/textures/";
-        case 2:
-            return "gen_2/entity/textures/";
-        case 3:
-            return "gen_3/entity/textures/";
-        case 4:
-            return "gen_4/entity/textures/";
-        case 5:
-            return "gen_5/entity/textures/";
-        case 6:
-            return "gen_6/entity/textures/";
-        case 7:
-            return "gen_7/entity/textures/";
-        case 8:
-            return "gen_8/entity/textures/";
-        }
-        return "entity/textures/";
     }
 
     @SubscribeEvent
@@ -695,8 +612,8 @@ public class PokecubeMobs
         {
             if (entry == Database.missingno) continue;
             if (entry.model != PokedexEntry.MODELNO) continue;
-            final String tex = this.getTextureDirectory(entry);
-            final String model = this.getModelDirectory(entry);
+            final String tex = PokedexEntry.TEXTUREPATH;
+            final String model = PokedexEntry.MODELPATH;
             entry.setModId(PokecubeMobs.MODID);
             entry.texturePath = PokecubeMobs.MODID + ":" + tex;
             entry.model = new ResourceLocation(PokecubeMobs.MODID, model + entry.getTrimmedName() + entry.modelExt);

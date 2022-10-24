@@ -183,8 +183,8 @@ public class NpcType
 
         // We will set these as a default here, sub-classes can replace them
         // later, or by calling their setters.
-        this.maleTex = new ResourceLocation(PokecubeMod.ID + ":textures/entity/" + string + "_male.png");
-        this.femaleTex = new ResourceLocation(PokecubeMod.ID + ":textures/entity/" + string + "_female.png");
+        this.maleTex = new ResourceLocation(PokecubeMod.ID + ":textures/entity/npc/" + string + "_male.png");
+        this.femaleTex = new ResourceLocation(PokecubeMod.ID + ":textures/entity/npc/" + string + "_female.png");
 
         if (ForgeRegistries.VILLAGER_PROFESSIONS.containsKey(new ResourceLocation(string)))
         {

@@ -2,7 +2,7 @@ import json
 from ignore_list import isIgnored
 from legacy_renamer import find_old_name, to_model_form, find_new_name
 import utils
-from utils import get_form, get_pokemon, get_species, DEFAULT_GENERATION, default_or_latest, get_pokemon_index, url_to_id
+from utils import get_form, get_pokemon, get_species, default_or_latest, get_pokemon_index, url_to_id
 from moves_converter import convert_old_move_name
 import os
 from glob import glob
@@ -436,7 +436,7 @@ def convert_pokedex():
         values = get_species(i)
 
     for key, dict in lang_files.items():
-        file = f'./new/lang/{key}'
+        file = f'./new/assets/pokecube_mobs/lang/{key}'
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
         try:
@@ -471,4 +471,4 @@ def convert_pokedex():
 if __name__ == "__main__":
     convert_pokedex()
     convert_tags()
-    # convert_assets()
+    convert_assets()

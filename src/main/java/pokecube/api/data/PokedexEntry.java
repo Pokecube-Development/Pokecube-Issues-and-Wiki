@@ -764,7 +764,8 @@ public class PokedexEntry
         }
     }
 
-    public static final String TEXTUREPATH = "entity/textures/";
+    public static final String TEXTUREPATH = "textures/entity/pokemob/";
+    public static final String MODELPATH = "models/entity/pokemob/";
 
     public static TimePeriod dawn = new TimePeriod(0.85, 0.05);
     public static TimePeriod day = new TimePeriod(0.0, 0.5);
@@ -773,11 +774,10 @@ public class PokedexEntry
 
     private static final PokedexEntry BLANK = new PokedexEntry(true);
 
-    public static final ResourceLocation MODELNO = new ResourceLocation(PokecubeCore.MODID, "entity/models/missingno");
+    public static final ResourceLocation MODELNO = new ResourceLocation(PokecubeCore.MODID, MODELPATH + "missingno");
     public static final ResourceLocation TEXNO = new ResourceLocation(PokecubeCore.MODID,
-            "entity/textures/missingno.png");
-    public static final ResourceLocation ANIMNO = new ResourceLocation(PokecubeCore.MODID,
-            "entity/animations/missingno.xml");
+            TEXTUREPATH + "missingno.png");
+    public static final ResourceLocation ANIMNO = new ResourceLocation(PokecubeCore.MODID, MODELPATH + "missingno.xml");
 
     private static void addFromEvolution(final PokedexEntry a, final PokedexEntry b)
     {

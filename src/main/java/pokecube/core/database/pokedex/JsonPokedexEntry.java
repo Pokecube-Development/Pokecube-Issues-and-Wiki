@@ -266,6 +266,9 @@ public class JsonPokedexEntry
 
     private void initStage2(PokedexEntry entry)
     {
+        // This can be the case if the entry was removed earlier.
+        if (entry == null) return;
+
         if (this.interactions != null) entry._loaded_interactions.addAll(this.interactions);
         if (this.mega_rules != null) entry._loaded_megarules.addAll(this.mega_rules);
 
@@ -297,6 +300,8 @@ public class JsonPokedexEntry
             entry.model = new ResourceLocation(model + entry.getTrimmedName() + entry.modelExt);
             entry.texture = new ResourceLocation(tex + entry.getTrimmedName() + ".png");
             entry.animation = new ResourceLocation(anim + entry.getTrimmedName() + ".xml");
+
+            PokecubeAPI.LOGGER.info("Paths for {}: {} {} {}", entry.model, entry.texture, entry.animation);
         }
 
         if (this.pose_shapes != null && !this.pose_shapes.isEmpty())

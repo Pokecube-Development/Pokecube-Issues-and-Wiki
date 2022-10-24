@@ -40,9 +40,9 @@ import thut.core.client.render.wrappers.ModelWrapper;
 public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapper<EntityPokemobEgg>>
         implements IModelRenderer<EntityPokemobEgg>
 {
-    static final ResourceLocation TEXTURE = new ResourceLocation(PokecubeCore.MODID, "entity/textures/egg.png");
-    static final ResourceLocation MODEL = new ResourceLocation(PokecubeCore.MODID, "entity/models/egg");
-    static final ResourceLocation ANIM = new ResourceLocation(PokecubeCore.MODID, "entity/animations/egg.xml");
+    static final ResourceLocation TEXTURE = new ResourceLocation(PokecubeCore.MODID, "textures/entity/egg/egg.png");
+    static final ResourceLocation MODEL = new ResourceLocation(PokecubeCore.MODID, "models/entity/egg/egg");
+    static final ResourceLocation ANIM = new ResourceLocation(PokecubeCore.MODID, "models/entity/egg/egg.xml");
 
     private static class EggColourer implements IAnimationChanger
     {
