@@ -9,7 +9,7 @@ import net.minecraft.advancements.critereon.EntityPredicate.Composite;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.MoveEntry;
 import pokecube.api.utils.PokeType;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
@@ -23,17 +23,17 @@ public class UseMoveTrigger extends SimpleCriterionTrigger<UseMoveTrigger.Instan
         int power;
         float damage;
 
-        public Instance(final Composite pred, final MovePacket move)
+        public Instance(final Composite pred, final MoveEntry move)
         {
             super(UseMoveTrigger.ID, pred);
-            this.attack = move.attack;
-            this.type = move.attackType;
-            this.power = move.PWR;
+            this.attack = move.getName();
+            this.type = move.type;
+            this.power = move.power;
         }
 
-        public boolean test(final ServerPlayer player, final MovePacket packet)
+        public boolean test(final ServerPlayer player, final MoveEntry packet)
         {
-            return packet.attack.equals(this.attack);
+            return packet.getName().equals(this.attack);
         }
     }
 
@@ -48,7 +48,7 @@ public class UseMoveTrigger extends SimpleCriterionTrigger<UseMoveTrigger.Instan
         return UseMoveTrigger.ID;
     }
 
-    public void trigger(final ServerPlayer player, final MovePacket packet)
+    public void trigger(final ServerPlayer player, final MoveEntry packet)
     {
         this.trigger(player, (instance) -> {
             return instance.test(player, packet);
@@ -60,8 +60,7 @@ public class UseMoveTrigger extends SimpleCriterionTrigger<UseMoveTrigger.Instan
     {
         final EntityPredicate.Composite pred = EntityPredicate.Composite.fromJson(json, "player", conditions);
         final String attack = json.get("move").getAsString();
-        // TODO get this done better.
-        final MovePacket packet = new MovePacket(null, null, MovesUtils.getMoveFromName(attack).move);
-        return new Instance(pred, packet);
+        MoveEntry move = MovesUtils.getMove(attack);
+        return new Instance(pred, move);
     }
 }

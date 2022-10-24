@@ -100,8 +100,6 @@ public abstract class Move_Base
         return (byte) this.move.attackCategory;
     }
 
-    public abstract Move_Base getMove(String name);
-
     /**
      * Name getter
      *

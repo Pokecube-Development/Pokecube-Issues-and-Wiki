@@ -9,7 +9,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.impl.PokecubeMod;
@@ -76,7 +76,7 @@ public class SelectMoveTask extends CombatTask implements IAICombat
             if (this.pokemob.getDisableTimer(i) > 0) continue;
             if (s != null)
             {
-                final Move_Base m = MovesUtils.getMoveFromName(s);
+                final MoveEntry m = MovesUtils.getMove(s);
                 if (m == null) continue;
                 int temp = Tools.getPower(s, this.pokemob, this.target);
                 if (dist > 5 && m.isRanged(this.pokemob)) temp *= 1.5;

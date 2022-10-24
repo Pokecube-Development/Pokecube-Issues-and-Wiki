@@ -107,12 +107,6 @@ public class Move_Basic extends Move_Base implements IMoveConstants
     }
 
     @Override
-    public Move_Base getMove(final String name)
-    {
-        return MovesUtils.getMoveFromName(name);
-    }
-
-    @Override
     public void handleStatsChanges(final MovePacket packet)
     {
         final boolean shouldEffect = packet.attackedStatModProb > 0 || packet.attackerStatModProb > 0;
