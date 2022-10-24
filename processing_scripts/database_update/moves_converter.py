@@ -1,5 +1,7 @@
 import json
-from utils import get_moves_index, get_move, trim, default_or_latest
+import utils
+import os
+from utils import get_moves_index, get_move, trim, default_or_latest, url_to_id
 
 MANUAL_RENAMES = {
     "lastout": "lash-out",
@@ -49,6 +51,7 @@ class MoveEntry:
         self.accuracy = move.accuracy
         self.target = move.target.name
         self.damage_class = move.damage_class.name
+        self.names = move.names
 
         flavor_text = default_or_latest(move.flavor_text_entries, is_english)
         if flavor_text is not None:
@@ -132,16 +135,43 @@ def convert_moves():
     for var in old_animations["moves"]:
         anims_dex[var["name"]] = var
 
+    lang_files = {}
+
     move_entries = []
     for name, index in index_map.items():
         move = get_move(index)
         entry = MoveEntry(move)
+
+        for __name in entry.names:
+            _name = __name.name
+            lang = utils.get('language', url_to_id(__name.language))
+            key = f'{lang.iso639}_{lang.iso3166}.json'
+            items = {}
+            if key in lang_files:
+                items = lang_files[key]
+            items[f"pokemob.move.{entry.name}"] = _name
+            lang_files[key] = items
+        del entry.names
+
         move_entries.append(entry)
 
         file = f'./new/moves/entries/{name}.json'
         file = open(file, 'w', encoding='utf-8')
         json.dump(entry.__dict__, file, indent=2, ensure_ascii=False)
         file.close()
+
+
+    for key, dict in lang_files.items():
+        file = f'./new/assets/pokecube_moves/lang/{key}'
+        if not os.path.exists(os.path.dirname(file)):
+            os.makedirs(os.path.dirname(file))
+        try:
+            file = open(file, 'w', encoding='utf-8')
+            json.dump(dict, file, indent=2, ensure_ascii=False)
+            file.close()
+        except Exception as err:
+            print(f'error saving for {key}')
+            print(err)
 
     for name, value in anims_dex.items():
         new_name = convert_old_move_name(name)

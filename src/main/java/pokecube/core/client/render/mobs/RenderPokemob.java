@@ -475,6 +475,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             }
             holder = temp;
         }
+        
         if (holder.wrapper == null || !holder.wrapper.isLoaded())
         {
             holder.init();
