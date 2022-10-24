@@ -1,0 +1,189 @@
+{
+  "name": "alomomola",
+  "id": 594,
+  "stock": true,
+  "base_experience": 165,
+  "size": {
+    "height": 1.2,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 31.6,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 70,
+  "growth_rate": "fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 165,
+    "attack": 75,
+    "defense": 80,
+    "special_attack": 40,
+    "special_defense": 45,
+    "speed": 65
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "healer",
+      "hydration"
+    ],
+    "hidden": [
+      "regenerator"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "hydro-pump",
+          "helping-hand",
+          "water-sport",
+          "healing-wish",
+          "wide-guard",
+          "play-nice"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "double-slap"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "whirlpool"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "wish"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "wake-up-slap"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "aqua-ring"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "soak"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "heal-pulse"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "double-slap",
+      "mist",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "toxic",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "waterfall",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "hidden-power",
+      "rain-dance",
+      "mirror-coat",
+      "psych-up",
+      "shadow-ball",
+      "whirlpool",
+      "hail",
+      "facade",
+      "helping-hand",
+      "wish",
+      "magic-coat",
+      "knock-off",
+      "refresh",
+      "secret-power",
+      "dive",
+      "tickle",
+      "bounce",
+      "water-sport",
+      "calm-mind",
+      "water-pulse",
+      "wake-up-slap",
+      "healing-wish",
+      "brine",
+      "aqua-ring",
+      "aqua-jet",
+      "wide-guard",
+      "soak",
+      "round",
+      "scald",
+      "heal-pulse",
+      "play-nice",
+      "confide",
+      "liquidation"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "brick-break",
+  "id": 280,
+  "power": 75,
+  "pp": 15,
+  "priority": 0,
+  "type": "fighting",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user attacks with a swift chop. It can also break\nbarriers, such as Light Screen and Reflect.",
+  "move_category": "damage",
+  "effect_text_extend": "Destroys any light screen or reflect on the target's side of the field, then inflicts regular damage.",
+  "effect_text_simple": "Destroys Reflect and Light Screen."
+}

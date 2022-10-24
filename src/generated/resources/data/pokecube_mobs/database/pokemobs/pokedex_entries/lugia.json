@@ -1,0 +1,261 @@
+{
+  "name": "lugia",
+  "id": 249,
+  "stock": true,
+  "base_experience": 340,
+  "size": {
+    "height": 4.0,
+    "width": 5.2,
+    "length": 5.2
+  },
+  "mass": 216.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 106,
+    "attack": 90,
+    "defense": 130,
+    "special_attack": 90,
+    "special_defense": 154,
+    "speed": 110
+  },
+  "evs": {
+    "special_defense": 3
+  },
+  "types": [
+    "psychic",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "pressure"
+    ],
+    "hidden": [
+      "multiscale"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 9,
+        "moves": [
+          "gust",
+          "mist"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "whirlwind",
+          "weather-ball"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 71,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 99,
+        "moves": [
+          "sky-attack"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "aeroblast"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 79,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 93,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 85,
+        "moves": [
+          "natural-gift"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "punishment"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "dragon-rush"
+        ]
+      }
+    ],
+    "misc": [
+      "gust",
+      "whirlwind",
+      "fly",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "roar",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "psychic",
+      "mimic",
+      "double-team",
+      "recover",
+      "light-screen",
+      "reflect",
+      "waterfall",
+      "swift",
+      "dream-eater",
+      "sky-attack",
+      "flash",
+      "rest",
+      "substitute",
+      "nightmare",
+      "snore",
+      "curse",
+      "aeroblast",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "icy-wind",
+      "detect",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dragon-breath",
+      "iron-tail",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "shadow-ball",
+      "future-sight",
+      "rock-smash",
+      "whirlpool",
+      "hail",
+      "facade",
+      "helping-hand",
+      "trick",
+      "skill-swap",
+      "imprison",
+      "secret-power",
+      "dive",
+      "hyper-voice",
+      "weather-ball",
+      "air-cutter",
+      "signal-beam",
+      "extrasensory",
+      "aerial-ace",
+      "calm-mind",
+      "shock-wave",
+      "water-pulse",
+      "roost",
+      "brine",
+      "natural-gift",
+      "tailwind",
+      "punishment",
+      "aqua-tail",
+      "air-slash",
+      "dragon-pulse",
+      "dragon-rush",
+      "earth-power",
+      "giga-impact",
+      "avalanche",
+      "zen-headbutt",
+      "defog",
+      "iron-head",
+      "charge-beam",
+      "ominous-wind",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "round",
+      "echoed-voice",
+      "sky-drop",
+      "bulldoze",
+      "dragon-tail",
+      "hurricane",
+      "confide",
+      "laser-focus",
+      "scale-shot",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/oranberry",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:lugia_tower",
+        "rate": "0.0"
+      }
+    }
+  ]
+}

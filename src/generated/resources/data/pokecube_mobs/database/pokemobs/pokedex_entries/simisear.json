@@ -1,0 +1,121 @@
+{
+  "name": "simisear",
+  "id": 514,
+  "stock": true,
+  "base_experience": 174,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 28.0,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 75,
+    "attack": 98,
+    "defense": 63,
+    "special_attack": 98,
+    "special_defense": 63,
+    "speed": 101
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "gluttony"
+    ],
+    "hidden": [
+      "blaze"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "lick",
+          "fury-swipes",
+          "flame-burst"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "cut",
+      "leer",
+      "flamethrower",
+      "hyper-beam",
+      "low-kick",
+      "solar-beam",
+      "dig",
+      "toxic",
+      "double-team",
+      "lick",
+      "fire-blast",
+      "fury-swipes",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "uproar",
+      "heat-wave",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "role-play",
+      "superpower",
+      "recycle",
+      "brick-break",
+      "knock-off",
+      "endeavor",
+      "secret-power",
+      "overheat",
+      "rock-tomb",
+      "covet",
+      "payback",
+      "fling",
+      "gastro-acid",
+      "focus-blast",
+      "giga-impact",
+      "shadow-claw",
+      "gunk-shot",
+      "grass-knot",
+      "hone-claws",
+      "flame-burst",
+      "flame-charge",
+      "low-sweep",
+      "round",
+      "incinerate",
+      "acrobatics",
+      "fire-pledge",
+      "work-up",
+      "confide",
+      "power-up-punch",
+      "throat-chop"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2"
+}

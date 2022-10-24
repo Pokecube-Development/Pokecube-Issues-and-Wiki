@@ -1,0 +1,210 @@
+{
+  "name": "snivy",
+  "id": 495,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 0.6,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 8.1,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 45,
+    "attack": 45,
+    "defense": 55,
+    "special_attack": 45,
+    "special_defense": 55,
+    "speed": 63
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "contrary"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 25,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "vine-whip"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "wrap"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "leaf-blade"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "wring-out"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "gastro-acid"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "leaf-storm"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "coil"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "leaf-tornado"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "bind",
+      "slam",
+      "vine-whip",
+      "tackle",
+      "wrap",
+      "leer",
+      "mega-drain",
+      "leech-seed",
+      "growth",
+      "solar-beam",
+      "toxic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "glare",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "giga-drain",
+      "swagger",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "pursuit",
+      "sweet-scent",
+      "iron-tail",
+      "synthesis",
+      "hidden-power",
+      "twister",
+      "sunny-day",
+      "mirror-coat",
+      "torment",
+      "facade",
+      "nature-power",
+      "taunt",
+      "knock-off",
+      "snatch",
+      "secret-power",
+      "aerial-ace",
+      "magical-leaf",
+      "calm-mind",
+      "leaf-blade",
+      "natural-gift",
+      "wring-out",
+      "gastro-acid",
+      "worry-seed",
+      "aqua-tail",
+      "seed-bomb",
+      "energy-ball",
+      "defog",
+      "leaf-storm",
+      "captivate",
+      "grass-knot",
+      "coil",
+      "round",
+      "grass-pledge",
+      "work-up",
+      "leaf-tornado",
+      "grassy-terrain",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_1",
+  "evolutions": [
+    {
+      "name": "servine",
+      "level": 17,
+      "animation": "18"
+    }
+  ]
+}

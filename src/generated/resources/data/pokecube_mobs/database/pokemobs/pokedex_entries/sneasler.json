@@ -1,0 +1,106 @@
+{
+  "name": "sneasler",
+  "id": 903,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 1.3,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 43.0,
+  "is_default": true,
+  "capture_rate": 135,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 80,
+    "attack": 130,
+    "defense": 60,
+    "special_attack": 40,
+    "special_defense": 80,
+    "speed": 120
+  },
+  "evs": {
+    "attack": 1,
+    "speed": 1
+  },
+  "types": [
+    "fighting",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "pressure"
+    ],
+    "hidden": [
+      "poison-touch"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "rock-smash"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "close-combat"
+        ]
+      }
+    ],
+    "misc": [
+      "false-swipe",
+      "rock-smash",
+      "aerial-ace",
+      "swift",
+      "focus-energy",
+      "bulk-up",
+      "calm-mind",
+      "rest",
+      "drain-punch",
+      "poison-jab",
+      "x-scissor",
+      "shadow-claw",
+      "iron-tail",
+      "shadow-ball",
+      "snarl",
+      "giga-impact",
+      "hyper-beam"
+    ]
+  }
+}

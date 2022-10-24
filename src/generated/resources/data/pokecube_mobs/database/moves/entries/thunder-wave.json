@@ -1,0 +1,14 @@
+{
+  "name": "thunder-wave",
+  "id": 86,
+  "pp": 20,
+  "priority": 0,
+  "type": "electric",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user launches a weak jolt of electricity that\nparalyzes the target.",
+  "move_category": "ailment",
+  "effect_text_extend": "Paralyzes the target.",
+  "effect_text_simple": "Paralyzes the target."
+}

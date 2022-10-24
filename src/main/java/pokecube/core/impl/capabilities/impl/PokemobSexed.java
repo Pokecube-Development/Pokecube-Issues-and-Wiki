@@ -15,7 +15,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.events.EggEvent;
-import pokecube.api.moves.IMoveNames;
+import pokecube.api.moves.utils.IMoveNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.idle.HungerTask;

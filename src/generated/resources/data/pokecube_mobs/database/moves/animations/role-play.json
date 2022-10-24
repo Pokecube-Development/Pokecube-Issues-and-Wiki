@@ -1,0 +1,15 @@
+{
+  "name": "roleplay",
+  "animations": [
+    {
+      "preset": "beam:pend_rod:d0.5:rtrue:l5:atrue:~roleplay",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "pons:pwitch:d1:l5:~roleplay",
+      "duration": "5",
+      "starttick": "4"
+    }
+  ]
+}

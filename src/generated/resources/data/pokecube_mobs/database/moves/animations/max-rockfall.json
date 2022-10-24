@@ -1,0 +1,30 @@
+{
+  "name": "maxrockfall",
+  "animations": [
+    {
+      "preset": "throw:pmisc:~maxrockfall",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "flow:pmisc:~maxrockfall",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:~maxrockfall",
+      "duration": "0",
+      "starttick": "5",
+      "sound": "pokecube:moves.rocksmash",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

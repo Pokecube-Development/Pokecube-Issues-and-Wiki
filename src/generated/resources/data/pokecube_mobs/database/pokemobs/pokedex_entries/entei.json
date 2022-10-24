@@ -1,0 +1,224 @@
+{
+  "name": "entei",
+  "id": 244,
+  "stock": true,
+  "base_experience": 290,
+  "size": {
+    "height": 2.1,
+    "width": 1.7,
+    "length": 1.7
+  },
+  "mass": 198.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 115,
+    "attack": 115,
+    "defense": 85,
+    "special_attack": 90,
+    "special_defense": 75,
+    "speed": 100
+  },
+  "evs": {
+    "hp": 1,
+    "attack": 2
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "pressure"
+    ],
+    "hidden": [
+      "inner-focus"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 29,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "bite",
+          "smokescreen",
+          "sacred-fire",
+          "extreme-speed",
+          "eruption",
+          "extrasensory",
+          "lava-plume"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "ember"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "flamethrower",
+          "scary-face"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "fire-spin"
+        ]
+      },
+      {
+        "L": 71,
+        "moves": [
+          "fire-blast"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "flame-wheel"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "sunny-day"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 78,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "fire-fang"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "stomp",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "leer",
+      "bite",
+      "roar",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "fire-spin",
+      "dig",
+      "toxic",
+      "agility",
+      "mimic",
+      "double-team",
+      "reflect",
+      "fire-blast",
+      "swift",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "reversal",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "detect",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "sacred-fire",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "helping-hand",
+      "eruption",
+      "secret-power",
+      "weather-ball",
+      "overheat",
+      "extrasensory",
+      "calm-mind",
+      "natural-gift",
+      "flare-blitz",
+      "giga-impact",
+      "fire-fang",
+      "rock-climb",
+      "lava-plume",
+      "iron-head",
+      "stone-edge",
+      "flame-charge",
+      "round",
+      "incinerate",
+      "quash",
+      "bulldoze",
+      "snarl",
+      "confide",
+      "laser-focus",
+      "stomping-tantrum",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:hooh_tower",
+        "rate": "0.0"
+      }
+    },
+    {
+      "values": {
+        "structures": "pokecube_legends:hooh_tower",
+        "min": "1",
+        "rate": "0.02",
+        "max": "1"
+      }
+    }
+  ]
+}

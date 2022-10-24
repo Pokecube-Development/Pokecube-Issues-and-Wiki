@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculegion-male"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculegion-male"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_basculegion-male": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "basculegion-male"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

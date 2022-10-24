@@ -1,0 +1,27 @@
+{
+  "name": "frostbreath",
+  "animations": [
+    {
+      "preset": "flow:w3:f1,0,1:~frostbreath",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.gustwind",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.1,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:pmisc:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~frostbreath",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.iceball",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "applyAfter": false
+    }
+  ]
+}

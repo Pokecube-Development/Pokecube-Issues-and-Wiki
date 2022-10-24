@@ -1,0 +1,207 @@
+{
+  "name": "kricketune",
+  "id": 402,
+  "stock": true,
+  "base_experience": 134,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 25.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 77,
+    "attack": 85,
+    "defense": 51,
+    "special_attack": 55,
+    "special_defense": 51,
+    "speed": 65
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "bug"
+  ],
+  "abilities": {
+    "normal": [
+      "swarm"
+    ],
+    "hidden": [
+      "technician"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "growl",
+          "bide"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "sing"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "absorb",
+          "leech-life"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "perish-song"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "x-scissor"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "sticky-web"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "fell-stinger"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "growl",
+      "sing",
+      "hyper-beam",
+      "strength",
+      "absorb",
+      "string-shot",
+      "toxic",
+      "screech",
+      "double-team",
+      "focus-energy",
+      "bide",
+      "leech-life",
+      "flash",
+      "rest",
+      "slash",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "perish-song",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
+      "uproar",
+      "facade",
+      "taunt",
+      "brick-break",
+      "knock-off",
+      "endeavor",
+      "secret-power",
+      "hyper-voice",
+      "silver-wind",
+      "aerial-ace",
+      "natural-gift",
+      "night-slash",
+      "x-scissor",
+      "bug-buzz",
+      "giga-impact",
+      "captivate",
+      "bug-bite",
+      "hone-claws",
+      "round",
+      "echoed-voice",
+      "struggle-bug",
+      "sticky-web",
+      "fell-stinger",
+      "confide",
+      "infestation",
+      "power-up-punch",
+      "laser-focus",
+      "throat-chop"
+    ]
+  },
+  "male_model": {
+    "key": "kricketune_male",
+    "tex": "kricketune_male",
+    "model": "kricketune_male",
+    "anim": "kricketune_male"
+  },
+  "female_model": {
+    "key": "kricketune_female",
+    "tex": "kricketune_female",
+    "model": "kricketune_female",
+    "anim": "kricketune_female"
+  },
+  "loot_table": "pokecube:entities/chestplate_seeds_2"
+}

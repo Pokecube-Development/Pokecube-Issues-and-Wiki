@@ -1,0 +1,223 @@
+{
+  "name": "zeraora",
+  "id": 807,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 1.5,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 44.5,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 88,
+    "attack": 112,
+    "defense": 75,
+    "special_attack": 102,
+    "special_defense": 80,
+    "speed": 143
+  },
+  "evs": {
+    "speed": 3
+  },
+  "types": [
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "volt-absorb"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 29,
+        "moves": [
+          "thunder-punch"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "spark",
+          "power-up-punch"
+        ]
+      },
+      {
+        "L": 80,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "fake-out"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "charge"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "quick-guard"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "volt-switch"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "wild-charge"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "snarl"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "plasma-fists"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "pay-day",
+      "fire-punch",
+      "thunder-punch",
+      "scratch",
+      "mega-kick",
+      "hyper-beam",
+      "low-kick",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "double-team",
+      "swift",
+      "fury-swipes",
+      "rest",
+      "slash",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "scary-face",
+      "outrage",
+      "endure",
+      "false-swipe",
+      "spark",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "fake-out",
+      "facade",
+      "focus-punch",
+      "charge",
+      "taunt",
+      "helping-hand",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "knock-off",
+      "endeavor",
+      "snatch",
+      "blaze-kick",
+      "aerial-ace",
+      "bulk-up",
+      "bounce",
+      "calm-mind",
+      "shock-wave",
+      "close-combat",
+      "assurance",
+      "fling",
+      "aura-sphere",
+      "drain-punch",
+      "focus-blast",
+      "giga-impact",
+      "discharge",
+      "grass-knot",
+      "hone-claws",
+      "electro-ball",
+      "low-sweep",
+      "round",
+      "echoed-voice",
+      "quick-guard",
+      "acrobatics",
+      "volt-switch",
+      "work-up",
+      "electroweb",
+      "wild-charge",
+      "dual-chop",
+      "snarl",
+      "play-rough",
+      "confide",
+      "electric-terrain",
+      "laser-focus",
+      "throat-chop",
+      "brutal-swing",
+      "plasma-fists",
+      "rising-voltage",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.toxtricity-low-key"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.toxtricity-low-key"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_toxtricity-low-key": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "toxtricity-low-key"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

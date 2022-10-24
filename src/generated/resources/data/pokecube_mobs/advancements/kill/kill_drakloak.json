@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.drakloak"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.drakloak"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_drakloak": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "drakloak"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

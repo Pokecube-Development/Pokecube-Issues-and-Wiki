@@ -1,0 +1,188 @@
+{
+  "name": "kingdra",
+  "id": 230,
+  "stock": true,
+  "base_experience": 270,
+  "size": {
+    "height": 1.8,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 152.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 75,
+    "attack": 95,
+    "defense": 95,
+    "special_attack": 95,
+    "special_defense": 95,
+    "speed": 85
+  },
+  "evs": {
+    "attack": 1,
+    "special_attack": 1,
+    "special_defense": 1
+  },
+  "types": [
+    "water",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "swift-swim",
+      "sniper"
+    ],
+    "hidden": [
+      "damp"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "water-gun",
+          "hydro-pump",
+          "smokescreen",
+          "bubble",
+          "whirlpool",
+          "yawn"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "twister"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "dragon-dance"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "laser-focus"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "leer",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "hyper-beam",
+      "toxic",
+      "agility",
+      "mimic",
+      "double-team",
+      "smokescreen",
+      "focus-energy",
+      "waterfall",
+      "swift",
+      "bubble",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "icy-wind",
+      "outrage",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dragon-breath",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "whirlpool",
+      "hail",
+      "facade",
+      "yawn",
+      "secret-power",
+      "dive",
+      "signal-beam",
+      "muddy-water",
+      "bounce",
+      "dragon-dance",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "dragon-pulse",
+      "giga-impact",
+      "flash-cannon",
+      "draco-meteor",
+      "iron-head",
+      "captivate",
+      "round",
+      "scald",
+      "quash",
+      "hurricane",
+      "confide",
+      "laser-focus",
+      "liquidation",
+      "breaking-swipe",
+      "scale-shot",
+      "flip-turn"
+    ]
+  },
+  "loot_table": "pokecube:entities/squid_fish_2"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.urshifu-rapid-strike"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.urshifu-rapid-strike"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_urshifu-rapid-strike": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "urshifu-rapid-strike"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

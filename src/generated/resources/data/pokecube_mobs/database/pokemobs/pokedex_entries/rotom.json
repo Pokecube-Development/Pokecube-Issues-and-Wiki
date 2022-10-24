@@ -1,0 +1,163 @@
+{
+  "name": "rotom",
+  "id": 479,
+  "stock": true,
+  "base_experience": 154,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 0.3,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 50,
+    "attack": 50,
+    "defense": 77,
+    "special_attack": 95,
+    "special_defense": 77,
+    "speed": 91
+  },
+  "evs": {
+    "special_attack": 1,
+    "speed": 1
+  },
+  "types": [
+    "electric",
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "thunder-shock",
+          "thunder-wave",
+          "confuse-ray",
+          "charge",
+          "trick",
+          "astonish",
+          "discharge"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "double-team"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "substitute"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "uproar"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "shock-wave"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "ominous-wind"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "electro-ball"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "hex"
+        ]
+      }
+    ],
+    "misc": [
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "double-team",
+      "confuse-ray",
+      "light-screen",
+      "reflect",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "mud-slap",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "uproar",
+      "will-o-wisp",
+      "facade",
+      "charge",
+      "helping-hand",
+      "trick",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "astonish",
+      "signal-beam",
+      "shock-wave",
+      "natural-gift",
+      "sucker-punch",
+      "dark-pulse",
+      "nasty-plot",
+      "defog",
+      "discharge",
+      "charge-beam",
+      "ominous-wind",
+      "telekinesis",
+      "electro-ball",
+      "foul-play",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "hex",
+      "volt-switch",
+      "electroweb",
+      "confide",
+      "eerie-impulse",
+      "electric-terrain",
+      "rising-voltage",
+      "poltergeist"
+    ]
+  },
+  "loot_table": "pokecube:entities/redstone_creeper_1"
+}

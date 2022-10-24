@@ -1,0 +1,15 @@
+{
+  "name": "confide",
+  "id": 590,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user tells the target a secret, and the target\nloses its ability to concentrate. This lowers\nthe target’s Sp. Atk stat.",
+  "move_category": "net-good-stats",
+  "stat_chance": 100,
+  "effect_text_extend": "Lowers the target's Special Attack by one stage.",
+  "effect_text_simple": "Lowers the target's Special Attack by one stage.",
+  "effect_chance": 100
+}

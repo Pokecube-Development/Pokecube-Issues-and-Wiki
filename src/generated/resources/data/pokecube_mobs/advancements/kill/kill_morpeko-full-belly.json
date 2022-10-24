@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.morpeko-full-belly"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.morpeko-full-belly"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_morpeko-full-belly": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "morpeko-full-belly"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "fairy-lock",
+  "id": 587,
+  "pp": 10,
+  "priority": 0,
+  "type": "fairy",
+  "target": "entire-field",
+  "damage_class": "status",
+  "flavor_text": "By locking down the battlefield, the user keeps all\nPokémon from fleeing during the next turn.",
+  "move_category": "whole-field-effect",
+  "effect_text_extend": "Prevents all Pokémon from fleeing or switching out during the next turn.",
+  "effect_text_simple": "Prevents all Pokémon from fleeing or switching out during the next turn."
+}

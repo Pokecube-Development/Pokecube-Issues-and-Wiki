@@ -1,0 +1,19 @@
+{
+  "name": "dynamic-punch",
+  "id": 223,
+  "power": 100,
+  "pp": 5,
+  "priority": 0,
+  "type": "fighting",
+  "accuracy": 50,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user punches the target with full, concentrated\npower. This confuses the target if it hits.",
+  "move_category": "damage+ailment",
+  "ailment_chance": 100,
+  "max_turns": 5,
+  "min_turns": 2,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to confuse the target.",
+  "effect_text_simple": "Has a $effect_chance% chance to confuse the target.",
+  "effect_chance": 100
+}

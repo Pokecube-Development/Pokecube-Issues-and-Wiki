@@ -1,0 +1,193 @@
+{
+  "name": "fletchling",
+  "id": 661,
+  "stock": true,
+  "base_experience": 56,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 1.7,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 45,
+    "attack": 50,
+    "defense": 43,
+    "special_attack": 40,
+    "special_defense": 38,
+    "speed": 62
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "normal",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "big-pecks"
+    ],
+    "hidden": [
+      "gale-wings"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 25,
+        "moves": [
+          "razor-wind"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "fly"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "ember",
+          "peck"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "steel-wing"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "roost"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "natural-gift"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "tailwind"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "me-first"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "acrobatics"
+        ]
+      }
+    ],
+    "misc": [
+      "razor-wind",
+      "swords-dance",
+      "fly",
+      "tackle",
+      "growl",
+      "peck",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "double-team",
+      "swift",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "flail",
+      "protect",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "sunny-day",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "taunt",
+      "snatch",
+      "secret-power",
+      "overheat",
+      "aerial-ace",
+      "roost",
+      "natural-gift",
+      "tailwind",
+      "u-turn",
+      "me-first",
+      "defog",
+      "flame-charge",
+      "round",
+      "quick-guard",
+      "acrobatics",
+      "work-up",
+      "confide",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_1",
+  "evolutions": [
+    {
+      "name": "fletchinder",
+      "level": 17,
+      "evoMoves": "ember"
+    }
+  ]
+}

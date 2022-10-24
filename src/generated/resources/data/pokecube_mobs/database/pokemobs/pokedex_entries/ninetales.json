@@ -1,0 +1,180 @@
+{
+  "name": "ninetales",
+  "id": 38,
+  "stock": true,
+  "base_experience": 177,
+  "size": {
+    "height": 1.1,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 19.9,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 73,
+    "attack": 76,
+    "defense": 75,
+    "special_attack": 81,
+    "special_defense": 100,
+    "speed": 100
+  },
+  "evs": {
+    "special_defense": 1,
+    "speed": 1
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "flash-fire"
+    ],
+    "hidden": [
+      "drought"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "tail-whip",
+          "roar",
+          "disable",
+          "ember",
+          "flamethrower",
+          "fire-spin",
+          "hypnosis",
+          "quick-attack",
+          "confuse-ray",
+          "fire-blast",
+          "spite",
+          "safeguard",
+          "will-o-wisp",
+          "imprison",
+          "grudge",
+          "extrasensory",
+          "nasty-plot",
+          "incinerate",
+          "inferno"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "tail-whip",
+      "roar",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "solar-beam",
+      "fire-spin",
+      "dig",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "rage",
+      "mimic",
+      "double-team",
+      "confuse-ray",
+      "reflect",
+      "bide",
+      "fire-blast",
+      "swift",
+      "skull-bash",
+      "dream-eater",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "spite",
+      "protect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "role-play",
+      "imprison",
+      "secret-power",
+      "weather-ball",
+      "fake-tears",
+      "overheat",
+      "covet",
+      "calm-mind",
+      "natural-gift",
+      "payback",
+      "power-swap",
+      "flare-blitz",
+      "dark-pulse",
+      "energy-ball",
+      "giga-impact",
+      "nasty-plot",
+      "zen-headbutt",
+      "captivate",
+      "ominous-wind",
+      "psyshock",
+      "flame-charge",
+      "foul-play",
+      "round",
+      "stored-power",
+      "hex",
+      "incinerate",
+      "tail-slap",
+      "confide",
+      "mystical-fire",
+      "laser-focus",
+      "burning-jealousy",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/blaze_rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

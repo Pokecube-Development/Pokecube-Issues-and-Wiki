@@ -1,0 +1,189 @@
+{
+  "name": "swalot",
+  "id": 317,
+  "stock": true,
+  "base_experience": 163,
+  "size": {
+    "height": 1.7,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 80.0,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 70,
+  "growth_rate": "fast-then-very-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 100,
+    "attack": 73,
+    "defense": 83,
+    "special_attack": 73,
+    "special_defense": 83,
+    "speed": 55
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "liquid-ooze",
+      "sticky-hold"
+    ],
+    "hidden": [
+      "gluttony"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "sludge",
+          "poison-gas",
+          "yawn",
+          "wring-out",
+          "gunk-shot",
+          "venom-drench"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "sludge-bomb"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "encore"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "stockpile",
+          "spit-up",
+          "swallow"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "gastro-acid"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "acid-spray"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "belch"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "ice-beam",
+      "hyper-beam",
+      "counter",
+      "strength",
+      "solar-beam",
+      "earthquake",
+      "toxic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "self-destruct",
+      "sludge",
+      "amnesia",
+      "dream-eater",
+      "poison-gas",
+      "explosion",
+      "rest",
+      "substitute",
+      "nightmare",
+      "snore",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "giga-drain",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "dynamic-punch",
+      "encore",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "rock-smash",
+      "stockpile",
+      "spit-up",
+      "swallow",
+      "facade",
+      "yawn",
+      "snatch",
+      "secret-power",
+      "bullet-seed",
+      "block",
+      "shock-wave",
+      "water-pulse",
+      "natural-gift",
+      "wring-out",
+      "gastro-acid",
+      "seed-bomb",
+      "giga-impact",
+      "gunk-shot",
+      "captivate",
+      "venoshock",
+      "sludge-wave",
+      "acid-spray",
+      "round",
+      "bulldoze",
+      "belch",
+      "confide",
+      "venom-drench",
+      "infestation",
+      "power-up-punch"
+    ]
+  },
+  "loot_table": "pokecube:entities/slimeballs_2"
+}

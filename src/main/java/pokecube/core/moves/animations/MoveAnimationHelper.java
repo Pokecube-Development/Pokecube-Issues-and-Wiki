@@ -26,7 +26,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.loading.moddiscovery.ModFile;
 import net.minecraftforge.forgespi.language.ModFileScanData.AnnotationData;
-import pokecube.api.moves.IMoveAnimation;
+import pokecube.api.moves.utils.IMoveAnimation;
 import pokecube.core.moves.PokemobTerrainEffects;
 import thut.api.maths.Vector3;
 import thut.api.terrain.CapabilityTerrain.ITerrainProvider;

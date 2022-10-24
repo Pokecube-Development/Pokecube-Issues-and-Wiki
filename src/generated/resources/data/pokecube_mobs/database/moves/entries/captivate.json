@@ -1,0 +1,14 @@
+{
+  "name": "captivate",
+  "id": 445,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "status",
+  "flavor_text": "If any opposing Pokémon is the opposite gender of\nthe user, it is charmed, which harshly lowers its\nSp. Atk stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Lowers the target's Special Attack by two stages.  If the user and target are the same gender, or either is genderless, this move will fail.",
+  "effect_text_simple": "Lowers the target's Special Attack by two stages if it's the opposite gender."
+}

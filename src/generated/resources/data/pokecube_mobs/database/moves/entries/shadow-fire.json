@@ -1,0 +1,13 @@
+{
+  "name": "shadow-fire",
+  "id": 10008,
+  "power": 75,
+  "priority": 0,
+  "type": "shadow",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to burn the target.",
+  "effect_text_simple": "Has a $effect_chance% chance to burn the target.",
+  "effect_chance": 10
+}

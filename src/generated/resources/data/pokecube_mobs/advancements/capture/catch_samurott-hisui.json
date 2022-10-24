@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.samurott-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.samurott-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_samurott-hisui": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "samurott-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

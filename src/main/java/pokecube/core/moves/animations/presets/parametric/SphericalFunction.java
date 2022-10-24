@@ -3,7 +3,7 @@ package pokecube.core.moves.animations.presets.parametric;
 import org.nfunk.jep.JEP;
 
 import net.minecraft.util.Mth;
-import pokecube.api.moves.IMoveAnimation;
+import pokecube.api.moves.utils.IMoveAnimation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.animations.AnimPreset;
 import pokecube.core.moves.animations.MoveAnimationBase;

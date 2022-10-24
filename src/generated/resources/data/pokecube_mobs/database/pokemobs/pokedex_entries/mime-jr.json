@@ -1,0 +1,269 @@
+{
+  "name": "mime-jr",
+  "id": 439,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 0.6,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 13.0,
+  "is_default": true,
+  "capture_rate": 145,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 20,
+    "attack": 25,
+    "defense": 45,
+    "special_attack": 70,
+    "special_defense": 90,
+    "speed": 60
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "psychic",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "soundproof",
+      "filter"
+    ],
+    "hidden": [
+      "technician"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "confusion",
+          "barrier",
+          "tickle"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "double-slap"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "meditate"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "mimic"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "light-screen",
+          "reflect"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "substitute"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "baton-pass"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "encore"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "trick"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "role-play"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "recycle"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "teeter-dance"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "copycat"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "dazzling-gleam"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "double-slap",
+      "headbutt",
+      "psybeam",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "confusion",
+      "psychic",
+      "hypnosis",
+      "meditate",
+      "mimic",
+      "double-team",
+      "confuse-ray",
+      "barrier",
+      "light-screen",
+      "reflect",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "baton-pass",
+      "encore",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "fake-out",
+      "uproar",
+      "torment",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "brick-break",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "teeter-dance",
+      "tickle",
+      "signal-beam",
+      "covet",
+      "calm-mind",
+      "shock-wave",
+      "wake-up-slap",
+      "healing-wish",
+      "natural-gift",
+      "fling",
+      "copycat",
+      "drain-punch",
+      "nasty-plot",
+      "trick-room",
+      "captivate",
+      "grass-knot",
+      "charge-beam",
+      "power-split",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "misty-terrain",
+      "confide",
+      "dazzling-gleam",
+      "infestation",
+      "psychic-terrain"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2",
+  "evolutions": [
+    {
+      "name": "mr-mime",
+      "move": "mimic"
+    },
+    {
+      "name": "mr-mime-galar",
+      "location": {
+        "and_preset": "snowy_areas"
+      },
+      "move": "mimic"
+    }
+  ],
+  "old_name": "mime_jr"
+}

@@ -1,0 +1,251 @@
+{
+  "name": "togetic",
+  "id": 176,
+  "stock": true,
+  "base_experience": 142,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 3.2,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 55,
+    "attack": 40,
+    "defense": 85,
+    "special_attack": 80,
+    "special_defense": 105,
+    "speed": 40
+  },
+  "evs": {
+    "special_defense": 2
+  },
+  "types": [
+    "fairy",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "hustle",
+      "serene-grace"
+    ],
+    "hidden": [
+      "super-luck"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "growl",
+          "metronome",
+          "sweet-kiss",
+          "charm",
+          "magical-leaf",
+          "life-dew"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "baton-pass"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "encore"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "follow-me"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "wish"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "yawn"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "last-resort"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "after-you"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "bestow"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "fairy-wind"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fly",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "growl",
+      "flamethrower",
+      "hyper-beam",
+      "counter",
+      "seismic-toss",
+      "solar-beam",
+      "thunder-wave",
+      "toxic",
+      "psychic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "metronome",
+      "fire-blast",
+      "swift",
+      "soft-boiled",
+      "dream-eater",
+      "sky-attack",
+      "flash",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "sweet-kiss",
+      "mud-slap",
+      "zap-cannon",
+      "detect",
+      "endure",
+      "charm",
+      "rollout",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "baton-pass",
+      "encore",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "shadow-ball",
+      "future-sight",
+      "rock-smash",
+      "uproar",
+      "heat-wave",
+      "facade",
+      "focus-punch",
+      "follow-me",
+      "helping-hand",
+      "trick",
+      "wish",
+      "magic-coat",
+      "brick-break",
+      "yawn",
+      "endeavor",
+      "imprison",
+      "secret-power",
+      "hyper-voice",
+      "air-cutter",
+      "silver-wind",
+      "signal-beam",
+      "aerial-ace",
+      "covet",
+      "magical-leaf",
+      "shock-wave",
+      "water-pulse",
+      "roost",
+      "natural-gift",
+      "tailwind",
+      "fling",
+      "last-resort",
+      "drain-punch",
+      "giga-impact",
+      "nasty-plot",
+      "zen-headbutt",
+      "defog",
+      "captivate",
+      "grass-knot",
+      "ominous-wind",
+      "psyshock",
+      "telekinesis",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "incinerate",
+      "retaliate",
+      "bestow",
+      "work-up",
+      "draining-kiss",
+      "play-rough",
+      "fairy-wind",
+      "confide",
+      "mystical-fire",
+      "dazzling-gleam",
+      "smart-strike",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_1",
+  "evolutions": [
+    {
+      "name": "togekiss",
+      "item_preset": "shinystone"
+    }
+  ]
+}

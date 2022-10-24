@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.mewtwo"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mewtwo"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_mewtwo": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "mewtwo"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

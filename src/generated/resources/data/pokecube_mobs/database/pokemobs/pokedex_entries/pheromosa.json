@@ -1,0 +1,215 @@
+{
+  "name": "pheromosa",
+  "id": 795,
+  "stock": true,
+  "base_experience": 285,
+  "size": {
+    "height": 1.8,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 25.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 71,
+    "attack": 137,
+    "defense": 37,
+    "special_attack": 137,
+    "special_defense": 37,
+    "speed": 151
+  },
+  "evs": {
+    "speed": 3
+  },
+  "types": [
+    "bug",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "beast-boost"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 13,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "double-kick",
+          "leer",
+          "low-kick",
+          "rapid-spin",
+          "quiver-dance",
+          "quick-guard"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "jump-kick"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "high-jump-kick"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "triple-kick"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "silver-wind"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "me-first"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "lunge"
+        ]
+      },
+      {
+        "L": 73,
+        "moves": [
+          "speed-swap"
+        ]
+      }
+    ],
+    "misc": [
+      "stomp",
+      "double-kick",
+      "jump-kick",
+      "leer",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "low-kick",
+      "toxic",
+      "agility",
+      "double-team",
+      "swift",
+      "high-jump-kick",
+      "rest",
+      "substitute",
+      "triple-kick",
+      "snore",
+      "protect",
+      "icy-wind",
+      "outrage",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "rapid-spin",
+      "hidden-power",
+      "torment",
+      "facade",
+      "taunt",
+      "brick-break",
+      "snatch",
+      "silver-wind",
+      "signal-beam",
+      "block",
+      "bounce",
+      "shock-wave",
+      "roost",
+      "feint",
+      "u-turn",
+      "close-combat",
+      "assurance",
+      "fling",
+      "me-first",
+      "poison-jab",
+      "bug-buzz",
+      "focus-blast",
+      "giga-impact",
+      "bug-bite",
+      "quiver-dance",
+      "low-sweep",
+      "foul-play",
+      "round",
+      "echoed-voice",
+      "quick-guard",
+      "electroweb",
+      "drill-run",
+      "confide",
+      "laser-focus",
+      "throat-chop",
+      "lunge",
+      "speed-swap",
+      "skitter-smack",
+      "coaching",
+      "triple-axel"
+    ]
+  },
+  "loot_table": "pokecube:entities/spider",
+  "spawn_rules": [
+    {
+      "values": {
+        "types": "#pokecube_legends:can_spawn/pheromosa",
+        "min": "1",
+        "rate": "0.2",
+        "max": "1"
+      }
+    }
+  ]
+}

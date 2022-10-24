@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.scizor-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.scizor-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_scizor-mega": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "scizor-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

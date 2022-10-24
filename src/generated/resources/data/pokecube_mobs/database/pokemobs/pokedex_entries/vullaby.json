@@ -1,0 +1,229 @@
+{
+  "name": "vullaby",
+  "id": 629,
+  "stock": true,
+  "base_experience": 74,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 9.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 70,
+    "attack": 55,
+    "defense": 75,
+    "special_attack": 45,
+    "special_defense": 65,
+    "speed": 60
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "dark",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "big-pecks",
+      "overcoat"
+    ],
+    "hidden": [
+      "weak-armor"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "gust",
+          "leer"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "whirlwind"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "fury-attack"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "mirror-move"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "attract"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "flatter"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "pluck"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "tailwind"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "embargo"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "punishment"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "brave-bird"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "defog"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "gust",
+      "whirlwind",
+      "fly",
+      "fury-attack",
+      "leer",
+      "toxic",
+      "double-team",
+      "mirror-move",
+      "swift",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "scary-face",
+      "feint-attack",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "heat-wave",
+      "torment",
+      "flatter",
+      "facade",
+      "taunt",
+      "knock-off",
+      "snatch",
+      "secret-power",
+      "fake-tears",
+      "rock-tomb",
+      "aerial-ace",
+      "iron-defense",
+      "block",
+      "roost",
+      "pluck",
+      "tailwind",
+      "u-turn",
+      "payback",
+      "assurance",
+      "embargo",
+      "punishment",
+      "dark-pulse",
+      "air-slash",
+      "brave-bird",
+      "nasty-plot",
+      "defog",
+      "foul-play",
+      "round",
+      "incinerate",
+      "retaliate",
+      "snarl",
+      "confide",
+      "lash-out",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_1",
+  "evolutions": [
+    {
+      "name": "mandibuzz",
+      "level": 54,
+      "evoMoves": "bonerush"
+    }
+  ]
+}

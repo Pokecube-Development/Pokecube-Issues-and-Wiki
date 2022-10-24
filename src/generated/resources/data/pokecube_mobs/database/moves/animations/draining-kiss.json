@@ -1,0 +1,20 @@
+{
+  "name": "drainingkiss",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:d1:w1:l5:f0,0,0:~drainingkiss",
+      "duration": "4",
+      "starttick": "0",
+      "sound": "pokecube:moves.charm",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.5
+    },
+    {
+      "preset": "cartFunc:pheart:d1:w1:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~drainingkiss",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

@@ -1,0 +1,270 @@
+{
+  "name": "slowbro",
+  "id": 80,
+  "stock": true,
+  "base_experience": 172,
+  "size": {
+    "height": 1.6,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 78.5,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 95,
+    "attack": 75,
+    "defense": 110,
+    "special_attack": 100,
+    "special_defense": 80,
+    "speed": 30
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "water",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "oblivious",
+      "own-tempo"
+    ],
+    "hidden": [
+      "regenerator"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "stomp",
+          "tackle",
+          "growl",
+          "curse",
+          "yawn",
+          "heal-pulse"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "disable"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "surf",
+          "rest"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "withdraw"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "psych-up"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "slack-off"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "zen-headbutt"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "pay-day",
+      "ice-punch",
+      "mega-kick",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "growl",
+      "disable",
+      "flamethrower",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "hyper-beam",
+      "submission",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "thunder-wave",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "confusion",
+      "psychic",
+      "rage",
+      "teleport",
+      "mimic",
+      "double-team",
+      "withdraw",
+      "light-screen",
+      "reflect",
+      "bide",
+      "fire-blast",
+      "swift",
+      "skull-bash",
+      "amnesia",
+      "dream-eater",
+      "flash",
+      "psywave",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "nightmare",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dynamic-punch",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "rock-smash",
+      "whirlpool",
+      "hail",
+      "facade",
+      "focus-punch",
+      "trick",
+      "magic-coat",
+      "recycle",
+      "brick-break",
+      "yawn",
+      "skill-swap",
+      "imprison",
+      "secret-power",
+      "dive",
+      "slack-off",
+      "weather-ball",
+      "signal-beam",
+      "muddy-water",
+      "aerial-ace",
+      "iron-defense",
+      "block",
+      "mud-shot",
+      "calm-mind",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "fling",
+      "aqua-tail",
+      "drain-punch",
+      "focus-blast",
+      "giga-impact",
+      "nasty-plot",
+      "avalanche",
+      "zen-headbutt",
+      "trick-room",
+      "captivate",
+      "grass-knot",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "foul-play",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "scald",
+      "heal-pulse",
+      "incinerate",
+      "bulldoze",
+      "razor-shell",
+      "confide",
+      "psychic-terrain",
+      "liquidation",
+      "body-press",
+      "expanding-force"
+    ]
+  },
+  "loot_table": "pokecube:entities/pig_1",
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "slowbromega"
+    }
+  ]
+}

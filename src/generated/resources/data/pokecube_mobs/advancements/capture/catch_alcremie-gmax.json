@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.alcremie-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.alcremie-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_alcremie-gmax": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "alcremie-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

@@ -1,0 +1,163 @@
+{
+  "name": "flapple",
+  "id": 841,
+  "stock": true,
+  "base_experience": 170,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 1.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow-then-very-fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 70,
+    "attack": 110,
+    "defense": 80,
+    "special_attack": 95,
+    "special_defense": 60,
+    "speed": 70
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "grass",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "ripen",
+      "gluttony"
+    ],
+    "hidden": [
+      "hustle"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 0,
+        "moves": [
+          "wing-attack"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "fly"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "growth",
+          "withdraw",
+          "twister",
+          "recycle",
+          "astonish"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "dragon-dance"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "dragon-rush"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "acid-spray"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "acrobatics"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "grav-apple"
+        ]
+      }
+    ],
+    "misc": [
+      "wing-attack",
+      "fly",
+      "hyper-beam",
+      "solar-beam",
+      "focus-energy",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "outrage",
+      "giga-drain",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "sunny-day",
+      "facade",
+      "bullet-seed",
+      "iron-defense",
+      "dragon-dance",
+      "u-turn",
+      "seed-bomb",
+      "air-slash",
+      "dragon-pulse",
+      "energy-ball",
+      "giga-impact",
+      "draco-meteor",
+      "grass-knot",
+      "heavy-slam",
+      "round",
+      "acrobatics",
+      "grassy-glide",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/apple"
+}

@@ -1,0 +1,217 @@
+{
+  "name": "gyarados-mega",
+  "id": 130,
+  "stock": true,
+  "base_experience": 224,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 6.5
+  },
+  "mass": 305.0,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 95,
+    "attack": 155,
+    "defense": 109,
+    "special_attack": 70,
+    "special_defense": 130,
+    "speed": 81
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "water",
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "mold-breaker"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "bind",
+          "thrash"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "leer",
+          "rage"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "dragon-rage"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "waterfall"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "twister"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "dragon-dance"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "ice-fang"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "dragon-tail"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "hurricane"
+        ]
+      }
+    ],
+    "misc": [
+      "bind",
+      "headbutt",
+      "thrash",
+      "leer",
+      "bite",
+      "roar",
+      "flamethrower",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "strength",
+      "dragon-rage",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "double-team",
+      "reflect",
+      "fire-blast",
+      "waterfall",
+      "rest",
+      "substitute",
+      "snore",
+      "spite",
+      "protect",
+      "scary-face",
+      "icy-wind",
+      "outrage",
+      "sandstorm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "crunch",
+      "rock-smash",
+      "uproar",
+      "hail",
+      "torment",
+      "facade",
+      "taunt",
+      "secret-power",
+      "dive",
+      "bounce",
+      "dragon-dance",
+      "water-pulse",
+      "payback",
+      "dark-pulse",
+      "aqua-tail",
+      "dragon-pulse",
+      "giga-impact",
+      "ice-fang",
+      "iron-head",
+      "stone-edge",
+      "round",
+      "scald",
+      "incinerate",
+      "bulldoze",
+      "dragon-tail",
+      "hurricane",
+      "confide",
+      "brutal-swing"
+    ]
+  },
+  "old_name": "gyarados_mega"
+}

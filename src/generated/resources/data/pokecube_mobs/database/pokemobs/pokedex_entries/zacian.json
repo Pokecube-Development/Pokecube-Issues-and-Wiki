@@ -1,0 +1,154 @@
+{
+  "name": "zacian",
+  "id": 888,
+  "stock": true,
+  "base_experience": 335,
+  "size": {
+    "height": 2.8,
+    "width": 2.3,
+    "length": 2.5
+  },
+  "mass": 110.0,
+  "is_default": true,
+  "capture_rate": 10,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 92,
+    "attack": 130,
+    "defense": 115,
+    "special_attack": 80,
+    "special_defense": 115,
+    "speed": 138
+  },
+  "evs": {
+    "speed": 3
+  },
+  "types": [
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "intrepid-sword"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 22,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "bite",
+          "quick-attack",
+          "metal-claw",
+          "howl",
+          "quick-guard",
+          "sacred-sword"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
+        "L": 88,
+        "moves": [
+          "giga-impact"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "iron-head"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "moonblast"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "laser-focus"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "hyper-beam",
+      "dig",
+      "agility",
+      "focus-energy",
+      "swift",
+      "rest",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "scary-face",
+      "endure",
+      "false-swipe",
+      "sleep-talk",
+      "iron-tail",
+      "crunch",
+      "facade",
+      "helping-hand",
+      "revenge",
+      "brick-break",
+      "imprison",
+      "hyper-voice",
+      "close-combat",
+      "assurance",
+      "air-slash",
+      "focus-blast",
+      "giga-impact",
+      "thunder-fang",
+      "ice-fang",
+      "fire-fang",
+      "psycho-cut",
+      "iron-head",
+      "round",
+      "retaliate",
+      "work-up",
+      "wild-charge",
+      "tail-slap",
+      "snarl",
+      "play-rough",
+      "solar-blade",
+      "brutal-swing",
+      "psychic-fangs",
+      "steel-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_2",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple",
+        "rate": "0.0"
+      }
+    }
+  ]
+}

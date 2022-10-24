@@ -1,0 +1,221 @@
+{
+  "name": "nidoran-m",
+  "id": 32,
+  "stock": true,
+  "base_experience": 55,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 9.0,
+  "is_default": true,
+  "capture_rate": 235,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 46,
+    "attack": 57,
+    "defense": 40,
+    "special_attack": 40,
+    "special_defense": 40,
+    "speed": 50
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "poison-point",
+      "rivalry"
+    ],
+    "hidden": [
+      "hustle"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 9,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "horn-attack"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "fury-attack"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "horn-drill"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "leer",
+          "peck"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "poison-sting"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "flatter"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "toxic-spikes"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "captivate"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "double-kick",
+      "headbutt",
+      "horn-attack",
+      "fury-attack",
+      "horn-drill",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "thrash",
+      "double-edge",
+      "poison-sting",
+      "leer",
+      "supersonic",
+      "disable",
+      "ice-beam",
+      "blizzard",
+      "peck",
+      "counter",
+      "strength",
+      "thunderbolt",
+      "thunder",
+      "dig",
+      "toxic",
+      "confusion",
+      "rage",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "reflect",
+      "focus-energy",
+      "bide",
+      "skull-bash",
+      "amnesia",
+      "rest",
+      "super-fang",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "detect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
+      "beat-up",
+      "flatter",
+      "facade",
+      "helping-hand",
+      "secret-power",
+      "poison-tail",
+      "shock-wave",
+      "water-pulse",
+      "natural-gift",
+      "sucker-punch",
+      "toxic-spikes",
+      "poison-jab",
+      "earth-power",
+      "shadow-claw",
+      "captivate",
+      "head-smash",
+      "hone-claws",
+      "venoshock",
+      "round",
+      "echoed-voice",
+      "chip-away",
+      "drill-run",
+      "confide",
+      "venom-drench",
+      "smart-strike"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "held_table": "pokecube:entities/moonstone",
+  "evolutions": [
+    {
+      "name": "nidorino",
+      "level": 16
+    }
+  ],
+  "old_name": "nidoranm"
+}

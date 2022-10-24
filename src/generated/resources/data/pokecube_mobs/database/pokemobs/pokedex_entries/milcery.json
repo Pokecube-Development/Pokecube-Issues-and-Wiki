@@ -1,0 +1,145 @@
+{
+  "name": "milcery",
+  "id": 868,
+  "stock": true,
+  "base_experience": 54,
+  "size": {
+    "height": 0.2,
+    "width": 0.2,
+    "length": 0.2
+  },
+  "mass": 0.3,
+  "is_default": true,
+  "capture_rate": 200,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 45,
+    "attack": 40,
+    "defense": 40,
+    "special_attack": 50,
+    "special_defense": 61,
+    "speed": 34
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "sweet-veil"
+    ],
+    "hidden": [
+      "aroma-veil"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "aromatic-mist"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "acid-armor"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "sweet-kiss"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "attract"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "entrainment"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "draining-kiss"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "misty-terrain"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "dazzling-gleam"
+        ]
+      }
+    ],
+    "misc": [
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "endure",
+      "charm",
+      "attract",
+      "sleep-talk",
+      "facade",
+      "helping-hand",
+      "fling",
+      "last-resort",
+      "round",
+      "stored-power",
+      "draining-kiss",
+      "misty-terrain",
+      "dazzling-gleam",
+      "baby-doll-eyes"
+    ]
+  },
+  "loot_table": "pokecube:entities/white_1",
+  "evolutions": [
+    {
+      "name": "alcremie",
+      "item": {
+        "values": {
+          "id": "minecraft:milk_bucket"
+        }
+      },
+      "evoMoves": "decorate",
+      "model": {
+        "key": "alcremie_*"
+      }
+    }
+  ]
+}

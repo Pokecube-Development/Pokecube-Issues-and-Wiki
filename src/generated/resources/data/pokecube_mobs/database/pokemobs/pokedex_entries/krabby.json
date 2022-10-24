@@ -1,0 +1,233 @@
+{
+  "name": "krabby",
+  "id": 98,
+  "stock": true,
+  "base_experience": 65,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 6.5,
+  "is_default": true,
+  "capture_rate": 225,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 30,
+    "attack": 105,
+    "defense": 90,
+    "special_attack": 25,
+    "special_defense": 25,
+    "speed": 50
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "hyper-cutter",
+      "shell-armor"
+    ],
+    "hidden": [
+      "sheer-force"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 5,
+        "moves": [
+          "vice-grip"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "guillotine"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "water-gun",
+          "bubble",
+          "mud-sport"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "harden"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "crabhammer"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "metal-claw"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "mud-shot"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "razor-shell"
+        ]
+      }
+    ],
+    "misc": [
+      "vice-grip",
+      "guillotine",
+      "swords-dance",
+      "cut",
+      "slam",
+      "stomp",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "leer",
+      "water-gun",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "strength",
+      "dig",
+      "toxic",
+      "agility",
+      "rage",
+      "mimic",
+      "double-team",
+      "harden",
+      "haze",
+      "bide",
+      "amnesia",
+      "bubble",
+      "crabhammer",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "flail",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "metal-claw",
+      "hidden-power",
+      "rain-dance",
+      "ancient-power",
+      "rock-smash",
+      "whirlpool",
+      "hail",
+      "facade",
+      "superpower",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "dive",
+      "mud-sport",
+      "rock-tomb",
+      "tickle",
+      "iron-defense",
+      "mud-shot",
+      "water-pulse",
+      "hammer-arm",
+      "brine",
+      "natural-gift",
+      "fling",
+      "night-slash",
+      "x-scissor",
+      "captivate",
+      "hone-claws",
+      "round",
+      "chip-away",
+      "ally-switch",
+      "scald",
+      "razor-shell",
+      "confide",
+      "liquidation"
+    ]
+  },
+  "loot_table": "pokecube:entities/shear_fish",
+  "evolutions": [
+    {
+      "name": "kingler",
+      "level": 29
+    }
+  ]
+}

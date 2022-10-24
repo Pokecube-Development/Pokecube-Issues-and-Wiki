@@ -1,0 +1,25 @@
+{
+  "name": "nightdaze",
+  "animations": [
+    {
+      "preset": "beam:pmisc:cblack:d1:~nightdaze",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "minecraft:entity.evoker.cast_spell",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.9
+    },
+    {
+      "preset": "flow:ppowder:cblack:d1:w0.6:l10:~nightdaze",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "flow:ppowder:cpurple:d1:w0.6:l10:~nightdaze",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

@@ -1,0 +1,309 @@
+{
+  "name": "jigglypuff",
+  "id": 39,
+  "stock": true,
+  "base_experience": 95,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 5.5,
+  "is_default": true,
+  "capture_rate": 170,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 115,
+    "attack": 45,
+    "defense": 20,
+    "special_attack": 45,
+    "special_defense": 25,
+    "speed": 20
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "normal",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "cute-charm",
+      "competitive"
+    ],
+    "hidden": [
+      "friend-guard"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 5,
+        "moves": [
+          "pound"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "double-slap"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "sing",
+          "sweet-kiss",
+          "charm",
+          "copycat"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "disable"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "mimic"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "bide"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "stockpile",
+          "spit-up",
+          "swallow"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "hyper-voice"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "covet"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "wake-up-slap"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "gyro-ball"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "round"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "echoed-voice"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "disarming-voice"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "play-rough"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "play-nice"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "double-slap",
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "sing",
+      "disable",
+      "flamethrower",
+      "water-gun",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "submission",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "toxic",
+      "psychic",
+      "rage",
+      "teleport",
+      "mimic",
+      "screech",
+      "double-team",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "bide",
+      "self-destruct",
+      "fire-blast",
+      "skull-bash",
+      "dream-eater",
+      "flash",
+      "psywave",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "nightmare",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "icy-wind",
+      "detect",
+      "endure",
+      "charm",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "dynamic-punch",
+      "baton-pass",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "uproar",
+      "stockpile",
+      "spit-up",
+      "swallow",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "brick-break",
+      "knock-off",
+      "endeavor",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "fake-tears",
+      "bounce",
+      "covet",
+      "shock-wave",
+      "water-pulse",
+      "gravity",
+      "wake-up-slap",
+      "gyro-ball",
+      "natural-gift",
+      "fling",
+      "last-resort",
+      "drain-punch",
+      "captivate",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "telekinesis",
+      "round",
+      "echoed-voice",
+      "ally-switch",
+      "incinerate",
+      "retaliate",
+      "work-up",
+      "wild-charge",
+      "disarming-voice",
+      "draining-kiss",
+      "misty-terrain",
+      "play-rough",
+      "play-nice",
+      "confide",
+      "dazzling-gleam",
+      "power-up-punch",
+      "steel-roller",
+      "misty-explosion"
+    ]
+  },
+  "loot_table": "pokecube:entities/moonstone",
+  "held_table": "pokecube:entities/moonstone",
+  "evolutions": [
+    {
+      "name": "wigglytuff",
+      "item_preset": "moonstone"
+    }
+  ]
+}

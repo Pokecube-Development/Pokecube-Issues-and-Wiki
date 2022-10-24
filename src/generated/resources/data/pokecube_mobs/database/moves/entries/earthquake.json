@@ -1,0 +1,15 @@
+{
+  "name": "earthquake",
+  "id": 89,
+  "power": 100,
+  "pp": 10,
+  "priority": 0,
+  "type": "ground",
+  "accuracy": 100,
+  "target": "all-other-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user sets off an earthquake that strikes every\nPokémon around it.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.\n\nIf the target is in the first turn of dig, this move will hit with double power.",
+  "effect_text_simple": "Inflicts regular damage and can hit Dig users."
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.samurott-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.samurott-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_samurott-hisui": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "samurott-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

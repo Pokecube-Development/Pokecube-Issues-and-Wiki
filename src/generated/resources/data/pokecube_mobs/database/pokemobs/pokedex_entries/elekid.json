@@ -1,0 +1,206 @@
+{
+  "name": "elekid",
+  "id": 239,
+  "stock": true,
+  "base_experience": 72,
+  "size": {
+    "height": 0.6,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 23.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 45,
+    "attack": 63,
+    "defense": 37,
+    "special_attack": 65,
+    "special_defense": 55,
+    "speed": 95
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "static"
+    ],
+    "hidden": [
+      "vital-spirit"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 29,
+        "moves": [
+          "thunder-punch"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "low-kick",
+          "charge"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "thunder-shock"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "thunderbolt"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "thunder"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "shock-wave"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "electro-ball"
+        ]
+      }
+    ],
+    "misc": [
+      "karate-chop",
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "rolling-kick",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "leer",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "psychic",
+      "meditate",
+      "quick-attack",
+      "mimic",
+      "screech",
+      "double-team",
+      "barrier",
+      "light-screen",
+      "swift",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "detect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "hidden-power",
+      "cross-chop",
+      "rain-dance",
+      "rock-smash",
+      "uproar",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "brick-break",
+      "secret-power",
+      "signal-beam",
+      "covet",
+      "shock-wave",
+      "hammer-arm",
+      "natural-gift",
+      "feint",
+      "fling",
+      "magnet-rise",
+      "discharge",
+      "captivate",
+      "charge-beam",
+      "electro-ball",
+      "round",
+      "volt-switch",
+      "electroweb",
+      "wild-charge",
+      "dual-chop",
+      "confide",
+      "power-up-punch"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "electabuzz",
+      "level": 30
+    }
+  ]
+}

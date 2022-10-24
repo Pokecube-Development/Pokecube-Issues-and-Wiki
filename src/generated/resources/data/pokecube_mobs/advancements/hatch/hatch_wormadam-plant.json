@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.wormadam-plant"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wormadam-plant"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_wormadam-plant": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "wormadam-plant"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

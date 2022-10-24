@@ -1,0 +1,242 @@
+{
+  "name": "scyther",
+  "id": 123,
+  "stock": true,
+  "base_experience": 100,
+  "size": {
+    "height": 1.5,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 56.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 70,
+    "attack": 110,
+    "defense": 80,
+    "special_attack": 55,
+    "special_defense": 80,
+    "speed": 105
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "bug",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "swarm",
+      "technician"
+    ],
+    "hidden": [
+      "steadfast"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 33,
+        "moves": [
+          "razor-wind"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "wing-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "quick-attack",
+          "vacuum-wave"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "double-team"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "false-swipe"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "x-scissor"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "double-hit"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "laser-focus"
+        ]
+      }
+    ],
+    "misc": [
+      "razor-wind",
+      "swords-dance",
+      "cut",
+      "wing-attack",
+      "headbutt",
+      "take-down",
+      "double-edge",
+      "leer",
+      "hyper-beam",
+      "counter",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "rage",
+      "mimic",
+      "double-team",
+      "light-screen",
+      "focus-energy",
+      "bide",
+      "swift",
+      "skull-bash",
+      "rest",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "reversal",
+      "protect",
+      "detect",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "baton-pass",
+      "pursuit",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
+      "facade",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "silver-wind",
+      "aerial-ace",
+      "roost",
+      "natural-gift",
+      "feint",
+      "tailwind",
+      "u-turn",
+      "assurance",
+      "night-slash",
+      "air-slash",
+      "x-scissor",
+      "bug-buzz",
+      "vacuum-wave",
+      "giga-impact",
+      "psycho-cut",
+      "defog",
+      "cross-poison",
+      "captivate",
+      "bug-bite",
+      "double-hit",
+      "ominous-wind",
+      "round",
+      "quick-guard",
+      "acrobatics",
+      "struggle-bug",
+      "confide",
+      "laser-focus",
+      "brutal-swing",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_2",
+  "evolutions": [
+    {
+      "name": "scizor",
+      "item_preset": "metalcoat",
+      "trade": true
+    },
+    {
+      "name": "kleavor",
+      "item_preset": "pokecube_mobs:black_metal"
+    }
+  ]
+}

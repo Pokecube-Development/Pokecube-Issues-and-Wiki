@@ -20,7 +20,7 @@ import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.pokemobs.combat.EffectEvent;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.damage.StatusEffectDamageSource;
@@ -95,7 +95,7 @@ public class NonPersistantStatusEffect extends BaseEffect
         CONFUSED(IMoveConstants.CHANGE_CONFUSED), CURSED(IMoveConstants.CHANGE_CURSE), FLINCH(
                 IMoveConstants.CHANGE_FLINCH);
 
-        public static Effect getStatus(final byte mask)
+        public static Effect getStatus(final int mask)
         {
             return NonPersistantStatusEffect.MASKMAP.get(mask);
         }
@@ -106,14 +106,14 @@ public class NonPersistantStatusEffect extends BaseEffect
                 NonPersistantStatusEffect.EFFECTMAP.put(stat, new DefaultEffects(stat));
         }
 
-        final byte mask;
+        final int mask;
 
-        private Effect(final byte mask)
+        private Effect(final int mask)
         {
             this.mask = mask;
         }
 
-        public byte getMask()
+        public int getMask()
         {
             return this.mask;
         }

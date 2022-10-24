@@ -1,0 +1,35 @@
+{
+  "name": "thunder",
+  "animations": [
+    {
+      "preset": "thunder:~thunder",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.thunderend",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:pmisc:rtrue:atrue:d0.66:w0.8:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~thunder",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.thunder",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:pmisc:rtrue:atrue:d0.66:w1.5:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~thunder",
+      "duration": "5",
+      "starttick": "2"
+    },
+    {
+      "preset": "cartFunc:pexplosion_emitter:atrue:d2:w1.5:l2:f(0.5-rand())*(1),0.5,(0.5-rand())*(1):~thunder",
+      "duration": "5",
+      "starttick": "4"
+    }
+  ]
+}

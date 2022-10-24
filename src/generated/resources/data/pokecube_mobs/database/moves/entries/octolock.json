@@ -1,0 +1,12 @@
+{
+  "name": "octolock",
+  "id": 753,
+  "pp": 15,
+  "priority": 0,
+  "type": "fighting",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user locks the target in and prevents it from\nfleeing. This move also lowers the target’s Defense\nand Sp. Def every turn.",
+  "move_category": "unique"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.ninetales-alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ninetales-alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_ninetales-alola": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "ninetales-alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "payday",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:l2:atrue:w0.8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~payday",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.payday",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:pmisc:cyellow:l4:atrue:~payday",
+      "duration": "5",
+      "starttick": "0",
+      "applyAfter": false
+    }
+  ]
+}

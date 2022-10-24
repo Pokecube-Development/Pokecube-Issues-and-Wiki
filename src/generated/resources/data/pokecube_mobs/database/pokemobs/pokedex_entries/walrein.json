@@ -1,0 +1,223 @@
+{
+  "name": "walrein",
+  "id": 365,
+  "stock": true,
+  "base_experience": 265,
+  "size": {
+    "height": 1.3,
+    "width": 0.8,
+    "length": 1.4
+  },
+  "mass": 150.6,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 110,
+    "attack": 80,
+    "defense": 90,
+    "special_attack": 95,
+    "special_defense": 90,
+    "speed": 65
+  },
+  "evs": {
+    "hp": 3
+  },
+  "types": [
+    "ice",
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "thick-fat",
+      "ice-body"
+    ],
+    "hidden": [
+      "oblivious"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 25,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "growl",
+          "water-gun",
+          "defense-curl",
+          "powder-snow",
+          "swagger",
+          "crunch"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "surf"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "aurora-beam",
+          "brine"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "rest",
+          "snore"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "rollout",
+          "encore"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "hail"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "ice-ball"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "sheer-cold"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "ice-fang"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "growl",
+      "roar",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "aurora-beam",
+      "hyper-beam",
+      "strength",
+      "earthquake",
+      "toxic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "waterfall",
+      "rest",
+      "rock-slide",
+      "super-fang",
+      "substitute",
+      "snore",
+      "powder-snow",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "rollout",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "crunch",
+      "rock-smash",
+      "whirlpool",
+      "hail",
+      "facade",
+      "secret-power",
+      "dive",
+      "ice-ball",
+      "rock-tomb",
+      "signal-beam",
+      "sheer-cold",
+      "icicle-spear",
+      "block",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "aqua-tail",
+      "giga-impact",
+      "avalanche",
+      "ice-fang",
+      "iron-head",
+      "captivate",
+      "heavy-slam",
+      "round",
+      "echoed-voice",
+      "bulldoze",
+      "frost-breath",
+      "confide",
+      "stomping-tantrum",
+      "liquidation",
+      "body-press",
+      "steel-roller"
+    ]
+  },
+  "loot_table": "pokecube:entities/both_ice",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

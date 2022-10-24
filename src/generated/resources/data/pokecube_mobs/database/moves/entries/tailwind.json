@@ -1,0 +1,13 @@
+{
+  "name": "tailwind",
+  "id": 366,
+  "pp": 15,
+  "priority": 0,
+  "type": "flying",
+  "target": "users-field",
+  "damage_class": "status",
+  "flavor_text": "The user whips up a turbulent whirlwind that ups\nthe Speed stat of the user and its allies for\nfour turns.",
+  "move_category": "field-effect",
+  "effect_text_extend": "For the next three turns, all Pokémon on the user's side of the field have their original Speed doubled.  This effect remains if the user leaves the field.",
+  "effect_text_simple": "For three turns, friendly Pokémon have doubled Speed."
+}

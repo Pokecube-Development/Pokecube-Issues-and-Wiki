@@ -1,0 +1,40 @@
+{
+  "name": "cinderace-gmax",
+  "id": 815,
+  "stock": true,
+  "base_experience": 265,
+  "size": {
+    "height": 5.0,
+    "width": 3.5,
+    "length": 3.5
+  },
+  "mass": 1000.0,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 80,
+    "attack": 116,
+    "defense": 75,
+    "special_attack": 65,
+    "special_defense": 75,
+    "speed": 119
+  },
+  "evs": {
+    "speed": 3
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "libero"
+    ]
+  },
+  "old_name": "cinderace_gigantamax"
+}

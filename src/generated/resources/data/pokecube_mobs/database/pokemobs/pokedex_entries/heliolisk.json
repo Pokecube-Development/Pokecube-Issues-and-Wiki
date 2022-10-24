@@ -1,0 +1,142 @@
+{
+  "name": "heliolisk",
+  "id": 695,
+  "stock": true,
+  "base_experience": 168,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 21.0,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 62,
+    "attack": 55,
+    "defense": 52,
+    "special_attack": 109,
+    "special_defense": 94,
+    "speed": 109
+  },
+  "evs": {
+    "special_attack": 1,
+    "speed": 1
+  },
+  "types": [
+    "electric",
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "dry-skin",
+      "sand-veil"
+    ],
+    "hidden": [
+      "solar-power"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "razor-wind",
+          "tail-whip",
+          "thunder-shock",
+          "thunderbolt",
+          "thunder-wave",
+          "thunder",
+          "quick-attack",
+          "mud-slap",
+          "charge",
+          "discharge",
+          "volt-switch",
+          "bulldoze",
+          "parabolic-charge",
+          "electrify",
+          "eerie-impulse"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "thunder-punch",
+      "razor-wind",
+      "cut",
+      "mega-kick",
+      "surf",
+      "hyper-beam",
+      "low-kick",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "double-team",
+      "light-screen",
+      "swift",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "facade",
+      "charge",
+      "secret-power",
+      "hyper-voice",
+      "weather-ball",
+      "rock-tomb",
+      "signal-beam",
+      "shock-wave",
+      "u-turn",
+      "magnet-rise",
+      "dark-pulse",
+      "dragon-pulse",
+      "focus-blast",
+      "giga-impact",
+      "grass-knot",
+      "charge-beam",
+      "electro-ball",
+      "low-sweep",
+      "round",
+      "ally-switch",
+      "volt-switch",
+      "bulldoze",
+      "dragon-tail",
+      "electroweb",
+      "wild-charge",
+      "parabolic-charge",
+      "electrify",
+      "confide",
+      "eerie-impulse",
+      "electric-terrain",
+      "brutal-swing",
+      "breaking-swipe",
+      "scale-shot",
+      "rising-voltage"
+    ]
+  },
+  "loot_table": "pokecube:entities/redstone_rabbit_2"
+}

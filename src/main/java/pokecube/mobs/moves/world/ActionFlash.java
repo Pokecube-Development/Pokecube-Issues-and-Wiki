@@ -4,12 +4,12 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.IMoveAction;
+import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.PokecubeCore;
 import thut.api.entity.IHungrymob;
 import thut.api.maths.Vector3;
 
-public class ActionFlash implements IMoveAction
+public class ActionFlash implements IMoveWorldEffect
 {
     public ActionFlash()
     {

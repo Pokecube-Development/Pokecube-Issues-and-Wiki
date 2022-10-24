@@ -1,0 +1,15 @@
+{
+  "name": "strength",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:atrue:d1.5:w0.5:l3:frand()*0.5,(0.5-rand()),(0.5-rand())*(2):~strength",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

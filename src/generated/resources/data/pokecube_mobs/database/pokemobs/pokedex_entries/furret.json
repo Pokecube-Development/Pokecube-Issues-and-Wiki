@@ -1,0 +1,241 @@
+{
+  "name": "furret",
+  "id": 162,
+  "stock": true,
+  "base_experience": 145,
+  "size": {
+    "height": 1.2,
+    "width": 1.8,
+    "length": 1.8
+  },
+  "mass": 32.5,
+  "is_default": true,
+  "capture_rate": 90,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 85,
+    "attack": 76,
+    "defense": 64,
+    "special_attack": 45,
+    "special_defense": 55,
+    "speed": 90
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "run-away",
+      "keen-eye"
+    ],
+    "hidden": [
+      "frisk"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "quick-attack",
+          "defense-curl",
+          "foresight",
+          "coil"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "baton-pass"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "follow-me"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "hyper-voice"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "me-first"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "sucker-punch"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "scratch",
+      "cut",
+      "slam",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "flamethrower",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder",
+      "dig",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "swift",
+      "amnesia",
+      "fury-swipes",
+      "rest",
+      "super-fang",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "foresight",
+      "detect",
+      "endure",
+      "rollout",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "baton-pass",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "rock-smash",
+      "whirlpool",
+      "uproar",
+      "facade",
+      "focus-punch",
+      "follow-me",
+      "helping-hand",
+      "trick",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "hyper-voice",
+      "covet",
+      "shock-wave",
+      "water-pulse",
+      "natural-gift",
+      "u-turn",
+      "fling",
+      "me-first",
+      "last-resort",
+      "sucker-punch",
+      "aqua-tail",
+      "focus-blast",
+      "giga-impact",
+      "shadow-claw",
+      "captivate",
+      "grass-knot",
+      "charge-beam",
+      "hone-claws",
+      "coil",
+      "round",
+      "echoed-voice",
+      "retaliate",
+      "work-up",
+      "confide",
+      "power-up-punch",
+      "brutal-swing"
+    ]
+  },
+  "loot_table": "pokecube:entities/rotten_rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

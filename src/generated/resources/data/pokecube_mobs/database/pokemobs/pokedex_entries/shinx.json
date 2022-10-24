@@ -1,0 +1,213 @@
+{
+  "name": "shinx",
+  "id": 403,
+  "stock": true,
+  "base_experience": 53,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 9.5,
+  "is_default": true,
+  "capture_rate": 235,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 45,
+    "attack": 65,
+    "defense": 34,
+    "special_attack": 40,
+    "special_defense": 34,
+    "speed": 45
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "rivalry",
+      "intimidate"
+    ],
+    "hidden": [
+      "guts"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "thunder-shock"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "charge"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "thunder-fang"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "volt-switch"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "wild-charge"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "baby-doll-eyes"
+        ]
+      }
+    ],
+    "misc": [
+      "double-kick",
+      "headbutt",
+      "tackle",
+      "take-down",
+      "leer",
+      "bite",
+      "roar",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "quick-attack",
+      "double-team",
+      "light-screen",
+      "swift",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "endure",
+      "swagger",
+      "spark",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "crunch",
+      "facade",
+      "charge",
+      "helping-hand",
+      "secret-power",
+      "fake-tears",
+      "signal-beam",
+      "howl",
+      "shock-wave",
+      "natural-gift",
+      "magnet-rise",
+      "night-slash",
+      "thunder-fang",
+      "ice-fang",
+      "fire-fang",
+      "discharge",
+      "captivate",
+      "charge-beam",
+      "electro-ball",
+      "round",
+      "volt-switch",
+      "wild-charge",
+      "snarl",
+      "play-rough",
+      "confide",
+      "eerie-impulse",
+      "baby-doll-eyes",
+      "psychic-fangs",
+      "rising-voltage"
+    ]
+  },
+  "loot_table": "pokecube:entities/redstone_rabbit_1",
+  "evolutions": [
+    {
+      "name": "luxio",
+      "level": 15
+    }
+  ]
+}

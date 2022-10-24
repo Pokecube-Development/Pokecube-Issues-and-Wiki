@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.orbeetle"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.orbeetle"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_orbeetle": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "orbeetle"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

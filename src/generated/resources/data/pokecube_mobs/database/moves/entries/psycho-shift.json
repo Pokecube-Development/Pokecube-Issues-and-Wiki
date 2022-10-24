@@ -1,0 +1,14 @@
+{
+  "name": "psycho-shift",
+  "id": 375,
+  "pp": 10,
+  "priority": 0,
+  "type": "psychic",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "Using its psychic power of suggestion, the user\ntransfers its status conditions to the target.",
+  "move_category": "unique",
+  "effect_text_extend": "If the user has a major status effect and the target does not, the user's status is transferred to the target.",
+  "effect_text_simple": "Transfers the user's major status effect to the target."
+}

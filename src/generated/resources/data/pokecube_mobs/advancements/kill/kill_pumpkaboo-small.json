@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.pumpkaboo-small"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pumpkaboo-small"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_pumpkaboo-small": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "pumpkaboo-small"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

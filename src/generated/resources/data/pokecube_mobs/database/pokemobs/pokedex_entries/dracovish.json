@@ -1,0 +1,162 @@
+{
+  "name": "dracovish",
+  "id": 882,
+  "stock": true,
+  "base_experience": 177,
+  "size": {
+    "height": 2.3,
+    "width": 2.0,
+    "length": 2.3
+  },
+  "mass": 215.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 90,
+    "attack": 90,
+    "defense": 100,
+    "special_attack": 70,
+    "special_defense": 80,
+    "speed": 75
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "water",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "water-absorb",
+      "strong-jaw"
+    ],
+    "hidden": [
+      "sand-rush"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 42,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "water-gun"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "super-fang"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "dragon-rush"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "brutal-swing"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "fishious-rend"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-kick",
+      "body-slam",
+      "hydro-pump",
+      "surf",
+      "hyper-beam",
+      "low-kick",
+      "earthquake",
+      "waterfall",
+      "leech-life",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "outrage",
+      "endure",
+      "sleep-talk",
+      "rain-dance",
+      "crunch",
+      "whirlpool",
+      "facade",
+      "dive",
+      "rock-tomb",
+      "rock-blast",
+      "brine",
+      "dragon-pulse",
+      "earth-power",
+      "giga-impact",
+      "ice-fang",
+      "zen-headbutt",
+      "draco-meteor",
+      "iron-head",
+      "stone-edge",
+      "round",
+      "scald",
+      "bulldoze",
+      "brutal-swing",
+      "psychic-fangs",
+      "stomping-tantrum",
+      "liquidation",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/fossil_mob"
+}

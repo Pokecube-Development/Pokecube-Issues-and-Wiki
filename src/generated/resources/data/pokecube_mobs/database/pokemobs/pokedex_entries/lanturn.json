@@ -1,0 +1,212 @@
+{
+  "name": "lanturn",
+  "id": 171,
+  "stock": true,
+  "base_experience": 161,
+  "size": {
+    "height": 0.6,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 22.5,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 125,
+    "attack": 58,
+    "defense": 58,
+    "special_attack": 76,
+    "special_defense": 76,
+    "speed": 67
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "water",
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "volt-absorb",
+      "illuminate"
+    ],
+    "hidden": [
+      "water-absorb"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 43,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "supersonic",
+          "thunder-wave",
+          "bubble",
+          "electro-ball",
+          "eerie-impulse",
+          "spotlight"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "stockpile",
+          "spit-up",
+          "swallow"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "charge"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "signal-beam"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "aqua-ring"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "ion-deluge"
+        ]
+      }
+    ],
+    "misc": [
+      "take-down",
+      "double-edge",
+      "supersonic",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "hyper-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "agility",
+      "mimic",
+      "screech",
+      "double-team",
+      "confuse-ray",
+      "waterfall",
+      "amnesia",
+      "bubble",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "flail",
+      "protect",
+      "zap-cannon",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "spark",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "whirlpool",
+      "stockpile",
+      "spit-up",
+      "swallow",
+      "hail",
+      "facade",
+      "charge",
+      "secret-power",
+      "dive",
+      "signal-beam",
+      "bounce",
+      "shock-wave",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "sucker-punch",
+      "aqua-ring",
+      "aqua-tail",
+      "giga-impact",
+      "discharge",
+      "captivate",
+      "charge-beam",
+      "electro-ball",
+      "round",
+      "scald",
+      "volt-switch",
+      "wild-charge",
+      "ion-deluge",
+      "confide",
+      "eerie-impulse",
+      "dazzling-gleam",
+      "rising-voltage"
+    ]
+  },
+  "loot_table": "pokecube:entities/glow_fish_2"
+}

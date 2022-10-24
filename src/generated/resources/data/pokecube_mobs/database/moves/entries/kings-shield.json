@@ -1,0 +1,13 @@
+{
+  "name": "kings-shield",
+  "id": 588,
+  "pp": 10,
+  "priority": 4,
+  "type": "steel",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user takes a defensive stance while it protects\nitself from damage. It also harshly lowers the Attack\nstat of any attacker who makes direct contact.",
+  "move_category": "unique",
+  "effect_text_extend": "Blocks damaging attacks and lowers attacking Pokémon's Attack by two stages on contact.  Switches Aegislash to Shield Forme.",
+  "effect_text_simple": "Blocks damaging attacks and lowers attacking Pokémon's Attack by two stages on contact.  Switches Aegislash to Shield Forme."
+}

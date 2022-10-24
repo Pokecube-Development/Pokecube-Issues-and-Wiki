@@ -10,9 +10,9 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.IMoveAction;
-import pokecube.api.moves.IMoveConstants;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.api.utils.PokeType;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.moves.MovesUtils;
@@ -42,11 +42,11 @@ public class PokemobMoveRecipeParser implements IRecipeParser
             if (!this.move.isEmpty()) return t.equals(this.move);
             if (!this.moves.isEmpty()) return this.moves.contains(t);
 
-            final Move_Base move = MovesUtils.getMoveFromName(t);
+            final MoveEntry move = MovesUtils.getMove(t);
             final PokeType ptype = PokeType.getType(this.type);
             if (ptype == null) return false;
             if (move == null) return false;
-            if (move.move.type != ptype) return false;
+            if (move.type != ptype) return false;
             if (!this.contact && (move.getAttackCategory() & IMoveConstants.CATEGORY_CONTACT) > 0) return false;
             if (!this.ranged && (move.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0) return false;
             final int power = move.getPWR();
@@ -55,12 +55,12 @@ public class PokemobMoveRecipeParser implements IRecipeParser
 
     }
 
-    private static class WrappedRecipeMove implements IMoveAction
+    private static class WrappedRecipeMove implements IMoveWorldEffect
     {
-        public IMoveAction parent;
-        public IMoveAction other;
+        public IMoveWorldEffect parent;
+        public IMoveWorldEffect other;
 
-        public WrappedRecipeMove(final IMoveAction parent, final IMoveAction other)
+        public WrappedRecipeMove(final IMoveWorldEffect parent, final IMoveWorldEffect other)
         {
             this.parent = parent;
             this.other = other;
@@ -88,7 +88,7 @@ public class PokemobMoveRecipeParser implements IRecipeParser
 
     }
 
-    public static class RecipeAction implements IMoveAction
+    public static class RecipeAction implements IMoveWorldEffect
     {
         public final String name;
 
@@ -141,11 +141,11 @@ public class PokemobMoveRecipeParser implements IRecipeParser
         }
     }
 
-    public static void addOrMergeActions(IMoveAction action)
+    public static void addOrMergeActions(IMoveWorldEffect action)
     {
         if (MoveEventsHandler.customActions.containsKey(action.getMoveName()))
         {
-            final IMoveAction prev = MoveEventsHandler.customActions.get(action.getMoveName());
+            final IMoveWorldEffect prev = MoveEventsHandler.customActions.get(action.getMoveName());
             if (prev instanceof WrappedRecipeMove edit)
             {
                 edit.other = action;
@@ -166,7 +166,7 @@ public class PokemobMoveRecipeParser implements IRecipeParser
         final MoveRecipe recipe = MoveRecipes.SERIALIZER.get()
                 .fromJson(new ResourceLocation("pokecube:move_recipe_" + RecipeMove.uid++), json);
         final RecipeMove loaded = new RecipeMove(recipe);
-        for (final IMoveAction action : loaded.actions) PokemobMoveRecipeParser.addOrMergeActions(action);
+        for (final IMoveWorldEffect action : loaded.actions) PokemobMoveRecipeParser.addOrMergeActions(action);
     }
 
     @Override

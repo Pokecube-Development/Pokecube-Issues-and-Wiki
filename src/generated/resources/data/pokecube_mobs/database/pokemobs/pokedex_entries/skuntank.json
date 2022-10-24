@@ -1,0 +1,249 @@
+{
+  "name": "skuntank",
+  "id": 435,
+  "stock": true,
+  "base_experience": 168,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 38.0,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 103,
+    "attack": 93,
+    "defense": 67,
+    "special_attack": 71,
+    "special_defense": 61,
+    "speed": 84
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "poison",
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "stench",
+      "aftermath"
+    ],
+    "hidden": [
+      "keen-eye"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "screech",
+          "focus-energy",
+          "poison-gas"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "bite",
+          "venoshock"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "smokescreen"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "memento"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "acid-spray"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "belch"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "venom-drench"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "cut",
+      "headbutt",
+      "bite",
+      "roar",
+      "flamethrower",
+      "hyper-beam",
+      "strength",
+      "fire-spin",
+      "dig",
+      "toxic",
+      "screech",
+      "double-team",
+      "smokescreen",
+      "focus-energy",
+      "fire-blast",
+      "swift",
+      "poison-gas",
+      "explosion",
+      "fury-swipes",
+      "rest",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "mud-slap",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "shadow-ball",
+      "rock-smash",
+      "torment",
+      "memento",
+      "facade",
+      "taunt",
+      "snatch",
+      "secret-power",
+      "natural-gift",
+      "feint",
+      "payback",
+      "assurance",
+      "sucker-punch",
+      "poison-jab",
+      "dark-pulse",
+      "night-slash",
+      "giga-impact",
+      "nasty-plot",
+      "shadow-claw",
+      "defog",
+      "captivate",
+      "hone-claws",
+      "venoshock",
+      "acid-spray",
+      "foul-play",
+      "round",
+      "hex",
+      "incinerate",
+      "tail-slap",
+      "snarl",
+      "belch",
+      "play-rough",
+      "confide",
+      "venom-drench",
+      "throat-chop",
+      "burning-jealousy",
+      "lash-out",
+      "corrosive-gas"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "seed-flare",
+  "id": 465,
+  "power": 120,
+  "pp": 5,
+  "priority": 0,
+  "type": "grass",
+  "accuracy": 85,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user emits a shock wave from its body to attack\nits target. This may also harshly lower the target’s\nSp. Def stat.",
+  "move_category": "damage+lower",
+  "stat_chance": 40,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to lower the target's Special Defense by two stages.",
+  "effect_text_simple": "Has a $effect_chance% chance to lower the target's Special Defense by two stages.",
+  "effect_chance": 40
+}

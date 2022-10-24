@@ -1,0 +1,184 @@
+{
+  "name": "greninja-battle-bond",
+  "id": 658,
+  "stock": true,
+  "base_experience": 239,
+  "size": {
+    "height": 1.5
+  },
+  "mass": 40.0,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 72,
+    "attack": 95,
+    "defense": 67,
+    "special_attack": 103,
+    "special_defense": 71,
+    "speed": 122
+  },
+  "evs": {
+    "speed": 3
+  },
+  "types": [
+    "water",
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "battle-bond"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "growl",
+          "quick-attack",
+          "haze",
+          "bubble",
+          "role-play",
+          "night-slash",
+          "mat-block"
+        ]
+      },
+      {
+        "L": 68,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "double-team"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "smokescreen"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "lick"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "substitute"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "spikes"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "shadow-sneak"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "water-shuriken"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "ice-punch",
+      "growl",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "low-kick",
+      "toxic",
+      "quick-attack",
+      "double-team",
+      "smokescreen",
+      "haze",
+      "lick",
+      "waterfall",
+      "bubble",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "feint-attack",
+      "spikes",
+      "icy-wind",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "facade",
+      "taunt",
+      "role-play",
+      "snatch",
+      "hydro-cannon",
+      "rock-tomb",
+      "extrasensory",
+      "aerial-ace",
+      "bounce",
+      "water-pulse",
+      "u-turn",
+      "fling",
+      "dark-pulse",
+      "night-slash",
+      "giga-impact",
+      "shadow-sneak",
+      "gunk-shot",
+      "grass-knot",
+      "smack-down",
+      "round",
+      "echoed-voice",
+      "scald",
+      "acrobatics",
+      "water-pledge",
+      "work-up",
+      "mat-block",
+      "confide",
+      "water-shuriken",
+      "brutal-swing"
+    ]
+  },
+  "old_name": "greninja_ash"
+}

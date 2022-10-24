@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.flapple-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.flapple-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_flapple-gmax": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "flapple-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

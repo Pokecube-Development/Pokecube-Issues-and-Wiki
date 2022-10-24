@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tornadus-incarnate"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tornadus-incarnate"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_tornadus-incarnate": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "tornadus-incarnate"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

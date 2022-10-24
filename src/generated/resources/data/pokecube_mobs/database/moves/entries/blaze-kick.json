@@ -1,0 +1,18 @@
+{
+  "name": "blaze-kick",
+  "id": 299,
+  "power": 85,
+  "pp": 10,
+  "priority": 0,
+  "type": "fire",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user launches a kick that lands a critical hit\nmore easily. This may also leave the target with\na burn.",
+  "move_category": "damage+ailment",
+  "crit_rate": 1,
+  "ailment_chance": 10,
+  "effect_text_extend": "Inflicts regular damage.  User's critical hit rate is one level higher when using this move. Has a $effect_chance% chance to burn the target.",
+  "effect_text_simple": "Has an increased chance for a critical hit and a $effect_chance% chance to burn the target.",
+  "effect_chance": 10
+}

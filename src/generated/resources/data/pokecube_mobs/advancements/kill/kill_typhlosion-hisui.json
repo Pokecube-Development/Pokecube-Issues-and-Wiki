@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.typhlosion-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.typhlosion-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_typhlosion-hisui": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "typhlosion-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

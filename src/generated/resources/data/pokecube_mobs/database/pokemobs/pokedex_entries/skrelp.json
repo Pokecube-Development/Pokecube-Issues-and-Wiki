@@ -1,0 +1,197 @@
+{
+  "name": "skrelp",
+  "id": 690,
+  "stock": true,
+  "base_experience": 64,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 7.3,
+  "is_default": true,
+  "capture_rate": 225,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 50,
+    "attack": 60,
+    "defense": 60,
+    "special_attack": 60,
+    "special_defense": 60,
+    "speed": 30
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "poison",
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "poison-point",
+      "poison-touch"
+    ],
+    "hidden": [
+      "adaptability"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "water-gun",
+          "smokescreen"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "acid"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "double-team"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "bubble"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "sludge-bomb"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "camouflage"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "poison-tail"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "dragon-pulse"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "tail-whip",
+      "acid",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "thunderbolt",
+      "toxic",
+      "double-team",
+      "smokescreen",
+      "haze",
+      "waterfall",
+      "bubble",
+      "acid-armor",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "feint-attack",
+      "sludge-bomb",
+      "icy-wind",
+      "outrage",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "shadow-ball",
+      "hail",
+      "facade",
+      "secret-power",
+      "dive",
+      "camouflage",
+      "bounce",
+      "poison-tail",
+      "shock-wave",
+      "water-pulse",
+      "toxic-spikes",
+      "aqua-tail",
+      "dragon-pulse",
+      "gunk-shot",
+      "venoshock",
+      "sludge-wave",
+      "round",
+      "scald",
+      "dragon-tail",
+      "play-rough",
+      "confide",
+      "venom-drench",
+      "scale-shot",
+      "flip-turn"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1",
+  "evolutions": [
+    {
+      "name": "dragalge",
+      "level": 48,
+      "evoMoves": "Twister"
+    }
+  ]
+}

@@ -1,0 +1,248 @@
+{
+  "name": "squirtle",
+  "id": 7,
+  "stock": true,
+  "base_experience": 63,
+  "size": {
+    "height": 0.5,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 9.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 44,
+    "attack": 48,
+    "defense": 65,
+    "special_attack": 50,
+    "special_defense": 64,
+    "speed": 43
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+      "rain-dish"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 36,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "bubble-beam",
+          "shell-smash"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "withdraw"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "skull-bash"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "bubble"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "rapid-spin"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "aqua-tail"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "mega-kick",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "tail-whip",
+      "bite",
+      "mist",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "submission",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "dig",
+      "toxic",
+      "confusion",
+      "rage",
+      "mimic",
+      "double-team",
+      "withdraw",
+      "defense-curl",
+      "haze",
+      "reflect",
+      "bide",
+      "waterfall",
+      "skull-bash",
+      "bubble",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "flail",
+      "protect",
+      "mud-slap",
+      "foresight",
+      "icy-wind",
+      "outrage",
+      "endure",
+      "rollout",
+      "false-swipe",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "rapid-spin",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "mirror-coat",
+      "rock-smash",
+      "whirlpool",
+      "fake-out",
+      "hail",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "brick-break",
+      "yawn",
+      "refresh",
+      "secret-power",
+      "dive",
+      "mud-sport",
+      "weather-ball",
+      "rock-tomb",
+      "water-spout",
+      "muddy-water",
+      "iron-defense",
+      "water-pulse",
+      "gyro-ball",
+      "brine",
+      "natural-gift",
+      "fling",
+      "aqua-ring",
+      "aura-sphere",
+      "aqua-tail",
+      "dragon-pulse",
+      "zen-headbutt",
+      "captivate",
+      "aqua-jet",
+      "round",
+      "scald",
+      "water-pledge",
+      "work-up",
+      "confide",
+      "power-up-punch",
+      "life-dew",
+      "flip-turn"
+    ]
+  },
+  "loot_table": "pokecube:entities/turtleshells_1",
+  "evolutions": [
+    {
+      "name": "wartortle",
+      "level": 16,
+      "animation": "9"
+    }
+  ]
+}

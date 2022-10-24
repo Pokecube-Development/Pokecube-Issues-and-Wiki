@@ -1,0 +1,192 @@
+{
+  "name": "minior-blue",
+  "id": 774,
+  "stock": true,
+  "base_experience": 175,
+  "size": {
+    "height": 0.3
+  },
+  "mass": 0.3,
+  "is_default": false,
+  "capture_rate": 30,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 60,
+    "attack": 100,
+    "defense": 60,
+    "special_attack": 100,
+    "special_defense": 60,
+    "speed": 120
+  },
+  "evs": {
+    "attack": 1,
+    "special_attack": 1
+  },
+  "types": [
+    "rock",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "shields-down"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "self-destruct"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "cosmic-power"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "autotomize"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "shell-smash"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "take-down",
+      "double-edge",
+      "hyper-beam",
+      "solar-beam",
+      "earthquake",
+      "toxic",
+      "psychic",
+      "double-team",
+      "confuse-ray",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "self-destruct",
+      "swift",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "sandstorm",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "psych-up",
+      "ancient-power",
+      "facade",
+      "endeavor",
+      "rock-tomb",
+      "cosmic-power",
+      "calm-mind",
+      "gravity",
+      "gyro-ball",
+      "u-turn",
+      "last-resort",
+      "magnet-rise",
+      "rock-polish",
+      "power-gem",
+      "giga-impact",
+      "zen-headbutt",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "charge-beam",
+      "autotomize",
+      "telekinesis",
+      "round",
+      "shell-smash",
+      "acrobatics",
+      "bulldoze",
+      "confide",
+      "dazzling-gleam"
+    ]
+  },
+  "loot_table": "pokecube:entities/glowstone_dust",
+  "old_name": "blue_core_minior"
+}

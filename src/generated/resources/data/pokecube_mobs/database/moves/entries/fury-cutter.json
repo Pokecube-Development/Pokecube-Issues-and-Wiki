@@ -1,0 +1,15 @@
+{
+  "name": "fury-cutter",
+  "id": 210,
+  "power": 40,
+  "pp": 20,
+  "priority": 0,
+  "type": "bug",
+  "accuracy": 95,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The target is slashed with scythes or claws. This\nattack becomes more powerful if it hits\nin succession.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Power doubles after every time this move is used, whether consecutively or not, maxing out at 16x.  If this move misses or the user leaves the field, power resets.",
+  "effect_text_simple": "Power doubles every turn this move is used in succession after the first, maxing out after five turns."
+}

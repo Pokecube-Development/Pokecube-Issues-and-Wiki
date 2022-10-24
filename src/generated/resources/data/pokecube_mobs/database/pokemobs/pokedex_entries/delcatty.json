@@ -1,0 +1,157 @@
+{
+  "name": "delcatty",
+  "id": 301,
+  "stock": true,
+  "base_experience": 140,
+  "size": {
+    "height": 1.1,
+    "width": 1.1,
+    "length": 1.1
+  },
+  "mass": 32.6,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 70,
+  "growth_rate": "fast",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 70,
+    "attack": 65,
+    "defense": 65,
+    "special_attack": 55,
+    "special_defense": 55,
+    "speed": 90
+  },
+  "evs": {
+    "hp": 1,
+    "speed": 1
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "cute-charm",
+      "normalize"
+    ],
+    "hidden": [
+      "wonder-skin"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "double-slap",
+          "growl",
+          "sing",
+          "attract",
+          "fake-out"
+        ]
+      }
+    ],
+    "misc": [
+      "double-slap",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "growl",
+      "sing",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "toxic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "fake-out",
+      "uproar",
+      "facade",
+      "helping-hand",
+      "secret-power",
+      "hyper-voice",
+      "covet",
+      "calm-mind",
+      "shock-wave",
+      "water-pulse",
+      "natural-gift",
+      "payback",
+      "last-resort",
+      "sucker-punch",
+      "giga-impact",
+      "zen-headbutt",
+      "captivate",
+      "grass-knot",
+      "charge-beam",
+      "round",
+      "echoed-voice",
+      "retaliate",
+      "work-up",
+      "wild-charge",
+      "confide",
+      "laser-focus",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

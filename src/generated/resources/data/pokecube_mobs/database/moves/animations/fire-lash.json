@@ -1,0 +1,30 @@
+{
+  "name": "firelash",
+  "animations": [
+    {
+      "preset": "beam:pflame:d0.03:w0.1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~firelash",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.ember",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8
+    },
+    {
+      "preset": "cartFunc:pcrit:d0.9:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~firelash",
+      "duration": "2",
+      "starttick": "3",
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.6
+    },
+    {
+      "preset": "cartFunc:pflame:d1:w1:l14:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~firelash",
+      "duration": "2",
+      "starttick": "3"
+    }
+  ]
+}

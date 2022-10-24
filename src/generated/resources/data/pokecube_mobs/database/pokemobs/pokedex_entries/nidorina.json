@@ -1,0 +1,217 @@
+{
+  "name": "nidorina",
+  "id": 30,
+  "stock": true,
+  "base_experience": 128,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.8
+  },
+  "mass": 20.0,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 70,
+    "attack": 62,
+    "defense": 67,
+    "special_attack": 55,
+    "special_defense": 55,
+    "speed": 56
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "poison-point",
+      "rivalry"
+    ],
+    "hidden": [
+      "hustle"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "tackle",
+          "growl"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "poison-sting"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "toxic",
+          "captivate"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "super-fang"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "flatter"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "poison-fang"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "toxic-spikes"
+        ]
+      },
+      {
+        "L": 71,
+        "moves": [
+          "earth-power"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "cut",
+      "double-kick",
+      "headbutt",
+      "horn-drill",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "tail-whip",
+      "poison-sting",
+      "bite",
+      "growl",
+      "water-gun",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "counter",
+      "strength",
+      "thunderbolt",
+      "thunder",
+      "dig",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "reflect",
+      "focus-energy",
+      "bide",
+      "skull-bash",
+      "fury-swipes",
+      "rest",
+      "super-fang",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "detect",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "beat-up",
+      "flatter",
+      "facade",
+      "helping-hand",
+      "secret-power",
+      "poison-fang",
+      "aerial-ace",
+      "shock-wave",
+      "water-pulse",
+      "natural-gift",
+      "toxic-spikes",
+      "poison-jab",
+      "earth-power",
+      "shadow-claw",
+      "captivate",
+      "hone-claws",
+      "venoshock",
+      "round",
+      "echoed-voice",
+      "confide",
+      "venom-drench",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2",
+  "evolutions": [
+    {
+      "name": "nidoqueen",
+      "item_preset": "moonstone"
+    }
+  ]
+}

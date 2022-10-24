@@ -1,0 +1,14 @@
+{
+  "name": "string-shot",
+  "id": 81,
+  "pp": 40,
+  "priority": 0,
+  "type": "bug",
+  "accuracy": 95,
+  "target": "all-opponents",
+  "damage_class": "status",
+  "flavor_text": "The opposing Pokémon are bound with silk blown\nfrom the user’s mouth that harshly lowers the\nSpeed stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Lowers the target's Speed by two stages.",
+  "effect_text_simple": "Lowers the target's Speed by two stages."
+}

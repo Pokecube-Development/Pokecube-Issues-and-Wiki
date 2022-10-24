@@ -1,0 +1,278 @@
+{
+  "name": "gallade",
+  "id": 475,
+  "stock": true,
+  "base_experience": 259,
+  "size": {
+    "height": 1.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 52.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 68,
+    "attack": 125,
+    "defense": 65,
+    "special_attack": 65,
+    "special_defense": 115,
+    "speed": 80
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "psychic",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "steadfast"
+    ],
+    "hidden": [
+      "justified"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 26,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "growl",
+          "psybeam",
+          "confusion",
+          "psychic",
+          "hypnosis",
+          "teleport",
+          "double-team",
+          "dream-eater",
+          "charm",
+          "future-sight",
+          "imprison",
+          "calm-mind",
+          "leaf-blade",
+          "close-combat",
+          "night-slash",
+          "stored-power",
+          "disarming-voice",
+          "draining-kiss",
+          "life-dew"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "false-swipe"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "psycho-cut"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "wide-guard"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "quick-guard"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "heal-pulse"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "swords-dance",
+      "cut",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "leer",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "earthquake",
+      "toxic",
+      "confusion",
+      "psychic",
+      "teleport",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "reversal",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "charm",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "encore",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "rock-smash",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "trick",
+      "magic-coat",
+      "recycle",
+      "revenge",
+      "brick-break",
+      "knock-off",
+      "skill-swap",
+      "imprison",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "rock-tomb",
+      "signal-beam",
+      "aerial-ace",
+      "bulk-up",
+      "magical-leaf",
+      "calm-mind",
+      "leaf-blade",
+      "shock-wave",
+      "natural-gift",
+      "feint",
+      "close-combat",
+      "fling",
+      "aura-sphere",
+      "poison-jab",
+      "night-slash",
+      "air-slash",
+      "x-scissor",
+      "drain-punch",
+      "vacuum-wave",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "psycho-cut",
+      "zen-headbutt",
+      "trick-room",
+      "stone-edge",
+      "captivate",
+      "grass-knot",
+      "charge-beam",
+      "wide-guard",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "low-sweep",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "quick-guard",
+      "ally-switch",
+      "heal-pulse",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "dual-chop",
+      "draining-kiss",
+      "misty-terrain",
+      "confide",
+      "dazzling-gleam",
+      "power-up-punch",
+      "solar-blade",
+      "laser-focus",
+      "throat-chop",
+      "expanding-force",
+      "coaching",
+      "triple-axel"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_3",
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "gallademega"
+    }
+  ]
+}

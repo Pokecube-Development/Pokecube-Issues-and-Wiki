@@ -1,0 +1,22 @@
+{
+  "name": "heartstamp",
+  "animations": [
+    {
+      "preset": "cartFunc:pheart:atrue:l1:d5:~heartstamp",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.charm",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:pwitch:d1.5:atrue:l15:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~heartstamp",
+      "duration": "5",
+      "starttick": "0",
+      "applyAfter": false
+    }
+  ]
+}

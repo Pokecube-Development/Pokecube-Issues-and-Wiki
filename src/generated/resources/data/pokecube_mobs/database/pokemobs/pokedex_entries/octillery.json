@@ -1,0 +1,205 @@
+{
+  "name": "octillery",
+  "id": 224,
+  "stock": true,
+  "base_experience": 168,
+  "size": {
+    "height": 0.9,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 28.5,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 75,
+    "attack": 105,
+    "defense": 75,
+    "special_attack": 105,
+    "special_defense": 75,
+    "speed": 45
+  },
+  "evs": {
+    "attack": 1,
+    "special_attack": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "suction-cups",
+      "sniper"
+    ],
+    "hidden": [
+      "moody"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "wrap",
+          "water-gun",
+          "psybeam",
+          "aurora-beam",
+          "constrict",
+          "helping-hand",
+          "rock-blast",
+          "water-pulse",
+          "gunk-shot"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "ice-beam"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "octazooka"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "lock-on"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "signal-beam"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "bullet-seed"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "wring-out"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "soak"
+        ]
+      }
+    ],
+    "misc": [
+      "bind",
+      "double-edge",
+      "flamethrower",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "psybeam",
+      "bubble-beam",
+      "aurora-beam",
+      "hyper-beam",
+      "seismic-toss",
+      "string-shot",
+      "thunder-wave",
+      "toxic",
+      "psychic",
+      "mimic",
+      "screech",
+      "double-team",
+      "defense-curl",
+      "focus-energy",
+      "fire-blast",
+      "waterfall",
+      "swift",
+      "constrict",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "octazooka",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "whirlpool",
+      "facade",
+      "helping-hand",
+      "secret-power",
+      "dive",
+      "signal-beam",
+      "bullet-seed",
+      "bounce",
+      "mud-shot",
+      "rock-blast",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "payback",
+      "assurance",
+      "wring-out",
+      "seed-bomb",
+      "energy-ball",
+      "giga-impact",
+      "flash-cannon",
+      "gunk-shot",
+      "captivate",
+      "charge-beam",
+      "smack-down",
+      "sludge-wave",
+      "soak",
+      "round",
+      "scald",
+      "incinerate",
+      "confide",
+      "liquidation",
+      "skitter-smack"
+    ]
+  },
+  "loot_table": "minecraft:entities/squid"
+}

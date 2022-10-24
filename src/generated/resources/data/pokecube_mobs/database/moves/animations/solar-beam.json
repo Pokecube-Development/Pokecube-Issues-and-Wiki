@@ -1,0 +1,31 @@
+{
+  "name": "solarbeam",
+  "animations": [
+    {
+      "preset": "cartFunc:pend_rod:rtrue:d0.8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):atrue:~solarbeam",
+      "duration": "5",
+      "starttick": "0",
+      "applyAfter": true
+    },
+    {
+      "preset": "flow:pend_rod:atrue:d0.8:w0.4:~solarbeam",
+      "duration": "5",
+      "starttick": "3",
+      "sound": "pokecube:moves.megaattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    },
+    {
+      "preset": "cartFunc:pexplosion_emitter:atrue:~solarbeam",
+      "duration": "5",
+      "starttick": "5",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4
+    }
+  ]
+}

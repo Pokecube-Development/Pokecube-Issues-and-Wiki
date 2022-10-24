@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.kyogre-primal"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.kyogre-primal"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_kyogre-primal": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "kyogre-primal"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

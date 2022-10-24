@@ -1,0 +1,220 @@
+{
+  "name": "palkia",
+  "id": 484,
+  "stock": true,
+  "base_experience": 340,
+  "size": {
+    "height": 4.2,
+    "width": 3.0,
+    "length": 3.0
+  },
+  "mass": 336.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 90,
+    "attack": 120,
+    "defense": 100,
+    "special_attack": 150,
+    "special_defense": 120,
+    "speed": 100
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "water",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "pressure"
+    ],
+    "hidden": [
+      "telepathy"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 50,
+        "moves": [
+          "hydro-pump",
+          "heal-block"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "scary-face",
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "dragon-claw"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "aqua-ring"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "aura-sphere"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "spacial-rend"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "headbutt",
+      "body-slam",
+      "roar",
+      "flamethrower",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "double-team",
+      "fire-blast",
+      "swift",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "outrage",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dragon-breath",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "rock-smash",
+      "whirlpool",
+      "hail",
+      "facade",
+      "focus-punch",
+      "brick-break",
+      "secret-power",
+      "dive",
+      "hyper-voice",
+      "rock-tomb",
+      "aerial-ace",
+      "dragon-claw",
+      "bulk-up",
+      "shock-wave",
+      "water-pulse",
+      "gravity",
+      "brine",
+      "natural-gift",
+      "fling",
+      "heal-block",
+      "aqua-ring",
+      "aura-sphere",
+      "aqua-tail",
+      "dragon-pulse",
+      "power-gem",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "avalanche",
+      "shadow-claw",
+      "trick-room",
+      "draco-meteor",
+      "stone-edge",
+      "spacial-rend",
+      "hone-claws",
+      "heavy-slam",
+      "round",
+      "echoed-voice",
+      "incinerate",
+      "bulldoze",
+      "dragon-tail",
+      "confide",
+      "stomping-tantrum",
+      "liquidation",
+      "body-press",
+      "breaking-swipe",
+      "scale-shot",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_3",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:space_temple",
+        "rate": "0.0"
+      }
+    }
+  ]
+}

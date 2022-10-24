@@ -1,0 +1,195 @@
+{
+  "name": "ducklett",
+  "id": 580,
+  "stock": true,
+  "base_experience": 61,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 5.5,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 62,
+    "attack": 44,
+    "defense": 50,
+    "special_attack": 44,
+    "special_defense": 50,
+    "speed": 55
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "water",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "keen-eye",
+      "big-pecks"
+    ],
+    "hidden": [
+      "hydration"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 9,
+        "moves": [
+          "wing-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "feather-dance"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "water-sport"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "roost"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "tailwind"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "aqua-ring"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "brave-bird"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "defog"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "hurricane"
+        ]
+      }
+    ],
+    "misc": [
+      "gust",
+      "wing-attack",
+      "fly",
+      "water-gun",
+      "surf",
+      "ice-beam",
+      "bubble-beam",
+      "toxic",
+      "double-team",
+      "mirror-move",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "icy-wind",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "uproar",
+      "hail",
+      "facade",
+      "endeavor",
+      "secret-power",
+      "dive",
+      "feather-dance",
+      "mud-sport",
+      "air-cutter",
+      "aerial-ace",
+      "water-sport",
+      "water-pulse",
+      "roost",
+      "brine",
+      "pluck",
+      "tailwind",
+      "lucky-chant",
+      "me-first",
+      "aqua-ring",
+      "air-slash",
+      "brave-bird",
+      "defog",
+      "aqua-jet",
+      "round",
+      "scald",
+      "hurricane",
+      "confide",
+      "liquidation"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_1",
+  "evolutions": [
+    {
+      "name": "swanna",
+      "level": 35
+    }
+  ]
+}

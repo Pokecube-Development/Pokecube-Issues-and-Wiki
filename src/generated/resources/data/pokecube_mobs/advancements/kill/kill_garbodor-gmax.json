@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.garbodor-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.garbodor-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_garbodor-gmax": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "garbodor-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,165 @@
+{
+  "name": "staraptor",
+  "id": 398,
+  "stock": true,
+  "base_experience": 218,
+  "size": {
+    "height": 1.2,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 24.9,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 85,
+    "attack": 120,
+    "defense": 70,
+    "special_attack": 50,
+    "special_defense": 60,
+    "speed": 100
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "normal",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "intimidate"
+    ],
+    "hidden": [
+      "reckless"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "wing-attack",
+          "tackle",
+          "growl",
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "whirlwind"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "double-team"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "endeavor"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "brave-bird"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "final-gambit"
+        ]
+      }
+    ],
+    "misc": [
+      "wing-attack",
+      "whirlwind",
+      "fly",
+      "tackle",
+      "take-down",
+      "growl",
+      "hyper-beam",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "double-team",
+      "swift",
+      "sky-attack",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "mud-slap",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "uproar",
+      "heat-wave",
+      "facade",
+      "endeavor",
+      "secret-power",
+      "air-cutter",
+      "aerial-ace",
+      "roost",
+      "natural-gift",
+      "pluck",
+      "tailwind",
+      "u-turn",
+      "close-combat",
+      "brave-bird",
+      "giga-impact",
+      "defog",
+      "captivate",
+      "ominous-wind",
+      "round",
+      "echoed-voice",
+      "retaliate",
+      "final-gambit",
+      "work-up",
+      "confide",
+      "laser-focus"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_3"
+}

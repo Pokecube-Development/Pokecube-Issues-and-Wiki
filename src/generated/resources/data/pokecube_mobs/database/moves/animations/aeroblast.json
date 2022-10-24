@@ -1,0 +1,35 @@
+{
+  "name": "aeroblast",
+  "animations": [
+    {
+      "preset": "throw:atrue:w1.3:~aeroblast",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.megaattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    },
+    {
+      "preset": "cartFunc:pcloud:atrue:d0.5:w3.5:l40:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~aeroblast",
+      "duration": "5",
+      "starttick": "5",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8
+    },
+    {
+      "preset": "flow:w0.8:atrue:~aeroblast",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.gustwind",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

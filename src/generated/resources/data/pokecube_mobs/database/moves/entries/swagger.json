@@ -1,0 +1,16 @@
+{
+  "name": "swagger",
+  "id": 207,
+  "pp": 15,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 85,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user enrages and confuses the target. However,\nthis also sharply raises the target’s Attack stat.",
+  "move_category": "swagger",
+  "max_turns": 5,
+  "min_turns": 2,
+  "effect_text_extend": "Raises the target's Attack by two stages, then confuses it.  If the target's Attack cannot be raised by two stages, the confusion is not applied.",
+  "effect_text_simple": "Raises the target's Attack by two stages and confuses the target."
+}

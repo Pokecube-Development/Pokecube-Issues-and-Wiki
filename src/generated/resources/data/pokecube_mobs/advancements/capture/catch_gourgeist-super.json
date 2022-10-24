@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.gourgeist-super"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gourgeist-super"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_gourgeist-super": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "gourgeist-super"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

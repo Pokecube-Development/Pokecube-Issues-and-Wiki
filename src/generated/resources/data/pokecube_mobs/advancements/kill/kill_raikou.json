@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.raikou"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.raikou"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_raikou": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "raikou"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

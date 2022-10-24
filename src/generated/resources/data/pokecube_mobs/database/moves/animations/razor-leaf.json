@@ -1,0 +1,25 @@
+{
+  "name": "razorleaf",
+  "animations": [
+    {
+      "preset": "flow:pmisc:w0.5:d0.33:~razorleaf",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.gustwind",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:psweep_attack:d3:~razorleaf",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.cut",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

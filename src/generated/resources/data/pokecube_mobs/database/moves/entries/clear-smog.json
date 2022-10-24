@@ -1,0 +1,14 @@
+{
+  "name": "clear-smog",
+  "id": 499,
+  "power": 50,
+  "pp": 15,
+  "priority": 0,
+  "type": "poison",
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user attacks by throwing a clump of special\nmud. All stat changes are returned to normal.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  All of the target's stat modifiers are reset to zero.",
+  "effect_text_simple": "Removes all of the target's stat modifiers."
+}

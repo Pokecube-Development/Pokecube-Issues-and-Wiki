@@ -1,0 +1,18 @@
+{
+  "name": "sky-attack",
+  "id": 143,
+  "power": 140,
+  "pp": 5,
+  "priority": 0,
+  "type": "flying",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "A second-turn attack move where critical hits land\nmore easily. This may also make the target flinch.",
+  "move_category": "damage",
+  "flinch_chance": 30,
+  "crit_rate": 1,
+  "effect_text_extend": "Inflicts regular damage.  User charges for one turn before attacking.  Critical hit chance is one level higher than normal.  Has a $effect_chance% chance to make the target flinch.\n\nThis move cannot be selected by sleep talk.",
+  "effect_text_simple": "User charges for one turn before attacking.  Has a $effect_chance% chance to make the target flinch.",
+  "effect_chance": 30
+}

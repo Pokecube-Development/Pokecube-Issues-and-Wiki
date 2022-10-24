@@ -1,0 +1,16 @@
+{
+  "name": "toxic",
+  "id": 92,
+  "pp": 10,
+  "priority": 0,
+  "type": "poison",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "A move that leaves the target badly poisoned.\nIts poison damage worsens every turn.",
+  "move_category": "ailment",
+  "max_turns": 15,
+  "min_turns": 15,
+  "effect_text_extend": "Badly poisons the target.  Never misses when used by a poison-type Pokémon.",
+  "effect_text_simple": "Badly poisons the target, inflicting more damage every turn."
+}

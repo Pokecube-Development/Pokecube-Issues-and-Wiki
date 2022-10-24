@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.gyarados-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gyarados-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_gyarados-mega": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "gyarados-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

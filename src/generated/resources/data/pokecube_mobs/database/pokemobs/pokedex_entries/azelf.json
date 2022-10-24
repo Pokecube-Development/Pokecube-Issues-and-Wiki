@@ -1,0 +1,211 @@
+{
+  "name": "azelf",
+  "id": 482,
+  "stock": true,
+  "base_experience": 290,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 0.3,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 140,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 75,
+    "attack": 125,
+    "defense": 70,
+    "special_attack": 125,
+    "special_defense": 70,
+    "speed": 115
+  },
+  "evs": {
+    "attack": 2,
+    "special_attack": 1
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 21,
+        "moves": [
+          "psybeam",
+          "swift"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "confusion",
+          "rest",
+          "natural-gift",
+          "last-resort"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 76,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "detect"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "uproar"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "imprison"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "nasty-plot"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "headbutt",
+      "flamethrower",
+      "hyper-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "confusion",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "metronome",
+      "self-destruct",
+      "fire-blast",
+      "swift",
+      "dream-eater",
+      "flash",
+      "explosion",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "detect",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "baton-pass",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "uproar",
+      "torment",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "knock-off",
+      "skill-swap",
+      "imprison",
+      "secret-power",
+      "signal-beam",
+      "extrasensory",
+      "calm-mind",
+      "shock-wave",
+      "water-pulse",
+      "natural-gift",
+      "u-turn",
+      "payback",
+      "assurance",
+      "fling",
+      "last-resort",
+      "drain-punch",
+      "energy-ball",
+      "giga-impact",
+      "nasty-plot",
+      "psycho-cut",
+      "zen-headbutt",
+      "trick-room",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "incinerate",
+      "acrobatics",
+      "draining-kiss",
+      "play-rough",
+      "confide",
+      "dazzling-gleam",
+      "power-up-punch",
+      "laser-focus",
+      "expanding-force"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple",
+        "rate": "0.0"
+      }
+    }
+  ]
+}

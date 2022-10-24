@@ -1,0 +1,10 @@
+{
+  "name": "safeguard",
+  "animations": [
+    {
+      "preset": "pons:pspell:cwhite:d1:w1:l5:~safeguard",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

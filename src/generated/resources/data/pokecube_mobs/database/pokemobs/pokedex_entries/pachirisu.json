@@ -1,0 +1,203 @@
+{
+  "name": "pachirisu",
+  "id": 417,
+  "stock": true,
+  "base_experience": 142,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 3.9,
+  "is_default": true,
+  "capture_rate": 200,
+  "base_happiness": 100,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 45,
+    "defense": 70,
+    "special_attack": 45,
+    "special_defense": 90,
+    "speed": 95
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "run-away",
+      "pickup"
+    ],
+    "hidden": [
+      "volt-absorb"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "growl",
+          "bide"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "hyper-fang"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "super-fang"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "sweet-kiss"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "last-resort"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "electro-ball"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "nuzzle"
+        ]
+      }
+    ],
+    "misc": [
+      "thunder-punch",
+      "cut",
+      "headbutt",
+      "tail-whip",
+      "bite",
+      "growl",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "toxic",
+      "quick-attack",
+      "double-team",
+      "defense-curl",
+      "light-screen",
+      "bide",
+      "swift",
+      "flash",
+      "rest",
+      "hyper-fang",
+      "super-fang",
+      "substitute",
+      "snore",
+      "flail",
+      "protect",
+      "sweet-kiss",
+      "mud-slap",
+      "endure",
+      "charm",
+      "rollout",
+      "swagger",
+      "spark",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "uproar",
+      "flatter",
+      "facade",
+      "follow-me",
+      "charge",
+      "helping-hand",
+      "secret-power",
+      "fake-tears",
+      "covet",
+      "shock-wave",
+      "natural-gift",
+      "u-turn",
+      "fling",
+      "last-resort",
+      "magnet-rise",
+      "seed-bomb",
+      "discharge",
+      "gunk-shot",
+      "captivate",
+      "grass-knot",
+      "charge-beam",
+      "electro-ball",
+      "round",
+      "echoed-voice",
+      "bestow",
+      "volt-switch",
+      "electroweb",
+      "ion-deluge",
+      "confide",
+      "baby-doll-eyes",
+      "nuzzle",
+      "laser-focus"
+    ]
+  },
+  "loot_table": "pokecube:entities/redstone_rabbit_1"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "volttackle",
+  "animations": [
+    {
+      "preset": "throw:atrue:w1.66:~volttackle",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "powder:pmisc:d0.05:w0.33:l5:~volttackle",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.thunderwave",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4
+    }
+  ]
+}

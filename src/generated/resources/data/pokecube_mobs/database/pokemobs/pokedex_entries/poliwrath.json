@@ -1,0 +1,193 @@
+{
+  "name": "poliwrath",
+  "id": 62,
+  "stock": true,
+  "base_experience": 255,
+  "size": {
+    "height": 1.3,
+    "width": 1.3,
+    "length": 1.3
+  },
+  "mass": 54.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 90,
+    "attack": 95,
+    "defense": 95,
+    "special_attack": 70,
+    "special_defense": 90,
+    "speed": 70
+  },
+  "evs": {
+    "defense": 3
+  },
+  "types": [
+    "water",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "water-absorb",
+      "damp"
+    ],
+    "hidden": [
+      "swift-swim"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "double-slap",
+          "body-slam",
+          "double-edge",
+          "mist",
+          "water-gun",
+          "hydro-pump",
+          "bubble-beam",
+          "hypnosis",
+          "haze",
+          "bubble",
+          "belly-drum",
+          "rain-dance",
+          "bulk-up",
+          "mud-shot",
+          "earth-power",
+          "circle-throw"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "submission"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "mind-reader"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "dynamic-punch"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "superpower"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "double-slap",
+      "mega-punch",
+      "ice-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "hyper-beam",
+      "submission",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "psychic",
+      "hypnosis",
+      "rage",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "bide",
+      "metronome",
+      "waterfall",
+      "skull-bash",
+      "psywave",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "mind-reader",
+      "snore",
+      "curse",
+      "reversal",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "detect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "encore",
+      "hidden-power",
+      "rain-dance",
+      "rock-smash",
+      "whirlpool",
+      "hail",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "superpower",
+      "brick-break",
+      "endeavor",
+      "secret-power",
+      "dive",
+      "rock-tomb",
+      "muddy-water",
+      "bulk-up",
+      "mud-shot",
+      "water-pulse",
+      "natural-gift",
+      "close-combat",
+      "payback",
+      "fling",
+      "poison-jab",
+      "drain-punch",
+      "vacuum-wave",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "rock-climb",
+      "captivate",
+      "low-sweep",
+      "round",
+      "scald",
+      "circle-throw",
+      "bulldoze",
+      "work-up",
+      "dual-chop",
+      "confide",
+      "power-up-punch",
+      "darkest-lariat",
+      "high-horsepower",
+      "throat-chop",
+      "liquidation",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/slimeballs_2"
+}

@@ -1,0 +1,205 @@
+{
+  "name": "stunfisk",
+  "id": 618,
+  "stock": true,
+  "base_experience": 165,
+  "size": {
+    "height": 0.2,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 11.0,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 109,
+    "attack": 66,
+    "defense": 84,
+    "special_attack": 81,
+    "special_defense": 99,
+    "speed": 32
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "ground",
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "static",
+      "limber"
+    ],
+    "hidden": [
+      "sand-veil"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "water-gun",
+          "fissure",
+          "flail",
+          "mud-slap",
+          "mud-sport"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "thunder-shock"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "thunderbolt"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "bide"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "endure",
+          "electric-terrain"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "charge"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "revenge"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "camouflage"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "muddy-water"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "mud-shot"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "sucker-punch",
+          "discharge"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "mud-bomb"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "water-gun",
+      "surf",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "double-team",
+      "bide",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "flail",
+      "spite",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "spark",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "hidden-power",
+      "rain-dance",
+      "uproar",
+      "facade",
+      "revenge",
+      "yawn",
+      "endeavor",
+      "secret-power",
+      "camouflage",
+      "mud-sport",
+      "astonish",
+      "rock-tomb",
+      "muddy-water",
+      "bounce",
+      "mud-shot",
+      "shock-wave",
+      "water-pulse",
+      "payback",
+      "me-first",
+      "magnet-rise",
+      "aqua-tail",
+      "earth-power",
+      "mud-bomb",
+      "discharge",
+      "stone-edge",
+      "stealth-rock",
+      "sludge-wave",
+      "foul-play",
+      "round",
+      "scald",
+      "reflect-type",
+      "bulldoze",
+      "electroweb",
+      "confide",
+      "eerie-impulse",
+      "electric-terrain",
+      "infestation",
+      "stomping-tantrum",
+      "lash-out"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1"
+}

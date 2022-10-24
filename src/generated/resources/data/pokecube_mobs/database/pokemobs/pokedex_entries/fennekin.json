@@ -1,0 +1,199 @@
+{
+  "name": "fennekin",
+  "id": 653,
+  "stock": true,
+  "base_experience": 61,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 9.4,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 40,
+    "attack": 45,
+    "defense": 40,
+    "special_attack": 62,
+    "special_defense": 60,
+    "speed": 60
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "magician"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "ember"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "fire-spin"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "fire-blast"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "sunny-day"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "will-o-wisp"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "howl"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "psyshock"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "magic-room"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "flame-charge"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "cut",
+      "tail-whip",
+      "ember",
+      "flamethrower",
+      "psybeam",
+      "solar-beam",
+      "fire-spin",
+      "toxic",
+      "psychic",
+      "hypnosis",
+      "double-team",
+      "light-screen",
+      "fire-blast",
+      "dream-eater",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "wish",
+      "magic-coat",
+      "secret-power",
+      "overheat",
+      "howl",
+      "covet",
+      "embargo",
+      "lucky-chant",
+      "grass-knot",
+      "psyshock",
+      "magic-room",
+      "flame-charge",
+      "foul-play",
+      "round",
+      "echoed-voice",
+      "incinerate",
+      "fire-pledge",
+      "work-up",
+      "confide",
+      "power-up-punch",
+      "psychic-terrain"
+    ]
+  },
+  "loot_table": "pokecube:entities/coal_rabbit_1",
+  "evolutions": [
+    {
+      "name": "braixen",
+      "level": 16,
+      "animation": "55"
+    }
+  ]
+}

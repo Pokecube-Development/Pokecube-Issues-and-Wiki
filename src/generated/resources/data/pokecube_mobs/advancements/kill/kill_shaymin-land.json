@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.shaymin-land"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.shaymin-land"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_shaymin-land": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "shaymin-land"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

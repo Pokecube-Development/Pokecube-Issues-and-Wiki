@@ -1,0 +1,13 @@
+{
+  "name": "swords-dance",
+  "id": 14,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "A frenetic dance to uplift the fighting spirit.\nThis sharply raises the user’s Attack stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises the user's Attack by two stages.",
+  "effect_text_simple": "Raises the user's Attack by two stages."
+}

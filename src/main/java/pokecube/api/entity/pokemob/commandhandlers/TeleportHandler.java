@@ -17,7 +17,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.TeleportEvent;
-import pokecube.api.moves.IMoveNames;
+import pokecube.api.moves.utils.IMoveNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerData;

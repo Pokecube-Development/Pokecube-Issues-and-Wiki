@@ -1,0 +1,100 @@
+{
+  "name": "vcreate",
+  "animations": [
+    {
+      "preset": "cartFunc:plava:rtrue:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.sacredfire",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:pcrit:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "duration": "5",
+      "starttick": "0",
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:plava:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "duration": "5",
+      "starttick": "2",
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 2.0,
+      "pitch": 1.0,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:plava:w2:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 2.0,
+      "pitch": 1.2,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:plava:w3:l30:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "duration": "5",
+      "starttick": "6",
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 2.0,
+      "pitch": 1.4,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:l3:w1.5:pflame:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "duration": "5",
+      "starttick": "3",
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pflame:l30:w3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "duration": "5",
+      "starttick": "5",
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pend_rod:l3:w3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "duration": "5",
+      "starttick": "5",
+      "sound": "pokecube:moves.payday",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 2.0,
+      "pitch": 1.2,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pexplosion:d2:l10:w3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "duration": "5",
+      "starttick": "7",
+      "sound": "minecraft:entity.generic.explode",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 2.0,
+      "pitch": 1.5,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pcloud:d1.5:l40:w4:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "duration": "5",
+      "starttick": "7",
+      "sound": "pokecube:moves.payday",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 2.0,
+      "pitch": 2.0,
+      "applyAfter": false
+    }
+  ]
+}

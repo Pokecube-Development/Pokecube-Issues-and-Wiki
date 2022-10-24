@@ -1,0 +1,20 @@
+{
+  "name": "heatwave",
+  "animations": [
+    {
+      "preset": "flow:pflame:d0.5:w4:l15:~heatwave",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.sacredfire",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4
+    },
+    {
+      "preset": "flow:plava:d0.5:w4:l5:~heatwave",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

@@ -1,0 +1,165 @@
+{
+  "name": "trumbeak",
+  "id": 732,
+  "stock": true,
+  "base_experience": 124,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 14.8,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 55,
+    "attack": 85,
+    "defense": 50,
+    "special_attack": 40,
+    "special_defense": 50,
+    "speed": 75
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "normal",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "keen-eye",
+      "skill-link"
+    ],
+    "hidden": [
+      "pickup"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 24,
+        "moves": [
+          "fury-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "growl",
+          "peck",
+          "rock-smash",
+          "rock-blast",
+          "echoed-voice"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "supersonic"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "drill-peck"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "feather-dance"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "hyper-voice"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "bullet-seed"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "roost"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "pluck"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "fly",
+      "fury-attack",
+      "growl",
+      "supersonic",
+      "peck",
+      "drill-peck",
+      "toxic",
+      "screech",
+      "double-team",
+      "sky-attack",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "uproar",
+      "heat-wave",
+      "brick-break",
+      "knock-off",
+      "feather-dance",
+      "hyper-voice",
+      "bullet-seed",
+      "aerial-ace",
+      "rock-blast",
+      "roost",
+      "pluck",
+      "tailwind",
+      "u-turn",
+      "defog",
+      "gunk-shot",
+      "smack-down",
+      "flame-charge",
+      "round",
+      "echoed-voice",
+      "work-up",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_2",
+  "evolutions": [
+    {
+      "name": "toucannon",
+      "level": 28,
+      "evoMoves": "beakblast"
+    }
+  ]
+}

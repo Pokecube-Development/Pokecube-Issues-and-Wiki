@@ -1,0 +1,184 @@
+{
+  "name": "bayleef",
+  "id": 153,
+  "stock": true,
+  "base_experience": 142,
+  "size": {
+    "height": 1.2,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 15.8,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 60,
+    "attack": 62,
+    "defense": 80,
+    "special_attack": 63,
+    "special_defense": 80,
+    "speed": 60
+  },
+  "evs": {
+    "defense": 1,
+    "special_defense": 1
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "leaf-guard"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl",
+          "razor-leaf",
+          "poison-powder"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "reflect"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "natural-gift"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "growl",
+      "counter",
+      "strength",
+      "razor-leaf",
+      "solar-beam",
+      "poison-powder",
+      "toxic",
+      "mimic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "detect",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "sweet-scent",
+      "iron-tail",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "ancient-power",
+      "rock-smash",
+      "facade",
+      "nature-power",
+      "magic-coat",
+      "secret-power",
+      "aromatherapy",
+      "bullet-seed",
+      "magical-leaf",
+      "natural-gift",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "captivate",
+      "grass-knot",
+      "round",
+      "echoed-voice",
+      "grass-pledge",
+      "work-up",
+      "confide",
+      "laser-focus"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_2",
+  "evolutions": [
+    {
+      "name": "meganium",
+      "level": 32,
+      "animation": "18",
+      "evoMoves": "petaldance"
+    }
+  ]
+}

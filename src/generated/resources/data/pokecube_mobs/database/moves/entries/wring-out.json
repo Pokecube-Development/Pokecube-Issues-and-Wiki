@@ -1,0 +1,14 @@
+{
+  "name": "wring-out",
+  "id": 378,
+  "pp": 5,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user powerfully wrings the target. The more HP\nthe target has, the greater the move’s power.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Power directly relates to the target's relative remaining HP, given by `1 + 120 * current HP / max HP`, to a maximum of 121.",
+  "effect_text_simple": "Power increases against targets with more HP remaining, up to a maximum of 121 power."
+}

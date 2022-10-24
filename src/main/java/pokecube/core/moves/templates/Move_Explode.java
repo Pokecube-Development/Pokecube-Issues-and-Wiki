@@ -18,8 +18,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Explosion;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.level.ExplosionEvent;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -27,10 +25,9 @@ import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.IMoveAnimation;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.init.Config;
 import pokecube.core.moves.MovesUtils;
@@ -72,8 +69,8 @@ public class Move_Explode extends Move_Basic
             if (this.move.move.change != IMoveConstants.CHANGE_NONE
                     && MovesUtils.rand.nextFloat() <= this.move.move.chanceChance)
                 changeAddition = this.move.move.change;
-            final MovePacket packet = new MovePacket(this.user, living, this.move.name, this.move.getType(this.user),
-                    this.move.getPWR(this.user, living), this.move.move.crit, statusChange, changeAddition);
+            final MovePacket packet = new MovePacket(this.user, living, this.move.name, this.move.move.getType(this.user),
+                    this.move.move.getPWR(this.user, living), this.move.move.crit, statusChange, changeAddition);
             this.move.onAttack(packet);
         }
 
@@ -110,15 +107,15 @@ public class Move_Explode extends Move_Basic
         {
             for (final Entity e : targets) if (e instanceof LivingEntity living)
             {
-                final MovePacket packet = new MovePacket(attacker, living, this.name, this.getType(attacker),
-                        this.getPWR(attacker, living), this.move.crit, IMoveConstants.STATUS_NON,
+                final MovePacket packet = new MovePacket(attacker, living, this.name, this.move.getType(attacker),
+                        this.move.getPWR(attacker, living), this.move.crit, IMoveConstants.STATUS_NON,
                         IMoveConstants.CHANGE_NONE);
                 packet.applyOngoing = false;
                 this.onAttack(packet);
             }
         }
         else MovesUtils.displayEfficiencyMessages(attacker, null, -1, 0);
-        this.doWorldAction(attacker, location);
+        this.move.doWorldAction(attacker, location);
     }
 
     @Override
@@ -149,7 +146,7 @@ public class Move_Explode extends Move_Basic
             return;
         }
         this.playSounds(mob, attacked, null);
-        final float f1 = (float) (this.getPWR(pokemob, attacked) * PokecubeCore.getConfig().blastStrength
+        final float f1 = (float) (this.move.getPWR(pokemob, attacked) * PokecubeCore.getConfig().blastStrength
                 * pokemob.getStat(Stats.ATTACK, true) / 500000f);
 
         final ExplosionCustom boom = MovesUtils.newExplosion(mob, mob.getX(), mob.getY(), mob.getZ(), f1);
@@ -169,7 +166,7 @@ public class Move_Explode extends Move_Basic
                 mob.getLevel().playSound((Player) null, mob.getX(), mob.getY(), mob.getZ(), SoundEvents.GENERIC_EXPLODE,
                         SoundSource.BLOCKS, 4.0F,
                         (1.0F + (mob.getLevel().random.nextFloat() - mob.getLevel().random.nextFloat()) * 0.2F) * 0.7F);
-                if (this.getPWR() > 200) mob.getLevel().addParticle(ParticleTypes.EXPLOSION, mob.getX(), mob.getY(),
+                if (this.move.getPWR() > 200) mob.getLevel().addParticle(ParticleTypes.EXPLOSION, mob.getX(), mob.getY(),
                         mob.getZ(), 1.0D, 0.0D, 0.0D);
                 else mob.getLevel().addParticle(ParticleTypes.EXPLOSION, mob.getX(), mob.getY(), mob.getZ(), 1.0D, 0.0D,
                         0.0D);
@@ -182,13 +179,6 @@ public class Move_Explode extends Move_Basic
             // Now we kill the user via a damage source.
             mob.hurt(Move_Explode.SELFBOOM, mob.getMaxHealth() * 1e5f);
         }
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public IMoveAnimation getAnimation()
-    {
-        return null;
     }
 
     @Override

@@ -27,7 +27,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.IMoveAction;
+import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.recipes.PokemobMoveRecipeParser;
 import pokecube.core.database.recipes.PokemobMoveRecipeParser.MoveMatcher;
@@ -252,7 +252,7 @@ public class MoveRecipes
             {
                 final RecipeMove loaded = new RecipeMove(recipe);
                 if (!loaded.actions.isEmpty()) RecipeMove.CUSTOM.put(id, recipe);
-                for (final IMoveAction action : loaded.actions) PokemobMoveRecipeParser.addOrMergeActions(action);
+                for (final IMoveWorldEffect action : loaded.actions) PokemobMoveRecipeParser.addOrMergeActions(action);
             }
             return recipe;
         }
@@ -269,7 +269,7 @@ public class MoveRecipes
             {
                 final RecipeMove loaded = new RecipeMove(recipe);
                 if (!loaded.actions.isEmpty()) RecipeMove.CUSTOM.put(id, recipe);
-                for (final IMoveAction action : loaded.actions) PokemobMoveRecipeParser.addOrMergeActions(action);
+                for (final IMoveWorldEffect action : loaded.actions) PokemobMoveRecipeParser.addOrMergeActions(action);
             }
             return recipe;
         }

@@ -1,0 +1,18 @@
+{
+  "name": "fire-fang",
+  "id": 424,
+  "power": 65,
+  "pp": 15,
+  "priority": 0,
+  "type": "fire",
+  "accuracy": 95,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user bites with flame-cloaked fangs. This may\nalso make the target flinch or leave it with a burn.",
+  "move_category": "damage+ailment",
+  "flinch_chance": 10,
+  "ailment_chance": 10,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to burn the target and a separate $effect_chance% chance to make the target flinch.",
+  "effect_text_simple": "Has a $effect_chance% chance to burn the target and a $effect_chance% chance to make the target flinch.",
+  "effect_chance": 10
+}

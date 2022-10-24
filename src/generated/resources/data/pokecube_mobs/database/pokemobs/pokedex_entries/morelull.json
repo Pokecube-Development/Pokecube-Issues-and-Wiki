@@ -1,0 +1,195 @@
+{
+  "name": "morelull",
+  "id": 755,
+  "stock": true,
+  "base_experience": 57,
+  "size": {
+    "height": 0.2,
+    "width": 0.2,
+    "length": 0.2
+  },
+  "mass": 1.5,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 40,
+    "attack": 35,
+    "defense": 55,
+    "special_attack": 65,
+    "special_defense": 75,
+    "speed": 15
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "grass",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "illuminate",
+      "effect-spore"
+    ],
+    "hidden": [
+      "rain-dish"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "absorb"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "sleep-powder"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "dream-eater"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "spore"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "flash"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "moonlight"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "ingrain"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "astonish"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "moonblast"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "dazzling-gleam",
+          "strength-sap"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "spotlight"
+        ]
+      }
+    ],
+    "misc": [
+      "absorb",
+      "mega-drain",
+      "leech-seed",
+      "growth",
+      "solar-beam",
+      "poison-powder",
+      "stun-spore",
+      "sleep-powder",
+      "thunder-wave",
+      "toxic",
+      "double-team",
+      "confuse-ray",
+      "light-screen",
+      "amnesia",
+      "dream-eater",
+      "spore",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "sludge-bomb",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "synthesis",
+      "moonlight",
+      "hidden-power",
+      "sunny-day",
+      "facade",
+      "nature-power",
+      "ingrain",
+      "magic-coat",
+      "recycle",
+      "astonish",
+      "signal-beam",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "grass-knot",
+      "wonder-room",
+      "magic-room",
+      "after-you",
+      "round",
+      "draining-kiss",
+      "moonblast",
+      "confide",
+      "dazzling-gleam",
+      "strength-sap",
+      "spotlight",
+      "pollen-puff"
+    ]
+  },
+  "loot_table": "pokecube:entities/both_shrooms_1",
+  "evolutions": [
+    {
+      "name": "shiinotic",
+      "level": 24
+    }
+  ]
+}

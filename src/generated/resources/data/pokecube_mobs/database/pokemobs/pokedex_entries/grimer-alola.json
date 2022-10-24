@@ -1,0 +1,227 @@
+{
+  "name": "grimer-alola",
+  "id": 88,
+  "stock": true,
+  "base_experience": 65,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 42.0,
+  "is_default": false,
+  "capture_rate": 190,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 80,
+    "attack": 80,
+    "defense": 50,
+    "special_attack": 40,
+    "special_defense": 50,
+    "speed": 25
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "poison",
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "poison-touch",
+      "gluttony"
+    ],
+    "hidden": [
+      "power-of-alchemy"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "poison-gas"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "disable"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "harden"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "minimize"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "acid-armor"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "sludge-bomb",
+          "memento"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "poison-fang"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "fling"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "gunk-shot"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "acid-spray"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "belch"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "headbutt",
+      "bite",
+      "disable",
+      "flamethrower",
+      "mega-drain",
+      "dig",
+      "toxic",
+      "screech",
+      "double-team",
+      "harden",
+      "minimize",
+      "self-destruct",
+      "fire-blast",
+      "poison-gas",
+      "acid-armor",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "spite",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "giga-drain",
+      "swagger",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "pursuit",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "shadow-ball",
+      "stockpile",
+      "spit-up",
+      "swallow",
+      "torment",
+      "memento",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "knock-off",
+      "imprison",
+      "poison-fang",
+      "rock-tomb",
+      "shock-wave",
+      "payback",
+      "assurance",
+      "embargo",
+      "fling",
+      "gastro-acid",
+      "rock-polish",
+      "poison-jab",
+      "shadow-sneak",
+      "gunk-shot",
+      "stone-edge",
+      "venoshock",
+      "sludge-wave",
+      "acid-spray",
+      "round",
+      "clear-smog",
+      "quash",
+      "snarl",
+      "belch",
+      "confide",
+      "infestation",
+      "power-up-punch",
+      "brutal-swing"
+    ]
+  },
+  "loot_table": "pokecube:entities/slimeballs_1",
+  "evolutions": [
+    {
+      "name": "muk-alola",
+      "level": 38,
+      "evoMoves": "venomdrench"
+    }
+  ],
+  "old_name": "grimer_alola"
+}

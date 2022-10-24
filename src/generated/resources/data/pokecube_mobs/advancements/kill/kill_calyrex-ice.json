@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.calyrex-ice"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.calyrex-ice"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_calyrex-ice": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "calyrex-ice"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

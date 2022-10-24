@@ -1,0 +1,231 @@
+{
+  "name": "roselia",
+  "id": 315,
+  "stock": true,
+  "base_experience": 140,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 2.0,
+  "is_default": true,
+  "capture_rate": 150,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 50,
+    "attack": 60,
+    "defense": 45,
+    "special_attack": 100,
+    "special_defense": 80,
+    "speed": 65
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "grass",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "natural-cure",
+      "poison-point"
+    ],
+    "hidden": [
+      "leaf-guard"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 7,
+        "moves": [
+          "poison-sting"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "absorb",
+          "worry-seed"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "stun-spore"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "petal-dance"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "ingrain"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "grass-whistle"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "toxic-spikes"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "petal-blizzard"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "body-slam",
+      "double-edge",
+      "poison-sting",
+      "pin-missile",
+      "absorb",
+      "mega-drain",
+      "leech-seed",
+      "growth",
+      "razor-leaf",
+      "solar-beam",
+      "stun-spore",
+      "sleep-powder",
+      "petal-dance",
+      "toxic",
+      "mimic",
+      "double-team",
+      "swift",
+      "flash",
+      "rest",
+      "substitute",
+      "mind-reader",
+      "nightmare",
+      "snore",
+      "cotton-spore",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "spikes",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "uproar",
+      "facade",
+      "nature-power",
+      "ingrain",
+      "secret-power",
+      "weather-ball",
+      "aromatherapy",
+      "grass-whistle",
+      "extrasensory",
+      "bullet-seed",
+      "covet",
+      "magical-leaf",
+      "natural-gift",
+      "worry-seed",
+      "toxic-spikes",
+      "poison-jab",
+      "seed-bomb",
+      "energy-ball",
+      "leaf-storm",
+      "power-whip",
+      "captivate",
+      "grass-knot",
+      "venoshock",
+      "round",
+      "petal-blizzard",
+      "confide",
+      "dazzling-gleam",
+      "life-dew",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_2",
+  "evolutions": [
+    {
+      "name": "roserade",
+      "item_preset": "shinystone"
+    }
+  ]
+}

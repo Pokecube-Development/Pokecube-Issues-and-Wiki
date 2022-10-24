@@ -1,0 +1,234 @@
+{
+  "name": "inkay",
+  "id": 686,
+  "stock": true,
+  "base_experience": 58,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 3.5,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 53,
+    "attack": 54,
+    "defense": 53,
+    "special_attack": 37,
+    "special_defense": 46,
+    "speed": 45
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "dark",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "contrary",
+      "suction-cups"
+    ],
+    "hidden": [
+      "infiltrator"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "peck",
+          "constrict"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "wrap"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "reflect"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "psywave"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "pluck"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "switcheroo"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "psycho-cut"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "foul-play"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "topsy-turvy"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "bind",
+      "tackle",
+      "disable",
+      "flamethrower",
+      "psybeam",
+      "peck",
+      "thunderbolt",
+      "toxic",
+      "psychic",
+      "hypnosis",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "constrict",
+      "flash",
+      "psywave",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "destiny-bond",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "baton-pass",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "future-sight",
+      "torment",
+      "flatter",
+      "facade",
+      "taunt",
+      "role-play",
+      "superpower",
+      "knock-off",
+      "snatch",
+      "secret-power",
+      "camouflage",
+      "fake-tears",
+      "aerial-ace",
+      "calm-mind",
+      "pluck",
+      "acupressure",
+      "payback",
+      "embargo",
+      "fling",
+      "guard-swap",
+      "dark-pulse",
+      "night-slash",
+      "switcheroo",
+      "nasty-plot",
+      "psycho-cut",
+      "trick-room",
+      "power-split",
+      "telekinesis",
+      "foul-play",
+      "simple-beam",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "retaliate",
+      "topsy-turvy",
+      "confide",
+      "liquidation",
+      "expanding-force",
+      "lash-out"
+    ]
+  },
+  "loot_table": "minecraft:entities/squid",
+  "evolutions": [
+    {
+      "name": "malamar",
+      "level": 30
+    }
+  ]
+}

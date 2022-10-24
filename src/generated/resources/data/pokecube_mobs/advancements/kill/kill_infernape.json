@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.infernape"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.infernape"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_infernape": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "infernape"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

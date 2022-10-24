@@ -19,7 +19,7 @@ import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.IMoveConstants.AIRoutine;
+import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.nest.Edge;

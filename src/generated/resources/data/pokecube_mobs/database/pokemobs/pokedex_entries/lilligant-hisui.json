@@ -1,0 +1,130 @@
+{
+  "name": "lilligant-hisui",
+  "id": 549,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 1.2,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 19.2,
+  "is_default": false,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 70,
+    "attack": 105,
+    "defense": 75,
+    "special_attack": 50,
+    "special_defense": 75,
+    "speed": 105
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "grass",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "chlorophyll",
+      "hustle"
+    ],
+    "hidden": [
+      "leaf-guard"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 9,
+        "moves": [
+          "absorb"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "leafage"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "stun-spore"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "poison-powder"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "sleep-powder"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "drain-punch"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "recover",
+          "leaf-blade"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": []
+      },
+      {
+        "L": 59,
+        "moves": [
+          "leaf-storm"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "petal-dance"
+        ]
+      },
+      {
+        "L": 71,
+        "moves": [
+          "close-combat"
+        ]
+      }
+    ],
+    "misc": [
+      "rock-smash",
+      "aerial-ace",
+      "magical-leaf",
+      "focus-energy",
+      "rest",
+      "baby-doll-eyes",
+      "drain-punch",
+      "poison-jab",
+      "energy-ball",
+      "giga-impact",
+      "hyper-beam"
+    ]
+  },
+  "old_name": "lilligant_hisui"
+}

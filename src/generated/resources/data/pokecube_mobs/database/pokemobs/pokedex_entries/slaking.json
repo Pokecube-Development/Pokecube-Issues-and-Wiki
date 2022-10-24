@@ -1,0 +1,215 @@
+{
+  "name": "slaking",
+  "id": 289,
+  "stock": true,
+  "base_experience": 252,
+  "size": {
+    "height": 2.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 130.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 150,
+    "attack": 160,
+    "defense": 100,
+    "special_attack": 95,
+    "special_defense": 65,
+    "speed": 100
+  },
+  "evs": {
+    "hp": 3
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "truant"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "encore",
+          "yawn",
+          "slack-off",
+          "hammer-arm",
+          "fling",
+          "punishment"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "counter"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "covet"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "chip-away"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "scratch",
+      "cut",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "roar",
+      "flamethrower",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "mimic",
+      "double-team",
+      "fire-blast",
+      "amnesia",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "flail",
+      "protect",
+      "feint-attack",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "encore",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "brick-break",
+      "yawn",
+      "secret-power",
+      "slack-off",
+      "rock-tomb",
+      "aerial-ace",
+      "block",
+      "bulk-up",
+      "covet",
+      "shock-wave",
+      "water-pulse",
+      "hammer-arm",
+      "natural-gift",
+      "fling",
+      "punishment",
+      "sucker-punch",
+      "focus-blast",
+      "giga-impact",
+      "shadow-claw",
+      "rock-climb",
+      "gunk-shot",
+      "captivate",
+      "hone-claws",
+      "smack-down",
+      "low-sweep",
+      "after-you",
+      "round",
+      "chip-away",
+      "incinerate",
+      "quash",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "confide",
+      "power-up-punch",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_3",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

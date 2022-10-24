@@ -1,0 +1,15 @@
+{
+  "name": "constrict",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d0.5:w1.1:l4:f(0.5-rand())*(1),(0.5-rand())*(3),(0.5-rand())*(1):~constrict",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.vicegrip",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    }
+  ]
+}

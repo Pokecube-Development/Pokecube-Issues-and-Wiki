@@ -1,0 +1,158 @@
+{
+  "name": "inteleon",
+  "id": 818,
+  "stock": true,
+  "base_experience": 265,
+  "size": {
+    "height": 1.9,
+    "width": 1.0,
+    "length": 1.1
+  },
+  "mass": 45.2,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 70,
+    "attack": 85,
+    "defense": 65,
+    "special_attack": 125,
+    "special_defense": 65,
+    "speed": 120
+  },
+  "evs": {
+    "speed": 3
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+      "sniper"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "bind",
+          "growl",
+          "water-gun",
+          "acrobatics"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "u-turn"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "soak"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "liquidation"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "tearful-look"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "snipe-shot"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "agility",
+      "light-screen",
+      "reflect",
+      "focus-energy",
+      "metronome",
+      "waterfall",
+      "swift",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "icy-wind",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "safeguard",
+      "baton-pass",
+      "rain-dance",
+      "shadow-ball",
+      "whirlpool",
+      "facade",
+      "dive",
+      "hydro-cannon",
+      "weather-ball",
+      "muddy-water",
+      "icicle-spear",
+      "bounce",
+      "mud-shot",
+      "u-turn",
+      "fling",
+      "dark-pulse",
+      "air-slash",
+      "giga-impact",
+      "round",
+      "scald",
+      "acrobatics",
+      "water-pledge",
+      "work-up",
+      "liquidation",
+      "snipe-shot",
+      "breaking-swipe",
+      "scale-shot"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_3"
+}

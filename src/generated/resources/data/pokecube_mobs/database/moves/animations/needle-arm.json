@@ -1,0 +1,25 @@
+{
+  "name": "needlearm",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d2:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~needlearm",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.5
+    },
+    {
+      "preset": "cartFunc:pmisc:d3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~needlearm",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.scratch",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

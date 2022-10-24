@@ -1,0 +1,183 @@
+{
+  "name": "ribombee",
+  "id": 743,
+  "stock": true,
+  "base_experience": 162,
+  "size": {
+    "height": 0.2,
+    "width": 0.2,
+    "length": 0.2
+  },
+  "mass": 0.5,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 55,
+    "defense": 60,
+    "special_attack": 95,
+    "special_defense": 70,
+    "speed": 124
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "bug",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "honey-gather",
+      "shield-dust"
+    ],
+    "hidden": [
+      "sweet-veil"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "absorb",
+          "stun-spore",
+          "covet",
+          "struggle-bug",
+          "fairy-wind"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "silver-wind"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "switcheroo"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "quiver-dance"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "draining-kiss"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "dazzling-gleam"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "pollen-puff"
+        ]
+      }
+    ],
+    "misc": [
+      "hyper-beam",
+      "absorb",
+      "solar-beam",
+      "stun-spore",
+      "toxic",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "swift",
+      "dream-eater",
+      "leech-life",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "baton-pass",
+      "sweet-scent",
+      "hidden-power",
+      "sunny-day",
+      "psych-up",
+      "facade",
+      "nature-power",
+      "helping-hand",
+      "trick",
+      "skill-swap",
+      "imprison",
+      "aromatherapy",
+      "fake-tears",
+      "silver-wind",
+      "signal-beam",
+      "aerial-ace",
+      "covet",
+      "magical-leaf",
+      "calm-mind",
+      "roost",
+      "tailwind",
+      "u-turn",
+      "last-resort",
+      "bug-buzz",
+      "energy-ball",
+      "giga-impact",
+      "defog",
+      "bug-bite",
+      "wonder-room",
+      "telekinesis",
+      "magic-room",
+      "quiver-dance",
+      "after-you",
+      "round",
+      "ally-switch",
+      "acrobatics",
+      "struggle-bug",
+      "draining-kiss",
+      "play-rough",
+      "fairy-wind",
+      "confide",
+      "dazzling-gleam",
+      "infestation",
+      "pollen-puff",
+      "speed-swap",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/glowstone_dust"
+}

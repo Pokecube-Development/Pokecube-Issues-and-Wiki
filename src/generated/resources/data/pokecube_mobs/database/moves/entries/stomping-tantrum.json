@@ -1,0 +1,15 @@
+{
+  "name": "stomping-tantrum",
+  "id": 707,
+  "power": 75,
+  "pp": 10,
+  "priority": 0,
+  "type": "ground",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "Driven by frustration, the user attacks the target. If\nthe user’s previous move has failed, the power of\nthis move doubles.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Power is doubled if the user's last move failed for any reason (i.e., produced the message \"But it failed!\") or was ineffective due to types.",
+  "effect_text_simple": "Has double power if the user's last move failed."
+}

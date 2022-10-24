@@ -1,0 +1,142 @@
+{
+  "name": "raboot",
+  "id": 814,
+  "stock": true,
+  "base_experience": 147,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 9.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 65,
+    "attack": 86,
+    "defense": 60,
+    "special_attack": 55,
+    "special_defense": 60,
+    "speed": 94
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "libero"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 12,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl",
+          "ember",
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "counter"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "flame-charge"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-kick",
+      "flamethrower",
+      "low-kick",
+      "agility",
+      "focus-energy",
+      "fire-blast",
+      "swift",
+      "rest",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "baton-pass",
+      "sunny-day",
+      "heat-wave",
+      "facade",
+      "taunt",
+      "blaze-kick",
+      "overheat",
+      "bulk-up",
+      "bounce",
+      "mud-shot",
+      "u-turn",
+      "assurance",
+      "flare-blitz",
+      "fire-fang",
+      "gunk-shot",
+      "electro-ball",
+      "low-sweep",
+      "round",
+      "ally-switch",
+      "acrobatics",
+      "fire-pledge",
+      "work-up"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2",
+  "evolutions": [
+    {
+      "name": "cinderace",
+      "level": 35,
+      "animation": "18",
+      "evoMoves": "pyroball"
+    }
+  ]
+}

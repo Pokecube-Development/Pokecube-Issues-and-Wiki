@@ -1,0 +1,13 @@
+{
+  "name": "breakneck-blitz--physical",
+  "id": 622,
+  "pp": 1,
+  "priority": 0,
+  "type": "normal",
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user builds up its momentum using its Z-Power\nand crashes into the target at full speed. The power\nvaries, depending on the original move.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.",
+  "effect_text_simple": "Inflicts regular damage with no additional effect."
+}

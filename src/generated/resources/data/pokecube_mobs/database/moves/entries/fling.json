@@ -1,0 +1,14 @@
+{
+  "name": "fling",
+  "id": 374,
+  "pp": 10,
+  "priority": 0,
+  "type": "dark",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user flings its held item at the target to attack.\nThis move’s power and effects depend on the item.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Power and type are determined by the user's held item.  The item is consumed.  If the user is not holding an item, or its item has no set type and power, this move will fail.\n\nThis move ignores sticky hold.\n\nIf the user is under the effect of embargo, this move will fail.",
+  "effect_text_simple": "Throws held item at the target; power depends on the item."
+}

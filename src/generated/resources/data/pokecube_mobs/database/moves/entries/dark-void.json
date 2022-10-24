@@ -1,0 +1,16 @@
+{
+  "name": "dark-void",
+  "id": 464,
+  "pp": 10,
+  "priority": 0,
+  "type": "dark",
+  "accuracy": 50,
+  "target": "all-opponents",
+  "damage_class": "status",
+  "flavor_text": "Opposing Pokémon are dragged into a world of total\ndarkness that makes them sleep.",
+  "move_category": "ailment",
+  "max_turns": 4,
+  "min_turns": 2,
+  "effect_text_extend": "Puts the target to sleep.",
+  "effect_text_simple": "Puts the target to sleep."
+}

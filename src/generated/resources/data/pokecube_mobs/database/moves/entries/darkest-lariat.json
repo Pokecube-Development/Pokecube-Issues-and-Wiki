@@ -1,0 +1,15 @@
+{
+  "name": "darkest-lariat",
+  "id": 663,
+  "power": 85,
+  "pp": 10,
+  "priority": 0,
+  "type": "dark",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user swings both arms and hits the target.\nThe target’s stat changes don’t affect this\nattack’s damage.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Damage calculation ignores the target's stat modifiers, including evasion.",
+  "effect_text_simple": "Ignores the target's stat modifiers."
+}

@@ -1,0 +1,258 @@
+{
+  "name": "sandshrew",
+  "id": 27,
+  "stock": true,
+  "base_experience": 60,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 12.0,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 50,
+    "attack": 75,
+    "defense": 85,
+    "special_attack": 20,
+    "special_defense": 30,
+    "speed": 40
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "sand-veil"
+    ],
+    "hidden": [
+      "sand-rush"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "sand-attack"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "poison-sting"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "dig"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "sandstorm"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "magnitude"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "rapid-spin"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "sand-tomb"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "gyro-ball"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bulldoze"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "swords-dance",
+      "cut",
+      "sand-attack",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "poison-sting",
+      "submission",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "agility",
+      "rage",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "bide",
+      "swift",
+      "skull-bash",
+      "amnesia",
+      "leech-life",
+      "fury-swipes",
+      "rest",
+      "rock-slide",
+      "super-fang",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "flail",
+      "protect",
+      "mud-slap",
+      "detect",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "magnitude",
+      "dynamic-punch",
+      "rapid-spin",
+      "iron-tail",
+      "metal-claw",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "crush-claw",
+      "rock-tomb",
+      "sand-tomb",
+      "aerial-ace",
+      "mud-shot",
+      "covet",
+      "gyro-ball",
+      "natural-gift",
+      "fling",
+      "poison-jab",
+      "night-slash",
+      "x-scissor",
+      "earth-power",
+      "shadow-claw",
+      "rock-climb",
+      "captivate",
+      "stealth-rock",
+      "hone-claws",
+      "round",
+      "chip-away",
+      "bulldoze",
+      "work-up",
+      "rototiller",
+      "confide",
+      "throat-chop",
+      "stomping-tantrum",
+      "steel-roller",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/sand_rabbit_1",
+  "evolutions": [
+    {
+      "name": "sandslash",
+      "level": 22
+    }
+  ]
+}

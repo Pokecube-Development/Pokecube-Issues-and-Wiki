@@ -1,0 +1,187 @@
+{
+  "name": "serperior",
+  "id": 497,
+  "stock": true,
+  "base_experience": 238,
+  "size": {
+    "height": 1.6,
+    "width": 2.3,
+    "length": 3.3
+  },
+  "mass": 63.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 75,
+    "attack": 75,
+    "defense": 95,
+    "special_attack": 75,
+    "special_defense": 95,
+    "speed": 113
+  },
+  "evs": {
+    "speed": 3
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "contrary"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 28,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "vine-whip",
+          "tackle",
+          "wrap",
+          "leer"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "leaf-blade"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "wring-out"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "gastro-acid"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "leaf-storm"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "coil"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "leaf-tornado"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "bind",
+      "slam",
+      "vine-whip",
+      "tackle",
+      "wrap",
+      "leer",
+      "hyper-beam",
+      "strength",
+      "mega-drain",
+      "leech-seed",
+      "growth",
+      "solar-beam",
+      "toxic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "outrage",
+      "giga-drain",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "torment",
+      "facade",
+      "nature-power",
+      "taunt",
+      "knock-off",
+      "snatch",
+      "secret-power",
+      "aerial-ace",
+      "frenzy-plant",
+      "calm-mind",
+      "leaf-blade",
+      "wring-out",
+      "gastro-acid",
+      "worry-seed",
+      "aqua-tail",
+      "seed-bomb",
+      "dragon-pulse",
+      "energy-ball",
+      "giga-impact",
+      "defog",
+      "leaf-storm",
+      "grass-knot",
+      "coil",
+      "round",
+      "grass-pledge",
+      "dragon-tail",
+      "work-up",
+      "leaf-tornado",
+      "confide",
+      "brutal-swing"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_3"
+}

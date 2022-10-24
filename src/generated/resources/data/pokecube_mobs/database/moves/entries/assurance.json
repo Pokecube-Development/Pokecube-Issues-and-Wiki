@@ -1,0 +1,15 @@
+{
+  "name": "assurance",
+  "id": 372,
+  "power": 60,
+  "pp": 10,
+  "priority": 0,
+  "type": "dark",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "If the target has already taken some damage in the\nsame turn, this attack’s power is doubled.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  If the target takes damage this turn for any reason before this move is used, this move has double power.",
+  "effect_text_simple": "Power is doubled if the target has already received damage this turn."
+}

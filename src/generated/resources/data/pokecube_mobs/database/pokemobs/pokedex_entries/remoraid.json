@@ -1,0 +1,205 @@
+{
+  "name": "remoraid",
+  "id": 223,
+  "stock": true,
+  "base_experience": 60,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 12.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 35,
+    "attack": 65,
+    "defense": 35,
+    "special_attack": 65,
+    "special_defense": 35,
+    "speed": 65
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "hustle",
+      "sniper"
+    ],
+    "hidden": [
+      "moody"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "water-gun",
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "ice-beam"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "aurora-beam"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "lock-on"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "signal-beam"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "bullet-seed"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "soak"
+        ]
+      }
+    ],
+    "misc": [
+      "double-edge",
+      "supersonic",
+      "flamethrower",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "psybeam",
+      "bubble-beam",
+      "aurora-beam",
+      "hyper-beam",
+      "string-shot",
+      "thunder-wave",
+      "toxic",
+      "psychic",
+      "mimic",
+      "screech",
+      "double-team",
+      "defense-curl",
+      "haze",
+      "focus-energy",
+      "fire-blast",
+      "waterfall",
+      "swift",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "flail",
+      "protect",
+      "mud-slap",
+      "octazooka",
+      "icy-wind",
+      "lock-on",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "whirlpool",
+      "facade",
+      "helping-hand",
+      "secret-power",
+      "dive",
+      "water-spout",
+      "signal-beam",
+      "bullet-seed",
+      "bounce",
+      "mud-shot",
+      "rock-blast",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "assurance",
+      "seed-bomb",
+      "gunk-shot",
+      "captivate",
+      "charge-beam",
+      "smack-down",
+      "soak",
+      "acid-spray",
+      "entrainment",
+      "round",
+      "scald",
+      "incinerate",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1",
+  "evolutions": [
+    {
+      "name": "octillery",
+      "level": 25,
+      "evoMoves": "octazooka"
+    }
+  ]
+}

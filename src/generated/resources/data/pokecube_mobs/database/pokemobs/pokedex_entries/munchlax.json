@@ -1,0 +1,243 @@
+{
+  "name": "munchlax",
+  "id": 446,
+  "stock": true,
+  "base_experience": 78,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 105.0,
+  "is_default": true,
+  "capture_rate": 50,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 135,
+    "attack": 85,
+    "defense": 40,
+    "special_attack": 40,
+    "special_defense": 85,
+    "speed": 5
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "pickup",
+      "thick-fat"
+    ],
+    "hidden": [
+      "gluttony"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "metronome",
+          "lick",
+          "recycle",
+          "odor-sleuth",
+          "last-resort"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "flail",
+          "belly-drum"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "stockpile"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "swallow"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "snatch"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "covet"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "natural-gift"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "fling"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "chip-away"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "pay-day",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "whirlwind",
+      "mega-kick",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "flamethrower",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "counter",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder",
+      "earthquake",
+      "fissure",
+      "toxic",
+      "psychic",
+      "screech",
+      "double-team",
+      "defense-curl",
+      "metronome",
+      "self-destruct",
+      "lick",
+      "fire-blast",
+      "amnesia",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "belly-drum",
+      "mud-slap",
+      "icy-wind",
+      "sandstorm",
+      "endure",
+      "charm",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "encore",
+      "pursuit",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "rock-smash",
+      "whirlpool",
+      "uproar",
+      "stockpile",
+      "swallow",
+      "facade",
+      "focus-punch",
+      "superpower",
+      "recycle",
+      "brick-break",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "odor-sleuth",
+      "rock-tomb",
+      "covet",
+      "shock-wave",
+      "water-pulse",
+      "natural-gift",
+      "fling",
+      "last-resort",
+      "seed-bomb",
+      "zen-headbutt",
+      "rock-climb",
+      "gunk-shot",
+      "captivate",
+      "after-you",
+      "round",
+      "chip-away",
+      "incinerate",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "belch",
+      "confide",
+      "power-up-punch",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/pig_1",
+  "evolutions": [
+    {
+      "name": "snorlax",
+      "happy": true
+    }
+  ]
+}

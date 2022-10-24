@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.celebi"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.celebi"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_celebi": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "celebi"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

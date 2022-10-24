@@ -1,0 +1,257 @@
+{
+  "name": "flygon",
+  "id": 330,
+  "stock": true,
+  "base_experience": 260,
+  "size": {
+    "height": 2.0,
+    "width": 1.7,
+    "length": 1.7
+  },
+  "mass": 82.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 80,
+    "attack": 100,
+    "defense": 80,
+    "special_attack": 80,
+    "special_defense": 80,
+    "speed": 100
+  },
+  "evs": {
+    "attack": 1,
+    "speed": 2
+  },
+  "types": [
+    "ground",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "sand-attack",
+          "bite",
+          "sonic-boom",
+          "fissure",
+          "dig",
+          "bide",
+          "feint-attack",
+          "dragon-breath",
+          "crunch",
+          "superpower",
+          "astonish",
+          "dragon-dance",
+          "feint",
+          "laser-focus"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "supersonic"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "sandstorm"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "uproar"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "sand-tomb"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "dragon-claw"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "dragon-rush"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "bulldoze"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "dragon-tail"
+        ]
+      },
+      {
+        "L": 68,
+        "moves": [
+          "boomburst"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "thunder-punch",
+      "fly",
+      "mega-kick",
+      "sand-attack",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "bite",
+      "supersonic",
+      "sonic-boom",
+      "flamethrower",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "fire-spin",
+      "earthquake",
+      "dig",
+      "toxic",
+      "mimic",
+      "screech",
+      "double-team",
+      "focus-energy",
+      "bide",
+      "fire-blast",
+      "swift",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "feint-attack",
+      "mud-slap",
+      "outrage",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dragon-breath",
+      "iron-tail",
+      "hidden-power",
+      "twister",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "uproar",
+      "heat-wave",
+      "facade",
+      "superpower",
+      "secret-power",
+      "air-cutter",
+      "rock-tomb",
+      "silver-wind",
+      "signal-beam",
+      "sand-tomb",
+      "aerial-ace",
+      "dragon-claw",
+      "mud-shot",
+      "dragon-dance",
+      "roost",
+      "natural-gift",
+      "tailwind",
+      "u-turn",
+      "air-slash",
+      "bug-buzz",
+      "dragon-pulse",
+      "dragon-rush",
+      "earth-power",
+      "giga-impact",
+      "defog",
+      "draco-meteor",
+      "stone-edge",
+      "captivate",
+      "bug-bite",
+      "ominous-wind",
+      "hone-claws",
+      "round",
+      "incinerate",
+      "struggle-bug",
+      "bulldoze",
+      "dragon-tail",
+      "confide",
+      "power-up-punch",
+      "laser-focus",
+      "throat-chop",
+      "brutal-swing",
+      "breaking-swipe",
+      "scale-shot",
+      "dual-wingbeat",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/sand_3"
+}

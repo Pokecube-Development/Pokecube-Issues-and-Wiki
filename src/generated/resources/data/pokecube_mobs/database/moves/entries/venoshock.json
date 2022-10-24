@@ -1,0 +1,15 @@
+{
+  "name": "venoshock",
+  "id": 474,
+  "power": 65,
+  "pp": 10,
+  "priority": 0,
+  "type": "poison",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user drenches the target in a special poisonous\nliquid. This move’s power is doubled if the target\nis poisoned.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  If the target is poisoned, this move has double power.",
+  "effect_text_simple": "Inflicts double damage if the target is Poisoned."
+}

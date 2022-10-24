@@ -1,0 +1,239 @@
+{
+  "name": "liepard",
+  "id": 510,
+  "stock": true,
+  "base_experience": 156,
+  "size": {
+    "height": 1.1,
+    "width": 0.6,
+    "length": 1.1
+  },
+  "mass": 37.5,
+  "is_default": true,
+  "capture_rate": 90,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 64,
+    "attack": 88,
+    "defense": 50,
+    "special_attack": 88,
+    "special_defense": 50,
+    "speed": 106
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "limber",
+      "unburden"
+    ],
+    "hidden": [
+      "prankster"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "sand-attack",
+          "growl",
+          "assist"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "fake-out"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "torment"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "snatch"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "play-rough"
+        ]
+      }
+    ],
+    "misc": [
+      "pay-day",
+      "scratch",
+      "cut",
+      "sand-attack",
+      "growl",
+      "hyper-beam",
+      "thunder-wave",
+      "toxic",
+      "screech",
+      "double-team",
+      "swift",
+      "dream-eater",
+      "fury-swipes",
+      "rest",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "baton-pass",
+      "encore",
+      "pursuit",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "fake-out",
+      "torment",
+      "facade",
+      "taunt",
+      "trick",
+      "role-play",
+      "assist",
+      "knock-off",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "fake-tears",
+      "aerial-ace",
+      "covet",
+      "u-turn",
+      "payback",
+      "assurance",
+      "embargo",
+      "sucker-punch",
+      "dark-pulse",
+      "night-slash",
+      "seed-bomb",
+      "giga-impact",
+      "nasty-plot",
+      "shadow-claw",
+      "psycho-cut",
+      "gunk-shot",
+      "grass-knot",
+      "hone-claws",
+      "foul-play",
+      "round",
+      "echoed-voice",
+      "snarl",
+      "play-rough",
+      "confide",
+      "laser-focus",
+      "throat-chop",
+      "skitter-smack",
+      "burning-jealousy",
+      "lash-out"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

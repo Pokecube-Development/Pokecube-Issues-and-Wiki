@@ -1,0 +1,14 @@
+{
+  "name": "smokescreen",
+  "id": 108,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user releases an obscuring cloud of smoke or\nink. This lowers the target’s accuracy.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Lowers the target's accuracy by one stage.",
+  "effect_text_simple": "Lowers the target's accuracy by one stage."
+}

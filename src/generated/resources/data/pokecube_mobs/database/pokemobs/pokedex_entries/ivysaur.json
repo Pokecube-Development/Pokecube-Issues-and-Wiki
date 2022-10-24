@@ -1,0 +1,203 @@
+{
+  "name": "ivysaur",
+  "id": 2,
+  "stock": true,
+  "base_experience": 142,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 13.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 60,
+    "attack": 62,
+    "defense": 63,
+    "special_attack": 80,
+    "special_defense": 80,
+    "speed": 60
+  },
+  "evs": {
+    "special_attack": 1,
+    "special_defense": 1
+  },
+  "types": [
+    "grass",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "chlorophyll"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 9,
+        "moves": [
+          "vine-whip"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl",
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "razor-leaf",
+          "seed-bomb"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "poison-powder",
+          "sleep-powder"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "worry-seed"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "bind",
+      "vine-whip",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "growl",
+      "strength",
+      "mega-drain",
+      "leech-seed",
+      "growth",
+      "razor-leaf",
+      "solar-beam",
+      "poison-powder",
+      "sleep-powder",
+      "string-shot",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "bide",
+      "amnesia",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "outrage",
+      "giga-drain",
+      "endure",
+      "charm",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "facade",
+      "nature-power",
+      "helping-hand",
+      "knock-off",
+      "secret-power",
+      "weather-ball",
+      "bullet-seed",
+      "magical-leaf",
+      "natural-gift",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "leaf-storm",
+      "power-whip",
+      "captivate",
+      "grass-knot",
+      "venoshock",
+      "round",
+      "echoed-voice",
+      "grass-pledge",
+      "work-up",
+      "grassy-terrain",
+      "confide",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_2",
+  "evolutions": [
+    {
+      "name": "venusaur",
+      "level": 32,
+      "animation": "18",
+      "evoMoves": "petalblizzard"
+    }
+  ]
+}

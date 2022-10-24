@@ -1,0 +1,13 @@
+{
+  "name": "pain-split",
+  "id": 220,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user adds its HP to the target’s HP, then equally\nshares the combined HP with the target.",
+  "move_category": "unique",
+  "effect_text_extend": "Changes the user's and target's remaining HP to the average of their current remaining HP.  Ignores accuracy and evasion modifiers.  This effect does not count as inflicting damage for other moves and effects that respond to damage taken.\n\nThis effect fails against a substitute.",
+  "effect_text_simple": "Sets the user's and targets's HP to the average of their current HP."
+}

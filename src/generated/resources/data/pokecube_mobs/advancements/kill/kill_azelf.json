@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.azelf"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.azelf"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_azelf": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "azelf"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,227 @@
+{
+  "name": "comfey",
+  "id": 764,
+  "stock": true,
+  "base_experience": 170,
+  "size": {
+    "height": 0.1,
+    "width": 0.1,
+    "length": 0.1
+  },
+  "mass": 0.3,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 51,
+    "attack": 52,
+    "defense": 90,
+    "special_attack": 82,
+    "special_defense": 110,
+    "speed": 100
+  },
+  "evs": {
+    "special_defense": 2
+  },
+  "types": [
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "flower-veil",
+      "triage"
+    ],
+    "hidden": [
+      "natural-cure"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "vine-whip",
+          "helping-hand",
+          "flower-shield"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "wrap"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "petal-dance"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "sweet-kiss"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "natural-gift"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "grass-knot"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "petal-blizzard"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "draining-kiss"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "grassy-terrain"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "play-rough"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "floral-healing"
+        ]
+      }
+    ],
+    "misc": [
+      "bind",
+      "vine-whip",
+      "wrap",
+      "hyper-beam",
+      "leech-seed",
+      "growth",
+      "solar-beam",
+      "petal-dance",
+      "toxic",
+      "double-team",
+      "light-screen",
+      "amnesia",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "sweet-kiss",
+      "giga-drain",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "encore",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "psych-up",
+      "facade",
+      "nature-power",
+      "taunt",
+      "helping-hand",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "aromatherapy",
+      "bullet-seed",
+      "covet",
+      "magical-leaf",
+      "calm-mind",
+      "natural-gift",
+      "tailwind",
+      "u-turn",
+      "fling",
+      "lucky-chant",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "defog",
+      "trick-room",
+      "grass-knot",
+      "telekinesis",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "ally-switch",
+      "acrobatics",
+      "leaf-tornado",
+      "petal-blizzard",
+      "draining-kiss",
+      "flower-shield",
+      "grassy-terrain",
+      "play-rough",
+      "confide",
+      "dazzling-gleam",
+      "floral-healing",
+      "pollen-puff",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/other_seeds"
+}

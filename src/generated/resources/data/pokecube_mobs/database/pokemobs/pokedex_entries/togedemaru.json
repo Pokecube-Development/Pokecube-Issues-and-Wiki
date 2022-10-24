@@ -1,0 +1,211 @@
+{
+  "name": "togedemaru",
+  "id": 777,
+  "stock": true,
+  "base_experience": 152,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 3.3,
+  "is_default": true,
+  "capture_rate": 180,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 65,
+    "attack": 98,
+    "defense": 63,
+    "special_attack": 40,
+    "special_defense": 73,
+    "speed": 96
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "electric",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "iron-barbs",
+      "lightning-rod"
+    ],
+    "hidden": [
+      "sturdy"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "thunder-shock"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "pin-missile"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "charge"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "magnet-rise"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "wild-charge"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "fell-stinger"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "spiky-shield"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "electric-terrain"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "nuzzle"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "zing-zap"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "twineedle",
+      "pin-missile",
+      "hyper-beam",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "agility",
+      "double-team",
+      "defense-curl",
+      "reflect",
+      "swift",
+      "rest",
+      "super-fang",
+      "substitute",
+      "thief",
+      "snore",
+      "flail",
+      "reversal",
+      "protect",
+      "endure",
+      "rollout",
+      "swagger",
+      "spark",
+      "attract",
+      "sleep-talk",
+      "return",
+      "present",
+      "frustration",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "fake-out",
+      "facade",
+      "charge",
+      "helping-hand",
+      "role-play",
+      "wish",
+      "endeavor",
+      "tickle",
+      "bounce",
+      "covet",
+      "shock-wave",
+      "gravity",
+      "gyro-ball",
+      "u-turn",
+      "payback",
+      "assurance",
+      "fling",
+      "last-resort",
+      "magnet-rise",
+      "poison-jab",
+      "giga-impact",
+      "zen-headbutt",
+      "discharge",
+      "iron-head",
+      "grass-knot",
+      "charge-beam",
+      "electro-ball",
+      "after-you",
+      "round",
+      "volt-switch",
+      "work-up",
+      "electroweb",
+      "wild-charge",
+      "fell-stinger",
+      "disarming-voice",
+      "confide",
+      "spiky-shield",
+      "eerie-impulse",
+      "electric-terrain",
+      "nuzzle",
+      "zing-zap",
+      "steel-beam",
+      "steel-roller",
+      "rising-voltage"
+    ]
+  },
+  "loot_table": "pokecube:entities/redstone_rabbit_1"
+}

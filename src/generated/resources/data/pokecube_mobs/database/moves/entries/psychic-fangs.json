@@ -1,0 +1,15 @@
+{
+  "name": "psychic-fangs",
+  "id": 706,
+  "power": 85,
+  "pp": 10,
+  "priority": 0,
+  "type": "psychic",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user bites the target with its psychic\ncapabilities. This can also destroy Light Screen\nand Reflect.",
+  "move_category": "damage",
+  "effect_text_extend": "Destroys any light screen or reflect on the target's side of the field, then inflicts regular damage.",
+  "effect_text_simple": "Destroys Reflect and Light Screen."
+}

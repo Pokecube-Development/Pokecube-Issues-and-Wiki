@@ -1,0 +1,218 @@
+{
+  "name": "doduo",
+  "id": 84,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 1.4,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 39.2,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 35,
+    "attack": 85,
+    "defense": 45,
+    "special_attack": 35,
+    "special_defense": 35,
+    "speed": 75
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "normal",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "run-away",
+      "early-bird"
+    ],
+    "hidden": [
+      "tangled-feet"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 36,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "jump-kick"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "fury-attack"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "growl",
+          "peck"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "drill-peck"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "rage"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "tri-attack"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "uproar"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "endeavor"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "pluck"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "acupressure"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "double-hit"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "whirlwind",
+      "fly",
+      "jump-kick",
+      "headbutt",
+      "fury-attack",
+      "body-slam",
+      "take-down",
+      "thrash",
+      "double-edge",
+      "growl",
+      "supersonic",
+      "peck",
+      "drill-peck",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "rage",
+      "mimic",
+      "double-team",
+      "haze",
+      "reflect",
+      "bide",
+      "mirror-move",
+      "swift",
+      "skull-bash",
+      "sky-attack",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "flail",
+      "protect",
+      "feint-attack",
+      "mud-slap",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pursuit",
+      "hidden-power",
+      "sunny-day",
+      "uproar",
+      "facade",
+      "knock-off",
+      "endeavor",
+      "secret-power",
+      "air-cutter",
+      "aerial-ace",
+      "roost",
+      "natural-gift",
+      "pluck",
+      "acupressure",
+      "assurance",
+      "brave-bird",
+      "captivate",
+      "double-hit",
+      "round",
+      "echoed-voice",
+      "work-up",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_2",
+  "evolutions": [
+    {
+      "name": "dodrio",
+      "level": 31,
+      "evoMoves": "triattack"
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "name": "surskit",
+  "id": 283,
+  "stock": true,
+  "base_experience": 54,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 1.7,
+  "is_default": true,
+  "capture_rate": 200,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 40,
+    "attack": 30,
+    "defense": 32,
+    "special_attack": 50,
+    "special_defense": 52,
+    "speed": 65
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "bug",
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "swift-swim"
+    ],
+    "hidden": [
+      "rain-dish"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 25,
+        "moves": [
+          "mist",
+          "haze"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "bubble"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "baton-pass"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "water-sport"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "sticky-web"
+        ]
+      }
+    ],
+    "misc": [
+      "double-edge",
+      "mist",
+      "hydro-pump",
+      "ice-beam",
+      "blizzard",
+      "psybeam",
+      "bubble-beam",
+      "solar-beam",
+      "string-shot",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "mimic",
+      "double-team",
+      "haze",
+      "swift",
+      "bubble",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "mind-reader",
+      "snore",
+      "protect",
+      "mud-slap",
+      "foresight",
+      "icy-wind",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "baton-pass",
+      "sweet-scent",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "facade",
+      "secret-power",
+      "signal-beam",
+      "mud-shot",
+      "water-sport",
+      "water-pulse",
+      "natural-gift",
+      "captivate",
+      "bug-bite",
+      "aqua-jet",
+      "power-split",
+      "round",
+      "scald",
+      "struggle-bug",
+      "sticky-web",
+      "fell-stinger",
+      "confide",
+      "infestation",
+      "lunge",
+      "liquidation"
+    ]
+  },
+  "loot_table": "pokecube:entities/lilypad",
+  "evolutions": [
+    {
+      "name": "masquerain",
+      "level": 22
+    }
+  ]
+}

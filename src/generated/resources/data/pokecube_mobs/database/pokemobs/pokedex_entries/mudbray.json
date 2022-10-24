@@ -1,0 +1,194 @@
+{
+  "name": "mudbray",
+  "id": 749,
+  "stock": true,
+  "base_experience": 77,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 110.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 70,
+    "attack": 100,
+    "defense": 70,
+    "special_attack": 45,
+    "special_defense": 55,
+    "speed": 45
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "own-tempo",
+      "stamina"
+    ],
+    "hidden": [
+      "inner-focus"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 17,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "mega-kick"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "counter"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "strength"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "bide"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "mud-slap",
+          "rock-smash"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "mud-sport"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "heavy-slam"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "bulldoze"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "rototiller"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "high-horsepower"
+        ]
+      }
+    ],
+    "misc": [
+      "stomp",
+      "double-kick",
+      "mega-kick",
+      "body-slam",
+      "double-edge",
+      "roar",
+      "low-kick",
+      "counter",
+      "earthquake",
+      "fissure",
+      "toxic",
+      "double-team",
+      "bide",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "magnitude",
+      "hidden-power",
+      "facade",
+      "superpower",
+      "endeavor",
+      "mud-sport",
+      "rock-tomb",
+      "sand-tomb",
+      "iron-defense",
+      "close-combat",
+      "payback",
+      "earth-power",
+      "mud-bomb",
+      "iron-head",
+      "stealth-rock",
+      "smack-down",
+      "heavy-slam",
+      "low-sweep",
+      "round",
+      "bulldoze",
+      "rototiller",
+      "confide",
+      "high-horsepower",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/cow_1",
+  "evolutions": [
+    {
+      "name": "mudsdale",
+      "level": 30
+    }
+  ]
+}

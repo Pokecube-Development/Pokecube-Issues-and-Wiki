@@ -1,0 +1,203 @@
+{
+  "name": "bidoof",
+  "id": 399,
+  "stock": true,
+  "base_experience": 50,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 20.0,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 59,
+    "attack": 45,
+    "defense": 40,
+    "special_attack": 35,
+    "special_defense": 40,
+    "speed": 31
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "simple",
+      "unaware"
+    ],
+    "hidden": [
+      "moody"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 37,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "hyper-fang"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "super-fang"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "yawn"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "headbutt",
+      "tackle",
+      "take-down",
+      "double-edge",
+      "growl",
+      "ice-beam",
+      "blizzard",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "toxic",
+      "quick-attack",
+      "double-team",
+      "defense-curl",
+      "swift",
+      "skull-bash",
+      "amnesia",
+      "fury-swipes",
+      "rest",
+      "hyper-fang",
+      "super-fang",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "rollout",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "shadow-ball",
+      "rock-smash",
+      "facade",
+      "taunt",
+      "superpower",
+      "yawn",
+      "secret-power",
+      "mud-sport",
+      "odor-sleuth",
+      "covet",
+      "water-sport",
+      "shock-wave",
+      "natural-gift",
+      "pluck",
+      "last-resort",
+      "aqua-tail",
+      "rock-climb",
+      "captivate",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "round",
+      "echoed-voice",
+      "retaliate",
+      "work-up",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/rotten_rabbit_1",
+  "evolutions": [
+    {
+      "name": "bibarel",
+      "level": 15,
+      "evoMoves": "watergun"
+    }
+  ]
+}

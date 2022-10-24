@@ -2,25 +2,24 @@ package pokecube.mobs.abilities.simple;
 
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
 
 public class Levitate extends Ability
 {
     @Override
-    public int beforeDamage(final IPokemob mob, final MovePacket move, final int damage)
+    public int beforeDamage(IPokemob mob, MoveApplication move, int damage)
     {
-        boolean weAreTarget = mob.getEntity() == move.attacked && mob.getAbility() == this;
-        if (weAreTarget && move.getMove().getType(move.attacker) == PokeType.getType("ground") && move.attacked == mob)
+        boolean weAreTarget = mob.getEntity() == move.target && mob.getAbility() == this;
+        if (weAreTarget && move.getMove().getType(move.getUser()) == PokeType.getType("ground") && move.target == mob)
             return 0;
         return super.beforeDamage(mob, move, damage);
     }
 
     @Override
-    public void onMoveUse(final IPokemob mob, final MovePacket move)
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        if (!move.pre) return;
-        boolean weAreTarget = mob.getEntity() == move.attacked && mob.getAbility() == this;
-        if (weAreTarget && move.getMove().getType(move.attacker) == PokeType.getType("ground")) move.canceled = true;
+        if (!areWeTarget(mob, move)) return;
+        if (move.getMove().getType(move.getUser()) == PokeType.getType("ground")) move.canceled = true;
     }
 }

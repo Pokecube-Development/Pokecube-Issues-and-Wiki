@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.blaziken-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.blaziken-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_blaziken-mega": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "blaziken-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

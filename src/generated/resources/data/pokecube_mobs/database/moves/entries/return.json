@@ -1,0 +1,14 @@
+{
+  "name": "return",
+  "id": 216,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "This full-power attack grows more powerful the\nmore the user likes its Trainer.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Power increases with happiness, given by `happiness * 2 / 5`, to a maximum of 102.  Power bottoms out at 1.",
+  "effect_text_simple": "Power increases with happiness, up to a maximum of 102."
+}

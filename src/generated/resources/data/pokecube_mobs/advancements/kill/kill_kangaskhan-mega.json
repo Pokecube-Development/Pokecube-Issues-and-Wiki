@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.kangaskhan-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.kangaskhan-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_kangaskhan-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "kangaskhan-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

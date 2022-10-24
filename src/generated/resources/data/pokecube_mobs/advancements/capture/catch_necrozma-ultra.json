@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.necrozma-ultra"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.necrozma-ultra"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_necrozma-ultra": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "necrozma-ultra"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

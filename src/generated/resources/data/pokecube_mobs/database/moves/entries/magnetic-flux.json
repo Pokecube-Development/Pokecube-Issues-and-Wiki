@@ -1,0 +1,13 @@
+{
+  "name": "magnetic-flux",
+  "id": 602,
+  "pp": 20,
+  "priority": 0,
+  "type": "electric",
+  "target": "user-and-allies",
+  "damage_class": "status",
+  "flavor_text": "The user manipulates magnetic fields, which raises\nthe Defense and Sp. Def stats of ally Pokémon with\nthe Plus or Minus Ability.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises the Defense and Special Defense of all friendly Pokémon with plus or minus by one stage.",
+  "effect_text_simple": "Raises the Defense and Special Defense of all friendly Pokémon with plus or minus by one stage."
+}

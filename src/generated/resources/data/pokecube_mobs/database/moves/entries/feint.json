@@ -1,0 +1,15 @@
+{
+  "name": "feint",
+  "id": 364,
+  "power": 30,
+  "pp": 10,
+  "priority": 2,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "This attack hits a target using a move such as\nProtect or Detect.\nThis also lifts the effects of those moves.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Removes the effects of detect or protect from the target before hitting.\n\nThis move cannot be copied by mirror move, nor selected by assist or metronome.",
+  "effect_text_simple": "Hits through Protect and Detect."
+}

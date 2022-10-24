@@ -1,0 +1,35 @@
+{
+  "name": "attackorder",
+  "animations": [
+    {
+      "preset": "flow:pmisc:d0.2:w0.1:cyellow:~attackorder",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.charm",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 1.4
+    },
+    {
+      "preset": "cartFunc:~attackorder",
+      "duration": "0",
+      "starttick": "2",
+      "sound": "pokecube:moves.charm",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 1.4
+    },
+    {
+      "preset": "cartFunc:~attackorder",
+      "duration": "1",
+      "starttick": "5",
+      "sound": "pokecube:moves.charm",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 1.4
+    }
+  ]
+}

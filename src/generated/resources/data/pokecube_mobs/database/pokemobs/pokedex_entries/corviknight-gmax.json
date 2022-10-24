@@ -1,0 +1,42 @@
+{
+  "name": "corviknight-gmax",
+  "id": 823,
+  "stock": true,
+  "base_experience": 248,
+  "size": {
+    "height": 5.0,
+    "width": 4.0,
+    "length": 4.2
+  },
+  "mass": 1000.0,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 98,
+    "attack": 87,
+    "defense": 105,
+    "special_attack": 53,
+    "special_defense": 85,
+    "speed": 67
+  },
+  "evs": {
+    "defense": 3
+  },
+  "types": [
+    "flying",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "pressure",
+      "unnerve"
+    ],
+    "hidden": [
+      "mirror-armor"
+    ]
+  },
+  "old_name": "corviknight_gigantamax"
+}

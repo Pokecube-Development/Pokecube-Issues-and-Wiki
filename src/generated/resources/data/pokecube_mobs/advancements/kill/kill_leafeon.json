@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.leafeon"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.leafeon"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_leafeon": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "leafeon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

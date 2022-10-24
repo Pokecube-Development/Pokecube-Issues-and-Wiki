@@ -1,0 +1,27 @@
+{
+  "name": "fellstinger",
+  "animations": [
+    {
+      "preset": "cartFunc:atrue:pcrit:l4:~fellstinger",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.vicegrip",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:atrue:pmisc:~fellstinger",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.8,
+      "applyAfter": false
+    }
+  ]
+}

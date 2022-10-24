@@ -1,0 +1,206 @@
+{
+  "name": "spritzee",
+  "id": 682,
+  "stock": true,
+  "base_experience": 68,
+  "size": {
+    "height": 0.2,
+    "width": 0.2,
+    "length": 0.2
+  },
+  "mass": 0.5,
+  "is_default": true,
+  "capture_rate": 200,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 78,
+    "attack": 52,
+    "defense": 60,
+    "special_attack": 63,
+    "special_defense": 65,
+    "speed": 23
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "healer"
+    ],
+    "hidden": [
+      "aroma-veil"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 48,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "sweet-kiss"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "attract"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "sweet-scent",
+          "fairy-wind"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "skill-swap"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "odor-sleuth"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "echoed-voice"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "disarming-voice"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "draining-kiss"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "misty-terrain"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "moonblast"
+        ]
+      }
+    ],
+    "misc": [
+      "disable",
+      "thunderbolt",
+      "toxic",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "flail",
+      "protect",
+      "sweet-kiss",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "encore",
+      "sweet-scent",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "torment",
+      "facade",
+      "helping-hand",
+      "wish",
+      "magic-coat",
+      "endeavor",
+      "skill-swap",
+      "refresh",
+      "secret-power",
+      "aromatherapy",
+      "fake-tears",
+      "odor-sleuth",
+      "covet",
+      "calm-mind",
+      "gyro-ball",
+      "energy-ball",
+      "nasty-plot",
+      "flash-cannon",
+      "trick-room",
+      "captivate",
+      "charge-beam",
+      "telekinesis",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "ally-switch",
+      "disarming-voice",
+      "draining-kiss",
+      "misty-terrain",
+      "fairy-wind",
+      "moonblast",
+      "confide",
+      "dazzling-gleam",
+      "misty-explosion"
+    ]
+  },
+  "loot_table": "pokecube:entities/stick",
+  "evolutions": [
+    {
+      "name": "aromatisse",
+      "trade": true
+    }
+  ]
+}

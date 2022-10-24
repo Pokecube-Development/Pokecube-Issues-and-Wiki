@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.charizard-mega-x"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.charizard-mega-x"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_charizard-mega-x": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "charizard-mega-x"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

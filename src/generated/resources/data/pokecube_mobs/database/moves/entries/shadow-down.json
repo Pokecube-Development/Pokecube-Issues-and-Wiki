@@ -1,0 +1,11 @@
+{
+  "name": "shadow-down",
+  "id": 10012,
+  "priority": 0,
+  "type": "shadow",
+  "accuracy": 100,
+  "target": "opponents-field",
+  "damage_class": "status",
+  "effect_text_extend": "Lowers the target's Defense by two stages.",
+  "effect_text_simple": "Lowers the target's Defense by two stages."
+}

@@ -1,0 +1,215 @@
+{
+  "name": "nihilego",
+  "id": 793,
+  "stock": true,
+  "base_experience": 285,
+  "size": {
+    "height": 1.2,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 55.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 109,
+    "attack": 53,
+    "defense": 47,
+    "special_attack": 127,
+    "special_defense": 131,
+    "speed": 103
+  },
+  "evs": {
+    "special_defense": 3
+  },
+  "types": [
+    "rock",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "beast-boost"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "wrap",
+          "acid",
+          "constrict",
+          "tickle",
+          "guard-split",
+          "power-split"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "psywave"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "mirror-coat"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "toxic-spikes"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 73,
+        "moves": [
+          "head-smash"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "wonder-room"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "venoshock"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "acid-spray"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "clear-smog"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "venom-drench"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "bind",
+      "headbutt",
+      "body-slam",
+      "acid",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "constrict",
+      "psywave",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "spite",
+      "protect",
+      "sludge-bomb",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "hidden-power",
+      "mirror-coat",
+      "facade",
+      "role-play",
+      "magic-coat",
+      "knock-off",
+      "rock-tomb",
+      "tickle",
+      "worry-seed",
+      "toxic-spikes",
+      "poison-jab",
+      "power-gem",
+      "zen-headbutt",
+      "trick-room",
+      "cross-poison",
+      "gunk-shot",
+      "iron-head",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "head-smash",
+      "guard-split",
+      "power-split",
+      "wonder-room",
+      "psyshock",
+      "venoshock",
+      "telekinesis",
+      "sludge-wave",
+      "acid-spray",
+      "foul-play",
+      "round",
+      "echoed-voice",
+      "clear-smog",
+      "ally-switch",
+      "hex",
+      "confide",
+      "venom-drench",
+      "dazzling-gleam",
+      "brutal-swing",
+      "meteor-beam",
+      "corrosive-gas"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_3",
+  "spawn_rules": [
+    {
+      "values": {
+        "types": "#pokecube_legends:can_spawn/nihilego",
+        "min": "1",
+        "rate": "0.2",
+        "max": "1"
+      }
+    }
+  ]
+}

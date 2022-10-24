@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.drednaw"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.drednaw"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_drednaw": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "drednaw"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

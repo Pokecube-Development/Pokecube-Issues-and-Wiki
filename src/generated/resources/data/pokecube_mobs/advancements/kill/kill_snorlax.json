@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.snorlax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.snorlax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_snorlax": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "snorlax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

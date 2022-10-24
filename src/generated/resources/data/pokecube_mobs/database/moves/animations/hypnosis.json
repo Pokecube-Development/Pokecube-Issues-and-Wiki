@@ -1,0 +1,15 @@
+{
+  "name": "hypnosis",
+  "animations": [
+    {
+      "preset": "cartFunc:pwitch:cred:d1:l60:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~hypnosis",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "minecraft:entity.zombie_villager.converted",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 1.3
+    }
+  ]
+}

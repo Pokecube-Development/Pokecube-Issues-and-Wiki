@@ -1,0 +1,185 @@
+{
+  "name": "moltres-galar",
+  "id": 146,
+  "stock": true,
+  "base_experience": 290,
+  "size": {
+    "height": 2.0,
+    "width": 2.0,
+    "length": 2.0
+  },
+  "mass": 66.0,
+  "is_default": false,
+  "capture_rate": 3,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 90,
+    "attack": 85,
+    "defense": 90,
+    "special_attack": 100,
+    "special_defense": 125,
+    "speed": 90
+  },
+  "evs": {
+    "special_defense": 3
+  },
+  "types": [
+    "dark",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "berserk"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "gust",
+          "leer"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "wing-attack"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "sky-attack"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "memento"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "after-you"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "hurricane"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "fiery-wrath"
+        ]
+      }
+    ],
+    "misc": [
+      "fly",
+      "hyper-beam",
+      "agility",
+      "swift",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "endure",
+      "steel-wing",
+      "sleep-talk",
+      "safeguard",
+      "shadow-ball",
+      "facade",
+      "taunt",
+      "imprison",
+      "hyper-voice",
+      "u-turn",
+      "payback",
+      "assurance",
+      "dark-pulse",
+      "air-slash",
+      "brave-bird",
+      "giga-impact",
+      "nasty-plot",
+      "foul-play",
+      "round",
+      "hex",
+      "hurricane",
+      "snarl",
+      "lash-out",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:legendary_tree",
+        "rate": "0.0"
+      }
+    },
+    {
+      "values": {
+        "structures": "pokecube_legends:legendary_tree",
+        "min": "1",
+        "rate": "0.02",
+        "max": "1"
+      }
+    }
+  ],
+  "old_name": "moltres_galar"
+}

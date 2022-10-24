@@ -1,0 +1,14 @@
+{
+  "name": "attract",
+  "id": 213,
+  "pp": 15,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "If it is the opposite gender of the user, the target\nbecomes infatuated and less likely to attack.",
+  "move_category": "ailment",
+  "effect_text_extend": "Causes the target to fall in love with the user, giving it a 50% chance to do nothing each turn.  If the user and target are the same gender, or either is genderless, this move will fail.  If either Pokémon leaves the field, this effect ends.",
+  "effect_text_simple": "Target falls in love if it has the opposite gender, and has a 50% chance to refuse attacking the user."
+}

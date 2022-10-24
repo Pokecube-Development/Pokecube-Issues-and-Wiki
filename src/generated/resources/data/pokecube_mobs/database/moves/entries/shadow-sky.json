@@ -1,0 +1,10 @@
+{
+  "name": "shadow-sky",
+  "id": 10018,
+  "priority": 0,
+  "type": "shadow",
+  "target": "entire-field",
+  "damage_class": "status",
+  "effect_text_extend": "Changes the weather to Shadow Sky for five turns.  Pokémon other than shadow Pokémon take 1/16 their max HP at the end of every turn.  This move is typeless for the purposes of weather ball.",
+  "effect_text_simple": "Changes the weather to Shadow Sky for five turns."
+}

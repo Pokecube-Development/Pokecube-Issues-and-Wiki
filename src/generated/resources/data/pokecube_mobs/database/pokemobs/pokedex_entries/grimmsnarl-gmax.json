@@ -1,0 +1,42 @@
+{
+  "name": "grimmsnarl-gmax",
+  "id": 861,
+  "stock": true,
+  "base_experience": 255,
+  "size": {
+    "height": 6.0,
+    "width": 4.0,
+    "length": 4.0
+  },
+  "mass": 1000.0,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 95,
+    "attack": 120,
+    "defense": 65,
+    "special_attack": 95,
+    "special_defense": 75,
+    "speed": 60
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "dark",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "prankster",
+      "frisk"
+    ],
+    "hidden": [
+      "pickpocket"
+    ]
+  },
+  "old_name": "grimmsnarl_gigantamax"
+}

@@ -27,16 +27,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.pokedex.DefaultFormeHolder;
+import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.Battle;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
-import pokecube.core.database.pokedex.PokedexEntryLoader.DefaultFormeHolder;
-import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
-import pokecube.core.moves.Battle;
 import thut.api.ModelHolder;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.IHungrymob;
@@ -148,6 +148,11 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         public int hashCode()
         {
             return this.key.hashCode();
+        }
+
+        public List<PokeType> getTypes(PokedexEntry baseEntry)
+        {
+            return this.loaded_from.getTypes(baseEntry);
         }
     }
 
@@ -411,7 +416,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      *
      * @return the status
      */
-    byte getStatus();
+    int getStatus();
 
     /**
      * The timer for SLP. When reach 0, the mob wakes up.

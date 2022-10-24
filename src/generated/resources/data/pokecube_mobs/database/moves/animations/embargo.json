@@ -1,0 +1,15 @@
+{
+  "name": "embargo",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:cpurple:d0.5:w1:l5:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~embargo",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pmisc:d0.3:w1:l5:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~embargo",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

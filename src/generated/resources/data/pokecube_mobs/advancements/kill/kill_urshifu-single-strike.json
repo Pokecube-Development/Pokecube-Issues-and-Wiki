@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.urshifu-single-strike"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.urshifu-single-strike"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_urshifu-single-strike": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "urshifu-single-strike"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

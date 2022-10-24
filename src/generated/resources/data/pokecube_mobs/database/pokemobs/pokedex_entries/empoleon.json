@@ -1,0 +1,204 @@
+{
+  "name": "empoleon",
+  "id": 395,
+  "stock": true,
+  "base_experience": 239,
+  "size": {
+    "height": 1.7,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 84.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 84,
+    "attack": 86,
+    "defense": 88,
+    "special_attack": 111,
+    "special_defense": 101,
+    "speed": 60
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "water",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+      "defiant"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 11,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "fury-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl",
+          "bubble",
+          "metal-claw"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "mist"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "peck"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "drill-peck"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "whirlpool"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "aqua-jet"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "headbutt",
+      "fury-attack",
+      "tackle",
+      "growl",
+      "roar",
+      "mist",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "hyper-beam",
+      "peck",
+      "drill-peck",
+      "strength",
+      "earthquake",
+      "dig",
+      "toxic",
+      "double-team",
+      "waterfall",
+      "bubble",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "metal-claw",
+      "hidden-power",
+      "rain-dance",
+      "rock-smash",
+      "whirlpool",
+      "hail",
+      "facade",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "dive",
+      "hydro-cannon",
+      "rock-tomb",
+      "signal-beam",
+      "aerial-ace",
+      "iron-defense",
+      "covet",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "pluck",
+      "fling",
+      "giga-impact",
+      "avalanche",
+      "shadow-claw",
+      "flash-cannon",
+      "rock-climb",
+      "defog",
+      "captivate",
+      "stealth-rock",
+      "grass-knot",
+      "aqua-jet",
+      "hone-claws",
+      "round",
+      "echoed-voice",
+      "scald",
+      "quash",
+      "water-pledge",
+      "bulldoze",
+      "work-up",
+      "confide",
+      "laser-focus",
+      "throat-chop",
+      "liquidation"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_3"
+}

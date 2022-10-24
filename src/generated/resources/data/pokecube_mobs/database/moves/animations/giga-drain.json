@@ -1,0 +1,40 @@
+{
+  "name": "gigadrain",
+  "animations": [
+    {
+      "preset": "beam:~gigadrain",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.waterpulse",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8
+    },
+    {
+      "preset": "flow:pmisc:~gigadrain",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "flow:d0.01:~gigadrain",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.waterpulse",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8
+    },
+    {
+      "preset": "cartFunc:pend_rod:d2:w1:rtrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~gigadrain",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.unknown",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

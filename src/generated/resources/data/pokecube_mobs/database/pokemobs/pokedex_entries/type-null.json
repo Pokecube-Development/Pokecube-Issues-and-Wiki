@@ -1,0 +1,215 @@
+{
+  "name": "type-null",
+  "id": 772,
+  "stock": true,
+  "base_experience": 107,
+  "size": {
+    "height": 1.9,
+    "width": 0.9,
+    "length": 1.9
+  },
+  "mass": 120.5,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 95,
+    "attack": 95,
+    "defense": 95,
+    "special_attack": 95,
+    "special_defense": 95,
+    "speed": 59
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "battle-armor"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 70,
+        "moves": [
+          "razor-wind"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 80,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "rage"
+        ]
+      },
+      {
+        "L": 75,
+        "moves": [
+          "tri-attack"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "imprison"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "crush-claw"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 85,
+        "moves": [
+          "heal-block"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "punishment"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "x-scissor"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "iron-head"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "double-hit"
+        ]
+      }
+    ],
+    "misc": [
+      "razor-wind",
+      "swords-dance",
+      "tackle",
+      "take-down",
+      "double-edge",
+      "roar",
+      "hyper-beam",
+      "thunder-wave",
+      "toxic",
+      "rage",
+      "double-team",
+      "swift",
+      "rest",
+      "rock-slide",
+      "tri-attack",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "icy-wind",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pursuit",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "hail",
+      "facade",
+      "magic-coat",
+      "imprison",
+      "crush-claw",
+      "metal-sound",
+      "signal-beam",
+      "aerial-ace",
+      "iron-defense",
+      "dragon-claw",
+      "u-turn",
+      "payback",
+      "heal-block",
+      "punishment",
+      "last-resort",
+      "air-slash",
+      "x-scissor",
+      "giga-impact",
+      "shadow-claw",
+      "iron-head",
+      "double-hit",
+      "flame-charge",
+      "round",
+      "work-up",
+      "confide",
+      "terrain-pulse"
+    ]
+  },
+  "loot_table": "pokecube:entities/fossil_mob",
+  "evolutions": [
+    {
+      "name": "silvally",
+      "happy": true,
+      "evoMoves": "multiattack"
+    }
+  ],
+  "old_name": "type_null"
+}

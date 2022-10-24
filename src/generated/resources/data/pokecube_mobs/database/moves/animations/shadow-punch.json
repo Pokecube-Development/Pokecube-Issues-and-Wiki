@@ -1,0 +1,25 @@
+{
+  "name": "shadowpunch",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d2:w0.5:atrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~shadowpunch",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4
+    },
+    {
+      "preset": "cartFunc:pmisc:d0.5:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~shadowpunch",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "minecraft:entity.evoker.prepare_summon",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    }
+  ]
+}

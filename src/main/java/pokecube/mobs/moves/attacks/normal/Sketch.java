@@ -5,7 +5,7 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.templates.Move_Basic;
 import thut.lib.TComponent;
@@ -30,7 +30,7 @@ public class Sketch extends Move_Basic
         super.postAttack(packet);
         if (packet.attacker.getTransformedTo() != null) return;
         final String lastHitBy = packet.attacker.getEntity().getPersistentData().getString("lastMoveHitBy");
-        final Move_Base toSketch = MovesUtils.getMoveFromName(lastHitBy);
+        final MoveEntry toSketch = MovesUtils.getMove(lastHitBy);
         if (Sketch.unSketchables.contains(lastHitBy) || toSketch == null) return;
         for (int i = 0; i < packet.attacker.getMoves().length; i++)
             if (packet.attacker.getMoves()[i] != null && packet.attacker.getMoves()[i].equals(this.name))

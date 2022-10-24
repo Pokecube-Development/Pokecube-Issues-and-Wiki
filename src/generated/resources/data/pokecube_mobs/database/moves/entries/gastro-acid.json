@@ -1,0 +1,14 @@
+{
+  "name": "gastro-acid",
+  "id": 380,
+  "pp": 10,
+  "priority": 0,
+  "type": "poison",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user hurls up its stomach acids on the target.\nThe fluid eliminates the effect of the target’s Ability.",
+  "move_category": "unique",
+  "effect_text_extend": "The target's ability is disabled as long as it remains on the field.\n\nThis effect is passed on by baton pass.",
+  "effect_text_simple": "Nullifies target's ability until it leaves battle."
+}

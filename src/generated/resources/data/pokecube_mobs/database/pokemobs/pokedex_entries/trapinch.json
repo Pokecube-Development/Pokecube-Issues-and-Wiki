@@ -1,0 +1,205 @@
+{
+  "name": "trapinch",
+  "id": 328,
+  "stock": true,
+  "base_experience": 58,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 15.0,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 45,
+    "attack": 100,
+    "defense": 45,
+    "special_attack": 45,
+    "special_defense": 45,
+    "speed": 10
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "hyper-cutter",
+      "arena-trap"
+    ],
+    "hidden": [
+      "sheer-force"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "sand-attack",
+          "bite",
+          "bide",
+          "feint-attack",
+          "astonish"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "fissure"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "dig"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "sandstorm"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "sand-tomb"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "bulldoze"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "laser-focus"
+        ]
+      }
+    ],
+    "misc": [
+      "gust",
+      "sand-attack",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "bite",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "quick-attack",
+      "mimic",
+      "double-team",
+      "focus-energy",
+      "bide",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "flail",
+      "protect",
+      "feint-attack",
+      "mud-slap",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "facade",
+      "superpower",
+      "secret-power",
+      "rock-tomb",
+      "signal-beam",
+      "sand-tomb",
+      "mud-shot",
+      "natural-gift",
+      "feint",
+      "earth-power",
+      "captivate",
+      "bug-bite",
+      "round",
+      "struggle-bug",
+      "bulldoze",
+      "confide",
+      "first-impression",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/sand_1",
+  "evolutions": [
+    {
+      "name": "vibrava",
+      "level": 35,
+      "evoMoves": "dragonbreath"
+    }
+  ]
+}

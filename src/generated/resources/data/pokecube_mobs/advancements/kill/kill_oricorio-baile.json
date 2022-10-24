@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio-baile"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio-baile"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_oricorio-baile": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "oricorio-baile"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

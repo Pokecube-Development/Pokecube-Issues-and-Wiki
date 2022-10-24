@@ -1,0 +1,248 @@
+{
+  "name": "kabuto",
+  "id": 140,
+  "stock": true,
+  "base_experience": 71,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 11.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 30,
+    "attack": 80,
+    "defense": 90,
+    "special_attack": 55,
+    "special_defense": 45,
+    "speed": 55
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "rock",
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "swift-swim",
+      "battle-armor"
+    ],
+    "hidden": [
+      "weak-armor"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "harden"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "sand-attack"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "absorb"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "rock-throw"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "leech-life"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "protect",
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "mud-shot"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "wring-out",
+          "liquidation"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "aqua-jet"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "sand-attack",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "leer",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "aurora-beam",
+      "absorb",
+      "mega-drain",
+      "dig",
+      "toxic",
+      "rage",
+      "mimic",
+      "screech",
+      "double-team",
+      "harden",
+      "confuse-ray",
+      "reflect",
+      "bide",
+      "waterfall",
+      "leech-life",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "flail",
+      "protect",
+      "mud-slap",
+      "foresight",
+      "icy-wind",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "rapid-spin",
+      "hidden-power",
+      "rain-dance",
+      "ancient-power",
+      "rock-smash",
+      "whirlpool",
+      "hail",
+      "facade",
+      "knock-off",
+      "secret-power",
+      "rock-tomb",
+      "metal-sound",
+      "aerial-ace",
+      "iron-defense",
+      "mud-shot",
+      "rock-blast",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "wring-out",
+      "rock-polish",
+      "earth-power",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "aqua-jet",
+      "hone-claws",
+      "smack-down",
+      "round",
+      "scald",
+      "confide",
+      "liquidation",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/fossil_mob",
+  "evolutions": [
+    {
+      "name": "kabutops",
+      "level": 40,
+      "evoMoves": "slash"
+    }
+  ]
+}

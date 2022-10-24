@@ -1,0 +1,180 @@
+{
+  "name": "exeggutor-alola",
+  "id": 103,
+  "stock": true,
+  "base_experience": 186,
+  "size": {
+    "height": 10.9,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 415.6,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 95,
+    "attack": 105,
+    "defense": 85,
+    "special_attack": 125,
+    "special_defense": 75,
+    "speed": 45
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "grass",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "frisk"
+    ],
+    "hidden": [
+      "harvest"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "absorb",
+          "mega-drain",
+          "leech-seed",
+          "solar-beam",
+          "stun-spore",
+          "confusion",
+          "hypnosis",
+          "reflect",
+          "barrage",
+          "giga-drain",
+          "synthesis",
+          "uproar",
+          "extrasensory",
+          "bullet-seed",
+          "worry-seed",
+          "seed-bomb",
+          "power-whip"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "egg-bomb"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "dragon-pulse",
+          "dragon-hammer"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "leaf-storm"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "wood-hammer"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "psyshock"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "headbutt",
+      "flamethrower",
+      "hyper-beam",
+      "low-kick",
+      "mega-drain",
+      "solar-beam",
+      "earthquake",
+      "toxic",
+      "confusion",
+      "psychic",
+      "hypnosis",
+      "teleport",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "self-destruct",
+      "egg-bomb",
+      "dream-eater",
+      "barrage",
+      "explosion",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "sludge-bomb",
+      "outrage",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "psych-up",
+      "uproar",
+      "facade",
+      "nature-power",
+      "superpower",
+      "brick-break",
+      "knock-off",
+      "skill-swap",
+      "bullet-seed",
+      "block",
+      "magical-leaf",
+      "gravity",
+      "power-swap",
+      "worry-seed",
+      "seed-bomb",
+      "dragon-pulse",
+      "energy-ball",
+      "giga-impact",
+      "zen-headbutt",
+      "trick-room",
+      "draco-meteor",
+      "leaf-storm",
+      "power-whip",
+      "iron-head",
+      "grass-knot",
+      "wood-hammer",
+      "psyshock",
+      "telekinesis",
+      "round",
+      "bulldoze",
+      "dragon-tail",
+      "grassy-terrain",
+      "confide",
+      "infestation",
+      "dragon-hammer",
+      "brutal-swing",
+      "stomping-tantrum",
+      "breaking-swipe",
+      "grassy-glide",
+      "terrain-pulse"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_2",
+  "old_name": "exeggutor_alola"
+}

@@ -4,7 +4,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.network.packets.PacketSyncTerrain;
 import thut.api.Tracker;
@@ -17,15 +17,17 @@ public class SandSpit extends Ability
 {
 
     @Override
-    public void onMoveUse(final IPokemob mob, final MovePacket move)
+    public void postMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        final IPokemob attacker = move.attacker;
+        if (!areWeUser(mob, move)) return;
+        // We can be target and user at the same time, if self move.
+        if (areWeTarget(mob, move)) return;
+
         final Level world = mob.getEntity().getLevel();
 
         final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, new Vector3());
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemobEffects");
 
-        if (attacker == mob || move.pre || attacker == move.attacked) return;
         if (move.hit)
         {
             // terrain.doWorldAction(mob, location);

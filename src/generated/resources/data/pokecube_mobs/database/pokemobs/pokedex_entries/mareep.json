@@ -1,0 +1,255 @@
+{
+  "name": "mareep",
+  "id": 179,
+  "stock": true,
+  "base_experience": 56,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 7.8,
+  "is_default": true,
+  "capture_rate": 235,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 55,
+    "attack": 40,
+    "defense": 40,
+    "special_attack": 65,
+    "special_defense": 45,
+    "speed": 35
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "static"
+    ],
+    "hidden": [
+      "plus"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "thunder-shock"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "thunder"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "cotton-spore"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "charge"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "signal-beam"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "electro-ball"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "cotton-guard"
+        ]
+      }
+    ],
+    "misc": [
+      "sand-attack",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "growl",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "agility",
+      "mimic",
+      "screech",
+      "double-team",
+      "confuse-ray",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "swift",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "cotton-spore",
+      "protect",
+      "zap-cannon",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "flatter",
+      "facade",
+      "charge",
+      "secret-power",
+      "odor-sleuth",
+      "signal-beam",
+      "shock-wave",
+      "natural-gift",
+      "magnet-rise",
+      "power-gem",
+      "discharge",
+      "captivate",
+      "charge-beam",
+      "electro-ball",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "electroweb",
+      "wild-charge",
+      "cotton-guard",
+      "confide",
+      "eerie-impulse",
+      "electric-terrain"
+    ]
+  },
+  "loot_table": "minecraft:entities/sheep/yellow",
+  "interactions": [
+    {
+      "male": true,
+      "female": true,
+      "cooldown": 800,
+      "variance": 100,
+      "baseHunger": 250,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:shears"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:white_wool",
+              "n": "2"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "evolutions": [
+    {
+      "name": "flaaffy",
+      "level": 15,
+      "animation": "20"
+    }
+  ]
+}

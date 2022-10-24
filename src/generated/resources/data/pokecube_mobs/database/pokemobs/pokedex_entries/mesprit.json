@@ -1,0 +1,206 @@
+{
+  "name": "mesprit",
+  "id": 481,
+  "stock": true,
+  "base_experience": 290,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 0.3,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 140,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 80,
+    "attack": 105,
+    "defense": 105,
+    "special_attack": 105,
+    "special_defense": 105,
+    "speed": 80
+  },
+  "evs": {
+    "attack": 1,
+    "special_attack": 1,
+    "special_defense": 1
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 21,
+        "moves": [
+          "psybeam",
+          "swift"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "confusion",
+          "rest",
+          "healing-wish",
+          "natural-gift",
+          "copycat"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "flatter"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "imprison"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "lucky-chant"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "headbutt",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "confusion",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "metronome",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "sandstorm",
+      "endure",
+      "charm",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "baton-pass",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "facade",
+      "helping-hand",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "knock-off",
+      "skill-swap",
+      "imprison",
+      "secret-power",
+      "signal-beam",
+      "extrasensory",
+      "calm-mind",
+      "shock-wave",
+      "water-pulse",
+      "healing-wish",
+      "natural-gift",
+      "u-turn",
+      "fling",
+      "lucky-chant",
+      "copycat",
+      "drain-punch",
+      "energy-ball",
+      "giga-impact",
+      "nasty-plot",
+      "psycho-cut",
+      "zen-headbutt",
+      "trick-room",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "acrobatics",
+      "draining-kiss",
+      "play-rough",
+      "confide",
+      "dazzling-gleam",
+      "power-up-punch",
+      "laser-focus",
+      "expanding-force"
+    ]
+  },
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple",
+        "rate": "0.0"
+      }
+    }
+  ]
+}

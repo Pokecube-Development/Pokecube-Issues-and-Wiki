@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.pumpkaboo-small"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pumpkaboo-small"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_pumpkaboo-small": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "pumpkaboo-small"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

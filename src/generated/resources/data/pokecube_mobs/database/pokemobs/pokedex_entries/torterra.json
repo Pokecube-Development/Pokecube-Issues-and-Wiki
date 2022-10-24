@@ -1,0 +1,184 @@
+{
+  "name": "torterra",
+  "id": 389,
+  "stock": true,
+  "base_experience": 236,
+  "size": {
+    "height": 1.9,
+    "width": 2.2,
+    "length": 2.2
+  },
+  "mass": 310.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 95,
+    "attack": 109,
+    "defense": 105,
+    "special_attack": 75,
+    "special_defense": 85,
+    "speed": 56
+  },
+  "evs": {
+    "attack": 2,
+    "defense": 1
+  },
+  "types": [
+    "grass",
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "shell-armor"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "absorb",
+          "razor-leaf",
+          "withdraw",
+          "wood-hammer"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "leaf-storm"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "headbutt",
+      "tackle",
+      "bite",
+      "roar",
+      "hyper-beam",
+      "strength",
+      "absorb",
+      "mega-drain",
+      "leech-seed",
+      "razor-leaf",
+      "solar-beam",
+      "earthquake",
+      "toxic",
+      "double-team",
+      "withdraw",
+      "light-screen",
+      "reflect",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "outrage",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "facade",
+      "nature-power",
+      "superpower",
+      "secret-power",
+      "rock-tomb",
+      "bullet-seed",
+      "block",
+      "frenzy-plant",
+      "natural-gift",
+      "worry-seed",
+      "rock-polish",
+      "seed-bomb",
+      "energy-ball",
+      "earth-power",
+      "giga-impact",
+      "rock-climb",
+      "leaf-storm",
+      "iron-head",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "grass-knot",
+      "wood-hammer",
+      "round",
+      "grass-pledge",
+      "bulldoze",
+      "work-up",
+      "confide",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/shellseed_3"
+}

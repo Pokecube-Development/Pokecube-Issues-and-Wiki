@@ -1,0 +1,167 @@
+{
+  "name": "regieleki",
+  "id": 894,
+  "stock": true,
+  "base_experience": 290,
+  "size": {
+    "height": 1.2,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 145.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 80,
+    "attack": 100,
+    "defense": 50,
+    "special_attack": 100,
+    "special_defense": 50,
+    "speed": 200
+  },
+  "evs": {
+    "speed": 3
+  },
+  "types": [
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "transistor"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 54,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 72,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "thunder-shock",
+          "rapid-spin"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "thunderbolt"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 78,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "zap-cannon"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "lock-on"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "extreme-speed"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "shock-wave"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "magnet-rise"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "electroweb"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "thunder-cage"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "hyper-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "agility",
+      "screech",
+      "light-screen",
+      "reflect",
+      "self-destruct",
+      "swift",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "endure",
+      "sleep-talk",
+      "rain-dance",
+      "facade",
+      "bounce",
+      "assurance",
+      "giga-impact",
+      "electro-ball",
+      "round",
+      "acrobatics",
+      "volt-switch",
+      "electroweb",
+      "wild-charge",
+      "eerie-impulse",
+      "electric-terrain",
+      "rising-voltage"
+    ]
+  },
+  "loot_table": "pokecube:entities/redstone_1",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:regieleki_temple",
+        "rate": "0.0"
+      }
+    }
+  ]
+}

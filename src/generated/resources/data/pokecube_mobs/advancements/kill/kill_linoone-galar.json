@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.linoone-galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.linoone-galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_linoone-galar": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "linoone-galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

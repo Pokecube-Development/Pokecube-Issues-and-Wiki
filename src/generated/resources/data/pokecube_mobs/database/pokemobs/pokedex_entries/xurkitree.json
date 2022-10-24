@@ -1,0 +1,205 @@
+{
+  "name": "xurkitree",
+  "id": 796,
+  "stock": true,
+  "base_experience": 285,
+  "size": {
+    "height": 3.8,
+    "width": 1.0,
+    "length": 2.0
+  },
+  "mass": 100.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 83,
+    "attack": 89,
+    "defense": 71,
+    "special_attack": 173,
+    "special_defense": 71,
+    "speed": 83
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "beast-boost"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 23,
+        "moves": [
+          "thunder-punch"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "wrap",
+          "thunder-shock",
+          "spark",
+          "charge",
+          "tail-glow"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "thunderbolt"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 73,
+        "moves": [
+          "zap-cannon"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "ingrain"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "signal-beam"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "shock-wave"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "magnet-rise"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "power-whip"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "ion-deluge"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "eerie-impulse"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "electric-terrain"
+        ]
+      }
+    ],
+    "misc": [
+      "thunder-punch",
+      "bind",
+      "wrap",
+      "hyper-beam",
+      "solar-beam",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "hypnosis",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "zap-cannon",
+      "endure",
+      "swagger",
+      "spark",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "facade",
+      "nature-power",
+      "charge",
+      "ingrain",
+      "magic-coat",
+      "tail-glow",
+      "signal-beam",
+      "calm-mind",
+      "shock-wave",
+      "gravity",
+      "fling",
+      "magnet-rise",
+      "energy-ball",
+      "giga-impact",
+      "discharge",
+      "power-whip",
+      "grass-knot",
+      "charge-beam",
+      "electro-ball",
+      "round",
+      "volt-switch",
+      "electroweb",
+      "wild-charge",
+      "ion-deluge",
+      "confide",
+      "eerie-impulse",
+      "electric-terrain",
+      "dazzling-gleam",
+      "brutal-swing",
+      "rising-voltage"
+    ]
+  },
+  "loot_table": "pokecube:entities/redstone_creeper_2",
+  "spawn_rules": [
+    {
+      "values": {
+        "types": "#pokecube_legends:can_spawn/xurkitree",
+        "min": "1",
+        "rate": "0.2",
+        "max": "1"
+      }
+    }
+  ]
+}

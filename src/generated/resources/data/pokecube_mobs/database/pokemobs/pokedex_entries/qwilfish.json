@@ -1,0 +1,227 @@
+{
+  "name": "qwilfish",
+  "id": 211,
+  "stock": true,
+  "base_experience": 88,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 3.9,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 65,
+    "attack": 95,
+    "defense": 85,
+    "special_attack": 55,
+    "special_defense": 55,
+    "speed": 85
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "water",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "poison-point",
+      "swift-swim"
+    ],
+    "hidden": [
+      "intimidate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "poison-sting",
+          "water-gun",
+          "hydro-pump",
+          "spikes",
+          "destiny-bond",
+          "fell-stinger"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "pin-missile"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "harden",
+          "minimize"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "bubble"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "stockpile",
+          "spit-up"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "revenge"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "acupressure"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "toxic-spikes"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "aqua-tail"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "headbutt",
+      "tackle",
+      "take-down",
+      "double-edge",
+      "poison-sting",
+      "pin-missile",
+      "supersonic",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "thunder-wave",
+      "toxic",
+      "mimic",
+      "double-team",
+      "harden",
+      "minimize",
+      "defense-curl",
+      "haze",
+      "self-destruct",
+      "waterfall",
+      "swift",
+      "bubble",
+      "explosion",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "flail",
+      "reversal",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "spikes",
+      "destiny-bond",
+      "icy-wind",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "hidden-power",
+      "rain-dance",
+      "shadow-ball",
+      "whirlpool",
+      "stockpile",
+      "spit-up",
+      "hail",
+      "facade",
+      "taunt",
+      "revenge",
+      "secret-power",
+      "dive",
+      "astonish",
+      "signal-beam",
+      "bounce",
+      "shock-wave",
+      "water-pulse",
+      "gyro-ball",
+      "brine",
+      "natural-gift",
+      "payback",
+      "assurance",
+      "toxic-spikes",
+      "poison-jab",
+      "aqua-tail",
+      "captivate",
+      "aqua-jet",
+      "venoshock",
+      "sludge-wave",
+      "acid-spray",
+      "round",
+      "scald",
+      "hex",
+      "fell-stinger",
+      "confide",
+      "venom-drench",
+      "throat-chop",
+      "liquidation",
+      "steel-roller",
+      "scale-shot"
+    ]
+  },
+  "loot_table": "pokecube:entities/pufferfish"
+}

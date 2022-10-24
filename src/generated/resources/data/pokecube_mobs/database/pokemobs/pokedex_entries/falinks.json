@@ -1,0 +1,163 @@
+{
+  "name": "falinks",
+  "id": 870,
+  "stock": true,
+  "base_experience": 165,
+  "size": {
+    "height": 3.0,
+    "width": 3.0,
+    "length": 3.0
+  },
+  "mass": 62.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 65,
+    "attack": 100,
+    "defense": 100,
+    "special_attack": 70,
+    "special_defense": 60,
+    "speed": 75
+  },
+  "evs": {
+    "attack": 2,
+    "special_defense": 1
+  },
+  "types": [
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "battle-armor"
+    ],
+    "hidden": [
+      "defiant"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 15,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "protect"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "counter"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "reversal"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "megahorn"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "rock-smash"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "bulk-up"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "first-impression"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "no-retreat"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "hyper-beam",
+      "agility",
+      "screech",
+      "focus-energy",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "endure",
+      "false-swipe",
+      "sleep-talk",
+      "megahorn",
+      "beat-up",
+      "facade",
+      "helping-hand",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "rock-tomb",
+      "iron-defense",
+      "bulk-up",
+      "close-combat",
+      "payback",
+      "assurance",
+      "poison-jab",
+      "focus-blast",
+      "giga-impact",
+      "zen-headbutt",
+      "iron-head",
+      "round",
+      "retaliate",
+      "throat-chop",
+      "smart-strike",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_1"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.diancie"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.diancie"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_diancie": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "diancie"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

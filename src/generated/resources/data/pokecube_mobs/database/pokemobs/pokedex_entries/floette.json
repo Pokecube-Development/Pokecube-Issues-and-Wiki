@@ -1,0 +1,215 @@
+{
+  "name": "floette",
+  "id": 670,
+  "stock": true,
+  "base_experience": 130,
+  "size": {
+    "height": 0.2,
+    "width": 0.2,
+    "length": 0.2
+  },
+  "mass": 0.9,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 54,
+    "attack": 45,
+    "defense": 47,
+    "special_attack": 75,
+    "special_defense": 98,
+    "speed": 52
+  },
+  "evs": {
+    "special_defense": 2
+  },
+  "types": [
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "flower-veil"
+    ],
+    "hidden": [
+      "symbiosis"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "vine-whip",
+          "tackle",
+          "fairy-wind"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "petal-dance"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "wish"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "petal-blizzard"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "grassy-terrain"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "misty-terrain"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "moonblast"
+        ]
+      }
+    ],
+    "misc": [
+      "vine-whip",
+      "tackle",
+      "razor-leaf",
+      "solar-beam",
+      "petal-dance",
+      "toxic",
+      "psychic",
+      "double-team",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "giga-drain",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "synthesis",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "facade",
+      "nature-power",
+      "helping-hand",
+      "wish",
+      "magic-coat",
+      "endeavor",
+      "secret-power",
+      "aromatherapy",
+      "covet",
+      "magical-leaf",
+      "calm-mind",
+      "lucky-chant",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "grass-knot",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "ally-switch",
+      "petal-blizzard",
+      "grassy-terrain",
+      "misty-terrain",
+      "fairy-wind",
+      "moonblast",
+      "confide",
+      "dazzling-gleam"
+    ]
+  },
+  "model": {
+    "key": "floette-red",
+    "tex": "floette-red",
+    "model": "floette-red",
+    "anim": "floette-red",
+    "types": "fairy"
+  },
+  "models": [
+    {
+      "key": "floette-yellow",
+      "tex": "floette-yellow",
+      "model": "floette-yellow",
+      "anim": "floette-yellow",
+      "types": "fairy"
+    },
+    {
+      "key": "floette-orange",
+      "tex": "floette-orange",
+      "model": "floette-orange",
+      "anim": "floette-orange",
+      "types": "fairy"
+    },
+    {
+      "key": "floette-blue",
+      "tex": "floette-blue",
+      "model": "floette-blue",
+      "anim": "floette-blue",
+      "types": "fairy"
+    },
+    {
+      "key": "floette-white",
+      "tex": "floette-white",
+      "model": "floette-white",
+      "anim": "floette-white",
+      "types": "fairy"
+    }
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_1",
+  "evolutions": [
+    {
+      "name": "florges",
+      "item_preset": "shinystone"
+    }
+  ]
+}

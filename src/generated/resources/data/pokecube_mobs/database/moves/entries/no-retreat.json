@@ -1,0 +1,15 @@
+{
+  "name": "no-retreat",
+  "id": 748,
+  "pp": 5,
+  "priority": 0,
+  "type": "fighting",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "This move raises all the user’s stats but prevents\nthe user from switching out or fleeing.",
+  "move_category": "net-good-stats",
+  "stat_chance": 100,
+  "effect_text_extend": " with a $effect_chance% chance to make the target flinch.",
+  "effect_text_simple": "Hits twice in one turn",
+  "effect_chance": 100
+}

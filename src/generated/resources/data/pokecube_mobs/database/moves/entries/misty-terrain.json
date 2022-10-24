@@ -1,0 +1,13 @@
+{
+  "name": "misty-terrain",
+  "id": 581,
+  "pp": 10,
+  "priority": 0,
+  "type": "fairy",
+  "target": "entire-field",
+  "damage_class": "status",
+  "flavor_text": "This protects Pokémon on the ground from status\nconditions and halves damage from Dragon-type\nmoves for five turns.",
+  "move_category": "whole-field-effect",
+  "effect_text_extend": "For five turns, protects all Pokémon on the ground from major status ailments and confusion and weakens dragon moves used against them to 0.5× their power.\n\nChanges nature power to moonblast.",
+  "effect_text_simple": "For five turns, protects all Pokémon on the ground from major status ailments and confusion, and halves the power of incoming dragon moves."
+}

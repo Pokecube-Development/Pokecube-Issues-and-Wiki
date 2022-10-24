@@ -1,0 +1,20 @@
+{
+  "name": "round",
+  "animations": [
+    {
+      "preset": "flow:pfirework:cwhite:d0.66:l3:~round",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.charm",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4
+    },
+    {
+      "preset": "cartFunc:pnote:d4:rtrue:atrue:w1:l3:f0,1,0:~round",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

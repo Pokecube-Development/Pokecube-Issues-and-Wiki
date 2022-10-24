@@ -1,0 +1,80 @@
+{
+  "name": "cosmog",
+  "id": 789,
+  "stock": true,
+  "base_experience": 40,
+  "size": {
+    "height": 0.2,
+    "width": 0.2,
+    "length": 0.2
+  },
+  "mass": 0.1,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 43,
+    "attack": 29,
+    "defense": 31,
+    "special_attack": 29,
+    "special_defense": 31,
+    "speed": 37
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "unaware"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 23,
+        "moves": [
+          "teleport"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "splash"
+        ]
+      }
+    ],
+    "misc": [
+      "teleport",
+      "splash"
+    ]
+  },
+  "loot_table": "pokecube:entities/cosmic",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:space_temple",
+        "rate": "0.0"
+      }
+    },
+    {
+      "values": {
+        "types": "#pokecube_legends:can_spawn/cosmog",
+        "min": "1",
+        "rate": "0.007",
+        "max": "1"
+      }
+    }
+  ],
+  "evolutions": [
+    {
+      "name": "cosmoem",
+      "level": 43,
+      "evoMoves": "cosmicpower"
+    }
+  ]
+}

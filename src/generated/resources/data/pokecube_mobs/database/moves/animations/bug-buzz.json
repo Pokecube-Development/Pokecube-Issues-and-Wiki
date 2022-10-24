@@ -1,0 +1,20 @@
+{
+  "name": "bugbuzz",
+  "animations": [
+    {
+      "preset": "flow:w0.8:pmisc:clime:~bugbuzz",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "beam:pmisc:w1:d0.3:~bugbuzz",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

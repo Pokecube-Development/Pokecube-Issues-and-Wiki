@@ -1,0 +1,234 @@
+{
+  "name": "sigilyph",
+  "id": 561,
+  "stock": true,
+  "base_experience": 172,
+  "size": {
+    "height": 1.4,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 14.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 72,
+    "attack": 58,
+    "defense": 80,
+    "special_attack": 103,
+    "special_defense": 80,
+    "speed": 97
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "psychic",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "wonder-skin",
+      "magic-guard"
+    ],
+    "hidden": [
+      "tinted-lens"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "gust",
+          "confusion",
+          "miracle-eye"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "whirlwind"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "reflect"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "mirror-move"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "sky-attack"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "psywave"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "skill-swap"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "air-cutter"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "cosmic-power"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "gravity"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "tailwind"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "synchronoise"
+        ]
+      }
+    ],
+    "misc": [
+      "gust",
+      "whirlwind",
+      "fly",
+      "ice-beam",
+      "psybeam",
+      "hyper-beam",
+      "solar-beam",
+      "thunder-wave",
+      "toxic",
+      "psychic",
+      "hypnosis",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "mirror-move",
+      "swift",
+      "dream-eater",
+      "sky-attack",
+      "flash",
+      "psywave",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "rain-dance",
+      "psych-up",
+      "ancient-power",
+      "shadow-ball",
+      "future-sight",
+      "heat-wave",
+      "facade",
+      "trick",
+      "magic-coat",
+      "skill-swap",
+      "imprison",
+      "secret-power",
+      "air-cutter",
+      "cosmic-power",
+      "signal-beam",
+      "aerial-ace",
+      "calm-mind",
+      "shock-wave",
+      "roost",
+      "gravity",
+      "miracle-eye",
+      "pluck",
+      "tailwind",
+      "psycho-shift",
+      "power-swap",
+      "dark-pulse",
+      "air-slash",
+      "energy-ball",
+      "giga-impact",
+      "psycho-cut",
+      "zen-headbutt",
+      "flash-cannon",
+      "defog",
+      "trick-room",
+      "charge-beam",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "smack-down",
+      "synchronoise",
+      "round",
+      "stored-power",
+      "confide",
+      "dazzling-gleam",
+      "speed-swap",
+      "expanding-force",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/stone_1"
+}

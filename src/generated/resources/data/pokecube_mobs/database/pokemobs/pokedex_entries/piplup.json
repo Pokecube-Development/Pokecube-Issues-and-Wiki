@@ -1,0 +1,200 @@
+{
+  "name": "piplup",
+  "id": 393,
+  "stock": true,
+  "base_experience": 63,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 5.2,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 53,
+    "attack": 51,
+    "defense": 53,
+    "special_attack": 61,
+    "special_defense": 56,
+    "speed": 40
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+      "defiant"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "fury-attack"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "growl"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "mist"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "peck"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "drill-peck"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "bide"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "bubble"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "whirlpool"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "water-sport"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "brine"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "cut",
+      "headbutt",
+      "fury-attack",
+      "growl",
+      "supersonic",
+      "mist",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "peck",
+      "drill-peck",
+      "dig",
+      "toxic",
+      "agility",
+      "double-team",
+      "bide",
+      "waterfall",
+      "bubble",
+      "rest",
+      "substitute",
+      "snore",
+      "flail",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "whirlpool",
+      "hail",
+      "facade",
+      "brick-break",
+      "yawn",
+      "secret-power",
+      "dive",
+      "feather-dance",
+      "mud-sport",
+      "rock-tomb",
+      "signal-beam",
+      "aerial-ace",
+      "covet",
+      "water-sport",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "pluck",
+      "fling",
+      "aqua-ring",
+      "defog",
+      "captivate",
+      "stealth-rock",
+      "grass-knot",
+      "double-hit",
+      "round",
+      "echoed-voice",
+      "scald",
+      "quash",
+      "water-pledge",
+      "work-up",
+      "confide",
+      "power-trip"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_1",
+  "evolutions": [
+    {
+      "name": "prinplup",
+      "level": 16,
+      "evoMoves": "metalclaw"
+    }
+  ]
+}

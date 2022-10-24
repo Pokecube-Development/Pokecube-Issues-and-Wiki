@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.shaymin-sky"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.shaymin-sky"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_shaymin-sky": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "shaymin-sky"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

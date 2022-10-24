@@ -1,0 +1,250 @@
+{
+  "name": "kecleon",
+  "id": 352,
+  "stock": true,
+  "base_experience": 154,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 22.0,
+  "is_default": true,
+  "capture_rate": 200,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 90,
+    "defense": 70,
+    "special_attack": 60,
+    "special_defense": 120,
+    "speed": 40
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "color-change"
+    ],
+    "hidden": [
+      "protean"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "tail-whip",
+          "lick",
+          "thief",
+          "astonish"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "bind"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "substitute"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "camouflage"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "shadow-claw"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "shadow-sneak"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "synchronoise"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "scratch",
+      "cut",
+      "bind",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "tail-whip",
+      "disable",
+      "flamethrower",
+      "ice-beam",
+      "blizzard",
+      "psybeam",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "toxic",
+      "mimic",
+      "screech",
+      "double-team",
+      "recover",
+      "defense-curl",
+      "metronome",
+      "lick",
+      "fire-blast",
+      "swift",
+      "dizzy-punch",
+      "flash",
+      "fury-swipes",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "feint-attack",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "rollout",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "shadow-ball",
+      "rock-smash",
+      "fake-out",
+      "facade",
+      "focus-punch",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "brick-break",
+      "knock-off",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "camouflage",
+      "astonish",
+      "rock-tomb",
+      "aerial-ace",
+      "shock-wave",
+      "water-pulse",
+      "natural-gift",
+      "feint",
+      "fling",
+      "last-resort",
+      "sucker-punch",
+      "aqua-tail",
+      "drain-punch",
+      "nasty-plot",
+      "shadow-claw",
+      "shadow-sneak",
+      "trick-room",
+      "captivate",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "hone-claws",
+      "wonder-room",
+      "synchronoise",
+      "foul-play",
+      "after-you",
+      "round",
+      "incinerate",
+      "retaliate",
+      "work-up",
+      "confide",
+      "power-up-punch"
+    ]
+  },
+  "loot_table": "pokecube:entities/chestplate_seeds_2"
+}

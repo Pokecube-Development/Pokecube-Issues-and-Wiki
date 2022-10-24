@@ -1,0 +1,17 @@
+{
+  "name": "bolt-strike",
+  "id": 550,
+  "power": 130,
+  "pp": 5,
+  "priority": 0,
+  "type": "electric",
+  "accuracy": 85,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user surrounds itself with a great amount of\nelectricity and charges its target. This may also\nleave the target with paralysis.",
+  "move_category": "damage+ailment",
+  "ailment_chance": 20,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to paralyze the target.",
+  "effect_text_simple": "Has a $effect_chance% chance to paralyze the target.",
+  "effect_chance": 20
+}

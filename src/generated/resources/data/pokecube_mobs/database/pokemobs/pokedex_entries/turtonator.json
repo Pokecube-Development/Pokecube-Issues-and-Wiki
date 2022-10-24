@@ -1,0 +1,209 @@
+{
+  "name": "turtonator",
+  "id": 776,
+  "stock": true,
+  "base_experience": 170,
+  "size": {
+    "height": 2.0,
+    "width": 2.0,
+    "length": 2.0
+  },
+  "mass": 212.0,
+  "is_default": true,
+  "capture_rate": 70,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 78,
+    "defense": 135,
+    "special_attack": 91,
+    "special_defense": 85,
+    "speed": 36
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "fire",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "shell-armor"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "ember"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "smog"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "overheat"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "shell-smash"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "incinerate"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "shell-trap"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "mega-kick",
+      "tackle",
+      "body-slam",
+      "roar",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "solar-beam",
+      "fire-spin",
+      "earthquake",
+      "toxic",
+      "double-team",
+      "smog",
+      "fire-blast",
+      "explosion",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "flail",
+      "protect",
+      "outrage",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "rapid-spin",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "uproar",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "taunt",
+      "revenge",
+      "endeavor",
+      "hyper-voice",
+      "overheat",
+      "rock-tomb",
+      "iron-defense",
+      "block",
+      "dragon-claw",
+      "bulk-up",
+      "shock-wave",
+      "payback",
+      "fling",
+      "dragon-pulse",
+      "focus-blast",
+      "giga-impact",
+      "flash-cannon",
+      "draco-meteor",
+      "iron-head",
+      "stone-edge",
+      "charge-beam",
+      "head-smash",
+      "wide-guard",
+      "venoshock",
+      "smack-down",
+      "heavy-slam",
+      "flame-charge",
+      "round",
+      "shell-smash",
+      "incinerate",
+      "bulldoze",
+      "dragon-tail",
+      "work-up",
+      "heat-crash",
+      "confide",
+      "brutal-swing",
+      "shell-trap",
+      "stomping-tantrum",
+      "body-press",
+      "scale-shot",
+      "burning-jealousy",
+      "lash-out",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/turtleshells_3"
+}

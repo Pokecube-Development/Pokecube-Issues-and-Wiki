@@ -1,0 +1,20 @@
+{
+  "name": "mefirst",
+  "animations": [
+    {
+      "preset": "pons:pend_rod:d1:l3:~mefirst",
+      "duration": "3",
+      "starttick": "2"
+    },
+    {
+      "preset": "beam:pend_rod:d1:rtrue:l3:~mefirst",
+      "duration": "2",
+      "starttick": "0"
+    },
+    {
+      "preset": "pons:pmisc:cwhite:d1:l3:~mefirst",
+      "duration": "3",
+      "starttick": "2"
+    }
+  ]
+}

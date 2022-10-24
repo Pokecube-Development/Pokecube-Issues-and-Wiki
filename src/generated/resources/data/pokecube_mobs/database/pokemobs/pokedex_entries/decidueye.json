@@ -1,0 +1,218 @@
+{
+  "name": "decidueye",
+  "id": 724,
+  "stock": true,
+  "base_experience": 265,
+  "size": {
+    "height": 1.6,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 36.6,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 78,
+    "attack": 107,
+    "defense": 75,
+    "special_attack": 100,
+    "special_defense": 100,
+    "speed": 70
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "grass",
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "long-reach"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 33,
+        "moves": [
+          "fury-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl",
+          "peck",
+          "spite",
+          "u-turn",
+          "shadow-sneak",
+          "leaf-storm",
+          "phantom-force",
+          "leafage"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "foresight"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "feather-dance"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "astonish"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "leaf-blade"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "pluck"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "brave-bird"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "ominous-wind"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "spirit-shackle"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "fury-attack",
+      "tackle",
+      "growl",
+      "hyper-beam",
+      "peck",
+      "razor-leaf",
+      "solar-beam",
+      "toxic",
+      "double-team",
+      "light-screen",
+      "swift",
+      "sky-attack",
+      "rest",
+      "substitute",
+      "snore",
+      "spite",
+      "protect",
+      "foresight",
+      "giga-drain",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "baton-pass",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "shadow-ball",
+      "facade",
+      "nature-power",
+      "imprison",
+      "feather-dance",
+      "astonish",
+      "frenzy-plant",
+      "covet",
+      "leaf-blade",
+      "roost",
+      "pluck",
+      "tailwind",
+      "u-turn",
+      "worry-seed",
+      "sucker-punch",
+      "seed-bomb",
+      "air-slash",
+      "energy-ball",
+      "brave-bird",
+      "giga-impact",
+      "nasty-plot",
+      "shadow-claw",
+      "shadow-sneak",
+      "psycho-cut",
+      "defog",
+      "leaf-storm",
+      "grass-knot",
+      "smack-down",
+      "low-sweep",
+      "round",
+      "echoed-voice",
+      "hex",
+      "acrobatics",
+      "grass-pledge",
+      "work-up",
+      "hurricane",
+      "phantom-force",
+      "confide",
+      "spirit-shackle",
+      "solar-blade",
+      "leafage",
+      "laser-focus",
+      "grassy-glide",
+      "skitter-smack",
+      "poltergeist",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_3"
+}

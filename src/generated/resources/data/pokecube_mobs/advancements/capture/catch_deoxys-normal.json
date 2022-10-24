@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.deoxys-normal"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.deoxys-normal"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_deoxys-normal": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "deoxys-normal"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

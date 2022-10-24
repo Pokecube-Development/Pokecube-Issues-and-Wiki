@@ -1,0 +1,241 @@
+{
+  "name": "golurk",
+  "id": 623,
+  "stock": true,
+  "base_experience": 169,
+  "size": {
+    "height": 2.8,
+    "width": 2.8,
+    "length": 2.0
+  },
+  "mass": 330.0,
+  "is_default": true,
+  "capture_rate": 90,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 89,
+    "attack": 124,
+    "defense": 80,
+    "special_attack": 55,
+    "special_defense": 80,
+    "speed": 55
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "ground",
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "iron-fist",
+      "klutz"
+    ],
+    "hidden": [
+      "no-guard"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "defense-curl",
+          "mud-slap",
+          "astonish",
+          "high-horsepower"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "mega-punch"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "night-shade"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "magnitude"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "dynamic-punch"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 69,
+        "moves": [
+          "focus-punch"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "shadow-punch"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "hammer-arm"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "heavy-slam"
+        ]
+      },
+      {
+        "L": 76,
+        "moves": [
+          "phantom-force"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "stomping-tantrum"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "fly",
+      "mega-kick",
+      "body-slam",
+      "ice-beam",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "earthquake",
+      "dig",
+      "toxic",
+      "psychic",
+      "night-shade",
+      "double-team",
+      "defense-curl",
+      "self-destruct",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "rollout",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "magnitude",
+      "dynamic-punch",
+      "hidden-power",
+      "rain-dance",
+      "shadow-ball",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "trick",
+      "superpower",
+      "magic-coat",
+      "brick-break",
+      "imprison",
+      "secret-power",
+      "astonish",
+      "rock-tomb",
+      "signal-beam",
+      "shadow-punch",
+      "iron-defense",
+      "block",
+      "shock-wave",
+      "gravity",
+      "hammer-arm",
+      "gyro-ball",
+      "close-combat",
+      "fling",
+      "rock-polish",
+      "drain-punch",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "zen-headbutt",
+      "flash-cannon",
+      "stone-edge",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "telekinesis",
+      "heavy-slam",
+      "low-sweep",
+      "round",
+      "ally-switch",
+      "bulldoze",
+      "heat-crash",
+      "phantom-force",
+      "confide",
+      "power-up-punch",
+      "darkest-lariat",
+      "high-horsepower",
+      "stomping-tantrum",
+      "body-press",
+      "poltergeist",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/stone_2"
+}

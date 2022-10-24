@@ -1,0 +1,15 @@
+{
+  "name": "megapunch",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d1:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~megapunch",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2
+    }
+  ]
+}

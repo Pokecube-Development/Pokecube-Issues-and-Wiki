@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.decidueye"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.decidueye"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_decidueye": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "decidueye"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

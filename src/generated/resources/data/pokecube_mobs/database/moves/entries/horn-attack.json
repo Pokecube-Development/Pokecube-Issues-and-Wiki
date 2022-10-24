@@ -1,0 +1,15 @@
+{
+  "name": "horn-attack",
+  "id": 30,
+  "power": 65,
+  "pp": 25,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The target is jabbed with a sharply pointed horn to\ninflict damage.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.",
+  "effect_text_simple": "Inflicts regular damage with no additional effect."
+}

@@ -1,0 +1,219 @@
+{
+  "name": "metang",
+  "id": 375,
+  "stock": true,
+  "base_experience": 147,
+  "size": {
+    "height": 0.6,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 202.5,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 60,
+    "attack": 75,
+    "defense": 100,
+    "special_attack": 55,
+    "special_defense": 80,
+    "speed": 50
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "steel",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "clear-body"
+    ],
+    "hidden": [
+      "light-metal"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "take-down",
+          "magnet-rise"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "confusion",
+          "metal-claw"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "meteor-mash"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "miracle-eye"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "bullet-punch"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "flash-cannon"
+        ]
+      }
+    ],
+    "misc": [
+      "ice-punch",
+      "thunder-punch",
+      "cut",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "hyper-beam",
+      "strength",
+      "earthquake",
+      "toxic",
+      "confusion",
+      "psychic",
+      "agility",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "self-destruct",
+      "swift",
+      "flash",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "mud-slap",
+      "icy-wind",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "fury-cutter",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "pursuit",
+      "metal-claw",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "facade",
+      "trick",
+      "brick-break",
+      "secret-power",
+      "meteor-mash",
+      "rock-tomb",
+      "cosmic-power",
+      "signal-beam",
+      "aerial-ace",
+      "iron-defense",
+      "gravity",
+      "miracle-eye",
+      "gyro-ball",
+      "natural-gift",
+      "magnet-rise",
+      "rock-polish",
+      "bullet-punch",
+      "psycho-cut",
+      "zen-headbutt",
+      "flash-cannon",
+      "iron-head",
+      "stealth-rock",
+      "grass-knot",
+      "hone-claws",
+      "psyshock",
+      "telekinesis",
+      "round",
+      "ally-switch",
+      "bulldoze",
+      "confide",
+      "power-up-punch",
+      "steel-beam",
+      "expanding-force",
+      "steel-roller",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_pearls_2",
+  "evolutions": [
+    {
+      "name": "metagross",
+      "level": 45,
+      "evoMoves": "hammerarm"
+    }
+  ]
+}

@@ -1,0 +1,193 @@
+{
+  "name": "terrakion",
+  "id": 639,
+  "stock": true,
+  "base_experience": 290,
+  "size": {
+    "height": 1.9,
+    "width": 1.0,
+    "length": 1.9
+  },
+  "mass": 260.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 91,
+    "attack": 129,
+    "defense": 90,
+    "special_attack": 72,
+    "special_defense": 90,
+    "speed": 108
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "rock",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "justified"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 37,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "double-kick",
+          "leer",
+          "quick-attack",
+          "close-combat",
+          "smack-down"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "quick-guard"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "retaliate"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "work-up"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "sacred-sword"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "double-kick",
+      "take-down",
+      "leer",
+      "roar",
+      "hyper-beam",
+      "strength",
+      "earthquake",
+      "toxic",
+      "quick-attack",
+      "double-team",
+      "reflect",
+      "swift",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "scary-face",
+      "sandstorm",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "megahorn",
+      "hidden-power",
+      "psych-up",
+      "rock-smash",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "secret-power",
+      "rock-tomb",
+      "aerial-ace",
+      "block",
+      "calm-mind",
+      "rock-blast",
+      "close-combat",
+      "rock-polish",
+      "poison-jab",
+      "air-slash",
+      "x-scissor",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "zen-headbutt",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "smack-down",
+      "round",
+      "quick-guard",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "sacred-sword",
+      "confide",
+      "laser-focus",
+      "smart-strike",
+      "stomping-tantrum",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:keldeo_place",
+        "rate": "0.0"
+      }
+    },
+    {
+      "values": {
+        "structures": "pokecube_legends:keldeo_place",
+        "min": "1",
+        "rate": "0.005",
+        "max": "1"
+      }
+    }
+  ]
+}

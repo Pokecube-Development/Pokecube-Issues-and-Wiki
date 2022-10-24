@@ -15,7 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.client.Resources;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.texturing.IPartTexturer;
@@ -91,7 +91,7 @@ public class Status
     public static void render(final LivingEntityRenderer<Mob, EntityModel<Mob>> renderer, final PoseStack mat,
             final MultiBufferSource buf, final IPokemob pokemob, final float partialTicks, final int light)
     {
-        byte status = pokemob.getStatus();
+        int status = pokemob.getStatus();
         if (status == IMoveConstants.STATUS_NON || !(renderer.getModel() instanceof ModelWrapper<?> wrap)) return;
 
         final Mob mob = pokemob.getEntity();

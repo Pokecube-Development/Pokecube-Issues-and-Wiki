@@ -1,0 +1,14 @@
+{
+  "name": "simple-beam",
+  "id": 493,
+  "pp": 15,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user’s mysterious psychic wave changes the\ntarget’s Ability to Simple.",
+  "move_category": "unique",
+  "effect_text_extend": "Changes the target's ability to simple.",
+  "effect_text_simple": "Changes the target's ability to Simple."
+}

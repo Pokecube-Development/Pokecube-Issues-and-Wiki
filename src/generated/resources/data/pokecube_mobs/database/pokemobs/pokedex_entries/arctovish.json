@@ -1,0 +1,157 @@
+{
+  "name": "arctovish",
+  "id": 883,
+  "stock": true,
+  "base_experience": 177,
+  "size": {
+    "height": 2.0,
+    "width": 1.9,
+    "length": 2.0
+  },
+  "mass": 175.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 90,
+    "attack": 90,
+    "defense": 100,
+    "special_attack": 80,
+    "special_defense": 90,
+    "speed": 55
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "water",
+    "ice"
+  ],
+  "abilities": {
+    "normal": [
+      "water-absorb",
+      "ice-body"
+    ],
+    "hidden": [
+      "slush-rush"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 28,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "water-gun",
+          "powder-snow"
+        ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "super-fang"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "icy-wind"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "icicle-crash"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "freeze-dry"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "aurora-veil"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "fishious-rend"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "waterfall",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "icy-wind",
+      "endure",
+      "sleep-talk",
+      "rain-dance",
+      "crunch",
+      "whirlpool",
+      "hail",
+      "facade",
+      "dive",
+      "rock-tomb",
+      "icicle-spear",
+      "iron-defense",
+      "rock-blast",
+      "brine",
+      "giga-impact",
+      "avalanche",
+      "ice-fang",
+      "zen-headbutt",
+      "iron-head",
+      "stone-edge",
+      "round",
+      "psychic-fangs",
+      "liquidation",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/fossil_mob"
+}

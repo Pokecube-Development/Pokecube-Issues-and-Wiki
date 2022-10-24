@@ -1,0 +1,198 @@
+{
+  "name": "hoopa-unbound",
+  "id": 720,
+  "stock": true,
+  "base_experience": 306,
+  "size": {
+    "height": 6.5,
+    "width": 3.0,
+    "length": 3.0
+  },
+  "mass": 490.0,
+  "is_default": false,
+  "capture_rate": 3,
+  "base_happiness": 100,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 80,
+    "attack": 160,
+    "defense": 60,
+    "special_attack": 170,
+    "special_defense": 130,
+    "speed": 80
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "psychic",
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "magician"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 19,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "confusion",
+          "destiny-bond",
+          "trick",
+          "ally-switch",
+          "hyperspace-fury"
+        ]
+      },
+      {
+        "L": 75,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "magic-coat"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "skill-swap"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "astonish"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "trick-room",
+          "wonder-room"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "guard-split",
+          "power-split"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "psybeam",
+      "hyper-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "toxic",
+      "confusion",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "destiny-bond",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "uproar",
+      "torment",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "brick-break",
+      "knock-off",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "astonish",
+      "signal-beam",
+      "block",
+      "covet",
+      "calm-mind",
+      "shock-wave",
+      "gravity",
+      "embargo",
+      "fling",
+      "last-resort",
+      "dark-pulse",
+      "drain-punch",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "zen-headbutt",
+      "trick-room",
+      "gunk-shot",
+      "grass-knot",
+      "charge-beam",
+      "guard-split",
+      "power-split",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "foul-play",
+      "round",
+      "ally-switch",
+      "quash",
+      "dual-chop",
+      "confide",
+      "power-up-punch",
+      "hyperspace-fury",
+      "laser-focus",
+      "throat-chop"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "old_name": "hoopa_unbound"
+}

@@ -1,0 +1,16 @@
+{
+  "name": "light-of-ruin",
+  "id": 617,
+  "power": 140,
+  "pp": 5,
+  "priority": 0,
+  "type": "fairy",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "Drawing power from the Eternal Flower, the user\nfires a powerful beam of light. This also damages the\nuser quite a lot.",
+  "move_category": "damage",
+  "drain": -50,
+  "effect_text_extend": "Inflicts regular damage.  User takes 1/2 the damage it inflicts in recoil.",
+  "effect_text_simple": "User receives 1/2 the damage inflicted in recoil."
+}

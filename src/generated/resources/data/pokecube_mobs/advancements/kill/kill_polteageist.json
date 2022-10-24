@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.polteageist"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.polteageist"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_polteageist": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "polteageist"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

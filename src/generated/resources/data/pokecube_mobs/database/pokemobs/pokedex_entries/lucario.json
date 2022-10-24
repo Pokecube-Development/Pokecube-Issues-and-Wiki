@@ -1,0 +1,271 @@
+{
+  "name": "lucario",
+  "id": 448,
+  "stock": true,
+  "base_experience": 184,
+  "size": {
+    "height": 1.2,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 54.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 70,
+    "attack": 110,
+    "defense": 70,
+    "special_attack": 115,
+    "special_defense": 70,
+    "speed": 90
+  },
+  "evs": {
+    "attack": 1,
+    "special_attack": 1
+  },
+  "types": [
+    "fighting",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "steadfast",
+      "inner-focus"
+    ],
+    "hidden": [
+      "justified"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 19,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "counter"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "quick-attack",
+          "screech",
+          "reversal",
+          "foresight",
+          "detect",
+          "metal-claw",
+          "rock-smash",
+          "helping-hand",
+          "copycat",
+          "force-palm",
+          "dark-pulse",
+          "nasty-plot",
+          "final-gambit",
+          "laser-focus",
+          "life-dew"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "bone-rush"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "extreme-speed"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "meteor-mash"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "me-first"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "aura-sphere"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "quick-guard"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "heal-pulse"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "work-up"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "power-up-punch"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "thunder-punch",
+      "swords-dance",
+      "mega-kick",
+      "headbutt",
+      "roar",
+      "hyper-beam",
+      "low-kick",
+      "counter",
+      "strength",
+      "earthquake",
+      "dig",
+      "toxic",
+      "psychic",
+      "agility",
+      "quick-attack",
+      "screech",
+      "double-team",
+      "focus-energy",
+      "swift",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "foresight",
+      "detect",
+      "bone-rush",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "metal-claw",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "extreme-speed",
+      "shadow-ball",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "role-play",
+      "revenge",
+      "brick-break",
+      "secret-power",
+      "blaze-kick",
+      "rock-tomb",
+      "metal-sound",
+      "iron-defense",
+      "bulk-up",
+      "calm-mind",
+      "water-pulse",
+      "natural-gift",
+      "feint",
+      "close-combat",
+      "payback",
+      "fling",
+      "me-first",
+      "magnet-rise",
+      "force-palm",
+      "aura-sphere",
+      "poison-jab",
+      "dark-pulse",
+      "dragon-pulse",
+      "drain-punch",
+      "vacuum-wave",
+      "focus-blast",
+      "giga-impact",
+      "nasty-plot",
+      "shadow-claw",
+      "zen-headbutt",
+      "flash-cannon",
+      "rock-climb",
+      "stone-edge",
+      "captivate",
+      "hone-claws",
+      "low-sweep",
+      "round",
+      "quick-guard",
+      "heal-pulse",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "dual-chop",
+      "confide",
+      "power-up-punch",
+      "laser-focus",
+      "steel-beam",
+      "terrain-pulse",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2",
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "lucariomega"
+    }
+  ]
+}

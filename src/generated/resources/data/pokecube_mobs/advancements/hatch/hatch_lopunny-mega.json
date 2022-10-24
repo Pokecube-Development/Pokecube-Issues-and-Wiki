@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.lopunny-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lopunny-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_lopunny-mega": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "lopunny-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

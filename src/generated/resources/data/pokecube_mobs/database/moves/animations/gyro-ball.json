@@ -1,0 +1,25 @@
+{
+  "name": "gyroball",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d1:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~gyroball",
+      "duration": "3",
+      "starttick": "3",
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.5
+    },
+    {
+      "preset": "cartFunc:pend_rod:d1:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):rtrue:l3:~gyroball",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.metalclaw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

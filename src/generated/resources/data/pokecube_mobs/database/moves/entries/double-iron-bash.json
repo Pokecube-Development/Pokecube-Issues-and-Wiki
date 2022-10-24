@@ -1,0 +1,19 @@
+{
+  "name": "double-iron-bash",
+  "id": 742,
+  "power": 60,
+  "pp": 5,
+  "priority": 0,
+  "type": "steel",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user rotates, centering the hex nut in its chest,\nand then strikes with its arms twice in a row. This may\nalso make the target flinch.",
+  "move_category": "damage",
+  "flinch_chance": 30,
+  "max_hits": 2,
+  "min_hits": 2,
+  "effect_text_extend": "Inflicts regular damage.  Hits twice in one turn.",
+  "effect_text_simple": "Hits twice in one turn.",
+  "effect_chance": 30
+}

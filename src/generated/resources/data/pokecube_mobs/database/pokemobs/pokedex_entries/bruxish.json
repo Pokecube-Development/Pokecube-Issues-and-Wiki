@@ -1,0 +1,187 @@
+{
+  "name": "bruxish",
+  "id": 779,
+  "stock": true,
+  "base_experience": 166,
+  "size": {
+    "height": 0.9,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 19.0,
+  "is_default": true,
+  "capture_rate": 80,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 68,
+    "attack": 105,
+    "defense": 70,
+    "special_attack": 70,
+    "special_defense": 70,
+    "speed": 92
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "water",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "dazzling",
+      "strong-jaw"
+    ],
+    "hidden": [
+      "wonder-skin"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 12,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "disable"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "psywave"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "astonish"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "synchronoise"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "psychic-fangs"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "bite",
+      "disable",
+      "water-gun",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "toxic",
+      "confusion",
+      "psychic",
+      "rage",
+      "screech",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "waterfall",
+      "dream-eater",
+      "psywave",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "crunch",
+      "uproar",
+      "torment",
+      "facade",
+      "taunt",
+      "magic-coat",
+      "snatch",
+      "poison-fang",
+      "astonish",
+      "signal-beam",
+      "aerial-ace",
+      "bulk-up",
+      "calm-mind",
+      "water-pulse",
+      "payback",
+      "embargo",
+      "fling",
+      "aqua-tail",
+      "giga-impact",
+      "ice-fang",
+      "trick-room",
+      "aqua-jet",
+      "wonder-room",
+      "venoshock",
+      "telekinesis",
+      "magic-room",
+      "synchronoise",
+      "after-you",
+      "round",
+      "ally-switch",
+      "scald",
+      "frost-breath",
+      "confide",
+      "psychic-fangs",
+      "liquidation"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1"
+}

@@ -1,10 +1,8 @@
 package pokecube.mobs.moves.attacks.special;
 
 import net.minecraft.world.entity.LivingEntity;
-import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.core.moves.templates.Move_Basic;
-import thut.core.common.ThutCore;
 
 public class Present extends Move_Basic
 {
@@ -12,16 +10,6 @@ public class Present extends Move_Basic
     public Present()
     {
         super("present");
-    }
-
-    @Override
-    public int getPWR(IPokemob user, LivingEntity target)
-    {
-        final double rand = ThutCore.newRandom().nextDouble();
-        if (rand < 0.4) return 40;
-        if (rand < 0.7) return 80;
-        if (rand < 0.8) return 120;
-        return 0;
     }
 
     @Override

@@ -1,0 +1,40 @@
+{
+  "name": "alcremie-gmax",
+  "id": 869,
+  "stock": true,
+  "base_experience": 173,
+  "size": {
+    "height": 6.0,
+    "width": 4.0,
+    "length": 4.0
+  },
+  "mass": 1000.0,
+  "is_default": false,
+  "capture_rate": 100,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 65,
+    "attack": 60,
+    "defense": 75,
+    "special_attack": 110,
+    "special_defense": 121,
+    "speed": 64
+  },
+  "evs": {
+    "special_defense": 2
+  },
+  "types": [
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "sweet-veil"
+    ],
+    "hidden": [
+      "aroma-veil"
+    ]
+  },
+  "old_name": "alcremie_gigantamax"
+}

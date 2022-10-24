@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.morpeko-full-belly"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.morpeko-full-belly"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_morpeko-full-belly": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "morpeko-full-belly"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

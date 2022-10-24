@@ -1,0 +1,27 @@
+{
+  "name": "headcharge",
+  "animations": [
+    {
+      "preset": "cartFunc:atrue:pcrit:d0.6:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~headcharge",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:atrue:pcrit:d2:w3:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~headcharge",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.vicegrip",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8,
+      "applyAfter": false
+    }
+  ]
+}

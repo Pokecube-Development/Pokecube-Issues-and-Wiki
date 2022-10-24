@@ -1,0 +1,30 @@
+{
+  "name": "rockwrecker",
+  "animations": [
+    {
+      "preset": "throw:atrue:w1.8:~rockwrecker",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.9
+    },
+    {
+      "preset": "cartFunc:pexplosion_emitter:d2:atrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~rockwrecker",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.rocksmash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.9
+    },
+    {
+      "preset": "flow:pmisc:d0.5:~rockwrecker",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

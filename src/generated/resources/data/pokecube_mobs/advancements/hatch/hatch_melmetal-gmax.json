@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.melmetal-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.melmetal-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_melmetal-gmax": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "melmetal-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.cramorant-gulping"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.cramorant-gulping"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_cramorant-gulping": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "cramorant-gulping"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

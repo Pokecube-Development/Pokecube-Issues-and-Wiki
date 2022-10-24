@@ -2,21 +2,18 @@ package pokecube.core.moves.zmoves;
 
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
-import pokecube.api.moves.Move_Base;
-import pokecube.api.utils.PokeType;
-import pokecube.core.database.moves.json.JsonMoves.MoveJsonEntry;
-import pokecube.core.database.moves.json.JsonMoves.MovesJson;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.MoveEntry.PowerProvider;
+import pokecube.core.database.tags.Tags;
 import pokecube.core.moves.MovesUtils;
-import thut.core.common.ThutCore;
+import pokecube.core.moves.templates.D_Move_Damage;
+import pokecube.core.moves.templates.Z_Move_Damage;
 
 public class GZMoveManager
 {
@@ -27,115 +24,35 @@ public class GZMoveManager
 
     static final Pattern GMAXENTRY = Pattern.compile("(that_gigantamax_)(\\w+)(_use)");
 
-    public static boolean isGZDMove(final MoveJsonEntry entry)
+    public static boolean isGZDMove(final MoveEntry entry)
     {
         return GZMoveManager.isZMove(entry) || GZMoveManager.isGMove(entry) || GZMoveManager.isDMove(entry);
     }
 
-    public static boolean isZMove(final MoveJsonEntry entry)
+    public static boolean isZMove(final MoveEntry entry)
     {
-        final String battleEffect = ThutCore.trim(entry.battleEffect);
-        return battleEffect != null && battleEffect.contains("z-power");
+        return Tags.MOVE.isIn("z_move", entry.name);
     }
 
-    public static boolean isDMove(final MoveJsonEntry entry)
+    public static boolean isDMove(final MoveEntry entry)
     {
-        final String battleEffect = ThutCore.trim(entry.battleEffect);
-        return battleEffect != null && battleEffect.contains("attack_dynamax_pokmon_use");
+        return Tags.MOVE.isIn("d_move", entry.name);
     }
 
-    public static boolean isGMove(final MoveJsonEntry entry)
+    public static boolean isGMove(final MoveEntry entry)
     {
-        final String battleEffect = ThutCore.trim(entry.battleEffect);
-        return battleEffect != null && battleEffect.contains("attack_that_gigantamax");
+        return Tags.MOVE.isIn("g_move", entry.name);
     }
 
-    public static void init(final MovesJson moves)
+    public static PowerProvider getPowerProvider(MoveEntry e)
     {
-        final Map<PokeType, String> g_type_map = Maps.newHashMap();
-        final Map<PokeType, String> z_moves = Maps.newHashMap();
-        final List<String> g_max_moves = Lists.newArrayList();
-        int num = 0;
-        int num2 = 0;
-        // Initial processing to determine the moves.
-        for (final MoveJsonEntry entry : moves.moves)
-        {
-            entry.gMove = ThutCore.trim(entry.gMove);
-            entry.zMove = ThutCore.trim(entry.zMove);
-            final boolean g = GZMoveManager.isGMove(entry);
-            final boolean d = GZMoveManager.isDMove(entry);
-            final boolean z = GZMoveManager.isZMove(entry);
-            if (d || g)
-            {
-                num++;
-                final PokeType type = PokeType.getType(entry.type);
-                if (g)
-                {
-                    final String battleEffect = ThutCore.trim(entry.battleEffect);
-                    Matcher match = GMAXENTRY.matcher(battleEffect);
-                    if (match.find()) entry.gmaxEntry = match.group(2);
-                    if (entry.gmaxEntry != null)
-                    {
-                        num2++;
-                        g_max_moves.add(entry.name);
-                        GZMoveManager.g_max_moves_map.put(entry.name, ThutCore.trim(entry.gmaxEntry));
-                    }
-                    else
-                    {
-                        PokecubeAPI.LOGGER.error("No pokedex entry specified for " + entry.name);
-                    }
-                }
-                else g_type_map.put(type, entry.name);
-            }
-            if (z)
-            {
-                final PokeType type = PokeType.getType(entry.type);
-                if (entry.zEntry != null)
-                {
-                    final String[] vars = entry.zEntry.split(";");
-                    for (String s : vars)
-                    {
-                        s = ThutCore.trim(s);
-                        List<String> movesList = GZMoveManager.z_sig_moves_map.get(s);
-                        if (movesList == null) GZMoveManager.z_sig_moves_map.put(s, movesList = Lists.newArrayList());
-                        movesList.add(entry.name);
-                        PokecubeAPI.LOGGER.debug("Signature Z-Move {} -> {}", s, entry.name);
-                    }
-                }
-                else z_moves.put(type, entry.name);
-            }
-        }
-        PokecubeAPI.LOGGER.debug("Found {} G or Z Moves, of which {} are G-Max moves", num, num2);
-        // Second pass to map on alternates.
-        for (final MoveJsonEntry entry : moves.moves)
-        {
-            // Do not map these onto anything.
-            if (g_type_map.containsValue(entry.name) || g_max_moves.contains(entry.name)
-                    || z_moves.containsValue(entry.name))
-                continue;
-            final String name = ThutCore.trim(entry.name);
-            String z_to = ThutCore.trim(entry.zMovesTo);
-            String g_to = ThutCore.trim(entry.gMoveTo);
+        return isZMove(e) ? Z_Move_Damage.INSTANCE : D_Move_Damage.INSTANCE;
+    }
 
-            // Manual mapping
-            if (z_to != null && z_moves.containsValue(z_to)) GZMoveManager.zmoves_map.put(name, z_to);
-            else
-            {
-                final PokeType type = PokeType.getType(entry.type);
-                z_to = z_moves.get(type);
-                if (z_to != null) GZMoveManager.zmoves_map.put(name, z_to);
-                else PokecubeAPI.LOGGER.warn("No Max Move For Type {}, when allocating for {}", type.name, entry.name);
-            }
-            // Manual mapping
-            if (g_to != null && g_type_map.containsValue(z_to)) GZMoveManager.gmoves_map.put(name, g_to);
-            else
-            {
-                final PokeType type = PokeType.getType(entry.type);
-                g_to = g_type_map.get(type);
-                if (g_to != null) GZMoveManager.gmoves_map.put(name, g_to);
-                else PokecubeAPI.LOGGER.warn("No Max Move For Type {}, when allocating for {}", type.name, entry.name);
-            }
-        }
+    public static void init(final MoveEntry moves)
+    {
+        // TODO re-do this G-Z move stuff to work with the updated moves
+        // formatting.
     }
 
     /**
@@ -150,7 +67,7 @@ public class GZMoveManager
     public static String getZMove(final IPokemob user, final String base_move)
     {
         if (base_move == null) return null;
-        final Move_Base move = MovesUtils.getMoveFromName(base_move);
+        final MoveEntry move = MovesUtils.getMove(base_move);
         if (move == null) return null;
         final ZPower checker = CapabilityZMove.get(user.getEntity());
         if (!checker.canZMove(user, base_move)) return null;
@@ -181,7 +98,7 @@ public class GZMoveManager
     {
         if (base_move == null) return null;
         if (!user.getCombatState(CombatStates.DYNAMAX)) return null;
-        final Move_Base move = MovesUtils.getMoveFromName(base_move);
+        final MoveEntry move = MovesUtils.getMove(base_move);
         if (move == null) return null;
         gigant = gigant && GZMoveManager.g_max_moves_map.containsKey(base_move);
         return gigant ? GZMoveManager.g_max_moves_map.get(base_move) : GZMoveManager.gmoves_map.get(base_move);

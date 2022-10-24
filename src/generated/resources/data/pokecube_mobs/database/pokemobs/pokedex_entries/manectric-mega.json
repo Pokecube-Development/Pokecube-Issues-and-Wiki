@@ -1,0 +1,163 @@
+{
+  "name": "manectric-mega",
+  "id": 310,
+  "stock": true,
+  "base_experience": 201,
+  "size": {
+    "height": 1.8
+  },
+  "mass": 44.0,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 70,
+    "attack": 75,
+    "defense": 80,
+    "special_attack": 135,
+    "special_defense": 80,
+    "speed": 135
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "intimidate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "leer",
+          "thunder-wave",
+          "howl",
+          "fire-fang",
+          "electric-terrain"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "thunder"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "charge"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "odor-sleuth"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "thunder-fang"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "wild-charge"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "leer",
+      "bite",
+      "roar",
+      "flamethrower",
+      "hyper-beam",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "quick-attack",
+      "double-team",
+      "light-screen",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "swagger",
+      "spark",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "uproar",
+      "facade",
+      "charge",
+      "secret-power",
+      "overheat",
+      "odor-sleuth",
+      "signal-beam",
+      "howl",
+      "shock-wave",
+      "magnet-rise",
+      "giga-impact",
+      "thunder-fang",
+      "fire-fang",
+      "discharge",
+      "charge-beam",
+      "round",
+      "volt-switch",
+      "wild-charge",
+      "snarl",
+      "confide",
+      "electric-terrain",
+      "laser-focus"
+    ]
+  },
+  "old_name": "manectric_mega"
+}

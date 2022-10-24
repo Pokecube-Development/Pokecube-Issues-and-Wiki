@@ -1,0 +1,222 @@
+{
+  "name": "illumise",
+  "id": 314,
+  "stock": true,
+  "base_experience": 151,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 17.7,
+  "is_default": true,
+  "capture_rate": 150,
+  "base_happiness": 70,
+  "growth_rate": "fast-then-very-slow",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 65,
+    "attack": 47,
+    "defense": 75,
+    "special_attack": 73,
+    "special_defense": 85,
+    "speed": 85
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "bug"
+  ],
+  "abilities": {
+    "normal": [
+      "oblivious",
+      "tinted-lens"
+    ],
+    "hidden": [
+      "prankster"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "play-nice"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "encore"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "moonlight"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "flatter"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "wish"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "covet"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "struggle-bug"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "play-rough"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "infestation"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "counter",
+      "seismic-toss",
+      "growth",
+      "solar-beam",
+      "string-shot",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "quick-attack",
+      "mimic",
+      "double-team",
+      "confuse-ray",
+      "light-screen",
+      "metronome",
+      "swift",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "mud-slap",
+      "giga-drain",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "baton-pass",
+      "encore",
+      "sweet-scent",
+      "moonlight",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "flatter",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "wish",
+      "brick-break",
+      "secret-power",
+      "aromatherapy",
+      "fake-tears",
+      "air-cutter",
+      "silver-wind",
+      "aerial-ace",
+      "covet",
+      "shock-wave",
+      "water-pulse",
+      "roost",
+      "natural-gift",
+      "tailwind",
+      "u-turn",
+      "fling",
+      "bug-buzz",
+      "zen-headbutt",
+      "defog",
+      "captivate",
+      "bug-bite",
+      "charge-beam",
+      "ominous-wind",
+      "round",
+      "acrobatics",
+      "struggle-bug",
+      "play-rough",
+      "play-nice",
+      "confide",
+      "dazzling-gleam",
+      "infestation",
+      "power-up-punch"
+    ]
+  },
+  "loot_table": "pokecube:entities/glowstone_dust"
+}

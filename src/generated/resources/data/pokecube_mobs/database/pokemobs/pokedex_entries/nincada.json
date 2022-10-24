@@ -1,0 +1,170 @@
+{
+  "name": "nincada",
+  "id": 290,
+  "stock": true,
+  "base_experience": 53,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 5.5,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "slow-then-very-fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 31,
+    "attack": 45,
+    "defense": 90,
+    "special_attack": 30,
+    "special_defense": 30,
+    "speed": 40
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "bug",
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "compound-eyes"
+    ],
+    "hidden": [
+      "run-away"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "harden"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "sand-attack"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "absorb",
+          "leech-life"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "dig"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "bide"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "mind-reader"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "false-swipe"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "metal-claw"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "cut",
+      "gust",
+      "sand-attack",
+      "double-edge",
+      "absorb",
+      "solar-beam",
+      "string-shot",
+      "dig",
+      "toxic",
+      "mimic",
+      "double-team",
+      "harden",
+      "bide",
+      "leech-life",
+      "flash",
+      "fury-swipes",
+      "rest",
+      "substitute",
+      "mind-reader",
+      "snore",
+      "flail",
+      "spite",
+      "protect",
+      "feint-attack",
+      "mud-slap",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "metal-claw",
+      "hidden-power",
+      "sunny-day",
+      "shadow-ball",
+      "facade",
+      "secret-power",
+      "silver-wind",
+      "aerial-ace",
+      "natural-gift",
+      "night-slash",
+      "x-scissor",
+      "bug-buzz",
+      "bug-bite",
+      "hone-claws",
+      "round",
+      "final-gambit",
+      "struggle-bug",
+      "confide",
+      "skitter-smack"
+    ]
+  },
+  "loot_table": "minecraft:entities/spider",
+  "evolutions": [
+    {
+      "name": "ninjask",
+      "level": 20,
+      "evoMoves": "doubleteam,  doubleteamscreechfurycutter,  furycutter,  screech"
+    }
+  ]
+}

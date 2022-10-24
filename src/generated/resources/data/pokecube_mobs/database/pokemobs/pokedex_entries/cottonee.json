@@ -1,0 +1,211 @@
+{
+  "name": "cottonee",
+  "id": 546,
+  "stock": true,
+  "base_experience": 56,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 0.6,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 40,
+    "attack": 27,
+    "defense": 60,
+    "special_attack": 37,
+    "special_defense": 50,
+    "speed": 66
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "grass",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "prankster",
+      "infiltrator"
+    ],
+    "hidden": [
+      "chlorophyll"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "absorb",
+          "fairy-wind"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "poison-powder"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "stun-spore"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "cotton-spore"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "sunny-day"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "endeavor"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "cotton-guard"
+        ]
+      }
+    ],
+    "misc": [
+      "absorb",
+      "mega-drain",
+      "leech-seed",
+      "growth",
+      "razor-leaf",
+      "solar-beam",
+      "poison-powder",
+      "stun-spore",
+      "toxic",
+      "double-team",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "cotton-spore",
+      "protect",
+      "giga-drain",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "encore",
+      "hidden-power",
+      "sunny-day",
+      "beat-up",
+      "memento",
+      "facade",
+      "nature-power",
+      "taunt",
+      "helping-hand",
+      "knock-off",
+      "endeavor",
+      "secret-power",
+      "fake-tears",
+      "grass-whistle",
+      "tickle",
+      "covet",
+      "natural-gift",
+      "tailwind",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "switcheroo",
+      "defog",
+      "captivate",
+      "grass-knot",
+      "round",
+      "cotton-guard",
+      "grassy-terrain",
+      "misty-terrain",
+      "fairy-wind",
+      "confide",
+      "dazzling-gleam",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wool_1",
+  "evolutions": [
+    {
+      "name": "whimsicott",
+      "item_preset": "sunstone"
+    }
+  ]
+}

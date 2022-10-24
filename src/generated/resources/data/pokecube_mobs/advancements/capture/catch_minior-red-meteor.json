@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.minior-red-meteor"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.minior-red-meteor"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_minior-red-meteor": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "minior-red-meteor"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

@@ -1,0 +1,202 @@
+{
+  "name": "magcargo",
+  "id": 219,
+  "stock": true,
+  "base_experience": 151,
+  "size": {
+    "height": 0.8,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 55.0,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 50,
+    "defense": 120,
+    "special_attack": 90,
+    "special_defense": 80,
+    "speed": 30
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "fire",
+    "rock"
+  ],
+  "abilities": {
+    "normal": [
+      "magma-armor",
+      "flame-body"
+    ],
+    "hidden": [
+      "weak-armor"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 43,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "ember",
+          "rock-throw",
+          "smog",
+          "yawn",
+          "earth-power"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "harden"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "lava-plume"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "flame-burst"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "clear-smog"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "shell-smash"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "incinerate"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "double-edge",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "rock-throw",
+      "earthquake",
+      "toxic",
+      "mimic",
+      "double-team",
+      "recover",
+      "harden",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "self-destruct",
+      "smog",
+      "fire-blast",
+      "amnesia",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "hidden-power",
+      "sunny-day",
+      "ancient-power",
+      "rock-smash",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "nature-power",
+      "yawn",
+      "secret-power",
+      "overheat",
+      "rock-tomb",
+      "iron-defense",
+      "gyro-ball",
+      "natural-gift",
+      "rock-polish",
+      "earth-power",
+      "giga-impact",
+      "lava-plume",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "smack-down",
+      "flame-burst",
+      "flame-charge",
+      "after-you",
+      "round",
+      "clear-smog",
+      "shell-smash",
+      "incinerate",
+      "bulldoze",
+      "confide",
+      "infestation",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/magma_cream"
+}

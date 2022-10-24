@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.mesprit"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mesprit"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_mesprit": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "mesprit"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

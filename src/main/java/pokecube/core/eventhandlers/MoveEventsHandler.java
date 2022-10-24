@@ -30,17 +30,17 @@ import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.api.events.pokemobs.combat.MoveUse.MoveWorldAction;
 import pokecube.api.items.IPokemobUseable;
-import pokecube.api.moves.IMoveAction;
-import pokecube.api.moves.IMoveConstants;
-import pokecube.api.moves.IMoveNames;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.IMoveNames;
+import pokecube.api.moves.utils.IMoveWorldEffect;
+import pokecube.api.moves.utils.MoveApplication;
+import pokecube.api.moves.utils.MoveApplication.StatusApplier;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.eventhandlers.SpawnHandler.ForbidReason;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
@@ -83,13 +83,13 @@ public class MoveEventsHandler
         }
     }
 
-    public static class ActionWrapper implements IMoveAction
+    public static class ActionWrapper implements IMoveWorldEffect
     {
-        final IMoveAction wrapped;
-        private IMoveAction custom;
+        final IMoveWorldEffect wrapped;
+        private IMoveWorldEffect custom;
         private boolean checked = false;
 
-        public ActionWrapper(final IMoveAction wrapped)
+        public ActionWrapper(final IMoveWorldEffect wrapped)
         {
             this.wrapped = wrapped;
         }
@@ -120,7 +120,7 @@ public class MoveEventsHandler
         }
     }
 
-    public static final Map<String, IMoveAction> customActions = Maps.newHashMap();
+    public static final Map<String, IMoveWorldEffect> customActions = Maps.newHashMap();
 
     public static boolean canAffectBlock(final IPokemob user, final Vector3 location, final String move)
     {
@@ -199,13 +199,13 @@ public class MoveEventsHandler
         return new UseContext(world, player, InteractionHand.MAIN_HAND, stack, hit);
     }
 
-    public static void register(IMoveAction move)
+    public static void register(IMoveWorldEffect move)
     {
         if (!(move instanceof ActionWrapper)) move = new ActionWrapper(move);
         MoveEventsHandler.actionMap.put(move.getMoveName(), move);
     }
 
-    private static Map<String, IMoveAction> actionMap = Maps.newHashMap();
+    private static Map<String, IMoveWorldEffect> actionMap = Maps.newHashMap();
 
     public static void register()
     {
@@ -232,16 +232,16 @@ public class MoveEventsHandler
 
     private static void onDuringUsePost(final MoveUse.DuringUse.Post evt)
     {
-        final MovePacket move = evt.getPacket();
-        IPokemob attacker = move.attacker;
-        final Entity attacked = move.attacked;
+        final MoveApplication move = evt.getPacket();
+        IPokemob attacker = move.getUser();
+        final Entity attacked = move.target;
         final IPokemob target = PokemobCaps.getPokemobFor(attacked);
 
         final IPokemobUseable attackerheld = IPokemobUseable.getUsableFor(attacker.getHeldItem());
         if (attackerheld != null)
         {
             final InteractionResultHolder<ItemStack> result = attackerheld.onMoveTick(attacker, attacker.getHeldItem(),
-                    move);
+                    move, false);
             if (result.getResult() == InteractionResult.SUCCESS) attacker.setHeldItem(result.getObject());
         }
         if (target != null)
@@ -250,40 +250,33 @@ public class MoveEventsHandler
             if (targetheld != null)
             {
                 final InteractionResultHolder<ItemStack> result = targetheld.onMoveTick(attacker, target.getHeldItem(),
-                        move);
+                        move, false);
                 if (result.getResult() == InteractionResult.SUCCESS) target.setHeldItem(result.getObject());
             }
         }
 
-        final boolean user = evt.isFromUser();
-        IPokemob applied = user ? attacker : target;
+        IPokemob applied = target;
         if (applied != null && applied.getHeldItem() != null)
             ItemGenerator.processHeldItemUse(move, applied, applied.getHeldItem());
 
         Ability ab;
-        if (target != null && (ab = target.getAbility()) != null) ab.onMoveUse(applied, move);
-        // Reset this incase it was changed!
-        attacker = move.attacker;
-        applied = user ? attacker : target;
-        if ((ab = attacker.getAbility()) != null) ab.onMoveUse(applied, move);
+        if (target != null && (ab = target.getAbility()) != null) ab.postMoveUse(target, move);
+        if ((ab = attacker.getAbility()) != null) ab.postMoveUse(attacker, move);
     }
 
     private static void onDuringUsePre(final MoveUse.DuringUse.Pre evt)
     {
-        final MovePacket move = evt.getPacket();
-        final Move_Base attack = move.getMove();
-        final boolean user = evt.isFromUser();
-        IPokemob attacker = move.attacker;
-        final Entity attacked = move.attacked;
+        final MoveApplication move = evt.getPacket();
+        final MoveEntry attack = move.getMove();
+        final IPokemob attacker = move.getUser();
+        final Entity attacked = move.target;
         final IPokemob target = PokemobCaps.getPokemobFor(attacked);
-        IPokemob applied = user ? attacker : target;
-        IPokemob other = user ? target : attacker;
 
         final IPokemobUseable attackerheld = IPokemobUseable.getUsableFor(attacker.getHeldItem());
         if (attackerheld != null)
         {
             final InteractionResultHolder<ItemStack> result = attackerheld.onMoveTick(attacker, attacker.getHeldItem(),
-                    move);
+                    move, true);
             if (result.getResult() == InteractionResult.SUCCESS) attacker.setHeldItem(result.getObject());
         }
         if (target != null)
@@ -292,91 +285,82 @@ public class MoveEventsHandler
             if (targetheld != null)
             {
                 final InteractionResultHolder<ItemStack> result = targetheld.onMoveTick(attacker, target.getHeldItem(),
-                        move);
+                        move, true);
                 if (result.getResult() == InteractionResult.SUCCESS) target.setHeldItem(result.getObject());
             }
         }
 
-        if (applied == null) return;
-        if (!user) applied.getEntity().getPersistentData().putString("lastMoveHitBy", move.attack);
+        if (target == null) return;
+        target.getEntity().getPersistentData().putString("lastMoveHitBy", move.getMove().name);
         if (MoveEntry.oneHitKos.contains(attack.name) && target != null && target.getLevel() < attacker.getLevel())
             move.failed = true;
-        if (target != null && target.getMoveStats().substituteHP > 0 && !user)
+        if (target != null && target.getMoveStats().substituteHP > 0)
         {
             final float damage = MovesUtils.getAttackStrength(attacker, target, move.getMove().getCategory(attacker),
-                    move.PWR, move);
+                    move.pwr, move.getMove(), move.stat_multipliers);
             MovesUtils.sendPairedMessages(attacked, attacker, "pokemob.substitute.absorb");
             target.getMoveStats().substituteHP -= damage;
             if (target.getMoveStats().substituteHP < 0) MovesUtils.sendPairedMessages(attacked, attacker,
                     "pokemob.substitute.break", attacked.getDisplayName());
             move.failed = true;
-            move.PWR = 0;
-            move.changeAddition = 0;
-            move.statusChange = 0;
+            move.pwr = 0;
+            move.status = StatusApplier.NOOP;
         }
 
-        if (user && attack.getName().equals(IMoveNames.MOVE_SUBSTITUTE))
-            applied.getMoveStats().substituteHP = applied.getEntity().getMaxHealth() / 4;
+        if (attack.getName().equals(IMoveNames.MOVE_SUBSTITUTE))
+            target.getMoveStats().substituteHP = target.getEntity().getMaxHealth() / 4;
 
-        if (applied.getHeldItem() != null) ItemGenerator.processHeldItemUse(move, applied, applied.getHeldItem());
+        if (target.getHeldItem() != null) ItemGenerator.processHeldItemUse(move, target, target.getHeldItem());
 
         Ability ab;
-        if ((ab = attacker.getAbility()) != null) ab.onMoveUse(applied, move);
-        // Reset this incase it was changed!
-        attacker = move.attacker;
-        applied = user ? attacker : target;
-        other = user ? target : attacker;
-        if (target != null && (ab = target.getAbility()) != null) ab.onMoveUse(applied, move);
-        // Reset this incase it was changed!
-        attacker = move.attacker;
-        applied = user ? attacker : target;
-        other = user ? target : attacker;
+        if ((ab = attacker.getAbility()) != null) ab.preMoveUse(attacker, move);
+        if (target != null && (ab = target.getAbility()) != null) ab.preMoveUse(target, move);
 
         if (attack.getName().equals(IMoveNames.MOVE_FALSESWIPE)) move.noFaint = true;
         boolean blockMove = false;
-        for (final String s : MoveEntry.protectionMoves) if (s.equals(move.attack))
+        for (final String s : MoveEntry.protectionMoves) if (s.equals(move.getName()))
         {
             blockMove = true;
             break;
         }
 
-        if (user && !blockMove && applied.getMoveStats().blocked && applied.getMoveStats().blockTimer-- <= 0)
+        if (!blockMove && target.getMoveStats().blocked && target.getMoveStats().blockTimer-- <= 0)
         {
-            applied.getMoveStats().blocked = false;
-            applied.getMoveStats().blockTimer = 0;
-            applied.getMoveStats().BLOCKCOUNTER = 0;
+            target.getMoveStats().blocked = false;
+            target.getMoveStats().blockTimer = 0;
+            target.getMoveStats().BLOCKCOUNTER = 0;
         }
         boolean unblockable = false;
-        for (final String s : MoveEntry.unBlockableMoves) if (s.equals(move.attack))
+        for (final String s : MoveEntry.unBlockableMoves) if (s.equals(move.getName()))
         {
             unblockable = true;
             break;
         }
-        if (move.attacked != move.attacker && !unblockable && other != null && other.getMoveStats().BLOCKCOUNTER > 0)
+        if (attacker != target && !unblockable && target.getMoveStats().BLOCKCOUNTER > 0)
         {
-            final float count = Math.max(0, other.getMoveStats().BLOCKCOUNTER - 2);
+            final float count = Math.max(0, target.getMoveStats().BLOCKCOUNTER - 2);
             final float chance = count != 0 ? Math.max(0.125f, 1 / count) : 1;
             if (chance > Math.random()) move.failed = true;
         }
         if (attack.getName().equals(IMoveNames.MOVE_PROTECT) || attack.getName().equals(IMoveNames.MOVE_DETECT))
         {
-            applied.getMoveStats().blockTimer = PokecubeCore.getConfig().attackCooldown * 2;
-            applied.getMoveStats().blocked = true;
-            applied.getMoveStats().BLOCKCOUNTER += 2;
+            target.getMoveStats().blockTimer = PokecubeCore.getConfig().attackCooldown * 2;
+            target.getMoveStats().blocked = true;
+            target.getMoveStats().BLOCKCOUNTER += 2;
         }
-        if (applied.getMoveStats().BLOCKCOUNTER > 0) applied.getMoveStats().BLOCKCOUNTER--;
+        if (target.getMoveStats().BLOCKCOUNTER > 0) target.getMoveStats().BLOCKCOUNTER--;
     }
 
     private static void onWorldAction(final MoveWorldAction.OnAction evt)
     {
         final IPokemob attacker = evt.getUser();
         final Vector3 location = evt.getLocation();
-        final Move_Base move = evt.getMove();
-        IMoveAction action = MoveEventsHandler.actionMap.get(move.name);
+        final MoveEntry move = evt.getMove();
+        IMoveWorldEffect action = MoveEventsHandler.actionMap.get(move.name);
         if (action == null)
         {
             boolean doesDamage = (move.getAttackCategory(attacker) & IMoveConstants.CATEGORY_DISTANCE) > 0
-                    && move.move.power > 0;
+                    && move.power > 0;
             if (move.getType(attacker) == PokeType.getType("water")) action = new DefaultWaterAction(move);
             if (move.getType(attacker) == PokeType.getType("ice") && doesDamage) action = new DefaultIceAction(move);
             if (move.getType(attacker) == PokeType.getType("electric")) action = new DefaultElectricAction(move);

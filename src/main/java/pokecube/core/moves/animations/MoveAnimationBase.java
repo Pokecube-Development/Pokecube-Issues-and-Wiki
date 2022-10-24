@@ -5,8 +5,8 @@ import java.util.Random;
 import net.minecraft.world.item.DyeColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.api.moves.IMoveAnimation;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveAnimation;
 
 public abstract class MoveAnimationBase implements IMoveAnimation
 {
@@ -32,7 +32,7 @@ public abstract class MoveAnimationBase implements IMoveAnimation
         return this.duration;
     }
 
-    public int getColourFromMove(final Move_Base move, int alpha)
+    public int getColourFromMove(final MoveEntry move, int alpha)
     {
         alpha = Math.min(255, alpha);
         final int colour = move.getType(null).colour + 0x01000000 * alpha;
@@ -51,7 +51,7 @@ public abstract class MoveAnimationBase implements IMoveAnimation
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void initColour(final long time, final float partialTicks, final Move_Base move)
+    public void initColour(final long time, final float partialTicks, final MoveEntry move)
     {
         this.reallyInitRGBA();
         if (this.customColour) return;

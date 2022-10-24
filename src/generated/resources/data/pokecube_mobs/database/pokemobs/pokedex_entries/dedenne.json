@@ -1,0 +1,204 @@
+{
+  "name": "dedenne",
+  "id": 702,
+  "stock": true,
+  "base_experience": 151,
+  "size": {
+    "height": 0.2,
+    "width": 0.2,
+    "length": 0.2
+  },
+  "mass": 2.2,
+  "is_default": true,
+  "capture_rate": 180,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 67,
+    "attack": 58,
+    "defense": 57,
+    "special_attack": 81,
+    "special_defense": 67,
+    "speed": 101
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "electric",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "cheek-pouch",
+      "pickup"
+    ],
+    "hidden": [
+      "plus"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "thunder-shock"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "thunder"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "super-fang",
+          "discharge"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "snore"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "charge"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "charge-beam"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "entrainment"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "volt-switch"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "parabolic-charge"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "play-rough"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "nuzzle"
+        ]
+      }
+    ],
+    "misc": [
+      "thunder-punch",
+      "cut",
+      "tackle",
+      "tail-whip",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "toxic",
+      "double-team",
+      "flash",
+      "rest",
+      "super-fang",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "facade",
+      "charge",
+      "helping-hand",
+      "recycle",
+      "secret-power",
+      "signal-beam",
+      "aerial-ace",
+      "covet",
+      "shock-wave",
+      "natural-gift",
+      "u-turn",
+      "fling",
+      "last-resort",
+      "magnet-rise",
+      "giga-impact",
+      "discharge",
+      "grass-knot",
+      "charge-beam",
+      "electro-ball",
+      "entrainment",
+      "round",
+      "ally-switch",
+      "retaliate",
+      "volt-switch",
+      "electroweb",
+      "wild-charge",
+      "parabolic-charge",
+      "play-rough",
+      "confide",
+      "eerie-impulse",
+      "electric-terrain",
+      "dazzling-gleam",
+      "nuzzle",
+      "tearful-look",
+      "rising-voltage"
+    ]
+  },
+  "loot_table": "pokecube:entities/redstone_rabbit_1"
+}

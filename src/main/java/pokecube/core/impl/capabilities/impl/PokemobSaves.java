@@ -49,7 +49,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         if (!statsTag.isEmpty())
         {
             this.setExp(statsTag.getInt(TagNames.EXP), false);
-            this.setStatus(statsTag.getByte(TagNames.STATUS));
+            this.setStatus(statsTag.getInt(TagNames.STATUS));
             this.addHappiness(statsTag.getInt(TagNames.HAPPY));
             this.setDynamaxFactor(statsTag.getFloat(TagNames.DYNAPOWER));
         }
@@ -154,7 +154,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         // Write stats tag
         final CompoundTag statsTag = new CompoundTag();
         statsTag.putInt(TagNames.EXP, this.getExp());
-        statsTag.putByte(TagNames.STATUS, this.getStatus());
+        statsTag.putInt(TagNames.STATUS, this.getStatus());
         statsTag.putInt(TagNames.HAPPY, this.bonusHappiness);
         statsTag.putFloat(TagNames.DYNAPOWER, this.getDynamaxFactor());
 

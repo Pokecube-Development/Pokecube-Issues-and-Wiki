@@ -1,35 +1,31 @@
 package pokecube.mobs.abilities.simple;
 
-import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.MoveApplication;
 
 public class Libero extends Ability
 {
     @Override
-    public void onMoveUse(final IPokemob mob, final MovePacket move)
-    {   
-    	final Move_Base attack = move.getMove();
-        if (!move.pre || move.attack.equals("struggle")) return;     
-		if(mob == move.attacker)
-        	mob.setType1(attack.move.type);
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
+    {
+        if (areWeTarget(mob, move)) return;
+        final MoveEntry attack = move.getMove();
+        if (attack.name.equals("struggle")) return;
+        mob.setType1(attack.type);
     }
-    
+
     @Override
     public void onUpdate(final IPokemob mob)
     {
-    	final PokedexEntry mobs = mob.getPokedexEntry();
-    	if(!mob.inCombat()) 
-        	mob.setType1(mobs.getType1());
+        if (!mob.inCombat()) mob.setType1(null);
     }
-    
+
     @Override
     public IPokemob onRecall(final IPokemob mob)
     {
-        final PokedexEntry mobs = mob.getPokedexEntry();
-        mob.setType1(mobs.getType1());
+        mob.setType1(null);
         return super.onRecall(mob);
     }
 }

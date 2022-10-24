@@ -1,0 +1,13 @@
+{
+  "name": "ion-deluge",
+  "id": 569,
+  "pp": 25,
+  "priority": 1,
+  "type": "electric",
+  "target": "entire-field",
+  "damage_class": "status",
+  "flavor_text": "The user disperses electrically charged particles,\nwhich changes Normal-type moves to\nElectric-type moves.",
+  "move_category": "whole-field-effect",
+  "effect_text_extend": "Changes all Pokémon's normal moves to electric moves for the rest of the turn.",
+  "effect_text_simple": "Changes all normal moves to electric moves for the rest of the turn."
+}

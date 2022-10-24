@@ -1,0 +1,189 @@
+{
+  "name": "metagross-mega",
+  "id": 376,
+  "stock": true,
+  "base_experience": 315,
+  "size": {
+    "height": 2.5,
+    "width": 2.5,
+    "length": 2.5
+  },
+  "mass": 942.9,
+  "is_default": false,
+  "capture_rate": 3,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 80,
+    "attack": 145,
+    "defense": 150,
+    "special_attack": 105,
+    "special_defense": 110,
+    "speed": 110
+  },
+  "evs": {
+    "defense": 3
+  },
+  "types": [
+    "steel",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "tough-claws"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "take-down",
+          "confusion",
+          "metal-claw",
+          "magnet-rise"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "meteor-mash"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "miracle-eye"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "hammer-arm"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "bullet-punch"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "zen-headbutt"
+        ]
+      }
+    ],
+    "misc": [
+      "ice-punch",
+      "thunder-punch",
+      "cut",
+      "take-down",
+      "hyper-beam",
+      "strength",
+      "earthquake",
+      "toxic",
+      "confusion",
+      "psychic",
+      "agility",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "flash",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "icy-wind",
+      "sandstorm",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pursuit",
+      "metal-claw",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "facade",
+      "trick",
+      "brick-break",
+      "secret-power",
+      "meteor-mash",
+      "rock-tomb",
+      "signal-beam",
+      "aerial-ace",
+      "iron-defense",
+      "block",
+      "gravity",
+      "miracle-eye",
+      "hammer-arm",
+      "gyro-ball",
+      "magnet-rise",
+      "rock-polish",
+      "giga-impact",
+      "bullet-punch",
+      "zen-headbutt",
+      "flash-cannon",
+      "iron-head",
+      "stealth-rock",
+      "grass-knot",
+      "hone-claws",
+      "psyshock",
+      "telekinesis",
+      "round",
+      "ally-switch",
+      "bulldoze",
+      "confide",
+      "power-up-punch",
+      "laser-focus",
+      "stomping-tantrum"
+    ]
+  },
+  "old_name": "metagross_mega"
+}

@@ -12,11 +12,10 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.moves.IMoveAnimation;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveAnimation;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.moves.MoveEntry;
-import pokecube.core.database.moves.json.JsonMoves.AnimationJson;
+import pokecube.core.database.moves.json.Animations.AnimationJson;
 import pokecube.core.moves.animations.presets.Thunder;
 import thut.api.maths.Vector3;
 
@@ -24,23 +23,21 @@ public class AnimationMultiAnimations extends MoveAnimationBase
 {
     public static class WrappedAnimation
     {
-        IMoveAnimation   wrapped;
+        IMoveAnimation wrapped;
         ResourceLocation sound;
-        SoundEvent       soundEvent;
-        boolean          soundSource = false;
-        boolean          soundTarget = false;
-        float            volume      = 1;
-        float            pitch       = 1;
-        int              start;
+        SoundEvent soundEvent;
+        boolean soundSource = false;
+        boolean soundTarget = false;
+        float volume = 1;
+        float pitch = 1;
+        int start;
     }
 
     public static boolean isThunderAnimation(final IMoveAnimation input)
     {
         if (input == null) return false;
-        if (!(input instanceof AnimationMultiAnimations)) return input instanceof Thunder;
-        final AnimationMultiAnimations anim = (AnimationMultiAnimations) input;
-        for (final WrappedAnimation a : anim.components)
-            if (a.wrapped instanceof Thunder) return true;
+        if (!(input instanceof AnimationMultiAnimations anim)) return input instanceof Thunder;
+        for (final WrappedAnimation a : anim.components) if (a.wrapped instanceof Thunder) return true;
         return false;
     }
 
@@ -50,7 +47,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
 
     public AnimationMultiAnimations(final MoveEntry move)
     {
-        final List<AnimationJson> animations = move.baseEntry.animations;
+        final List<AnimationJson> animations = move.root_entry.animation.animations;
         this.duration = 0;
         if (animations == null || animations.isEmpty()) return;
         for (final AnimationJson anim : animations)
@@ -104,7 +101,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     }
 
     @Override
-    public void initColour(final long time, final float partialTicks, final Move_Base move)
+    public void initColour(final long time, final float partialTicks, final MoveEntry move)
     {
         // We don't do this.
     }
@@ -141,14 +138,14 @@ public class AnimationMultiAnimations extends MoveAnimationBase
                 }
                 boolean valid = toRun.soundSource;
                 // Check source sounds.
-                if (valid = info.source != null || info.attacker != null) pos.set(info.source != null ? info.source
-                        : info.attacker);
+                if (valid = info.source != null || info.attacker != null)
+                    pos.set(info.source != null ? info.source : info.attacker);
                 if (valid) world.playLocalSound(pos.x, pos.y, pos.z, toRun.soundEvent, SoundSource.HOSTILE, volume,
                         pitch, true);
                 // Check target sounds.
                 valid = toRun.soundTarget;
-                if (valid = info.target != null || info.attacked != null) pos.set(info.target != null ? info.target
-                        : info.attacked);
+                if (valid = info.target != null || info.attacked != null)
+                    pos.set(info.target != null ? info.target : info.attacked);
                 if (valid) world.playLocalSound(pos.x, pos.y, pos.z, toRun.soundEvent, SoundSource.HOSTILE, volume,
                         pitch, true);
             }

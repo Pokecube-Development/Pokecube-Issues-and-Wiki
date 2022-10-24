@@ -1,0 +1,15 @@
+{
+  "name": "tailwhip",
+  "animations": [
+    {
+      "preset": "cartFunc:pcloud:d1.5:rtrue:atrue:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~tailwhip",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.9
+    }
+  ]
+}

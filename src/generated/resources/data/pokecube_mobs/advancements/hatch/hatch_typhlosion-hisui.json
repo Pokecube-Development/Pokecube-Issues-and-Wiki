@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.typhlosion-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.typhlosion-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_typhlosion-hisui": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "typhlosion-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

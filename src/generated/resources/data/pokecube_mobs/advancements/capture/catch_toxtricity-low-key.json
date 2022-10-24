@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.toxtricity-low-key"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.toxtricity-low-key"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_toxtricity-low-key": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "toxtricity-low-key"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

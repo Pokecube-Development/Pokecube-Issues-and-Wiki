@@ -1,0 +1,165 @@
+{
+  "name": "polteageist",
+  "id": 855,
+  "stock": true,
+  "base_experience": 178,
+  "size": {
+    "height": 0.25,
+    "width": 0.25,
+    "length": 0.25
+  },
+  "mass": 0.4,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 60,
+    "attack": 65,
+    "defense": 65,
+    "special_attack": 134,
+    "special_defense": 114,
+    "speed": 70
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "weak-armor"
+    ],
+    "hidden": [
+      "cursed-body"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "mega-drain",
+          "withdraw",
+          "astonish",
+          "aromatic-mist",
+          "strength-sap"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "memento"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "shell-smash"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "teatime"
+        ]
+      }
+    ],
+    "misc": [
+      "hyper-beam",
+      "psychic",
+      "light-screen",
+      "reflect",
+      "metronome",
+      "self-destruct",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "giga-drain",
+      "endure",
+      "sleep-talk",
+      "baton-pass",
+      "shadow-ball",
+      "will-o-wisp",
+      "facade",
+      "trick",
+      "imprison",
+      "payback",
+      "dark-pulse",
+      "giga-impact",
+      "nasty-plot",
+      "wonder-room",
+      "psyshock",
+      "foul-play",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "hex",
+      "phantom-force",
+      "teatime",
+      "poltergeist"
+    ]
+  },
+  "model": {
+    "key": "polteageist-phony",
+    "tex": "polteageist-phony",
+    "model": "polteageist-phony",
+    "anim": "polteageist-phony",
+    "types": "ghost"
+  },
+  "models": [
+    {
+      "key": "polteageist-antique",
+      "tex": "polteageist-antique",
+      "model": "polteageist-antique",
+      "anim": "polteageist-antique",
+      "types": "ghost"
+    }
+  ],
+  "loot_table": "pokecube:entities/enderpearls_2"
+}

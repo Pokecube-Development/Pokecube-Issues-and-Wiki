@@ -34,7 +34,7 @@ public class Counter extends Move_Basic
             final int damage = 2 * packet.attacker.getMoveStats().PHYSICALDAMAGETAKENCOUNTER;
             packet.attacker.getMoveStats().PHYSICALDAMAGETAKENCOUNTER = 0;
             if (packet.attacked != null && !packet.attacked.isInvulnerable()) packet.attacked.hurt(
-                    new PokemobDamageSource(attacker, this), damage);
+                    new PokemobDamageSource(attacker, this.move), damage);
             packet.attacker.getMoveStats().biding = false;
         }
     }

@@ -1,0 +1,208 @@
+{
+  "name": "dhelmise",
+  "id": 781,
+  "stock": true,
+  "base_experience": 181,
+  "size": {
+    "height": 3.9,
+    "width": 3.9,
+    "length": 3.9
+  },
+  "mass": 210.0,
+  "is_default": true,
+  "capture_rate": 25,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 70,
+    "attack": 131,
+    "defense": 100,
+    "special_attack": 86,
+    "special_defense": 90,
+    "speed": 40
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "ghost",
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "steelworker"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 45,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "wrap"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "absorb",
+          "growth",
+          "rapid-spin",
+          "astonish",
+          "switcheroo"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "whirlpool"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "gyro-ball"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "power-whip"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "heavy-slam"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "phantom-force"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "anchor-shot"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "slam",
+      "wrap",
+      "hydro-pump",
+      "surf",
+      "hyper-beam",
+      "absorb",
+      "mega-drain",
+      "growth",
+      "solar-beam",
+      "earthquake",
+      "toxic",
+      "double-team",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "rapid-spin",
+      "synthesis",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "whirlpool",
+      "facade",
+      "helping-hand",
+      "role-play",
+      "brick-break",
+      "knock-off",
+      "astonish",
+      "metal-sound",
+      "muddy-water",
+      "aerial-ace",
+      "iron-defense",
+      "block",
+      "gyro-ball",
+      "brine",
+      "payback",
+      "assurance",
+      "embargo",
+      "energy-ball",
+      "switcheroo",
+      "giga-impact",
+      "shadow-claw",
+      "flash-cannon",
+      "power-whip",
+      "iron-head",
+      "grass-knot",
+      "telekinesis",
+      "sludge-wave",
+      "heavy-slam",
+      "round",
+      "ally-switch",
+      "hex",
+      "bulldoze",
+      "phantom-force",
+      "confide",
+      "solar-blade",
+      "anchor-shot",
+      "brutal-swing",
+      "liquidation",
+      "body-press",
+      "steel-roller",
+      "grassy-glide",
+      "poltergeist"
+    ]
+  },
+  "loot_table": "pokecube:entities/water_iron_1"
+}

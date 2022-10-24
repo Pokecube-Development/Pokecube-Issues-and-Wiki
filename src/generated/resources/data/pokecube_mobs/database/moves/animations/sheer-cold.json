@@ -1,0 +1,26 @@
+{
+  "name": "sheercold",
+  "animations": [
+    {
+      "preset": "powder:pmisc:d0.33:w3:l8:atrue:~sheercold",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.icebreak",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.5,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:pexplosion_emitter:d1:w1:rfalse:l10:~sheercold",
+      "duration": "5",
+      "starttick": "5",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.7
+    }
+  ]
+}

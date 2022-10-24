@@ -1,0 +1,13 @@
+{
+  "name": "odor-sleuth",
+  "id": 316,
+  "pp": 40,
+  "priority": 0,
+  "type": "normal",
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "Enables a Ghost-type target to be hit by Normal-\nand Fighting-type attacks. This also enables an\nevasive target to be hit.",
+  "move_category": "ailment",
+  "effect_text_extend": "Resets the target's evasion to normal and prevents any further boosting until the target leaves the field.  A ghost under this effect takes normal damage from normal and fighting moves.  This move itself ignores accuracy and evasion modifiers.",
+  "effect_text_simple": "Forces the target to have no Evade, and allows it to be hit by Normal and Fighting moves even if it's a Ghost."
+}

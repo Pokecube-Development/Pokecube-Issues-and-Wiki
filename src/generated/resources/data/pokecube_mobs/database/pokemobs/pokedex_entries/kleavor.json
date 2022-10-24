@@ -1,0 +1,155 @@
+{
+  "name": "kleavor",
+  "id": 900,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 1.8,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 89.0,
+  "is_default": true,
+  "capture_rate": 115,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 70,
+    "attack": 135,
+    "defense": 95,
+    "special_attack": 45,
+    "special_defense": 70,
+    "speed": 85
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "bug",
+    "rock"
+  ],
+  "abilities": {
+    "normal": [
+      "swarm",
+      "sheer-force"
+    ],
+    "hidden": [
+      "steadfast"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "silver-wind"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "double-hit",
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": []
+      },
+      {
+        "L": 45,
+        "moves": [
+          "x-scissor"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "close-combat"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "take-down",
+      "double-edge",
+      "hyper-beam",
+      "toxic",
+      "rage",
+      "mimic",
+      "bide",
+      "swift",
+      "skull-bash",
+      "rest",
+      "substitute",
+      "headbutt",
+      "counter",
+      "light-screen",
+      "thief",
+      "snore",
+      "curse",
+      "reversal",
+      "protect",
+      "detect",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "baton-pass",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "rain-dance",
+      "facade",
+      "secret-power",
+      "silver-wind",
+      "aerial-ace",
+      "brick-break",
+      "roost",
+      "natural-gift",
+      "u-turn",
+      "bug-buzz",
+      "giga-impact",
+      "defog",
+      "captivate",
+      "knock-off",
+      "ominous-wind",
+      "tailwind",
+      "bug-bite",
+      "round",
+      "struggle",
+      "quick-guard",
+      "confide",
+      "brutal-swing"
+    ]
+  }
+}

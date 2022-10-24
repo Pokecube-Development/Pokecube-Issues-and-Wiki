@@ -1,0 +1,215 @@
+{
+  "name": "marshadow",
+  "id": 802,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 22.2,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 90,
+    "attack": 125,
+    "defense": 80,
+    "special_attack": 90,
+    "special_defense": 90,
+    "speed": 125
+  },
+  "evs": {
+    "attack": 2,
+    "speed": 1
+  },
+  "types": [
+    "fighting",
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "technician"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "fire-punch",
+          "ice-punch",
+          "thunder-punch",
+          "counter",
+          "pursuit",
+          "assurance",
+          "drain-punch",
+          "shadow-sneak",
+          "laser-focus"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "jump-kick"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "rolling-kick"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "psych-up"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "role-play"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "endeavor"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "shadow-punch"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "copycat"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "force-palm"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "spectral-thief"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "jump-kick",
+      "rolling-kick",
+      "hyper-beam",
+      "low-kick",
+      "counter",
+      "toxic",
+      "agility",
+      "double-team",
+      "swift",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "reversal",
+      "protect",
+      "outrage",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pursuit",
+      "hidden-power",
+      "psych-up",
+      "shadow-ball",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "role-play",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "knock-off",
+      "endeavor",
+      "snatch",
+      "blaze-kick",
+      "rock-tomb",
+      "shadow-punch",
+      "bulk-up",
+      "bounce",
+      "calm-mind",
+      "feint",
+      "close-combat",
+      "payback",
+      "assurance",
+      "fling",
+      "copycat",
+      "last-resort",
+      "sucker-punch",
+      "force-palm",
+      "aura-sphere",
+      "poison-jab",
+      "drain-punch",
+      "focus-blast",
+      "giga-impact",
+      "shadow-claw",
+      "shadow-sneak",
+      "zen-headbutt",
+      "iron-head",
+      "stone-edge",
+      "grass-knot",
+      "smack-down",
+      "low-sweep",
+      "foul-play",
+      "round",
+      "echoed-voice",
+      "hex",
+      "acrobatics",
+      "work-up",
+      "phantom-force",
+      "confide",
+      "laser-focus",
+      "throat-chop",
+      "spectral-thief",
+      "skitter-smack",
+      "poltergeist",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend"
+}

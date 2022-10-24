@@ -6,7 +6,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.items.UsableItemEffects.BaseUseable;
 import pokecube.legends.Reference;
 import pokecube.legends.items.zmove.ItemZCrystal;
@@ -17,10 +17,10 @@ public class UsableItemZMoveEffects
     {
         @Override
         public InteractionResultHolder<ItemStack> onMoveTick(final IPokemob attacker, final ItemStack stack,
-                final MovePacket moveuse)
+                final MoveApplication moveuse, boolean pre)
         {
-            if (moveuse.pre && stack == attacker.getHeldItem()) moveuse.criticalLevel = 0;
-            return super.onMoveTick(attacker, stack, moveuse);
+            if (pre && stack == attacker.getHeldItem()) moveuse.crit = 0;
+            return super.onMoveTick(attacker, stack, moveuse, pre);
         }
     }
 

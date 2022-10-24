@@ -1,0 +1,15 @@
+{
+  "name": "strength",
+  "id": 70,
+  "power": 80,
+  "pp": 15,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The target is slugged with a punch thrown at\nmaximum power.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.",
+  "effect_text_simple": "Inflicts regular damage with no additional effect."
+}

@@ -1,0 +1,231 @@
+{
+  "name": "geodude-alola",
+  "id": 74,
+  "stock": true,
+  "base_experience": 60,
+  "size": {
+    "height": 0.4
+  },
+  "mass": 20.3,
+  "is_default": false,
+  "capture_rate": 255,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 40,
+    "attack": 80,
+    "defense": 100,
+    "special_attack": 30,
+    "special_defense": 30,
+    "speed": 20
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "rock",
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "magnet-pull",
+      "sturdy"
+    ],
+    "hidden": [
+      "galvanize"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 22,
+        "moves": [
+          "thunder-punch"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "thunder-shock"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "rock-throw"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "bide",
+          "rock-polish"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "self-destruct"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "charge"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "rock-blast"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "smack-down"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "thunder-punch",
+      "headbutt",
+      "tackle",
+      "double-edge",
+      "flamethrower",
+      "counter",
+      "seismic-toss",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "rock-throw",
+      "earthquake",
+      "dig",
+      "toxic",
+      "screech",
+      "double-team",
+      "defense-curl",
+      "self-destruct",
+      "fire-blast",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "flail",
+      "protect",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "spark",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "sunny-day",
+      "facade",
+      "focus-punch",
+      "nature-power",
+      "charge",
+      "superpower",
+      "brick-break",
+      "rock-tomb",
+      "iron-defense",
+      "block",
+      "rock-blast",
+      "gyro-ball",
+      "fling",
+      "magnet-rise",
+      "rock-polish",
+      "earth-power",
+      "rock-climb",
+      "discharge",
+      "stone-edge",
+      "stealth-rock",
+      "charge-beam",
+      "wide-guard",
+      "autotomize",
+      "smack-down",
+      "round",
+      "volt-switch",
+      "bulldoze",
+      "electroweb",
+      "confide",
+      "brutal-swing"
+    ]
+  },
+  "loot_table": "pokecube:entities/redstone_1",
+  "evolutions": [
+    {
+      "name": "graveler-alola",
+      "level": 25
+    }
+  ],
+  "old_name": "geodude_alola"
+}

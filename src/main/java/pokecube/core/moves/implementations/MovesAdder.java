@@ -10,11 +10,11 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import pokecube.api.PokecubeAPI;
-import pokecube.api.moves.IMoveAction;
-import pokecube.api.moves.IMoveAnimation;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.Move_Base;
-import pokecube.core.database.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveAnimation;
+import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.database.moves.MovesDatabases;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.impl.PokecubeMod;
@@ -28,7 +28,6 @@ import pokecube.core.moves.templates.Move_Explode;
 import pokecube.core.moves.templates.Move_MultiHit;
 import pokecube.core.moves.templates.Move_Ongoing;
 import pokecube.core.moves.templates.Move_Terrain;
-import pokecube.core.moves.templates.Z_Move_Basic;
 import pokecube.core.moves.zmoves.GZMoveManager;
 import thut.lib.CompatParser.ClassFinder;
 
@@ -52,11 +51,11 @@ public class MovesAdder implements IMoveConstants
     {
         for (final Move_Base move : MovesUtils.getKnownMoves())
         {
-            if (move.move.baseEntry != null && move.move.baseEntry.animations != null
-                    && !move.move.baseEntry.animations.isEmpty())
+            if (move.move.root_entry != null && move.move.root_entry.animation != null
+                    && !move.move.root_entry.animation.animations.isEmpty())
             {
-                if (PokecubeMod.debug)
-                    PokecubeAPI.LOGGER.info(move.move.name + ": animations: " + move.move.baseEntry.animations);
+                if (PokecubeMod.debug) PokecubeAPI.LOGGER
+                        .info(move.move.name + ": animations: " + move.move.root_entry.animation.animations);
                 move.setAnimation(new AnimationMultiAnimations(move.move));
                 continue;
             }
@@ -106,7 +105,8 @@ public class MovesAdder implements IMoveConstants
                     num--;
                 }
                 num++;
-                MovesAdder.registerMove(move);
+                boolean registered = MovesUtils.registerMove(move);
+                if (!registered) PokecubeAPI.LOGGER.error("Failed to register move for Class {}", candidateClass);
             }
                 catch (final Exception e)
             {
@@ -122,9 +122,10 @@ public class MovesAdder implements IMoveConstants
         try
         {
             for (final Class<?> candidateClass : foundClasses)
-                if (IMoveAction.class.isAssignableFrom(candidateClass) && candidateClass.getEnclosingClass() == null)
+                if (IMoveWorldEffect.class.isAssignableFrom(candidateClass)
+                        && candidateClass.getEnclosingClass() == null)
             {
-                final IMoveAction move = (IMoveAction) candidateClass.getConstructor().newInstance();
+                final IMoveWorldEffect move = (IMoveWorldEffect) candidateClass.getConstructor().newInstance();
                 MoveEventsHandler.register(move);
             }
         }
@@ -132,11 +133,6 @@ public class MovesAdder implements IMoveConstants
         {
             e.printStackTrace();
         }
-    }
-
-    private static void registerMove(final Move_Base move_Base)
-    {
-        MovesUtils.registerMove(move_Base);
     }
 
     public static void registerMoves()
@@ -161,15 +157,17 @@ public class MovesAdder implements IMoveConstants
         int num = 0;
         for (final MoveEntry e : MoveEntry.values()) if (!MovesUtils.isMoveImplemented(e.name))
         {
-            boolean doesSomething = GZMoveManager.isGZDMove(e.baseEntry);
+            boolean doesSomething = GZMoveManager.isGZDMove(e);
 
-            doesSomething |= e.baseEntry.preset != null;
+            String preset = e.root_entry._preset;
+
+            doesSomething |= preset != null;
             doesSomething |= e.change != 0;
             doesSomething |= e.power != -2;
             doesSomething |= e.statusChange != 0;
             doesSomething |= e.selfDamage != 0;
             doesSomething |= e.selfHealRatio != 0;
-            doesSomething |= e.baseEntry.extraInfo != -1;
+            doesSomething |= e.root_entry._effect_index != -1;
             if (!doesSomething) for (int i = 0; i < e.attackedStatModification.length; i++)
             {
                 doesSomething |= e.attackedStatModification[i] != 0;
@@ -178,17 +176,21 @@ public class MovesAdder implements IMoveConstants
 
             if (doesSomething)
             {
-                Class<? extends Move_Base> moveClass = e.baseEntry.preset != null
-                        ? MovesAdder.presetMap.get(e.baseEntry.preset)
+                Class<? extends Move_Base> moveClass = preset != null ? MovesAdder.presetMap.get(preset)
                         : Move_Basic.class;
                 if (moveClass == null) moveClass = Move_Basic.class;
-                if (GZMoveManager.isGZDMove(e.baseEntry)) moveClass = Z_Move_Basic.class;
+
+                if (GZMoveManager.isGZDMove(e))
+                {
+                    e.powerp = GZMoveManager.getPowerProvider(e);
+                }
 
                 Move_Base toAdd;
                 try
                 {
                     toAdd = moveClass.getConstructor(String.class).newInstance(e.name);
-                    MovesAdder.registerMove(toAdd);
+                    boolean registered = MovesUtils.registerMove(toAdd);
+                    if (!registered) PokecubeAPI.LOGGER.error("Failed to register move for {} {}", e.name, moveClass);
                     num++;
                 }
                 catch (InstantiationException | IllegalAccessException | IllegalArgumentException

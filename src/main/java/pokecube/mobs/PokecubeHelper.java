@@ -13,6 +13,7 @@ import net.minecraft.world.phys.AABB;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
+import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -22,7 +23,6 @@ import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import thut.api.entity.IBreedingMob;
 import thut.api.maths.Vector3;
 

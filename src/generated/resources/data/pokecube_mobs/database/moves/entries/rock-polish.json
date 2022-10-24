@@ -1,0 +1,13 @@
+{
+  "name": "rock-polish",
+  "id": 397,
+  "pp": 20,
+  "priority": 0,
+  "type": "rock",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user polishes its body to reduce drag.\nThis can sharply raise the Speed stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises the user's Speed by two stages.",
+  "effect_text_simple": "Raises the user's Speed by two stages."
+}

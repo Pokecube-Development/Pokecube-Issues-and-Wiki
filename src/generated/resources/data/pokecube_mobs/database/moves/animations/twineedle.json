@@ -1,0 +1,25 @@
+{
+  "name": "twineedle",
+  "animations": [
+    {
+      "preset": "throw:w0.1:~twineedle",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.9
+    },
+    {
+      "preset": "cartFunc:pwitch:d3.5:atrue:~twineedle",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.scratch",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

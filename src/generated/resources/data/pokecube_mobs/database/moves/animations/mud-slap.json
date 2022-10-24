@@ -1,0 +1,15 @@
+{
+  "name": "mudslap",
+  "animations": [
+    {
+      "preset": "throw:atrue:cbrown:w0.3:~mudslap",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.waterpulse",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.8
+    }
+  ]
+}

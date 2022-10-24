@@ -1,0 +1,16 @@
+{
+  "name": "sweet-kiss",
+  "id": 186,
+  "pp": 10,
+  "priority": 0,
+  "type": "fairy",
+  "accuracy": 75,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user kisses the target with a sweet, angelic\ncuteness that causes confusion.",
+  "move_category": "ailment",
+  "max_turns": 5,
+  "min_turns": 2,
+  "effect_text_extend": "Confuses the target.",
+  "effect_text_simple": "Confuses the target."
+}

@@ -1,0 +1,210 @@
+{
+  "name": "primarina",
+  "id": 730,
+  "stock": true,
+  "base_experience": 265,
+  "size": {
+    "height": 1.8,
+    "width": 1.0,
+    "length": 1.8
+  },
+  "mass": 44.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 80,
+    "attack": 74,
+    "defense": 74,
+    "special_attack": 126,
+    "special_defense": 116,
+    "speed": 60
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "water",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+      "liquid-voice"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "growl",
+          "water-gun",
+          "disarming-voice"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "double-slap"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "sing"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "icy-wind"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "encore"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "hyper-voice"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "captivate"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "misty-terrain"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "moonblast"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "baby-doll-eyes"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "sparkling-aria"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "double-slap",
+      "growl",
+      "sing",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "hyper-beam",
+      "toxic",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "waterfall",
+      "amnesia",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "icy-wind",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "psych-up",
+      "shadow-ball",
+      "whirlpool",
+      "uproar",
+      "hail",
+      "facade",
+      "helping-hand",
+      "magic-coat",
+      "dive",
+      "hyper-voice",
+      "hydro-cannon",
+      "weather-ball",
+      "covet",
+      "calm-mind",
+      "water-pulse",
+      "brine",
+      "aqua-tail",
+      "energy-ball",
+      "giga-impact",
+      "captivate",
+      "aqua-jet",
+      "wonder-room",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "scald",
+      "acrobatics",
+      "water-pledge",
+      "work-up",
+      "disarming-voice",
+      "draining-kiss",
+      "misty-terrain",
+      "play-rough",
+      "moonblast",
+      "confide",
+      "dazzling-gleam",
+      "baby-doll-eyes",
+      "sparkling-aria",
+      "liquidation",
+      "misty-explosion",
+      "flip-turn",
+      "triple-axel"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_2"
+}

@@ -1,0 +1,183 @@
+{
+  "name": "shedinja",
+  "id": 292,
+  "stock": true,
+  "base_experience": 83,
+  "size": {
+    "height": 0.8,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 1.2,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow-then-very-fast",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 1,
+    "attack": 90,
+    "defense": 45,
+    "special_attack": 30,
+    "special_defense": 30,
+    "speed": 40
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "bug",
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "wonder-guard"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "sand-attack",
+          "absorb",
+          "dig",
+          "harden",
+          "mud-slap",
+          "false-swipe",
+          "metal-claw",
+          "shadow-claw"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "leech-life"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "mind-reader"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "spite"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "grudge"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "heal-block"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "shadow-sneak"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "phantom-force"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "cut",
+      "sand-attack",
+      "double-edge",
+      "hyper-beam",
+      "absorb",
+      "solar-beam",
+      "string-shot",
+      "dig",
+      "toxic",
+      "agility",
+      "mimic",
+      "double-team",
+      "harden",
+      "confuse-ray",
+      "dream-eater",
+      "leech-life",
+      "flash",
+      "fury-swipes",
+      "rest",
+      "substitute",
+      "thief",
+      "mind-reader",
+      "nightmare",
+      "snore",
+      "spite",
+      "protect",
+      "mud-slap",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "sunny-day",
+      "shadow-ball",
+      "will-o-wisp",
+      "facade",
+      "trick",
+      "grudge",
+      "secret-power",
+      "aerial-ace",
+      "natural-gift",
+      "heal-block",
+      "sucker-punch",
+      "x-scissor",
+      "bug-buzz",
+      "giga-impact",
+      "shadow-claw",
+      "shadow-sneak",
+      "bug-bite",
+      "hone-claws",
+      "telekinesis",
+      "round",
+      "ally-switch",
+      "hex",
+      "struggle-bug",
+      "phantom-force",
+      "confide",
+      "skitter-smack",
+      "poltergeist"
+    ]
+  },
+  "loot_table": "minecraft:entities/enderpearls_1"
+}

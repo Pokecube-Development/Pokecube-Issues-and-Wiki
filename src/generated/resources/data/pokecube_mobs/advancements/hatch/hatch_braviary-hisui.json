@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.braviary-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.braviary-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_braviary-hisui": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "braviary-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

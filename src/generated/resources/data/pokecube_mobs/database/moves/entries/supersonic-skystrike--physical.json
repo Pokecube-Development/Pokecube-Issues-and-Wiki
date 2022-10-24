@@ -1,0 +1,13 @@
+{
+  "name": "supersonic-skystrike--physical",
+  "id": 626,
+  "pp": 1,
+  "priority": 0,
+  "type": "flying",
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user soars up with its Z-Power and plummets\ntoward the target at full speed. The power varies,\ndepending on the original move.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.",
+  "effect_text_simple": "Inflicts regular damage with no additional effect."
+}

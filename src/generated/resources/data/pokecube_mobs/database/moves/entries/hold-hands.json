@@ -1,0 +1,13 @@
+{
+  "name": "hold-hands",
+  "id": 607,
+  "pp": 40,
+  "priority": 0,
+  "type": "normal",
+  "target": "ally",
+  "damage_class": "status",
+  "flavor_text": "The user and an ally hold hands. This makes them\nvery happy.",
+  "move_category": "unique",
+  "effect_text_extend": "Does nothing.",
+  "effect_text_simple": "Does nothing."
+}

@@ -1,0 +1,270 @@
+{
+  "name": "latias",
+  "id": 380,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 1.0,
+    "width": 1.4,
+    "length": 1.4
+  },
+  "mass": 40.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 90,
+  "growth_rate": "slow",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 80,
+    "attack": 80,
+    "defense": 90,
+    "special_attack": 110,
+    "special_defense": 130,
+    "speed": 110
+  },
+  "evs": {
+    "special_defense": 3
+  },
+  "types": [
+    "dragon",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 15,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "psywave",
+          "safeguard",
+          "helping-hand",
+          "wish",
+          "healing-wish"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "dragon-breath",
+          "tailwind"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "refresh"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "mist-ball"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "water-sport"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "psycho-shift"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "guard-split"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "stored-power"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "heal-pulse"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "reflect-type"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "fly",
+      "body-slam",
+      "double-edge",
+      "roar",
+      "surf",
+      "ice-beam",
+      "hyper-beam",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "psychic",
+      "agility",
+      "mimic",
+      "double-team",
+      "recover",
+      "light-screen",
+      "reflect",
+      "waterfall",
+      "swift",
+      "dream-eater",
+      "flash",
+      "psywave",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "outrage",
+      "sandstorm",
+      "endure",
+      "charm",
+      "swagger",
+      "fury-cutter",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dragon-breath",
+      "baton-pass",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "whirlpool",
+      "facade",
+      "helping-hand",
+      "trick",
+      "role-play",
+      "wish",
+      "magic-coat",
+      "refresh",
+      "secret-power",
+      "dive",
+      "mist-ball",
+      "aerial-ace",
+      "dragon-claw",
+      "covet",
+      "water-sport",
+      "calm-mind",
+      "dragon-dance",
+      "shock-wave",
+      "water-pulse",
+      "roost",
+      "healing-wish",
+      "natural-gift",
+      "tailwind",
+      "psycho-shift",
+      "last-resort",
+      "sucker-punch",
+      "aura-sphere",
+      "air-slash",
+      "dragon-pulse",
+      "energy-ball",
+      "giga-impact",
+      "shadow-claw",
+      "psycho-cut",
+      "zen-headbutt",
+      "defog",
+      "draco-meteor",
+      "captivate",
+      "grass-knot",
+      "charge-beam",
+      "hone-claws",
+      "guard-split",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "heal-pulse",
+      "reflect-type",
+      "retaliate",
+      "bulldoze",
+      "confide",
+      "mystical-fire",
+      "laser-focus",
+      "breaking-swipe",
+      "scale-shot",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_2",
+  "spawn_rules": [
+    {
+      "and_preset": "beaches",
+      "values": {
+        "rate": "0.0"
+      }
+    }
+  ],
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "latiasmega"
+    }
+  ]
+}

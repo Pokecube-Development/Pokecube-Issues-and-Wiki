@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.linoone"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.linoone"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_linoone": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "linoone"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

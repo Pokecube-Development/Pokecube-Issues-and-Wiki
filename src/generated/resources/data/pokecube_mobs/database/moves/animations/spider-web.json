@@ -1,0 +1,10 @@
+{
+  "name": "spiderweb",
+  "animations": [
+    {
+      "preset": "flow:pmisc:cwhite:~spiderweb",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

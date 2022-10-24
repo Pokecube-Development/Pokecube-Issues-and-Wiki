@@ -1,0 +1,15 @@
+{
+  "name": "avalanche",
+  "id": 419,
+  "power": 60,
+  "pp": 10,
+  "priority": -4,
+  "type": "ice",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The power of this attack move is doubled if the user\nhas been hurt by the target in the same turn.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  If the target damaged the user this turn and was the last to do so, this move has double power.\n\npain split does not count as damaging the user.",
+  "effect_text_simple": "Inflicts double damage if the user takes damage before attacking this turn."
+}

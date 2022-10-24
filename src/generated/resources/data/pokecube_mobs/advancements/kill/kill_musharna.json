@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.musharna"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.musharna"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_musharna": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "musharna"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

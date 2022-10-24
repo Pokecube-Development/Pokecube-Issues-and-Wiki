@@ -1,0 +1,16 @@
+{
+  "name": "shadow-claw",
+  "id": 421,
+  "power": 70,
+  "pp": 15,
+  "priority": 0,
+  "type": "ghost",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user slashes with a sharp claw made from\nshadows. Critical hits land more easily.",
+  "move_category": "damage",
+  "crit_rate": 1,
+  "effect_text_extend": "Inflicts regular damage.  User's critical hit rate is one level higher when using this move.",
+  "effect_text_simple": "Has an increased chance for a critical hit."
+}

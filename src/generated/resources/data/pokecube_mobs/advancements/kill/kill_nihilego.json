@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.nihilego"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.nihilego"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_nihilego": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "nihilego"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

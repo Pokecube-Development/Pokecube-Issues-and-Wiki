@@ -1,0 +1,241 @@
+{
+  "name": "amaura",
+  "id": 698,
+  "stock": true,
+  "base_experience": 72,
+  "size": {
+    "height": 1.3,
+    "width": 1.0,
+    "length": 1.3
+  },
+  "mass": 25.2,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 77,
+    "attack": 59,
+    "defense": 50,
+    "special_attack": 67,
+    "special_defense": 63,
+    "speed": 46
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "rock",
+    "ice"
+  ],
+  "abilities": {
+    "normal": [
+      "refrigerate"
+    ],
+    "hidden": [
+      "snow-warning"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 15,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "growl",
+          "powder-snow"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "mist"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "ice-beam"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "aurora-beam"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "rock-throw"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "icy-wind"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "encore"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "hail"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "nature-power"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "avalanche"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "round"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "freeze-dry"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "take-down",
+      "growl",
+      "roar",
+      "mist",
+      "ice-beam",
+      "blizzard",
+      "aurora-beam",
+      "hyper-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "rock-throw",
+      "toxic",
+      "double-team",
+      "barrier",
+      "light-screen",
+      "haze",
+      "reflect",
+      "dream-eater",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "powder-snow",
+      "protect",
+      "icy-wind",
+      "outrage",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "mirror-coat",
+      "psych-up",
+      "ancient-power",
+      "rock-smash",
+      "hail",
+      "facade",
+      "nature-power",
+      "secret-power",
+      "hyper-voice",
+      "weather-ball",
+      "rock-tomb",
+      "iron-defense",
+      "mud-shot",
+      "calm-mind",
+      "rock-blast",
+      "water-pulse",
+      "magnet-rise",
+      "rock-polish",
+      "dark-pulse",
+      "aqua-tail",
+      "earth-power",
+      "avalanche",
+      "zen-headbutt",
+      "flash-cannon",
+      "discharge",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "charge-beam",
+      "round",
+      "echoed-voice",
+      "bulldoze",
+      "frost-breath",
+      "dragon-tail",
+      "confide",
+      "aurora-veil",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/fossil_mob",
+  "evolutions": [
+    {
+      "name": "aurorus",
+      "level": 39,
+      "time": "night",
+      "evoMoves": "freezedry"
+    }
+  ]
+}

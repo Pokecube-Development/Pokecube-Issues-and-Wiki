@@ -1,0 +1,164 @@
+{
+  "name": "arctozolt",
+  "id": 881,
+  "stock": true,
+  "base_experience": 177,
+  "size": {
+    "height": 2.3,
+    "width": 2.0,
+    "length": 2.3
+  },
+  "mass": 150.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 90,
+    "attack": 100,
+    "defense": 90,
+    "special_attack": 90,
+    "special_defense": 80,
+    "speed": 55
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "electric",
+    "ice"
+  ],
+  "abilities": {
+    "normal": [
+      "volt-absorb",
+      "static"
+    ],
+    "hidden": [
+      "slush-rush"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 49,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "thunder-shock",
+          "powder-snow"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "charge"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "pluck"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "avalanche"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "echoed-voice"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "icicle-crash"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "freeze-dry"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "bolt-beak"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "thunder-punch",
+      "mega-kick",
+      "body-slam",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "low-kick",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "icy-wind",
+      "endure",
+      "sleep-talk",
+      "iron-tail",
+      "rain-dance",
+      "hail",
+      "facade",
+      "taunt",
+      "hyper-voice",
+      "rock-tomb",
+      "icicle-spear",
+      "rock-blast",
+      "payback",
+      "giga-impact",
+      "avalanche",
+      "thunder-fang",
+      "ice-fang",
+      "stone-edge",
+      "electro-ball",
+      "round",
+      "bulldoze",
+      "wild-charge",
+      "stomping-tantrum",
+      "meteor-beam",
+      "rising-voltage"
+    ]
+  },
+  "loot_table": "pokecube:entities/fossil_mob"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan-zen"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan-zen"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_darmanitan-zen": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "darmanitan-zen"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

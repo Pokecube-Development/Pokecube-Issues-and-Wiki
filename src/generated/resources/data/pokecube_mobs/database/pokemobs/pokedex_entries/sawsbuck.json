@@ -1,0 +1,247 @@
+{
+  "name": "sawsbuck",
+  "id": 586,
+  "stock": true,
+  "base_experience": 166,
+  "size": {
+    "height": 1.9,
+    "width": 1.9,
+    "length": 1.9
+  },
+  "mass": 92.5,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 80,
+    "attack": 100,
+    "defense": 70,
+    "special_attack": 60,
+    "special_defense": 70,
+    "speed": 95
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "normal",
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "chlorophyll",
+      "sap-sipper"
+    ],
+    "hidden": [
+      "serene-grace"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "jump-kick"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "sand-attack",
+          "tackle",
+          "growl",
+          "megahorn",
+          "camouflage"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "nature-power"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "horn-leech"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "double-kick",
+      "jump-kick",
+      "sand-attack",
+      "tackle",
+      "take-down",
+      "double-edge",
+      "growl",
+      "hyper-beam",
+      "leech-seed",
+      "solar-beam",
+      "thunder-wave",
+      "toxic",
+      "double-team",
+      "light-screen",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "feint-attack",
+      "giga-drain",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "megahorn",
+      "synthesis",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "rock-smash",
+      "facade",
+      "nature-power",
+      "secret-power",
+      "camouflage",
+      "aromatherapy",
+      "bounce",
+      "last-resort",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "giga-impact",
+      "grass-knot",
+      "round",
+      "echoed-voice",
+      "retaliate",
+      "work-up",
+      "wild-charge",
+      "horn-leech",
+      "confide",
+      "stomping-tantrum"
+    ]
+  },
+  "model": {
+    "key": "sawsbuck_sp",
+    "tex": "sawsbuck_sp",
+    "model": "sawsbuck_sp",
+    "anim": "sawsbuck_sp"
+  },
+  "models": [
+    {
+      "key": "sawsbuck_sp",
+      "tex": "sawsbuck_sp",
+      "model": "sawsbuck_sp",
+      "anim": "sawsbuck_sp"
+    },
+    {
+      "key": "sawsbuck_au",
+      "tex": "sawsbuck_au",
+      "model": "sawsbuck_au",
+      "anim": "sawsbuck_au"
+    },
+    {
+      "key": "sawsbuck_su",
+      "tex": "sawsbuck_su",
+      "model": "sawsbuck_su",
+      "anim": "sawsbuck_su"
+    },
+    {
+      "key": "sawsbuck_wi",
+      "tex": "sawsbuck_wi",
+      "model": "sawsbuck_wi",
+      "anim": "sawsbuck_wi"
+    }
+  ],
+  "loot_table": "pokecube:entities/cow_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

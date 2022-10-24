@@ -1,0 +1,41 @@
+{
+  "name": "machamp-gmax",
+  "id": 68,
+  "stock": true,
+  "base_experience": 227,
+  "size": {
+    "height": 5.0,
+    "width": 3.5,
+    "length": 3.0
+  },
+  "mass": 1000.0,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 90,
+    "attack": 130,
+    "defense": 80,
+    "special_attack": 65,
+    "special_defense": 85,
+    "speed": 55
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "guts",
+      "no-guard"
+    ],
+    "hidden": [
+      "steadfast"
+    ]
+  },
+  "old_name": "machamp_gigantamax"
+}

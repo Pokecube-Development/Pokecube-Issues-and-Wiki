@@ -1,0 +1,147 @@
+{
+  "name": "skwovet",
+  "id": 819,
+  "stock": true,
+  "base_experience": 55,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 2.5,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 70,
+    "attack": 55,
+    "defense": 55,
+    "special_attack": 35,
+    "special_defense": 35,
+    "speed": 25
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "cheek-pouch"
+    ],
+    "hidden": [
+      "gluttony"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "counter"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "super-fang"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "stockpile",
+          "spit-up",
+          "swallow"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "bullet-seed"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "belch"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "stuff-cheeks"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "dig",
+      "defense-curl",
+      "amnesia",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "belly-drum",
+      "endure",
+      "rollout",
+      "attract",
+      "sleep-talk",
+      "iron-tail",
+      "crunch",
+      "uproar",
+      "facade",
+      "hyper-voice",
+      "bullet-seed",
+      "mud-shot",
+      "gyro-ball",
+      "payback",
+      "assurance",
+      "fling",
+      "last-resort",
+      "seed-bomb",
+      "round",
+      "tail-slap",
+      "brutal-swing"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "greedent",
+      "level": 24,
+      "animation": "18",
+      "evoMoves": "covet"
+    }
+  ]
+}

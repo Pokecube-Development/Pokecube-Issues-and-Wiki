@@ -1,0 +1,194 @@
+{
+  "name": "cleffa",
+  "id": 173,
+  "stock": true,
+  "base_experience": 44,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 3.0,
+  "is_default": true,
+  "capture_rate": 150,
+  "base_happiness": 140,
+  "growth_rate": "fast",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 50,
+    "attack": 25,
+    "defense": 28,
+    "special_attack": 45,
+    "special_defense": 55,
+    "speed": 15
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "cute-charm",
+      "magic-guard"
+    ],
+    "hidden": [
+      "friend-guard"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "splash",
+          "charm"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "sing"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "sweet-kiss"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "encore"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "copycat"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "disarming-voice"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "mega-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "sing",
+      "flamethrower",
+      "counter",
+      "seismic-toss",
+      "solar-beam",
+      "thunder-wave",
+      "dig",
+      "toxic",
+      "psychic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "metronome",
+      "fire-blast",
+      "amnesia",
+      "soft-boiled",
+      "dream-eater",
+      "flash",
+      "splash",
+      "rest",
+      "substitute",
+      "nightmare",
+      "snore",
+      "curse",
+      "protect",
+      "sweet-kiss",
+      "belly-drum",
+      "mud-slap",
+      "zap-cannon",
+      "icy-wind",
+      "detect",
+      "endure",
+      "charm",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "present",
+      "frustration",
+      "safeguard",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "uproar",
+      "facade",
+      "helping-hand",
+      "trick",
+      "role-play",
+      "wish",
+      "magic-coat",
+      "recycle",
+      "endeavor",
+      "secret-power",
+      "hyper-voice",
+      "aromatherapy",
+      "fake-tears",
+      "tickle",
+      "signal-beam",
+      "covet",
+      "magical-leaf",
+      "shock-wave",
+      "water-pulse",
+      "gravity",
+      "natural-gift",
+      "fling",
+      "copycat",
+      "last-resort",
+      "zen-headbutt",
+      "captivate",
+      "grass-knot",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "heal-pulse",
+      "incinerate",
+      "work-up",
+      "draining-kiss",
+      "misty-terrain",
+      "play-rough",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/moonstone",
+  "evolutions": [
+    {
+      "name": "clefairy",
+      "happy": true
+    }
+  ]
+}

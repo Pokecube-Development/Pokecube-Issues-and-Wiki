@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.orbeetle-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.orbeetle-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_orbeetle-gmax": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "orbeetle-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

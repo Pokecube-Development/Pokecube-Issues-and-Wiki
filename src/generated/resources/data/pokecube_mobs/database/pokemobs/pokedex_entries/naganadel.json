@@ -1,0 +1,202 @@
+{
+  "name": "naganadel",
+  "id": 804,
+  "stock": true,
+  "base_experience": 270,
+  "size": {
+    "height": 3.6,
+    "width": 3.6,
+    "length": 3.6
+  },
+  "mass": 150.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 73,
+    "attack": 73,
+    "defense": 73,
+    "special_attack": 127,
+    "special_defense": 73,
+    "speed": 121
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "poison",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "beast-boost"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 7,
+        "moves": [
+          "fury-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "growl",
+          "acid",
+          "peck",
+          "helping-hand",
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "air-cutter"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "gastro-acid"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "dragon-rush"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "venoshock"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "fell-stinger"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "venom-drench"
+        ]
+      }
+    ],
+    "misc": [
+      "fly",
+      "fury-attack",
+      "pin-missile",
+      "growl",
+      "acid",
+      "flamethrower",
+      "hyper-beam",
+      "peck",
+      "thunderbolt",
+      "toxic",
+      "double-team",
+      "fire-blast",
+      "swift",
+      "leech-life",
+      "sky-attack",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "sludge-bomb",
+      "spikes",
+      "outrage",
+      "endure",
+      "charm",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "uproar",
+      "heat-wave",
+      "facade",
+      "helping-hand",
+      "snatch",
+      "air-cutter",
+      "signal-beam",
+      "aerial-ace",
+      "dragon-claw",
+      "dragon-dance",
+      "shock-wave",
+      "tailwind",
+      "u-turn",
+      "assurance",
+      "gastro-acid",
+      "toxic-spikes",
+      "poison-jab",
+      "dark-pulse",
+      "air-slash",
+      "x-scissor",
+      "dragon-pulse",
+      "giga-impact",
+      "nasty-plot",
+      "shadow-claw",
+      "draco-meteor",
+      "cross-poison",
+      "gunk-shot",
+      "venoshock",
+      "sludge-wave",
+      "round",
+      "echoed-voice",
+      "ally-switch",
+      "hex",
+      "sky-drop",
+      "acrobatics",
+      "dragon-tail",
+      "snarl",
+      "fell-stinger",
+      "confide",
+      "venom-drench",
+      "laser-focus",
+      "throat-chop",
+      "smart-strike",
+      "breaking-swipe",
+      "scale-shot",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/spider"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "fusionbolt",
+  "animations": [
+    {
+      "preset": "powder:pmisc:clight_blue:d0.5:w1.5:l14:~fusionbolt",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.thunderend",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:pexplosion_emitter:clight_blue:d0.5:w1.5:l14:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~fusionbolt",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.thunderwave",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

@@ -1,0 +1,209 @@
+{
+  "name": "tapu-bulu",
+  "id": 787,
+  "stock": true,
+  "base_experience": 285,
+  "size": {
+    "height": 1.9,
+    "width": 1.4,
+    "length": 1.0
+  },
+  "mass": 45.5,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 70,
+    "attack": 130,
+    "defense": 115,
+    "special_attack": 85,
+    "special_defense": 95,
+    "speed": 75
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "grass",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "grassy-surge"
+    ],
+    "hidden": [
+      "telepathy"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "whirlwind",
+          "disable",
+          "withdraw",
+          "mean-look",
+          "rock-smash",
+          "superpower",
+          "wood-hammer",
+          "grassy-terrain",
+          "leafage"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "horn-attack"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "mega-drain",
+          "scary-face"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "skull-bash"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "megahorn"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "horn-leech"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "rototiller"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "natures-madness"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "swords-dance",
+      "whirlwind",
+      "horn-attack",
+      "roar",
+      "disable",
+      "hyper-beam",
+      "leech-seed",
+      "solar-beam",
+      "toxic",
+      "withdraw",
+      "light-screen",
+      "reflect",
+      "skull-bash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "giga-drain",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "mean-look",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "megahorn",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "psych-up",
+      "torment",
+      "facade",
+      "focus-punch",
+      "nature-power",
+      "taunt",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "rock-tomb",
+      "bullet-seed",
+      "iron-defense",
+      "bulk-up",
+      "calm-mind",
+      "close-combat",
+      "payback",
+      "fling",
+      "power-swap",
+      "guard-swap",
+      "worry-seed",
+      "seed-bomb",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "zen-headbutt",
+      "stone-edge",
+      "grass-knot",
+      "wood-hammer",
+      "telekinesis",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "work-up",
+      "dual-chop",
+      "horn-leech",
+      "snarl",
+      "rototiller",
+      "grassy-terrain",
+      "confide",
+      "dazzling-gleam",
+      "darkest-lariat",
+      "high-horsepower",
+      "leafage",
+      "smart-strike",
+      "brutal-swing",
+      "natures-madness"
+    ]
+  },
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:tapus_temple",
+        "rate": "0.0"
+      }
+    }
+  ],
+  "old_name": "tapu_bulu"
+}

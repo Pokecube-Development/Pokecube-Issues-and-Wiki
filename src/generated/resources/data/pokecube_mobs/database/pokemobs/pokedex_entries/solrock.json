@@ -1,0 +1,230 @@
+{
+  "name": "solrock",
+  "id": 338,
+  "stock": true,
+  "base_experience": 161,
+  "size": {
+    "height": 1.2,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 154.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 90,
+    "attack": 95,
+    "defense": 85,
+    "special_attack": 55,
+    "special_defense": 65,
+    "speed": 70
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "rock",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "rock-throw",
+          "confusion",
+          "harden",
+          "morning-sun",
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "fire-spin",
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "psywave"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "cosmic-power"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "embargo"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "heal-block"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "rock-polish"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "wonder-room"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "flamethrower",
+      "hyper-beam",
+      "solar-beam",
+      "fire-spin",
+      "rock-throw",
+      "earthquake",
+      "toxic",
+      "confusion",
+      "psychic",
+      "mimic",
+      "double-team",
+      "harden",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "self-destruct",
+      "fire-blast",
+      "swift",
+      "dream-eater",
+      "flash",
+      "psywave",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "baton-pass",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "shadow-ball",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "helping-hand",
+      "magic-coat",
+      "recycle",
+      "skill-swap",
+      "secret-power",
+      "weather-ball",
+      "overheat",
+      "rock-tomb",
+      "cosmic-power",
+      "signal-beam",
+      "sand-tomb",
+      "iron-defense",
+      "calm-mind",
+      "rock-blast",
+      "gravity",
+      "gyro-ball",
+      "natural-gift",
+      "embargo",
+      "heal-block",
+      "power-swap",
+      "flare-blitz",
+      "rock-polish",
+      "earth-power",
+      "giga-impact",
+      "zen-headbutt",
+      "trick-room",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "smack-down",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "incinerate",
+      "acrobatics",
+      "bulldoze",
+      "confide",
+      "laser-focus",
+      "psychic-terrain",
+      "stomping-tantrum",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/sunstone"
+}

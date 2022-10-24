@@ -1,0 +1,35 @@
+{
+  "name": "bulldoze",
+  "animations": [
+    {
+      "preset": "cartFunc:pexplosion_emitter:d0.5:rtrue:l10:~bulldoze",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.rocktomb",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:pcrit:cmagenta:d0.3:rfalse:l10:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~bulldoze",
+      "duration": "2",
+      "starttick": "3",
+      "sound": "pokecube:moves.rocktomb",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:~:~bulldoze",
+      "duration": "0",
+      "starttick": "5",
+      "sound": "pokecube:moves.rocktomb",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

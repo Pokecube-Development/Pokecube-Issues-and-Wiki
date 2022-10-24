@@ -1,0 +1,251 @@
+{
+  "name": "sandshrew-alola",
+  "id": 27,
+  "stock": true,
+  "base_experience": 60,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 40.0,
+  "is_default": false,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 50,
+    "attack": 75,
+    "defense": 90,
+    "special_attack": 10,
+    "special_defense": 35,
+    "speed": 40
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "ice",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "snow-cloak"
+    ],
+    "hidden": [
+      "slush-rush"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 24,
+        "moves": [
+          "ice-punch"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "mist",
+          "bide"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "powder-snow"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "rollout",
+          "rapid-spin"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "metal-claw"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "mirror-coat"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "hail"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "ice-ball"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "gyro-ball"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "ice-shard"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "iron-head"
+        ]
+      }
+    ],
+    "misc": [
+      "ice-punch",
+      "scratch",
+      "swords-dance",
+      "headbutt",
+      "body-slam",
+      "ice-beam",
+      "blizzard",
+      "counter",
+      "seismic-toss",
+      "earthquake",
+      "dig",
+      "toxic",
+      "double-team",
+      "defense-curl",
+      "bide",
+      "swift",
+      "amnesia",
+      "leech-life",
+      "fury-swipes",
+      "rest",
+      "rock-slide",
+      "super-fang",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "flail",
+      "powder-snow",
+      "protect",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "rapid-spin",
+      "iron-tail",
+      "metal-claw",
+      "hidden-power",
+      "sunny-day",
+      "hail",
+      "facade",
+      "focus-punch",
+      "brick-break",
+      "knock-off",
+      "ice-ball",
+      "crush-claw",
+      "rock-tomb",
+      "aerial-ace",
+      "icicle-spear",
+      "iron-defense",
+      "covet",
+      "gyro-ball",
+      "fling",
+      "poison-jab",
+      "night-slash",
+      "aqua-tail",
+      "x-scissor",
+      "avalanche",
+      "shadow-claw",
+      "iron-head",
+      "stealth-rock",
+      "hone-claws",
+      "round",
+      "chip-away",
+      "bulldoze",
+      "frost-breath",
+      "work-up",
+      "icicle-crash",
+      "confide",
+      "throat-chop",
+      "aurora-veil",
+      "steel-beam",
+      "steel-roller",
+      "triple-axel"
+    ]
+  },
+  "loot_table": "pokecube:entities/snow_rabbit_1",
+  "evolutions": [
+    {
+      "name": "sandslash-alola",
+      "item_preset": "pokecube_mobs:ice_stone",
+      "evoMoves": "iciclespear"
+    }
+  ],
+  "old_name": "sandshrew_alola"
+}

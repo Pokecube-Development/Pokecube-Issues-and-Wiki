@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.bewear"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.bewear"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_bewear": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "bewear"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

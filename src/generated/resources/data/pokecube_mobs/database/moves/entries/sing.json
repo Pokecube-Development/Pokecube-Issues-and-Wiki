@@ -1,0 +1,16 @@
+{
+  "name": "sing",
+  "id": 47,
+  "pp": 15,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 55,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "A soothing lullaby is sung in a calming voice that\nputs the target into a deep slumber.",
+  "move_category": "ailment",
+  "max_turns": 4,
+  "min_turns": 2,
+  "effect_text_extend": "Puts the target to sleep.",
+  "effect_text_simple": "Puts the target to sleep."
+}

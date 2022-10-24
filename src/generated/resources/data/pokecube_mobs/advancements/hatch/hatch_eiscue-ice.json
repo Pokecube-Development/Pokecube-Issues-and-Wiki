@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.eiscue-ice"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.eiscue-ice"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_eiscue-ice": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "eiscue-ice"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "role-play",
+  "id": 272,
+  "pp": 10,
+  "priority": 0,
+  "type": "psychic",
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user mimics the target completely, copying the\ntarget’s natural Ability.",
+  "move_category": "unique",
+  "effect_text_extend": "User's ability is replaced with the target's until the user leaves the field.  Ignores accuracy and evasion modifiers.\n\nIf the target has flower gift, forecast, illusion, imposter, multitype, stance change, trace, wonder guard, or zen mode, this move will fail.\n\nThis move cannot be copied by mirror move.",
+  "effect_text_simple": "Copies the target's ability."
+}

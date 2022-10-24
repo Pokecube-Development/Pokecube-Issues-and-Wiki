@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.pikachu-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pikachu-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_pikachu-gmax": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "pikachu-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tornadus-therian"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tornadus-therian"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_tornadus-therian": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "tornadus-therian"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

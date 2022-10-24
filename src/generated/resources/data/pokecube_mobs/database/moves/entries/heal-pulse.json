@@ -1,0 +1,14 @@
+{
+  "name": "heal-pulse",
+  "id": 505,
+  "pp": 10,
+  "priority": 0,
+  "type": "psychic",
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user emits a healing pulse that restores the\ntarget’s HP by up to half of its max HP.",
+  "move_category": "heal",
+  "healing": 50,
+  "effect_text_extend": "Heals the target for half its max HP.",
+  "effect_text_simple": "Heals the target for half its max HP."
+}

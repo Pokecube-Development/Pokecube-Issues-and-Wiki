@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio-pom-pom"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio-pom-pom"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_oricorio-pom-pom": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "oricorio-pom-pom"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

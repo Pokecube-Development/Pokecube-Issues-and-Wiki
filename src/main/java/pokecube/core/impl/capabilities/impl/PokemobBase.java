@@ -21,6 +21,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
@@ -28,7 +29,6 @@ import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.pokemobs.PacketPingBoss;
 import thut.api.IOwnable;
@@ -108,7 +108,7 @@ public abstract class PokemobBase implements IPokemob
             // tick
 
             // From EntityMovesPokemb
-            this.STATUSDW = sync.register(new Data_Byte(), Byte.valueOf((byte) -1));
+            this.STATUSDW = sync.register(new Data_Int(), Integer.valueOf((byte) -1));
             this.MOVEINDEXDW = sync.register(new Data_Byte().setRealtime(), Byte.valueOf((byte) -1));
             this.STATUSTIMERDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
             this.ATTACKCOOLDOWN = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));

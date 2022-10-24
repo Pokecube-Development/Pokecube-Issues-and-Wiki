@@ -1,0 +1,262 @@
+{
+  "name": "sceptile",
+  "id": 254,
+  "stock": true,
+  "base_experience": 265,
+  "size": {
+    "height": 1.7,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 52.2,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 70,
+    "attack": 85,
+    "defense": 65,
+    "special_attack": 105,
+    "special_defense": 85,
+    "speed": 120
+  },
+  "evs": {
+    "speed": 3
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "unburden"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "leer",
+          "absorb",
+          "quick-attack",
+          "fury-cutter",
+          "night-slash",
+          "energy-ball",
+          "leaf-storm",
+          "leafage"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 69,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "double-team"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "detect"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "false-swipe"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "endeavor"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "leaf-blade"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "x-scissor"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "quick-guard"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "dual-chop"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "mega-punch",
+      "thunder-punch",
+      "swords-dance",
+      "cut",
+      "slam",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "leer",
+      "roar",
+      "hyper-beam",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "absorb",
+      "mega-drain",
+      "solar-beam",
+      "earthquake",
+      "dig",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "mimic",
+      "screech",
+      "double-team",
+      "swift",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "detect",
+      "outrage",
+      "giga-drain",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dynamic-punch",
+      "pursuit",
+      "iron-tail",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "nature-power",
+      "brick-break",
+      "endeavor",
+      "secret-power",
+      "rock-tomb",
+      "bullet-seed",
+      "aerial-ace",
+      "dragon-claw",
+      "frenzy-plant",
+      "magical-leaf",
+      "leaf-blade",
+      "dragon-dance",
+      "natural-gift",
+      "assurance",
+      "fling",
+      "worry-seed",
+      "night-slash",
+      "seed-bomb",
+      "x-scissor",
+      "dragon-pulse",
+      "drain-punch",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "rock-climb",
+      "leaf-storm",
+      "cross-poison",
+      "captivate",
+      "grass-knot",
+      "hone-claws",
+      "low-sweep",
+      "round",
+      "quick-guard",
+      "acrobatics",
+      "grass-pledge",
+      "bulldoze",
+      "work-up",
+      "dual-chop",
+      "grassy-terrain",
+      "confide",
+      "power-up-punch",
+      "solar-blade",
+      "laser-focus",
+      "throat-chop",
+      "brutal-swing",
+      "breaking-swipe",
+      "scale-shot",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_3",
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "sceptilemega"
+    }
+  ]
+}

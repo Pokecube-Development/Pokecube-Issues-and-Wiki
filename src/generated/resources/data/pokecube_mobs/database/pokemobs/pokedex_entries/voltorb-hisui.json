@@ -1,0 +1,110 @@
+{
+  "name": "voltorb-hisui",
+  "id": 100,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 13.0,
+  "is_default": false,
+  "capture_rate": 190,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 40,
+    "attack": 30,
+    "defense": 50,
+    "special_attack": 55,
+    "special_defense": 55,
+    "speed": 100
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "electric",
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "soundproof",
+      "static"
+    ],
+    "hidden": [
+      "aftermath"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 9,
+        "moves": [
+          "thunder-shock"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "thunderbolt"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "thunder"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "self-destruct"
+        ]
+      }
+    ],
+    "misc": [
+      "ice-ball",
+      "swift",
+      "magical-leaf",
+      "rest",
+      "charge-beam",
+      "energy-ball",
+      "wild-charge",
+      "thunderbolt"
+    ]
+  },
+  "evolutions": [
+    {
+      "name": "electrode-hisui",
+      "item_preset": "leafstone"
+    }
+  ],
+  "old_name": "voltorb_hisui"
+}

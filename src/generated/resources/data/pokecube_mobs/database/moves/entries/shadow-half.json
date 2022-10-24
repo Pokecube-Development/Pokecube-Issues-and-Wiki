@@ -1,0 +1,11 @@
+{
+  "name": "shadow-half",
+  "id": 10013,
+  "priority": 0,
+  "type": "shadow",
+  "accuracy": 100,
+  "target": "entire-field",
+  "damage_class": "special",
+  "effect_text_extend": "Halves HP of all Pokémon on the field.  User loses its next turn to \"recharge\", and cannot attack or switch out during that turn.",
+  "effect_text_simple": "Halves HP of all Pokémon on the field.  Must recharge"
+}

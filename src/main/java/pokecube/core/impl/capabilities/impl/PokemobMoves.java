@@ -16,19 +16,17 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
-import pokecube.api.moves.IMoveConstants;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
@@ -64,9 +62,9 @@ public abstract class PokemobMoves extends PokemobStats
         final int index = this.getMoveIndex();
         if (index < 4 && index >= 0) if (this.getDisableTimer(index) > 0) attack = "struggle";
 
-        final Move_Base move = MovesUtils.getMoveFromName(attack);
+        final MoveEntry move = MovesUtils.getMove(attack);
         // If the move is somehow null, report it and return early.
-        if (move == null || move.move == null)
+        if (move == null)
         {
             PokecubeAPI.LOGGER
                     .error(this.getDisplayName().getString() + " Has Used Unregistered Move: " + attack + " " + index);
@@ -235,10 +233,10 @@ public abstract class PokemobMoves extends PokemobStats
     }
 
     @Override
-    public byte getStatus()
+    public int getStatus()
     {
-        final Byte val = this.dataSync().get(this.params.STATUSDW);
-        return (byte) Math.max(0, val);
+        final Integer val = this.dataSync().get(this.params.STATUSDW);
+        return Math.max(0, val);
     }
 
     @Override
@@ -261,7 +259,7 @@ public abstract class PokemobMoves extends PokemobStats
         // Clear off any persistant effects.
         final IOngoingAffected affected = CapabilityAffected.getAffected(this.getEntity());
         if (affected != null) affected.removeEffects(PersistantStatusEffect.ID);
-        this.dataSync().set(this.params.STATUSDW, (byte) 0);
+        this.dataSync().set(this.params.STATUSDW, 0);
     }
 
     @Override
@@ -313,7 +311,7 @@ public abstract class PokemobMoves extends PokemobStats
     }
 
     @Override
-    public boolean setStatus(byte status, int turns)
+    public boolean setStatus(int status, int turns)
     {
         non:
         if (this.getStatus() != IMoveConstants.STATUS_NON)
@@ -376,14 +374,20 @@ public abstract class PokemobMoves extends PokemobStats
             to = npc;
         }
 
-        PokedexEntry newEntry = this.getPokedexEntry();
+        PokeType type1 = this.getType1();
+        PokeType type2 = this.getType2();
+
         if (id != -1)
         {
             final IPokemob pokemob = PokemobCaps.getPokemobFor(to);
-            if (pokemob != null) newEntry = pokemob.getPokedexEntry();
+            if (pokemob != null)
+            {
+                type1 = pokemob.getType1();
+                type2 = pokemob.getType2();
+            }
         }
-        this.setType1(newEntry.getType1());
-        this.setType2(newEntry.getType2());
+        this.setType1(type1);
+        this.setType2(type2);
 
         if (!this.getEntity().level.isClientSide())
         {

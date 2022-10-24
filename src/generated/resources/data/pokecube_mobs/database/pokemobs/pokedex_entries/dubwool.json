@@ -1,0 +1,191 @@
+{
+  "name": "dubwool",
+  "id": 832,
+  "stock": true,
+  "base_experience": 172,
+  "size": {
+    "height": 1.3,
+    "width": 1.2,
+    "length": 1.3
+  },
+  "mass": 43.0,
+  "is_default": true,
+  "capture_rate": 127,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 72,
+    "attack": 80,
+    "defense": 100,
+    "special_attack": 60,
+    "special_defense": 90,
+    "speed": 88
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "fluffy",
+      "steadfast"
+    ],
+    "hidden": [
+      "bulletproof"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 16,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl",
+          "defense-curl",
+          "copycat"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "reversal"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "guard-swap"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "last-resort"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "guard-split"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "cotton-guard"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "mega-kick",
+      "body-slam",
+      "hyper-beam",
+      "thunder-wave",
+      "agility",
+      "rest",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "baton-pass",
+      "facade",
+      "bounce",
+      "payback",
+      "guard-swap",
+      "giga-impact",
+      "zen-headbutt",
+      "electro-ball",
+      "round",
+      "retaliate",
+      "wild-charge",
+      "body-press",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wool_2",
+  "interactions": [
+    {
+      "male": true,
+      "female": true,
+      "cooldown": 800,
+      "variance": 100,
+      "baseHunger": 250,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:shears"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:white_wool",
+              "n": "2"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

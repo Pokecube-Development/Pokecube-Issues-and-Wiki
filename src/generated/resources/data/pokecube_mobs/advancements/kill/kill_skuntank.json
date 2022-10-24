@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.skuntank"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.skuntank"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_skuntank": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "skuntank"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

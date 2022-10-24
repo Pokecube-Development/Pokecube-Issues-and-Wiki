@@ -1,0 +1,181 @@
+{
+  "name": "espurr",
+  "id": 677,
+  "stock": true,
+  "base_experience": 71,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 3.5,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 62,
+    "attack": 48,
+    "defense": 54,
+    "special_attack": 63,
+    "special_defense": 60,
+    "speed": 68
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "keen-eye",
+      "infiltrator"
+    ],
+    "hidden": [
+      "own-tempo"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "leer"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "reflect"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "fake-out"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "covet"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "psyshock"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "disarming-voice"
+        ]
+      }
+    ],
+    "misc": [
+      "pay-day",
+      "scratch",
+      "cut",
+      "leer",
+      "psybeam",
+      "thunderbolt",
+      "thunder-wave",
+      "toxic",
+      "confusion",
+      "psychic",
+      "double-team",
+      "barrier",
+      "light-screen",
+      "reflect",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "fake-out",
+      "torment",
+      "facade",
+      "helping-hand",
+      "trick",
+      "role-play",
+      "assist",
+      "magic-coat",
+      "recycle",
+      "yawn",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "fake-tears",
+      "tickle",
+      "signal-beam",
+      "covet",
+      "calm-mind",
+      "shock-wave",
+      "gravity",
+      "payback",
+      "dark-pulse",
+      "energy-ball",
+      "nasty-plot",
+      "zen-headbutt",
+      "trick-room",
+      "charge-beam",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "round",
+      "echoed-voice",
+      "ally-switch",
+      "work-up",
+      "disarming-voice",
+      "play-rough",
+      "confide",
+      "expanding-force"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "meowstic-male",
+      "level": 25
+    }
+  ]
+}

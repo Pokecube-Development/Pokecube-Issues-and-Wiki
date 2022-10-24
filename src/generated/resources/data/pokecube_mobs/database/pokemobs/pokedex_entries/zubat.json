@@ -1,0 +1,232 @@
+{
+  "name": "zubat",
+  "id": 41,
+  "stock": true,
+  "base_experience": 49,
+  "size": {
+    "height": 0.8,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 7.5,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 40,
+    "attack": 45,
+    "defense": 35,
+    "special_attack": 30,
+    "special_defense": 40,
+    "speed": 55
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "poison",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "inner-focus"
+    ],
+    "hidden": [
+      "infiltrator"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 13,
+        "moves": [
+          "wing-attack"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "supersonic"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "absorb"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "haze"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "leech-life",
+          "acrobatics"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "mean-look"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "poison-fang"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "astonish"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "air-cutter"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "venoshock"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "quick-guard"
+        ]
+      }
+    ],
+    "misc": [
+      "razor-wind",
+      "gust",
+      "wing-attack",
+      "whirlwind",
+      "fly",
+      "headbutt",
+      "take-down",
+      "double-edge",
+      "bite",
+      "supersonic",
+      "absorb",
+      "mega-drain",
+      "toxic",
+      "hypnosis",
+      "agility",
+      "quick-attack",
+      "rage",
+      "mimic",
+      "double-team",
+      "confuse-ray",
+      "haze",
+      "bide",
+      "swift",
+      "leech-life",
+      "rest",
+      "super-fang",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "feint-attack",
+      "sludge-bomb",
+      "detect",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pursuit",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "shadow-ball",
+      "uproar",
+      "heat-wave",
+      "torment",
+      "facade",
+      "taunt",
+      "snatch",
+      "secret-power",
+      "poison-fang",
+      "astonish",
+      "air-cutter",
+      "aerial-ace",
+      "roost",
+      "natural-gift",
+      "pluck",
+      "tailwind",
+      "u-turn",
+      "payback",
+      "assurance",
+      "air-slash",
+      "brave-bird",
+      "nasty-plot",
+      "zen-headbutt",
+      "defog",
+      "captivate",
+      "ominous-wind",
+      "venoshock",
+      "round",
+      "quick-guard",
+      "acrobatics",
+      "confide",
+      "venom-drench",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/spider_eye",
+  "evolutions": [
+    {
+      "name": "golbat",
+      "level": 22
+    }
+  ]
+}

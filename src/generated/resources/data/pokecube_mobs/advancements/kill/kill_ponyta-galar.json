@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.ponyta-galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ponyta-galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_ponyta-galar": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "ponyta-galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

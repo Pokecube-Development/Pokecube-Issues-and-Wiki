@@ -1,0 +1,205 @@
+{
+  "name": "dartrix",
+  "id": 723,
+  "stock": true,
+  "base_experience": 147,
+  "size": {
+    "height": 0.7,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 16.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 78,
+    "attack": 75,
+    "defense": 75,
+    "special_attack": 70,
+    "special_defense": 70,
+    "speed": 52
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "grass",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "long-reach"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 33,
+        "moves": [
+          "fury-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl",
+          "peck",
+          "leafage"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "foresight"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "feather-dance"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "astonish"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "leaf-blade"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "pluck"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "brave-bird"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "shadow-sneak"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "ominous-wind"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "fury-attack",
+      "tackle",
+      "growl",
+      "peck",
+      "razor-leaf",
+      "solar-beam",
+      "toxic",
+      "double-team",
+      "light-screen",
+      "swift",
+      "sky-attack",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "foresight",
+      "giga-drain",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "baton-pass",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "facade",
+      "nature-power",
+      "feather-dance",
+      "astonish",
+      "covet",
+      "leaf-blade",
+      "roost",
+      "pluck",
+      "worry-seed",
+      "sucker-punch",
+      "seed-bomb",
+      "energy-ball",
+      "brave-bird",
+      "nasty-plot",
+      "shadow-claw",
+      "defog",
+      "grass-knot",
+      "round",
+      "echoed-voice",
+      "grass-pledge",
+      "work-up",
+      "confide",
+      "leafage",
+      "grassy-glide",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_2",
+  "evolutions": [
+    {
+      "name": "decidueye",
+      "level": 34,
+      "evoMoves": "spiritshackle"
+    },
+    {
+      "name": "decidueye-hisui",
+      "level": 33,
+      "location": {
+        "and_preset": "savannas"
+      },
+      "evoMoves": "rocksmash"
+    }
+  ]
+}

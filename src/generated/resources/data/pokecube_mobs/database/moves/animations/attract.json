@@ -1,0 +1,15 @@
+{
+  "name": "attract",
+  "animations": [
+    {
+      "preset": "cartFunc:pheart:d0.7:w1:rtrue:l10:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~attract",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pend_rod:d0.6:w1:rtrue:l10:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~attract",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

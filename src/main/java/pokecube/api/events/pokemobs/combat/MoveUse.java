@@ -7,8 +7,8 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.MoveApplication;
 import thut.api.maths.Vector3;
 
 /** These events are fired on the {@link pokecube.core.PokecubeAPI#MOVE_BUS} */
@@ -27,7 +27,7 @@ public class MoveUse extends Event
          */
         public static class Init extends ActualMoveUse
         {
-            public Init(IPokemob user, Move_Base move, Entity target)
+            public Init(IPokemob user, MoveEntry move, Entity target)
             {
                 super(user, move, target);
             }
@@ -40,7 +40,7 @@ public class MoveUse extends Event
          */
         public static class Post extends ActualMoveUse
         {
-            public Post(IPokemob user, Move_Base move, Entity target)
+            public Post(IPokemob user, MoveEntry move, Entity target)
             {
                 super(user, move, target);
             }
@@ -54,7 +54,7 @@ public class MoveUse extends Event
          */
         public static class Pre extends ActualMoveUse
         {
-            public Pre(IPokemob user, Move_Base move, Entity target)
+            public Pre(IPokemob user, MoveEntry move, Entity target)
             {
                 super(user, move, target);
             }
@@ -62,7 +62,7 @@ public class MoveUse extends Event
 
         final Entity target;
 
-        public ActualMoveUse(IPokemob user, Move_Base move, Entity target)
+        public ActualMoveUse(IPokemob user, MoveEntry move, Entity target)
         {
             super(user, move);
             this.target = target;
@@ -76,55 +76,48 @@ public class MoveUse extends Event
 
     public static class DuringUse extends MoveUse
     {
-        @Cancelable
         /**
-         * Cancelling this event prevents the default implementation from being
-         * applied. <br>
+         * This is not @Cancelable, It is fired after processing the move use
+         * and effects. <br>
          * <br>
          * this is fired on the {@link pokecube.core.PokecubeAPI#MOVE_BUS}
          */
         public static class Post extends DuringUse
         {
-            public Post(MovePacket packet, boolean fromUser)
+            public Post(MoveApplication packet)
             {
-                super(packet, fromUser);
+                super(packet);
             }
         }
 
         @Cancelable
         /**
          * Cancelling this event prevents the default implementation from being
-         * applied. <br>
+         * applied. You can edit the contents of the MoveApplication here for
+         * any needed effects, or cancel this event to prevent any application.
+         * <br>
          * <br>
          * this is fired on the {@link pokecube.core.PokecubeAPI#MOVE_BUS}
          */
         public static class Pre extends DuringUse
         {
-            public Pre(MovePacket packet, boolean fromUser)
+            public Pre(MoveApplication packet)
             {
-                super(packet, fromUser);
+                super(packet);
             }
         }
 
-        private final boolean fromUser;
+        private final MoveApplication packet;
 
-        private final MovePacket packet;
-
-        public DuringUse(MovePacket packet, boolean fromUser)
+        public DuringUse(MoveApplication packet)
         {
-            super(packet.attacker, packet.getMove());
-            this.fromUser = fromUser;
+            super(packet.getUser(), packet.getMove());
             this.packet = packet;
         }
 
-        public MovePacket getPacket()
+        public MoveApplication getPacket()
         {
             return this.packet;
-        }
-
-        public boolean isFromUser()
-        {
-            return this.fromUser;
         }
     }
 
@@ -135,7 +128,7 @@ public class MoveUse extends Event
         {
             public final List<ItemEntity> items;
 
-            public AffectItem(Move_Base move, IPokemob user, Vector3 location, List<ItemEntity> items)
+            public AffectItem(MoveEntry move, IPokemob user, Vector3 location, List<ItemEntity> items)
             {
                 super(move, user, location);
                 this.items = items;
@@ -154,7 +147,7 @@ public class MoveUse extends Event
         @Cancelable
         public static class OnAction extends MoveWorldAction
         {
-            public OnAction(Move_Base move, IPokemob user, Vector3 location)
+            public OnAction(MoveEntry move, IPokemob user, Vector3 location)
             {
                 super(move, user, location);
             }
@@ -162,7 +155,7 @@ public class MoveUse extends Event
 
         public static class PostAction extends MoveWorldAction
         {
-            public PostAction(Move_Base move, IPokemob user, Vector3 location)
+            public PostAction(MoveEntry move, IPokemob user, Vector3 location)
             {
                 super(move, user, location);
             }
@@ -171,7 +164,7 @@ public class MoveUse extends Event
         @Cancelable
         public static class PreAction extends MoveWorldAction
         {
-            public PreAction(Move_Base move, IPokemob user, Vector3 location)
+            public PreAction(MoveEntry move, IPokemob user, Vector3 location)
             {
                 super(move, user, location);
             }
@@ -179,7 +172,7 @@ public class MoveUse extends Event
 
         private final Vector3 location;
 
-        MoveWorldAction(Move_Base move, IPokemob user, Vector3 location)
+        MoveWorldAction(MoveEntry move, IPokemob user, Vector3 location)
         {
             super(user, move);
             this.location = location;
@@ -193,15 +186,15 @@ public class MoveUse extends Event
 
     final IPokemob user;
 
-    final Move_Base move;
+    final MoveEntry move;
 
-    public MoveUse(IPokemob user, Move_Base move)
+    public MoveUse(IPokemob user, MoveEntry move)
     {
         this.user = user;
         this.move = move;
     }
 
-    public Move_Base getMove()
+    public MoveEntry getMove()
     {
         return this.move;
     }

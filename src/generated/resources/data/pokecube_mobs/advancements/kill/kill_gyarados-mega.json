@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.gyarados-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gyarados-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_gyarados-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "gyarados-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

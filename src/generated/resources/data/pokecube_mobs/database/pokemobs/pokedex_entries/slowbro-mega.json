@@ -1,0 +1,221 @@
+{
+  "name": "slowbro-mega",
+  "id": 80,
+  "stock": true,
+  "base_experience": 207,
+  "size": {
+    "height": 2.0,
+    "width": 2.0,
+    "length": 2.0
+  },
+  "mass": 120.0,
+  "is_default": false,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 95,
+    "attack": 75,
+    "defense": 180,
+    "special_attack": 130,
+    "special_defense": 80,
+    "speed": 30
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "water",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "shell-armor"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "stomp",
+          "tackle",
+          "growl",
+          "curse",
+          "yawn",
+          "heal-pulse"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "disable"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "surf",
+          "slack-off"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "withdraw"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "psych-up"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "zen-headbutt"
+        ]
+      }
+    ],
+    "misc": [
+      "pay-day",
+      "ice-punch",
+      "headbutt",
+      "tackle",
+      "growl",
+      "disable",
+      "flamethrower",
+      "water-gun",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "seismic-toss",
+      "strength",
+      "thunder-wave",
+      "earthquake",
+      "dig",
+      "toxic",
+      "confusion",
+      "psychic",
+      "teleport",
+      "double-team",
+      "withdraw",
+      "light-screen",
+      "reflect",
+      "fire-blast",
+      "amnesia",
+      "dream-eater",
+      "flash",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "icy-wind",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "hail",
+      "facade",
+      "focus-punch",
+      "trick",
+      "magic-coat",
+      "recycle",
+      "brick-break",
+      "yawn",
+      "skill-swap",
+      "secret-power",
+      "dive",
+      "slack-off",
+      "signal-beam",
+      "aerial-ace",
+      "iron-defense",
+      "block",
+      "calm-mind",
+      "water-pulse",
+      "fling",
+      "aqua-tail",
+      "drain-punch",
+      "focus-blast",
+      "giga-impact",
+      "zen-headbutt",
+      "trick-room",
+      "grass-knot",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "foul-play",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "scald",
+      "heal-pulse",
+      "incinerate",
+      "bulldoze",
+      "confide"
+    ]
+  },
+  "old_name": "slowbro_mega"
+}

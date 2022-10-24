@@ -1,0 +1,211 @@
+{
+  "name": "tyranitar-mega",
+  "id": 248,
+  "stock": true,
+  "base_experience": 315,
+  "size": {
+    "height": 2.5,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 255.0,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 100,
+    "attack": 164,
+    "defense": 150,
+    "special_attack": 95,
+    "special_defense": 120,
+    "speed": 71
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "rock",
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "sand-stream"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 28,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "bite",
+          "screech",
+          "sandstorm",
+          "thunder-fang",
+          "ice-fang",
+          "fire-fang"
+        ]
+      },
+      {
+        "L": 73,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 82,
+        "moves": [
+          "giga-impact"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "chip-away"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "cut",
+      "thrash",
+      "leer",
+      "bite",
+      "roar",
+      "flamethrower",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "dig",
+      "toxic",
+      "screech",
+      "double-team",
+      "fire-blast",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "spite",
+      "protect",
+      "scary-face",
+      "outrage",
+      "sandstorm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "uproar",
+      "torment",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "superpower",
+      "brick-break",
+      "secret-power",
+      "rock-tomb",
+      "aerial-ace",
+      "iron-defense",
+      "block",
+      "dragon-claw",
+      "shock-wave",
+      "water-pulse",
+      "payback",
+      "fling",
+      "rock-polish",
+      "dark-pulse",
+      "aqua-tail",
+      "dragon-pulse",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "shadow-claw",
+      "thunder-fang",
+      "ice-fang",
+      "fire-fang",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "hone-claws",
+      "smack-down",
+      "foul-play",
+      "round",
+      "chip-away",
+      "incinerate",
+      "retaliate",
+      "bulldoze",
+      "dragon-tail",
+      "snarl",
+      "confide",
+      "power-up-punch",
+      "brutal-swing",
+      "stomping-tantrum"
+    ]
+  },
+  "old_name": "tyranitar_mega"
+}

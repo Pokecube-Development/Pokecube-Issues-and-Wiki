@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.zweilous"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.zweilous"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_zweilous": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "zweilous"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

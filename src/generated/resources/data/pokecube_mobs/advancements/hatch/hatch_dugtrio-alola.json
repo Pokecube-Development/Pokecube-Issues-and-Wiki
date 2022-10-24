@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.dugtrio-alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.dugtrio-alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_dugtrio-alola": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "dugtrio-alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

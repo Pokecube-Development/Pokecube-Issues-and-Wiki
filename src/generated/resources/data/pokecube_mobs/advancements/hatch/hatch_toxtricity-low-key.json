@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.toxtricity-low-key"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.toxtricity-low-key"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_toxtricity-low-key": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "toxtricity-low-key"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

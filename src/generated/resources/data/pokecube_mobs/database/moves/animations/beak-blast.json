@@ -1,0 +1,27 @@
+{
+  "name": "beakblast",
+  "animations": [
+    {
+      "preset": "throw:cred:atrue:w0.5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~beakblast",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.ember",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:plava:l15:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~beakblast",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "applyAfter": false
+    }
+  ]
+}

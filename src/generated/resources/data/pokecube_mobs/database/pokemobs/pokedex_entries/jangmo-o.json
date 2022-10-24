@@ -1,0 +1,199 @@
+{
+  "name": "jangmo-o",
+  "id": 782,
+  "stock": true,
+  "base_experience": 60,
+  "size": {
+    "height": 0.6,
+    "width": 0.3,
+    "length": 0.6
+  },
+  "mass": 29.7,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 45,
+    "attack": 55,
+    "defense": 65,
+    "special_attack": 45,
+    "special_defense": 45,
+    "speed": 45
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "bulletproof",
+      "soundproof"
+    ],
+    "hidden": [
+      "overcoat"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 25,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "bide"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "dragon-claw"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "dragon-dance"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "dragon-tail"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "work-up"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "noble-roar"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "headbutt",
+      "tackle",
+      "leer",
+      "roar",
+      "low-kick",
+      "counter",
+      "earthquake",
+      "toxic",
+      "screech",
+      "double-team",
+      "bide",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "scary-face",
+      "outrage",
+      "sandstorm",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dragon-breath",
+      "iron-tail",
+      "hidden-power",
+      "uproar",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "brick-break",
+      "rock-tomb",
+      "aerial-ace",
+      "iron-defense",
+      "dragon-claw",
+      "bulk-up",
+      "dragon-dance",
+      "payback",
+      "fling",
+      "aqua-tail",
+      "x-scissor",
+      "dragon-pulse",
+      "focus-blast",
+      "shadow-claw",
+      "draco-meteor",
+      "iron-head",
+      "round",
+      "echoed-voice",
+      "bulldoze",
+      "dragon-tail",
+      "work-up",
+      "dual-chop",
+      "noble-roar",
+      "confide",
+      "scale-shot"
+    ]
+  },
+  "loot_table": "pokecube:entities/pig_1",
+  "evolutions": [
+    {
+      "name": "hakamo-o",
+      "level": 35,
+      "evoMoves": "skyuppercut"
+    }
+  ]
+}

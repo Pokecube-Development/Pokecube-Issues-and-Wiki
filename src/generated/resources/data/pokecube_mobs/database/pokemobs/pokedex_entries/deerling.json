@@ -1,0 +1,259 @@
+{
+  "name": "deerling",
+  "id": 585,
+  "stock": true,
+  "base_experience": 67,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 19.5,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 60,
+    "defense": 50,
+    "special_attack": 40,
+    "special_defense": 50,
+    "speed": 75
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "normal",
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "chlorophyll",
+      "sap-sipper"
+    ],
+    "hidden": [
+      "serene-grace"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "jump-kick"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "sand-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "camouflage"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "growl"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "nature-power"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "energy-ball"
+        ]
+      }
+    ],
+    "misc": [
+      "double-kick",
+      "jump-kick",
+      "sand-attack",
+      "headbutt",
+      "tackle",
+      "take-down",
+      "double-edge",
+      "growl",
+      "leech-seed",
+      "solar-beam",
+      "thunder-wave",
+      "toxic",
+      "agility",
+      "double-team",
+      "light-screen",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "feint-attack",
+      "giga-drain",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "baton-pass",
+      "synthesis",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "facade",
+      "nature-power",
+      "secret-power",
+      "camouflage",
+      "aromatherapy",
+      "fake-tears",
+      "odor-sleuth",
+      "grass-whistle",
+      "bounce",
+      "natural-gift",
+      "last-resort",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "grass-knot",
+      "round",
+      "echoed-voice",
+      "retaliate",
+      "work-up",
+      "wild-charge",
+      "confide"
+    ]
+  },
+  "model": {
+    "key": "deerling_sp",
+    "tex": "deerling_sp",
+    "model": "deerling_sp",
+    "anim": "deerling_sp"
+  },
+  "models": [
+    {
+      "key": "deerling_sp",
+      "tex": "deerling_sp",
+      "model": "deerling_sp",
+      "anim": "deerling_sp"
+    },
+    {
+      "key": "deerling_au",
+      "tex": "deerling_au",
+      "model": "deerling_au",
+      "anim": "deerling_au"
+    },
+    {
+      "key": "deerling_su",
+      "tex": "deerling_su",
+      "model": "deerling_su",
+      "anim": "deerling_su"
+    },
+    {
+      "key": "deerling_wi",
+      "tex": "deerling_wi",
+      "model": "deerling_wi",
+      "anim": "deerling_wi"
+    }
+  ],
+  "loot_table": "pokecube:entities/cow_1",
+  "evolutions": [
+    {
+      "name": "sawsbuck",
+      "level": 34,
+      "evoMoves": "hornleech",
+      "form_from": "deerling_sp",
+      "model": {
+        "key": "sawsbuck_sp"
+      }
+    },
+    {
+      "name": "sawsbuck",
+      "level": 34,
+      "evoMoves": "hornleech",
+      "form_from": "deerling_su",
+      "model": {
+        "key": "sawsbuck_su"
+      }
+    },
+    {
+      "name": "sawsbuck",
+      "level": 34,
+      "evoMoves": "hornleech",
+      "form_from": "deerling_wi",
+      "model": {
+        "key": "sawsbuck_wi"
+      }
+    },
+    {
+      "name": "sawsbuck",
+      "level": 34,
+      "evoMoves": "hornleech",
+      "form_from": "deerling_au",
+      "model": {
+        "key": "sawsbuck_au"
+      }
+    }
+  ]
+}

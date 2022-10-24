@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.manectric-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.manectric-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_manectric-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "manectric-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

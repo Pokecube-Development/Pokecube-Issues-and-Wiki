@@ -69,7 +69,7 @@ public abstract class PokemobStats extends PokemobGenes
     public PokeType getType1()
     {
         final PokeType type = PokeType.getType(this.dataSync().get(this.params.TYPE1DW));
-        return type != PokeType.unknown ? type : this.getPokedexEntry().getType1();
+        return type != PokeType.unknown ? type : super.getType1();
     }
 
     /**
@@ -82,7 +82,7 @@ public abstract class PokemobStats extends PokemobGenes
     public PokeType getType2()
     {
         final PokeType type = PokeType.getType(this.dataSync().get(this.params.TYPE2DW));
-        return type != PokeType.unknown ? type : this.getPokedexEntry().getType2();
+        return type != PokeType.unknown ? type : super.getType2();
     }
 
     @Override

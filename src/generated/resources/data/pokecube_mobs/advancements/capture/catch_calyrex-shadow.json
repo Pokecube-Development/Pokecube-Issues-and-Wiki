@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.calyrex-shadow"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.calyrex-shadow"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_calyrex-shadow": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "calyrex-shadow"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

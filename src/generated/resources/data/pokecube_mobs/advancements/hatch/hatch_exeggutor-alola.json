@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.exeggutor-alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.exeggutor-alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_exeggutor-alola": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "exeggutor-alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

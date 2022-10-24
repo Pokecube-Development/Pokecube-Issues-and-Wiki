@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculin-red-striped"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculin-red-striped"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_basculin-red-striped": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "basculin-red-striped"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

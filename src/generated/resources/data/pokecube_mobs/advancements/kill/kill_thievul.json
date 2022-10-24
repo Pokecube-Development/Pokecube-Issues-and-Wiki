@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.thievul"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.thievul"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_thievul": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "thievul"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

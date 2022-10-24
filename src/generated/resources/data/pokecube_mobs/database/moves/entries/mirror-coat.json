@@ -1,0 +1,14 @@
+{
+  "name": "mirror-coat",
+  "id": 243,
+  "pp": 20,
+  "priority": -5,
+  "type": "psychic",
+  "accuracy": 100,
+  "target": "specific-move",
+  "damage_class": "special",
+  "flavor_text": "A retaliation move that counters any special attack,\ninflicting double the damage taken.",
+  "move_category": "damage",
+  "effect_text_extend": "Targets the last opposing Pokémon to hit the user with a special move this turn.  Inflicts twice the damage that move did to the user.  If there is no eligible target, this move will fail.  Type immunity applies, but other type effects are ignored.\n\nThis move cannot be copied by mirror move, nor selected by assist or metronome.",
+  "effect_text_simple": "Inflicts twice the damage the user received from the last special hit it took."
+}

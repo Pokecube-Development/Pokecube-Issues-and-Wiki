@@ -51,8 +51,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.events.init.RegisterMiscItems;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryCrop;
@@ -78,7 +78,7 @@ public class ItemGenerator
 {
     public static interface IMoveModifier
     {
-        void processHeldItemUse(MovePacket moveUse, IPokemob mob, ItemStack held);
+        void processHeldItemUse(MoveApplication moveUse, IPokemob mob, ItemStack held);
     }
 
     public static Map<Predicate<ItemStack>, IMoveModifier> ITEMMODIFIERS = Maps.newHashMap();
@@ -690,7 +690,7 @@ public class ItemGenerator
             PokecubeItems.registerFossil(new ItemStack(ItemGenerator.fossils.get(type).get()), type);
     }
 
-    public static void processHeldItemUse(final MovePacket moveUse, final IPokemob mob, final ItemStack held)
+    public static void processHeldItemUse(final MoveApplication moveUse, final IPokemob mob, final ItemStack held)
     {
         for (final Map.Entry<Predicate<ItemStack>, IMoveModifier> entry : ItemGenerator.ITEMMODIFIERS.entrySet())
             if (entry.getKey().test(held)) entry.getValue().processHeldItemUse(moveUse, mob, held);

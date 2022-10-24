@@ -1,0 +1,255 @@
+{
+  "name": "psyduck",
+  "id": 54,
+  "stock": true,
+  "base_experience": 64,
+  "size": {
+    "height": 0.8,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 19.6,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 50,
+    "attack": 52,
+    "defense": 48,
+    "special_attack": 65,
+    "special_defense": 50,
+    "speed": 55
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "damp",
+      "cloud-nine"
+    ],
+    "hidden": [
+      "swift-swim"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "water-sport"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "disable"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "surf"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "psych-up"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "wonder-room"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "soak"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "pay-day",
+      "ice-punch",
+      "scratch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "tail-whip",
+      "disable",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "psybeam",
+      "bubble-beam",
+      "submission",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "dig",
+      "toxic",
+      "confusion",
+      "psychic",
+      "hypnosis",
+      "rage",
+      "mimic",
+      "screech",
+      "double-team",
+      "confuse-ray",
+      "light-screen",
+      "bide",
+      "waterfall",
+      "swift",
+      "skull-bash",
+      "amnesia",
+      "flash",
+      "fury-swipes",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "foresight",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "cross-chop",
+      "rain-dance",
+      "psych-up",
+      "future-sight",
+      "rock-smash",
+      "whirlpool",
+      "hail",
+      "facade",
+      "focus-punch",
+      "role-play",
+      "brick-break",
+      "yawn",
+      "refresh",
+      "secret-power",
+      "dive",
+      "signal-beam",
+      "aerial-ace",
+      "water-sport",
+      "calm-mind",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "fling",
+      "worry-seed",
+      "aqua-tail",
+      "shadow-claw",
+      "mud-bomb",
+      "zen-headbutt",
+      "captivate",
+      "hone-claws",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "synchronoise",
+      "soak",
+      "simple-beam",
+      "round",
+      "clear-smog",
+      "scald",
+      "confide",
+      "power-up-punch"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_1",
+  "evolutions": [
+    {
+      "name": "golduck",
+      "level": 33
+    }
+  ]
+}

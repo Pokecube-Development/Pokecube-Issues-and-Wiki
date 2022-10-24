@@ -1,0 +1,25 @@
+{
+  "name": "flashcannon",
+  "animations": [
+    {
+      "preset": "beam:~flashcannon",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.unknown",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4
+    },
+    {
+      "preset": "cartFunc:pend_rod:d1:w1:l5:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~:~flashcannon",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.metalclaw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.1
+    }
+  ]
+}

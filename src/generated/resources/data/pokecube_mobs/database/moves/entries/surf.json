@@ -1,0 +1,15 @@
+{
+  "name": "surf",
+  "id": 57,
+  "power": 90,
+  "pp": 15,
+  "priority": 0,
+  "type": "water",
+  "accuracy": 100,
+  "target": "all-other-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user attacks everything around it by swamping\nits surroundings with a giant wave.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.\n\nIf the target is in the first turn of dive, this move will hit with double power.",
+  "effect_text_simple": "Inflicts regular damage and can hit Dive users."
+}

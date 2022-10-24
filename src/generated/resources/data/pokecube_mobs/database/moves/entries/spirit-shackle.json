@@ -1,0 +1,15 @@
+{
+  "name": "spirit-shackle",
+  "id": 662,
+  "power": 80,
+  "pp": 10,
+  "priority": 0,
+  "type": "ghost",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user attacks while simultaneously stitching the\ntarget’s shadow to the ground to prevent the target\nfrom escaping.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Traps the target.",
+  "effect_text_simple": "Traps the target."
+}

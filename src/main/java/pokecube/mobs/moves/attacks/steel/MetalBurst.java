@@ -12,7 +12,7 @@ public class MetalBurst extends Move_Basic
 
     public MetalBurst()
     {
-        super("metalburst");
+        super("metal-burst");
     }
 
     @Override
@@ -37,7 +37,7 @@ public class MetalBurst extends Move_Basic
             packet.attacker.getMoveStats().SPECIALDAMAGETAKENCOUNTER = 0;
             packet.attacker.getMoveStats().PHYSICALDAMAGETAKENCOUNTER = 0;
             if (packet.attacked != null && !packet.attacked.isInvulnerable()) packet.attacked.hurt(
-                    new PokemobDamageSource(attacker, this), damage);
+                    new PokemobDamageSource(attacker, this.move), damage);
             packet.attacker.getMoveStats().biding = false;
         }
     }

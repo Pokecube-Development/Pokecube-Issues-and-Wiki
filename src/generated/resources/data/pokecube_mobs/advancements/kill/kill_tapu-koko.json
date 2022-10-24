@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tapu-koko"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tapu-koko"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_tapu-koko": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "tapu-koko"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

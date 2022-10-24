@@ -1,0 +1,237 @@
+{
+  "name": "numel",
+  "id": 322,
+  "stock": true,
+  "base_experience": 61,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 24.0,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 60,
+    "defense": 40,
+    "special_attack": 65,
+    "special_defense": 45,
+    "speed": 35
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "fire",
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "oblivious",
+      "simple"
+    ],
+    "hidden": [
+      "own-tempo"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "ember"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "magnitude"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "yawn"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "lava-plume"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "flame-burst"
+        ]
+      }
+    ],
+    "misc": [
+      "stomp",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "growl",
+      "ember",
+      "flamethrower",
+      "strength",
+      "growth",
+      "earthquake",
+      "dig",
+      "toxic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "focus-energy",
+      "fire-blast",
+      "amnesia",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "magnitude",
+      "hidden-power",
+      "sunny-day",
+      "ancient-power",
+      "rock-smash",
+      "stockpile",
+      "spit-up",
+      "swallow",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "nature-power",
+      "yawn",
+      "secret-power",
+      "overheat",
+      "rock-tomb",
+      "howl",
+      "natural-gift",
+      "earth-power",
+      "mud-bomb",
+      "lava-plume",
+      "iron-head",
+      "captivate",
+      "stealth-rock",
+      "flame-burst",
+      "heavy-slam",
+      "flame-charge",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "incinerate",
+      "bulldoze",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/cow_1",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:lava_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "evolutions": [
+    {
+      "name": "camerupt",
+      "level": 33,
+      "evoMoves": "rockslide"
+    }
+  ]
+}

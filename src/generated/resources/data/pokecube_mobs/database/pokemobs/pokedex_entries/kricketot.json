@@ -1,0 +1,81 @@
+{
+  "name": "kricketot",
+  "id": 401,
+  "stock": true,
+  "base_experience": 39,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 2.2,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 37,
+    "attack": 25,
+    "defense": 41,
+    "special_attack": 25,
+    "special_defense": 41,
+    "speed": 25
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "bug"
+  ],
+  "abilities": {
+    "normal": [
+      "shed-skin"
+    ],
+    "hidden": [
+      "run-away"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "growl",
+          "bide"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "struggle-bug"
+        ]
+      }
+    ],
+    "misc": [
+      "growl",
+      "string-shot",
+      "bide",
+      "snore",
+      "mud-slap",
+      "uproar",
+      "endeavor",
+      "bug-bite",
+      "struggle-bug"
+    ]
+  },
+  "loot_table": "pokecube:entities/chestplate_seeds_1",
+  "evolutions": [
+    {
+      "name": "kricketune",
+      "level": 10,
+      "evoMoves": "furycutter"
+    }
+  ]
+}

@@ -6,7 +6,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.IMoveAction;
+import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.commands.SecretBase;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.world.terrain.PokecubeTerrainChecker;
@@ -14,7 +14,7 @@ import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.lib.TComponent;
 
-public class ActionSecretPower implements IMoveAction
+public class ActionSecretPower implements IMoveWorldEffect
 {
     public ActionSecretPower()
     {}
@@ -48,6 +48,6 @@ public class ActionSecretPower implements IMoveAction
     @Override
     public String getMoveName()
     {
-        return "secretpower";
+        return "secret-power";
     }
 }

@@ -1,0 +1,10 @@
+{
+  "name": "foresight",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:d1:rtrue:l3:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~foresight",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

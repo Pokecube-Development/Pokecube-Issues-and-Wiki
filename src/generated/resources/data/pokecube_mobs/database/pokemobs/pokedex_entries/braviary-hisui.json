@@ -1,0 +1,118 @@
+{
+  "name": "braviary-hisui",
+  "id": 628,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 1.7,
+    "width": 1.5,
+    "length": 1.5
+  },
+  "mass": 43.4,
+  "is_default": false,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 110,
+    "attack": 83,
+    "defense": 70,
+    "special_attack": 112,
+    "special_defense": 70,
+    "speed": 65
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "psychic",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "keen-eye",
+      "sheer-force"
+    ],
+    "hidden": [
+      "defiant"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "twister"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "esper-wing",
+          "roost"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "brave-bird"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "hurricane"
+        ]
+      }
+    ],
+    "misc": [
+      "rock-smash",
+      "aerial-ace",
+      "swift",
+      "ominous-wind",
+      "power-shift",
+      "bulk-up",
+      "rest",
+      "zen-headbutt",
+      "rock-slide",
+      "shadow-claw",
+      "mystical-fire",
+      "dazzling-gleam",
+      "giga-impact",
+      "hyper-beam",
+      "psychic"
+    ]
+  },
+  "old_name": "braviary_hisui"
+}

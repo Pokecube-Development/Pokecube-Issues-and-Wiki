@@ -1,0 +1,195 @@
+{
+  "name": "vanillite",
+  "id": 582,
+  "stock": true,
+  "base_experience": 61,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 5.7,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 36,
+    "attack": 50,
+    "defense": 50,
+    "special_attack": 65,
+    "special_defense": 60,
+    "speed": 44
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "ice"
+  ],
+  "abilities": {
+    "normal": [
+      "ice-body",
+      "snow-cloak"
+    ],
+    "hidden": [
+      "weak-armor"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 16,
+        "moves": [
+          "mist"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "ice-beam"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "harden"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "acid-armor"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "icy-wind"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "mirror-coat"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "uproar"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "hail"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "astonish"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "sheer-cold"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "icicle-spear"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "avalanche"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "mirror-shot"
+        ]
+      }
+    ],
+    "misc": [
+      "mist",
+      "ice-beam",
+      "blizzard",
+      "toxic",
+      "double-team",
+      "harden",
+      "light-screen",
+      "self-destruct",
+      "acid-armor",
+      "explosion",
+      "rest",
+      "substitute",
+      "snore",
+      "powder-snow",
+      "protect",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "mirror-coat",
+      "uproar",
+      "hail",
+      "facade",
+      "taunt",
+      "magic-coat",
+      "imprison",
+      "secret-power",
+      "hyper-voice",
+      "astonish",
+      "signal-beam",
+      "sheer-cold",
+      "icicle-spear",
+      "iron-defense",
+      "water-pulse",
+      "natural-gift",
+      "magnet-rise",
+      "avalanche",
+      "ice-shard",
+      "mirror-shot",
+      "flash-cannon",
+      "autotomize",
+      "round",
+      "ally-switch",
+      "frost-breath",
+      "icicle-crash",
+      "confide",
+      "aurora-veil"
+    ]
+  },
+  "loot_table": "pokecube:entities/both_ice",
+  "evolutions": [
+    {
+      "name": "vanillish",
+      "level": 35
+    }
+  ]
+}

@@ -1,0 +1,230 @@
+{
+  "name": "darmanitan-zen",
+  "id": 555,
+  "stock": true,
+  "base_experience": 189,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 92.9,
+  "is_default": false,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 105,
+    "attack": 30,
+    "defense": 105,
+    "special_attack": 140,
+    "special_defense": 105,
+    "speed": 55
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "fire",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "sheer-force"
+    ],
+    "hidden": [
+      "zen-mode"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 22,
+        "moves": [
+          "fire-punch"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "bite",
+          "ember",
+          "rage",
+          "rollout",
+          "incinerate"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "belly-drum"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "uproar"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "facade"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "overheat"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "hammer-arm"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "fire-fang"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "work-up"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "mega-kick",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "thrash",
+      "roar",
+      "flamethrower",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "fire-spin",
+      "earthquake",
+      "dig",
+      "toxic",
+      "psychic",
+      "rage",
+      "double-team",
+      "focus-energy",
+      "fire-blast",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "reversal",
+      "protect",
+      "belly-drum",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "encore",
+      "hidden-power",
+      "sunny-day",
+      "future-sight",
+      "rock-smash",
+      "uproar",
+      "heat-wave",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "trick",
+      "superpower",
+      "brick-break",
+      "endeavor",
+      "snatch",
+      "secret-power",
+      "overheat",
+      "rock-tomb",
+      "iron-defense",
+      "bulk-up",
+      "hammer-arm",
+      "gyro-ball",
+      "u-turn",
+      "payback",
+      "fling",
+      "power-swap",
+      "guard-swap",
+      "flare-blitz",
+      "focus-blast",
+      "giga-impact",
+      "fire-fang",
+      "zen-headbutt",
+      "iron-head",
+      "stone-edge",
+      "grass-knot",
+      "smack-down",
+      "flame-charge",
+      "round",
+      "incinerate",
+      "bulldoze",
+      "work-up",
+      "confide",
+      "mystical-fire",
+      "power-up-punch",
+      "laser-focus",
+      "body-press",
+      "expanding-force",
+      "burning-jealousy",
+      "lash-out"
+    ]
+  },
+  "loot_table": "pokecube:entities/blaze_rabbit_2",
+  "old_name": "darmanitan_zen"
+}

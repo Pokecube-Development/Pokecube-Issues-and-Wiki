@@ -1,0 +1,17 @@
+{
+  "name": "rock-slide",
+  "id": 157,
+  "power": 75,
+  "pp": 10,
+  "priority": 0,
+  "type": "rock",
+  "accuracy": 90,
+  "target": "all-opponents",
+  "damage_class": "physical",
+  "flavor_text": "Large boulders are hurled at the opposing Pokémon\nto inflict damage. This may also make the opposing\nPokémon flinch.",
+  "move_category": "damage",
+  "flinch_chance": 30,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to make the target flinch.",
+  "effect_text_simple": "Has a $effect_chance% chance to make the target flinch.",
+  "effect_chance": 30
+}

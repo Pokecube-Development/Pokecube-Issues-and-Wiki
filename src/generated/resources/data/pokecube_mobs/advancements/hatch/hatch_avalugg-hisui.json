@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.avalugg-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.avalugg-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_avalugg-hisui": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "avalugg-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

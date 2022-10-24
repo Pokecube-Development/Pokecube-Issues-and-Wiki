@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.staravia"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.staravia"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_staravia": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "staravia"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

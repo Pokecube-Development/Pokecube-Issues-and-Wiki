@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeItems;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
@@ -46,7 +46,7 @@ public class ItemTM extends Item
     public static ItemStack getTM(final String move)
     {
         ItemStack stack = ItemStack.EMPTY;
-        final Move_Base attack = MovesUtils.getMoveFromName(move.trim());
+        final MoveEntry attack = MovesUtils.getMove(move.trim());
         if (attack == null)
         {
             PokecubeAPI.LOGGER.error("Attempting to make TM for un-registered move: " + move);

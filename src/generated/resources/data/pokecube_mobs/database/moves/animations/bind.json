@@ -1,0 +1,15 @@
+{
+  "name": "bind",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:d0.2:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(2.5),(0.5-rand())*(1):~bind",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    }
+  ]
+}

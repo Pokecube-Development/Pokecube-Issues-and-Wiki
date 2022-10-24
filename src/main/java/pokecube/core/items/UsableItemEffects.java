@@ -25,8 +25,8 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.items.IPokemobUseable;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeItems;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.berries.BerryManager;
@@ -110,7 +110,7 @@ public class UsableItemEffects
          */
         @Override
         public InteractionResultHolder<ItemStack> onMoveTick(final IPokemob pokemob, final ItemStack stack,
-                final MovePacket moveuse)
+                final MoveApplication moveuse, boolean pre)
         {
             if (stack.getItem() instanceof ItemBerry berry)
             {
@@ -118,7 +118,7 @@ public class UsableItemEffects
                 if (!BerryManager.berryNames.containsKey(berryId))
                     return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
                 final BerryEffect effect = BerryUsable.effects.get(berryId);
-                if (effect != null) return effect.onMoveTick(pokemob, stack, moveuse);
+                if (effect != null) return effect.onMoveTick(pokemob, stack, moveuse, pre);
             }
             return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
         }

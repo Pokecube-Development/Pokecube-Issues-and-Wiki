@@ -1,0 +1,15 @@
+{
+  "name": "chargebeam",
+  "animations": [
+    {
+      "preset": "beam:~chargebeam",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.thunder",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.8
+    }
+  ]
+}

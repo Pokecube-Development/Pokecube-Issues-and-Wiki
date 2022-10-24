@@ -31,7 +31,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.moves.IMoveConstants.AIRoutine;
+import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import thut.api.ThutCaps;
 import thut.api.item.ItemList;

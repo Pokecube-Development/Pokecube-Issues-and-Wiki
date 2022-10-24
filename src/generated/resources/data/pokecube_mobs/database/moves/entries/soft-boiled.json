@@ -1,0 +1,14 @@
+{
+  "name": "soft-boiled",
+  "id": 135,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user restores its own HP by up to half of its\nmax HP.",
+  "move_category": "heal",
+  "healing": 50,
+  "effect_text_extend": "Heals the user for half its max HP.",
+  "effect_text_simple": "Heals the user by half its max HP."
+}

@@ -1,0 +1,35 @@
+{
+  "name": "shoreup",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:cbrown:d0.1:w4:atrue:rtrue:l5:f(0.5-rand())*(1),(0-rand())*(0.66),(0.5-rand())*(1):~shoreup",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "minecraft:block.sand.step",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.5
+    },
+    {
+      "preset": "cartFunc:pmisc:cbrown:d0.1:w2:atrue:rtrue:l5:f(0.5-rand())*(1),(0-rand())*(0.66),(0.5-rand())*(1):~shoreup",
+      "duration": "5",
+      "starttick": "3",
+      "sound": "minecraft:block.sand.step",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.7
+    },
+    {
+      "preset": "cartFunc:pmisc:cbrown:d0.1:w0.5:atrue:rtrue:l5:f(0.5-rand())*(1),(0-rand())*(0.66),(0.5-rand())*(1):~shoreup",
+      "duration": "5",
+      "starttick": "6",
+      "sound": "minecraft:block.sand.step",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.9
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "eruption",
+  "id": 284,
+  "power": 150,
+  "pp": 5,
+  "priority": 0,
+  "type": "fire",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "special",
+  "flavor_text": "The user attacks opposing Pokémon with explosive\nfury. The lower the user’s HP, the lower the\nmove’s power.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Power increases with the user's remaining HP and is given by `150 * HP / max HP`, to a maximum of 150 when the user has full HP.",
+  "effect_text_simple": "Inflicts more damage when the user has more HP remaining, with a maximum of 150 power."
+}

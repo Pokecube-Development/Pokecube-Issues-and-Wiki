@@ -1,0 +1,273 @@
+{
+  "name": "furfrou",
+  "id": 676,
+  "stock": true,
+  "base_experience": 165,
+  "size": {
+    "height": 1.2,
+    "width": 1.0,
+    "length": 1.2
+  },
+  "mass": 28.0,
+  "is_default": true,
+  "capture_rate": 160,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 75,
+    "attack": 80,
+    "defense": 60,
+    "special_attack": 65,
+    "special_defense": 90,
+    "speed": 102
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "fur-coat"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 5,
+        "moves": [
+          "sand-attack"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "odor-sleuth"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "retaliate"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "cotton-guard"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "baby-doll-eyes"
+        ]
+      }
+    ],
+    "misc": [
+      "sand-attack",
+      "headbutt",
+      "tackle",
+      "take-down",
+      "tail-whip",
+      "bite",
+      "growl",
+      "roar",
+      "surf",
+      "thunder-wave",
+      "dig",
+      "toxic",
+      "mimic",
+      "double-team",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
+      "uproar",
+      "facade",
+      "helping-hand",
+      "role-play",
+      "endeavor",
+      "refresh",
+      "secret-power",
+      "hyper-voice",
+      "odor-sleuth",
+      "u-turn",
+      "last-resort",
+      "sucker-punch",
+      "dark-pulse",
+      "giga-impact",
+      "zen-headbutt",
+      "captivate",
+      "grass-knot",
+      "charge-beam",
+      "round",
+      "echoed-voice",
+      "retaliate",
+      "work-up",
+      "wild-charge",
+      "cotton-guard",
+      "snarl",
+      "confide",
+      "baby-doll-eyes"
+    ]
+  },
+  "model": {
+    "key": "furfrou-natural",
+    "tex": "furfrou-natural",
+    "model": "furfrou-natural",
+    "anim": "furfrou-natural",
+    "types": "normal"
+  },
+  "models": [
+    {
+      "key": "furfrou-heart",
+      "tex": "furfrou-heart",
+      "model": "furfrou-heart",
+      "anim": "furfrou-heart",
+      "types": "normal"
+    },
+    {
+      "key": "furfrou-star",
+      "tex": "furfrou-star",
+      "model": "furfrou-star",
+      "anim": "furfrou-star",
+      "types": "normal"
+    },
+    {
+      "key": "furfrou-diamond",
+      "tex": "furfrou-diamond",
+      "model": "furfrou-diamond",
+      "anim": "furfrou-diamond",
+      "types": "normal"
+    },
+    {
+      "key": "furfrou-debutante",
+      "tex": "furfrou-debutante",
+      "model": "furfrou-debutante",
+      "anim": "furfrou-debutante",
+      "types": "normal"
+    },
+    {
+      "key": "furfrou-matron",
+      "tex": "furfrou-matron",
+      "model": "furfrou-matron",
+      "anim": "furfrou-matron",
+      "types": "normal"
+    },
+    {
+      "key": "furfrou-dandy",
+      "tex": "furfrou-dandy",
+      "model": "furfrou-dandy",
+      "anim": "furfrou-dandy",
+      "types": "normal"
+    },
+    {
+      "key": "furfrou-la-reine",
+      "tex": "furfrou-la-reine",
+      "model": "furfrou-la-reine",
+      "anim": "furfrou-la-reine",
+      "types": "normal"
+    },
+    {
+      "key": "furfrou-kabuki",
+      "tex": "furfrou-kabuki",
+      "model": "furfrou-kabuki",
+      "anim": "furfrou-kabuki",
+      "types": "normal"
+    },
+    {
+      "key": "furfrou-pharaoh",
+      "tex": "furfrou-pharaoh",
+      "model": "furfrou-pharaoh",
+      "anim": "furfrou-pharaoh",
+      "types": "normal"
+    }
+  ],
+  "loot_table": "pokecube:entities/rabbit_1",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

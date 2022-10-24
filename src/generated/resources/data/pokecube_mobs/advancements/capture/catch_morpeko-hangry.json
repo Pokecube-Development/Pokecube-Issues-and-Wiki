@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.morpeko-hangry"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.morpeko-hangry"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_morpeko-hangry": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "morpeko-hangry"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

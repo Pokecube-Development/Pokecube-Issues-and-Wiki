@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.mewtwo-mega-x"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mewtwo-mega-x"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_mewtwo-mega-x": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "mewtwo-mega-x"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

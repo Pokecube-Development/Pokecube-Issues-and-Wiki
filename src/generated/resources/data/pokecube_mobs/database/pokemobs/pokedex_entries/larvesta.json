@@ -1,0 +1,189 @@
+{
+  "name": "larvesta",
+  "id": 636,
+  "stock": true,
+  "base_experience": 72,
+  "size": {
+    "height": 0.9,
+    "width": 1.1,
+    "length": 1.1
+  },
+  "mass": 28.8,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 55,
+    "attack": 85,
+    "defense": 55,
+    "special_attack": 50,
+    "special_defense": 55,
+    "speed": 60
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "bug",
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "flame-body"
+    ],
+    "hidden": [
+      "swarm"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 20,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 90,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "ember",
+          "string-shot"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "absorb"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "screech",
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 80,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "leech-life"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "flame-wheel"
+        ]
+      },
+      {
+        "L": 100,
+        "moves": [
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "struggle-bug"
+        ]
+      }
+    ],
+    "misc": [
+      "take-down",
+      "thrash",
+      "double-edge",
+      "ember",
+      "flamethrower",
+      "absorb",
+      "solar-beam",
+      "string-shot",
+      "toxic",
+      "psychic",
+      "screech",
+      "double-team",
+      "harden",
+      "light-screen",
+      "fire-blast",
+      "amnesia",
+      "leech-life",
+      "rest",
+      "substitute",
+      "flame-wheel",
+      "snore",
+      "protect",
+      "foresight",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "morning-sun",
+      "hidden-power",
+      "sunny-day",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "secret-power",
+      "overheat",
+      "signal-beam",
+      "calm-mind",
+      "u-turn",
+      "magnet-rise",
+      "flare-blitz",
+      "bug-buzz",
+      "zen-headbutt",
+      "bug-bite",
+      "flame-charge",
+      "round",
+      "incinerate",
+      "acrobatics",
+      "struggle-bug",
+      "wild-charge",
+      "confide",
+      "skitter-smack"
+    ]
+  },
+  "loot_table": "pokecube:entities/spider",
+  "evolutions": [
+    {
+      "name": "volcarona",
+      "level": 59,
+      "evoMoves": "quiverdance"
+    }
+  ]
+}

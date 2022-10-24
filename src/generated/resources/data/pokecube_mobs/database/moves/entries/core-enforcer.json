@@ -1,0 +1,15 @@
+{
+  "name": "core-enforcer",
+  "id": 687,
+  "power": 100,
+  "pp": 10,
+  "priority": 0,
+  "type": "dragon",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "special",
+  "flavor_text": "If the Pokémon the user has inflicted damage on\nhave already used their moves, this move eliminates\nthe effect of the target’s Ability.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  If the target has already moved this turn, its ability is nullified.",
+  "effect_text_simple": "Nullifies the target's ability if it moves earlier."
+}

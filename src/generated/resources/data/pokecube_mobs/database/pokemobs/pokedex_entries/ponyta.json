@@ -1,0 +1,212 @@
+{
+  "name": "ponyta",
+  "id": 77,
+  "stock": true,
+  "base_experience": 82,
+  "size": {
+    "height": 1.0,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 30.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 50,
+    "attack": 85,
+    "defense": 55,
+    "special_attack": 65,
+    "special_defense": 65,
+    "speed": 90
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "run-away",
+      "flash-fire"
+    ],
+    "hidden": [
+      "flame-body"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 17,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "ember"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "fire-spin"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "fire-blast"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "flame-wheel"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "inferno"
+        ]
+      }
+    ],
+    "misc": [
+      "stomp",
+      "double-kick",
+      "headbutt",
+      "horn-drill",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "thrash",
+      "double-edge",
+      "tail-whip",
+      "growl",
+      "ember",
+      "flamethrower",
+      "low-kick",
+      "strength",
+      "solar-beam",
+      "fire-spin",
+      "toxic",
+      "hypnosis",
+      "agility",
+      "quick-attack",
+      "rage",
+      "mimic",
+      "double-team",
+      "reflect",
+      "bide",
+      "fire-blast",
+      "swift",
+      "skull-bash",
+      "rest",
+      "substitute",
+      "flame-wheel",
+      "snore",
+      "curse",
+      "protect",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "morning-sun",
+      "hidden-power",
+      "sunny-day",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "secret-power",
+      "overheat",
+      "bounce",
+      "natural-gift",
+      "flare-blitz",
+      "captivate",
+      "flame-charge",
+      "round",
+      "echoed-voice",
+      "ally-switch",
+      "incinerate",
+      "inferno",
+      "wild-charge",
+      "play-rough",
+      "confide",
+      "mystical-fire",
+      "high-horsepower",
+      "solar-blade"
+    ]
+  },
+  "loot_table": "pokecube:entities/coal_cow_1",
+  "evolutions": [
+    {
+      "name": "rapidash",
+      "level": 40,
+      "evoMoves": "furyattack"
+    }
+  ]
+}

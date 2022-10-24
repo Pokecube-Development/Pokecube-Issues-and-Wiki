@@ -1,0 +1,177 @@
+{
+  "name": "clawitzer",
+  "id": 693,
+  "stock": true,
+  "base_experience": 100,
+  "size": {
+    "height": 1.3,
+    "width": 1.3,
+    "length": 1.3
+  },
+  "mass": 35.3,
+  "is_default": true,
+  "capture_rate": 55,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 71,
+    "attack": 73,
+    "defense": 88,
+    "special_attack": 120,
+    "special_defense": 89,
+    "speed": 59
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "mega-launcher"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "vice-grip",
+          "water-gun",
+          "splash",
+          "water-sport",
+          "dark-pulse",
+          "dragon-pulse",
+          "heal-pulse"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "swords-dance",
+          "hone-claws"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "bubble"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "crabhammer"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "muddy-water"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "bounce",
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "aura-sphere"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "smack-down"
+        ]
+      }
+    ],
+    "misc": [
+      "vice-grip",
+      "swords-dance",
+      "cut",
+      "water-gun",
+      "surf",
+      "ice-beam",
+      "bubble-beam",
+      "hyper-beam",
+      "toxic",
+      "double-team",
+      "waterfall",
+      "bubble",
+      "splash",
+      "crabhammer",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "flail",
+      "protect",
+      "sludge-bomb",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "shadow-ball",
+      "facade",
+      "helping-hand",
+      "secret-power",
+      "dive",
+      "muddy-water",
+      "bounce",
+      "water-sport",
+      "water-pulse",
+      "u-turn",
+      "aura-sphere",
+      "dark-pulse",
+      "aqua-tail",
+      "dragon-pulse",
+      "focus-blast",
+      "giga-impact",
+      "flash-cannon",
+      "aqua-jet",
+      "venoshock",
+      "smack-down",
+      "sludge-wave",
+      "round",
+      "scald",
+      "heal-pulse",
+      "confide",
+      "laser-focus",
+      "liquidation",
+      "terrain-pulse",
+      "flip-turn"
+    ]
+  },
+  "loot_table": "pokecube:entities/shear_fish"
+}

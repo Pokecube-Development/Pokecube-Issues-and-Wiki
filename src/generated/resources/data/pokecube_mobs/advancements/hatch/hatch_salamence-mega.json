@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.salamence-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.salamence-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_salamence-mega": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "salamence-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

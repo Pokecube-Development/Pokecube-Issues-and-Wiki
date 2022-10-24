@@ -1,0 +1,183 @@
+{
+  "name": "klang",
+  "id": 600,
+  "stock": true,
+  "base_experience": 154,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 51.0,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 60,
+    "attack": 80,
+    "defense": 95,
+    "special_attack": 70,
+    "special_defense": 85,
+    "speed": 50
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "plus",
+      "minus"
+    ],
+    "hidden": [
+      "clear-body"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "vice-grip",
+          "thunder-shock",
+          "charge",
+          "gear-grind"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "bind"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "zap-cannon"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "lock-on"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "mirror-shot"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "charge-beam"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "autotomize"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "shift-gear"
+        ]
+      }
+    ],
+    "misc": [
+      "vice-grip",
+      "bind",
+      "hyper-beam",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "toxic",
+      "screech",
+      "double-team",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "zap-cannon",
+      "lock-on",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rock-smash",
+      "uproar",
+      "facade",
+      "charge",
+      "magic-coat",
+      "recycle",
+      "secret-power",
+      "metal-sound",
+      "signal-beam",
+      "iron-defense",
+      "shock-wave",
+      "gravity",
+      "assurance",
+      "magnet-rise",
+      "rock-polish",
+      "power-gem",
+      "mirror-shot",
+      "flash-cannon",
+      "discharge",
+      "charge-beam",
+      "autotomize",
+      "telekinesis",
+      "round",
+      "ally-switch",
+      "shift-gear",
+      "volt-switch",
+      "wild-charge",
+      "gear-grind",
+      "confide",
+      "steel-beam",
+      "steel-roller",
+      "rising-voltage"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_2",
+  "evolutions": [
+    {
+      "name": "klinklang",
+      "level": 49,
+      "evoMoves": "magneticflux"
+    }
+  ]
+}

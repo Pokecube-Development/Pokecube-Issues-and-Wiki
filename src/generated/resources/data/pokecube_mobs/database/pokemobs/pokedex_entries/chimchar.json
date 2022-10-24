@@ -1,0 +1,208 @@
+{
+  "name": "chimchar",
+  "id": 390,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 0.5,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 6.2,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 44,
+    "attack": 58,
+    "defense": 44,
+    "special_attack": 58,
+    "special_defense": 44,
+    "speed": 61
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "iron-fist"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "leer"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "ember"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "fire-spin"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "flame-wheel"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "torment"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "facade"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "slack-off"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "acrobatics"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "thunder-punch",
+      "scratch",
+      "swords-dance",
+      "cut",
+      "double-kick",
+      "headbutt",
+      "leer",
+      "ember",
+      "flamethrower",
+      "submission",
+      "low-kick",
+      "counter",
+      "strength",
+      "fire-spin",
+      "dig",
+      "toxic",
+      "double-team",
+      "focus-energy",
+      "fire-blast",
+      "swift",
+      "fury-swipes",
+      "rest",
+      "substitute",
+      "flame-wheel",
+      "snore",
+      "protect",
+      "mud-slap",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "fake-out",
+      "uproar",
+      "heat-wave",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "role-play",
+      "assist",
+      "brick-break",
+      "endeavor",
+      "secret-power",
+      "blaze-kick",
+      "slack-off",
+      "overheat",
+      "aerial-ace",
+      "bulk-up",
+      "covet",
+      "natural-gift",
+      "u-turn",
+      "fling",
+      "vacuum-wave",
+      "nasty-plot",
+      "shadow-claw",
+      "rock-climb",
+      "gunk-shot",
+      "captivate",
+      "stealth-rock",
+      "grass-knot",
+      "hone-claws",
+      "flame-charge",
+      "low-sweep",
+      "round",
+      "quick-guard",
+      "incinerate",
+      "acrobatics",
+      "fire-pledge",
+      "work-up",
+      "confide",
+      "power-up-punch"
+    ]
+  },
+  "loot_table": "pokecube:entities/coal_1",
+  "evolutions": [
+    {
+      "name": "monferno",
+      "level": 14,
+      "evoMoves": "machpunch"
+    }
+  ]
+}

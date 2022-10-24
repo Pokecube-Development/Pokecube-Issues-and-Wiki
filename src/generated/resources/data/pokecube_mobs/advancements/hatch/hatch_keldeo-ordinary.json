@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.keldeo-ordinary"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.keldeo-ordinary"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_keldeo-ordinary": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "keldeo-ordinary"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

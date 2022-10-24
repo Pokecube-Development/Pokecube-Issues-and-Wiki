@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.araquanid"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.araquanid"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_araquanid": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "araquanid"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

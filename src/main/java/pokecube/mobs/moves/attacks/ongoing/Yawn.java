@@ -3,7 +3,7 @@ package pokecube.mobs.moves.attacks.ongoing;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.templates.Move_Ongoing;
 

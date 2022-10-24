@@ -1,0 +1,25 @@
+{
+  "name": "sacredsword",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d2.5:w0.5:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~sacredsword",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.metalclaw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    },
+    {
+      "preset": "cartFunc:psweep_attack:d4:atrue:l3:~sacredsword",
+      "duration": "5",
+      "starttick": "2",
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "name": "meltan",
+  "id": 808,
+  "stock": true,
+  "base_experience": 150,
+  "size": {
+    "height": 0.2,
+    "width": 0.2,
+    "length": 0.2
+  },
+  "mass": 8.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 46,
+    "attack": 65,
+    "defense": 65,
+    "special_attack": 55,
+    "special_defense": 35,
+    "speed": 34
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "magnet-pull"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 16,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "thunder-shock",
+          "harden"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "acid-armor"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "flash-cannon"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "tail-whip",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "toxic",
+      "harden",
+      "acid-armor",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "endure",
+      "sleep-talk",
+      "facade",
+      "iron-defense",
+      "gyro-ball",
+      "flash-cannon",
+      "round",
+      "steel-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_1",
+  "evolutions": [
+    {
+      "name": "melmetal",
+      "level": 32,
+      "evoMoves": "thunderpunch"
+    }
+  ]
+}

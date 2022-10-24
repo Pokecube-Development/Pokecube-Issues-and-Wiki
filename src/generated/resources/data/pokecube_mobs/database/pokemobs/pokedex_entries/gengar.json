@@ -1,0 +1,270 @@
+{
+  "name": "gengar",
+  "id": 94,
+  "stock": true,
+  "base_experience": 250,
+  "size": {
+    "height": 1.5,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 40.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 65,
+    "defense": 60,
+    "special_attack": 130,
+    "special_defense": 75,
+    "speed": 110
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "ghost",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "cursed-body"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "disable",
+          "hypnosis",
+          "haze",
+          "lick",
+          "smog",
+          "spite",
+          "perish-song",
+          "reflect-type"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "night-shade"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "dream-eater"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "poison-gas"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "nightmare"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "destiny-bond"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "mean-look"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "will-o-wisp"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "shadow-punch"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "hex"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "hyper-beam",
+      "submission",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "mega-drain",
+      "thunderbolt",
+      "thunder",
+      "toxic",
+      "psychic",
+      "hypnosis",
+      "rage",
+      "night-shade",
+      "mimic",
+      "double-team",
+      "confuse-ray",
+      "bide",
+      "metronome",
+      "self-destruct",
+      "lick",
+      "skull-bash",
+      "dream-eater",
+      "psywave",
+      "explosion",
+      "rest",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "curse",
+      "spite",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "zap-cannon",
+      "destiny-bond",
+      "icy-wind",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "dynamic-punch",
+      "encore",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "uproar",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "trick",
+      "role-play",
+      "brick-break",
+      "knock-off",
+      "skill-swap",
+      "imprison",
+      "snatch",
+      "secret-power",
+      "shadow-punch",
+      "natural-gift",
+      "payback",
+      "embargo",
+      "fling",
+      "sucker-punch",
+      "poison-jab",
+      "dark-pulse",
+      "drain-punch",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "nasty-plot",
+      "shadow-claw",
+      "trick-room",
+      "captivate",
+      "ominous-wind",
+      "wonder-room",
+      "venoshock",
+      "telekinesis",
+      "sludge-wave",
+      "foul-play",
+      "round",
+      "ally-switch",
+      "hex",
+      "phantom-force",
+      "confide",
+      "dazzling-gleam",
+      "infestation",
+      "power-up-punch",
+      "laser-focus",
+      "skitter-smack",
+      "poltergeist",
+      "corrosive-gas"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_3",
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "gengarmega"
+    }
+  ]
+}

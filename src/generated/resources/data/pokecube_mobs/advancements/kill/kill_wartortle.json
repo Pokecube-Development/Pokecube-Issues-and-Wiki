@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.wartortle"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wartortle"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_wartortle": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "wartortle"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

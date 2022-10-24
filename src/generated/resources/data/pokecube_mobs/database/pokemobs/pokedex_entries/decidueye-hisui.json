@@ -1,0 +1,142 @@
+{
+  "name": "decidueye-hisui",
+  "id": 724,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 1.6,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 37.0,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 88,
+    "attack": 112,
+    "defense": 80,
+    "special_attack": 95,
+    "special_defense": 95,
+    "speed": 60
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "grass",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "long-reach"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "gust"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "leafage"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "roost"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "aura-sphere"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "leaf-blade"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "brave-bird"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "leaf-storm"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "solar-beam",
+      "toxic",
+      "double-team",
+      "light-screen",
+      "rest",
+      "substitute",
+      "protect",
+      "false-swipe",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "sunny-day",
+      "shadow-ball",
+      "facade",
+      "nature-power",
+      "frenzy-plant",
+      "roost",
+      "energy-ball",
+      "giga-impact",
+      "shadow-claw",
+      "grass-knot",
+      "smack-down",
+      "low-sweep",
+      "round",
+      "echoed-voice",
+      "acrobatics",
+      "grass-pledge",
+      "work-up",
+      "confide"
+    ]
+  },
+  "old_name": "decidueye_hisui"
+}

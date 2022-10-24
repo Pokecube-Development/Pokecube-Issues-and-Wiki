@@ -3,15 +3,15 @@ package pokecube.mobs.abilities.simple;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
 
 public class WaterAbsorb extends Ability
 {
     @Override
-    public void onMoveUse(IPokemob mob, MovePacket move)
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        if (mob == move.attacked && move.pre && move.attackType == PokeType.getType("water"))
+        if (mob.getEntity() == move.target && move.type == PokeType.getType("water"))
         {
             move.canceled = true;
             final LivingEntity entity = mob.getEntity();

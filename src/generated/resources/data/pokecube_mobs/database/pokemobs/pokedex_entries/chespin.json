@@ -1,0 +1,212 @@
+{
+  "name": "chespin",
+  "id": 650,
+  "stock": true,
+  "base_experience": 63,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 9.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 56,
+    "attack": 61,
+    "defense": 65,
+    "special_attack": 48,
+    "special_defense": 45,
+    "speed": 38
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "bulletproof"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "vine-whip",
+          "tackle",
+          "growl"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "pin-missile"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "pain-split"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "bulk-up"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "mud-shot"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "seed-bomb"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "wood-hammer"
+        ]
+      }
+    ],
+    "misc": [
+      "thunder-punch",
+      "swords-dance",
+      "cut",
+      "vine-whip",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "pin-missile",
+      "bite",
+      "growl",
+      "roar",
+      "low-kick",
+      "strength",
+      "leech-seed",
+      "solar-beam",
+      "dig",
+      "toxic",
+      "double-team",
+      "defense-curl",
+      "reflect",
+      "flash",
+      "rest",
+      "rock-slide",
+      "super-fang",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "belly-drum",
+      "sludge-bomb",
+      "spikes",
+      "giga-drain",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "iron-tail",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "nature-power",
+      "taunt",
+      "helping-hand",
+      "superpower",
+      "brick-break",
+      "endeavor",
+      "secret-power",
+      "rock-tomb",
+      "aerial-ace",
+      "iron-defense",
+      "bulk-up",
+      "mud-shot",
+      "gyro-ball",
+      "payback",
+      "fling",
+      "worry-seed",
+      "poison-jab",
+      "seed-bomb",
+      "drain-punch",
+      "energy-ball",
+      "shadow-claw",
+      "zen-headbutt",
+      "iron-head",
+      "stone-edge",
+      "grass-knot",
+      "wood-hammer",
+      "smack-down",
+      "low-sweep",
+      "round",
+      "quick-guard",
+      "retaliate",
+      "grass-pledge",
+      "bulldoze",
+      "work-up",
+      "dual-chop",
+      "confide",
+      "power-up-punch",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_1",
+  "evolutions": [
+    {
+      "name": "quilladin",
+      "level": 16,
+      "animation": "18",
+      "evoMoves": "needlearm"
+    }
+  ]
+}

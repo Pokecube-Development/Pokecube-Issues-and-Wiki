@@ -1,0 +1,194 @@
+{
+  "name": "rampardos",
+  "id": 409,
+  "stock": true,
+  "base_experience": 173,
+  "size": {
+    "height": 1.6,
+    "width": 1.4,
+    "length": 1.4
+  },
+  "mass": 102.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "slow-then-very-fast",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 97,
+    "attack": 165,
+    "defense": 60,
+    "special_attack": 65,
+    "special_defense": 50,
+    "speed": 58
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "rock"
+  ],
+  "abilities": {
+    "normal": [
+      "mold-breaker"
+    ],
+    "hidden": [
+      "sheer-force"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "headbutt",
+          "leer",
+          "focus-energy",
+          "pursuit"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "endeavor"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "head-smash"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "chip-away"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "thunder-punch",
+      "swords-dance",
+      "cut",
+      "headbutt",
+      "take-down",
+      "leer",
+      "roar",
+      "flamethrower",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "strength",
+      "thunderbolt",
+      "thunder",
+      "earthquake",
+      "dig",
+      "toxic",
+      "screech",
+      "double-team",
+      "focus-energy",
+      "fire-blast",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "outrage",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "pursuit",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "ancient-power",
+      "rock-smash",
+      "whirlpool",
+      "uproar",
+      "facade",
+      "focus-punch",
+      "superpower",
+      "brick-break",
+      "endeavor",
+      "secret-power",
+      "rock-tomb",
+      "shock-wave",
+      "natural-gift",
+      "payback",
+      "assurance",
+      "fling",
+      "rock-polish",
+      "dragon-pulse",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "avalanche",
+      "zen-headbutt",
+      "rock-climb",
+      "iron-head",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "head-smash",
+      "smack-down",
+      "round",
+      "chip-away",
+      "incinerate",
+      "bulldoze",
+      "dragon-tail",
+      "confide",
+      "power-up-punch",
+      "laser-focus",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/fossil_mob"
+}

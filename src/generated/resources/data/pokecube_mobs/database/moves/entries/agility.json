@@ -1,0 +1,13 @@
+{
+  "name": "agility",
+  "id": 97,
+  "pp": 30,
+  "priority": 0,
+  "type": "psychic",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user relaxes and lightens its body to move\nfaster. This sharply raises the Speed stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises the user's Speed by two stages.",
+  "effect_text_simple": "Raises the user's Speed by two stages."
+}

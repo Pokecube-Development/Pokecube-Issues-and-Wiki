@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.gallade-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gallade-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_gallade-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "gallade-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

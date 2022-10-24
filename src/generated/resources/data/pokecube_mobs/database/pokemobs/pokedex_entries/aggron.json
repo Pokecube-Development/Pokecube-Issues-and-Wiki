@@ -1,0 +1,268 @@
+{
+  "name": "aggron",
+  "id": 306,
+  "stock": true,
+  "base_experience": 265,
+  "size": {
+    "height": 2.1,
+    "width": 1.6,
+    "length": 1.6
+  },
+  "mass": 360.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 70,
+    "attack": 110,
+    "defense": 180,
+    "special_attack": 60,
+    "special_defense": 60,
+    "speed": 50
+  },
+  "evs": {
+    "defense": 3
+  },
+  "types": [
+    "steel",
+    "rock"
+  ],
+  "abilities": {
+    "normal": [
+      "sturdy",
+      "rock-head"
+    ],
+    "hidden": [
+      "heavy-metal"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "headbutt",
+          "tackle",
+          "harden",
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "iron-tail"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "metal-claw"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "rock-tomb"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "metal-burst"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "iron-head"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "autotomize"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "heavy-slam"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "cut",
+      "mega-kick",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "roar",
+      "flamethrower",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "dig",
+      "toxic",
+      "mimic",
+      "screech",
+      "double-team",
+      "harden",
+      "defense-curl",
+      "fire-blast",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "reversal",
+      "spite",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "icy-wind",
+      "outrage",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "iron-tail",
+      "metal-claw",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "ancient-power",
+      "rock-smash",
+      "whirlpool",
+      "uproar",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "superpower",
+      "brick-break",
+      "endeavor",
+      "secret-power",
+      "rock-tomb",
+      "metal-sound",
+      "sand-tomb",
+      "aerial-ace",
+      "iron-defense",
+      "block",
+      "dragon-claw",
+      "rock-blast",
+      "shock-wave",
+      "water-pulse",
+      "natural-gift",
+      "metal-burst",
+      "payback",
+      "fling",
+      "magnet-rise",
+      "rock-polish",
+      "dark-pulse",
+      "aqua-tail",
+      "dragon-pulse",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "avalanche",
+      "shadow-claw",
+      "flash-cannon",
+      "rock-climb",
+      "iron-head",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "hone-claws",
+      "autotomize",
+      "smack-down",
+      "heavy-slam",
+      "round",
+      "incinerate",
+      "bulldoze",
+      "dragon-tail",
+      "confide",
+      "power-up-punch",
+      "high-horsepower",
+      "smart-strike",
+      "brutal-swing",
+      "stomping-tantrum",
+      "body-press",
+      "steel-beam",
+      "steel-roller",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_3",
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "aggronmega"
+    }
+  ]
+}

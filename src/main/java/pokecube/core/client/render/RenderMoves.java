@@ -7,9 +7,9 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.moves.IMoveAnimation;
-import pokecube.api.moves.IMoveAnimation.MovePacketInfo;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveAnimation;
+import pokecube.api.moves.utils.IMoveAnimation.MovePacketInfo;
 import pokecube.core.moves.animations.EntityMoveUse;
 
 public class RenderMoves extends EntityRenderer<EntityMoveUse>
@@ -26,7 +26,7 @@ public class RenderMoves extends EntityRenderer<EntityMoveUse>
             final PoseStack mat, final MultiBufferSource bufferIn, final int packedLightIn)
     {
         if (entity.getStartTick() > 0) return;
-        final Move_Base move = entity.getMove();
+        final MoveEntry move = entity.getMove();
         IMoveAnimation animation;
         if (move != null && (animation = move.getAnimation(PokemobCaps.getPokemobFor(entity.getUser()))) != null
                 && entity.getUser() != null)

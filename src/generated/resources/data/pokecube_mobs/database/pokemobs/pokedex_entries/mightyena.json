@@ -1,0 +1,202 @@
+{
+  "name": "mightyena",
+  "id": 262,
+  "stock": true,
+  "base_experience": 147,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 37.0,
+  "is_default": true,
+  "capture_rate": 127,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 70,
+    "attack": 90,
+    "defense": 70,
+    "special_attack": 60,
+    "special_defense": 60,
+    "speed": 70
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "intimidate",
+      "quick-feet"
+    ],
+    "hidden": [
+      "moxie"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "sand-attack",
+          "tackle",
+          "bite",
+          "thief",
+          "crunch",
+          "howl",
+          "thunder-fang",
+          "ice-fang",
+          "fire-fang"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "yawn"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "odor-sleuth"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "embargo"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "snarl"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "play-rough"
+        ]
+      }
+    ],
+    "misc": [
+      "sand-attack",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "bite",
+      "roar",
+      "hyper-beam",
+      "counter",
+      "strength",
+      "dig",
+      "toxic",
+      "mimic",
+      "double-team",
+      "rest",
+      "super-fang",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "uproar",
+      "torment",
+      "facade",
+      "taunt",
+      "yawn",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "odor-sleuth",
+      "howl",
+      "covet",
+      "natural-gift",
+      "payback",
+      "assurance",
+      "embargo",
+      "sucker-punch",
+      "dark-pulse",
+      "giga-impact",
+      "thunder-fang",
+      "ice-fang",
+      "fire-fang",
+      "captivate",
+      "foul-play",
+      "round",
+      "incinerate",
+      "retaliate",
+      "snarl",
+      "play-rough",
+      "confide",
+      "laser-focus",
+      "throat-chop"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2"
+}

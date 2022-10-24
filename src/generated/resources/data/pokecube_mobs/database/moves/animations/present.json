@@ -1,0 +1,27 @@
+{
+  "name": "present",
+  "animations": [
+    {
+      "preset": "throw:cwhite:w0.4:atrue:~present",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.charm",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:pcloud:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~present",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "applyAfter": false
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.emboar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.emboar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_emboar": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "emboar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

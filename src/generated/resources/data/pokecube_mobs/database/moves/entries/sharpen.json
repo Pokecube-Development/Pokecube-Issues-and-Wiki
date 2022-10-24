@@ -1,0 +1,13 @@
+{
+  "name": "sharpen",
+  "id": 159,
+  "pp": 30,
+  "priority": 0,
+  "type": "normal",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user makes its edges more jagged, \nwhich raises its Attack stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises the user's Attack by one stage.",
+  "effect_text_simple": "Raises the user's Attack by one stage."
+}

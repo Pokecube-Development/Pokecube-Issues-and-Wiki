@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.meowstic-female"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.meowstic-female"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_meowstic-female": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "meowstic-female"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

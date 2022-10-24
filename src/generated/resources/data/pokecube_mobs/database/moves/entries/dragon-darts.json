@@ -1,0 +1,15 @@
+{
+  "name": "dragon-darts",
+  "id": 751,
+  "power": 50,
+  "pp": 10,
+  "priority": 0,
+  "type": "dragon",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user attacks twice using Dreepy. If there are two\ntargets, this move hits each target once.",
+  "move_category": "damage",
+  "max_hits": 2,
+  "min_hits": 2
+}

@@ -1,0 +1,247 @@
+{
+  "name": "staryu",
+  "id": 120,
+  "stock": true,
+  "base_experience": 68,
+  "size": {
+    "height": 0.8,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 34.5,
+  "is_default": true,
+  "capture_rate": 225,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 30,
+    "attack": 45,
+    "defense": 55,
+    "special_attack": 70,
+    "special_defense": 55,
+    "speed": 85
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "illuminate",
+      "natural-cure"
+    ],
+    "hidden": [
+      "analytic"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "harden"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "surf"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "psybeam",
+          "gyro-ball"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "minimize"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "psywave"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "rapid-spin"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "camouflage"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "cosmic-power"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "reflect-type"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "tackle",
+      "take-down",
+      "double-edge",
+      "supersonic",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "aurora-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "psychic",
+      "rage",
+      "teleport",
+      "mimic",
+      "double-team",
+      "recover",
+      "harden",
+      "minimize",
+      "confuse-ray",
+      "barrier",
+      "light-screen",
+      "reflect",
+      "bide",
+      "waterfall",
+      "swift",
+      "skull-bash",
+      "flash",
+      "psywave",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "zap-cannon",
+      "icy-wind",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "rapid-spin",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "psych-up",
+      "whirlpool",
+      "hail",
+      "facade",
+      "magic-coat",
+      "recycle",
+      "secret-power",
+      "dive",
+      "camouflage",
+      "cosmic-power",
+      "signal-beam",
+      "water-pulse",
+      "gravity",
+      "gyro-ball",
+      "brine",
+      "natural-gift",
+      "power-gem",
+      "flash-cannon",
+      "round",
+      "scald",
+      "reflect-type",
+      "confide",
+      "dazzling-gleam",
+      "flip-turn"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1",
+  "evolutions": [
+    {
+      "name": "starmie",
+      "item_preset": "waterstone"
+    }
+  ]
+}

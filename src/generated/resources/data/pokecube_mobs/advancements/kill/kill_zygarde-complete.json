@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.zygarde-complete"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.zygarde-complete"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_zygarde-complete": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "zygarde-complete"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

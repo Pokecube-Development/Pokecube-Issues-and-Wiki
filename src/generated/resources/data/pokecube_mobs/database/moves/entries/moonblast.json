@@ -1,0 +1,17 @@
+{
+  "name": "moonblast",
+  "id": 585,
+  "power": 95,
+  "pp": 15,
+  "priority": 0,
+  "type": "fairy",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "Borrowing the power of the moon, the user attacks\nthe target. This may also lower the target’s\nSp. Atk stat.",
+  "move_category": "damage+lower",
+  "stat_chance": 30,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to lower the target's Special Attack by one stage.",
+  "effect_text_simple": "Has a $effect_chance% chance to lower the target's Special Attack by one stage.",
+  "effect_chance": 30
+}

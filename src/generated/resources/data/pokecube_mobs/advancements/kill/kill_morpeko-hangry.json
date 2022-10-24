@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.morpeko-hangry"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.morpeko-hangry"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_morpeko-hangry": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "morpeko-hangry"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

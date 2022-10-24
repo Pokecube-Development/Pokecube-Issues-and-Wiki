@@ -1,0 +1,215 @@
+{
+  "name": "voltorb",
+  "id": 100,
+  "stock": true,
+  "base_experience": 66,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 10.4,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 40,
+    "attack": 30,
+    "defense": 50,
+    "special_attack": 55,
+    "special_defense": 55,
+    "speed": 100
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "soundproof",
+      "static"
+    ],
+    "hidden": [
+      "aftermath"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "charge"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "sonic-boom"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "thunder-shock",
+          "spark"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "thunderbolt"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "self-destruct"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "mirror-coat"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "gyro-ball"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "magnet-rise"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "charge-beam"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "electro-ball"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "eerie-impulse"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "tackle",
+      "take-down",
+      "sonic-boom",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "rage",
+      "teleport",
+      "mimic",
+      "screech",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "bide",
+      "self-destruct",
+      "swift",
+      "flash",
+      "explosion",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "zap-cannon",
+      "endure",
+      "rollout",
+      "swagger",
+      "spark",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "mirror-coat",
+      "torment",
+      "facade",
+      "charge",
+      "taunt",
+      "magic-coat",
+      "secret-power",
+      "signal-beam",
+      "shock-wave",
+      "gyro-ball",
+      "natural-gift",
+      "sucker-punch",
+      "magnet-rise",
+      "discharge",
+      "charge-beam",
+      "electro-ball",
+      "foul-play",
+      "round",
+      "volt-switch",
+      "wild-charge",
+      "confide",
+      "eerie-impulse"
+    ]
+  },
+  "loot_table": "pokecube:entities/redstone_creeper_1",
+  "evolutions": [
+    {
+      "name": "electrode",
+      "level": 30
+    }
+  ]
+}

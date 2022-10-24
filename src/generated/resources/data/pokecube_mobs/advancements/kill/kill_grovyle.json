@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.grovyle"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.grovyle"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_grovyle": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "grovyle"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

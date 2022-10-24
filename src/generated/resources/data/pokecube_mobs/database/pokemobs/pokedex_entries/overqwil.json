@@ -1,0 +1,117 @@
+{
+  "name": "overqwil",
+  "id": 904,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 2.5,
+    "width": 2.5,
+    "length": 2.5
+  },
+  "mass": 60.5,
+  "is_default": true,
+  "capture_rate": 135,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 85,
+    "attack": 115,
+    "defense": 95,
+    "special_attack": 65,
+    "special_defense": 65,
+    "speed": 85
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "dark",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "poison-point",
+      "swift-swim"
+    ],
+    "hidden": [
+      "intimidate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 9,
+        "moves": [
+          "poison-sting"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "spikes"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "pin-missile"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": []
+      },
+      {
+        "L": 31,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 71,
+        "moves": [
+          "self-destruct"
+        ]
+      }
+    ],
+    "misc": [
+      "ice-ball",
+      "spikes",
+      "swift",
+      "rest",
+      "poison-jab",
+      "water-pulse",
+      "icy-wind",
+      "sludge-bomb",
+      "shadow-ball",
+      "aqua-tail",
+      "ice-beam",
+      "dark-pulse"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.walrein"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.walrein"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_walrein": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "walrein"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

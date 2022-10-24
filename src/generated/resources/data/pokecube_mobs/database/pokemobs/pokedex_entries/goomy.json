@@ -1,0 +1,172 @@
+{
+  "name": "goomy",
+  "id": 704,
+  "stock": true,
+  "base_experience": 60,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 2.8,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 45,
+    "attack": 50,
+    "defense": 35,
+    "special_attack": 55,
+    "special_defense": 75,
+    "speed": 40
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "sap-sipper",
+      "hydration"
+    ],
+    "hidden": [
+      "gooey"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "bubble"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "water-gun",
+          "absorb"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "bide"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "rain-dance",
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "muddy-water"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "dragon-pulse"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "body-slam",
+      "counter",
+      "absorb",
+      "thunderbolt",
+      "toxic",
+      "double-team",
+      "bide",
+      "bubble",
+      "acid-armor",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "flail",
+      "protect",
+      "sludge-bomb",
+      "outrage",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dragon-breath",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "facade",
+      "secret-power",
+      "muddy-water",
+      "mud-shot",
+      "poison-tail",
+      "shock-wave",
+      "water-pulse",
+      "dragon-pulse",
+      "draco-meteor",
+      "sludge-wave",
+      "round",
+      "confide",
+      "infestation",
+      "life-dew",
+      "skitter-smack"
+    ]
+  },
+  "loot_table": "pokecube:entities/slimeballs_1",
+  "evolutions": [
+    {
+      "name": "sliggoo",
+      "level": 40
+    },
+    {
+      "name": "sliggoo-hisui",
+      "level": 39,
+      "item_preset": "pokecube_mobs:iron_shell"
+    }
+  ]
+}

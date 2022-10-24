@@ -1,0 +1,223 @@
+{
+  "name": "croconaw",
+  "id": 159,
+  "stock": true,
+  "base_experience": 142,
+  "size": {
+    "height": 1.1,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 25.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 65,
+    "attack": 80,
+    "defense": 80,
+    "special_attack": 59,
+    "special_defense": 63,
+    "speed": 58
+  },
+  "evs": {
+    "attack": 1,
+    "defense": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+      "sheer-force"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "leer",
+          "water-gun"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "rage"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "ice-fang"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "chip-away"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "scratch",
+      "swords-dance",
+      "cut",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "thrash",
+      "double-edge",
+      "leer",
+      "bite",
+      "roar",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "dig",
+      "toxic",
+      "rage",
+      "mimic",
+      "screech",
+      "double-team",
+      "waterfall",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "curse",
+      "flail",
+      "spite",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "icy-wind",
+      "detect",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "crunch",
+      "ancient-power",
+      "rock-smash",
+      "whirlpool",
+      "uproar",
+      "hail",
+      "facade",
+      "focus-punch",
+      "superpower",
+      "brick-break",
+      "secret-power",
+      "dive",
+      "rock-tomb",
+      "aerial-ace",
+      "block",
+      "dragon-claw",
+      "water-pulse",
+      "natural-gift",
+      "fling",
+      "aqua-tail",
+      "shadow-claw",
+      "ice-fang",
+      "captivate",
+      "hone-claws",
+      "round",
+      "chip-away",
+      "scald",
+      "water-pledge",
+      "work-up",
+      "confide",
+      "power-up-punch"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1",
+  "evolutions": [
+    {
+      "name": "feraligatr",
+      "level": 30
+    }
+  ]
+}

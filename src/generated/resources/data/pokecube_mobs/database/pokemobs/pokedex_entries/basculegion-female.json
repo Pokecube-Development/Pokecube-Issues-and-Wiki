@@ -1,0 +1,104 @@
+{
+  "name": "basculegion-female",
+  "id": 902,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 3.0,
+    "width": 2.0,
+    "length": 2.0
+  },
+  "mass": 110.0,
+  "is_default": false,
+  "capture_rate": 135,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 120,
+    "attack": 92,
+    "defense": 65,
+    "special_attack": 100,
+    "special_defense": 75,
+    "speed": 78
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "water",
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "rattled",
+      "adaptability"
+    ],
+    "hidden": [
+      "mold-breaker"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "bite",
+          "hex"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "crunch",
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": []
+      },
+      {
+        "L": 54,
+        "moves": [
+          "double-edge"
+        ]
+      }
+    ],
+    "misc": [
+      "ice-fang",
+      "swift",
+      "ominous-wind",
+      "calm-mind",
+      "rest",
+      "zen-headbutt",
+      "water-pulse",
+      "icy-wind",
+      "shadow-ball",
+      "giga-impact",
+      "aqua-tail",
+      "hyper-beam",
+      "ice-beam",
+      "psychic"
+    ]
+  },
+  "old_name": "basculegion_female"
+}

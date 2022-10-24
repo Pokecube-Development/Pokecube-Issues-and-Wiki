@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.whirlipede"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.whirlipede"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_whirlipede": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "whirlipede"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -11,7 +11,7 @@ public class Perishsong extends Move_Ongoing
 
     public Perishsong()
     {
-        super("perishsong");
+        super("perish-song");
     }
 
     @Override

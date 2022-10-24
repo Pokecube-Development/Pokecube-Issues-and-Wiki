@@ -1,0 +1,191 @@
+{
+  "name": "virizion",
+  "id": 640,
+  "stock": true,
+  "base_experience": 290,
+  "size": {
+    "height": 2.0,
+    "width": 1.0,
+    "length": 2.0
+  },
+  "mass": 200.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 91,
+    "attack": 90,
+    "defense": 72,
+    "special_attack": 90,
+    "special_defense": 129,
+    "speed": 108
+  },
+  "evs": {
+    "special_defense": 3
+  },
+  "types": [
+    "grass",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "justified"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 37,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "double-kick",
+          "leer",
+          "quick-attack",
+          "magical-leaf",
+          "leaf-blade",
+          "close-combat"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "quick-guard"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "retaliate"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "work-up"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "sacred-sword"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "double-kick",
+      "take-down",
+      "leer",
+      "roar",
+      "hyper-beam",
+      "strength",
+      "solar-beam",
+      "toxic",
+      "quick-attack",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "swift",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "giga-drain",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "megahorn",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "psych-up",
+      "rock-smash",
+      "facade",
+      "nature-power",
+      "taunt",
+      "helping-hand",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "secret-power",
+      "aerial-ace",
+      "block",
+      "bounce",
+      "magical-leaf",
+      "calm-mind",
+      "leaf-blade",
+      "close-combat",
+      "worry-seed",
+      "seed-bomb",
+      "air-slash",
+      "x-scissor",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "zen-headbutt",
+      "leaf-storm",
+      "stone-edge",
+      "grass-knot",
+      "round",
+      "quick-guard",
+      "retaliate",
+      "work-up",
+      "sacred-sword",
+      "confide",
+      "solar-blade",
+      "laser-focus",
+      "smart-strike",
+      "grassy-glide",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:keldeo_place",
+        "rate": "0.0"
+      }
+    },
+    {
+      "values": {
+        "structures": "pokecube_legends:keldeo_place",
+        "min": "1",
+        "rate": "0.005",
+        "max": "1"
+      }
+    }
+  ]
+}

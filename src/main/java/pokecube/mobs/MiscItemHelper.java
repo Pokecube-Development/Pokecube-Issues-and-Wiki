@@ -10,7 +10,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
 import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.UsableItemEffects.BaseUseable;
@@ -36,12 +36,12 @@ public class MiscItemHelper
          */
         @Override
         public InteractionResultHolder<ItemStack> onMoveTick(final IPokemob pokemob, final ItemStack stack,
-                final MovePacket moveuse)
+                final MoveApplication moveuse, boolean pre)
         {
-            if (pokemob == moveuse.attacker && moveuse.pre) if (moveuse.getMove().getType(
+            if (pokemob == moveuse.getUser() && pre) if (moveuse.getMove().getType(
                     pokemob) == CharcoalEffect.FIRE)
             {
-                moveuse.PWR *= 1.2;
+                moveuse.pwr *= 1.2;
                 return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
             }
             return new InteractionResultHolder<>(InteractionResult.FAIL, stack);

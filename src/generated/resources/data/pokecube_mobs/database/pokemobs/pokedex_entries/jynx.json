@@ -1,0 +1,269 @@
+{
+  "name": "jynx",
+  "id": 124,
+  "stock": true,
+  "base_experience": 159,
+  "size": {
+    "height": 1.4,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 40.6,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 65,
+    "attack": 50,
+    "defense": 35,
+    "special_attack": 115,
+    "special_defense": 95,
+    "speed": 95
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "ice",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "oblivious",
+      "forewarn"
+    ],
+    "hidden": [
+      "dry-skin"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "lick",
+          "lovely-kiss",
+          "powder-snow",
+          "sweet-kiss",
+          "perish-song",
+          "copycat",
+          "draining-kiss"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "double-slap"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "ice-punch",
+          "screech"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "sing"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "mean-look"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "fake-tears"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "covet"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "wake-up-slap"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "wring-out"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "avalanche"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "heart-stamp"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "double-slap",
+      "mega-punch",
+      "ice-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "thrash",
+      "double-edge",
+      "water-gun",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "hyper-beam",
+      "submission",
+      "counter",
+      "seismic-toss",
+      "toxic",
+      "confusion",
+      "psychic",
+      "rage",
+      "teleport",
+      "mimic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "bide",
+      "metronome",
+      "lick",
+      "skull-bash",
+      "dream-eater",
+      "lovely-kiss",
+      "flash",
+      "psywave",
+      "rest",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "curse",
+      "powder-snow",
+      "protect",
+      "mud-slap",
+      "perish-song",
+      "icy-wind",
+      "endure",
+      "charm",
+      "swagger",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "encore",
+      "sweet-scent",
+      "hidden-power",
+      "rain-dance",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "uproar",
+      "hail",
+      "torment",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "brick-break",
+      "skill-swap",
+      "secret-power",
+      "hyper-voice",
+      "fake-tears",
+      "signal-beam",
+      "icicle-spear",
+      "covet",
+      "calm-mind",
+      "water-pulse",
+      "wake-up-slap",
+      "natural-gift",
+      "payback",
+      "fling",
+      "wring-out",
+      "drain-punch",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "nasty-plot",
+      "avalanche",
+      "psycho-cut",
+      "zen-headbutt",
+      "trick-room",
+      "captivate",
+      "grass-knot",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "ally-switch",
+      "frost-breath",
+      "heart-stamp",
+      "draining-kiss",
+      "confide",
+      "power-up-punch",
+      "psychic-terrain",
+      "aurora-veil",
+      "expanding-force",
+      "triple-axel"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_1"
+}

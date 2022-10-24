@@ -8,7 +8,7 @@ public class Defensecurl extends Move_Basic
 
     public Defensecurl()
     {
-        super("defensecurl");
+        super("defense-curl");
     }
 
     @Override

@@ -1,0 +1,256 @@
+{
+  "name": "deoxys-normal",
+  "id": 386,
+  "stock": true,
+  "base_experience": 270,
+  "size": {
+    "height": 1.7,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 60.8,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 50,
+    "attack": 150,
+    "defense": 50,
+    "special_attack": 150,
+    "special_defense": 50,
+    "speed": 150
+  },
+  "evs": {
+    "attack": 1,
+    "special_attack": 1,
+    "speed": 1
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "pressure"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "wrap",
+          "leer"
+        ]
+      },
+      {
+        "L": 73,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "teleport"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "night-shade"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "snatch"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "cosmic-power"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "psycho-boost"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "psycho-shift"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "zen-headbutt"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "cut",
+      "bind",
+      "headbutt",
+      "body-slam",
+      "wrap",
+      "double-edge",
+      "leer",
+      "ice-beam",
+      "hyper-beam",
+      "low-kick",
+      "seismic-toss",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "psychic",
+      "teleport",
+      "night-shade",
+      "mimic",
+      "double-team",
+      "recover",
+      "light-screen",
+      "reflect",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "nightmare",
+      "snore",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "pursuit",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "torment",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "brick-break",
+      "knock-off",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "rock-tomb",
+      "cosmic-power",
+      "signal-beam",
+      "aerial-ace",
+      "calm-mind",
+      "shock-wave",
+      "water-pulse",
+      "psycho-boost",
+      "gravity",
+      "natural-gift",
+      "fling",
+      "psycho-shift",
+      "poison-jab",
+      "dark-pulse",
+      "drain-punch",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "avalanche",
+      "zen-headbutt",
+      "flash-cannon",
+      "trick-room",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "low-sweep",
+      "round",
+      "ally-switch",
+      "confide",
+      "power-up-punch",
+      "laser-focus",
+      "throat-chop",
+      "brutal-swing",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:sky_pillar",
+        "rate": "0.0"
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "male": true,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "meteorite"
+        }
+      },
+      "action": {
+        "values": {
+          "forme": "deoxysattack",
+          "type": "forme"
+        }
+      }
+    }
+  ],
+  "old_name": "deoxys"
+}

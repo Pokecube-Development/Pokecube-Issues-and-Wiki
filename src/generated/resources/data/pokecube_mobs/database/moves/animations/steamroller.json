@@ -1,0 +1,25 @@
+{
+  "name": "steamroller",
+  "animations": [
+    {
+      "preset": "throw:atrue:w2.5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~steamroller",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.3
+    },
+    {
+      "preset": "cartFunc:pcloud:d0.8:w1.5:l30:atrue:f(0.5-rand())*(1),0,(0.5-rand())*(1):~steamroller",
+      "duration": "5",
+      "starttick": "1",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.9
+    }
+  ]
+}

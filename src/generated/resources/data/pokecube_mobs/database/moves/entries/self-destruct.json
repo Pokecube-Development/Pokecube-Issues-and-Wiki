@@ -1,0 +1,15 @@
+{
+  "name": "self-destruct",
+  "id": 120,
+  "power": 200,
+  "pp": 5,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "all-other-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user attacks everything around it by causing an\nexplosion. The user faints upon using this move.",
+  "move_category": "damage",
+  "effect_text_extend": "User faints, even if the attack fails or misses.  Inflicts regular damage.",
+  "effect_text_simple": "User faints."
+}

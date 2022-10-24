@@ -1,0 +1,146 @@
+{
+  "name": "thwackey",
+  "id": 811,
+  "stock": true,
+  "base_experience": 147,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 14.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 70,
+    "attack": 85,
+    "defense": 70,
+    "special_attack": 55,
+    "special_defense": 60,
+    "speed": 80
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "grassy-surge"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "growl",
+          "taunt",
+          "branch-poke"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "uproar"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "endeavor"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "wood-hammer"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "double-hit"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "swords-dance",
+      "mega-kick",
+      "low-kick",
+      "solar-beam",
+      "screech",
+      "focus-energy",
+      "swift",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "giga-drain",
+      "endure",
+      "false-swipe",
+      "attract",
+      "sleep-talk",
+      "sunny-day",
+      "uproar",
+      "facade",
+      "taunt",
+      "magical-leaf",
+      "u-turn",
+      "assurance",
+      "fling",
+      "drain-punch",
+      "energy-ball",
+      "grass-knot",
+      "double-hit",
+      "round",
+      "acrobatics",
+      "grass-pledge",
+      "work-up",
+      "solar-blade",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_2",
+  "evolutions": [
+    {
+      "name": "rillaboom",
+      "level": 35,
+      "animation": "18",
+      "evoMoves": "drumbeating"
+    }
+  ]
+}

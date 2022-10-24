@@ -1,0 +1,25 @@
+{
+  "name": "quickattack",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d4:w1:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~quickattack",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2
+    },
+    {
+      "preset": "cartFunc:pcrit:d20:l1:~quickattack",
+      "duration": "0",
+      "starttick": "0",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.7
+    }
+  ]
+}

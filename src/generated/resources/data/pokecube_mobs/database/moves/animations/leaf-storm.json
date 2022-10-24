@@ -1,0 +1,35 @@
+{
+  "name": "leafstorm",
+  "animations": [
+    {
+      "preset": "flow:w3:pleaf:~leafstorm",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.7
+    },
+    {
+      "preset": "flow:pmisc:d0.7:w2.5:l5:~leafstorm",
+      "duration": "5",
+      "starttick": "3",
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.7
+    },
+    {
+      "preset": "cartFunc:pexplosion_emitter:d2:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~leafstorm",
+      "duration": "5",
+      "starttick": "5",
+      "sound": "pokecube:moves.cut",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.9
+    }
+  ]
+}

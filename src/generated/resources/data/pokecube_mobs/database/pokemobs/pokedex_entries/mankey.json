@@ -1,0 +1,261 @@
+{
+  "name": "mankey",
+  "id": 56,
+  "stock": true,
+  "base_experience": 61,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 28.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 40,
+    "attack": 80,
+    "defense": 35,
+    "special_attack": 35,
+    "special_defense": 45,
+    "speed": 70
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "vital-spirit",
+      "anger-point"
+    ],
+    "hidden": [
+      "defiant"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 8,
+        "moves": [
+          "karate-chop",
+          "taunt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "leer",
+          "low-kick",
+          "focus-energy",
+          "covet"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "seismic-toss"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "cross-chop"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "u-turn",
+          "punishment"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "final-gambit"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "stomping-tantrum"
+        ]
+      }
+    ],
+    "misc": [
+      "karate-chop",
+      "mega-punch",
+      "pay-day",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "scratch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "thrash",
+      "double-edge",
+      "leer",
+      "submission",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "thunderbolt",
+      "thunder",
+      "earthquake",
+      "dig",
+      "toxic",
+      "meditate",
+      "rage",
+      "mimic",
+      "screech",
+      "double-team",
+      "defense-curl",
+      "focus-energy",
+      "bide",
+      "metronome",
+      "swift",
+      "skull-bash",
+      "fury-swipes",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "reversal",
+      "spite",
+      "protect",
+      "mud-slap",
+      "foresight",
+      "detect",
+      "outrage",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "encore",
+      "pursuit",
+      "iron-tail",
+      "hidden-power",
+      "cross-chop",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "rock-smash",
+      "beat-up",
+      "uproar",
+      "facade",
+      "focus-punch",
+      "smelling-salts",
+      "taunt",
+      "helping-hand",
+      "role-play",
+      "revenge",
+      "brick-break",
+      "endeavor",
+      "secret-power",
+      "overheat",
+      "rock-tomb",
+      "aerial-ace",
+      "bulk-up",
+      "covet",
+      "natural-gift",
+      "u-turn",
+      "close-combat",
+      "payback",
+      "assurance",
+      "fling",
+      "punishment",
+      "poison-jab",
+      "night-slash",
+      "seed-bomb",
+      "vacuum-wave",
+      "focus-blast",
+      "rock-climb",
+      "gunk-shot",
+      "captivate",
+      "hone-claws",
+      "smack-down",
+      "low-sweep",
+      "round",
+      "acrobatics",
+      "retaliate",
+      "final-gambit",
+      "bulldoze",
+      "work-up",
+      "dual-chop",
+      "confide",
+      "power-up-punch",
+      "power-trip",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/pig_1",
+  "evolutions": [
+    {
+      "name": "primeape",
+      "level": 28,
+      "evoMoves": "rage"
+    }
+  ]
+}

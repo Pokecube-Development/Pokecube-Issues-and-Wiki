@@ -1,0 +1,18 @@
+{
+  "name": "ice-fang",
+  "id": 423,
+  "power": 65,
+  "pp": 15,
+  "priority": 0,
+  "type": "ice",
+  "accuracy": 95,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user bites with cold-infused fangs. This may\nalso make the target flinch or leave it frozen.",
+  "move_category": "damage+ailment",
+  "flinch_chance": 10,
+  "ailment_chance": 10,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to freeze the target and a separate $effect_chance% chance to make the target flinch.",
+  "effect_text_simple": "Has a $effect_chance% chance to freeze the target and a $effect_chance% chance to make the target flinch.",
+  "effect_chance": 10
+}

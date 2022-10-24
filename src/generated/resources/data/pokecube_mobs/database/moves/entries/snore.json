@@ -1,0 +1,17 @@
+{
+  "name": "snore",
+  "id": 173,
+  "power": 50,
+  "pp": 15,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "This attack can be used only if the user is asleep.\nThe harsh noise may also make the target flinch.",
+  "move_category": "damage",
+  "flinch_chance": 30,
+  "effect_text_extend": "Only usable if the user is sleeping.  Inflicts regular damage.  Has a $effect_chance% chance to make the target flinch.",
+  "effect_text_simple": "Has a $effect_chance% chance to make the target flinch.  Only works if the user is sleeping.",
+  "effect_chance": 30
+}

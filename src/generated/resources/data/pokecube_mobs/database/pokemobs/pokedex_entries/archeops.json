@@ -1,0 +1,223 @@
+{
+  "name": "archeops",
+  "id": 567,
+  "stock": true,
+  "base_experience": 177,
+  "size": {
+    "height": 1.4,
+    "width": 1.4,
+    "length": 1.4
+  },
+  "mass": 32.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 75,
+    "attack": 140,
+    "defense": 65,
+    "special_attack": 112,
+    "special_defense": 65,
+    "speed": 110
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "rock",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "defeatist"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "wing-attack",
+          "leer",
+          "rock-throw",
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "double-team"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "endeavor"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "dragon-claw"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "pluck"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "tailwind"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "u-turn"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "quick-guard"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "acrobatics"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "wing-attack",
+      "fly",
+      "thrash",
+      "leer",
+      "roar",
+      "hyper-beam",
+      "rock-throw",
+      "earthquake",
+      "dig",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "double-team",
+      "swift",
+      "sky-attack",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "outrage",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dragon-breath",
+      "iron-tail",
+      "hidden-power",
+      "crunch",
+      "ancient-power",
+      "rock-smash",
+      "uproar",
+      "heat-wave",
+      "torment",
+      "facade",
+      "taunt",
+      "knock-off",
+      "endeavor",
+      "secret-power",
+      "rock-tomb",
+      "aerial-ace",
+      "iron-defense",
+      "dragon-claw",
+      "bounce",
+      "rock-blast",
+      "roost",
+      "pluck",
+      "tailwind",
+      "u-turn",
+      "assurance",
+      "rock-polish",
+      "aqua-tail",
+      "air-slash",
+      "dragon-pulse",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "shadow-claw",
+      "zen-headbutt",
+      "defog",
+      "stone-edge",
+      "stealth-rock",
+      "hone-claws",
+      "smack-down",
+      "round",
+      "quick-guard",
+      "ally-switch",
+      "acrobatics",
+      "bulldoze",
+      "dragon-tail",
+      "confide",
+      "meteor-beam",
+      "lash-out",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/fossil_mob"
+}

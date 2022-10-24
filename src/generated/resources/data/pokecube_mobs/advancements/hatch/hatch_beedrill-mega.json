@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.beedrill-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.beedrill-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_beedrill-mega": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "beedrill-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

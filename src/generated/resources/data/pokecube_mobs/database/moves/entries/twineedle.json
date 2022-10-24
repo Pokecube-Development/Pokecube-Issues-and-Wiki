@@ -1,0 +1,19 @@
+{
+  "name": "twineedle",
+  "id": 41,
+  "power": 25,
+  "pp": 20,
+  "priority": 0,
+  "type": "bug",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user damages the target twice in succession\nby jabbing it with two spikes. This may also poison\nthe target.",
+  "move_category": "damage+ailment",
+  "ailment_chance": 20,
+  "max_hits": 2,
+  "min_hits": 2,
+  "effect_text_extend": "Inflicts regular damage.  Hits twice in the same turn.  Has a $effect_chance% chance to poison the target.",
+  "effect_text_simple": "Hits twice in the same turn.  Has a $effect_chance% chance to poison the target.",
+  "effect_chance": 20
+}

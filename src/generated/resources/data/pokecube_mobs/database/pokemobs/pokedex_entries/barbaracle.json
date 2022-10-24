@@ -1,0 +1,229 @@
+{
+  "name": "barbaracle",
+  "id": 689,
+  "stock": true,
+  "base_experience": 175,
+  "size": {
+    "height": 0.9,
+    "width": 0.9,
+    "length": 1.3
+  },
+  "mass": 96.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 72,
+    "attack": 105,
+    "defense": 115,
+    "special_attack": 54,
+    "special_defense": 86,
+    "speed": 68
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "rock",
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "tough-claws",
+      "sniper"
+    ],
+    "hidden": [
+      "pickpocket"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "sand-attack",
+          "water-gun",
+          "skull-bash",
+          "stone-edge",
+          "shell-smash"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "withdraw"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "clamp"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "cross-chop"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "rock-polish"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "razor-shell"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "swords-dance",
+      "cut",
+      "sand-attack",
+      "water-gun",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "earthquake",
+      "dig",
+      "toxic",
+      "screech",
+      "double-team",
+      "withdraw",
+      "clamp",
+      "skull-bash",
+      "fury-swipes",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "icy-wind",
+      "sandstorm",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "cross-chop",
+      "rain-dance",
+      "ancient-power",
+      "rock-smash",
+      "whirlpool",
+      "beat-up",
+      "uproar",
+      "torment",
+      "facade",
+      "nature-power",
+      "taunt",
+      "helping-hand",
+      "superpower",
+      "brick-break",
+      "endeavor",
+      "secret-power",
+      "dive",
+      "rock-tomb",
+      "muddy-water",
+      "aerial-ace",
+      "iron-defense",
+      "dragon-claw",
+      "bulk-up",
+      "mud-shot",
+      "rock-blast",
+      "water-pulse",
+      "payback",
+      "assurance",
+      "embargo",
+      "fling",
+      "rock-polish",
+      "poison-jab",
+      "night-slash",
+      "x-scissor",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "shadow-claw",
+      "stone-edge",
+      "stealth-rock",
+      "grass-knot",
+      "hone-claws",
+      "smack-down",
+      "sludge-wave",
+      "round",
+      "scald",
+      "shell-smash",
+      "bulldoze",
+      "dual-chop",
+      "razor-shell",
+      "confide",
+      "infestation",
+      "power-up-punch",
+      "laser-focus",
+      "brutal-swing",
+      "liquidation",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1"
+}

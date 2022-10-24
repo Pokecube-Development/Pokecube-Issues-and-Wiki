@@ -1,0 +1,17 @@
+{
+  "name": "hyper-fang",
+  "id": 158,
+  "power": 80,
+  "pp": 15,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user bites hard on the target with its sharp\nfront fangs. This may also make the target flinch.",
+  "move_category": "damage",
+  "flinch_chance": 10,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to make the target flinch.",
+  "effect_text_simple": "Has a $effect_chance% chance to make the target flinch.",
+  "effect_chance": 10
+}

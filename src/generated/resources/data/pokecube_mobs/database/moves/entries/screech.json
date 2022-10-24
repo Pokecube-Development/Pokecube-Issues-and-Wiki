@@ -1,0 +1,14 @@
+{
+  "name": "screech",
+  "id": 103,
+  "pp": 40,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 85,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "An earsplitting screech harshly lowers the target’s\nDefense stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Lowers the target's Defense by two stages.",
+  "effect_text_simple": "Lowers the target's Defense by two stages."
+}

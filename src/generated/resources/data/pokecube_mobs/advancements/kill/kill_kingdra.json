@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.kingdra"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.kingdra"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_kingdra": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "kingdra"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

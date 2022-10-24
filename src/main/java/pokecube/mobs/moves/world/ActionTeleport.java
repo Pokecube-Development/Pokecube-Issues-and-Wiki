@@ -10,13 +10,13 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.api.events.pokemobs.TeleportEvent;
-import pokecube.api.moves.IMoveAction;
+import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.eventhandlers.SpawnHandler;
 import thut.api.maths.Vector3;
 
-public class ActionTeleport implements IMoveAction
+public class ActionTeleport implements IMoveWorldEffect
 {
     /** Teleport the entity to a random nearby position */
     public static boolean teleportRandomly(final LivingEntity toTeleport)

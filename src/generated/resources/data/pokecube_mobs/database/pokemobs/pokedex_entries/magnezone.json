@@ -1,0 +1,211 @@
+{
+  "name": "magnezone",
+  "id": 462,
+  "stock": true,
+  "base_experience": 268,
+  "size": {
+    "height": 0.8,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 180.0,
+  "is_default": true,
+  "capture_rate": 30,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 70,
+    "attack": 70,
+    "defense": 115,
+    "special_attack": 130,
+    "special_defense": 90,
+    "speed": 60
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "electric",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "magnet-pull",
+      "sturdy"
+    ],
+    "hidden": [
+      "analytic"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "supersonic",
+          "thunder-shock",
+          "thunder-wave",
+          "barrier",
+          "tri-attack",
+          "zap-cannon",
+          "mirror-coat",
+          "magnetic-flux",
+          "electric-terrain"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "sonic-boom"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "lock-on"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "gyro-ball"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "magnet-rise"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "mirror-shot"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "flash-cannon"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "magnet-bomb"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "electro-ball"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "supersonic",
+      "sonic-boom",
+      "hyper-beam",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "screech",
+      "double-team",
+      "barrier",
+      "light-screen",
+      "reflect",
+      "self-destruct",
+      "swift",
+      "flash",
+      "explosion",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "snore",
+      "protect",
+      "zap-cannon",
+      "lock-on",
+      "endure",
+      "rollout",
+      "swagger",
+      "spark",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "mirror-coat",
+      "psych-up",
+      "facade",
+      "magic-coat",
+      "recycle",
+      "secret-power",
+      "metal-sound",
+      "signal-beam",
+      "iron-defense",
+      "shock-wave",
+      "gravity",
+      "gyro-ball",
+      "natural-gift",
+      "magnet-rise",
+      "giga-impact",
+      "mirror-shot",
+      "flash-cannon",
+      "discharge",
+      "iron-head",
+      "magnet-bomb",
+      "charge-beam",
+      "heavy-slam",
+      "electro-ball",
+      "round",
+      "ally-switch",
+      "volt-switch",
+      "electroweb",
+      "wild-charge",
+      "confide",
+      "magnetic-flux",
+      "electric-terrain",
+      "body-press",
+      "steel-beam",
+      "steel-roller",
+      "rising-voltage"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_redstone_3"
+}

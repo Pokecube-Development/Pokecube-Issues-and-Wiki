@@ -1,0 +1,15 @@
+{
+  "name": "sacred-sword",
+  "id": 533,
+  "power": 90,
+  "pp": 15,
+  "priority": 0,
+  "type": "fighting",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user attacks by slicing with a long horn. The\ntarget’s stat changes don’t affect this\nattack’s damage.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Damage calculation ignores the target's stat modifiers, including evasion.",
+  "effect_text_simple": "Ignores the target's stat modifiers."
+}

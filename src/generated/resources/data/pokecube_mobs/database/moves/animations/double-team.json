@@ -1,0 +1,15 @@
+{
+  "name": "doubleteam",
+  "animations": [
+    {
+      "preset": "cartFunc:pcloud:d1:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~doubleteam",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

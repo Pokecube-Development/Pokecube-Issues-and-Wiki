@@ -1,0 +1,214 @@
+{
+  "name": "blacephalon",
+  "id": 806,
+  "stock": true,
+  "base_experience": 285,
+  "size": {
+    "height": 1.8,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 13.0,
+  "is_default": true,
+  "capture_rate": 30,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 53,
+    "attack": 127,
+    "defense": 53,
+    "special_attack": 151,
+    "special_defense": 79,
+    "speed": 107
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "fire",
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "beast-boost"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "ember",
+          "fire-spin",
+          "astonish"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "night-shade"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "fire-blast"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "will-o-wisp"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "trick"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "magic-coat"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "flame-burst"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "stored-power"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "incinerate"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "mystical-fire"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "mind-blown"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "solar-beam",
+      "fire-spin",
+      "toxic",
+      "psychic",
+      "night-shade",
+      "double-team",
+      "light-screen",
+      "self-destruct",
+      "fire-blast",
+      "explosion",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "encore",
+      "hidden-power",
+      "sunny-day",
+      "shadow-ball",
+      "uproar",
+      "heat-wave",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "taunt",
+      "trick",
+      "magic-coat",
+      "recycle",
+      "knock-off",
+      "astonish",
+      "overheat",
+      "calm-mind",
+      "rock-blast",
+      "payback",
+      "fling",
+      "last-resort",
+      "dark-pulse",
+      "shadow-claw",
+      "zen-headbutt",
+      "psyshock",
+      "smack-down",
+      "flame-charge",
+      "foul-play",
+      "after-you",
+      "round",
+      "stored-power",
+      "quash",
+      "confide",
+      "mystical-fire",
+      "mind-blown",
+      "expanding-force"
+    ]
+  },
+  "loot_table": "pokecube:entities/blaze_rabbit_2",
+  "spawn_rules": [
+    {
+      "values": {
+        "types": "#pokecube_legends:can_spawn/blacephalon",
+        "min": "1",
+        "rate": "0.2",
+        "max": "1"
+      }
+    }
+  ]
+}

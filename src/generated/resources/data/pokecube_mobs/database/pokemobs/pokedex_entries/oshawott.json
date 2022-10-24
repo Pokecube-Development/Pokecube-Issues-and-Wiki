@@ -1,0 +1,206 @@
+{
+  "name": "oshawott",
+  "id": 501,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 0.5,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 5.9,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 55,
+    "attack": 55,
+    "defense": 45,
+    "special_attack": 63,
+    "special_defense": 45,
+    "speed": 45
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+      "shell-armor"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 41,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "encore"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "revenge"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "water-sport"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "retaliate"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "razor-shell"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "tackle",
+      "tail-whip",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "dig",
+      "toxic",
+      "screech",
+      "double-team",
+      "focus-energy",
+      "waterfall",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "icy-wind",
+      "detect",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "rock-smash",
+      "hail",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "revenge",
+      "secret-power",
+      "dive",
+      "aerial-ace",
+      "covet",
+      "water-sport",
+      "water-pulse",
+      "brine",
+      "assurance",
+      "fling",
+      "trump-card",
+      "copycat",
+      "night-slash",
+      "aqua-tail",
+      "air-slash",
+      "x-scissor",
+      "grass-knot",
+      "aqua-jet",
+      "round",
+      "scald",
+      "retaliate",
+      "water-pledge",
+      "work-up",
+      "sacred-sword",
+      "razor-shell",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1",
+  "evolutions": [
+    {
+      "name": "dewott",
+      "level": 17,
+      "animation": "9"
+    }
+  ]
+}

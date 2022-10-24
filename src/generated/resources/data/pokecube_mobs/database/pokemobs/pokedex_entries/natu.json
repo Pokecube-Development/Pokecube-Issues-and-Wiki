@@ -1,0 +1,234 @@
+{
+  "name": "natu",
+  "id": 177,
+  "stock": true,
+  "base_experience": 64,
+  "size": {
+    "height": 0.2,
+    "width": 0.2,
+    "length": 0.2
+  },
+  "mass": 2.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 40,
+    "attack": 50,
+    "defense": 45,
+    "special_attack": 70,
+    "special_defense": 45,
+    "speed": 70
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "psychic",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "synchronize",
+      "early-bird"
+    ],
+    "hidden": [
+      "magic-bounce"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "peck"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "teleport"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "night-shade"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "wish"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "miracle-eye"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "psycho-shift"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "me-first"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "power-swap",
+          "guard-swap"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "ominous-wind"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "stored-power"
+        ]
+      }
+    ],
+    "misc": [
+      "double-edge",
+      "leer",
+      "peck",
+      "drill-peck",
+      "solar-beam",
+      "thunder-wave",
+      "toxic",
+      "psychic",
+      "quick-attack",
+      "teleport",
+      "night-shade",
+      "mimic",
+      "double-team",
+      "confuse-ray",
+      "light-screen",
+      "haze",
+      "reflect",
+      "swift",
+      "dream-eater",
+      "sky-attack",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "curse",
+      "protect",
+      "feint-attack",
+      "detect",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "baton-pass",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "heat-wave",
+      "facade",
+      "trick",
+      "wish",
+      "magic-coat",
+      "skill-swap",
+      "imprison",
+      "refresh",
+      "secret-power",
+      "feather-dance",
+      "air-cutter",
+      "silver-wind",
+      "cosmic-power",
+      "signal-beam",
+      "aerial-ace",
+      "calm-mind",
+      "roost",
+      "miracle-eye",
+      "natural-gift",
+      "pluck",
+      "tailwind",
+      "u-turn",
+      "psycho-shift",
+      "lucky-chant",
+      "me-first",
+      "power-swap",
+      "guard-swap",
+      "sucker-punch",
+      "air-slash",
+      "zen-headbutt",
+      "trick-room",
+      "captivate",
+      "grass-knot",
+      "ominous-wind",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "synchronoise",
+      "simple-beam",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "confide",
+      "dazzling-gleam",
+      "expanding-force",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_1",
+  "evolutions": [
+    {
+      "name": "xatu",
+      "level": 25,
+      "evoMoves": "airslash"
+    }
+  ]
+}

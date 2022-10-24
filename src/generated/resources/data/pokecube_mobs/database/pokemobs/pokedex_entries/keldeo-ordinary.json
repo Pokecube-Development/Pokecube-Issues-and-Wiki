@@ -1,0 +1,201 @@
+{
+  "name": "keldeo-ordinary",
+  "id": 647,
+  "stock": true,
+  "base_experience": 290,
+  "size": {
+    "height": 1.4,
+    "width": 1.4,
+    "length": 1.4
+  },
+  "mass": 48.5,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 91,
+    "attack": 72,
+    "defense": 90,
+    "special_attack": 129,
+    "special_defense": 90,
+    "speed": 108
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "water",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "justified"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 49,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "double-kick",
+          "leer",
+          "bubble-beam",
+          "aqua-jet",
+          "secret-sword"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 73,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "quick-guard"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "retaliate"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "work-up"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "sacred-sword"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "double-kick",
+      "take-down",
+      "leer",
+      "roar",
+      "hydro-pump",
+      "surf",
+      "bubble-beam",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "toxic",
+      "double-team",
+      "reflect",
+      "swift",
+      "rest",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "icy-wind",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "megahorn",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "rock-smash",
+      "hail",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "endeavor",
+      "secret-power",
+      "muddy-water",
+      "aerial-ace",
+      "bounce",
+      "covet",
+      "calm-mind",
+      "water-pulse",
+      "close-combat",
+      "last-resort",
+      "aura-sphere",
+      "poison-jab",
+      "aqua-tail",
+      "air-slash",
+      "x-scissor",
+      "focus-blast",
+      "giga-impact",
+      "stone-edge",
+      "aqua-jet",
+      "round",
+      "quick-guard",
+      "scald",
+      "retaliate",
+      "work-up",
+      "sacred-sword",
+      "secret-sword",
+      "confide",
+      "smart-strike",
+      "liquidation",
+      "coaching",
+      "flip-turn"
+    ]
+  },
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:keldeo_place",
+        "rate": "0.0"
+      }
+    }
+  ],
+  "mega_rules": [
+    {
+      "name": "Keldeo Resolute",
+      "move": "secretsword"
+    }
+  ],
+  "old_name": "keldeo"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "gust",
+  "id": 16,
+  "power": 40,
+  "pp": 35,
+  "priority": 0,
+  "type": "flying",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "A gust of wind is whipped up by wings and launched\nat the target to inflict damage.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.\n\nIf the target is under the effect of bounce, fly, or sky drop, this move will hit with double power.",
+  "effect_text_simple": "Inflicts regular damage and can hit Pokémon in the air."
+}

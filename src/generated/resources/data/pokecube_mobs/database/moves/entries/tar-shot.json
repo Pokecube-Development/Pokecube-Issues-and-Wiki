@@ -1,0 +1,15 @@
+{
+  "name": "tar-shot",
+  "id": 749,
+  "pp": 15,
+  "priority": 0,
+  "type": "rock",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user pours sticky tar over the target, lowering the\ntarget’s Speed stat. The target becomes weaker to\nFire-type moves.",
+  "move_category": "swagger",
+  "stat_chance": 100,
+  "ailment_chance": 100,
+  "effect_chance": 100
+}

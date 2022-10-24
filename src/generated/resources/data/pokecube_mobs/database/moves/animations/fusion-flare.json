@@ -1,0 +1,25 @@
+{
+  "name": "fusionflare",
+  "animations": [
+    {
+      "preset": "throw:pmisc:corange:w3:~fusionflare",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.sacredfire",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "powder:pflame:clight_blue:d0.3:w3:l8:~fusionflare",
+      "duration": "5",
+      "starttick": "3",
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

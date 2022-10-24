@@ -1,0 +1,130 @@
+{
+  "name": "enamorus-therian",
+  "id": 905,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 1.6,
+    "width": 2.0,
+    "length": 2.0
+  },
+  "mass": 48.0,
+  "is_default": false,
+  "capture_rate": 3,
+  "base_happiness": 70,
+  "growth_rate": "slow",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 74,
+    "attack": 115,
+    "defense": 110,
+    "special_attack": 135,
+    "special_defense": 100,
+    "speed": 46
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "fairy",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "overcoat"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "twister"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "draining-kiss"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "moonblast"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": []
+      }
+    ],
+    "misc": [
+      "rock-smash",
+      "power-shift",
+      "calm-mind",
+      "rest",
+      "zen-headbutt",
+      "mystical-fire",
+      "sludge-bomb",
+      "earth-power",
+      "dazzling-gleam",
+      "giga-impact",
+      "play-rough",
+      "hyper-beam",
+      "psychic"
+    ]
+  },
+  "interactions": [
+    {
+      "male": true,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "revealglass"
+        }
+      },
+      "action": {
+        "values": {
+          "forme": "enamorus_incarnate",
+          "type": "forme"
+        }
+      }
+    }
+  ],
+  "old_name": "enamorus_therian"
+}

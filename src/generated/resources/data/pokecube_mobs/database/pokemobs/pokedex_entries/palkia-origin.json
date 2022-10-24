@@ -1,0 +1,190 @@
+{
+  "name": "palkia-origin",
+  "id": 484,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 4.2,
+    "width": 3.0,
+    "length": 3.0
+  },
+  "mass": 659.0,
+  "is_default": false,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 90,
+    "attack": 100,
+    "defense": 100,
+    "special_attack": 150,
+    "special_defense": 120,
+    "speed": 120
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "water",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "pressure"
+    ],
+    "hidden": [
+      "telepathy"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scary-face",
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "aqua-ring"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "dragon-claw"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "aura-sphere"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "spacial-rend"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "hydro-pump"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "roar",
+      "flamethrower",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "double-team",
+      "fire-blast",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "protect",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "rock-smash",
+      "hail",
+      "facade",
+      "focus-punch",
+      "brick-break",
+      "secret-power",
+      "rock-tomb",
+      "aerial-ace",
+      "bulk-up",
+      "shock-wave",
+      "brine",
+      "natural-gift",
+      "fling",
+      "heal-block",
+      "dragon-pulse",
+      "focus-blast",
+      "giga-impact",
+      "avalanche",
+      "shadow-claw",
+      "trick-room",
+      "draco-meteor",
+      "stone-edge",
+      "swift",
+      "snore",
+      "mud-slap",
+      "outrage",
+      "fury-cutter",
+      "twister",
+      "dive",
+      "headbutt",
+      "whirlpool",
+      "gravity",
+      "hone-claws",
+      "round",
+      "echoed-voice",
+      "incinerate",
+      "bulldoze",
+      "dragon-tail",
+      "hyper-voice",
+      "confide"
+    ]
+  },
+  "old_name": "palkia_origin"
+}

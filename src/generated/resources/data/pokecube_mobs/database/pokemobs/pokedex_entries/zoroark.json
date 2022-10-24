@@ -1,0 +1,244 @@
+{
+  "name": "zoroark",
+  "id": 571,
+  "stock": true,
+  "base_experience": 179,
+  "size": {
+    "height": 1.6,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 81.1,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 60,
+    "attack": 105,
+    "defense": 60,
+    "special_attack": 120,
+    "special_defense": 60,
+    "speed": 105
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "illusion"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "leer",
+          "pursuit",
+          "imprison",
+          "u-turn",
+          "hone-claws",
+          "night-daze"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "torment"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "fake-tears"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "embargo"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "punishment"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "foul-play"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "scratch",
+      "swords-dance",
+      "cut",
+      "mega-kick",
+      "leer",
+      "roar",
+      "flamethrower",
+      "hyper-beam",
+      "low-kick",
+      "dig",
+      "toxic",
+      "agility",
+      "double-team",
+      "swift",
+      "fury-swipes",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "scary-face",
+      "feint-attack",
+      "sludge-bomb",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "encore",
+      "pursuit",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "uproar",
+      "torment",
+      "facade",
+      "taunt",
+      "trick",
+      "revenge",
+      "knock-off",
+      "imprison",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "fake-tears",
+      "aerial-ace",
+      "bounce",
+      "covet",
+      "calm-mind",
+      "u-turn",
+      "payback",
+      "assurance",
+      "embargo",
+      "fling",
+      "punishment",
+      "dark-pulse",
+      "night-slash",
+      "focus-blast",
+      "giga-impact",
+      "nasty-plot",
+      "shadow-claw",
+      "grass-knot",
+      "hone-claws",
+      "low-sweep",
+      "foul-play",
+      "round",
+      "hex",
+      "incinerate",
+      "retaliate",
+      "night-daze",
+      "snarl",
+      "confide",
+      "laser-focus",
+      "throat-chop",
+      "skitter-smack",
+      "burning-jealousy",
+      "lash-out"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

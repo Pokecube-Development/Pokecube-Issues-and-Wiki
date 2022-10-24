@@ -4,22 +4,19 @@ import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.utils.EntityTools;
 
 public class PowerSpot extends Ability
 {
     @Override
-    public void onMoveUse(final IPokemob mob, final MovePacket move)
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        final LivingEntity target = EntityTools.getCoreLiving(move.attacked);
+        if (areWeTarget(mob, move)) return;
+        final LivingEntity target = EntityTools.getCoreLiving(move.target);
         if (target == null) return;
         final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
         if (targetMob == null) return;
-
-        final IPokemob attacker = move.attacker;
-
-        if (move.pre || attacker == move.attacked) return;
-        if (targetMob != null) move.PWR *= 1.3;
+        move.pwr *= 1.3;
     }
 }

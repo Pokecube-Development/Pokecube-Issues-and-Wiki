@@ -1,0 +1,239 @@
+{
+  "name": "granbull",
+  "id": 210,
+  "stock": true,
+  "base_experience": 158,
+  "size": {
+    "height": 1.4,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 48.7,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 70,
+  "growth_rate": "fast",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 90,
+    "attack": 120,
+    "defense": 75,
+    "special_attack": 60,
+    "special_defense": 60,
+    "speed": 45
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "intimidate",
+      "quick-feet"
+    ],
+    "hidden": [
+      "rattled"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 19,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "tail-whip",
+          "scary-face",
+          "outrage",
+          "charm",
+          "thunder-fang",
+          "ice-fang",
+          "fire-fang"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "take-down",
+          "play-rough"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "rage"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "lick"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "payback"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "tail-whip",
+      "bite",
+      "roar",
+      "flamethrower",
+      "hyper-beam",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "dig",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "reflect",
+      "metronome",
+      "lick",
+      "fire-blast",
+      "rest",
+      "rock-slide",
+      "super-fang",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "mud-slap",
+      "zap-cannon",
+      "detect",
+      "outrage",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "shadow-ball",
+      "rock-smash",
+      "torment",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "superpower",
+      "brick-break",
+      "secret-power",
+      "hyper-voice",
+      "overheat",
+      "rock-tomb",
+      "bulk-up",
+      "covet",
+      "shock-wave",
+      "water-pulse",
+      "natural-gift",
+      "payback",
+      "fling",
+      "last-resort",
+      "focus-blast",
+      "giga-impact",
+      "thunder-fang",
+      "ice-fang",
+      "fire-fang",
+      "rock-climb",
+      "stone-edge",
+      "captivate",
+      "round",
+      "incinerate",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "wild-charge",
+      "snarl",
+      "play-rough",
+      "confide",
+      "dazzling-gleam",
+      "power-up-punch",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

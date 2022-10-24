@@ -1,0 +1,195 @@
+{
+  "name": "whiscash",
+  "id": 340,
+  "stock": true,
+  "base_experience": 164,
+  "size": {
+    "height": 0.5,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 23.6,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 110,
+    "attack": 78,
+    "defense": 73,
+    "special_attack": 76,
+    "special_defense": 71,
+    "speed": 60
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "water",
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "oblivious",
+      "anticipation"
+    ],
+    "hidden": [
+      "hydration"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 0,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "water-gun",
+          "mud-slap",
+          "mud-sport",
+          "tickle",
+          "water-sport",
+          "zen-headbutt",
+          "belch"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "fissure"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "rest",
+          "snore"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "magnitude"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "muddy-water"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "mud-bomb"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "thrash",
+      "double-edge",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "strength",
+      "earthquake",
+      "fissure",
+      "toxic",
+      "mimic",
+      "double-team",
+      "waterfall",
+      "amnesia",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "magnitude",
+      "hidden-power",
+      "rain-dance",
+      "future-sight",
+      "rock-smash",
+      "whirlpool",
+      "uproar",
+      "hail",
+      "facade",
+      "secret-power",
+      "dive",
+      "mud-sport",
+      "weather-ball",
+      "rock-tomb",
+      "tickle",
+      "sand-tomb",
+      "muddy-water",
+      "bounce",
+      "mud-shot",
+      "water-sport",
+      "dragon-dance",
+      "water-pulse",
+      "natural-gift",
+      "aqua-tail",
+      "earth-power",
+      "giga-impact",
+      "mud-bomb",
+      "zen-headbutt",
+      "stone-edge",
+      "captivate",
+      "round",
+      "scald",
+      "bulldoze",
+      "belch",
+      "confide",
+      "stomping-tantrum",
+      "liquidation"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1"
+}

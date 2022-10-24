@@ -2,7 +2,7 @@ package pokecube.core.moves.animations.presets;
 
 import java.util.Random;
 
-import pokecube.api.moves.IMoveAnimation;
+import pokecube.api.moves.utils.IMoveAnimation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.animations.AnimPreset;
 import pokecube.core.moves.animations.MoveAnimationBase;

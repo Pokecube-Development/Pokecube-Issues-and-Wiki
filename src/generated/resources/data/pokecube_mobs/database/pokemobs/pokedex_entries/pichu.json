@@ -1,0 +1,189 @@
+{
+  "name": "pichu",
+  "id": 172,
+  "stock": true,
+  "base_experience": 41,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 2.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 20,
+    "attack": 40,
+    "defense": 15,
+    "special_attack": 35,
+    "special_defense": 35,
+    "speed": 60
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "static"
+    ],
+    "hidden": [
+      "lightning-rod"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 5,
+        "moves": [
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "thunder-shock",
+          "charm"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "sweet-kiss"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "play-nice"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "nuzzle"
+        ]
+      }
+    ],
+    "misc": [
+      "double-slap",
+      "mega-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "tail-whip",
+      "surf",
+      "counter",
+      "seismic-toss",
+      "thunder-shock",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "bide",
+      "swift",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "flail",
+      "reversal",
+      "protect",
+      "sweet-kiss",
+      "mud-slap",
+      "zap-cannon",
+      "detect",
+      "endure",
+      "charm",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "present",
+      "frustration",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "fake-out",
+      "uproar",
+      "facade",
+      "charge",
+      "helping-hand",
+      "wish",
+      "secret-power",
+      "tickle",
+      "signal-beam",
+      "covet",
+      "volt-tackle",
+      "shock-wave",
+      "natural-gift",
+      "fling",
+      "lucky-chant",
+      "magnet-rise",
+      "nasty-plot",
+      "captivate",
+      "grass-knot",
+      "charge-beam",
+      "round",
+      "echoed-voice",
+      "bestow",
+      "volt-switch",
+      "electroweb",
+      "wild-charge",
+      "disarming-voice",
+      "play-rough",
+      "confide",
+      "electric-terrain"
+    ]
+  },
+  "model": {
+    "key": "pichu",
+    "tex": "pichu",
+    "model": "pichu",
+    "anim": "pichu",
+    "types": "electric"
+  },
+  "models": [
+    {
+      "key": "pichu-spiky-eared",
+      "tex": "pichu-spiky-eared",
+      "model": "pichu-spiky-eared",
+      "anim": "pichu-spiky-eared",
+      "types": "electric"
+    }
+  ],
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "pikachu",
+      "happy": true
+    }
+  ]
+}

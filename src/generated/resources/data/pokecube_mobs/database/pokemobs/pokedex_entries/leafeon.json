@@ -1,0 +1,212 @@
+{
+  "name": "leafeon",
+  "id": 470,
+  "stock": true,
+  "base_experience": 184,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 25.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 35,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 65,
+    "attack": 110,
+    "defense": 130,
+    "special_attack": 60,
+    "special_defense": 65,
+    "speed": 95
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "leaf-guard"
+    ],
+    "hidden": [
+      "chlorophyll"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 29,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "sand-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "take-down",
+          "double-edge",
+          "tail-whip",
+          "bite",
+          "growl",
+          "swift",
+          "charm",
+          "baton-pass",
+          "helping-hand",
+          "covet",
+          "copycat"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "leech-seed",
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "sunny-day"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "grass-whistle"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "leaf-blade"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "last-resort"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "baby-doll-eyes"
+        ]
+      }
+    ],
+    "misc": [
+      "pay-day",
+      "swords-dance",
+      "sand-attack",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "tail-whip",
+      "roar",
+      "hyper-beam",
+      "strength",
+      "razor-leaf",
+      "solar-beam",
+      "dig",
+      "toxic",
+      "quick-attack",
+      "double-team",
+      "focus-energy",
+      "swift",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "giga-drain",
+      "endure",
+      "charm",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "baton-pass",
+      "iron-tail",
+      "synthesis",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "rock-smash",
+      "facade",
+      "nature-power",
+      "helping-hand",
+      "knock-off",
+      "secret-power",
+      "hyper-voice",
+      "weather-ball",
+      "fake-tears",
+      "grass-whistle",
+      "bullet-seed",
+      "aerial-ace",
+      "covet",
+      "magical-leaf",
+      "leaf-blade",
+      "natural-gift",
+      "last-resort",
+      "worry-seed",
+      "seed-bomb",
+      "x-scissor",
+      "energy-ball",
+      "giga-impact",
+      "leaf-storm",
+      "captivate",
+      "grass-knot",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "retaliate",
+      "work-up",
+      "confide",
+      "baby-doll-eyes",
+      "solar-blade",
+      "laser-focus",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1"
+}

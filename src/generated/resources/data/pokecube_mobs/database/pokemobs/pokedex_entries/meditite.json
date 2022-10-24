@@ -1,0 +1,254 @@
+{
+  "name": "meditite",
+  "id": 307,
+  "stock": true,
+  "base_experience": 56,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 11.2,
+  "is_default": true,
+  "capture_rate": 180,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 30,
+    "attack": 40,
+    "defense": 55,
+    "special_attack": 40,
+    "special_defense": 55,
+    "speed": 60
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "fighting",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "pure-power"
+    ],
+    "hidden": [
+      "telepathy"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 44,
+        "moves": [
+          "counter"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "meditate"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "bide"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "high-jump-kick"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "mind-reader"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "reversal"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "detect"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "swagger",
+          "hidden-power"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "psych-up"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "acupressure"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "power-trick"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "force-palm"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "toxic",
+      "confusion",
+      "psychic",
+      "meditate",
+      "mimic",
+      "double-team",
+      "recover",
+      "light-screen",
+      "reflect",
+      "bide",
+      "metronome",
+      "swift",
+      "high-jump-kick",
+      "dream-eater",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "mind-reader",
+      "snore",
+      "reversal",
+      "protect",
+      "mud-slap",
+      "foresight",
+      "detect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "dynamic-punch",
+      "baton-pass",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "fake-out",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "brick-break",
+      "secret-power",
+      "rock-tomb",
+      "signal-beam",
+      "bulk-up",
+      "calm-mind",
+      "gravity",
+      "natural-gift",
+      "feint",
+      "acupressure",
+      "fling",
+      "power-trick",
+      "power-swap",
+      "guard-swap",
+      "force-palm",
+      "poison-jab",
+      "drain-punch",
+      "vacuum-wave",
+      "focus-blast",
+      "bullet-punch",
+      "psycho-cut",
+      "zen-headbutt",
+      "captivate",
+      "grass-knot",
+      "psyshock",
+      "telekinesis",
+      "low-sweep",
+      "round",
+      "quick-guard",
+      "retaliate",
+      "work-up",
+      "confide",
+      "power-up-punch"
+    ]
+  },
+  "female_model": {
+    "key": "meditite_female",
+    "model": "meditite_female",
+    "anim": "meditite_female"
+  },
+  "loot_table": "pokecube:entities/enderpearls_1",
+  "evolutions": [
+    {
+      "name": "medicham",
+      "level": 37
+    }
+  ]
+}

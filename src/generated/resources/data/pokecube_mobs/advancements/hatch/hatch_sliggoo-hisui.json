@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.sliggoo-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sliggoo-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_sliggoo-hisui": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "sliggoo-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

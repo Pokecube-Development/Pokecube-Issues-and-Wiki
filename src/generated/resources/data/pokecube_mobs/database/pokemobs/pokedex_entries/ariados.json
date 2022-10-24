@@ -1,0 +1,225 @@
+{
+  "name": "ariados",
+  "id": 168,
+  "stock": true,
+  "base_experience": 140,
+  "size": {
+    "height": 1.1,
+    "width": 1.1,
+    "length": 1.1
+  },
+  "mass": 33.5,
+  "is_default": true,
+  "capture_rate": 90,
+  "base_happiness": 70,
+  "growth_rate": "fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 70,
+    "attack": 90,
+    "defense": 70,
+    "special_attack": 60,
+    "special_defense": 70,
+    "speed": 40
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "bug",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "swarm",
+      "insomnia"
+    ],
+    "hidden": [
+      "sniper"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 0,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "poison-sting",
+          "absorb",
+          "string-shot",
+          "focus-energy",
+          "constrict",
+          "bug-bite",
+          "fell-stinger",
+          "venom-drench"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "pin-missile"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "night-shade"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "leech-life",
+          "scary-face"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "spider-web"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "shadow-sneak"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "cross-poison"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "sticky-web"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "infestation"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "toxic-thread"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "body-slam",
+      "double-edge",
+      "poison-sting",
+      "pin-missile",
+      "hyper-beam",
+      "absorb",
+      "solar-beam",
+      "string-shot",
+      "dig",
+      "toxic",
+      "psychic",
+      "agility",
+      "night-shade",
+      "mimic",
+      "double-team",
+      "focus-energy",
+      "constrict",
+      "leech-life",
+      "flash",
+      "fury-swipes",
+      "rest",
+      "substitute",
+      "thief",
+      "spider-web",
+      "snore",
+      "curse",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "sunny-day",
+      "facade",
+      "secret-power",
+      "signal-beam",
+      "bounce",
+      "natural-gift",
+      "sucker-punch",
+      "poison-jab",
+      "x-scissor",
+      "giga-impact",
+      "shadow-sneak",
+      "cross-poison",
+      "captivate",
+      "bug-bite",
+      "hone-claws",
+      "venoshock",
+      "foul-play",
+      "round",
+      "struggle-bug",
+      "electroweb",
+      "sticky-web",
+      "fell-stinger",
+      "confide",
+      "venom-drench",
+      "infestation",
+      "toxic-thread",
+      "throat-chop",
+      "smart-strike",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "minecraft:entities/spider"
+}

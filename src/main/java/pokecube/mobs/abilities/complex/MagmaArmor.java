@@ -4,8 +4,8 @@ import java.util.List;
 
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.maths.Vector3;
 
@@ -27,11 +27,10 @@ public class MagmaArmor extends Ability
     }
 
     @Override
-    public void onMoveUse(IPokemob mob, MovePacket move)
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        final IPokemob attacker = move.attacker;
-        if (attacker == mob || !move.pre || attacker == move.attacked) return;
-        if (move.statusChange == IMoveConstants.STATUS_FRZ) move.statusChange = IMoveConstants.STATUS_NON;
+        if (!areWeTarget(mob, move)) return;
+        if ((move.status_effects & IMoveConstants.STATUS_FRZ) > 0) move.status_effects -= IMoveConstants.STATUS_BRN;
     }
 
     @Override

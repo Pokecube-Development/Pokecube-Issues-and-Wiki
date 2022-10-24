@@ -1,0 +1,231 @@
+{
+  "name": "azumarill",
+  "id": 184,
+  "stock": true,
+  "base_experience": 210,
+  "size": {
+    "height": 0.8,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 28.5,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 100,
+    "attack": 50,
+    "defense": 80,
+    "special_attack": 60,
+    "special_defense": 80,
+    "speed": 50
+  },
+  "evs": {
+    "hp": 3
+  },
+  "types": [
+    "water",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "thick-fat",
+      "huge-power"
+    ],
+    "hidden": [
+      "sap-sipper"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 12,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "tail-whip",
+          "water-gun",
+          "water-sport"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "defense-curl",
+          "rollout"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "bubble"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "aqua-ring"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "play-rough"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "mega-kick",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "tail-whip",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "hyper-beam",
+      "seismic-toss",
+      "strength",
+      "dig",
+      "toxic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "light-screen",
+      "waterfall",
+      "swift",
+      "amnesia",
+      "bubble",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "charm",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "future-sight",
+      "rock-smash",
+      "whirlpool",
+      "uproar",
+      "hail",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "superpower",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "dive",
+      "hyper-voice",
+      "fake-tears",
+      "muddy-water",
+      "bounce",
+      "mud-shot",
+      "covet",
+      "water-sport",
+      "water-pulse",
+      "natural-gift",
+      "fling",
+      "aqua-ring",
+      "aqua-tail",
+      "focus-blast",
+      "giga-impact",
+      "captivate",
+      "grass-knot",
+      "round",
+      "scald",
+      "bulldoze",
+      "work-up",
+      "draining-kiss",
+      "misty-terrain",
+      "play-rough",
+      "confide",
+      "power-up-punch",
+      "brutal-swing",
+      "liquidation",
+      "steel-roller",
+      "misty-explosion"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1"
+}

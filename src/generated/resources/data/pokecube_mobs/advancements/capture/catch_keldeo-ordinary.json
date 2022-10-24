@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.keldeo-ordinary"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.keldeo-ordinary"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_keldeo-ordinary": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "keldeo-ordinary"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

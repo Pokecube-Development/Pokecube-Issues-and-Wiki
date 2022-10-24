@@ -1,0 +1,15 @@
+{
+  "name": "mist",
+  "animations": [
+    {
+      "preset": "cartFunc:pexplosion_emitter:d0.1:w4:rtrue:f(0.5-rand())*(5),(0.5-rand())*(5),(0.5-rand())*(5):~mist",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pcloud:d0.09:w4:rtrue:l100:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~mist",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

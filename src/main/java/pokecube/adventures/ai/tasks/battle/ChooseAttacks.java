@@ -4,7 +4,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
 import pokecube.api.utils.PokeType;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.moves.MovesUtils;
@@ -25,7 +25,7 @@ public class ChooseAttacks extends BaseBattleTask
      */
     private int getPower(final String move, final IPokemob user, final LivingEntity target)
     {
-        final Move_Base attack = MovesUtils.getMoveFromName(move);
+        final MoveEntry attack = MovesUtils.getMove(move);
         if (attack == null) return 0;
         int pwr = attack.getPWR(user, target);
         final IPokemob mob = PokemobCaps.getPokemobFor(target);

@@ -1,0 +1,231 @@
+{
+  "name": "tropius",
+  "id": 357,
+  "stock": true,
+  "base_experience": 161,
+  "size": {
+    "height": 2.0,
+    "width": 1.0,
+    "length": 2.0
+  },
+  "mass": 100.0,
+  "is_default": true,
+  "capture_rate": 200,
+  "base_happiness": 70,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 99,
+    "attack": 68,
+    "defense": 83,
+    "special_attack": 72,
+    "special_defense": 87,
+    "speed": 51
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "grass",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "chlorophyll",
+      "solar-power"
+    ],
+    "hidden": [
+      "harvest"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "gust",
+          "leer",
+          "growth",
+          "razor-leaf",
+          "leaf-storm"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "whirlwind"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "body-slam"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "sweet-scent"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "natural-gift"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "bestow"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "leaf-tornado"
+        ]
+      }
+    ],
+    "misc": [
+      "razor-wind",
+      "swords-dance",
+      "cut",
+      "gust",
+      "whirlwind",
+      "fly",
+      "slam",
+      "stomp",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "leer",
+      "roar",
+      "hyper-beam",
+      "strength",
+      "leech-seed",
+      "growth",
+      "razor-leaf",
+      "solar-beam",
+      "earthquake",
+      "toxic",
+      "mimic",
+      "double-team",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "outrage",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "twister",
+      "sunny-day",
+      "rock-smash",
+      "facade",
+      "nature-power",
+      "secret-power",
+      "air-cutter",
+      "silver-wind",
+      "bullet-seed",
+      "aerial-ace",
+      "magical-leaf",
+      "leaf-blade",
+      "dragon-dance",
+      "roost",
+      "natural-gift",
+      "tailwind",
+      "worry-seed",
+      "seed-bomb",
+      "air-slash",
+      "dragon-pulse",
+      "energy-ball",
+      "giga-impact",
+      "defog",
+      "leaf-storm",
+      "captivate",
+      "grass-knot",
+      "ominous-wind",
+      "round",
+      "bestow",
+      "bulldoze",
+      "leaf-tornado",
+      "confide",
+      "dragon-hammer",
+      "brutal-swing",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/apple_cow",
+  "interactions": [
+    {
+      "male": true,
+      "female": true,
+      "cooldown": 800,
+      "variance": 100,
+      "baseHunger": 250,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:shears"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:apple",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

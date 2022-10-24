@@ -1,0 +1,204 @@
+{
+  "name": "sunflora",
+  "id": 192,
+  "stock": true,
+  "base_experience": 149,
+  "size": {
+    "height": 0.8,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 8.5,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 75,
+    "attack": 75,
+    "defense": 55,
+    "special_attack": 105,
+    "special_defense": 85,
+    "speed": 30
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "chlorophyll",
+      "solar-power"
+    ],
+    "hidden": [
+      "early-bird"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "absorb",
+          "growth",
+          "flower-shield"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "petal-dance"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "sunny-day"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "ingrain"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "grass-whistle"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "bullet-seed"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "natural-gift"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "worry-seed"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "leaf-storm"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "petal-blizzard"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "swords-dance",
+      "cut",
+      "double-edge",
+      "hyper-beam",
+      "absorb",
+      "mega-drain",
+      "leech-seed",
+      "growth",
+      "razor-leaf",
+      "solar-beam",
+      "petal-dance",
+      "toxic",
+      "mimic",
+      "double-team",
+      "light-screen",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "sludge-bomb",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "uproar",
+      "facade",
+      "nature-power",
+      "helping-hand",
+      "ingrain",
+      "endeavor",
+      "secret-power",
+      "grass-whistle",
+      "bullet-seed",
+      "natural-gift",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "earth-power",
+      "giga-impact",
+      "leaf-storm",
+      "captivate",
+      "grass-knot",
+      "after-you",
+      "round",
+      "petal-blizzard",
+      "flower-shield",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/leaves"
+}

@@ -12,8 +12,7 @@ import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
-import pokecube.api.moves.Move_Base;
-import pokecube.core.database.moves.MoveEntry;
+import pokecube.api.moves.MoveEntry;
 import pokecube.core.items.ItemTM;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.zmoves.GZMoveManager;
@@ -33,13 +32,13 @@ public class AllTMs implements TradePreset
             final int index = i;
             final String name = moves.get(index);
 
-            final Move_Base move = MovesUtils.getMoveFromName(name);
+            final MoveEntry move = MovesUtils.getMove(name);
             if (move == null) continue;
             // Blacklist the confused hit move
-            if (move.move.name.equals(MoveEntry.CONFUSED.name)) continue;
+            if (move.name.equals(MoveEntry.CONFUSED.name)) continue;
 
             // Blacklist G, Z and D moves
-            if (GZMoveManager.isGZDMove(move.move.baseEntry)) continue;
+            if (GZMoveManager.isGZDMove(move)) continue;
 
             final ItemStack sell = ItemTM.getTM(name);
             Map<String, String> values;

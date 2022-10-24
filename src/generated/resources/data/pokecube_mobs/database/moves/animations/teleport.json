@@ -1,0 +1,21 @@
+{
+  "name": "teleport",
+  "animations": [
+    {
+      "preset": "cartFunc:pcloud:d1:w1.5:atrue:rtrue:l15:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~teleport",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "minecraft:entity.enderman.teleport",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:pportal:d0.8:w2.5:atrue:rtrue:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~teleport",
+      "duration": "15",
+      "starttick": "0"
+    }
+  ]
+}

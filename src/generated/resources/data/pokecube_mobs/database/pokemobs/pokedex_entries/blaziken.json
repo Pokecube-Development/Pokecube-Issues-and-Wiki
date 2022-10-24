@@ -1,0 +1,269 @@
+{
+  "name": "blaziken",
+  "id": 257,
+  "stock": true,
+  "base_experience": 265,
+  "size": {
+    "height": 1.9,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 52.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 80,
+    "attack": 120,
+    "defense": 70,
+    "special_attack": 110,
+    "special_defense": 70,
+    "speed": 80
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "fire",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "speed-boost"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "fire-punch",
+          "scratch",
+          "double-kick",
+          "sand-attack",
+          "growl",
+          "ember",
+          "flamethrower",
+          "high-jump-kick",
+          "feather-dance",
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "peck"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "mirror-move"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "reversal"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "detect"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "blaze-kick"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "sky-uppercut"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "aerial-ace",
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "bulk-up"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "brave-bird"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "thunder-punch",
+      "scratch",
+      "swords-dance",
+      "cut",
+      "double-kick",
+      "mega-kick",
+      "sand-attack",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "growl",
+      "roar",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "peck",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "solar-beam",
+      "fire-spin",
+      "earthquake",
+      "dig",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "mimic",
+      "double-team",
+      "focus-energy",
+      "mirror-move",
+      "fire-blast",
+      "swift",
+      "high-jump-kick",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "mud-slap",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "baton-pass",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "role-play",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "blaze-kick",
+      "blast-burn",
+      "overheat",
+      "rock-tomb",
+      "sky-uppercut",
+      "aerial-ace",
+      "bulk-up",
+      "bounce",
+      "natural-gift",
+      "u-turn",
+      "close-combat",
+      "assurance",
+      "fling",
+      "last-resort",
+      "flare-blitz",
+      "aura-sphere",
+      "poison-jab",
+      "vacuum-wave",
+      "focus-blast",
+      "brave-bird",
+      "giga-impact",
+      "shadow-claw",
+      "rock-climb",
+      "defog",
+      "stone-edge",
+      "captivate",
+      "hone-claws",
+      "flame-charge",
+      "low-sweep",
+      "round",
+      "echoed-voice",
+      "incinerate",
+      "acrobatics",
+      "fire-pledge",
+      "bulldoze",
+      "work-up",
+      "dual-chop",
+      "heat-crash",
+      "confide",
+      "power-up-punch",
+      "laser-focus",
+      "coaching",
+      "scorching-sands"
+    ]
+  },
+  "male_model": {
+    "key": "blaziken_male",
+    "tex": "blaziken",
+    "model": "blaziken_male",
+    "anim": "blaziken_male"
+  },
+  "female_model": {
+    "key": "blaziken_female",
+    "tex": "blaziken",
+    "model": "blaziken_female",
+    "anim": "blaziken_female"
+  },
+  "loot_table": "pokecube:entities/coal_chicken_3",
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "blazikenmega"
+    }
+  ]
+}

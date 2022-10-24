@@ -1,0 +1,15 @@
+{
+  "name": "bubblebeam",
+  "animations": [
+    {
+      "preset": "beam:pbubble:d0.5:~bubblebeam",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.waterpulse",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.3
+    }
+  ]
+}

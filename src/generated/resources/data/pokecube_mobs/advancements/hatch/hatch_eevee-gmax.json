@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.eevee-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.eevee-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_eevee-gmax": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "eevee-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

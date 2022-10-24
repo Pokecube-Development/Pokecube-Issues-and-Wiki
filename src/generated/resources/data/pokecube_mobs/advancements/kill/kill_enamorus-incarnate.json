@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.enamorus-incarnate"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.enamorus-incarnate"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_enamorus-incarnate": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "enamorus-incarnate"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

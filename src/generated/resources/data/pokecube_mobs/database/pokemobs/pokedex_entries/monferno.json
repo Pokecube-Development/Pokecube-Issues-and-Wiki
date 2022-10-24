@@ -1,0 +1,210 @@
+{
+  "name": "monferno",
+  "id": 391,
+  "stock": true,
+  "base_experience": 142,
+  "size": {
+    "height": 0.9,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 22.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 64,
+    "attack": 78,
+    "defense": 52,
+    "special_attack": 78,
+    "special_defense": 52,
+    "speed": 81
+  },
+  "evs": {
+    "special_attack": 1,
+    "speed": 1
+  },
+  "types": [
+    "fire",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "iron-fist"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "leer",
+          "ember"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "fire-spin"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "flame-wheel"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "mach-punch"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "torment"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "slack-off"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "acrobatics"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "thunder-punch",
+      "scratch",
+      "swords-dance",
+      "cut",
+      "headbutt",
+      "leer",
+      "ember",
+      "flamethrower",
+      "low-kick",
+      "strength",
+      "fire-spin",
+      "dig",
+      "toxic",
+      "double-team",
+      "fire-blast",
+      "swift",
+      "fury-swipes",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "flame-wheel",
+      "snore",
+      "protect",
+      "mach-punch",
+      "mud-slap",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "heat-wave",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "role-play",
+      "brick-break",
+      "endeavor",
+      "secret-power",
+      "slack-off",
+      "overheat",
+      "rock-tomb",
+      "aerial-ace",
+      "bulk-up",
+      "covet",
+      "natural-gift",
+      "feint",
+      "u-turn",
+      "close-combat",
+      "fling",
+      "flare-blitz",
+      "poison-jab",
+      "vacuum-wave",
+      "focus-blast",
+      "shadow-claw",
+      "rock-climb",
+      "gunk-shot",
+      "captivate",
+      "stealth-rock",
+      "grass-knot",
+      "hone-claws",
+      "flame-charge",
+      "low-sweep",
+      "round",
+      "incinerate",
+      "acrobatics",
+      "retaliate",
+      "fire-pledge",
+      "work-up",
+      "dual-chop",
+      "confide",
+      "power-up-punch"
+    ]
+  },
+  "loot_table": "pokecube:entities/coal_2",
+  "evolutions": [
+    {
+      "name": "infernape",
+      "level": 36,
+      "evoMoves": "closecombat"
+    }
+  ]
+}

@@ -1,0 +1,205 @@
+{
+  "name": "braixen",
+  "id": 654,
+  "stock": true,
+  "base_experience": 143,
+  "size": {
+    "height": 1.0,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 14.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 59,
+    "attack": 59,
+    "defense": 58,
+    "special_attack": 90,
+    "special_defense": 70,
+    "speed": 73
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "magician"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "tail-whip",
+          "ember"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "fire-spin"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "fire-blast"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "sunny-day"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "will-o-wisp"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "howl"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "psyshock"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "magic-room"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "flame-charge"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "thunder-punch",
+      "scratch",
+      "cut",
+      "tail-whip",
+      "ember",
+      "flamethrower",
+      "psybeam",
+      "low-kick",
+      "solar-beam",
+      "fire-spin",
+      "toxic",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "fire-blast",
+      "dream-eater",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "trick",
+      "magic-coat",
+      "recycle",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "overheat",
+      "howl",
+      "covet",
+      "shock-wave",
+      "embargo",
+      "lucky-chant",
+      "zen-headbutt",
+      "grass-knot",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "flame-charge",
+      "foul-play",
+      "round",
+      "echoed-voice",
+      "ally-switch",
+      "incinerate",
+      "fire-pledge",
+      "work-up",
+      "confide",
+      "power-up-punch",
+      "laser-focus"
+    ]
+  },
+  "loot_table": "pokecube:entities/blaze_stick_rabbit_1",
+  "evolutions": [
+    {
+      "name": "delphox",
+      "level": 36,
+      "animation": "55",
+      "evoMoves": "mysticalfire"
+    }
+  ]
+}

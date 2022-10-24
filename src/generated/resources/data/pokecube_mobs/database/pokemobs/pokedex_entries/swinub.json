@@ -1,0 +1,207 @@
+{
+  "name": "swinub",
+  "id": 220,
+  "stock": true,
+  "base_experience": 50,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 6.5,
+  "is_default": true,
+  "capture_rate": 225,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 50,
+    "attack": 50,
+    "defense": 40,
+    "special_attack": 30,
+    "special_defense": 30,
+    "speed": 50
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "ice",
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "oblivious",
+      "snow-cloak"
+    ],
+    "hidden": [
+      "thick-fat"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "odor-sleuth"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "mist"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "powder-snow"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "icy-wind"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "mud-sport"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "ice-shard"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "mud-bomb"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "bite",
+      "roar",
+      "mist",
+      "ice-beam",
+      "blizzard",
+      "strength",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "amnesia",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "flail",
+      "powder-snow",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "icy-wind",
+      "detect",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "ancient-power",
+      "rock-smash",
+      "hail",
+      "facade",
+      "superpower",
+      "endeavor",
+      "secret-power",
+      "mud-sport",
+      "odor-sleuth",
+      "rock-tomb",
+      "sand-tomb",
+      "icicle-spear",
+      "mud-shot",
+      "natural-gift",
+      "earth-power",
+      "avalanche",
+      "ice-shard",
+      "mud-bomb",
+      "captivate",
+      "stealth-rock",
+      "round",
+      "bulldoze",
+      "icicle-crash",
+      "freeze-dry",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/pig_1",
+  "evolutions": [
+    {
+      "name": "piloswine",
+      "level": 33,
+      "evoMoves": "icefang"
+    }
+  ]
+}

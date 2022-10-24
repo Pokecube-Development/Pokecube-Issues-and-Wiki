@@ -1,0 +1,189 @@
+{
+  "name": "pidgeot",
+  "id": 18,
+  "stock": true,
+  "base_experience": 216,
+  "size": {
+    "height": 1.5,
+    "width": 1.3,
+    "length": 1.3
+  },
+  "mass": 39.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 83,
+    "attack": 80,
+    "defense": 75,
+    "special_attack": 70,
+    "special_defense": 70,
+    "speed": 101
+  },
+  "evs": {
+    "speed": 3
+  },
+  "types": [
+    "normal",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "keen-eye",
+      "tangled-feet"
+    ],
+    "hidden": [
+      "big-pecks"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 53,
+        "moves": [
+          "razor-wind"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "gust",
+          "sand-attack",
+          "tackle",
+          "quick-attack",
+          "sky-attack",
+          "heat-wave",
+          "hurricane"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "wing-attack"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "whirlwind"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "mirror-move"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "twister"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "feather-dance"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "roost"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "tailwind"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "air-slash"
+        ]
+      }
+    ],
+    "misc": [
+      "razor-wind",
+      "gust",
+      "wing-attack",
+      "whirlwind",
+      "fly",
+      "sand-attack",
+      "headbutt",
+      "tackle",
+      "take-down",
+      "double-edge",
+      "hyper-beam",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "rage",
+      "mimic",
+      "double-team",
+      "reflect",
+      "bide",
+      "mirror-move",
+      "swift",
+      "sky-attack",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "detect",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "uproar",
+      "heat-wave",
+      "facade",
+      "secret-power",
+      "feather-dance",
+      "air-cutter",
+      "aerial-ace",
+      "roost",
+      "natural-gift",
+      "pluck",
+      "tailwind",
+      "u-turn",
+      "air-slash",
+      "giga-impact",
+      "defog",
+      "captivate",
+      "ominous-wind",
+      "round",
+      "work-up",
+      "hurricane",
+      "confide",
+      "laser-focus"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_3",
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "pidgeotmega"
+    }
+  ]
+}

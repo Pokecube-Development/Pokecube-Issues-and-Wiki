@@ -1,0 +1,15 @@
+{
+  "name": "flower-shield",
+  "id": 579,
+  "pp": 10,
+  "priority": 0,
+  "type": "fairy",
+  "target": "all-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user raises the Defense stat of all Grass-type\nPokémon in battle with a mysterious power.",
+  "move_category": "unique",
+  "stat_chance": 100,
+  "effect_text_extend": "Raises the Defense of all grass Pokémon in battle.",
+  "effect_text_simple": "Raises the Defense of all grass Pokémon in battle.",
+  "effect_chance": 100
+}

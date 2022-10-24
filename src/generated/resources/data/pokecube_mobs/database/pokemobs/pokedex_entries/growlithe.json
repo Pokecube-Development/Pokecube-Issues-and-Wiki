@@ -1,0 +1,243 @@
+{
+  "name": "growlithe",
+  "id": 58,
+  "stock": true,
+  "base_experience": 70,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 19.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 55,
+    "attack": 70,
+    "defense": 45,
+    "special_attack": 70,
+    "special_defense": 50,
+    "speed": 60
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "intimidate",
+      "flash-fire"
+    ],
+    "hidden": [
+      "justified"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 23,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "leer"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "bite",
+          "roar"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "ember"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "flame-wheel"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "reversal"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "heat-wave"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "odor-sleuth"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "howl"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "fire-fang"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "flame-burst"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "retaliate"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "play-rough"
+        ]
+      }
+    ],
+    "misc": [
+      "double-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "thrash",
+      "double-edge",
+      "leer",
+      "bite",
+      "roar",
+      "ember",
+      "flamethrower",
+      "strength",
+      "dragon-rage",
+      "fire-spin",
+      "dig",
+      "toxic",
+      "agility",
+      "rage",
+      "mimic",
+      "double-team",
+      "reflect",
+      "bide",
+      "fire-blast",
+      "swift",
+      "skull-bash",
+      "rest",
+      "substitute",
+      "thief",
+      "flame-wheel",
+      "snore",
+      "curse",
+      "reversal",
+      "protect",
+      "mud-slap",
+      "outrage",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dragon-breath",
+      "iron-tail",
+      "morning-sun",
+      "hidden-power",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "helping-hand",
+      "secret-power",
+      "overheat",
+      "odor-sleuth",
+      "aerial-ace",
+      "howl",
+      "covet",
+      "natural-gift",
+      "close-combat",
+      "flare-blitz",
+      "fire-fang",
+      "captivate",
+      "flame-burst",
+      "flame-charge",
+      "round",
+      "incinerate",
+      "retaliate",
+      "wild-charge",
+      "snarl",
+      "play-rough",
+      "confide",
+      "burn-up",
+      "psychic-fangs"
+    ]
+  },
+  "loot_table": "pokecube:entities/blaze_rabbit_1",
+  "evolutions": [
+    {
+      "name": "arcanine",
+      "item_preset": "firestone"
+    }
+  ]
+}

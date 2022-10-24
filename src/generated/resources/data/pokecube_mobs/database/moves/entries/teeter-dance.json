@@ -1,0 +1,16 @@
+{
+  "name": "teeter-dance",
+  "id": 298,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "all-other-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user performs a wobbly dance that confuses\nthe Pokémon around it.",
+  "move_category": "ailment",
+  "max_turns": 5,
+  "min_turns": 2,
+  "effect_text_extend": "Confuses all targets.",
+  "effect_text_simple": "Confuses the target."
+}

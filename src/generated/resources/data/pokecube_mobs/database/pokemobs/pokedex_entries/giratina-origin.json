@@ -1,0 +1,234 @@
+{
+  "name": "giratina-origin",
+  "id": 487,
+  "stock": true,
+  "base_experience": 340,
+  "size": {
+    "height": 3.0,
+    "width": 3.0,
+    "length": 6.9
+  },
+  "mass": 650.0,
+  "is_default": false,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 150,
+    "attack": 120,
+    "defense": 100,
+    "special_attack": 120,
+    "special_defense": 100,
+    "speed": 90
+  },
+  "evs": {
+    "hp": 3
+  },
+  "types": [
+    "ghost",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 15,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "scary-face",
+          "dragon-breath",
+          "defog"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "destiny-bond"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "pain-split"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "dragon-claw"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "heal-block",
+          "hex"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "aura-sphere"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "shadow-claw"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "shadow-sneak"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "ominous-wind"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "shadow-force"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "fly",
+      "headbutt",
+      "body-slam",
+      "roar",
+      "hyper-beam",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "psychic",
+      "double-team",
+      "swift",
+      "dream-eater",
+      "rest",
+      "slash",
+      "substitute",
+      "snore",
+      "spite",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "destiny-bond",
+      "icy-wind",
+      "outrage",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "steel-wing",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dragon-breath",
+      "iron-tail",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "shadow-ball",
+      "rock-smash",
+      "will-o-wisp",
+      "facade",
+      "magic-coat",
+      "secret-power",
+      "hyper-voice",
+      "air-cutter",
+      "silver-wind",
+      "aerial-ace",
+      "dragon-claw",
+      "calm-mind",
+      "shock-wave",
+      "gravity",
+      "natural-gift",
+      "tailwind",
+      "payback",
+      "aura-sphere",
+      "dark-pulse",
+      "aqua-tail",
+      "dragon-pulse",
+      "energy-ball",
+      "earth-power",
+      "giga-impact",
+      "shadow-claw",
+      "shadow-sneak",
+      "rock-climb",
+      "defog",
+      "draco-meteor",
+      "iron-head",
+      "stone-edge",
+      "charge-beam",
+      "ominous-wind",
+      "shadow-force",
+      "hone-claws",
+      "telekinesis",
+      "round",
+      "echoed-voice",
+      "hex",
+      "bulldoze",
+      "dragon-tail",
+      "phantom-force",
+      "confide",
+      "brutal-swing",
+      "breaking-swipe",
+      "poltergeist",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_3",
+  "spawn_rules": [
+    {
+      "values": {
+        "types": "#pokecube_legends:can_spawn/giratina",
+        "min": "1",
+        "rate": "0.002",
+        "max": "1"
+      }
+    },
+    {
+      "values": {
+        "structures": "pokecube_legends:space_temple",
+        "min": "1",
+        "rate": "0.005",
+        "max": "1"
+      }
+    }
+  ],
+  "old_name": "giratina_origin"
+}

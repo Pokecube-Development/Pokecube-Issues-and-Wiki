@@ -22,7 +22,7 @@ import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.pokemobs.combat.StatusEvent;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.damage.StatusEffectDamageSource;
@@ -174,7 +174,7 @@ public class PersistantStatusEffect extends BaseEffect
         SLEEP(IMoveConstants.STATUS_SLP), FREEZE(IMoveConstants.STATUS_FRZ), PARALYSIS(IMoveConstants.STATUS_PAR),
         BURN(IMoveConstants.STATUS_BRN), POISON(IMoveConstants.STATUS_PSN), BADPOISON(IMoveConstants.STATUS_PSN2);
 
-        public static Status getStatus(final byte mask)
+        public static Status getStatus(final int mask)
         {
             return PersistantStatusEffect.MASKMAP.get(mask);
         }
@@ -185,15 +185,15 @@ public class PersistantStatusEffect extends BaseEffect
                 PersistantStatusEffect.EFFECTMAP.put(stat, new DefaultEffects(stat));
         }
 
-        final byte mask;
+        final int mask;
 
-        private Status(final byte mask)
+        private Status(final int mask)
         {
             this.mask = mask;
             PersistantStatusEffect.MASKMAP.put(mask, this);
         }
 
-        public byte getMask()
+        public int getMask()
         {
             return this.mask;
         }
@@ -212,7 +212,7 @@ public class PersistantStatusEffect extends BaseEffect
         super(PersistantStatusEffect.ID);
     }
 
-    public PersistantStatusEffect(final byte status, final int timer)
+    public PersistantStatusEffect(final int status, final int timer)
     {
         super(PersistantStatusEffect.ID);
         this.status = Status.getStatus(status);

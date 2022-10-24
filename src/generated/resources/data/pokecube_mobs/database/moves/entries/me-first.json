@@ -1,0 +1,13 @@
+{
+  "name": "me-first",
+  "id": 382,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "target": "selected-pokemon-me-first",
+  "damage_class": "status",
+  "flavor_text": "The user cuts ahead of the target to copy and use\nthe target’s intended move with greater power.\nThis move fails if it isn’t used first.",
+  "move_category": "damage",
+  "effect_text_extend": "If the target has selected a damaging move this turn, the user will copy that move and use it against the target, with a 50% increase in power.\n\nIf the target moves before the user, this move will fail.\n\nThis move cannot be copied by mirror move, nor selected by assist, metronome, or sleep talk.",
+  "effect_text_simple": "Uses the target's move against it before it attacks, with power increased by half."
+}

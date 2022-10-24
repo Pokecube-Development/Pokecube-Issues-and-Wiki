@@ -1,0 +1,205 @@
+{
+  "name": "porygon2",
+  "id": 233,
+  "stock": true,
+  "base_experience": 180,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 32.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 85,
+    "attack": 80,
+    "defense": 90,
+    "special_attack": 105,
+    "special_defense": 95,
+    "speed": 60
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "trace",
+      "download"
+    ],
+    "hidden": [
+      "analytic"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "defense-curl",
+          "conversion",
+          "conversion-2",
+          "zap-cannon",
+          "magic-coat"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "thunder-shock"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "tri-attack"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "lock-on"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "recycle"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "signal-beam"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "magnet-rise"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "discharge"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "double-edge",
+      "ice-beam",
+      "blizzard",
+      "psybeam",
+      "hyper-beam",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "psychic",
+      "agility",
+      "mimic",
+      "double-team",
+      "recover",
+      "defense-curl",
+      "swift",
+      "dream-eater",
+      "flash",
+      "rest",
+      "conversion",
+      "tri-attack",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "curse",
+      "conversion-2",
+      "protect",
+      "zap-cannon",
+      "icy-wind",
+      "lock-on",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pain-split",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "facade",
+      "trick",
+      "magic-coat",
+      "recycle",
+      "secret-power",
+      "signal-beam",
+      "aerial-ace",
+      "shock-wave",
+      "gravity",
+      "natural-gift",
+      "power-swap",
+      "guard-swap",
+      "last-resort",
+      "magnet-rise",
+      "giga-impact",
+      "zen-headbutt",
+      "trick-room",
+      "discharge",
+      "charge-beam",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "foul-play",
+      "round",
+      "ally-switch",
+      "electroweb",
+      "confide",
+      "eerie-impulse",
+      "speed-swap"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_2",
+  "evolutions": [
+    {
+      "name": "porygon-z",
+      "item_preset": "dubiousdisc",
+      "trade": true
+    }
+  ]
+}

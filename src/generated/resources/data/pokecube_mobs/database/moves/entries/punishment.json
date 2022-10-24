@@ -1,0 +1,14 @@
+{
+  "name": "punishment",
+  "id": 386,
+  "pp": 5,
+  "priority": 0,
+  "type": "dark",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The more the target has powered up with stat\nchanges, the greater the move’s power.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.  Power starts at 60 and is increased by 20 for every stage any of the target's stats has been raised, capping at 200.  Accuracy and evasion modifiers do not increase this move's power.",
+  "effect_text_simple": "Power increases against targets with more raised stats, up to a maximum of 200."
+}

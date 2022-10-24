@@ -1,0 +1,13 @@
+{
+  "name": "tail-glow",
+  "id": 294,
+  "pp": 20,
+  "priority": 0,
+  "type": "bug",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user stares at flashing lights to focus its mind,\ndrastically raising its Sp. Atk stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises the user's Special Attack by three stages.",
+  "effect_text_simple": "Raises the user's Special Attack by three stages."
+}

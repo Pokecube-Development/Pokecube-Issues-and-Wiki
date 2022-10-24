@@ -1,0 +1,223 @@
+{
+  "name": "kingler",
+  "id": 99,
+  "stock": true,
+  "base_experience": 166,
+  "size": {
+    "height": 1.3,
+    "width": 1.3,
+    "length": 1.0
+  },
+  "mass": 60.0,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 55,
+    "attack": 130,
+    "defense": 115,
+    "special_attack": 50,
+    "special_defense": 50,
+    "speed": 75
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "hyper-cutter",
+      "shell-armor"
+    ],
+    "hidden": [
+      "sheer-force"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "vice-grip",
+          "leer",
+          "water-gun",
+          "agility",
+          "amnesia",
+          "bubble",
+          "mud-sport",
+          "hammer-arm",
+          "wide-guard"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "guillotine"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "harden"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "crabhammer"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "metal-claw"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "mud-shot"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "brine"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "razor-shell"
+        ]
+      }
+    ],
+    "misc": [
+      "vice-grip",
+      "guillotine",
+      "swords-dance",
+      "cut",
+      "slam",
+      "stomp",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "leer",
+      "water-gun",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "hyper-beam",
+      "strength",
+      "dig",
+      "toxic",
+      "agility",
+      "rage",
+      "mimic",
+      "double-team",
+      "harden",
+      "bide",
+      "amnesia",
+      "bubble",
+      "crabhammer",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "flail",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "metal-claw",
+      "hidden-power",
+      "rain-dance",
+      "ancient-power",
+      "rock-smash",
+      "whirlpool",
+      "hail",
+      "facade",
+      "superpower",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "dive",
+      "mud-sport",
+      "rock-tomb",
+      "iron-defense",
+      "mud-shot",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "fling",
+      "x-scissor",
+      "giga-impact",
+      "captivate",
+      "hone-claws",
+      "wide-guard",
+      "round",
+      "ally-switch",
+      "scald",
+      "quash",
+      "razor-shell",
+      "confide",
+      "high-horsepower",
+      "brutal-swing",
+      "stomping-tantrum",
+      "liquidation"
+    ]
+  },
+  "loot_table": "pokecube:entities/shear_fish"
+}

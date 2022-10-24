@@ -1,0 +1,13 @@
+{
+  "name": "cosmic-power",
+  "id": 322,
+  "pp": 20,
+  "priority": 0,
+  "type": "psychic",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user absorbs a mystical power from space to\nraise its Defense and Sp. Def stats.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises the user's Defense and Special Defense by one stage.",
+  "effect_text_simple": "Raises the user's Defense and Special Defense by one stage."
+}

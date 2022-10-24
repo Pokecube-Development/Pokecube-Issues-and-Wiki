@@ -1,0 +1,20 @@
+{
+  "name": "ember",
+  "animations": [
+    {
+      "preset": "flow:pflame:d0.09:w0.5:~ember",
+      "duration": "4",
+      "starttick": "0",
+      "sound": "pokecube:moves.ember",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:plava:d1:~ember",
+      "duration": "1",
+      "starttick": "4"
+    }
+  ]
+}

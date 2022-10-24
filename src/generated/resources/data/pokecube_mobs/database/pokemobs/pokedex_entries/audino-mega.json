@@ -1,0 +1,229 @@
+{
+  "name": "audino-mega",
+  "id": 531,
+  "stock": true,
+  "base_experience": 425,
+  "size": {
+    "height": 1.5,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 32.0,
+  "is_default": false,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 103,
+    "attack": 60,
+    "defense": 126,
+    "special_attack": 80,
+    "special_defense": 126,
+    "speed": 50
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "normal",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "healer"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "growl",
+          "helping-hand",
+          "hyper-voice",
+          "last-resort",
+          "misty-terrain",
+          "play-nice"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "double-slap"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "attract"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "refresh"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "secret-power"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "simple-beam"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "entrainment"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "after-you"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "heal-pulse"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "disarming-voice"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "baby-doll-eyes"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "double-slap",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "take-down",
+      "double-edge",
+      "growl",
+      "flamethrower",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "low-kick",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "toxic",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "fire-blast",
+      "amnesia",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "sweet-kiss",
+      "icy-wind",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "uproar",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "role-play",
+      "wish",
+      "magic-coat",
+      "yawn",
+      "knock-off",
+      "skill-swap",
+      "refresh",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "signal-beam",
+      "covet",
+      "calm-mind",
+      "gravity",
+      "healing-wish",
+      "fling",
+      "lucky-chant",
+      "last-resort",
+      "drain-punch",
+      "zen-headbutt",
+      "trick-room",
+      "grass-knot",
+      "charge-beam",
+      "psyshock",
+      "telekinesis",
+      "simple-beam",
+      "entrainment",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "ally-switch",
+      "heal-pulse",
+      "incinerate",
+      "retaliate",
+      "bestow",
+      "work-up",
+      "wild-charge",
+      "disarming-voice",
+      "draining-kiss",
+      "misty-terrain",
+      "play-nice",
+      "confide",
+      "dazzling-gleam",
+      "baby-doll-eyes",
+      "power-up-punch",
+      "laser-focus",
+      "throat-chop",
+      "stomping-tantrum"
+    ]
+  },
+  "old_name": "audino_mega"
+}

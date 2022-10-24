@@ -1,0 +1,191 @@
+{
+  "name": "rattata-alola",
+  "id": 19,
+  "stock": true,
+  "base_experience": 51,
+  "size": {
+    "height": 0.3
+  },
+  "mass": 3.8,
+  "is_default": false,
+  "capture_rate": 255,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 30,
+    "attack": 56,
+    "defense": 35,
+    "special_attack": 25,
+    "special_defense": 35,
+    "speed": 72
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "dark",
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "gluttony",
+      "hustle"
+    ],
+    "hidden": [
+      "thick-fat"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "hyper-fang"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "super-fang"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "endeavor"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "sucker-punch"
+        ]
+      }
+    ],
+    "misc": [
+      "headbutt",
+      "tackle",
+      "double-edge",
+      "tail-whip",
+      "bite",
+      "ice-beam",
+      "blizzard",
+      "counter",
+      "dig",
+      "toxic",
+      "quick-attack",
+      "double-team",
+      "focus-energy",
+      "fury-swipes",
+      "rest",
+      "hyper-fang",
+      "super-fang",
+      "substitute",
+      "thief",
+      "snore",
+      "reversal",
+      "protect",
+      "sludge-bomb",
+      "icy-wind",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pursuit",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "shadow-ball",
+      "uproar",
+      "stockpile",
+      "swallow",
+      "torment",
+      "facade",
+      "taunt",
+      "revenge",
+      "endeavor",
+      "snatch",
+      "covet",
+      "shock-wave",
+      "u-turn",
+      "assurance",
+      "embargo",
+      "me-first",
+      "last-resort",
+      "sucker-punch",
+      "dark-pulse",
+      "switcheroo",
+      "shadow-claw",
+      "zen-headbutt",
+      "grass-knot",
+      "round",
+      "quash",
+      "final-gambit",
+      "snarl",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/rotten_rabbit_1",
+  "evolutions": [
+    {
+      "name": "raticate-alola",
+      "level": 20,
+      "time": "night",
+      "evoMoves": "scaryface"
+    }
+  ],
+  "old_name": "rattata_alola"
+}

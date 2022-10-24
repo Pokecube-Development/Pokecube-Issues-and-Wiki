@@ -1,0 +1,15 @@
+{
+  "name": "beak-blast",
+  "id": 690,
+  "power": 100,
+  "pp": 15,
+  "priority": -3,
+  "type": "flying",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user first heats up its beak, and then it attacks\nthe target. Making direct contact with the Pokémon\nwhile it’s heating up its beak results in a burn.",
+  "move_category": "damage",
+  "effect_text_extend": "Begins charging at the start of the turn, then attacks as normal.  Any Pokémon that makes contact with the user while charging is burned.  The charging is not affected by accuracy, sleep, paralysis, or any other effect that would interfere with a move.",
+  "effect_text_simple": "Inflicts a burn on any Pokémon that makes contact before the attack."
+}

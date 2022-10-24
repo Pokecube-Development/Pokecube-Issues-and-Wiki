@@ -1,0 +1,17 @@
+{
+  "name": "air-slash",
+  "id": 403,
+  "power": 75,
+  "pp": 15,
+  "priority": 0,
+  "type": "flying",
+  "accuracy": 95,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user attacks with a blade of air that slices even\nthe sky. This may also make the target flinch.",
+  "move_category": "damage",
+  "flinch_chance": 30,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to make the target flinch.",
+  "effect_text_simple": "Has a $effect_chance% chance to make the target flinch.",
+  "effect_chance": 30
+}

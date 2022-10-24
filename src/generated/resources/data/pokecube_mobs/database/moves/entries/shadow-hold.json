@@ -1,0 +1,10 @@
+{
+  "name": "shadow-hold",
+  "id": 10014,
+  "priority": 0,
+  "type": "shadow",
+  "target": "opponents-field",
+  "damage_class": "status",
+  "effect_text_extend": "The target cannot switch out normally.  Ignores accuracy and evasion modifiers.  This effect ends when the user leaves the field.\n\nThe target may still escape by using baton pass, u turn, or a shed shell.\n\nBoth the user and the target pass on this effect with baton pass.",
+  "effect_text_simple": "Prevents the target from leaving battle."
+}

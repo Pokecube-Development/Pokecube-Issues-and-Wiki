@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.kleavor"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.kleavor"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_kleavor": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "kleavor"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

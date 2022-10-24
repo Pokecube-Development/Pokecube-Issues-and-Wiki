@@ -1,0 +1,15 @@
+{
+  "name": "steel-beam",
+  "id": 796,
+  "power": 140,
+  "pp": 5,
+  "priority": 0,
+  "type": "steel",
+  "accuracy": 95,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user fires a beam of steel that it collected from its\nentire body. This also damages the user.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts damage, and the user takes damage equal to half of its max HP, rounded up. The user still takes damage if the move is blocked by Protect or Substitute, misses, or if the target has Flash Fire.",
+  "effect_text_simple": "Inflicts damage, and the user takes damage equal to half of its max HP, rounded up."
+}

@@ -1,0 +1,208 @@
+{
+  "name": "mandibuzz",
+  "id": 630,
+  "stock": true,
+  "base_experience": 179,
+  "size": {
+    "height": 1.2,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 39.5,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 110,
+    "attack": 65,
+    "defense": 105,
+    "special_attack": 55,
+    "special_defense": 95,
+    "speed": 80
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "dark",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "big-pecks",
+      "overcoat"
+    ],
+    "hidden": [
+      "weak-armor"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "gust",
+          "whirlwind",
+          "fury-attack",
+          "leer",
+          "toxic",
+          "mirror-move",
+          "sky-attack",
+          "pluck",
+          "brave-bird"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "bone-rush"
+        ]
+      },
+      {
+        "L": 72,
+        "moves": [
+          "attract"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "flatter"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "tailwind"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "embargo"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "punishment"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "defog"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "gust",
+      "whirlwind",
+      "fly",
+      "fury-attack",
+      "leer",
+      "hyper-beam",
+      "toxic",
+      "double-team",
+      "mirror-move",
+      "swift",
+      "sky-attack",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "scary-face",
+      "feint-attack",
+      "bone-rush",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "rock-smash",
+      "heat-wave",
+      "torment",
+      "flatter",
+      "facade",
+      "taunt",
+      "knock-off",
+      "snatch",
+      "secret-power",
+      "fake-tears",
+      "rock-tomb",
+      "aerial-ace",
+      "iron-defense",
+      "block",
+      "roost",
+      "pluck",
+      "tailwind",
+      "u-turn",
+      "payback",
+      "assurance",
+      "embargo",
+      "punishment",
+      "dark-pulse",
+      "air-slash",
+      "brave-bird",
+      "giga-impact",
+      "nasty-plot",
+      "defog",
+      "foul-play",
+      "round",
+      "incinerate",
+      "retaliate",
+      "snarl",
+      "confide",
+      "lash-out",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_2"
+}

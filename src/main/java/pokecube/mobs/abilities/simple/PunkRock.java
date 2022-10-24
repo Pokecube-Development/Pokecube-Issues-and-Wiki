@@ -2,17 +2,18 @@ package pokecube.mobs.abilities.simple;
 
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.database.tags.Tags;
 
 public class PunkRock extends Ability
 {
     @Override
-    public void onMoveUse(final IPokemob mob, final MovePacket move)
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        if (move.pre && mob == move.attacked && Tags.MOVE.isIn("sound_based", move.attack))
+        if (areWeUser(mob, move)) return;
+        if (Tags.MOVE.isIn("sound_based", move.getName()))
         {
-            move.PWR *= 1.3;
+            move.pwr *= 1.3;
             return;
         }
     }

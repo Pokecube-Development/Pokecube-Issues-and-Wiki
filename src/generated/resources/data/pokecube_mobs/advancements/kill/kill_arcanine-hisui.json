@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.arcanine-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.arcanine-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_arcanine-hisui": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "arcanine-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

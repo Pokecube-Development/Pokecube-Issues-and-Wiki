@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.cacturne"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.cacturne"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_cacturne": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "cacturne"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

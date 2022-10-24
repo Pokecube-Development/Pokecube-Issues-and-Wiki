@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.corsola-galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.corsola-galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_corsola-galar": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "corsola-galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.yamask-galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.yamask-galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_yamask-galar": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "yamask-galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

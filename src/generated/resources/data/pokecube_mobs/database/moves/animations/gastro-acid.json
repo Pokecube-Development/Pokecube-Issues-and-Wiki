@@ -1,0 +1,10 @@
+{
+  "name": "gastroacid",
+  "animations": [
+    {
+      "preset": "flow:pmisc:d0.7:w1.2:l5:~gastroacid",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

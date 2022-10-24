@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.gourgeist-large"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gourgeist-large"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_gourgeist-large": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "gourgeist-large"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

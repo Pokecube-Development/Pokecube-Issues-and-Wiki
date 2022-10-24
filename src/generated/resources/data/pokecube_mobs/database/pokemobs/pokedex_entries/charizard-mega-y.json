@@ -1,0 +1,205 @@
+{
+  "name": "charizard-mega-y",
+  "id": 6,
+  "stock": true,
+  "base_experience": 285,
+  "size": {
+    "height": 1.7,
+    "width": 1.7,
+    "length": 1.7
+  },
+  "mass": 100.5,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 78,
+    "attack": 104,
+    "defense": 78,
+    "special_attack": 159,
+    "special_defense": 115,
+    "speed": 100
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "fire",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "drought"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "growl",
+          "ember",
+          "counter",
+          "crunch",
+          "heat-wave",
+          "dragon-claw",
+          "flare-blitz",
+          "air-slash",
+          "shadow-claw"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "wing-attack"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "dragon-rage"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "fire-spin"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "smokescreen"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "fire-fang"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "flame-burst"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "inferno"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "thunder-punch",
+      "scratch",
+      "swords-dance",
+      "cut",
+      "wing-attack",
+      "fly",
+      "headbutt",
+      "growl",
+      "roar",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "seismic-toss",
+      "strength",
+      "solar-beam",
+      "dragon-rage",
+      "fire-spin",
+      "earthquake",
+      "dig",
+      "toxic",
+      "double-team",
+      "smokescreen",
+      "reflect",
+      "fire-blast",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "outrage",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "brick-break",
+      "secret-power",
+      "blast-burn",
+      "overheat",
+      "rock-tomb",
+      "aerial-ace",
+      "dragon-claw",
+      "roost",
+      "tailwind",
+      "fling",
+      "flare-blitz",
+      "air-slash",
+      "dragon-pulse",
+      "focus-blast",
+      "giga-impact",
+      "shadow-claw",
+      "fire-fang",
+      "defog",
+      "hone-claws",
+      "flame-burst",
+      "flame-charge",
+      "round",
+      "echoed-voice",
+      "sky-drop",
+      "incinerate",
+      "inferno",
+      "fire-pledge",
+      "bulldoze",
+      "dragon-tail",
+      "work-up",
+      "confide",
+      "power-up-punch",
+      "brutal-swing"
+    ]
+  },
+  "old_name": "charizard_mega-y"
+}

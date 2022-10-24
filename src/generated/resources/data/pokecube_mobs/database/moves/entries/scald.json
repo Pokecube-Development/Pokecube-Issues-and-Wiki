@@ -1,0 +1,17 @@
+{
+  "name": "scald",
+  "id": 503,
+  "power": 80,
+  "pp": 15,
+  "priority": 0,
+  "type": "water",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user shoots boiling hot water at its target.\nThis may also leave the target with a burn.",
+  "move_category": "damage+ailment",
+  "ailment_chance": 30,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to burn the target.",
+  "effect_text_simple": "Has a $effect_chance% chance to burn the target.",
+  "effect_chance": 30
+}

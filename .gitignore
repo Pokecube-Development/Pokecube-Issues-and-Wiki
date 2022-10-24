@@ -23,16 +23,18 @@ eclipse
 run
 *.blend1
 
-src/generated/*
 logs/*
 /git/
 processing_scripts/icon_generator/icons/*
 processing_scripts/icon_generator/img/*
-processing_scripts/database_update/caches/*
+processing_scripts/database_update/.cache/*
+processing_scripts/database_update/new/*
+processing_scripts/database_update/old/*
 processing_scripts/json_cleanup/inputs/*
 processing_scripts/json_cleanup/outputs/*
 processing_scripts/worldgen_setup/new*
 **/__pycache__/*
+**/.vscode/*
 
 **/template_worlds/main_structures/DIM*
 **/template_worlds/main_structures/t*

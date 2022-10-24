@@ -1,0 +1,224 @@
+{
+  "name": "flabebe",
+  "id": 669,
+  "stock": true,
+  "base_experience": 61,
+  "size": {
+    "height": 0.1,
+    "width": 0.1,
+    "length": 0.1
+  },
+  "mass": 0.1,
+  "is_default": true,
+  "capture_rate": 225,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 44,
+    "attack": 38,
+    "defense": 39,
+    "special_attack": 61,
+    "special_defense": 79,
+    "speed": 42
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "flower-veil"
+    ],
+    "hidden": [
+      "symbiosis"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "vine-whip",
+          "tackle"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "petal-dance"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "wish"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "petal-blizzard"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "grassy-terrain"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "misty-terrain"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "fairy-wind"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "moonblast"
+        ]
+      }
+    ],
+    "misc": [
+      "vine-whip",
+      "tackle",
+      "razor-leaf",
+      "solar-beam",
+      "petal-dance",
+      "toxic",
+      "psychic",
+      "double-team",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "giga-drain",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "synthesis",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "facade",
+      "nature-power",
+      "helping-hand",
+      "wish",
+      "magic-coat",
+      "endeavor",
+      "secret-power",
+      "camouflage",
+      "aromatherapy",
+      "covet",
+      "magical-leaf",
+      "calm-mind",
+      "lucky-chant",
+      "copycat",
+      "worry-seed",
+      "seed-bomb",
+      "energy-ball",
+      "captivate",
+      "grass-knot",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "ally-switch",
+      "petal-blizzard",
+      "grassy-terrain",
+      "misty-terrain",
+      "fairy-wind",
+      "moonblast",
+      "confide",
+      "dazzling-gleam",
+      "tearful-look"
+    ]
+  },
+  "model": {
+    "key": "flabebe-red",
+    "tex": "flabebe-red",
+    "model": "flabebe-red",
+    "anim": "flabebe-red",
+    "types": "fairy"
+  },
+  "models": [
+    {
+      "key": "flabebe-yellow",
+      "tex": "flabebe-yellow",
+      "model": "flabebe-yellow",
+      "anim": "flabebe-yellow",
+      "types": "fairy"
+    },
+    {
+      "key": "flabebe-orange",
+      "tex": "flabebe-orange",
+      "model": "flabebe-orange",
+      "anim": "flabebe-orange",
+      "types": "fairy"
+    },
+    {
+      "key": "flabebe-blue",
+      "tex": "flabebe-blue",
+      "model": "flabebe-blue",
+      "anim": "flabebe-blue",
+      "types": "fairy"
+    },
+    {
+      "key": "flabebe-white",
+      "tex": "flabebe-white",
+      "model": "flabebe-white",
+      "anim": "flabebe-white",
+      "types": "fairy"
+    }
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_1",
+  "evolutions": [
+    {
+      "name": "floette",
+      "level": 19
+    }
+  ]
+}

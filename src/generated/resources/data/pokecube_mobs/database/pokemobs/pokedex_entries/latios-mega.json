@@ -1,0 +1,221 @@
+{
+  "name": "latios-mega",
+  "id": 381,
+  "stock": true,
+  "base_experience": 315,
+  "size": {
+    "height": 1.5,
+    "width": 2.3,
+    "length": 2.3
+  },
+  "mass": 70.0,
+  "is_default": false,
+  "capture_rate": 3,
+  "base_happiness": 90,
+  "growth_rate": "slow",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 80,
+    "attack": 130,
+    "defense": 100,
+    "special_attack": 160,
+    "special_defense": 120,
+    "speed": 110
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "dragon",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 51,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "psywave",
+          "safeguard",
+          "memento",
+          "helping-hand",
+          "heal-block"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "refresh"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "luster-purge"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "dragon-dance"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "psycho-shift"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "power-split"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "telekinesis"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "stored-power"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "heal-pulse"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "fly",
+      "roar",
+      "surf",
+      "ice-beam",
+      "hyper-beam",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "psychic",
+      "double-team",
+      "recover",
+      "light-screen",
+      "reflect",
+      "waterfall",
+      "dream-eater",
+      "flash",
+      "psywave",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "icy-wind",
+      "outrage",
+      "sandstorm",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dragon-breath",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "memento",
+      "facade",
+      "helping-hand",
+      "trick",
+      "magic-coat",
+      "refresh",
+      "secret-power",
+      "dive",
+      "luster-purge",
+      "aerial-ace",
+      "dragon-claw",
+      "calm-mind",
+      "dragon-dance",
+      "shock-wave",
+      "water-pulse",
+      "roost",
+      "tailwind",
+      "psycho-shift",
+      "heal-block",
+      "last-resort",
+      "dragon-pulse",
+      "energy-ball",
+      "giga-impact",
+      "shadow-claw",
+      "zen-headbutt",
+      "defog",
+      "draco-meteor",
+      "grass-knot",
+      "charge-beam",
+      "hone-claws",
+      "power-split",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "heal-pulse",
+      "retaliate",
+      "bulldoze",
+      "confide",
+      "laser-focus"
+    ]
+  },
+  "old_name": "latios_mega"
+}

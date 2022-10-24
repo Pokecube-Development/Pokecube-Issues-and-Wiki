@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.milotic"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.milotic"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_milotic": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "milotic"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

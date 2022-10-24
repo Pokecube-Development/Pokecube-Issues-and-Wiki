@@ -1,0 +1,14 @@
+{
+  "name": "eerie-impulse",
+  "id": 598,
+  "pp": 15,
+  "priority": 0,
+  "type": "electric",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user’s body generates an eerie impulse.\nExposing the target to it harshly lowers the target’s\nSp. Atk stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Lowers the target's Special Attack by two stages.",
+  "effect_text_simple": "Lowers the target's Special Attack by two stages."
+}

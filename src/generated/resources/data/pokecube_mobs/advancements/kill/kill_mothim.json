@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.mothim"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mothim"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_mothim": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "mothim"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

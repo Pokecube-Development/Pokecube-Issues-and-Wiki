@@ -1,0 +1,17 @@
+{
+  "name": "muddy-water",
+  "id": 330,
+  "power": 90,
+  "pp": 10,
+  "priority": 0,
+  "type": "water",
+  "accuracy": 85,
+  "target": "all-opponents",
+  "damage_class": "special",
+  "flavor_text": "The user attacks by shooting muddy water at the\nopposing Pokémon. This may also lower\ntheir accuracy.",
+  "move_category": "damage+lower",
+  "stat_chance": 30,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to lower the target's accuracy by one stage.",
+  "effect_text_simple": "Has a $effect_chance% chance to lower the target's accuracy by one stage.",
+  "effect_chance": 30
+}

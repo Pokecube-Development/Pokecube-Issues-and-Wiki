@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom-frost"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom-frost"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_rotom-frost": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "rotom-frost"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

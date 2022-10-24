@@ -1,0 +1,20 @@
+{
+  "name": "nuzzle",
+  "animations": [
+    {
+      "preset": "cartFunc:~nuzzle",
+      "duration": "0",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:ppowder:cyellow:d0.8:w1:rfalse:l7:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~nuzzle",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.thunderwave",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    }
+  ]
+}

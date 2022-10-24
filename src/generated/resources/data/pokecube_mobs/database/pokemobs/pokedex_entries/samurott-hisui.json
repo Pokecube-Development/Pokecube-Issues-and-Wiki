@@ -1,0 +1,115 @@
+{
+  "name": "samurott-hisui",
+  "id": 503,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 1.5,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 58.2,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 90,
+    "attack": 108,
+    "defense": 80,
+    "special_attack": 100,
+    "special_defense": 65,
+    "speed": 85
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "water",
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+      "shell-armor"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": []
+      },
+      {
+        "L": 35,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "hydro-pump"
+        ]
+      }
+    ],
+    "misc": [
+      "false-swipe",
+      "rock-smash",
+      "aerial-ace",
+      "focus-energy",
+      "poison-jab",
+      "psycho-cut",
+      "x-scissor",
+      "iron-tail",
+      "water-pulse",
+      "icy-wind",
+      "giga-impact",
+      "aqua-tail",
+      "megahorn",
+      "hyper-beam",
+      "ice-beam",
+      "dark-pulse"
+    ]
+  },
+  "old_name": "samurott_hisui"
+}

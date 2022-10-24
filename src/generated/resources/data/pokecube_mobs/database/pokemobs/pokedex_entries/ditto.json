@@ -1,0 +1,53 @@
+{
+  "name": "ditto",
+  "id": 132,
+  "stock": true,
+  "base_experience": 101,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 4.0,
+  "is_default": true,
+  "capture_rate": 35,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 48,
+    "attack": 48,
+    "defense": 48,
+    "special_attack": 48,
+    "special_defense": 48,
+    "speed": 48
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "limber"
+    ],
+    "hidden": [
+      "imposter"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "transform"
+        ]
+      }
+    ],
+    "misc": [
+      "transform"
+    ]
+  },
+  "loot_table": "pokecube:entities/slimeballs_1"
+}

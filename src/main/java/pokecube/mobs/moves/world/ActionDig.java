@@ -6,15 +6,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.IMoveAction;
+import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.moves.templates.Move_Basic;
+import pokecube.core.moves.MovesUtils;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
 
-public class ActionDig implements IMoveAction
+public class ActionDig implements IMoveWorldEffect
 {
     public ActionDig()
     {
@@ -49,7 +49,7 @@ public class ActionDig implements IMoveAction
         final Level world = digger.getEntity().getLevel();
         if (owner instanceof Player) player = (Player) owner;
         else player = PokecubeMod.getFakePlayer(world);
-        final boolean silky = Move_Basic.shouldSilk(digger) && player != null;
+        final boolean silky = MovesUtils.shouldSilk(digger) && player != null;
         final boolean dropAll = this.shouldDropAll(digger);
         final double uselessDrop = Math.pow((100 - digger.getLevel()) / 100d, 3);
         final Vector3 temp = new Vector3();
@@ -69,7 +69,7 @@ public class ActionDig implements IMoveAction
                         if (!count) if (!silky) temp.breakBlock(world, drop);
                         else
                         {
-                            Move_Basic.silkHarvest(state, temp.getPos(), world, player);
+                            MovesUtils.silkHarvest(state, temp.getPos(), world, player);
                             temp.breakBlock(world, drop);
                         }
                         ret++;

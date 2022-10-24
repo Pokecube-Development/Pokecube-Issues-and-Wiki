@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.dewott"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.dewott"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_dewott": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "dewott"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

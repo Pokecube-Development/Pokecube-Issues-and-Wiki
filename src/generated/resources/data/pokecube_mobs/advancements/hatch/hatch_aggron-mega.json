@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.aggron-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.aggron-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_aggron-mega": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "aggron-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

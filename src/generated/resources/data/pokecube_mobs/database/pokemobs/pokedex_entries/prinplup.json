@@ -1,0 +1,192 @@
+{
+  "name": "prinplup",
+  "id": 394,
+  "stock": true,
+  "base_experience": 142,
+  "size": {
+    "height": 0.8,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 23.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 64,
+    "attack": 66,
+    "defense": 68,
+    "special_attack": 81,
+    "special_defense": 76,
+    "speed": 50
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+      "defiant"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 28,
+        "moves": [
+          "fury-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl",
+          "bubble"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "mist"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "peck"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "drill-peck"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "bide"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "metal-claw"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "whirlpool"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "water-sport"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "brine"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "headbutt",
+      "fury-attack",
+      "tackle",
+      "growl",
+      "mist",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "peck",
+      "drill-peck",
+      "strength",
+      "dig",
+      "toxic",
+      "double-team",
+      "bide",
+      "waterfall",
+      "bubble",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "metal-claw",
+      "hidden-power",
+      "rain-dance",
+      "rock-smash",
+      "whirlpool",
+      "hail",
+      "facade",
+      "brick-break",
+      "secret-power",
+      "dive",
+      "rock-tomb",
+      "signal-beam",
+      "aerial-ace",
+      "covet",
+      "water-sport",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "pluck",
+      "fling",
+      "shadow-claw",
+      "defog",
+      "captivate",
+      "stealth-rock",
+      "grass-knot",
+      "hone-claws",
+      "round",
+      "echoed-voice",
+      "scald",
+      "quash",
+      "water-pledge",
+      "work-up",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_2",
+  "evolutions": [
+    {
+      "name": "empoleon",
+      "level": 36,
+      "evoMoves": "aquajet"
+    }
+  ]
+}

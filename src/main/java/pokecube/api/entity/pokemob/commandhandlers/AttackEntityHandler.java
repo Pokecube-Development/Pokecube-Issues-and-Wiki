@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.combat.CommandAttackEvent;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
@@ -43,7 +43,7 @@ public class AttackEntityHandler extends DefaultHandler
         PokecubeAPI.POKEMOB_BUS.post(event);
         if (!event.isCanceled() && currentMove != 5 && MovesUtils.canUseMove(pokemob))
         {
-            final Move_Base move = MovesUtils.getMoveFromName(pokemob.getMoves()[currentMove]);
+            final MoveEntry move = MovesUtils.getMove(pokemob.getMoves()[currentMove]);
             if (move.isSelfMove()) pokemob.executeMove(pokemob.getEntity(), null, 0);
             else
             {

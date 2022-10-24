@@ -1,0 +1,84 @@
+{
+  "name": "wurmple",
+  "id": 265,
+  "stock": true,
+  "base_experience": 56,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 3.6,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 45,
+    "attack": 45,
+    "defense": 35,
+    "special_attack": 20,
+    "special_defense": 30,
+    "speed": 20
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "bug"
+  ],
+  "abilities": {
+    "normal": [
+      "shield-dust"
+    ],
+    "hidden": [
+      "run-away"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "string-shot"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "poison-sting"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "bug-bite"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "poison-sting",
+      "string-shot",
+      "snore",
+      "bug-bite",
+      "electroweb"
+    ]
+  },
+  "loot_table": "minecraft:entities/spider",
+  "evolutions": [
+    {
+      "name": "silcoon",
+      "level": 7,
+      "chance": 0.5,
+      "evoMoves": "harden"
+    },
+    {
+      "name": "cascoon",
+      "level": 7,
+      "evoMoves": "harden"
+    }
+  ]
+}

@@ -34,9 +34,9 @@ import net.minecraftforge.network.NetworkHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.moves.IMoveAnimation.MovePacketInfo;
-import pokecube.api.moves.IMoveConstants;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveAnimation.MovePacketInfo;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.PokecubeCore;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
@@ -47,14 +47,14 @@ public class EntityMoveUse extends ThrowableProjectile
 {
     public static class Builder
     {
-        public static Builder make(final Entity user, final Move_Base move, final Vector3 start)
+        public static Builder make(final Entity user, final MoveEntry move, final Vector3 start)
         {
             return new Builder(user, move, start);
         }
 
         EntityMoveUse toMake;
 
-        protected Builder(final Entity user, final Move_Base move, final Vector3 start)
+        protected Builder(final Entity user, final MoveEntry move, final Vector3 start)
         {
             this.toMake = new EntityMoveUse(EntityTypes.getMove(), user.level);
             this.toMake.setUser(user).setMove(move).setStart(start).setEnd(start);
@@ -121,7 +121,7 @@ public class EntityMoveUse extends ThrowableProjectile
     Entity user = null;
     Entity target = null;
 
-    Move_Base move = null;
+    MoveEntry move = null;
 
     boolean applied = false;
     boolean onSelf = false;
@@ -173,9 +173,9 @@ public class EntityMoveUse extends ThrowableProjectile
         if (this.getUser() == null) return;
 
         this.size.clear();
-        this.contact = (this.move.move.attackCategory & IMoveConstants.CATEGORY_CONTACT) > 0;
+        this.contact = (this.move.attackCategory & IMoveConstants.CATEGORY_CONTACT) > 0;
         float s = 0;
-        if (this.move.aoe)
+        if (this.move.isAoE())
         {
             s = 8;
             this.size.set(s, s, s);
@@ -187,7 +187,7 @@ public class EntityMoveUse extends ThrowableProjectile
             final float height = this.getUser().getBbHeight() + s;
             this.size.set(width, height, width);
         }
-        if (this.move.move.customSize != null) this.size.set(this.move.move.customSize);
+        if (this.move.customSize != null) this.size.set(this.move.customSize);
 
         this.init = true;
         this.startAge = this.getDuration();
@@ -220,7 +220,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
     private void doMoveUse(final LivingEntity target)
     {
-        final Move_Base attack = this.getMove();
+        final MoveEntry attack = this.getMove();
         final Entity user = this.getUser();
         if (user == null || !this.isAlive() || !user.isAlive()) return;
 
@@ -236,14 +236,14 @@ public class EntityMoveUse extends ThrowableProjectile
 
         // Only hit multipart entities once
         // Only can hit our valid target!
-        if (targId != null && !attack.move.canHitNonTarget() && !targId.equals(targetID)) return;
+        if (targId != null && !attack.canHitNonTarget() && !targId.equals(targetID)) return;
         if (!this.level.isClientSide)
         {
             final IPokemob userMob = PokemobCaps.getPokemobFor(user);
             MovesUtils.doAttack(attack.name, userMob, target);
 
             // Don't penetrate through blocking mobs, so end the move here.
-            if (living.isBlocking() && !this.getMove().aoe)
+            if (living.isBlocking() && !this.getMove().isAoE())
             {
                 this.applied = true;
                 // We only apply this to do block effects, not for damage. For
@@ -272,12 +272,12 @@ public class EntityMoveUse extends ThrowableProjectile
         return this.end;
     }
 
-    public Move_Base getMove()
+    public MoveEntry getMove()
     {
         if (this.move != null) return this.move;
         final String name = this.getEntityData().get(EntityMoveUse.MOVENAME);
         if (name.isEmpty()) return null;
-        return this.move = MovesUtils.getMoveFromName(name);
+        return this.move = MovesUtils.getMove(name);
     }
 
     public MovePacketInfo getMoveInfo()
@@ -382,7 +382,7 @@ public class EntityMoveUse extends ThrowableProjectile
         return this;
     }
 
-    public EntityMoveUse setMove(final Move_Base move)
+    public EntityMoveUse setMove(final MoveEntry move)
     {
         this.move = move;
         String name = "";
@@ -398,7 +398,7 @@ public class EntityMoveUse extends ThrowableProjectile
         return this;
     }
 
-    public EntityMoveUse setMove(final Move_Base move, final int tickOffset)
+    public EntityMoveUse setMove(final MoveEntry move, final int tickOffset)
     {
         this.setMove(move);
         this.getEntityData().set(EntityMoveUse.STARTTICK, tickOffset);
@@ -457,7 +457,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
         this.prev.set(this.here);
         AABB testBox = this.getBoundingBox();
-        final Move_Base attack = this.getMove();
+        final MoveEntry attack = this.getMove();
 
         final List<AABB> hitboxes = Lists.newArrayList();
 
@@ -465,7 +465,7 @@ public class EntityMoveUse extends ThrowableProjectile
         final float sh = (float) Math.max(this.size.x, this.size.z) / 2;
         final float sv = (float) this.size.y / 2;
 
-        if (attack.aoe)
+        if (attack.isAoE())
         {
             // AOE moves are just a 8-radius box around us.
             final double frac = 2 * (this.startAge - this.getDuration()) / this.startAge;

@@ -1,0 +1,42 @@
+{
+  "name": "hatterene-gmax",
+  "id": 858,
+  "stock": true,
+  "base_experience": 255,
+  "size": {
+    "height": 6.0,
+    "width": 4.0,
+    "length": 4.0
+  },
+  "mass": 1000.0,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 57,
+    "attack": 90,
+    "defense": 95,
+    "special_attack": 136,
+    "special_defense": 103,
+    "speed": 29
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "psychic",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "healer",
+      "anticipation"
+    ],
+    "hidden": [
+      "magic-bounce"
+    ]
+  },
+  "old_name": "hatterene_gigantamax"
+}

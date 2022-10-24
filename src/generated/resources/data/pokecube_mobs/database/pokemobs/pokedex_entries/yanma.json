@@ -1,0 +1,214 @@
+{
+  "name": "yanma",
+  "id": 193,
+  "stock": true,
+  "base_experience": 78,
+  "size": {
+    "height": 0.5,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 38.0,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 65,
+    "attack": 65,
+    "defense": 45,
+    "special_attack": 75,
+    "special_defense": 45,
+    "speed": 95
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "bug",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "speed-boost",
+      "compound-eyes"
+    ],
+    "hidden": [
+      "frisk"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 43,
+        "moves": [
+          "wing-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "foresight"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "supersonic"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "sonic-boom"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "double-team"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "detect"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "pursuit"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "uproar"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "u-turn"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "bug-buzz"
+        ]
+      }
+    ],
+    "misc": [
+      "wing-attack",
+      "whirlwind",
+      "headbutt",
+      "tackle",
+      "double-edge",
+      "supersonic",
+      "sonic-boom",
+      "solar-beam",
+      "string-shot",
+      "toxic",
+      "psychic",
+      "hypnosis",
+      "quick-attack",
+      "mimic",
+      "screech",
+      "double-team",
+      "swift",
+      "dream-eater",
+      "leech-life",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "reversal",
+      "protect",
+      "feint-attack",
+      "foresight",
+      "detect",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pursuit",
+      "hidden-power",
+      "sunny-day",
+      "ancient-power",
+      "shadow-ball",
+      "uproar",
+      "facade",
+      "secret-power",
+      "air-cutter",
+      "silver-wind",
+      "signal-beam",
+      "aerial-ace",
+      "roost",
+      "natural-gift",
+      "feint",
+      "tailwind",
+      "u-turn",
+      "air-slash",
+      "bug-buzz",
+      "defog",
+      "captivate",
+      "bug-bite",
+      "ominous-wind",
+      "round",
+      "confide"
+    ]
+  },
+  "loot_table": "minecraft:entities/spider",
+  "evolutions": [
+    {
+      "name": "yanmega",
+      "move": "ancientpower"
+    }
+  ]
+}

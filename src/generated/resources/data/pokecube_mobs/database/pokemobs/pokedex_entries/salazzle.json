@@ -1,0 +1,212 @@
+{
+  "name": "salazzle",
+  "id": 758,
+  "stock": true,
+  "base_experience": 168,
+  "size": {
+    "height": 1.2,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 22.2,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 68,
+    "attack": 64,
+    "defense": 60,
+    "special_attack": 111,
+    "special_defense": 60,
+    "speed": 117
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "poison",
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "corrosion"
+    ],
+    "hidden": [
+      "oblivious"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "scratch",
+          "disable",
+          "ember",
+          "poison-gas",
+          "swagger",
+          "encore",
+          "sweet-scent",
+          "torment",
+          "knock-off",
+          "endeavor"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "double-slap"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "dragon-rage"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "smog"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "poison-fang"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "captivate",
+          "fire-lash"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "venoshock"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "flame-burst"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "incinerate"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "venom-drench"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "double-slap",
+      "disable",
+      "ember",
+      "flamethrower",
+      "dragon-rage",
+      "thunder-wave",
+      "toxic",
+      "double-team",
+      "smog",
+      "fire-blast",
+      "swift",
+      "poison-gas",
+      "leech-life",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "sludge-bomb",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "encore",
+      "sweet-scent",
+      "iron-tail",
+      "hidden-power",
+      "beat-up",
+      "heat-wave",
+      "torment",
+      "will-o-wisp",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "knock-off",
+      "snatch",
+      "fake-tears",
+      "overheat",
+      "dragon-claw",
+      "covet",
+      "dragon-dance",
+      "payback",
+      "fling",
+      "flare-blitz",
+      "poison-jab",
+      "dragon-pulse",
+      "nasty-plot",
+      "shadow-claw",
+      "cross-poison",
+      "gunk-shot",
+      "captivate",
+      "venoshock",
+      "flame-burst",
+      "sludge-wave",
+      "flame-charge",
+      "foul-play",
+      "round",
+      "acrobatics",
+      "dragon-tail",
+      "confide",
+      "venom-drench",
+      "laser-focus",
+      "fire-lash",
+      "breaking-swipe",
+      "scale-shot",
+      "skitter-smack",
+      "corrosive-gas"
+    ]
+  },
+  "loot_table": "pokecube:entities/blaze_rabbit_2"
+}

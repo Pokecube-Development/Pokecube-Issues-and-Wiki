@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.dusclops"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.dusclops"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_dusclops": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "dusclops"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

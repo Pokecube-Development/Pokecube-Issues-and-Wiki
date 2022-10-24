@@ -3,7 +3,7 @@ package pokecube.mobs.moves.attacks.psychic;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.templates.Move_Basic;
 
@@ -12,7 +12,7 @@ public class MovePsychoShift extends Move_Basic
 
     public MovePsychoShift()
     {
-        super("psychoshift");
+        super("psycho-shift");
     }
 
     @Override

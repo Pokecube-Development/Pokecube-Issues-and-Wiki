@@ -5,7 +5,7 @@ import java.util.function.Predicate;
 
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.utils.MoveApplication;
 
 public class JsonAbility extends Ability
 {
@@ -13,14 +13,14 @@ public class JsonAbility extends Ability
     public Predicate<IPokemob> _onMoveUseCheckUser = p -> false;
     public Predicate<IPokemob> _onAgressCheckUser = p -> false;
 
-    public Predicate<MovePacket> _onMoveUseCheckMove = p -> false;
+    public Predicate<MoveApplication> _onMoveUseCheckMove = p -> false;
     public Predicate<LivingEntity> _onAgressCheckTarget = p -> false;
 
     public Consumer<IPokemob> _onUpdateApplyUser = p -> {};
     public Consumer<IPokemob> _onMoveUseApplyUser = p -> {};
     public Consumer<IPokemob> _onAggressApplyUser = p -> {};
     
-    public Consumer<MovePacket> _onMoveUseApplyMove = p -> {};
+    public Consumer<MoveApplication> _onMoveUseApplyMove = p -> {};
     public Consumer<LivingEntity> _onAgressApplyTarget = p -> {};
 
     @Override
@@ -30,7 +30,7 @@ public class JsonAbility extends Ability
     }
 
     @Override
-    public void onMoveUse(IPokemob mob, MovePacket move)
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
         if (_onMoveUseCheckUser.test(mob)) _onMoveUseApplyUser.accept(mob);
         if (_onMoveUseCheckMove.test(move)) _onMoveUseApplyMove.accept(move);

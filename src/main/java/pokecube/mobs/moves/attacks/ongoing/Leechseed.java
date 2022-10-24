@@ -12,7 +12,7 @@ public class Leechseed extends Move_Ongoing
 
     public Leechseed()
     {
-        super("leechseed");
+        super("leech-seed");
     }
 
     @Override

@@ -1,0 +1,167 @@
+{
+  "name": "cursola",
+  "id": 864,
+  "stock": true,
+  "base_experience": 179,
+  "size": {
+    "height": 1.0,
+    "width": 0.7,
+    "length": 0.6
+  },
+  "mass": 0.4,
+  "is_default": true,
+  "capture_rate": 30,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 60,
+    "attack": 95,
+    "defense": 50,
+    "special_attack": 145,
+    "special_defense": 130,
+    "speed": 30
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "weak-armor"
+    ],
+    "hidden": [
+      "perish-body"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "disable",
+          "harden",
+          "perish-song",
+          "astonish"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "night-shade"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "spite"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "mirror-coat"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "grudge"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "hex"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "strength-sap"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "pin-missile",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "earthquake",
+      "dig",
+      "psychic",
+      "screech",
+      "light-screen",
+      "reflect",
+      "self-destruct",
+      "amnesia",
+      "leech-life",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "icy-wind",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "safeguard",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "whirlpool",
+      "hail",
+      "will-o-wisp",
+      "facade",
+      "revenge",
+      "rock-tomb",
+      "icicle-spear",
+      "iron-defense",
+      "calm-mind",
+      "rock-blast",
+      "brine",
+      "power-gem",
+      "earth-power",
+      "giga-impact",
+      "stone-edge",
+      "stealth-rock",
+      "round",
+      "scald",
+      "hex",
+      "bulldoze",
+      "throat-chop",
+      "stomping-tantrum",
+      "liquidation",
+      "meteor-beam",
+      "burning-jealousy",
+      "poltergeist"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_2"
+}

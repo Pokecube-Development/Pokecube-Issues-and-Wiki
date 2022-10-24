@@ -2,18 +2,16 @@ package pokecube.mobs.abilities.simple;
 
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.moves.MovesUtils;
 
 public class CottonDown extends Ability
 {
-	@Override
-    public void onMoveUse(final IPokemob mob, final MovePacket move)
+    @Override
+    public void postMoveUse(final IPokemob mob, final MoveApplication move)
     {
-		final IPokemob attacker = move.attacker;
-        if (attacker == mob || move.pre || attacker == move.attacked) return;
-        if (move.hit) MovesUtils.handleStats2(mob, attacker.getEntity(),
-        		IMoveConstants.VIT, IMoveConstants.FALL);
+        if (!areWeTarget(mob, move)) return;
+        if (move.hit) MovesUtils.handleStats2(mob, move.getUser().getEntity(), IMoveConstants.VIT, IMoveConstants.FALL);
     }
 }

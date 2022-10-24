@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.cramorant-gulping"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.cramorant-gulping"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_cramorant-gulping": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "cramorant-gulping"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

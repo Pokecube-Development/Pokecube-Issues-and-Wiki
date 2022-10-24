@@ -1,0 +1,182 @@
+{
+  "name": "corsola-galar",
+  "id": 222,
+  "stock": true,
+  "base_experience": 144,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 0.5,
+  "is_default": false,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 60,
+    "attack": 55,
+    "defense": 100,
+    "special_attack": 65,
+    "special_defense": 100,
+    "speed": 30
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "weak-armor"
+    ],
+    "hidden": [
+      "cursed-body"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "harden"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "disable"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "night-shade"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "spite"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "mirror-coat"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "grudge"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "astonish"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "hex"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "strength-sap"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "earthquake",
+      "dig",
+      "psychic",
+      "screech",
+      "confuse-ray",
+      "light-screen",
+      "haze",
+      "reflect",
+      "self-destruct",
+      "amnesia",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "destiny-bond",
+      "icy-wind",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "safeguard",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "whirlpool",
+      "hail",
+      "will-o-wisp",
+      "facade",
+      "nature-power",
+      "rock-tomb",
+      "icicle-spear",
+      "iron-defense",
+      "calm-mind",
+      "rock-blast",
+      "water-pulse",
+      "brine",
+      "power-gem",
+      "earth-power",
+      "stone-edge",
+      "stealth-rock",
+      "head-smash",
+      "round",
+      "scald",
+      "hex",
+      "bulldoze",
+      "throat-chop",
+      "stomping-tantrum",
+      "liquidation",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_1",
+  "evolutions": [
+    {
+      "name": "cursola",
+      "level": 38
+    }
+  ],
+  "old_name": "corsola_galar"
+}

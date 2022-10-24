@@ -1,0 +1,224 @@
+{
+  "name": "gothorita",
+  "id": 575,
+  "stock": true,
+  "base_experience": 137,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 18.0,
+  "is_default": true,
+  "capture_rate": 100,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 60,
+    "attack": 45,
+    "defense": 70,
+    "special_attack": 75,
+    "special_defense": 85,
+    "speed": 55
+  },
+  "evs": {
+    "special_defense": 2
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "frisk",
+      "competitive"
+    ],
+    "hidden": [
+      "shadow-tag"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "confusion",
+          "tickle",
+          "play-nice"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "double-slap"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "hypnosis",
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "psych-up"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "flatter"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "fake-tears"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "embargo"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "heal-block"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "psyshock"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "telekinesis"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "magic-room"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "double-slap",
+      "psybeam",
+      "thunderbolt",
+      "thunder-wave",
+      "toxic",
+      "confusion",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "dream-eater",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "feint-attack",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "rain-dance",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "uproar",
+      "torment",
+      "flatter",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "fake-tears",
+      "rock-tomb",
+      "tickle",
+      "signal-beam",
+      "covet",
+      "calm-mind",
+      "shock-wave",
+      "gravity",
+      "payback",
+      "embargo",
+      "fling",
+      "heal-block",
+      "guard-swap",
+      "dark-pulse",
+      "energy-ball",
+      "nasty-plot",
+      "zen-headbutt",
+      "trick-room",
+      "grass-knot",
+      "charge-beam",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "foul-play",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "play-nice",
+      "confide",
+      "expanding-force"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_2",
+  "evolutions": [
+    {
+      "name": "gothitelle",
+      "level": 41
+    }
+  ]
+}

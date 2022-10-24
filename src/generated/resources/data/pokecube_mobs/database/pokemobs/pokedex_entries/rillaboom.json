@@ -1,0 +1,170 @@
+{
+  "name": "rillaboom",
+  "id": 812,
+  "stock": true,
+  "base_experience": 265,
+  "size": {
+    "height": 2.1,
+    "width": 2.1,
+    "length": 2.1
+  },
+  "mass": 90.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 100,
+    "attack": 125,
+    "defense": 90,
+    "special_attack": 60,
+    "special_defense": 70,
+    "speed": 85
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+      "grassy-surge"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "growl",
+          "taunt",
+          "double-hit",
+          "noble-roar",
+          "grassy-terrain",
+          "branch-poke"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "uproar"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "endeavor"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "wood-hammer"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "boomburst"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "drum-beating"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "swords-dance",
+      "mega-kick",
+      "body-slam",
+      "hyper-beam",
+      "low-kick",
+      "solar-beam",
+      "earthquake",
+      "screech",
+      "focus-energy",
+      "swift",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "giga-drain",
+      "endure",
+      "false-swipe",
+      "attract",
+      "sleep-talk",
+      "sunny-day",
+      "uproar",
+      "facade",
+      "taunt",
+      "superpower",
+      "brick-break",
+      "hyper-voice",
+      "bullet-seed",
+      "frenzy-plant",
+      "bulk-up",
+      "mud-shot",
+      "magical-leaf",
+      "u-turn",
+      "assurance",
+      "fling",
+      "drain-punch",
+      "focus-blast",
+      "energy-ball",
+      "earth-power",
+      "giga-impact",
+      "leaf-storm",
+      "grass-knot",
+      "round",
+      "acrobatics",
+      "grass-pledge",
+      "bulldoze",
+      "work-up",
+      "snarl",
+      "grassy-terrain",
+      "darkest-lariat",
+      "high-horsepower",
+      "solar-blade",
+      "brutal-swing",
+      "stomping-tantrum",
+      "body-press",
+      "drum-beating",
+      "grassy-glide"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_3"
+}

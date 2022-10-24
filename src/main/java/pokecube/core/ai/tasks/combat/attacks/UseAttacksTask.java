@@ -14,7 +14,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.combat.CombatTask;
@@ -46,7 +46,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
     /** Where the target is/was for attack. */
     Vector3 targetLoc = new Vector3();
     /** Move we are using */
-    Move_Base attack;
+    MoveEntry attack;
 
     /** Temp vectors for checking things. */
     Vector3 v = new Vector3();

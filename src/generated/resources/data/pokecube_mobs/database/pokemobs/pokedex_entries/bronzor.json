@@ -1,0 +1,219 @@
+{
+  "name": "bronzor",
+  "id": 436,
+  "stock": true,
+  "base_experience": 60,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 60.5,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 57,
+    "attack": 24,
+    "defense": 86,
+    "special_attack": 24,
+    "special_defense": 86,
+    "speed": 23
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "steel",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate",
+      "heatproof"
+    ],
+    "hidden": [
+      "heavy-metal"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "confusion"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "psywave"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "imprison"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "gyro-ball"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "heal-block"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "heavy-slam"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "solar-beam",
+      "earthquake",
+      "toxic",
+      "confusion",
+      "psychic",
+      "hypnosis",
+      "double-team",
+      "confuse-ray",
+      "light-screen",
+      "reflect",
+      "dream-eater",
+      "flash",
+      "psywave",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "feint-attack",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "shadow-ball",
+      "future-sight",
+      "facade",
+      "trick",
+      "recycle",
+      "skill-swap",
+      "imprison",
+      "secret-power",
+      "rock-tomb",
+      "metal-sound",
+      "signal-beam",
+      "extrasensory",
+      "iron-defense",
+      "calm-mind",
+      "gravity",
+      "gyro-ball",
+      "natural-gift",
+      "payback",
+      "heal-block",
+      "power-swap",
+      "guard-swap",
+      "rock-polish",
+      "flash-cannon",
+      "trick-room",
+      "stealth-rock",
+      "grass-knot",
+      "charge-beam",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "heavy-slam",
+      "round",
+      "ally-switch",
+      "hex",
+      "bulldoze",
+      "confide",
+      "speed-swap",
+      "steel-beam",
+      "expanding-force",
+      "steel-roller"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_1",
+  "evolutions": [
+    {
+      "name": "bronzong",
+      "level": 33,
+      "evoMoves": "block"
+    }
+  ]
+}

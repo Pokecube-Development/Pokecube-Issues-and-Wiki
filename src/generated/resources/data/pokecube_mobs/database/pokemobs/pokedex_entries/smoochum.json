@@ -1,0 +1,244 @@
+{
+  "name": "smoochum",
+  "id": 238,
+  "stock": true,
+  "base_experience": 61,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 6.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 45,
+    "attack": 30,
+    "defense": 15,
+    "special_attack": 85,
+    "special_defense": 65,
+    "speed": 65
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "ice",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "oblivious",
+      "forewarn"
+    ],
+    "hidden": [
+      "hydration"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "ice-punch",
+          "fake-tears"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "sing"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "lick"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "powder-snow"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "sweet-kiss"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "perish-song"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "mean-look"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "covet"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "copycat"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "avalanche"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "heart-stamp"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "mega-punch",
+      "ice-punch",
+      "mega-kick",
+      "body-slam",
+      "double-edge",
+      "sing",
+      "ice-beam",
+      "blizzard",
+      "counter",
+      "seismic-toss",
+      "toxic",
+      "confusion",
+      "psychic",
+      "meditate",
+      "mimic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "metronome",
+      "lick",
+      "dream-eater",
+      "lovely-kiss",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "curse",
+      "powder-snow",
+      "protect",
+      "sweet-kiss",
+      "mud-slap",
+      "perish-song",
+      "icy-wind",
+      "endure",
+      "charm",
+      "swagger",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "encore",
+      "sweet-scent",
+      "hidden-power",
+      "rain-dance",
+      "psych-up",
+      "shadow-ball",
+      "fake-out",
+      "uproar",
+      "hail",
+      "facade",
+      "helping-hand",
+      "trick",
+      "role-play",
+      "wish",
+      "magic-coat",
+      "recycle",
+      "skill-swap",
+      "secret-power",
+      "fake-tears",
+      "signal-beam",
+      "covet",
+      "calm-mind",
+      "water-pulse",
+      "miracle-eye",
+      "wake-up-slap",
+      "natural-gift",
+      "payback",
+      "fling",
+      "lucky-chant",
+      "copycat",
+      "nasty-plot",
+      "avalanche",
+      "zen-headbutt",
+      "trick-room",
+      "captivate",
+      "grass-knot",
+      "wonder-room",
+      "psyshock",
+      "magic-room",
+      "round",
+      "echoed-voice",
+      "stored-power",
+      "frost-breath",
+      "heart-stamp",
+      "draining-kiss",
+      "confide",
+      "aurora-veil"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "jynx",
+      "level": 30
+    }
+  ]
+}

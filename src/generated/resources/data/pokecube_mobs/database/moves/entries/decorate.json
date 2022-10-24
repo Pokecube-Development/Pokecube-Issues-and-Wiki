@@ -1,0 +1,13 @@
+{
+  "name": "decorate",
+  "id": 777,
+  "pp": 15,
+  "priority": 0,
+  "type": "fairy",
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user sharply raises the target’s Attack and Sp. Atk\nstats by decorating the target.",
+  "move_category": "net-good-stats",
+  "stat_chance": 100,
+  "effect_chance": 100
+}

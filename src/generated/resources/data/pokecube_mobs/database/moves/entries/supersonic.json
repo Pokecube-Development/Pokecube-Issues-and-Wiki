@@ -1,0 +1,16 @@
+{
+  "name": "supersonic",
+  "id": 48,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 55,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user generates odd sound waves from its body\nthat confuse the target.",
+  "move_category": "ailment",
+  "max_turns": 5,
+  "min_turns": 2,
+  "effect_text_extend": "Confuses the target.",
+  "effect_text_simple": "Confuses the target."
+}

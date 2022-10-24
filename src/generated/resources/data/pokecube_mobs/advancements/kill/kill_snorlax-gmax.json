@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.snorlax-gmax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.snorlax-gmax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_snorlax-gmax": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "snorlax-gmax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

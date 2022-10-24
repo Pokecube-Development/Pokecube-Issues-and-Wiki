@@ -1,0 +1,224 @@
+{
+  "name": "aurorus",
+  "id": 699,
+  "stock": true,
+  "base_experience": 104,
+  "size": {
+    "height": 2.7,
+    "width": 2.0,
+    "length": 2.7
+  },
+  "mass": 225.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 123,
+    "attack": 77,
+    "defense": 72,
+    "special_attack": 99,
+    "special_defense": 92,
+    "speed": 58
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "rock",
+    "ice"
+  ],
+  "abilities": {
+    "normal": [
+      "refrigerate"
+    ],
+    "hidden": [
+      "snow-warning"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 15,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "growl",
+          "thunder-wave",
+          "rock-throw",
+          "powder-snow"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "mist"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "ice-beam"
+        ]
+      },
+      {
+        "L": 74,
+        "moves": [
+          "blizzard"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "aurora-beam"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "icy-wind"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "encore"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "hail"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "nature-power"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "avalanche"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "round"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "freeze-dry"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "take-down",
+      "growl",
+      "roar",
+      "mist",
+      "ice-beam",
+      "blizzard",
+      "aurora-beam",
+      "hyper-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "rock-throw",
+      "earthquake",
+      "toxic",
+      "psychic",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "dream-eater",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "powder-snow",
+      "protect",
+      "icy-wind",
+      "outrage",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "psych-up",
+      "ancient-power",
+      "rock-smash",
+      "hail",
+      "facade",
+      "nature-power",
+      "secret-power",
+      "hyper-voice",
+      "weather-ball",
+      "rock-tomb",
+      "icicle-spear",
+      "iron-defense",
+      "mud-shot",
+      "calm-mind",
+      "rock-blast",
+      "water-pulse",
+      "magnet-rise",
+      "rock-polish",
+      "dark-pulse",
+      "aqua-tail",
+      "earth-power",
+      "giga-impact",
+      "avalanche",
+      "zen-headbutt",
+      "flash-cannon",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "charge-beam",
+      "round",
+      "echoed-voice",
+      "bulldoze",
+      "frost-breath",
+      "dragon-tail",
+      "freeze-dry",
+      "confide",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/fossil_mob"
+}

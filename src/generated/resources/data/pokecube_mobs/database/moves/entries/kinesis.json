@@ -1,0 +1,14 @@
+{
+  "name": "kinesis",
+  "id": 134,
+  "pp": 15,
+  "priority": 0,
+  "type": "psychic",
+  "accuracy": 80,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user distracts the target by bending a spoon.\nThis lowers the target’s accuracy.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Lowers the target's accuracy by one stage.",
+  "effect_text_simple": "Lowers the target's accuracy by one stage."
+}

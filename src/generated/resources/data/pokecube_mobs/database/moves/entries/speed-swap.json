@@ -1,0 +1,13 @@
+{
+  "name": "speed-swap",
+  "id": 683,
+  "pp": 10,
+  "priority": 0,
+  "type": "psychic",
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user exchanges Speed stats with the target.",
+  "move_category": "unique",
+  "effect_text_extend": "Exchanges the original Speed stats of the user and target.",
+  "effect_text_simple": "Exchanges the user's Speed with the target's."
+}

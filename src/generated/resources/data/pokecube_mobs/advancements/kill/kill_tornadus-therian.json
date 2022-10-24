@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tornadus-therian"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tornadus-therian"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_tornadus-therian": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "tornadus-therian"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

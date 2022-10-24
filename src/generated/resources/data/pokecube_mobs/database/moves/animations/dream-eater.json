@@ -1,0 +1,20 @@
+{
+  "name": "dreameater",
+  "animations": [
+    {
+      "preset": "pons:pwitch:~dreameater",
+      "duration": "2",
+      "starttick": "0",
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.7
+    },
+    {
+      "preset": "pont:pwitch:~dreameater",
+      "duration": "3",
+      "starttick": "2"
+    }
+  ]
+}

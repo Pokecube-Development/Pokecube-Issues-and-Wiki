@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.leavanny"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.leavanny"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_leavanny": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "leavanny"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,229 @@
+{
+  "name": "ambipom",
+  "id": 424,
+  "stock": true,
+  "base_experience": 169,
+  "size": {
+    "height": 1.2,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 20.3,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 100,
+  "growth_rate": "fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 75,
+    "attack": 100,
+    "defense": 66,
+    "special_attack": 60,
+    "special_defense": 66,
+    "speed": 115
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "technician",
+      "pickup"
+    ],
+    "hidden": [
+      "skill-link"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "sand-attack",
+          "tail-whip",
+          "astonish",
+          "dual-chop"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "baton-pass"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "tickle"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "fling"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "last-resort"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "double-hit"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "scratch",
+      "cut",
+      "sand-attack",
+      "headbutt",
+      "tail-whip",
+      "hyper-beam",
+      "low-kick",
+      "strength",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "toxic",
+      "agility",
+      "screech",
+      "double-team",
+      "swift",
+      "dream-eater",
+      "fury-swipes",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "mud-slap",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "baton-pass",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "shadow-ball",
+      "rock-smash",
+      "uproar",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "role-play",
+      "brick-break",
+      "knock-off",
+      "snatch",
+      "secret-power",
+      "astonish",
+      "tickle",
+      "aerial-ace",
+      "bounce",
+      "covet",
+      "shock-wave",
+      "water-pulse",
+      "natural-gift",
+      "u-turn",
+      "payback",
+      "fling",
+      "last-resort",
+      "seed-bomb",
+      "giga-impact",
+      "nasty-plot",
+      "shadow-claw",
+      "gunk-shot",
+      "captivate",
+      "grass-knot",
+      "double-hit",
+      "hone-claws",
+      "low-sweep",
+      "foul-play",
+      "round",
+      "acrobatics",
+      "retaliate",
+      "work-up",
+      "dual-chop",
+      "confide",
+      "power-up-punch",
+      "laser-focus"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

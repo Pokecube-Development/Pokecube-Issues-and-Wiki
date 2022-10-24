@@ -1,0 +1,241 @@
+{
+  "name": "scraggy",
+  "id": 559,
+  "stock": true,
+  "base_experience": 70,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 11.8,
+  "is_default": true,
+  "capture_rate": 180,
+  "base_happiness": 35,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 50,
+    "attack": 75,
+    "defense": 70,
+    "special_attack": 35,
+    "special_defense": 70,
+    "speed": 48
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "dark",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "shed-skin",
+      "moxie"
+    ],
+    "hidden": [
+      "intimidate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 5,
+        "moves": [
+          "sand-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "headbutt",
+          "leer"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "low-kick"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "high-jump-kick"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "protect",
+          "payback"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "beat-up"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "facade"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "focus-punch"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "brick-break"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "rock-climb"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "head-smash"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "chip-away"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "sand-attack",
+      "headbutt",
+      "leer",
+      "roar",
+      "low-kick",
+      "counter",
+      "strength",
+      "dig",
+      "toxic",
+      "double-team",
+      "amnesia",
+      "high-jump-kick",
+      "rest",
+      "rock-slide",
+      "super-fang",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "scary-face",
+      "feint-attack",
+      "sludge-bomb",
+      "detect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "beat-up",
+      "fake-out",
+      "torment",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "revenge",
+      "brick-break",
+      "knock-off",
+      "snatch",
+      "secret-power",
+      "fake-tears",
+      "rock-tomb",
+      "iron-defense",
+      "dragon-claw",
+      "bulk-up",
+      "dragon-dance",
+      "payback",
+      "assurance",
+      "fling",
+      "poison-jab",
+      "dark-pulse",
+      "dragon-pulse",
+      "drain-punch",
+      "focus-blast",
+      "zen-headbutt",
+      "rock-climb",
+      "iron-head",
+      "stone-edge",
+      "grass-knot",
+      "head-smash",
+      "smack-down",
+      "low-sweep",
+      "acid-spray",
+      "foul-play",
+      "round",
+      "chip-away",
+      "quick-guard",
+      "incinerate",
+      "retaliate",
+      "dragon-tail",
+      "work-up",
+      "dual-chop",
+      "snarl",
+      "confide",
+      "power-up-punch",
+      "lash-out",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "scrafty",
+      "level": 39
+    }
+  ]
+}

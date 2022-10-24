@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.hariyama"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hariyama"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_hariyama": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "hariyama"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

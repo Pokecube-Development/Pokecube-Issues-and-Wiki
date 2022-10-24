@@ -183,8 +183,8 @@ public class StatueEntity extends BlockEntity
                 float d1 = (1 - r0);
                 float s = d1;
 
-                boolean sameType1 = entry.getType1() != PokeType.unknown && event.entry().isType(entry.getType1());
-                boolean sameType2 = entry.getType2() != PokeType.unknown && event.entry().isType(entry.getType2());
+                boolean sameType1 = pokemob.getType1() != PokeType.unknown && event.entry().isType(pokemob.getType1());
+                boolean sameType2 = pokemob.getType2() != PokeType.unknown && event.entry().isType(pokemob.getType2());
 
                 int n = 1;
                 if (sameType1) n++;

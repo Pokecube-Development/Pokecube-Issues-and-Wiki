@@ -1,0 +1,162 @@
+{
+  "name": "regidrago",
+  "id": 895,
+  "stock": true,
+  "base_experience": 290,
+  "size": {
+    "height": 2.1,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 200.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 200,
+    "attack": 100,
+    "defense": 50,
+    "special_attack": 100,
+    "special_defense": 50,
+    "speed": 80
+  },
+  "evs": {
+    "hp": 3
+  },
+  "types": [
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "dragons-maw"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "vice-grip",
+          "twister"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 72,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 78,
+        "moves": [
+          "explosion"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "dragon-claw"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "dragon-dance"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "hammer-arm"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "laser-focus"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "dragon-energy"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "hyper-beam",
+      "light-screen",
+      "reflect",
+      "focus-energy",
+      "self-destruct",
+      "rest",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "outrage",
+      "endure",
+      "sleep-talk",
+      "crunch",
+      "facade",
+      "dragon-claw",
+      "dragon-dance",
+      "dragon-pulse",
+      "giga-impact",
+      "thunder-fang",
+      "fire-fang",
+      "draco-meteor",
+      "round",
+      "breaking-swipe",
+      "scale-shot"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_1",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:regidrago_temple",
+        "rate": "0.0"
+      }
+    }
+  ]
+}

@@ -1,0 +1,190 @@
+{
+  "name": "wormadam-sandy",
+  "id": 413,
+  "stock": true,
+  "base_experience": 148,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 6.5,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 254,
+  "stats": {
+    "hp": 60,
+    "attack": 79,
+    "defense": 105,
+    "special_attack": 59,
+    "special_defense": 85,
+    "speed": 36
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "bug",
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "anticipation"
+    ],
+    "hidden": [
+      "overcoat"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "protect",
+          "sucker-punch",
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "fissure"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "harden"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "attract"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "hidden-power"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "rock-blast"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "captivate"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "quiver-dance"
+        ]
+      }
+    ],
+    "misc": [
+      "tackle",
+      "psybeam",
+      "hyper-beam",
+      "string-shot",
+      "earthquake",
+      "fissure",
+      "dig",
+      "toxic",
+      "confusion",
+      "psychic",
+      "double-team",
+      "harden",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "flail",
+      "protect",
+      "mud-slap",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "uproar",
+      "facade",
+      "endeavor",
+      "skill-swap",
+      "secret-power",
+      "rock-tomb",
+      "signal-beam",
+      "rock-blast",
+      "natural-gift",
+      "sucker-punch",
+      "bug-buzz",
+      "earth-power",
+      "giga-impact",
+      "captivate",
+      "stealth-rock",
+      "bug-bite",
+      "venoshock",
+      "telekinesis",
+      "quiver-dance",
+      "round",
+      "ally-switch",
+      "struggle-bug",
+      "bulldoze",
+      "electroweb",
+      "confide",
+      "infestation"
+    ]
+  },
+  "loot_table": "pokecube:entities/sand_2",
+  "old_name": "wormadam_sandy"
+}

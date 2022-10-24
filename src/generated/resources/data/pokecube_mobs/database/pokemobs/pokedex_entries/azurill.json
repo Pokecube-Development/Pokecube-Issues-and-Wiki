@@ -1,0 +1,180 @@
+{
+  "name": "azurill",
+  "id": 298,
+  "stock": true,
+  "base_experience": 38,
+  "size": {
+    "height": 0.2,
+    "width": 0.2,
+    "length": 0.2
+  },
+  "mass": 2.0,
+  "is_default": true,
+  "capture_rate": 150,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 50,
+    "attack": 20,
+    "defense": 40,
+    "special_attack": 20,
+    "special_defense": 40,
+    "speed": 20
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "normal",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "thick-fat",
+      "huge-power"
+    ],
+    "hidden": [
+      "sap-sipper"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 20,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 2,
+        "moves": [
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "water-gun",
+          "splash"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "bubble"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "water-sport"
+        ]
+      }
+    ],
+    "misc": [
+      "slam",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "tail-whip",
+      "sing",
+      "supersonic",
+      "water-gun",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "toxic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "light-screen",
+      "waterfall",
+      "swift",
+      "bubble",
+      "splash",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "belly-drum",
+      "mud-slap",
+      "perish-song",
+      "icy-wind",
+      "endure",
+      "charm",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "present",
+      "frustration",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "whirlpool",
+      "uproar",
+      "hail",
+      "facade",
+      "helping-hand",
+      "knock-off",
+      "refresh",
+      "secret-power",
+      "camouflage",
+      "hyper-voice",
+      "fake-tears",
+      "tickle",
+      "muddy-water",
+      "bounce",
+      "mud-shot",
+      "covet",
+      "water-sport",
+      "water-pulse",
+      "natural-gift",
+      "copycat",
+      "captivate",
+      "aqua-jet",
+      "soak",
+      "round",
+      "scald",
+      "work-up",
+      "draining-kiss",
+      "confide",
+      "brutal-swing"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1",
+  "evolutions": [
+    {
+      "name": "marill",
+      "happy": true
+    }
+  ]
+}

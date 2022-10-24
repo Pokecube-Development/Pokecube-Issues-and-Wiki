@@ -1,0 +1,16 @@
+{
+  "name": "dream-eater",
+  "id": 138,
+  "power": 100,
+  "pp": 15,
+  "priority": 0,
+  "type": "psychic",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user eats the dreams of a sleeping target. It\nabsorbs half the damage caused to heal its own HP.",
+  "move_category": "damage+heal",
+  "drain": 50,
+  "effect_text_extend": "Fails if not used on a sleeping Pokémon.  Inflicts regular damage.  Drains half the damage inflicted to heal the user.",
+  "effect_text_simple": "Only works on sleeping Pokémon.  Drains half the damage inflicted to heal the user."
+}

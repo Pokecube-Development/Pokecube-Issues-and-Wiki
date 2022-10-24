@@ -1,0 +1,13 @@
+{
+  "name": "bestow",
+  "id": 516,
+  "pp": 15,
+  "priority": 0,
+  "type": "normal",
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user passes its held item to the target when the\ntarget isn’t holding an item.",
+  "move_category": "unique",
+  "effect_text_extend": "Transfers the user's held item to the target.  If the user has no held item, or the target already has a held item, this move will fail.",
+  "effect_text_simple": "Gives the user's held item to the target."
+}

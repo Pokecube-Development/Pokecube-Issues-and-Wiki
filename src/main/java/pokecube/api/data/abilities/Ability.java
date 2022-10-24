@@ -3,7 +3,7 @@ package pokecube.api.data.abilities;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.utils.MoveApplication;
 
 public abstract class Ability
 {
@@ -39,7 +39,7 @@ public abstract class Ability
      * @param damage - the damage to apply
      * @return the actual damage dealt
      */
-    public int beforeDamage(final IPokemob mob, final MovePacket move, final int damage)
+    public int beforeDamage(final IPokemob mob, final MoveApplication move, final int damage)
     {
         return damage;
     }
@@ -101,7 +101,16 @@ public abstract class Ability
      * @param mob  - The pokemob with this ability
      * @param move - the move being used
      */
-    public void onMoveUse(final IPokemob mob, final MovePacket move)
+    public void postMoveUse(final IPokemob mob, final MoveApplication move)
+    {}
+
+    /**
+     * Called whenever a move is used.
+     *
+     * @param mob  - The pokemob with this ability
+     * @param move - the move being used
+     */
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {}
 
     /**
@@ -127,5 +136,15 @@ public abstract class Ability
     public String toString()
     {
         return name;
+    }
+
+    public boolean areWeTarget(IPokemob mob, MoveApplication move)
+    {
+        return mob.getEntity() == move.target;
+    }
+
+    public boolean areWeUser(IPokemob mob, MoveApplication move)
+    {
+        return mob == move.getUser();
     }
 }

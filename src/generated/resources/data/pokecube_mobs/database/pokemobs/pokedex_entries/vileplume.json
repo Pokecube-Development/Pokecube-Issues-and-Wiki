@@ -1,0 +1,153 @@
+{
+  "name": "vileplume",
+  "id": 45,
+  "stock": true,
+  "base_experience": 245,
+  "size": {
+    "height": 1.4,
+    "width": 1.2,
+    "length": 1.2
+  },
+  "mass": 18.6,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 75,
+    "attack": 80,
+    "defense": 85,
+    "special_attack": 110,
+    "special_defense": 90,
+    "speed": 50
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "grass",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "chlorophyll"
+    ],
+    "hidden": [
+      "effect-spore"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "acid",
+          "absorb",
+          "mega-drain",
+          "growth",
+          "poison-powder",
+          "stun-spore",
+          "sleep-powder",
+          "toxic",
+          "giga-drain",
+          "sweet-scent",
+          "moonlight",
+          "aromatherapy",
+          "grassy-terrain",
+          "moonblast"
+        ]
+      },
+      {
+        "L": 69,
+        "moves": [
+          "solar-beam"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "petal-dance"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "petal-blizzard"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "cut",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "acid",
+      "hyper-beam",
+      "absorb",
+      "mega-drain",
+      "growth",
+      "solar-beam",
+      "poison-powder",
+      "stun-spore",
+      "sleep-powder",
+      "petal-dance",
+      "toxic",
+      "rage",
+      "mimic",
+      "double-team",
+      "reflect",
+      "bide",
+      "flash",
+      "rest",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "sludge-bomb",
+      "giga-drain",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "sweet-scent",
+      "synthesis",
+      "hidden-power",
+      "sunny-day",
+      "facade",
+      "nature-power",
+      "secret-power",
+      "aromatherapy",
+      "bullet-seed",
+      "natural-gift",
+      "fling",
+      "gastro-acid",
+      "worry-seed",
+      "seed-bomb",
+      "drain-punch",
+      "energy-ball",
+      "giga-impact",
+      "captivate",
+      "grass-knot",
+      "venoshock",
+      "sludge-wave",
+      "after-you",
+      "round",
+      "petal-blizzard",
+      "grassy-terrain",
+      "confide",
+      "dazzling-gleam",
+      "infestation",
+      "pollen-puff",
+      "grassy-glide",
+      "corrosive-gas"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_3"
+}

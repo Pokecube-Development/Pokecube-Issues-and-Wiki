@@ -3,18 +3,18 @@ package pokecube.mobs.abilities.simple;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.database.Database;
 
 public class StanceChange extends Ability
 {
     private static PokedexEntry base_form;
     private static PokedexEntry blade_form;
-    private static boolean      noTurn = false;
+    private static boolean noTurn = false;
 
     @Override
-    public void onMoveUse(final IPokemob mob, final MovePacket move)
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
         if (StanceChange.noTurn) return;
         if (StanceChange.base_form == null)
@@ -25,21 +25,23 @@ public class StanceChange extends Ability
             if (StanceChange.noTurn) return;
         }
 
-        IPokemob attacker = move.attacker;
+        if (!areWeUser(mob, move)) return;
+
+        IPokemob attacker = move.getUser();
 
         final PokedexEntry mobs = attacker.getPokedexEntry();
         final boolean isBlade = mobs == StanceChange.blade_form;
         final boolean isShield = mobs == StanceChange.base_form;
 
-        if (!(isShield || isBlade) || !move.pre) return;
+        if (!(isShield || isBlade)) return;
 
-        final Move_Base attack = move.getMove();
+        final MoveEntry attack = move.getMove();
 
-        if (isShield && attack.getPWR(attacker, move.attacked) > 0) attacker = attacker.setPokedexEntry(
-                StanceChange.blade_form);
-        else if (isBlade && move.attack.equals("kingsshield")) attacker = attacker.setPokedexEntry(
-                StanceChange.base_form);
-        move.attacker = attacker;
+        if (isShield && attack.getPWR(attacker, move.target) > 0)
+            attacker = attacker.setPokedexEntry(StanceChange.blade_form);
+        else if (isBlade && move.getName().equals("kings-shield"))
+            attacker = attacker.setPokedexEntry(StanceChange.base_form);
+        move.setUser(attacker);
     }
 
     @Override

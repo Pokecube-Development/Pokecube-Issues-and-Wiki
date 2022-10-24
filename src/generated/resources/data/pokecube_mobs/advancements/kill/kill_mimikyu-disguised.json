@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.mimikyu-disguised"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mimikyu-disguised"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_mimikyu-disguised": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "mimikyu-disguised"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

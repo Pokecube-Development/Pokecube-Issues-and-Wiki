@@ -36,9 +36,9 @@ import pokecube.api.entity.pokemob.stats.IStatsModifiers;
 import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
-import pokecube.api.moves.IMoveConstants;
-import pokecube.api.moves.IMoveConstants.AIRoutine;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
@@ -575,7 +575,7 @@ public class LogicMiscUpdate extends LogicBase
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
         {
             final int index = this.pokemob.getMoveIndex();
-            Move_Base move = this.pokemob.getSelectedMove();
+            MoveEntry move = this.pokemob.getSelectedMove();
             if (index < 4)
             {
                 if ((move.getAttackCategory(pokemob) & IMoveConstants.CATEGORY_CONTACT) > 0)

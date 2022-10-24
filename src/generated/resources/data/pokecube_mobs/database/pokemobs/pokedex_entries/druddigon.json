@@ -1,0 +1,236 @@
+{
+  "name": "druddigon",
+  "id": 621,
+  "stock": true,
+  "base_experience": 170,
+  "size": {
+    "height": 1.6,
+    "width": 1.6,
+    "length": 1.6
+  },
+  "mass": 139.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 77,
+    "attack": 120,
+    "defense": 90,
+    "special_attack": 60,
+    "special_defense": 90,
+    "speed": 48
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "rough-skin",
+      "sheer-force"
+    ],
+    "hidden": [
+      "mold-breaker"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "leer"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "dragon-rage"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "metal-claw"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "revenge"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "dragon-claw"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "rock-climb"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "iron-head",
+          "dragon-tail"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "chip-away"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "thunder-punch",
+      "scratch",
+      "cut",
+      "body-slam",
+      "leer",
+      "bite",
+      "roar",
+      "flamethrower",
+      "surf",
+      "hyper-beam",
+      "strength",
+      "dragon-rage",
+      "earthquake",
+      "dig",
+      "toxic",
+      "double-team",
+      "glare",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "feint-attack",
+      "sludge-bomb",
+      "outrage",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pursuit",
+      "iron-tail",
+      "metal-claw",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "rock-smash",
+      "heat-wave",
+      "torment",
+      "facade",
+      "taunt",
+      "superpower",
+      "revenge",
+      "snatch",
+      "secret-power",
+      "crush-claw",
+      "rock-tomb",
+      "aerial-ace",
+      "dragon-claw",
+      "poison-tail",
+      "shock-wave",
+      "payback",
+      "fling",
+      "sucker-punch",
+      "dark-pulse",
+      "night-slash",
+      "aqua-tail",
+      "dragon-pulse",
+      "focus-blast",
+      "giga-impact",
+      "shadow-claw",
+      "thunder-fang",
+      "fire-fang",
+      "flash-cannon",
+      "rock-climb",
+      "draco-meteor",
+      "gunk-shot",
+      "iron-head",
+      "stealth-rock",
+      "charge-beam",
+      "hone-claws",
+      "smack-down",
+      "round",
+      "chip-away",
+      "incinerate",
+      "retaliate",
+      "bulldoze",
+      "dragon-tail",
+      "snarl",
+      "confide",
+      "power-up-punch",
+      "stomping-tantrum",
+      "scale-shot",
+      "lash-out",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/cow_2"
+}

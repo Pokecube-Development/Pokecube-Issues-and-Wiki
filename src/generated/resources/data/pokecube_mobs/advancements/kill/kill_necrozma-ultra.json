@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.necrozma-ultra"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.necrozma-ultra"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_necrozma-ultra": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "necrozma-ultra"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

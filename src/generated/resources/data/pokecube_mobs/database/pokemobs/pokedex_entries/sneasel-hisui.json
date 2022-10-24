@@ -1,0 +1,116 @@
+{
+  "name": "sneasel-hisui",
+  "id": 215,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 0.9,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 27.0,
+  "is_default": false,
+  "capture_rate": 60,
+  "base_happiness": 35,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 55,
+    "attack": 95,
+    "defense": 55,
+    "special_attack": 35,
+    "special_defense": 75,
+    "speed": 115
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "fighting",
+    "poison"
+  ],
+  "abilities": {
+    "normal": [
+      "inner-focus",
+      "keen-eye"
+    ],
+    "hidden": [
+      "poison-touch"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 10,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "rock-smash"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "close-combat"
+        ]
+      }
+    ],
+    "misc": [
+      "false-swipe",
+      "rock-smash",
+      "aerial-ace",
+      "swift",
+      "focus-energy",
+      "bulk-up",
+      "calm-mind",
+      "rest",
+      "drain-punch",
+      "poison-jab",
+      "x-scissor",
+      "shadow-claw",
+      "iron-tail",
+      "shadow-ball",
+      "snarl"
+    ]
+  },
+  "evolutions": [
+    {
+      "name": "sneasler",
+      "item": {
+        "values": {
+          "id": "minecraft:iron_axe"
+        }
+      },
+      "time": "day"
+    }
+  ],
+  "old_name": "sneasel_hisui"
+}

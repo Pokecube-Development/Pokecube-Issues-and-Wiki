@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.ampharos-mega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ampharos-mega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_ampharos-mega": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "ampharos-mega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

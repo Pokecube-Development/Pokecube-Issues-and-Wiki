@@ -1,0 +1,116 @@
+{
+  "name": "combee",
+  "id": 415,
+  "stock": true,
+  "base_experience": 49,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 5.5,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 30,
+    "attack": 30,
+    "defense": 42,
+    "special_attack": 30,
+    "special_defense": 42,
+    "speed": 70
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "bug",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "honey-gather"
+    ],
+    "hidden": [
+      "hustle"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "gust",
+          "sweet-scent",
+          "struggle-bug"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "bug-bite"
+        ]
+      }
+    ],
+    "misc": [
+      "gust",
+      "string-shot",
+      "swift",
+      "snore",
+      "mud-slap",
+      "sweet-scent",
+      "endeavor",
+      "air-cutter",
+      "tailwind",
+      "bug-buzz",
+      "bug-bite",
+      "ominous-wind",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/honeycomb_1",
+  "interactions": [
+    {
+      "male": true,
+      "female": true,
+      "cooldown": 1800,
+      "variance": 100,
+      "baseHunger": 500,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:glass_bottle"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:honey_bottle",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "evolutions": [
+    {
+      "name": "vespiquen",
+      "level": 21,
+      "sexe": "female",
+      "evoMoves": "slash"
+    }
+  ]
+}

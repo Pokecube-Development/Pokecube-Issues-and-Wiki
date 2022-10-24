@@ -54,9 +54,9 @@ public class Evolution
         if (!pokemob.getEntity().isAddedToWorld()) return;
         int ticks = pokemob.getEvolutionTicks();
         final PokedexEntry entry = pokemob.getPokedexEntry();
-        final int color1 = entry.getType1().colour;
-        int color2 = entry.getType2().colour;
-        if (entry.getType2() == PokeType.unknown) color2 = color1;
+        final int color1 = pokemob.getType1().colour;
+        int color2 = pokemob.getType2().colour;
+        if (pokemob.getType2() == PokeType.unknown) color2 = color1;
         final Color col1 = new Color(color1);
         final Color col2 = new Color(color2);
         ticks = ticks - 50;

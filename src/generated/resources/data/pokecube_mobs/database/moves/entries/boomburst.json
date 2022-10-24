@@ -1,0 +1,15 @@
+{
+  "name": "boomburst",
+  "id": 586,
+  "power": 140,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "all-other-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user attacks everything around it with the\ndestructive power of a terrible, explosive sound.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.",
+  "effect_text_simple": "Inflicts regular damage."
+}

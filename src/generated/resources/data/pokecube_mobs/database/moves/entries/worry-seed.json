@@ -1,0 +1,14 @@
+{
+  "name": "worry-seed",
+  "id": 388,
+  "pp": 10,
+  "priority": 0,
+  "type": "grass",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "A seed that causes worry is planted on the target.\nIt prevents sleep by making the target’s\nAbility Insomnia.",
+  "move_category": "unique",
+  "effect_text_extend": "Changes the target's ability to insomnia.\n\nIf the target's ability is truant or multitype, this move will fail.",
+  "effect_text_simple": "Changes the target's ability to Insomnia."
+}

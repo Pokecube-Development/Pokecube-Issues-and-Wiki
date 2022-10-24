@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.altaria"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.altaria"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_altaria": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "altaria"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

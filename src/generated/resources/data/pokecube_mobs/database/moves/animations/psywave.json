@@ -1,0 +1,25 @@
+{
+  "name": "psywave",
+  "animations": [
+    {
+      "preset": "flow:w0.5:d0.33:~psywave",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4
+    },
+    {
+      "preset": "flow:pwitch:d0.33:w0.5:l7:~psywave",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "minecraft:entity.zombie_villager.converted",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    }
+  ]
+}

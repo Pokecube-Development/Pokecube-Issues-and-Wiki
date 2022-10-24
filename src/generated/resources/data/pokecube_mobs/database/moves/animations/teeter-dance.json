@@ -1,0 +1,15 @@
+{
+  "name": "teeterdance",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:atrue:cmagenta:d1:w2:rtrue:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~teeterdance",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.charm",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8
+    }
+  ]
+}

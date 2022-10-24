@@ -1,0 +1,184 @@
+{
+  "name": "igglybuff",
+  "id": 174,
+  "stock": true,
+  "base_experience": 42,
+  "size": {
+    "height": 0.3,
+    "width": 0.3,
+    "length": 0.3
+  },
+  "mass": 1.0,
+  "is_default": true,
+  "capture_rate": 170,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 90,
+    "attack": 30,
+    "defense": 15,
+    "special_attack": 40,
+    "special_defense": 20,
+    "speed": 15
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "normal",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "cute-charm",
+      "competitive"
+    ],
+    "hidden": [
+      "friend-guard"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 5,
+        "moves": [
+          "pound"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "sing",
+          "charm"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "disable"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "sweet-kiss"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "copycat"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "disarming-voice"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "mega-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "sing",
+      "flamethrower",
+      "counter",
+      "seismic-toss",
+      "solar-beam",
+      "thunder-wave",
+      "dig",
+      "toxic",
+      "psychic",
+      "mimic",
+      "screech",
+      "double-team",
+      "defense-curl",
+      "light-screen",
+      "reflect",
+      "fire-blast",
+      "dream-eater",
+      "flash",
+      "rest",
+      "substitute",
+      "nightmare",
+      "snore",
+      "curse",
+      "protect",
+      "feint-attack",
+      "sweet-kiss",
+      "mud-slap",
+      "zap-cannon",
+      "perish-song",
+      "icy-wind",
+      "detect",
+      "endure",
+      "charm",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "present",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "uproar",
+      "facade",
+      "helping-hand",
+      "role-play",
+      "wish",
+      "magic-coat",
+      "recycle",
+      "endeavor",
+      "secret-power",
+      "hyper-voice",
+      "fake-tears",
+      "bounce",
+      "covet",
+      "shock-wave",
+      "water-pulse",
+      "gravity",
+      "natural-gift",
+      "fling",
+      "copycat",
+      "punishment",
+      "last-resort",
+      "captivate",
+      "grass-knot",
+      "round",
+      "echoed-voice",
+      "heal-pulse",
+      "incinerate",
+      "work-up",
+      "wild-charge",
+      "draining-kiss",
+      "misty-terrain",
+      "play-rough",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/moonstone",
+  "evolutions": [
+    {
+      "name": "jigglypuff",
+      "happy": true
+    }
+  ]
+}

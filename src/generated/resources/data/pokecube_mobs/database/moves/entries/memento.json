@@ -1,0 +1,14 @@
+{
+  "name": "memento",
+  "id": 262,
+  "pp": 10,
+  "priority": 0,
+  "type": "dark",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user faints when using this move. In return, this\nharshly lowers the target’s Attack and Sp. Atk stats.",
+  "move_category": "unique",
+  "effect_text_extend": "Lowers the target's Attack and Special Attack by two stages.  User faints.",
+  "effect_text_simple": "Lowers the target's Attack and Special Attack by two stages.  User faints."
+}

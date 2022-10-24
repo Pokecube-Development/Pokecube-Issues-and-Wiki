@@ -1,0 +1,15 @@
+{
+  "name": "spite",
+  "animations": [
+    {
+      "preset": "cartFunc:pwitch:d0.5:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~spite",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pmisc:cpurple:d0.5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~spite",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

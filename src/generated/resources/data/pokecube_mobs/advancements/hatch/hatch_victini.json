@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.victini"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.victini"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_victini": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "victini"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

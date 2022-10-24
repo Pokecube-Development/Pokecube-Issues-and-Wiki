@@ -1,0 +1,14 @@
+{
+  "name": "flash",
+  "id": 148,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user flashes a bright light that cuts the\ntarget’s accuracy.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Lowers the target's accuracy by one stage.",
+  "effect_text_simple": "Lowers the target's accuracy by one stage."
+}

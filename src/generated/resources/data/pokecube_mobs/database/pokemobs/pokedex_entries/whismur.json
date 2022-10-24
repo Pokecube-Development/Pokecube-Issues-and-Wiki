@@ -1,0 +1,203 @@
+{
+  "name": "whismur",
+  "id": 293,
+  "stock": true,
+  "base_experience": 48,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 16.3,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 64,
+    "attack": 51,
+    "defense": 23,
+    "special_attack": 51,
+    "special_defense": 23,
+    "speed": 28
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "soundproof"
+    ],
+    "hidden": [
+      "rattled"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "supersonic"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "sleep-talk"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "uproar"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "hyper-voice"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "astonish"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "howl"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "synchronoise"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "echoed-voice"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "whirlwind",
+      "stomp",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "roar",
+      "supersonic",
+      "flamethrower",
+      "ice-beam",
+      "blizzard",
+      "counter",
+      "seismic-toss",
+      "solar-beam",
+      "toxic",
+      "mimic",
+      "screech",
+      "double-team",
+      "smokescreen",
+      "defense-curl",
+      "fire-blast",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "uproar",
+      "facade",
+      "smelling-salts",
+      "endeavor",
+      "secret-power",
+      "hyper-voice",
+      "astonish",
+      "fake-tears",
+      "extrasensory",
+      "howl",
+      "shock-wave",
+      "water-pulse",
+      "hammer-arm",
+      "natural-gift",
+      "fling",
+      "zen-headbutt",
+      "captivate",
+      "synchronoise",
+      "round",
+      "echoed-voice",
+      "circle-throw",
+      "incinerate",
+      "retaliate",
+      "work-up",
+      "disarming-voice",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "loudred",
+      "level": 20,
+      "evoMoves": "bite"
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "name": "cinderace",
+  "id": 815,
+  "stock": true,
+  "base_experience": 265,
+  "size": {
+    "height": 1.4,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 33.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 80,
+    "attack": 116,
+    "defense": 75,
+    "special_attack": 65,
+    "special_defense": 75,
+    "speed": 119
+  },
+  "evs": {
+    "speed": 3
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "libero"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 12,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "growl",
+          "ember",
+          "quick-attack",
+          "feint"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "counter"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "court-change"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "pyro-ball"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "mega-kick",
+      "flamethrower",
+      "hyper-beam",
+      "low-kick",
+      "fire-spin",
+      "agility",
+      "focus-energy",
+      "fire-blast",
+      "swift",
+      "rest",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "baton-pass",
+      "sunny-day",
+      "shadow-ball",
+      "heat-wave",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "revenge",
+      "blaze-kick",
+      "blast-burn",
+      "overheat",
+      "bulk-up",
+      "bounce",
+      "mud-shot",
+      "u-turn",
+      "assurance",
+      "flare-blitz",
+      "focus-blast",
+      "giga-impact",
+      "fire-fang",
+      "zen-headbutt",
+      "gunk-shot",
+      "iron-head",
+      "electro-ball",
+      "low-sweep",
+      "round",
+      "ally-switch",
+      "acrobatics",
+      "fire-pledge",
+      "work-up",
+      "snarl",
+      "pyro-ball",
+      "coaching",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2"
+}

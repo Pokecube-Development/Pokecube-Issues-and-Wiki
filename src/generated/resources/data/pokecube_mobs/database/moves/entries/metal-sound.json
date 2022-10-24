@@ -1,0 +1,14 @@
+{
+  "name": "metal-sound",
+  "id": 319,
+  "pp": 40,
+  "priority": 0,
+  "type": "steel",
+  "accuracy": 85,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "A horrible sound like scraping metal harshly lowers\nthe target’s Sp. Def stat.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Lowers the target's Special Defense by two stages.",
+  "effect_text_simple": "Lowers the target's Special Defense by two stages."
+}

@@ -1,0 +1,217 @@
+{
+  "name": "larvitar",
+  "id": 246,
+  "stock": true,
+  "base_experience": 60,
+  "size": {
+    "height": 0.6,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 72.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 50,
+    "attack": 64,
+    "defense": 50,
+    "special_attack": 45,
+    "special_defense": 50,
+    "speed": 41
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "rock",
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "guts"
+    ],
+    "hidden": [
+      "sand-veil"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "leer",
+          "bite"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "rock-throw"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "sandstorm"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "chip-away"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "stomping-tantrum"
+        ]
+      }
+    ],
+    "misc": [
+      "stomp",
+      "headbutt",
+      "body-slam",
+      "thrash",
+      "double-edge",
+      "leer",
+      "bite",
+      "hyper-beam",
+      "earthquake",
+      "dig",
+      "toxic",
+      "mimic",
+      "screech",
+      "double-team",
+      "focus-energy",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "spite",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "detect",
+      "outrage",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pursuit",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "ancient-power",
+      "rock-smash",
+      "uproar",
+      "torment",
+      "facade",
+      "taunt",
+      "superpower",
+      "brick-break",
+      "secret-power",
+      "rock-tomb",
+      "sand-tomb",
+      "muddy-water",
+      "iron-defense",
+      "dragon-dance",
+      "natural-gift",
+      "payback",
+      "assurance",
+      "rock-polish",
+      "dark-pulse",
+      "earth-power",
+      "iron-head",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "smack-down",
+      "round",
+      "chip-away",
+      "retaliate",
+      "bulldoze",
+      "snarl",
+      "confide",
+      "power-up-punch",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/stone_gold",
+  "evolutions": [
+    {
+      "name": "pupitar",
+      "level": 30
+    }
+  ]
+}

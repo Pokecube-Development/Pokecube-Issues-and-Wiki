@@ -1,0 +1,155 @@
+{
+  "name": "eternatus",
+  "id": 890,
+  "stock": true,
+  "base_experience": 345,
+  "size": {
+    "height": 2.0,
+    "width": 2.0,
+    "length": 2.0
+  },
+  "mass": 950.0,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 140,
+    "attack": 85,
+    "defense": 95,
+    "special_attack": 145,
+    "special_defense": 95,
+    "speed": 130
+  },
+  "evs": {
+    "hp": 3
+  },
+  "types": [
+    "poison",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "pressure"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 48,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 80,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "agility",
+          "confuse-ray",
+          "poison-tail",
+          "dragon-tail"
+        ]
+      },
+      {
+        "L": 72,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "cosmic-power"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "dragon-dance"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "cross-poison"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "venoshock"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "dynamax-cannon"
+        ]
+      },
+      {
+        "L": 88,
+        "moves": [
+          "eternabeam"
+        ]
+      }
+    ],
+    "misc": [
+      "fly",
+      "flamethrower",
+      "hyper-beam",
+      "solar-beam",
+      "agility",
+      "screech",
+      "light-screen",
+      "reflect",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "endure",
+      "sleep-talk",
+      "shadow-ball",
+      "facade",
+      "cosmic-power",
+      "dragon-dance",
+      "payback",
+      "assurance",
+      "toxic-spikes",
+      "poison-jab",
+      "dragon-pulse",
+      "giga-impact",
+      "flash-cannon",
+      "draco-meteor",
+      "cross-poison",
+      "venoshock",
+      "sludge-wave",
+      "round",
+      "mystical-fire",
+      "venom-drench",
+      "brutal-swing",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend"
+}

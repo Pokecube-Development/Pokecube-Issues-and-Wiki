@@ -3,20 +3,17 @@ package pokecube.mobs.abilities.simple;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.utils.MoveApplication;
 
 public class Sturdy extends Ability
 {
     @Override
-    public int beforeDamage(IPokemob mob, MovePacket move, int damage)
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        if (mob == move.attacked)
-        {
-            final LivingEntity target = mob.getEntity();
-            final float hp = target.getHealth();
-            final float maxHp = target.getMaxHealth();
-            if (hp == maxHp && damage >= hp) return (int) maxHp - 1;
-        }
-        return damage;
+        if (!areWeTarget(mob, move)) return;
+        final LivingEntity target = mob.getEntity();
+        final float hp = target.getHealth();
+        final float maxHp = target.getMaxHealth();
+        if (hp == maxHp) move.noFaint = true;
     }
 }

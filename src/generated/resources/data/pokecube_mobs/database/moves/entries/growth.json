@@ -1,0 +1,13 @@
+{
+  "name": "growth",
+  "id": 74,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user’s body grows all at once, raising the\nAttack and Sp. Atk stats.",
+  "move_category": "net-good-stats",
+  "effect_text_extend": "Raises the user's Attack and Special Attack by one stage each.  During sunny day, raises both stats by two stages.",
+  "effect_text_simple": "Raises the user's Attack and Special Attack by one stage."
+}

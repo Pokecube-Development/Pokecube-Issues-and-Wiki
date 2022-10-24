@@ -1,0 +1,10 @@
+{
+  "name": "maxsteelspike",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d0.5:w1:l10:f(0.5-rand())*(13),(0.5-rand())*(2),(0.5-rand())*(13):~maxsteelspike",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

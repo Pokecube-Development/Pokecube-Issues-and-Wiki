@@ -1,0 +1,15 @@
+{
+  "name": "recycle",
+  "animations": [
+    {
+      "preset": "pons:phappy_villager:d1:l10:~recycle",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "pons:pmisc:d1:l10:~recycle",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

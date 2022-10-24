@@ -1,0 +1,167 @@
+{
+  "name": "dracozolt",
+  "id": 880,
+  "stock": true,
+  "base_experience": 177,
+  "size": {
+    "height": 1.8,
+    "width": 1.2,
+    "length": 1.8
+  },
+  "mass": 190.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 90,
+    "attack": 100,
+    "defense": 90,
+    "special_attack": 80,
+    "special_defense": 70,
+    "speed": 75
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "electric",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "volt-absorb",
+      "hustle"
+    ],
+    "hidden": [
+      "sand-rush"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 49,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "thunder-shock"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "charge"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "pluck"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "dragon-rush"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "dragon-tail"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "bolt-beak"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "thunder-punch",
+      "mega-kick",
+      "body-slam",
+      "flamethrower",
+      "hyper-beam",
+      "low-kick",
+      "fire-spin",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "fire-blast",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "outrage",
+      "endure",
+      "sleep-talk",
+      "iron-tail",
+      "rain-dance",
+      "sunny-day",
+      "facade",
+      "taunt",
+      "rock-tomb",
+      "dragon-claw",
+      "rock-blast",
+      "dragon-pulse",
+      "earth-power",
+      "giga-impact",
+      "thunder-fang",
+      "fire-fang",
+      "draco-meteor",
+      "stone-edge",
+      "electro-ball",
+      "round",
+      "bulldoze",
+      "wild-charge",
+      "high-horsepower",
+      "brutal-swing",
+      "stomping-tantrum",
+      "breaking-swipe",
+      "meteor-beam",
+      "rising-voltage"
+    ]
+  },
+  "loot_table": "pokecube:entities/fossil_mob"
+}

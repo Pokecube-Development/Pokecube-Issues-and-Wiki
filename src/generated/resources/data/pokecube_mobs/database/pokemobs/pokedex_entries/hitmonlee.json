@@ -1,0 +1,218 @@
+{
+  "name": "hitmonlee",
+  "id": 106,
+  "stock": true,
+  "base_experience": 159,
+  "size": {
+    "height": 1.5,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 49.8,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 50,
+    "attack": 120,
+    "defense": 53,
+    "special_attack": 35,
+    "special_defense": 110,
+    "speed": 87
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "limber",
+      "reckless"
+    ],
+    "hidden": [
+      "unburden"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 0,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "mega-kick",
+          "jump-kick",
+          "rolling-kick",
+          "tackle",
+          "meditate",
+          "reversal",
+          "fake-out",
+          "helping-hand",
+          "revenge",
+          "close-combat",
+          "low-sweep"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "low-kick"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "high-jump-kick"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "mind-reader"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "foresight"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "facade",
+          "feint"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "brick-break"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "blaze-kick"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "wide-guard"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "double-kick",
+      "mega-kick",
+      "jump-kick",
+      "rolling-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "submission",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "earthquake",
+      "toxic",
+      "meditate",
+      "rage",
+      "mimic",
+      "double-team",
+      "focus-energy",
+      "bide",
+      "metronome",
+      "swift",
+      "skull-bash",
+      "high-jump-kick",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "mind-reader",
+      "snore",
+      "curse",
+      "reversal",
+      "protect",
+      "mud-slap",
+      "foresight",
+      "detect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
+      "uproar",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "role-play",
+      "superpower",
+      "revenge",
+      "brick-break",
+      "knock-off",
+      "secret-power",
+      "blaze-kick",
+      "rock-tomb",
+      "bulk-up",
+      "bounce",
+      "covet",
+      "natural-gift",
+      "feint",
+      "close-combat",
+      "fling",
+      "sucker-punch",
+      "aura-sphere",
+      "poison-jab",
+      "vacuum-wave",
+      "focus-blast",
+      "rock-climb",
+      "stone-edge",
+      "captivate",
+      "wide-guard",
+      "low-sweep",
+      "round",
+      "retaliate",
+      "bulldoze",
+      "work-up",
+      "confide",
+      "power-up-punch",
+      "laser-focus",
+      "throat-chop",
+      "stomping-tantrum",
+      "coaching"
+    ]
+  },
+  "loot_table": "pokecube:entities/skull_rabbit_2"
+}

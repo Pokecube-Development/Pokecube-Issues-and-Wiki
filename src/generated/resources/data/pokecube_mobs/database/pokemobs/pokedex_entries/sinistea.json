@@ -1,0 +1,186 @@
+{
+  "name": "sinistea",
+  "id": 854,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 0.15,
+    "width": 0.15,
+    "length": 0.15
+  },
+  "mass": 0.2,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 40,
+    "attack": 45,
+    "defense": 45,
+    "special_attack": 74,
+    "special_defense": 54,
+    "speed": 50
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "weak-armor"
+    ],
+    "hidden": [
+      "cursed-body"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 12,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "withdraw",
+          "astonish"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "memento"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "aromatherapy"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "shell-smash"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "aromatic-mist"
+        ]
+      }
+    ],
+    "misc": [
+      "psychic",
+      "metronome",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "giga-drain",
+      "endure",
+      "sleep-talk",
+      "baton-pass",
+      "shadow-ball",
+      "will-o-wisp",
+      "facade",
+      "trick",
+      "imprison",
+      "payback",
+      "dark-pulse",
+      "nasty-plot",
+      "wonder-room",
+      "psyshock",
+      "foul-play",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "hex",
+      "phantom-force",
+      "poltergeist"
+    ]
+  },
+  "model": {
+    "key": "sinistea_nofake",
+    "tex": "sinistea",
+    "model": "sinistea_nofake",
+    "anim": "sinistea_nofake"
+  },
+  "models": [
+    {
+      "key": "sinistea_nofake",
+      "tex": "sinistea",
+      "model": "sinistea_nofake",
+      "anim": "sinistea"
+    },
+    {
+      "key": "sinistea_fake",
+      "tex": "sinistea",
+      "model": "sinistea_fake",
+      "anim": "sinistea"
+    }
+  ],
+  "loot_table": "pokecube:entities/enderpearls_2",
+  "evolutions": [
+    {
+      "name": "polteageist",
+      "item_preset": "chippedpot",
+      "evoMoves": "teatime",
+      "form_from": "sinistea_nofake",
+      "model": {
+        "key": "polteageist_nofake",
+        "tex": "polteageist",
+        "model": "polteageist_nofake",
+        "anim": "polteageist"
+      }
+    },
+    {
+      "name": "polteageist",
+      "item_preset": "crackedpot",
+      "evoMoves": "teatime",
+      "form_from": "sinistea_fake",
+      "model": {
+        "key": "polteageist_fake",
+        "tex": "polteageist",
+        "model": "polteageist_fake",
+        "anim": "polteageist"
+      }
+    }
+  ]
+}

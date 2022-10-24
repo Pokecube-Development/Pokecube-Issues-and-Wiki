@@ -1,0 +1,10 @@
+{
+  "name": "gearup",
+  "animations": [
+    {
+      "preset": "cartFunc:pend_rod:d1:w1:l15:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~gearup",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

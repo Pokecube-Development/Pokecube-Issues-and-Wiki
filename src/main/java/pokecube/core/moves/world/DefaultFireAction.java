@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.eventhandlers.MoveEventsHandler.UseContext;
@@ -82,7 +82,7 @@ public class DefaultFireAction extends DefaultAction
         return false;
     }
 
-    public DefaultFireAction(Move_Base move)
+    public DefaultFireAction(MoveEntry move)
     {
         super(move);
     }

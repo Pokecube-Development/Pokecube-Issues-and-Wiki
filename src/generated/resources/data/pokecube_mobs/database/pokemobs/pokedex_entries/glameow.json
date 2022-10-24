@@ -1,0 +1,211 @@
+{
+  "name": "glameow",
+  "id": 431,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 3.9,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 70,
+  "growth_rate": "fast",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 49,
+    "attack": 55,
+    "defense": 42,
+    "special_attack": 42,
+    "special_defense": 37,
+    "speed": 85
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "limber",
+      "own-tempo"
+    ],
+    "hidden": [
+      "keen-eye"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 5,
+        "moves": [
+          "scratch"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "growl"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "attract"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "fake-out"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "assist"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "captivate"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "play-rough"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "cut",
+      "sand-attack",
+      "headbutt",
+      "tail-whip",
+      "bite",
+      "growl",
+      "thunderbolt",
+      "thunder",
+      "dig",
+      "toxic",
+      "hypnosis",
+      "quick-attack",
+      "double-team",
+      "swift",
+      "dream-eater",
+      "flash",
+      "fury-swipes",
+      "rest",
+      "super-fang",
+      "slash",
+      "substitute",
+      "thief",
+      "snore",
+      "flail",
+      "protect",
+      "feint-attack",
+      "mud-slap",
+      "endure",
+      "charm",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "fake-out",
+      "torment",
+      "facade",
+      "taunt",
+      "assist",
+      "knock-off",
+      "snatch",
+      "secret-power",
+      "hyper-voice",
+      "fake-tears",
+      "aerial-ace",
+      "covet",
+      "shock-wave",
+      "water-pulse",
+      "wake-up-slap",
+      "natural-gift",
+      "u-turn",
+      "payback",
+      "assurance",
+      "last-resort",
+      "sucker-punch",
+      "shadow-claw",
+      "captivate",
+      "hone-claws",
+      "foul-play",
+      "round",
+      "echoed-voice",
+      "retaliate",
+      "work-up",
+      "play-rough",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "purugly",
+      "level": 38,
+      "evoMoves": "swagger"
+    }
+  ]
+}

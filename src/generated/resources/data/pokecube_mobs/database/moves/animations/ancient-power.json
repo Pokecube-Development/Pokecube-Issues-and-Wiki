@@ -1,0 +1,30 @@
+{
+  "name": "ancientpower",
+  "animations": [
+    {
+      "preset": "throw:pmisc:~ancientpower",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "flow:pmisc:~ancientpower",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:~ancientpower",
+      "duration": "0",
+      "starttick": "5",
+      "sound": "pokecube:moves.rocksmash",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

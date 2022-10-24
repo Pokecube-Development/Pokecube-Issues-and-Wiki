@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.sliggoo-hisui"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sliggoo-hisui"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_sliggoo-hisui": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "sliggoo-hisui"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

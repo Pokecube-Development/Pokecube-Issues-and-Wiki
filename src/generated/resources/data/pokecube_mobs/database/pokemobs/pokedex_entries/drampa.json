@@ -1,0 +1,222 @@
+{
+  "name": "drampa",
+  "id": 780,
+  "stock": true,
+  "base_experience": 170,
+  "size": {
+    "height": 3.0,
+    "width": 3.0,
+    "length": 3.0
+  },
+  "mass": 185.0,
+  "is_default": true,
+  "capture_rate": 70,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 78,
+    "attack": 60,
+    "defense": 85,
+    "special_attack": 135,
+    "special_defense": 91,
+    "speed": 36
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "normal",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "berserk",
+      "sap-sipper"
+    ],
+    "hidden": [
+      "cloud-nine"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 45,
+        "moves": [
+          "fly"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "dragon-rage"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "light-screen"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "glare"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "twister"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "hyper-voice"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "extrasensory"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "natural-gift"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "echoed-voice",
+          "play-nice"
+        ]
+      }
+    ],
+    "misc": [
+      "razor-wind",
+      "fly",
+      "roar",
+      "flamethrower",
+      "mist",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "solar-beam",
+      "dragon-rage",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "double-team",
+      "light-screen",
+      "fire-blast",
+      "swift",
+      "amnesia",
+      "glare",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "icy-wind",
+      "outrage",
+      "endure",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dragon-breath",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "uproar",
+      "heat-wave",
+      "facade",
+      "nature-power",
+      "helping-hand",
+      "superpower",
+      "endeavor",
+      "hyper-voice",
+      "tickle",
+      "signal-beam",
+      "extrasensory",
+      "block",
+      "dragon-claw",
+      "calm-mind",
+      "dragon-dance",
+      "shock-wave",
+      "water-pulse",
+      "roost",
+      "natural-gift",
+      "tailwind",
+      "fling",
+      "dragon-pulse",
+      "dragon-rush",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "shadow-claw",
+      "defog",
+      "draco-meteor",
+      "grass-knot",
+      "round",
+      "echoed-voice",
+      "bulldoze",
+      "dragon-tail",
+      "work-up",
+      "hurricane",
+      "snarl",
+      "play-rough",
+      "play-nice",
+      "confide",
+      "stomping-tantrum",
+      "breaking-swipe",
+      "scale-shot",
+      "lash-out"
+    ]
+  },
+  "loot_table": "pokecube:entities/wool_1",
+  "held_table": "pokecube:entities/persimberry"
+}

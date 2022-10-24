@@ -1,0 +1,20 @@
+{
+  "name": "forcepalm",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d1:w1:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~forcepalm",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.6
+    },
+    {
+      "preset": "cartFunc:pcrit:d0.5:w1:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~forcepalm",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

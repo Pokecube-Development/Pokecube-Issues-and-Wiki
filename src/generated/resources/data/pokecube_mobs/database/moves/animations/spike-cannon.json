@@ -1,0 +1,25 @@
+{
+  "name": "spikecannon",
+  "animations": [
+    {
+      "preset": "throw:csilver:w0.1:~spikecannon",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.7
+    },
+    {
+      "preset": "throw:w0.2:~spikecannon",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.vicegrip",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    }
+  ]
+}

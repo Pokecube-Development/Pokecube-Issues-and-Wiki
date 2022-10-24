@@ -1,0 +1,203 @@
+{
+  "name": "mantyke",
+  "id": 458,
+  "stock": true,
+  "base_experience": 69,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 65.0,
+  "is_default": true,
+  "capture_rate": 25,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 45,
+    "attack": 20,
+    "defense": 50,
+    "special_attack": 60,
+    "special_defense": 120,
+    "speed": 50
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "water",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "swift-swim",
+      "water-absorb"
+    ],
+    "hidden": [
+      "water-veil"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 14,
+        "moves": [
+          "wing-attack"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "water-gun",
+          "bubble"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "supersonic"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "aqua-ring"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "wide-guard"
+        ]
+      }
+    ],
+    "misc": [
+      "wing-attack",
+      "slam",
+      "headbutt",
+      "tackle",
+      "take-down",
+      "supersonic",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "earthquake",
+      "toxic",
+      "agility",
+      "double-team",
+      "confuse-ray",
+      "haze",
+      "waterfall",
+      "swift",
+      "amnesia",
+      "bubble",
+      "splash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "mirror-coat",
+      "whirlpool",
+      "hail",
+      "facade",
+      "helping-hand",
+      "secret-power",
+      "dive",
+      "mud-sport",
+      "air-cutter",
+      "signal-beam",
+      "aerial-ace",
+      "bounce",
+      "water-sport",
+      "water-pulse",
+      "natural-gift",
+      "tailwind",
+      "aqua-ring",
+      "air-slash",
+      "captivate",
+      "wide-guard",
+      "round",
+      "scald",
+      "acrobatics",
+      "bulldoze",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1",
+  "evolutions": [
+    {
+      "name": "mantine",
+      "level": 30
+    }
+  ]
+}

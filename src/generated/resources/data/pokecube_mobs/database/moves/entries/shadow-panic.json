@@ -1,0 +1,11 @@
+{
+  "name": "shadow-panic",
+  "id": 10016,
+  "priority": 0,
+  "type": "shadow",
+  "accuracy": 90,
+  "target": "opponents-field",
+  "damage_class": "status",
+  "effect_text_extend": "Confuses the target.",
+  "effect_text_simple": "Confuses the target."
+}

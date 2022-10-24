@@ -1,0 +1,213 @@
+{
+  "name": "tyrantrum",
+  "id": 697,
+  "stock": true,
+  "base_experience": 182,
+  "size": {
+    "height": 2.5,
+    "width": 2.0,
+    "length": 2.5
+  },
+  "mass": 270.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 82,
+    "attack": 121,
+    "defense": 119,
+    "special_attack": 69,
+    "special_defense": 59,
+    "speed": 71
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "rock",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "strong-jaw"
+    ],
+    "hidden": [
+      "rock-head"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "stomp",
+          "tackle",
+          "tail-whip",
+          "roar",
+          "head-smash"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "horn-drill"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "bide"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "dragon-claw"
+        ]
+      },
+      {
+        "L": 68,
+        "moves": [
+          "giga-impact"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "dragon-tail"
+        ]
+      }
+    ],
+    "misc": [
+      "stomp",
+      "horn-drill",
+      "tackle",
+      "body-slam",
+      "thrash",
+      "tail-whip",
+      "bite",
+      "roar",
+      "hyper-beam",
+      "strength",
+      "earthquake",
+      "dig",
+      "toxic",
+      "double-team",
+      "bide",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "outrage",
+      "sandstorm",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "crunch",
+      "ancient-power",
+      "rock-smash",
+      "facade",
+      "superpower",
+      "brick-break",
+      "secret-power",
+      "hyper-voice",
+      "rock-tomb",
+      "aerial-ace",
+      "iron-defense",
+      "block",
+      "dragon-claw",
+      "dragon-dance",
+      "rock-blast",
+      "close-combat",
+      "assurance",
+      "rock-polish",
+      "dark-pulse",
+      "dragon-pulse",
+      "earth-power",
+      "giga-impact",
+      "thunder-fang",
+      "ice-fang",
+      "fire-fang",
+      "zen-headbutt",
+      "draco-meteor",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "head-smash",
+      "hone-claws",
+      "round",
+      "bulldoze",
+      "dragon-tail",
+      "play-rough",
+      "confide",
+      "high-horsepower",
+      "brutal-swing",
+      "psychic-fangs",
+      "stomping-tantrum",
+      "breaking-swipe",
+      "scale-shot",
+      "meteor-beam",
+      "lash-out"
+    ]
+  },
+  "loot_table": "pokecube:entities/fossil_mob"
+}

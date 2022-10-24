@@ -1,0 +1,211 @@
+{
+  "name": "spoink",
+  "id": 325,
+  "stock": true,
+  "base_experience": 66,
+  "size": {
+    "height": 0.7,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 30.6,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 70,
+  "growth_rate": "fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 25,
+    "defense": 35,
+    "special_attack": 70,
+    "special_defense": 80,
+    "speed": 60
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "thick-fat",
+      "own-tempo"
+    ],
+    "hidden": [
+      "gluttony"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 14,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "psywave"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "splash"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "rest",
+          "power-gem"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "snore"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "psych-up"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "magic-coat"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "odor-sleuth"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "psyshock"
+        ]
+      }
+    ],
+    "misc": [
+      "whirlwind",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "psybeam",
+      "thunder-wave",
+      "toxic",
+      "psychic",
+      "mimic",
+      "double-team",
+      "confuse-ray",
+      "light-screen",
+      "reflect",
+      "swift",
+      "amnesia",
+      "dream-eater",
+      "flash",
+      "psywave",
+      "splash",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "icy-wind",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "mirror-coat",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "torment",
+      "facade",
+      "taunt",
+      "trick",
+      "role-play",
+      "magic-coat",
+      "recycle",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "odor-sleuth",
+      "signal-beam",
+      "extrasensory",
+      "bounce",
+      "covet",
+      "calm-mind",
+      "shock-wave",
+      "natural-gift",
+      "payback",
+      "lucky-chant",
+      "power-gem",
+      "zen-headbutt",
+      "trick-room",
+      "captivate",
+      "grass-knot",
+      "charge-beam",
+      "psyshock",
+      "telekinesis",
+      "simple-beam",
+      "round",
+      "ally-switch",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/ender_pig_1",
+  "evolutions": [
+    {
+      "name": "grumpig",
+      "level": 32,
+      "evoMoves": "teeterdance"
+    }
+  ]
+}

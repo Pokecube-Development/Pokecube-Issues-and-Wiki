@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.greninja-battle-bond"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.greninja-battle-bond"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_greninja-battle-bond": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "greninja-battle-bond"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

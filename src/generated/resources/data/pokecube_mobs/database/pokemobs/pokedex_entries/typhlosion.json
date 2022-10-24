@@ -1,0 +1,205 @@
+{
+  "name": "typhlosion",
+  "id": 157,
+  "stock": true,
+  "base_experience": 240,
+  "size": {
+    "height": 1.7,
+    "width": 0.9,
+    "length": 0.9
+  },
+  "mass": 79.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 70,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 78,
+    "attack": 84,
+    "defense": 78,
+    "special_attack": 109,
+    "special_defense": 85,
+    "speed": 100
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "flash-fire"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "double-edge",
+          "leer",
+          "ember",
+          "smokescreen",
+          "eruption",
+          "gyro-ball"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "swift"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "flame-wheel"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "lava-plume"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "inferno"
+        ]
+      },
+      {
+        "L": 74,
+        "moves": [
+          "burn-up"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "thunder-punch",
+      "cut",
+      "mega-kick",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "double-edge",
+      "leer",
+      "roar",
+      "ember",
+      "flamethrower",
+      "hyper-beam",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "solar-beam",
+      "earthquake",
+      "dig",
+      "toxic",
+      "quick-attack",
+      "mimic",
+      "double-team",
+      "smokescreen",
+      "defense-curl",
+      "fire-blast",
+      "swift",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "flame-wheel",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "detect",
+      "endure",
+      "rollout",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "nature-power",
+      "brick-break",
+      "eruption",
+      "secret-power",
+      "blast-burn",
+      "overheat",
+      "rock-tomb",
+      "aerial-ace",
+      "covet",
+      "gyro-ball",
+      "natural-gift",
+      "fling",
+      "focus-blast",
+      "giga-impact",
+      "shadow-claw",
+      "rock-climb",
+      "lava-plume",
+      "captivate",
+      "flame-charge",
+      "round",
+      "incinerate",
+      "inferno",
+      "fire-pledge",
+      "bulldoze",
+      "work-up",
+      "wild-charge",
+      "confide",
+      "power-up-punch",
+      "laser-focus",
+      "throat-chop",
+      "burn-up",
+      "stomping-tantrum"
+    ]
+  },
+  "loot_table": "pokecube:entities/coal_3"
+}

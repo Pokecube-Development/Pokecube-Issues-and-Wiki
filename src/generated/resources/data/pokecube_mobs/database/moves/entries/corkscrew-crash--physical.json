@@ -1,0 +1,13 @@
+{
+  "name": "corkscrew-crash--physical",
+  "id": 638,
+  "pp": 1,
+  "priority": 0,
+  "type": "steel",
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The user spins very fast and rams into the target\nwith the full force of its Z-Power. The power varies,\ndepending on the original move.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.",
+  "effect_text_simple": "Inflicts regular damage with no additional effect."
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.xerneas"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.xerneas"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_xerneas": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "xerneas"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

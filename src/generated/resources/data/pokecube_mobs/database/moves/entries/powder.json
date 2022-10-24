@@ -1,0 +1,14 @@
+{
+  "name": "powder",
+  "id": 600,
+  "pp": 20,
+  "priority": 1,
+  "type": "bug",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user covers the target in a combustible powder.\nIf the target uses a Fire-type move, the powder\nexplodes and damages the target.",
+  "move_category": "unique",
+  "effect_text_extend": "Explodes if the target uses a fire move this turn, damaging it for 1/4 its max HP and preventing the move.",
+  "effect_text_simple": "Explodes if the target uses a fire move this turn, damaging it for 1/4 its max HP and preventing the move."
+}

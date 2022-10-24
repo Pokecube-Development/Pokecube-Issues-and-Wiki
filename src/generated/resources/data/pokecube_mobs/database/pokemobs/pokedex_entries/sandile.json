@@ -1,0 +1,227 @@
+{
+  "name": "sandile",
+  "id": 551,
+  "stock": true,
+  "base_experience": 58,
+  "size": {
+    "height": 0.5,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 15.2,
+  "is_default": true,
+  "capture_rate": 180,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 50,
+    "attack": 72,
+    "defense": 35,
+    "special_attack": 35,
+    "special_defense": 35,
+    "speed": 65
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "ground",
+    "dark"
+  ],
+  "abilities": {
+    "normal": [
+      "intimidate",
+      "moxie"
+    ],
+    "hidden": [
+      "anger-point"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 7,
+        "moves": [
+          "sand-attack"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "rage",
+          "power-trip"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "dig"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "sandstorm"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "torment"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "sand-tomb"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "embargo"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "foul-play"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "sand-attack",
+      "thrash",
+      "double-edge",
+      "leer",
+      "bite",
+      "roar",
+      "counter",
+      "earthquake",
+      "dig",
+      "toxic",
+      "rage",
+      "double-team",
+      "focus-energy",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "snore",
+      "spite",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "mud-slap",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "mean-look",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "pursuit",
+      "iron-tail",
+      "hidden-power",
+      "crunch",
+      "beat-up",
+      "uproar",
+      "torment",
+      "facade",
+      "taunt",
+      "snatch",
+      "secret-power",
+      "rock-tomb",
+      "sand-tomb",
+      "payback",
+      "assurance",
+      "embargo",
+      "me-first",
+      "dark-pulse",
+      "aqua-tail",
+      "earth-power",
+      "thunder-fang",
+      "fire-fang",
+      "rock-climb",
+      "stone-edge",
+      "stealth-rock",
+      "hone-claws",
+      "foul-play",
+      "round",
+      "incinerate",
+      "retaliate",
+      "bulldoze",
+      "snarl",
+      "confide",
+      "power-trip",
+      "skitter-smack",
+      "lash-out",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/sand_rabbit_1",
+  "evolutions": [
+    {
+      "name": "krokorok",
+      "level": 29
+    }
+  ]
+}

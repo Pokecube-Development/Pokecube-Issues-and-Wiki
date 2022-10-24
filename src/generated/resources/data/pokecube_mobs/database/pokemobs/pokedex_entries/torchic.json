@@ -1,0 +1,239 @@
+{
+  "name": "torchic",
+  "id": 255,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 2.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 45,
+    "attack": 60,
+    "defense": 40,
+    "special_attack": 70,
+    "special_defense": 50,
+    "speed": 45
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "speed-boost"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "growl"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "sand-attack"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "ember"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "peck"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "fire-spin"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "mirror-move"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "reversal"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "detect"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "feather-dance"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "flare-blitz"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "flame-burst"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "flame-charge"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "scratch",
+      "swords-dance",
+      "cut",
+      "mega-kick",
+      "sand-attack",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "growl",
+      "ember",
+      "flamethrower",
+      "peck",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "fire-spin",
+      "dig",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "mimic",
+      "double-team",
+      "focus-energy",
+      "mirror-move",
+      "fire-blast",
+      "swift",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "curse",
+      "reversal",
+      "protect",
+      "mud-slap",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "baton-pass",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "smelling-salts",
+      "helping-hand",
+      "secret-power",
+      "feather-dance",
+      "crush-claw",
+      "overheat",
+      "rock-tomb",
+      "aerial-ace",
+      "bounce",
+      "natural-gift",
+      "feint",
+      "assurance",
+      "last-resort",
+      "flare-blitz",
+      "night-slash",
+      "shadow-claw",
+      "defog",
+      "captivate",
+      "hone-claws",
+      "flame-burst",
+      "flame-charge",
+      "round",
+      "echoed-voice",
+      "incinerate",
+      "fire-pledge",
+      "work-up",
+      "confide"
+    ]
+  },
+  "loot_table": "pokecube:entities/coal_chicken_1",
+  "evolutions": [
+    {
+      "name": "combusken",
+      "level": 16,
+      "evoMoves": "doublekick"
+    }
+  ]
+}

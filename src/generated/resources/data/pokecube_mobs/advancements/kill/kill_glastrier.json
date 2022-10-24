@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.glastrier"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.glastrier"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_glastrier": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "glastrier"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

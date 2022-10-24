@@ -14,16 +14,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.combat.MoveUse;
-import pokecube.api.moves.IMoveAction;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.moves.templates.Move_Basic;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
 
-public class ActionSmash implements IMoveAction
+public class ActionSmash implements IMoveWorldEffect
 {
     public ActionSmash()
     {
@@ -53,7 +52,7 @@ public class ActionSmash implements IMoveAction
             final List<ItemEntity> items = world.getEntitiesOfClass(ItemEntity.class, location.getAABB().inflate(1));
             if (!items.isEmpty())
             {
-                final Move_Base move = MovesUtils.getMoveFromName(this.getMoveName());
+                final MoveEntry move = MovesUtils.getMove(this.getMoveName());
                 return PokecubeAPI.MOVE_BUS.post(new MoveUse.MoveWorldAction.AffectItem(move, user, location, items));
             }
         }
@@ -83,7 +82,7 @@ public class ActionSmash implements IMoveAction
         Player player = null;
         if (owner instanceof Player) player = (Player) owner;
         final int fortune = digger.getLevel() / 30;
-        final boolean silky = Move_Basic.shouldSilk(digger) && player != null;
+        final boolean silky = MovesUtils.shouldSilk(digger) && player != null;
         final Level world = digger.getEntity().getLevel();
         final Vector3 temp = new Vector3();
         temp.set(v);
@@ -101,7 +100,7 @@ public class ActionSmash implements IMoveAction
                         if (!count) if (!silky) this.doFortuneDrop(state, temp.getPos(), world, player, fortune);
                         else
                         {
-                            Move_Basic.silkHarvest(state, temp.getPos(), world, player);
+                            MovesUtils.silkHarvest(state, temp.getPos(), world, player);
                             temp.breakBlock(world, false);
                         }
                         ret++;

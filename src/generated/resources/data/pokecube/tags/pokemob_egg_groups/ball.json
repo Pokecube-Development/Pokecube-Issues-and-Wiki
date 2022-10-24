@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:voltorb",
+    "pokecube:electrode",
+    "pokecube:voltorb-hisui",
+    "pokecube:electrode-hisui"
+  ]
+}

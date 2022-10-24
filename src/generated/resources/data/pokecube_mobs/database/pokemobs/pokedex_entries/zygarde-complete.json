@@ -1,0 +1,217 @@
+{
+  "name": "zygarde-complete",
+  "id": 718,
+  "stock": true,
+  "base_experience": 354,
+  "size": {
+    "height": 4.5,
+    "width": 3.0,
+    "length": 3.0
+  },
+  "mass": 610.0,
+  "is_default": false,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 216,
+    "attack": 100,
+    "defense": 121,
+    "special_attack": 91,
+    "special_defense": 95,
+    "speed": 85
+  },
+  "evs": {
+    "hp": 3
+  },
+  "types": [
+    "dragon",
+    "ground"
+  ],
+  "abilities": {
+    "normal": [
+      "power-construct"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 18,
+        "moves": [
+          "bind"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "bite",
+          "glare",
+          "dragon-breath",
+          "bulldoze",
+          "thousand-arrows",
+          "thousand-waves",
+          "core-enforcer"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "dig"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "haze"
+        ]
+      },
+      {
+        "L": 80,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "sandstorm"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 59,
+        "moves": [
+          "camouflage"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 72,
+        "moves": [
+          "coil"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "lands-wrath"
+        ]
+      }
+    ],
+    "misc": [
+      "bind",
+      "body-slam",
+      "bite",
+      "hyper-beam",
+      "earthquake",
+      "dig",
+      "toxic",
+      "double-team",
+      "haze",
+      "swift",
+      "glare",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "reversal",
+      "spite",
+      "protect",
+      "outrage",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "pain-split",
+      "dragon-breath",
+      "iron-tail",
+      "hidden-power",
+      "sunny-day",
+      "crunch",
+      "extreme-speed",
+      "facade",
+      "superpower",
+      "brick-break",
+      "camouflage",
+      "hyper-voice",
+      "block",
+      "dragon-dance",
+      "shock-wave",
+      "payback",
+      "dragon-pulse",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "zen-headbutt",
+      "draco-meteor",
+      "stone-edge",
+      "grass-knot",
+      "sludge-wave",
+      "coil",
+      "round",
+      "retaliate",
+      "bulldoze",
+      "dragon-tail",
+      "confide",
+      "thousand-arrows",
+      "thousand-waves",
+      "lands-wrath",
+      "high-horsepower",
+      "core-enforcer",
+      "stomping-tantrum",
+      "breaking-swipe",
+      "scale-shot",
+      "skitter-smack",
+      "scorching-sands"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "interactions": [
+    {
+      "male": true,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "zygardecube"
+        }
+      },
+      "action": {
+        "values": {
+          "forme": "zygarde10",
+          "type": "forme"
+        }
+      }
+    }
+  ],
+  "old_name": "zygarde_100"
+}

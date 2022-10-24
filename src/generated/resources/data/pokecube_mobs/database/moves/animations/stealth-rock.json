@@ -1,0 +1,10 @@
+{
+  "name": "stealthrock",
+  "animations": [
+    {
+      "preset": "powder:pcrit:d0.1:w5:l5:~stealthrock",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

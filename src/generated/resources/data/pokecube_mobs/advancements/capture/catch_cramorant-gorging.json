@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.cramorant-gorging"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.cramorant-gorging"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_cramorant-gorging": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "cramorant-gorging"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

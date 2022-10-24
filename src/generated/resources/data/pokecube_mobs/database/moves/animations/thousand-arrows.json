@@ -1,0 +1,94 @@
+{
+  "name": "thousandarrows",
+  "animations": [
+    {
+      "preset": "cartFunc:pend_rod:d0.2:l20:w2:rtrue:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~thousandarrows",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.payday",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 0.7,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:d0.2:pmisc:clime:w2:rtrue:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~thousandarrows",
+      "duration": "5",
+      "starttick": "0",
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pmisc:d0.2:w4.5:rtrue:clime:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~thousandarrows",
+      "duration": "5",
+      "starttick": "3",
+      "sound": "pokecube:moves.payday",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 0.7,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pmisc:l2:d0.1:clime:atrue:f(0.5-rand())*(1),(1-rand())*(10),(0.5-rand())*(1):~thousandarrows",
+      "duration": "5",
+      "starttick": "5",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 1.9,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pmisc:l2:d0.1:clime:atrue:f(0.5-rand())*(1),(1-rand())*(10),(0.5-rand())*(1):~thousandarrows",
+      "duration": "5",
+      "starttick": "6",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 1.8,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pexplosion:atrue:~thousandarrows",
+      "duration": "5",
+      "starttick": "6",
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pmisc:l2:d0.1:clime:atrue:f(0.5-rand())*(1),(1-rand())*(10),(0.5-rand())*(1):~thousandarrows",
+      "duration": "5",
+      "starttick": "7",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 1.9,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pmisc:l2:d0.1:clime:atrue:f(0.5-rand())*(1),(1-rand())*(10),(0.5-rand())*(1):~thousandarrows",
+      "duration": "5",
+      "starttick": "8",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 1.9,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pmisc:l2:d0.1:clime:atrue:f(0.5-rand())*(1),(1-rand())*(10),(0.5-rand())*(1):~thousandarrows",
+      "duration": "5",
+      "starttick": "9",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 1.9,
+      "applyAfter": false
+    }
+  ]
+}

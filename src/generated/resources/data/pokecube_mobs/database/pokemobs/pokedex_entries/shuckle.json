@@ -1,0 +1,220 @@
+{
+  "name": "shuckle",
+  "id": 213,
+  "stock": true,
+  "base_experience": 177,
+  "size": {
+    "height": 0.4,
+    "width": 0.6,
+    "length": 0.6
+  },
+  "mass": 20.5,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 20,
+    "attack": 10,
+    "defense": 230,
+    "special_attack": 10,
+    "special_defense": 230,
+    "speed": 5
+  },
+  "evs": {
+    "defense": 1,
+    "special_defense": 1
+  },
+  "types": [
+    "bug",
+    "rock"
+  ],
+  "abilities": {
+    "normal": [
+      "sturdy",
+      "gluttony"
+    ],
+    "hidden": [
+      "contrary"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 9,
+        "moves": [
+          "wrap"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "rock-throw"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "withdraw",
+          "bide",
+          "constrict",
+          "rollout",
+          "sticky-web"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "safeguard"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "encore"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "power-trick"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "gastro-acid"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "guard-split",
+          "power-split"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "shell-smash"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "struggle-bug"
+        ]
+      }
+    ],
+    "misc": [
+      "bind",
+      "headbutt",
+      "body-slam",
+      "wrap",
+      "double-edge",
+      "acid",
+      "strength",
+      "string-shot",
+      "rock-throw",
+      "earthquake",
+      "dig",
+      "toxic",
+      "mimic",
+      "double-team",
+      "withdraw",
+      "defense-curl",
+      "bide",
+      "constrict",
+      "flash",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "reversal",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "encore",
+      "sweet-scent",
+      "hidden-power",
+      "sunny-day",
+      "ancient-power",
+      "rock-smash",
+      "facade",
+      "helping-hand",
+      "knock-off",
+      "secret-power",
+      "rock-tomb",
+      "sand-tomb",
+      "iron-defense",
+      "mud-shot",
+      "covet",
+      "rock-blast",
+      "gyro-ball",
+      "natural-gift",
+      "acupressure",
+      "power-trick",
+      "gastro-acid",
+      "rock-polish",
+      "earth-power",
+      "stone-edge",
+      "captivate",
+      "stealth-rock",
+      "bug-bite",
+      "guard-split",
+      "power-split",
+      "venoshock",
+      "smack-down",
+      "sludge-wave",
+      "after-you",
+      "round",
+      "shell-smash",
+      "final-gambit",
+      "struggle-bug",
+      "bulldoze",
+      "sticky-web",
+      "confide",
+      "infestation",
+      "steel-roller",
+      "meteor-beam",
+      "skitter-smack"
+    ]
+  },
+  "loot_table": "pokecube:entities/slimeballs_2",
+  "held_table": "pokecube:entities/berryjuice"
+}

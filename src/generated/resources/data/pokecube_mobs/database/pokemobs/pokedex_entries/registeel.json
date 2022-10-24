@@ -1,0 +1,206 @@
+{
+  "name": "registeel",
+  "id": 379,
+  "stock": true,
+  "base_experience": 290,
+  "size": {
+    "height": 1.9,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 205.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 35,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 80,
+    "attack": 75,
+    "defense": 150,
+    "special_attack": 75,
+    "special_defense": 150,
+    "speed": 50
+  },
+  "evs": {
+    "defense": 2,
+    "special_defense": 1
+  },
+  "types": [
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "clear-body"
+    ],
+    "hidden": [
+      "light-metal"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "stomp",
+          "explosion",
+          "metal-claw",
+          "charge-beam",
+          "bulldoze"
+        ]
+      },
+      {
+        "L": 67,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "amnesia",
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "zap-cannon",
+          "lock-on"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "hammer-arm"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "flash-cannon",
+          "iron-head"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "heavy-slam"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "ice-punch",
+      "thunder-punch",
+      "stomp",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "hyper-beam",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "mimic",
+      "double-team",
+      "defense-curl",
+      "self-destruct",
+      "amnesia",
+      "explosion",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "snore",
+      "curse",
+      "protect",
+      "mud-slap",
+      "zap-cannon",
+      "lock-on",
+      "sandstorm",
+      "endure",
+      "rollout",
+      "swagger",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dynamic-punch",
+      "metal-claw",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "ancient-power",
+      "rock-smash",
+      "facade",
+      "focus-punch",
+      "superpower",
+      "brick-break",
+      "secret-power",
+      "rock-tomb",
+      "sand-tomb",
+      "aerial-ace",
+      "iron-defense",
+      "block",
+      "shock-wave",
+      "gravity",
+      "hammer-arm",
+      "natural-gift",
+      "fling",
+      "magnet-rise",
+      "rock-polish",
+      "focus-blast",
+      "giga-impact",
+      "shadow-claw",
+      "flash-cannon",
+      "rock-climb",
+      "iron-head",
+      "stealth-rock",
+      "charge-beam",
+      "hone-claws",
+      "heavy-slam",
+      "round",
+      "bulldoze",
+      "confide",
+      "power-up-punch",
+      "stomping-tantrum",
+      "body-press",
+      "steel-beam",
+      "steel-roller",
+      "meteor-beam"
+    ]
+  },
+  "loot_table": "pokecube:entities/iron_2",
+  "spawn_rules": [
+    {
+      "values": {
+        "structures": "pokecube_legends:registeel_temple",
+        "rate": "0.0"
+      }
+    }
+  ]
+}

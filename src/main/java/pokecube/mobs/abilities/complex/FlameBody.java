@@ -4,9 +4,9 @@ import java.util.List;
 
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
-import pokecube.api.moves.IMoveConstants;
-import pokecube.api.moves.Move_Base;
+import pokecube.api.moves.MoveEntry;
+import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.maths.Vector3;
 
@@ -27,15 +27,13 @@ public class FlameBody extends Ability
     }
 
     @Override
-    public void onMoveUse(IPokemob mob, MovePacket move)
+    public void postMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        final Move_Base attack = move.getMove();
-
-        final IPokemob attacker = move.attacker;
-        if (attacker == mob || move.pre || attacker == move.attacked) return;
-        if (move.hit && attack.getAttackCategory(
-                move.attacker) == IMoveConstants.CATEGORY_CONTACT && Math.random() > 0.7)
-            move.attacker.setStatus(IMoveConstants.STATUS_BRN);
+        if (!areWeTarget(mob, move)) return;
+        final MoveEntry attack = move.getMove();
+        final IPokemob attacker = move.getUser();
+        if (move.hit && attack.getAttackCategory(attacker) == IMoveConstants.CATEGORY_CONTACT && Math.random() > 0.7)
+            attacker.setStatus(IMoveConstants.STATUS_BRN);
     }
 
     @Override

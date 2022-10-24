@@ -2,22 +2,13 @@ package pokecube.mobs.abilities.simple;
 
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.moves.MovePacket;
+import pokecube.api.moves.utils.MoveApplication;
 
 public class MirrorArmor extends Ability
 {
 	@Override
-    public void onMoveUse(final IPokemob mob, final MovePacket move)
+    public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
-		final IPokemob attacker = move.attacker;
-		
-		if (move.pre || attacker == move.attacked) {
-			return;
-		}
-		else
-        {
-            move.attackedStatModification = move.attackerStatModification;
-            move.attackedStatModProb = move.attackerStatModProb;
-        }
+		// TODO decide on how to do this now.
     }
 }

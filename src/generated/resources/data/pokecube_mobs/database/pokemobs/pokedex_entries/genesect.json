@@ -1,0 +1,257 @@
+{
+  "name": "genesect",
+  "id": 649,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 1.5,
+    "width": 1.5,
+    "length": 1.5
+  },
+  "mass": 82.5,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 71,
+    "attack": 120,
+    "defense": 95,
+    "special_attack": 120,
+    "special_defense": 95,
+    "speed": 99
+  },
+  "evs": {
+    "attack": 1,
+    "special_attack": 1,
+    "speed": 1
+  },
+  "types": [
+    "bug",
+    "steel"
+  ],
+  "abilities": {
+    "normal": [
+      "download"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 73,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "quick-attack",
+          "screech",
+          "metal-claw",
+          "magnet-rise",
+          "techno-blast",
+          "fell-stinger"
+        ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "self-destruct"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "tri-attack"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "zap-cannon"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "lock-on"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "signal-beam"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "x-scissor"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "magnet-bomb"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "simple-beam"
+        ]
+      }
+    ],
+    "misc": [
+      "fly",
+      "flamethrower",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "toxic",
+      "psychic",
+      "quick-attack",
+      "screech",
+      "double-team",
+      "light-screen",
+      "reflect",
+      "self-destruct",
+      "swift",
+      "leech-life",
+      "flash",
+      "explosion",
+      "rest",
+      "tri-attack",
+      "slash",
+      "substitute",
+      "snore",
+      "protect",
+      "zap-cannon",
+      "lock-on",
+      "giga-drain",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "metal-claw",
+      "hidden-power",
+      "facade",
+      "magic-coat",
+      "recycle",
+      "secret-power",
+      "blaze-kick",
+      "metal-sound",
+      "signal-beam",
+      "aerial-ace",
+      "iron-defense",
+      "shock-wave",
+      "gravity",
+      "u-turn",
+      "assurance",
+      "last-resort",
+      "magnet-rise",
+      "rock-polish",
+      "dark-pulse",
+      "x-scissor",
+      "bug-buzz",
+      "energy-ball",
+      "giga-impact",
+      "shadow-claw",
+      "zen-headbutt",
+      "flash-cannon",
+      "gunk-shot",
+      "iron-head",
+      "magnet-bomb",
+      "bug-bite",
+      "charge-beam",
+      "hone-claws",
+      "telekinesis",
+      "flame-charge",
+      "simple-beam",
+      "round",
+      "ally-switch",
+      "struggle-bug",
+      "electroweb",
+      "techno-blast",
+      "fell-stinger",
+      "confide",
+      "infestation",
+      "steel-beam"
+    ]
+  },
+  "model": {
+    "key": "genesect",
+    "tex": "genesect",
+    "model": "genesect",
+    "anim": "genesect",
+    "types": "bug,steel"
+  },
+  "models": [
+    {
+      "key": "genesect-douse",
+      "tex": "genesect-douse",
+      "model": "genesect-douse",
+      "anim": "genesect-douse",
+      "types": "bug,steel"
+    },
+    {
+      "key": "genesect-shock",
+      "tex": "genesect-shock",
+      "model": "genesect-shock",
+      "anim": "genesect-shock",
+      "types": "bug,steel"
+    },
+    {
+      "key": "genesect-burn",
+      "tex": "genesect-burn",
+      "model": "genesect-burn",
+      "anim": "genesect-burn",
+      "types": "bug,steel"
+    },
+    {
+      "key": "genesect-chill",
+      "tex": "genesect-chill",
+      "model": "genesect-chill",
+      "anim": "genesect-chill",
+      "types": "bug,steel"
+    }
+  ]
+}

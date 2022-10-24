@@ -1,0 +1,162 @@
+{
+  "name": "morgrem",
+  "id": 860,
+  "stock": true,
+  "base_experience": 130,
+  "size": {
+    "height": 0.8,
+    "width": 0.6,
+    "length": 0.5
+  },
+  "mass": 12.5,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 65,
+    "attack": 60,
+    "defense": 45,
+    "special_attack": 75,
+    "special_defense": 55,
+    "speed": 70
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "dark",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "prankster",
+      "frisk"
+    ],
+    "hidden": [
+      "pickpocket"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "bite",
+          "fake-out",
+          "flatter",
+          "confide"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "torment"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "fake-tears"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "foul-play"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "play-rough"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "false-surrender"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "mega-kick",
+      "low-kick",
+      "thunder-wave",
+      "light-screen",
+      "reflect",
+      "metronome",
+      "leech-life",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "endure",
+      "attract",
+      "sleep-talk",
+      "uproar",
+      "facade",
+      "taunt",
+      "trick",
+      "revenge",
+      "fake-tears",
+      "assurance",
+      "dark-pulse",
+      "drain-punch",
+      "nasty-plot",
+      "shadow-claw",
+      "foul-play",
+      "round",
+      "retaliate",
+      "draining-kiss",
+      "play-rough",
+      "dazzling-gleam",
+      "throat-chop",
+      "false-surrender",
+      "burning-jealousy",
+      "lash-out"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_2",
+  "evolutions": [
+    {
+      "name": "grimmsnarl",
+      "level": 42,
+      "animation": "18",
+      "evoMoves": "spiritbreak"
+    }
+  ]
+}

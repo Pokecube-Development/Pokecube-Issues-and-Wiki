@@ -1,0 +1,16 @@
+{
+  "name": "confuse-ray",
+  "id": 109,
+  "pp": 10,
+  "priority": 0,
+  "type": "ghost",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The target is exposed to a sinister ray that\ntriggers confusion.",
+  "move_category": "ailment",
+  "max_turns": 5,
+  "min_turns": 2,
+  "effect_text_extend": "Confuses the target.",
+  "effect_text_simple": "Confuses the target."
+}

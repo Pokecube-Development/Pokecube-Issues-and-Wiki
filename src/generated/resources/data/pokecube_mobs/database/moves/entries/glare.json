@@ -1,0 +1,14 @@
+{
+  "name": "glare",
+  "id": 137,
+  "pp": 30,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "status",
+  "flavor_text": "The user intimidates the target with the pattern on\nits belly to cause paralysis.",
+  "move_category": "ailment",
+  "effect_text_extend": "Paralyzes the target.",
+  "effect_text_simple": "Paralyzes the target."
+}

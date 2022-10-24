@@ -1,0 +1,13 @@
+{
+  "name": "aqua-ring",
+  "id": 392,
+  "pp": 20,
+  "priority": 0,
+  "type": "water",
+  "target": "user",
+  "damage_class": "status",
+  "flavor_text": "The user envelops itself in a veil made of water.\nIt regains some HP every turn.",
+  "move_category": "unique",
+  "effect_text_extend": "Restores 1/16 of the user's max HP at the end of each turn.  If the user leaves the field, this effect ends.\n\nThis effect is passed on by baton pass.",
+  "effect_text_simple": "Restores 1/16 of the user's max HP each turn."
+}

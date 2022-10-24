@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.mesprit"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mesprit"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_mesprit": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "mesprit"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

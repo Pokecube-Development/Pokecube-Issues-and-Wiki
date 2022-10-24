@@ -1,0 +1,254 @@
+{
+  "name": "drowzee",
+  "id": 96,
+  "stock": true,
+  "base_experience": 66,
+  "size": {
+    "height": 1.0,
+    "width": 1.0,
+    "length": 1.0
+  },
+  "mass": 32.4,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 48,
+    "defense": 45,
+    "special_attack": 43,
+    "special_defense": 90,
+    "speed": 42
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "insomnia",
+      "forewarn"
+    ],
+    "hidden": [
+      "inner-focus"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "disable"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "meditate"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "dream-eater"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "poison-gas"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "psych-up"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "wake-up-slap"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 57,
+        "moves": [
+          "psyshock"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "synchronoise"
+        ]
+      }
+    ],
+    "misc": [
+      "pound",
+      "mega-punch",
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "take-down",
+      "double-edge",
+      "disable",
+      "psybeam",
+      "submission",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "thunder-wave",
+      "toxic",
+      "confusion",
+      "psychic",
+      "hypnosis",
+      "meditate",
+      "rage",
+      "teleport",
+      "mimic",
+      "double-team",
+      "barrier",
+      "light-screen",
+      "reflect",
+      "bide",
+      "metronome",
+      "skull-bash",
+      "dream-eater",
+      "poison-gas",
+      "flash",
+      "psywave",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "thief",
+      "nightmare",
+      "snore",
+      "curse",
+      "protect",
+      "zap-cannon",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dynamic-punch",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "torment",
+      "flatter",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "trick",
+      "role-play",
+      "assist",
+      "magic-coat",
+      "recycle",
+      "brick-break",
+      "skill-swap",
+      "snatch",
+      "secret-power",
+      "signal-beam",
+      "calm-mind",
+      "natural-gift",
+      "fling",
+      "guard-swap",
+      "drain-punch",
+      "nasty-plot",
+      "psycho-cut",
+      "zen-headbutt",
+      "trick-room",
+      "captivate",
+      "grass-knot",
+      "power-split",
+      "psyshock",
+      "telekinesis",
+      "magic-room",
+      "synchronoise",
+      "low-sweep",
+      "foul-play",
+      "round",
+      "ally-switch",
+      "confide",
+      "dazzling-gleam",
+      "power-up-punch",
+      "psychic-terrain"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_1",
+  "evolutions": [
+    {
+      "name": "hypno",
+      "level": 26
+    }
+  ]
+}

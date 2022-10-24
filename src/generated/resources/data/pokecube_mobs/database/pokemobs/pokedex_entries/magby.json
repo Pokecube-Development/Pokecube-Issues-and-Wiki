@@ -1,0 +1,219 @@
+{
+  "name": "magby",
+  "id": 240,
+  "stock": true,
+  "base_experience": 73,
+  "size": {
+    "height": 0.7,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 21.4,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 45,
+    "attack": 75,
+    "defense": 37,
+    "special_attack": 70,
+    "special_defense": 55,
+    "speed": 83
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "flame-body"
+    ],
+    "hidden": [
+      "vital-spirit"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 29,
+        "moves": [
+          "fire-punch"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+          "smog"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "ember"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "low-kick",
+          "sunny-day"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "fire-spin"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "smokescreen"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "fire-blast"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "flame-wheel"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "feint-attack"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "lava-plume"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "flame-burst"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "clear-smog"
+        ]
+      }
+    ],
+    "misc": [
+      "karate-chop",
+      "mega-punch",
+      "fire-punch",
+      "thunder-punch",
+      "mega-kick",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "leer",
+      "ember",
+      "flamethrower",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "fire-spin",
+      "toxic",
+      "psychic",
+      "mimic",
+      "screech",
+      "double-team",
+      "smokescreen",
+      "confuse-ray",
+      "barrier",
+      "focus-energy",
+      "smog",
+      "fire-blast",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "curse",
+      "protect",
+      "mach-punch",
+      "scary-face",
+      "feint-attack",
+      "belly-drum",
+      "mud-slap",
+      "detect",
+      "endure",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "iron-tail",
+      "hidden-power",
+      "cross-chop",
+      "sunny-day",
+      "rock-smash",
+      "uproar",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "brick-break",
+      "secret-power",
+      "overheat",
+      "covet",
+      "natural-gift",
+      "fling",
+      "power-swap",
+      "flare-blitz",
+      "lava-plume",
+      "captivate",
+      "flame-burst",
+      "flame-charge",
+      "round",
+      "clear-smog",
+      "incinerate",
+      "dual-chop",
+      "belch",
+      "confide",
+      "power-up-punch"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_1",
+  "evolutions": [
+    {
+      "name": "magmar",
+      "level": 30
+    }
+  ]
+}

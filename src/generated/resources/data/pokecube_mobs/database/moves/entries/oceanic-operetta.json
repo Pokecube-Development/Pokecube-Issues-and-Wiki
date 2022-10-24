@@ -1,0 +1,14 @@
+{
+  "name": "oceanic-operetta",
+  "id": 697,
+  "power": 195,
+  "pp": 1,
+  "priority": 0,
+  "type": "water",
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "flavor_text": "The user, Primarina, summons a massive amount of \nwater using its Z-Power and attacks the target with \nfull force.",
+  "move_category": "damage",
+  "effect_text_extend": "Inflicts regular damage.",
+  "effect_text_simple": "Inflicts regular damage with no additional effect."
+}

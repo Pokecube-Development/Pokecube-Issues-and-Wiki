@@ -1,0 +1,168 @@
+{
+  "name": "phione",
+  "id": 489,
+  "stock": true,
+  "base_experience": 216,
+  "size": {
+    "height": 0.4,
+    "width": 0.4,
+    "length": 0.4
+  },
+  "mass": 3.1,
+  "is_default": true,
+  "capture_rate": 30,
+  "base_happiness": 70,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 80,
+    "attack": 80,
+    "defense": 80,
+    "special_attack": 80,
+    "special_defense": 80,
+    "speed": 80
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "hydration"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 16,
+        "moves": [
+          "supersonic"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "bubble-beam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "bubble",
+          "water-sport"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "acid-armor"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 69,
+        "moves": [
+          "rain-dance"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "whirlpool"
+        ]
+      },
+      {
+        "L": 61,
+        "moves": [
+          "dive"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "aqua-ring"
+        ]
+      }
+    ],
+    "misc": [
+      "supersonic",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "bubble-beam",
+      "toxic",
+      "double-team",
+      "waterfall",
+      "swift",
+      "bubble",
+      "acid-armor",
+      "rest",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "endure",
+      "charm",
+      "swagger",
+      "sleep-talk",
+      "heal-bell",
+      "return",
+      "frustration",
+      "safeguard",
+      "hidden-power",
+      "rain-dance",
+      "psych-up",
+      "ancient-power",
+      "whirlpool",
+      "uproar",
+      "hail",
+      "facade",
+      "helping-hand",
+      "knock-off",
+      "secret-power",
+      "dive",
+      "signal-beam",
+      "bounce",
+      "covet",
+      "water-sport",
+      "water-pulse",
+      "brine",
+      "natural-gift",
+      "u-turn",
+      "fling",
+      "last-resort",
+      "aqua-ring",
+      "grass-knot",
+      "round",
+      "scald",
+      "confide",
+      "dazzling-gleam",
+      "liquidation"
+    ]
+  },
+  "loot_table": "pokecube:entities/generic_legend",
+  "spawn_rules": [
+    {
+      "and_preset": "ocean_monument",
+      "values": {
+        "min": "1",
+        "rate": "1.0",
+        "max": "1"
+      }
+    }
+  ]
+}

@@ -1,0 +1,276 @@
+{
+  "name": "latios",
+  "id": 381,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 1.5,
+    "width": 2.0,
+    "length": 2.0
+  },
+  "mass": 60.0,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 90,
+  "growth_rate": "slow",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 80,
+    "attack": 90,
+    "defense": 80,
+    "special_attack": 130,
+    "special_defense": 110,
+    "speed": 110
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "dragon",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "levitate"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 15,
+        "moves": [
+          "confusion"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "psywave",
+          "safeguard",
+          "memento",
+          "helping-hand",
+          "heal-block"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "dragon-breath",
+          "tailwind"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "refresh"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "luster-purge"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "dragon-dance"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "psycho-shift"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "power-split"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "telekinesis"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "simple-beam"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "stored-power"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "ally-switch"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "heal-pulse"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "fly",
+      "body-slam",
+      "double-edge",
+      "roar",
+      "surf",
+      "ice-beam",
+      "hyper-beam",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "earthquake",
+      "toxic",
+      "psychic",
+      "agility",
+      "mimic",
+      "double-team",
+      "recover",
+      "light-screen",
+      "reflect",
+      "waterfall",
+      "swift",
+      "dream-eater",
+      "flash",
+      "psywave",
+      "rest",
+      "tri-attack",
+      "substitute",
+      "snore",
+      "protect",
+      "mud-slap",
+      "icy-wind",
+      "outrage",
+      "sandstorm",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "dragon-breath",
+      "baton-pass",
+      "hidden-power",
+      "twister",
+      "rain-dance",
+      "sunny-day",
+      "psych-up",
+      "shadow-ball",
+      "future-sight",
+      "whirlpool",
+      "memento",
+      "facade",
+      "helping-hand",
+      "trick",
+      "magic-coat",
+      "refresh",
+      "secret-power",
+      "dive",
+      "luster-purge",
+      "aerial-ace",
+      "dragon-claw",
+      "calm-mind",
+      "dragon-dance",
+      "shock-wave",
+      "water-pulse",
+      "roost",
+      "natural-gift",
+      "tailwind",
+      "psycho-shift",
+      "heal-block",
+      "last-resort",
+      "aura-sphere",
+      "air-slash",
+      "dragon-pulse",
+      "energy-ball",
+      "giga-impact",
+      "shadow-claw",
+      "psycho-cut",
+      "zen-headbutt",
+      "defog",
+      "draco-meteor",
+      "captivate",
+      "grass-knot",
+      "charge-beam",
+      "hone-claws",
+      "power-split",
+      "wonder-room",
+      "psyshock",
+      "telekinesis",
+      "round",
+      "stored-power",
+      "ally-switch",
+      "heal-pulse",
+      "retaliate",
+      "bulldoze",
+      "confide",
+      "mystical-fire",
+      "laser-focus",
+      "breaking-swipe",
+      "scale-shot",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_2",
+  "spawn_rules": [
+    {
+      "and_preset": "beaches",
+      "values": {
+        "rate": "0.0"
+      }
+    }
+  ],
+  "mega_rules": [
+    {
+      "preset": "Mega",
+      "item_preset": "latiosmega"
+    }
+  ]
+}

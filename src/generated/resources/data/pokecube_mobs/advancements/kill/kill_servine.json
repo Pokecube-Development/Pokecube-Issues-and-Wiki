@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.servine"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.servine"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_servine": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "servine"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

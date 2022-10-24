@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.hoopa"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hoopa"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_hoopa": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "hoopa"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

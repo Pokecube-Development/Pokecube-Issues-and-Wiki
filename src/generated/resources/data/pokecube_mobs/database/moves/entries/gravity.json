@@ -1,0 +1,13 @@
+{
+  "name": "gravity",
+  "id": 356,
+  "pp": 5,
+  "priority": 0,
+  "type": "psychic",
+  "target": "entire-field",
+  "damage_class": "status",
+  "flavor_text": "Enables Flying-type Pokémon or Pokémon with the\nLevitate Ability to be hit by Ground-type moves.\nFlying moves can’t be used.",
+  "move_category": "whole-field-effect",
+  "effect_text_extend": "For five turns (including this one), all immunities to ground moves are disabled.  For the duration of this effect, the evasion of every Pokémon on the field is lowered by two stages.  Cancels the effects of bounce, fly, and sky drop.\n\nSpecifically, flying Pokémon and those with levitate or that have used magnet rise are no longer immune to ground attacks, arena trap, spikes, or toxic spikes.\n\nbounce, fly, sky drop, high jump kick, jump kick, and splash cannot be used while this move is in effect.\n\n*Bug*: If this move is used during a double or triple battle while Pokémon are under the effect of sky drop, Sky Drop's effect is not correctly canceled on its target, and it remains high in the air indefinitely.  As Sky Drop prevents the target from acting, the only way to subsequently remove it from the field is to faint it.",
+  "effect_text_simple": "Disables moves and immunities that involve flying or levitating for five turns."
+}

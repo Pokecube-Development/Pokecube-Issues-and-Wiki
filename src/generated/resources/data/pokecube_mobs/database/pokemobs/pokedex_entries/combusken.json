@@ -1,0 +1,252 @@
+{
+  "name": "combusken",
+  "id": 256,
+  "stock": true,
+  "base_experience": 142,
+  "size": {
+    "height": 0.9,
+    "width": 0.7,
+    "length": 0.7
+  },
+  "mass": 19.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 60,
+    "attack": 85,
+    "defense": 60,
+    "special_attack": 85,
+    "special_defense": 60,
+    "speed": 55
+  },
+  "evs": {
+    "attack": 1,
+    "special_attack": 1
+  },
+  "types": [
+    "fire",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "speed-boost"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "sand-attack",
+          "growl",
+          "ember",
+          "flamethrower",
+          "feather-dance"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "peck"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "mirror-move"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "reversal"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "detect"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "blaze-kick"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "sky-uppercut"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "aerial-ace",
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "bulk-up"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "flare-blitz"
+        ]
+      }
+    ],
+    "misc": [
+      "mega-punch",
+      "fire-punch",
+      "thunder-punch",
+      "scratch",
+      "swords-dance",
+      "cut",
+      "double-kick",
+      "mega-kick",
+      "sand-attack",
+      "headbutt",
+      "body-slam",
+      "double-edge",
+      "growl",
+      "ember",
+      "flamethrower",
+      "peck",
+      "low-kick",
+      "counter",
+      "seismic-toss",
+      "strength",
+      "fire-spin",
+      "dig",
+      "toxic",
+      "agility",
+      "quick-attack",
+      "mimic",
+      "double-team",
+      "focus-energy",
+      "mirror-move",
+      "fire-blast",
+      "swift",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "reversal",
+      "protect",
+      "mud-slap",
+      "endure",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "dynamic-punch",
+      "baton-pass",
+      "hidden-power",
+      "sunny-day",
+      "rock-smash",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "focus-punch",
+      "helping-hand",
+      "revenge",
+      "brick-break",
+      "secret-power",
+      "blaze-kick",
+      "overheat",
+      "rock-tomb",
+      "sky-uppercut",
+      "aerial-ace",
+      "bulk-up",
+      "bounce",
+      "natural-gift",
+      "assurance",
+      "fling",
+      "last-resort",
+      "flare-blitz",
+      "poison-jab",
+      "vacuum-wave",
+      "focus-blast",
+      "shadow-claw",
+      "defog",
+      "captivate",
+      "hone-claws",
+      "flame-charge",
+      "low-sweep",
+      "round",
+      "echoed-voice",
+      "incinerate",
+      "fire-pledge",
+      "work-up",
+      "dual-chop",
+      "confide",
+      "power-up-punch",
+      "coaching"
+    ]
+  },
+  "male_model": {
+    "key": "combusken_male",
+    "tex": "combusken",
+    "model": "combusken_male",
+    "anim": "combusken_male"
+  },
+  "female_model": {
+    "key": "combusken_female",
+    "tex": "combusken",
+    "model": "combusken_female",
+    "anim": "combusken_female"
+  },
+  "loot_table": "pokecube:entities/coal_chicken_2",
+  "evolutions": [
+    {
+      "name": "blaziken",
+      "level": 36,
+      "evoMoves": "blazekick"
+    }
+  ]
+}

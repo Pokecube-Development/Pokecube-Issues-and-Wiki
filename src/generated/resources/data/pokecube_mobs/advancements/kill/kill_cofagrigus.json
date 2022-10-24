@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.cofagrigus"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.cofagrigus"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_cofagrigus": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "cofagrigus"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

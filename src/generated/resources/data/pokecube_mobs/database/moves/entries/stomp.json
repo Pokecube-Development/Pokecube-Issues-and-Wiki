@@ -1,0 +1,17 @@
+{
+  "name": "stomp",
+  "id": 23,
+  "power": 65,
+  "pp": 20,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "flavor_text": "The target is stomped with a big foot. This may also\nmake the target flinch.",
+  "move_category": "damage",
+  "flinch_chance": 30,
+  "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to make the target flinch.\n\nPower is doubled against Pokémon that have used minimize since entering the field.",
+  "effect_text_simple": "Has a $effect_chance% chance to make the target flinch.",
+  "effect_chance": 30
+}

@@ -1,0 +1,157 @@
+{
+  "name": "cinccino",
+  "id": 573,
+  "stock": true,
+  "base_experience": 165,
+  "size": {
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.5
+  },
+  "mass": 7.5,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 191,
+  "stats": {
+    "hp": 75,
+    "attack": 95,
+    "defense": 60,
+    "special_attack": 65,
+    "special_defense": 60,
+    "speed": 115
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "cute-charm",
+      "technician"
+    ],
+    "hidden": [
+      "skill-link"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "slam",
+          "sing",
+          "swift",
+          "charm",
+          "encore",
+          "helping-hand",
+          "hyper-voice",
+          "tickle",
+          "bullet-seed",
+          "rock-blast",
+          "last-resort",
+          "after-you",
+          "echoed-voice",
+          "tail-slap",
+          "baby-doll-eyes"
+        ]
+      }
+    ],
+    "misc": [
+      "sing",
+      "hyper-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "toxic",
+      "double-team",
+      "light-screen",
+      "swift",
+      "rest",
+      "substitute",
+      "thief",
+      "snore",
+      "protect",
+      "endure",
+      "charm",
+      "swagger",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "safeguard",
+      "encore",
+      "iron-tail",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "uproar",
+      "facade",
+      "helping-hand",
+      "knock-off",
+      "secret-power",
+      "hyper-voice",
+      "fake-tears",
+      "tickle",
+      "bullet-seed",
+      "covet",
+      "calm-mind",
+      "rock-blast",
+      "shock-wave",
+      "u-turn",
+      "fling",
+      "last-resort",
+      "aqua-tail",
+      "seed-bomb",
+      "focus-blast",
+      "giga-impact",
+      "gunk-shot",
+      "grass-knot",
+      "after-you",
+      "round",
+      "echoed-voice",
+      "retaliate",
+      "work-up",
+      "tail-slap",
+      "play-rough",
+      "confide",
+      "dazzling-gleam",
+      "laser-focus",
+      "triple-axel"
+    ]
+  },
+  "loot_table": "pokecube:entities/rabbit_2",
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

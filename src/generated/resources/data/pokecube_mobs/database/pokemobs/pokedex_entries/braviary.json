@@ -1,0 +1,184 @@
+{
+  "name": "braviary",
+  "id": 628,
+  "stock": true,
+  "base_experience": 179,
+  "size": {
+    "height": 1.5,
+    "width": 1.5,
+    "length": 1.5
+  },
+  "mass": 41.0,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 100,
+    "attack": 123,
+    "defense": 75,
+    "special_attack": 57,
+    "special_defense": 75,
+    "speed": 80
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "normal",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "keen-eye",
+      "sheer-force"
+    ],
+    "hidden": [
+      "defiant"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "wing-attack",
+          "whirlwind",
+          "fury-attack",
+          "thrash",
+          "leer",
+          "peck",
+          "sky-attack",
+          "brave-bird"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "crush-claw"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "tailwind"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "defog"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "sky-drop"
+        ]
+      }
+    ],
+    "misc": [
+      "cut",
+      "wing-attack",
+      "whirlwind",
+      "fly",
+      "fury-attack",
+      "thrash",
+      "leer",
+      "hyper-beam",
+      "peck",
+      "strength",
+      "toxic",
+      "agility",
+      "double-team",
+      "swift",
+      "sky-attack",
+      "rest",
+      "rock-slide",
+      "slash",
+      "substitute",
+      "snore",
+      "protect",
+      "scary-face",
+      "endure",
+      "swagger",
+      "steel-wing",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
+      "heat-wave",
+      "facade",
+      "superpower",
+      "secret-power",
+      "crush-claw",
+      "rock-tomb",
+      "aerial-ace",
+      "bulk-up",
+      "roost",
+      "pluck",
+      "tailwind",
+      "u-turn",
+      "close-combat",
+      "assurance",
+      "air-slash",
+      "brave-bird",
+      "giga-impact",
+      "shadow-claw",
+      "zen-headbutt",
+      "defog",
+      "iron-head",
+      "hone-claws",
+      "round",
+      "sky-drop",
+      "retaliate",
+      "work-up",
+      "hurricane",
+      "confide",
+      "laser-focus",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_2"
+}

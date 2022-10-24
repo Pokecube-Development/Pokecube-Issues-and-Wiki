@@ -1,0 +1,181 @@
+{
+  "name": "ninjask",
+  "id": 291,
+  "stock": true,
+  "base_experience": 160,
+  "size": {
+    "height": 0.8,
+    "width": 0.8,
+    "length": 0.8
+  },
+  "mass": 12.0,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 50,
+  "growth_rate": "slow-then-very-fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 61,
+    "attack": 90,
+    "defense": 45,
+    "special_attack": 50,
+    "special_defense": 50,
+    "speed": 160
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "bug",
+    "flying"
+  ],
+  "abilities": {
+    "normal": [
+      "speed-boost"
+    ],
+    "hidden": [
+      "infiltrator"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "sand-attack",
+          "absorb",
+          "dig",
+          "harden",
+          "leech-life",
+          "mud-slap",
+          "false-swipe",
+          "metal-claw",
+          "aerial-ace",
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "screech",
+          "double-team",
+          "fury-cutter"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "mind-reader"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "baton-pass"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "x-scissor"
+        ]
+      }
+    ],
+    "misc": [
+      "scratch",
+      "swords-dance",
+      "cut",
+      "sand-attack",
+      "double-edge",
+      "hyper-beam",
+      "absorb",
+      "solar-beam",
+      "string-shot",
+      "dig",
+      "toxic",
+      "agility",
+      "mimic",
+      "screech",
+      "double-team",
+      "harden",
+      "swift",
+      "leech-life",
+      "flash",
+      "fury-swipes",
+      "rest",
+      "slash",
+      "substitute",
+      "thief",
+      "mind-reader",
+      "snore",
+      "spite",
+      "protect",
+      "mud-slap",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "false-swipe",
+      "swagger",
+      "fury-cutter",
+      "attract",
+      "sleep-talk",
+      "return",
+      "frustration",
+      "baton-pass",
+      "hidden-power",
+      "sunny-day",
+      "shadow-ball",
+      "uproar",
+      "facade",
+      "secret-power",
+      "air-cutter",
+      "silver-wind",
+      "aerial-ace",
+      "roost",
+      "natural-gift",
+      "u-turn",
+      "air-slash",
+      "x-scissor",
+      "bug-buzz",
+      "giga-impact",
+      "defog",
+      "captivate",
+      "bug-bite",
+      "ominous-wind",
+      "hone-claws",
+      "round",
+      "acrobatics",
+      "struggle-bug",
+      "confide",
+      "laser-focus",
+      "skitter-smack",
+      "dual-wingbeat"
+    ]
+  },
+  "loot_table": "minecraft:entities/other_seeds"
+}
