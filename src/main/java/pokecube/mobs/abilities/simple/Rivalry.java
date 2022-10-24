@@ -11,7 +11,7 @@ public class Rivalry extends Ability
     public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
         if (!areWeUser(mob, move)) return;
-        final IPokemob target = PokemobCaps.getPokemobFor(move.target);
+        final IPokemob target = PokemobCaps.getPokemobFor(move.getTarget());
         if (target != null)
         {
             final byte mobGender = mob.getSexe();

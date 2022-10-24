@@ -1,11 +1,11 @@
-package pokecube.core.database.moves.json;
+package pokecube.api.data.moves;
 
 import java.util.List;
 import java.util.Locale;
 
 import com.google.common.collect.Lists;
 
-import pokecube.core.database.moves.json.Animations.AnimationJson;
+import pokecube.api.data.moves.Animations.AnimationJson;
 import pokecube.core.database.pokedex.PokedexEntryLoader.IMergeable;
 
 public class Moves
@@ -22,7 +22,12 @@ public class Moves
         public int priority;
         public int drain;
         public int healing;
+        public int min_turns = -1;
+        public int max_turns = -1;
+        public int min_hits = -1;
+        public int max_hits = -1;
         public String type;
+        public String ailment;
         public int accuracy;
         public String target;
         public String damage_class;
@@ -88,7 +93,7 @@ public class Moves
 
     public static class MoveHolder
     {
-        public Move move;
+        private Move move;
         public Animation animation;
 
         public boolean _multi_target = false;
@@ -98,9 +103,13 @@ public class Moves
         public boolean _infatuates = false;
         public int _effect_index = -1;
         public String _preset;
+        public float _post_attack_delay_factor = 1;
 
         public String _effect_text_extend = "";
         public String _effect_text_simple = "";
+
+        public String _sound_effect_source = null;
+        public String _sound_effect_target = null;
 
         public float _status_chance = 0;
         public float _stat_chance = 0;
@@ -109,14 +118,49 @@ public class Moves
         public int[] _stat_effects =
         { 0, 0, 0, 0, 0, 0, 0, 0 };
 
+        public int _drain = 0;
+        public int _healing = 0;
+
+        public boolean _manually_defined = false;
+        public String _target_type = "user";
+
+        public int _min_turns = -1;
+        public int _max_turns = -1;
+        public int _min_hits = -1;
+        public int _max_hits = -1;
+
         public void preParse()
         {
-            // These can be null if the move does not specify them.
-            if (move.effect_text_extend != null)
-                this._effect_text_extend = move.effect_text_extend.toLowerCase(Locale.ROOT);
-            if (move.effect_text_simple != null)
-                this._effect_text_simple = move.effect_text_simple.toLowerCase(Locale.ROOT);
-            this._preset = move.preset;
+            if (move != null)
+            {
+                // These can be null if the move does not specify them.
+                if (move.effect_text_extend != null)
+                    this._effect_text_extend = move.effect_text_extend.toLowerCase(Locale.ROOT);
+                if (move.effect_text_simple != null)
+                    this._effect_text_simple = move.effect_text_simple.toLowerCase(Locale.ROOT);
+                this._preset = move.preset;
+                this._drain = move.drain;
+                this._healing = move.healing;
+                this._target_type = move.target;
+
+                this._sound_effect_source = move.sound_effect_source;
+                this._sound_effect_target = move.sound_effect_target;
+
+                this._min_turns = move.min_turns;
+                this._max_turns = move.max_turns;
+                this._min_hits = move.min_hits;
+                this._max_hits = move.max_hits;
+            }
+        }
+
+        public Move getMove()
+        {
+            return move;
+        }
+
+        public void setMove(Move move)
+        {
+            this.move = move;
         }
     }
 }

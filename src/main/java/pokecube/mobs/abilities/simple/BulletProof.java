@@ -11,6 +11,6 @@ public class BulletProof extends Ability
     public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
         if (!areWeTarget(mob, move)) return;
-        if (Tags.MOVE.isIn("bullet-proof", move.getName())) move.canceled = true;
+        if (Tags.MOVE.isIn("bullet-proof-affected", move.getName())) move.canceled = true;
     }
 }

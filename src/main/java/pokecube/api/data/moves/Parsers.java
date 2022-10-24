@@ -1,4 +1,4 @@
-package pokecube.core.database.moves.json;
+package pokecube.api.data.moves;
 
 import java.util.Locale;
 import java.util.Map;
@@ -164,13 +164,13 @@ public class Parsers
         public void process(MoveEntry entry)
         {
             entry.root_entry.preParse();
-            entry.type = PokeType.getType(entry.root_entry.move.type);
-            entry.power = entry.root_entry.move.power;
-            entry.pp = entry.root_entry.move.pp;
-            entry.accuracy = entry.root_entry.move.accuracy;
-            entry.crit = entry.root_entry.move.crit_rate;
+            entry.type = PokeType.getType(entry.root_entry.getMove().type);
+            entry.power = entry.root_entry.getMove().power;
+            entry.pp = entry.root_entry.getMove().pp;
+            entry.accuracy = entry.root_entry.getMove().accuracy;
+            entry.crit = entry.root_entry.getMove().crit_rate;
 
-            parseCategory(entry.root_entry.move.damage_class, entry);
+            parseCategory(entry.root_entry.getMove().damage_class, entry);
             entry.attackCategory = 0;
         }
     }

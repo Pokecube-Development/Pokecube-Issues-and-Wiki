@@ -4,6 +4,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
@@ -13,6 +16,9 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.npc.Npc;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.CapabilityAffected;
+import pokecube.api.entity.IOngoingAffected;
+import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -33,6 +39,14 @@ import thut.api.terrain.TerrainSegment;
 
 public class MoveApplication
 {
+    public static record Accuracy(MoveApplication move, float efficiency)
+    {
+    }
+
+    public static record Damage(MoveApplication move, float efficiency, int dealt, int healthBefore, int healthAfter)
+    {
+    }
+
     public static interface PreApplyTests extends Predicate<MoveApplication>
     {
         public static PreApplyTests DEFAULT = new PreApplyTests()
@@ -42,7 +56,7 @@ public class MoveApplication
         @Override
         default boolean test(MoveApplication t)
         {
-            final IPokemob attackedMob = PokemobCaps.getPokemobFor(t.target);
+            final IPokemob attackedMob = PokemobCaps.getPokemobFor(t.getTarget());
             if ((t.getUser().getStatus() & IMoveConstants.STATUS_SLP) > 0)
             {
                 if (attackedMob != null) MovesUtils.displayStatusMessages(attackedMob, t.getUser().getEntity(),
@@ -68,7 +82,7 @@ public class MoveApplication
         }
     }
 
-    public static interface StatusApplier extends Consumer<MoveApplication>
+    public static interface StatusApplier extends Consumer<Damage>
     {
         public static StatusApplier DEFAULT = new StatusApplier()
         {
@@ -76,23 +90,23 @@ public class MoveApplication
         public static StatusApplier NOOP = new StatusApplier()
         {
             @Override
-            public void accept(MoveApplication t)
+            public void accept(Damage t)
             {}
         };
 
         @Override
-        default void accept(MoveApplication t)
+        default void accept(Damage t)
         {
-            LivingEntity target = t.target;
-            if (t.status_chance > target.getRandom().nextDouble())
+            LivingEntity target = t.move().getTarget();
+            if (t.move().status_chance > target.getRandom().nextDouble())
             {
-                if (MovesUtils.setStatus(target, t.status_effects))
-                    MovesUtils.displayStatusMessages(t.user, target, t.status_effects, true);
+                if (MovesUtils.setStatus(target, t.move().status_effects))
+                    MovesUtils.displayStatusMessages(t.move().user, target, t.move().status_effects, true);
             }
         }
     }
 
-    public static interface StatApplier extends Consumer<MoveApplication>
+    public static interface StatApplier extends Consumer<Damage>
     {
         public static StatApplier DEFAULT = new StatApplier()
         {
@@ -100,25 +114,22 @@ public class MoveApplication
         public static StatApplier NOOP = new StatApplier()
         {
             @Override
-            public void accept(MoveApplication t)
+            public void accept(Damage t)
             {}
         };
 
         @Override
-        default void accept(MoveApplication t)
+        default void accept(Damage t)
         {
-            LivingEntity target = t.target;
-            if (t.stat_chance > 0)
+            LivingEntity target = t.move().getTarget();
+            if (t.move().stat_chance > 0)
             {
-                t.applied_stat_effects = MovesUtils.handleStats(t.user, target, t.stat_effects, t.stat_chance);
-                MovesUtils.sendStatDiffsMessages(t.user, target, t.applied_stat_effects);
+                t.move().applied_stat_effects = MovesUtils.handleStats(t.move().user, target, t.move().stat_effects,
+                        t.move().stat_chance);
+                MovesUtils.sendStatDiffsMessages(t.move().user, target, t.move().applied_stat_effects);
             }
         }
     }
-
-    public static record Damage(MoveApplication move, float efficiency, int dealt, int healthBefore, int healthAfter)
-    {
-    };
 
     public static interface DamageApplier extends Function<MoveApplication, Damage>
     {
@@ -132,14 +143,14 @@ public class MoveApplication
             IPokemob user = t.user;
             MoveEntry move = t.move;
             PokeType type = t.type;
-            LivingEntity target = t.target;
+            LivingEntity target = t.getTarget();
 
             // This is the pokemob instance of the target, may be null.
-            IPokemob targetPokemob = PokemobCaps.getPokemobFor(t.target);
+            IPokemob targetPokemob = PokemobCaps.getPokemobFor(t.getTarget());
             // This ia a vanilla-equivalent of the attack strength.
             float attackStrength = user.getAttackStrength() * t.pwr / 150;
             // We use the RNG for the target
-            var rand = t.target.getRandom();
+            var rand = t.getTarget().getRandom();
 
             // This will scale the damage of the move, for things like
             // not-very-effective, and is also used as a flag for if the move
@@ -155,25 +166,11 @@ public class MoveApplication
                 // "proper" calculations
                 attackStrength = MovesUtils.getAttackStrength(user, targetPokemob, move.getCategory(user), t.pwr, move,
                         t.stat_multipliers);
-
-                // Accuracy can then also factor in the target's stats.
-                final int moveAcc = t.accuracy.apply(t);
-                if (moveAcc > 0)
-                {
-                    final double accuracy = user.getFloatStat(Stats.ACCURACY, true);
-                    final double evasion = targetPokemob.getFloatStat(Stats.EVASION, true);
-                    final double moveAccuracy = moveAcc / 100d;
-                    final double hitModifier = moveAccuracy * accuracy / evasion;
-                    if (hitModifier < rand.nextDouble()) efficiency = -1;
-                }
-                // ohko moves use a different accuracy application.
-                if (move.ohko)
-                {
-                    final double moveAccuracy = (user.getLevel() - targetPokemob.getLevel() + 30) / 100d;
-                    final double hitModifier = user.getLevel() < targetPokemob.getLevel() ? -1 : moveAccuracy;
-                    if (hitModifier < rand.nextDouble()) efficiency = -1;
-                }
             }
+
+            // Accuracy can then also factor in the target's stats.
+            var moveAcc = t.accuracy.apply(new Accuracy(t, efficiency));
+            efficiency = moveAcc.efficiency();
 
             // This scales how much the critical attack will deal
             float criticalRatio = 1;
@@ -195,17 +192,6 @@ public class MoveApplication
 
             // Now set the criticalRatio to critFactor if we should have crit.
             if (t.crit > 0 && rand.nextInt(critcalRate) == 0) criticalRatio = t.critFactor;
-
-            // TODO apply ongoing effect here.
-//            if (move instanceof Move_Ongoing ongoing)
-//            {
-//                final IOngoingAffected targetAffected = CapabilityAffected.getAffected(attacked);
-//                final IOngoingAffected sourceAffected = CapabilityAffected.getAffected(attackerMob);
-//                if (ongoing.onTarget() && targetAffected != null)
-//                    targetAffected.getEffects().add(ongoing.makeEffect(attackerMob));
-//                if (ongoing.onSource() && sourceAffected != null)
-//                    sourceAffected.getEffects().add(ongoing.makeEffect(attackerMob));
-//            }
 
             final LivingEntity attackerMob = user.getEntity();
             // See if terrain effects will scale damage
@@ -358,18 +344,42 @@ public class MoveApplication
             // thunder moves apply lightning bolt effects.
             if (AnimationMultiAnimations.isThunderAnimation(t.move.getAnimation(t.getUser())))
             {
-                final LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, t.target.getLevel());
-                t.target.thunderHit((ServerLevel) t.target.getLevel(), lightning);
+                final LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, t.getTarget().getLevel());
+                t.getTarget().thunderHit((ServerLevel) t.getTarget().getLevel(), lightning);
             }
 
             // Creepers fear psyhic moves.
-            if (t.target instanceof Creeper creeper)
+            if (t.getTarget() instanceof Creeper creeper)
             {
                 if (t.type == PokeType.getType("psychic") && creeper.getHealth() > 0) creeper.explodeCreeper();
             }
 
             return new Damage(t, efficiency, finalAttackStrength, beforeHealth, afterHealth);
         }
+    }
+
+    public static interface OngoingApplier extends Consumer<Damage>
+    {
+        OngoingApplier NOOP = new OngoingApplier()
+        {
+        };
+
+        public static OngoingApplier fromFunction(Function<Damage, IOngoingEffect> provider)
+        {
+            return new OngoingApplier()
+            {
+                @Override
+                public void accept(Damage t)
+                {
+                    final IOngoingAffected targetAffected = CapabilityAffected.getAffected(t.move().target);
+                    if (targetAffected != null) targetAffected.getEffects().add(provider.apply(t));
+                }
+            };
+        };
+
+        @Override
+        default void accept(Damage t)
+        {}
     }
 
     public static interface RecoilApplier extends Consumer<Damage>
@@ -384,7 +394,7 @@ public class MoveApplication
             var moveAppl = t.move();
             MoveEntry move = moveAppl.getMove();
             int dealt = t.dealt;
-            float recoil = dealt * move.root_entry.move.drain / 100.0f;
+            float recoil = dealt * move.root_entry._drain / 100.0f;
 
             if (recoil != 0)
             {
@@ -420,7 +430,7 @@ public class MoveApplication
             float max_hp = moveAppl.getUser().getMaxHealth();
             float current_hp = moveAppl.getUser().getHealth();
 
-            float heal = move.root_entry.move.healing * max_hp / 100.0f;
+            float heal = move.root_entry._healing * max_hp / 100.0f;
             if (heal > 0)
             {
                 heal = Math.min(max_hp - current_hp, heal);
@@ -429,18 +439,82 @@ public class MoveApplication
         }
     }
 
-    public static interface AccuracyProvider extends Function<MoveApplication, Integer>
-    {}
+    public static interface AccuracyProvider extends Function<Accuracy, Accuracy>
+    {
+        public static AccuracyProvider DEFAULT = new AccuracyProvider()
+        {
+        };
+
+        @Override
+        default Accuracy apply(Accuracy t)
+        {
+            int moveAcc = t.move().getMove().accuracy;
+            IPokemob user = t.move().getUser();
+            IPokemob targetPokemob = PokemobCaps.getPokemobFor(t.move().getTarget());
+            float efficiency = t.efficiency();
+            if (targetPokemob != null)
+            {
+                var rand = t.move().getTarget().getRandom();
+                if (moveAcc > 0)
+                {
+                    final double accuracy = user.getFloatStat(Stats.ACCURACY, true);
+                    final double evasion = targetPokemob.getFloatStat(Stats.EVASION, true);
+                    final double moveAccuracy = moveAcc / 100d;
+                    final double hitModifier = moveAccuracy * accuracy / evasion;
+                    if (hitModifier < rand.nextDouble()) efficiency = -1;
+                }
+                // ohko moves use a different accuracy application.
+                if (t.move().getMove().ohko)
+                {
+                    final double moveAccuracy = (user.getLevel() - targetPokemob.getLevel() + 30) / 100d;
+                    final double hitModifier = user.getLevel() < targetPokemob.getLevel() ? -1 : moveAccuracy;
+                    if (hitModifier < rand.nextDouble()) efficiency = -1;
+                }
+            }
+            if (efficiency != t.efficiency()) t = new Accuracy(t.move(), efficiency);
+            return t;
+        }
+    }
+
+    public static interface PostMoveUse extends Consumer<Damage>
+    {
+        PostMoveUse DEFAULT = new PostMoveUse()
+        {
+        };
+
+        @Override
+        default void accept(Damage t)
+        {
+            // NO-OP
+        }
+    }
+
+    public static interface OnMoveFail extends Consumer<MoveApplication>
+    {
+        OnMoveFail DEFAULT = new OnMoveFail()
+        {
+        };
+
+        @Override
+        default void accept(MoveApplication t)
+        {
+            // NO-OP
+        }
+    }
 
     private IPokemob user;
     private MoveEntry move;
+    private LivingEntity target;
 
     // Move specific things
-    public LivingEntity target;
     public int pwr;
     public int crit;
     public PokeType type;
     public boolean stab = false;
+
+    // Counter to track application, this is for moves that can hit multiple
+    // times, or over multiple turns.
+    public int apply_number = 0;
 
     public float status_chance = 0;
     public int status_effects = 0;
@@ -468,8 +542,12 @@ public class MoveApplication
     public boolean didCrit = false;
     public boolean hit = false;
     public boolean infatuate = false;
+
     // These two act similar, and prevent move use.
+
+    // This is due to things like already had status, etc
     public boolean failed = false;
+    // This is due to abilities, etc cancelling the move.
     public boolean canceled = false;
 
     public Damage dealt;
@@ -490,9 +568,7 @@ public class MoveApplication
      * Replace this if you want to adjust accuracy of the move, otherwise it
      * uses whatever the move had in data.
      */
-    public AccuracyProvider accuracy = (move) -> {
-        return move.move.accuracy;
-    };
+    public AccuracyProvider accuracy = AccuracyProvider.DEFAULT;
 
     /**
      * This deals the damage, and returns info regarding damage dealt. Replace
@@ -513,6 +589,20 @@ public class MoveApplication
      * handles things like checking status effects, etc.
      */
     public PreApplyTests doRun = PreApplyTests.DEFAULT;
+    /**
+     * Applies ongoing effects, ie things which are liable to apply to damage
+     * over a longer duration, or later in time in general.
+     */
+    public OngoingApplier applyOngoing = OngoingApplier.NOOP;
+    /**
+     * Post move application, default is no operation, but this can be used for
+     * incrementing timers after move use, etc.
+     */
+    public PostMoveUse afterUse = PostMoveUse.DEFAULT;
+    /**
+     * This gets applied if the move has failed or is cancelled.
+     */
+    public OnMoveFail onFail = OnMoveFail.DEFAULT;
 
     /**
      * Sounds played on the move use, if this is null, it will use whatever was
@@ -522,14 +612,11 @@ public class MoveApplication
 
     public MoveApplication(MoveEntry move, IPokemob user, LivingEntity target)
     {
-        this.user = user;
+        this.setUser(user);
         this.move = move;
 
-        this.target = target;
+        this.setTarget(target);
         this.crit = move.crit;
-        this.pwr = move.getPWR(user, target);
-        this.type = move.getType(user);
-        this.stab = user.isType(type);
 
         this.status_chance = move.root_entry._status_chance;
         this.status_effects = move.root_entry._status_effects;
@@ -539,16 +626,6 @@ public class MoveApplication
         this.stat_effects = move.root_entry._stat_effects.clone();
     }
 
-    public MoveEntry getMove()
-    {
-        return move;
-    }
-
-    public IPokemob getUser()
-    {
-        return user;
-    }
-
     public String getName()
     {
         return getMove().getName();
@@ -556,33 +633,47 @@ public class MoveApplication
 
     public void apply()
     {
-        // Start with basic events and checks.
+        // Increment number of times this has been used.
+        this.apply_number++;
+
+        // then basic events and checks.
         // Events are: Pre, Post
         var preEvent = new DuringUse.Pre(this);
+        var postEvent = new DuringUse.Post(this);
         // Fire the pre event, if cancelled, assume someone else is handling the
         // moves.
         if (PokecubeAPI.MOVE_BUS.post(preEvent)) return;
 
+        boolean no_run = this.canceled || this.failed;
         // Now check other things, such as possible move failure.
-        if (this.canceled || this.failed || this.target == null)
+        if (no_run || !(no_run = doRun.test(this)) || this.getTarget() == null)
         {
             // for now, buth have the same message, as "cancelled" and
             // "failed" are normally similar causes.
 
             // If the attacked was null, this message should tell at least
             // the user that things broke.
-            MovesUtils.displayEfficiencyMessages(user, target, -2, 0);
+            MovesUtils.displayEfficiencyMessages(user, getTarget(), -2, 0);
+
+            // We can get here if we had no target, but otherwise the move
+            // worked. This can be the case for using move on terrain, etc. In
+            // that case, we still want to play sounds.
+            if (!no_run) this.getMove().playSounds(this);
+            
+            // Run the on failure.
+            onFail.accept(this);
+
+            // Fire the post event, we did not hit, this is apparent in the
+            // from didHit == false.
+            PokecubeAPI.MOVE_BUS.post(postEvent);
             return;
         }
-
-        // Check if we should run the move.
-        if (!doRun.test(this)) return;
 
         // Once that passes, lets play the sounds for the move.
         this.getMove().playSounds(this);
 
         // Now process infatuation if it occured
-        final IPokemob targetPokemob = PokemobCaps.getPokemobFor(target);
+        final IPokemob targetPokemob = PokemobCaps.getPokemobFor(getTarget());
         // Now lets set infatuation if needed
         if (infatuate && targetPokemob != null) targetPokemob.getMoveStats().infatuateTarget = user.getEntity();
 
@@ -592,19 +683,56 @@ public class MoveApplication
         if (dealt.efficiency > 0)
         {
             // First apply stat effects
-            stats.accept(this);
+            stats.accept(dealt);
             // Next apply status effects
-            status.accept(this);
-            // Finally apply recoil then healing
+            status.accept(dealt);
+            // Next apply recoil then healing
             recoil.accept(dealt);
             healer.accept(dealt);
+            // and finally apply ongoing effects
+            applyOngoing.accept(dealt);
         }
-        var postEvent = new DuringUse.Post(this);
+        // Now apply the after move use, this gets done even if it missed.
+        afterUse.accept(dealt);
+
         PokecubeAPI.MOVE_BUS.post(postEvent);
     }
 
-    public void setUser(IPokemob user)
+    @Nonnull
+    public MoveEntry getMove()
+    {
+        return move;
+    }
+
+    @Nonnull
+    public IPokemob getUser()
+    {
+        return user;
+    }
+
+    /**
+     * This will set the user, but will then also update pwr, type and stab
+     * accordingly, so if you do not intend those to change, ensure to reset
+     * them after!
+     * 
+     * @param user
+     */
+    public void setUser(@Nonnull IPokemob user)
     {
         this.user = user;
+        this.pwr = move.getPWR(user, target);
+        this.type = move.getType(user);
+        this.stab = user.isType(type);
+    }
+
+    @Nullable
+    public LivingEntity getTarget()
+    {
+        return target;
+    }
+
+    public void setTarget(@Nullable LivingEntity target)
+    {
+        this.target = target;
     }
 }

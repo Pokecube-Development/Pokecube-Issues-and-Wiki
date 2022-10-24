@@ -23,9 +23,9 @@ public class Aftermath extends Ability
 
         if (mob.getEntity().getHealth() <= 0)
         {
-            final Explosion boom = new Explosion(move.target.getLevel(), move.target, move.target.getX(),
-                    move.target.getY(), move.target.getZ(), 0, false, BlockInteraction.BREAK);
-            final ExplosionEvent evt = new ExplosionEvent.Start(move.target.getLevel(), boom);
+            final Explosion boom = new Explosion(move.getTarget().getLevel(), move.getTarget(), move.getTarget().getX(),
+                    move.getTarget().getY(), move.getTarget().getZ(), 0, false, BlockInteraction.BREAK);
+            final ExplosionEvent evt = new ExplosionEvent.Start(move.getTarget().getLevel(), boom);
             MinecraftForge.EVENT_BUS.post(evt);
             if (!evt.isCanceled())
             {

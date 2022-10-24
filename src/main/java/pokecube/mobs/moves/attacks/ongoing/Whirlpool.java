@@ -13,12 +13,6 @@ import thut.core.common.ThutCore;
 
 public class Whirlpool extends Move_Ongoing
 {
-
-    public Whirlpool()
-    {
-        super("whirlpool");
-    }
-
     @Override
     public void doOngoingEffect(final LivingEntity user, final IOngoingAffected mob, final IOngoingEffect effect)
     {

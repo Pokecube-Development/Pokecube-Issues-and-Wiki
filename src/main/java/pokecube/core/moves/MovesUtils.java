@@ -2,15 +2,12 @@ package pokecube.core.moves;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -42,7 +39,6 @@ import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.MoveEntry.Category;
-import pokecube.api.moves.Move_Base;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
@@ -71,16 +67,14 @@ public class MovesUtils implements IMoveConstants
 
     public static Random rand = ThutCore.newRandom();
 
-    private static HashMap<String, Move_Base> moves = Maps.newHashMap();
-
     public static Collection<String> getKnownMoveNames()
     {
-        return MovesUtils.moves.keySet();
+        return MoveEntry.keys();
     }
 
-    public static Collection<Move_Base> getKnownMoves()
+    public static Collection<MoveEntry> getKnownMoves()
     {
-        return MovesUtils.moves.values();
+        return MoveEntry.values();
     }
 
     public static void sendPairedMessages(final Entity target, final IPokemob attacker, final String baseKey)
@@ -297,8 +291,8 @@ public class MovesUtils implements IMoveConstants
 
     public static void doAttack(final String attackName, final IPokemob attacker, final LivingEntity attacked)
     {
-        final Move_Base move = MovesUtils.moves.get(attackName);
-        if (move != null) move.attack(attacker, attacked);
+        final MoveEntry move = MovesUtils.getMove(attackName);
+        if (move != null) move.applyMove(attacker, attacked, null);
         else
         {
             if (attackName != null) System.err.println("The Move \"" + attackName + "\" does not exist.");
@@ -371,7 +365,7 @@ public class MovesUtils implements IMoveConstants
     {
         float moveCooldownFactor = PokecubeCore.getConfig().attackCooldown / 20F;
         if (attacker.getStatus() == IMoveConstants.STATUS_PAR) moveCooldownFactor *= 4F;
-        final Move_Base move = MovesUtils.getMoveFromName(moveName);
+        final MoveEntry move = MovesUtils.getMove(moveName);
         if (move == null) return 1;
         if ((move.getAttackCategory(attacker) & IMoveConstants.CATEGORY_CONTACT) > 0)
         {
@@ -385,28 +379,19 @@ public class MovesUtils implements IMoveConstants
         return moveCooldownFactor;
     }
 
-    @Deprecated
-    public static Move_Base getMoveFromName(final String moveName)
-    {
-        if (moveName == null) return null;
-        final Move_Base ret = MovesUtils.moves.get(moveName);
-        return ret;
-    }
-
     public static MoveEntry getMove(final String moveName)
     {
         if (moveName == null) return null;
-        final Move_Base ret = MovesUtils.moves.get(moveName);
-        return ret.move;
+        return MoveEntry.get(moveName);
     }
 
     public static MutableComponent getMoveName(final String attack, IPokemob user)
     {
-        Move_Base move = getMoveFromName(attack);
+        MoveEntry move = getMove(attack);
         MutableComponent name = TComponent.translatable("pokemob.move." + attack);
         if (move != null)
         {
-            name.setStyle(name.getStyle().withColor(move.move.getType(user).colour));
+            name.setStyle(name.getStyle().withColor(move.getType(user).colour));
         }
         return name;
     }
@@ -585,15 +570,8 @@ public class MovesUtils implements IMoveConstants
     public static boolean isMoveImplemented(String attackName)
     {
         if (attackName == null) return false;
-        final Move_Base move = MovesUtils.moves.get(attackName);
-        if (move == null)
-            for (final String s : MovesUtils.moves.keySet()) if (ThutCore.trim(s).equals(ThutCore.trim(attackName)))
-        {
-            attackName = s;
-            return true;
-        }
-        if (move != null) return true;
-        return false;
+        final MoveEntry move = getMove(attackName);
+        return move != null;
     }
 
     /** creates an ExplosionCustom */
@@ -606,24 +584,6 @@ public class MovesUtils implements IMoveConstants
         if (poke != null) if (poke.getOwner() instanceof Player) var11.owner = (Player) poke.getOwner();
         else var11.owner = null;
         return var11;
-    }
-
-    public static boolean registerMove(final Move_Base move)
-    {
-        if (move.move.root_entry == null)
-        {
-            PokecubeAPI.LOGGER.error("Attempted to register unknown move {}", move.name);
-            return false;
-        }
-
-        final Move_Base old = MovesUtils.moves.get(move.name);
-        if (old != null) old.destroy();
-
-        move.init();
-        MovesUtils.moves.put(move.name, move);
-        if (move.move.ohko) MoveEntry.oneHitKos.add(move.name);
-        if (move.move.root_entry._protects) MoveEntry.protectionMoves.add(move.name);
-        return true;
     }
 
     public static boolean setStatus(final LivingEntity attacked, int status)

@@ -13,12 +13,6 @@ import thut.core.common.ThutCore;
 
 public class FireSpin extends Move_Ongoing
 {
-
-    public FireSpin()
-    {
-        super("fire-spin");
-    }
-
     @Override
     public void doOngoingEffect(final LivingEntity user, final IOngoingAffected mob, final IOngoingEffect effect)
     {

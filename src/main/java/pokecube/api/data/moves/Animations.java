@@ -1,4 +1,4 @@
-package pokecube.core.database.moves.json;
+package pokecube.api.data.moves;
 
 import java.util.ArrayList;
 import java.util.List;

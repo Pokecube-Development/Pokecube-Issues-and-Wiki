@@ -5,7 +5,9 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.moves.MoveApplicationRegistry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -17,22 +19,32 @@ import pokecube.api.moves.MoveEntry.PowerProvider;
 import pokecube.api.moves.MoveEntry.TypeProvider;
 import pokecube.api.utils.PokeType;
 import pokecube.core.moves.implementations.MovesAdder;
+import pokecube.core.moves.templates.Move_Ongoing;
+import pokecube.mobs.moves.attacks.ongoing.FireSpin;
+import pokecube.mobs.moves.attacks.ongoing.Infestation;
+import pokecube.mobs.moves.attacks.ongoing.Leechseed;
+import pokecube.mobs.moves.attacks.ongoing.Perishsong;
+import pokecube.mobs.moves.attacks.ongoing.Whirlpool;
+import pokecube.mobs.moves.attacks.ongoing.Yawn;
 import thut.core.common.ThutCore;
 
 public class MoveRegister
 {
     public static void init()
     {
-        MovesAdder.packages.add(MoveRegister.class.getPackage());
+        MovesAdder.worldActionPackages.add(MoveRegister.class.getPackage());
 
-        PokecubeAPI.MOVE_BUS.addListener(MoveRegister::onMoveInit);
+        // Ours is registered as HIGH so that other addons can replace if
+        // needed.
+        PokecubeAPI.MOVE_BUS.addListener(EventPriority.HIGH, MoveRegister::onMoveInit);
         PokecubeAPI.MOVE_BUS.addListener(MoveRegister::preMoveUse);
     }
 
     private static final Map<String, TypeProvider> TYPES = Maps.newHashMap();
     private static final Map<String, PowerProvider> POWER = Maps.newHashMap();
+    private static final Map<String, Move_Ongoing> ONGOING = Maps.newHashMap();
 
-    static
+    private static void moveTypeChangers()
     {
         TYPES.put("hidden-power", new TypeProvider()
         {
@@ -74,6 +86,10 @@ public class MoveRegister
             return user.getType1();
         });
 
+    }
+
+    private static void movePowerChangers()
+    {
         POWER.put("hidden-power", (IPokemob user, LivingEntity target, int pwr) -> {
             final byte[] ivs = user.getIVs();
             final int u = (ivs[0] & 2) / 2;
@@ -222,15 +238,37 @@ public class MoveRegister
         });
     }
 
+    private static void ongoingMoves()
+    {
+        ONGOING.put("fire-spin", new FireSpin());
+        ONGOING.put("infestation", new Infestation());
+        ONGOING.put("leech-seed", new Leechseed());
+        ONGOING.put("perish-song", new Perishsong());
+        ONGOING.put("whirlpool", new Whirlpool());
+        ONGOING.put("yawn", new Yawn());
+    }
+
+    static
+    {
+        moveTypeChangers();
+        movePowerChangers();
+        ongoingMoves();
+    }
+
     private static void onMoveInit(InitMoveEntry event)
     {
-        if (POWER.containsKey(event.getEntry().getName()))
+        String name = event.getEntry().getName();
+        if (POWER.containsKey(name))
         {
-            event.getEntry().powerp = POWER.get(event.getEntry().getName());
+            event.getEntry().powerp = POWER.get(name);
         }
-        if (TYPES.containsKey(event.getEntry().getName()))
+        if (TYPES.containsKey(name))
         {
-            event.getEntry().typer = TYPES.get(event.getEntry().getName());
+            event.getEntry().typer = TYPES.get(name);
+        }
+        if (ONGOING.containsKey(name))
+        {
+            MoveApplicationRegistry.registerOngoingEffect(event.getEntry(), ONGOING.get(name));
         }
     }
 

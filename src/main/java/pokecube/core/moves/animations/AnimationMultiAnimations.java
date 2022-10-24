@@ -12,10 +12,10 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.moves.Animations.AnimationJson;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveAnimation;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.moves.json.Animations.AnimationJson;
 import pokecube.core.moves.animations.presets.Thunder;
 import thut.api.maths.Vector3;
 

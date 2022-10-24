@@ -71,6 +71,9 @@ class MoveEntry:
                 self.stat_chance = move.meta.stat_chance
             if move.meta.ailment_chance != 0:
                 self.ailment_chance = move.meta.ailment_chance
+            if move.meta.ailment is not None:
+                self.ailment = move.meta.ailment.name
+
             self.max_hits = move.meta.max_hits
             self.min_hits = move.meta.min_hits
             self.max_turns = move.meta.max_turns
@@ -156,6 +159,8 @@ def convert_moves():
         move_entries.append(entry)
 
         file = f'./new/moves/entries/{name}.json'
+        if not os.path.exists(os.path.dirname(file)):
+            os.makedirs(os.path.dirname(file))
         file = open(file, 'w', encoding='utf-8')
         json.dump(entry.__dict__, file, indent=2, ensure_ascii=False)
         file.close()
@@ -177,6 +182,8 @@ def convert_moves():
         new_name = convert_old_move_name(name)
         if new_name is not None:
             file = f'./new/moves/animations/{new_name}.json'
+            if not os.path.exists(os.path.dirname(file)):
+                os.makedirs(os.path.dirname(file))
             file = open(file, 'w', encoding='utf-8')
             json.dump(value, file, indent=2, ensure_ascii=False)
             file.close()

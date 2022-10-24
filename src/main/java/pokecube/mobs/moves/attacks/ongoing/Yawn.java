@@ -9,11 +9,6 @@ import pokecube.core.moves.templates.Move_Ongoing;
 
 public class Yawn extends Move_Ongoing
 {
-    public Yawn()
-    {
-        super("yawn");
-    }
-
     @Override
     public void doOngoingEffect(final LivingEntity user, final IOngoingAffected mob, final IOngoingEffect effect)
     {

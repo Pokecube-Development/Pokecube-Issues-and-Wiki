@@ -37,7 +37,7 @@ public class StanceChange extends Ability
 
         final MoveEntry attack = move.getMove();
 
-        if (isShield && attack.getPWR(attacker, move.target) > 0)
+        if (isShield && attack.getPWR(attacker, move.getTarget()) > 0)
             attacker = attacker.setPokedexEntry(StanceChange.blade_form);
         else if (isBlade && move.getName().equals("kings-shield"))
             attacker = attacker.setPokedexEntry(StanceChange.base_form);

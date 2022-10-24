@@ -8,12 +8,6 @@ import pokecube.core.moves.templates.Move_Ongoing;
 
 public class Perishsong extends Move_Ongoing
 {
-
-    public Perishsong()
-    {
-        super("perish-song");
-    }
-
     @Override
     public void doOngoingEffect(final LivingEntity user, final IOngoingAffected mob, final IOngoingEffect effect)
     {
@@ -35,11 +29,4 @@ public class Perishsong extends Move_Ongoing
     {
         return 3;
     }
-
-    @Override
-    public boolean onSource()
-    {
-        return true;
-    }
-
 }

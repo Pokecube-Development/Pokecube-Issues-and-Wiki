@@ -9,12 +9,6 @@ import pokecube.core.moves.templates.Move_Ongoing;
 
 public class Leechseed extends Move_Ongoing
 {
-
-    public Leechseed()
-    {
-        super("leech-seed");
-    }
-
     @Override
     public void doOngoingEffect(final LivingEntity user, final IOngoingAffected mob, final IOngoingEffect effect)
     {

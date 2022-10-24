@@ -41,6 +41,7 @@ import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.moves.utils.MoveApplication.StatusApplier;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.tags.Tags;
 import pokecube.core.eventhandlers.SpawnHandler.ForbidReason;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
@@ -234,7 +235,7 @@ public class MoveEventsHandler
     {
         final MoveApplication move = evt.getPacket();
         IPokemob attacker = move.getUser();
-        final Entity attacked = move.target;
+        final Entity attacked = move.getTarget();
         final IPokemob target = PokemobCaps.getPokemobFor(attacked);
 
         final IPokemobUseable attackerheld = IPokemobUseable.getUsableFor(attacker.getHeldItem());
@@ -269,7 +270,7 @@ public class MoveEventsHandler
         final MoveApplication move = evt.getPacket();
         final MoveEntry attack = move.getMove();
         final IPokemob attacker = move.getUser();
-        final Entity attacked = move.target;
+        final Entity attacked = move.getTarget();
         final IPokemob target = PokemobCaps.getPokemobFor(attacked);
 
         final IPokemobUseable attackerheld = IPokemobUseable.getUsableFor(attacker.getHeldItem());
@@ -292,8 +293,6 @@ public class MoveEventsHandler
 
         if (target == null) return;
         target.getEntity().getPersistentData().putString("lastMoveHitBy", move.getMove().name);
-        if (MoveEntry.oneHitKos.contains(attack.name) && target != null && target.getLevel() < attacker.getLevel())
-            move.failed = true;
         if (target != null && target.getMoveStats().substituteHP > 0)
         {
             final float damage = MovesUtils.getAttackStrength(attacker, target, move.getMove().getCategory(attacker),
@@ -317,12 +316,7 @@ public class MoveEventsHandler
         if (target != null && (ab = target.getAbility()) != null) ab.preMoveUse(target, move);
 
         if (attack.getName().equals(IMoveNames.MOVE_FALSESWIPE)) move.noFaint = true;
-        boolean blockMove = false;
-        for (final String s : MoveEntry.protectionMoves) if (s.equals(move.getName()))
-        {
-            blockMove = true;
-            break;
-        }
+        boolean blockMove = Tags.MOVE.isIn("block-move", move.getName());
 
         if (!blockMove && target.getMoveStats().blocked && target.getMoveStats().blockTimer-- <= 0)
         {
@@ -330,12 +324,7 @@ public class MoveEventsHandler
             target.getMoveStats().blockTimer = 0;
             target.getMoveStats().BLOCKCOUNTER = 0;
         }
-        boolean unblockable = false;
-        for (final String s : MoveEntry.unBlockableMoves) if (s.equals(move.getName()))
-        {
-            unblockable = true;
-            break;
-        }
+        boolean unblockable = Tags.MOVE.isIn("no-block-move", move.getName());
         if (attacker != target && !unblockable && target.getMoveStats().BLOCKCOUNTER > 0)
         {
             final float count = Math.max(0, target.getMoveStats().BLOCKCOUNTER - 2);

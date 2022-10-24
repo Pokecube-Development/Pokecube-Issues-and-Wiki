@@ -7,12 +7,6 @@ import pokecube.core.moves.templates.Move_Ongoing;
 
 public class Infestation extends Move_Ongoing
 {
-
-    public Infestation()
-    {
-        super("infestation");
-    }
-
     @Override
     public void doOngoingEffect(final LivingEntity user, final IOngoingAffected mob, final IOngoingEffect effect)
     {
