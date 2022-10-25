@@ -1,13 +1,13 @@
 {
-  "name": "maxmindstorm",
+  "name": "max-mindstorm",
   "animations": [
     {
-      "preset": "beam:~maxmindstorm",
+      "preset": "beam",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "flow:pend_rod:w0.3:d0.1:~maxmindstorm",
+      "preset": "flow:pend_rod:w0.3:d0.1",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.aurorabeam",

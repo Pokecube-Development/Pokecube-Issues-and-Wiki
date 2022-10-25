@@ -1,8 +1,8 @@
 {
-  "name": "seedflare",
+  "name": "seed-flare",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:d0.66:rtrue:atrue:l6:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~seedflare",
+      "preset": "cartFunc:pend_rod:d0.66:rtrue:atrue:l6:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.unknown",
@@ -12,7 +12,7 @@
       "pitch": 1.8
     },
     {
-      "preset": "flow:pmisc:d0.5:atrue:~seedflare",
+      "preset": "flow:pmisc:d0.5:atrue",
       "duration": "5",
       "starttick": "3",
       "sound": "pokecube:moves.fly",
@@ -22,12 +22,12 @@
       "pitch": 1.0
     },
     {
-      "preset": "flow:pend_rod:atrue:d0.5:w0.5:~seedflare",
+      "preset": "flow:pend_rod:atrue:d0.5:w0.5",
       "duration": "5",
       "starttick": "3"
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:atrue:d5:w0.5:~seedflare",
+      "preset": "cartFunc:pexplosion_emitter:atrue:d5:w0.5",
       "duration": "5",
       "starttick": "5",
       "sound": "minecraft:entity.generic.explode",

@@ -1,13 +1,13 @@
 {
-  "name": "worryseed",
+  "name": "worry-seed",
   "animations": [
     {
-      "preset": "throw:d0.1:~worryseed",
+      "preset": "throw:d0.1",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "cartFunc:pwitch:d1:l40:~worryseed",
+      "preset": "cartFunc:pwitch:d1:l40",
       "duration": "5",
       "starttick": "4"
     }

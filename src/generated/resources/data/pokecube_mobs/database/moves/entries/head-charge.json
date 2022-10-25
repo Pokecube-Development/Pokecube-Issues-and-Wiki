@@ -11,6 +11,7 @@
   "flavor_text": "The user charges its head into its target, using its\npowerful guard hair. This also damages the user\na little.",
   "move_category": "damage",
   "drain": -25,
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  User takes 1/4 the damage it inflicts in recoil.",
   "effect_text_simple": "User receives 1/4 the damage it inflicts in recoil."
 }

@@ -1,8 +1,8 @@
 {
-  "name": "shellsmash",
+  "name": "shell-smash",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:d0.8:w1.5:atrue:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~shellsmash",
+      "preset": "cartFunc:pend_rod:d0.8:w1.5:atrue:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.withdraw",
@@ -13,7 +13,7 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:atrue:d2:w1:rtrue:~shellsmash",
+      "preset": "cartFunc:pexplosion_emitter:atrue:d2:w1:rtrue",
       "duration": "5",
       "starttick": "5",
       "sound": "pokecube:moves.dig",

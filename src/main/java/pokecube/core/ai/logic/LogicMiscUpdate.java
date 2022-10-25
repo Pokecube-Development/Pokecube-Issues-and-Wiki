@@ -39,6 +39,7 @@ import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
+import pokecube.api.moves.utils.IMoveConstants.ContactCategory;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
@@ -578,10 +579,8 @@ public class LogicMiscUpdate extends LogicBase
             MoveEntry move = this.pokemob.getSelectedMove();
             if (index < 4)
             {
-                if ((move.getAttackCategory(pokemob) & IMoveConstants.CATEGORY_CONTACT) > 0)
-                    anims.add("attack_contact");
-                if ((move.getAttackCategory(pokemob) & IMoveConstants.CATEGORY_DISTANCE) > 0)
-                    anims.add("attack_ranged");
+                if (move.getAttackCategory(pokemob) == ContactCategory.CONTACT) anims.add("attack_contact");
+                if (move.getAttackCategory(pokemob) == ContactCategory.RANGED) anims.add("attack_ranged");
             }
         }
         for (final LogicStates state : LogicStates.values())

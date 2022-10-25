@@ -1,8 +1,8 @@
 {
-  "name": "psychocut",
+  "name": "psycho-cut",
   "animations": [
     {
-      "preset": "flow:psweep_attack:d0.1:w0.5:~psychocut",
+      "preset": "flow:psweep_attack:d0.1:w0.5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.cut",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "flow:pmisc:d0.5:w0.5:~psychocut",
+      "preset": "flow:pmisc:d0.5:w0.5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.aurorabeam",

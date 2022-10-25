@@ -11,6 +11,7 @@
   "flavor_text": "The user punches the target with full, concentrated\npower. This confuses the target if it hits.",
   "move_category": "damage+ailment",
   "ailment_chance": 100,
+  "ailment": "confusion",
   "max_turns": 5,
   "min_turns": 2,
   "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to confuse the target.",

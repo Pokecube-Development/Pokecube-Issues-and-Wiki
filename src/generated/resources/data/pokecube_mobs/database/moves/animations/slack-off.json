@@ -1,8 +1,8 @@
 {
-  "name": "slackoff",
+  "name": "slack-off",
   "animations": [
     {
-      "preset": "cartFunc:pcloud:d1:w1:rtrue:l10:f0,1,0:~slackoff",
+      "preset": "cartFunc:pcloud:d1:w1:rtrue:l10:f0,1,0",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.charm",

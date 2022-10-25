@@ -1,8 +1,8 @@
 {
-  "name": "spikyshield",
+  "name": "spiky-shield",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:cgreen:d0.075:atrue:w2:rtrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~spikyshield",
+      "preset": "cartFunc:pmisc:cgreen:d0.075:atrue:w2:rtrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.withdraw",

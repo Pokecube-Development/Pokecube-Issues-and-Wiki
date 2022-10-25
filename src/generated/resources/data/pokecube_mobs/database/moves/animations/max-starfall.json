@@ -1,8 +1,8 @@
 {
-  "name": "maxstarfall",
+  "name": "max-starfall",
   "animations": [
     {
-      "preset": "pons:pwitch:~maxstarfall",
+      "preset": "pons:pwitch",
       "duration": "2",
       "starttick": "0",
       "sound": "pokecube:moves.aurorabeam",
@@ -12,7 +12,7 @@
       "pitch": 0.7
     },
     {
-      "preset": "pont:pwitch:~maxstarfall",
+      "preset": "pont:pwitch",
       "duration": "3",
       "starttick": "2"
     }

@@ -11,6 +11,7 @@
   "flavor_text": "The user drops onto the target with its full body\nweight. This may also leave the target with paralysis.",
   "move_category": "damage+ailment",
   "ailment_chance": 30,
+  "ailment": "paralysis",
   "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to paralyze the target.",
   "effect_text_simple": "Has a $effect_chance% chance to paralyze the target.",
   "effect_chance": 30

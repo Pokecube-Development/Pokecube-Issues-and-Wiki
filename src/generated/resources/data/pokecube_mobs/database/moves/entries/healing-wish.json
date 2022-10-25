@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user faints. In return, the Pokémon taking its\nplace will have its HP restored and status\nconditions cured.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "User faints.  Its replacement's HP is fully restored, and any major status effect is removed.  If the replacement Pokémon is immediately fainted by a switch-in effect, the next replacement is healed by this move instead.",
   "effect_text_simple": "User faints.  Its replacement has its HP fully restored and any major status effect removed."
 }

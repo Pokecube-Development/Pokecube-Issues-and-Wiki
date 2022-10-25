@@ -1,8 +1,8 @@
 {
-  "name": "waterspout",
+  "name": "water-spout",
   "animations": [
     {
-      "preset": "cartFunc:rtrue:psplash:d0.03:l8:atrue:f(0.5-rand())*(1),(0-rand())*(-12),(0.5-rand())*(1):~waterspout",
+      "preset": "cartFunc:rtrue:psplash:d0.03:l8:atrue:f(0.5-rand())*(1),(0-rand())*(-12),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.surf",
@@ -13,13 +13,13 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:rtrue:psplash:d0.4:w2:l15:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~waterspout",
+      "preset": "cartFunc:rtrue:psplash:d0.4:w2:l15:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:psplash:l8:d0.03:atrue:f(0.5-rand())*(1),(0-rand())*(-12),(0.5-rand())*(1):~waterspout",
+      "preset": "cartFunc:psplash:l8:d0.03:atrue:f(0.5-rand())*(1),(0-rand())*(-12),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5",
       "sound": "pokecube:moves.waterpulse",
@@ -30,7 +30,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pcloud:d0.4:w2:l4:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~waterspout",
+      "preset": "cartFunc:pcloud:d0.4:w2:l4:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "6",
       "applyAfter": false

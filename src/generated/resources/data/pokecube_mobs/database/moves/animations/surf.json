@@ -2,7 +2,7 @@
   "name": "surf",
   "animations": [
     {
-      "preset": "flow:pdroplet:atrue:d3:w5:l15:~surf",
+      "preset": "flow:pdroplet:atrue:d3:w5:l15",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.surf",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "flow:psplash:atrue:d3:w3.5:l15:~surf",
+      "preset": "flow:psplash:atrue:d3:w3.5:l15",
       "duration": "5",
       "starttick": "0"
     }

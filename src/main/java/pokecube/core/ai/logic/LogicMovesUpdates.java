@@ -21,7 +21,6 @@ import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveNames;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect;
-import pokecube.core.moves.animations.EntityMoveUse;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
@@ -33,9 +32,9 @@ import thut.core.common.ThutCore;
  */
 public class LogicMovesUpdates extends LogicBase
 {
-    Vector3 v          = new Vector3();
-    int     index      = -1;
-    int     statusTick = 0;
+    Vector3 v = new Vector3();
+    int index = -1;
+    int statusTick = 0;
 
     public LogicMovesUpdates(final IPokemob entity)
     {
@@ -48,8 +47,8 @@ public class LogicMovesUpdates extends LogicBase
 
         final int i = this.pokemob.getExplosionState();
 
-        if (i > 0 && this.pokemob.getMoveStats().timeSinceIgnited == 0) this.entity.playSound(
-                SoundEvents.CREEPER_PRIMED, 1.0F, 0.5F);
+        if (i > 0 && this.pokemob.getMoveStats().timeSinceIgnited == 0)
+            this.entity.playSound(SoundEvents.CREEPER_PRIMED, 1.0F, 0.5F);
         this.pokemob.getMoveStats().timeSinceIgnited += i;
 
         if (this.pokemob.getMoveStats().timeSinceIgnited < 0) this.pokemob.getMoveStats().timeSinceIgnited = 0;
@@ -64,8 +63,7 @@ public class LogicMovesUpdates extends LogicBase
 
     public boolean hasMove(final String move)
     {
-        for (final String s : this.pokemob.getMoves())
-            if (s != null && s.equalsIgnoreCase(move)) return true;
+        for (final String s : this.pokemob.getMoves()) if (s != null && s.equalsIgnoreCase(move)) return true;
         return false;
     }
 
@@ -113,22 +111,20 @@ public class LogicMovesUpdates extends LogicBase
         // Update move cooldowns.
         final int num = this.pokemob.getAttackCooldown();
 
-        final EntityMoveUse move = this.pokemob.getActiveMove();
-
-        // Check if active move is done, if so, clear it.
-        if (move != null && move.isDone()) this.pokemob.setActiveMove(null);
+        this.pokemob.getMoveStats().checkMovesInProgress(this.pokemob);
 
         // Only reduce cooldown if the pokemob does not currently have a
         // move being fired.
-        if (num > 0 && move == null) this.pokemob.setAttackCooldown(num - 1);
+        if (num > 0 && this.pokemob.getMoveStats().movesInProgress.isEmpty()) this.pokemob.setAttackCooldown(num - 1);
 
         // Revert transform if not in battle or breeding.
         if (this.pokemob.getTransformedTo() != null && !this.pokemob.getGeneralState(GeneralStates.MATING)
-                && !BrainUtils.hasAttackTarget(this.entity)) this.pokemob.setTransformedTo(null);
+                && !BrainUtils.hasAttackTarget(this.entity))
+            this.pokemob.setTransformedTo(null);
 
         // Update abilities.
-        if (this.pokemob.getAbility() != null && this.entity.isEffectiveAi()) this.pokemob.getAbility().onUpdate(
-                this.pokemob);
+        if (this.pokemob.getAbility() != null && this.entity.isEffectiveAi())
+            this.pokemob.getAbility().onUpdate(this.pokemob);
 
         // Tick held items.
         final ItemStack held = this.pokemob.getHeldItem();
@@ -165,8 +161,8 @@ public class LogicMovesUpdates extends LogicBase
             final Collection<?> set = affected.getEffects(PersistantStatusEffect.ID);
             if (set.isEmpty() && this.statusTick++ > 20)
             {
-                PokecubeAPI.LOGGER.error("Fixed Broken Status " + this.pokemob.getStatus() + " for " + this.pokemob
-                        .getEntity());
+                PokecubeAPI.LOGGER
+                        .error("Fixed Broken Status " + this.pokemob.getStatus() + " for " + this.pokemob.getEntity());
                 this.statusTick = 0;
                 this.pokemob.healStatus();
             }

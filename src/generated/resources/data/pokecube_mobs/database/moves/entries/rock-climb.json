@@ -11,6 +11,7 @@
   "flavor_text": "The user attacks the target by smashing into it with\nincredible force. This may also confuse the target.",
   "move_category": "damage+ailment",
   "ailment_chance": 20,
+  "ailment": "confusion",
   "max_turns": 5,
   "min_turns": 2,
   "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to confuse the target.",

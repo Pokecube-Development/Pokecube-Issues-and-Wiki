@@ -9,6 +9,7 @@
   "flavor_text": "The user calls out its underlings to heal it. The user\nregains up to half of its max HP.",
   "move_category": "heal",
   "healing": 50,
+  "ailment": "none",
   "effect_text_extend": "Heals the user for half its max HP.",
   "effect_text_simple": "Heals the user by half its max HP."
 }

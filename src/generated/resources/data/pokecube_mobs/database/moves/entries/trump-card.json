@@ -8,6 +8,7 @@
   "damage_class": "special",
   "flavor_text": "The fewer PP this move has, the greater its power.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Power is determined by the PP remaining for this move, after its PP cost is deducted.  Ignores accuracy and evasion modifiers.\n\nPP remaining | Power\n------------ | ----:\n4 or more    |    40\n3            |    50\n2            |    60\n1            |    80\n0            |   200\n\nIf this move is activated by another move, the activating move's PP is used to calculate power.",
   "effect_text_simple": "Power increases when this move has less PP, up to a maximum of 200."
 }

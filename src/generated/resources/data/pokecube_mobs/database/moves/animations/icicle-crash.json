@@ -1,8 +1,8 @@
 {
-  "name": "iciclecrash",
+  "name": "icicle-crash",
   "animations": [
     {
-      "preset": "cartFunc:ppoof:atrue:d0.05:w1:l10:f(0.5-rand())*(3),(5),(0.5-rand())*(3):~iciclecrash",
+      "preset": "cartFunc:ppoof:atrue:d0.05:w1:l10:f(0.5-rand())*(3),(5),(0.5-rand())*(3)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.iceball",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:pmisc:d0.1:w1:atrue:f(0.5-rand())*(2.5),(0.5-rand())*(10),(0.5-rand())*(2.5):~iciclecrash",
+      "preset": "cartFunc:pmisc:d0.1:w1:atrue:f(0.5-rand())*(2.5),(0.5-rand())*(10),(0.5-rand())*(2.5)",
       "duration": "5",
       "starttick": "3",
       "sound": "pokecube:moves.icebreak",

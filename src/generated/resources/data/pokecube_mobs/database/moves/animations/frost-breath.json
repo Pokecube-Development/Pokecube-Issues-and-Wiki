@@ -1,8 +1,8 @@
 {
-  "name": "frostbreath",
+  "name": "frost-breath",
   "animations": [
     {
-      "preset": "flow:w3:f1,0,1:~frostbreath",
+      "preset": "flow:w3:f1,0,1",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.gustwind",
@@ -13,7 +13,7 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:pmisc:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~frostbreath",
+      "preset": "cartFunc:pmisc:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.iceball",

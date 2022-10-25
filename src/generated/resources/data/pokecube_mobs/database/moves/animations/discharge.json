@@ -2,7 +2,7 @@
   "name": "discharge",
   "animations": [
     {
-      "preset": "flow:w2:~discharge",
+      "preset": "flow:w2",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.thunderend",

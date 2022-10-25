@@ -10,6 +10,7 @@
   "damage_class": "physical",
   "flavor_text": "The user attacks twice using Dreepy. If there are two\ntargets, this move hits each target once.",
   "move_category": "damage",
+  "ailment": "none",
   "max_hits": 2,
   "min_hits": 2
 }

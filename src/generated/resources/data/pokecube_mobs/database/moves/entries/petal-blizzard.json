@@ -10,6 +10,7 @@
   "damage_class": "physical",
   "flavor_text": "The user stirs up a violent petal blizzard and attacks\neverything around it.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",
   "effect_text_simple": "Inflicts regular damage."
 }

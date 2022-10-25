@@ -1,13 +1,13 @@
 {
-  "name": "shockwave",
+  "name": "shock-wave",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:atrue:cyellow:rtrue:d0.8:w0.66:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~shockwave",
+      "preset": "cartFunc:pmisc:atrue:cyellow:rtrue:d0.8:w0.66:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "flow:pmisc:cyellow:atrue:d2:w3.5:l1:~shockwave",
+      "preset": "flow:pmisc:cyellow:atrue:d2:w3.5:l1",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.thunderbolt",
@@ -17,7 +17,7 @@
       "pitch": 2.0
     },
     {
-      "preset": "flow:pmisc:atrue:cyellow:d2:w3.5:l1:~shockwave",
+      "preset": "flow:pmisc:atrue:cyellow:d2:w3.5:l1",
       "duration": "5",
       "starttick": "2",
       "sound": "pokecube:moves.thunderbolt",
@@ -27,7 +27,7 @@
       "pitch": 2.0
     },
     {
-      "preset": "flow:pmisc:atrue:cyellow:d2:w3.5:l1:~shockwave",
+      "preset": "flow:pmisc:atrue:cyellow:d2:w3.5:l1",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.thunderbolt",

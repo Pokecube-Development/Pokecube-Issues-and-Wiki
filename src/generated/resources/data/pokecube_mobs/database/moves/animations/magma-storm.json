@@ -1,8 +1,8 @@
 {
-  "name": "magmastorm",
+  "name": "magma-storm",
   "animations": [
     {
-      "preset": "flow:plava:w2:~magmastorm",
+      "preset": "flow:plava:w2",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.sacredfire",
@@ -12,7 +12,7 @@
       "pitch": 0.9
     },
     {
-      "preset": "flow:pflame:10:d0.5:w1:~magmastorm",
+      "preset": "flow:pflame:10:d0.5:w1",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.waterpulse",

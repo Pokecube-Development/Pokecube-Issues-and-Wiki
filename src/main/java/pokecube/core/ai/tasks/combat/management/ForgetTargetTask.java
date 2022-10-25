@@ -28,7 +28,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.combat.CombatTask;
-import pokecube.core.impl.PokecubeMod;
 import thut.api.entity.ai.RootTask;
 import thut.lib.TComponent;
 
@@ -123,7 +122,7 @@ public class ForgetTargetTask extends CombatTask
         if (this.forgotten.containsKey(entry.mob.getUUID()))
         {
             deAgro = true;
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Was Marked as Forgotten!");
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Was Marked as Forgotten!");
         }
         int giveUpTimer = Battle.BATTLE_END_TIMER;
         if (RootTask.doLoadThrottling) giveUpTimer *= RootTask.runRate;
@@ -139,7 +138,7 @@ public class ForgetTargetTask extends CombatTask
             if (mobB.getCombatState(CombatStates.FAINTED))
             {
                 giveUpTimer /= 2;
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Target Fainted.");
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Target Fainted.");
 
                 if (mobB.getOwnerId() == null) deAgro = true;
 
@@ -160,7 +159,7 @@ public class ForgetTargetTask extends CombatTask
             if (bothWild && this.battleTime > ForgetTargetTask.maxWildBattleDur)
             {
                 deAgro = true;
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Wild Battle too long.");
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Wild Battle too long.");
                 break agroCheck;
             }
 
@@ -181,7 +180,7 @@ public class ForgetTargetTask extends CombatTask
                             MemoryStatus.REGISTERED))
                         mobB.getEntity().getBrain().setMemory(MemoryModules.HUNTED_BY.get(), mobA.getEntity());
 
-                    if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("No want to fight, too weak!");
+                    if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("No want to fight, too weak!");
                     deAgro = true;
                 }
             }
@@ -189,7 +188,7 @@ public class ForgetTargetTask extends CombatTask
         if (mobA.getCombatState(CombatStates.FAINTED))
         {
             giveUpTimer /= 2;
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("we Fainted.");
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("we Fainted.");
         }
 
         agroCheck:
@@ -199,13 +198,13 @@ public class ForgetTargetTask extends CombatTask
             // send out a new mob before we completely deagro.
             if (this.entityTarget.getHealth() <= 0)
             {
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("They are Dead!");
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("They are Dead!");
                 giveUpTimer /= 2;
                 break agroCheck;
             }
             if (!this.entity.isAlive() || this.entity.getHealth() <= 0)
             {
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("We are Dead!");
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("We are Dead!");
                 deAgro = true;
                 break agroCheck;
             }
@@ -213,7 +212,7 @@ public class ForgetTargetTask extends CombatTask
             // If our target is us, we should forget it.
             if (this.entityTarget == this.entity)
             {
-                PokecubeAPI.LOGGER.debug("Cannot target self.");
+                PokecubeAPI.LOGGER.info("Cannot target self.");
                 deAgro = true;
                 break agroCheck;
             }
@@ -221,7 +220,7 @@ public class ForgetTargetTask extends CombatTask
             // If we are not angry, we should forget target.
             if (!this.pokemob.getCombatState(CombatStates.ANGRY))
             {
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Not Angry. losing target now.");
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Not Angry. losing target now.");
                 deAgro = true;
                 break agroCheck;
             }
@@ -229,7 +228,7 @@ public class ForgetTargetTask extends CombatTask
             // If our target is owner, we should forget it.
             if (this.entityTarget.getUUID().equals(this.pokemob.getOwnerId()))
             {
-                PokecubeAPI.LOGGER.debug("Cannot target owner.");
+                PokecubeAPI.LOGGER.info("Cannot target owner.");
                 deAgro = true;
                 break agroCheck;
             }
@@ -245,7 +244,8 @@ public class ForgetTargetTask extends CombatTask
                 if (owner != null && !stayOrGuard
                         && owner.distanceTo(this.entity) > PokecubeCore.getConfig().chaseDistance)
                 {
-                    if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Cannot target mob that far while guarding.");
+                    if (PokecubeCore.getConfig().debug_ai)
+                        PokecubeAPI.LOGGER.info("Cannot target mob that far while guarding.");
                     deAgro = true;
                     break agroCheck;
                 }
@@ -256,7 +256,7 @@ public class ForgetTargetTask extends CombatTask
                         && TeamManager.sameTeam(this.entityTarget, this.entity)
                         && !this.pokemob.getCombatState(CombatStates.MATEFIGHT))
                 {
-                    if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Cannot target team mates.");
+                    if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Cannot target team mates.");
                     deAgro = true;
                     break agroCheck;
                 }
@@ -280,7 +280,7 @@ public class ForgetTargetTask extends CombatTask
                     PokecubeAPI.LOGGER.log(Level.WARN, "Error with message for " + this.entityTarget, e);
                 }
                 deAgro = true;
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Not seen for too long.");
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Not seen for too long.");
                 break agroCheck;
             }
 
@@ -300,7 +300,7 @@ public class ForgetTargetTask extends CombatTask
                     PokecubeAPI.LOGGER.log(Level.WARN, "Error with message for " + this.entityTarget, e);
                 }
                 deAgro = true;
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Too far from target.");
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Too far from target.");
                 break agroCheck;
             }
         }

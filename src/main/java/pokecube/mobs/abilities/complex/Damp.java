@@ -54,7 +54,7 @@ public class Damp extends Ability
     @Override
     public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        if (Tags.MOVE.isIn("damp_affected", move.getName()))
+        if (Tags.MOVE.isIn("damp-affected", move.getName()))
         {
             move.failed = true;
             move.canceled = true;

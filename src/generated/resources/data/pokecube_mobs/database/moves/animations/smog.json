@@ -2,7 +2,7 @@
   "name": "smog",
   "animations": [
     {
-      "preset": "flow:d0.25:atrue:w1.25:~smog",
+      "preset": "flow:d0.25:atrue:w1.25",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.poisontoxic",

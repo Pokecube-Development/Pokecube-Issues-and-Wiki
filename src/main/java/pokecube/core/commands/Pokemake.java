@@ -35,14 +35,13 @@ import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
-import pokecube.core.utils.Tools;
 import thut.api.entity.IMobColourable;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
@@ -91,7 +90,7 @@ public class Pokemake
         final String[] moves = new String[4];
         int mindex = 0;
         boolean asWild = false;
-        if (PokecubeMod.debug) PokecubeAPI.LOGGER.info("Making by Arguments: " + index + " " + Arrays.toString(args));
+        if (PokecubeCore.getConfig().debug_commands) PokecubeAPI.LOGGER.info("Making by Arguments: " + index + " " + Arrays.toString(args));
         ItemStack itemstack = ItemStack.EMPTY;
 
         if (index < args.length) for (int j = index; j < args.length; j++)

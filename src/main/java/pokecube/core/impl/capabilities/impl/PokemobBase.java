@@ -73,7 +73,6 @@ public abstract class PokemobBase implements IPokemob
         public int DYECOLOUR;
         public int TYPE1DW;
         public int TYPE2DW;
-        public int ACTIVEMOVEID;
         public int ABILITYNAMEID;
 
         public final int[] DISABLE = new int[4];
@@ -122,9 +121,6 @@ public abstract class PokemobBase implements IPokemob
 
             // Flavours for various berries eaten.
             for (int i = 0; i < 4; i++) this.DISABLE[i] = sync.register(new Data_Int(), Integer.valueOf(0));
-
-            // EntityID of the active move use entity.
-            this.ACTIVEMOVEID = sync.register(new Data_Int(), Integer.valueOf(-1));
 
             this.ABILITYNAMEID = sync.register(new Data_String(), "");// Name of
                                                                       // ability

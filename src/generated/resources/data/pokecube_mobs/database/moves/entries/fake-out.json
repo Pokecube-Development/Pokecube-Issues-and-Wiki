@@ -11,6 +11,7 @@
   "flavor_text": "This attack hits first and makes the target flinch.\nIt only works the first turn the user is in battle.",
   "move_category": "damage",
   "flinch_chance": 100,
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Causes the target to flinch.  Can only be used on the user's first turn after entering the field.",
   "effect_text_simple": "Can only be used as the first move after the user enters battle.  Causes the target to flinch.",
   "effect_chance": 100

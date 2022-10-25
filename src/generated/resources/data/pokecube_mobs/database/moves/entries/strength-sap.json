@@ -10,6 +10,7 @@
   "flavor_text": "The user restores its HP by the same amount as the\ntarget’s Attack stat. It also lowers the target’s\nAttack stat.",
   "move_category": "unique",
   "stat_chance": 100,
+  "ailment": "none",
   "effect_text_extend": "Lowers the target's Attack by one stage.  Heals the user by the target's current Attack, including modifiers, but not including this move's Attack-lowering effect.\n\nIf the target's Attack is already at -6, this move will fail.  In any other situation that would prevent a stat modification, the healing will still succeed.",
   "effect_text_simple": "Heals the user by the target's current Attack stat and lowers the target's Attack by one stage.",
   "effect_chance": 100

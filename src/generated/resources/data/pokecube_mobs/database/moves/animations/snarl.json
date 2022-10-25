@@ -2,7 +2,7 @@
   "name": "snarl",
   "animations": [
     {
-      "preset": "flow:psmoke:d0.7:w2.3:~snarl",
+      "preset": "flow:psmoke:d0.7:w2.3",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:entity.wolf.ambient",
@@ -12,7 +12,7 @@
       "pitch": 0.7
     },
     {
-      "preset": "flow:pmisc:cmagenta:d0.1:w2.3:~snarl",
+      "preset": "flow:pmisc:cmagenta:d0.1:w2.3",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:entity.evoker.cast_spell",

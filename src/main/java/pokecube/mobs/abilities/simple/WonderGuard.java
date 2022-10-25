@@ -4,7 +4,7 @@ import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.MoveApplication;
-import pokecube.api.utils.PokeType;
+import pokecube.api.utils.Tools;
 
 public class WonderGuard extends Ability
 {
@@ -14,7 +14,7 @@ public class WonderGuard extends Ability
         final MoveEntry attack = move.getMove();
         final IPokemob attacker = move.getUser();
         if (!areWeTarget(mob, move)) return;
-        final float eff = PokeType.getAttackEfficiency(attack.getType(attacker), mob.getType1(), mob.getType2());
+        final float eff = Tools.getAttackEfficiency(attack.getType(attacker), mob.getType1(), mob.getType2());
         if (eff <= 1 && attack.getPWR(attacker, mob.getEntity()) > 0) move.canceled = true;
     }
 }

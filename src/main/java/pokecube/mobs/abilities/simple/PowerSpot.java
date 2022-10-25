@@ -13,7 +13,7 @@ public class PowerSpot extends Ability
     public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
         if (areWeTarget(mob, move)) return;
-        final LivingEntity target = EntityTools.getCoreLiving(move.target);
+        final LivingEntity target = EntityTools.getCoreLiving(move.getTarget());
         if (target == null) return;
         final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
         if (targetMob == null) return;

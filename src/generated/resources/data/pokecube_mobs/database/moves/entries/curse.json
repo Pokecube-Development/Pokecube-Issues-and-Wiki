@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "A move that works differently for the Ghost type\nthan for all other types.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "If the user is a ghost: user pays half its max HP to place a curse on the target, damaging it for 1/4 its max HP every turn.\nOtherwise: Lowers the user's Speed by one stage, and raises its Attack and Defense by one stage each.\n\nThe curse effect is passed on by baton pass.\n\nThis move cannot be copied by mirror move.",
   "effect_text_simple": "Ghosts pay half their max HP to hurt the target every turn.  Others decrease Speed but raise Attack and Defense."
 }

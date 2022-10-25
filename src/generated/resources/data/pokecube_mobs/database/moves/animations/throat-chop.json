@@ -1,8 +1,8 @@
 {
-  "name": "throatchop",
+  "name": "throat-chop",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack:d1:l3:~throatchop",
+      "preset": "cartFunc:psweep_attack:d1:l3",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.slash",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:psmoke:d1:w0.5:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~throatchop",
+      "preset": "cartFunc:psmoke:d1:w0.5:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4"
     }

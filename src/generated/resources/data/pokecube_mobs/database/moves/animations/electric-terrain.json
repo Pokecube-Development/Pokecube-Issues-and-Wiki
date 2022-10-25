@@ -1,13 +1,13 @@
 {
-  "name": "electricterrain",
+  "name": "electric-terrain",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:cyellow:d0.023:w4:rtrue:l650:f(0.5-rand())*(18),(0.5-rand())*(8),(0.5-rand())*(18):~electricterrain",
+      "preset": "cartFunc:pmisc:cyellow:d0.023:w4:rtrue:l650:f(0.5-rand())*(18),(0.5-rand())*(8),(0.5-rand())*(18)",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:cyellow:d0.03:w4:rtrue:l650:f(0.5-rand())*(5),(0.5-rand())*(5),(0.5-rand())*(5):~electricterrain",
+      "preset": "cartFunc:pexplosion_emitter:cyellow:d0.03:w4:rtrue:l650:f(0.5-rand())*(5),(0.5-rand())*(5),(0.5-rand())*(5)",
       "duration": "5",
       "starttick": "0"
     }

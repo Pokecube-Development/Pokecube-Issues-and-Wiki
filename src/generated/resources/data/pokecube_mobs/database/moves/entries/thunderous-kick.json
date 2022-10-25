@@ -11,6 +11,7 @@
   "flavor_text": "The user overwhelms the target with lightning-like\nmovement before delivering a kick. This also lowers\nthe target’s Defense stat.",
   "move_category": "damage+lower",
   "stat_chance": 100,
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",
   "effect_text_simple": "Inflicts regular damage with no additional effect.",
   "effect_chance": 100

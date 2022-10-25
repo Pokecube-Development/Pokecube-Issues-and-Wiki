@@ -2,7 +2,7 @@
   "name": "sharpen",
   "animations": [
     {
-      "preset": "cartFunc:pfirework:cwhite:d2:w0.6:atrue:rtrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~sharpen",
+      "preset": "cartFunc:pfirework:cwhite:d2:w0.6:atrue:rtrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.metalclaw",

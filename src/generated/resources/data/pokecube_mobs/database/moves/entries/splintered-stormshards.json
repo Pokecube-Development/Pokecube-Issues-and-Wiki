@@ -9,6 +9,7 @@
   "damage_class": "physical",
   "flavor_text": "After obtaining Z-Power, the user, Lycanroc,\nattacks the target with full force. This move negates\nthe effect on the battlefield.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts damage and removes any terrain present on the battlefield.",
   "effect_text_simple": "Inflicts damage and removes any terrain present on the battlefield."
 }

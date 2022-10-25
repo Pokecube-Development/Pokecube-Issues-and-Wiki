@@ -10,6 +10,7 @@
   "damage_class": "special",
   "flavor_text": "The user bursts into song, emitting many bubbles.\nAny Pokémon suffering from a burn will be healed\nby the touch of these bubbles.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If the target has a burn and takes damage from this move, its burn is healed.",
   "effect_text_simple": "Cures the target of burns."
 }

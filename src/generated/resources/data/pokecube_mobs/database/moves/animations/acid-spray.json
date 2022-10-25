@@ -1,8 +1,8 @@
 {
-  "name": "acidspray",
+  "name": "acid-spray",
   "animations": [
     {
-      "preset": "flow:w0.8:~acidspray",
+      "preset": "flow:w0.8",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.acidarmor",

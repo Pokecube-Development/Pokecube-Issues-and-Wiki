@@ -1,8 +1,8 @@
 {
-  "name": "chargebeam",
+  "name": "charge-beam",
   "animations": [
     {
-      "preset": "beam:~chargebeam",
+      "preset": "beam",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.thunder",

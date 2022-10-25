@@ -10,6 +10,7 @@
   "damage_class": "physical",
   "flavor_text": "The user throws the bone it holds. The bone loops\naround to hit the target twice—coming and going.",
   "move_category": "damage",
+  "ailment": "none",
   "max_hits": 2,
   "min_hits": 2,
   "effect_text_extend": "Inflicts regular damage.  Hits twice in one turn.",

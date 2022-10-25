@@ -1,8 +1,8 @@
 {
-  "name": "feintattack",
+  "name": "feint-attack",
   "animations": [
     {
-      "preset": "cartFunc:atrue:pcrit:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~feintattack",
+      "preset": "cartFunc:atrue:pcrit:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dig",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:atrue:psmoke:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~feintattack",
+      "preset": "cartFunc:atrue:psmoke:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",

@@ -5,13 +5,15 @@ import java.util.Comparator;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.moves.MoveEntry;
+import pokecube.core.PokecubeCore;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import thut.api.entity.genetics.Gene;
 
 public class MovesGene implements Gene<String[]>
 {
-    private static final Comparator<String> SORTER = (o1, o2) ->
-    {
+    private static final Comparator<String> SORTER = (o1, o2) -> {
         if (o1 == null && o2 != null) return 1;
         else if (o2 == null && o1 != null) return -1;
         return 0;
@@ -22,8 +24,19 @@ public class MovesGene implements Gene<String[]>
         outer:
         for (int i = 0; i < moves.length; i++)
         {
-            final String temp = moves[i];
+            String temp = moves[i];
             if (temp == null) continue;
+            // Check move entries
+            MoveEntry entry = MoveEntry.get(temp);
+            if (entry != null)
+            {
+                // Update name if needed from legacy names
+                moves[i] = temp = entry.name;
+            }
+            else if(PokecubeCore.getConfig().debug_moves)
+            {
+                PokecubeAPI.LOGGER.warn("Unknown move {}", temp);
+            }
             for (int j = i + 1; j < moves.length; j++)
             {
                 final String temp2 = moves[j];
@@ -66,12 +79,11 @@ public class MovesGene implements Gene<String[]>
         for (int i = 0; i < this.moves.length; i++)
         {
             if (this.moves[i] == null) continue;
-            for (int j = 0; j < otherG.moves.length; j++)
-                if (this.moves[i].equals(otherG.moves[j]))
-                {
-                    newGene.moves[i] = this.moves[i];
-                    break;
-                }
+            for (int j = 0; j < otherG.moves.length; j++) if (this.moves[i].equals(otherG.moves[j]))
+            {
+                newGene.moves[i] = this.moves[i];
+                break;
+            }
         }
         newGene.setValue(newGene.moves);
         return newGene;
@@ -80,8 +92,7 @@ public class MovesGene implements Gene<String[]>
     @Override
     public void load(final CompoundTag tag)
     {
-        for (int i = 0; i < this.moves.length; i++)
-            if (tag.contains("" + i)) this.moves[i] = tag.getString("" + i);
+        for (int i = 0; i < this.moves.length; i++) if (tag.contains("" + i)) this.moves[i] = tag.getString("" + i);
         MovesGene.cleanup(this.moves);
     }
 
@@ -98,8 +109,7 @@ public class MovesGene implements Gene<String[]>
     {
         final CompoundTag tag = new CompoundTag();
         MovesGene.cleanup(this.moves);
-        for (int i = 0; i < this.moves.length; i++)
-            if (this.moves[i] != null) tag.putString("" + i, this.moves[i]);
+        for (int i = 0; i < this.moves.length; i++) if (this.moves[i] != null) tag.putString("" + i, this.moves[i]);
         return tag;
     }
 

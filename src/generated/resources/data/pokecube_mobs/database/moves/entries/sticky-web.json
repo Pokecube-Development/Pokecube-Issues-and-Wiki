@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user weaves a sticky net around the opposing\nteam, which lowers their Speed stat upon switching\ninto battle.",
   "move_category": "field-effect",
+  "ailment": "none",
   "effect_text_extend": "Shoots a web over the opponents' side of the field, which lowers the Speed of any opposing Pokémon that enters the field by one stage.\n\nPokémon in the air, such as flying-types and those with levitate, are unaffected.  rapid spin removes Sticky Web from the user's side of the field; defog removes it from both sides.",
   "effect_text_simple": "Covers the opposing field, lowering opponents' Speed by one stage upon switching in."
 }

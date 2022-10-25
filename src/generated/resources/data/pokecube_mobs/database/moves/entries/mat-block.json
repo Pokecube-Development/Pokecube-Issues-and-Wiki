@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "Using a pulled-up mat as a shield, the user protects\nitself and its allies from damaging moves. This does\nnot stop status moves.",
   "move_category": "field-effect",
+  "ailment": "none",
   "effect_text_extend": "Protects all friendly Pokémon from damaging moves.  Only works on the first turn after the user is sent out.",
   "effect_text_simple": "Protects all friendly Pokémon from damaging moves.  Only works on the first turn after the user is sent out."
 }

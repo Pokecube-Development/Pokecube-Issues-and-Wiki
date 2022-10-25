@@ -9,5 +9,6 @@
   "target": "selected-pokemon",
   "damage_class": "physical",
   "flavor_text": "The user stabs the target with its electrified beak.\nIf the user attacks before the target, the power of this\nmove is doubled.",
-  "move_category": "damage"
+  "move_category": "damage",
+  "ailment": "none"
 }

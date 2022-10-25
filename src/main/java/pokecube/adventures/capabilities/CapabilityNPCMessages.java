@@ -20,7 +20,7 @@ import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.entity.trainers.actions.Action;
 import pokecube.api.entity.trainers.actions.ActionContext;
 import pokecube.api.entity.trainers.actions.MessageState;
-import pokecube.core.impl.PokecubeMod;
+import pokecube.core.PokecubeCore;
 import thut.lib.TComponent;
 
 public class CapabilityNPCMessages
@@ -92,7 +92,7 @@ public class CapabilityNPCMessages
                 return false;
             if (target instanceof ServerPlayer player)
                 thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(this.messages.get(state), args));
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug(state + ": " + this.messages.get(state));
+            if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.LOGGER.info(state + ": " + this.messages.get(state));
             return true;
         }
 

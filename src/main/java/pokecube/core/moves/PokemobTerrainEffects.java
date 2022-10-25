@@ -30,6 +30,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.moves.damage.TerrainDamageSource;
@@ -279,8 +280,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
             {
                 final float thisMaxHP = mob.getMaxHealth();
                 final int damage = Math.max(1, (int) (0.0625 * thisMaxHP));
-                final double mult = PokeType.getAttackEfficiency(PokeType.getType("rock"), mob.getType1(),
-                        mob.getType2());
+                final double mult = Tools.getAttackEfficiency(PokeType.getType("rock"), mob.getType1(), mob.getType2());
                 entity.hurt(DamageSource.GENERIC, (float) (damage * mult));
             }
             if (this.effects.containsKey(EntryEffectType.WEBS.getIndex()) && mob.isOnGround())

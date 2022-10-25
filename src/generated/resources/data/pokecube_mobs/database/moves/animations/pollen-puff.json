@@ -1,8 +1,8 @@
 {
-  "name": "pollenpuff",
+  "name": "pollen-puff",
   "animations": [
     {
-      "preset": "throw:w0.3:cyellow:atrue:~pollenpuff",
+      "preset": "throw:w0.3:cyellow:atrue",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.fly",
@@ -13,7 +13,7 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:ppowder:l2:d0.2:w0.5:cyellow:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~pollenpuff",
+      "preset": "cartFunc:ppowder:l2:d0.2:w0.5:cyellow:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5",
       "sound": "pokecube:moves.dig",
@@ -24,7 +24,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:ppowder:l6:d0.2:w1.2:cyellow:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~pollenpuff",
+      "preset": "cartFunc:ppowder:l6:d0.2:w1.2:cyellow:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5",
       "applyAfter": false

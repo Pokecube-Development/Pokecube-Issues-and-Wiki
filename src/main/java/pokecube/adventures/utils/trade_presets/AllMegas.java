@@ -8,9 +8,9 @@ import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeItems;
 import pokecube.core.init.ItemGenerator;
-import pokecube.core.utils.Tools;
 
 @TradePresetAn(key = "allMegas")
 public class AllMegas implements TradePreset

@@ -10,6 +10,7 @@
   "damage_class": "physical",
   "flavor_text": "The user slaps down the target’s held item, and that\nitem can’t be used in that battle. The move does\nmore damage if the target has a held item.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Target loses its held item.\n\nNeither the user nor the target can recover its item with recycle.\n\nIf the target has multitype or sticky hold, it will take damage but not lose its item.",
   "effect_text_simple": "Target drops its held item."
 }

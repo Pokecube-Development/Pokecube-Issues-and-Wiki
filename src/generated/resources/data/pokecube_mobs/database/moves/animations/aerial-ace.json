@@ -1,8 +1,8 @@
 {
-  "name": "aerialace",
+  "name": "aerial-ace",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d0.7:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~aerialace",
+      "preset": "cartFunc:pcrit:d0.7:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.cut",

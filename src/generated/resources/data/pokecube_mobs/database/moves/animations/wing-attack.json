@@ -1,8 +1,8 @@
 {
-  "name": "wingattack",
+  "name": "wing-attack",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack:atrue:~wingattack",
+      "preset": "cartFunc:psweep_attack:atrue",
       "duration": "5",
       "starttick": "2",
       "sound": "pokecube:moves.cut",

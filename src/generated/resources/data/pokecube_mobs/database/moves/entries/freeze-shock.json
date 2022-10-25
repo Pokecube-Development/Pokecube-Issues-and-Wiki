@@ -11,6 +11,7 @@
   "flavor_text": "On the second turn, the user hits the target with\nelectrically charged ice. This may also leave the\ntarget with paralysis.",
   "move_category": "damage+ailment",
   "ailment_chance": 30,
+  "ailment": "paralysis",
   "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to paralyze the target.  User charges for one turn before attacking.",
   "effect_text_simple": "Requires a turn to charge before attacking.  Has a $effect_chance% chance to paralyze the target.",
   "effect_chance": 30

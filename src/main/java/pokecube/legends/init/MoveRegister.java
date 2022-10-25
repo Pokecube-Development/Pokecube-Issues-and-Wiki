@@ -6,6 +6,6 @@ public class MoveRegister
 {
 	public static void init()
     {
-        MovesAdder.packages.add(MoveRegister.class.getPackage());
+        MovesAdder.worldActionPackages.add(MoveRegister.class.getPackage());
     }
 }

@@ -9,6 +9,7 @@
   "damage_class": "status",
   "flavor_text": "The user takes the target trick-or-treating.\nThis adds Ghost type to the target’s type.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "Adds ghost to the target's types.",
   "effect_text_simple": "Adds ghost to the target's types."
 }

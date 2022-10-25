@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user teleports using a strange power and\nswitches places with one of its allies.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "User switches position on the field with the friendly Pokémon opposite it.  If the user is in the middle position in a triple battle, or there are no other friendly Pokémon, this move will fail.",
   "effect_text_simple": "User switches places with the friendly Pokémon opposite it."
 }

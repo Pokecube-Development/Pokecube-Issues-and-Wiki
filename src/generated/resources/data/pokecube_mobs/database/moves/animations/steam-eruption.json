@@ -1,8 +1,8 @@
 {
-  "name": "steameruption",
+  "name": "steam-eruption",
   "animations": [
     {
-      "preset": "flow:psplash:d5:w0.4:l5:~steameruption",
+      "preset": "flow:psplash:d5:w0.4:l5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.surf",
@@ -12,7 +12,7 @@
       "pitch": 0.8
     },
     {
-      "preset": "flow:pcloud:d0.2:w1:l35:~steameruption",
+      "preset": "flow:pcloud:d0.2:w1:l35",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.flamewheel",
@@ -22,7 +22,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:rtrue:atrue:plava:d1.5:w2:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~steameruption",
+      "preset": "cartFunc:rtrue:atrue:plava:d1.5:w2:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     }

@@ -2,7 +2,7 @@
   "name": "fling",
   "animations": [
     {
-      "preset": "throw:w0.3:pmisc:~fling",
+      "preset": "throw:w0.3:pmisc",
       "duration": "5",
       "starttick": "0"
     }

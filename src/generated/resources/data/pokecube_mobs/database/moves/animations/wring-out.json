@@ -1,8 +1,8 @@
 {
-  "name": "wringout",
+  "name": "wring-out",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack:atrue:d1:~wringout",
+      "preset": "cartFunc:psweep_attack:atrue:d1",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.withdraw",
@@ -12,12 +12,12 @@
       "pitch": 1.1
     },
     {
-      "preset": "cartFunc:psweep_attack:atrue:d1:l15:~wringout",
+      "preset": "cartFunc:psweep_attack:atrue:d1:l15",
       "duration": "5",
       "starttick": "2"
     },
     {
-      "preset": "cartFunc:psweep_attack:atrue:d1:l15:~wringout",
+      "preset": "cartFunc:psweep_attack:atrue:d1:l15",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.withdraw",

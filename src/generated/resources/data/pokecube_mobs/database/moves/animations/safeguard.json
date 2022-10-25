@@ -2,7 +2,7 @@
   "name": "safeguard",
   "animations": [
     {
-      "preset": "pons:pspell:cwhite:d1:w1:l5:~safeguard",
+      "preset": "pons:pspell:cwhite:d1:w1:l5",
       "duration": "5",
       "starttick": "0"
     }

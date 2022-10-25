@@ -9,6 +9,7 @@
   "damage_class": "special",
   "flavor_text": "This attack hits the target with a shock wave of\npure rage. This attack always inflicts 40 HP damage.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts exactly 40 damage.",
   "effect_text_simple": "Inflicts 40 points of damage."
 }

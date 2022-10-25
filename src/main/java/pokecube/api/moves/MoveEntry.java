@@ -1,7 +1,6 @@
 package pokecube.api.moves;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -16,6 +15,8 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.moves.MoveApplicationRegistry;
+import pokecube.api.data.moves.Moves.MoveHolder;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.init.InitMoveEntry;
 import pokecube.api.events.pokemobs.combat.MoveUse.MoveWorldAction;
@@ -24,7 +25,7 @@ import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.moves.json.Moves.MoveHolder;
+import pokecube.core.database.tags.Tags;
 import thut.api.maths.Vector3;
 
 public class MoveEntry implements IMoveConstants
@@ -40,19 +41,17 @@ public class MoveEntry implements IMoveConstants
         int getPWR(final IPokemob user, final LivingEntity target, int pwr);
     }
 
+    public static interface CategoryProvider
+    {
+        ContactCategory getAttackCategory(IPokemob user);
+    }
+
     public static record MoveSounds(SoundEvent onSource, SoundEvent onTarget)
     {
     };
 
-    public static enum Category
-    {
-        OTHER, SPECIAL, PHYSICAL;
-    }
-
-    public static HashMap<String, MoveEntry> movesNames = new HashMap<>();
-    public static HashSet<String> protectionMoves = new HashSet<>();
-    public static HashSet<String> unBlockableMoves = new HashSet<>();
-    public static HashSet<String> oneHitKos = new HashSet<>();
+    private static HashMap<String, MoveEntry> movesNames = new HashMap<>();
+    private static HashMap<String, MoveEntry> legacyMoveNames = new HashMap<>();
 
     public static int TOTALHP = 1;
     public static int DAMAGEDEALT = 2;
@@ -71,21 +70,35 @@ public class MoveEntry implements IMoveConstants
     {
         CONFUSED = new MoveEntry("pokemob.status.confusion");
         MoveEntry.CONFUSED.type = PokeType.unknown;
-        MoveEntry.CONFUSED.category = IMoveConstants.PHYSICAL;
-        MoveEntry.CONFUSED.attackCategory = IMoveConstants.CATEGORY_CONTACT + IMoveConstants.CATEGORY_SELF;
+        MoveEntry.CONFUSED.category = AttackCategory.PHYSICAL;
+        MoveEntry.CONFUSED.attackCategory = ContactCategory.CONTACT;
         MoveEntry.CONFUSED.power = 40;
         MoveEntry.CONFUSED.canHitNonTarget = false;
+        // Blank root entry for us.
+        CONFUSED.root_entry = new MoveHolder();
+        CONFUSED.root_entry._manually_defined = true;
+        CONFUSED.root_entry._target_type = "user";
+        MoveEntry.movesNames.put(CONFUSED.name, CONFUSED);
     }
 
     public static MoveEntry get(String name)
     {
-        if (name.equals(CONFUSED.name)) return CONFUSED;
-        // Then return or add a new entry, make a warning if no json entry was
-        // present, but accept it anyway.
-        return MoveEntry.movesNames.computeIfAbsent(name, n -> {
-            PokecubeAPI.LOGGER.warn("Warning, auto-generating a move entry for un-registered move " + n);
-            return new MoveEntry(n);
-        });
+        return movesNames.getOrDefault(name, legacyMoveNames.get(name));
+    }
+
+    public static void removeMove(MoveEntry move)
+    {
+        movesNames.remove(move.name);
+        legacyMoveNames.remove(move.legacy_name);
+    }
+
+    public static void addMove(MoveEntry move)
+    {
+        if (movesNames.containsKey(move.name)) PokecubeAPI.LOGGER.warn(
+                "Warning, adding duplicate entry for {}, this will replace the previous one, call removeMove first if this was intentional!",
+                move.name);
+        movesNames.put(move.name, move);
+        legacyMoveNames.put(move.legacy_name, move);
     }
 
     public static List<MoveEntry> values()
@@ -93,44 +106,32 @@ public class MoveEntry implements IMoveConstants
         return Lists.newArrayList(MoveEntry.movesNames.values());
     }
 
+    public static List<String> keys()
+    {
+        return Lists.newArrayList(MoveEntry.movesNames.keySet());
+    }
+
     public final String name;
     public PokeType type;
+    
+    private final String legacy_name;
 
     /** Distance, contact, etc. */
-    public int attackCategory;
+    public ContactCategory attackCategory = ContactCategory.OTHER;
     public int power = 0;
     public int accuracy;
     public int pp;
-    public byte statusChange;
-    public float statusChance;
-    public byte change = IMoveConstants.CHANGE_NONE;
-    public float chanceChance = 0;
-    public int[] attackerStatModification =
-    { 0, 0, 0, 0, 0, 0, 0, 0 };
-    public float attackerStatModProb = 1;
-    public int[] attackedStatModification =
-    { 0, 0, 0, 0, 0, 0, 0, 0 };
-    public float attackedStatModProb = 1;
-
-    public float damageHeal = 0;
-    public float selfHealRatio = 0;
-    public float targetHealRatio = 0;
 
     public float[] customSize = null;
+
+    public int crit;
 
     private boolean multiTarget = false;
     private boolean canHitNonTarget = true;
 
-    public int crit;
-    public boolean soundType = false;
-    public boolean fixed = false;
-    public float selfDamage = 0;
-    public int selfDamageType;
-    public int priority = 0;
-    public boolean defrosts = false;
-    public boolean mirrorcoated = false;
-
     public boolean ohko = false;
+    public boolean fixed = false;
+    public boolean defrosts = false;
 
     /**
      * Scaling factor on cooldown, if not specified in the json, this gets set
@@ -140,8 +141,7 @@ public class MoveEntry implements IMoveConstants
 
     /** Status, Special, Physical */
 
-    public byte category = -1;
-    public String animDefault = "none";
+    public AttackCategory category = AttackCategory.OTHER;
 
     public MoveHolder root_entry;
 
@@ -152,38 +152,41 @@ public class MoveEntry implements IMoveConstants
 
     private IMoveAnimation animation;
 
-    public boolean hasStatModSelf = false;
-    public boolean hasStatModTarget = false;
+    private boolean self_move;
 
     public TypeProvider typer = user -> this.type;
     public PowerProvider powerp = (user, target, power) -> power;
+    public CategoryProvider categoryProvider = user -> this.getAttackCategory();
+    public CategoryProvider _categoryProvider = categoryProvider;
 
     public MoveEntry(final String name)
     {
         this.name = name;
+        this.legacy_name = name.replace("-", "");
     }
 
     public void postInit()
     {
-        boolean mod = false;
-        for (final int i : this.attackedStatModification) if (i != 0)
-        {
-            mod = true;
-            break;
-        }
-        if (!mod) this.attackedStatModProb = 0;
-        mod = false;
-        for (final int i : this.attackerStatModification) if (i != 0)
-        {
-            mod = true;
-            break;
-        }
-        if (!mod) this.attackerStatModProb = 0;
-
-        if (this.attackedStatModProb > 0) this.hasStatModTarget = true;
-        if (this.attackerStatModProb > 0) this.hasStatModSelf = true;
-
+        boolean contact = Tags.MOVE.isIn("contact-moves", this.getName());
+        boolean ranged = Tags.MOVE.isIn("ranged-moves", this.getName());
+        self_move = root_entry._target_type.equals("user");
+        this.attackCategory = contact ? ContactCategory.CONTACT
+                : ranged ? ContactCategory.RANGED : ContactCategory.OTHER;
         PokecubeAPI.MOVE_BUS.post(new InitMoveEntry(this));
+    }
+
+    public boolean checkValid()
+    {
+        boolean valid = root_entry._manually_defined;
+        valid |= root_entry._infatuates;
+        valid |= root_entry._ohko;
+        valid |= root_entry._protects;
+        valid |= root_entry._drain != 0;
+        valid |= root_entry._healing != 0;
+        valid |= root_entry._status_chance != 0;
+        valid |= root_entry._stat_chance != 0;
+        valid |= this.power > 0;
+        return valid;
     }
 
     public boolean isMultiTarget()
@@ -318,9 +321,9 @@ public class MoveEntry implements IMoveConstants
      *
      * @return the attack category
      */
-    public byte getAttackCategory()
+    public ContactCategory getAttackCategory()
     {
-        return (byte) this.attackCategory;
+        return this.attackCategory;
     }
 
     /**
@@ -331,15 +334,15 @@ public class MoveEntry implements IMoveConstants
      *
      * @return the attack category
      */
-    public byte getAttackCategory(final IPokemob user)
+    public ContactCategory getAttackCategory(final IPokemob user)
     {
-        return (byte) this.attackCategory;
+        return categoryProvider.getAttackCategory(user);
     }
 
     /** @return Move category for this move. */
-    public Category getCategory()
+    public AttackCategory getCategory()
     {
-        return Category.values()[this.category];
+        return this.category;
     }
 
     /**
@@ -348,7 +351,7 @@ public class MoveEntry implements IMoveConstants
      * @param user
      * @return
      */
-    public Category getCategory(final IPokemob user)
+    public AttackCategory getCategory(final IPokemob user)
     {
         return this.getCategory();
     }
@@ -358,33 +361,42 @@ public class MoveEntry implements IMoveConstants
         return this.name;
     }
 
-    /** @return Does this move targer the user. */
+    /**
+     * @return Does this move targer the user, not for general use in combat,
+     *         use only for things like move actions!
+     */
+    @Deprecated
     public boolean isSelfMove()
     {
-        return (this.getAttackCategory() & IMoveConstants.CATEGORY_SELF) > 0;
-    }
-
-    /** @return Does this move targer the user. */
-    public boolean isSelfMove(IPokemob user)
-    {
-        return (this.getAttackCategory(user) & IMoveConstants.CATEGORY_SELF) > 0;
+        return this.self_move;
     }
 
     public boolean isRanged(IPokemob user)
     {
-        return (this.getAttackCategory(user) & IMoveConstants.CATEGORY_DISTANCE) > 0;
+        return (this.getAttackCategory(user)) == ContactCategory.RANGED;
     }
 
-    public void applyMove(IPokemob user, LivingEntity target)
+    public boolean isContact(IPokemob user)
+    {
+        return (this.getAttackCategory(user)) == ContactCategory.CONTACT;
+    }
+
+    public void applyMove(IPokemob user, @Nullable LivingEntity target, @Nullable Vector3 targetPos)
     {
         MoveApplication apply = new MoveApplication(this, user, target);
-        apply.apply();
+        MoveApplicationRegistry.preApply(apply);
+        MoveApplicationRegistry.apply(apply);
+    }
+
+    public float getPostDelayFactor(IPokemob attacker)
+    {
+        return this.root_entry._post_attack_delay_factor;
     }
 
     public void playSounds(MoveApplication application)
     {
         Mob attacker = application.getUser().getEntity();
-        LivingEntity attacked = application.target;
+        LivingEntity attacked = application.getTarget();
 
         if (attacked == null) attacked = attacker;
 

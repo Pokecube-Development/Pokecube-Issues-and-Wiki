@@ -1,8 +1,8 @@
 {
-  "name": "focusenergy",
+  "name": "focus-energy",
   "animations": [
     {
-      "preset": "pons:~focusenergy",
+      "preset": "pons",
       "duration": "5",
       "starttick": "0"
     }

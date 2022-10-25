@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user employs its psychic power to switch its\nAttack stat with its Defense stat.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "The user's original Attack and Defense are swapped.\n\nThis effect is passed on by baton pass.",
   "effect_text_simple": "User swaps Attack and Defense."
 }

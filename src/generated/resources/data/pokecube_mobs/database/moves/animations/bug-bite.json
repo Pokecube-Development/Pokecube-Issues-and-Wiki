@@ -1,8 +1,8 @@
 {
-  "name": "bugbite",
+  "name": "bug-bite",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d1.2:w0.7:l5:f(0.5-rand())*(0.7),(0.5-rand())*(0.7),(0.5-rand())*(0.7):~bugbite",
+      "preset": "cartFunc:pcrit:d1.2:w0.7:l5:f(0.5-rand())*(0.7),(0.5-rand())*(0.7),(0.5-rand())*(0.7)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",

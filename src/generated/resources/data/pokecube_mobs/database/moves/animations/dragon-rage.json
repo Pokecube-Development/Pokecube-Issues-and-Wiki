@@ -1,8 +1,8 @@
 {
-  "name": "dragonrage",
+  "name": "dragon-rage",
   "animations": [
     {
-      "preset": "flow:pmisc:d4:w0.5:l5:~dragonrage",
+      "preset": "flow:pmisc:d4:w0.5:l5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.flamewheel",

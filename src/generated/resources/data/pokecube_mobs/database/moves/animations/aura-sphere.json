@@ -1,8 +1,8 @@
 {
-  "name": "aurasphere",
+  "name": "aura-sphere",
   "animations": [
     {
-      "preset": "throw:w0.6:clight_blue:~aurasphere",
+      "preset": "throw:w0.6:clight_blue",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.megaattack",
@@ -12,7 +12,7 @@
       "pitch": 2.0
     },
     {
-      "preset": "cartFunc:pmisc:clight_blue:d0.7:w1.5:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~aurasphere",
+      "preset": "cartFunc:pmisc:clight_blue:d0.7:w1.5:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "1",
       "starttick": "5",
       "sound": "pokecube:moves.dig",

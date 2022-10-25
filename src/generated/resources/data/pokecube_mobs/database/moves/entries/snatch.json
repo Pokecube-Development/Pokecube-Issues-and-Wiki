@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user steals the effects of any attempts to use a\nhealing or stat-changing move.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "The next time a Pokémon uses a beneficial move on itself or itself and its ally this turn, the user of this move will steal the move and use it itself.  Moves which may be stolen by this move are identified by the \"snatchable\" flag.\n\nIf two Pokémon use this move on the same turn, the faster Pokémon will steal the first beneficial move, and the slower Pokémon will then steal it again—thus, only the slowest Pokémon using this move ultimately gains a stolen move's effect.\n\nIf the user steals psych up, it will target the Pokémon that used psych up.  If the user was the original target of psych up, and the Pokémon that originally used it's affected by pressure, it will only lose 1 PP.\n\nThis move cannot be copied by mirror move, nor selected by assist or metronome.",
   "effect_text_simple": "Steals the target's move, if it's self-targeted."
 }

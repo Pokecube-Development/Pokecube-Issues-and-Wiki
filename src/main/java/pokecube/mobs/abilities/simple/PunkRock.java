@@ -11,7 +11,7 @@ public class PunkRock extends Ability
     public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
         if (areWeUser(mob, move)) return;
-        if (Tags.MOVE.isIn("sound_based", move.getName()))
+        if (Tags.MOVE.isIn("punk-rock-affected", move.getName()))
         {
             move.pwr *= 1.3;
             return;

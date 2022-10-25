@@ -9,6 +9,7 @@
   "damage_class": "status",
   "flavor_text": "The user gazes at the target rather charmingly,\nmaking it less wary. This harshly lowers its\nAttack stat.",
   "move_category": "net-good-stats",
+  "ailment": "none",
   "effect_text_extend": "Lowers the target's Attack by two stages.",
   "effect_text_simple": "Lowers the target's Attack by two stages."
 }

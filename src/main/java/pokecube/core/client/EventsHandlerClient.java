@@ -61,6 +61,7 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
 import pokecube.api.utils.TagNames;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
@@ -83,7 +84,6 @@ import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketMountedControl;
 import pokecube.core.proxy.ClientProxy;
 import pokecube.core.utils.PokemobTracker;
-import pokecube.core.utils.Tools;
 
 public class EventsHandlerClient
 {

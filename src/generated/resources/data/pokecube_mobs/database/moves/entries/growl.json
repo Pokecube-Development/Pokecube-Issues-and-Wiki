@@ -9,6 +9,7 @@
   "damage_class": "status",
   "flavor_text": "The user growls in an endearing way, making\nopposing Pokémon less wary. This lowers their\nAttack stat.",
   "move_category": "net-good-stats",
+  "ailment": "none",
   "effect_text_extend": "Lowers the target's Attack by one stage.",
   "effect_text_simple": "Lowers the target's Attack by one stage."
 }

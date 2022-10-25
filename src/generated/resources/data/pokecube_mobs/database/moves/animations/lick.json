@@ -2,7 +2,7 @@
   "name": "lick",
   "animations": [
     {
-      "preset": "cartFunc:psplash:d1:w0.5:rfalse:l7:atrue:f0,1,0:~lick",
+      "preset": "cartFunc:psplash:d1:w0.5:rfalse:l7:atrue:f0,1,0",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.charm",

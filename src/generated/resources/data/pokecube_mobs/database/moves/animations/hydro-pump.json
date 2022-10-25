@@ -1,8 +1,8 @@
 {
-  "name": "hydropump",
+  "name": "hydro-pump",
   "animations": [
     {
-      "preset": "beam:psplash:d0.2:~hydropump",
+      "preset": "beam:psplash:d0.2",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.surf",
@@ -12,12 +12,12 @@
       "pitch": 1.0
     },
     {
-      "preset": "flow:psplash:d1:w1:~hydropump",
+      "preset": "flow:psplash:d1:w1",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:d1:w1:~hydropump",
+      "preset": "cartFunc:pexplosion_emitter:d1:w1",
       "duration": "5",
       "starttick": "3",
       "sound": "pokecube:moves.bubbleattack",

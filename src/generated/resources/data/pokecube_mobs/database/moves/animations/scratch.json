@@ -2,7 +2,7 @@
   "name": "scratch",
   "animations": [
     {
-      "preset": "cartFunc:atrue:psweep_attack:d1:w1:l2:~scratch",
+      "preset": "cartFunc:atrue:psweep_attack:d1:w1:l2",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.scratch",

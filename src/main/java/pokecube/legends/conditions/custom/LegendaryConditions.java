@@ -12,7 +12,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.stats.ISpecialCaptureCondition;
 import pokecube.api.stats.ISpecialSpawnCondition;
 import pokecube.api.stats.SpecialCaseRegister;
-import pokecube.core.impl.PokecubeMod;
+import pokecube.core.PokecubeCore;
 import pokecube.legends.conditions.AbstractCondition;
 import pokecube.legends.conditions.data.ConditionLoader;
 import pokecube.legends.handlers.GeneProtector;
@@ -28,7 +28,7 @@ public class LegendaryConditions
     public static List<PokedexEntry> entries = Lists.newArrayList();
 
     @SuppressWarnings("unchecked")
-	public void init()
+    public void init()
     {
         // Registring Event Lengendary Spawns
         new LegendarySpawn("registeel", ItemInit.STEEL_CORE, BlockInit.REGISTEEL_CORE);
@@ -60,29 +60,29 @@ public class LegendaryConditions
                     num++;
                 }
             }
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.info("Detected " + num + " Legendary Conditions.");
+            if (PokecubeCore.getConfig().debug_misc)
+                PokecubeAPI.LOGGER.info("Detected " + num + " Legendary Conditions.");
         }
         catch (final Exception e)
         {
             e.printStackTrace();
         }
         int num = 0;
-        for (final Class<? extends AbstractCondition> c : conditionclasses)
-            try
+        for (final Class<? extends AbstractCondition> c : conditionclasses) try
+        {
+            final AbstractCondition cond = c.getConstructor().newInstance();
+            final PokedexEntry e = cond.getEntry();
+            if (Pokedex.getInstance().isRegistered(e))
             {
-                final AbstractCondition cond = c.getConstructor().newInstance();
-                final PokedexEntry e = cond.getEntry();
-                if (Pokedex.getInstance().isRegistered(e))
-                {
-                    SpecialCaseRegister.register(e.getName(), (ISpecialCaptureCondition) cond);
-                    SpecialCaseRegister.register(e.getName(), (ISpecialSpawnCondition) cond);
-                    num++;
-                }
+                SpecialCaseRegister.register(e.getName(), (ISpecialCaptureCondition) cond);
+                SpecialCaseRegister.register(e.getName(), (ISpecialSpawnCondition) cond);
+                num++;
             }
-            catch (final Exception e)
-            {
-                e.printStackTrace();
-            }
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+        }
         PokecubeAPI.LOGGER.info("Registered " + num + " Legendary Conditions.");
     }
 }

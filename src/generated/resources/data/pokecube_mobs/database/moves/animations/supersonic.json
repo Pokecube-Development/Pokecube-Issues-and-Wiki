@@ -2,7 +2,7 @@
   "name": "supersonic",
   "animations": [
     {
-      "preset": "flow:pend_rod:d0.33:w0.5:atrue:l2:~supersonic",
+      "preset": "flow:pend_rod:d0.33:w0.5:atrue:l2",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.aurorabeam",

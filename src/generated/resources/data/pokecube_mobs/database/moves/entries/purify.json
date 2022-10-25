@@ -9,6 +9,7 @@
   "flavor_text": "The user heals the target’s status condition. If the\nmove succeeds, it also restores the user’s own HP.",
   "move_category": "unique",
   "healing": 50,
+  "ailment": "none",
   "effect_text_extend": "Cures the target of its major status ailment and heals the user for 50% of its max HP.  If the target has no major status ailment, this move will fail.",
   "effect_text_simple": "Cures the target of a major status ailment and heals the user for 50% of its max HP."
 }

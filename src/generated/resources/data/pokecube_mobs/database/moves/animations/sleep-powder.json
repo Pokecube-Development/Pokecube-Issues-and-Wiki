@@ -1,8 +1,8 @@
 {
-  "name": "sleeppowder",
+  "name": "sleep-powder",
   "animations": [
     {
-      "preset": "powder:l5:~sleeppowder",
+      "preset": "powder:l5",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:block.sand.place",

@@ -2,7 +2,7 @@
   "name": "bide",
   "animations": [
     {
-      "preset": "pons:~bide",
+      "preset": "pons",
       "duration": "5",
       "starttick": "0"
     }

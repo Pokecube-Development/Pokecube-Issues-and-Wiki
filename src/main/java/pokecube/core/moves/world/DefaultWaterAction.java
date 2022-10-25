@@ -9,10 +9,10 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.eventhandlers.MoveEventsHandler.UseContext;
-import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 
 public class DefaultWaterAction extends DefaultAction
@@ -33,7 +33,7 @@ public class DefaultWaterAction extends DefaultAction
     public boolean applyEffect(IPokemob user, Vector3 location)
     {
         if (!PokecubeCore.getConfig().defaultWaterActions) return false;
-        if (move.isSelfMove()) return false;
+        if (user.getMoveStats().targettingSelf) return false;
         final Level world = user.getEntity().getLevel();
         final UseContext context = MoveEventsHandler.getContext(world, user, Blocks.WATER.defaultBlockState(),
                 location);

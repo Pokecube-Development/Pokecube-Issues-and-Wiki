@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The Pokémon congratulates you on your special day!",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "Does nothing.",
   "effect_text_simple": "Does nothing."
 }

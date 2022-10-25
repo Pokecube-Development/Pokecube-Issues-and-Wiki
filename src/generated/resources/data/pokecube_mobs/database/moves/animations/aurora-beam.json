@@ -1,8 +1,8 @@
 {
-  "name": "aurorabeam",
+  "name": "aurora-beam",
   "animations": [
     {
-      "preset": "beam:paurora:d0.5:~aurorabeam",
+      "preset": "beam:paurora:d0.5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.aurorabeam",

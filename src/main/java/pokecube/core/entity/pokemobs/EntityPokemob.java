@@ -64,6 +64,7 @@ import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.events.pokemobs.SpawnEvent.Variance;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.TagNames;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.entity.pokemobs.helper.PokemobRidable;
@@ -75,7 +76,6 @@ import pokecube.core.init.EntityTypes;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.PokemobTracker;
-import pokecube.core.utils.Tools;
 import thut.api.AnimatedCaps;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated;
@@ -324,7 +324,7 @@ public class EntityPokemob extends PokemobRidable
             maxXP = Tools.levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), level);
             pokemob.getEntity().getPersistentData().putInt("spawnExp", maxXP);
             final double dt = (System.nanoTime() - time) / 10e3D;
-            if (PokecubeMod.debug && dt > 100)
+            if (PokecubeCore.getConfig().debug_spawning && dt > 100)
             {
                 final String toLog = "location: %1$s took: %2$s\u00B5s to spawn Init for %3$s";
                 PokecubeAPI.LOGGER.info(String.format(toLog, loc.getPos(), dt, pokemob.getDisplayName().getString()));

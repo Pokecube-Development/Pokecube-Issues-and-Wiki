@@ -1,8 +1,8 @@
 {
-  "name": "flareblitz",
+  "name": "flare-blitz",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d0.3:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~flareblitz",
+      "preset": "cartFunc:pcrit:d0.3:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",
@@ -12,7 +12,7 @@
       "pitch": 0.8
     },
     {
-      "preset": "cartFunc:pflame:d0.4:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~flareblitz",
+      "preset": "cartFunc:pflame:d0.4:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.flamewheel",
@@ -22,12 +22,12 @@
       "pitch": 0.8
     },
     {
-      "preset": "powder:pflame:d0.5:w1:l5:~flareblitz",
+      "preset": "powder:pflame:d0.5:w1:l5",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:d0.3:w1:l5:~flareblitz",
+      "preset": "cartFunc:pexplosion_emitter:d0.3:w1:l5",
       "duration": "5",
       "starttick": "0"
     }

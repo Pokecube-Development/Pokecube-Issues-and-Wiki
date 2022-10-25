@@ -1,8 +1,8 @@
 {
-  "name": "firstimpression",
+  "name": "first-impression",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack:atrue:~firstimpression",
+      "preset": "cartFunc:psweep_attack:atrue",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.slash",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pcrit:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~firstimpression",
+      "preset": "cartFunc:pcrit:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.vicegrip",
@@ -24,7 +24,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:rtrue:atrue:pcloud:l2:w2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~firstimpression",
+      "preset": "cartFunc:rtrue:atrue:pcloud:l2:w2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.fly",

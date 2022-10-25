@@ -1,8 +1,8 @@
 {
-  "name": "clearsmog",
+  "name": "clear-smog",
   "animations": [
     {
-      "preset": "cartFunc:pwitch:l7:rtrue:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~clearsmog",
+      "preset": "cartFunc:pwitch:l7:rtrue:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.gustwind",
@@ -13,7 +13,7 @@
       "applyAfter": true
     },
     {
-      "preset": "flow:pcloud:l5:d0.4:w2:atrue:~clearsmog",
+      "preset": "flow:pcloud:l5:d0.4:w2:atrue",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.fly",

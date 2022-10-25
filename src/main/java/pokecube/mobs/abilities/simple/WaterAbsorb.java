@@ -11,7 +11,7 @@ public class WaterAbsorb extends Ability
     @Override
     public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        if (mob.getEntity() == move.target && move.type == PokeType.getType("water"))
+        if (mob.getEntity() == move.getTarget() && move.type == PokeType.getType("water"))
         {
             move.canceled = true;
             final LivingEntity entity = mob.getEntity();

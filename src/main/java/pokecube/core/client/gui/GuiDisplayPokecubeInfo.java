@@ -42,6 +42,7 @@ import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
+import pokecube.api.utils.Tools;
 import pokecube.api.moves.utils.IMoveNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -55,7 +56,6 @@ import pokecube.core.network.pokemobs.PacketAIRoutine;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
-import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 
 public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
@@ -348,9 +348,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
                         if (MovesUtils.isAbleToUseMoves(pokemob) != AbleStatus.ABLE) timer = 0;
                         else if ((lastMove = MovesUtils.getMove(pokemob.getLastMoveUsed())) != null)
                             timer -= pokemob.getAttackCooldown() / (float) MovesUtils.getAttackDelay(pokemob,
-                                    pokemob.getLastMoveUsed(),
-                                    (lastMove.getAttackCategory(pokemob) & IMoveConstants.CATEGORY_DISTANCE) > 0,
-                                    false);
+                                    pokemob.getLastMoveUsed(), lastMove.isRanged(pokemob), false);
                         timer = Math.max(0, Math.min(timer, 1));
                         RenderSystem.enableBlend();
                         this.blit(evt.getMat(), movesOffsetX, movesOffsetY + 13 * index + h, 43, 35, (int) (91 * timer),
@@ -471,7 +469,6 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
             final int mobBoxOffsetY = 0;
             this.blit(evt.getMat(), mobBoxOffsetX, mobBoxOffsetY, 0, 0, 42, 42);
             // Render Mob
-
 
             LivingEntity mob = entity;
 

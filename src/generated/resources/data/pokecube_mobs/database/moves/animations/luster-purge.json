@@ -1,8 +1,8 @@
 {
-  "name": "lusterpurge",
+  "name": "luster-purge",
   "animations": [
     {
-      "preset": "flow:pend_rod:~lusterpurge",
+      "preset": "flow:pend_rod",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.unknown",
@@ -12,7 +12,7 @@
       "pitch": 1.5
     },
     {
-      "preset": "throw:pend_rod:~lusterpurge",
+      "preset": "throw:pend_rod",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.megaattack",

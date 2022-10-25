@@ -17,8 +17,8 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
+import pokecube.api.utils.Tools;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 import thut.lib.TComponent;
@@ -81,7 +81,7 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
 
     public float getEffectiveness(final IPokemob pokemobCap)
     {
-        return PokeType.getAttackEfficiency(this.getType(), pokemobCap.getType1(), pokemobCap.getType2());
+        return Tools.getAttackEfficiency(this.getType(), pokemobCap.getType1(), pokemobCap.getType2());
     }
 
     @Nullable
@@ -120,7 +120,7 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
     /** Returns true if the damage is projectile based. */
     public boolean isProjectile()
     {
-        return (this.move.getAttackCategory(this.user) & IMoveConstants.CATEGORY_DISTANCE) != 0;
+        return this.move.isRanged(this.user);
     }
 
     public PokemobDamageSource setType(final PokeType type)

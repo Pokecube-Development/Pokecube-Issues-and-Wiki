@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user employs its psychic power to switch stat\nchanges with the target.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "User swaps its stat modifiers with the target.",
   "effect_text_simple": "User and target swap stat changes."
 }

@@ -1,8 +1,8 @@
 {
-  "name": "sweetscent",
+  "name": "sweet-scent",
   "animations": [
     {
-      "preset": "flow:pmisc:cpink:d2:w3:l5:~sweetscent",
+      "preset": "flow:pmisc:cpink:d2:w3:l5",
       "duration": "5",
       "starttick": "0"
     }

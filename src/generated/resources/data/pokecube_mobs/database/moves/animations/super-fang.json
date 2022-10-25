@@ -1,8 +1,8 @@
 {
-  "name": "superfang",
+  "name": "super-fang",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:l2:atrue:~superfang",
+      "preset": "cartFunc:pcrit:l2:atrue",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.vicegrip",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:rtrue:pcloud:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~superfang",
+      "preset": "cartFunc:rtrue:pcloud:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.withdraw",

@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "Any Pokémon that hears this song faints in three\nturns, unless it switches out of battle.",
   "move_category": "ailment",
+  "ailment": "perish-song",
   "max_turns": 4,
   "min_turns": 4,
   "effect_text_extend": "Every Pokémon is given a counter that starts at 3 and decreases by 1 at the end of every turn, including this one.  When a Pokémon's counter reaches zero, that Pokémon faints.  A Pokémon that leaves the field will lose its counter; its replacement does not inherit the effect, and other Pokémon's counters remain.\n\nThis effect is passed on by baton pass.\n\nThis move cannot be copied by mirror move.",

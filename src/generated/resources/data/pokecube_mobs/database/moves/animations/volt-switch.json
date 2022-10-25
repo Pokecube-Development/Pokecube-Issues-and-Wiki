@@ -1,8 +1,8 @@
 {
-  "name": "voltswitch",
+  "name": "volt-switch",
   "animations": [
     {
-      "preset": "powder:pmisc:atrue:d0.05:w0.7:l5:~voltswitch",
+      "preset": "powder:pmisc:atrue:d0.05:w0.7:l5",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.thunderwave",
@@ -12,7 +12,7 @@
       "pitch": 1.7
     },
     {
-      "preset": "flow:w0.9:atrue:d0.7:~voltswitch",
+      "preset": "flow:w0.9:atrue:d0.7",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.fly",

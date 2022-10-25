@@ -1,8 +1,8 @@
 {
-  "name": "lavaplume",
+  "name": "lava-plume",
   "animations": [
     {
-      "preset": "flow:plava:~lavaplume",
+      "preset": "flow:plava",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.flamewheel",
@@ -12,7 +12,7 @@
       "pitch": 0.7
     },
     {
-      "preset": "flow:pflame:d1:w1:~lavaplume",
+      "preset": "flow:pflame:d1:w1",
       "duration": "0",
       "starttick": "0",
       "sound": "pokecube:moves.bubbleattack",

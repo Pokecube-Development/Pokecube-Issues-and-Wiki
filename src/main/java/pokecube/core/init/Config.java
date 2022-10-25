@@ -33,7 +33,6 @@ import pokecube.core.ai.tasks.idle.IdleWalkTask;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.eventhandlers.SpawnHandler;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.Pokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
@@ -153,6 +152,7 @@ public class Config extends ConfigData
     public static final String genetics = "genetics";
     public static final String items = "items";
     public static final String dynamax = "dynamax";
+    public static final String debug_modes = "debug";
 
     public static Config instance;
 
@@ -590,8 +590,6 @@ public class Config extends ConfigData
 
     @Configure(category = Config.advanced, comment = "Makes all rare candies bad. [Default: false]")
     boolean reputs = false;
-    @Configure(category = Config.advanced, comment = "Debug output for debugging purposes. [Default: false]")
-    public boolean debug = false;
 
     @Configure(category = Config.advanced, comment = "Randomness. Changing not recommended.")
     // DOLATER find more internal variables to add to this.
@@ -751,6 +749,21 @@ public class Config extends ConfigData
     @Configure(category = Config.advanced, type = Type.SERVER, comment = "Mobs added by other mods are treated as pokemobs as well. [Default: false]")
     public boolean non_vanilla_pokemobs = false;
 
+
+    @Configure(category = Config.debug_modes, comment = "Debug output for move use. [Default: false]")
+    public boolean debug_moves = false;
+    @Configure(category = Config.debug_modes, comment = "Debug output for mob ai. [Default: false]")
+    public boolean debug_ai = false;
+    @Configure(category = Config.debug_modes, comment = "Debug output for chat commands and pokemob orders. [Default: false]")
+    public boolean debug_commands = false;
+    @Configure(category = Config.debug_modes, comment = "Debug output for datapack loading. [Default: false]")
+    public boolean debug_data = false;
+    @Configure(category = Config.debug_modes, comment = "Debug output for pokemob spawning. [Default: false]")
+    public boolean debug_spawning = false;
+    @Configure(category = Config.debug_modes, comment = "Debug output for uncatogorised things. [Default: false]")
+    public boolean debug_misc = false;
+    
+    
     public Config()
     {
         super(PokecubeCore.MODID);
@@ -794,7 +807,6 @@ public class Config extends ConfigData
         SpawnHandler.DEFAULT_VARIANCE = new FunctionVariance(this.spawnLevelVariance);
 
         PokecubeSerializer.MeteorDistance = this.meteorDistance * this.meteorDistance;
-        PokecubeMod.debug = this.debug;
 
         if (this.extraVars.size() != Config.defaults.extraVars.size())
         {

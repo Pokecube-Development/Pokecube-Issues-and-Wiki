@@ -11,6 +11,7 @@
   "flavor_text": "The user attacks the target with sound waves of\ndeafening chatter. This confuses the target.",
   "move_category": "damage+ailment",
   "ailment_chance": 100,
+  "ailment": "confusion",
   "max_turns": 5,
   "min_turns": 2,
   "effect_text_extend": "Inflicts regular damage.  Has either a 1%, 11%, or 31% chance to confuse the target, based on the volume of the recording made for this move; louder recordings increase the chance of confusion.  If the user is not a chatot, this move will not cause confusion.\n\nThis move cannot be copied by mimic, mirror move, or sketch, nor selected by assist, metronome, or sleep talk.",

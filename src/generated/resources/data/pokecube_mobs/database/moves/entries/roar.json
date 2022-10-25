@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The target is scared off, and a different Pokémon is\ndragged out. In the wild, this ends a battle against a\nsingle Pokémon.",
   "move_category": "force-switch",
+  "ailment": "none",
   "effect_text_extend": "Switches the target out for another of its trainer's Pokémon selected at random.  Wild battles end immediately.\n\nDoesn't affect Pokémon with suction cups or under the effect of ingrain.",
   "effect_text_simple": "Immediately ends wild battles.  Forces trainers to switch Pokémon."
 }

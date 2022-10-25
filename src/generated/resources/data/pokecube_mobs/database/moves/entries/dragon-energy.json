@@ -10,6 +10,7 @@
   "damage_class": "special",
   "flavor_text": "Converting its life-force into power, the user attacks\nopposing Pokémon. The lower the user’s HP, the lower\nthe move’s power.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",
   "effect_text_simple": "Inflicts regular damage with no additional effect."
 }

@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user helps the target and makes it use its move\nright after the user.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "The target will act next this turn, regardless of Speed or move priority.\nIf the target has already acted this turn, this move will fail.",
   "effect_text_simple": "Makes the target act next this turn."
 }

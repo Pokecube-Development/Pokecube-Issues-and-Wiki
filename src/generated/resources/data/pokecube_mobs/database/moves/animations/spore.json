@@ -2,7 +2,7 @@
   "name": "spore",
   "animations": [
     {
-      "preset": "powder:ppowder:cwhite:l8:d0.15:~spore",
+      "preset": "powder:ppowder:cwhite:l8:d0.15",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:block.sand.place",

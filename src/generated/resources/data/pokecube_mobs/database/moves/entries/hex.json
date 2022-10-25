@@ -10,6 +10,7 @@
   "damage_class": "special",
   "flavor_text": "This relentless attack does massive damage to a\ntarget affected by status conditions.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If the target has a major status ailment, this move has double power.",
   "effect_text_simple": "Has double power if the target has a major status ailment."
 }

@@ -1,8 +1,8 @@
 {
-  "name": "bubblebeam",
+  "name": "bubble-beam",
   "animations": [
     {
-      "preset": "beam:pbubble:d0.5:~bubblebeam",
+      "preset": "beam:pbubble:d0.5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.waterpulse",

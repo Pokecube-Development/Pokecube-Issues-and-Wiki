@@ -2,7 +2,7 @@
   "name": "return",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d2:w0.5:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~return",
+      "preset": "cartFunc:pcrit:d2:w0.5:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dig",
@@ -12,7 +12,7 @@
       "pitch": 1.2
     },
     {
-      "preset": "cartFunc:pend_rod:d2:w1:rtrue:atrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~return",
+      "preset": "cartFunc:pend_rod:d2:w1:rtrue:atrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     }

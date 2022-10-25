@@ -1,8 +1,8 @@
 {
-  "name": "dracometeor",
+  "name": "draco-meteor",
   "animations": [
     {
-      "preset": "throw:pmisc:atrue:~dracometeor",
+      "preset": "throw:pmisc:atrue",
       "duration": "15",
       "starttick": "0",
       "sound": "pokecube:moves.megaattack",
@@ -12,7 +12,7 @@
       "pitch": 1.7
     },
     {
-      "preset": "throw:pmisc:~dracometeor",
+      "preset": "throw:pmisc",
       "duration": "15",
       "starttick": "3",
       "sound": "pokecube:moves.razorwind",
@@ -22,7 +22,7 @@
       "pitch": 0.8
     },
     {
-      "preset": "throw:pmisc:atrue:~dracometeor",
+      "preset": "throw:pmisc:atrue",
       "duration": "15",
       "starttick": "6",
       "sound": "pokecube:moves.razorwind",
@@ -32,7 +32,7 @@
       "pitch": 0.8
     },
     {
-      "preset": "throw:pmisc:atrue:~dracometeor",
+      "preset": "throw:pmisc:atrue",
       "duration": "15",
       "starttick": "9",
       "sound": "pokecube:moves.razorwind",
@@ -42,7 +42,7 @@
       "pitch": 0.8
     },
     {
-      "preset": "throw:pmisc:atrue:~dracometeor",
+      "preset": "throw:pmisc:atrue",
       "duration": "15",
       "starttick": "12",
       "sound": "pokecube:moves.razorwind",
@@ -52,7 +52,7 @@
       "pitch": 0.8
     },
     {
-      "preset": "cartFunc:pexplosion:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~dracometeor",
+      "preset": "cartFunc:pexplosion:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.rocktomb",
@@ -62,7 +62,7 @@
       "pitch": 1.2
     },
     {
-      "preset": "cartFunc:pexplosion:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~dracometeor",
+      "preset": "cartFunc:pexplosion:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "7",
       "sound": "pokecube:moves.rocktomb",
@@ -72,7 +72,7 @@
       "pitch": 1.2
     },
     {
-      "preset": "cartFunc:pexplosion:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~dracometeor",
+      "preset": "cartFunc:pexplosion:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "10",
       "sound": "pokecube:moves.rocktomb",
@@ -82,7 +82,7 @@
       "pitch": 1.2
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~dracometeor",
+      "preset": "cartFunc:pexplosion_emitter:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "15",
       "sound": "pokecube:moves.rocktomb",
@@ -92,7 +92,7 @@
       "pitch": 1.2
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:d8:l10:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~dracometeor",
+      "preset": "cartFunc:pexplosion_emitter:d8:l10:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "12",
       "sound": "pokecube:moves.rocktomb",
@@ -102,7 +102,7 @@
       "pitch": 1.2
     },
     {
-      "preset": "cartFunc:pdragon_breath:rtrue:d0.7:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~dracometeor",
+      "preset": "cartFunc:pdragon_breath:rtrue:d0.7:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     }

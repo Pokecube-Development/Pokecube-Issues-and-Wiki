@@ -1,8 +1,8 @@
 {
-  "name": "healbell",
+  "name": "heal-bell",
   "animations": [
     {
-      "preset": "pons:pspell:d1:~healbell",
+      "preset": "pons:pspell:d1",
       "duration": "5",
       "starttick": "0"
     }

@@ -2,7 +2,7 @@
   "name": "brine",
   "animations": [
     {
-      "preset": "flow:psplash:~brine",
+      "preset": "flow:psplash",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dive",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "flow:pcloud:d0.5:~brine",
+      "preset": "flow:pcloud:d0.5",
       "duration": "0",
       "starttick": "0",
       "sound": "pokecube:moves.sacredfire",

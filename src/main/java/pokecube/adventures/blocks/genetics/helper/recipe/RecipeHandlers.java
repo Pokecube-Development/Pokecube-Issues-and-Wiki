@@ -33,6 +33,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.CloneEvent;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.recipes.IRecipeParser;
@@ -43,7 +44,6 @@ import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.init.ItemGenerator;
 import pokecube.core.items.ItemFossil;
-import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.IMobGenetics;
 

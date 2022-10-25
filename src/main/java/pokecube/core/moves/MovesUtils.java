@@ -2,7 +2,6 @@ package pokecube.core.moves;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Predicate;
@@ -10,7 +9,7 @@ import java.util.function.Predicate;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.google.common.collect.Maps;
+import com.google.common.collect.Lists;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -19,6 +18,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -29,6 +29,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.moves.MoveApplicationRegistry;
 import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
@@ -36,14 +37,13 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
-import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.entity.pokemob.stats.DefaultModifiers;
 import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.api.events.pokemobs.combat.MoveUse;
+import pokecube.api.moves.Battle;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.MoveEntry.Category;
-import pokecube.api.moves.Move_Base;
 import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
@@ -71,16 +71,14 @@ public class MovesUtils implements IMoveConstants
 
     public static Random rand = ThutCore.newRandom();
 
-    private static HashMap<String, Move_Base> moves = Maps.newHashMap();
-
     public static Collection<String> getKnownMoveNames()
     {
-        return MovesUtils.moves.keySet();
+        return MoveEntry.keys();
     }
 
-    public static Collection<Move_Base> getKnownMoves()
+    public static Collection<MoveEntry> getKnownMoves()
     {
-        return MovesUtils.moves.values();
+        return MoveEntry.values();
     }
 
     public static void sendPairedMessages(final Entity target, final IPokemob attacker, final String baseKey)
@@ -91,7 +89,7 @@ public class MovesUtils implements IMoveConstants
                 : attacker != null ? attacker.getDisplayName() : TComponent.literal("ERR PLS REPORT");
         if (attacker != null) attacker.displayMessageToOwner(TComponent.translatable(key, targName));
         key = baseKey + ".target";
-        if (target != attacker.getEntity() && target != null)
+        if (target != null && (attacker == null || target != attacker.getEntity()))
         {
             final Component message = TComponent.translatable(key, targName);
             if (attacked != null) attacked.displayMessageToOwner(message);
@@ -297,8 +295,8 @@ public class MovesUtils implements IMoveConstants
 
     public static void doAttack(final String attackName, final IPokemob attacker, final LivingEntity attacked)
     {
-        final Move_Base move = MovesUtils.moves.get(attackName);
-        if (move != null) move.attack(attacker, attacked);
+        final MoveEntry move = MovesUtils.getMove(attackName);
+        if (move != null) move.applyMove(attacker, attacked, null);
         else
         {
             if (attackName != null) System.err.println("The Move \"" + attackName + "\" does not exist.");
@@ -326,7 +324,7 @@ public class MovesUtils implements IMoveConstants
         return (int) (stat_based_cd * moveMod / accuracyMod);
     }
 
-    public static float getAttackStrength(final IPokemob attacker, final IPokemob attacked, final Category type,
+    public static float getAttackStrength(final IPokemob attacker, final IPokemob attacked, final AttackCategory type,
             final int PWR, final MoveEntry move, float[] stat_mutliplier)
     {
         if (move.fixed) return move.getPWR(attacker, attacked.getEntity());
@@ -341,7 +339,7 @@ public class MovesUtils implements IMoveConstants
         int ATT;
         int DEF;
 
-        if (type == Category.SPECIAL)
+        if (type == AttackCategory.SPECIAL)
         {
             ATT = (int) (attacker.getStat(Stats.SPATTACK, true) * stat_mutliplier[Stats.SPATTACK.ordinal()]);
             DEF = attacked.getStat(Stats.SPDEFENSE, true);
@@ -371,13 +369,13 @@ public class MovesUtils implements IMoveConstants
     {
         float moveCooldownFactor = PokecubeCore.getConfig().attackCooldown / 20F;
         if (attacker.getStatus() == IMoveConstants.STATUS_PAR) moveCooldownFactor *= 4F;
-        final Move_Base move = MovesUtils.getMoveFromName(moveName);
+        final MoveEntry move = MovesUtils.getMove(moveName);
         if (move == null) return 1;
-        if ((move.getAttackCategory(attacker) & IMoveConstants.CATEGORY_CONTACT) > 0)
+        if (move.isContact(attacker))
         {
             moveCooldownFactor *= PokecubeCore.getConfig().attackCooldownContactScale;
         }
-        if ((move.getAttackCategory(attacker) & IMoveConstants.CATEGORY_DISTANCE) > 0)
+        if (move.isRanged(attacker))
         {
             moveCooldownFactor *= PokecubeCore.getConfig().attackCooldownRangedScale;
         }
@@ -385,28 +383,19 @@ public class MovesUtils implements IMoveConstants
         return moveCooldownFactor;
     }
 
-    @Deprecated
-    public static Move_Base getMoveFromName(final String moveName)
-    {
-        if (moveName == null) return null;
-        final Move_Base ret = MovesUtils.moves.get(moveName);
-        return ret;
-    }
-
     public static MoveEntry getMove(final String moveName)
     {
         if (moveName == null) return null;
-        final Move_Base ret = MovesUtils.moves.get(moveName);
-        return ret.move;
+        return MoveEntry.get(moveName);
     }
 
     public static MutableComponent getMoveName(final String attack, IPokemob user)
     {
-        Move_Base move = getMoveFromName(attack);
+        MoveEntry move = getMove(attack);
         MutableComponent name = TComponent.translatable("pokemob.move." + attack);
         if (move != null)
         {
-            name.setStyle(name.getStyle().withColor(move.move.getType(user).colour));
+            name.setStyle(name.getStyle().withColor(move.getType(user).colour));
         }
         return name;
     }
@@ -509,25 +498,6 @@ public class MovesUtils implements IMoveConstants
         return new StatDiff(diff, ret);
     }
 
-    /**
-     * Handles stats modifications of the move
-     *
-     * @param attacker the pokemob being affected
-     * @param atk      the move being used
-     * @param attacked whether the mob is the attacked mob, or the attacker
-     * @return
-     */
-    public static boolean handleStats(final IPokemob attacker, final Entity target, final MovePacket atk,
-            final boolean attacked)
-    {
-        final int[] stats = attacked ? atk.attackedStatModification : atk.attackerStatModification;
-        final float chance = attacked ? atk.attackedStatModProb : atk.attackerStatModProb;
-        StatDiff diffs = handleStats(attacker, target, stats, chance);
-
-        sendStatDiffsMessages(attacker, target, diffs);
-        return diffs.applied;
-    }
-
     public static void sendStatDiffsMessages(final IPokemob attacker, final Entity target, StatDiff diffs)
     {
         if (diffs.applied)
@@ -585,15 +555,8 @@ public class MovesUtils implements IMoveConstants
     public static boolean isMoveImplemented(String attackName)
     {
         if (attackName == null) return false;
-        final Move_Base move = MovesUtils.moves.get(attackName);
-        if (move == null)
-            for (final String s : MovesUtils.moves.keySet()) if (ThutCore.trim(s).equals(ThutCore.trim(attackName)))
-        {
-            attackName = s;
-            return true;
-        }
-        if (move != null) return true;
-        return false;
+        final MoveEntry move = getMove(attackName);
+        return move != null;
     }
 
     /** creates an ExplosionCustom */
@@ -606,24 +569,6 @@ public class MovesUtils implements IMoveConstants
         if (poke != null) if (poke.getOwner() instanceof Player) var11.owner = (Player) poke.getOwner();
         else var11.owner = null;
         return var11;
-    }
-
-    public static boolean registerMove(final Move_Base move)
-    {
-        if (move.move.root_entry == null)
-        {
-            PokecubeAPI.LOGGER.error("Attempted to register unknown move {}", move.name);
-            return false;
-        }
-
-        final Move_Base old = MovesUtils.moves.get(move.name);
-        if (old != null) old.destroy();
-
-        move.init();
-        MovesUtils.moves.put(move.name, move);
-        if (move.move.ohko) MoveEntry.oneHitKos.add(move.name);
-        if (move.move.root_entry._protects) MoveEntry.protectionMoves.add(move.name);
-        return true;
     }
 
     public static boolean setStatus(final LivingEntity attacked, int status)
@@ -720,17 +665,90 @@ public class MovesUtils implements IMoveConstants
         return ret;
     }
 
-    public static void useMove(@Nonnull final MoveEntry move, @Nonnull final LivingEntity user,
+    public static void useMove(@Nonnull final MoveEntry move, @Nonnull final Mob user,
             @Nullable final LivingEntity target, @Nonnull final Vector3 start, @Nonnull final Vector3 end)
     {
         final IPokemob pokemob = PokemobCaps.getPokemobFor(user);
         if (pokemob == null) return;
-        if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, target))) return;
-        final EntityMoveUse moveUse = EntityMoveUse.Builder.make(user, move, start).setEnd(end).setTarget(target)
-                .build();
-        if (GZMoveManager.zmoves_map.containsValue(move.name)) pokemob.setCombatState(CombatStates.USEDZMOVE, true);
-        pokemob.setActiveMove(moveUse);
-        MoveQueuer.queueMove(moveUse);
+
+        MoveApplication apply = new MoveApplication(move, pokemob, target);
+        // Pre-apply to run any special pre-processing needed for changing move
+        // targets, etc.
+        MoveApplicationRegistry.preApply(apply);
+
+        Predicate<MoveApplication> target_test = MoveApplicationRegistry.getValidator(move);
+        Mob mob = user;
+        Battle battle = Battle.getBattle(mob);
+
+        List<LivingEntity> targets = Lists.newArrayList();
+
+        if (battle != null)
+        {
+            targets.addAll(battle.getAllies(mob));
+            targets.addAll(battle.getEnemies(mob));
+            // If we are in battle, lets deal with that here.
+            targets.forEach(s -> {
+                apply.setTarget(s);
+                if (target_test.test(apply))
+                {
+                    if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, s))) return;
+                    final EntityMoveUse moveUse = EntityMoveUse.Builder.make(user, move, start).setEnd(end).setTarget(s)
+                            .build();
+                    if (GZMoveManager.zmoves_map.containsValue(move.name))
+                        pokemob.setCombatState(CombatStates.USEDZMOVE, true);
+                    MoveQueuer.queueMove(moveUse);
+                }
+            });
+        }
+        else
+        {
+            // Otherwise manually check target and self, target first if not
+            // null, then self, then finally use it on a location.
+            boolean did = false;
+
+            apply_test:
+            {
+                targets.add(mob);
+                if (target != null)
+                {
+                    apply.setTarget(target);
+                    if (target_test.test(apply))
+                    {
+                        if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, target)))
+                            break apply_test;
+                        final EntityMoveUse moveUse = EntityMoveUse.Builder.make(user, move, start).setEnd(end)
+                                .setTarget(target).build();
+                        if (GZMoveManager.zmoves_map.containsValue(move.name))
+                            pokemob.setCombatState(CombatStates.USEDZMOVE, true);
+                        MoveQueuer.queueMove(moveUse);
+                        did = true;
+                    }
+                }
+                apply.setTarget(mob);
+                if (target_test.test(apply))
+                {
+                    if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, target)))
+                        break apply_test;
+                    final EntityMoveUse moveUse = EntityMoveUse.Builder.make(user, move, start).setEnd(end)
+                            .setTarget(target).build();
+                    if (GZMoveManager.zmoves_map.containsValue(move.name))
+                        pokemob.setCombatState(CombatStates.USEDZMOVE, true);
+                    MoveQueuer.queueMove(moveUse);
+                    did = true;
+                }
+
+                if (!did)
+                {
+                    if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, null)))
+                        break apply_test;
+                    final EntityMoveUse moveUse = EntityMoveUse.Builder.make(user, move, start).setEnd(end).build();
+                    if (GZMoveManager.zmoves_map.containsValue(move.name))
+                        pokemob.setCombatState(CombatStates.USEDZMOVE, true);
+                    MoveQueuer.queueMove(moveUse);
+                    did = true;
+                }
+            }
+        }
     }
 
     public static boolean shouldSilk(final IPokemob pokemob)

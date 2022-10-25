@@ -11,7 +11,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
@@ -32,7 +31,6 @@ import pokecube.core.impl.entity.impl.PersistantStatusEffect;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.moves.zmoves.GZMoveManager;
 import pokecube.core.network.pokemobs.PacketSyncMoveUse;
 import thut.api.entity.ICopyMob;
@@ -72,7 +70,7 @@ public abstract class PokemobMoves extends PokemobStats
         }
 
         // Check ranged vs contact and set cooldown accordinly.
-        final boolean distanced = (move.getAttackCategory(this) & IMoveConstants.CATEGORY_DISTANCE) > 0;
+        final boolean distanced = move.isRanged(this);
         this.setAttackCooldown(MovesUtils.getAttackDelay(this, attack, distanced, target instanceof Player));
         // Syncs that the move has at least been attempted, this is used for the
         // graphical indicator of move cooldowns
@@ -145,19 +143,6 @@ public abstract class PokemobMoves extends PokemobStats
         // clear this if we use a move.
         this.setCombatState(CombatStates.NOITEMUSE, false);
         this.here.set(this.getEntity());
-    }
-
-    @Override
-    public EntityMoveUse getActiveMove()
-    {
-        final int id = this.dataSync().get(this.params.ACTIVEMOVEID);
-        if (id == -1) return null;
-        if (this.activeMove == null || this.activeMove.getId() != id)
-        {
-            final Entity move = this.getEntity().getLevel().getEntity(id);
-            if (move instanceof EntityMoveUse movee) this.activeMove = movee;
-        }
-        return this.activeMove;
     }
 
     @Override
@@ -260,14 +245,6 @@ public abstract class PokemobMoves extends PokemobStats
         final IOngoingAffected affected = CapabilityAffected.getAffected(this.getEntity());
         if (affected != null) affected.removeEffects(PersistantStatusEffect.ID);
         this.dataSync().set(this.params.STATUSDW, 0);
-    }
-
-    @Override
-    public void setActiveMove(final EntityMoveUse move)
-    {
-        this.activeMove = move;
-        final int id = move == null ? -1 : move.getId();
-        this.dataSync().set(this.params.ACTIVEMOVEID, id);
     }
 
     @Override

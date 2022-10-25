@@ -31,17 +31,17 @@ public class GZMoveManager
 
     public static boolean isZMove(final MoveEntry entry)
     {
-        return Tags.MOVE.isIn("z_move", entry.name);
+        return Tags.MOVE.isIn("z-move", entry.name);
     }
 
     public static boolean isDMove(final MoveEntry entry)
     {
-        return Tags.MOVE.isIn("d_move", entry.name);
+        return Tags.MOVE.isIn("d-move", entry.name);
     }
 
     public static boolean isGMove(final MoveEntry entry)
     {
-        return Tags.MOVE.isIn("g_move", entry.name);
+        return Tags.MOVE.isIn("g-move", entry.name);
     }
 
     public static PowerProvider getPowerProvider(MoveEntry e)

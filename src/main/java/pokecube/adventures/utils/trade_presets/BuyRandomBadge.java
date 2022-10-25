@@ -9,8 +9,8 @@ import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
 import pokecube.api.utils.PokeType;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeItems;
-import pokecube.core.utils.Tools;
 
 @TradePresetAn(key = "buyRandomBadge")
 public class BuyRandomBadge implements TradePreset

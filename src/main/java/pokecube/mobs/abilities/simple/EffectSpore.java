@@ -15,8 +15,7 @@ public class EffectSpore extends Ability
         if (!areWeTarget(mob, move)) return;
         final MoveEntry attack = move.getMove();
         final IPokemob attacker = move.getUser();
-        if (move.hit && attack.getAttackCategory(attacker) == IMoveConstants.CATEGORY_CONTACT
-                && Math.random() > 0.7)
+        if (move.hit && attack.isContact(attacker) && Math.random() > 0.7)
         {
             final int num = ThutCore.newRandom().nextInt(30);
             if (num < 9) attacker.setStatus(IMoveConstants.STATUS_PSN);

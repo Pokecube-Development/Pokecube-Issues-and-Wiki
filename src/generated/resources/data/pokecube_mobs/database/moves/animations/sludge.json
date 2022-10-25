@@ -2,7 +2,7 @@
   "name": "sludge",
   "animations": [
     {
-      "preset": "throw:atrue:w0.75:~sludge",
+      "preset": "throw:atrue:w0.75",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.fly",
@@ -12,7 +12,7 @@
       "pitch": 0.9
     },
     {
-      "preset": "cartFunc:pmisc:d0.66:atrue:w1.5:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~sludge",
+      "preset": "cartFunc:pmisc:d0.66:atrue:w1.5:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5",
       "sound": "pokecube:moves.poisontoxic",

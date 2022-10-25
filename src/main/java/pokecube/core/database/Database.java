@@ -47,6 +47,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.events.init.InitDatabase;
 import pokecube.api.utils.PokeType;
+import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
@@ -66,7 +67,6 @@ import pokecube.core.database.types.CombatTypeLoader;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.handlers.PokedexInspector;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.implementations.MovesAdder;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
@@ -434,7 +434,7 @@ public class Database
         // Init the lists of what all forms are loaded.
         Database.initFormLists();
 
-        if (PokecubeMod.debug)
+        if (PokecubeCore.getConfig().debug_data)
         {
             // Debug some dummy lists.
             final List<PokedexEntry> dummies = Lists.newArrayList();
@@ -679,7 +679,7 @@ public class Database
         Collections.sort(toRemove, Database.COMPARATOR);
         final List<PokedexEntry> messageList = Lists.newArrayList(toRemove);
         messageList.removeIf(t -> t.dummy);
-        if (PokecubeMod.debug)
+        if (PokecubeCore.getConfig().debug_data)
         {
             messageList.sort(Database.COMPARATOR);
             final StringBuilder builder = new StringBuilder("UnRegistered Pokedex Entries:");
@@ -815,7 +815,7 @@ public class Database
         PokecubeAPI.LOGGER.debug("Resource Stage 5: {}s", dt / 1e9d);
 
         // Generate debug file with entries
-        if (PokecubeMod.debug) PokedexEntryLoader.writeCompoundDatabase(PokemobsDatabases.compound);
+        if (PokecubeCore.getConfig().debug_data) PokedexEntryLoader.writeCompoundDatabase(PokemobsDatabases.compound);
     }
 
     /**

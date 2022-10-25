@@ -1,8 +1,8 @@
 {
-  "name": "electroball",
+  "name": "electro-ball",
   "animations": [
     {
-      "preset": "throw:w0.6:~electroball",
+      "preset": "throw:w0.6",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.thunderwave",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:pmisc:d0.7:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~electroball",
+      "preset": "cartFunc:pmisc:d0.7:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.thunderbolt",

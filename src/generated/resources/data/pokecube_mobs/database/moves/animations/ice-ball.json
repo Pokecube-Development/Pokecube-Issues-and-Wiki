@@ -1,8 +1,8 @@
 {
-  "name": "iceball",
+  "name": "ice-ball",
   "animations": [
     {
-      "preset": "throw:atrue:w1.8:~iceball",
+      "preset": "throw:atrue:w1.8",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.icebreak",
@@ -13,7 +13,7 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:atrue:l2:pcrit:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~iceball",
+      "preset": "cartFunc:atrue:l2:pcrit:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.dig",

@@ -1,8 +1,8 @@
 {
-  "name": "maxrockfall",
+  "name": "max-rockfall",
   "animations": [
     {
-      "preset": "throw:pmisc:~maxrockfall",
+      "preset": "throw:pmisc",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.withdraw",
@@ -12,12 +12,12 @@
       "pitch": 1.0
     },
     {
-      "preset": "flow:pmisc:~maxrockfall",
+      "preset": "flow:pmisc",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "cartFunc:~maxrockfall",
+      "preset": "cartFunc",
       "duration": "0",
       "starttick": "5",
       "sound": "pokecube:moves.rocksmash",

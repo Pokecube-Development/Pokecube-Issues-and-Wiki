@@ -10,6 +10,7 @@
   "damage_class": "physical",
   "flavor_text": "The user takes the target into the sky, then drops it\nduring the next turn. The target cannot attack while\nin the sky.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  User carries the target high into the air for one turn, during which no moves will hit either Pokémon and neither can act.  On the following turn, the user drops the target, inflicting damage and ending the effect.\n\nIf the target is flying-type, this move will function as normal but inflict no damage.\n\ngust, hurricane, sky uppercut, smack down, thunder, twister, and whirlwind can hit both the user and the target during this effect.  gust and twister will additionally have double power.\n\nThe damage from hail and sandstorm still applies during this effect.\n\nEither Pokémon may be hit during this effect if also under the effect of lock on, mind reader, or no guard.\n\nThis move cannot be used while gravity is in effect.\n\nThis move cannot be selected by sleep talk.\n\n*Bug*: If gravity is used during a double or triple battle while this move is in effect, this move is not correctly canceled on the target, and it remains high in the air indefinitely.  As this move prevents the target from acting, the only way to subsequently remove it from the field is to faint it.",
   "effect_text_simple": "Carries the target high into the air, dodging all attacks against either, and drops it next turn."
 }

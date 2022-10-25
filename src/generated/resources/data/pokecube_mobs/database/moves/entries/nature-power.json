@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "This attack makes use of nature’s power. Its\neffects vary depending on the user’s environment.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "Uses another move chosen according to the terrain.\n\nTerrain                   | Selected move\n------------------------- | ------------------\nBuilding                  | tri attack\nCave                      | rock slide\nDeep water                | hydro pump\nDesert                    | earthquake\nGrass                     | seed bomb\nMountain                  | rock slide\nRoad                      | earthquake\nShallow water             | hydro pump\nSnow                      | blizzard\nTall grass                | seed bomb\nelectric terrain | thunderbolt\ngrassy terrain   | energy ball\nmisty terrain    | moonblast\n\nIn Pokémon Battle Revolution:\n\nTerrain        | Selected move\n-------------- | ------------------\nCourtyard      | tri attack\nCrystal        | rock slide\nGateway        | hydro pump\nMagma          | rock slide\nMain Street    | tri attack\nNeon           | tri attack\nStargazer      | rock slide\nSunny Park     | seed bomb\nSunset         | earthquake\nWaterfall      | seed bomb\n\nThis move cannot be copied by mirror move.",
   "effect_text_simple": "Uses a move which depends upon the terrain."
 }

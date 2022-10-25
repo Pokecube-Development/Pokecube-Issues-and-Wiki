@@ -13,10 +13,10 @@ import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
 import pokecube.api.moves.MoveEntry;
+import pokecube.api.utils.Tools;
 import pokecube.core.items.ItemTM;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.zmoves.GZMoveManager;
-import pokecube.core.utils.Tools;
 
 @TradePresetAn(key = "allTMs")
 public class AllTMs implements TradePreset

@@ -1,8 +1,8 @@
 {
-  "name": "grassknot",
+  "name": "grass-knot",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:d0.5:w1:l5:atrue:f(0.5-rand())*(1),(0.1-rand())*(0.2),(0.5-rand())*(1):~grassknot",
+      "preset": "cartFunc:pmisc:d0.5:w1:l5:atrue:f(0.5-rand())*(1),(0.1-rand())*(0.2),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.scratch",

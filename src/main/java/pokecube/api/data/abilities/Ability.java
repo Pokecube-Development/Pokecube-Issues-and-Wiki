@@ -140,7 +140,7 @@ public abstract class Ability
 
     public boolean areWeTarget(IPokemob mob, MoveApplication move)
     {
-        return mob.getEntity() == move.target;
+        return mob.getEntity() == move.getTarget();
     }
 
     public boolean areWeUser(IPokemob mob, MoveApplication move)

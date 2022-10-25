@@ -9,6 +9,7 @@
   "damage_class": "status",
   "flavor_text": "The user kisses the target with a sweet, angelic\ncuteness that causes confusion.",
   "move_category": "ailment",
+  "ailment": "confusion",
   "max_turns": 5,
   "min_turns": 2,
   "effect_text_extend": "Confuses the target.",

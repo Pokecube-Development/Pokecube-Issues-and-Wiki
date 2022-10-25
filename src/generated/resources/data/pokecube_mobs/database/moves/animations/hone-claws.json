@@ -1,8 +1,8 @@
 {
-  "name": "honeclaws",
+  "name": "hone-claws",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:d1:rtrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~honeclaws",
+      "preset": "cartFunc:pend_rod:d1:rtrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.scratch",
@@ -12,7 +12,7 @@
       "pitch": 1.4
     },
     {
-      "preset": "cartFunc:psweep_attack:d1:rtrue:l1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~honeclaws",
+      "preset": "cartFunc:psweep_attack:d1:rtrue:l1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.scratch",

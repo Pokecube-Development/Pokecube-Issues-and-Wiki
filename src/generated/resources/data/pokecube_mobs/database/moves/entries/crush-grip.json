@@ -9,6 +9,7 @@
   "damage_class": "physical",
   "flavor_text": "The target is crushed with great force. The more HP\nthe target has left, the greater this move’s power.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Power directly relates to the target's relative remaining HP, given by `1 + 120 * current HP / max HP`, to a maximum of 121.",
   "effect_text_simple": "Power increases against targets with more HP remaining, up to a maximum of 121 power."
 }

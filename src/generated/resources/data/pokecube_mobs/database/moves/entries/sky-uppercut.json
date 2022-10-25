@@ -10,6 +10,7 @@
   "damage_class": "physical",
   "flavor_text": "The user attacks the target with an uppercut thrown\nskyward with force.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.\n\nThis move can hit Pokémon under the effect of bounce, fly, or sky drop.",
   "effect_text_simple": "Inflicts regular damage and can hit Bounce and Fly users."
 }

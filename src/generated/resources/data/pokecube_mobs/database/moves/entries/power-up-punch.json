@@ -11,6 +11,7 @@
   "flavor_text": "Striking opponents over and over makes the user’s\nfists harder. Hitting a target raises the Attack stat.",
   "move_category": "damage+raise",
   "stat_chance": 100,
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Raises the user's Attack by one stage.",
   "effect_text_simple": "Raises the user's Attack by one stage after inflicting damage.",
   "effect_chance": 100

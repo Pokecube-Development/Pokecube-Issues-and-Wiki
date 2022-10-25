@@ -1,8 +1,8 @@
 {
-  "name": "drumbeating",
+  "name": "drum-beating",
   "animations": [
     {
-      "preset": "beam:ppowder:~drumbeating",
+      "preset": "beam:ppowder",
       "duration": "6",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",

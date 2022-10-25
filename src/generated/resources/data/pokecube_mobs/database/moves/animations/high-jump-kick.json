@@ -1,8 +1,8 @@
 {
-  "name": "highjumpkick",
+  "name": "high-jump-kick",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d1:l5:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~highjumpkick",
+      "preset": "cartFunc:pcrit:d1:l5:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",
@@ -12,7 +12,7 @@
       "pitch": 1.2
     },
     {
-      "preset": "cartFunc:pcloud:d1:l55:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~highjumpkick",
+      "preset": "cartFunc:pcloud:d1:l55:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2)",
       "duration": "5",
       "starttick": "0"
     }

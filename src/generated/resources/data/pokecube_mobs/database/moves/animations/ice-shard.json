@@ -1,8 +1,8 @@
 {
-  "name": "iceshard",
+  "name": "ice-shard",
   "animations": [
     {
-      "preset": "throw:w0.3:~iceshard",
+      "preset": "throw:w0.3",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.iceball",

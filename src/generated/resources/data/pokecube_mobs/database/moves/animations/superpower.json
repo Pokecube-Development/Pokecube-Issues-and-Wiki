@@ -2,7 +2,7 @@
   "name": "superpower",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:atrue:d1:w1.5:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~superpower",
+      "preset": "cartFunc:pcrit:atrue:d1:w1.5:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",
@@ -12,7 +12,7 @@
       "pitch": 0.7
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:atrue:d1:w1:l4:~superpower",
+      "preset": "cartFunc:pexplosion_emitter:atrue:d1:w1:l4",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",
@@ -22,7 +22,7 @@
       "pitch": 0.9
     },
     {
-      "preset": "cartFunc:pcloud:d1:w3:atrue:l30:f(0.5-rand())*(1),(0.5-rand())*(0.6),(0.5-rand())*(1):~superpower",
+      "preset": "cartFunc:pcloud:d1:w3:atrue:l30:f(0.5-rand())*(1),(0.5-rand())*(0.6),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",

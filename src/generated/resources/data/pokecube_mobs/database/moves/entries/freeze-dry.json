@@ -11,6 +11,7 @@
   "flavor_text": "The user rapidly cools the target. This may also\nleave the target frozen. This move is super effective\non Water types.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
+  "ailment": "freeze",
   "effect_text_extend": "Inflicts regular damage.  This move is super-effective against the water type.\n\nThe target's other type will affect damage as usual.  If this move's type is changed, it remains super-effective against Water regardless of its type.",
   "effect_text_simple": "Super-effective against water.",
   "effect_chance": 10

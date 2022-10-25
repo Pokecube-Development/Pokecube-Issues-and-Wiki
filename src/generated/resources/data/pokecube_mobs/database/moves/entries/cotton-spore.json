@@ -9,6 +9,7 @@
   "damage_class": "status",
   "flavor_text": "The user releases cotton-like spores that cling to\nthe opposing Pokémon, which harshly lowers their\nSpeed stat.",
   "move_category": "net-good-stats",
+  "ailment": "none",
   "effect_text_extend": "Lowers the target's Speed by two stages.",
   "effect_text_simple": "Lowers the target's Speed by two stages."
 }

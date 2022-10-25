@@ -1,4 +1,6 @@
 import json
+
+from pokebase import language
 import utils
 import os
 from utils import get_moves_index, get_move, trim, default_or_latest, url_to_id
@@ -35,6 +37,83 @@ LEGENDS_ARCEUS = [
     "wildbolt-storm",
 ]
 
+SPECIAL_CONTACT = {
+    "petal-dance",
+    "trump-card",
+    "wring-out",
+    "grass-knot",
+    "draining-kiss",
+    "infestation",
+}
+
+PHYSICAL_RANGED = {
+    "attack-order",
+    "aura-wheel",
+    "barrage",
+    "beak-blast",
+    "beat-up",
+    "bone-club",
+    "bone-rush",
+    "bonemerang",
+    "bulldoze",
+    "bullet-seed",
+    "diamond-storm",
+    "dragon-darts",
+    "drum-beating",
+    "earthquake",
+    "egg-bomb",
+    "explosion",
+    "feint",
+    "fissure",
+    "fling",
+    "freeze-shock",
+    "fusion-bolt",
+    "grav-apple",
+    "gunk-shot",
+    "ice-shard",
+    "icicle-crash",
+    "icicle-spear",
+    "land's-wrath",
+    "leafage",
+    "magnet-bomb",
+    "magnitude",
+    "metal-burst",
+    "meteor-assault",
+    "natural-gift",
+    "pay-day",
+    "petal-blizzard",
+    "pin-missile",
+    "poison-sting",
+    "poltergeist",
+    "precipice-blades",
+    "present",
+    "psycho-cut",
+    "pyro-ball",
+    "razor-leaf",
+    "rock-blast",
+    "rock-slide",
+    "rock-throw",
+    "rock-tomb",
+    "rock-wrecker",
+    "sacred-fire",
+    "sand-tomb",
+    "scale-shot",
+    "secret-power",
+    "seed-bomb",
+    "self-destruct",
+    "shadow-bone",
+    "sky-attack",
+    "smack-down",
+    "sinister-arrow-raid",
+    "spike-cannon",
+    "spirit-shackle",
+    "splintered-stormshards",
+    "stone-edge",
+    "thousand-arrows",
+    "thousand-waves",
+    "twineedle",
+}
+
 index_map = get_moves_index()
 
 def is_english(details):
@@ -51,7 +130,6 @@ class MoveEntry:
         self.accuracy = move.accuracy
         self.target = move.target.name
         self.damage_class = move.damage_class.name
-        self.names = move.names
 
         flavor_text = default_or_latest(move.flavor_text_entries, is_english)
         if flavor_text is not None:
@@ -71,6 +149,9 @@ class MoveEntry:
                 self.stat_chance = move.meta.stat_chance
             if move.meta.ailment_chance != 0:
                 self.ailment_chance = move.meta.ailment_chance
+            if move.meta.ailment is not None:
+                self.ailment = move.meta.ailment.name
+
             self.max_hits = move.meta.max_hits
             self.min_hits = move.meta.min_hits
             self.max_turns = move.meta.max_turns
@@ -136,31 +217,77 @@ def convert_moves():
         anims_dex[var["name"]] = var
 
     lang_files = {}
+    # If we decide we want flavour text, uncomment this.
+    # lang_desc = {}
+
+    contact = []
+    ranged = []
 
     move_entries = []
+
+    # Dump each move, and collect langs and tags
     for name, index in index_map.items():
         move = get_move(index)
         entry = MoveEntry(move)
 
-        for __name in entry.names:
+        langs = []
+        # These will go in langs
+        for __name in move.names:
             _name = __name.name
             lang = utils.get('language', url_to_id(__name.language))
+            langs.append(url_to_id(__name.language))
             key = f'{lang.iso639}_{lang.iso3166}.json'
             items = {}
             if key in lang_files:
                 items = lang_files[key]
             items[f"pokemob.move.{entry.name}"] = _name
             lang_files[key] = items
-        del entry.names
+
+        # These will go in langs
+        # If we decide we want flavour text, uncomment this.
+        # for lang in langs:
+        #     def is_lang(details):
+        #         return url_to_id(details.language) == lang
+        #     text = default_or_latest(move.flavor_text_entries, is_lang)
+        #     if text is None:
+        #         continue
+        #     lang = utils.get('language', lang)
+        #     key = f'{lang.iso639}_{lang.iso3166}.json'
+        #     items = {}
+        #     if key in lang_desc:
+        #         items = lang_desc[key]
+        #     items[f"pokemob.move.{entry.name}.desc"] = text.flavor_text.replace('\n', ' ')
+        #     lang_desc[key] = items
+
+        # These will go in tags
+        if name in SPECIAL_CONTACT:
+            contact.append(name)
+        elif name in PHYSICAL_RANGED:
+            ranged.append(name)
+        elif move.damage_class.name == "physical":
+            contact.append(name)
+        else:
+            ranged.append(name)
 
         move_entries.append(entry)
 
+        # Dump the entry file
         file = f'./new/moves/entries/{name}.json'
+        if not os.path.exists(os.path.dirname(file)):
+            os.makedirs(os.path.dirname(file))
         file = open(file, 'w', encoding='utf-8')
         json.dump(entry.__dict__, file, indent=2, ensure_ascii=False)
         file.close()
 
 
+    # If we decide we want flavour text, uncomment this.
+    # for key, dict in lang_files.items():
+    #     if key in lang_desc:
+    #         dict2 = lang_desc[key]
+    #         for key2, value in dict2.items():
+    #             dict[key2] = value
+
+    # Dump the lang files
     for key, dict in lang_files.items():
         file = f'./new/assets/pokecube_moves/lang/{key}'
         if not os.path.exists(os.path.dirname(file)):
@@ -173,16 +300,44 @@ def convert_moves():
             print(f'error saving for {key}')
             print(err)
 
+    # Dump animation files
     for name, value in anims_dex.items():
         new_name = convert_old_move_name(name)
         if new_name is not None:
             file = f'./new/moves/animations/{new_name}.json'
+            value["name"] = new_name
+
+            anims = []
+            for var in value["animations"]:
+                var["preset"] = var["preset"].split(":~")[0]
+                anims.append(var)
+            value["animations"] = anims
+
+            if not os.path.exists(os.path.dirname(file)):
+                os.makedirs(os.path.dirname(file))
             file = open(file, 'w', encoding='utf-8')
             json.dump(value, file, indent=2, ensure_ascii=False)
             file.close()
         else:
             print(f'unknown animation: {name}')
 
+    # Dump ranged and contact tags
+    file = f'./new/tags/pokemob_moves/contact-moves.json'
+    if not os.path.exists(os.path.dirname(file)):
+        os.makedirs(os.path.dirname(file))
+    tag = {"replace":False,"values":contact}
+    file = open(file, 'w', encoding='utf-8')
+    json.dump(tag, file, indent=2, ensure_ascii=False)
+    file.close()
+    file = f'./new/tags/pokemob_moves/ranged-moves.json'
+    if not os.path.exists(os.path.dirname(file)):
+        os.makedirs(os.path.dirname(file))
+    tag = {"replace":False,"values":ranged}
+    file = open(file, 'w', encoding='utf-8')
+    json.dump(tag, file, indent=2, ensure_ascii=False)
+    file.close()
+
+    # Print any that errored
     for name, value in moves_dex.items():
         new_name = convert_old_move_name(name)
         if new_name is None:

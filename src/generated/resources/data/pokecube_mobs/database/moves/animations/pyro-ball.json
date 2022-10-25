@@ -1,8 +1,8 @@
 {
-  "name": "pyroball",
+  "name": "pyro-ball",
   "animations": [
     {
-      "preset": "throw:pmisc:atrue:w0.8:~pyroball",
+      "preset": "throw:pmisc:atrue:w0.8",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:entity.evoker.prepare_summon",
@@ -12,7 +12,7 @@
       "pitch": 1.9
     },
     {
-      "preset": "flow:pmisc:d0.5:w0.6:l3:cred:atrue:~pyroball",
+      "preset": "flow:pmisc:d0.5:w0.6:l3:cred:atrue",
       "duration": "5",
       "starttick": "0"
     }

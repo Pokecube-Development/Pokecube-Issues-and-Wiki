@@ -1,8 +1,8 @@
 {
-  "name": "boltstrike",
+  "name": "bolt-strike",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d0.5:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~boltstrike",
+      "preset": "cartFunc:pcrit:d0.5:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "powder:pmisc:clight_blue:d0.5:w0.7:l5:~boltstrike",
+      "preset": "powder:pmisc:clight_blue:d0.5:w0.7:l5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.thunder",
@@ -22,7 +22,7 @@
       "pitch": 0.8
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:d2:w1:l14:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~boltstrike",
+      "preset": "cartFunc:pexplosion_emitter:d2:w1:l14:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     }

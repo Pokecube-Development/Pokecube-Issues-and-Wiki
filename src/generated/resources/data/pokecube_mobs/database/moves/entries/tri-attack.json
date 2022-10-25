@@ -11,6 +11,7 @@
   "flavor_text": "The user strikes with a simultaneous three-beam\nattack. May also burn, freeze, or paralyze the target.",
   "move_category": "damage+ailment",
   "ailment_chance": 20,
+  "ailment": "unknown",
   "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to burn, freeze, or paralyze the target.  One of these effects is selected at random; they do not each have independent chances to occur.",
   "effect_text_simple": "Has a $effect_chance% chance to burn, freeze, or paralyze the target.",
   "effect_chance": 20

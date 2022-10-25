@@ -1,8 +1,8 @@
 {
-  "name": "ironhead",
+  "name": "iron-head",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:d1:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~ironhead",
+      "preset": "cartFunc:pmisc:d1:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.metalclaw",
@@ -12,7 +12,7 @@
       "pitch": 0.7
     },
     {
-      "preset": "cartFunc:pcrit:d1:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~ironhead",
+      "preset": "cartFunc:pcrit:d1:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",

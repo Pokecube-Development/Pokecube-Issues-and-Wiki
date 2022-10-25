@@ -1,8 +1,8 @@
 {
-  "name": "phantomforce",
+  "name": "phantom-force",
   "animations": [
     {
-      "preset": "cartFunc:rtrue:l8:pwitch:w1.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~phantomforce",
+      "preset": "cartFunc:rtrue:l8:pwitch:w1.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:entity.evoker.cast_spell",
@@ -13,7 +13,7 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:l8:pwitch:w1.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~phantomforce",
+      "preset": "cartFunc:l8:pwitch:w1.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "minecraft:entity.evoker.cast_spell",
@@ -24,7 +24,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pcrit:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~phantomforce",
+      "preset": "cartFunc:pcrit:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.woodenhammer",

@@ -2,7 +2,7 @@
   "name": "peck",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d5:~peck",
+      "preset": "cartFunc:pcrit:d5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",

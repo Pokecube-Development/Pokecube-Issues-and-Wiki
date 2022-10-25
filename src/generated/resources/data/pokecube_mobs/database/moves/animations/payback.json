@@ -2,7 +2,7 @@
   "name": "payback",
   "animations": [
     {
-      "preset": "cartFunc:psmoke:d1:f(0.5-rand())*(1.5),(0.5-rand())*(1.5),(0.5-rand())*(1.5):~payback",
+      "preset": "cartFunc:psmoke:d1:f(0.5-rand())*(1.5),(0.5-rand())*(1.5),(0.5-rand())*(1.5)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dig",
@@ -12,7 +12,7 @@
       "pitch": 0.9
     },
     {
-      "preset": "cartFunc:pcrit:d2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~payback",
+      "preset": "cartFunc:pcrit:d2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     }

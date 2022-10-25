@@ -2,7 +2,7 @@
   "name": "belch",
   "animations": [
     {
-      "preset": "flow:pmisc:d0.5:l5:~belch",
+      "preset": "flow:pmisc:d0.5:l5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.acidarmor",
@@ -12,7 +12,7 @@
       "pitch": 0.7
     },
     {
-      "preset": "throw:~belch",
+      "preset": "throw",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.poisontoxic",

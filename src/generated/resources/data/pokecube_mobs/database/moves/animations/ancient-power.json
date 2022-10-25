@@ -1,8 +1,8 @@
 {
-  "name": "ancientpower",
+  "name": "ancient-power",
   "animations": [
     {
-      "preset": "throw:pmisc:~ancientpower",
+      "preset": "throw:pmisc",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.withdraw",
@@ -12,12 +12,12 @@
       "pitch": 1.0
     },
     {
-      "preset": "flow:pmisc:~ancientpower",
+      "preset": "flow:pmisc",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "cartFunc:~ancientpower",
+      "preset": "cartFunc",
       "duration": "0",
       "starttick": "5",
       "sound": "pokecube:moves.rocksmash",

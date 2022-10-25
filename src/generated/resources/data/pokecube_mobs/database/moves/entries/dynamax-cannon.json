@@ -10,6 +10,7 @@
   "damage_class": "special",
   "flavor_text": "The user unleashes a strong beam from its core.\nThis move deals twice the damage if the target\nis Dynamaxed.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage, then (if successful) sets light screen on the user's side of the field.",
   "effect_text_simple": "Sets Light Screen on the user's side of the field after inflicting damage."
 }

@@ -1,8 +1,8 @@
 {
-  "name": "strugglebug",
+  "name": "struggle-bug",
   "animations": [
     {
-      "preset": "cartFunc:rtrue:d2:pmisc:l1:atrue:w0.5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~strugglebug",
+      "preset": "cartFunc:rtrue:d2:pmisc:l1:atrue:w0.5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:entity.silverfish.ambient",
@@ -13,25 +13,25 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:rtrue:d2:pmisc:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~strugglebug",
+      "preset": "cartFunc:rtrue:d2:pmisc:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "2",
       "applyAfter": false
     },
     {
-      "preset": "throw:pmisc:atrue:w0.2:~strugglebug",
+      "preset": "throw:pmisc:atrue:w0.2",
       "duration": "5",
       "starttick": "2",
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:d2:pmisc:l1:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~strugglebug",
+      "preset": "cartFunc:d2:pmisc:l1:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pmisc:d2:w0.5:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~strugglebug",
+      "preset": "cartFunc:pmisc:d2:w0.5:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5",
       "sound": "minecraft:entity.silverfish.death",

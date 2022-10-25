@@ -2,7 +2,7 @@
   "name": "psyshock",
   "animations": [
     {
-      "preset": "cartFunc:pwitch:atrue:w2.5:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~psyshock",
+      "preset": "cartFunc:pwitch:atrue:w2.5:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:entity.zombie_villager.converted",
@@ -13,7 +13,7 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:pmisc:atrue:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~psyshock",
+      "preset": "cartFunc:pmisc:atrue:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "minecraft:entity.elder_guardian.curse",

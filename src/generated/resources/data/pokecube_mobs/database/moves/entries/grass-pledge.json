@@ -10,6 +10,7 @@
   "damage_class": "special",
   "flavor_text": "A column of grass hits the target. When used with\nits water equivalent, its power increases and a vast\nswamp appears.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If a friendly Pokémon used fire pledge earlier this turn, all opposing Pokémon will take 1/8 their max HP in damage at the end of every turn for four turns (including this one).",
   "effect_text_simple": "With Fire Pledge, damages opposing Pokémon for 1/8 their max HP every turn for four turns."
 }

@@ -1,8 +1,8 @@
 {
-  "name": "workup",
+  "name": "work-up",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:cred:d0.6:w1.25:atrue:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~workup",
+      "preset": "cartFunc:pmisc:cred:d0.6:w1.25:atrue:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.withdraw",

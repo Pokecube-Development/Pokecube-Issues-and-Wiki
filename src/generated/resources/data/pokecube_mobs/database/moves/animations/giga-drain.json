@@ -1,8 +1,8 @@
 {
-  "name": "gigadrain",
+  "name": "giga-drain",
   "animations": [
     {
-      "preset": "beam:~gigadrain",
+      "preset": "beam",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.waterpulse",
@@ -12,12 +12,12 @@
       "pitch": 0.8
     },
     {
-      "preset": "flow:pmisc:~gigadrain",
+      "preset": "flow:pmisc",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "flow:d0.01:~gigadrain",
+      "preset": "flow:d0.01",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.waterpulse",
@@ -27,7 +27,7 @@
       "pitch": 0.8
     },
     {
-      "preset": "cartFunc:pend_rod:d2:w1:rtrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~gigadrain",
+      "preset": "cartFunc:pend_rod:d2:w1:rtrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.unknown",

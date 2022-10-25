@@ -57,6 +57,7 @@ import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.events.pokemobs.SpawnEvent.Variance;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.utils.PokeType;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.poi.PointsOfInterest;
@@ -64,9 +65,7 @@ import pokecube.core.database.Database;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.eventhandlers.SpawnHandler;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.lib.ResourceHelper;
@@ -366,7 +365,7 @@ public class TypeTrainer extends NpcType
         if (type.pokemon != null) values.addAll(type.pokemon);
         else PokecubeAPI.LOGGER.warn("No mobs for " + type);
         if (type.overrideLevel != -1) level = type.overrideLevel;
-        if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Initializing team for " + owner);
+        if (PokecubeCore.getConfig().debug_spawning) PokecubeAPI.LOGGER.info("Initializing team for " + owner);
         TypeTrainer.getRandomTeam(trainer, owner, level, world, values);
     }
 

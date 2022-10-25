@@ -11,6 +11,7 @@
   "flavor_text": "The user attacks by breathing a special, hot fire.\nThis also lowers the target’s Sp. Atk stat.",
   "move_category": "damage+lower",
   "stat_chance": 100,
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to lower the target's Special Attack by one stage.",
   "effect_text_simple": "Has a $effect_chance% chance to lower the target's Special Attack by one stage.",
   "effect_chance": 100

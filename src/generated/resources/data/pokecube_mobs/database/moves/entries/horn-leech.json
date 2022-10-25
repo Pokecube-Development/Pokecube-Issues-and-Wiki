@@ -11,6 +11,7 @@
   "flavor_text": "The user drains the target’s energy with its horns.\nThe user’s HP is restored by half the damage taken\nby the target.",
   "move_category": "damage+heal",
   "drain": 50,
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Drains half the damage inflicted to heal the user.",
   "effect_text_simple": "Drains half the damage inflicted to heal the user."
 }

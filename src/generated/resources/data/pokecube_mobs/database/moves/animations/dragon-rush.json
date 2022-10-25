@@ -1,8 +1,8 @@
 {
-  "name": "dragonrush",
+  "name": "dragon-rush",
   "animations": [
     {
-      "preset": "cartFunc:atrue:pexplosion:~dragonrush",
+      "preset": "cartFunc:atrue:pexplosion",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:entity.generic.explode",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:atrue:d0.25:l20:w3:pcloud:f(0.5-rand())*(1),(0.5-rand())*(0.6),(0.5-rand())*(1):~dragonrush",
+      "preset": "cartFunc:atrue:d0.25:l20:w3:pcloud:f(0.5-rand())*(1),(0.5-rand())*(0.6),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.sacredfire",
@@ -24,7 +24,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:atrue:w4:pmisc:f(0.5-rand())*(1),(0.5-rand())*(0.6),(0.5-rand())*(1):~dragonrush",
+      "preset": "cartFunc:atrue:w4:pmisc:f(0.5-rand())*(1),(0.5-rand())*(0.6),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "applyAfter": false

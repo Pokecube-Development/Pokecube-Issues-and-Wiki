@@ -11,6 +11,7 @@
   "flavor_text": "A spin attack that can also eliminate such moves as\nBind, Wrap, Leech Seed, and Spikes.",
   "move_category": "damage+raise",
   "stat_chance": 100,
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Removes leech seed from the user, frees the user from bind, clamp, fire spin, magma storm, sand tomb, whirlpool, and wrap, and clears spikes, stealth rock, and toxic spikes from the user's side of the field.  If this move misses or has no effect, its effect doesn't activate.",
   "effect_text_simple": "Frees the user from binding moves, removes Leech Seed, and blows away Spikes.",
   "effect_chance": 100

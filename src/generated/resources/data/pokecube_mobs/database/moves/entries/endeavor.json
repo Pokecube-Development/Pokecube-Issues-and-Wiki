@@ -9,6 +9,7 @@
   "damage_class": "physical",
   "flavor_text": "This attack move cuts down the target’s HP to equal\nthe user’s HP.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts exactly enough damage to lower the target's HP to equal the user's.  If the target's HP is not higher than the user's, this move has no effect.  Type immunity applies, but other type effects are ignored.  This effect counts as damage for moves that respond to damage.",
   "effect_text_simple": "Lowers the target's HP to equal the user's."
 }

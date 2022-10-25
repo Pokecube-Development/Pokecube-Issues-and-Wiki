@@ -3,6 +3,11 @@ import os
 from types import SimpleNamespace
 
 # The .cache folder is copied from https://github.com/PokeAPI/api-data
+#
+# generate this via: 
+#
+# cd ./.cache
+# git clone https://github.com/PokeAPI/api-data.git
 
 DEFAULT_GENERATION = "ultra-sun-ultra-moon"
 
@@ -29,7 +34,7 @@ def trim(string):
     return string
 
 def get(folder, number):
-    cache_file = f'./.cache/{folder}/{number}/index.json'
+    cache_file = f'./.cache/api-data/data/api/v2/{folder}/{number}/index.json'
     if os.path.exists(cache_file):
         file = open(cache_file, 'r')
         data = file.read()
@@ -38,7 +43,7 @@ def get(folder, number):
     return None
 
 def get_valid_numbers(folder):
-    index_file = f'./.cache/{folder}/index.json'
+    index_file = f'./.cache/api-data/data/api/v2/{folder}/index.json'
     index_map = {}
     if os.path.exists(index_file):
         file = open(index_file, 'r')

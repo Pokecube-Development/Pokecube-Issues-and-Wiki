@@ -12,6 +12,7 @@
   "move_category": "damage+ailment",
   "drain": -33,
   "ailment_chance": 10,
+  "ailment": "burn",
   "effect_text_extend": "Inflicts regular damage.  User takes 1/3 the damage it inflicts in recoil.  Has a $effect_chance% chance to burn the target.  Frozen Pokémon may use this move, in which case they will thaw.",
   "effect_text_simple": "User takes 1/3 the damage inflicted in recoil.  Has a $effect_chance% chance to burn the target.",
   "effect_chance": 10

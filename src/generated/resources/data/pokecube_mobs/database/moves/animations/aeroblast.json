@@ -2,7 +2,7 @@
   "name": "aeroblast",
   "animations": [
     {
-      "preset": "throw:atrue:w1.3:~aeroblast",
+      "preset": "throw:atrue:w1.3",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.megaattack",
@@ -12,7 +12,7 @@
       "pitch": 2.0
     },
     {
-      "preset": "cartFunc:pcloud:atrue:d0.5:w3.5:l40:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~aeroblast",
+      "preset": "cartFunc:pcloud:atrue:d0.5:w3.5:l40:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5",
       "sound": "pokecube:moves.dig",
@@ -22,7 +22,7 @@
       "pitch": 0.8
     },
     {
-      "preset": "flow:w0.8:atrue:~aeroblast",
+      "preset": "flow:w0.8:atrue",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.gustwind",

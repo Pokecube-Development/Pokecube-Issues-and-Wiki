@@ -1,8 +1,8 @@
 {
-  "name": "simplebeam",
+  "name": "simple-beam",
   "animations": [
     {
-      "preset": "beam:~simplebeam",
+      "preset": "beam",
       "duration": "5",
       "starttick": "0"
     }

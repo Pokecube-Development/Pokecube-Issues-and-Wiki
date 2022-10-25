@@ -2,7 +2,7 @@
   "name": "bubble",
   "animations": [
     {
-      "preset": "flow:pbubble:w0.5:l10:~bubble",
+      "preset": "flow:pbubble:w0.5:l10",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.bubbleattack",

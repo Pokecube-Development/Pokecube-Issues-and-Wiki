@@ -1,8 +1,8 @@
 {
-  "name": "lowsweep",
+  "name": "low-sweep",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:atrue:d0.9:l3:f(0.5-rand())*(0.7),(0.5-rand())*(0.7),(0.5-rand())*(0.7):~lowsweep",
+      "preset": "cartFunc:pcrit:atrue:d0.9:l3:f(0.5-rand())*(0.7),(0.5-rand())*(0.7),(0.5-rand())*(0.7)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",

@@ -1,8 +1,8 @@
 {
-  "name": "triattack",
+  "name": "tri-attack",
   "animations": [
     {
-      "preset": "beam:ppoof:clight_blue:d0.5:w1:l5:~triattack",
+      "preset": "beam:ppoof:clight_blue:d0.5:w1:l5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.iceball",
@@ -12,7 +12,7 @@
       "pitch": 1.4
     },
     {
-      "preset": "beam:pmisc:cyellow:d0.5:w1:l5:~triattack",
+      "preset": "beam:pmisc:cyellow:d0.5:w1:l5",
       "duration": "5",
       "starttick": "3",
       "sound": "pokecube:moves.thunderwave",
@@ -22,7 +22,7 @@
       "pitch": 1.8
     },
     {
-      "preset": "beam:pflame:cyellow:d0.5:w1:l5:~triattack",
+      "preset": "beam:pflame:cyellow:d0.5:w1:l5",
       "duration": "5",
       "starttick": "6",
       "sound": "pokecube:moves.ember",

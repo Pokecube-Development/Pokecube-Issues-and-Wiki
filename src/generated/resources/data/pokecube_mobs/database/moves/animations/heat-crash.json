@@ -1,8 +1,8 @@
 {
-  "name": "heatcrash",
+  "name": "heat-crash",
   "animations": [
     {
-      "preset": "cartFunc:atrue:pcrit:w1.5:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~heatcrash",
+      "preset": "cartFunc:atrue:pcrit:w1.5:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dig",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:atrue:plava:w4:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~heatcrash",
+      "preset": "cartFunc:atrue:plava:w4:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.flamewheel",
@@ -24,7 +24,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:atrue:pcloud:w4:l15:f(0.5-rand())*(1),0,(0.5-rand())*(1):~heatcrash",
+      "preset": "cartFunc:atrue:pcloud:w4:l15:f(0.5-rand())*(1),0,(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "applyAfter": false

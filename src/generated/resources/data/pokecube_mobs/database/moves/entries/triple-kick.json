@@ -10,6 +10,7 @@
   "damage_class": "physical",
   "flavor_text": "A consecutive three-kick attack that becomes more\npowerful with each successful hit.",
   "move_category": "damage",
+  "ailment": "none",
   "max_hits": 3,
   "min_hits": 3,
   "effect_text_extend": "Inflicts regular damage.  Hits three times in the same turn.  The second hit has double power, and the third hit has triple power.  Each hit has a separate accuracy check, and this move stops if a hit misses.\n\nskill link does not apply.",

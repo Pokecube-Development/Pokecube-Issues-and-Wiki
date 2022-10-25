@@ -1,8 +1,8 @@
 {
-  "name": "signalbeam",
+  "name": "signal-beam",
   "animations": [
     {
-      "preset": "beam:pmisc:atrue:~signalbeam",
+      "preset": "beam:pmisc:atrue",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.aurorabeam",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "flow:pend_rod:w0.5:atrue:d0.33:~signalbeam",
+      "preset": "flow:pend_rod:w0.5:atrue:d0.33",
       "duration": "5",
       "starttick": "0"
     }

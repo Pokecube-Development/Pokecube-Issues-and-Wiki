@@ -1,8 +1,8 @@
 {
-  "name": "spiderweb",
+  "name": "spider-web",
   "animations": [
     {
-      "preset": "flow:pmisc:cwhite:~spiderweb",
+      "preset": "flow:pmisc:cwhite",
       "duration": "5",
       "starttick": "0"
     }

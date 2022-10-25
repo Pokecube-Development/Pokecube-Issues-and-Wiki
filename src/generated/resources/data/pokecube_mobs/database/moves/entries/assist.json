@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user hurriedly and randomly uses a move among\nthose known by ally Pokémon.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "Uses a move from another Pokémon in the user's party, both selected at random.  Moves from fainted Pokémon can be used.  If there are no eligible Pokémon or moves, this move will fail.\n\nThis move will not select assist, chatter, circle throw, copycat, counter, covet, destiny bond, detect, dig, dive, dragon tail, endure, feint, fly focus punch, follow me, helping hand, me first, metronome, mimic, mirror coat, mirror move, phantom force protect, quick guard, roar shadow force, sketch, sleep talk, snatch, struggle, switcheroo, thief, trick, whirlwind, or wide guard.\n\nThis move cannot be copied by mirror move, nor selected by metronome or sleep talk.",
   "effect_text_simple": "Randomly selects and uses one of the trainer's other Pokémon's moves."
 }

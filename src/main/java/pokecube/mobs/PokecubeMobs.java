@@ -45,6 +45,7 @@ import pokecube.api.items.IPokecube.NormalPokecubeBehaviour;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.stats.CaptureStats;
 import pokecube.api.stats.EggStats;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryGenManager;
@@ -56,7 +57,6 @@ import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.utils.Tools;
 import pokecube.mobs.abilities.AbilityRegister;
 import pokecube.mobs.data.DataGenerator;
 import pokecube.mobs.init.PokemobSounds;
@@ -90,7 +90,7 @@ public class PokecubeMobs
 
     private void loadComplete(final FMLLoadCompleteEvent event)
     {
-        if (PokecubeCore.getConfig().debug && !FMLLoader.isProduction())
+        if (PokecubeCore.getConfig().debug_misc && !FMLLoader.isProduction())
         {
             DataGenerator.execute(false);
         }

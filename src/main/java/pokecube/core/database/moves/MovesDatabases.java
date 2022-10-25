@@ -12,11 +12,11 @@ import com.google.common.collect.Maps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.moves.Moves.Animation;
+import pokecube.api.data.moves.Moves.Move;
+import pokecube.api.data.moves.Moves.MoveHolder;
+import pokecube.api.data.moves.Parsers;
 import pokecube.api.moves.MoveEntry;
-import pokecube.core.database.moves.json.Moves.Animation;
-import pokecube.core.database.moves.json.Moves.Move;
-import pokecube.core.database.moves.json.Moves.MoveHolder;
-import pokecube.core.database.moves.json.Parsers;
 import pokecube.core.database.resources.PackFinder;
 import thut.api.util.JsonUtil;
 
@@ -118,7 +118,7 @@ public class MovesDatabases
             MoveEntry entry = new MoveEntry(json.name);
 
             MoveHolder holder = new MoveHolder();
-            holder.move = json;
+            holder.setMove(json);
             holder.animation = loadedAnimations.get(json.name);
 
             // Initialises preset/cleans up text.
@@ -136,10 +136,14 @@ public class MovesDatabases
             else parser.process(entry);
 
             // Register the move entry.
-            MoveEntry.movesNames.put(entry.name, entry);
+            MoveEntry.addMove(entry);
         }
 
         PokecubeAPI.LOGGER.info("Registered {} moves", loadedMoves.size());
+    }
 
+    public static void postInitMoves()
+    {
+        MoveEntry.values().forEach(e -> e.postInit());
     }
 }

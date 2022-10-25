@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "A wondrous wall of light is put up to reduce damage\nfrom physical attacks for five turns.",
   "move_category": "field-effect",
+  "ailment": "none",
   "effect_text_extend": "Erects a barrier around the user's side of the field that reduces damage from physical attacks by half for five turns.  In double battles, the reduction is 1/3.  Critical hits are not affected by the barrier.\n\nIf the user is holding light clay, the barrier lasts for eight turns.\n\nbrick break or defog used by an opponent will destroy the barrier.",
   "effect_text_simple": "Reduces damage from physical attacks by half."
 }

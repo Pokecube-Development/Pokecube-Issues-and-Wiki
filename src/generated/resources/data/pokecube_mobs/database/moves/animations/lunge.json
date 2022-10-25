@@ -2,7 +2,7 @@
   "name": "lunge",
   "animations": [
     {
-      "preset": "cartFunc:atrue:pcrit:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~lunge",
+      "preset": "cartFunc:atrue:pcrit:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dig",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:atrue:pmisc:l3:w1.5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~lunge",
+      "preset": "cartFunc:atrue:pmisc:l3:w1.5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",
@@ -24,7 +24,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:atrue:pcloud:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~lunge",
+      "preset": "cartFunc:atrue:pcloud:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "applyAfter": false

@@ -17,10 +17,10 @@ import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
-import pokecube.core.utils.Tools;
 import thut.core.common.ThutCore;
 
 public class InteractsAndEvolutions

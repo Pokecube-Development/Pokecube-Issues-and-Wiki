@@ -1,8 +1,8 @@
 {
-  "name": "hornleech",
+  "name": "horn-leech",
   "animations": [
     {
-      "preset": "cartFunc:atrue:pcrit:l2:~hornleech",
+      "preset": "cartFunc:atrue:pcrit:l2",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",
@@ -13,7 +13,7 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:atrue:pmisc:w0.4:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~hornleech",
+      "preset": "cartFunc:atrue:pmisc:w0.4:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.withdraw",

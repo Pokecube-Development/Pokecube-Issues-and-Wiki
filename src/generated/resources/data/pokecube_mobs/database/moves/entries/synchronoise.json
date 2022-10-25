@@ -10,6 +10,7 @@
   "damage_class": "special",
   "flavor_text": "Using an odd shock wave, the user inflicts damage\non any Pokémon of the same type in the area\naround it.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Only Pokémon that share a type with the user will take damage from this move.",
   "effect_text_simple": "Hits any Pokémon that shares a type with the user."
 }

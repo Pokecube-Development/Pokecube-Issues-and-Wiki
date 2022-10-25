@@ -1,8 +1,8 @@
 {
-  "name": "paraboliccharge",
+  "name": "parabolic-charge",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:d0.33:w1:atrue:rtrue:f(0.5-rand())*(5.5),(0.5-rand())*(5.5),(0.5-rand())*(5.5):~paraboliccharge",
+      "preset": "cartFunc:pmisc:d0.33:w1:atrue:rtrue:f(0.5-rand())*(5.5),(0.5-rand())*(5.5),(0.5-rand())*(5.5)",
       "duration": "5",
       "starttick": "5",
       "sound": "pokecube:moves.thunderbolt",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:pmisc:d0.5:w1:rtrue:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3):~:~paraboliccharge",
+      "preset": "cartFunc:pmisc:d0.5:w1:rtrue:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.thunderbolt",

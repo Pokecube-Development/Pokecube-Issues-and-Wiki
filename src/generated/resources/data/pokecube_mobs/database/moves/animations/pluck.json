@@ -2,7 +2,7 @@
   "name": "pluck",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d4:atrue:~pluck",
+      "preset": "cartFunc:pcrit:d4:atrue",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",

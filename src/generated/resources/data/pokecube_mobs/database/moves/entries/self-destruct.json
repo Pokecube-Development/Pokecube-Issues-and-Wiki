@@ -10,6 +10,7 @@
   "damage_class": "physical",
   "flavor_text": "The user attacks everything around it by causing an\nexplosion. The user faints upon using this move.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "User faints, even if the attack fails or misses.  Inflicts regular damage.",
   "effect_text_simple": "User faints."
 }

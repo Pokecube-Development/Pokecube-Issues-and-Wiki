@@ -1,8 +1,8 @@
 {
-  "name": "tropkick",
+  "name": "trop-kick",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:atrue:d1:w0.8:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~tropkick",
+      "preset": "cartFunc:pcrit:atrue:d1:w0.8:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",
@@ -12,12 +12,12 @@
       "pitch": 1.3
     },
     {
-      "preset": "cartFunc:ppowder:cred:atrue:d1:w1.2:l6:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~tropkick",
+      "preset": "cartFunc:ppowder:cred:atrue:d1:w1.2:l6:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "cartFunc:pmisc:d1:atrue:w1.2:l6:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~tropkick",
+      "preset": "cartFunc:pmisc:d1:atrue:w1.2:l6:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     }

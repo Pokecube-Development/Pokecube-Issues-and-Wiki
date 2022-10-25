@@ -1,13 +1,13 @@
 {
-  "name": "roaroftime",
+  "name": "roar-of-time",
   "animations": [
     {
-      "preset": "flow:w0.4:cblue:l8:~roaroftime",
+      "preset": "flow:w0.4:cblue:l8",
       "duration": "5",
       "starttick": "2"
     },
     {
-      "preset": "flow:pend_rod:w0.2:d0.7:l8:~roaroftime",
+      "preset": "flow:pend_rod:w0.2:d0.7:l8",
       "duration": "5",
       "starttick": "2",
       "sound": "minecraft:entity.illusioner.prepare_blindness",
@@ -17,7 +17,7 @@
       "pitch": 0.8
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:d2:w1:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~roaroftime",
+      "preset": "cartFunc:pexplosion_emitter:d2:w1:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.unknown",
@@ -27,7 +27,7 @@
       "pitch": 0.8
     },
     {
-      "preset": "cartFunc:pend_rod:rtrue:w1.5:d0.66:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~roaroftime",
+      "preset": "cartFunc:pend_rod:rtrue:w1.5:d0.66:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.payday",

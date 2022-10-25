@@ -2,7 +2,7 @@
   "name": "defog",
   "animations": [
     {
-      "preset": "flow:pcloud:d0.5:w4:l3:~defog",
+      "preset": "flow:pcloud:d0.5:w4:l3",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.fly",

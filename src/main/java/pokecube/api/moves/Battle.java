@@ -1,5 +1,7 @@
 package pokecube.api.moves;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -152,6 +154,20 @@ public class Battle
         this.aliveTracker.defaultReturnValue(0);
         this.manager = manager;
         this.world = world;
+    }
+
+    public Collection<LivingEntity> getAllies(LivingEntity mob)
+    {
+        if (side1.containsKey(mob.getUUID())) return side1.values();
+        if (side2.containsKey(mob.getUUID())) return side2.values();
+        return Collections.emptySet();
+    }
+
+    public Collection<LivingEntity> getEnemies(LivingEntity mob)
+    {
+        if (side1.containsKey(mob.getUUID())) return side2.values();
+        if (side2.containsKey(mob.getUUID())) return side1.values();
+        return Collections.emptySet();
     }
 
     private void addToSide(final Map<UUID, LivingEntity> side, final Set<String> teams, final LivingEntity mob,

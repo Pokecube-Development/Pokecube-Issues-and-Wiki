@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.behavior.BlockPosTracker;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.nest.Edge;
@@ -14,7 +15,6 @@ import pokecube.core.ai.tasks.ants.nest.Node;
 import pokecube.core.ai.tasks.ants.nest.Part;
 import pokecube.core.ai.tasks.ants.tasks.AbstractConstructTask;
 import pokecube.core.ai.tasks.utility.UtilTask;
-import pokecube.core.impl.PokecubeMod;
 import thut.api.Tracker;
 
 public class Dig extends AbstractConstructTask
@@ -55,11 +55,11 @@ public class Dig extends AbstractConstructTask
         if (valid.isPresent())
         {
             this.work_pos = valid.get().immutable();
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Found Dig Site!");
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Found Dig Site!");
             return true;
         }
         final boolean done = part instanceof Edge ? this.valids.get() == 0 : this.valids.get() < 3;
-        if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("No Site " + this.valids.get() + " " + done);
+        if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("No Site " + this.valids.get() + " " + done);
         // None were valid to dig, so mark as done.
         if (done) part.setDigDone(time + (part instanceof Node ? 2400 : 1200));
         return false;
@@ -77,7 +77,7 @@ public class Dig extends AbstractConstructTask
             {
                 this.n = next;
                 this.e = null;
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Switching to a node 1 " + this.n);
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Switching to a node 1 " + this.n);
                 return true;
             }
             next = edge.node2;
@@ -85,7 +85,7 @@ public class Dig extends AbstractConstructTask
             {
                 this.n = next;
                 this.e = null;
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Switching to a node 2 " + this.n);
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Switching to a node 2 " + this.n);
                 return true;
             }
         }
@@ -102,7 +102,7 @@ public class Dig extends AbstractConstructTask
             {
                 this.n = null;
                 this.e = next;
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Switching to an edge 1 " + this.e);
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Switching to an edge 1 " + this.e);
                 return true;
             }
         }
@@ -111,14 +111,14 @@ public class Dig extends AbstractConstructTask
             if (n.shouldDig(time))
             {
                 this.n = n;
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Switching to a node 3 " + this.n);
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Switching to a node 3 " + this.n);
                 return true;
             }
         for (final Edge e : this.nest.hab.rooms.allEdges)
             if (e.shouldDig(time))
             {
                 this.e = e;
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Switching to an edge 2 " + e);
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Switching to an edge 2 " + e);
                 return true;
             }
         return false;
@@ -132,16 +132,16 @@ public class Dig extends AbstractConstructTask
         if (this.work_pos == null && (this.progressTimer % 5 == 0 || this.progressTimer < 0))
         {
             final Part part = edge ? this.e : this.n;
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Selecting dig site: " + part);
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Selecting dig site: " + part);
             if (this.digPart(part))
             {
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Selected dig site");
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Selected dig site");
                 break dig_select;
             }
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Site No Task!");
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Site No Task!");
             if (!this.divert(part))
             {
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Job Done!");
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Job Done!");
                 this.endTask();
             }
             return false;

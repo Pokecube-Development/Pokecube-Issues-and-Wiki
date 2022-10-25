@@ -23,6 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.stats.CaptureStats;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
@@ -31,7 +32,6 @@ import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.PokedexInspector.IInspectReward;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
-import pokecube.core.utils.Tools;
 import thut.api.util.JsonUtil;
 import thut.lib.TComponent;
 

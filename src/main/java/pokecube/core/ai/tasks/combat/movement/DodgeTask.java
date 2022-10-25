@@ -12,7 +12,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.ai.tasks.combat.CombatTask;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.utils.AITools;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
@@ -66,7 +65,7 @@ public class DodgeTask extends CombatTask implements IAICombat
         if (this.pokemob.getCombatState(CombatStates.DODGING)) return;
         // set the dodge flag so other mobs know about this for missing
         this.pokemob.setCombatState(CombatStates.DODGING, true);
-        if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Dodge: " + this.entity);
+        if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Dodge: " + this.entity);
         /*
          * Compute a random perpendicular direction.
          */

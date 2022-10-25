@@ -15,9 +15,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
+import pokecube.api.data.moves.MoveApplicationRegistry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
@@ -61,16 +62,17 @@ public class UseMoveTask extends UtilTask
 
         if (!this.running)
         {
+            MoveApplication toApply = new MoveApplication(move, this.pokemob, null);
             this.speed = 1;
 
-            final boolean self = (move.getAttackCategory(this.pokemob) & IMoveConstants.CATEGORY_SELF) != 0;
+            final boolean self = MoveApplicationRegistry.getValidator(move).test(toApply);
             // Apply self moves directly.
             if (self)
             {
                 this.pokemob.executeMove(null, this.destination, 0);
                 return;
             }
-            final boolean ranged = (move.getAttackCategory(this.pokemob) & IMoveConstants.CATEGORY_DISTANCE) != 0;
+            final boolean ranged = move.isRanged(pokemob);
             if (ranged && !this.checkRange)
             {
                 final double dist = this.destination.distToEntity(this.entity);

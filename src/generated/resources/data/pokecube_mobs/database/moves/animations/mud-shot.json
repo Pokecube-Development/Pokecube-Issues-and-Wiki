@@ -1,8 +1,8 @@
 {
-  "name": "mudshot",
+  "name": "mud-shot",
   "animations": [
     {
-      "preset": "throw:atrue:cbrown:w0.4:l5:~mudshot",
+      "preset": "throw:atrue:cbrown:w0.4:l5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.waterpulse",
@@ -12,7 +12,7 @@
       "pitch": 1.7
     },
     {
-      "preset": "cartFunc:pmisc:cbrown:atrue:d2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~mudshot",
+      "preset": "cartFunc:pmisc:cbrown:atrue:d2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5",
       "sound": "pokecube:moves.waterpulse",

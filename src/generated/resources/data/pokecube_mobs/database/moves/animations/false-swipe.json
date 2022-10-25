@@ -1,8 +1,8 @@
 {
-  "name": "falseswipe",
+  "name": "false-swipe",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack:d1:w1:l5:~falseswipe",
+      "preset": "cartFunc:psweep_attack:d1:w1:l5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.cut",

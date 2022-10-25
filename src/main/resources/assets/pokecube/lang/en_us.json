@@ -65,6 +65,12 @@
     "pokemob.move.failed.user": "%1$s's §cattack failed!",
     "pokemob.move.failed.target": "%1$s's §aattack failed!",
 
+    "pokemob.move.recoil.damage.user": "%1$s §awas hurt by recoil!",
+    "pokemob.move.recoil.damage.target": "%1$s §cwas hurt by recoil!",
+
+    "pokemob.move.recoil.heal.user": "%1$s §crestored health!",
+    "pokemob.move.recoil.heal.target": "%1$s §arestored health!",
+
     "pokemob.move.isfrozen.user": "%1$s §cis frozen.",
     "pokemob.move.issleeping.user": "%1$s §cis sleeping.",
     "pokemob.move.isfullyparalyzed.user": "%1$s §cis fully paralyzed.",

@@ -2,7 +2,7 @@
   "name": "block",
   "animations": [
     {
-      "preset": "cartFunc:pbarrier:d1:w1:l5:~block",
+      "preset": "cartFunc:pbarrier:d1:w1:l5",
       "duration": "5",
       "starttick": "0"
     }

@@ -3,7 +3,6 @@ package pokecube.mobs.abilities.simple;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.database.tags.Tags;
 
@@ -15,8 +14,7 @@ public class WanderingSpirit extends Ability
         final MoveEntry attack = move.getMove();
         if (!areWeTarget(mob, move)) return;
         IPokemob user = move.getUser();
-        if (move.hit && attack.getAttackCategory(user) == IMoveConstants.CATEGORY_CONTACT
-                && Math.random() > 0.7)
+        if (move.hit && attack.isContact(user) && Math.random() > 0.7)
         {
             if (user.getAbility() == null) return;
             final String name = user.getAbility().getName();

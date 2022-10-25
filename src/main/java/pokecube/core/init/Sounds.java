@@ -3,9 +3,9 @@ package pokecube.core.init;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
+import pokecube.api.data.moves.Moves;
+import pokecube.api.data.moves.Animations.AnimationJson;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.moves.json.Animations.AnimationJson;
-import pokecube.core.database.moves.json.Moves;
 
 public class Sounds
 {
@@ -54,16 +54,16 @@ public class Sounds
         for (final var entry : Moves.ALL_MOVES)
         {
             // Register sound on source
-            if (entry.move.sound_effect_source != null)
+            if (entry._sound_effect_source != null)
             {
-                final ResourceLocation sound = new ResourceLocation(entry.move.sound_effect_source);
+                final ResourceLocation sound = new ResourceLocation(entry.getMove().sound_effect_source);
                 final SoundEvent event = new SoundEvent(sound);
                 if (!sound.getNamespace().equals("minecraft")) registerIfNotPresent(sound, event);
             }
             // Register sound on target
-            if (entry.move.sound_effect_target != null)
+            if (entry._sound_effect_target != null)
             {
-                final ResourceLocation sound = new ResourceLocation(entry.move.sound_effect_target);
+                final ResourceLocation sound = new ResourceLocation(entry.getMove().sound_effect_target);
                 final SoundEvent event = new SoundEvent(sound);
                 if (!sound.getNamespace().equals("minecraft")) registerIfNotPresent(sound, event);
             }

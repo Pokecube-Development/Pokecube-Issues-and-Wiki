@@ -1,8 +1,8 @@
 {
-  "name": "bugbuzz",
+  "name": "bug-buzz",
   "animations": [
     {
-      "preset": "flow:w0.8:pmisc:clime:~bugbuzz",
+      "preset": "flow:w0.8:pmisc:clime",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.aurorabeam",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "beam:pmisc:w1:d0.3:~bugbuzz",
+      "preset": "beam:pmisc:w1:d0.3",
       "duration": "5",
       "starttick": "0"
     }

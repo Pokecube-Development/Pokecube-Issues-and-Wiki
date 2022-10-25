@@ -2,7 +2,7 @@
   "name": "liquidation",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack:atrue:l2:~liquidation",
+      "preset": "cartFunc:psweep_attack:atrue:l2",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.slash",
@@ -13,7 +13,7 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:psplash:d0.2:atrue:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~liquidation",
+      "preset": "cartFunc:psplash:d0.2:atrue:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.bubbleattack",
@@ -24,7 +24,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:psweep_attack:atrue:l2:~liquidation",
+      "preset": "cartFunc:psweep_attack:atrue:l2",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.slash",
@@ -35,7 +35,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:psplash:d0.2:atrue:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~liquidation",
+      "preset": "cartFunc:psplash:d0.2:atrue:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.bubbleattack",

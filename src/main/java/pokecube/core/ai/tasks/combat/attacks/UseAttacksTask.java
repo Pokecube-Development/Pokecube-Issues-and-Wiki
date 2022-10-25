@@ -95,10 +95,10 @@ public class UseAttacksTask extends CombatTask implements IAICombat
     public void run()
     {
         // Check if the pokemob has an active move being used, if so return
-        if (this.pokemob.getActiveMove() != null) return;
+        if (!this.pokemob.getMoveStats().movesInProgress.isEmpty()) return;
 
         this.attack = this.pokemob.getSelectedMove();
-        final boolean self = this.attack.isSelfMove(this.pokemob);
+        final boolean self = "user".equals(attack.root_entry._target_type);
 
         if (!this.waitingToStart)
         {

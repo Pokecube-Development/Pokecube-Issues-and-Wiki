@@ -1,8 +1,8 @@
 {
-  "name": "bulletseed",
+  "name": "bullet-seed",
   "animations": [
     {
-      "preset": "throw:w0.2:~bulletseed",
+      "preset": "throw:w0.2",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.withdraw",

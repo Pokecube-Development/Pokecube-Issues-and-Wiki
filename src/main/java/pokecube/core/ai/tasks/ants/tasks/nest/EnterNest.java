@@ -8,12 +8,12 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.level.pathfinder.Path;
 import pokecube.api.blocks.IInhabitable;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
 import pokecube.core.ai.tasks.ants.nest.Node;
 import pokecube.core.ai.tasks.ants.tasks.AbstractAntTask;
-import pokecube.core.impl.PokecubeMod;
 import thut.api.maths.Vector3;
 
 public class EnterNest extends AbstractAntTask
@@ -41,7 +41,7 @@ public class EnterNest extends AbstractAntTask
         final Brain<?> brain = this.entity.getBrain();
         this.homePos.set(this.nest.nest.getBlockPos());
         this.entity.getNavigation().setMaxVisitedNodesMultiplier(10);
-        if (PokecubeMod.debug) this.pokemob.setPokemonNickname(this.job + " GO HOME");
+        if (PokecubeCore.getConfig().debug_ai) this.pokemob.setPokemonNickname(this.job + " GO HOME");
 
         // Ensures no jobs for 5s after this is decided
         brain.setMemory(MemoryModules.NO_WORK_TIMER.get(), -100);

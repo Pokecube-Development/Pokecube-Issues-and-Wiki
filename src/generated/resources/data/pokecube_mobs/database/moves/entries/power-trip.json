@@ -10,6 +10,7 @@
   "damage_class": "physical",
   "flavor_text": "The user boasts its strength and attacks the target.\nThe more the user’s stats are raised, the greater the\nmove’s power.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Power is increased by 100% its original value for every stage any of the user's stats have been raised.  Accuracy, evasion, and lowered stats do not affect this move's power.  For a Pokémon with all five stats modified to +6, this move's power is 31×.",
   "effect_text_simple": "Power is higher the more the user's stats have been raised, to a maximum of 31×."
 }

@@ -11,6 +11,7 @@
   "flavor_text": "The user clubs the target with a bone. This may also\nmake the target flinch.",
   "move_category": "damage",
   "flinch_chance": 10,
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to make the target flinch.",
   "effect_text_simple": "Has a $effect_chance% chance to make the target flinch.",
   "effect_chance": 10

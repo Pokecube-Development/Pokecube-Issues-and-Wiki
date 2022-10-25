@@ -2,7 +2,7 @@
   "name": "haze",
   "animations": [
     {
-      "preset": "flow:plarge_smoke:d1:1000:w2:~haze",
+      "preset": "flow:plarge_smoke:d1:1000:w2",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.fly",

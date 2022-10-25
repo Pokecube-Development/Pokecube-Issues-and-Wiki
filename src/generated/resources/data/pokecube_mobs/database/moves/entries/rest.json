@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user goes to sleep for two turns. This fully\nrestores the user’s HP and heals any\nstatus conditions.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "User falls to sleep and immediately regains all its HP.  If the user has another major status effect, sleep will replace it.  The user will always wake up after two turns, or one turn with early bird.\n\nThis move fails if the Pokémon cannot fall asleep due to uproar, insomnia, or vital spirit.  It also fails if the Pokémon is at full health or is already asleep.",
   "effect_text_simple": "User sleeps for two turns, completely healing itself."
 }

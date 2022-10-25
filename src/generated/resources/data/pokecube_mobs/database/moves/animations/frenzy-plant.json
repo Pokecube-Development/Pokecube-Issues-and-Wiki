@@ -1,8 +1,8 @@
 {
-  "name": "frenzyplant",
+  "name": "frenzy-plant",
   "animations": [
     {
-      "preset": "cartFunc:pexplosion_emitter:d1:w0.5:l5:~frenzyplant",
+      "preset": "cartFunc:pexplosion_emitter:d1:w0.5:l5",
       "duration": "5",
       "starttick": "5",
       "sound": "pokecube:moves.rocktomb",
@@ -12,7 +12,7 @@
       "pitch": 0.7
     },
     {
-      "preset": "flow:pmisc:cgreen:d3:w0.2:~frenzyplant",
+      "preset": "flow:pmisc:cgreen:d3:w0.2",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.slash",
@@ -22,7 +22,7 @@
       "pitch": 0.8
     },
     {
-      "preset": "flow:pmisc:cgreen:d3:w0.2:~frenzyplant",
+      "preset": "flow:pmisc:cgreen:d3:w0.2",
       "duration": "5",
       "starttick": "3",
       "sound": "pokecube:moves.slash",
@@ -32,7 +32,7 @@
       "pitch": 0.9
     },
     {
-      "preset": "flow:pmisc:cgreen:d3:w0.2:~frenzyplant",
+      "preset": "flow:pmisc:cgreen:d3:w0.2",
       "duration": "5",
       "starttick": "6",
       "sound": "pokecube:moves.slash",

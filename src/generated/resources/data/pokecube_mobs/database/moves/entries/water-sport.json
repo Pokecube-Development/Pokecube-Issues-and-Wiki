@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user soaks the battlefield with water. This\nweakens Fire-type moves for five turns.",
   "move_category": "whole-field-effect",
+  "ailment": "none",
   "effect_text_extend": "fire moves inflict half damage, regardless of target.  If the user leaves the field, this effect ends.",
   "effect_text_simple": "Halves all Fire-type damage."
 }

@@ -20,8 +20,8 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.trainers.actions.ActionContext;
+import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.PCEventsHandler;
-import pokecube.core.impl.PokecubeMod;
 import thut.api.world.mobs.data.DataSync;
 
 public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Container
@@ -40,7 +40,7 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
             return this == YES;
         }
     }
-    
+
     public static interface ITargetWatcher
     {
         default void onAdded(final IHasPokemobs pokemobs)
@@ -96,7 +96,7 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
         }
         if (found)
         {
-            if (PokecubeMod.debug)
+            if (PokecubeCore.getConfig().debug_ai)
                 PokecubeAPI.LOGGER.debug("Adding {} to slot {}", mob.getHoverName().getString(), foundID);
             this.setPokemob(foundID, mob.copy());
         }
@@ -106,7 +106,7 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
             if (!found && ours.isEmpty())
             {
                 this.setPokemob(i, mob.copy());
-                if (PokecubeMod.debug)
+                if (PokecubeCore.getConfig().debug_ai)
                     PokecubeAPI.LOGGER.debug("Adding {} to slot {}", mob.getHoverName().getString(), i);
                 break;
             }
@@ -179,8 +179,7 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
     int getAttackCooldown();
 
     /**
-     * This is the time when the next battle can start. it is in world
-     * ticks.
+     * This is the time when the next battle can start. it is in world ticks.
      */
     long getCooldown();
 
@@ -324,8 +323,8 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
             // This means we should have a target, but it isn't kept.
             if (!hasTarget)
             {
-                final LivingEntity hostile = this.getTrainer().getBrain()
-                        .getMemory(MemoryModuleType.NEAREST_HOSTILE).get();
+                final LivingEntity hostile = this.getTrainer().getBrain().getMemory(MemoryModuleType.NEAREST_HOSTILE)
+                        .get();
                 this.onSetTarget(hostile, true);
             }
         }

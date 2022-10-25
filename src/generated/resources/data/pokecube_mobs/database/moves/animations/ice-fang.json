@@ -1,8 +1,8 @@
 {
-  "name": "icefang",
+  "name": "ice-fang",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d1:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~icefang",
+      "preset": "cartFunc:pcrit:d1:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",
@@ -12,7 +12,7 @@
       "pitch": 0.8
     },
     {
-      "preset": "cartFunc:ppoof:d1:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~icefang",
+      "preset": "cartFunc:ppoof:d1:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.iceball",
@@ -22,7 +22,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:pmisc:d1:w1:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~icefang",
+      "preset": "cartFunc:pmisc:d1:w1:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     }

@@ -2,7 +2,7 @@
   "name": "waterfall",
   "animations": [
     {
-      "preset": "powder:psplash:d0.4:w0.5:rtrue:atrue:l10:~waterfall",
+      "preset": "powder:psplash:d0.4:w0.5:rtrue:atrue:l10",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dive",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:pcrit:atrue:d1.5:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~waterfall",
+      "preset": "cartFunc:pcrit:atrue:d1.5:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",

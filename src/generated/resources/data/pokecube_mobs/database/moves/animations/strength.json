@@ -2,7 +2,7 @@
   "name": "strength",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:atrue:d1.5:w0.5:l3:frand()*0.5,(0.5-rand()),(0.5-rand())*(2):~strength",
+      "preset": "cartFunc:pcrit:atrue:d1.5:w0.5:l3:frand()*0.5,(0.5-rand()),(0.5-rand())*(2)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dig",

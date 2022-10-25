@@ -1,8 +1,8 @@
 {
-  "name": "rockthrow",
+  "name": "rock-throw",
   "animations": [
     {
-      "preset": "throw:w0.4:~rockthrow",
+      "preset": "throw:w0.4",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.fly",
@@ -12,7 +12,7 @@
       "pitch": 1.3
     },
     {
-      "preset": "cartFunc:pcloud:d2:l15:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~rockthrow",
+      "preset": "cartFunc:pcloud:d2:l15:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.dig",

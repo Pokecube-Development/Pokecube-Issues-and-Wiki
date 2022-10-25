@@ -11,6 +11,7 @@
   "flavor_text": "The user attacks the target’s throat, and the\nresultant suffering prevents the target from using\nmoves that emit sound for two turns.",
   "move_category": "damage+ailment",
   "ailment_chance": 100,
+  "ailment": "silence",
   "max_turns": 2,
   "min_turns": 2,
   "effect_text_extend": "Inflicts regular damage.  Silences the target for two turns, preventing it from using any sound-based moves.",

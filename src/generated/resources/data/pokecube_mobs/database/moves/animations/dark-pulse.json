@@ -1,8 +1,8 @@
 {
-  "name": "darkpulse",
+  "name": "dark-pulse",
   "animations": [
     {
-      "preset": "flow:w0.3:d1:atrue:pmisc:cpurple:~darkpulse",
+      "preset": "flow:w0.3:d1:atrue:pmisc:cpurple",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:entity.evoker.prepare_attack",
@@ -12,7 +12,7 @@
       "pitch": 1.4
     },
     {
-      "preset": "flow:psmoke:atrue:w0.3:d2:~darkpulse",
+      "preset": "flow:psmoke:atrue:w0.3:d2",
       "duration": "0",
       "starttick": "0"
     }

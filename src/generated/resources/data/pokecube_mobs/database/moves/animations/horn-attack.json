@@ -1,8 +1,8 @@
 {
-  "name": "hornattack",
+  "name": "horn-attack",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:l2:atrue:~hornattack",
+      "preset": "cartFunc:pcrit:l2:atrue",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",

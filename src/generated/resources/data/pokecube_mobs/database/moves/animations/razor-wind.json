@@ -1,8 +1,8 @@
 {
-  "name": "razorwind",
+  "name": "razor-wind",
   "animations": [
     {
-      "preset": "flow:pmisc:clight_blue:d0.66:l1:~razorwind",
+      "preset": "flow:pmisc:clight_blue:d0.66:l1",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.gustwind",
@@ -12,12 +12,12 @@
       "pitch": 1.0
     },
     {
-      "preset": "flow:d0.1:psweep_attack:~razorwind",
+      "preset": "flow:d0.1:psweep_attack",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "cartFunc:d10:psweep_attack:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~razorwind",
+      "preset": "cartFunc:d10:psweep_attack:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.cut",

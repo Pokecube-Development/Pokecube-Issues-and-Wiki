@@ -12,6 +12,7 @@ import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 
 public class PokemobMoveStats
@@ -88,7 +89,9 @@ public class PokemobMoveStats
     public int exp = 0;
     /** Cache of currently selected move */
     public MoveEntry selectedMove;
-
+    /** The moves we are currently using */
+    public List<MoveApplication> movesInProgress = Lists.newArrayList();
+    public boolean targettingSelf = false;
     /**
      * This is the ability to apply in battle, out of battle it will be reset to
      * whatever the mob's normal ability was.
@@ -105,6 +108,26 @@ public class PokemobMoveStats
         {
             e.printStackTrace();
         }
+    }
+
+    public void checkMovesInProgress(IPokemob user)
+    {
+        targettingSelf = false;
+        movesInProgress.removeIf(s -> s.isFinished());
+        for (var move : movesInProgress)
+        {
+            if (move.getTarget() == user.getEntity())
+            {
+                targettingSelf = true;
+                break;
+            }
+        }
+    }
+
+    public void addMoveInProgress(IPokemob user, MoveApplication application)
+    {
+        this.targettingSelf |= application.getTarget() == user.getEntity();
+        this.movesInProgress.add(application);
     }
 
     public boolean addPendingMove(String move, IPokemob notify)

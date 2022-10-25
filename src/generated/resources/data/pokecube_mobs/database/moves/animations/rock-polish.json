@@ -1,8 +1,8 @@
 {
-  "name": "rockpolish",
+  "name": "rock-polish",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack:atrue:rtrue:d3:l3:~rockpolish",
+      "preset": "cartFunc:psweep_attack:atrue:rtrue:d3:l3",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.withdraw",
@@ -13,7 +13,7 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:pend_rod:w1:rtrue:atrue:w1.25:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~rockpolish",
+      "preset": "cartFunc:pend_rod:w1:rtrue:atrue:w1.25:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.payday",

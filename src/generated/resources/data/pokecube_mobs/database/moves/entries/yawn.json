@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user lets loose a huge yawn that lulls the target\ninto falling asleep on the next turn.",
   "move_category": "ailment",
+  "ailment": "yawn",
   "max_turns": 2,
   "min_turns": 2,
   "effect_text_extend": "Puts the target to sleep at the end of the next turn.  Ignores accuracy and evasion modifiers.  If the target leaves the field, this effect is canceled.  If the target has a status effect when this move is used, this move will fail.\n\nIf the target is protected by safeguard when this move is used, this move will fail.\n\ninsomnia and vital spirit prevent the sleep if the target has either at the end of the next turn, but will not cause this move to fail on use.",

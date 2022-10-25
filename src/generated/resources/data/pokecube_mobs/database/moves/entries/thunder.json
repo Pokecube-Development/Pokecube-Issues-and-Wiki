@@ -11,6 +11,7 @@
   "flavor_text": "A wicked thunderbolt is dropped on the target to\ninflict damage. This may also leave the target\nwith paralysis.",
   "move_category": "damage+ailment",
   "ailment_chance": 30,
+  "ailment": "paralysis",
   "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to paralyze the target.\n\nDuring rain dance, this move has 100% accuracy.  It also has a (100 - accuracy)% chance to break through the protection of protect and detect.\n\nDuring sunny day, this move has 50% accuracy.",
   "effect_text_simple": "Has a $effect_chance% chance to paralyze the target.",
   "effect_chance": 30

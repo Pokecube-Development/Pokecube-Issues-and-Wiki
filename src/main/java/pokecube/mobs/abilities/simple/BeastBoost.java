@@ -14,7 +14,7 @@ public class BeastBoost extends Ability
     public void postMoveUse(final IPokemob mob, final MoveApplication move)
     {
         if (!areWeTarget(mob, move)) return;
-        final IPokemob targetMob = PokemobCaps.getPokemobFor(move.target);
+        final IPokemob targetMob = PokemobCaps.getPokemobFor(move.getTarget());
         if (targetMob == null) return;
         if (!targetMob.inCombat())
         {

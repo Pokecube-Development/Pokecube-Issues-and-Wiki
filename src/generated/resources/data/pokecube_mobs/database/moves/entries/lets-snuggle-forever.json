@@ -9,6 +9,7 @@
   "damage_class": "physical",
   "flavor_text": "After obtaining Z-Power, the user, Mimikyu,\npunches the target with full force.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "After inflicting damage, all Normal-type moves become Electric-type for the remainder of the turn, including status moves. This effect is applied after move type-changing abilities, such as Pixilate and Normalize.",
   "effect_text_simple": "After inflicting damage, causes all Normal-type moves to become Electric-type for the remainder of the turn."
 }

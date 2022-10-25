@@ -9,7 +9,6 @@ import net.minecraftforge.event.level.ExplosionEvent;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 
 public class Aftermath extends Ability
@@ -19,13 +18,13 @@ public class Aftermath extends Ability
     {
         if (!areWeTarget(mob, move)) return;
         final MoveEntry attack = move.getMove();
-        if (attack == null || (attack.getAttackCategory(move.getUser()) & IMoveConstants.CATEGORY_CONTACT) == 0) return;
+        if (attack == null || !attack.isContact(move.getUser())) return;
 
         if (mob.getEntity().getHealth() <= 0)
         {
-            final Explosion boom = new Explosion(move.target.getLevel(), move.target, move.target.getX(),
-                    move.target.getY(), move.target.getZ(), 0, false, BlockInteraction.BREAK);
-            final ExplosionEvent evt = new ExplosionEvent.Start(move.target.getLevel(), boom);
+            final Explosion boom = new Explosion(move.getTarget().getLevel(), move.getTarget(), move.getTarget().getX(),
+                    move.getTarget().getY(), move.getTarget().getZ(), 0, false, BlockInteraction.BREAK);
+            final ExplosionEvent evt = new ExplosionEvent.Start(move.getTarget().getLevel(), boom);
             MinecraftForge.EVENT_BUS.post(evt);
             if (!evt.isCanceled())
             {

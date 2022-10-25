@@ -50,10 +50,10 @@ import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.events.pokemobs.SpawnEvent.FunctionVariance;
 import pokecube.api.utils.PokeType;
+import pokecube.api.utils.Tools;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.spawns.PokemobSpawns;
-import pokecube.core.impl.PokecubeMod;
-import pokecube.core.utils.Tools;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
@@ -652,8 +652,8 @@ public class PokedexEntryLoader
         for (final DefaultFormeHolder holder : list)
         {
             holder.getForme(entry);
-            if (PokecubeMod.debug)
-                PokecubeAPI.LOGGER.debug("Loaded Forme: " + holder.key + " " + holder.model + " " + holder.tex);
+            if (PokecubeCore.getConfig().debug_data)
+                PokecubeAPI.LOGGER.info("Loaded Forme: " + holder.key + " " + holder.model + " " + holder.tex);
         }
     }
 
@@ -800,7 +800,7 @@ public class PokedexEntryLoader
     {
         if (evolutions != null && !evolutions.isEmpty())
         {
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Proccessing Evos for " + entry.getName());
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info("Proccessing Evos for " + entry.getName());
             for (final Evolution evol : evolutions)
             {
                 final String name = evol.name;
@@ -857,7 +857,7 @@ public class PokedexEntryLoader
             if (holder != null) Database.registerFormeHolder(entry, holder);
             final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(rule);
             PokedexEntryLoader.handleAddSpawn(entry, matcher);
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.info("Handling Spawns for {}", entry);
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info("Handling Spawns for {}", entry);
         }
     }
 

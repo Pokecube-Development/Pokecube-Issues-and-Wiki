@@ -11,6 +11,7 @@
   "flavor_text": "The user sings an ancient song and attacks by\nappealing to the hearts of the listening opposing\nPokémon. This may also induce sleep.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
+  "ailment": "sleep",
   "max_turns": 4,
   "min_turns": 2,
   "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to put the target to sleep.\nIf the user is a meloetta, it will toggle between Aria and Pirouette Forme.",

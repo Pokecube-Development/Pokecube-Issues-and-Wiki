@@ -1,8 +1,8 @@
 {
-  "name": "gastroacid",
+  "name": "gastro-acid",
   "animations": [
     {
-      "preset": "flow:pmisc:d0.7:w1.2:l5:~gastroacid",
+      "preset": "flow:pmisc:d0.7:w1.2:l5",
       "duration": "5",
       "starttick": "0"
     }

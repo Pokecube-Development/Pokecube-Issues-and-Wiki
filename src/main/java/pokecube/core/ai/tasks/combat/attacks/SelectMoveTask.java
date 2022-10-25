@@ -2,19 +2,17 @@ package pokecube.core.ai.tasks.combat.attacks;
 
 import java.util.Random;
 
-import org.apache.logging.log4j.Level;
-
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.moves.MoveEntry;
+import pokecube.api.utils.Tools;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.combat.CombatTask;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.utils.Tools;
 import thut.api.entity.ai.IAICombat;
 import thut.core.common.ThutCore;
 
@@ -90,10 +88,9 @@ public class SelectMoveTask extends CombatTask implements IAICombat
         // Update index if it changed.
         if (index != this.pokemob.getMoveIndex())
         {
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.log(Level.TRACE,
-                    "Move Swap to Highest Damage, " + this.pokemob.getEntity() + " g:"
-                            + this.pokemob.getCombatState(CombatStates.GUARDING) + " h:"
-                            + this.pokemob.getCombatState(CombatStates.HUNTING));
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Move Swap to Highest Damage, "
+                    + this.pokemob.getEntity() + " g:" + this.pokemob.getCombatState(CombatStates.GUARDING) + " h:"
+                    + this.pokemob.getCombatState(CombatStates.HUNTING));
             this.pokemob.setMoveIndex(index);
             return true;
         }
@@ -122,10 +119,9 @@ public class SelectMoveTask extends CombatTask implements IAICombat
             this.moveIndexCounter = 0;
             if (index != this.pokemob.getMoveIndex())
             {
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.log(Level.TRACE,
-                        "Move Swap to Random Move, " + this.pokemob.getEntity() + " g:"
-                                + this.pokemob.getCombatState(CombatStates.GUARDING) + " h:"
-                                + this.pokemob.getCombatState(CombatStates.HUNTING));
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Move Swap to Random Move, "
+                        + this.pokemob.getEntity() + " g:" + this.pokemob.getCombatState(CombatStates.GUARDING) + " h:"
+                        + this.pokemob.getCombatState(CombatStates.HUNTING));
                 this.pokemob.setMoveIndex(index);
                 return true;
             }

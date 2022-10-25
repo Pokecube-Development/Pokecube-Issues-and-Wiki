@@ -2,7 +2,7 @@
   "name": "tailwind",
   "animations": [
     {
-      "preset": "flow:pmisc:d1:w5:rfalse:l4:~tailwind",
+      "preset": "flow:pmisc:d1:w5:rfalse:l4",
       "duration": "5",
       "starttick": "0"
     }

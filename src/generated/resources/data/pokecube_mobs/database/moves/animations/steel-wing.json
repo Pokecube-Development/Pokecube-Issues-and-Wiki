@@ -1,13 +1,13 @@
 {
-  "name": "steelwing",
+  "name": "steel-wing",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack:~steelwing",
+      "preset": "cartFunc:psweep_attack",
       "duration": "5",
       "starttick": "2"
     },
     {
-      "preset": "cartFunc:pcrit:d2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~steelwing",
+      "preset": "cartFunc:pcrit:d2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "2",
       "sound": "pokecube:moves.dig",
@@ -17,7 +17,7 @@
       "pitch": 1.4
     },
     {
-      "preset": "cartFunc:pend_rod:rtrue:d1.33:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~steelwing",
+      "preset": "cartFunc:pend_rod:rtrue:d1.33:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.metalclaw",

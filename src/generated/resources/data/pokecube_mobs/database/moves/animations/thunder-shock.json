@@ -1,8 +1,8 @@
 {
-  "name": "thundershock",
+  "name": "thunder-shock",
   "animations": [
     {
-      "preset": "cylFunc:pmisc:atrue:d1.5:l3:f(z^1.5-z)*2,z*4:~thundershock",
+      "preset": "cylFunc:pmisc:atrue:d1.5:l3:f(z^1.5-z)*2,z*4",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.thunderwave",

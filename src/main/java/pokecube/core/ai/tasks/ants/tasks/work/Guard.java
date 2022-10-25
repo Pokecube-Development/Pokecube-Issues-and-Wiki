@@ -98,7 +98,7 @@ public class Guard extends AbstractWorkTask
         if (newtarget != null)
         {
             this.initiateBattle(newtarget);
-            if (PokecubeCore.getConfig().debug) PokecubeAPI.LOGGER.debug("Selecting Guard Target.");
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Ant Selecting Guard Target.");
             return true;
         }
         return false;

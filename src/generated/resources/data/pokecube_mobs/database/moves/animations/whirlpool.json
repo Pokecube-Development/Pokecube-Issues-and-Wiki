@@ -2,7 +2,7 @@
   "name": "whirlpool",
   "animations": [
     {
-      "preset": "cartFunc:pdroplet:atrue:d0.02:w1:l10:f(0.5-rand())*(2),(0.5-rand())*(15),(0.5-rand())*(2):~whirlpool",
+      "preset": "cartFunc:pdroplet:atrue:d0.02:w1:l10:f(0.5-rand())*(2),(0.5-rand())*(15),(0.5-rand())*(2)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.surf",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:pmisc:atrue:d0.1:w1:l10:f(0.5-rand())*(2),(0.5-rand())*(15),(0.5-rand())*(2):~whirlpool",
+      "preset": "cartFunc:pmisc:atrue:d0.1:w1:l10:f(0.5-rand())*(2),(0.5-rand())*(15),(0.5-rand())*(2)",
       "duration": "5",
       "starttick": "0"
     }

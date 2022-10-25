@@ -50,6 +50,7 @@ public class TeamManager
 
     public static boolean sameTeam(final Entity entityA, final Entity entityB)
     {
+        if (entityA == null || entityB == null) return false;
         final String teamA = TeamManager.getTeam(entityA);
         return !teamA.isEmpty() && TeamManager.provider.areAllied(teamA, entityB);
     }

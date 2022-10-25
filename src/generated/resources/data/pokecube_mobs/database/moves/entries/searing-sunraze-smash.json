@@ -9,6 +9,7 @@
   "damage_class": "physical",
   "flavor_text": "After obtaining Z-Power, the user, Solgaleo,\nattacks the target with full force. This move can\nignore the effect of the target’s Ability.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Other Pokémon's abilities cannot activate in response to this move.  In particular, it hits through disguise",
   "effect_text_simple": "Cannot be disrupted by abilities."
 }

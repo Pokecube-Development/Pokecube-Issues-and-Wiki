@@ -2,7 +2,7 @@
   "name": "autotomize",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:d0.6:w1:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~autotomize",
+      "preset": "cartFunc:pmisc:d0.6:w1:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.metalclaw",
@@ -12,7 +12,7 @@
       "pitch": 1.1
     },
     {
-      "preset": "cartFunc:pend_rod:d1:w2:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~autotomize",
+      "preset": "cartFunc:pend_rod:d1:w2:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     }

@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user employs its psychic power to switch\nchanges to its Defense and Sp. Def stats with\nthe target.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "User swaps its Defense and Special Defense modifiers with the target.",
   "effect_text_simple": "User swaps Defense and Special Defense changes with the target."
 }

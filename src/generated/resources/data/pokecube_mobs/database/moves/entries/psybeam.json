@@ -11,6 +11,7 @@
   "flavor_text": "The target is attacked with a peculiar ray. This may\nalso leave the target confused.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
+  "ailment": "confusion",
   "max_turns": 5,
   "min_turns": 2,
   "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to confuse the target.",

@@ -2,7 +2,7 @@
   "name": "rest",
   "animations": [
     {
-      "preset": "cartFunc:pcloud:d4:rtrue:atrue:l20:f0,1,0:~rest",
+      "preset": "cartFunc:pcloud:d4:rtrue:atrue:l20:f0,1,0",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.charm",

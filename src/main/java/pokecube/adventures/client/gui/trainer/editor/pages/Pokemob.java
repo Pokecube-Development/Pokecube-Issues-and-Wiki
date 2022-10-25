@@ -24,11 +24,11 @@ import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.database.Database;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.utils.Tools;
 import thut.lib.TComponent;
 
 public class Pokemob extends Page

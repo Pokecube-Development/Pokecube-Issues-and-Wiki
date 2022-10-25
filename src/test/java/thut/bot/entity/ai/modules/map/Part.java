@@ -12,7 +12,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.util.INBTSerializable;
-import pokecube.core.impl.PokecubeMod;
 
 public abstract class Part implements INBTSerializable<CompoundTag>
 {
@@ -22,10 +21,10 @@ public abstract class Part implements INBTSerializable<CompoundTag>
     public boolean started = false;
 
     // Used to track when last done things.
-    public long dig_done   = 0;
+    public long dig_done = 0;
     public long build_done = 0;
 
-    private AABB inBounds  = null;
+    private AABB inBounds = null;
     private AABB outBounds = null;
 
     private final List<BlockPos> buildBounds = Lists.newArrayList();
@@ -51,8 +50,7 @@ public abstract class Part implements INBTSerializable<CompoundTag>
         nbt.putUUID("id", this.id);
 
         final ListTag build = new ListTag();
-        for (final BlockPos p : this.buildBounds)
-            build.add(NbtUtils.writeBlockPos(p));
+        for (final BlockPos p : this.buildBounds) build.add(NbtUtils.writeBlockPos(p));
         if (!this.saved) nbt.put("bb", build);
         this.saved = true;
         nbt.putString("ids", this.id.toString());
@@ -65,14 +63,11 @@ public abstract class Part implements INBTSerializable<CompoundTag>
     {
         this.started = nbt.getBoolean("s");
         this.id = nbt.getUUID("id");
-        if (!PokecubeMod.debug)
-        {
-            this.dig_done = nbt.getLong("dd");
-            this.build_done = nbt.getLong("bd");
-        }
+        this.dig_done = nbt.getLong("dd");
+        this.build_done = nbt.getLong("bd");
+
         final ListTag build = nbt.getList("bb", 10);
-        for (int i = 0; i < build.size(); i++)
-            this.buildBounds.add(NbtUtils.readBlockPos(build.getCompound(i)));
+        for (int i = 0; i < build.size(); i++) this.buildBounds.add(NbtUtils.readBlockPos(build.getCompound(i)));
     }
 
     public boolean shouldDig(final long worldTime)

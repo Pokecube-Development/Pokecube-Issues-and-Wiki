@@ -1,8 +1,8 @@
 {
-  "name": "bodyslam",
+  "name": "body-slam",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d0.4:w1:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~bodyslam",
+      "preset": "cartFunc:pcrit:d0.4:w1:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:pcloud:d0.7:w1:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~bodyslam",
+      "preset": "cartFunc:pcloud:d0.7:w1:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     }

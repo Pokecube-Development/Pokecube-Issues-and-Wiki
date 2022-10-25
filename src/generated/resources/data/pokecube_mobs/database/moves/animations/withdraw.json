@@ -2,7 +2,7 @@
   "name": "withdraw",
   "animations": [
     {
-      "preset": "cartFunc:psplash:d0.25:atrue:w0.66:rtrue:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~withdraw",
+      "preset": "cartFunc:psplash:d0.25:atrue:w0.66:rtrue:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.withdraw",

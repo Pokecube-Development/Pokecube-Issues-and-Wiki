@@ -18,9 +18,9 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.utils.Tools;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.utils.EntityTools;
-import pokecube.core.utils.Tools;
 import thut.api.ThutCaps;
 import thut.api.block.ITickTile;
 

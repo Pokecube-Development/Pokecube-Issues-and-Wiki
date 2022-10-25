@@ -1,8 +1,8 @@
 {
-  "name": "mudbomb",
+  "name": "mud-bomb",
   "animations": [
     {
-      "preset": "throw:atrue:w0.7:cbrown:~mudbomb",
+      "preset": "throw:atrue:w0.7:cbrown",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.waterpulse",
@@ -12,7 +12,7 @@
       "pitch": 1.7
     },
     {
-      "preset": "cartFunc:atrue:pexplosion_emitter:~mudbomb",
+      "preset": "cartFunc:atrue:pexplosion_emitter",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.dig",

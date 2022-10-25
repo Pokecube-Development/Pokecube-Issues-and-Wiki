@@ -1,8 +1,8 @@
 {
-  "name": "rollingkick",
+  "name": "rolling-kick",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d2:w0.66:atrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~rollingkick",
+      "preset": "cartFunc:pcrit:d2:w0.66:atrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",

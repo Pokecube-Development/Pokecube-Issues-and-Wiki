@@ -1,8 +1,8 @@
 {
-  "name": "dazzlinggleam",
+  "name": "dazzling-gleam",
   "animations": [
     {
-      "preset": "flow:w2.2:pend_rod:~dazzlinggleam",
+      "preset": "flow:w2.2:pend_rod",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.safeguard",
@@ -12,7 +12,7 @@
       "pitch": 1.5
     },
     {
-      "preset": "flow:pend_rod:w0.5:~dazzlinggleam",
+      "preset": "flow:pend_rod:w0.5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.unknown",

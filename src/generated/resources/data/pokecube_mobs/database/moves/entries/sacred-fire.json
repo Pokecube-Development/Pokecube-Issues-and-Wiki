@@ -11,6 +11,7 @@
   "flavor_text": "The target is razed with a mystical fire of great\nintensity. This may also leave the target with a burn.",
   "move_category": "damage+ailment",
   "ailment_chance": 50,
+  "ailment": "burn",
   "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to burn the target.  Frozen Pokémon may use this move, in which case they will thaw.",
   "effect_text_simple": "Has a $effect_chance% chance to burn the target.  Lets frozen Pokémon thaw themselves.",
   "effect_chance": 50

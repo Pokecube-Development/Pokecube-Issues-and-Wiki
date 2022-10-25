@@ -1,8 +1,8 @@
 {
-  "name": "mistball",
+  "name": "mist-ball",
   "animations": [
     {
-      "preset": "flow:pcloud:w1.5:d0.2:~mistball",
+      "preset": "flow:pcloud:w1.5:d0.2",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:entity.zombie_villager.converted",
@@ -13,13 +13,13 @@
       "applyAfter": true
     },
     {
-      "preset": "throw:cwhite:w0.7:~mistball",
+      "preset": "throw:cwhite:w0.7",
       "duration": "5",
       "starttick": "0",
       "applyAfter": false
     },
     {
-      "preset": "powder:pcloud:d0.01:~mistball",
+      "preset": "powder:pcloud:d0.01",
       "duration": "5",
       "starttick": "4",
       "sound": "minecraft:entity.illusioner.cast_spell",

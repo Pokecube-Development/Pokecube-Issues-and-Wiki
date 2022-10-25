@@ -1,8 +1,8 @@
 {
-  "name": "icywind",
+  "name": "icy-wind",
   "animations": [
     {
-      "preset": "flow:d0.5:pmisc:w2.5:~icywind",
+      "preset": "flow:d0.5:pmisc:w2.5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.fly",
@@ -12,7 +12,7 @@
       "pitch": 0.9
     },
     {
-      "preset": "cartFunc:~icywind",
+      "preset": "cartFunc",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.iceball",

@@ -1,8 +1,8 @@
 {
-  "name": "stunspore",
+  "name": "stun-spore",
   "animations": [
     {
-      "preset": "powder:cyellow:l5:atrue:~stunspore",
+      "preset": "powder:cyellow:l5:atrue",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:block.sand.place",
@@ -12,7 +12,7 @@
       "pitch": 0.7
     },
     {
-      "preset": "cartFunc:ppowder:l1:~stunspore",
+      "preset": "cartFunc:ppowder:l1",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.thunderwave",

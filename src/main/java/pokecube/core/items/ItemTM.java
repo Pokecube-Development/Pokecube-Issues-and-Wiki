@@ -10,8 +10,8 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.MoveEntry;
+import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import thut.core.common.ThutCore;
 
@@ -71,8 +71,8 @@ public class ItemTM extends Item
             if (name.contentEquals("")) return false;
             if (mob.knowsMove(name)) return false;
             final String[] learnables = mob.getPokedexEntry().getMoves().toArray(new String[0]);
-            for (final String s : learnables)
-                if (mob.getPokedexNb() == 151 || ThutCore.trim(s).equals(ThutCore.trim(name)) || PokecubeMod.debug)
+            for (final String s : learnables) if (mob.getPokedexNb() == 151
+                    || ThutCore.trim(s).equals(ThutCore.trim(name)) || PokecubeCore.getConfig().debug_misc)
             {
                 mob.learn(name);
                 return true;

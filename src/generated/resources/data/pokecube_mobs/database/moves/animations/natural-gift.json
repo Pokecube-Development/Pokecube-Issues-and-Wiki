@@ -1,8 +1,8 @@
 {
-  "name": "naturalgift",
+  "name": "natural-gift",
   "animations": [
     {
-      "preset": "beam:pend_rod:d0.5:w1:~naturalgift",
+      "preset": "beam:pend_rod:d0.5:w1",
       "duration": "5",
       "starttick": "0"
     }

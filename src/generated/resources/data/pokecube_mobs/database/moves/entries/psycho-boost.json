@@ -11,6 +11,7 @@
   "flavor_text": "The user attacks the target at full power. The\nattack’s recoil harshly lowers the user’s\nSp. Atk stat.",
   "move_category": "damage+raise",
   "stat_chance": 100,
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage, then lowers the user's Special Attack by two stages.",
   "effect_text_simple": "Lowers the user's Special Attack by two stages after inflicting damage.",
   "effect_chance": 100

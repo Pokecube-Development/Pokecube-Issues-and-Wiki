@@ -1,22 +1,26 @@
 package pokecube.core.moves.templates;
 
 import java.util.Random;
+import java.util.function.Function;
 
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.moves.utils.MoveApplication.Damage;
 import pokecube.core.impl.entity.impl.OngoingMoveEffect;
 import pokecube.core.moves.damage.GenericDamageSource;
 import thut.core.common.ThutCore;
 
-public class Move_Ongoing extends Move_Basic
+public class Move_Ongoing implements Function<Damage, IOngoingEffect>
 {
 
-    public Move_Ongoing(final String name)
+    @Override
+    public IOngoingEffect apply(Damage t)
     {
-        super(name);
+        OngoingMoveEffect effect = this.makeEffect(t.move().getUser().getEntity());
+        return effect;
     }
 
     protected float damageTarget(final LivingEntity mob, final LivingEntity user, final float damage)
@@ -34,8 +38,8 @@ public class Move_Ongoing extends Move_Basic
     }
 
     /**
-     * I have these attacks affecting the target roughly once per 40 ticks,
-     * this duration is how many times it occurs -1 can be used for a move that
+     * I have these attacks affecting the target roughly once per 40 ticks, this
+     * duration is how many times it occurs -1 can be used for a move that
      * occurs until the mob dies or returns to cube.
      *
      * @return the number of times this can affect the target
@@ -64,25 +68,5 @@ public class Move_Ongoing extends Move_Basic
         effect.setDuration(this.getDuration());
         effect.move = this;
         return effect;
-    }
-
-    /**
-     * Does this apply an ongoing move to the attacker
-     *
-     * @return
-     */
-    public boolean onSource()
-    {
-        return false;
-    }
-
-    /**
-     * Is and ongoing move applied to the source
-     *
-     * @return
-     */
-    public boolean onTarget()
-    {
-        return true;
     }
 }

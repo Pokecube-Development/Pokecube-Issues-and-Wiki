@@ -1,8 +1,8 @@
 {
-  "name": "sacredfire",
+  "name": "sacred-fire",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:clight_blue:d0.66:w0.66:rtrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~sacredfire",
+      "preset": "cartFunc:pend_rod:clight_blue:d0.66:w0.66:rtrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.flamewheel",
@@ -12,7 +12,7 @@
       "pitch": 1.5
     },
     {
-      "preset": "flow:pmisc:w1.66:clight_blue:~sacredfire",
+      "preset": "flow:pmisc:w1.66:clight_blue",
       "duration": "5",
       "starttick": "2",
       "sound": "pokecube:moves.sacredfire",
@@ -22,17 +22,17 @@
       "pitch": 1.0
     },
     {
-      "preset": "flow:pend_rod:w1.66:d0.5:~sacredfire",
+      "preset": "flow:pend_rod:w1.66:d0.5",
       "duration": "5",
       "starttick": "2"
     },
     {
-      "preset": "throw:pmisc:w1.5:clight_blue:~sacredfire",
+      "preset": "throw:pmisc:w1.5:clight_blue",
       "duration": "5",
       "starttick": "2"
     },
     {
-      "preset": "cartFunc:pcloud:d0.5:w3:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~sacredfire",
+      "preset": "cartFunc:pcloud:d0.5:w3:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.ember",

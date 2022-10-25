@@ -2,7 +2,7 @@
   "name": "infestation",
   "animations": [
     {
-      "preset": "cartFunc:ppowder:atrue:d0.7:l8:cgreen:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~infestation",
+      "preset": "cartFunc:ppowder:atrue:d0.7:l8:cgreen:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:entity.silverfish.ambient",
@@ -13,7 +13,7 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:ppowder:atrue:d0.7:l8:cgreen:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~infestation",
+      "preset": "cartFunc:ppowder:atrue:d0.7:l8:cgreen:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "3",
       "sound": "minecraft:entity.silverfish.ambient",
@@ -24,7 +24,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:ppowder:atrue:d0.7:l8:cgreen:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~infestation",
+      "preset": "cartFunc:ppowder:atrue:d0.7:l8:cgreen:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5",
       "sound": "minecraft:entity.silverfish.ambient",

@@ -32,7 +32,7 @@ public class FlameBody extends Ability
         if (!areWeTarget(mob, move)) return;
         final MoveEntry attack = move.getMove();
         final IPokemob attacker = move.getUser();
-        if (move.hit && attack.getAttackCategory(attacker) == IMoveConstants.CATEGORY_CONTACT && Math.random() > 0.7)
+        if (move.hit && attack.isContact(attacker) && Math.random() > 0.7)
             attacker.setStatus(IMoveConstants.STATUS_BRN);
     }
 
