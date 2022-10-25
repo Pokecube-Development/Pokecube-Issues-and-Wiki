@@ -217,7 +217,8 @@ def convert_moves():
         anims_dex[var["name"]] = var
 
     lang_files = {}
-    lang_desc = {}
+    # If we decide we want flavour text, uncomment this.
+    # lang_desc = {}
 
     contact = []
     ranged = []
@@ -243,19 +244,20 @@ def convert_moves():
             lang_files[key] = items
 
         # These will go in langs
-        for lang in langs:
-            def is_lang(details):
-                return url_to_id(details.language) == lang
-            text = default_or_latest(move.flavor_text_entries, is_lang)
-            if text is None:
-                continue
-            lang = utils.get('language', lang)
-            key = f'{lang.iso639}_{lang.iso3166}.json'
-            items = {}
-            if key in lang_desc:
-                items = lang_desc[key]
-            items[f"pokemob.move.{entry.name}.desc"] = text.flavor_text.replace('\n', ' ')
-            lang_desc[key] = items
+        # If we decide we want flavour text, uncomment this.
+        # for lang in langs:
+        #     def is_lang(details):
+        #         return url_to_id(details.language) == lang
+        #     text = default_or_latest(move.flavor_text_entries, is_lang)
+        #     if text is None:
+        #         continue
+        #     lang = utils.get('language', lang)
+        #     key = f'{lang.iso639}_{lang.iso3166}.json'
+        #     items = {}
+        #     if key in lang_desc:
+        #         items = lang_desc[key]
+        #     items[f"pokemob.move.{entry.name}.desc"] = text.flavor_text.replace('\n', ' ')
+        #     lang_desc[key] = items
 
         # These will go in tags
         if name in SPECIAL_CONTACT:
@@ -278,11 +280,12 @@ def convert_moves():
         file.close()
 
 
-    for key, dict in lang_files.items():
-        if key in lang_desc:
-            dict2 = lang_desc[key]
-            for key2, value in dict2.items():
-                dict[key2] = value
+    # If we decide we want flavour text, uncomment this.
+    # for key, dict in lang_files.items():
+    #     if key in lang_desc:
+    #         dict2 = lang_desc[key]
+    #         for key2, value in dict2.items():
+    #             dict[key2] = value
 
     # Dump the lang files
     for key, dict in lang_files.items():
