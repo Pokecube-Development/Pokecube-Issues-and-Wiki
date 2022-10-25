@@ -10,6 +10,7 @@
   "damage_class": "special",
   "flavor_text": "The user spouts water to damage opposing\nPokémon. The lower the user’s HP, the lower the\nmove’s power.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Power increases with the user's remaining HP and is given by `150 * HP / max HP`, to a maximum of 150 when the user has full HP.",
   "effect_text_simple": "Inflicts more damage when the user has more HP remaining, with a maximum of 150 power."
 }

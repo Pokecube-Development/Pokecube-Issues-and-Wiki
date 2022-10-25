@@ -1,18 +1,18 @@
 {
-  "name": "doubleedge",
+  "name": "double-edge",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d0.3:w1:l3:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~doubleedge",
+      "preset": "cartFunc:pcrit:d0.3:w1:l3:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2)",
       "duration": "1",
       "starttick": "4"
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:d0.3:w1:l3:~doubleedge",
+      "preset": "cartFunc:pexplosion_emitter:d0.3:w1:l3",
       "duration": "1",
       "starttick": "4"
     },
     {
-      "preset": "cartFunc:pmisc:cred:d0.7:w1:rtrue:l3:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~doubleedge",
+      "preset": "cartFunc:pmisc:cred:d0.7:w1:rtrue:l3:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2)",
       "duration": "4",
       "starttick": "0",
       "sound": "pokecube:moves.rocktomb",

@@ -1,20 +1,20 @@
 {
-  "name": "psychoboost",
+  "name": "psycho-boost",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:l2:rtrue:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~psychoboost",
+      "preset": "cartFunc:pend_rod:l2:rtrue:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:pend_rod:l10:rtrue:w2.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~psychoboost",
+      "preset": "cartFunc:pend_rod:l10:rtrue:w2.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "1",
       "applyAfter": true
     },
     {
-      "preset": "throw:pmisc:~psychoboost",
+      "preset": "throw:pmisc",
       "duration": "5",
       "starttick": "1",
       "sound": "minecraft:entity.illusioner.prepare_blindness",
@@ -25,7 +25,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pcloud:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~psychoboost",
+      "preset": "cartFunc:pcloud:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "3",
       "sound": "minecraft:entity.generic.explode",
@@ -36,7 +36,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pwitch:l25:w2.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~psychoboost",
+      "preset": "cartFunc:pwitch:l25:w2.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5",
       "sound": "minecraft:entity.evoker.prepare_summon",
@@ -47,7 +47,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pexplosion:l7:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~psychoboost",
+      "preset": "cartFunc:pexplosion:l7:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "7",
       "sound": "minecraft:entity.generic.explode",
@@ -58,7 +58,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pcloud:w3:l15:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~psychoboost",
+      "preset": "cartFunc:pcloud:w3:l15:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5",
       "sound": "minecraft:entity.generic.explode",
@@ -69,7 +69,7 @@
       "applyAfter": false
     },
     {
-      "preset": "flow:pmisc:d0.3:atrue:~psychoboost",
+      "preset": "flow:pmisc:d0.3:atrue",
       "duration": "5",
       "starttick": "1",
       "applyAfter": false

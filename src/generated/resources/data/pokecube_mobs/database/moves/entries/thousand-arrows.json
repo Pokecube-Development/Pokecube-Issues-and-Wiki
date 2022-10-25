@@ -11,6 +11,7 @@
   "flavor_text": "This move also hits opposing Pokémon that are in\nthe air. Those Pokémon are knocked down to\nthe ground.",
   "move_category": "damage",
   "ailment_chance": 100,
+  "ailment": "unknown",
   "effect_text_extend": "Inflicts regular damage.  Grounds the target until it leaves battle.  Ignores levitation effects and the immunity of flying-type Pokémon.",
   "effect_text_simple": "Grounds the target, and hits even Flying-type or levitating Pokémon.",
   "effect_chance": 100

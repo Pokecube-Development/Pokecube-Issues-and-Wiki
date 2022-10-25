@@ -1,8 +1,8 @@
 {
-  "name": "waterpledge",
+  "name": "water-pledge",
   "animations": [
     {
-      "preset": "cartFunc:psplash:d0.05:w2:l4:f(0.5-rand())*(1),(0.5-rand())*(4),(0.5-rand())*(1):~waterpledge",
+      "preset": "cartFunc:psplash:d0.05:w2:l4:f(0.5-rand())*(1),(0.5-rand())*(4),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dive",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:pmisc:d0.2:w2:l4:f(0.5-rand())*(1),(0.5-rand())*(4),(0.5-rand())*(1):~waterpledge",
+      "preset": "cartFunc:pmisc:d0.2:w2:l4:f(0.5-rand())*(1),(0.5-rand())*(4),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     }

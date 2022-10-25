@@ -1,8 +1,8 @@
 {
-  "name": "dualchop",
+  "name": "dual-chop",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack:atrue:~dualchop",
+      "preset": "cartFunc:psweep_attack:atrue",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.slash",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pmisc:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~dualchop",
+      "preset": "cartFunc:pmisc:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",

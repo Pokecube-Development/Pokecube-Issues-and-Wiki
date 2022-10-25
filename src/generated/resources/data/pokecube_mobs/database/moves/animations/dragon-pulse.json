@@ -1,8 +1,8 @@
 {
-  "name": "dragonpulse",
+  "name": "dragon-pulse",
   "animations": [
     {
-      "preset": "flow:pmisc:d5:w0.5:l5:~dragonpulse",
+      "preset": "flow:pmisc:d5:w0.5:l5",
       "duration": "4",
       "starttick": "0",
       "sound": "pokecube:moves.flamewheel",
@@ -12,7 +12,7 @@
       "pitch": 0.9
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:d5:w0.5:l5:~dragonpulse",
+      "preset": "cartFunc:pexplosion_emitter:d5:w0.5:l5",
       "duration": "1",
       "starttick": "4"
     }

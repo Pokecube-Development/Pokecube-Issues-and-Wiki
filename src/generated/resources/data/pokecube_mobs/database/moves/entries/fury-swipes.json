@@ -10,6 +10,7 @@
   "damage_class": "physical",
   "flavor_text": "The target is raked with sharp claws or scythes\nquickly two to five times in a row.",
   "move_category": "damage",
+  "ailment": "none",
   "max_hits": 5,
   "min_hits": 2,
   "effect_text_extend": "Inflicts regular damage.  Hits 2–5 times in one turn.\n\nHas a 3/8 chance each to hit 2 or 3 times, and a 1/8 chance each to hit 4 or 5 times.  Averages to 3 hits per use.",

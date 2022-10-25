@@ -1,8 +1,8 @@
 {
-  "name": "meteormash",
+  "name": "meteor-mash",
   "animations": [
     {
-      "preset": "cartFunc:atrue:pcrit:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~meteormash",
+      "preset": "cartFunc:atrue:pcrit:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pmisc:atrue:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~meteormash",
+      "preset": "cartFunc:pmisc:atrue:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:entity.zombie.attack_iron_door",
@@ -24,7 +24,7 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:pend_rod:d2:atrue:l2:w2.5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~meteormash",
+      "preset": "cartFunc:pend_rod:d2:atrue:l2:w2.5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "applyAfter": false

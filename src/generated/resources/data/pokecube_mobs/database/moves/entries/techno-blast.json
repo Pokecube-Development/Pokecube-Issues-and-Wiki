@@ -10,6 +10,7 @@
   "damage_class": "special",
   "flavor_text": "The user fires a beam of light at its target. The\nmove’s type changes depending on the Drive the\nuser holds.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If the user is holding a plate or a drive, this move's type is the type corresponding to that item.\n\nNote: This effect is technically shared by both techno blast and judgment; however, Techno Blast is only affected by drives, and Judgment is only affected by plates.",
   "effect_text_simple": "If the user is holding a appropriate plate or drive, the damage inflicted will match it."
 }

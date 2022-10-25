@@ -1,8 +1,8 @@
 {
-  "name": "watergun",
+  "name": "water-gun",
   "animations": [
     {
-      "preset": "beam:psplash:~watergun",
+      "preset": "beam:psplash",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.waterpulse",

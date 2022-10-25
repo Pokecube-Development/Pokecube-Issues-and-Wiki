@@ -1,13 +1,13 @@
 {
-  "name": "powertrick",
+  "name": "power-trick",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:d2:w1:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~powertrick",
+      "preset": "cartFunc:pmisc:d2:w1:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "cartFunc:pwitch:d2:w1:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~powertrick",
+      "preset": "cartFunc:pwitch:d2:w1:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     }

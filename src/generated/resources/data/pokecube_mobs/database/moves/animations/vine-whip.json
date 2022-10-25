@@ -1,8 +1,8 @@
 {
-  "name": "vinewhip",
+  "name": "vine-whip",
   "animations": [
     {
-      "preset": "beam:ppowder:~vinewhip",
+      "preset": "beam:ppowder",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",

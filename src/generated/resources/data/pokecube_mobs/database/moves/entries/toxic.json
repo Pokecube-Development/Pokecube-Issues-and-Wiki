@@ -9,6 +9,7 @@
   "damage_class": "status",
   "flavor_text": "A move that leaves the target badly poisoned.\nIts poison damage worsens every turn.",
   "move_category": "ailment",
+  "ailment": "poison",
   "max_turns": 15,
   "min_turns": 15,
   "effect_text_extend": "Badly poisons the target.  Never misses when used by a poison-type Pokémon.",

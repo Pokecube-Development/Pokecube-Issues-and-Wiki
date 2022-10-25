@@ -1,8 +1,8 @@
 {
-  "name": "attackorder",
+  "name": "attack-order",
   "animations": [
     {
-      "preset": "flow:pmisc:d0.2:w0.1:cyellow:~attackorder",
+      "preset": "flow:pmisc:d0.2:w0.1:cyellow",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.charm",
@@ -12,7 +12,7 @@
       "pitch": 1.4
     },
     {
-      "preset": "cartFunc:~attackorder",
+      "preset": "cartFunc",
       "duration": "0",
       "starttick": "2",
       "sound": "pokecube:moves.charm",
@@ -22,7 +22,7 @@
       "pitch": 1.4
     },
     {
-      "preset": "cartFunc:~attackorder",
+      "preset": "cartFunc",
       "duration": "1",
       "starttick": "5",
       "sound": "pokecube:moves.charm",

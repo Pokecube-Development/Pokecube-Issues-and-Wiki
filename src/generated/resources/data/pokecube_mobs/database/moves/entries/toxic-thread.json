@@ -11,6 +11,7 @@
   "move_category": "swagger",
   "stat_chance": 100,
   "ailment_chance": 100,
+  "ailment": "poison",
   "effect_text_extend": "Poisons the target and lowers its Speed by one stage.",
   "effect_text_simple": "Poisons the target and lowers its Speed by one stage.",
   "effect_chance": 100

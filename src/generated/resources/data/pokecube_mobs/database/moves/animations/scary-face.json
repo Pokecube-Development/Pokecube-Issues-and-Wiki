@@ -1,8 +1,8 @@
 {
-  "name": "scaryface",
+  "name": "scary-face",
   "animations": [
     {
-      "preset": "cartFunc:psmoke:d1:w1:atrue:rtrue:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~scaryface",
+      "preset": "cartFunc:psmoke:d1:w1:atrue:rtrue:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.aurorabeam",

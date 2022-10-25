@@ -1,8 +1,8 @@
 {
-  "name": "vicegrip",
+  "name": "vice-grip",
   "animations": [
     {
-      "preset": "cartFunc:pcloud:l8:w1.6:d2.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vicegrip",
+      "preset": "cartFunc:pcloud:l8:w1.6:d2.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pcrit:w0.8:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vicegrip",
+      "preset": "cartFunc:pcrit:w0.8:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "applyAfter": false

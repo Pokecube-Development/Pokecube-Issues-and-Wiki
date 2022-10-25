@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user applies pressure to stress points, sharply\nboosting one of its or its allies’ stats.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "Raises one of the target's stats by two stages.  The raised stat is chosen at random from any stats that can be raised by two stages.  If no stat is eligible, this move will fail.\n\nIf the target has a substitute, this move will have no effect, even if the user is the target.\n\nThis move cannot be copied by mirror move.",
   "effect_text_simple": "Raises one of a friendly Pokémon's stats at random by two stages."
 }

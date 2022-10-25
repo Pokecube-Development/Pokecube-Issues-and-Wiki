@@ -1,13 +1,13 @@
 {
-  "name": "afteryou",
+  "name": "after-you",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:d1:w1:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~afteryou",
+      "preset": "cartFunc:pmisc:d1:w1:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "cartFunc:pmisc:d1:w1:rtrue:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~afteryou",
+      "preset": "cartFunc:pmisc:d1:w1:rtrue:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     }

@@ -10,6 +10,7 @@
   "damage_class": "special",
   "flavor_text": "The user attacks the target with a song. Others can\njoin in the Round to increase the power of\nthe attack.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If round has already been used this turn, this move's power is doubled.  After this move is used, any other Pokémon using it this turn will immediately do so (in the order they would otherwise act), regardless of Speed or priority.  Pokémon using other moves will then continue to act as usual.",
   "effect_text_simple": "Has double power if it's used more than once per turn."
 }

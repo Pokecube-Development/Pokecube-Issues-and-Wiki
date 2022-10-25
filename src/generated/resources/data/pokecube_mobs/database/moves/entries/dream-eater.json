@@ -11,6 +11,7 @@
   "flavor_text": "The user eats the dreams of a sleeping target. It\nabsorbs half the damage caused to heal its own HP.",
   "move_category": "damage+heal",
   "drain": 50,
+  "ailment": "none",
   "effect_text_extend": "Fails if not used on a sleeping Pokémon.  Inflicts regular damage.  Drains half the damage inflicted to heal the user.",
   "effect_text_simple": "Only works on sleeping Pokémon.  Drains half the damage inflicted to heal the user."
 }

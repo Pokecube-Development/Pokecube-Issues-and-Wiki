@@ -1,8 +1,8 @@
 {
-  "name": "poisontail",
+  "name": "poison-tail",
   "animations": [
     {
-      "preset": "cartFunc:l2:psweep_attack:d2:atrue:~poisontail",
+      "preset": "cartFunc:l2:psweep_attack:d2:atrue",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dig",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pdragon_breath:w0.8:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~poisontail",
+      "preset": "cartFunc:pdragon_breath:w0.8:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.poisontoxic",

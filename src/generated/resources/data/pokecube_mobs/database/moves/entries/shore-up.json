@@ -9,6 +9,7 @@
   "flavor_text": "The user regains up to half of its max HP. It restores\nmore HP in a sandstorm.",
   "move_category": "heal",
   "healing": 50,
+  "ailment": "none",
   "effect_text_extend": "Heals the user for ½ its max HP.  During a sandstorm, the healing is increased to ⅔.",
   "effect_text_simple": "Heals the user for ½ its max HP, or ⅔ during a sandstorm."
 }

@@ -1,8 +1,8 @@
 {
-  "name": "freezedry",
+  "name": "freeze-dry",
   "animations": [
     {
-      "preset": "flow:~freezedry",
+      "preset": "flow",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.icebreak",

@@ -1,13 +1,13 @@
 {
-  "name": "morningsun",
+  "name": "morning-sun",
   "animations": [
     {
-      "preset": "cartFunc:phappy_villager:d1.5:w0.5:atrue:rtrue:l8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~morningsun",
+      "preset": "cartFunc:phappy_villager:d1.5:w0.5:atrue:rtrue:l8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5"
     },
     {
-      "preset": "cartFunc:pfirework:d0.33:w3:atrue:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(8),(0.5-rand())*(1):~morningsun",
+      "preset": "cartFunc:pfirework:d0.33:w3:atrue:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(8),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.unknown",

@@ -11,6 +11,7 @@
   "flavor_text": "The user whips up a vicious tornado to tear at the\nopposing Pokémon. This may also make them flinch.",
   "move_category": "damage",
   "flinch_chance": 20,
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to make each target flinch.\n\nIf the target is under the effect of bounce, fly, or sky drop, this move will hit with double power.",
   "effect_text_simple": "Has a $effect_chance% chance to make the target flinch.",
   "effect_chance": 20

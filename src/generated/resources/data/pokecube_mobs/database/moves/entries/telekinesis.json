@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user makes the target float with its psychic\npower. The target is easier to hit for three turns.",
   "move_category": "ailment",
+  "ailment": "unknown",
   "max_turns": 3,
   "min_turns": 3,
   "effect_text_extend": "For three turns (including this one), moves used against the target have 100% accuracy, but the target is immune to ground damage.  Accuracy of one-hit KO moves is exempt from this effect.\n\nThis effect is removed by gravity.  If Gravity is already in effect, this move will fail.",

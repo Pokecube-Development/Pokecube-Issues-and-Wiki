@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user creates a bizarre area in which slower\nPokémon get to move first for five turns.",
   "move_category": "whole-field-effect",
+  "ailment": "none",
   "effect_text_extend": "For five turns (including this one), slower Pokémon will act before faster Pokémon.  Move priority is not affected.  Using this move when its effect is already active will end the effect.\n\nPokémon holding full incense, lagging tail, or quick claw and Pokémon with stall ignore this effect.",
   "effect_text_simple": "For five turns, slower Pokémon will act before faster Pokémon."
 }

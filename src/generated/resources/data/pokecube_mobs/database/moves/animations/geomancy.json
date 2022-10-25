@@ -2,7 +2,7 @@
   "name": "geomancy",
   "animations": [
     {
-      "preset": "cartFunc:pinstant_effect:cblack:d0.5:w3:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~geomancy",
+      "preset": "cartFunc:pinstant_effect:cblack:d0.5:w3:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.aurorabeam",
@@ -12,7 +12,7 @@
       "pitch": 1.7
     },
     {
-      "preset": "cartFunc:pmisc:cyellow:d0.8:w3:rtrue:l30:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~geomancy",
+      "preset": "cartFunc:pmisc:cyellow:d0.8:w3:rtrue:l30:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.safeguard",
@@ -22,17 +22,17 @@
       "pitch": 1.4
     },
     {
-      "preset": "cartFunc:pmisc:clime:d0.8:w3:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~geomancy",
+      "preset": "cartFunc:pmisc:clime:d0.8:w3:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "cartFunc:pmisc:cmagenta:d0.8:w3:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~geomancy",
+      "preset": "cartFunc:pmisc:cmagenta:d0.8:w3:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "cartFunc:pmisc:clight_blue:d0.8:w3:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~geomancy",
+      "preset": "cartFunc:pmisc:clight_blue:d0.8:w3:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     }

@@ -1,8 +1,8 @@
 {
-  "name": "rockwrecker",
+  "name": "rock-wrecker",
   "animations": [
     {
-      "preset": "throw:atrue:w1.8:~rockwrecker",
+      "preset": "throw:atrue:w1.8",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.fly",
@@ -12,7 +12,7 @@
       "pitch": 0.9
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:d2:atrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~rockwrecker",
+      "preset": "cartFunc:pexplosion_emitter:d2:atrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.rocksmash",
@@ -22,7 +22,7 @@
       "pitch": 0.9
     },
     {
-      "preset": "flow:pmisc:d0.5:~rockwrecker",
+      "preset": "flow:pmisc:d0.5",
       "duration": "5",
       "starttick": "0"
     }

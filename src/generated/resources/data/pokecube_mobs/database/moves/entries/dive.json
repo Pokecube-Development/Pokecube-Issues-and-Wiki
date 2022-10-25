@@ -10,6 +10,7 @@
   "damage_class": "physical",
   "flavor_text": "Diving on the first turn, the user floats up and\nattacks on the next turn.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  User dives underwater for one turn, becoming immune to attack, and hits on the second turn.\n\nDuring the immune turn, surf, and whirlpool still hit the user normally, and their power is doubled if appropriate.\n\nThe user may be hit during its immune turn if under the effect of lock on, mind reader, or no guard.\n\nThis move cannot be selected by sleep talk.",
   "effect_text_simple": "User dives underwater, dodging all attacks, and hits next turn."
 }

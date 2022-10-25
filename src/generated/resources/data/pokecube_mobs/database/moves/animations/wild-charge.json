@@ -1,8 +1,8 @@
 {
-  "name": "wildcharge",
+  "name": "wild-charge",
   "animations": [
     {
-      "preset": "cartFunc:pcloud:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~wildcharge",
+      "preset": "cartFunc:pcloud:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dig",
@@ -13,7 +13,7 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:pmisc:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~wildcharge",
+      "preset": "cartFunc:pmisc:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.thunderbolt",
@@ -24,7 +24,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pmisc:l4:atrue:w2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~wildcharge",
+      "preset": "cartFunc:pmisc:l4:atrue:w2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "2",
       "applyAfter": false

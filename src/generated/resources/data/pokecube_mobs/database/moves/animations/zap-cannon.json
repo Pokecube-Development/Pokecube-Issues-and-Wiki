@@ -1,8 +1,8 @@
 {
-  "name": "zapcannon",
+  "name": "zap-cannon",
   "animations": [
     {
-      "preset": "throw:atrue:~zapcannon",
+      "preset": "throw:atrue",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.thunderbolt",
@@ -12,12 +12,12 @@
       "pitch": 1.4
     },
     {
-      "preset": "flow:pmisc:d0.25:w0.5:atrue:~zapcannon",
+      "preset": "flow:pmisc:d0.25:w0.5:atrue",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "cartFunc:pmisc:w1:atrue:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~zapcannon",
+      "preset": "cartFunc:pmisc:w1:atrue:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.thunderwave",
@@ -27,7 +27,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:pmisc:w2.5:atrue:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~zapcannon",
+      "preset": "cartFunc:pmisc:w2.5:atrue:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "7"
     }

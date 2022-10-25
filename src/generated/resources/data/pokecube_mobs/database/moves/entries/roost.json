@@ -9,6 +9,7 @@
   "flavor_text": "The user lands and rests its body. It restores the\nuser’s HP by up to half of its max HP.",
   "move_category": "heal",
   "healing": 50,
+  "ailment": "none",
   "effect_text_extend": "Heals the user for half its max HP.  If the user is flying, its flying type is ignored until the end of this turn.",
   "effect_text_simple": "Heals the user by half its max HP."
 }

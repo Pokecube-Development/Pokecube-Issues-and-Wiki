@@ -11,5 +11,6 @@
   "flavor_text": "Morpeko attacks and raises its Speed with the energy\nstored in its cheeks. This move’s type changes\ndepending on the user’s form.",
   "move_category": "damage+raise",
   "stat_chance": 100,
+  "ailment": "none",
   "effect_chance": 100
 }

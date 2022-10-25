@@ -9,6 +9,7 @@
   "damage_class": "status",
   "flavor_text": "The user frightens the target with a scary face to\nharshly lower its Speed stat.",
   "move_category": "net-good-stats",
+  "ailment": "none",
   "effect_text_extend": "Lowers the target's Speed by two stages.",
   "effect_text_simple": "Lowers the target's Speed by two stages."
 }

@@ -10,6 +10,7 @@
   "damage_class": "special",
   "flavor_text": "A column of water strikes the target. When combined\nwith its fire equivalent, its power increases and a\nrainbow appears.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If a friendly Pokémon used grass pledge earlier this turn, all opposing Pokémon have halved Speed for four turns (including this one).",
   "effect_text_simple": "With Grass Pledge, halves opposing Pokémon's Speed for four turns."
 }

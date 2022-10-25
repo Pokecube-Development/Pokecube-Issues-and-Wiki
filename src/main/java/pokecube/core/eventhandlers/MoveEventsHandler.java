@@ -34,7 +34,6 @@ import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.api.events.pokemobs.combat.MoveUse.MoveWorldAction;
 import pokecube.api.items.IPokemobUseable;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveNames;
 import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.api.moves.utils.MoveApplication;
@@ -348,8 +347,7 @@ public class MoveEventsHandler
         IMoveWorldEffect action = MoveEventsHandler.actionMap.get(move.name);
         if (action == null)
         {
-            boolean doesDamage = (move.getAttackCategory(attacker) & IMoveConstants.CATEGORY_DISTANCE) > 0
-                    && move.power > 0;
+            boolean doesDamage = move.isContact(attacker) && move.power > 0;
             if (move.getType(attacker) == PokeType.getType("water")) action = new DefaultWaterAction(move);
             if (move.getType(attacker) == PokeType.getType("ice") && doesDamage) action = new DefaultIceAction(move);
             if (move.getType(attacker) == PokeType.getType("electric")) action = new DefaultElectricAction(move);

@@ -1,8 +1,8 @@
 {
-  "name": "spiritshackle",
+  "name": "spirit-shackle",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:d0.8:w1:atrue:l8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~spiritshackle",
+      "preset": "cartFunc:pmisc:d0.8:w1:atrue:l8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "minecraft:entity.illusioner.cast_spell",
@@ -12,12 +12,12 @@
       "pitch": 1.8
     },
     {
-      "preset": "flow:pmisc:d0.25:atrue:w0.1:l3:~spiritshackle",
+      "preset": "flow:pmisc:d0.25:atrue:w0.1:l3",
       "duration": "5",
       "starttick": "1"
     },
     {
-      "preset": "throw:w0.1:corange:~spiritshackle",
+      "preset": "throw:w0.1:corange",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.fly",

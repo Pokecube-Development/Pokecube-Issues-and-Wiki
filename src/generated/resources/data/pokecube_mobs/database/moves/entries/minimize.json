@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user compresses its body to make itself look\nsmaller, which sharply raises its evasiveness.",
   "move_category": "net-good-stats",
+  "ailment": "none",
   "effect_text_extend": "Raises the user's evasion by two stages.\n\nstomp and steamroller have double power against Pokémon that have used this move since entering the field.",
   "effect_text_simple": "Raises the user's evasion by two stages."
 }

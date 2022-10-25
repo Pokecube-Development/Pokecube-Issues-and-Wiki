@@ -1,8 +1,8 @@
 {
-  "name": "drillrun",
+  "name": "drill-run",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:atrue:l2:~drillrun",
+      "preset": "cartFunc:pcrit:atrue:l2",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.rocksmash",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pcrit:atrue:l2:~drillrun",
+      "preset": "cartFunc:pcrit:atrue:l2",
       "duration": "5",
       "starttick": "2",
       "sound": "pokecube:moves.rocksmash",
@@ -24,7 +24,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pcrit:atrue:l2:~drillrun",
+      "preset": "cartFunc:pcrit:atrue:l2",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.rocksmash",
@@ -35,7 +35,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pmisc:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~drillrun",
+      "preset": "cartFunc:pmisc:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "applyAfter": true

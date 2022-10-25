@@ -1,8 +1,8 @@
 {
-  "name": "firepledge",
+  "name": "fire-pledge",
   "animations": [
     {
-      "preset": "cartFunc:pflame:d0.1:w2:l4:f(0.5-rand())*(1),(0.5-rand())*(4),(0.5-rand())*(1):~firepledge",
+      "preset": "cartFunc:pflame:d0.1:w2:l4:f(0.5-rand())*(1),(0.5-rand())*(4),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.flamewheel",
@@ -12,7 +12,7 @@
       "pitch": 1.2
     },
     {
-      "preset": "cartFunc:pmisc:d0.2:w2:l4:f(0.5-rand())*(1),(0.5-rand())*(4),(0.5-rand())*(1):~firepledge",
+      "preset": "cartFunc:pmisc:d0.2:w2:l4:f(0.5-rand())*(1),(0.5-rand())*(4),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     }

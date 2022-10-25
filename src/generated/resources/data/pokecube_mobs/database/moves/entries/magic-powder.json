@@ -8,5 +8,6 @@
   "target": "selected-pokemon",
   "damage_class": "status",
   "flavor_text": "The user scatters a cloud of magic powder that\nchanges the target to Psychic type.",
-  "move_category": "unique"
+  "move_category": "unique",
+  "ailment": "none"
 }

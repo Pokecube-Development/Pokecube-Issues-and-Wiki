@@ -2,7 +2,7 @@
   "name": "bonemerang",
   "animations": [
     {
-      "preset": "throw:cwhite:w0.3:~bonemerang",
+      "preset": "throw:cwhite:w0.3",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.withdraw",

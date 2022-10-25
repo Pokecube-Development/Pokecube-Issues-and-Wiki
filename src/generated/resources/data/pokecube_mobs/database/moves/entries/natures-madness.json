@@ -9,6 +9,7 @@
   "damage_class": "special",
   "flavor_text": "The user hits the target with the force of nature.\nIt halves the target’s HP.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts typeless damage equal to half the target's remaining HP.",
   "effect_text_simple": "Inflicts damage equal to half the target's HP."
 }

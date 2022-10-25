@@ -1,8 +1,8 @@
 {
-  "name": "firefang",
+  "name": "fire-fang",
   "animations": [
     {
-      "preset": "cartFunc:pflame:d0.7:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~firefang",
+      "preset": "cartFunc:pflame:d0.7:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.flamewheel",
@@ -12,7 +12,7 @@
       "pitch": 1.3
     },
     {
-      "preset": "cartFunc:pcrit:d0.5:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~firefang",
+      "preset": "cartFunc:pcrit:d0.5:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",

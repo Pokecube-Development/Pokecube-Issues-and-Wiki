@@ -11,7 +11,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants.ContactCategory;
 import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.api.utils.PokeType;
 import pokecube.core.eventhandlers.MoveEventsHandler;
@@ -47,8 +47,8 @@ public class PokemobMoveRecipeParser implements IRecipeParser
             if (ptype == null) return false;
             if (move == null) return false;
             if (move.type != ptype) return false;
-            if (!this.contact && (move.getAttackCategory() & IMoveConstants.CATEGORY_CONTACT) > 0) return false;
-            if (!this.ranged && (move.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0) return false;
+            if (!this.contact && move.getAttackCategory() == ContactCategory.CONTACT) return false;
+            if (!this.ranged && move.getAttackCategory() == ContactCategory.RANGED) return false;
             final int power = move.getPWR();
             return power >= this.minPower && power <= this.maxPower;
         }

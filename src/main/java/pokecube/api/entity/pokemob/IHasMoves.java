@@ -18,7 +18,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 import thut.api.maths.Vector3;
@@ -110,9 +109,6 @@ public interface IHasMoves extends IHasStats
      * @param f      the float parameter of the attackEntity method
      */
     void executeMove(LivingEntity target, Vector3 targetLocation, float f);
-
-    /** @return Current move we have being executed. */
-    EntityMoveUse getActiveMove();
 
     /**
      * Cooldown for attacks, if this is greater than 0, we shouldn't be able to
@@ -333,14 +329,6 @@ public interface IHasMoves extends IHasStats
             }
         }
     }
-
-    /**
-     * Sets the move we are currently using, having this ensures we don't fire
-     * multiple moves before old one lands.
-     *
-     * @param move
-     */
-    void setActiveMove(EntityMoveUse move);
 
     /**
      * See {@link IHasMoves#getAttackCooldown()}

@@ -10,6 +10,7 @@
   "flavor_text": "With a parting threat, the user lowers the target’s\nAttack and Sp. Atk stats. Then it switches with a\nparty Pokémon.",
   "move_category": "net-good-stats",
   "stat_chance": 100,
+  "ailment": "none",
   "effect_text_extend": "Lowers all targets' Attack and Special Attack by one stage.  Makes the user switch out.",
   "effect_text_simple": "Lowers all targets' Attack and Special Attack by one stage.  Makes the user switch out.",
   "effect_chance": 100

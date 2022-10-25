@@ -1,8 +1,8 @@
 {
-  "name": "weatherball",
+  "name": "weather-ball",
   "animations": [
     {
-      "preset": "throw:cwhite:w0.66:atrue:~weatherball",
+      "preset": "throw:cwhite:w0.66:atrue",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.fly",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:l2:pcloud:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~weatherball",
+      "preset": "cartFunc:l2:pcloud:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.dig",
@@ -24,7 +24,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:l8:pcloud:w2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~weatherball",
+      "preset": "cartFunc:l8:pcloud:w2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5",
       "applyAfter": false

@@ -10,6 +10,7 @@
   "damage_class": "physical",
   "flavor_text": "This move can be used only after the user has used\nall the other moves it knows in the battle.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  This move can only be used if each of the user's other moves has been used at least once since the user entered the field.  If this is the user's only move, this move will fail.",
   "effect_text_simple": "Can only be used after all of the user's other moves have been used."
 }

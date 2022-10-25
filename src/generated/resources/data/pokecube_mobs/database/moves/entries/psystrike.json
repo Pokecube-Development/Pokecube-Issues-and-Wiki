@@ -10,6 +10,7 @@
   "damage_class": "special",
   "flavor_text": "The user materializes an odd psychic wave to attack\nthe target. This attack does physical damage.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Damage calculation always uses the target's Defense, regardless of this move's damage class.",
   "effect_text_simple": "Inflicts damage based on the target's Defense, not Special Defense."
 }

@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "All stat changes affecting the target turn\ntopsy-turvy and become the opposite of what\nthey were.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "Inverts the target's stat modifiers.",
   "effect_text_simple": "Inverts the target's stat modifiers."
 }

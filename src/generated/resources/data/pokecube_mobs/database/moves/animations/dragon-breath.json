@@ -1,8 +1,8 @@
 {
-  "name": "dragonbreath",
+  "name": "dragon-breath",
   "animations": [
     {
-      "preset": "flow:pdragon_breath:~dragonbreath",
+      "preset": "flow:pdragon_breath",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.sacredfire",

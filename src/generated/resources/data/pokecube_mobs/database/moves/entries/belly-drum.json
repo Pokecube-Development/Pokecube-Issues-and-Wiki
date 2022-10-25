@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user maximizes its Attack stat in exchange for\nHP equal to half its max HP.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "User pays half its max HP to raise its Attack to +6 stages.  If the user cannot pay the HP cost, this move will fail.",
   "effect_text_simple": "User pays half its max HP to max out its Attack."
 }

@@ -1,8 +1,8 @@
 {
-  "name": "leechlife",
+  "name": "leech-life",
   "animations": [
     {
-      "preset": "cartFunc:atrue:pmisc:d3:w1:l5:f(0.5-rand())*(0.7),(0.5-rand())*(0.7),(0.5-rand())*(0.7):~leechlife",
+      "preset": "cartFunc:atrue:pmisc:d3:w1:l5:f(0.5-rand())*(0.7),(0.5-rand())*(0.7),(0.5-rand())*(0.7)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",

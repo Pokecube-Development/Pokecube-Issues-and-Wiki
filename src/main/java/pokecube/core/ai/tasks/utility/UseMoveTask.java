@@ -18,7 +18,6 @@ import net.minecraft.world.phys.Vec3;
 import pokecube.api.data.moves.MoveApplicationRegistry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -73,7 +72,7 @@ public class UseMoveTask extends UtilTask
                 this.pokemob.executeMove(null, this.destination, 0);
                 return;
             }
-            final boolean ranged = (move.getAttackCategory(this.pokemob) & IMoveConstants.CATEGORY_DISTANCE) != 0;
+            final boolean ranged = move.isRanged(pokemob);
             if (ranged && !this.checkRange)
             {
                 final double dist = this.destination.distToEntity(this.entity);

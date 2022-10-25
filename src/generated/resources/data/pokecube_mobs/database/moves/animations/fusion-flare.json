@@ -1,8 +1,8 @@
 {
-  "name": "fusionflare",
+  "name": "fusion-flare",
   "animations": [
     {
-      "preset": "throw:pmisc:corange:w3:~fusionflare",
+      "preset": "throw:pmisc:corange:w3",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.sacredfire",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "powder:pflame:clight_blue:d0.3:w3:l8:~fusionflare",
+      "preset": "powder:pflame:clight_blue:d0.3:w3:l8",
       "duration": "5",
       "starttick": "3",
       "sound": "pokecube:moves.flamewheel",

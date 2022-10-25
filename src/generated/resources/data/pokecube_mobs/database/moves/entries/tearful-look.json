@@ -9,6 +9,7 @@
   "flavor_text": "The user gets teary eyed to make the target lose\nits combative spirit. This lowers the target’s\nAttack and Sp. Atk stats.",
   "move_category": "net-good-stats",
   "stat_chance": 100,
+  "ailment": "none",
   "effect_text_extend": "Lowers the target's Attack and Special Attack by one stage each.",
   "effect_text_simple": "Lowers the target's Attack and Special Attack by one stage.",
   "effect_chance": 100

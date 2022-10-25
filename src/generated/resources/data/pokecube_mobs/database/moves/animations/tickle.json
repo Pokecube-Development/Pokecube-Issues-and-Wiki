@@ -2,7 +2,7 @@
   "name": "tickle",
   "animations": [
     {
-      "preset": "cartFunc:pitem_snowball:d1.5:w0.3:atrue:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~tickle",
+      "preset": "cartFunc:pitem_snowball:d1.5:w0.3:atrue:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.charm",

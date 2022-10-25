@@ -2,12 +2,12 @@
   "name": "punishment",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack:d4:l2:atrue:~punishment",
+      "preset": "cartFunc:psweep_attack:d4:l2:atrue",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "cartFunc:plarge_smoke:d1:atrue:w2.5:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~punishment",
+      "preset": "cartFunc:plarge_smoke:d1:atrue:w2.5:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",

@@ -10,6 +10,7 @@
   "damage_class": "physical",
   "flavor_text": "The user slams into the target with the force of a\nmeteor. This move can be used on the target \nregardless of its Abilities.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Other Pokémon's abilities cannot activate in response to this move.  In particular, it hits through disguise",
   "effect_text_simple": "Cannot be disrupted by abilities."
 }

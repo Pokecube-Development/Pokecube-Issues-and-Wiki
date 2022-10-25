@@ -18,7 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.MoveEntry.Category;
+import pokecube.api.moves.utils.IMoveConstants.AttackCategory;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
@@ -78,7 +78,7 @@ public class Moves extends ListPage<LineEntry>
                 {
                     Component value = TComponent.literal("-");
                     final int pwr = move.getPWR(this.parent.pokemob, this.watch.player);
-                    Component stat = move.getCategory(pokemob) == Category.PHYSICAL
+                    Component stat = move.getCategory(pokemob) == AttackCategory.PHYSICAL
                             ? TComponent.translatable("pokewatch.ATT", value)
                             : TComponent.translatable("pokewatch.ATTSP", value);
                     if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);
@@ -251,7 +251,7 @@ public class Moves extends ListPage<LineEntry>
                 // 5th slot is different spacing, otherwise could just use
                 // index * 10
                 final int indexShift = this.moveOffsets[index][1] - this.moveOffsets[0][1];
-
+                
                 // This marks the move as "selected"
                 this.moveOffsets[index][2] = 1;
                 // This records the original location of the mouse relative to
@@ -373,7 +373,7 @@ public class Moves extends ListPage<LineEntry>
             if (move == null) break tooltip;
             Component value = TComponent.literal("-");
             final int pwr = move.getPWR(pokemob, this.watch.player);
-            Component stat = move.getCategory(pokemob) == Category.PHYSICAL
+            Component stat = move.getCategory(pokemob) == AttackCategory.PHYSICAL
                     ? TComponent.translatable("pokewatch.ATT", value)
                     : TComponent.translatable("pokewatch.ATTSP", value);
             if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);

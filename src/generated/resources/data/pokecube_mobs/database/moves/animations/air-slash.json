@@ -1,8 +1,8 @@
 {
-  "name": "airslash",
+  "name": "air-slash",
   "animations": [
     {
-      "preset": "flow:psweep_attack:w0.75:d0.1:l10:~aircutter:~airslash",
+      "preset": "flow:psweep_attack:w0.75:d0.1:l10",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.gustwind",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:~airslash",
+      "preset": "cartFunc",
       "duration": "0",
       "starttick": "5",
       "sound": "pokecube:moves.cut",

@@ -1,8 +1,8 @@
 {
-  "name": "karatechop",
+  "name": "karate-chop",
   "animations": [
     {
-      "preset": "cartFunc:l2:pcrit:w0.66:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~karatechop",
+      "preset": "cartFunc:l2:pcrit:w0.66:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",

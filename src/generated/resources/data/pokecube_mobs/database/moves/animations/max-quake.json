@@ -1,8 +1,8 @@
 {
-  "name": "maxquake",
+  "name": "max-quake",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:cbrown:pexplosion_emitter:rtrue:~maxquake",
+      "preset": "cartFunc:pmisc:cbrown:pexplosion_emitter:rtrue",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dig",

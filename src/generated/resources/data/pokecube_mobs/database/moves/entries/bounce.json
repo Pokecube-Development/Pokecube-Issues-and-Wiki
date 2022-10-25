@@ -11,6 +11,7 @@
   "flavor_text": "The user bounces up high, then drops on the target\non the second turn. This may also leave the target\nwith paralysis.",
   "move_category": "damage+ailment",
   "ailment_chance": 30,
+  "ailment": "paralysis",
   "effect_text_extend": "Inflicts regular damage.  User bounces high into the air for one turn, becoming immune to attack, and hits on the second turn.  Has a $effect_chance% chance to paralyze the target.\n\nDuring the immune turn, gust, hurricane, sky uppercut, smack down, thunder, and twister still hit the user normally.  gust and twister also have double power against the user.\n\nThe damage from hail and sandstorm still applies during the immune turn.\n\nThe user may be hit during its immune turn if under the effect of lock on, mind reader, or no guard.\n\nThis move cannot be used while gravity is in effect.\n\nThis move cannot be selected by sleep talk.",
   "effect_text_simple": "User bounces high into the air, dodging all attacks, and hits next turn.",
   "effect_chance": 30

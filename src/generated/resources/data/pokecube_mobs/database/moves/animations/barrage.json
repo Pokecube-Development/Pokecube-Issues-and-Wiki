@@ -2,7 +2,7 @@
   "name": "barrage",
   "animations": [
     {
-      "preset": "throw:cwhite:atrue:w0.4:~barrage",
+      "preset": "throw:cwhite:atrue:w0.4",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:entity.snowball.throw",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pcrit:atrue:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~barrage",
+      "preset": "cartFunc:pcrit:atrue:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.dig",

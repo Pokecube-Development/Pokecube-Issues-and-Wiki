@@ -2,7 +2,7 @@
   "name": "roost",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:rtrue:atrue:l10:w0.9:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3):~recover:~refresh:~roost",
+      "preset": "cartFunc:pend_rod:rtrue:atrue:l10:w0.9:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.safeguard",
@@ -12,7 +12,7 @@
       "pitch": 1.7
     },
     {
-      "preset": "cartFunc:pfirework:atrue:rtrue:d1:l3:w0.18:l30:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3):~:~recover:~refresh:~roost",
+      "preset": "cartFunc:pfirework:atrue:rtrue:d1:l3:w0.18:l30:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.fly",

@@ -2,7 +2,7 @@
   "name": "leer",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:d1:w0.5:rtrue:atrue:~leer",
+      "preset": "cartFunc:pend_rod:d1:w0.5:rtrue:atrue",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.payday",

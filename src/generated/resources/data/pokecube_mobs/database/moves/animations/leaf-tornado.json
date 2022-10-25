@@ -1,8 +1,8 @@
 {
-  "name": "leaftornado",
+  "name": "leaf-tornado",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack:d0.5:atrue:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(10),(0.5-rand())*(1):~leaftornado",
+      "preset": "cartFunc:psweep_attack:d0.5:atrue:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(10),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.cut",
@@ -12,12 +12,12 @@
       "pitch": 0.9
     },
     {
-      "preset": "cartFunc:pmisc:d0.1:w2:atrue:l5:f(0.5-rand())*(1),(0.5-rand())*(6),(0.5-rand())*(1):~leaftornado",
+      "preset": "cartFunc:pmisc:d0.1:w2:atrue:l5:f(0.5-rand())*(1),(0.5-rand())*(6),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "cartFunc:~leaftornado",
+      "preset": "cartFunc",
       "duration": "0",
       "starttick": "3",
       "sound": "pokecube:moves.slash",
@@ -27,7 +27,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:~leaftornado",
+      "preset": "cartFunc",
       "duration": "0",
       "starttick": "6",
       "sound": "pokecube:moves.slash",

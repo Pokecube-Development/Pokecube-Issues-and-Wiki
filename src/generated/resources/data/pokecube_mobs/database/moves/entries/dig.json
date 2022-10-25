@@ -10,6 +10,7 @@
   "damage_class": "physical",
   "flavor_text": "The user burrows, then attacks on the next turn.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  User digs underground for one turn, becoming immune to attack, and hits on the second turn.\n\nDuring the immune turn, earthquake, fissure, and magnitude still hit the user normally, and their power is doubled if appropriate.\n\nThe user may be hit during its immune turn if under the effect of lock on, mind reader, or no guard.\n\nThis move cannot be selected by sleep talk.",
   "effect_text_simple": "User digs underground, dodging all attacks, and hits next turn."
 }

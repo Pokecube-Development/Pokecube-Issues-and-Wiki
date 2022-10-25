@@ -9,5 +9,6 @@
   "target": "all-opponents",
   "damage_class": "special",
   "flavor_text": "The user attacks opposing Pokémon by twanging\na guitar or bass guitar, causing a huge echo and\nstrong vibration.",
-  "move_category": "damage"
+  "move_category": "damage",
+  "ailment": "none"
 }

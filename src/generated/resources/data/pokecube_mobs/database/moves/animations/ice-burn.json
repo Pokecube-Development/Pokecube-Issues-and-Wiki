@@ -1,8 +1,8 @@
 {
-  "name": "iceburn",
+  "name": "ice-burn",
   "animations": [
     {
-      "preset": "throw:w3:clight_blue:~iceburn",
+      "preset": "throw:w3:clight_blue",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.icebreak",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "flow:plava:~iceburn",
+      "preset": "flow:plava",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.sacredfire",

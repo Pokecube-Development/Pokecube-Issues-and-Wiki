@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "Use it to flee from any wild Pokémon.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "Does nothing.  Wild battles end immediately.",
   "effect_text_simple": "Immediately ends wild battles.  No effect otherwise."
 }

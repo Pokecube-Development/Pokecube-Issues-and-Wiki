@@ -1,8 +1,8 @@
 {
-  "name": "leechseed",
+  "name": "leech-seed",
   "animations": [
     {
-      "preset": "throw:clime:w0.3:~leechseed",
+      "preset": "throw:clime:w0.3",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",

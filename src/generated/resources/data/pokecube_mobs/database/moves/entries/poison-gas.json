@@ -9,6 +9,7 @@
   "damage_class": "status",
   "flavor_text": "A cloud of poison gas is sprayed in the face of\nopposing Pokémon, poisoning those hit.",
   "move_category": "ailment",
+  "ailment": "poison",
   "effect_text_extend": "Poisons the target.",
   "effect_text_simple": "Poisons the target."
 }

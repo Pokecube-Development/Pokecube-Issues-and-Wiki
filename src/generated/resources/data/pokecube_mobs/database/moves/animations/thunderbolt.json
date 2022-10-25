@@ -2,7 +2,7 @@
   "name": "thunderbolt",
   "animations": [
     {
-      "preset": "cylFunc:pmisc:atrue:l3:f(z^1.5-z)*2,z*4:~thunderbolt",
+      "preset": "cylFunc:pmisc:atrue:l3:f(z^1.5-z)*2,z*4",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.thunderbolt",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "powder:pmisc:atrue:d0.05:l4:fz*1.5,z*1.5:~thunderbolt",
+      "preset": "powder:pmisc:atrue:d0.05:l4:fz*1.5,z*1.5",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.thunderwave",

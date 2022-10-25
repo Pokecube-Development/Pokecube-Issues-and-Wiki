@@ -2,7 +2,7 @@
   "name": "purify",
   "animations": [
     {
-      "preset": "flow:phappy_villager:~purify",
+      "preset": "flow:phappy_villager",
       "duration": "5",
       "starttick": "0"
     }

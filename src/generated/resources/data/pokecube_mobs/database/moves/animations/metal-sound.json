@@ -1,8 +1,8 @@
 {
-  "name": "metalsound",
+  "name": "metal-sound",
   "animations": [
     {
-      "preset": "flow:pmisc:atrue:d0.4:w1:l5:~metalsound",
+      "preset": "flow:pmisc:atrue:d0.4:w1:l5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.metalclaw",

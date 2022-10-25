@@ -10,6 +10,7 @@
   "damage_class": "physical",
   "flavor_text": "As long as this move is in use, the power of rage\nraises the Attack stat each time the user is hit\nin battle.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Every time the user is hit after it uses this move but before its next action, its Attack raises by one stage.",
   "effect_text_simple": "If the user is hit after using this move, its Attack rises by one stage."
 }

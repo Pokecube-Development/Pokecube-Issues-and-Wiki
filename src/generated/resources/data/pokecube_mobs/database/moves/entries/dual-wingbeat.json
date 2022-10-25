@@ -10,6 +10,7 @@
   "damage_class": "physical",
   "flavor_text": "The user slams the target with its wings.\nThe target is hit twice in a row.",
   "move_category": "damage",
+  "ailment": "none",
   "max_hits": 2,
   "min_hits": 2,
   "effect_text_extend": "Inflicts regular damage.",

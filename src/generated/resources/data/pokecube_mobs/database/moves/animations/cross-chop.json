@@ -1,8 +1,8 @@
 {
-  "name": "crosschop",
+  "name": "cross-chop",
   "animations": [
     {
-      "preset": "cartFunc:atrue:psweep_attack:~crosschop",
+      "preset": "cartFunc:atrue:psweep_attack",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.slash",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:atrue:l2:pcrit:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~crosschop",
+      "preset": "cartFunc:atrue:l2:pcrit:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dig",

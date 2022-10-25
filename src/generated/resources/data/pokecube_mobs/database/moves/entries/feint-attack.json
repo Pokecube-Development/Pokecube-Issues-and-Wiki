@@ -9,6 +9,7 @@
   "damage_class": "physical",
   "flavor_text": "The user approaches the target disarmingly, then\nthrows a sucker punch. This attack never misses.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Ignores accuracy and evasion modifiers.",
   "effect_text_simple": "Never misses."
 }

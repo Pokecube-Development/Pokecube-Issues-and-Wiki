@@ -360,9 +360,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
                         if (MovesUtils.isAbleToUseMoves(pokemob) != AbleStatus.ABLE) timer = 0;
                         else if ((lastMove = MovesUtils.getMove(pokemob.getLastMoveUsed())) != null)
                             timer -= pokemob.getAttackCooldown() / (float) MovesUtils.getAttackDelay(pokemob,
-                                    pokemob.getLastMoveUsed(),
-                                    (lastMove.getAttackCategory(pokemob) & IMoveConstants.CATEGORY_DISTANCE) > 0,
-                                    false);
+                                    pokemob.getLastMoveUsed(), lastMove.isRanged(pokemob), false);
                         timer = Math.max(0, Math.min(timer, 1));
                         RenderSystem.enableBlend();
                         this.blit(evt.getMat(), movesOffsetX, movesOffsetY + 13 * index + h, 43, 35, (int) (91 * timer),
@@ -483,7 +481,6 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             final int mobBoxOffsetY = 0;
             this.blit(evt.getMat(), mobBoxOffsetX, mobBoxOffsetY, 0, 0, 42, 42);
             // Render Mob
-
 
             LivingEntity mob = entity;
 

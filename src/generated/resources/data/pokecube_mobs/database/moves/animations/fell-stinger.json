@@ -1,8 +1,8 @@
 {
-  "name": "fellstinger",
+  "name": "fell-stinger",
   "animations": [
     {
-      "preset": "cartFunc:atrue:pcrit:l4:~fellstinger",
+      "preset": "cartFunc:atrue:pcrit:l4",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:atrue:pmisc:~fellstinger",
+      "preset": "cartFunc:atrue:pmisc",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.slash",

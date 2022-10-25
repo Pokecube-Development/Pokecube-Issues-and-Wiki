@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user lays a trap of spikes at the opposing\nteam’s feet. The trap hurts Pokémon that switch\ninto battle.",
   "move_category": "field-effect",
+  "ailment": "none",
   "effect_text_extend": "Scatters spikes around the opposing field, which damage opposing Pokémon that enter the field for 1/8 of their max HP.  Pokémon immune to ground moves are immune to this damage, except during gravity.  Up to three layers of spikes may be laid down, adding 1/16 to the damage done: two layers of spikes damage for 3/16 max HP, and three layers damage for 1/4 max HP.\n\nwonder guard does not block damage from this effect.\n\nrapid spin removes this effect from its user's side of the field.  defog removes this effect from its target's side of the field.",
   "effect_text_simple": "Scatters Spikes, hurting opposing Pokémon that switch in."
 }

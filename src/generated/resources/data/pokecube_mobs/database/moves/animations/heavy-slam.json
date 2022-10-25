@@ -1,8 +1,8 @@
 {
-  "name": "heavyslam",
+  "name": "heavy-slam",
   "animations": [
     {
-      "preset": "cartFunc:atrue:pcrit:w1.5:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~heavyslam",
+      "preset": "cartFunc:atrue:pcrit:w1.5:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dig",
@@ -13,13 +13,13 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:atrue:pcloud:w4:l15:f(0.5-rand())*(1),0,(0.5-rand())*(1):~heavyslam",
+      "preset": "cartFunc:atrue:pcloud:w4:l15:f(0.5-rand())*(1),0,(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:atrue:pcloud:w4:l10:f(0.5-rand())*(1),0,(0.5-rand())*(1):~heavyslam",
+      "preset": "cartFunc:atrue:pcloud:w4:l10:f(0.5-rand())*(1),0,(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:entity.zombie.attack_iron_door",

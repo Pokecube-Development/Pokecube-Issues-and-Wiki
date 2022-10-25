@@ -1,8 +1,8 @@
 {
-  "name": "poisongas",
+  "name": "poison-gas",
   "animations": [
     {
-      "preset": "flow:pmisc:d0.5:~poisongas",
+      "preset": "flow:pmisc:d0.5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.poisontoxic",

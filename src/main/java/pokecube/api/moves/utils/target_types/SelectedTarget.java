@@ -10,6 +10,7 @@ public class SelectedTarget implements IMoveTargetter
     @Override
     public boolean test(MoveApplication move)
     {
+        if (move.getTarget() == null) return false;
         return move.getTarget() == BrainUtils.getAttackTarget(move.getUser().getEntity());
     }
 }

@@ -1,8 +1,8 @@
 {
-  "name": "muddywater",
+  "name": "muddy-water",
   "animations": [
     {
-      "preset": "flow:psplash:d1:w3.5:l15:~muddywater",
+      "preset": "flow:psplash:d1:w3.5:l15",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dive",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "flow:pmisc:cbrown:d1:w4:l10:~muddywater",
+      "preset": "flow:pmisc:cbrown:d1:w4:l10",
       "duration": "5",
       "starttick": "0"
     }

@@ -2,7 +2,7 @@
   "name": "acid",
   "animations": [
     {
-      "preset": "throw:w0.4:~acid",
+      "preset": "throw:w0.4",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.poisontoxic",

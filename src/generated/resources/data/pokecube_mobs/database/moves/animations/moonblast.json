@@ -2,7 +2,7 @@
   "name": "moonblast",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:rtrue:d0.75:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~moonblast",
+      "preset": "cartFunc:pend_rod:rtrue:d0.75:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.payday",
@@ -12,7 +12,7 @@
       "pitch": 1.5
     },
     {
-      "preset": "throw:cwhite:~moonblast",
+      "preset": "throw:cwhite",
       "duration": "5",
       "starttick": "2",
       "sound": "pokecube:moves.aurorabeam",
@@ -22,7 +22,7 @@
       "pitch": 1.3
     },
     {
-      "preset": "cartFunc:pend_rod:atrue:d1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~moonblast",
+      "preset": "cartFunc:pend_rod:atrue:d1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5",
       "sound": "pokecube:moves.dig",

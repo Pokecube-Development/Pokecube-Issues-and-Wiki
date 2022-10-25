@@ -1,8 +1,8 @@
 {
-  "name": "clangingscales",
+  "name": "clanging-scales",
   "animations": [
     {
-      "preset": "flow:pmisc:d1:w1.2:l5:~clangingscales",
+      "preset": "flow:pmisc:d1:w1.2:l5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.megaattack",
@@ -12,7 +12,7 @@
       "pitch": 2.0
     },
     {
-      "preset": "flow:pdragon_breath:cblue:d1:w1.2:l0:~clangingscales",
+      "preset": "flow:pdragon_breath:cblue:d1:w1.2:l0",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.aurorabeam",

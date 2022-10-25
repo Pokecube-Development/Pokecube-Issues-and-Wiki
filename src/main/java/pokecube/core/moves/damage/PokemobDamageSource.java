@@ -17,7 +17,6 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
@@ -120,7 +119,7 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
     /** Returns true if the damage is projectile based. */
     public boolean isProjectile()
     {
-        return (this.move.getAttackCategory(this.user) & IMoveConstants.CATEGORY_DISTANCE) != 0;
+        return this.move.isRanged(this.user);
     }
 
     public PokemobDamageSource setType(final PokeType type)

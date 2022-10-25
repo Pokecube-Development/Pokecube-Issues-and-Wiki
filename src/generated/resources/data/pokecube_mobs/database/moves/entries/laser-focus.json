@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user concentrates intensely. The attack on the\nnext turn always results in a critical hit.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "The user's next move will result in a critical hit.",
   "effect_text_simple": "Guarantees a critical hit with the user's next move."
 }

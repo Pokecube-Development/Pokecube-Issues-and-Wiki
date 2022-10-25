@@ -11,6 +11,7 @@
   "flavor_text": "The user attacks with an electric charge. The user\nmay use any remaining electricity to raise its\nSp. Atk stat.",
   "move_category": "damage+raise",
   "stat_chance": 70,
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to raise the user's Special Attack by one stage.",
   "effect_text_simple": "Has a $effect_chance% chance to raise the user's Special Attack by one stage.",
   "effect_chance": 70

@@ -1,8 +1,8 @@
 {
-  "name": "xscissor",
+  "name": "x-scissor",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack:atrue:~xscissor",
+      "preset": "cartFunc:psweep_attack:atrue",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.slash",
@@ -12,7 +12,7 @@
       "pitch": 1.5
     },
     {
-      "preset": "cartFunc:psweep_attack:atrue:~xscissor",
+      "preset": "cartFunc:psweep_attack:atrue",
       "duration": "5",
       "starttick": "5",
       "sound": "pokecube:moves.slash",

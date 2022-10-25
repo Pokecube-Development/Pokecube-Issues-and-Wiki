@@ -1,8 +1,8 @@
 {
-  "name": "maxstrike",
+  "name": "max-strike",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack:d0.05:w1:l5:f(0.5-rand())*(2),(0.5-rand())*(25),(0.5-rand())*(2):~maxstrike",
+      "preset": "cartFunc:psweep_attack:d0.05:w1:l5:f(0.5-rand())*(2),(0.5-rand())*(25),(0.5-rand())*(2)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.slash",
@@ -12,7 +12,7 @@
       "pitch": 0.8
     },
     {
-      "preset": "cartFunc:pcloud:d0.05:w1:l30:f(0.5-rand())*(2),(0.5-rand())*(25),(0.5-rand())*(2):~maxstrike",
+      "preset": "cartFunc:pcloud:d0.05:w1:l30:f(0.5-rand())*(2),(0.5-rand())*(25),(0.5-rand())*(2)",
       "duration": "5",
       "starttick": "0"
     }

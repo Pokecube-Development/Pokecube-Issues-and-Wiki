@@ -9,6 +9,7 @@
   "flavor_text": "The user and the target become friends, and the\ntarget loses its will to fight. This lowers the target’s\nAttack stat.",
   "move_category": "net-good-stats",
   "stat_chance": 100,
+  "ailment": "none",
   "effect_text_extend": "Lowers the target's Attack by one stage.",
   "effect_text_simple": "Lowers the target's Attack by one stage.",
   "effect_chance": 100

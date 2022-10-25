@@ -1,8 +1,8 @@
 {
-  "name": "maxovergrowth",
+  "name": "max-overgrowth",
   "animations": [
     {
-      "preset": "cartFunc:plava:d1:w1:l30:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~maxovergrowth",
+      "preset": "cartFunc:plava:d1:w1:l30:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.ember",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "throw:pmisc:d0.7:w0.7:l4:~maxovergrowth",
+      "preset": "throw:pmisc:d0.7:w0.7:l4",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.fly",
@@ -22,7 +22,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:d1:w1:l4:~maxovergrowth",
+      "preset": "cartFunc:pexplosion_emitter:d1:w1:l4",
       "duration": "5",
       "starttick": "4",
       "sound": "minecraft:entity.generic.explode",

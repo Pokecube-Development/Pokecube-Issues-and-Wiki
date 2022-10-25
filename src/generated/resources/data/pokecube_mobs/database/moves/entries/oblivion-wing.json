@@ -11,6 +11,7 @@
   "flavor_text": "The user absorbs its target’s HP. The user’s HP is\nrestored by over half of the damage taken by\nthe target.",
   "move_category": "damage+heal",
   "drain": 75,
+  "ailment": "none",
   "effect_text_extend": "Deals regular damage.  Drains 75% of the damage inflicted to heal the user.",
   "effect_text_simple": "Drains 75% of the damage inflicted to heal the user."
 }

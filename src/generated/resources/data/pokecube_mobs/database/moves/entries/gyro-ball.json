@@ -9,6 +9,7 @@
   "damage_class": "physical",
   "flavor_text": "The user tackles the target with a high-speed spin.\nThe slower the user compared to the target, the\ngreater the move’s power.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Power increases with the target's current Speed compared to the user, given by `1 + 25 * target Speed / user Speed`, capped at 150.",
   "effect_text_simple": "Power raises when the user has lower Speed, up to a maximum of 150."
 }

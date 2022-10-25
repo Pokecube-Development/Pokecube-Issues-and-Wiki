@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user summons a hailstorm lasting five turns.\nIt damages all Pokémon except the Ice type.",
   "move_category": "whole-field-effect",
+  "ailment": "none",
   "effect_text_extend": "Changes the weather to hail for five turns, during which non-ice Pokémon are damaged for 1/16 their max HP at the end of every turn.\n\nIf the user is holding icy rock, this effect lasts for eight turns.\n\nblizzard has 100% accuracy.  If the target has used detect or protect, blizzard has a (100 - accuracy)% chance to break through the protection.\n\nmoonlight, morning sun, and synthesis heal only 1/4 of the user's max HP.\n\nPokémon with snow cloak are exempt from this effect's damage.",
   "effect_text_simple": "Changes the weather to a hailstorm for five turns."
 }

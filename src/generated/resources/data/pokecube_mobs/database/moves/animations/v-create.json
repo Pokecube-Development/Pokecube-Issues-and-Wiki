@@ -1,8 +1,8 @@
 {
-  "name": "vcreate",
+  "name": "v-create",
   "animations": [
     {
-      "preset": "cartFunc:plava:rtrue:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "preset": "cartFunc:plava:rtrue:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.sacredfire",
@@ -13,13 +13,13 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:pcrit:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "preset": "cartFunc:pcrit:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:plava:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "preset": "cartFunc:plava:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "2",
       "sound": "pokecube:moves.flamewheel",
@@ -30,7 +30,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:plava:w2:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "preset": "cartFunc:plava:w2:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.flamewheel",
@@ -41,7 +41,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:plava:w3:l30:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "preset": "cartFunc:plava:w3:l30:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "6",
       "sound": "pokecube:moves.flamewheel",
@@ -52,19 +52,19 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:l3:w1.5:pflame:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "preset": "cartFunc:l3:w1.5:pflame:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "3",
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pflame:l30:w3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "preset": "cartFunc:pflame:l30:w3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5",
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pend_rod:l3:w3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "preset": "cartFunc:pend_rod:l3:w3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5",
       "sound": "pokecube:moves.payday",
@@ -75,7 +75,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pexplosion:d2:l10:w3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "preset": "cartFunc:pexplosion:d2:l10:w3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "7",
       "sound": "minecraft:entity.generic.explode",
@@ -86,7 +86,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pcloud:d1.5:l40:w4:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~vcreate",
+      "preset": "cartFunc:pcloud:d1.5:l40:w4:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "7",
       "sound": "pokecube:moves.payday",

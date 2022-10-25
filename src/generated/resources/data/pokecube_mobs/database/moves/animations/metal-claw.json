@@ -1,8 +1,8 @@
 {
-  "name": "metalclaw",
+  "name": "metal-claw",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:atrue:d2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~metalclaw",
+      "preset": "cartFunc:pend_rod:atrue:d2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.slash",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:atrue:psweep_attack:d1:~metalclaw",
+      "preset": "cartFunc:atrue:psweep_attack:d1",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.metalclaw",

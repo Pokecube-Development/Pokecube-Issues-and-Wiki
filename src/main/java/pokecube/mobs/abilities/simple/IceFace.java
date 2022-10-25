@@ -4,7 +4,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.MoveEntry.Category;
+import pokecube.api.moves.utils.IMoveConstants.AttackCategory;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.database.Database;
 import pokecube.core.moves.PokemobTerrainEffects;
@@ -37,7 +37,7 @@ public class IceFace extends Ability
        
         if ((mobs == IceFace.Ice || mobs == IceFace.noIce))
         {
-	        if (attack.getCategory() == Category.PHYSICAL)
+	        if (attack.getCategory() == AttackCategory.PHYSICAL)
 	        {
 	            if (mobs == IceFace.Ice) mob.setPokedexEntry(IceFace.noIce);
 	        }

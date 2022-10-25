@@ -1,8 +1,8 @@
 {
-  "name": "fleurcannon",
+  "name": "fleur-cannon",
   "animations": [
     {
-      "preset": "beam:atrue:cpink:~fleurcannon",
+      "preset": "beam:atrue:cpink",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.unknown",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "beam:atrue:cmagenta:~fleurcannon",
+      "preset": "beam:atrue:cmagenta",
       "duration": "5",
       "starttick": "3",
       "sound": "pokecube:moves.unknown",
@@ -24,7 +24,7 @@
       "applyAfter": false
     },
     {
-      "preset": "beam:atrue:cpink:~fleurcannon",
+      "preset": "beam:atrue:cpink",
       "duration": "5",
       "starttick": "5",
       "sound": "pokecube:moves.safeguard",
@@ -35,7 +35,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pcloud:l15:w2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~fleurcannon",
+      "preset": "cartFunc:pcloud:l15:w2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "3",
       "sound": "pokecube:moves.dig",
@@ -46,7 +46,7 @@
       "applyAfter": false
     },
     {
-      "preset": "flow:pend_rod:atrue:d0.5:w1.5:~fleurcannon",
+      "preset": "flow:pend_rod:atrue:d0.5:w1.5",
       "duration": "5",
       "starttick": "0",
       "applyAfter": true

@@ -2,7 +2,7 @@
   "name": "submission",
   "animations": [
     {
-      "preset": "cartFunc:pcloud:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~submission",
+      "preset": "cartFunc:pcloud:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pcloud:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~submission",
+      "preset": "cartFunc:pcloud:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "2",
       "sound": "pokecube:moves.woodenhammer",
@@ -24,7 +24,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pcloud:l4:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~submission",
+      "preset": "cartFunc:pcloud:l4:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.woodenhammer",

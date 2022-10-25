@@ -1,13 +1,13 @@
 {
-  "name": "aromaticmist",
+  "name": "aromatic-mist",
   "animations": [
     {
-      "preset": "flow:pmisc:d2:w4:l3:~aromaticmist",
+      "preset": "flow:pmisc:d2:w4:l3",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "powder:pmisc:d0.5:w1:l5:~aromaticmist",
+      "preset": "powder:pmisc:d0.5:w1:l5",
       "duration": "1",
       "starttick": "4"
     }

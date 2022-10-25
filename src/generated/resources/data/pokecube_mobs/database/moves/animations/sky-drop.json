@@ -1,8 +1,8 @@
 {
-  "name": "skydrop",
+  "name": "sky-drop",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d2:w1:atrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~skydrop",
+      "preset": "cartFunc:pcrit:d2:w1:atrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.fly",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:pcloud:d0.75:w4:atrue:l10:f(0.5-rand())*(1),(0-rand())*(0.5),(0.5-rand())*(1):~skydrop",
+      "preset": "cartFunc:pcloud:d0.75:w4:atrue:l10:f(0.5-rand())*(1),(0-rand())*(0.5),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5",
       "sound": "pokecube:moves.dig",

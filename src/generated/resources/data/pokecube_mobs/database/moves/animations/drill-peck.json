@@ -1,8 +1,8 @@
 {
-  "name": "drillpeck",
+  "name": "drill-peck",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d2:l2:atrue:~drillpeck",
+      "preset": "cartFunc:pcrit:d2:l2:atrue",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",
@@ -13,7 +13,7 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:pcrit:d2:l2:atrue:~drillpeck",
+      "preset": "cartFunc:pcrit:d2:l2:atrue",
       "duration": "5",
       "starttick": "2",
       "sound": "pokecube:moves.vicegrip",
@@ -24,7 +24,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pcrit:d2:l2:atrue:~drillpeck",
+      "preset": "cartFunc:pcrit:d2:l2:atrue",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.vicegrip",

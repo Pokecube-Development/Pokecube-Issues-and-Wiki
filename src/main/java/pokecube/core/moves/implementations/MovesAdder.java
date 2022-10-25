@@ -18,7 +18,6 @@ import pokecube.api.data.moves.LoadedMove;
 import pokecube.api.data.moves.MoveApplicationRegistry;
 import pokecube.api.data.moves.MoveProvider;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.utils.IMoveAnimation;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.database.moves.MovesDatabases;
@@ -26,7 +25,6 @@ import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.animations.AnimationMultiAnimations;
-import pokecube.core.moves.animations.MoveAnimationHelper;
 import pokecube.core.moves.templates.D_Move_Damage;
 import pokecube.core.moves.zmoves.GZMoveManager;
 import thut.lib.CompatParser.ClassFinder;
@@ -53,13 +51,6 @@ public class MovesAdder implements IMoveConstants
                 move.setAnimation(new AnimationMultiAnimations(move));
                 continue;
             }
-            String anim = move.animDefault;
-            if (anim == null || anim.equals("none")) continue;
-            if (!move.animDefault.endsWith(":~" + move.name)) move.animDefault = move.animDefault + ":~" + move.name;
-            anim = move.animDefault;
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.info(move.name + ": preset animation: " + move.animDefault);
-            final IMoveAnimation animation = MoveAnimationHelper.getAnimationPreset(anim);
-            if (animation != null) move.setAnimation(animation);
         }
     }
 

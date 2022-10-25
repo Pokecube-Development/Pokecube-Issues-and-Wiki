@@ -3,6 +3,7 @@ package pokecube.api.moves.utils;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -26,6 +27,7 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.events.pokemobs.combat.MoveUse.DuringUse;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.MoveEntry.MoveSounds;
+import pokecube.api.moves.utils.IMoveConstants.AttackCategory;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
@@ -228,6 +230,7 @@ public class MoveApplication implements Comparable<MoveApplication>
                 finalAttackStrength = Math.min(finalAttackStrength, beforeHealth - 1);
                 finalAttackStrength = Math.max(0, finalAttackStrength);
             }
+            
 
             final boolean wild = !user.getGeneralState(GeneralStates.TAMED);
 
@@ -318,9 +321,9 @@ public class MoveApplication implements Comparable<MoveApplication>
 
                 if (targetPokemob != null)
                 {
-                    if (t.move.category == IMoveConstants.SPECIAL)
+                    if (t.move.category == AttackCategory.SPECIAL)
                         targetPokemob.getMoveStats().SPECIALDAMAGETAKENCOUNTER += finalAttackStrength;
-                    if (t.move.category == IMoveConstants.PHYSICAL)
+                    if (t.move.category == AttackCategory.PHYSICAL)
                         targetPokemob.getMoveStats().PHYSICALDAMAGETAKENCOUNTER += finalAttackStrength;
                 }
             }
@@ -520,7 +523,7 @@ public class MoveApplication implements Comparable<MoveApplication>
     public float superEffectMult = 1;
     // If we are forced to survive, we handle that here, moves such as endure
     // before, or abilities like sturdy can set this.
-    public boolean noFaint = true;
+    public boolean noFaint = false;
 
     // These are scaling factors on the stat to apply during the move use.
     // Abilities, etc can use these to adjust particular stats when being
@@ -539,6 +542,9 @@ public class MoveApplication implements Comparable<MoveApplication>
     public boolean failed = false;
     // This is due to abilities, etc cancelling the move.
     public boolean canceled = false;
+    // This is whether all application of the move is finished, for marking that
+    // the pokemob can forget about it.
+    public Supplier<Boolean> finished = () -> true;
 
     public Damage dealt;
 
@@ -756,5 +762,10 @@ public class MoveApplication implements Comparable<MoveApplication>
         if (o.getTarget() != null) d1 = o.getTarget().distanceToSqr(o.getUser().getEntity());
 
         return Double.compare(d0, d1);
+    }
+
+    public boolean isFinished()
+    {
+        return finished.get();
     }
 }

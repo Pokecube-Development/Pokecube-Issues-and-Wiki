@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user electrifies the ground for five turns,\npowering up Electric-type moves. Pokémon on the\nground no longer fall asleep.",
   "move_category": "whole-field-effect",
+  "ailment": "none",
   "effect_text_extend": "For five turns, prevents all Pokémon on the ground from sleeping and strengthens their electric moves to 1.5× their power.\n\nChanges nature power to thunderbolt.",
   "effect_text_simple": "For five turns, prevents all Pokémon on the ground from sleeping and strengthens their electric moves to 1.5× their power."
 }

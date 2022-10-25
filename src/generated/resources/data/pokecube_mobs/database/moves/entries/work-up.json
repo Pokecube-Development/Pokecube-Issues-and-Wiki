@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user is roused, and its Attack and Sp. Atk\nstats increase.",
   "move_category": "net-good-stats",
+  "ailment": "none",
   "effect_text_extend": "Raises the user's Attack and Special Attack by one stage each.",
   "effect_text_simple": "Raises the user's Attack and Special Attack by one stage each."
 }

@@ -1,8 +1,8 @@
 {
-  "name": "takedown",
+  "name": "take-down",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d1:atrue:w1:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~takedown",
+      "preset": "cartFunc:pcrit:d1:atrue:w1:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dig",
@@ -12,7 +12,7 @@
       "pitch": 0.8
     },
     {
-      "preset": "cartFunc:pcloud:d1:atrue:w1:l15:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~takedown",
+      "preset": "cartFunc:pcloud:d1:atrue:w1:l15:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0"
     }

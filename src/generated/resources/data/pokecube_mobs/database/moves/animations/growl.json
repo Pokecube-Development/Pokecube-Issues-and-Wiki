@@ -2,7 +2,7 @@
   "name": "growl",
   "animations": [
     {
-      "preset": "cartFunc:d50:0:~growl",
+      "preset": "cartFunc:d50:0",
       "duration": "0",
       "starttick": "0"
     }

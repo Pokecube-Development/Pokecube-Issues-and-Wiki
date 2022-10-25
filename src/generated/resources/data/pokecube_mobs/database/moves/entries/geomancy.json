@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user absorbs energy and sharply raises its\nSp. Atk, Sp. Def, and Speed stats on the next turn.",
   "move_category": "net-good-stats",
+  "ailment": "none",
   "effect_text_extend": "Takes one turn to charge, then raises the user's Special Attack, Special Defense, and Speed by two stages.",
   "effect_text_simple": "Takes one turn to charge, then raises the user's Special Attack, Special Defense, and Speed by two stages."
 }

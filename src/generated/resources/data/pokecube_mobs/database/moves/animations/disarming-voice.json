@@ -1,8 +1,8 @@
 {
-  "name": "disarmingvoice",
+  "name": "disarming-voice",
   "animations": [
     {
-      "preset": "flow:pend_rod:d0.1:atrue:w2.5:l10:~disarmingvoice",
+      "preset": "flow:pend_rod:d0.1:atrue:w2.5:l10",
       "duration": "5",
       "starttick": "3",
       "sound": "pokecube:moves.charm",
@@ -12,7 +12,7 @@
       "pitch": 1.6
     },
     {
-      "preset": "flow:pmisc:atrue:d0.5:w2.5:l5:~disarmingvoice",
+      "preset": "flow:pmisc:atrue:d0.5:w2.5:l5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.charm",

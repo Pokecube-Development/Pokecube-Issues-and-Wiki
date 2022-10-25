@@ -14,8 +14,8 @@ import com.google.common.collect.Maps;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.MoveEntry.Category;
 import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants.AttackCategory;
 import pokecube.api.utils.PokeType;
 import pokecube.core.impl.PokecubeMod;
 
@@ -68,10 +68,10 @@ public class Parsers
             final String other = "status";
             final String special = "special";
             final String physical = "physical";
-            move.category = 0;
-            if (other.equals(category)) move.category = (byte) Category.OTHER.ordinal();
-            if (special.equals(category)) move.category = (byte) Category.SPECIAL.ordinal();
-            if (physical.equals(category)) move.category = (byte) Category.PHYSICAL.ordinal();
+            move.category = AttackCategory.OTHER;
+            if (other.equals(category)) move.category = AttackCategory.STATUS;
+            if (special.equals(category)) move.category = AttackCategory.SPECIAL;
+            if (physical.equals(category)) move.category = AttackCategory.PHYSICAL;
         }
 
         void parseStatModifiers(String text, final MoveEntry move, int rate)
@@ -143,7 +143,6 @@ public class Parsers
             entry.crit = entry.root_entry.getMove().crit_rate;
 
             parseCategory(entry.root_entry.getMove().damage_class, entry);
-            entry.attackCategory = 0;
         }
     }
 

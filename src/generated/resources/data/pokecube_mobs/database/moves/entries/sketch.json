@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "It enables the user to permanently learn the move\nlast used by the target. Once used,\nSketch disappears.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "Permanently replaces itself with the target's last used move.  If that move is chatter or struggle, this move will fail.\n\nThis move cannot be copied by mimic or mirror move, nor selected by assist or metronome, nor forced by encore.",
   "effect_text_simple": "Permanently becomes the target's last used move."
 }

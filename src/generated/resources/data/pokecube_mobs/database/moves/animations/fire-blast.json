@@ -1,8 +1,8 @@
 {
-  "name": "fireblast",
+  "name": "fire-blast",
   "animations": [
     {
-      "preset": "flow:pflame:d2:w2:l1:f0:~fireblast",
+      "preset": "flow:pflame:d2:w2:l1:f0",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.flamewheel",
@@ -12,12 +12,12 @@
       "pitch": 0.6
     },
     {
-      "preset": "flow:pflame:d2:w2:l1:f60:~fireblast",
+      "preset": "flow:pflame:d2:w2:l1:f60",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "flow:pflame:d2:w2:l1:f120:~fireblast",
+      "preset": "flow:pflame:d2:w2:l1:f120",
       "duration": "5",
       "starttick": "0"
     }

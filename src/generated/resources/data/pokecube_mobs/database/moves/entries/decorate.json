@@ -9,5 +9,6 @@
   "flavor_text": "The user sharply raises the target’s Attack and Sp. Atk\nstats by decorating the target.",
   "move_category": "net-good-stats",
   "stat_chance": 100,
+  "ailment": "none",
   "effect_chance": 100
 }

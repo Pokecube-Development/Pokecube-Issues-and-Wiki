@@ -1,14 +1,14 @@
 {
-  "name": "solarbeam",
+  "name": "solar-beam",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:rtrue:d0.8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):atrue:~solarbeam",
+      "preset": "cartFunc:pend_rod:rtrue:d0.8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):atrue",
       "duration": "5",
       "starttick": "0",
       "applyAfter": true
     },
     {
-      "preset": "flow:pend_rod:atrue:d0.8:w0.4:~solarbeam",
+      "preset": "flow:pend_rod:atrue:d0.8:w0.4",
       "duration": "5",
       "starttick": "3",
       "sound": "pokecube:moves.megaattack",
@@ -18,7 +18,7 @@
       "pitch": 2.0
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:atrue:~solarbeam",
+      "preset": "cartFunc:pexplosion_emitter:atrue",
       "duration": "5",
       "starttick": "5",
       "sound": "pokecube:moves.dig",

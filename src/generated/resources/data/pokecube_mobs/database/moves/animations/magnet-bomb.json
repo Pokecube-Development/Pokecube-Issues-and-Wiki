@@ -1,8 +1,8 @@
 {
-  "name": "magnetbomb",
+  "name": "magnet-bomb",
   "animations": [
     {
-      "preset": "throw:w0.4:~magnetbomb",
+      "preset": "throw:w0.4",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.metalclaw",
@@ -12,7 +12,7 @@
       "pitch": 1.3
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:d0.7:w1:l5:~magnetbomb",
+      "preset": "cartFunc:pexplosion_emitter:d0.7:w1:l5",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.dig",

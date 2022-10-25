@@ -1,8 +1,8 @@
 {
-  "name": "nightshade",
+  "name": "night-shade",
   "animations": [
     {
-      "preset": "flow:cblack:d0.5:~nightshade",
+      "preset": "flow:cblack:d0.5",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:entity.evoker.cast_spell",

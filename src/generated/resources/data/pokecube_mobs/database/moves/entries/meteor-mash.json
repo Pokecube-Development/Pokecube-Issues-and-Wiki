@@ -11,6 +11,7 @@
   "flavor_text": "The target is hit with a hard punch fired like a\nmeteor. This may also raise the user’s Attack stat.",
   "move_category": "damage+raise",
   "stat_chance": 20,
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage. Has a $effect_chance% chance to raise the user's Attack one stage.",
   "effect_text_simple": "Has a $effect_chance% chance to raise the user's Attack by one stage.",
   "effect_chance": 20

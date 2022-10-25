@@ -1,8 +1,8 @@
 {
-  "name": "hammerarm",
+  "name": "hammer-arm",
   "animations": [
     {
-      "preset": "cartFunc:atrue:pcrit:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~hammerarm",
+      "preset": "cartFunc:atrue:pcrit:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:atrue:l8:pcloud:f(0.5-rand())*(1),0,(0.5-rand())*(1):~hammerarm",
+      "preset": "cartFunc:atrue:l8:pcloud:f(0.5-rand())*(1),0,(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dig",

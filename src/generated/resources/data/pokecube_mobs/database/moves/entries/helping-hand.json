@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user assists an ally by boosting the power of\nthat ally’s attack.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "Boosts the power of the target's moves by 50% until the end of this turn.\n\nThis move cannot be copied by mirror move, nor selected by assist or metronome.",
   "effect_text_simple": "Ally's next move inflicts half more damage."
 }

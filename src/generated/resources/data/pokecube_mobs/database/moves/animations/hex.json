@@ -2,7 +2,7 @@
   "name": "hex",
   "animations": [
     {
-      "preset": "cartFunc:atrue:w2:l20:pwitch:f(0.5-rand())*(1),0,(0.5-rand())*(1):~hex",
+      "preset": "cartFunc:atrue:w2:l20:pwitch:f(0.5-rand())*(1),0,(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "3",
       "sound": "minecraft:entity.illusioner.cast_spell",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:atrue:pmisc:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~hex",
+      "preset": "cartFunc:atrue:pmisc:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.aurorabeam",

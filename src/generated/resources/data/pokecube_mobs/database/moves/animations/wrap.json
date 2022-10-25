@@ -2,7 +2,7 @@
   "name": "wrap",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack:atrue:d1:l15:~wrap",
+      "preset": "cartFunc:psweep_attack:atrue:d1:l15",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.withdraw",
@@ -12,12 +12,12 @@
       "pitch": 1.8
     },
     {
-      "preset": "cartFunc:psweep_attack:atrue:d1:l15:~wrap",
+      "preset": "cartFunc:psweep_attack:atrue:d1:l15",
       "duration": "5",
       "starttick": "3"
     },
     {
-      "preset": "cartFunc:psweep_attack:atrue:d1:l10:~wrap",
+      "preset": "cartFunc:psweep_attack:atrue:d1:l10",
       "duration": "5",
       "starttick": "5",
       "sound": "pokecube:moves.withdraw",

@@ -2,7 +2,7 @@
   "name": "confusion",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:d0.5:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~confusion",
+      "preset": "cartFunc:pmisc:d0.5:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.aurorabeam",

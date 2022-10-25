@@ -2,13 +2,13 @@
   "name": "sketch",
   "animations": [
     {
-      "preset": "cartFunc:ppowder:cgreen:d1:w0.5:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~sketch",
+      "preset": "cartFunc:ppowder:cgreen:d1:w0.5:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:pend_rod:cgreen:d1:w2:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~sketch",
+      "preset": "cartFunc:pend_rod:cgreen:d1:w2:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5",
       "sound": "pokecube:moves.charm",

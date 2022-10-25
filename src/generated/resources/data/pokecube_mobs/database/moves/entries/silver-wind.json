@@ -11,6 +11,7 @@
   "flavor_text": "The target is attacked with powdery scales blown\nby the wind. This may also raise all the user’s stats.",
   "move_category": "damage+raise",
   "stat_chance": 10,
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage. Has a $effect_chance% chance to raise all of the user's stats one stage.",
   "effect_text_simple": "Has a $effect_chance% chance to raise all of the user's stats by one stage.",
   "effect_chance": 10

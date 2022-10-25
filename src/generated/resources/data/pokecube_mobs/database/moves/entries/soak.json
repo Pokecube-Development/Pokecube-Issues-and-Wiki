@@ -9,6 +9,7 @@
   "damage_class": "status",
   "flavor_text": "The user shoots a torrent of water at the target and\nchanges the target’s type to Water.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "Changes the target to pure water-type until it leaves the field.  If the target has multitype, this move will fail.",
   "effect_text_simple": "Changes the target's type to Water."
 }

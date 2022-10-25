@@ -2,7 +2,7 @@
   "name": "flash",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:d1:w1:rtrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~flash",
+      "preset": "cartFunc:pend_rod:d1:w1:rtrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.unknown",

@@ -11,5 +11,6 @@
   "move_category": "swagger",
   "stat_chance": 100,
   "ailment_chance": 100,
+  "ailment": "tar-shot",
   "effect_chance": 100
 }

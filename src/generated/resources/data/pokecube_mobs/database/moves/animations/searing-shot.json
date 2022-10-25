@@ -1,8 +1,8 @@
 {
-  "name": "searingshot",
+  "name": "searing-shot",
   "animations": [
     {
-      "preset": "throw:pmisc:atrue:d1:w0.4:~searingshot",
+      "preset": "throw:pmisc:atrue:d1:w0.4",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.ember",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:pflame:atrue:d0.05:w3:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~searingshot",
+      "preset": "cartFunc:pflame:atrue:d0.05:w3:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "3",
       "sound": "pokecube:moves.flamewheel",
@@ -22,7 +22,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:pflame:atrue:d0.1:w9:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~searingshot",
+      "preset": "cartFunc:pflame:atrue:d0.1:w9:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.flamewheel",

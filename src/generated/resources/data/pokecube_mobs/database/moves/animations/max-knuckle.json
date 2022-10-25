@@ -1,8 +1,8 @@
 {
-  "name": "maxknuckle",
+  "name": "max-knuckle",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d0.4:w1:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~maxknuckle",
+      "preset": "cartFunc:pcrit:d0.4:w1:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",
@@ -12,7 +12,7 @@
       "pitch": 0.8
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:d1:w1:l2:~maxknuckle",
+      "preset": "cartFunc:pexplosion_emitter:d1:w1:l2",
       "duration": "5",
       "starttick": "0"
     }

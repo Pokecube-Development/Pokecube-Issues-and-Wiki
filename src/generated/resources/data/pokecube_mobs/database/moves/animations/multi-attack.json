@@ -1,8 +1,8 @@
 {
-  "name": "multiattack",
+  "name": "multi-attack",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack:atrue:d2:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~multiattack",
+      "preset": "cartFunc:psweep_attack:atrue:d2:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.cut",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:pcrit:d2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~multiattack",
+      "preset": "cartFunc:pcrit:d2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.aurorabeam",

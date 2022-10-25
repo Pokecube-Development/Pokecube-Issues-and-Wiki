@@ -2,7 +2,7 @@
   "name": "toxic",
   "animations": [
     {
-      "preset": "cartFunc:pwitch:d1:atrue:w1.5:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~toxic",
+      "preset": "cartFunc:pwitch:d1:atrue:w1.5:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.poisontoxic",

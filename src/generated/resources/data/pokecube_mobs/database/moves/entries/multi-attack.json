@@ -10,6 +10,7 @@
   "damage_class": "physical",
   "flavor_text": "Cloaking itself in high energy, the user slams into the\ntarget. The memory held determines the move’s type.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If the user is holding a plate or a drive, this move's type is the type corresponding to that item.\n\nNote: This effect is technically shared by both techno blast and judgment; however, Techno Blast is only affected by drives, and Judgment is only affected by plates.",
   "effect_text_simple": "If the user is holding a appropriate plate or drive, the damage inflicted will match it."
 }

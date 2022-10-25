@@ -29,7 +29,6 @@ import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.eventhandlers.PokemobEventsHandler.EvoTicker;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.EntityTools;
 import thut.api.item.ItemList;
@@ -390,12 +389,9 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             evolution.setUUID(uuid);
 
             // Sync over any active moves
-            if (thisMob.getActiveMove() != null)
-            {
-                final EntityMoveUse move = thisMob.getActiveMove();
-                evoMob.setActiveMove(move);
-                move.setUser(evolution);
-            }
+            evoMob.getMoveStats().movesInProgress.addAll(thisMob.getMoveStats().movesInProgress);
+            IPokemob fevoMob = evoMob;
+            evoMob.getMoveStats().movesInProgress.forEach(m -> m.setUser(fevoMob));
 
             // Flag the mob as evolving.
             evoMob.setGeneralState(GeneralStates.EVOLVING, true);

@@ -11,5 +11,6 @@
   "move_category": "net-good-stats",
   "healing": -33,
   "stat_chance": 100,
+  "ailment": "none",
   "effect_chance": 100
 }

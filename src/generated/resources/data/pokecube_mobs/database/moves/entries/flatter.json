@@ -9,6 +9,7 @@
   "damage_class": "status",
   "flavor_text": "Flattery is used to confuse the target. However,\nthis also raises the target’s Sp. Atk stat.",
   "move_category": "swagger",
+  "ailment": "confusion",
   "max_turns": 5,
   "min_turns": 2,
   "effect_text_extend": "Raises the target's Special Attack by one stage, then confuses it.",

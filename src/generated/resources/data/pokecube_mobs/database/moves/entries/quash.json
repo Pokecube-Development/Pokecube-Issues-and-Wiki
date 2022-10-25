@@ -9,6 +9,7 @@
   "damage_class": "status",
   "flavor_text": "The user suppresses the target and makes its move\ngo last.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "Forces the target to act last this turn, regardless of Speed or move priority.  If the target has already acted this turn, this move will fail.",
   "effect_text_simple": "Makes the target act last this turn."
 }

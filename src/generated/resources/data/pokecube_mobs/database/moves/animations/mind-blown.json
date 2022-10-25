@@ -1,8 +1,8 @@
 {
-  "name": "mindblown",
+  "name": "mind-blown",
   "animations": [
     {
-      "preset": "throw:cwhite:w1.0:~mindblow",
+      "preset": "throw:cwhite:w1.0",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.charm",
@@ -13,7 +13,7 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:pexplosion:atrue:~mindblow",
+      "preset": "cartFunc:pexplosion:atrue",
       "duration": "5",
       "starttick": "4",
       "sound": "minecraft:entity.firework.blast",
@@ -24,7 +24,7 @@
       "applyAfter": false
     },
     {
-      "preset": "powder:paurora:atrue:~mindblow",
+      "preset": "powder:paurora:atrue",
       "duration": "5",
       "starttick": "4",
       "sound": "minecraft:entity.firework.twinkle",

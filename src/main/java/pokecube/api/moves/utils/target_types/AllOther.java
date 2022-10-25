@@ -9,6 +9,7 @@ public class AllOther implements IMoveTargetter
     @Override
     public boolean test(MoveApplication move)
     {
+        if (move.getTarget() == null) return false;
         return move.getTarget() != move.getUser().getEntity();
     }
 }

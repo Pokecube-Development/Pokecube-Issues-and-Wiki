@@ -1,8 +1,8 @@
 {
-  "name": "matblock",
+  "name": "mat-block",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:d0.05:rtrue:l10:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~matblock",
+      "preset": "cartFunc:pmisc:d0.05:rtrue:l10:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2)",
       "duration": "5",
       "starttick": "0"
     }

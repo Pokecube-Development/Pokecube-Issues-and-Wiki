@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "A barrier reflects back to the target moves like\nLeech Seed and moves that damage status.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "The first non-damaging move targeting the user this turn that inflicts major status effects, stat changes, or trapping effects will be reflected at its user.\n\ndefog, memento, and teeter dance are not reflected.\n\nattract, flatter, gastro acid, leech seed, swagger, worry seed, and yawn are reflected.\n\nThis move cannot be copied by mirror move.",
   "effect_text_simple": "Reflects back the first effect move used on the user this turn."
 }

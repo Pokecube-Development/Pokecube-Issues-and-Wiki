@@ -120,6 +120,16 @@ public interface IMoveConstants extends IMoveNames
         }
     }
 
+    public static enum ContactCategory
+    {
+        RANGED, CONTACT, OTHER;
+    }
+
+    public static enum AttackCategory
+    {
+        SPECIAL, PHYSICAL, STATUS, OTHER;
+    }
+
     /*
      * exclusive Status Effects
      */
@@ -154,19 +164,8 @@ public interface IMoveConstants extends IMoveNames
     byte FALL = -1;
     byte RAISE = 1;
     byte SHARP = 2;
-
     byte DRASTICALLY = 3;
-    /*
-     * Move Categories
-     */
-    byte CATEGORY_CONTACT = 1;
-    byte CATEGORY_DISTANCE = 2;
-    /*
-     * Move damage category
-     */
-    byte SPECIAL = 1;
 
-    byte PHYSICAL = 2;
     // Special Moves, ie ones needed for specific logic
     // No move move for just sitting there
     String MOVE_NONE = "none";

@@ -2,7 +2,7 @@
   "name": "present",
   "animations": [
     {
-      "preset": "throw:cwhite:w0.4:atrue:~present",
+      "preset": "throw:cwhite:w0.4:atrue",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.charm",
@@ -13,7 +13,7 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:pcloud:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~present",
+      "preset": "cartFunc:pcloud:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.dig",

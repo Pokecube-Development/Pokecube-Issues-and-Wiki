@@ -1,8 +1,8 @@
 {
-  "name": "hyperspacehole",
+  "name": "hyperspace-hole",
   "animations": [
     {
-      "preset": "cartFunc:atrue:d0.32:pdragon_breath:w2:l5:rtrue:f(0.5-rand())*(1),0,(0.5-rand())*(1):~hyperspacehole",
+      "preset": "cartFunc:atrue:d0.32:pdragon_breath:w2:l5:rtrue:f(0.5-rand())*(1),0,(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:entity.illusioner.mirror_move",
@@ -13,7 +13,7 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:atrue:d0.2:pdragon_breath:w2:l5:f(0.5-rand())*(1),0,(0.5-rand())*(1):~hyperspacehole",
+      "preset": "cartFunc:atrue:d0.2:pdragon_breath:w2:l5:f(0.5-rand())*(1),0,(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "minecraft:entity.illusioner.mirror_move",
@@ -24,7 +24,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:atrue:l3:pmisc:w1:f(0.5-rand())*(1),(0.5-rand())*(3),(0.5-rand())*(1):~hyperspacehole",
+      "preset": "cartFunc:atrue:l3:pmisc:w1:f(0.5-rand())*(1),(0.5-rand())*(3),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5",
       "sound": "minecraft:entity.evoker.cast_spell",
@@ -35,13 +35,13 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:atrue:d0.2:pend_rod:w1:l5:rtrue:f(0.5-rand())*(1),0,(0.5-rand())*(1):~hyperspacehole",
+      "preset": "cartFunc:atrue:d0.2:pend_rod:w1:l5:rtrue:f(0.5-rand())*(1),0,(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:atrue:d0.2:pend_rod:w1:l5:f(0.5-rand())*(1),0,(0.5-rand())*(1):~hyperspacehole",
+      "preset": "cartFunc:atrue:d0.2:pend_rod:w1:l5:f(0.5-rand())*(1),0,(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5",
       "applyAfter": false

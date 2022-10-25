@@ -2,7 +2,7 @@
   "name": "moonlight",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:d0.33:w3:rtrue:atrue:l30:f(0.5-rand())*(1),(0.5-rand())*(8),(0.5-rand())*(1):~moonlight",
+      "preset": "cartFunc:pend_rod:d0.33:w3:rtrue:atrue:l30:f(0.5-rand())*(1),(0.5-rand())*(8),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.unknown",
@@ -12,7 +12,7 @@
       "pitch": 1.2
     },
     {
-      "preset": "cartFunc:phappy_villager:d1.5:w0.5:atrue:rtrue:l8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~moonlight",
+      "preset": "cartFunc:phappy_villager:d1.5:w0.5:atrue:rtrue:l8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5"
     }

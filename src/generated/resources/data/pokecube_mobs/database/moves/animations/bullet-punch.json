@@ -1,8 +1,8 @@
 {
-  "name": "bulletpunch",
+  "name": "bullet-punch",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d1:l2:w0.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~bulletpunch",
+      "preset": "cartFunc:pcrit:d1:l2:w0.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pend_rod:d1:w2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~bulletpunch",
+      "preset": "cartFunc:pend_rod:d1:w2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.metalclaw",

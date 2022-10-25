@@ -1,8 +1,8 @@
 {
-  "name": "irondefense",
+  "name": "iron-defense",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:d0.8:w1:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~irondefense",
+      "preset": "cartFunc:pmisc:d0.8:w1:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.metalclaw",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:pend_rod:csilver:d1:w1.5:rtrue:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~irondefense",
+      "preset": "cartFunc:pend_rod:csilver:d1:w1.5:rtrue:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "5"
     }

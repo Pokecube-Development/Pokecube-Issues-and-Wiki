@@ -1,8 +1,8 @@
 {
-  "name": "megakick",
+  "name": "mega-kick",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:atrue:d1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~megakick",
+      "preset": "cartFunc:pcrit:atrue:d1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.woodenhammer",
@@ -12,7 +12,7 @@
       "pitch": 0.9
     },
     {
-      "preset": "cartFunc:atrue:pexplosion_emitter:d1:~megakick",
+      "preset": "cartFunc:atrue:pexplosion_emitter:d1",
       "duration": "5",
       "starttick": "0"
     }

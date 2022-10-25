@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user stiffens all the muscles in its body to raise\nits Defense stat.",
   "move_category": "net-good-stats",
+  "ailment": "none",
   "effect_text_extend": "Raises the user's Defense by one stage.",
   "effect_text_simple": "Raises the user's Defense by one stage."
 }

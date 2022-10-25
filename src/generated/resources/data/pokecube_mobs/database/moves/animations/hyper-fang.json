@@ -1,8 +1,8 @@
 {
-  "name": "hyperfang",
+  "name": "hyper-fang",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d1:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~hyperfang",
+      "preset": "cartFunc:pcrit:d1:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",

@@ -2,7 +2,6 @@ package pokecube.api.moves;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
@@ -44,17 +43,12 @@ public class MoveEntry implements IMoveConstants
 
     public static interface CategoryProvider
     {
-        byte getAttackCategory(IPokemob user);
+        ContactCategory getAttackCategory(IPokemob user);
     }
 
     public static record MoveSounds(SoundEvent onSource, SoundEvent onTarget)
     {
     };
-
-    public static enum Category
-    {
-        OTHER, SPECIAL, PHYSICAL;
-    }
 
     private static HashMap<String, MoveEntry> movesNames = new HashMap<>();
 
@@ -75,8 +69,8 @@ public class MoveEntry implements IMoveConstants
     {
         CONFUSED = new MoveEntry("pokemob.status.confusion");
         MoveEntry.CONFUSED.type = PokeType.unknown;
-        MoveEntry.CONFUSED.category = IMoveConstants.PHYSICAL;
-        MoveEntry.CONFUSED.attackCategory = IMoveConstants.CATEGORY_CONTACT;
+        MoveEntry.CONFUSED.category = AttackCategory.PHYSICAL;
+        MoveEntry.CONFUSED.attackCategory = ContactCategory.CONTACT;
         MoveEntry.CONFUSED.power = 40;
         MoveEntry.CONFUSED.canHitNonTarget = false;
         // Blank root entry for us.
@@ -118,7 +112,7 @@ public class MoveEntry implements IMoveConstants
     public PokeType type;
 
     /** Distance, contact, etc. */
-    public int attackCategory;
+    public ContactCategory attackCategory = ContactCategory.OTHER;
     public int power = 0;
     public int accuracy;
     public int pp;
@@ -142,8 +136,7 @@ public class MoveEntry implements IMoveConstants
 
     /** Status, Special, Physical */
 
-    public byte category = -1;
-    public String animDefault = "none";
+    public AttackCategory category = AttackCategory.OTHER;
 
     public MoveHolder root_entry;
 
@@ -171,8 +164,8 @@ public class MoveEntry implements IMoveConstants
         boolean contact = Tags.MOVE.isIn("contact-moves", this.getName());
         boolean ranged = Tags.MOVE.isIn("ranged-moves", this.getName());
         self_move = root_entry._target_type.equals("user");
-        this.attackCategory = ((contact ? 1 : 0) * IMoveConstants.CATEGORY_CONTACT)
-                | ((ranged ? 1 : 0) * IMoveConstants.CATEGORY_DISTANCE);
+        this.attackCategory = contact ? ContactCategory.CONTACT
+                : ranged ? ContactCategory.RANGED : ContactCategory.OTHER;
         PokecubeAPI.MOVE_BUS.post(new InitMoveEntry(this));
     }
 
@@ -322,9 +315,9 @@ public class MoveEntry implements IMoveConstants
      *
      * @return the attack category
      */
-    public byte getAttackCategory()
+    public ContactCategory getAttackCategory()
     {
-        return (byte) this.attackCategory;
+        return this.attackCategory;
     }
 
     /**
@@ -335,15 +328,15 @@ public class MoveEntry implements IMoveConstants
      *
      * @return the attack category
      */
-    public byte getAttackCategory(final IPokemob user)
+    public ContactCategory getAttackCategory(final IPokemob user)
     {
         return categoryProvider.getAttackCategory(user);
     }
 
     /** @return Move category for this move. */
-    public Category getCategory()
+    public AttackCategory getCategory()
     {
-        return Category.values()[this.category];
+        return this.category;
     }
 
     /**
@@ -352,7 +345,7 @@ public class MoveEntry implements IMoveConstants
      * @param user
      * @return
      */
-    public Category getCategory(final IPokemob user)
+    public AttackCategory getCategory(final IPokemob user)
     {
         return this.getCategory();
     }
@@ -374,36 +367,19 @@ public class MoveEntry implements IMoveConstants
 
     public boolean isRanged(IPokemob user)
     {
-        return (this.getAttackCategory(user) & IMoveConstants.CATEGORY_DISTANCE) > 0;
+        return (this.getAttackCategory(user)) == ContactCategory.RANGED;
+    }
+
+    public boolean isContact(IPokemob user)
+    {
+        return (this.getAttackCategory(user)) == ContactCategory.CONTACT;
     }
 
     public void applyMove(IPokemob user, @Nullable LivingEntity target, @Nullable Vector3 targetPos)
     {
         MoveApplication apply = new MoveApplication(this, user, target);
-        // Pre-apply to run any special pre-processing needed for changing move
-        // targets, etc.
         MoveApplicationRegistry.preApply(apply);
-
-        Predicate<MoveApplication> target_test = MoveApplicationRegistry.getValidator(this);
-        Mob mob = user.getEntity();
-        Battle battle = Battle.getBattle(mob);
-
-        List<LivingEntity> targets = Lists.newArrayList();
-
-        if (battle != null)
-        {
-            targets.addAll(battle.getAllies(mob));
-            targets.addAll(battle.getEnemies(mob));
-        }
-        else
-        {
-            targets.add(mob);
-            if (target != null) targets.add(target);
-        }
-        targets.forEach(s -> {
-            apply.setTarget(s);
-            if (target_test.test(apply)) MoveApplicationRegistry.apply(apply);
-        });
+        MoveApplicationRegistry.apply(apply);
     }
 
     public float getPostDelayFactor(IPokemob attacker)

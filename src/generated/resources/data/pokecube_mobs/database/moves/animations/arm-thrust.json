@@ -1,8 +1,8 @@
 {
-  "name": "armthrust",
+  "name": "arm-thrust",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d0.8:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~armthrust",
+      "preset": "cartFunc:pcrit:d0.8:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",

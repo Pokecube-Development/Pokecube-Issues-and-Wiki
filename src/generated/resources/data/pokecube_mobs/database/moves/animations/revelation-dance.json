@@ -1,13 +1,13 @@
 {
-  "name": "revelationdance",
+  "name": "revelation-dance",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d2:atrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~revelationdance",
+      "preset": "cartFunc:pcrit:d2:atrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4"
     },
     {
-      "preset": "flow:pmisc:atrue:clight_blue:d0.33:w0.8:~revelationdance",
+      "preset": "flow:pmisc:atrue:clight_blue:d0.33:w0.8",
       "duration": "5",
       "starttick": "3",
       "sound": "pokecube:moves.fly",
@@ -17,7 +17,7 @@
       "pitch": 1.6
     },
     {
-      "preset": "cartFunc:pfirework:d2:atrue:rtrue:l6:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~revelationdance",
+      "preset": "cartFunc:pfirework:d2:atrue:rtrue:l6:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.withdraw",

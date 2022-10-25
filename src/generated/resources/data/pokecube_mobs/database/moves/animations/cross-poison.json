@@ -1,8 +1,8 @@
 {
-  "name": "crosspoison",
+  "name": "cross-poison",
   "animations": [
     {
-      "preset": "cartFunc:atrue:l2:psweep_attack:~crosspoison",
+      "preset": "cartFunc:atrue:l2:psweep_attack",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.slash",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:atrue:l5:pdragon_breath:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~crosspoison",
+      "preset": "cartFunc:atrue:l5:pdragon_breath:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.poisontoxic",

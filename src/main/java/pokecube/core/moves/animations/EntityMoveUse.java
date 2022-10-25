@@ -17,6 +17,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
@@ -31,12 +32,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.network.NetworkHooks;
-import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveAnimation.MovePacketInfo;
-import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeCore;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
@@ -47,14 +47,14 @@ public class EntityMoveUse extends ThrowableProjectile
 {
     public static class Builder
     {
-        public static Builder make(final Entity user, final MoveEntry move, final Vector3 start)
+        public static Builder make(final Mob user, final MoveEntry move, final Vector3 start)
         {
             return new Builder(user, move, start);
         }
 
         EntityMoveUse toMake;
 
-        protected Builder(final Entity user, final MoveEntry move, final Vector3 start)
+        protected Builder(final Mob user, final MoveEntry move, final Vector3 start)
         {
             this.toMake = new EntityMoveUse(EntityTypes.getMove(), user.level);
             this.toMake.setUser(user).setMove(move).setStart(start).setEnd(start);
@@ -66,7 +66,7 @@ public class EntityMoveUse extends ThrowableProjectile
             return this;
         }
 
-        public Builder setTarget(final Entity target)
+        public Builder setTarget(final LivingEntity target)
         {
             if (target != null) this.toMake.setTarget(target);
             return this;
@@ -118,8 +118,8 @@ public class EntityMoveUse extends ThrowableProjectile
 
     Vector3 dir = new Vector3();
 
-    Entity user = null;
-    Entity target = null;
+    Mob user = null;
+    LivingEntity target = null;
 
     MoveEntry move = null;
 
@@ -137,6 +137,8 @@ public class EntityMoveUse extends ThrowableProjectile
     final Set<UUID> alreadyHit = Sets.newHashSet();
 
     private final Vector3 size = new Vector3();
+
+    private MoveApplication apply;
 
     Predicate<Entity> valid = e -> {
         LivingEntity living = EntityTools.getCoreLiving(e);
@@ -173,7 +175,7 @@ public class EntityMoveUse extends ThrowableProjectile
         if (this.getUser() == null) return;
 
         this.size.clear();
-        this.contact = (this.move.attackCategory & IMoveConstants.CATEGORY_CONTACT) > 0;
+        this.contact = move.isContact(PokemobCaps.getPokemobFor(getUser()));
         float s = 0;
         if (this.move.isAoE())
         {
@@ -200,7 +202,11 @@ public class EntityMoveUse extends ThrowableProjectile
 
         // Put us and our user in here by default.
         this.alreadyHit.add(this.getUUID());
-        this.alreadyHit.add(this.user.getUUID());
+
+        IPokemob userMob = PokemobCaps.getPokemobFor(this.getUser());
+        apply = new MoveApplication(getMove(), userMob, this.getTarget());
+        apply.finished = this::isDone;
+        userMob.getMoveStats().movesInProgress.add(apply);
     }
 
     @Override
@@ -309,17 +315,19 @@ public class EntityMoveUse extends ThrowableProjectile
         return this.getEntityData().get(EntityMoveUse.STARTTICK);
     }
 
-    public Entity getTarget()
+    public LivingEntity getTarget()
     {
         if (this.target != null) return this.target;
-        return this.target = this.level.getEntity(this.getEntityData().get(EntityMoveUse.TARGET));
+        if (this.level.getEntity(this.getEntityData().get(EntityMoveUse.TARGET)) instanceof LivingEntity target)
+            this.target = target;
+        return this.target;
     }
 
     public Entity getUser()
     {
         if (this.user != null) return this.user;
-        return this.user = PokecubeAPI.getEntityProvider().getEntity(this.level,
-                this.getEntityData().get(EntityMoveUse.USER), true);
+        if (this.level.getEntity(this.getEntityData().get(EntityMoveUse.USER)) instanceof Mob user) this.user = user;
+        return this.user;
     }
 
     public boolean isDone()
@@ -415,7 +423,7 @@ public class EntityMoveUse extends ThrowableProjectile
         return this;
     }
 
-    public EntityMoveUse setTarget(final Entity target)
+    public EntityMoveUse setTarget(final LivingEntity target)
     {
         this.target = target;
         if (target != null) this.getEntityData().set(EntityMoveUse.TARGET, target.getId());
@@ -423,7 +431,7 @@ public class EntityMoveUse extends ThrowableProjectile
         return this;
     }
 
-    public EntityMoveUse setUser(final Entity user)
+    public EntityMoveUse setUser(final Mob user)
     {
         this.user = user;
         this.getEntityData().set(EntityMoveUse.USER, user.getId());

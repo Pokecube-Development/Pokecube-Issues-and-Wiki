@@ -2,7 +2,7 @@
   "name": "slash",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack:~slash",
+      "preset": "cartFunc:psweep_attack",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.slash",

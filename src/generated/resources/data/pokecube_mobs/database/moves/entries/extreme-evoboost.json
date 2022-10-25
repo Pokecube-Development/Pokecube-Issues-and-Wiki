@@ -9,6 +9,7 @@
   "flavor_text": "After obtaining Z-Power, the user, Eevee, gets\nenergy from its evolved friends and boosts its\nstats sharply.",
   "move_category": "net-good-stats",
   "stat_chance": 100,
+  "ailment": "none",
   "effect_text_extend": "Raises the user's Attack, Defense, Special Attack, Special Defense, and Speed by two stages each.",
   "effect_text_simple": "Raises all of the user's stats by two stages.",
   "effect_chance": 100

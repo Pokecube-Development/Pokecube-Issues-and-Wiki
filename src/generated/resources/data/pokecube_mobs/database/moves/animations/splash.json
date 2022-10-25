@@ -2,7 +2,7 @@
   "name": "splash",
   "animations": [
     {
-      "preset": "cartFunc:psplash:d0.33:l20:w1.5:atrue:rtrue:f(0.5-rand())*(1),0,(0.5-rand())*(1):~splash",
+      "preset": "cartFunc:psplash:d0.33:l20:w1.5:atrue:rtrue:f(0.5-rand())*(1),0,(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:entity.generic.swim",

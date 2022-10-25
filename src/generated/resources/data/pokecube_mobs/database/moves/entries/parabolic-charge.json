@@ -11,6 +11,7 @@
   "flavor_text": "The user attacks everything around it. The user’s HP\nis restored by half the damage taken by those hit.",
   "move_category": "damage+heal",
   "drain": 50,
+  "ailment": "none",
   "effect_text_extend": "Heals the user for half the total damage dealt to all targets.",
   "effect_text_simple": "Heals the user for half the total damage dealt to all targets."
 }

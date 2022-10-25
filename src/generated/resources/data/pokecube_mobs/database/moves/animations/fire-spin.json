@@ -1,8 +1,8 @@
 {
-  "name": "firespin",
+  "name": "fire-spin",
   "animations": [
     {
-      "preset": "cartFunc:pflame:d0.05:l10:f(0.5-rand())*(2),(0.5-rand())*(5),(0.5-rand())*(2):~firespin",
+      "preset": "cartFunc:pflame:d0.05:l10:f(0.5-rand())*(2),(0.5-rand())*(5),(0.5-rand())*(2)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.ember",

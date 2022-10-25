@@ -10,6 +10,7 @@
   "damage_class": "physical",
   "flavor_text": "The user nimbly strikes the target. If the user is not\nholding an item, this attack inflicts massive damage.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If the user has no held item, this move has double power.",
   "effect_text_simple": "Has double power if the user has no held item."
 }

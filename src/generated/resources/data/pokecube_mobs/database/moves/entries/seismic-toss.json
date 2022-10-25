@@ -9,6 +9,7 @@
   "damage_class": "physical",
   "flavor_text": "The target is thrown using the power of gravity.\nIt inflicts damage equal to the user’s level.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts damage equal to the user's level.  Type immunity applies, but other type effects are ignored.",
   "effect_text_simple": "Inflicts damage equal to the user's level."
 }

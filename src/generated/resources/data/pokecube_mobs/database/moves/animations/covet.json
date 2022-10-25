@@ -2,7 +2,7 @@
   "name": "covet",
   "animations": [
     {
-      "preset": "cartFunc:pcloud:d4:w1:l5:f0,0,0:~covet",
+      "preset": "cartFunc:pcloud:d4:w1:l5:f0,0,0",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.charm",
@@ -12,7 +12,7 @@
       "pitch": 1.5
     },
     {
-      "preset": "cartFunc:pcrit:d0.7:w0.5:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~covet",
+      "preset": "cartFunc:pcrit:d0.7:w0.5:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dig",

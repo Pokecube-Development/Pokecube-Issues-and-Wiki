@@ -2,7 +2,7 @@
   "name": "megahorn",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d0.8:atrue:w2:l6:~megahorn",
+      "preset": "cartFunc:pcrit:d0.8:atrue:w2:l6",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.slash",
@@ -12,7 +12,7 @@
       "pitch": 1.6
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:atrue:d2:w1:l8:~megahorn",
+      "preset": "cartFunc:pexplosion_emitter:atrue:d2:w1:l8",
       "duration": "2",
       "starttick": "3",
       "sound": "pokecube:moves.dig",

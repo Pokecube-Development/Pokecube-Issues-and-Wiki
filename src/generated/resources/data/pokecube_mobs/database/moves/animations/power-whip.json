@@ -1,8 +1,8 @@
 {
-  "name": "powerwhip",
+  "name": "power-whip",
   "animations": [
     {
-      "preset": "beam:atrue:~powerwhip",
+      "preset": "beam:atrue",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",
@@ -13,7 +13,7 @@
       "applyAfter": true
     },
     {
-      "preset": "beam:atrue:~powerwhip",
+      "preset": "beam:atrue",
       "duration": "5",
       "starttick": "3",
       "sound": "pokecube:moves.vicegrip",
@@ -24,7 +24,7 @@
       "applyAfter": false
     },
     {
-      "preset": "beam:atrue:~powerwhip",
+      "preset": "beam:atrue",
       "duration": "5",
       "starttick": "6",
       "sound": "pokecube:moves.vicegrip",
@@ -35,19 +35,19 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pcrit:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~powerwhip",
+      "preset": "cartFunc:pcrit:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pcrit:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~powerwhip",
+      "preset": "cartFunc:pcrit:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "3",
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pcrit:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~powerwhip",
+      "preset": "cartFunc:pcrit:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "6",
       "applyAfter": false

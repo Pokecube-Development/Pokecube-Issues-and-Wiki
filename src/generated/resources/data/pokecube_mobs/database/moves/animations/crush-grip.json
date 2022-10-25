@@ -1,8 +1,8 @@
 {
-  "name": "crushgrip",
+  "name": "crush-grip",
   "animations": [
     {
-      "preset": "cartFunc:atrue:l3:pcrit:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~crushgrip",
+      "preset": "cartFunc:atrue:l3:pcrit:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.dig",
@@ -13,7 +13,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:atrue:l10:w2:pcloud:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~crushgrip",
+      "preset": "cartFunc:atrue:l10:w2:pcloud:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.withdraw",

@@ -1,8 +1,8 @@
 {
-  "name": "sandattack",
+  "name": "sand-attack",
   "animations": [
     {
-      "preset": "flow:ppowder:d1:w1.5:~sandattack",
+      "preset": "flow:ppowder:d1:w1.5",
       "duration": "5",
       "starttick": "0",
       "sound": "minecraft:block.sand.place",

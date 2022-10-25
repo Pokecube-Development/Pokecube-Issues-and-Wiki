@@ -1,8 +1,8 @@
 {
-  "name": "ominouswind",
+  "name": "ominous-wind",
   "animations": [
     {
-      "preset": "flow:w2.5:~ominouswind",
+      "preset": "flow:w2.5",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.gustwind",
@@ -12,7 +12,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "flow:psmoke:d1:w2.5:~ominouswind",
+      "preset": "flow:psmoke:d1:w2.5",
       "duration": "0",
       "starttick": "0",
       "sound": "minecraft:entity.evoker.cast_spell",

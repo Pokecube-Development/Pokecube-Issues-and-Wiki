@@ -11,6 +11,7 @@
   "flavor_text": "The user lets loose a pitch-black shock wave at its\ntarget. This may also lower the target’s accuracy.",
   "move_category": "damage+lower",
   "stat_chance": 40,
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Has a $effect_chance% chance to lower the target's accuracy by one stage.",
   "effect_text_simple": "Has a $effect_chance% chance to lower the target's accuracy by one stage.",
   "effect_chance": 40

@@ -1,13 +1,13 @@
 {
-  "name": "gunkshot",
+  "name": "gunk-shot",
   "animations": [
     {
-      "preset": "throw:~gunkshot",
+      "preset": "throw",
       "duration": "5",
       "starttick": "0"
     },
     {
-      "preset": "flow:pmisc:~gunkshot",
+      "preset": "flow:pmisc",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.poisontoxic",

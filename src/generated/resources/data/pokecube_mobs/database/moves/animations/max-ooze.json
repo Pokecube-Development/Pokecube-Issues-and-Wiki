@@ -1,8 +1,8 @@
 {
-  "name": "maxooze",
+  "name": "max-ooze",
   "animations": [
     {
-      "preset": "flow:w0.8:~maxooze",
+      "preset": "flow:w0.8",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.acidarmor",

@@ -1,4 +1,6 @@
 import json
+
+from pokebase import language
 import utils
 import os
 from utils import get_moves_index, get_move, trim, default_or_latest, url_to_id
@@ -128,7 +130,6 @@ class MoveEntry:
         self.accuracy = move.accuracy
         self.target = move.target.name
         self.damage_class = move.damage_class.name
-        self.names = move.names
 
         flavor_text = default_or_latest(move.flavor_text_entries, is_english)
         if flavor_text is not None:
@@ -216,6 +217,7 @@ def convert_moves():
         anims_dex[var["name"]] = var
 
     lang_files = {}
+    lang_desc = {}
 
     contact = []
     ranged = []
@@ -227,17 +229,33 @@ def convert_moves():
         move = get_move(index)
         entry = MoveEntry(move)
 
+        langs = []
         # These will go in langs
-        for __name in entry.names:
+        for __name in move.names:
             _name = __name.name
             lang = utils.get('language', url_to_id(__name.language))
+            langs.append(url_to_id(__name.language))
             key = f'{lang.iso639}_{lang.iso3166}.json'
             items = {}
             if key in lang_files:
                 items = lang_files[key]
             items[f"pokemob.move.{entry.name}"] = _name
             lang_files[key] = items
-        del entry.names
+
+        # These will go in langs
+        for lang in langs:
+            def is_lang(details):
+                return url_to_id(details.language) == lang
+            text = default_or_latest(move.flavor_text_entries, is_lang)
+            if text is None:
+                continue
+            lang = utils.get('language', lang)
+            key = f'{lang.iso639}_{lang.iso3166}.json'
+            items = {}
+            if key in lang_desc:
+                items = lang_desc[key]
+            items[f"pokemob.move.{entry.name}.desc"] = text.flavor_text.replace('\n', ' ')
+            lang_desc[key] = items
 
         # These will go in tags
         if name in SPECIAL_CONTACT:
@@ -260,6 +278,12 @@ def convert_moves():
         file.close()
 
 
+    for key, dict in lang_files.items():
+        if key in lang_desc:
+            dict2 = lang_desc[key]
+            for key2, value in dict2.items():
+                dict[key2] = value
+
     # Dump the lang files
     for key, dict in lang_files.items():
         file = f'./new/assets/pokecube_moves/lang/{key}'
@@ -278,6 +302,14 @@ def convert_moves():
         new_name = convert_old_move_name(name)
         if new_name is not None:
             file = f'./new/moves/animations/{new_name}.json'
+            value["name"] = new_name
+
+            anims = []
+            for var in value["animations"]:
+                var["preset"] = var["preset"].split(":~")[0]
+                anims.append(var)
+            value["animations"] = anims
+
             if not os.path.exists(os.path.dirname(file)):
                 os.makedirs(os.path.dirname(file))
             file = open(file, 'w', encoding='utf-8')

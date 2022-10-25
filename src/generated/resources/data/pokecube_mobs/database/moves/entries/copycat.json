@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user mimics the move used immediately before\nit. The move fails if no other move has been\nused yet.",
   "move_category": "unique",
+  "ailment": "none",
   "effect_text_extend": "Uses the last move that was used successfully by any Pokémon, including the user.\n\nThis move cannot copy itself, nor roar nor whirlwind.\n\nThis move cannot be copied by mirror move, nor selected by assist, metronome, or sleep talk.",
   "effect_text_simple": "Uses the target's last used move."
 }

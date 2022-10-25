@@ -1,8 +1,8 @@
 {
-  "name": "poisonfang",
+  "name": "poison-fang",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:l2:atrue:~poisonfang",
+      "preset": "cartFunc:pcrit:l2:atrue",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.vicegrip",
@@ -13,7 +13,7 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:pdragon_breath:l4:w0.3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~poisonfang",
+      "preset": "cartFunc:pdragon_breath:l4:w0.3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.poisontoxic",

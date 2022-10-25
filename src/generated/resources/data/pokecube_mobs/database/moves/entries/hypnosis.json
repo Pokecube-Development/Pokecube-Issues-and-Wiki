@@ -9,6 +9,7 @@
   "damage_class": "status",
   "flavor_text": "The user employs hypnotic suggestion to make the\ntarget fall into a deep sleep.",
   "move_category": "ailment",
+  "ailment": "sleep",
   "max_turns": 4,
   "min_turns": 2,
   "effect_text_extend": "Puts the target to sleep.",

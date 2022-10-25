@@ -1,8 +1,8 @@
 {
-  "name": "fairywind",
+  "name": "fairy-wind",
   "animations": [
     {
-      "preset": "flow:pmisc:d0.8:w2:~fairywind",
+      "preset": "flow:pmisc:d0.8:w2",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.unknown",

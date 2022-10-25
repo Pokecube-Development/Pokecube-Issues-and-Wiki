@@ -1,8 +1,8 @@
 {
-  "name": "closecombat",
+  "name": "close-combat",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d0.2:w1:l5:f(0.5-rand())*(1.5),(0.5-rand())*(1.5),(0.5-rand())*(1.5):~closecombat",
+      "preset": "cartFunc:pcrit:d0.2:w1:l5:f(0.5-rand())*(1.5),(0.5-rand())*(1.5),(0.5-rand())*(1.5)",
       "duration": "3",
       "starttick": "0",
       "sound": "pokecube:moves.dig",
@@ -12,12 +12,12 @@
       "pitch": 0.8
     },
     {
-      "preset": "cartFunc:pmisc:d0.4:w1:l1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~closecombat",
+      "preset": "cartFunc:pmisc:d0.4:w1:l1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "1",
       "starttick": "3"
     },
     {
-      "preset": "cartFunc:pmisc:d0.4:w1:l1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~closecombat",
+      "preset": "cartFunc:pmisc:d0.4:w1:l1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "1",
       "starttick": "4",
       "sound": "pokecube:moves.dig",
@@ -27,7 +27,7 @@
       "pitch": 1.0
     },
     {
-      "preset": "cartFunc:pmisc:d0.4:w1:l1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~closecombat",
+      "preset": "cartFunc:pmisc:d0.4:w1:l1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "1",
       "starttick": "2",
       "sound": "pokecube:moves.dig",
@@ -37,7 +37,7 @@
       "pitch": 0.9
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:d0.2:w1:l10:~closecombat",
+      "preset": "cartFunc:pexplosion_emitter:d0.2:w1:l10",
       "duration": "1",
       "starttick": "4"
     }

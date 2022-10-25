@@ -10,6 +10,7 @@
   "damage_class": "special",
   "flavor_text": "This attack move varies in power and type\ndepending on the weather.",
   "move_category": "damage",
+  "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If a weather move is active, this move has double power, and its type becomes the type of the weather move.  shadow sky is typeless for the purposes of this move.",
   "effect_text_simple": "If there be weather, this move has doubled power and the weather's type."
 }

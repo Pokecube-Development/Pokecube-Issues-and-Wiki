@@ -8,6 +8,7 @@
   "damage_class": "status",
   "flavor_text": "The user raises the Sp. Def stat of an ally Pokémon\nby using a mysterious aroma.",
   "move_category": "net-good-stats",
+  "ailment": "none",
   "effect_text_extend": "Raises a selected ally's Special Defense by one stage.",
   "effect_text_simple": "Raises a selected ally's Special Defense by one stage."
 }

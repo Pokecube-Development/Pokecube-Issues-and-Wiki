@@ -6,6 +6,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.moves.MoveEntry.CategoryProvider;
 import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants.ContactCategory;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
 
@@ -13,7 +14,7 @@ import pokecube.api.utils.PokeType;
 public class Curse implements PreProcessor
 {
 
-    public CategoryProvider categoryProvider = user -> IMoveConstants.CATEGORY_DISTANCE;
+    public CategoryProvider categoryProvider = user -> ContactCategory.RANGED;
 
     @Override
     public void preProcess(MoveApplication t)

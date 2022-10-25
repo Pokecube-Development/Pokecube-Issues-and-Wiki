@@ -9,6 +9,7 @@
   "damage_class": "status",
   "flavor_text": "This move prevents the target from using its held\nitem for five turns. Its Trainer is also prevented from\nusing items on it.",
   "move_category": "ailment",
+  "ailment": "embargo",
   "max_turns": 5,
   "min_turns": 5,
   "effect_text_extend": "Target cannot use its held item for five turns.  If the target leaves the field, this effect ends.\n\nIf a Pokémon under this effect uses bug bite or pluck on a Pokémon holding a berry, the berry is destroyed but not used.  If a Pokémon under this effect uses fling, it will fail.\n\nThis effect is passed by baton pass.",

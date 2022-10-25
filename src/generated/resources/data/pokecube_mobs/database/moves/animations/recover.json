@@ -2,7 +2,7 @@
   "name": "recover",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:rtrue:atrue:l10:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3):~recover",
+      "preset": "cartFunc:pend_rod:rtrue:atrue:l10:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.safeguard",
@@ -12,7 +12,7 @@
       "pitch": 1.5
     },
     {
-      "preset": "cartFunc:pend_rod:atrue:rtrue:d0.66:l3:w0.25:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3):~:~recover",
+      "preset": "cartFunc:pend_rod:atrue:rtrue:d0.66:l3:w0.25:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.payday",

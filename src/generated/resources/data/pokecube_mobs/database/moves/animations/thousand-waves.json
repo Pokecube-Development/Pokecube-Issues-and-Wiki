@@ -1,8 +1,8 @@
 {
-  "name": "thousandwaves",
+  "name": "thousand-waves",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:d0.2:l20:w2:rtrue:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~thousandwaves",
+      "preset": "cartFunc:pend_rod:d0.2:l20:w2:rtrue:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "0",
       "sound": "pokecube:moves.payday",
@@ -13,13 +13,13 @@
       "applyAfter": true
     },
     {
-      "preset": "cartFunc:pmisc:d0.2:w4:rtrue:clime:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~thousandarrows:~thousandwaves",
+      "preset": "cartFunc:pmisc:d0.2:w4:rtrue:clime:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "2",
       "applyAfter": false
     },
     {
-      "preset": "flow:l2:pmisc:clime:d0.8:w2:atrue:~thousandwaves",
+      "preset": "flow:l2:pmisc:clime:d0.8:w2:atrue",
       "duration": "5",
       "starttick": "2",
       "sound": "pokecube:moves.payday",
@@ -30,7 +30,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pmisc:clime:w2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~thousandwaves",
+      "preset": "cartFunc:pmisc:clime:w2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "4",
       "sound": "pokecube:moves.vicegrip",
@@ -41,13 +41,13 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pexplosion:clime:w2:atrue:~thousandwaves",
+      "preset": "cartFunc:pexplosion:clime:w2:atrue",
       "duration": "5",
       "starttick": "5",
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pmisc:clime:w2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~thousandwaves",
+      "preset": "cartFunc:pmisc:clime:w2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "6",
       "sound": "pokecube:moves.vicegrip",
@@ -58,7 +58,7 @@
       "applyAfter": false
     },
     {
-      "preset": "cartFunc:pmisc:clime:w2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~thousandwaves",
+      "preset": "cartFunc:pmisc:clime:w2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
       "duration": "5",
       "starttick": "8",
       "sound": "pokecube:moves.vicegrip",
