@@ -294,6 +294,7 @@ public class MoveRegister
         if (POWER.containsKey(name))
         {
             event.getEntry().powerp = POWER.get(name);
+            event.getEntry().root_entry._manually_defined = true;
         }
         if (TYPES.containsKey(name))
         {
